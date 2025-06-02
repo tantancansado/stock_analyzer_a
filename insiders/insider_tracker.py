@@ -774,22 +774,23 @@ def generar_reporte_html_oportunidades(csv_path):
 
 def enviar_reporte_telegram(csv_path, html_path):
     """
-    Envía el reporte a Telegram si está configurado - VERSION MEJORADA
+    Envía el reporte a Telegram si está configurado - VERSIÓN CORREGIDA FINAL
     """
     try:
         print("📱 Iniciando envío a Telegram...")
         
-        # Obtener chat_id
+        # Obtener configuración de Telegram
         try:
-            from config import TELEGRAM_CHAT_ID
+            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
             chat_id = TELEGRAM_CHAT_ID
-            print(f"✅ Chat ID obtenido: {chat_id}")
-        except ImportError:
-            print("❌ No se pudo importar TELEGRAM_CHAT_ID desde config.py")
+            bot_token = TELEGRAM_BOT_TOKEN
+            print(f"✅ Configuración obtenida - Chat ID: {chat_id}")
+        except ImportError as e:
+            print(f"❌ No se pudo importar configuración de Telegram: {e}")
             return False
         
-        if not chat_id:
-            print("⚠️ TELEGRAM_CHAT_ID no configurado, saltando envío")
+        if not chat_id or not bot_token:
+            print("⚠️ TELEGRAM_CHAT_ID o TELEGRAM_BOT_TOKEN no configurados")
             return False
         
         # Importar utilidades de Telegram
@@ -807,30 +808,24 @@ def enviar_reporte_telegram(csv_path, html_path):
             
         print(f"✅ Archivo CSV encontrado: {csv_path}")
         
-        if html_path and not os.path.exists(html_path):
-            print(f"⚠️ El archivo HTML no existe: {html_path}")
-            html_path = None
-        elif html_path:
-            print(f"✅ Archivo HTML encontrado: {html_path}")
-        
         # Leer el CSV para obtener estadísticas
         df = pd.read_csv(csv_path)
         print(f"📊 CSV leído: {len(df)} filas")
         
         if len(df) == 0 or 'Mensaje' in df.columns:
             # No hay oportunidades
-            mensaje = f"""🎯 **REPORTE DIARIO - INSIDER TRADING**
+            mensaje = f"""🎯 REPORTE DIARIO - INSIDER TRADING
 
-📊 **Resultado:** Sin oportunidades detectadas
-📅 **Fecha:** {datetime.now().strftime('%Y-%m-%d %H:%M')}
-✅ **Estado:** Filtros funcionando correctamente
+📊 Resultado: Sin oportunidades detectadas
+📅 Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M')}
+✅ Estado: Filtros funcionando correctamente
 
-🔍 **Criterios aplicados:**
+🔍 Criterios aplicados:
 • Actividad reciente de insiders
 • Valores de transacción significativos  
 • Análisis fundamental básico
 
-💡 **Interpretación:** Los filtros estrictos están funcionando. Solo se mostrarán oportunidades cuando sean realmente prometedoras."""
+💡 Interpretación: Los filtros estrictos están funcionando. Solo se mostrarán oportunidades cuando sean realmente prometedoras."""
 
             print("📝 Mensaje preparado (sin oportunidades)")
             
@@ -853,14 +848,14 @@ def enviar_reporte_telegram(csv_path, html_path):
                 top_ticker = "N/A"  
                 top_score = 0
             
-            mensaje = f"""🎯 **REPORTE DIARIO - INSIDER TRADING**
+            mensaje = f"""🎯 REPORTE DIARIO - INSIDER TRADING
 
-📊 **Oportunidades encontradas:** {len(df)}
-📈 **Score promedio:** {avg_score:.1f}
-🏆 **Top oportunidad:** {top_ticker} (Score: {top_score:.1f})
-📅 **Fecha:** {datetime.now().strftime('%Y-%m-%d %H:%M')}
+📊 Oportunidades encontradas: {len(df)}
+📈 Score promedio: {avg_score:.1f}
+🏆 Top oportunidad: {top_ticker} (Score: {top_score:.1f})
+📅 Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 
-🔝 **Top 5 oportunidades:**"""
+🔝 Top 5 oportunidades:"""
             
             # Agregar top 5
             for i, row in df.head(5).iterrows():
@@ -877,19 +872,22 @@ def enviar_reporte_telegram(csv_path, html_path):
                     except (ValueError, TypeError):
                         score_val = 0
                     
-                    mensaje += f"\n{i+1}. **{ticker}** - Score: {score_val:.1f} ({confidence}) - {transactions} trans - {days} días"
+                    mensaje += f"\n{i+1}. {ticker} - Score: {score_val:.1f} ({confidence}) - {transactions} trans - {days} días"
                     
                 except Exception as e:
                     print(f"⚠️ Error procesando fila {i}: {e}")
                     continue
             
-            mensaje += "\n\n📄 **Archivo adjunto:** Reporte completo en HTML"
+            mensaje += f"\n\n📄 Reporte HTML: {html_path if html_path else 'No generado'}"
+            mensaje += f"\n📁 Archivo CSV: {csv_path}"
+            
             print("📝 Mensaje preparado (con oportunidades)")
         
-        # Enviar mensaje principal
+        # Enviar mensaje principal - USAR LA FUNCIÓN CORRECTAMENTE
         try:
             print("📤 Enviando mensaje principal...")
-            send_message(chat_id, mensaje)
+            # Tu función send_message requiere (token, chat_id, message)
+            send_message(bot_token, chat_id, mensaje)
             print("✅ Mensaje principal enviado a Telegram")
         except Exception as e:
             print(f"❌ Error enviando mensaje: {e}")
@@ -899,6 +897,7 @@ def enviar_reporte_telegram(csv_path, html_path):
         if html_path and os.path.exists(html_path) and len(df) > 0 and 'Mensaje' not in df.columns:
             try:
                 print("📎 Enviando archivo HTML...")
+                # Tu función send_document_telegram requiere (chat_id, file_path, caption)
                 send_document_telegram(chat_id, html_path, "📊 Reporte completo de oportunidades")
                 print("✅ Archivo HTML enviado a Telegram")
             except Exception as e:
