@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>FINVIZ</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=1024"><meta name="description" content="Stock screener for investors and traders, financial visualizations.">
+
+            <link rel="preload" href="/fonts/lato-v17-latin-ext_latin-regular.woff2" as="font" crossorigin>
+            <link rel="preload" href="/fonts/lato-v17-latin-ext_latin-700.woff2" as="font" crossorigin>
+            <link rel="preload" href="/fonts/lato-v17-latin-ext_latin-900.woff2" as="font" crossorigin>
+            <link rel="preload" href="/fonts/inter-latin.woff2" as="font" crossorigin>
+        
+            <script>
+                window.notificationsArray = [];
+                window.renderScriptNotLoaded = function () {};
+                window.handleScriptNotLoaded = function (element) {
+                    window.notificationsArray.push(element);
+                    window.sentryDisabled = true;
+                    window.handleScriptNotLoaded = function () {};
+                };
+            </script>
+        <link rel="stylesheet" href="/assets/dist-legacy/finviz.c0476d03.css" type="text/css" onerror="window.handleScriptNotLoaded(this)">
+<link rel="stylesheet" href="/assets/dist-legacy/main.788432b5.css" type="text/css" onerror="window.handleScriptNotLoaded(this)">
+<link rel="icon" type="image/png" href="/favicon_2x.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon.png" sizes="16x16">
+  <script type="text/javascript" async=true>
+  (function() {
+    var host = 'finviz.com';
+    var element = document.createElement('script');
+    var firstScript = document.getElementsByTagName('script')[0];
+    var url = 'https://cmp.inmobi.com'
+      .concat('/choice/', 'c2W8esUZ6Q8oA', '/', host, '/choice.js?tag_version=V3');
+    var uspTries = 0;
+    var uspTriesLimit = 3;
+    element.async = true;
+    element.type = 'text/javascript';
+    element.src = url;
+
+    firstScript.parentNode.insertBefore(element, firstScript);
+
+    function makeStub() {
+      var TCF_LOCATOR_NAME = '__tcfapiLocator';
+      var queue = [];
+      var win = window;
+      var cmpFrame;
+
+      function addFrame() {
+        var doc = win.document;
+        var otherCMP = !!(win.frames[TCF_LOCATOR_NAME]);
+
+        if (!otherCMP) {
+          if (doc.body) {
+            var iframe = doc.createElement('iframe');
+
+            iframe.style.cssText = 'display:none';
+            iframe.name = TCF_LOCATOR_NAME;
+            doc.body.appendChild(iframe);
+          } else {
+            setTimeout(addFrame, 5);
+          }
+        }
+        return !otherCMP;
+      }
+
+      function tcfAPIHandler() {
+        var gdprApplies;
+        var args = arguments;
+
+        if (!args.length) {
+          return queue;
+        } else if (args[0] === 'setGdprApplies') {
+          if (
+            args.length > 3 &&
+            args[2] === 2 &&
+            typeof args[3] === 'boolean'
+          ) {
+            gdprApplies = args[3];
+            if (typeof args[2] === 'function') {
+              args[2]('set', true);
+            }
+          }
+        } else if (args[0] === 'ping') {
+          var retr = {
+            gdprApplies: gdprApplies,
+            cmpLoaded: false,
+            cmpStatus: 'stub'
+          };
+
+          if (typeof args[2] === 'function') {
+            args[2](retr);
+          }
+        } else {
+          if(args[0] === 'init' && typeof args[3] === 'object') {
+            args[3] = Object.assign(args[3], { tag_version: 'V3' });
+          }
+          queue.push(args);
+        }
+      }
+
+      function postMessageEventHandler(event) {
+        var msgIsString = typeof event.data === 'string';
+        var json = {};
+
+        try {
+          if (msgIsString) {
+            json = JSON.parse(event.data);
+          } else {
+            json = event.data;
+          }
+        } catch (ignore) {}
+
+        var payload = json.__tcfapiCall;
+
+        if (payload) {
+          window.__tcfapi(
+            payload.command,
+            payload.version,
+            function(retValue, success) {
+              var returnMsg = {
+                __tcfapiReturn: {
+                  returnValue: retValue,
+                  success: success,
+                  callId: payload.callId
+                }
+              };
+              if (msgIsString) {
+                returnMsg = JSON.stringify(returnMsg);
+              }
+              if (event && event.source && event.source.postMessage) {
+                event.source.postMessage(returnMsg, '*');
+              }
+            },
+            payload.parameter
+          );
+        }
+      }
+
+      while (win) {
+        try {
+          if (win.frames[TCF_LOCATOR_NAME]) {
+            cmpFrame = win;
+            break;
+          }
+        } catch (ignore) {}
+
+        if (win === window.top) {
+          break;
+        }
+        win = win.parent;
+      }
+      if (!cmpFrame) {
+        addFrame();
+        win.__tcfapi = tcfAPIHandler;
+        win.addEventListener('message', postMessageEventHandler, false);
+      }
+    };
+
+    makeStub();
+
+    function makeGppStub() {
+      const CMP_ID = 10;
+      const SUPPORTED_APIS = [
+        '2:tcfeuv2',
+        '6:uspv1',
+        '7:usnatv1',
+        '8:usca',
+        '9:usvav1',
+        '10:uscov1',
+        '11:usutv1',
+        '12:usctv1'
+      ];
+
+      window.__gpp_addFrame = function (n) {
+        if (!window.frames[n]) {
+          if (document.body) {
+            var i = document.createElement("iframe");
+            i.style.cssText = "display:none";
+            i.name = n;
+            document.body.appendChild(i);
+          } else {
+            window.setTimeout(window.__gpp_addFrame, 10, n);
+          }
+        }
+      };
+      window.__gpp_stub = function () {
+        var b = arguments;
+        __gpp.queue = __gpp.queue || [];
+        __gpp.events = __gpp.events || [];
+
+        if (!b.length || (b.length == 1 && b[0] == "queue")) {
+          return __gpp.queue;
+        }
+
+        if (b.length == 1 && b[0] == "events") {
+          return __gpp.events;
+        }
+
+        var cmd = b[0];
+        var clb = b.length > 1 ? b[1] : null;
+        var par = b.length > 2 ? b[2] : null;
+        if (cmd === "ping") {
+          clb(
+            {
+              gppVersion: "1.1", // must be “Version.Subversion”, current: “1.1”
+              cmpStatus: "stub", // possible values: stub, loading, loaded, error
+              cmpDisplayStatus: "hidden", // possible values: hidden, visible, disabled
+              signalStatus: "not ready", // possible values: not ready, ready
+              supportedAPIs: SUPPORTED_APIS, // list of supported APIs
+              cmpId: CMP_ID, // IAB assigned CMP ID, may be 0 during stub/loading
+              sectionList: [],
+              applicableSections: [-1],
+              gppString: "",
+              parsedSections: {},
+            },
+            true
+          );
+        } else if (cmd === "addEventListener") {
+          if (!("lastId" in __gpp)) {
+            __gpp.lastId = 0;
+          }
+          __gpp.lastId++;
+          var lnr = __gpp.lastId;
+          __gpp.events.push({
+            id: lnr,
+            callback: clb,
+            parameter: par,
+          });
+          clb(
+            {
+              eventName: "listenerRegistered",
+              listenerId: lnr, // Registered ID of the listener
+              data: true, // positive signal
+              pingData: {
+                gppVersion: "1.1", // must be “Version.Subversion”, current: “1.1”
+                cmpStatus: "stub", // possible values: stub, loading, loaded, error
+                cmpDisplayStatus: "hidden", // possible values: hidden, visible, disabled
+                signalStatus: "not ready", // possible values: not ready, ready
+                supportedAPIs: SUPPORTED_APIS, // list of supported APIs
+                cmpId: CMP_ID, // list of supported APIs
+                sectionList: [],
+                applicableSections: [-1],
+                gppString: "",
+                parsedSections: {},
+              },
+            },
+            true
+          );
+        } else if (cmd === "removeEventListener") {
+          var success = false;
+          for (var i = 0; i < __gpp.events.length; i++) {
+            if (__gpp.events[i].id == par) {
+              __gpp.events.splice(i, 1);
+              success = true;
+              break;
+            }
+          }
+          clb(
+            {
+              eventName: "listenerRemoved",
+              listenerId: par, // Registered ID of the listener
+              data: success, // status info
+              pingData: {
+                gppVersion: "1.1", // must be “Version.Subversion”, current: “1.1”
+                cmpStatus: "stub", // possible values: stub, loading, loaded, error
+                cmpDisplayStatus: "hidden", // possible values: hidden, visible, disabled
+                signalStatus: "not ready", // possible values: not ready, ready
+                supportedAPIs: SUPPORTED_APIS, // list of supported APIs
+                cmpId: CMP_ID, // CMP ID
+                sectionList: [],
+                applicableSections: [-1],
+                gppString: "",
+                parsedSections: {},
+              },
+            },
+            true
+          );
+        } else if (cmd === "hasSection") {
+          clb(false, true);
+        } else if (cmd === "getSection" || cmd === "getField") {
+          clb(null, true);
+        }
+        //queue all other commands
+        else {
+          __gpp.queue.push([].slice.apply(b));
+        }
+      };
+      window.__gpp_msghandler = function (event) {
+        var msgIsString = typeof event.data === "string";
+        try {
+          var json = msgIsString ? JSON.parse(event.data) : event.data;
+        } catch (e) {
+          var json = null;
+        }
+        if (typeof json === "object" && json !== null && "__gppCall" in json) {
+          var i = json.__gppCall;
+          window.__gpp(
+            i.command,
+            function (retValue, success) {
+              var returnMsg = {
+                __gppReturn: {
+                  returnValue: retValue,
+                  success: success,
+                  callId: i.callId,
+                },
+              };
+              event.source.postMessage(msgIsString ? JSON.stringify(returnMsg) : returnMsg, "*");
+            },
+            "parameter" in i ? i.parameter : null,
+            "version" in i ? i.version : "1.1"
+          );
+        }
+      };
+      if (!("__gpp" in window) || typeof window.__gpp !== "function") {
+        window.__gpp = window.__gpp_stub;
+        window.addEventListener("message", window.__gpp_msghandler, false);
+        window.__gpp_addFrame("__gppLocator");
+      }
+    };
+
+    makeGppStub();
+
+    var uspStubFunction = function() {
+      var arg = arguments;
+      if (typeof window.__uspapi !== uspStubFunction) {
+        setTimeout(function() {
+          if (typeof window.__uspapi !== 'undefined') {
+            window.__uspapi.apply(window.__uspapi, arg);
+          }
+        }, 500);
+      }
+    };
+
+    var checkIfUspIsReady = function() {
+      uspTries++;
+      if (window.__uspapi === uspStubFunction && uspTries < uspTriesLimit) {
+        console.warn('USP is not accessible');
+      } else {
+        clearInterval(uspInterval);
+      }
+    };
+
+    if (typeof window.__uspapi === 'undefined') {
+      window.__uspapi = uspStubFunction;
+      var uspInterval = setInterval(checkIfUspIsReady, 6000);
+    }
+  })();
+  </script><script>
+            FinvizSettings = {
+                versionImages: 18,
+                hasUserPremium: false,
+                name: "",
+                email: "",
+                nodeChartsDomain: "https://charts2-node.finviz.com",
+                hasUserStickyHeader: true,
+                adsProvider: 1,
+                hasRedesignEnabled: false,
+                hasDarkTheme: true,
+                hasEliteRedesign: true,
+                quoteSearchExt: '',
+                isJoinBannerVisible: false,
+                hasCustomExtendedHoursEnabled: true,
+            };
+        </script><script src="/assets/dist-legacy/script/browser_check.7d9dede5.js"></script><script src="/assets/dist-legacy/script/vendor/boxover.e1f98bc2.js" defer></script>
+<script src="/assets/dist-legacy/runtime.f062370b.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/libs_init.f0cd8f53.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/1150.9625232a.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/7470.89a1c4e2.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/3962.66eb6ca8.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/1213.e9fff4db.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/7778.fd449df1.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/3115.9149b52a.js" onerror="window.handleScriptNotLoaded(this)"></script><script src="/assets/dist-legacy/header.78e24ba1.js" onerror="window.handleScriptNotLoaded(this)"></script></head>
+<body class="m-0 ">
+            <script>
+                window.adLayoutVersion = 'IC_TestCase1';
+                window.adLoggedIn = 'NotLoggedIn';
+
+                var cookieName = 'fv_block';
+                var selector = '[data-google-query-id]';
+                var selectorFrame = selector + ' iframe, ' + selector + ' [id*=aax]';
+                var cookieExpiry = 5 * 60 * 1000; // 5min
+                var checkTimeout = 20 * 1000; // 20sec
+
+                function getCookie(value) {
+                    var expiration = +new Date() + cookieExpiry;
+                    return cookieName + '=' + value + '; expires=' + (new Date(expiration)).toUTCString() + '; path=/';
+                }
+
+                var finvizBannersLoaded = false;
+                function loadFinvizBanners(setCookie) {
+                    
+                    if (setCookie) document.cookie = getCookie('block');
+                    finvizBannersLoaded = true;
+                    var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    s.src = '/assets/dist-legacy/script/finviz_b.7f5c6041.js';
+                    document.head.appendChild(s);
+                }
+
+                function checkBannersLoaded() {
+                    var checkEnd = +new Date() + checkTimeout;
+                    function asyncCheckIfExists(selector, resolve) {
+                        var now = +new Date();
+                        var container = document.querySelector(selector);
+                        if (!container && checkEnd > now) return setTimeout(function () { asyncCheckIfExists(selector, resolve) }, 1000)
+                        resolve(!!container);
+                    }
+
+                    asyncCheckIfExists(selector, function (exists) {
+                        if (!exists) return loadFinvizBanners(true);
+
+                        asyncCheckIfExists(selectorFrame, function (hasIframe) {
+                            if (!hasIframe) return loadFinvizBanners(true);
+                        })
+                    })
+                }
+
+                if (document.cookie.indexOf(cookieName) >= 0) {
+                    loadFinvizBanners(false);
+                } else {
+                    var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    s.onerror = loadFinvizBanners;
+                    s.onload = checkBannersLoaded;
+                    s.src = 'https://u5.investingchannel.com/static/uat.js';
+                    document.head.appendChild(s);
+
+                    InvestingChannelQueue = window.InvestingChannelQueue || [];
+                    var ic_page;
+
+                    function refreshAd(container, refreshes) {
+                        var placementTag, adslot;
+                        window.InvestingChannelQueue.push(function () {
+                            var pubTags = ic_page.getPubTag.call(ic_page, container.id);
+                            if (!pubTags) return;
+                            var pubTag = pubTags[0];
+                            placementTag = pubTag.mPlacements[0].mTagToRender;
+                            adslot = pubTag.mPlacements[0].mPublisherKval.adslot[0];
+                            // Update div ID
+                            var id = container.id.split('_');
+                            var numberOfDivs = document.querySelectorAll('[id*=' + id.slice(0, id.length - 1).join('_') + ']').length;
+                            var newDivNumber = Number(id.pop()) + numberOfDivs * refreshes;
+                            container.setAttribute('id', id.join('_') + '_' + newDivNumber);
+                            // Destroy previous pubtag & reset container html (loading span)
+                            pubTag.destroy();
+                            container.innerHTML = '';
+                        });
+                        window.InvestingChannelQueue.push(function () {
+                            if (!placementTag || !adslot) return
+                            // Create new pub tag
+                            var newTag;
+                            var layoutId = placementTag.mNativeLayout ? placementTag.mNativeLayout.nativelayoutid : null;
+                            if (layoutId) {
+                                newTag = ic_page.defineNativeTag('finviz/' + placementTag.mTarget.dfpkeyname, placementTag.mAdSize, container.id, layoutId);
+                                var nativeLayout, layoutData
+
+                                try {
+                                  nativeLayout = newTag.mPlacements[0].mTags[0].mNativeLayout;
+                                } catch (e) {
+                                    console.log(e.message)
+                                }
+
+                                try {
+                                  layoutData = newTag.mTemplate.mNativeLayout[layoutId].Data
+                                  if (layoutData && nativeLayout && !nativeLayout.layout) {
+                                    newTag.mPlacements[0].mTags[0].mNativeLayout = layoutData
+                                  }
+                                } catch (e) {
+                                    console.log(e.message)
+                                }
+                            } else {
+                                newTag = ic_page.defineTag('finviz/' + placementTag.mTarget.dfpkeyname, placementTag.mAdSize, container.id);
+                            }
+                            // Set adslot param
+                            newTag.setKval({ adslot: adslot });
+                            newTag.setKval({ kw: 'ajax' });
+                            newTag.render();
+                        });
+                    }
+
+                    var refreshCount = 1;
+                    function refreshAds(selectors) {
+                        if (window.ic_page) {
+                            document.querySelectorAll(selectors).forEach(function (element) {
+                                try {
+                                    refreshAd(element, refreshCount);
+                                } catch (e) {
+                                    console.log('Ad refresh error for:', element, e);
+                                }
+                            });
+                            window.ic_page.loadMore();
+                            refreshCount++;
+                        }
+                    }
+
+
+                    InvestingChannelQueue.push(function() {
+                        var icConfig = window['FINVIZ_IC_UAT_CONFIG'] = {};
+                        
+                        ic_page = InvestingChannel.UAT.Run('df0d0d52-cc7f-11e8-82a5-0abbb61c4a6a', icConfig);
+                    });
+
+                    var hash = null;
+                    if (typeof hash === 'string') {
+                      InvestingChannelQueue.push(function() {
+                          if (ic_page) {
+                              ic_page.setUserId('email', hash, true);
+                          }
+                      });
+                    }
+                }
+            </script>
+          <script>
+            function checkMediaQuery(matches) {
+              if (matches) {
+                FinvizSettings.hasUserStickyHeader = true;
+                document.body.classList.add('is-header-sticky');
+              } else {
+                FinvizSettings.hasUserStickyHeader = false;
+                document.body.classList.remove('is-header-sticky');
+              }
+            }
+            var mediaMatch = window.matchMedia('(min-width: 1025px) and (min-height: 650px)');
+            checkMediaQuery(mediaMatch.matches);
+            mediaMatch.addListener(function (ev) { checkMediaQuery(ev.matches) });
+          </script>
+          
+            <script>
+                (function () {
+                    var detectionEl = document.createElement('div');
+                    detectionEl.style.position='absolute';
+                    detectionEl.style.overflow='scroll';
+                    document.body.appendChild(detectionEl);
+                    document.documentElement.style.setProperty('--fv-scrollbar-width', `${detectionEl.offsetWidth}px`);
+                    document.body.removeChild(detectionEl);
+                })()
+            </script>
+        <div id="notifications-container"></div><table class="header">
+    <tr class="align-top">
+        <td>
+            <table class="header-container">
+                <tr>
+                    <td class="w-[30%]">
+                        <table class="w-full">
+                            <tr>
+                                <td class="h-[50px] align-middle">
+                                    <a href="/" class="logo"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="search" id="search" style="padding-top: 4px">
+                                    <form style="margin: 0">
+    <input placeholder="Search ticker, company or profile" type="text" value="">
+    <span class="fa fa-search"></span>
+</form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="align-bottom pb-1">
+                        <div id="microbar_position" class="hidden xl:flex items-center h-[37px] pl-2"><div>
+                        <div id="IC_D_88x31_1"class="relative overflow-hidden flex items-center justify-center w-full mx-auto" style="width:88px;height:31px;max-height:31px"></div>
+                        </div></div>
+                    </td>
+                    <td class="relative w-[730px] text-right">
+                        <div id="banner_position" class="overflow-hidden absolute top-0 right-0 w-full h-[96px]">
+                        <div id="IC_D_728x90_1"class="relative overflow-hidden flex items-center justify-center w-full mx-auto" style="width:728px;height:90px;max-height:90px"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td class="w-[994px]" style="font-size:0">
+            <img src="/gfx/nic2x2.gif" class="w-[994px] h-px" alt="">
+        </td>
+    </tr>
+</table>
+            <table class="navbar">
+                <tr>
+                    <td class="h-[30px]">
+                        <table class="header-container">
+                            <tr><td><a class="nav-link is-first" href="/">Home</a></td><td><a class="nav-link" href="/news.ashx">News</a></td><td><a class="nav-link" href="/screener.ashx">Screener</a></td><td><a class="nav-link" href="/map.ashx">Maps</a></td><td><a class="nav-link" href="/groups.ashx">Groups</a></td><td><a class="nav-link" href="/portfolio.ashx">Portfolio</a></td><td><a class="nav-link" href="/insidertrading.ashx">Insider</a></td><td><a class="nav-link" href="/futures.ashx">Futures</a></td><td><a class="nav-link" href="/forex.ashx">Forex</a></td><td><a class="nav-link" href="/crypto.ashx">Crypto</a></td><td><a class="nav-link" href="/elite.ashx?utm_source=finviz&utm_medium=banner&utm_campaign=main-navbar-backtests">Backtests</a></td><td><a class="nav-link is-elite" href="/elite.ashx">Pricing</a></td><td class="w-full relative"><div class="absolute bottom-0 left-0 right-0 top-0"><div id="time" class="pr-1"></div></div></td>
+                
+                <td>
+                    <a href="/help/screener.ashx" class="nav-link is-help" style="border-left: 1px solid #444a57"><span class="fa fa-question-circle"></span>Help</a>
+                </td>
+                <td><a href="/login.ashx" class="nav-link sign-in">Login</a></td>
+                <td><a href="/register.ashx" class="nav-link sign-up">Register</a></td>
+            
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        <div class="content "><div class="fv-container "><h2 style="text-align: center; margin: 50px 0;font-size:21px">error: invalid query</h2>
+</div></div>
+            <div class="footer" style="margin-top: 50px;padding-bottom: 115px">
+                <div class="footer_links">
+                    <a class="tab-link" href="/affiliate.ashx">affiliate</a>
+                    <span class="footer_dot"> • </span>
+                    <a class="tab-link" href="/advertise.ashx">advertise</a>
+                    <span class="footer_dot"> • </span><a class="tab-link" href="/careers">careers</a>
+                    
+                    <span class="footer_dot"> • </span>
+                    <a class="tab-link" href="/contact.ashx">contact</a>
+                    <span class="footer_dot"> • </span>
+                    <a class="tab-link" href="/help/screener.ashx">help</a>
+                    <span class="footer_dot"> • </span>
+                    <a class="tab-link" href="/privacy.ashx">privacy</a>
+                <span class="footer_dot"> • </span>
+                <a class="tab-link" href="javascript:void(0)" onClick="window.__tcfapi && window.__tcfapi('displayConsentUi', 2, function() {})">privacy settings</a>
+                </div>
+    Quotes delayed 15 minutes for NASDAQ, NYSE and AMEX.
+    <br>
+    Copyright © 2007-2025 FINVIZ.com. All Rights Reserved.
+    
+</div>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+            </script>
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-537M973G');</script>
+            <script>
+              function getSystemTheme() {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                  return 'Dark';
+                }
+                else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                  return 'Light';
+                }
+                return 'No Preference';
+              }
+
+              var systemTheme = getSystemTheme()
+
+              const headlessChrome = navigator.userAgent.includes('HeadlessChrome')
+              const webdriver = navigator.webdriver
+
+              let cdp = false
+              try {
+                let accessed = false
+                const e = new window.Error('ignore')
+                window.Object.defineProperty(e, 'stack', {
+                  configurable: false,
+                  enumerable: false,
+                  get: function () {
+                    accessed = true
+                    return ''
+                  },
+                })
+                // This is part of the detection and shouldn't be deleted
+                window.console.debug(e)
+                cdp = accessed
+              } catch {}
+
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              var fGaM = {
+                'dimension1': 'NotLoggedIn',
+                'dimension3': window.devicePixelRatio,
+                'layoutTheme': 'old',
+                'systemTheme': systemTheme,
+                'bundle': 'legacy',
+                'prefTheme': 'dark',
+                'themeFlag': 'legacy',
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight,
+                webdriver: webdriver,
+                cdp: cdp,
+                isBot: headlessChrome || webdriver || cdp,
+                icAdsVariant: 'IC_TestCase1',
+              };
+
+              gtag('config', 'G-ZT9VQEWD4N', fGaM);
+              
+            </script>
+            <script type="text/javascript">
+        window._qevents = window._qevents || [];
+
+        (function() {
+            var elem = document.createElement('script');
+            elem.src = (document.location.protocol == "https:" ? "https://secure" : "http://edge") + ".quantserve.com/quant.js";
+            elem.async = true;
+            elem.type = "text/javascript";
+            var scpt = document.getElementsByTagName('script')[0];
+            scpt.parentNode.insertBefore(elem, scpt);
+        })();
+
+        window._qevents.push({
+            qacct:"p-c2W8esUZ6Q8oA"
+        });
+    </script>
+    <noscript>
+        <div style="display:none;">
+            <img src="//pixel.quantserve.com/pixel/p-c2W8esUZ6Q8oA.gif" border="0" height="1" width="1" alt="Quantcast"/>
+        </div>
+    </noscript><div id="IC_D_1x1_1"class="relative overflow-hidden flex items-center justify-center w-full mx-auto"></div><div id="modal-elite-ad" class="modal-elite-ad">
+                            <div id="modal-elite-ad_content" class="modal-elite-ad_content">
+			                    <button id="modal-elite-ad-close" type="button" class="modal-elite-ad_close">×</button>
+
+                                <!--<div id="modal-elite-ad-content-0" style="display: none">
+			                        <h2>Ever heard of Finviz*Elite?</h2>
+                                    <p>
+                                        Our premium service offers you real-time quotes, advanced visualizations, technical studies, and much more.<br>
+                                        Become Elite and make informed financial decisions.
+                                    </p>
+                                    <a href="/elite.ashx?utm_source=finviz&utm_medium=banner&utm_campaign=modal-0" id="modal-elite-ad-btn-0" class="" target="_blank">Find out more</a>
+                                </div>-->
+
+                                <div id="modal-elite-ad-content-1" style="display: block">
+			                        <h2>Upgrade your FINVIZ experience</h2>
+                                    <p>
+                                        Join thousands of traders who make more informed decisions with&nbsp;our&nbsp;premium features.
+                                        Real-time quotes, advanced&nbsp;visualizations, backtesting, and much more.
+                                    </p>
+                                    <a href="/elite.ashx?utm_source=finviz&utm_medium=banner&utm_campaign=modal-1" id="modal-elite-ad-btn-1" class="modal-elite_button" target="_blank">Learn more about FINVIZ*Elite</a>
+                                </div>
+                            </div>
+                         </div><script src="/assets/dist-legacy/script/pv.27fa030f.js" async></script><script defer>window.renderScriptNotLoaded();</script>
+</body>
+</html>
