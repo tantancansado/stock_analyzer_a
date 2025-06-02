@@ -1,1 +1,67 @@
-Ticker,InsiderBuys,Company,Sector,Industry,Country,Exchange,Index,P/E,EPS (ttm),Insider Own,Shs Outstand,Perf Week,Market Cap,Forward P/E,EPS next Y,Insider Trans,Shs Float,Perf Month,Income,PEG,EPS next Q,Inst Own,Short Float,Perf Quarter,Sales,P/S,EPS this Y,Inst Trans,Short Ratio,Perf Half Y,Book/sh,P/B,EPS next Y Percentage,ROA,Short Interest,Perf Year,Cash/sh,P/C,EPS next 5Y,ROE,52W Range From,52W Range To,Perf YTD,Dividend Est.,P/FCF,EPS past 5Y,ROI,52W High,Beta,Dividend TTM,Quick Ratio,Sales past 5Y,Gross Margin,52W Low,ATR (14),Dividend Ex-Date,Current Ratio,EPS Y/Y TTM,Oper. Margin,RSI (14),Volatility W,Volatility M,Employees,Debt/Eq,Sales Y/Y TTM,Profit Margin,Recom,Target Price,Option/Short,LT Debt/Eq,EPS Q/Q,Payout,Rel Volume,Prev Close,Sales Surprise,EPS Surprise,Sales Q/Q,Earnings,Avg Volume,Price,SMA20,SMA50,SMA200,Trades,Volume,Change,Insider Activity,Debt/Equity,Revenue Growth,Net Margin,Score
+Rank,Ticker,CompanyName,FinalScore,ConfidenceLevel,NumTransactions,TotalValue,UniqueInsiders,AvgPrice,FirstFilingDate,LastFilingDate,FirstPurchaseDate,LastPurchaseDate,DaysSinceLastActivity,FundamentalScore
+1,LUCK,Lucky Strike Entertainment Corp,65.4,Alta,2,"$188,247",2,8.73,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+2,GBDC,"Golub Capital Bdc, Inc.",65.4,Alta,2,"$183,374,722",2,15.13,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+3,ARQ,"Arq, Inc.",65.0,Alta,2,"$307,500",2,4.1,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+4,BRT,Brt Apartments Corp.,64.5,Alta,2,"$602,483",2,15.56,2025-05-28,2025-05-28,2025-05-28,2025-05-28,5,0
+5,PAPL,Pineapple Financial Inc.,57.5,Media,2,"$19,234",2,0.05,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+6,TOON,"Kartoon Studios, Inc.",55.8,Media,2,"$10,803",2,0.82,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+7,VFF,"Village Farms International, Inc.",52.9,Media,2,"$151,250",1,1.21,2025-05-29,2025-05-30,2025-05-29,2025-05-30,3,0
+8,SHEN,Shenandoah Telecommunications Co/Va/,52.9,Media,2,"$1,167,242",1,12.08,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+9,ADV,Advantage Solutions Inc.,50.5,Media,2,"$60,639",1,1.23,2025-05-28,2025-05-29,2025-05-28,2025-05-29,3,0
+10,FLWS,1 800 Flowers Com Inc,40.9,Media,1,"$264,550",1,4.81,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+11,SGHT,"Sight Sciences, Inc.",40.9,Media,1,"$451,225",1,3.52,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+12,MSTR,Microstrategy Inc,40.9,Media,1,"$1,013,800",1,101.38,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+13,AGFY,Agrify Corp,40.9,Media,1,"$813,960",1,25.2,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+14,KCHV,Kochav Defense Acquisition Corp.,40.9,Media,1,"$5,240,500",1,10.0,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+15,LYFT,"Lyft, Inc.",40.9,Media,1,"$99,966",1,15.29,2025-05-30,2025-05-30,2025-05-30,2025-05-30,3,0
+16,PROP,Prairie Operating Co.,40.8,Media,1,"$95,750",1,3.83,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+17,NXDT,Nexpoint Diversified Real Estate Trust,40.5,Media,1,"$343,204",1,3.59,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+18,MCY,Mercury General Corp,40.5,Media,1,"$899,250",1,59.95,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+19,BLDR,"Builders Firstsource, Inc.",40.5,Media,1,"$548,350",1,109.67,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+20,CORZ,"Core Scientific, Inc./Tx",40.5,Media,1,"$1,195,700",1,10.87,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+21,BJ,"Bj'S Wholesale Club Holdings, Inc.",40.5,Media,1,"$199,404",1,114.6,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+22,JEQ,"Abrdn Japan Equity Fund, Inc.",40.5,Media,1,"$374,349",1,7.11,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+23,OBDC,Blue Owl Capital Corp,40.5,Media,1,"$99,922",1,14.45,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+24,TLYS,"Tilly'S, Inc.",40.5,Media,1,"$127,254",1,0.88,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+25,MATX,"Matson, Inc.",40.5,Media,1,"$307,564",1,111.76,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+26,ONTF,On24 Inc.,40.5,Media,1,"$511,071",1,5.5,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+27,GLP,Global Partners LP,40.5,Media,1,"$257,600",1,51.52,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+28,MUSA,Murphy USA Inc.,40.5,Media,1,"$435,580",1,435.58,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+29,NEWT,"Newtekone, Inc.",40.5,Media,1,"$108,600",1,10.86,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+30,SG,"Sweetgreen, Inc.",40.5,Media,1,"$251,712",1,13.11,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+31,VSTS,Vestis Corp,40.5,Media,1,"$4,780,030",1,5.97,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+32,EP,Empire Petroleum Corp,40.5,Media,1,"$149,514",1,4.05,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+33,BATRA,"Atlanta Braves Holdings, Inc.",40.2,Media,1,"$86,900",1,43.45,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+34,TTSH,"Tile Shop Holdings, Inc.",39.6,Baja,1,"$65,723",1,5.84,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+35,PAYS,"Paysign, Inc.",39.6,Baja,1,"$67,716",1,3.42,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+36,STC,Stewart Information Services Corp,39.3,Baja,1,"$59,630",1,59.63,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+37,GF,New Germany Fund Inc,39.2,Baja,1,"$54,500",1,11.34,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+38,PEB,Pebblebrook Hotel Trust,39.1,Baja,1,"$54,000",1,9.0,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+39,PFBX,Peoples Financial Corp /Ms/,38.9,Baja,1,"$48,750",1,19.5,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+40,NUS,"Nu Skin Enterprises, Inc.",38.9,Baja,1,"$49,010",1,7.54,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+41,NWPP,New Peoples Bankshares Inc,37.8,Baja,1,"$37,237",1,3.1,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+42,CBFV,"Cb Financial Services, Inc.",37.3,Baja,1,"$34,560",1,28.8,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+43,CSPI,Csp Inc /Ma/,35.4,Baja,1,"$24,905",1,14.65,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+44,VREO,Vireo Growth Inc.,35.3,Baja,1,"$24,320",1,0.38,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+45,NRDY,Nerdy Inc.,34.4,Baja,1,"$19,916",1,1.61,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+46,RNGE,"Range Impact, Inc.",34.3,Baja,1,"$19,680",1,0.16,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+47,UBFO,United Security Bancshares,34.2,Baja,1,"$19,081",1,9.79,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+48,BLBD,Blue Bird Corp,33.3,Baja,1,"$15,668",1,39.17,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+49,RSF,"Rivernorth Capital & Income Fund, Inc.",33.2,Baja,1,"$15,010",1,15.01,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+50,GMGI,"Golden Matrix Group, Inc.",32.8,Baja,1,"$13,600",1,1.36,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+51,GROV,"Grove Collaborative Holdings, Inc.",32.7,Baja,1,"$13,500",1,1.35,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0
+52,EHI,Western Asset Global High Income Fund Inc.,32.5,Baja,1,"$12,760",1,6.38,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+53,EMD,Western Asset Emerging Markets Debt Fund Inc.,32.3,Baja,1,"$12,062",1,9.65,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+54,BWG,Brandywineglobal-Global Income Opportunities Fund Inc,32.3,Baja,1,"$12,045",1,8.03,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+55,FFIN,First Financial Bankshares Inc,32.3,Baja,1,"$10,515",1,35.05,2025-05-29,2025-05-29,2025-05-29,2025-05-29,3,0
+56,HYI,Western Asset High Yield Defined Opportunity Fund Inc.,32.2,Baja,1,"$11,710",1,11.71,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+57,HIO,Western Asset High Income Opportunity Fund Inc.,32.2,Baja,1,"$11,520",1,3.84,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+58,DMO,Western Asset Mortgage Opportunity Fund Inc.,32.2,Baja,1,"$11,600",1,11.6,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+59,EMO,Clearbridge Energy Midstream Opportunity Fund Inc.,32.1,Baja,1,"$11,460",1,45.84,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+60,IGI,Western Asset Investment Grade Opportunity Trust Inc.,32.1,Baja,1,"$11,410",1,16.3,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+61,GDO,Western Asset Global Corporate Opportunity Fund Inc.,32.1,Baja,1,"$11,360",1,11.36,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+62,SCD,Lmp Capital & Income Fund Inc.,32.0,Baja,1,"$10,983",1,15.69,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+63,WDI,Western Asset Diversified Income Fund (Wdi),32.0,Baja,1,"$10,972",1,14.63,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+64,MHF,Western Asset Municipal High Income Fund Inc.,31.9,Baja,1,"$10,650",1,7.1,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+65,HIX,Western Asset High Income Fund II Inc.,31.8,Baja,1,"$10,350",1,4.14,2025-05-28,2025-05-28,2025-05-28,2025-05-28,4,0
+66,ANTX,"An2 Therapeutics, Inc.",31.7,Baja,1,"$10,160",1,1.18,2025-05-29,2025-05-29,2025-05-29,2025-05-29,4,0

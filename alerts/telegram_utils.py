@@ -30,3 +30,35 @@ def send_file(token, chat_id, file_path):
         print("Archivo enviado correctamente")
     else:
         print(f"Error al enviar archivo: {r.text}")
+        
+def send_document_telegram(chat_id, file_path, caption=""):
+    """
+    Envía un documento a Telegram
+    """
+    try:
+        import requests
+        from config import TELEGRAM_BOT_TOKEN
+        
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendDocument"
+        
+        with open(file_path, 'rb') as file:
+            data = {
+                'chat_id': chat_id,
+                'caption': caption
+            }
+            files = {
+                'document': file
+            }
+            
+            response = requests.post(url, data=data, files=files)
+            
+            if response.status_code == 200:
+                print(f"✅ Documento enviado: {file_path}")
+                return True
+            else:
+                print(f"❌ Error enviando documento: {response.text}")
+                return False
+                
+    except Exception as e:
+        print(f"❌ Error en send_document_telegram: {e}")
+        return False
