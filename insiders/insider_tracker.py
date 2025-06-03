@@ -1,7 +1,35 @@
 import pandas as pd
 import numpy as np
 import os
+import sys
 from datetime import datetime, timedelta
+
+# Agregar la raíz del proyecto al path para importar github_pages_uploader
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+# Función para obtener rutas correctas (desde insiders/ o desde raíz)
+def get_correct_path(relative_path):
+    """
+    Obtiene la ruta correcta independientemente de desde dónde se ejecute
+    """
+    # Probar desde el directorio actual
+    if os.path.exists(relative_path):
+        return relative_path
+    
+    # Probar desde el directorio padre
+    parent_path = os.path.join("..", relative_path)
+    if os.path.exists(parent_path):
+        return parent_path
+    
+    # Probar desde la raíz del proyecto
+    root_path = os.path.join(parent_dir, relative_path)
+    if os.path.exists(root_path):
+        return root_path
+    
+    return relative_path  # Devolver la original si no se encuentra
 
 def scrape_openinsider():
     """
@@ -10,7 +38,8 @@ def scrape_openinsider():
     """
     try:
         # Cargar compras recientes de insiders
-        insiders_df = pd.read_csv("reports/insiders_daily.csv")
+        insiders_csv_path = get_correct_path("reports/insiders_daily.csv")
+        insiders_df = pd.read_csv(insiders_csv_path)
         print(f"📊 Datos de insiders cargados: {len(insiders_df)} transacciones")
 
         # Cargar dataset fundamental más reciente
@@ -24,9 +53,10 @@ def scrape_openinsider():
             
             fundamentals_df = None
             for path in fundamentals_paths:
-                if os.path.exists(path):
-                    fundamentals_df = pd.read_csv(path)
-                    print(f"📈 Datos fundamentales cargados desde: {path} ({len(fundamentals_df)} empresas)")
+                correct_path = get_correct_path(path)
+                if os.path.exists(correct_path):
+                    fundamentals_df = pd.read_csv(correct_path)
+                    print(f"📈 Datos fundamentales cargados desde: {correct_path} ({len(fundamentals_df)} empresas)")
                     break
             
             if fundamentals_df is None:
@@ -493,8 +523,9 @@ def generar_reporte_oportunidades(df):
             "Fecha_Analisis": [datetime.now().strftime('%Y-%m-%d %H:%M')]
         })
         
-        output_path = "reports/insiders_opportunities.csv"
-        os.makedirs("reports", exist_ok=True)
+        output_path = get_correct_path("reports/insiders_opportunities.csv")
+        output_dir = os.path.dirname(output_path)
+        os.makedirs(output_dir, exist_ok=True)
         reporte_vacio.to_csv(output_path, index=False)
         return output_path
     
@@ -758,8 +789,9 @@ def generar_reporte_html_oportunidades(csv_path):
             </html>
             """
         
-        html_path = "reports/insiders_opportunities.html"
-        os.makedirs("reports", exist_ok=True)
+        html_path = get_correct_path("reports/insiders_opportunities.html")
+        html_dir = os.path.dirname(html_path)
+        os.makedirs(html_dir, exist_ok=True)
         with open(html_path, "w", encoding="utf-8") as f:
             f.write(html_content)
         
@@ -781,7 +813,14 @@ def enviar_reporte_telegram(csv_path, html_path):
         
         # Obtener configuración de Telegram
         try:
-            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            # Intentar importar desde diferentes ubicaciones
+            try:
+                from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            except ImportError:
+                # Intentar desde el directorio padre
+                sys.path.insert(0, parent_dir)
+                from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            
             chat_id = TELEGRAM_CHAT_ID
             bot_token = TELEGRAM_BOT_TOKEN
             print(f"✅ Configuración obtenida - Chat ID: {chat_id}")
@@ -797,9 +836,15 @@ def enviar_reporte_telegram(csv_path, html_path):
         try:
             from alerts.telegram_utils import send_message, send_document_telegram
             print("✅ Utilidades de Telegram importadas correctamente")
-        except ImportError as e:
-            print(f"❌ No se pudieron importar utilidades de Telegram: {e}")
-            return False
+        except ImportError:
+            try:
+                # Intentar desde directorio padre
+                sys.path.insert(0, parent_dir)
+                from alerts.telegram_utils import send_message, send_document_telegram
+                print("✅ Utilidades de Telegram importadas correctamente (desde raíz)")
+            except ImportError as e:
+                print(f"❌ No se pudieron importar utilidades de Telegram: {e}")
+                return False
         
         # Verificar que los archivos existen
         if not os.path.exists(csv_path):
@@ -987,7 +1032,13 @@ def enviar_reporte_telegram_con_github(csv_path, html_path, github_result):
         
         # Obtener configuración de Telegram
         try:
-            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            # Intentar importar desde diferentes ubicaciones
+            try:
+                from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            except ImportError:
+                sys.path.insert(0, parent_dir)
+                from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            
             chat_id = TELEGRAM_CHAT_ID
             bot_token = TELEGRAM_BOT_TOKEN
         except ImportError as e:
@@ -1001,9 +1052,13 @@ def enviar_reporte_telegram_con_github(csv_path, html_path, github_result):
         # Importar utilidades de Telegram
         try:
             from alerts.telegram_utils import send_message, send_document_telegram
-        except ImportError as e:
-            print(f"❌ Error importando utilidades de Telegram: {e}")
-            return False
+        except ImportError:
+            try:
+                sys.path.insert(0, parent_dir)
+                from alerts.telegram_utils import send_message, send_document_telegram
+            except ImportError as e:
+                print(f"❌ Error importando utilidades de Telegram: {e}")
+                return False
         
         # Leer CSV para estadísticas
         df = pd.read_csv(csv_path)
@@ -1183,11 +1238,22 @@ def generar_reporte_completo_integrado():
         # PASO 3: Envío con GitHub Pages + Telegram
         print("\n🌐 PASO 3: Envío con GitHub Pages + Telegram...")
         
-        # Usar el HTML de oportunidades o el de gráficos (el que esté disponible)
-        html_para_enviar = resultado_final['html_opportunities'] or resultado_final['html_charts']
+        # PRIORIZAR EL HTML DE GRÁFICOS (más completo) sobre el de oportunidades
+        html_para_enviar = None
+        nombre_reporte = ""
+        
+        if resultado_final['html_charts']:
+            html_para_enviar = resultado_final['html_charts']
+            nombre_reporte = "gráficos completos"
+            print(f"📊 Usando HTML de gráficos (más completo): {html_para_enviar}")
+        elif resultado_final['html_opportunities']:
+            html_para_enviar = resultado_final['html_opportunities']
+            nombre_reporte = "oportunidades"
+            print(f"🎯 Usando HTML de oportunidades: {html_para_enviar}")
         
         if csv_path and html_para_enviar:
             try:
+                print(f"🚀 Subiendo reporte de {nombre_reporte}...")
                 envio_result = enviar_reporte_con_github_pages(csv_path, html_para_enviar)
                 resultado_final['github_pages'] = envio_result.get('github_result')
                 resultado_final['telegram_sent'] = envio_result.get('telegram_sent', False)
@@ -1206,6 +1272,10 @@ def generar_reporte_completo_integrado():
                     resultado_final['telegram_sent'] = enviar_reporte_telegram(csv_path, html_para_enviar)
         else:
             print("⚠️ No hay archivos para enviar")
+            if not csv_path:
+                print("   - Falta CSV de oportunidades")
+            if not html_para_enviar:
+                print("   - Falta HTML (ni gráficos ni oportunidades)")
         
         # RESUMEN FINAL
         print("\n" + "=" * 65)
@@ -1240,7 +1310,8 @@ def crear_datos_prueba():
     print("🧪 Creando datos de prueba...")
     
     # Crear directorio
-    os.makedirs("reports", exist_ok=True)
+    reports_dir = get_correct_path("reports")
+    os.makedirs(reports_dir, exist_ok=True)
     
     # Datos de insiders de prueba con la estructura CORRECTA
     insiders_data = {
@@ -1260,7 +1331,7 @@ def crear_datos_prueba():
     }
     
     insiders_df = pd.DataFrame(insiders_data)
-    insiders_df.to_csv("reports/insiders_daily.csv", index=False)
+    insiders_df.to_csv(get_correct_path("reports/insiders_daily.csv"), index=False)
     
     # Datos fundamentales de prueba
     fundamentals_data = {
@@ -1276,11 +1347,11 @@ def crear_datos_prueba():
     }
     
     fundamentals_df = pd.DataFrame(fundamentals_data)
-    fundamentals_df.to_csv("reports/finviz_ml_dataset_with_fundamentals.csv", index=False)
+    fundamentals_df.to_csv(get_correct_path("reports/finviz_ml_dataset_with_fundamentals.csv"), index=False)
     
     print("✅ Datos de prueba creados exitosamente")
-    print("   - reports/insiders_daily.csv")
-    print("   - reports/finviz_ml_dataset_with_fundamentals.csv")
+    print(f"   - {get_correct_path('reports/insiders_daily.csv')}")
+    print(f"   - {get_correct_path('reports/finviz_ml_dataset_with_fundamentals.csv')}")
 
 # NUEVAS FUNCIONES DE UTILIDAD PARA GITHUB PAGES
 def verificar_github_pages_setup():
@@ -1291,16 +1362,21 @@ def verificar_github_pages_setup():
         from github_pages_uploader import GitHubPagesUploader
         uploader = GitHubPagesUploader()
         
-        if os.path.exists(uploader.local_repo_path):
-            print(f"✅ Repositorio local: {uploader.local_repo_path}")
-            print(f"🌐 URL del sitio: {uploader.base_url}")
-            return True
-        else:
-            print(f"❌ Repositorio local no encontrado: {uploader.local_repo_path}")
-            print("   Ejecuta: python github_pages_uploader.py setup")
-            return False
+        # Verificar directorio docs (ajustar ruta según ubicación)
+        docs_paths = ["docs", "../docs", get_correct_path("docs")]
+        
+        for docs_path in docs_paths:
+            if os.path.exists(docs_path):
+                print(f"✅ Directorio docs encontrado: {docs_path}")
+                print(f"🌐 URL del sitio: {uploader.base_url}")
+                return True
+        
+        print(f"❌ Directorio docs no encontrado")
+        print("   Ejecuta desde la raíz: python github_pages_uploader.py setup")
+        return False
     except ImportError:
         print("❌ github_pages_uploader.py no encontrado")
+        print("   Asegúrate de que está en la raíz del proyecto")
         return False
 
 def subir_reporte_manual(html_path):
@@ -1335,12 +1411,22 @@ def listar_reportes_github_pages():
         uploader = GitHubPagesUploader()
         
         print(f"🌐 Sitio web: {uploader.base_url}")
-        print(f"📁 Repositorio local: {uploader.local_repo_path}")
         
-        if os.path.exists(uploader.local_repo_path):
-            # Listar archivos HTML en el repositorio
+        # Buscar directorio docs
+        docs_paths = ["docs", "../docs", get_correct_path("docs")]
+        docs_dir = None
+        
+        for path in docs_paths:
+            if os.path.exists(path):
+                docs_dir = path
+                break
+        
+        if docs_dir:
+            print(f"📁 Directorio: {docs_dir}")
+            
+            # Listar archivos HTML
             html_files = []
-            for file in os.listdir(uploader.local_repo_path):
+            for file in os.listdir(docs_dir):
                 if file.endswith('.html') and file != 'index.html':
                     html_files.append(file)
             
@@ -1353,7 +1439,7 @@ def listar_reportes_github_pages():
             else:
                 print("📄 No hay reportes disponibles")
         else:
-            print("❌ Repositorio local no encontrado")
+            print("❌ Directorio docs no encontrado")
             
     except Exception as e:
         print(f"❌ Error listando reportes: {e}")
