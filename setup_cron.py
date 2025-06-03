@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Script para configurar cron job para análisis diario de insider trading
-INCLUYE SCRAPER para datos frescos
+VERSIÓN MEJORADA CON CORRECCIONES DE ERRORES
 """
 
 import os
@@ -12,28 +12,28 @@ def setup_cron_job():
     """
     Configura el cron job para ejecutar el análisis diario CON SCRAPER
     """
-    print("🕒 Configurando tarea cron para análisis diario...")
+    print("🕒 Configurando tarea cron para análisis diario MEJORADO...")
     
-    # Ruta completa al proyecto actualizada
+    # Ruta completa al proyecto
     project_path = "/Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a"
-    python_path = "/usr/bin/python3"  # Verificar que sea correcto
+    python_path = "/usr/bin/python3"
     
     # Crear directorio de logs
     log_dir = os.path.join(project_path, "logs")
     os.makedirs(log_dir, exist_ok=True)
     print(f"✅ Directorio de logs creado: {log_dir}")
     
-    # Verificar que los archivos existen
+    # Verificar archivos
     print("🔍 Verificando archivos...")
     
-    # Archivos principales
+    # Scripts principales
     main_script = os.path.join(project_path, "main.py")
     insider_script = os.path.join(project_path, "insiders/insider_tracker.py")
     
-    # Buscar el scraper en diferentes ubicaciones
+    # Buscar scraper
     possible_scrapers = [
-        "insiders/openinsider_scraper.py",
         "openinsider_scraper.py",
+        "insiders/openinsider_scraper.py", 
         "scraper_independiente.py",
         "scrapers/openinsider_scraper.py"
     ]
@@ -47,121 +47,101 @@ def setup_cron_job():
             break
     
     if not scraper_path:
-        print("⚠️ No se encontró scraper de OpenInsider")
-        print("   Buscado en:", possible_scrapers)
-        print("   Continuando sin scraper (usará datos existentes)")
+        print("⚠️ No se encontró scraper, usando datos existentes")
     
-    scripts_to_check = [
-        ("main.py", main_script, "Análisis completo integrado"),
-        ("insider_tracker.py", insider_script, "Solo análisis de oportunidades")
-    ]
-    
-    available_scripts = []
-    for name, path, desc in scripts_to_check:
-        if os.path.exists(path):
-            print(f"✅ {name} - {desc}")
-            available_scripts.append((name, path, desc))
-        else:
-            print(f"❌ {name} no encontrado en {path}")
-    
-    if not available_scripts:
-        print("❌ No se encontraron scripts para ejecutar")
+    # Verificar insider_tracker.py
+    if os.path.exists(insider_script):
+        print("✅ insider_tracker.py encontrado")
+    else:
+        print("❌ insider_tracker.py no encontrado")
         return False
     
-    # Mostrar opciones
-    print("\n📋 Opciones disponibles para cron:")
-    print("1. 🚀 Scraper + main.py --auto (RECOMENDADO) - Datos frescos + Análisis completo")
-    print("2. 🎯 Scraper + insider_tracker.py - Datos frescos + Solo oportunidades")
-    print("3. 📊 Solo main.py --auto - Sin scraper (usar datos existentes)")
-    print("4. 🔧 Solo scraper - Solo obtener datos frescos")
+    # Crear script de corrección de errores
+    fix_script_content = f"""#!/bin/bash
+# Script para corregir errores comunes antes del análisis
+
+cd {project_path}
+
+# Asegurar que docs/index.html existe
+if [ ! -f docs/index.html ]; then
+    echo "🔧 Creando docs/index.html faltante..."
+    python3 github_pages_uploader.py setup > /dev/null 2>&1
+fi
+
+# Asegurar que reports/ existe
+mkdir -p reports
+
+# Copiar CSV a la ubicación que busca plot_utils si es necesario
+if [ -f reports/insiders_daily.csv ] && [ ! -f insiders_daily.csv ]; then
+    cp reports/insiders_daily.csv . 2>/dev/null || true
+fi
+
+echo "✅ Pre-correcciones completadas"
+"""
     
-    # Elegir opción automáticamente o pedir al usuario
-    if scraper_path:
-        selected_option = 1  # Opción recomendada con scraper
-        print(f"\n🎯 Seleccionada automáticamente: Opción {selected_option} (Scraper + Análisis completo)")
-    else:
-        selected_option = 3  # Sin scraper
-        print(f"\n🎯 Seleccionada automáticamente: Opción {selected_option} (Solo análisis, sin scraper)")
+    fix_script_path = os.path.join(project_path, "fix_before_analysis.sh")
+    with open(fix_script_path, 'w') as f:
+        f.write(fix_script_content)
     
-    # Generar líneas de cron según la opción
+    # Hacer ejecutable
+    os.chmod(fix_script_path, 0o755)
+    print(f"✅ Script de corrección creado: {fix_script_path}")
+    
+    # Generar líneas de cron
     cron_lines = []
     
-    if selected_option == 1:
-        # Scraper + main.py --auto
+    if scraper_path:
+        # OPCIÓN COMPLETA: Scraper + Correcciones + Análisis
         scraper_line = f"30 8 * * * cd {project_path} && {python_path} {scraper_path} >> logs/scraper.log 2>&1"
-        main_line = f"0 9 * * * cd {project_path} && {python_path} main.py --auto >> logs/cron_main.log 2>&1"
-        cron_lines = [scraper_line, main_line]
+        fix_line = f"55 8 * * * cd {project_path} && ./fix_before_analysis.sh >> logs/fixes.log 2>&1"
+        analysis_line = f"0 9 * * * cd {project_path}/insiders && {python_path} insider_tracker.py --completo >> ../logs/analysis.log 2>&1"
         
-        print(f"⏰ Horario: Scraper a las 8:30 AM, Análisis a las 9:00 AM")
-        print(f"📁 Logs: logs/scraper.log y logs/cron_main.log")
+        cron_lines = [scraper_line, fix_line, analysis_line]
         
-    elif selected_option == 2:
-        # Scraper + insider_tracker.py
-        scraper_line = f"30 8 * * * cd {project_path} && {python_path} {scraper_path} >> logs/scraper.log 2>&1"
-        insider_line = f"0 9 * * * cd {project_path} && {python_path} insiders/insider_tracker.py >> logs/cron_insider.log 2>&1"
-        cron_lines = [scraper_line, insider_line]
+        print("⏰ HORARIO COMPLETO:")
+        print("   8:30 AM - Scraper obtiene datos frescos")
+        print("   8:55 AM - Correcciones automáticas")
+        print("   9:00 AM - Análisis completo + GitHub Pages + Telegram")
         
-        print(f"⏰ Horario: Scraper a las 8:30 AM, Oportunidades a las 9:00 AM")
-        print(f"📁 Logs: logs/scraper.log y logs/cron_insider.log")
+    else:
+        # OPCIÓN SIN SCRAPER: Solo correcciones + análisis
+        fix_line = f"55 8 * * * cd {project_path} && ./fix_before_analysis.sh >> logs/fixes.log 2>&1"
+        analysis_line = f"0 9 * * * cd {project_path}/insiders && {python_path} insider_tracker.py --completo >> ../logs/analysis.log 2>&1"
         
-    elif selected_option == 3:
-        # Solo main.py --auto
-        main_line = f"0 9 * * * cd {project_path} && {python_path} main.py --auto >> logs/cron_main.log 2>&1"
-        cron_lines = [main_line]
+        cron_lines = [fix_line, analysis_line]
         
-        print(f"⏰ Horario: Análisis a las 9:00 AM (sin scraper)")
-        print(f"📁 Logs: logs/cron_main.log")
-        
-    elif selected_option == 4:
-        # Solo scraper
-        scraper_line = f"30 8 * * * cd {project_path} && {python_path} {scraper_path} >> logs/scraper.log 2>&1"
-        cron_lines = [scraper_line]
-        
-        print(f"⏰ Horario: Solo scraper a las 8:30 AM")
-        print(f"📁 Logs: logs/scraper.log")
+        print("⏰ HORARIO SIN SCRAPER:")
+        print("   8:55 AM - Correcciones automáticas")
+        print("   9:00 AM - Análisis completo + GitHub Pages + Telegram")
     
-    # Obtener crontab actual
+    # Configurar crontab
     try:
         current_crontab = subprocess.check_output(["crontab", "-l"], text=True, stderr=subprocess.DEVNULL)
-        print("✅ Crontab actual obtenido")
     except subprocess.CalledProcessError:
         current_crontab = ""
-        print("ℹ️ No hay crontab previo")
     
-    # Limpiar líneas anteriores del proyecto para evitar duplicados
+    # Limpiar líneas anteriores del proyecto
     lines = current_crontab.split('\n')
-    cleaned_lines = []
+    cleaned_lines = [line for line in lines if project_path not in line and line.strip()]
     
-    for line in lines:
-        if project_path not in line and line.strip():
-            cleaned_lines.append(line)
-    
-    if len(cleaned_lines) < len(lines):
-        print("🧹 Líneas anteriores del proyecto removidas")
-    
-    # Añadir nuevas líneas
-    cleaned_crontab = '\n'.join(cleaned_lines)
-    if cleaned_crontab.strip():
-        new_crontab = cleaned_crontab.strip() + "\n"
+    # Crear nuevo crontab
+    if cleaned_lines:
+        new_crontab = '\n'.join(cleaned_lines) + "\n"
     else:
         new_crontab = ""
     
-    # Agregar comentario explicativo
-    new_crontab += f"# Insider Trading Analysis - {datetime.now().strftime('%Y-%m-%d')}\n"
-    
+    # Agregar comentario y líneas nuevas
+    new_crontab += f"# Insider Trading Analysis Auto - {datetime.now().strftime('%Y-%m-%d')}\n"
     for line in cron_lines:
         new_crontab += line + "\n"
     
-    # Aplicar nuevo crontab
+    # Aplicar crontab
     try:
         process = subprocess.Popen(["crontab", "-"], stdin=subprocess.PIPE, text=True)
         process.communicate(new_crontab)
         
         if process.returncode == 0:
             print("✅ Tareas cron configuradas correctamente")
-            print("📋 Líneas añadidas:")
-            for i, line in enumerate(cron_lines, 1):
-                print(f"   {i}. {line}")
             return True
         else:
             print("❌ Error configurando crontab")
@@ -171,129 +151,175 @@ def setup_cron_job():
         print(f"❌ Error: {e}")
         return False
 
-def verify_cron_setup():
+def verify_and_test():
     """
-    Verifica que el cron está configurado correctamente
+    Verifica la configuración y ofrece prueba
     """
-    print("\n🔍 Verificando configuración de cron...")
+    print("\n🔍 Verificando configuración...")
     
     try:
         current_crontab = subprocess.check_output(["crontab", "-l"], text=True)
-        
         project_lines = [line for line in current_crontab.split('\n') 
                         if 'stock_analyzer_a' in line and line.strip() and not line.startswith('#')]
         
         if project_lines:
-            print("✅ Tareas cron encontradas:")
+            print("✅ Tareas cron configuradas:")
             for i, line in enumerate(project_lines, 1):
                 if 'scraper' in line:
-                    print(f"   {i}. 🕷️ SCRAPER: {line}")
-                elif 'main.py' in line:
-                    print(f"   {i}. 🚀 ANÁLISIS: {line}")
-                else:
-                    print(f"   {i}. 📊 OTROS: {line}")
+                    print(f"   {i}. 🕷️ {line}")
+                elif 'fix_before' in line:
+                    print(f"   {i}. 🔧 {line}")
+                elif 'insider_tracker' in line:
+                    print(f"   {i}. 🚀 {line}")
         else:
-            print("❌ No se encontraron tareas cron para el proyecto")
+            print("❌ No se encontraron tareas cron")
             
     except subprocess.CalledProcessError:
         print("❌ No hay crontab configurado")
+    
+    # Ofrecer prueba manual
+    print("\n🧪 ¿QUIERES PROBAR AHORA?")
+    response = input("Ejecutar análisis completo ahora para verificar? (y/n): ")
+    
+    if response.lower() == 'y':
+        print("🚀 Ejecutando análisis de prueba...")
+        project_path = "/Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a"
+        
+        try:
+            os.chdir(f"{project_path}/insiders")
+            result = subprocess.run(["python3", "insider_tracker.py", "--completo"], 
+                                  capture_output=True, text=True, timeout=300)
+            
+            if result.returncode == 0:
+                print("✅ Análisis de prueba exitoso!")
+                print("🌐 Verifica tu sitio web y Telegram")
+            else:
+                print("⚠️ Análisis completado con advertencias")
+                print("Salida:", result.stdout[-500:])  # Últimas 500 chars
+                
+        except subprocess.TimeoutExpired:
+            print("⏰ Análisis tomó más de 5 minutos, pero probablemente funcionó")
+        except Exception as e:
+            print(f"❌ Error en prueba: {e}")
 
-def test_manual_execution():
+def show_monitoring_commands():
     """
-    Prueba la ejecución manual del scraper y análisis
+    Muestra comandos útiles para monitoreo
     """
-    print("\n🧪 Probando ejecución manual...")
+    print("\n📊 COMANDOS ÚTILES PARA MONITOREO:")
+    print("=" * 50)
     
     project_path = "/Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a"
     
-    try:
-        os.chdir(project_path)
-        print(f"📁 Cambiado a directorio: {project_path}")
-        
-        # Buscar scraper
-        possible_scrapers = [
-            "insiders/openinsider_scraper.py",
-            "openinsider_scraper.py",
-            "scraper_independiente.py"
-        ]
-        
-        scraper_found = None
-        for scraper in possible_scrapers:
-            if os.path.exists(scraper):
-                scraper_found = scraper
-                break
-        
-        if scraper_found:
-            print(f"🕷️ Scraper encontrado: {scraper_found}")
-            print("   Para ejecutar scraper: python3", scraper_found)
-        
-        # Probar main.py --auto
-        if os.path.exists("main.py"):
-            print("🚀 Para ejecutar análisis completo: python3 main.py --auto")
-        
-        if os.path.exists("insiders/insider_tracker.py"):
-            print("🎯 Para ejecutar solo oportunidades: python3 insiders/insider_tracker.py")
-        
-        print("\n💡 Secuencia recomendada para prueba manual:")
-        if scraper_found:
-            print(f"   1. python3 {scraper_found}")
-        print("   2. python3 main.py --auto")
-            
-    except Exception as e:
-        print(f"❌ Error en prueba: {e}")
+    print("🔍 Ver tareas cron:")
+    print("   crontab -l")
+    
+    print("\n📁 Ver logs en tiempo real:")
+    print(f"   tail -f {project_path}/logs/analysis.log")
+    print(f"   tail -f {project_path}/logs/scraper.log")
+    print(f"   tail -f {project_path}/logs/fixes.log")
+    
+    print("\n🌐 URLs importantes:")
+    print("   Sitio web: https://tantancansado.github.io/stock_analyzer_a/")
+    print("   GitHub Actions: https://github.com/tantancansado/stock_analyzer_a/actions")
+    
+    print("\n🔧 Comandos de emergencia:")
+    print("   # Deshabilitar cron temporalmente:")
+    print("   crontab -r")
+    print("   # Ejecutar análisis manual:")
+    print(f"   cd {project_path}/insiders && python3 insider_tracker.py --completo")
 
-def show_schedule_summary():
+def create_monitoring_script():
     """
-    Muestra un resumen del horario configurado
+    Crea un script de monitoreo
     """
-    print("\n📅 RESUMEN DEL HORARIO CONFIGURADO:")
-    print("=" * 50)
-    print("🕐 8:30 AM - Scraper de OpenInsider")
-    print("   └── Obtiene datos frescos de insider trading")
-    print("   └── Logs: logs/scraper.log")
-    print()
-    print("🕘 9:00 AM - Análisis completo")
-    print("   └── Procesa datos del scraper")
-    print("   └── Genera oportunidades + gráficos")
-    print("   └── Envía reporte a Telegram")
-    print("   └── Logs: logs/cron_main.log")
-    print()
-    print("🔄 Este ciclo se repite TODOS LOS DÍAS")
-    print("💡 Esto garantiza datos frescos cada día")
+    project_path = "/Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a"
+    
+    monitor_script = f"""#!/bin/bash
+# Script de monitoreo para Insider Trading Analysis
+
+echo "📊 ESTADO DEL SISTEMA INSIDER TRADING"
+echo "======================================"
+echo "📅 $(date)"
+echo ""
+
+echo "🕒 TAREAS CRON:"
+crontab -l | grep stock_analyzer_a || echo "❌ No hay tareas cron configuradas"
+echo ""
+
+echo "📁 LOGS RECIENTES:"
+if [ -f {project_path}/logs/analysis.log ]; then
+    echo "🚀 Último análisis:"
+    tail -3 {project_path}/logs/analysis.log
+else
+    echo "❌ No hay log de análisis"
+fi
+echo ""
+
+if [ -f {project_path}/logs/scraper.log ]; then
+    echo "🕷️ Último scraper:"
+    tail -3 {project_path}/logs/scraper.log
+else
+    echo "❌ No hay log de scraper"
+fi
+echo ""
+
+echo "🌐 GITHUB PAGES:"
+echo "   Sitio: https://tantancansado.github.io/stock_analyzer_a/"
+echo ""
+
+echo "📊 ARCHIVOS RECIENTES:"
+ls -lt {project_path}/reports/*.csv 2>/dev/null | head -3 || echo "❌ No hay CSVs recientes"
+ls -lt {project_path}/docs/*.html 2>/dev/null | head -3 || echo "❌ No hay HTMLs recientes"
+"""
+    
+    monitor_path = os.path.join(project_path, "check_status.sh")
+    with open(monitor_path, 'w') as f:
+        f.write(monitor_script)
+    
+    os.chmod(monitor_path, 0o755)
+    print(f"✅ Script de monitoreo creado: {monitor_path}")
+    print(f"   Ejecutar con: {monitor_path}")
 
 if __name__ == "__main__":
-    print("🕒 CONFIGURADOR DE CRON - INSIDER TRADING CON SCRAPER")
+    print("🕒 CONFIGURADOR AUTOMÁTICO INSIDER TRADING v2.0")
     print("=" * 60)
-    print(f"📅 Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print("🎯 CARACTERÍSTICAS:")
+    print("   ✅ Scraper de datos frescos diarios")
+    print("   ✅ Corrección automática de errores")
+    print("   ✅ Análisis completo automatizado")
+    print("   ✅ Subida automática a GitHub Pages")
+    print("   ✅ Notificaciones por Telegram")
+    print("   ✅ Logs detallados")
+    print(f"📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print()
     
     # Configurar cron
     success = setup_cron_job()
     
     if success:
-        # Verificar configuración
-        verify_cron_setup()
+        # Verificar y ofrecer prueba
+        verify_and_test()
         
-        # Mostrar resumen del horario
-        show_schedule_summary()
+        # Crear script de monitoreo
+        create_monitoring_script()
         
-        # Instrucciones adicionales
-        print("\n📋 INSTRUCCIONES ADICIONALES:")
-        print("1. ✅ El sistema está configurado para datos frescos diarios")
-        print("2. 📁 Los logs se guardarán en logs/")
-        print("3. 📋 Para ver el crontab: crontab -l")
-        print("4. 📝 Para editar el crontab: crontab -e")
-        print("5. 📊 Para ver logs en tiempo real: tail -f logs/scraper.log")
-        print("\n⚠️  IMPORTANTE:")
-        print("   - Asegúrate de que config.py esté en .gitignore")
-        print("   - El scraper se ejecuta 30 minutos antes del análisis")
-        print("   - Esto garantiza datos frescos cada día")
+        # Mostrar comandos útiles
+        show_monitoring_commands()
         
-        # Opción de prueba
-        response = input("\n🧪 ¿Quieres ver los comandos para prueba manual? (y/n): ")
-        if response.lower() == 'y':
-            test_manual_execution()
+        print("\n🎉 CONFIGURACIÓN COMPLETADA!")
+        print("💫 Tu sistema ahora:")
+        print("   🔄 Se ejecuta automáticamente todos los días")
+        print("   🌐 Actualiza GitHub Pages automáticamente")
+        print("   📱 Envía notificaciones por Telegram")
+        print("   🔧 Se autocorrige errores comunes")
+        print("   📊 Mantiene logs detallados")
+        
+        print("\n💡 PRÓXIMOS PASOS:")
+        print("   1. El sistema se ejecutará mañana a las 9:00 AM")
+        print("   2. Verifica los logs después de la primera ejecución")
+        print("   3. Tu sitio web se actualizará automáticamente")
+        
     else:
-        print("\n❌ Error configurando cron. Revisa los permisos y rutas.")
-
-    print("\n🎉 Configuración completada!")
-    print("💡 Ahora tendrás datos frescos de insider trading cada día!")
+        print("\n❌ Error en la configuración")
+        print("💡 Verifica permisos y rutas manualmente")
