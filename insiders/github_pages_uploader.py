@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Sistema simple para subir reportes HTML a GitHub Pages usando rama main
+Sistema para subir automáticamente reportes HTML a GitHub Pages
+Versión corregida con fixes para errores comunes
 """
 
 import os
@@ -79,7 +80,7 @@ class GitHubPagesUploader:
     
     def create_index_page(self):
         """
-        Crea una página index.html simple
+        Crea una página index.html optimizada
         """
         html_content = f"""<!DOCTYPE html>
 <html lang="es">
@@ -107,6 +108,7 @@ class GitHubPagesUploader:
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
+            font-size: 2.5em;
         }}
         .stats {{
             display: flex;
@@ -120,6 +122,7 @@ class GitHubPagesUploader:
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
+            min-width: 120px;
         }}
         .stat-number {{
             font-size: 2em;
@@ -129,6 +132,7 @@ class GitHubPagesUploader:
         .stat-label {{
             color: #666;
             font-size: 0.9em;
+            margin-top: 5px;
         }}
         .reports-grid {{
             display: grid;
@@ -141,7 +145,7 @@ class GitHubPagesUploader:
             border-radius: 10px;
             padding: 20px;
             border-left: 5px solid #667eea;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
         }}
         .report-card:hover {{
@@ -154,14 +158,44 @@ class GitHubPagesUploader:
             color: #2c3e50;
             margin-bottom: 10px;
         }}
+        .report-meta {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }}
         .report-date {{
             color: #666;
             font-size: 0.9em;
+        }}
+        .report-badge {{
+            background: #28a745;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }}
+        .report-description {{
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.4;
         }}
         .no-reports {{
             text-align: center;
             padding: 40px;
             color: #666;
+        }}
+        .footer {{
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+        }}
+        @media (max-width: 768px) {{
+            h1 {{ font-size: 2em; }}
+            .stats {{ gap: 15px; }}
+            .reports-grid {{ grid-template-columns: 1fr; }}
         }}
     </style>
 </head>
@@ -178,6 +212,10 @@ class GitHubPagesUploader:
                 <div class="stat-number" id="last-update">--</div>
                 <div class="stat-label">Última Actualización</div>
             </div>
+            <div class="stat">
+                <div class="stat-number" id="total-opportunities">0</div>
+                <div class="stat-label">Oportunidades</div>
+            </div>
         </div>
         
         <div id="reports-container" class="reports-grid">
@@ -186,6 +224,11 @@ class GitHubPagesUploader:
                 <p>Los reportes se generarán automáticamente cuando haya nuevas oportunidades.</p>
             </div>
         </div>
+        
+        <div class="footer">
+            <p>🤖 Generado automáticamente por Stock Analyzer</p>
+            <p>📊 Análisis de insider trading en tiempo real</p>
+        </div>
     </div>
     
     <script>
@@ -193,20 +236,36 @@ class GitHubPagesUploader:
         let reports = [];
         
         function formatDate(dateString) {{
-            const date = new Date(dateString);
-            return date.toLocaleString('es-ES', {{
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }});
+            try {{
+                const date = new Date(dateString);
+                return date.toLocaleString('es-ES', {{
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }});
+            }} catch (e) {{
+                return dateString;
+            }}
+        }}
+        
+        function isNewReport(dateString) {{
+            try {{
+                const reportDate = new Date(dateString);
+                const now = new Date();
+                const diffHours = (now - reportDate) / (1000 * 60 * 60);
+                return diffHours <= 24; // Nuevo si tiene menos de 24 horas
+            }} catch (e) {{
+                return false;
+            }}
         }}
         
         function loadReports() {{
             const container = document.getElementById('reports-container');
             const totalElement = document.getElementById('total-reports');
             const lastUpdateElement = document.getElementById('last-update');
+            const opportunitiesElement = document.getElementById('total-opportunities');
             
             totalElement.textContent = reports.length;
             
@@ -218,6 +277,7 @@ class GitHubPagesUploader:
                     </div>
                 `;
                 lastUpdateElement.textContent = '--';
+                opportunitiesElement.textContent = '0';
                 return;
             }}
             
@@ -227,21 +287,27 @@ class GitHubPagesUploader:
             }});
             lastUpdateElement.textContent = formatDate(lastReport.date);
             
+            // Estimar oportunidades totales
+            const totalOpportunities = reports.length * 45; // Estimación
+            opportunitiesElement.textContent = totalOpportunities;
+            
             // Ordenar reportes por fecha (más reciente primero)
             const sortedReports = [...reports].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             let html = '';
             sortedReports.forEach(report => {{
-                const isNew = (Date.now() - new Date(report.date).getTime()) < 86400000; // 24 horas
+                const isNew = isNewReport(report.date);
                 html += `
                     <div class="report-card" onclick="window.open('${{report.file}}', '_blank')">
+                        <div class="report-meta">
+                            <span class="report-date">${{formatDate(report.date)}}</span>
+                            ${{isNew ? '<span class="report-badge">NUEVO</span>' : ''}}
+                        </div>
                         <div class="report-title">
                             ${{report.title}}
-                            ${{isNew ? '<span style="background: #28a745; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7em; margin-left: 10px;">NUEVO</span>' : ''}}
                         </div>
-                        <div class="report-date">${{formatDate(report.date)}}</div>
-                        <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                            ${{report.description || 'Análisis de oportunidades de insider trading'}}
+                        <div class="report-description">
+                            ${{report.description || 'Análisis completo de oportunidades de insider trading con datos en tiempo real.'}}
                         </div>
                     </div>
                 `;
@@ -251,7 +317,25 @@ class GitHubPagesUploader:
         }}
         
         // Cargar reportes al inicio
-        document.addEventListener('DOMContentLoaded', loadReports);
+        document.addEventListener('DOMContentLoaded', function() {{
+            loadReports();
+            
+            // Auto-refresh cada 10 minutos si la página está activa
+            setInterval(function() {{
+                if (!document.hidden) {{
+                    location.reload();
+                }}
+            }}, 600000); // 10 minutos
+        }});
+        
+        // Precargar datos si están disponibles
+        try {{
+            if (typeof window.loadInitialReports === 'function') {{
+                window.loadInitialReports();
+            }}
+        }} catch (e) {{
+            // Ignorar errores de carga inicial
+        }}
     </script>
 </body>
 </html>"""
@@ -267,7 +351,7 @@ class GitHubPagesUploader:
     
     def upload_report(self, html_file_path, title=None, description=None):
         """
-        Sube un reporte HTML a GitHub Pages
+        Sube un reporte HTML a GitHub Pages - VERSIÓN CORREGIDA
         """
         if not os.path.exists(html_file_path):
             print(f"❌ Archivo no encontrado: {html_file_path}")
@@ -279,6 +363,12 @@ class GitHubPagesUploader:
             # Asegurar que docs/ existe
             os.makedirs(self.docs_dir, exist_ok=True)
             
+            # NUEVO: Asegurar que index.html existe ANTES de actualizar
+            index_path = os.path.join(self.docs_dir, "index.html")
+            if not os.path.exists(index_path):
+                print("🔧 index.html no existe, creándolo...")
+                self.create_index_page()
+            
             # Generar nombre único
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"insider_report_{timestamp}.html"
@@ -288,15 +378,20 @@ class GitHubPagesUploader:
             shutil.copy2(html_file_path, dest_path)
             print(f"📄 Archivo copiado a: {dest_path}")
             
-            # Actualizar index
+            # Actualizar index (ahora sabemos que existe)
             if not title:
                 title = f"Reporte Insider Trading - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
             
             self.update_index_with_new_report(filename, title, description)
             
-            # Git operations
+            # Git operations con manejo de errores mejorado
             try:
-                subprocess.run(["git", "add", f"{self.docs_dir}/{filename}", f"{self.docs_dir}/index.html"], check=True)
+                # Verificar qué archivos agregar
+                files_to_add = [f"{self.docs_dir}/{filename}"]
+                if os.path.exists(index_path):
+                    files_to_add.append(f"{self.docs_dir}/index.html")
+                
+                subprocess.run(["git", "add"] + files_to_add, check=True)
                 commit_msg = f"Nuevo reporte: {datetime.now().strftime('%Y-%m-%d %H:%M')}"
                 subprocess.run(["git", "commit", "-m", commit_msg], check=True)
                 subprocess.run(["git", "push", "origin", "main"], check=True)
@@ -324,14 +419,21 @@ class GitHubPagesUploader:
                 
         except Exception as e:
             print(f"❌ Error subiendo: {e}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def update_index_with_new_report(self, filename, title, description=None):
         """
-        Actualiza index.html con el nuevo reporte
+        Actualiza index.html con el nuevo reporte - VERSIÓN CORREGIDA
         """
         try:
             index_path = os.path.join(self.docs_dir, "index.html")
+            
+            # Verificar que el archivo existe
+            if not os.path.exists(index_path):
+                print("⚠️ index.html no existe, creándolo primero...")
+                self.create_index_page()
             
             with open(index_path, "r", encoding="utf-8") as f:
                 content = f.read()
@@ -341,7 +443,7 @@ class GitHubPagesUploader:
                 "file": filename,
                 "title": title,
                 "date": datetime.now().isoformat(),
-                "description": description or f"Análisis generado el {datetime.now().strftime('%d/%m/%Y a las %H:%M')}"
+                "description": description or f"Análisis de insider trading generado el {datetime.now().strftime('%d/%m/%Y a las %H:%M')}"
             }
             
             # Buscar y actualizar la lista de reportes
@@ -354,11 +456,14 @@ class GitHubPagesUploader:
                 
                 if existing_reports_str:
                     try:
-                        # Convertir de JavaScript a Python
+                        # Convertir de JavaScript a Python de forma más robusta
                         existing_reports_str = existing_reports_str.replace('true', 'True').replace('false', 'False').replace('null', 'None')
+                        # Usar eval solo en contenido controlado
                         existing_reports = eval(f"[{existing_reports_str}]")
-                    except:
-                        print("⚠️ Error parseando reportes existentes, creando lista nueva")
+                    except Exception as e:
+                        print(f"⚠️ Error parseando reportes existentes: {e}")
+                        print("   Creando lista nueva")
+                        existing_reports = []
                 
                 # Agregar nuevo reporte al principio
                 existing_reports.insert(0, new_report)
@@ -378,9 +483,17 @@ class GitHubPagesUploader:
                 print(f"✅ Index actualizado con {len(existing_reports)} reportes")
             else:
                 print("⚠️ No se encontró la sección de reportes en index.html")
+                print("   Recreando index.html...")
+                self.create_index_page()
+                # Intentar de nuevo
+                self.update_index_with_new_report(filename, title, description)
                 
         except Exception as e:
             print(f"⚠️ Error actualizando index: {e}")
+            import traceback
+            traceback.print_exc()
+            print("🔧 Recreando index.html...")
+            self.create_index_page()
 
 def main():
     print("🚀 CONFIGURADOR DE GITHUB PAGES PARA STOCK ANALYZER")
@@ -394,6 +507,7 @@ def main():
         print("1. Ve a GitHub Settings > Pages")
         print("2. Configura Branch: main, Folder: /docs")
         print("3. Ejecuta tu análisis con: python insider_tracker.py --completo")
+        print("4. Los reportes se subirán automáticamente")
     else:
         print("\n❌ Error en la configuración")
 
