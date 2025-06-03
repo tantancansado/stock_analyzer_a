@@ -687,33 +687,148 @@ def enviar_por_telegram(html_path, bundle_path):
         import traceback
         traceback.print_exc()
         return False
+def enviar_reporte_completo_con_github_pages(html_path, csv_path, bundle_path):
+    """
+    Versión mejorada que sube HTML a GitHub Pages y envía por Telegram
+    Integra con el sistema existente de análisis de insider trading
+    """
+    try:
+        from github_pages_uploader import GitHubPagesUploader
+        from datetime import datetime
+        import os
+        
+        print("🌐 Subiendo reporte a GitHub Pages...")
+        
+        # Inicializar uploader
+        uploader = GitHubPagesUploader()
+        
+        # Generar título y descripción
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        title = f"📊 Análisis Insider Trading - {timestamp}"
+        
+        # Contar estadísticas del reporte
+        total_transactions = len(df) if 'df' in globals() else 0
+        unique_tickers = df['Insider'].nunique() if 'df' in globals() else 0
+        
+        description = f"""Reporte completo de insider trading con {total_transactions} transacciones 
+        de {unique_tickers} empresas. Incluye gráficos interactivos de FinViz y análisis detallado."""
+        
+        # Subir a GitHub Pages
+        github_result = uploader.upload_report(html_path, title, description)
+        
+        if github_result:
+            print(f"✅ Subido a GitHub Pages: {github_result['file_url']}")
+            
+            # Enviar por Telegram con URL de GitHub Pages
+            enviar_telegram_con_github_pages(github_result, csv_path, bundle_path)
+            
+            return github_result
+        else:
+            print("⚠️ Error subiendo a GitHub Pages, enviando por método tradicional")
+            # Fallback al método original
+            enviar_por_telegram(html_path, bundle_path)
+            return None
+            
+    except ImportError:
+        print("⚠️ github_pages_uploader no disponible, usando método tradicional")
+        enviar_por_telegram(html_path, bundle_path)
+        return None
+    except Exception as e:
+        print(f"❌ Error con GitHub Pages: {e}")
+        # Fallback al método original
+        enviar_por_telegram(html_path, bundle_path)
+        return None
 
+
+def enviar_telegram_con_github_pages(github_result, csv_path, bundle_path):
+    """
+    Envía notificación por Telegram con enlaces de GitHub Pages
+    """
+    try:
+        from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+        from alerts.telegram_utils import send_message, send_file
+        
+        if not TELEGRAM_CHAT_ID or not TELEGRAM_BOT_TOKEN:
+            print("⚠️ Configuración de Telegram no disponible")
+            return False
+        
+        # Estadísticas del reporte
+        total_transactions = len(df) if 'df' in globals() else 0
+        unique_tickers = df['Insider'].nunique() if 'df' in globals() else 0
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        # Mensaje principal con enlaces
+        mensaje = f"""🚀 NUEVO REPORTE INSIDER TRADING
+
+📊 **Estadísticas:**
+• {total_transactions} transacciones analizadas
+• {unique_tickers} empresas únicas
+• Actualizado: {timestamp}
+
+🌐 **Enlaces directos:**
+• 📈 [Ver reporte completo]({github_result['file_url']})
+• 🏠 [Todos los reportes]({github_result['index_url']})
+
+✨ **Características:**
+📱 Optimizado para móvil
+🔍 Gráficos interactivos FinViz
+💾 Historial completo disponible
+🔄 Datos en tiempo real
+
+📄 CSV adjunto para análisis detallado"""
+        
+        # Enviar mensaje principal
+        print("📤 Enviando mensaje con enlaces...")
+        send_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, mensaje)
+        
+        # Enviar CSV como archivo adjunto
+        if csv_path and os.path.exists(csv_path):
+            print("📎 Enviando CSV...")
+            send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, csv_path)
+        
+        print("✅ Notificación de GitHub Pages enviada por Telegram")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error enviando por Telegram: {e}")
+        return False
+    
 def generar_reporte_completo():
     """
-    Ejecuta todo el proceso: HTML con FinViz y envío por Telegram
+    Ejecuta todo el proceso: HTML con FinViz, bundle y envío con GitHub Pages
     """
-    print("🚀 Iniciando generación de reporte con FinViz...")
+    print("🚀 Iniciando generación de reporte con FinViz y GitHub Pages...")
     
     # 1. Crear HTML con FinViz embebido
     print("\n📄 PASO 1: Generando HTML con FinViz...")
     html_path_generated = crear_html_con_finviz()
     
-    # 2. Crear bundle ZIP (opcional, para backup local)
+    # 2. Crear bundle ZIP
     print("\n📦 PASO 2: Creando bundle...")
     bundle_path = crear_bundle_completo()
     
-    # 3. Enviar SOLO HTML por Telegram
-    print("\n📱 PASO 3: Enviando HTML por Telegram...")
-    telegram_success = enviar_por_telegram(html_path_generated, bundle_path)
+    # 3. NUEVO: Subir a GitHub Pages y enviar por Telegram
+    print("\n🌐 PASO 3: Subiendo a GitHub Pages y enviando por Telegram...")
+    github_result = enviar_reporte_completo_con_github_pages(
+        html_path_generated, 
+        csv_path, 
+        bundle_path
+    )
     
     print(f"\n🎉 ¡Proceso completado!")
-    print(f"📄 HTML: {html_path_generated}")
-    print(f"📦 Bundle (backup): {bundle_path}")
-    print(f"📊 Gráficos: FinViz embebidos (clicables en pantalla completa)")
-    print(f"📱 Telegram: {'✅ HTML enviado' if telegram_success else '❌'}")
-    print(f"📋 Columnas: TODAS las del CSV incluidas")
+    print(f"📄 HTML local: {html_path_generated}")
+    print(f"📦 Bundle: {bundle_path}")
+    if github_result:
+        print(f"🌐 URL pública: {github_result['file_url']}")
+        print(f"🏠 Sitio principal: {github_result['index_url']}")
+    print(f"📊 Gráficos: FinViz embebidos (interactivos)")
+    print(f"📱 Telegram: ✅ Enviado con enlaces públicos")
     
-    return html_path_generated, bundle_path
+    return {
+        'html_path': html_path_generated,
+        'bundle_path': bundle_path,
+        'github_result': github_result
+    }
 
 # Ejecutar automáticamente si se ejecuta este script
 if __name__ == "__main__":

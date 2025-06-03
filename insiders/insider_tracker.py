@@ -915,139 +915,322 @@ def enviar_reporte_telegram(csv_path, html_path):
         traceback.print_exc()
         return False
 
-# También vamos a mejorar la función principal para asegurar el envío
-def generar_reporte_completo_integrado():
+# NUEVA FUNCIÓN: Integración con GitHub Pages
+def enviar_reporte_con_github_pages(csv_path, html_path):
     """
-    Función que integra el análisis de oportunidades con plot_utils.py - MEJORADA
+    Envía reporte usando GitHub Pages Y Telegram - NUEVA FUNCIONALIDAD
     """
-    print("🚀 GENERANDO REPORTE COMPLETO INTEGRADO")
-    print("=" * 50)
-    
     try:
-        # Paso 1: Ejecutar análisis de oportunidades
-        print("🎯 Paso 1: Análisis de oportunidades...")
-        csv_path = scrape_openinsider()
-        html_opportunities = None
+        print("🌐 Iniciando envío con GitHub Pages...")
         
-        if csv_path:
-            print(f"✅ CSV generado: {csv_path}")
-            html_opportunities = generar_reporte_html_oportunidades(csv_path)
-            if html_opportunities:
-                print(f"✅ HTML oportunidades generado: {html_opportunities}")
-            else:
-                print("⚠️ No se pudo generar HTML de oportunidades")
-        else:
-            print("❌ No se pudo generar CSV de oportunidades")
-        
-        # Paso 2: Ejecutar plot_utils (si existe)
-        print("\n📊 Paso 2: Generación de gráficos...")
-        html_charts = None
-        bundle_path = None
-        
+        # Intentar subir a GitHub Pages
+        github_result = None
         try:
-            from alerts.plot_utils import generar_reporte_completo
-            result = generar_reporte_completo()
+            from github_pages_uploader import GitHubPagesUploader
             
-            if isinstance(result, tuple) and len(result) >= 2:
-                html_charts, bundle_path = result[:2]
-                print(f"✅ HTML gráficos: {html_charts}")
-                print(f"✅ Bundle: {bundle_path}")
-        except ImportError:
-            print("⚠️ plot_utils no disponible, continuando sin gráficos")
-        except Exception as e:
-            print(f"⚠️ Error en plot_utils: {e}")
-        
-        # Paso 3: Enviar a Telegram - MEJORADO
-        print("\n📱 Paso 3: Envío a Telegram...")
-        telegram_success = False
-        
-        if csv_path:
-            print(f"📊 Enviando reporte de oportunidades...")
-            telegram_success = enviar_reporte_telegram(csv_path, html_opportunities)
+            uploader = GitHubPagesUploader()
             
-            if telegram_success:
-                print("✅ Reporte de oportunidades enviado a Telegram")
+            # Generar título descriptivo basado en los datos
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+            
+            # Leer CSV para obtener estadísticas
+            try:
+                df = pd.read_csv(csv_path)
+                if len(df) > 0 and 'Mensaje' not in df.columns:
+                    title = f"📊 Reporte Insider Trading - {len(df)} oportunidades - {timestamp}"
+                    description = f"Análisis de {len(df)} oportunidades de insider trading detectadas el {timestamp}. Incluye gráficos interactivos y análisis detallado."
+                else:
+                    title = f"📊 Reporte Insider Trading - Sin oportunidades - {timestamp}"
+                    description = f"Análisis completado el {timestamp}. No se detectaron oportunidades que cumplan los criterios establecidos."
+            except Exception as e:
+                print(f"⚠️ Error leyendo CSV para estadísticas: {e}")
+                title = f"📊 Reporte Insider Trading - {timestamp}"
+                description = f"Reporte de análisis de insider trading generado el {timestamp}"
+            
+            # Subir a GitHub Pages
+            print("🌐 Subiendo a GitHub Pages...")
+            github_result = uploader.upload_report(html_path, title, description)
+            
+            if github_result:
+                print(f"✅ Subido a GitHub Pages: {github_result['file_url']}")
             else:
-                print("❌ Falló el envío del reporte de oportunidades")
-        else:
-            print("⚠️ No hay CSV para enviar")
+                print("⚠️ No se pudo subir a GitHub Pages")
+                
+        except ImportError:
+            print("⚠️ github_pages_uploader no disponible")
+        except Exception as e:
+            print(f"⚠️ Error con GitHub Pages: {e}")
         
-        print("\n" + "=" * 50)
-        print("🎉 REPORTE COMPLETO FINALIZADO")
-        print("=" * 50)
-        print(f"📱 Telegram: {'✅ Enviado' if telegram_success else '❌ Falló'}")
+        # Enviar por Telegram con o sin GitHub Pages
+        telegram_success = enviar_reporte_telegram_con_github(csv_path, html_path, github_result)
         
         return {
-            'csv_opportunities': csv_path,
-            'html_opportunities': html_opportunities,
-            'html_charts': html_charts,
-            'bundle': bundle_path,
+            'github_result': github_result,
             'telegram_sent': telegram_success
         }
         
     except Exception as e:
-        print(f"❌ Error en reporte completo: {e}")
-        import traceback
-        traceback.print_exc()
-        return None
+        print(f"❌ Error en envío con GitHub Pages: {e}")
+        # Fallback al método tradicional
+        telegram_success = enviar_reporte_telegram(csv_path, html_path)
+        return {
+            'github_result': None,
+            'telegram_sent': telegram_success
+        }
+
+def enviar_reporte_telegram_con_github(csv_path, html_path, github_result):
+    """
+    Envía reporte por Telegram incluyendo enlaces de GitHub Pages si están disponibles
+    """
+    try:
+        print("📱 Enviando reporte por Telegram con GitHub Pages...")
+        
+        # Obtener configuración de Telegram
+        try:
+            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            chat_id = TELEGRAM_CHAT_ID
+            bot_token = TELEGRAM_BOT_TOKEN
+        except ImportError as e:
+            print(f"❌ Error importando configuración de Telegram: {e}")
+            return False
+        
+        if not chat_id or not bot_token:
+            print("⚠️ Configuración de Telegram no disponible")
+            return False
+        
+        # Importar utilidades de Telegram
+        try:
+            from alerts.telegram_utils import send_message, send_document_telegram
+        except ImportError as e:
+            print(f"❌ Error importando utilidades de Telegram: {e}")
+            return False
+        
+        # Leer CSV para estadísticas
+        df = pd.read_csv(csv_path)
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        if len(df) == 0 or 'Mensaje' in df.columns:
+            # Sin oportunidades
+            mensaje = f"""🎯 REPORTE INSIDER TRADING - SIN OPORTUNIDADES
+
+📊 Resultado: No se detectaron oportunidades
+📅 Fecha: {timestamp}
+✅ Estado: Filtros funcionando correctamente
+
+🔍 Criterios aplicados:
+• Actividad reciente de insiders (últimos 90 días)
+• Valores mínimos de transacción ($10K+)
+• Análisis fundamental básico
+
+💡 Los filtros estrictos están funcionando. Solo se muestran oportunidades realmente prometedoras."""
+            
+            # Agregar enlaces de GitHub Pages si están disponibles
+            if github_result:
+                mensaje += f"""
+
+🌐 Enlaces públicos:
+• 📄 Ver reporte: {github_result['file_url']}
+• 🏠 Todos los reportes: {github_result['index_url']}"""
+            
+        else:
+            # Con oportunidades
+            score_column = "FinalScore" if "FinalScore" in df.columns else "InsiderConfidence"
+            
+            # Calcular estadísticas
+            try:
+                score_values = pd.to_numeric(df[score_column], errors='coerce').dropna()
+                avg_score = score_values.mean() if len(score_values) > 0 else 0
+                top_ticker = df.iloc[0]['Ticker'] if len(df) > 0 else "N/A"
+                top_score_raw = df.iloc[0][score_column] if len(df) > 0 and score_column in df.columns else 0
+                top_score = float(top_score_raw) if pd.notna(top_score_raw) else 0
+            except Exception as e:
+                print(f"⚠️ Error calculando estadísticas: {e}")
+                avg_score = 0
+                top_ticker = "N/A"
+                top_score = 0
+            
+            mensaje = f"""🎯 REPORTE INSIDER TRADING
+
+📊 Oportunidades encontradas: {len(df)}
+📈 Score promedio: {avg_score:.1f}
+🏆 Top oportunidad: {top_ticker} (Score: {top_score:.1f})
+📅 Fecha: {timestamp}
+
+🔝 Top 5 oportunidades:"""
+            
+            # Agregar top 5
+            for i, row in df.head(5).iterrows():
+                try:
+                    ticker = row.get('Ticker', 'N/A')
+                    score_raw = row.get(score_column, 0)
+                    confidence = row.get('ConfidenceLevel', 'N/A')
+                    transactions = row.get('NumTransactions', 0)
+                    days = row.get('DaysSinceLastActivity', 'N/A')
+                    
+                    try:
+                        score_val = float(score_raw) if pd.notna(score_raw) else 0
+                    except (ValueError, TypeError):
+                        score_val = 0
+                    
+                    mensaje += f"\n{i+1}. {ticker} - Score: {score_val:.1f} ({confidence}) - {transactions} trans - {days} días"
+                    
+                except Exception as e:
+                    print(f"⚠️ Error procesando fila {i}: {e}")
+                    continue
+            
+            # Agregar enlaces de GitHub Pages si están disponibles
+            if github_result:
+                mensaje += f"""
+
+🌐 Enlaces públicos:
+• 📊 Ver reporte completo: {github_result['file_url']}
+• 🏠 Historial de reportes: {github_result['index_url']}
+
+✨ Características del reporte online:
+📱 Optimizado para móvil
+🔍 Gráficos interactivos
+💾 Historial completo
+🔄 Actualización automática"""
+            else:
+                mensaje += f"\n\n📄 Archivo HTML local: {html_path}"
+        
+        # Enviar mensaje principal
+        try:
+            print("📤 Enviando mensaje...")
+            send_message(bot_token, chat_id, mensaje)
+            print("✅ Mensaje enviado a Telegram")
+        except Exception as e:
+            print(f"❌ Error enviando mensaje: {e}")
+            return False
+        
+        # Enviar archivo HTML solo si NO hay GitHub Pages o si hay oportunidades
+        if html_path and os.path.exists(html_path):
+            if not github_result or (len(df) > 0 and 'Mensaje' not in df.columns):
+                try:
+                    print("📎 Enviando archivo HTML...")
+                    caption = "📊 Reporte de oportunidades" if github_result else "📊 Reporte completo de oportunidades"
+                    send_document_telegram(chat_id, html_path, caption)
+                    print("✅ Archivo HTML enviado")
+                except Exception as e:
+                    print(f"⚠️ Error enviando archivo: {e}")
+        
+        print("🎉 Envío por Telegram completado")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error enviando por Telegram: {e}")
+        return False
+
+# FUNCIÓN PRINCIPAL INTEGRADA
 def generar_reporte_completo_integrado():
     """
-    Función que integra el análisis de oportunidades con plot_utils.py
+    Función que integra EVERYTHING: análisis + gráficos + GitHub Pages + Telegram
     """
-    print("🚀 GENERANDO REPORTE COMPLETO INTEGRADO")
-    print("=" * 50)
+    print("🚀 GENERANDO REPORTE COMPLETO INTEGRADO CON GITHUB PAGES")
+    print("=" * 65)
+    
+    resultado_final = {
+        'csv_opportunities': None,
+        'html_opportunities': None,
+        'html_charts': None,
+        'bundle': None,
+        'github_pages': None,
+        'telegram_sent': False
+    }
     
     try:
-        # Paso 1: Ejecutar análisis de oportunidades
-        print("🎯 Paso 1: Análisis de oportunidades...")
+        # PASO 1: Análisis de oportunidades de insider trading
+        print("🎯 PASO 1: Análisis de oportunidades de insider trading...")
         csv_path = scrape_openinsider()
-        html_opportunities = None
         
         if csv_path:
+            print(f"✅ CSV de oportunidades generado: {csv_path}")
+            resultado_final['csv_opportunities'] = csv_path
+            
+            # Generar HTML de oportunidades
             html_opportunities = generar_reporte_html_oportunidades(csv_path)
-            print(f"✅ Oportunidades: {csv_path}")
             if html_opportunities:
-                print(f"✅ HTML oportunidades: {html_opportunities}")
+                print(f"✅ HTML de oportunidades generado: {html_opportunities}")
+                resultado_final['html_opportunities'] = html_opportunities
+            else:
+                print("⚠️ Error generando HTML de oportunidades")
+        else:
+            print("❌ Error generando CSV de oportunidades")
         
-        # Paso 2: Ejecutar plot_utils (si existe)
-        print("\n📊 Paso 2: Generación de gráficos...")
-        html_charts = None
-        bundle_path = None
-        
+        # PASO 2: Generación de gráficos (si plot_utils está disponible)
+        print("\n📊 PASO 2: Generación de gráficos con FinViz...")
         try:
             from alerts.plot_utils import generar_reporte_completo
-            result = generar_reporte_completo()
+            graficos_result = generar_reporte_completo()
             
-            if isinstance(result, tuple) and len(result) >= 2:
-                html_charts, bundle_path = result[:2]
-                print(f"✅ HTML gráficos: {html_charts}")
-                print(f"✅ Bundle: {bundle_path}")
+            if isinstance(graficos_result, dict):
+                resultado_final['html_charts'] = graficos_result.get('html_path')
+                resultado_final['bundle'] = graficos_result.get('bundle_path')
+                print(f"✅ HTML gráficos: {resultado_final['html_charts']}")
+                print(f"✅ Bundle: {resultado_final['bundle']}")
+            elif isinstance(graficos_result, tuple) and len(graficos_result) >= 2:
+                resultado_final['html_charts'], resultado_final['bundle'] = graficos_result[:2]
+                print(f"✅ HTML gráficos: {resultado_final['html_charts']}")
+                print(f"✅ Bundle: {resultado_final['bundle']}")
+            else:
+                print("⚠️ Resultado de gráficos en formato inesperado")
+                
         except ImportError:
             print("⚠️ plot_utils no disponible, continuando sin gráficos")
         except Exception as e:
-            print(f"⚠️ Error en plot_utils: {e}")
+            print(f"⚠️ Error generando gráficos: {e}")
         
-        # Paso 3: Enviar a Telegram
-        print("\n📱 Paso 3: Envío a Telegram...")
-        if csv_path and html_opportunities:
-            enviar_reporte_telegram(csv_path, html_opportunities)
+        # PASO 3: Envío con GitHub Pages + Telegram
+        print("\n🌐 PASO 3: Envío con GitHub Pages + Telegram...")
         
-        print("\n" + "=" * 50)
+        # Usar el HTML de oportunidades o el de gráficos (el que esté disponible)
+        html_para_enviar = resultado_final['html_opportunities'] or resultado_final['html_charts']
+        
+        if csv_path and html_para_enviar:
+            try:
+                envio_result = enviar_reporte_con_github_pages(csv_path, html_para_enviar)
+                resultado_final['github_pages'] = envio_result.get('github_result')
+                resultado_final['telegram_sent'] = envio_result.get('telegram_sent', False)
+                
+                if resultado_final['github_pages']:
+                    print(f"✅ GitHub Pages: {resultado_final['github_pages']['file_url']}")
+                if resultado_final['telegram_sent']:
+                    print("✅ Telegram: Enviado correctamente")
+                else:
+                    print("⚠️ Telegram: Error en envío")
+                    
+            except Exception as e:
+                print(f"❌ Error en envío con GitHub Pages: {e}")
+                # Fallback al método tradicional
+                if csv_path and html_para_enviar:
+                    resultado_final['telegram_sent'] = enviar_reporte_telegram(csv_path, html_para_enviar)
+        else:
+            print("⚠️ No hay archivos para enviar")
+        
+        # RESUMEN FINAL
+        print("\n" + "=" * 65)
         print("🎉 REPORTE COMPLETO FINALIZADO")
-        print("=" * 50)
+        print("=" * 65)
         
-        return {
-            'csv_opportunities': csv_path,
-            'html_opportunities': html_opportunities,
-            'html_charts': html_charts,
-            'bundle': bundle_path
-        }
+        print(f"📊 CSV oportunidades: {'✅' if resultado_final['csv_opportunities'] else '❌'}")
+        print(f"🌐 HTML oportunidades: {'✅' if resultado_final['html_opportunities'] else '❌'}")
+        print(f"📈 HTML gráficos: {'✅' if resultado_final['html_charts'] else '❌'}")
+        print(f"📦 Bundle: {'✅' if resultado_final['bundle'] else '❌'}")
+        print(f"🌐 GitHub Pages: {'✅' if resultado_final['github_pages'] else '❌'}")
+        print(f"📱 Telegram: {'✅' if resultado_final['telegram_sent'] else '❌'}")
+        
+        if resultado_final['github_pages']:
+            print(f"\n🌐 ENLACES PÚBLICOS:")
+            print(f"📊 Reporte: {resultado_final['github_pages']['file_url']}")
+            print(f"🏠 Sitio: {resultado_final['github_pages']['index_url']}")
+        
+        return resultado_final
         
     except Exception as e:
-        print(f"❌ Error en reporte completo: {e}")
+        print(f"❌ Error en reporte completo integrado: {e}")
         import traceback
         traceback.print_exc()
-        return None
+        return resultado_final
 
 # Función auxiliar para crear datos de prueba
 def crear_datos_prueba():
@@ -1099,21 +1282,150 @@ def crear_datos_prueba():
     print("   - reports/insiders_daily.csv")
     print("   - reports/finviz_ml_dataset_with_fundamentals.csv")
 
+# NUEVAS FUNCIONES DE UTILIDAD PARA GITHUB PAGES
+def verificar_github_pages_setup():
+    """
+    Verifica si GitHub Pages está configurado correctamente
+    """
+    try:
+        from github_pages_uploader import GitHubPagesUploader
+        uploader = GitHubPagesUploader()
+        
+        if os.path.exists(uploader.local_repo_path):
+            print(f"✅ Repositorio local: {uploader.local_repo_path}")
+            print(f"🌐 URL del sitio: {uploader.base_url}")
+            return True
+        else:
+            print(f"❌ Repositorio local no encontrado: {uploader.local_repo_path}")
+            print("   Ejecuta: python github_pages_uploader.py setup")
+            return False
+    except ImportError:
+        print("❌ github_pages_uploader.py no encontrado")
+        return False
+
+def subir_reporte_manual(html_path):
+    """
+    Función para subir un reporte manualmente a GitHub Pages
+    """
+    try:
+        from github_pages_uploader import GitHubPagesUploader
+        uploader = GitHubPagesUploader()
+        
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        title = f"📊 Reporte Manual - {timestamp}"
+        
+        result = uploader.upload_report(html_path, title)
+        
+        if result:
+            print(f"✅ Subido: {result['file_url']}")
+            return result
+        else:
+            print("❌ Error subiendo archivo")
+            return None
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return None
+
+def listar_reportes_github_pages():
+    """
+    Lista todos los reportes disponibles en GitHub Pages
+    """
+    try:
+        from github_pages_uploader import GitHubPagesUploader
+        uploader = GitHubPagesUploader()
+        
+        print(f"🌐 Sitio web: {uploader.base_url}")
+        print(f"📁 Repositorio local: {uploader.local_repo_path}")
+        
+        if os.path.exists(uploader.local_repo_path):
+            # Listar archivos HTML en el repositorio
+            html_files = []
+            for file in os.listdir(uploader.local_repo_path):
+                if file.endswith('.html') and file != 'index.html':
+                    html_files.append(file)
+            
+            if html_files:
+                print(f"\n📊 Reportes disponibles ({len(html_files)}):")
+                for i, file in enumerate(sorted(html_files, reverse=True), 1):
+                    url = f"{uploader.base_url}/{file}"
+                    print(f"{i:2d}. {file}")
+                    print(f"    🌐 {url}")
+            else:
+                print("📄 No hay reportes disponibles")
+        else:
+            print("❌ Repositorio local no encontrado")
+            
+    except Exception as e:
+        print(f"❌ Error listando reportes: {e}")
+
 if __name__ == "__main__":
     import sys
     
-    # Opción para crear datos de prueba
-    if len(sys.argv) > 1 and sys.argv[1] == "--test":
-        crear_datos_prueba()
-        print("\n" + "="*60)
-        print("🧪 EJECUTANDO ANÁLISIS CON DATOS DE PRUEBA")
-        print("="*60)
-    
-    # Opción para reporte completo integrado
-    if len(sys.argv) > 1 and sys.argv[1] == "--completo":
-        generar_reporte_completo_integrado()
+    # Manejar diferentes opciones de línea de comandos
+    if len(sys.argv) > 1:
+        comando = sys.argv[1]
+        
+        if comando == "--test":
+            crear_datos_prueba()
+            print("\n" + "="*60)
+            print("🧪 EJECUTANDO ANÁLISIS CON DATOS DE PRUEBA")
+            print("="*60)
+            generar_reporte_completo_integrado()
+            
+        elif comando == "--completo":
+            generar_reporte_completo_integrado()
+            
+        elif comando == "--verificar-github":
+            verificar_github_pages_setup()
+            
+        elif comando == "--listar-reportes":
+            listar_reportes_github_pages()
+            
+        elif comando == "--subir-manual" and len(sys.argv) > 2:
+            html_path = sys.argv[2]
+            if os.path.exists(html_path):
+                subir_reporte_manual(html_path)
+            else:
+                print(f"❌ Archivo no encontrado: {html_path}")
+                
+        elif comando == "--solo-oportunidades":
+            # Solo ejecutar análisis de oportunidades (sin gráficos)
+            print("🎯 EJECUTANDO SOLO ANÁLISIS DE OPORTUNIDADES")
+            print("=" * 50)
+            output_path = scrape_openinsider()
+            if output_path:
+                html_path = generar_reporte_html_oportunidades(output_path)
+                if html_path:
+                    print(f"✅ HTML generado: {html_path}")
+                    # Enviar a Telegram si está configurado
+                    enviar_reporte_telegram(output_path, html_path)
+                    
+        elif comando == "--help":
+            print("""
+🛠️ USO DEL INSIDER TRACKER INTEGRADO:
+
+Comandos disponibles:
+  --test                 Crear datos de prueba y ejecutar análisis completo
+  --completo            Ejecutar análisis completo (oportunidades + gráficos + GitHub Pages)
+  --solo-oportunidades  Solo análisis de oportunidades (sin gráficos)
+  --verificar-github    Verificar configuración de GitHub Pages
+  --listar-reportes     Listar reportes disponibles en GitHub Pages
+  --subir-manual FILE   Subir archivo HTML manualmente a GitHub Pages
+  --help                Mostrar esta ayuda
+
+Ejemplos:
+  python insider_tracker.py --test
+  python insider_tracker.py --completo
+  python insider_tracker.py --subir-manual reports/mi_reporte.html
+            """)
+        else:
+            print(f"❌ Comando no reconocido: {comando}")
+            print("   Usa --help para ver opciones disponibles")
     else:
-        # Ejecutar análisis principal
+        # Ejecución por defecto: análisis estándar
+        print("🚀 EJECUTANDO ANÁLISIS ESTÁNDAR DE INSIDER TRADING")
+        print("=" * 50)
+        
         output_path = scrape_openinsider()
         
         if output_path:
@@ -1138,6 +1450,9 @@ if __name__ == "__main__":
                 print(f"5. ✅ Reporte enviado a Telegram automáticamente")
             else:
                 print(f"5. ⚠️ Telegram no configurado o falló el envío")
+            
+            print(f"\n💡 Para análisis completo con GitHub Pages:")
+            print(f"   python insider_tracker.py --completo")
                 
         else:
             print(f"\n❌ El análisis no se completó correctamente")
