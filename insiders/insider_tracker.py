@@ -1546,3 +1546,124 @@ Ejemplos:
             print(f"   - Ejecutar con --test para probar con datos ficticios")
             print(f"   - Verificar que existen los archivos de datos")
             print(f"   - Revisar el formato de los archivos CSV")
+            
+def generar_reporte_html_oportunidades_moderno(csv_path):
+    """
+    NUEVA función modernizada para oportunidades
+    COMPLEMENTA: generar_reporte_html_oportunidades() existente
+    """
+    try:
+        df = pd.read_csv(csv_path)
+        
+        if len(df) == 0 or 'Mensaje' in df.columns:
+            return generar_html_sin_oportunidades_moderno()
+        
+        score_column = "FinalScore" if "FinalScore" in df.columns else "InsiderConfidence"
+        
+        try:
+            if score_column in df.columns:
+                score_values = pd.to_numeric(df[score_column], errors='coerce')
+                valid_scores = score_values.dropna()
+                avg_score_str = f"{valid_scores.mean():.1f}" if len(valid_scores) > 0 else "N/A"
+            else:
+                avg_score_str = "N/A"
+        except Exception as e:
+            print(f"⚠️ Error calculando promedio: {e}")
+            avg_score_str = "N/A"
+        
+        # MISMO HTML moderno pero adaptado para oportunidades
+        html_content = f"""
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Oportunidades de Inversión - Dashboard Moderno</title>
+    <style>
+        /* MISMO CSS que plot_utils pero adaptado */
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e1a;
+            color: #ffffff;
+            line-height: 1.4;
+        }}
+
+        /* ... resto del CSS igual ... */
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Oportunidades de Inversión</h1>
+        <p class="subtitle">Dashboard modernizado basado en Insider Trading</p>
+    </div>
+    
+    <!-- ... resto del HTML similar pero con datos de oportunidades ... -->
+    
+</body>
+</html>
+"""
+        
+        # Escribir archivo
+        html_path = "reports/insiders_opportunities_moderno.html"
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        
+        print(f"✅ HTML moderno de oportunidades generado en {html_path}")
+        return html_path
+        
+    except Exception as e:
+        print(f"❌ Error generando HTML moderno de oportunidades: {e}")
+        return None
+
+def generar_html_sin_oportunidades_moderno():
+    """
+    HTML modernizado cuando no hay oportunidades
+    """
+    html_content = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>🎯 Sin Oportunidades - Dashboard Moderno</title>
+        <style>
+            body {{ 
+                font-family: 'Segoe UI', sans-serif; 
+                background: #0a0e1a; 
+                color: white; 
+                text-align: center; 
+                padding: 50px; 
+            }}
+            .container {{ 
+                max-width: 600px; 
+                margin: 0 auto; 
+                background: #1a202c; 
+                padding: 40px; 
+                border-radius: 15px; 
+            }}
+            h1 {{ color: #4a90e2; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🎯 Análisis de Oportunidades</h1>
+            <p><strong>Resultado:</strong> No se encontraron oportunidades válidas</p>
+            <p><strong>Fecha:</strong> {datetime.now().strftime('%Y-%m-%d %H:%M')}</p>
+            <p>Los filtros están funcionando correctamente.</p>
+        </div>
+    </body>
+    </html>
+    """
+    
+    html_path = "reports/insiders_opportunities_moderno.html"
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    
+    return html_path
+

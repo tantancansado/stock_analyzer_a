@@ -228,20 +228,20 @@ def solo_graficos():
 
 def solo_html():
     """
-    Solo genera el reporte HTML
+    Solo genera el reporte HTML MODERNIZADO
     """
     try:
-        # Usar la nueva función con FinViz
-        from alerts.plot_utils import crear_html_con_finviz, crear_bundle_completo
-        html_path = crear_html_con_finviz()
+        # CAMBIAR: de crear_html_con_finviz a crear_html_moderno_finviz
+        from alerts.plot_utils import crear_html_moderno_finviz, crear_bundle_completo
+        html_path = crear_html_moderno_finviz()
         bundle_path = crear_bundle_completo()
-        print(f"✅ HTML: {html_path}")
+        print(f"✅ HTML moderno: {html_path}")
         print(f"✅ Bundle: {bundle_path}")
     except ImportError:
-        # Fallback a la función antigua si no existe la nueva
+        # Fallback a la función antigua
         try:
-            from alerts.plot_utils import crear_html_con_imagenes, crear_bundle_completo
-            html_path = crear_html_con_imagenes()
+            from alerts.plot_utils import crear_html_con_finviz, crear_bundle_completo
+            html_path = crear_html_con_finviz()
             bundle_path = crear_bundle_completo()
             print(f"✅ HTML: {html_path}")
             print(f"✅ Bundle: {bundle_path}")
@@ -249,6 +249,7 @@ def solo_html():
             print(f"❌ Error: {e}")
     except Exception as e:
         print(f"❌ Error: {e}")
+
 
 def mostrar_configuracion():
     """

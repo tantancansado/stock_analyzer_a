@@ -11,7 +11,623 @@ html_path = "reports/insiders_report.html"
 df = pd.read_csv(csv_path)
 print(f"📊 CSV cargado: {len(df)} filas")
 print(f"🔍 Columnas: {df.columns.tolist()}")
+def crear_html_moderno_finviz():
+    """
+    HTML completo con TODOS los datos del CSV + gráficos FinViz
+    """
+    try:
+        # Verificar que existe el CSV
+        csv_path = "reports/insiders_daily.csv"
+        if not os.path.exists(csv_path):
+            print(f"❌ CSV no encontrado: {csv_path}")
+            return None
+            
+        df = pd.read_csv(csv_path)
+        print(f"📊 CSV cargado: {len(df)} filas")
+        
+        def safe_convert_to_float(value):
+            try:
+                if pd.isna(value):
+                    return 0.0
+                if isinstance(value, (int, float)):
+                    return float(value)
+                str_value = str(value).strip().replace(',', '').replace('$', '')
+                return float(str_value)
+            except:
+                return 0.0
 
+        def safe_convert_to_int(value):
+            try:
+                if pd.isna(value):
+                    return 0
+                if isinstance(value, (int, float)):
+                    return int(value)
+                str_value = str(value).strip().replace(',', '')
+                return int(float(str_value))
+            except:
+                return 0
+        
+        # Calcular estadísticas
+        total_transactions = len(df)
+        unique_tickers = df['Insider'].nunique()
+        
+        try:
+            prices = df['Price'].apply(safe_convert_to_float)
+            quantities = df['Qty'].apply(safe_convert_to_int)
+            total_value = (prices * quantities).sum()
+        except:
+            total_value = 0
+        
+        last_update = pd.Timestamp.now().strftime("%Y-%m-%d %H:%M")
+        
+        # Agrupar por ticker para mantener la estructura actual
+        ticker_stats = {}
+        for ticker in df['Insider'].unique():
+            if pd.notna(ticker):
+                ticker_data = df[df['Insider'] == ticker]
+                ticker_stats[ticker] = {
+                    'count': len(ticker_data),
+                    'total_value': (ticker_data['Price'].apply(safe_convert_to_float) * 
+                                  ticker_data['Qty'].apply(safe_convert_to_int)).sum(),
+                    'company_name': ticker_data['Title'].iloc[0] if len(ticker_data) > 0 else ticker,
+                    'insider_title': ticker_data['Date'].iloc[0] if len(ticker_data) > 0 else 'N/A',
+                    'transaction_type': ticker_data['Type'].iloc[0] if len(ticker_data) > 0 else 'N/A',
+                    'avg_price': ticker_data['Price'].apply(safe_convert_to_float).mean(),
+                    'source': ticker_data['Source'].iloc[0] if 'Source' in ticker_data.columns and len(ticker_data) > 0 else 'N/A',
+                    'value_pct': str(ticker_data['Value'].iloc[0]).strip() if 'Value' in ticker_data.columns and len(ticker_data) > 0 and pd.notna(ticker_data['Value'].iloc[0]) else 'N/A',
+                    'owned': ticker_data['Owned'].iloc[0] if 'Owned' in ticker_data.columns and len(ticker_data) > 0 else 0,
+                    'scraped_at': ticker_data['ScrapedAt'].iloc[0] if 'ScrapedAt' in ticker_data.columns and len(ticker_data) > 0 else 'N/A',
+                    'raw_data': ticker_data  # Añadir datos completos del CSV
+                }
+
+        # HTML con sección completa de datos CSV
+        html_content = f"""
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Insider Trading Dashboard - Datos Completos</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e1a;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }}
+        
+        .header {{
+            background: linear-gradient(135deg, #1a1f35 0%, #2d3748 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #4a90e2;
+        }}
+        
+        .header h1 {{
+            color: #4a90e2;
+            font-size: 2.2em;
+            margin: 0 0 10px 0;
+        }}
+        
+        .header .subtitle {{
+            color: #a0aec0;
+            font-size: 1.1em;
+        }}
+        
+        .stats-bar {{
+            background: #1a202c;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #2d3748;
+        }}
+        
+        .stat-item {{
+            text-align: center;
+            margin: 5px 15px;
+        }}
+        
+        .stat-number {{
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4a90e2;
+            display: block;
+        }}
+        
+        .stat-label {{
+            color: #a0aec0;
+            font-size: 0.85em;
+            text-transform: uppercase;
+        }}
+        
+        .main-container {{
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }}
+        
+        .ticker-card {{
+            background: #1a202c;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }}
+        
+        .ticker-header {{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            border-bottom: 1px solid #2d3748;
+        }}
+        
+        .ticker-symbol {{
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4a90e2;
+        }}
+        
+        .company-name {{
+            color: #a0aec0;
+            margin-left: 15px;
+            flex: 1;
+        }}
+        
+        .transaction-badge {{
+            background: #4a90e2;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }}
+        
+        /* SECCIÓN DE DATOS COMPLETOS DEL CSV */
+        .csv-data-section {{
+            padding: 20px;
+            background: #2d3748;
+            margin: 0 20px 20px 20px;
+            border-radius: 8px;
+        }}
+        
+        .csv-data-title {{
+            color: #4a90e2;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 8px;
+        }}
+        
+        .data-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }}
+        
+        .data-item {{
+            background: #4a5568;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #4a90e2;
+        }}
+        
+        .data-label {{
+            color: #a0aec0;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }}
+        
+        .data-value {{
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 1.1em;
+        }}
+        
+        .data-highlight {{
+            color: #ffd700;
+        }}
+        
+        /* TABLA DE TRANSACCIONES DETALLADA */
+        .transactions-table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: #1a202c;
+            border-radius: 8px;
+            overflow: hidden;
+        }}
+        
+        .transactions-table th {{
+            background: #4a90e2;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: bold;
+        }}
+        
+        .transactions-table td {{
+            padding: 10px 8px;
+            text-align: center;
+            border-bottom: 1px solid #2d3748;
+            font-size: 0.9em;
+        }}
+        
+        .transactions-table tr:nth-child(even) {{
+            background: #2d3748;
+        }}
+        
+        .transactions-table tr:hover {{
+            background: #4a5568;
+        }}
+        
+        /* GRÁFICOS (mantener estilo actual) */
+        .charts-container {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px;
+        }}
+        
+        .chart-section {{
+            text-align: center;
+        }}
+        
+        .chart-title {{
+            color: #4a90e2;
+            font-size: 1em;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }}
+        
+        .finviz-image {{
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            border-radius: 8px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            object-fit: contain;
+        }}
+        
+        .finviz-image:hover {{
+            transform: scale(1.05);
+        }}
+        
+        .links-section {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 20px;
+        }}
+        
+        .external-link {{
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }}
+        
+        .external-link:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }}
+        
+        .finviz-link {{
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+        }}
+        
+        .yahoo-link {{
+            background: linear-gradient(135deg, #a55eea 0%, #8b5cf6 100%);
+            color: white;
+        }}
+        
+        /* Modal para gráficos */
+        .modal {{
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+        }}
+        
+        .modal-content {{
+            position: relative;
+            margin: 5% auto;
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
+        }}
+        
+        .modal img {{
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+        }}
+        
+        .close {{
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }}
+        
+        @media (max-width: 768px) {{
+            .data-grid {{
+                grid-template-columns: 1fr;
+            }}
+            
+            .charts-container {{
+                grid-template-columns: 1fr;
+            }}
+            
+            .transactions-table {{
+                font-size: 0.8em;
+            }}
+            
+            .transactions-table th,
+            .transactions-table td {{
+                padding: 6px 4px;
+            }}
+        }}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Dashboard Insider Trading</h1>
+        <p class="subtitle">Datos Completos del CSV + Gráficos FinViz</p>
+    </div>
+    
+    <div class="stats-bar">
+        <div class="stat-item">
+            <span class="stat-number">{total_transactions}</span>
+            <span class="stat-label">Transacciones</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{unique_tickers}</span>
+            <span class="stat-label">Empresas</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">${total_value:,.0f}</span>
+            <span class="stat-label">Valor Total</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{last_update}</span>
+            <span class="stat-label">Última Actualización</span>
+        </div>
+    </div>
+    
+    <div class="main-container">
+"""
+        
+        # Generar cards de tickers con TODOS los datos del CSV
+        for ticker, stats in ticker_stats.items():
+            if pd.isna(ticker) or ticker == 'nan':
+                continue
+                
+            company_name = stats['company_name']
+            total_value = stats['total_value']
+            transaction_count = stats['count']
+            value_pct = stats['value_pct']
+            avg_price = stats['avg_price']
+            owned = safe_convert_to_int(stats['owned'])
+            source = stats['source']
+            insider_title = stats['insider_title']
+            scraped_at = stats['scraped_at']
+            raw_data = stats['raw_data']
+            
+            html_content += f"""
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <span class="ticker-symbol">{ticker}</span>
+                <span class="company-name">{company_name}</span>
+                <span class="transaction-badge">{transaction_count} trans</span>
+            </div>
+            
+            <!-- SECCIÓN DE DATOS COMPLETOS DEL CSV -->
+            <div class="csv-data-section">
+                <div class="csv-data-title">📋 Información Completa del CSV</div>
+                
+                <div class="data-grid">
+                    <div class="data-item">
+                        <div class="data-label">Ticker</div>
+                        <div class="data-value">{ticker}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Empresa</div>
+                        <div class="data-value">{company_name}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Precio Promedio</div>
+                        <div class="data-value">${avg_price:.2f}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Valor Total</div>
+                        <div class="data-value data-highlight">${total_value:,.0f}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Tipo</div>
+                        <div class="data-value">P - Purchase</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Insider</div>
+                        <div class="data-value">{insider_title}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">% Value</div>
+                        <div class="data-value data-highlight">{value_pct if value_pct not in ['N/A', 'nan', ''] else 'N/A'}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Acciones Owned</div>
+                        <div class="data-value">{owned:,}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Fuente</div>
+                        <div class="data-value">{source}</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-label">Scraped At</div>
+                        <div class="data-value">{scraped_at}</div>
+                    </div>
+                </div>
+                
+                <!-- TABLA DETALLADA DE TODAS LAS TRANSACCIONES -->
+                <div class="csv-data-title">📊 Detalle de Transacciones</div>
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Insider</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Valor Trans.</th>
+                            <th>% Value</th>
+                            <th>Owned</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+"""
+            
+            # Añadir todas las transacciones del ticker
+            for _, row in raw_data.iterrows():
+                price = safe_convert_to_float(row['Price'])
+                qty = safe_convert_to_int(row['Qty'])
+                transaction_value = price * qty
+                
+                html_content += f"""
+                        <tr>
+                            <td>{row.get('Ticker', 'N/A')}</td>
+                            <td>{row.get('Date', 'N/A')}</td>
+                            <td>${price:.2f}</td>
+                            <td>{qty:,}</td>
+                            <td>${transaction_value:,.0f}</td>
+                            <td>{row.get('Value', 'N/A')}</td>
+                            <td>{safe_convert_to_int(row.get('Owned', 0)):,}</td>
+                        </tr>
+"""
+            
+            html_content += f"""
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- GRÁFICOS FINVIZ (mantener como están) -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t={ticker}&ty=c&ta=1&p=d&s=l" 
+                        alt="{ticker} Daily Chart"
+                        class="finviz-image"
+                        onclick="openModal(this.src, '{ticker} - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'color:#666;padding:40px;\\'>📊 Gráfico no disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t={ticker}&ty=c&ta=1&p=w&s=l" 
+                        alt="{ticker} Weekly Chart"
+                        class="finviz-image"
+                        onclick="openModal(this.src, '{ticker} - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'color:#666;padding:40px;\\'>📈 Gráfico no disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- ENLACES EXTERNOS -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t={ticker}" target="_blank" class="external-link finviz-link">
+                    📊 Ver en FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/{ticker}" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo Finance
+                </a>
+            </div>
+        </div>
+"""
+        
+        html_content += """
+    </div>
+    
+    <!-- Modal para gráficos -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modalImage" src="" alt="Chart">
+            <div id="modalTitle" style="color: white; margin-top: 10px; font-size: 18px;"></div>
+        </div>
+    </div>
+    
+    <script>
+        function openModal(src, title) {
+            document.getElementById('imageModal').style.display = 'block';
+            document.getElementById('modalImage').src = src;
+            document.getElementById('modalTitle').textContent = title;
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+        
+        // Cerrar con escape o click fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target === modal) closeModal();
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+        
+        // Log
+        console.log('📊 Dashboard con datos completos del CSV cargado');
+        console.log('✅ Mostrando TODOS los datos del CSV + gráficos FinViz');
+    </script>
+</body>
+</html>
+"""
+        
+        # Guardar HTML
+        html_path = "reports/insiders_report_completo.html"
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        
+        print(f"✅ HTML completo generado: {html_path}")
+        print("🔧 Características:")
+        print("   ✅ TODOS los datos del CSV mostrados")
+        print("   ✅ Tabla detallada de transacciones")
+        print("   ✅ Gráficos FinViz mantenidos")
+        print("   ✅ Diseño responsive")
+        
+        return html_path
+        
+    except Exception as e:
+        print(f"❌ Error generando HTML completo: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
 def safe_convert_to_float(value):
     """
     Convierte un valor a float manejando comas y otros formatos
@@ -801,7 +1417,7 @@ def generar_reporte_completo():
     
     # 1. Crear HTML con FinViz embebido
     print("\n📄 PASO 1: Generando HTML con FinViz...")
-    html_path_generated = crear_html_con_finviz()
+    html_path_generated = crear_html_moderno_finviz()
     
     # 2. Crear bundle ZIP
     print("\n📦 PASO 2: Creando bundle...")
@@ -832,4 +1448,4 @@ def generar_reporte_completo():
 
 # Ejecutar automáticamente si se ejecuta este script
 if __name__ == "__main__":
-    generar_reporte_completo()
+    crear_html_moderno_finviz()
