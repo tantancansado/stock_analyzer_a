@@ -1,74 +1,134 @@
+#!/usr/bin/env python3
+"""
+Sistema para análisis de insider trading - VERSIÓN CORREGIDA CON SCRAPER INTEGRADO
+"""
+
 import pandas as pd
 import numpy as np
 import os
 import sys
+import subprocess
 from datetime import datetime, timedelta
 
-# Agregar la raíz del proyecto al path para importar github_pages_uploader
+# Agregar la raíz del proyecto al path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 if parent_dir not in sys.path:
     sys.path.insert(0, parent_dir)
 
-# Función para obtener rutas correctas (desde insiders/ o desde raíz)
 def get_correct_path(relative_path):
     """
     Obtiene la ruta correcta independientemente de desde dónde se ejecute
     """
-    # Probar desde el directorio actual
     if os.path.exists(relative_path):
         return relative_path
     
-    # Probar desde el directorio padre
     parent_path = os.path.join("..", relative_path)
     if os.path.exists(parent_path):
         return parent_path
     
-    # Probar desde la raíz del proyecto
     root_path = os.path.join(parent_dir, relative_path)
     if os.path.exists(root_path):
         return root_path
     
-    return relative_path  # Devolver la original si no se encuentra
+    return relative_path
 
 def scrape_openinsider():
     """
-    Analiza oportunidades de inversión basadas en compras de insiders
-    Versión mejorada con más criterios de filtrado
+    FUNCIÓN CORREGIDA: Ejecuta el scraper real y luego analiza oportunidades
+    """
+    print("🚀 INICIANDO OBTENCIÓN DE DATOS DE INSIDERS")
+    print("=" * 55)
+    
+    # PASO 1: EJECUTAR SCRAPER REAL SIEMPRE
+    print("🕷️ EJECUTANDO SCRAPER REAL DE OPENINSIDER...")
+    
+    # Buscar openinsider_scraper.py en diferentes ubicaciones
+    scraper_paths = [
+        "openinsider_scraper.py",
+        "../openinsider_scraper.py", 
+        os.path.join(parent_dir, "openinsider_scraper.py")
+    ]
+    
+    scraper_path = None
+    for path in scraper_paths:
+        if os.path.exists(path):
+            scraper_path = path
+            print(f"✅ Scraper encontrado en: {path}")
+            break
+    
+    if not scraper_path:
+        print("❌ openinsider_scraper.py no encontrado en:")
+        for path in scraper_paths:
+            print(f"   - {path}")
+        print("⚠️ Continuando con datos existentes...")
+    else:
+        try:
+            print(f"🚀 Ejecutando: python {scraper_path}")
+            result = subprocess.run([
+                sys.executable, scraper_path
+            ], capture_output=True, text=True, timeout=300)
+            
+            if result.returncode == 0:
+                print("✅ Scraper ejecutado exitosamente")
+                # Mostrar últimas líneas del output
+                if result.stdout:
+                    lines = result.stdout.strip().split('\n')
+                    for line in lines[-3:]:
+                        if line.strip():
+                            print(f"   {line}")
+            else:
+                print(f"⚠️ Scraper terminó con código: {result.returncode}")
+                if result.stderr:
+                    print(f"   Error: {result.stderr[-200:]}")
+                    
+        except subprocess.TimeoutExpired:
+            print("⏰ Scraper tardó más de 5 minutos (timeout)")
+        except Exception as e:
+            print(f"⚠️ Error ejecutando scraper: {e}")
+    
+    # PASO 2: Verificar que se generó el CSV
+    csv_path = get_correct_path("reports/insiders_daily.csv")
+    if os.path.exists(csv_path):
+        # Verificar la antigüedad del archivo
+        stat = os.stat(csv_path)
+        file_time = datetime.fromtimestamp(stat.st_mtime)
+        minutes_old = (datetime.now() - file_time).total_seconds() / 60
+        
+        print(f"✅ CSV encontrado: {csv_path}")
+        print(f"📅 Última modificación: {file_time.strftime('%H:%M:%S')} ({minutes_old:.0f} min)")
+        
+        if minutes_old <= 10:
+            print("✅ CSV es reciente (generado en últimos 10 minutos)")
+        else:
+            print("⚠️ CSV podría ser antiguo")
+    else:
+        print(f"❌ CSV no encontrado: {csv_path}")
+        print("   El scraper podría haber fallado")
+        return None
+    
+    # PASO 3: Proceder con el análisis de oportunidades
+    print("\n🎯 Analizando oportunidades de inversión...")
+    return analizar_oportunidades_desde_csv(csv_path)
+
+def analizar_oportunidades_desde_csv(csv_path):
+    """
+    Analiza oportunidades desde el CSV ya generado
     """
     try:
-        # Cargar compras recientes de insiders
-        insiders_csv_path = get_correct_path("reports/insiders_daily.csv")
-        insiders_df = pd.read_csv(insiders_csv_path)
+        # Cargar datos de insiders
+        insiders_df = pd.read_csv(csv_path)
         print(f"📊 Datos de insiders cargados: {len(insiders_df)} transacciones")
 
-        # Cargar dataset fundamental más reciente
-        try:
-            # Probar diferentes ubicaciones del archivo
-            fundamentals_paths = [
-                "reports/finviz_ml_dataset_with_fundamentals.csv",
-                "finviz_ml_dataset_with_fundamentals.csv",
-                "reports/finviz_ml_dataset.csv"
-            ]
-            
-            fundamentals_df = None
-            for path in fundamentals_paths:
-                correct_path = get_correct_path(path)
-                if os.path.exists(correct_path):
-                    fundamentals_df = pd.read_csv(correct_path)
-                    print(f"📈 Datos fundamentales cargados desde: {correct_path} ({len(fundamentals_df)} empresas)")
-                    break
-            
-            if fundamentals_df is None:
-                raise FileNotFoundError("No se encontró archivo de fundamentales")
-                
-        except FileNotFoundError:
-            print("⚠️ Archivo de datos fundamentales no encontrado")
-            print("   Rutas buscadas:", fundamentals_paths)
-            fundamentals_df = pd.DataFrame()
-
+        # Cargar dataset fundamental si está disponible
+        fundamentals_df = cargar_datos_fundamentales()
+        
         # Limpiar y preparar datos de insiders
         insiders_df = preparar_datos_insiders(insiders_df)
+        
+        if len(insiders_df) == 0:
+            print("❌ No hay datos válidos de insiders después de limpieza")
+            return generar_reporte_vacio()
         
         # Análisis de actividad de insiders
         insider_signals = analizar_actividad_insiders(insiders_df)
@@ -90,6 +150,30 @@ def scrape_openinsider():
         import traceback
         traceback.print_exc()
         return None
+
+def cargar_datos_fundamentales():
+    """
+    Carga datos fundamentales desde diferentes ubicaciones posibles
+    """
+    fundamentals_paths = [
+        "reports/finviz_ml_dataset_with_fundamentals.csv",
+        "finviz_ml_dataset_with_fundamentals.csv",
+        "reports/finviz_ml_dataset.csv",
+        "../reports/finviz_ml_dataset_with_fundamentals.csv"
+    ]
+    
+    for path in fundamentals_paths:
+        try:
+            correct_path = get_correct_path(path)
+            if os.path.exists(correct_path):
+                df = pd.read_csv(correct_path)
+                print(f"📈 Datos fundamentales cargados desde: {correct_path} ({len(df)} empresas)")
+                return df
+        except Exception as e:
+            continue
+    
+    print("⚠️ Archivo de datos fundamentales no encontrado")
+    return pd.DataFrame()
 
 def preparar_datos_insiders(df):
     """
@@ -517,17 +601,7 @@ def generar_reporte_oportunidades(df):
     
     if len(df) == 0:
         print("⚠️ No hay datos para generar reporte")
-        # Crear reporte vacío
-        reporte_vacio = pd.DataFrame({
-            "Mensaje": ["No se encontraron transacciones válidas"],
-            "Fecha_Analisis": [datetime.now().strftime('%Y-%m-%d %H:%M')]
-        })
-        
-        output_path = get_correct_path("reports/insiders_opportunities.csv")
-        output_dir = os.path.dirname(output_path)
-        os.makedirs(output_dir, exist_ok=True)
-        reporte_vacio.to_csv(output_path, index=False)
-        return output_path
+        return generar_reporte_vacio()
     
     # Ordenar por puntuación final
     score_column = "FinalScore" if "FinalScore" in df.columns else "InsiderConfidence"
@@ -595,6 +669,24 @@ def generar_reporte_oportunidades(df):
             
             print(f"{row.get('Rank', 0):2d}. {ticker:6s} | Score: {score:5.1f} | {confidence:8s} | {transactions} trans | {last_activity} días")
     
+    return output_path
+
+def generar_reporte_vacio():
+    """
+    Genera un reporte vacío cuando no hay datos
+    """
+    reporte_vacio = pd.DataFrame({
+        "Mensaje": ["No se encontraron transacciones válidas"],
+        "Fecha_Analisis": [datetime.now().strftime('%Y-%m-%d %H:%M')],
+        "Nota": ["Ejecutar scraper manualmente o verificar datos"]
+    })
+    
+    output_path = get_correct_path("reports/insiders_opportunities.csv")
+    output_dir = os.path.dirname(output_path)
+    os.makedirs(output_dir, exist_ok=True)
+    reporte_vacio.to_csv(output_path, index=False)
+    
+    print(f"📄 Reporte vacío generado en: {output_path}")
     return output_path
 
 def generar_reporte_html_oportunidades(csv_path):
@@ -960,7 +1052,133 @@ def enviar_reporte_telegram(csv_path, html_path):
         traceback.print_exc()
         return False
 
-# NUEVA FUNCIÓN: Integración con GitHub Pages
+# FUNCIÓN PRINCIPAL INTEGRADA
+def generar_reporte_completo_integrado():
+    """
+    Función que integra EVERYTHING: análisis + gráficos + GitHub Pages + Telegram
+    """
+    print("🚀 GENERANDO REPORTE COMPLETO INTEGRADO CON GITHUB PAGES")
+    print("=" * 65)
+    
+    resultado_final = {
+        'csv_opportunities': None,
+        'html_opportunities': None,
+        'html_charts': None,
+        'bundle': None,
+        'github_pages': None,
+        'telegram_sent': False
+    }
+    
+    try:
+        # PASO 1: Análisis de oportunidades de insider trading
+        print("🎯 PASO 1: Análisis de oportunidades de insider trading...")
+        csv_path = scrape_openinsider()  # AHORA SÍ EJECUTA EL SCRAPER
+        
+        if csv_path:
+            print(f"✅ CSV de oportunidades generado: {csv_path}")
+            resultado_final['csv_opportunities'] = csv_path
+            
+            # Generar HTML de oportunidades
+            html_opportunities = generar_reporte_html_oportunidades(csv_path)
+            if html_opportunities:
+                print(f"✅ HTML de oportunidades generado: {html_opportunities}")
+                resultado_final['html_opportunities'] = html_opportunities
+            else:
+                print("⚠️ Error generando HTML de oportunidades")
+        else:
+            print("❌ Error generando CSV de oportunidades")
+        
+        # PASO 2: Generación de gráficos (si plot_utils está disponible)
+        print("\n📊 PASO 2: Generación de gráficos con FinViz...")
+        try:
+            from alerts.plot_utils import generar_reporte_completo
+            graficos_result = generar_reporte_completo()
+            
+            if isinstance(graficos_result, dict):
+                resultado_final['html_charts'] = graficos_result.get('html_path')
+                resultado_final['bundle'] = graficos_result.get('bundle_path')
+                print(f"✅ HTML gráficos: {resultado_final['html_charts']}")
+                print(f"✅ Bundle: {resultado_final['bundle']}")
+            elif isinstance(graficos_result, tuple) and len(graficos_result) >= 2:
+                resultado_final['html_charts'], resultado_final['bundle'] = graficos_result[:2]
+                print(f"✅ HTML gráficos: {resultado_final['html_charts']}")
+                print(f"✅ Bundle: {resultado_final['bundle']}")
+            else:
+                print("⚠️ Resultado de gráficos en formato inesperado")
+                
+        except ImportError:
+            print("⚠️ plot_utils no disponible, continuando sin gráficos")
+        except Exception as e:
+            print(f"⚠️ Error generando gráficos: {e}")
+        
+        # PASO 3: Envío con GitHub Pages + Telegram
+        print("\n🌐 PASO 3: Envío con GitHub Pages + Telegram...")
+        
+        # PRIORIZAR EL HTML DE GRÁFICOS (más completo) sobre el de oportunidades
+        html_para_enviar = None
+        nombre_reporte = ""
+        
+        if resultado_final['html_charts']:
+            html_para_enviar = resultado_final['html_charts']
+            nombre_reporte = "gráficos completos"
+            print(f"📊 Usando HTML de gráficos (más completo): {html_para_enviar}")
+        elif resultado_final['html_opportunities']:
+            html_para_enviar = resultado_final['html_opportunities']
+            nombre_reporte = "oportunidades"
+            print(f"🎯 Usando HTML de oportunidades: {html_para_enviar}")
+        
+        if csv_path and html_para_enviar:
+            try:
+                print(f"🚀 Subiendo reporte de {nombre_reporte}...")
+                envio_result = enviar_reporte_con_github_pages(csv_path, html_para_enviar)
+                resultado_final['github_pages'] = envio_result.get('github_result')
+                resultado_final['telegram_sent'] = envio_result.get('telegram_sent', False)
+                
+                if resultado_final['github_pages']:
+                    print(f"✅ GitHub Pages: {resultado_final['github_pages']['file_url']}")
+                if resultado_final['telegram_sent']:
+                    print("✅ Telegram: Enviado correctamente")
+                else:
+                    print("⚠️ Telegram: Error en envío")
+                    
+            except Exception as e:
+                print(f"❌ Error en envío con GitHub Pages: {e}")
+                # Fallback al método tradicional
+                if csv_path and html_para_enviar:
+                    resultado_final['telegram_sent'] = enviar_reporte_telegram(csv_path, html_para_enviar)
+        else:
+            print("⚠️ No hay archivos para enviar")
+            if not csv_path:
+                print("   - Falta CSV de oportunidades")
+            if not html_para_enviar:
+                print("   - Falta HTML (ni gráficos ni oportunidades)")
+        
+        # RESUMEN FINAL
+        print("\n" + "=" * 65)
+        print("🎉 REPORTE COMPLETO FINALIZADO")
+        print("=" * 65)
+        
+        print(f"📊 CSV oportunidades: {'✅' if resultado_final['csv_opportunities'] else '❌'}")
+        print(f"🌐 HTML oportunidades: {'✅' if resultado_final['html_opportunities'] else '❌'}")
+        print(f"📈 HTML gráficos: {'✅' if resultado_final['html_charts'] else '❌'}")
+        print(f"📦 Bundle: {'✅' if resultado_final['bundle'] else '❌'}")
+        print(f"🌐 GitHub Pages: {'✅' if resultado_final['github_pages'] else '❌'}")
+        print(f"📱 Telegram: {'✅' if resultado_final['telegram_sent'] else '❌'}")
+        
+        if resultado_final['github_pages']:
+            print(f"\n🌐 ENLACES PÚBLICOS:")
+            print(f"📊 Reporte: {resultado_final['github_pages']['file_url']}")
+            print(f"🏠 Sitio: {resultado_final['github_pages']['index_url']}")
+        
+        return resultado_final
+        
+    except Exception as e:
+        print(f"❌ Error en reporte completo integrado: {e}")
+        import traceback
+        traceback.print_exc()
+        return resultado_final
+
+# Función para envío con GitHub Pages
 def enviar_reporte_con_github_pages(csv_path, html_path):
     """
     Envía reporte usando GitHub Pages Y Telegram - NUEVA FUNCIONALIDAD
@@ -1176,132 +1394,6 @@ def enviar_reporte_telegram_con_github(csv_path, html_path, github_result):
         print(f"❌ Error enviando por Telegram: {e}")
         return False
 
-# FUNCIÓN PRINCIPAL INTEGRADA
-def generar_reporte_completo_integrado():
-    """
-    Función que integra EVERYTHING: análisis + gráficos + GitHub Pages + Telegram
-    """
-    print("🚀 GENERANDO REPORTE COMPLETO INTEGRADO CON GITHUB PAGES")
-    print("=" * 65)
-    
-    resultado_final = {
-        'csv_opportunities': None,
-        'html_opportunities': None,
-        'html_charts': None,
-        'bundle': None,
-        'github_pages': None,
-        'telegram_sent': False
-    }
-    
-    try:
-        # PASO 1: Análisis de oportunidades de insider trading
-        print("🎯 PASO 1: Análisis de oportunidades de insider trading...")
-        csv_path = scrape_openinsider()
-        
-        if csv_path:
-            print(f"✅ CSV de oportunidades generado: {csv_path}")
-            resultado_final['csv_opportunities'] = csv_path
-            
-            # Generar HTML de oportunidades
-            html_opportunities = generar_reporte_html_oportunidades(csv_path)
-            if html_opportunities:
-                print(f"✅ HTML de oportunidades generado: {html_opportunities}")
-                resultado_final['html_opportunities'] = html_opportunities
-            else:
-                print("⚠️ Error generando HTML de oportunidades")
-        else:
-            print("❌ Error generando CSV de oportunidades")
-        
-        # PASO 2: Generación de gráficos (si plot_utils está disponible)
-        print("\n📊 PASO 2: Generación de gráficos con FinViz...")
-        try:
-            from alerts.plot_utils import generar_reporte_completo
-            graficos_result = generar_reporte_completo()
-            
-            if isinstance(graficos_result, dict):
-                resultado_final['html_charts'] = graficos_result.get('html_path')
-                resultado_final['bundle'] = graficos_result.get('bundle_path')
-                print(f"✅ HTML gráficos: {resultado_final['html_charts']}")
-                print(f"✅ Bundle: {resultado_final['bundle']}")
-            elif isinstance(graficos_result, tuple) and len(graficos_result) >= 2:
-                resultado_final['html_charts'], resultado_final['bundle'] = graficos_result[:2]
-                print(f"✅ HTML gráficos: {resultado_final['html_charts']}")
-                print(f"✅ Bundle: {resultado_final['bundle']}")
-            else:
-                print("⚠️ Resultado de gráficos en formato inesperado")
-                
-        except ImportError:
-            print("⚠️ plot_utils no disponible, continuando sin gráficos")
-        except Exception as e:
-            print(f"⚠️ Error generando gráficos: {e}")
-        
-        # PASO 3: Envío con GitHub Pages + Telegram
-        print("\n🌐 PASO 3: Envío con GitHub Pages + Telegram...")
-        
-        # PRIORIZAR EL HTML DE GRÁFICOS (más completo) sobre el de oportunidades
-        html_para_enviar = None
-        nombre_reporte = ""
-        
-        if resultado_final['html_charts']:
-            html_para_enviar = resultado_final['html_charts']
-            nombre_reporte = "gráficos completos"
-            print(f"📊 Usando HTML de gráficos (más completo): {html_para_enviar}")
-        elif resultado_final['html_opportunities']:
-            html_para_enviar = resultado_final['html_opportunities']
-            nombre_reporte = "oportunidades"
-            print(f"🎯 Usando HTML de oportunidades: {html_para_enviar}")
-        
-        if csv_path and html_para_enviar:
-            try:
-                print(f"🚀 Subiendo reporte de {nombre_reporte}...")
-                envio_result = enviar_reporte_con_github_pages(csv_path, html_para_enviar)
-                resultado_final['github_pages'] = envio_result.get('github_result')
-                resultado_final['telegram_sent'] = envio_result.get('telegram_sent', False)
-                
-                if resultado_final['github_pages']:
-                    print(f"✅ GitHub Pages: {resultado_final['github_pages']['file_url']}")
-                if resultado_final['telegram_sent']:
-                    print("✅ Telegram: Enviado correctamente")
-                else:
-                    print("⚠️ Telegram: Error en envío")
-                    
-            except Exception as e:
-                print(f"❌ Error en envío con GitHub Pages: {e}")
-                # Fallback al método tradicional
-                if csv_path and html_para_enviar:
-                    resultado_final['telegram_sent'] = enviar_reporte_telegram(csv_path, html_para_enviar)
-        else:
-            print("⚠️ No hay archivos para enviar")
-            if not csv_path:
-                print("   - Falta CSV de oportunidades")
-            if not html_para_enviar:
-                print("   - Falta HTML (ni gráficos ni oportunidades)")
-        
-        # RESUMEN FINAL
-        print("\n" + "=" * 65)
-        print("🎉 REPORTE COMPLETO FINALIZADO")
-        print("=" * 65)
-        
-        print(f"📊 CSV oportunidades: {'✅' if resultado_final['csv_opportunities'] else '❌'}")
-        print(f"🌐 HTML oportunidades: {'✅' if resultado_final['html_opportunities'] else '❌'}")
-        print(f"📈 HTML gráficos: {'✅' if resultado_final['html_charts'] else '❌'}")
-        print(f"📦 Bundle: {'✅' if resultado_final['bundle'] else '❌'}")
-        print(f"🌐 GitHub Pages: {'✅' if resultado_final['github_pages'] else '❌'}")
-        print(f"📱 Telegram: {'✅' if resultado_final['telegram_sent'] else '❌'}")
-        
-        if resultado_final['github_pages']:
-            print(f"\n🌐 ENLACES PÚBLICOS:")
-            print(f"📊 Reporte: {resultado_final['github_pages']['file_url']}")
-            print(f"🏠 Sitio: {resultado_final['github_pages']['index_url']}")
-        
-        return resultado_final
-        
-    except Exception as e:
-        print(f"❌ Error en reporte completo integrado: {e}")
-        import traceback
-        traceback.print_exc()
-        return resultado_final
-
 # Función auxiliar para crear datos de prueba
 def crear_datos_prueba():
     """
@@ -1327,122 +1419,14 @@ def crear_datos_prueba():
         'Source': ['OpenInsider', 'OpenInsider', 'OpenInsider', 'OpenInsider', 'OpenInsider', 'OpenInsider', 'OpenInsider', 'OpenInsider'],
         'ScrapedAt': ['2025-05-30 15:22:28', '2025-05-30 15:22:28', '2025-05-30 15:22:28', '2025-05-29 20:30:15', '2025-05-29 20:30:15', '2025-05-29 20:30:15', '2025-05-28 18:45:22', '2025-05-28 18:45:22'],
         'Chart_Daily': ['reports/graphs/2025-05-30 08:44:19_d.png', 'reports/graphs/2025-05-30 08:38:55_d.png', 'reports/graphs/2025-05-30 06:04:21_d.png', 'reports/graphs/2025-05-29 16:23:10_d.png', 'reports/graphs/2025-05-29 15:15:35_d.png', 'reports/graphs/2025-05-29 14:22:48_d.png', 'reports/graphs/2025-05-28 11:30:22_d.png', 'reports/graphs/2025-05-28 10:45:17_d.png'],
-        'Chart_Weekly': ['reports/graphs/2025-05-30 08:44:19_w.png', 'reports/graphs/2025-05-30 08:38:55_w.png', 'reports/graphs/2025-05-30 06:04:21_w.png', 'reports/graphs/2025-05-29 16:23:10_w.png', 'reports/graphs/2025-05-29 15:15:35_w.png', 'reports/graphs/2025-05-29 14:22:48_w.png', 'reports/graphs/2025-05-28 11:30:22_w.png', 'reports/graphs/2025-05-28 10:45:17_w.png']
+        'Chart_Weekly': ['reports/graphs/2025-05-30 08:44:19_w.png', 'reports/graphs/2025-05-30 08:38:55_w.png', 'reports/graphs/2025-05-30 06:04:21_w.png', 'reports/graphs/2025-05-29 16:23:10_w.png', 'reports/graphs/2025-05-29 15:15:35_w.png', 'reports/graphs/2025-05-29 14:22:48_d.png', 'reports/graphs/2025-05-28 11:30:22_w.png', 'reports/graphs/2025-05-28 10:45:17_w.png']
     }
     
     insiders_df = pd.DataFrame(insiders_data)
     insiders_df.to_csv(get_correct_path("reports/insiders_daily.csv"), index=False)
     
-    # Datos fundamentales de prueba
-    fundamentals_data = {
-        'Ticker': ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA', 'META', 'AMZN', 'NFLX'],
-        'Company': ['Apple Inc.', 'Microsoft Corp.', 'Alphabet Inc.', 'Tesla Inc.', 'NVIDIA Corp.', 'Meta Platforms', 'Amazon.com', 'Netflix Inc.'],
-        'Debt/Eq': [1.2, 0.8, 0.1, 0.3, 0.2, 0.0, 1.1, 1.5],
-        'P/E': [25.5, 28.2, 22.1, 45.2, 55.8, 18.9, 35.4, 28.7],
-        'ROE': [15.2, 18.5, 14.8, 12.3, 22.1, 16.7, 13.9, 20.2],
-        'Gross Margin': [38.2, 42.1, 25.6, 18.9, 73.2, 35.4, 28.1, 31.5],
-        'P/B': [8.5, 7.2, 5.1, 9.8, 12.1, 4.2, 6.8, 5.9],
-        'P/S': [6.2, 8.1, 4.8, 7.9, 18.2, 4.1, 2.8, 5.2],
-        'Market Cap': [2800000, 2900000, 1750000, 580000, 2100000, 750000, 1400000, 180000]
-    }
-    
-    fundamentals_df = pd.DataFrame(fundamentals_data)
-    fundamentals_df.to_csv(get_correct_path("reports/finviz_ml_dataset_with_fundamentals.csv"), index=False)
-    
     print("✅ Datos de prueba creados exitosamente")
     print(f"   - {get_correct_path('reports/insiders_daily.csv')}")
-    print(f"   - {get_correct_path('reports/finviz_ml_dataset_with_fundamentals.csv')}")
-
-# NUEVAS FUNCIONES DE UTILIDAD PARA GITHUB PAGES
-def verificar_github_pages_setup():
-    """
-    Verifica si GitHub Pages está configurado correctamente
-    """
-    try:
-        from github_pages_uploader import GitHubPagesUploader
-        uploader = GitHubPagesUploader()
-        
-        # Verificar directorio docs (ajustar ruta según ubicación)
-        docs_paths = ["docs", "../docs", get_correct_path("docs")]
-        
-        for docs_path in docs_paths:
-            if os.path.exists(docs_path):
-                print(f"✅ Directorio docs encontrado: {docs_path}")
-                print(f"🌐 URL del sitio: {uploader.base_url}")
-                return True
-        
-        print(f"❌ Directorio docs no encontrado")
-        print("   Ejecuta desde la raíz: python github_pages_uploader.py setup")
-        return False
-    except ImportError:
-        print("❌ github_pages_uploader.py no encontrado")
-        print("   Asegúrate de que está en la raíz del proyecto")
-        return False
-
-def subir_reporte_manual(html_path):
-    """
-    Función para subir un reporte manualmente a GitHub Pages
-    """
-    try:
-        from github_pages_uploader import GitHubPagesUploader
-        uploader = GitHubPagesUploader()
-        
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
-        title = f"📊 Reporte Manual - {timestamp}"
-        
-        result = uploader.upload_report(html_path, title)
-        
-        if result:
-            print(f"✅ Subido: {result['file_url']}")
-            return result
-        else:
-            print("❌ Error subiendo archivo")
-            return None
-    except Exception as e:
-        print(f"❌ Error: {e}")
-        return None
-
-def listar_reportes_github_pages():
-    """
-    Lista todos los reportes disponibles en GitHub Pages
-    """
-    try:
-        from github_pages_uploader import GitHubPagesUploader
-        uploader = GitHubPagesUploader()
-        
-        print(f"🌐 Sitio web: {uploader.base_url}")
-        
-        # Buscar directorio docs
-        docs_paths = ["docs", "../docs", get_correct_path("docs")]
-        docs_dir = None
-        
-        for path in docs_paths:
-            if os.path.exists(path):
-                docs_dir = path
-                break
-        
-        if docs_dir:
-            print(f"📁 Directorio: {docs_dir}")
-            
-            # Listar archivos HTML
-            html_files = []
-            for file in os.listdir(docs_dir):
-                if file.endswith('.html') and file != 'index.html':
-                    html_files.append(file)
-            
-            if html_files:
-                print(f"\n📊 Reportes disponibles ({len(html_files)}):")
-                for i, file in enumerate(sorted(html_files, reverse=True), 1):
-                    url = f"{uploader.base_url}/{file}"
-                    print(f"{i:2d}. {file}")
-                    print(f"    🌐 {url}")
-            else:
-                print("📄 No hay reportes disponibles")
-        else:
-            print("❌ Directorio docs no encontrado")
-            
-    except Exception as e:
-        print(f"❌ Error listando reportes: {e}")
 
 if __name__ == "__main__":
     import sys
@@ -1461,19 +1445,6 @@ if __name__ == "__main__":
         elif comando == "--completo":
             generar_reporte_completo_integrado()
             
-        elif comando == "--verificar-github":
-            verificar_github_pages_setup()
-            
-        elif comando == "--listar-reportes":
-            listar_reportes_github_pages()
-            
-        elif comando == "--subir-manual" and len(sys.argv) > 2:
-            html_path = sys.argv[2]
-            if os.path.exists(html_path):
-                subir_reporte_manual(html_path)
-            else:
-                print(f"❌ Archivo no encontrado: {html_path}")
-                
         elif comando == "--solo-oportunidades":
             # Solo ejecutar análisis de oportunidades (sin gráficos)
             print("🎯 EJECUTANDO SOLO ANÁLISIS DE OPORTUNIDADES")
@@ -1494,15 +1465,11 @@ Comandos disponibles:
   --test                 Crear datos de prueba y ejecutar análisis completo
   --completo            Ejecutar análisis completo (oportunidades + gráficos + GitHub Pages)
   --solo-oportunidades  Solo análisis de oportunidades (sin gráficos)
-  --verificar-github    Verificar configuración de GitHub Pages
-  --listar-reportes     Listar reportes disponibles en GitHub Pages
-  --subir-manual FILE   Subir archivo HTML manualmente a GitHub Pages
   --help                Mostrar esta ayuda
 
 Ejemplos:
   python insider_tracker.py --test
   python insider_tracker.py --completo
-  python insider_tracker.py --subir-manual reports/mi_reporte.html
             """)
         else:
             print(f"❌ Comando no reconocido: {comando}")
@@ -1536,9 +1503,6 @@ Ejemplos:
                 print(f"5. ✅ Reporte enviado a Telegram automáticamente")
             else:
                 print(f"5. ⚠️ Telegram no configurado o falló el envío")
-            
-            print(f"\n💡 Para análisis completo con GitHub Pages:")
-            print(f"   python insider_tracker.py --completo")
                 
         else:
             print(f"\n❌ El análisis no se completó correctamente")
@@ -1546,124 +1510,3 @@ Ejemplos:
             print(f"   - Ejecutar con --test para probar con datos ficticios")
             print(f"   - Verificar que existen los archivos de datos")
             print(f"   - Revisar el formato de los archivos CSV")
-            
-def generar_reporte_html_oportunidades_moderno(csv_path):
-    """
-    NUEVA función modernizada para oportunidades
-    COMPLEMENTA: generar_reporte_html_oportunidades() existente
-    """
-    try:
-        df = pd.read_csv(csv_path)
-        
-        if len(df) == 0 or 'Mensaje' in df.columns:
-            return generar_html_sin_oportunidades_moderno()
-        
-        score_column = "FinalScore" if "FinalScore" in df.columns else "InsiderConfidence"
-        
-        try:
-            if score_column in df.columns:
-                score_values = pd.to_numeric(df[score_column], errors='coerce')
-                valid_scores = score_values.dropna()
-                avg_score_str = f"{valid_scores.mean():.1f}" if len(valid_scores) > 0 else "N/A"
-            else:
-                avg_score_str = "N/A"
-        except Exception as e:
-            print(f"⚠️ Error calculando promedio: {e}")
-            avg_score_str = "N/A"
-        
-        # MISMO HTML moderno pero adaptado para oportunidades
-        html_content = f"""
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎯 Oportunidades de Inversión - Dashboard Moderno</title>
-    <style>
-        /* MISMO CSS que plot_utils pero adaptado */
-        * {{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }}
-
-        body {{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0e1a;
-            color: #ffffff;
-            line-height: 1.4;
-        }}
-
-        /* ... resto del CSS igual ... */
-        
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🎯 Oportunidades de Inversión</h1>
-        <p class="subtitle">Dashboard modernizado basado en Insider Trading</p>
-    </div>
-    
-    <!-- ... resto del HTML similar pero con datos de oportunidades ... -->
-    
-</body>
-</html>
-"""
-        
-        # Escribir archivo
-        html_path = "reports/insiders_opportunities_moderno.html"
-        with open(html_path, "w", encoding="utf-8") as f:
-            f.write(html_content)
-        
-        print(f"✅ HTML moderno de oportunidades generado en {html_path}")
-        return html_path
-        
-    except Exception as e:
-        print(f"❌ Error generando HTML moderno de oportunidades: {e}")
-        return None
-
-def generar_html_sin_oportunidades_moderno():
-    """
-    HTML modernizado cuando no hay oportunidades
-    """
-    html_content = f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>🎯 Sin Oportunidades - Dashboard Moderno</title>
-        <style>
-            body {{ 
-                font-family: 'Segoe UI', sans-serif; 
-                background: #0a0e1a; 
-                color: white; 
-                text-align: center; 
-                padding: 50px; 
-            }}
-            .container {{ 
-                max-width: 600px; 
-                margin: 0 auto; 
-                background: #1a202c; 
-                padding: 40px; 
-                border-radius: 15px; 
-            }}
-            h1 {{ color: #4a90e2; }}
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>🎯 Análisis de Oportunidades</h1>
-            <p><strong>Resultado:</strong> No se encontraron oportunidades válidas</p>
-            <p><strong>Fecha:</strong> {datetime.now().strftime('%Y-%m-%d %H:%M')}</p>
-            <p>Los filtros están funcionando correctamente.</p>
-        </div>
-    </body>
-    </html>
-    """
-    
-    html_path = "reports/insiders_opportunities_moderno.html"
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(html_content)
-    
-    return html_path
-

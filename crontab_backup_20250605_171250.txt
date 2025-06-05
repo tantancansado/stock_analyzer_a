@@ -1,0 +1,6 @@
+0 9 * * * /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 /Users/alejandroordonezvillar/Downloads/stock_analyzer_ai/main.py >> /Users/alejandroordonezvillar/cronlog.log 2>&1
+0 9 * * * cd /Users/alejandroordonezvillar/Downloads/stock_analyzer_ai && /usr/bin/python3 run_daily.py >> cron.log 2>&1
+# Insider Trading Analysis - 2025-06-03
+30 8 * * * cd /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a && /usr/bin/python3 insiders/openinsider_scraper.py >> logs/scraper.log 2>&1
+0 9 * * * cd /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a && /usr/bin/python3 main.py --auto >> logs/cron_main.log 2>&1
+55 8 * * * cd /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a && ./fix_before_analysis.sh >> logs/fixes.log 2>&1

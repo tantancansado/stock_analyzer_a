@@ -1,0 +1,56 @@
+{
+  "timestamp": "2025-06-05T16:25:02.254678",
+  "resumen": {
+    "total_verificaciones": 34,
+    "correctas": 30,
+    "advertencias": 2,
+    "problemas_criticos": 2
+  },
+  "estado_general": "ERROR",
+  "problemas": [
+    {
+      "descripcion": "❌ Scraper principal de datos no encontrado",
+      "solucion": "Crear archivo: openinsider_scraper.py"
+    },
+    {
+      "descripcion": "❌ Parsing HTML no disponible: beautifulsoup4",
+      "solucion": "pip install beautifulsoup4"
+    }
+  ],
+  "advertencias": [
+    "⚠️ Bot de Telegram no disponible: python-telegram-bot (opcional)",
+    "⚠️ Datos fundamentales tiene más de 24 horas (146.7h)"
+  ],
+  "info": [
+    "✅ Configuración del sistema: config.py",
+    "✅ Dependencias de Python: requirements.txt",
+    "✅ Directorio de reportes: reports/",
+    "✅ Módulo de análisis de insiders: insiders/",
+    "✅ Módulo de alertas y notificaciones: alerts/",
+    "✅ Procesamiento de datos: pandas",
+    "✅ Cálculos numéricos: numpy",
+    "✅ Peticiones HTTP: requests",
+    "✅ Generación de gráficos: matplotlib",
+    "✅ Datos financieros: yfinance",
+    "✅ Gráficos interactivos: plotly",
+    "✅ Archivo config.py importado correctamente",
+    "✅ Configuración de Telegram completa",
+    "✅ Datos de insiders diarios: 17,236 bytes, 0.3h",
+    "✅ Oportunidades identificadas: 6,355 bytes, 0.3h",
+    "✅ Permisos de escritura en reports/",
+    "✅ Permisos de escritura en logs/",
+    "✅ Permisos de escritura en reports/graphs/",
+    "✅ Conexión a OpenInsider: OK",
+    "✅ Conexión a Alpha Vantage: OK",
+    "✅ Conexión a Telegram API: OK",
+    "✅ No hay procesos activos del sistema",
+    "✅ Configuración de cron encontrada",
+    "   📅 0 9 * * * /Library/Frameworks/Python.framework/Versions/3.12/bin/python3 /Users/alejandroordonezvillar/Downloads/stock_analyzer_ai/main.py >> /Users/alejandroordonezvillar/cronlog.log 2>&1",
+    "   📅 0 9 * * * cd /Users/alejandroordonezvillar/Downloads/stock_analyzer_ai && /usr/bin/python3 run_daily.py >> cron.log 2>&1",
+    "   📅 # Insider Trading Analysis - 2025-06-03",
+    "   📅 30 8 * * * cd /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a && /usr/bin/python3 insiders/openinsider_scraper.py >> logs/scraper.log 2>&1",
+    "   📅 0 9 * * * cd /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a && /usr/bin/python3 main.py --auto >> logs/cron_main.log 2>&1",
+    "   📅 55 8 * * * cd /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a && ./fix_before_analysis.sh >> logs/fixes.log 2>&1",
+    "✅ Script de reparación generado: reparar_sistema.sh"
+  ]
+}

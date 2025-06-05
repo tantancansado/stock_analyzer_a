@@ -1,0 +1,273 @@
+#!/usr/bin/env python3
+"""
+Parche para arreglar la integración con GitHub Pages
+Ejecutar después de cada análisis para asegurar que se suban los reportes
+"""
+
+import os
+import sys
+from datetime import datetime
+
+def verificar_archivos_para_subir():
+    """
+    Verifica qué archivos HTML están listos para subir
+    """
+    archivos_html = []
+    
+    # Buscar en reports/
+    if os.path.exists("reports"):
+        for archivo in os.listdir("reports"):
+            if archivo.endswith(".html"):
+                path_completo = os.path.join("reports", archivo)
+                archivos_html.append(path_completo)
+    
+    # Ordenar por fecha de modificación (más reciente primero)
+    archivos_html.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+    
+    return archivos_html
+
+def subir_a_github_pages(html_path):
+    """
+    Sube un archivo específico a GitHub Pages
+    """
+    try:
+        from github_pages_uploader import GitHubPagesUploader
+        
+        uploader = GitHubPagesUploader()
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        # Determinar título basado en el nombre del archivo
+        nombre_archivo = os.path.basename(html_path)
+        if "opportunities" in nombre_archivo.lower():
+            titulo = f"📊 Reporte de Oportunidades - {timestamp}"
+            descripcion = f"Análisis de oportunidades de insider trading generado el {timestamp}"
+        elif "complete" in nombre_archivo.lower() or "bundle" in nombre_archivo.lower():
+            titulo = f"📈 Reporte Completo con Gráficos - {timestamp}"
+            descripcion = f"Reporte completo con gráficos y análisis detallado generado el {timestamp}"
+        else:
+            titulo = f"📊 Reporte Insider Trading - {timestamp}"
+            descripcion = f"Reporte de análisis de insider trading generado el {timestamp}"
+        
+        print(f"🌐 Subiendo a GitHub Pages: {html_path}")
+        result = uploader.upload_report(html_path, titulo, descripcion)
+        
+        if result:
+            print(f"✅ Subido exitosamente!")
+            print(f"🌐 URL: {result['file_url']}")
+            print(f"🏠 Sitio: {result['index_url']}")
+            return result
+        else:
+            print("❌ Error subiendo archivo")
+            return None
+            
+    except ImportError:
+        print("❌ github_pages_uploader no encontrado")
+        return None
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return None
+
+def enviar_notificacion_telegram_corregida(archivos_subidos):
+    """
+    Envía notificación por Telegram con los enlaces correctos
+    """
+    try:
+        from config import TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+        from alerts.telegram_utils import send_message
+        
+        if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+            print("⚠️ Telegram no configurado")
+            return False
+        
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        if archivos_subidos:
+            mensaje = f"""🌐 REPORTES SUBIDOS A GITHUB PAGES
+
+📅 Fecha: {timestamp}
+📊 Archivos subidos: {len(archivos_subidos)}
+
+🔗 ENLACES DIRECTOS:"""
+            
+            for i, resultado in enumerate(archivos_subidos, 1):
+                if resultado:
+                    nombre = os.path.basename(resultado.get('filename', 'reporte'))
+                    url = resultado.get('file_url', '')
+                    mensaje += f"\n{i}. 📄 {nombre}: {url}"
+            
+            # Agregar enlace al sitio principal
+            if archivos_subidos and archivos_subidos[0]:
+                index_url = archivos_subidos[0].get('index_url', '')
+                if index_url:
+                    mensaje += f"\n\n🏠 Ver todos los reportes: {index_url}"
+        else:
+            mensaje = f"""⚠️ INTENTO DE SUBIDA A GITHUB PAGES
+
+📅 Fecha: {timestamp}
+❌ No se pudieron subir archivos
+🔍 Verificar configuración de GitHub Pages"""
+        
+        send_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, mensaje)
+        print("✅ Notificación enviada por Telegram")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error enviando notificación: {e}")
+        return False
+
+def main():
+    """
+    Función principal del parche
+    """
+    print("🔧 PARCHE DE GITHUB PAGES")
+    print("=" * 30)
+    print(f"📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print()
+    
+    # Verificar que existe github_pages_uploader
+    if not os.path.exists("github_pages_uploader.py"):
+        print("❌ github_pages_uploader.py no encontrado")
+        print("   Asegúrate de que está en la raíz del proyecto")
+        return False
+    
+    # Buscar archivos HTML para subir
+    archivos_html = verificar_archivos_para_subir()
+    
+    if not archivos_html:
+        print("❌ No se encontraron archivos HTML para subir")
+        return False
+    
+    print(f"📄 Archivos HTML encontrados: {len(archivos_html)}")
+    for archivo in archivos_html:
+        mtime = datetime.fromtimestamp(os.path.getmtime(archivo))
+        print(f"   • {archivo} ({mtime.strftime('%H:%M:%S')})")
+    
+    # Subir el archivo más reciente
+    archivo_mas_reciente = archivos_html[0]
+    print(f"\n🌐 Subiendo archivo más reciente: {archivo_mas_reciente}")
+    
+    resultado = subir_a_github_pages(archivo_mas_reciente)
+    
+    if resultado:
+        # Enviar notificación por Telegram
+        enviar_notificacion_telegram_corregida([resultado])
+        
+        print(f"\n🎉 ¡ÉXITO!")
+        print(f"✅ Archivo subido a GitHub Pages")
+        print(f"✅ Notificación enviada por Telegram")
+        return True
+    else:
+        print(f"\n❌ Error subiendo archivo")
+        return False
+
+def subir_todos_los_archivos():
+    """
+    Sube todos los archivos HTML encontrados
+    """
+    print("📄 SUBIENDO TODOS LOS ARCHIVOS HTML")
+    print("=" * 40)
+    
+    archivos_html = verificar_archivos_para_subir()
+    
+    if not archivos_html:
+        print("❌ No hay archivos para subir")
+        return
+    
+    resultados = []
+    
+    for archivo in archivos_html:
+        print(f"\n🌐 Subiendo: {archivo}")
+        resultado = subir_a_github_pages(archivo)
+        if resultado:
+            resultados.append(resultado)
+        
+        # Pausa entre subidas
+        import time
+        time.sleep(2)
+    
+    # Enviar notificación consolidada
+    if resultados:
+        enviar_notificacion_telegram_corregida(resultados)
+        print(f"\n🎉 Subidos {len(resultados)} archivos exitosamente")
+    else:
+        print(f"\n❌ No se pudo subir ningún archivo")
+
+def verificar_configuracion_github():
+    """
+    Verifica la configuración de GitHub Pages
+    """
+    print("🔍 VERIFICANDO CONFIGURACIÓN DE GITHUB PAGES")
+    print("=" * 50)
+    
+    try:
+        from github_pages_uploader import GitHubPagesUploader
+        uploader = GitHubPagesUploader()
+        
+        print(f"✅ GitHubPagesUploader importado correctamente")
+        print(f"👤 Usuario: {uploader.username}")
+        print(f"📁 Repositorio: {uploader.repo_name}")
+        print(f"🌐 URL base: {uploader.base_url}")
+        
+        # Verificar directorio docs
+        if os.path.exists("docs"):
+            print(f"✅ Directorio docs/ existe")
+            
+            # Verificar index.html
+            if os.path.exists("docs/index.html"):
+                print(f"✅ docs/index.html existe")
+            else:
+                print(f"❌ docs/index.html no existe")
+                print(f"   Ejecuta: python github_pages_uploader.py setup")
+        else:
+            print(f"❌ Directorio docs/ no existe")
+            print(f"   Ejecuta: python github_pages_uploader.py setup")
+        
+        # Verificar configuración de git
+        try:
+            import subprocess
+            result = subprocess.run(['git', 'status'], capture_output=True, text=True)
+            if result.returncode == 0:
+                print(f"✅ Repositorio git configurado")
+            else:
+                print(f"❌ No es un repositorio git")
+        except FileNotFoundError:
+            print(f"⚠️ Git no disponible")
+        
+        return True
+        
+    except ImportError:
+        print(f"❌ No se puede importar GitHubPagesUploader")
+        return False
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        return False
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        comando = sys.argv[1]
+        
+        if comando == "--todos":
+            subir_todos_los_archivos()
+        elif comando == "--verificar":
+            verificar_configuracion_github()
+        elif comando == "--help":
+            print("""
+🔧 PARCHE DE GITHUB PAGES
+
+Uso: python fix_github_pages_integration.py [opción]
+
+Opciones:
+  (sin opción)  Subir el archivo HTML más reciente
+  --todos       Subir todos los archivos HTML encontrados
+  --verificar   Verificar configuración de GitHub Pages
+  --help        Mostrar esta ayuda
+
+Ejemplos:
+  python fix_github_pages_integration.py
+  python fix_github_pages_integration.py --todos
+  python fix_github_pages_integration.py --verificar
+            """)
+        else:
+            print(f"❌ Opción no reconocida: {comando}")
+    else:
+        main()

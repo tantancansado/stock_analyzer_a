@@ -1,0 +1,211 @@
+[2025-06-05 17:15:06] 🚀 INICIANDO ANÁLISIS AUTOMÁTICO CON OPCIÓN 1
+[2025-06-05 17:15:06] ==============================================
+[2025-06-05 17:15:06] 📁 Directorio: /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a
+[2025-06-05 17:15:06] 🐍 Python: /usr/bin/python3
+[2025-06-05 17:15:06] 📄 Log: /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a/logs/cron_analysis_20250605_171506.log
+[2025-06-05 17:15:06] 📊 Ejecutando análisis con opción 1...
+
+==================================================
+📊 MENÚ PRINCIPAL - INSIDER TRADING
+==================================================
+1. 🚀 Ejecutar análisis completo (oportunidades + gráficos)
+2. 🎯 Solo análisis de oportunidades
+3. 🎯 Probar ticker individual
+4. 📊 Solo generar gráficos
+5. 📄 Solo generar reporte HTML
+6. 📱 Verificar configuración Telegram
+7. 🔧 Mostrar configuración actual
+0. ❌ Salir
+==================================================
+Selecciona una opción: [main 544f74a] Nuevo reporte: 2025-06-05 17:15
+ 2 files changed, 10373 insertions(+)
+ create mode 100644 docs/insider_report_20250605_171507.html
+To https://github.com/tantancansado/stock_analyzer_a.git
+   6f91907..544f74a  main -> main
+[main efc4ba8] Nuevo reporte: 2025-06-05 17:15
+ 2 files changed, 10370 insertions(+), 11 deletions(-)
+ create mode 100644 docs/insider_report_20250605_171508.html
+To https://github.com/tantancansado/stock_analyzer_a.git
+   544f74a..efc4ba8  main -> main
+🚀 ANÁLISIS COMPLETO DE INSIDER TRADING
+==================================================
+📅 Inicio: 2025-06-05 17:15:06
+
+✅ Telegram configurado: 3165866
+🎯 Ejecutando análisis integrado completo...
+🚀 GENERANDO REPORTE COMPLETO INTEGRADO CON GITHUB PAGES
+=================================================================
+🎯 PASO 1: Análisis de oportunidades de insider trading...
+🚀 INICIANDO OBTENCIÓN DE DATOS DE INSIDERS
+=======================================================
+🕷️ EJECUTANDO SCRAPER REAL DE OPENINSIDER...
+❌ openinsider_scraper.py no encontrado en:
+   - openinsider_scraper.py
+   - ../openinsider_scraper.py
+   - /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a/openinsider_scraper.py
+⚠️ Continuando con datos existentes...
+✅ CSV encontrado: reports/insiders_daily.csv
+📅 Última modificación: 16:48:55 (26 min)
+⚠️ CSV podría ser antiguo
+
+🎯 Analizando oportunidades de inversión...
+📊 Datos de insiders cargados: 97 transacciones
+📈 Datos fundamentales cargados desde: reports/finviz_ml_dataset_with_fundamentals.csv (223 empresas)
+🔧 Preparando datos de insiders...
+Columnas originales: ['Ticker', 'Insider', 'Title', 'Date', 'Type', 'Price', 'Qty', 'Owned', 'Value', 'Source', 'ScrapedAt', 'Chart_Daily', 'Chart_Weekly']
+Primeras filas:
+  Fila 0: {'Ticker': '2025-06-05 16:07:15', 'Insider': 'TKO', 'Title': 'Tko Group Holdings, Inc.', 'Date': '10%', 'Type': 'P - Purchase', 'Price': 158.32, 'Qty': 1579080, 'Owned': 5983547, 'Value': '249%', 'Source': 'OpenInsider.com', 'ScrapedAt': '2025-06-05 16:07:15', 'Chart_Daily': 'reports/graphs/TKO_d.png', 'Chart_Weekly': 'reports/graphs/TKO_w.png'}
+  Fila 1: {'Ticker': '2025-06-05 16:07:15', 'Insider': 'STRZ', 'Title': 'Starz Entertainment Corp /Cn/', 'Date': 'Dir, 10%', 'Type': 'P - Purchase', 'Price': 14.15, 'Qty': 353334, 'Owned': 2408166, 'Value': '4%', 'Source': 'OpenInsider.com', 'ScrapedAt': '2025-06-05 16:07:15', 'Chart_Daily': 'reports/graphs/STRZ_d.png', 'Chart_Weekly': 'reports/graphs/STRZ_w.png'}
+  Fila 2: {'Ticker': '2025-06-05 16:07:15', 'Insider': 'ACDC', 'Title': 'Profrac Holding Corp.', 'Date': '10%', 'Type': 'P - Purchase', 'Price': 6.93, 'Qty': 338756, 'Owned': 2142910, 'Value': '2%', 'Source': 'OpenInsider.com', 'ScrapedAt': '2025-06-05 16:07:15', 'Chart_Daily': 'reports/graphs/ACDC_d.png', 'Chart_Weekly': 'reports/graphs/ACDC_w.png'}
+Columnas después del mapeo: ['TransactionTimestamp', 'Ticker', 'CompanyName', 'InsiderTitle', 'TransactionType', 'Price', 'Quantity', 'SharesOwned', 'OwnershipPct', 'Source', 'ScrapedAt', 'Chart_Daily', 'Chart_Weekly']
+Filtrando solo compras: 97 → 97 transacciones
+
+✅ Datos limpios: 97 transacciones válidas
+Muestra de datos procesados:
+  TKO: $158.32 x 1579080 = $249,999,946 (10%)
+  STRZ: $14.15 x 353334 = $4,999,676 (Dir, 10%)
+  ACDC: $6.93 x 338756 = $2,347,579 (10%)
+🔍 Analizando actividad de insiders (modo estricto)...
+📅 Transacciones últimos 30 días: 97
+🔍 Aplicando filtros de calidad a actividad de insiders...
+✅ Filtros de calidad insider: 82 → 56 empresas (68.3%)
+📊 Calculando puntuaciones de confianza (modo estricto)...
+✅ Señales de calidad generadas para 56 tickers
+🔧 Preparando datos fundamentales...
+✅ Datos fundamentales preparados: 223 empresas
+🔍 Columnas numéricas disponibles:
+   Debt/Eq: 223/223 valores válidos
+   P/E: 223/223 valores válidos
+   ROE: 223/223 valores válidos
+   Gross Margin: 223/223 valores válidos
+   P/B: 223/223 valores válidos
+   P/S: 223/223 valores válidos
+   Market Cap: 0/223 valores válidos
+🎯 Combinando análisis de insiders con fundamentales...
+🔍 Aplicando filtros fundamentales relajados...
+✅ Columnas fundamentales disponibles: ['Debt/Equity', 'Debt/Eq', 'ROE', 'Gross Margin', 'P/E']
+   Filtro deuda (Debt/Equity): <3.0
+   Filtro ROE: >0%
+   Filtro Gross Margin: >5%
+   Filtro P/E: 0-50
+✅ Filtros relajados aplicados: 56 → 0 empresas (0.0%)
+⚠️ Ninguna empresa pasó filtros fundamentales, usando solo análisis de insiders
+🎯 Calculando puntuación final solo con insiders...
+📄 Generando reporte de oportunidades...
+🎯 Aplicando threshold: 30
+📊 Oportunidades que cumplen criterios: 56 de 56
+
+🎉 ANÁLISIS COMPLETADO
+============================================================
+📊 Total empresas analizadas: 56
+🎯 Oportunidades encontradas: 56
+📄 Reporte guardado en: reports/insiders_opportunities.csv
+🎚️ Threshold aplicado: 30
+
+🏆 TOP OPORTUNIDADES:
+============================================================
+ 1. STGW   | Score:  78.8 | Alta     | 3 trans | 0 días
+ 2. GRNT   | Score:  74.9 | Alta     | 3 trans | 0 días
+ 3. STRZ   | Score:  66.8 | Alta     | 2 trans | 0 días
+ 4. IMUX   | Score:  66.8 | Alta     | 2 trans | 0 días
+ 5. PATK   | Score:  54.2 | Media    | 2 trans | 0 días
+✅ CSV de oportunidades generado: reports/insiders_opportunities.csv
+✅ Reporte HTML generado: reports/insiders_opportunities.html
+✅ HTML de oportunidades generado: reports/insiders_opportunities.html
+
+📊 PASO 2: Generación de gráficos con FinViz...
+📊 CSV cargado: 97 filas
+🔍 Columnas: ['Ticker', 'Insider', 'Title', 'Date', 'Type', 'Price', 'Qty', 'Owned', 'Value', 'Source', 'ScrapedAt', 'Chart_Daily', 'Chart_Weekly']
+🚀 Iniciando generación de reporte con FinViz y GitHub Pages...
+
+📄 PASO 1: Generando HTML con FinViz...
+📊 CSV cargado: 97 filas
+✅ HTML completo generado: reports/insiders_report_completo.html
+🔧 Características:
+   ✅ TODOS los datos del CSV mostrados
+   ✅ Tabla detallada de transacciones
+   ✅ Gráficos FinViz mantenidos
+   ✅ Diseño responsive
+
+📦 PASO 2: Creando bundle...
+✅ ZIP bundle generado en reports/insiders_report_bundle.zip
+
+🌐 PASO 3: Subiendo a GitHub Pages y enviando por Telegram...
+🌐 Subiendo reporte a GitHub Pages...
+📤 Subiendo reporte a GitHub Pages...
+📄 Archivo copiado a: docs/insider_report_20250605_171507.html
+✅ Index actualizado con 2 reportes
+✅ Cambios subidos a GitHub
+✅ Reporte subido
+🌐 URL: https://tantancansado.github.io/stock_analyzer_a/insider_report_20250605_171507.html
+🏠 Inicio: https://tantancansado.github.io/stock_analyzer_a
+✅ Subido a GitHub Pages: https://tantancansado.github.io/stock_analyzer_a/insider_report_20250605_171507.html
+❌ Error enviando por Telegram: No module named 'requests'
+
+🎉 ¡Proceso completado!
+📄 HTML local: reports/insiders_report_completo.html
+📦 Bundle: reports/insiders_report_bundle.zip
+🌐 URL pública: https://tantancansado.github.io/stock_analyzer_a/insider_report_20250605_171507.html
+🏠 Sitio principal: https://tantancansado.github.io/stock_analyzer_a
+📊 Gráficos: FinViz embebidos (interactivos)
+📱 Telegram: ✅ Enviado con enlaces públicos
+✅ HTML gráficos: reports/insiders_report_completo.html
+✅ Bundle: reports/insiders_report_bundle.zip
+
+🌐 PASO 3: Envío con GitHub Pages + Telegram...
+📊 Usando HTML de gráficos (más completo): reports/insiders_report_completo.html
+🚀 Subiendo reporte de gráficos completos...
+🌐 Iniciando envío con GitHub Pages...
+🌐 Subiendo a GitHub Pages...
+📤 Subiendo reporte a GitHub Pages...
+📄 Archivo copiado a: docs/insider_report_20250605_171508.html
+⚠️ Error parseando reportes existentes, creando lista nueva
+✅ Index actualizado con 1 reportes
+✅ Cambios subidos a GitHub
+✅ Reporte subido
+🌐 URL: https://tantancansado.github.io/stock_analyzer_a/insider_report_20250605_171508.html
+🏠 Inicio: https://tantancansado.github.io/stock_analyzer_a
+✅ Subido a GitHub Pages: https://tantancansado.github.io/stock_analyzer_a/insider_report_20250605_171508.html
+📱 Enviando reporte por Telegram con GitHub Pages...
+❌ Error importando utilidades de Telegram: No module named 'requests'
+✅ GitHub Pages: https://tantancansado.github.io/stock_analyzer_a/insider_report_20250605_171508.html
+⚠️ Telegram: Error en envío
+
+=================================================================
+🎉 REPORTE COMPLETO FINALIZADO
+=================================================================
+📊 CSV oportunidades: ✅
+🌐 HTML oportunidades: ✅
+📈 HTML gráficos: ✅
+📦 Bundle: ✅
+🌐 GitHub Pages: ✅
+📱 Telegram: ❌
+
+🌐 ENLACES PÚBLICOS:
+📊 Reporte: https://tantancansado.github.io/stock_analyzer_a/insider_report_20250605_171508.html
+🏠 Sitio: https://tantancansado.github.io/stock_analyzer_a
+✅ Análisis integrado completado
+📄 CSV Oportunidades: reports/insiders_opportunities.csv
+🌐 HTML Oportunidades: reports/insiders_opportunities.html
+📊 HTML Gráficos: reports/insiders_report_completo.html
+📦 Bundle completo: reports/insiders_report_bundle.zip
+
+==================================================
+🎉 ¡ANÁLISIS COMPLETADO!
+==================================================
+📄 Reporte de oportunidades: reports/insiders_opportunities.csv
+🌐 HTML oportunidades: reports/insiders_opportunities.html
+📊 HTML gráficos: reports/insiders_report_completo.html
+📦 Bundle completo: reports/insiders_report_bundle.zip
+📅 Finalizado: 2025-06-05 17:15:09
+
+Presiona Enter para continuar...Traceback (most recent call last):
+  File "/Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a/main.py", line 335, in <module>
+    input("\nPresiona Enter para continuar...")
+EOFError: EOF when reading a line
+[2025-06-05 17:15:09] ❌ Análisis falló con código: 1
+[2025-06-05 17:15:09] 📊 ARCHIVOS GENERADOS:
+[2025-06-05 17:15:09]    ✅ insiders_daily.csv:       98 líneas
+[2025-06-05 17:15:09]    ✅ insiders_opportunities.csv:       57 líneas
+[2025-06-05 17:15:09]    ✅ GitHub Pages:       43 archivos HTML
+[2025-06-05 17:15:09] 🏁 Análisis automático finalizado
