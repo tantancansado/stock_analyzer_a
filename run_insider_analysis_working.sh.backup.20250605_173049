@@ -73,16 +73,6 @@ fi
 # Limpiar logs antiguos (mantener solo 14 días)
 find "$LOG_DIR" -name "cron_analysis_*.log" -mtime +14 -delete 2>/dev/null
 
-
-# Archivar reportes del día
-log "📦 Archivando reportes del día..."
-"$PYTHON_PATH" "$PROJECT_DIR/sistema_reportes_historicos.py" --archivar >> "$LOG_FILE" 2>&1
-if [[ $? -eq 0 ]]; then
-    log "✅ Reportes archivados correctamente"
-else
-    log "⚠️ Error archivando reportes"
-fi
-
 log "🏁 Análisis automático finalizado"
 
 exit $exit_code

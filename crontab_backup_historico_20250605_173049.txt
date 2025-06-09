@@ -1,0 +1,2 @@
+# Insider Trading Analysis - 2025-06-03
+0 9 * * 1-5 /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a/run_insider_analysis_working.sh >> /Users/alejandroordonezvillar/Desktop/stockAnalyzer/stock_analyzer_a/logs/cron_summary.log 2>&1
