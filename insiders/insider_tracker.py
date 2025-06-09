@@ -688,6 +688,168 @@ def generar_reporte_vacio():
     
     print(f"📄 Reporte vacío generado en: {output_path}")
     return output_path
+def generar_reporte_completo_integrado_con_historial():
+    """
+    Función integrada que combina análisis de oportunidades + gráficos + historial
+    """
+    print("🚀 GENERANDO REPORTE COMPLETO INTEGRADO CON HISTORIAL")
+    print("=" * 65)
+    
+    resultado_final = {
+        'csv_opportunities': None,
+        'html_opportunities': None,
+        'html_charts': None,
+        'bundle': None,
+        'github_pages': None,
+        'telegram_sent': False,
+        'cross_analysis': None
+    }
+    
+    try:
+        # PASO 1: Análisis de oportunidades de insider trading
+        print("🎯 PASO 1: Análisis de oportunidades de insider trading...")
+        csv_path = scrape_openinsider()  # Ejecuta scraper real
+        
+        if csv_path:
+            print(f"✅ CSV de oportunidades generado: {csv_path}")
+            resultado_final['csv_opportunities'] = csv_path
+            
+            # Generar HTML de oportunidades
+            html_opportunities = generar_reporte_html_oportunidades(csv_path)
+            if html_opportunities:
+                print(f"✅ HTML de oportunidades generado: {html_opportunities}")
+                resultado_final['html_opportunities'] = html_opportunities
+        else:
+            print("❌ Error generando CSV de oportunidades")
+        
+        # PASO 2: Generación de gráficos con FinViz
+        print("\n📊 PASO 2: Generación de gráficos con FinViz...")
+        try:
+            from alerts.plot_utils import generar_reporte_completo_con_historial
+            graficos_result = generar_reporte_completo_con_historial()
+            
+            if isinstance(graficos_result, dict):
+                resultado_final['html_charts'] = graficos_result.get('html_path')
+                resultado_final['bundle'] = graficos_result.get('bundle_path')
+                resultado_final['github_pages'] = graficos_result.get('github_result')
+                print(f"✅ HTML gráficos: {resultado_final['html_charts']}")
+                print(f"✅ Bundle: {resultado_final['bundle']}")
+                
+                if resultado_final['github_pages']:
+                    print(f"✅ GitHub Pages: {resultado_final['github_pages']['file_url']}")
+                    
+        except ImportError:
+            print("⚠️ plot_utils no disponible, continuando sin gráficos")
+        except Exception as e:
+            print(f"⚠️ Error generando gráficos: {e}")
+        
+        # PASO 3: Análisis cruzado adicional si no se hizo en plot_utils
+        if not resultado_final['github_pages']:
+            print("\n🔍 PASO 3: Análisis con historial manual...")
+            try:
+                from github_pages_historial import GitHubPagesHistoricalUploader
+                
+                uploader = GitHubPagesHistoricalUploader()
+                
+                # Usar el mejor HTML disponible
+                html_para_subir = (resultado_final['html_charts'] or 
+                                 resultado_final['html_opportunities'])
+                
+                if html_para_subir and csv_path:
+                    # Generar título descriptivo
+                    import pandas as pd
+                    try:
+                        df = pd.read_csv(csv_path)
+                        if len(df) > 0 and 'Mensaje' not in df.columns:
+                            title = f"📊 Análisis Completo - {len(df)} oportunidades"
+                            description = f"Análisis integrado con {len(df)} oportunidades"
+                        else:
+                            title = "📊 Monitoreo Insider Trading"
+                            description = "Análisis completado sin oportunidades significativas"
+                    except:
+                        title = "📊 Análisis Insider Trading"
+                        description = "Reporte de análisis de actividad de insiders"
+                    
+                    # Subir con historial
+                    github_result = uploader.upload_historical_report(
+                        html_para_subir, csv_path, title, description
+                    )
+                    
+                    if github_result:
+                        resultado_final['github_pages'] = github_result
+                        print(f"✅ Subido manualmente: {github_result['file_url']}")
+                        
+                        # Generar análisis cruzado
+                        cross_analysis_file = uploader.generate_cross_analysis_report(30)
+                        resultado_final['cross_analysis'] = cross_analysis_file
+                        
+            except Exception as e:
+                print(f"⚠️ Error en análisis manual: {e}")
+        
+        # PASO 4: Envío por Telegram
+        print("\n📱 PASO 4: Envío por Telegram...")
+        if csv_path and resultado_final['github_pages']:
+            try:
+                # Usar función de Telegram con historial
+                from alerts.plot_utils import enviar_telegram_con_historial_completo
+                
+                html_para_telegram = (resultado_final['html_charts'] or 
+                                    resultado_final['html_opportunities'])
+                
+                resultado_final['telegram_sent'] = enviar_telegram_con_historial_completo(
+                    csv_path, 
+                    html_para_telegram, 
+                    resultado_final['github_pages'],
+                    resultado_final.get('cross_analysis')
+                )
+                
+                if resultado_final['telegram_sent']:
+                    print("✅ Telegram: Enviado con historial completo")
+                else:
+                    print("⚠️ Telegram: Error en envío")
+                    
+            except Exception as e:
+                print(f"⚠️ Error en Telegram con historial: {e}")
+                # Fallback al método tradicional
+                if csv_path and html_para_telegram:
+                    resultado_final['telegram_sent'] = enviar_reporte_telegram(csv_path, html_para_telegram)
+        
+        # RESUMEN FINAL MEJORADO
+        print("\n" + "=" * 65)
+        print("🎉 REPORTE COMPLETO CON HISTORIAL FINALIZADO")
+        print("=" * 65)
+        
+        print(f"📊 CSV oportunidades: {'✅' if resultado_final['csv_opportunities'] else '❌'}")
+        print(f"🌐 HTML oportunidades: {'✅' if resultado_final['html_opportunities'] else '❌'}")
+        print(f"📈 HTML gráficos: {'✅' if resultado_final['html_charts'] else '❌'}")
+        print(f"📦 Bundle: {'✅' if resultado_final['bundle'] else '❌'}")
+        print(f"🌐 GitHub Pages: {'✅' if resultado_final['github_pages'] else '❌'}")
+        print(f"🔍 Análisis cruzado: {'✅' if resultado_final['cross_analysis'] else '❌'}")
+        print(f"📱 Telegram: {'✅' if resultado_final['telegram_sent'] else '❌'}")
+        
+        if resultado_final['github_pages']:
+            print(f"\n🌐 ENLACES HISTÓRICOS:")
+            print(f"📊 Reporte actual: {resultado_final['github_pages']['file_url']}")
+            print(f"🏠 Historial completo: {resultado_final['github_pages']['index_url']}")
+            print(f"🔍 Análisis cruzado: cross_analysis.html")
+            print(f"📈 Tendencias: trends.html")
+            print(f"📅 Semanales: reports/weekly/")
+            print(f"📊 Mensuales: reports/monthly/")
+            
+            print(f"\n💡 NUEVAS FUNCIONALIDADES:")
+            print(f"• Historial permanente de todos los reportes")
+            print(f"• Análisis cruzado de actividad recurrente")
+            print(f"• Identificación de patrones a largo plazo")
+            print(f"• Seguimiento de tickers con múltiples apariciones")
+            print(f"• Evaluación de consistencia de señales")
+        
+        return resultado_final
+        
+    except Exception as e:
+        print(f"❌ Error en reporte completo con historial: {e}")
+        import traceback
+        traceback.print_exc()
+        return resultado_final
 
 def generar_reporte_html_oportunidades(csv_path):
     """

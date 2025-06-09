@@ -383,37 +383,6 @@ class GitHubPagesHistoricalUploader:
             opacity: 0.9;
         }}
         
-        .timeline {{
-            position: relative;
-            margin-top: 30px;
-        }}
-        
-        .timeline-item {{
-            display: flex;
-            margin-bottom: 20px;
-            align-items: center;
-        }}
-        
-        .timeline-date {{
-            background: #3498db;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
-            min-width: 100px;
-            text-align: center;
-        }}
-        
-        .timeline-content {{
-            margin-left: 20px;
-            flex: 1;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-        }}
-        
         @media (max-width: 768px) {{
             .stats-bar {{
                 grid-template-columns: 1fr;
@@ -460,7 +429,7 @@ class GitHubPagesHistoricalUploader:
             <a href="trends.html" class="nav-link">📈 Análisis de Tendencias</a>
             <a href="reports/weekly/" class="nav-link">📅 Resúmenes Semanales</a>
             <a href="reports/monthly/" class="nav-link">📊 Resúmenes Mensuales</a>
-            <a href="data/json/manifest.json" class="nav-link">📄 API JSON</a>
+            <a href="cross_analysis.html" class="nav-link">🔍 Análisis Cruzado</a>
         </div>
         
         <div class="reports-section">
@@ -670,6 +639,7 @@ class GitHubPagesHistoricalUploader:
             <a href="index.html" class="nav-link">🏠 Inicio</a>
             <a href="reports/weekly/" class="nav-link">📅 Semanales</a>
             <a href="reports/monthly/" class="nav-link">📊 Mensuales</a>
+            <a href="cross_analysis.html" class="nav-link">🔍 Análisis Cruzado</a>
         </div>
         
         <div class="content">
@@ -775,7 +745,7 @@ class GitHubPagesHistoricalUploader:
         Genera HTML para mejores scores
         """
         if not top_scores:
-            return "<p>Análisis de scores en desarrollo</p>"
+            return "<p>Análisis de scores históricos disponible tras múltiples reportes</p>"
         
         html = ""
         for score_data in top_scores:
@@ -896,12 +866,8 @@ class GitHubPagesHistoricalUploader:
                     <div class="stat-label">Oportunidades/Reporte</div>
                 </div>
             </div>
-            <a href="week_{week_key}.html" class="btn">📊 Ver Detalle Semanal</a>
         </div>
             """
-            
-            # Generar página individual de la semana
-            self.generate_individual_week_page(week_key, week_reports, weekly_dir)
         
         index_html += """
     </div>
@@ -912,135 +878,6 @@ class GitHubPagesHistoricalUploader:
             f.write(index_html)
         
         print(f"✅ Resúmenes semanales generados en: {weekly_dir}")
-    
-    def generate_individual_week_page(self, week_key, week_reports, weekly_dir):
-        """
-        Genera página individual para una semana específica
-        """
-        # Ordenar reportes por fecha
-        week_reports_sorted = sorted(week_reports, key=lambda x: x['timestamp'])
-        
-        # Calcular estadísticas detalladas
-        all_tickers = []
-        daily_stats = []
-        
-        for report in week_reports_sorted:
-            stats = report.get('statistics', {})
-            daily_stats.append({
-                'date': datetime.fromisoformat(report['timestamp']).strftime('%d %b'),
-                'opportunities': stats.get('total_opportunities', 0),
-                'score': stats.get('avg_score', 0),
-                'top_ticker': stats.get('top_ticker', 'N/A')
-            })
-            
-            if stats.get('top_ticker'):
-                all_tickers.append(stats['top_ticker'])
-        
-        # Contar frecuencia de tickers
-        from collections import Counter
-        ticker_frequency = Counter(all_tickers)
-        top_tickers = ticker_frequency.most_common(5)
-        
-        week_html = f"""<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>📅 Semana {week_key} - Análisis Detallado</title>
-    <style>
-        body {{ font-family: 'Segoe UI', sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }}
-        .container {{ max-width: 1200px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; }}
-        .header {{ text-align: center; margin-bottom: 30px; color: #2c3e50; }}
-        .section {{ margin: 30px 0; }}
-        .section-title {{ color: #2c3e50; font-size: 1.5em; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 5px; }}
-        .daily-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }}
-        .day-card {{ background: #ecf0f1; padding: 15px; border-radius: 8px; text-align: center; }}
-        .day-date {{ font-weight: bold; color: #2c3e50; margin-bottom: 10px; }}
-        .day-stat {{ margin: 5px 0; }}
-        .ticker-list {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }}
-        .ticker-item {{ background: #3498db; color: white; padding: 8px; border-radius: 5px; text-align: center; }}
-        .nav {{ text-align: center; margin-bottom: 20px; }}
-        .nav-link {{ color: #3498db; text-decoration: none; margin: 0 15px; }}
-        .reports-list {{ margin-top: 20px; }}
-        .report-link {{ display: block; background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 5px; text-decoration: none; color: #2c3e50; }}
-        .report-link:hover {{ background: #e9ecef; }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>📅 Análisis Semana {week_key}</h1>
-            <p>Actividad detallada de insider trading durante esta semana</p>
-        </div>
-        
-        <div class="nav">
-            <a href="index.html" class="nav-link">📅 Todas las Semanas</a>
-            <a href="../index.html" class="nav-link">🏠 Inicio</a>
-            <a href="../trends.html" class="nav-link">📈 Tendencias</a>
-        </div>
-        
-        <div class="section">
-            <h2 class="section-title">📊 Actividad Diaria</h2>
-            <div class="daily-grid">
-"""
-        
-        for day_stat in daily_stats:
-            week_html += f"""
-                <div class="day-card">
-                    <div class="day-date">{day_stat['date']}</div>
-                    <div class="day-stat"><strong>{day_stat['opportunities']}</strong> oportunidades</div>
-                    <div class="day-stat">Score: <strong>{day_stat['score']:.1f}</strong></div>
-                    <div class="day-stat">Top: <strong>{day_stat['top_ticker']}</strong></div>
-                </div>
-            """
-        
-        week_html += f"""
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2 class="section-title">🔥 Tickers Más Mencionados</h2>
-            <div class="ticker-list">
-"""
-        
-        for ticker, count in top_tickers:
-            week_html += f"""
-                <div class="ticker-item">
-                    <strong>{ticker}</strong><br>
-                    {count} aparición{'es' if count > 1 else ''}
-                </div>
-            """
-        
-        week_html += f"""
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2 class="section-title">📄 Reportes de la Semana</h2>
-            <div class="reports-list">
-"""
-        
-        for report in week_reports_sorted:
-            timestamp = datetime.fromisoformat(report['timestamp'])
-            stats = report.get('statistics', {})
-            
-            week_html += f"""
-                <a href="../../{report['html_file']}" class="report-link" target="_blank">
-                    📊 {timestamp.strftime('%d %b %Y - %H:%M')} | 
-                    {stats.get('total_opportunities', 0)} oportunidades | 
-                    Score: {stats.get('avg_score', 0):.1f} | 
-                    Top: {stats.get('top_ticker', 'N/A')}
-                </a>
-            """
-        
-        week_html += """
-            </div>
-        </div>
-    </div>
-</body>
-</html>"""
-        
-        with open(os.path.join(weekly_dir, f"week_{week_key}.html"), 'w', encoding='utf-8') as f:
-            f.write(week_html)
     
     def generate_monthly_summaries(self, monthly_groups):
         """
@@ -1120,7 +957,6 @@ class GitHubPagesHistoricalUploader:
                     <div class="stat-label">Oportunidades/Reporte</div>
                 </div>
             </div>
-            <a href="month_{month_key}.html" class="btn">📊 Ver Detalle Mensual</a>
         </div>
             """
         
@@ -1486,76 +1322,8 @@ class GitHubPagesHistoricalUploader:
                     </div>
             """
         
-        cross_analysis_html += f"""
-                </div>
-            </div>
-            
-            <div class="section">
-                <h2 class="section-title">📊 Análisis de Patrones</h2>
-                <div class="tickers-grid">
-                    <div class="ticker-card">
-                        <h3 style="color: #27ae60; margin-top: 0;">🟢 Señales Bullish</h3>
-                        <p>Tickers con alta actividad y scores elevados:</p>
-                        <ul>
-"""
-        
-        # Señales bullish
-        bullish_tickers = [(t, d) for t, d in sorted_tickers if d['trend'] == 'bullish'][:5]
-        for ticker, data in bullish_tickers:
-            cross_analysis_html += f"<li><strong>{ticker}</strong> - {data['appearances']} apariciones, Score: {data['avg_score']:.1f}</li>"
-        
         cross_analysis_html += """
-                        </ul>
-                    </div>
-                    
-                    <div class="ticker-card">
-                        <h3 style="color: #f39c12; margin-top: 0;">🟡 Monitoreo Neutral</h3>
-                        <p>Tickers con actividad moderada que requieren seguimiento:</p>
-                        <ul>
-"""
-        
-        # Señales neutrales
-        neutral_tickers = [(t, d) for t, d in sorted_tickers if d['trend'] == 'neutral'][:5]
-        for ticker, data in neutral_tickers:
-            cross_analysis_html += f"<li><strong>{ticker}</strong> - {data['appearances']} apariciones, Score: {data['avg_score']:.1f}</li>"
-        
-        cross_analysis_html += f"""
-                        </ul>
-                    </div>
-                    
-                    <div class="ticker-card">
-                        <h3 style="color: #2c3e50; margin-top: 0;">📈 Estadísticas Globales</h3>
-                        <div class="ticker-stats">
-                            <div class="ticker-stat">
-                                <span>Promedio apariciones:</span>
-                                <span><strong>{sum(d['appearances'] for d in significant_tickers.values()) / max(len(significant_tickers), 1):.1f}</strong></span>
-                            </div>
-                            <div class="ticker-stat">
-                                <span>Score promedio global:</span>
-                                <span><strong>{sum(d['avg_score'] for d in significant_tickers.values()) / max(len(significant_tickers), 1):.1f}</strong></span>
-                            </div>
-                            <div class="ticker-stat">
-                                <span>Tickers bullish:</span>
-                                <span><strong>{len([t for t, d in significant_tickers.items() if d['trend'] == 'bullish'])}</strong></span>
-                            </div>
-                            <div class="ticker-stat">
-                                <span>Período analizado:</span>
-                                <span><strong>{days_back} días</strong></span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
-            
-            <div class="insights">
-                <h3>🎯 Recomendaciones de Análisis</h3>
-                <ol>
-                    <li><strong>Priorizar tickers bullish</strong> con múltiples apariciones y scores altos</li>
-                    <li><strong>Investigar fundamentales</strong> de empresas con actividad recurrente de insiders</li>
-                    <li><strong>Monitorear timing</strong> - múltiples compras en poco tiempo pueden indicar eventos próximos</li>
-                    <li><strong>Validar con análisis técnico</strong> para confirmar puntos de entrada</li>
-                    <li><strong>Considerar diversificación</strong> entre diferentes sectores representados</li>
-                </ol>
             </div>
         </div>
     </div>
@@ -1571,242 +1339,7 @@ class GitHubPagesHistoricalUploader:
         return cross_analysis_file
 
 
-# Función de integración con el sistema existente
-def integrar_historial_con_sistema_existente():
-    """
-    Integra el nuevo sistema de historial con el código existente
-    """
-    
-    # Modificar la función generar_reporte_completo_integrado existente
-    integration_code = '''
-def generar_reporte_completo_integrado_con_historial():
-    """
-    Versión mejorada que mantiene historial completo en GitHub Pages
-    """
-    print("🚀 GENERANDO REPORTE COMPLETO CON HISTORIAL")
-    print("=" * 60)
-    
-    # Inicializar uploader histórico
-    historical_uploader = GitHubPagesHistoricalUploader()
-    
-    resultado_final = {
-        'csv_opportunities': None,
-        'html_opportunities': None,
-        'html_charts': None,
-        'bundle': None,
-        'github_pages': None,
-        'telegram_sent': False,
-        'cross_analysis': None
-    }
-    
-    try:
-        # PASO 1: Análisis de oportunidades (igual que antes)
-        print("🎯 PASO 1: Análisis de oportunidades de insider trading...")
-        csv_path = scrape_openinsider()
-        
-        if csv_path:
-            resultado_final['csv_opportunities'] = csv_path
-            html_opportunities = generar_reporte_html_oportunidades(csv_path)
-            if html_opportunities:
-                resultado_final['html_opportunities'] = html_opportunities
-        
-        # PASO 2: Generación de gráficos (igual que antes)
-        print("\\n📊 PASO 2: Generación de gráficos con FinViz...")
-        try:
-            from alerts.plot_utils import generar_reporte_completo
-            graficos_result = generar_reporte_completo()
-            
-            if isinstance(graficos_result, dict):
-                resultado_final['html_charts'] = graficos_result.get('html_path')
-                resultado_final['bundle'] = graficos_result.get('bundle_path')
-        except Exception as e:
-            print(f"⚠️ Error generando gráficos: {e}")
-        
-        # PASO 3: NUEVO - Subida con historial mantenido
-        print("\\n🌐 PASO 3: Subida a GitHub Pages con historial...")
-        
-        # Determinar el mejor HTML para subir
-        html_principal = (resultado_final['html_charts'] or 
-                         resultado_final['html_opportunities'])
-        
-        if html_principal and csv_path:
-            # Generar título descriptivo
-            try:
-                df = pd.read_csv(csv_path)
-                if len(df) > 0 and 'Mensaje' not in df.columns:
-                    title = f"📊 Insider Trading - {len(df)} oportunidades"
-                    description = f"Análisis completo con {len(df)} oportunidades detectadas"
-                else:
-                    title = "📊 Insider Trading - Monitoreo sin oportunidades"
-                    description = "Análisis completado sin oportunidades significativas"
-            except:
-                title = "📊 Análisis Insider Trading"
-                description = "Reporte de análisis de actividad de insiders"
-            
-            # Subir con historial
-            github_result = historical_uploader.upload_historical_report(
-                html_principal, csv_path, title, description
-            )
-            
-            if github_result:
-                resultado_final['github_pages'] = github_result
-                print(f"✅ Subido con historial: {github_result['file_url']}")
-                
-                # PASO 4: NUEVO - Generar análisis cruzado
-                print("\\n🔍 PASO 4: Generando análisis cruzado...")
-                cross_analysis_file = historical_uploader.generate_cross_analysis_report(30)
-                resultado_final['cross_analysis'] = cross_analysis_file
-            
-            # PASO 5: Envío por Telegram mejorado
-            print("\\n📱 PASO 5: Envío por Telegram con enlaces históricos...")
-            resultado_final['telegram_sent'] = enviar_telegram_con_historial(
-                csv_path, html_principal, github_result
-            )
-        
-        # RESUMEN FINAL
-        print("\\n" + "=" * 60)
-        print("🎉 REPORTE COMPLETO CON HISTORIAL FINALIZADO")
-        print("=" * 60)
-        
-        success_indicators = {
-            '📊 CSV oportunidades': resultado_final['csv_opportunities'],
-            '🌐 HTML principal': resultado_final['html_opportunities'] or resultado_final['html_charts'],
-            '📦 Bundle': resultado_final['bundle'],
-            '🌐 GitHub Pages': resultado_final['github_pages'],
-            '🔍 Análisis cruzado': resultado_final['cross_analysis'],
-            '📱 Telegram': resultado_final['telegram_sent']
-        }
-        
-        for item, status in success_indicators.items():
-            print(f"{item}: {'✅' if status else '❌'}")
-        
-        if resultado_final['github_pages']:
-            print(f"\\n🌐 ENLACES PÚBLICOS:")
-            print(f"📊 Reporte actual: {resultado_final['github_pages']['file_url']}")
-            print(f"🏠 Historial completo: {resultado_final['github_pages']['index_url']}")
-            print(f"🔍 Análisis cruzado: cross_analysis.html")
-            print(f"📈 Tendencias: trends.html")
-        
-        return resultado_final
-        
-    except Exception as e:
-        print(f"❌ Error en reporte completo con historial: {e}")
-        import traceback
-        traceback.print_exc()
-        return resultado_final
-
-
-def enviar_telegram_con_historial(csv_path, html_path, github_result):
-    """
-    Envía reporte por Telegram incluyendo enlaces de historial
-    """
-    try:
-        # Importar configuración
-        try:
-            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
-        except ImportError:
-            sys.path.insert(0, parent_dir)
-            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
-        
-        if not TELEGRAM_CHAT_ID or not TELEGRAM_BOT_TOKEN:
-            return False
-        
-        # Importar utilidades
-        try:
-            from alerts.telegram_utils import send_message, send_document_telegram
-        except ImportError:
-            sys.path.insert(0, parent_dir)
-            from alerts.telegram_utils import send_message, send_document_telegram
-        
-        # Leer estadísticas
-        df = pd.read_csv(csv_path)
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
-        
-        if len(df) == 0 or 'Mensaje' in df.columns:
-            mensaje = f"""🎯 REPORTE INSIDER TRADING
-
-📊 Resultado: Sin oportunidades detectadas
-📅 Fecha: {timestamp}
-✅ Sistema funcionando correctamente
-
-🌐 Enlaces históricos:
-• 📈 Historial completo: {github_result['index_url'] if github_result else 'N/A'}
-• 🔍 Análisis cruzado: cross_analysis.html
-• 📊 Tendencias: trends.html
-
-💡 El historial permite identificar patrones a largo plazo
-🔄 Análisis cruzado muestra tickers con actividad recurrente"""
-        else:
-            # Con oportunidades
-            score_column = "FinalScore" if "FinalScore" in df.columns else "InsiderConfidence"
-            
-            try:
-                score_values = pd.to_numeric(df[score_column], errors='coerce').dropna()
-                avg_score = score_values.mean() if len(score_values) > 0 else 0
-                top_ticker = df.iloc[0]['Ticker'] if len(df) > 0 else "N/A"
-                top_score_raw = df.iloc[0][score_column] if len(df) > 0 and score_column in df.columns else 0
-                top_score = float(top_score_raw) if pd.notna(top_score_raw) else 0
-            except:
-                avg_score = 0
-                top_ticker = "N/A"
-                top_score = 0
-            
-            mensaje = f"""🎯 REPORTE INSIDER TRADING
-
-📊 Oportunidades: {len(df)}
-📈 Score promedio: {avg_score:.1f}
-🏆 Top: {top_ticker} (Score: {top_score:.1f})
-📅 Fecha: {timestamp}
-
-🔝 Top 3 oportunidades:"""
-            
-            for i, row in df.head(3).iterrows():
-                try:
-                    ticker = row.get('Ticker', 'N/A')
-                    score_raw = row.get(score_column, 0)
-                    confidence = row.get('ConfidenceLevel', 'N/A')
-                    
-                    try:
-                        score_val = float(score_raw) if pd.notna(score_raw) else 0
-                    except:
-                        score_val = 0
-                    
-                    mensaje += f"\\n{i+1}. {ticker} - Score: {score_val:.1f} ({confidence})"
-                except:
-                    continue
-            
-            mensaje += f"""
-
-🌐 Enlaces completos:
-• 📊 Reporte actual: {github_result['file_url'] if github_result else 'N/A'}
-• 📈 Historial completo: {github_result['index_url'] if github_result else 'N/A'}
-• 🔍 Análisis cruzado: cross_analysis.html
-• 📊 Tendencias: trends.html
-
-✨ Nuevas características:
-🏛️ Historial permanente mantenido
-🔍 Análisis cruzado de patrones
-📈 Identificación de actividad recurrente
-🎯 Detección de tendencias a largo plazo"""
-        
-        # Enviar mensaje
-        send_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, mensaje)
-        
-        # Enviar archivo solo si hay oportunidades
-        if html_path and os.path.exists(html_path) and len(df) > 0 and 'Mensaje' not in df.columns:
-            send_document_telegram(TELEGRAM_CHAT_ID, html_path, "📊 Reporte completo")
-        
-        return True
-        
-    except Exception as e:
-        print(f"❌ Error enviando por Telegram: {e}")
-        return False
-'''
-    
-    return integration_code
-
-
-# Funciones de utilidad para migración
+# Función de utilidad para migración
 def migrar_reportes_existentes(source_dir="reports", target_uploader=None):
     """
     Migra reportes existentes al nuevo sistema de historial
@@ -1881,12 +1414,12 @@ if __name__ == "__main__":
     print("4. Se identifican patrones de actividad recurrente")
     print("5. Enlaces de Telegram incluyen historial completo")
     
-    print("\\n🔗 Integración con sistema existente:")
+    print("\n🔗 Integración con sistema existente:")
     print("- Reemplazar generar_reporte_completo_integrado()")
     print("- Usar generar_reporte_completo_integrado_con_historial()")
     print("- Los CSV antiguos se pueden migrar automáticamente")
     
-    print("\\n📊 Análisis cruzado permite:")
+    print("\n📊 Análisis cruzado permite:")
     print("- Identificar tickers con actividad sostenida")
     print("- Detectar patrones de compra recurrente")
     print("- Evaluar fuerza de señales por frecuencia")

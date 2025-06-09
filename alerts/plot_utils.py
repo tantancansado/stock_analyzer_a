@@ -1445,6 +1445,232 @@ def generar_reporte_completo():
         'bundle_path': bundle_path,
         'github_result': github_result
     }
+def enviar_reporte_completo_con_github_pages_historial(html_path, csv_path, bundle_path):
+    """
+    Versión mejorada que mantiene historial completo en GitHub Pages
+    """
+    try:
+        from github_pages_historial import GitHubPagesHistoricalUploader
+        from datetime import datetime
+        import os
+        
+        print("🌐 Subiendo reporte con historial completo...")
+        
+        # Inicializar uploader histórico
+        uploader = GitHubPagesHistoricalUploader()
+        
+        # Generar título y descripción basados en datos
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        # Leer estadísticas del CSV
+        try:
+            import pandas as pd
+            df = pd.read_csv(csv_path)
+            
+            if len(df) > 0 and 'Mensaje' not in df.columns:
+                title = f"📊 Análisis Completo Insider Trading - {len(df)} oportunidades - {timestamp}"
+                description = f"Reporte completo con gráficos FinViz y análisis de {len(df)} oportunidades detectadas el {timestamp}"
+            else:
+                title = f"📊 Monitoreo Insider Trading - {timestamp}"
+                description = f"Análisis completado el {timestamp}. Sistema funcionando correctamente."
+        except:
+            title = f"📊 Análisis Insider Trading - {timestamp}"
+            description = f"Reporte de análisis completo generado el {timestamp}"
+        
+        # Subir con historial mantenido
+        github_result = uploader.upload_historical_report(html_path, csv_path, title, description)
+        
+        if github_result:
+            print(f"✅ Subido con historial: {github_result['file_url']}")
+            
+            # Generar análisis cruzado
+            print("🔍 Generando análisis cruzado...")
+            cross_analysis_file = uploader.generate_cross_analysis_report(30)
+            
+            # Enviar por Telegram con enlaces históricos
+            enviar_telegram_con_historial_completo(csv_path, html_path, github_result, cross_analysis_file)
+            
+            return github_result
+        else:
+            print("⚠️ Error subiendo con historial, usando método tradicional")
+            # Fallback al método original
+            enviar_por_telegram(html_path, bundle_path)
+            return None
+            
+    except ImportError:
+        print("⚠️ Sistema de historial no disponible, usando método tradicional")
+        enviar_por_telegram(html_path, bundle_path)
+        return None
+    except Exception as e:
+        print(f"❌ Error con sistema de historial: {e}")
+        enviar_por_telegram(html_path, bundle_path)
+        return None
+
+
+def enviar_telegram_con_historial_completo(csv_path, html_path, github_result, cross_analysis_file):
+    """
+    Envía notificación por Telegram con enlaces históricos completos
+    """
+    try:
+        from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+        from alerts.telegram_utils import send_message, send_file
+        import pandas as pd
+        from datetime import datetime
+        
+        if not TELEGRAM_CHAT_ID or not TELEGRAM_BOT_TOKEN:
+            print("⚠️ Configuración de Telegram no disponible")
+            return False
+        
+        # Leer estadísticas del CSV
+        df = pd.read_csv(csv_path)
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        if len(df) == 0 or 'Mensaje' in df.columns:
+            # Sin oportunidades pero con historial
+            mensaje = f"""🎯 MONITOREO INSIDER TRADING
+
+📊 Resultado: Sin oportunidades detectadas
+📅 Fecha: {timestamp}
+✅ Sistema funcionando correctamente
+
+🌐 **HISTORIAL COMPLETO:**
+• 📈 Ver todos los reportes: {github_result['index_url']}
+• 🔍 Análisis cruzado: cross_analysis.html
+• 📊 Tendencias temporales: trends.html
+• 📅 Resúmenes semanales: reports/weekly/
+• 📊 Resúmenes mensuales: reports/monthly/
+
+🎯 **Análisis Cruzado Disponible:**
+El sistema ahora mantiene historial completo para identificar:
+• Tickers con actividad recurrente de insiders
+• Patrones de compra sostenida en el tiempo
+• Señales que se repiten múltiples veces
+• Tendencias a largo plazo por empresa
+
+💡 **Próxima vez que aparezcan oportunidades:**
+Podrás ver si ya habían aparecido antes y evaluar la consistencia de las señales."""
+
+        else:
+            # Con oportunidades + historial
+            score_column = "FinalScore" if "FinalScore" in df.columns else "InsiderConfidence"
+            
+            # Calcular estadísticas
+            try:
+                score_values = pd.to_numeric(df[score_column], errors='coerce').dropna()
+                avg_score = score_values.mean() if len(score_values) > 0 else 0
+                top_ticker = df.iloc[0]['Ticker'] if len(df) > 0 else "N/A"
+                top_score_raw = df.iloc[0][score_column] if len(df) > 0 and score_column in df.columns else 0
+                top_score = float(top_score_raw) if pd.notna(top_score_raw) else 0
+            except:
+                avg_score = 0
+                top_ticker = "N/A"
+                top_score = 0
+            
+            mensaje = f"""🎯 REPORTE INSIDER TRADING CON HISTORIAL
+
+📊 **Oportunidades actuales:** {len(df)}
+📈 **Score promedio:** {avg_score:.1f}
+🏆 **Top oportunidad:** {top_ticker} (Score: {top_score:.1f})
+📅 **Fecha:** {timestamp}
+
+🔝 **Top 5 oportunidades:**"""
+            
+            # Agregar top 5
+            for i, row in df.head(5).iterrows():
+                try:
+                    ticker = row.get('Ticker', 'N/A')
+                    score_raw = row.get(score_column, 0)
+                    confidence = row.get('ConfidenceLevel', 'N/A')
+                    transactions = row.get('NumTransactions', 0)
+                    
+                    try:
+                        score_val = float(score_raw) if pd.notna(score_raw) else 0
+                    except:
+                        score_val = 0
+                    
+                    mensaje += f"\n{i+1}. {ticker} - Score: {score_val:.1f} ({confidence}) - {transactions} trans"
+                    
+                except:
+                    continue
+            
+            mensaje += f"""
+
+🌐 **ENLACES COMPLETOS:**
+• 📊 Reporte actual: {github_result['file_url']}
+• 📈 Historial completo: {github_result['index_url']}
+• 🔍 Análisis cruzado: cross_analysis.html
+• 📊 Tendencias: trends.html
+
+✨ **NUEVAS CARACTERÍSTICAS:**
+🏛️ **Historial permanente:** Todos los reportes se mantienen
+🔍 **Análisis cruzado:** Identifica actividad recurrente de tickers
+📈 **Detección de patrones:** Ve si un ticker aparece múltiples veces
+🎯 **Evaluación de consistencia:** Analiza si las señales se repiten
+📅 **Resúmenes temporales:** Análisis semanal y mensual
+🔄 **Tendencias a largo plazo:** Patrones de comportamiento sostenido
+
+💡 **Cómo usar el historial:**
+1. Revisa si las oportunidades actuales ya aparecieron antes
+2. Evalúa la frecuencia de aparición de cada ticker
+3. Confirma patrones con el análisis cruzado
+4. Usa tendencias para timing de inversión"""
+        
+        # Enviar mensaje principal
+        print("📤 Enviando mensaje con historial...")
+        send_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, mensaje)
+        
+        # Enviar archivo CSV para análisis detallado
+        if csv_path and os.path.exists(csv_path):
+            print("📎 Enviando CSV...")
+            send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, csv_path)
+        
+        print("✅ Notificación con historial enviada por Telegram")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error enviando por Telegram: {e}")
+        return False
+
+
+# Modificar la función generar_reporte_completo existente
+def generar_reporte_completo_con_historial():
+    """
+    Versión mejorada de generar_reporte_completo que mantiene historial
+    """
+    print("🚀 Iniciando generación de reporte con historial...")
+    
+    # 1. Crear HTML con FinViz embebido (mantener función existente)
+    print("\n📄 PASO 1: Generando HTML con FinViz...")
+    html_path_generated = crear_html_moderno_finviz()
+    
+    # 2. Crear bundle ZIP (mantener función existente)
+    print("\n📦 PASO 2: Creando bundle...")
+    bundle_path = crear_bundle_completo()
+    
+    # 3. NUEVO: Subir con historial completo y enviar por Telegram
+    print("\n🌐 PASO 3: Subiendo con historial y enviando por Telegram...")
+    github_result = enviar_reporte_completo_con_github_pages_historial(
+        html_path_generated, 
+        csv_path,  # Variable global del CSV
+        bundle_path
+    )
+    
+    print(f"\n🎉 ¡Proceso completado!")
+    print(f"📄 HTML local: {html_path_generated}")
+    print(f"📦 Bundle: {bundle_path}")
+    if github_result:
+        print(f"🌐 URL pública: {github_result['file_url']}")
+        print(f"🏠 Historial completo: {github_result['index_url']}")
+        print(f"🔍 Análisis cruzado: cross_analysis.html")
+    print(f"📊 Gráficos: FinViz embebidos (interactivos)")
+    print(f"📱 Telegram: ✅ Enviado con enlaces históricos")
+    
+    return {
+        'html_path': html_path_generated,
+        'bundle_path': bundle_path,
+        'github_result': github_result,
+        'csv_path': csv_path
+    }
 
 # Ejecutar automáticamente si se ejecuta este script
 if __name__ == "__main__":
