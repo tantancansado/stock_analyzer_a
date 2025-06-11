@@ -13,7 +13,7 @@ from pathlib import Path
 import re
 
 class GitHubPagesHistoricalUploader:
-    def __init__(self, repo_path="github-pages-reports"):
+    def __init__(self, repo_path="docs"):
         self.repo_path = repo_path
         self.reports_dir = os.path.join(repo_path, "reports")
         self.data_dir = os.path.join(repo_path, "data") 
@@ -90,6 +90,7 @@ class GitHubPagesHistoricalUploader:
             }
             
             print(f"🎉 Reporte subido exitosamente al historial")
+            git_push(self.repo_path, mensaje=f"Reporte insider {date_str} {time_str}")
             return result
             
         except Exception as e:
@@ -1397,6 +1398,17 @@ def migrar_reportes_existentes(source_dir="reports", target_uploader=None):
     print(f"🎉 Migración completada: {migrated_count} reportes migrados")
     return migrated_count
 
+
+import subprocess
+
+def git_push(repo_path, mensaje="Actualización automática de informes"):
+    try:
+        subprocess.run(["git", "-C", repo_path, "add", "."], check=True)
+        subprocess.run(["git", "-C", repo_path, "commit", "-m", mensaje], check=True)
+        subprocess.run(["git", "-C", repo_path, "push"], check=True)
+        print("✅ Cambios subidos a GitHub Pages.")
+    except Exception as e:
+        print(f"❌ Error subiendo cambios a GitHub: {e}")
 
 # Script principal de ejemplo
 if __name__ == "__main__":
