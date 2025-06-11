@@ -24,7 +24,6 @@
             color: #2c3e50;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2.5em;
         }
         .stats {
             display: flex;
@@ -38,7 +37,6 @@
             padding: 15px;
             background: #f8f9fa;
             border-radius: 10px;
-            min-width: 120px;
         }
         .stat-number {
             font-size: 2em;
@@ -48,7 +46,6 @@
         .stat-label {
             color: #666;
             font-size: 0.9em;
-            margin-top: 5px;
         }
         .reports-grid {
             display: grid;
@@ -61,7 +58,7 @@
             border-radius: 10px;
             padding: 20px;
             border-left: 5px solid #667eea;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease;
             cursor: pointer;
         }
         .report-card:hover {
@@ -74,44 +71,14 @@
             color: #2c3e50;
             margin-bottom: 10px;
         }
-        .report-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
         .report-date {
             color: #666;
             font-size: 0.9em;
-        }
-        .report-badge {
-            background: #28a745;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-        }
-        .report-description {
-            color: #666;
-            font-size: 0.9em;
-            line-height: 1.4;
         }
         .no-reports {
             text-align: center;
             padding: 40px;
             color: #666;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #666;
-        }
-        @media (max-width: 768px) {
-            h1 { font-size: 2em; }
-            .stats { gap: 15px; }
-            .reports-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -128,10 +95,6 @@
                 <div class="stat-number" id="last-update">--</div>
                 <div class="stat-label">Última Actualización</div>
             </div>
-            <div class="stat">
-                <div class="stat-number" id="total-opportunities">0</div>
-                <div class="stat-label">Oportunidades</div>
-            </div>
         </div>
         
         <div id="reports-container" class="reports-grid">
@@ -140,55 +103,27 @@
                 <p>Los reportes se generarán automáticamente cuando haya nuevas oportunidades.</p>
             </div>
         </div>
-        
-        <div class="footer">
-            <p>🤖 Generado automáticamente por Stock Analyzer</p>
-            <p>📊 Análisis de insider trading en tiempo real</p>
-        </div>
     </div>
     
     <script>
         // Lista de reportes (se actualiza automáticamente)
-        let reports = [
-        {
-                "file": "insider_report_20250610_091125.html",
-                "title": "📊 Reporte Insider Trading - 56 oportunidades - 2025-06-10 09:11",
-                "date": "2025-06-10T09:11:25.404014",
-                "description": "Análisis de 56 oportunidades de insider trading detectadas el 2025-06-10 09:11. Incluye gráficos interactivos y análisis detallado."
-        }
-];
+        let reports = [];
         
         function formatDate(dateString) {
-            try {
-                const date = new Date(dateString);
-                return date.toLocaleString('es-ES', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-            } catch (e) {
-                return dateString;
-            }
-        }
-        
-        function isNewReport(dateString) {
-            try {
-                const reportDate = new Date(dateString);
-                const now = new Date();
-                const diffHours = (now - reportDate) / (1000 * 60 * 60);
-                return diffHours <= 24; // Nuevo si tiene menos de 24 horas
-            } catch (e) {
-                return false;
-            }
+            const date = new Date(dateString);
+            return date.toLocaleString('es-ES', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         }
         
         function loadReports() {
             const container = document.getElementById('reports-container');
             const totalElement = document.getElementById('total-reports');
             const lastUpdateElement = document.getElementById('last-update');
-            const opportunitiesElement = document.getElementById('total-opportunities');
             
             totalElement.textContent = reports.length;
             
@@ -200,7 +135,6 @@
                     </div>
                 `;
                 lastUpdateElement.textContent = '--';
-                opportunitiesElement.textContent = '0';
                 return;
             }
             
@@ -210,27 +144,21 @@
             });
             lastUpdateElement.textContent = formatDate(lastReport.date);
             
-            // Estimar oportunidades totales
-            const totalOpportunities = reports.length * 45; // Estimación
-            opportunitiesElement.textContent = totalOpportunities;
-            
             // Ordenar reportes por fecha (más reciente primero)
             const sortedReports = [...reports].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             let html = '';
             sortedReports.forEach(report => {
-                const isNew = isNewReport(report.date);
+                const isNew = (Date.now() - new Date(report.date).getTime()) < 86400000; // 24 horas
                 html += `
                     <div class="report-card" onclick="window.open('${report.file}', '_blank')">
-                        <div class="report-meta">
-                            <span class="report-date">${formatDate(report.date)}</span>
-                            ${isNew ? '<span class="report-badge">NUEVO</span>' : ''}
-                        </div>
                         <div class="report-title">
                             ${report.title}
+                            ${isNew ? '<span style="background: #28a745; color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.7em; margin-left: 10px;">NUEVO</span>' : ''}
                         </div>
-                        <div class="report-description">
-                            ${report.description || 'Análisis completo de oportunidades de insider trading con datos en tiempo real.'}
+                        <div class="report-date">${formatDate(report.date)}</div>
+                        <div style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                            ${report.description || 'Análisis de oportunidades de insider trading'}
                         </div>
                     </div>
                 `;
@@ -240,25 +168,7 @@
         }
         
         // Cargar reportes al inicio
-        document.addEventListener('DOMContentLoaded', function() {
-            loadReports();
-            
-            // Auto-refresh cada 10 minutos si la página está activa
-            setInterval(function() {
-                if (!document.hidden) {
-                    location.reload();
-                }
-            }, 600000); // 10 minutos
-        });
-        
-        // Precargar datos si están disponibles
-        try {
-            if (typeof window.loadInitialReports === 'function') {
-                window.loadInitialReports();
-            }
-        } catch (e) {
-            // Ignorar errores de carga inicial
-        }
+        document.addEventListener('DOMContentLoaded', loadReports);
     </script>
 </body>
 </html>
