@@ -1,8 +1,8 @@
 {
   "version": "1.0",
   "created": "2025-06-11T16:40:56.765764",
-  "last_updated": "2025-06-12T09:54:55.698758",
-  "total_reports": 3,
+  "last_updated": "2025-06-12T15:47:45.732451",
+  "total_reports": 4,
   "reports": [
     {
       "id": "20250611_164056",
@@ -45,6 +45,22 @@
       "description": "Reporte con 97 transacciones detectadas",
       "html_file": "reports/daily/insider_report_2025-06-12_09-54-55.html",
       "csv_file": "data/csv/insider_data_2025-06-12_09-54-55.csv",
+      "statistics": {
+        "error": "cannot convert the series to <class 'float'>"
+      },
+      "week_number": 24,
+      "month": 6,
+      "year": 2025
+    },
+    {
+      "id": "20250612_154745",
+      "timestamp": "2025-06-12T15:47:45.732451",
+      "date": "2025-06-12",
+      "time": "15:47:45",
+      "title": "📊 Insider Trading - 97 oportunidades - 2025-06-12 15:47",
+      "description": "Reporte con 97 transacciones detectadas",
+      "html_file": "reports/daily/insider_report_2025-06-12_15-47-45.html",
+      "csv_file": "data/csv/insider_data_2025-06-12_15-47-45.csv",
       "statistics": {
         "error": "cannot convert the series to <class 'float'>"
       },
