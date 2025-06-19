@@ -1,0 +1,35 @@
+{
+  "connectivity": {
+    "Google": "OK",
+    "Yahoo Finance": "OK",
+    "Alpha Vantage": "OK",
+    "Twelve Data": "Status 404",
+    "FMP": "OK"
+  },
+  "dns": {
+    "finance.yahoo.com": "188.125.95.250",
+    "www.alphavantage.co": "104.22.71.209",
+    "api.twelvedata.com": "104.26.13.157",
+    "financialmodelingprep.com": "54.80.7.83"
+  },
+  "packages": {
+    "yfinance": "0.2.63",
+    "pandas": "2.2.2",
+    "numpy": "1.26.4",
+    "requests": "2.32.4"
+  },
+  "yfinance": {
+    "history_5d": "5 rows",
+    "history_1mo": "22 rows",
+    "info": "180 fields"
+  },
+  "alternatives": {
+    "twelvedata": "No values",
+    "fmp": "HTTP 401"
+  },
+  "simple_requests": {
+    "Yahoo Finance Homepage": "200 - 2198071 bytes",
+    "Yahoo Quote AAPL": "200 - 1998600 bytes",
+    "Alpha Vantage Demo": "200 - 21910 bytes"
+  }
+}

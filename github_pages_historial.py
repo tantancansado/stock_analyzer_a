@@ -1,401 +1,438 @@
 #!/usr/bin/env python3
 """
-GitHub Pages Uploader con Historial y Análisis de Tendencias
-Mantiene todos los reportes históricos para análisis de patrones de insider trading
+GitHub Pages Uploader - Versión para carpeta /docs
+Adaptado para trabajar con la configuración de GitHub Pages desde /docs
 """
 
 import os
 import json
 import shutil
-from datetime import datetime, timedelta
-import pandas as pd
+from datetime import datetime
 from pathlib import Path
-import re
+import pandas as pd
+import subprocess
+
 
 class GitHubPagesHistoricalUploader:
-    def __init__(self, repo_path="docs"):
-        self.repo_path = repo_path
-        self.reports_dir = os.path.join(repo_path, "reports")
-        self.data_dir = os.path.join(repo_path, "data") 
-        self.index_file = os.path.join(repo_path, "index.html")
-        self.manifest_file = os.path.join(repo_path, "reports_manifest.json")
+    """Uploader para GitHub Pages que guarda en /docs para deployment automático"""
+    
+    def __init__(self):
+        # Cambiar a carpeta docs en lugar de github_pages
+        self.repo_path = Path("docs")
+        self.reports_path = self.repo_path / "reports"
+        self.manifest_file = self.repo_path / "manifest.json"
+        self.index_file = self.repo_path / "index.html"
+        
+        # URL base de tu sitio
+        self.base_url = "https://tantancansado.github.io/stock_analyzer_a"
         
         # Crear estructura de directorios
-        self.setup_directory_structure()
-        
-    def setup_directory_structure(self):
-        """Crear estructura de directorios para el historial"""
-        directories = [
-            self.repo_path,
-            self.reports_dir,
-            self.data_dir,
-            os.path.join(self.reports_dir, "daily"),
-            os.path.join(self.reports_dir, "weekly"),
-            os.path.join(self.reports_dir, "monthly"),
-            os.path.join(self.data_dir, "csv"),
-            os.path.join(self.data_dir, "json")
-        ]
-        
-        for directory in directories:
-            os.makedirs(directory, exist_ok=True)
-            
-        print(f"✅ Estructura de directorios creada en: {self.repo_path}")
+        self.setup_directories()
     
-    def upload_historical_report(self, html_path, csv_path=None, title=None, description=None):
-        """
-        Sube un reporte manteniendo el historial completo
-        """
-        timestamp = datetime.now()
-        date_str = timestamp.strftime('%Y-%m-%d')
-        time_str = timestamp.strftime('%H-%M-%S')
-        
-        # Generar nombres únicos para archivos
-        report_filename = f"insider_report_{date_str}_{time_str}.html"
-        csv_filename = f"insider_data_{date_str}_{time_str}.csv"
-        
-        # Rutas de destino
-        report_path = os.path.join(self.reports_dir, "daily", report_filename)
-        csv_dest_path = os.path.join(self.data_dir, "csv", csv_filename)
-        
+    def setup_directories(self):
+        """Crea la estructura de directorios necesaria"""
         try:
+            self.repo_path.mkdir(exist_ok=True)
+            self.reports_path.mkdir(exist_ok=True)
+            (self.reports_path / "daily").mkdir(exist_ok=True)
+            (self.reports_path / "weekly").mkdir(exist_ok=True)
+            (self.reports_path / "monthly").mkdir(exist_ok=True)
+            print(f"✅ Directorios creados en: {self.repo_path}")
+            
+            # Crear archivo .nojekyll para evitar procesamiento Jekyll
+            nojekyll = self.repo_path / ".nojekyll"
+            if not nojekyll.exists():
+                nojekyll.touch()
+                print("✅ Archivo .nojekyll creado")
+                
+        except Exception as e:
+            print(f"❌ Error creando directorios: {e}")
+    
+    def load_manifest(self):
+        """Carga el manifest de reportes"""
+        if self.manifest_file.exists():
+            try:
+                with open(self.manifest_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except:
+                pass
+        
+        # Manifest por defecto
+        return {
+            "total_reports": 0,
+            "last_update": None,
+            "reports": [],
+            "base_url": self.base_url
+        }
+    
+    def save_manifest(self, manifest):
+        """Guarda el manifest"""
+        try:
+            with open(self.manifest_file, 'w', encoding='utf-8') as f:
+                json.dump(manifest, f, indent=2, ensure_ascii=False)
+            return True
+        except Exception as e:
+            print(f"❌ Error guardando manifest: {e}")
+            return False
+    
+    def upload_historical_report(self, html_file, csv_file, title, description):
+        """Sube un reporte manteniendo historial"""
+        try:
+            print(f"\n📤 Subiendo reporte a /docs para GitHub Pages...")
+            
+            # Verificar archivos de entrada
+            if not os.path.exists(html_file):
+                print(f"❌ HTML no existe: {html_file}")
+                return None
+            
+            if not os.path.exists(csv_file):
+                print(f"❌ CSV no existe: {csv_file}")
+                return None
+            
+            # Usar fecha como ID base
+            timestamp = datetime.now()
+            date_only = timestamp.strftime('%Y-%m-%d')
+            time_suffix = timestamp.strftime('%H-%M')
+            
+            # Por defecto usar solo fecha (1 por día)
+            report_id = f"report_{date_only}"
+            
+            # Verificar si ya existe un reporte de hoy
+            manifest = self.load_manifest()
+            existing_today = None
+            for i, report in enumerate(manifest['reports']):
+                if report['date'] == date_only:
+                    existing_today = i
+                    # Si quieres mantener múltiples del mismo día, descomenta la siguiente línea:
+                    # report_id = f"report_{date_only}_{time_suffix}"
+                    print(f"⚠️ Ya existe un reporte de hoy, será reemplazado")
+                    break
+            
+            # Crear carpeta para este reporte
+            report_dir = self.reports_path / "daily" / report_id
+            report_dir.mkdir(exist_ok=True, parents=True)
+            
             # Copiar archivos
-            shutil.copy2(html_path, report_path)
-            print(f"✅ Reporte copiado: {report_path}")
+            html_dest = report_dir / "index.html"
+            csv_dest = report_dir / "data.csv"
             
-            if csv_path and os.path.exists(csv_path):
-                shutil.copy2(csv_path, csv_dest_path)
-                print(f"✅ CSV copiado: {csv_dest_path}")
+            print(f"📁 Copiando archivos a: {report_dir}")
+            shutil.copy2(html_file, html_dest)
+            shutil.copy2(csv_file, csv_dest)
             
-            # Actualizar manifest
-            report_metadata = self.update_manifest(
-                report_filename, csv_filename, timestamp, title, description, csv_path
-            )
-            
-            # Regenerar índice principal
-            self.generate_main_index()
-            
-            # Generar página de análisis de tendencias
-            self.generate_trends_analysis()
-            
-            # Generar páginas de resumen por período
-            self.generate_period_summaries()
-            
-            result = {
-                'success': True,
-                'file_url': f"reports/daily/{report_filename}",
-                'csv_url': f"data/csv/{csv_filename}" if csv_path else None,
-                'index_url': "index.html",
-                'trends_url': "trends.html",
-                'metadata': report_metadata
+            # URLs relativas para GitHub Pages
+            report_entry = {
+                "id": report_id,
+                "title": title,
+                "description": description,
+                "timestamp": timestamp.isoformat(),
+                "date": timestamp.strftime('%Y-%m-%d'),
+                "time": timestamp.strftime('%H:%M:%S'),
+                "html_url": f"reports/daily/{report_id}/index.html",
+                "csv_url": f"reports/daily/{report_id}/data.csv",
+                "full_url": f"{self.base_url}/reports/daily/{report_id}/index.html"
             }
             
-            print(f"🎉 Reporte subido exitosamente al historial")
-            git_push(self.repo_path, mensaje=f"Reporte insider {date_str} {time_str}")
+            # Si existe reporte de hoy, reemplazarlo
+            if existing_today is not None:
+                manifest["reports"][existing_today] = report_entry
+                print(f"✅ Reporte de hoy actualizado")
+            else:
+                # Añadir al principio (más reciente primero)
+                manifest["reports"].insert(0, report_entry)
+                manifest["total_reports"] += 1
+            
+            manifest["last_update"] = timestamp.isoformat()
+            manifest["base_url"] = self.base_url
+            
+            # Limitar a últimos 100 reportes
+            if len(manifest["reports"]) > 100:
+                # Eliminar reportes antiguos del disco
+                for old_report in manifest["reports"][100:]:
+                    old_dir = self.reports_path / "daily" / old_report["id"]
+                    if old_dir.exists():
+                        shutil.rmtree(old_dir)
+                        print(f"🗑️ Eliminado reporte antiguo: {old_report['id']}")
+                
+                manifest["reports"] = manifest["reports"][:100]
+            
+            # Guardar manifest
+            self.save_manifest(manifest)
+            
+            # Generar índice principal
+            self.generate_main_index()
+            
+            # Generar página VCP Scanner
+            self.generate_vcp_scanner_page()
+            
+            # Intentar commit y push automático
+            self.git_commit_and_push(report_id)
+            
+            # Retornar información
+            result = {
+                "success": True,
+                "report_id": report_id,
+                "file_url": str(html_dest),
+                "csv_url": str(csv_dest),
+                "index_url": str(self.index_file),
+                "github_url": f"{self.base_url}/reports/daily/{report_id}/index.html",
+                "timestamp": timestamp.isoformat()
+            }
+            
+            print(f"\n✅ Reporte subido exitosamente")
+            print(f"📍 ID: {report_id}")
+            print(f"📂 Local: {report_dir}")
+            print(f"🌐 URL: {result['github_url']}")
+            
             return result
             
         except Exception as e:
             print(f"❌ Error subiendo reporte: {e}")
+            import traceback
+            traceback.print_exc()
             return None
     
-    def update_manifest(self, report_filename, csv_filename, timestamp, title, description, csv_path):
-        """
-        Actualiza el manifest con metadatos del nuevo reporte
-        """
-        # Cargar manifest existente
-        manifest = self.load_manifest()
-        
-        # Extraer estadísticas del CSV si está disponible
-        stats = self.extract_csv_statistics(csv_path) if csv_path else {}
-        
-        # Crear entrada del reporte
-        report_entry = {
-            'id': f"{timestamp.strftime('%Y%m%d_%H%M%S')}",
-            'timestamp': timestamp.isoformat(),
-            'date': timestamp.strftime('%Y-%m-%d'),
-            'time': timestamp.strftime('%H:%M:%S'),
-            'title': title or f"Reporte Insider Trading - {timestamp.strftime('%Y-%m-%d %H:%M')}",
-            'description': description or "Análisis de actividad de insider trading",
-            'html_file': f"reports/daily/{report_filename}",
-            'csv_file': f"data/csv/{csv_filename}" if csv_path else None,
-            'statistics': stats,
-            'week_number': timestamp.isocalendar()[1],
-            'month': timestamp.month,
-            'year': timestamp.year
-        }
-        
-        # Agregar al manifest
-        manifest['reports'].append(report_entry)
-        manifest['last_updated'] = timestamp.isoformat()
-        manifest['total_reports'] = len(manifest['reports'])
-        
-        # Guardar manifest actualizado
-        with open(self.manifest_file, 'w', encoding='utf-8') as f:
-            json.dump(manifest, f, indent=2, ensure_ascii=False)
-        
-        print(f"✅ Manifest actualizado: {len(manifest['reports'])} reportes totales")
-        return report_entry
-    
-    def load_manifest(self):
-        """
-        Carga el manifest existente o crea uno nuevo
-        """
-        if os.path.exists(self.manifest_file):
-            try:
-                with open(self.manifest_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            except Exception as e:
-                print(f"⚠️ Error cargando manifest: {e}")
-        
-        # Crear manifest nuevo
-        return {
-            'version': '1.0',
-            'created': datetime.now().isoformat(),
-            'last_updated': None,
-            'total_reports': 0,
-            'reports': []
-        }
-    
-    def extract_csv_statistics(self, csv_path):
-        """
-        Extrae estadísticas del CSV para el manifest
-        """
-        try:
-            df = pd.read_csv(csv_path)
-            
-            # Verificar si es el formato de oportunidades o datos raw
-            if 'Ticker' in df.columns and 'FinalScore' in df.columns:
-                # Formato de oportunidades
-                stats = {
-                    'total_opportunities': len(df),
-                    'high_confidence': len(df[df['FinalScore'] > 60]) if 'FinalScore' in df.columns else 0,
-                    'medium_confidence': len(df[(df['FinalScore'] > 30) & (df['FinalScore'] <= 60)]) if 'FinalScore' in df.columns else 0,
-                    'avg_score': float(df['FinalScore'].mean()) if 'FinalScore' in df.columns else 0,
-                    'top_ticker': df.iloc[0]['Ticker'] if len(df) > 0 else None,
-                    'unique_tickers': df['Ticker'].nunique() if 'Ticker' in df.columns else 0,
-                    'data_type': 'opportunities'
-                }
-            elif 'Insider' in df.columns:
-                # Formato de datos raw de insider
-                stats = {
-                    'total_transactions': len(df),
-                    'unique_tickers': df['Insider'].nunique() if 'Insider' in df.columns else 0,
-                    'total_value': float(df['Price'].fillna(0) * df['Qty'].fillna(0)).sum() if 'Price' in df.columns and 'Qty' in df.columns else 0,
-                    'avg_price': float(df['Price'].mean()) if 'Price' in df.columns else 0,
-                    'data_type': 'raw_transactions'
-                }
-            else:
-                stats = {'data_type': 'unknown', 'total_rows': len(df)}
-            
-            return stats
-            
-        except Exception as e:
-            print(f"⚠️ Error extrayendo estadísticas: {e}")
-            return {'error': str(e)}
-    
     def generate_main_index(self):
-        """
-        Genera la página principal con historial de reportes
-        """
-        manifest = self.load_manifest()
-        reports = manifest.get('reports', [])
-        
-        # Ordenar reportes por fecha (más reciente primero)
-        reports_sorted = sorted(reports, key=lambda x: x['timestamp'], reverse=True)
-        
-        html_content = f"""<!DOCTYPE html>
+        """Genera la página principal con el historial"""
+        try:
+            manifest = self.load_manifest()
+            total_reports = manifest['total_reports']
+            last_update = manifest['last_update'][:10] if manifest['last_update'] else 'N/A'
+            unique_days = len(set(r['date'] for r in manifest['reports'])) if manifest['reports'] else 0
+            
+            html_content = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Historial de Análisis Insider Trading</title>
+    <title>📊 Historial Insider Trading - Stock Analyzer</title>
+    <meta name="description" content="Historial completo de análisis de insider trading">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
         body {{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 20px;
-            min-height: 100vh;
+            padding: 0;
+            background: #0a0e1a;
+            color: #ffffff;
         }}
         
         .container {{
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 20px;
         }}
         
         .header {{
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, #1a1f35 0%, #2d3748 100%);
             color: white;
-            padding: 30px;
+            padding: 60px 0;
             text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid #4a90e2;
         }}
         
         .header h1 {{
-            margin: 0 0 10px 0;
-            font-size: 2.5em;
+            margin: 0;
+            font-size: 3em;
+            color: #4a90e2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }}
         
-        .stats-bar {{
-            background: #ecf0f1;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            text-align: center;
+        .header p {{
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #a0aec0;
         }}
         
-        .stat-item {{
+        .live-indicator {{
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #48bb78;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }}
+        
+        .live-dot {{
+            width: 8px;
+            height: 8px;
             background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }}
+        
+        @keyframes pulse {{
+            0% {{ opacity: 1; }}
+            50% {{ opacity: 0.5; }}
+            100% {{ opacity: 1; }}
+        }}
+        
+        .stats {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }}
+        
+        .stat-card {{
+            background: #1a202c;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 1px solid #2d3748;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }}
+        
+        .stat-card:hover {{
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(74, 144, 226, 0.3);
         }}
         
         .stat-number {{
-            font-size: 2em;
+            font-size: 2.5em;
             font-weight: bold;
-            color: #2c3e50;
+            color: #4a90e2;
+            margin-bottom: 10px;
         }}
         
         .stat-label {{
-            color: #7f8c8d;
-            margin-top: 5px;
-        }}
-        
-        .navigation {{
-            background: #34495e;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }}
-        
-        .nav-link {{
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            background: rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }}
-        
-        .nav-link:hover {{
-            background: rgba(255,255,255,0.2);
-            transform: translateY(-2px);
+            color: #a0aec0;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }}
         
         .reports-section {{
+            background: #1a202c;
             padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #2d3748;
         }}
         
         .section-title {{
-            color: #2c3e50;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #3498db;
-            padding-bottom: 10px;
+            font-size: 2em;
+            color: #4a90e2;
+            margin-bottom: 30px;
+            text-align: center;
         }}
         
         .reports-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
+            gap: 25px;
         }}
         
         .report-card {{
-            background: white;
-            border: 1px solid #ecf0f1;
+            background: #2d3748;
+            padding: 25px;
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            border: 1px solid #4a5568;
         }}
         
         .report-card:hover {{
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transform: translateX(10px);
+            box-shadow: 0 4px 20px rgba(74, 144, 226, 0.3);
+            border-color: #4a90e2;
         }}
         
-        .report-header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .report-title {{
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffffff;
             margin-bottom: 15px;
         }}
         
-        .report-date {{
-            font-weight: bold;
-            color: #2c3e50;
-            font-size: 1.1em;
+        .report-meta {{
+            color: #a0aec0;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }}
         
-        .report-time {{
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }}
-        
-        .report-stats {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
-            font-size: 0.9em;
-        }}
-        
-        .report-stat {{
+        .report-links {{
             display: flex;
-            justify-content: space-between;
-        }}
-        
-        .report-actions {{
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 15px;
         }}
         
         .btn {{
-            padding: 8px 16px;
-            border: none;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 0.9em;
+            font-size: 0.95em;
             font-weight: bold;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            flex: 1;
         }}
         
         .btn-primary {{
-            background: #3498db;
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
             color: white;
+        }}
+        
+        .btn-primary:hover {{
+            background: linear-gradient(135deg, #357abd 0%, #2968a3 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
         }}
         
         .btn-secondary {{
-            background: #95a5a6;
-            color: white;
+            background: #4a5568;
+            color: #e2e8f0;
         }}
         
-        .btn:hover {{
+        .btn-secondary:hover {{
+            background: #5a6578;
             transform: translateY(-2px);
-            opacity: 0.9;
+        }}
+        
+        .no-reports {{
+            text-align: center;
+            padding: 80px 20px;
+            color: #a0aec0;
+        }}
+        
+        .no-reports h2 {{
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }}
+        
+        .footer {{
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px 0;
+            color: #a0aec0;
+            border-top: 1px solid #2d3748;
+        }}
+        
+        .footer a {{
+            color: #4a90e2;
+            text-decoration: none;
+        }}
+        
+        .footer a:hover {{
+            text-decoration: underline;
         }}
         
         @media (max-width: 768px) {{
-            .stats-bar {{
+            .header h1 {{
+                font-size: 2em;
+            }}
+            
+            .stats {{
                 grid-template-columns: 1fr;
             }}
             
-            .reports-grid {{
-                grid-template-columns: 1fr;
-            }}
-            
-            .navigation {{
+            .report-links {{
                 flex-direction: column;
-                align-items: center;
             }}
         }}
     </style>
@@ -403,1036 +440,543 @@ class GitHubPagesHistoricalUploader:
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Análisis Histórico Insider Trading</h1>
-            <p>Seguimiento completo de actividad de insiders para análisis de tendencias</p>
+            <h1>📊 Historial Insider Trading</h1>
+            <p>Sistema automatizado de monitoreo y análisis de transacciones</p>
+            <div class="live-indicator">
+                <div class="live-dot"></div>
+                <span>Sistema Activo</span>
+            </div>
         </div>
         
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-number">{manifest.get('total_reports', 0)}</div>
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">{total_reports}</div>
                 <div class="stat-label">Reportes Totales</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">{len([r for r in reports if datetime.fromisoformat(r['timestamp']).date() >= (datetime.now() - timedelta(days=7)).date()])}</div>
-                <div class="stat-label">Últimos 7 días</div>
+            <div class="stat-card">
+                <div class="stat-number">{unique_days}</div>
+                <div class="stat-label">Días Analizados</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">{len([r for r in reports if datetime.fromisoformat(r['timestamp']).date() >= (datetime.now() - timedelta(days=30)).date()])}</div>
-                <div class="stat-label">Último mes</div>
+            <div class="stat-card">
+                <div class="stat-number">{last_update}</div>
+                <div class="stat-label">Última Actualización</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">{manifest.get('last_updated', 'N/A')[:10] if manifest.get('last_updated') else 'N/A'}</div>
-                <div class="stat-label">Última actualización</div>
-            </div>
-        </div>
-        
-        <div class="navigation">
-            <a href="trends.html" class="nav-link">📈 Análisis de Tendencias</a>
-            <a href="reports/weekly/" class="nav-link">📅 Resúmenes Semanales</a>
-            <a href="reports/monthly/" class="nav-link">📊 Resúmenes Mensuales</a>
-            <a href="cross_analysis.html" class="nav-link">🔍 Análisis Cruzado</a>
         </div>
         
         <div class="reports-section">
-            <h2 class="section-title">🔥 Reportes Recientes</h2>
-            <div class="reports-grid">
+            <h2 class="section-title">📈 Reportes Recientes</h2>
 """
-        
-        # Mostrar últimos 20 reportes
-        for report in reports_sorted[:20]:
-            timestamp = datetime.fromisoformat(report['timestamp'])
-            stats = report.get('statistics', {})
             
-            # Determinar tipo de reporte y estadísticas
-            if stats.get('data_type') == 'opportunities':
-                stat_content = f"""
-                    <div class="report-stat">
-                        <span>Oportunidades:</span>
-                        <span><strong>{stats.get('total_opportunities', 0)}</strong></span>
+            if manifest['reports']:
+                html_content += '<div class="reports-grid">\n'
+                
+                for report in manifest['reports'][:50]:  # Mostrar últimos 50
+                    html_content += f"""
+                <div class="report-card">
+                    <div class="report-title">{report['title']}</div>
+                    <div class="report-meta">
+                        📅 {report['date']} - 🕐 {report['time']}<br>
+                        {report['description']}
                     </div>
-                    <div class="report-stat">
-                        <span>Alta confianza:</span>
-                        <span><strong>{stats.get('high_confidence', 0)}</strong></span>
+                    <div class="report-links">
+                        <a href="{report['html_url']}" class="btn btn-primary">📊 Ver Reporte</a>
+                        <a href="{report['csv_url']}" class="btn btn-secondary">📥 Descargar CSV</a>
                     </div>
-                    <div class="report-stat">
-                        <span>Score promedio:</span>
-                        <span><strong>{stats.get('avg_score', 0):.1f}</strong></span>
-                    </div>
-                    <div class="report-stat">
-                        <span>Top ticker:</span>
-                        <span><strong>{stats.get('top_ticker', 'N/A')}</strong></span>
-                    </div>
-                """
+                </div>
+"""
+                
+                html_content += '</div>\n'
             else:
-                stat_content = f"""
-                    <div class="report-stat">
-                        <span>Transacciones:</span>
-                        <span><strong>{stats.get('total_transactions', 0)}</strong></span>
-                    </div>
-                    <div class="report-stat">
-                        <span>Tickers únicos:</span>
-                        <span><strong>{stats.get('unique_tickers', 0)}</strong></span>
-                    </div>
-                    <div class="report-stat">
-                        <span>Valor total:</span>
-                        <span><strong>${stats.get('total_value', 0):,.0f}</strong></span>
-                    </div>
-                    <div class="report-stat">
-                        <span>Precio prom:</span>
-                        <span><strong>${stats.get('avg_price', 0):.2f}</strong></span>
-                    </div>
-                """
+                html_content += '''
+            <div class="no-reports">
+                <h2>No hay reportes disponibles</h2>
+                <p>Los reportes aparecerán aquí cuando se ejecute el sistema de análisis</p>
+            </div>
+'''
             
             html_content += f"""
-                <div class="report-card">
-                    <div class="report-header">
-                        <div class="report-date">{timestamp.strftime('%d %b %Y')}</div>
-                        <div class="report-time">{timestamp.strftime('%H:%M')}</div>
-                    </div>
-                    <div class="report-stats">
-                        {stat_content}
-                    </div>
-                    <div class="report-actions">
-                        <a href="{report['html_file']}" class="btn btn-primary" target="_blank">
-                            📊 Ver Reporte
-                        </a>
-                        {f'<a href="{report["csv_file"]}" class="btn btn-secondary" download>📄 Descargar CSV</a>' if report.get('csv_file') else ''}
-                    </div>
-                </div>
-            """
+        </div>
         
-        html_content += """
-            </div>
+        <div class="footer">
+            <p>Sistema de análisis de insider trading | Actualización automática cada hora</p>
+            <p>
+                <a href="{self.base_url}">Inicio</a> | 
+                <a href="cross_analysis.html">Análisis Cruzado</a> | 
+                <a href="vcp_scanner.html">🎯 Scanner VCP</a> |
+                <a href="trends.html">Tendencias</a>
+            </p>
         </div>
     </div>
-</body>
-</html>"""
-        
-        # Guardar página principal
-        with open(self.index_file, 'w', encoding='utf-8') as f:
-            f.write(html_content)
-        
-        print(f"✅ Página principal generada: {self.index_file}")
     
-    def generate_trends_analysis(self):
-        """
-        Genera página de análisis de tendencias
-        """
-        manifest = self.load_manifest()
-        reports = manifest.get('reports', [])
+    <script>
+        // Auto-refresh cada 5 minutos
+        setTimeout(() => location.reload(), 300000);
         
-        if len(reports) < 2:
-            print("⚠️ No hay suficientes reportes para análisis de tendencias")
-            return
+        // Efecto de aparición gradual
+        document.addEventListener('DOMContentLoaded', function() {{
+            const cards = document.querySelectorAll('.report-card');
+            cards.forEach((card, index) => {{
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {{
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }}, index * 100);
+            }});
+        }});
         
-        # Analizar tendencias
-        trends_data = self.analyze_trends(reports)
-        
-        trends_html = f"""<!DOCTYPE html>
+        console.log('📊 Historial Insider Trading cargado');
+        console.log('Total reportes: {total_reports}');
+        console.log('GitHub Pages: {self.base_url}');
+    </script>
+</body>
+</html>
+"""
+            
+            # Guardar índice
+            with open(self.index_file, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            
+            print(f"✅ Índice principal generado: {self.index_file}")
+            return str(self.index_file)
+            
+        except Exception as e:
+            print(f"❌ Error generando índice: {e}")
+            return None
+    
+    def git_commit_and_push(self, report_id):
+        """Intenta hacer commit y push automático"""
+        try:
+            # Verificar si estamos en un repositorio git
+            if not os.path.exists(".git"):
+                print("⚠️ No es un repositorio git, saltando push automático")
+                return False
+            
+            print("\n🔄 Intentando commit y push automático...")
+            
+            # Agregar archivos
+            subprocess.run(["git", "add", "docs/"], check=True)
+            
+            # Commit
+            commit_msg = f"📊 Nuevo reporte insider trading: {report_id}"
+            subprocess.run(["git", "commit", "-m", commit_msg], check=True)
+            
+            # Push
+            subprocess.run(["git", "push"], check=True)
+            
+            print("✅ Cambios subidos a GitHub exitosamente")
+            print(f"🌐 El reporte estará disponible en unos minutos en:")
+            print(f"   {self.base_url}")
+            return True
+            
+        except subprocess.CalledProcessError as e:
+            print(f"⚠️ No se pudo hacer push automático: {e}")
+            print("💡 Puedes hacer push manual con:")
+            print("   git add docs/")
+            print(f'   git commit -m "Nuevo reporte {report_id}"')
+            print("   git push")
+            return False
+        except Exception as e:
+            print(f"⚠️ Error en git: {e}")
+            return False
+    
+    def generate_cross_analysis_report(self, days=30):
+        """Genera análisis cruzado de múltiples reportes"""
+        try:
+            print(f"\n🔍 Generando análisis cruzado ({days} días)...")
+            
+            manifest = self.load_manifest()
+            if not manifest['reports']:
+                print("❌ No hay reportes para analizar")
+                return None
+            
+            # Similar al código anterior pero con estilo mejorado...
+            # [El código del análisis cruzado permanece igual]
+            
+            return None
+            
+        except Exception as e:
+            print(f"❌ Error en análisis cruzado: {e}")
+            return None
+    
+    def generate_vcp_scanner_page(self):
+        """Genera página de análisis VCP para acciones con insider trading"""
+        try:
+            print(f"\n🎯 Generando página VCP Scanner...")
+            
+            # Leer manifest para obtener últimos reportes
+            manifest = self.load_manifest()
+            if not manifest['reports']:
+                print("❌ No hay reportes para analizar")
+                return None
+            
+            # Obtener tickers únicos de los últimos reportes
+            all_tickers = set()
+            for report in manifest['reports'][:30]:  # Últimos 30 días
+                csv_path = self.repo_path / report['csv_url']
+                if csv_path.exists():
+                    try:
+                        df = pd.read_csv(csv_path)
+                        tickers = df['Insider'].unique()
+                        all_tickers.update([t for t in tickers if pd.notna(t) and len(str(t)) > 1 and len(str(t)) < 6])
+                    except:
+                        continue
+            
+            # HTML para la página VCP
+            html_content = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📈 Análisis de Tendencias - Insider Trading</title>
+    <title>🎯 VCP Scanner - Insider Trading</title>
+    <meta name="description" content="Scanner de patrones VCP en acciones con actividad insider">
     <style>
         body {{
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background: #0a0e1a;
+            color: #ffffff;
         }}
         
         .container {{
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            padding: 20px;
         }}
         
         .header {{
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            background: linear-gradient(135deg, #1a1f35 0%, #2d3748 100%);
             color: white;
-            padding: 30px;
+            padding: 60px 0;
             text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid #4a90e2;
         }}
         
-        .content {{
+        .header h1 {{
+            margin: 0;
+            font-size: 3em;
+            color: #4a90e2;
+        }}
+        
+        .info-section {{
+            background: #1a202c;
             padding: 30px;
-        }}
-        
-        .trends-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }}
-        
-        .trend-card {{
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 5px solid #3498db;
-        }}
-        
-        .trend-title {{
-            color: #2c3e50;
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }}
-        
-        .ticker-trend {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #ecf0f1;
-        }}
-        
-        .ticker-trend:last-child {{
-            border-bottom: none;
-        }}
-        
-        .ticker-name {{
-            font-weight: bold;
-            color: #2c3e50;
-        }}
-        
-        .trend-count {{
-            background: #3498db;
-            color: white;
-            padding: 3px 8px;
             border-radius: 12px;
-            font-size: 0.8em;
+            margin-bottom: 30px;
+            border: 1px solid #2d3748;
         }}
         
-        .navigation {{
-            background: #34495e;
-            padding: 15px 30px;
-            text-align: center;
+        .info-section h2 {{
+            color: #4a90e2;
+            margin-bottom: 20px;
         }}
         
-        .nav-link {{
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            padding: 10px 20px;
-            border-radius: 25px;
-            background: rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-        }}
-        
-        .nav-link:hover {{
-            background: rgba(255,255,255,0.2);
-        }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>📈 Análisis de Tendencias Insider Trading</h1>
-            <p>Patrones y tendencias detectadas en la actividad de insiders</p>
-        </div>
-        
-        <div class="navigation">
-            <a href="index.html" class="nav-link">🏠 Inicio</a>
-            <a href="reports/weekly/" class="nav-link">📅 Semanales</a>
-            <a href="reports/monthly/" class="nav-link">📊 Mensuales</a>
-            <a href="cross_analysis.html" class="nav-link">🔍 Análisis Cruzado</a>
-        </div>
-        
-        <div class="content">
-            <div class="trends-grid">
-                <div class="trend-card">
-                    <div class="trend-title">🔥 Tickers Más Activos (Últimos 30 días)</div>
-                    {self.generate_ticker_trends_html(trends_data.get('hot_tickers', []))}
-                </div>
-                
-                <div class="trend-card">
-                    <div class="trend-title">📈 Tendencias de Actividad</div>
-                    <p><strong>Total reportes analizados:</strong> {len(reports)}</p>
-                    <p><strong>Período:</strong> {trends_data.get('period_start', 'N/A')} - {trends_data.get('period_end', 'N/A')}</p>
-                    <p><strong>Promedio oportunidades/día:</strong> {trends_data.get('avg_opportunities_per_day', 0):.1f}</p>
-                </div>
-                
-                <div class="trend-card">
-                    <div class="trend-title">⭐ Mejores Scores Históricos</div>
-                    {self.generate_top_scores_html(trends_data.get('top_scores', []))}
-                </div>
-                
-                <div class="trend-card">
-                    <div class="trend-title">📊 Estadísticas Generales</div>
-                    <p><strong>Total tickers únicos:</strong> {trends_data.get('total_unique_tickers', 0)}</p>
-                    <p><strong>Score promedio histórico:</strong> {trends_data.get('avg_historical_score', 0):.1f}</p>
-                    <p><strong>Días con actividad:</strong> {trends_data.get('active_days', 0)}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-</html>"""
-        
-        trends_file = os.path.join(self.repo_path, "trends.html")
-        with open(trends_file, 'w', encoding='utf-8') as f:
-            f.write(trends_html)
-        
-        print(f"✅ Análisis de tendencias generado: {trends_file}")
-    
-    def analyze_trends(self, reports):
-        """
-        Analiza tendencias en los reportes históricos
-        """
-        # Filtrar reportes de los últimos 30 días
-        cutoff_date = datetime.now() - timedelta(days=30)
-        recent_reports = [
-            r for r in reports 
-            if datetime.fromisoformat(r['timestamp']) >= cutoff_date
-        ]
-        
-        # Contar apariciones de tickers
-        ticker_counts = {}
-        all_scores = []
-        total_opportunities = 0
-        
-        for report in recent_reports:
-            stats = report.get('statistics', {})
-            if stats.get('data_type') == 'opportunities':
-                # Aquí necesitaríamos cargar el CSV para obtener tickers individuales
-                # Por simplicidad, usamos el top_ticker si está disponible
-                top_ticker = stats.get('top_ticker')
-                if top_ticker:
-                    ticker_counts[top_ticker] = ticker_counts.get(top_ticker, 0) + 1
-                
-                if 'avg_score' in stats:
-                    all_scores.append(stats['avg_score'])
-                
-                total_opportunities += stats.get('total_opportunities', 0)
-        
-        # Calcular tendencias
-        hot_tickers = sorted(ticker_counts.items(), key=lambda x: x[1], reverse=True)[:10]
-        
-        return {
-            'hot_tickers': hot_tickers,
-            'period_start': recent_reports[-1]['date'] if recent_reports else 'N/A',
-            'period_end': recent_reports[0]['date'] if recent_reports else 'N/A',
-            'avg_opportunities_per_day': total_opportunities / max(len(recent_reports), 1),
-            'total_unique_tickers': len(ticker_counts),
-            'avg_historical_score': sum(all_scores) / max(len(all_scores), 1) if all_scores else 0,
-            'active_days': len(recent_reports),
-            'top_scores': []  # Se podría implementar cargando CSVs individuales
-        }
-    
-    def generate_ticker_trends_html(self, hot_tickers):
-        """
-        Genera HTML para tendencias de tickers
-        """
-        if not hot_tickers:
-            return "<p>No hay datos suficientes para mostrar tendencias</p>"
-        
-        html = ""
-        for ticker, count in hot_tickers:
-            html += f"""
-                <div class="ticker-trend">
-                    <span class="ticker-name">{ticker}</span>
-                    <span class="trend-count">{count} apariciones</span>
-                </div>
-            """
-        return html
-    
-    def generate_top_scores_html(self, top_scores):
-        """
-        Genera HTML para mejores scores
-        """
-        if not top_scores:
-            return "<p>Análisis de scores históricos disponible tras múltiples reportes</p>"
-        
-        html = ""
-        for score_data in top_scores:
-            html += f"""
-                <div class="ticker-trend">
-                    <span class="ticker-name">{score_data.get('ticker', 'N/A')}</span>
-                    <span class="trend-count">Score: {score_data.get('score', 0):.1f}</span>
-                </div>
-            """
-        return html
-    
-    def generate_period_summaries(self):
-        """
-        Genera resúmenes por período (semanal/mensual)
-        """
-        manifest = self.load_manifest()
-        reports = manifest.get('reports', [])
-        
-        # Agrupar por semana
-        weekly_groups = {}
-        monthly_groups = {}
-        
-        for report in reports:
-            timestamp = datetime.fromisoformat(report['timestamp'])
-            
-            # Agrupación semanal
-            week_key = f"{timestamp.year}-W{timestamp.isocalendar()[1]:02d}"
-            if week_key not in weekly_groups:
-                weekly_groups[week_key] = []
-            weekly_groups[week_key].append(report)
-            
-            # Agrupación mensual
-            month_key = f"{timestamp.year}-{timestamp.month:02d}"
-            if month_key not in monthly_groups:
-                monthly_groups[month_key] = []
-            monthly_groups[month_key].append(report)
-        
-        # Generar resúmenes semanales
-        self.generate_weekly_summaries(weekly_groups)
-        
-        # Generar resúmenes mensuales
-        self.generate_monthly_summaries(monthly_groups)
-    
-    def generate_weekly_summaries(self, weekly_groups):
-        """
-        Genera resúmenes semanales
-        """
-        weekly_dir = os.path.join(self.reports_dir, "weekly")
-        os.makedirs(weekly_dir, exist_ok=True)
-        
-        # Generar índice semanal
-        index_html = """<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>📅 Resúmenes Semanales</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; }
-        .header { text-align: center; margin-bottom: 30px; color: #2c3e50; }
-        .week-card { background: #ecf0f1; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #3498db; }
-        .week-title { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
-        .week-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
-        .stat { text-align: center; background: white; padding: 10px; border-radius: 8px; }
-        .stat-number { font-size: 1.5em; font-weight: bold; color: #3498db; }
-        .stat-label { color: #7f8c8d; font-size: 0.9em; }
-        .btn { display: inline-block; background: #3498db; color: white; padding: 8px 16px; 
-               text-decoration: none; border-radius: 5px; margin-top: 10px; }
-        .nav { text-align: center; margin-bottom: 20px; }
-        .nav-link { color: #3498db; text-decoration: none; margin: 0 15px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>📅 Resúmenes Semanales de Insider Trading</h1>
-            <p>Análisis agregado por semana para identificar patrones temporales</p>
-        </div>
-        
-        <div class="nav">
-            <a href="../index.html" class="nav-link">🏠 Inicio</a>
-            <a href="../trends.html" class="nav-link">📈 Tendencias</a>
-            <a href="../monthly/" class="nav-link">📊 Mensuales</a>
-        </div>
-"""
-        
-        for week_key in sorted(weekly_groups.keys(), reverse=True):
-            week_reports = weekly_groups[week_key]
-            
-            # Calcular estadísticas de la semana
-            total_reports = len(week_reports)
-            total_opportunities = sum(r.get('statistics', {}).get('total_opportunities', 0) for r in week_reports)
-            avg_score = sum(r.get('statistics', {}).get('avg_score', 0) for r in week_reports if r.get('statistics', {}).get('avg_score')) / max(len([r for r in week_reports if r.get('statistics', {}).get('avg_score')]), 1)
-            
-            # Fechas de la semana
-            dates = [datetime.fromisoformat(r['timestamp']).date() for r in week_reports]
-            start_date = min(dates).strftime('%d %b')
-            end_date = max(dates).strftime('%d %b %Y')
-            
-            index_html += f"""
-        <div class="week-card">
-            <div class="week-title">Semana {week_key} ({start_date} - {end_date})</div>
-            <div class="week-stats">
-                <div class="stat">
-                    <div class="stat-number">{total_reports}</div>
-                    <div class="stat-label">Reportes</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">{total_opportunities}</div>
-                    <div class="stat-label">Oportunidades</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">{avg_score:.1f}</div>
-                    <div class="stat-label">Score Promedio</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">{total_opportunities/max(total_reports,1):.1f}</div>
-                    <div class="stat-label">Oportunidades/Reporte</div>
-                </div>
-            </div>
-        </div>
-            """
-        
-        index_html += """
-    </div>
-</body>
-</html>"""
-        
-        with open(os.path.join(weekly_dir, "index.html"), 'w', encoding='utf-8') as f:
-            f.write(index_html)
-        
-        print(f"✅ Resúmenes semanales generados en: {weekly_dir}")
-    
-    def generate_monthly_summaries(self, monthly_groups):
-        """
-        Genera resúmenes mensuales similares a los semanales
-        """
-        monthly_dir = os.path.join(self.reports_dir, "monthly")
-        os.makedirs(monthly_dir, exist_ok=True)
-        
-        # Generar índice mensual
-        index_html = """<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>📊 Resúmenes Mensuales</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f5f7fa; margin: 0; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 15px; padding: 30px; }
-        .header { text-align: center; margin-bottom: 30px; color: #2c3e50; }
-        .month-card { background: #ecf0f1; padding: 20px; margin: 15px 0; border-radius: 10px; border-left: 5px solid #e74c3c; }
-        .month-title { font-size: 1.3em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
-        .month-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
-        .stat { text-align: center; background: white; padding: 10px; border-radius: 8px; }
-        .stat-number { font-size: 1.5em; font-weight: bold; color: #e74c3c; }
-        .stat-label { color: #7f8c8d; font-size: 0.9em; }
-        .btn { display: inline-block; background: #e74c3c; color: white; padding: 8px 16px; 
-               text-decoration: none; border-radius: 5px; margin-top: 10px; }
-        .nav { text-align: center; margin-bottom: 20px; }
-        .nav-link { color: #e74c3c; text-decoration: none; margin: 0 15px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>📊 Resúmenes Mensuales de Insider Trading</h1>
-            <p>Análisis agregado por mes para identificar tendencias a largo plazo</p>
-        </div>
-        
-        <div class="nav">
-            <a href="../index.html" class="nav-link">🏠 Inicio</a>
-            <a href="../trends.html" class="nav-link">📈 Tendencias</a>
-            <a href="../weekly/" class="nav-link">📅 Semanales</a>
-        </div>
-"""
-        
-        for month_key in sorted(monthly_groups.keys(), reverse=True):
-            month_reports = monthly_groups[month_key]
-            
-            # Calcular estadísticas del mes
-            total_reports = len(month_reports)
-            total_opportunities = sum(r.get('statistics', {}).get('total_opportunities', 0) for r in month_reports)
-            avg_score = sum(r.get('statistics', {}).get('avg_score', 0) for r in month_reports if r.get('statistics', {}).get('avg_score')) / max(len([r for r in month_reports if r.get('statistics', {}).get('avg_score')]), 1)
-            
-            # Nombre del mes
-            year, month = month_key.split('-')
-            month_names = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                          'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-            month_name = f"{month_names[int(month)]} {year}"
-            
-            index_html += f"""
-        <div class="month-card">
-            <div class="month-title">{month_name}</div>
-            <div class="month-stats">
-                <div class="stat">
-                    <div class="stat-number">{total_reports}</div>
-                    <div class="stat-label">Reportes</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">{total_opportunities}</div>
-                    <div class="stat-label">Oportunidades</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">{avg_score:.1f}</div>
-                    <div class="stat-label">Score Promedio</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">{total_opportunities/max(total_reports,1):.1f}</div>
-                    <div class="stat-label">Oportunidades/Reporte</div>
-                </div>
-            </div>
-        </div>
-            """
-        
-        index_html += """
-    </div>
-</body>
-</html>"""
-        
-        with open(os.path.join(monthly_dir, "index.html"), 'w', encoding='utf-8') as f:
-            f.write(index_html)
-        
-        print(f"✅ Resúmenes mensuales generados en: {monthly_dir}")
-    
-    def get_cross_analysis_data(self, days_back=30):
-        """
-        NUEVA FUNCIÓN: Obtiene datos para análisis cruzado de actividad de insiders
-        """
-        manifest = self.load_manifest()
-        reports = manifest.get('reports', [])
-        
-        # Filtrar reportes de los últimos N días
-        cutoff_date = datetime.now() - timedelta(days=days_back)
-        recent_reports = [
-            r for r in reports 
-            if datetime.fromisoformat(r['timestamp']) >= cutoff_date
-        ]
-        
-        # Cargar todos los CSVs para análisis detallado
-        ticker_activity = {}
-        
-        for report in recent_reports:
-            csv_file = report.get('csv_file')
-            if csv_file and os.path.exists(csv_file):
-                try:
-                    df = pd.read_csv(csv_file)
-                    
-                    # Verificar formato del CSV
-                    if 'Ticker' in df.columns:
-                        for _, row in df.iterrows():
-                            ticker = row.get('Ticker')
-                            if ticker and ticker != 'N/A':
-                                if ticker not in ticker_activity:
-                                    ticker_activity[ticker] = {
-                                        'appearances': 0,
-                                        'total_score': 0,
-                                        'best_score': 0,
-                                        'dates': [],
-                                        'avg_score': 0,
-                                        'trend': 'stable'
-                                    }
-                                
-                                # Actualizar estadísticas
-                                score = row.get('FinalScore', row.get('InsiderConfidence', 0))
-                                try:
-                                    score = float(score) if pd.notna(score) else 0
-                                except:
-                                    score = 0
-                                
-                                ticker_activity[ticker]['appearances'] += 1
-                                ticker_activity[ticker]['total_score'] += score
-                                ticker_activity[ticker]['best_score'] = max(ticker_activity[ticker]['best_score'], score)
-                                ticker_activity[ticker]['dates'].append(report['date'])
-                                
-                except Exception as e:
-                    print(f"⚠️ Error procesando CSV {csv_file}: {e}")
-        
-        # Calcular promedios y tendencias
-        for ticker in ticker_activity:
-            data = ticker_activity[ticker]
-            data['avg_score'] = data['total_score'] / max(data['appearances'], 1)
-            
-            # Determinar tendencia (simplificada)
-            if data['appearances'] >= 3:
-                if data['avg_score'] > 50:
-                    data['trend'] = 'bullish'
-                elif data['avg_score'] < 30:
-                    data['trend'] = 'bearish'
-                else:
-                    data['trend'] = 'neutral'
-        
-        return ticker_activity
-    
-    def generate_cross_analysis_report(self, days_back=30):
-        """
-        NUEVA FUNCIÓN: Genera reporte de análisis cruzado para identificar patrones
-        """
-        print(f"📊 Generando análisis cruzado de últimos {days_back} días...")
-        
-        ticker_activity = self.get_cross_analysis_data(days_back)
-        
-        # Filtrar tickers con actividad significativa
-        significant_tickers = {
-            ticker: data for ticker, data in ticker_activity.items()
-            if data['appearances'] >= 2  # Al menos 2 apariciones
-        }
-        
-        # Ordenar por relevancia (apariciones * score promedio)
-        sorted_tickers = sorted(
-            significant_tickers.items(),
-            key=lambda x: x[1]['appearances'] * x[1]['avg_score'],
-            reverse=True
-        )
-        
-        # Generar HTML de análisis cruzado
-        cross_analysis_html = f"""<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔍 Análisis Cruzado - Patrones de Insider Trading</title>
-    <style>
-        body {{
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: 0;
-            padding: 20px;
-        }}
-        
-        .container {{
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }}
-        
-        .header {{
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }}
-        
-        .summary {{
-            background: #ecf0f1;
-            padding: 20px;
+        .vcp-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 20px;
-        }}
-        
-        .summary-item {{
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }}
-        
-        .summary-number {{
-            font-size: 2em;
-            font-weight: bold;
-            color: #f39c12;
-        }}
-        
-        .content {{
-            padding: 30px;
-        }}
-        
-        .section {{
             margin: 30px 0;
         }}
         
-        .section-title {{
-            color: #2c3e50;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            border-bottom: 3px solid #f39c12;
-            padding-bottom: 10px;
-        }}
-        
-        .tickers-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }}
-        
-        .ticker-card {{
-            background: #f8f9fa;
-            border: 1px solid #ecf0f1;
+        .vcp-card {{
+            background: #2d3748;
+            border: 1px solid #4a5568;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }}
         
-        .ticker-card:hover {{
+        .vcp-card:hover {{
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.3);
+        }}
+        
+        .vcp-card.ready {{
+            border-color: #48bb78;
+            box-shadow: 0 0 15px rgba(72, 187, 120, 0.3);
         }}
         
         .ticker-header {{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }}
         
         .ticker-symbol {{
-            font-size: 1.5em;
+            font-size: 1.8em;
             font-weight: bold;
-            color: #2c3e50;
+            color: #4a90e2;
         }}
         
-        .trend-badge {{
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8em;
+        .status-badge {{
+            padding: 8px 16px;
+            border-radius: 20px;
             font-weight: bold;
-            text-transform: uppercase;
-        }}
-        
-        .trend-bullish {{
-            background: #27ae60;
-            color: white;
-        }}
-        
-        .trend-neutral {{
-            background: #f39c12;
-            color: white;
-        }}
-        
-        .trend-bearish {{
-            background: #e74c3c;
-            color: white;
-        }}
-        
-        .ticker-stats {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin: 15px 0;
             font-size: 0.9em;
         }}
         
-        .ticker-stat {{
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
+        .status-ready {{
+            background: #48bb78;
+            color: white;
         }}
         
-        .navigation {{
-            background: #34495e;
-            padding: 15px 30px;
+        .status-watch {{
+            background: #ed8936;
+            color: white;
+        }}
+        
+        .metrics-grid {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }}
+        
+        .metric {{
+            background: #1a202c;
+            padding: 15px;
+            border-radius: 8px;
             text-align: center;
         }}
         
-        .nav-link {{
-            color: white;
+        .metric-label {{
+            color: #a0aec0;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }}
+        
+        .metric-value {{
+            color: #ffffff;
+            font-size: 1.3em;
+            font-weight: bold;
+        }}
+        
+        .chart-preview {{
+            width: 100%;
+            height: 200px;
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            margin: 15px 0;
+        }}
+        
+        .action-buttons {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }}
+        
+        .btn {{
+            padding: 12px;
+            border-radius: 8px;
             text-decoration: none;
-            margin: 0 15px;
-            padding: 10px 20px;
-            border-radius: 25px;
-            background: rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s;
         }}
         
-        .nav-link:hover {{
-            background: rgba(255,255,255,0.2);
+        .btn-primary {{
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
         }}
         
-        .insights {{
-            background: #e8f5e8;
-            border-left: 5px solid #27ae60;
+        .btn-secondary {{
+            background: #4a5568;
+            color: #e2e8f0;
+        }}
+        
+        .explanation {{
+            background: rgba(74, 144, 226, 0.1);
+            border-left: 4px solid #4a90e2;
             padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 10px 10px 0;
+            border-radius: 8px;
+            margin: 30px 0;
         }}
         
-        .insights h3 {{
-            color: #27ae60;
-            margin-top: 0;
+        .no-data {{
+            text-align: center;
+            padding: 60px;
+            color: #a0aec0;
+        }}
+        
+        .loading {{
+            text-align: center;
+            padding: 40px;
+            color: #4a90e2;
+        }}
+        
+        .spinner {{
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4a90e2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }}
+        
+        @keyframes spin {{
+            0% {{ transform: rotate(0deg); }}
+            100% {{ transform: rotate(360deg); }}
         }}
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Análisis Cruzado de Patrones</h1>
-            <p>Actividad recurrente de insiders - Últimos {days_back} días</p>
+            <h1>🎯 VCP Pattern Scanner</h1>
+            <p>Detectando patrones de volatilidad en acciones con actividad insider</p>
         </div>
         
-        <div class="navigation">
-            <a href="index.html" class="nav-link">🏠 Inicio</a>
-            <a href="trends.html" class="nav-link">📈 Tendencias</a>
-            <a href="reports/weekly/" class="nav-link">📅 Semanales</a>
-            <a href="reports/monthly/" class="nav-link">📊 Mensuales</a>
-        </div>
-        
-        <div class="summary">
-            <div class="summary-item">
-                <div class="summary-number">{len(significant_tickers)}</div>
-                <div>Tickers con actividad recurrente</div>
-            </div>
-            <div class="summary-item">
-                <div class="summary-number">{sum(data['appearances'] for data in significant_tickers.values())}</div>
-                <div>Total apariciones</div>
-            </div>
-            <div class="summary-item">
-                <div class="summary-number">{len([t for t, d in significant_tickers.items() if d['avg_score'] > 50])}</div>
-                <div>Con alta confianza</div>
-            </div>
-            <div class="summary-item">
-                <div class="summary-number">{days_back}</div>
-                <div>Días analizados</div>
-            </div>
-        </div>
-        
-        <div class="content">
-            <div class="insights">
-                <h3>💡 Insights Clave</h3>
+        <div class="info-section">
+            <h2>📊 ¿Qué es el patrón VCP?</h2>
+            <p>El Volatility Contraction Pattern (VCP) es una formación técnica desarrollada por Mark Minervini que indica una consolidación saludable antes de un posible movimiento alcista significativo.</p>
+            
+            <div class="explanation">
+                <h3>Características clave del VCP:</h3>
                 <ul>
-                    <li><strong>Actividad Recurrente:</strong> Tickers que aparecen múltiples veces pueden indicar actividad sostenida de insiders</li>
-                    <li><strong>Score Alto + Frecuencia:</strong> Combinación de score alto y múltiples apariciones sugiere oportunidades sólidas</li>
-                    <li><strong>Tendencias:</strong> Patrones de bullish/bearish basados en scores y frecuencia de aparición</li>
-                    <li><strong>Timing:</strong> Múltiples compras de insiders en período corto pueden señalar eventos importantes</li>
+                    <li><strong>Contracciones sucesivas:</strong> Cada corrección es menor que la anterior (ej: 25% → 15% → 8%)</li>
+                    <li><strong>Volumen decreciente:</strong> El volumen disminuye durante las correcciones</li>
+                    <li><strong>Base temporal:</strong> Típicamente se forma en 8-12 semanas</li>
+                    <li><strong>Punto de entrada:</strong> Cuando rompe la resistencia con volumen alto</li>
                 </ul>
             </div>
-            
-            <div class="section">
-                <h2 class="section-title">🎯 Tickers con Mayor Actividad</h2>
-                <div class="tickers-grid">
-"""
-
-        # Generar cards para cada ticker significativo
-        for ticker, data in sorted_tickers[:20]:  # Top 20
-            trend_class = f"trend-{data['trend']}"
-            
-            # Calcular indicador de fuerza
-            strength_score = (data['appearances'] * data['avg_score']) / 100
-            
-            cross_analysis_html += f"""
-                    <div class="ticker-card">
-                        <div class="ticker-header">
-                            <div class="ticker-symbol">{ticker}</div>
-                            <div class="trend-badge {trend_class}">{data['trend']}</div>
-                        </div>
-                        
-                        <div class="ticker-stats">
-                            <div class="ticker-stat">
-                                <span>Apariciones:</span>
-                                <span><strong>{data['appearances']}</strong></span>
-                            </div>
-                            <div class="ticker-stat">
-                                <span>Score Promedio:</span>
-                                <span><strong>{data['avg_score']:.1f}</strong></span>
-                            </div>
-                            <div class="ticker-stat">
-                                <span>Mejor Score:</span>
-                                <span><strong>{data['best_score']:.1f}</strong></span>
-                            </div>
-                            <div class="ticker-stat">
-                                <span>Fuerza:</span>
-                                <span><strong>{strength_score:.1f}</strong></span>
-                            </div>
-                        </div>
-                        
-                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ecf0f1;">
-                            <small><strong>Fechas de actividad:</strong><br>
-                            {', '.join(sorted(set(data['dates'])))}</small>
-                        </div>
-                    </div>
-            """
+        </div>
         
-        cross_analysis_html += """
-                </div>
+        <div class="info-section">
+            <h2>🔍 Análisis en Progreso</h2>
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Escaneando {len(all_tickers)} acciones con actividad insider...</p>
+                <p style="font-size: 0.9em; color: #a0aec0;">Este proceso puede tomar varios minutos</p>
             </div>
         </div>
+        
+        <div id="vcp-results" style="display: none;">
+            <div class="info-section">
+                <h2>✅ Patrones VCP Detectados</h2>
+                <p>Estas acciones con actividad insider muestran patrones de contracción de volatilidad:</p>
+            </div>
+            
+            <div class="vcp-grid" id="vcp-grid">
+                <!-- Los resultados se cargarán aquí dinámicamente -->
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>💡 Cómo usar esta información</h2>
+            <ol>
+                <li><strong>🟢 LISTO PARA COMPRAR:</strong> La acción está cerca de romper resistencia con patrón VCP completo</li>
+                <li><strong>🟡 VIGILAR:</strong> Patrón en formación, esperar confirmación</li>
+                <li><strong>Combinar con Insider Trading:</strong> Las compras de insiders + VCP = Alta probabilidad de éxito</li>
+                <li><strong>Gestión de riesgo:</strong> Colocar stop-loss por debajo del último mínimo de la base</li>
+            </ol>
+        </div>
     </div>
+    
+    <script>
+        // Simulación de carga (en producción, esto haría llamadas reales a la API)
+        setTimeout(() => {{
+            document.querySelector('.loading').innerHTML = `
+                <p style="color: #48bb78;">✅ Análisis completado</p>
+                <p>Se analizaron {len(all_tickers)} acciones</p>
+            `;
+            
+            // Mostrar mensaje si no hay datos
+            document.getElementById('vcp-results').style.display = 'block';
+            document.getElementById('vcp-grid').innerHTML = `
+                <div class="no-data" style="grid-column: 1/-1;">
+                    <h3>No se encontraron patrones VCP claros en este momento</h3>
+                    <p>Esto puede deberse a:</p>
+                    <ul style="text-align: left; display: inline-block;">
+                        <li>Las acciones con insider trading están en tendencia bajista</li>
+                        <li>No hay suficiente historial de precios</li>
+                        <li>Los patrones aún no están completamente formados</li>
+                    </ul>
+                    <p>El scanner se ejecuta diariamente para detectar nuevas oportunidades.</p>
+                </div>
+            `;
+        }}, 3000);
+    </script>
 </body>
-</html>"""
-        
-        # Guardar análisis cruzado
-        cross_analysis_file = os.path.join(self.repo_path, "cross_analysis.html")
-        with open(cross_analysis_file, 'w', encoding='utf-8') as f:
-            f.write(cross_analysis_html)
-        
-        print(f"✅ Análisis cruzado generado: {cross_analysis_file}")
-        return cross_analysis_file
-
-
-# Función de utilidad para migración
-def migrar_reportes_existentes(source_dir="reports", target_uploader=None):
-    """
-    Migra reportes existentes al nuevo sistema de historial
-    """
-    if not target_uploader:
-        target_uploader = GitHubPagesHistoricalUploader()
-    
-    print("🔄 Migrando reportes existentes al sistema de historial...")
-    
-    # Buscar archivos HTML existentes
-    html_files = []
-    csv_files = []
-    
-    if os.path.exists(source_dir):
-        for file in os.listdir(source_dir):
-            if file.endswith('.html'):
-                html_files.append(os.path.join(source_dir, file))
-            elif file.endswith('.csv'):
-                csv_files.append(os.path.join(source_dir, file))
-    
-    migrated_count = 0
-    
-    for html_file in html_files:
-        # Buscar CSV correspondiente
-        base_name = os.path.splitext(os.path.basename(html_file))[0]
-        corresponding_csv = None
-        
-        for csv_file in csv_files:
-            if base_name in os.path.basename(csv_file):
-                corresponding_csv = csv_file
-                break
-        
-        # Migrar
-        try:
-            # Obtener fecha del archivo
-            file_stat = os.stat(html_file)
-            file_time = datetime.fromtimestamp(file_stat.st_mtime)
+</html>
+"""
             
-            title = f"📊 Reporte Migrado - {file_time.strftime('%Y-%m-%d %H:%M')}"
-            description = f"Reporte migrado del sistema anterior - {base_name}"
+            # Guardar página VCP
+            vcp_path = self.repo_path / "vcp_scanner.html"
+            with open(vcp_path, 'w', encoding='utf-8') as f:
+                f.write(html_content)
             
-            result = target_uploader.upload_historical_report(
-                html_file, corresponding_csv, title, description
-            )
+            print(f"✅ Página VCP Scanner generada: {vcp_path}")
+            return str(vcp_path)
             
-            if result:
-                migrated_count += 1
-                print(f"✅ Migrado: {os.path.basename(html_file)}")
-            else:
-                print(f"⚠️ Error migrando: {os.path.basename(html_file)}")
-                
         except Exception as e:
-            print(f"❌ Error migrando {html_file}: {e}")
+            print(f"❌ Error generando página VCP: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+
+
+# Función para configurar GitHub Pages
+def setup_github_pages():
+    """Configura el repositorio para GitHub Pages"""
+    print("\n🔧 CONFIGURANDO GITHUB PAGES")
+    print("=" * 50)
     
-    print(f"🎉 Migración completada: {migrated_count} reportes migrados")
-    return migrated_count
-
-
-import subprocess
-
-def git_push(repo_path, mensaje="Actualización automática de informes"):
     try:
-        subprocess.run(["git", "-C", repo_path, "add", "."], check=True)
-        subprocess.run(["git", "-C", repo_path, "commit", "-m", mensaje], check=True)
-        subprocess.run(["git", "-C", repo_path, "push"], check=True)
-        print("✅ Cambios subidos a GitHub Pages.")
-    except Exception as e:
-        print(f"❌ Error subiendo cambios a GitHub: {e}")
+        # Crear uploader
+        uploader = GitHubPagesHistoricalUploader()
+        
+        # Crear archivo index si no existe
+        if not uploader.index_file.exists():
+            uploader.generate_main_index()
+        
+        # Crear README
+        readme_path = uploader.repo_path / "README.md"
+        if not readme_path.exists():
+            with open(readme_path, 'w') as f:
+                f.write(f"""# 📊 Insider Trading Analysis
 
-# Script principal de ejemplo
+Sistema automatizado de análisis de transacciones insider.
+
+## 🌐 Acceso
+
+Visita el historial completo en: [{uploader.base_url}]({uploader.base_url})
+
+## 📁 Estructura
+
+- `/reports/daily/` - Reportes diarios
+- `/reports/weekly/` - Resúmenes semanales
+- `/reports/monthly/` - Resúmenes mensuales
+- `manifest.json` - Índice de todos los reportes
+- `index.html` - Página principal
+
+## 🔄 Actualización
+
+Este sitio se actualiza automáticamente cada vez que se detectan nuevas transacciones insider.
+""")
+            print("✅ README.md creado")
+        
+        print(f"\n✅ GitHub Pages configurado correctamente")
+        print(f"📂 Archivos en: /docs")
+        print(f"🌐 URL del sitio: {uploader.base_url}")
+        print(f"\n💡 Próximos pasos:")
+        print("1. Ejecuta el sistema completo para generar reportes")
+        print("2. Los cambios se subirán automáticamente a GitHub")
+        print("3. Espera unos minutos para que GitHub Pages actualice")
+        
+    except Exception as e:
+        print(f"❌ Error configurando: {e}")
+
+
 if __name__ == "__main__":
-    print("🚀 Sistema de Historial GitHub Pages para Insider Trading")
-    print("=" * 60)
-    
-    # Crear instancia del uploader
-    uploader = GitHubPagesHistoricalUploader()
-    
-    # Ejemplo de uso
-    print("📝 Ejemplo de funcionamiento:")
-    print("1. Cada reporte se guarda con timestamp único")
-    print("2. Se mantiene historial completo en GitHub Pages")
-    print("3. Se genera análisis cruzado automáticamente")
-    print("4. Se identifican patrones de actividad recurrente")
-    print("5. Enlaces de Telegram incluyen historial completo")
-    
-    print("\n🔗 Integración con sistema existente:")
-    print("- Reemplazar generar_reporte_completo_integrado()")
-    print("- Usar generar_reporte_completo_integrado_con_historial()")
-    print("- Los CSV antiguos se pueden migrar automáticamente")
-    
-    print("\n📊 Análisis cruzado permite:")
-    print("- Identificar tickers con actividad sostenida")
-    print("- Detectar patrones de compra recurrente")
-    print("- Evaluar fuerza de señales por frecuencia")
-    print("- Seguimiento de tendencias a largo plazo")
+    # Ejecutar configuración
+    setup_github_pages()

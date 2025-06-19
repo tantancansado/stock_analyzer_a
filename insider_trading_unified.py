@@ -5,6 +5,98 @@ Integra scraping, generación HTML y envío por Telegram
 Con soporte opcional para GitHub Pages
 """
 
+# Importar el VCP Scanner Enhanced si existe, si no, stub
+try:
+    from vcp_scanner_usa import VCPScannerEnhanced
+except ImportError:
+    class VCPScannerEnhanced:
+        def __init__(self):
+            print("Función no implementada: VCPScannerEnhanced (stub)")
+        def scan_market(self):
+            print("Función no implementada: scan_market")
+            # Devuelve lista vacía simulando sin candidatos
+            return []
+        def generate_html(self, results, html_path):
+            print("Función no implementada: generate_html")
+            # Crea un HTML de stub
+            with open(html_path, "w", encoding="utf-8") as f:
+                f.write("<html><body><h1>Función no implementada</h1></body></html>")
+            return html_path
+        def save_csv(self, results, csv_path):
+            print("Función no implementada: save_csv")
+            import pandas as pd
+            pd.DataFrame(results).to_csv(csv_path, index=False)
+            return csv_path
+
+def run_vcp_scanner_usa_interactive():
+    """
+    Flujo interactivo para escanear TODO el mercado USA con el VCP Scanner avanzado.
+    """
+    import os
+    from datetime import datetime
+
+    print("\n🎯 ESCANEO AVANZADO DE TODO EL MERCADO USA (VCP Scanner)")
+    print("=" * 60)
+    scanner = VCPScannerEnhanced()
+    print("🔍 Ejecutando escaneo de mercado USA...")
+    try:
+        results = scanner.scan_market()
+    except Exception as e:
+        print(f"❌ Error ejecutando el escaneo: {e}")
+        return
+    num_candidates = len(results) if results is not None else 0
+    print(f"✅ Escaneo completado. Candidatos detectados: {num_candidates}")
+    if num_candidates == 0:
+        print("⚠️  No se detectaron candidatos.")
+    # Preguntar si quiere generar HTML
+    gen_html = input("¿Quieres generar HTML con los resultados? (s/n): ").strip().lower()
+    if gen_html != "s":
+        print("🛑 Proceso finalizado (no se generó HTML).")
+        return
+    # Generar HTML
+    html_path = "reports/vcp_market_scan.html"
+    csv_path = "reports/vcp_market_scan.csv"
+    try:
+        # Guardar CSV si hay resultados (aunque sean 0)
+        if results is not None:
+            scanner.save_csv(results, csv_path)
+        scanner.generate_html(results, html_path)
+        print(f"✅ HTML generado: {html_path}")
+    except Exception as e:
+        print(f"❌ Error generando HTML: {e}")
+        return
+    # Preguntar si quiere subir a GitHub Pages
+    subir = input("¿Quieres subir el HTML a GitHub Pages? (s/n): ").strip().lower()
+    if subir != "s":
+        print("🛑 Proceso finalizado (HTML no subido a GitHub Pages).")
+        return
+    # Intentar subir a GitHub Pages usando uploader de historial, con título/desc diferentes
+    if not os.path.exists("github_pages_historial.py"):
+        print("⚠️ github_pages_historial.py no encontrado. No se puede subir.")
+        return
+    try:
+        from github_pages_historial import GitHubPagesHistoricalUploader
+        uploader = GitHubPagesHistoricalUploader()
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        title = f"🎯 VCP Market Scanner - {num_candidates} candidatos - {timestamp}"
+        description = f"Reporte avanzado de escaneo de TODO el mercado USA. Candidatos detectados: {num_candidates}."
+        result = uploader.upload_historical_report(
+            html_path,
+            csv_path,
+            title,
+            description
+        )
+        if result:
+            print("✅ Subido a GitHub Pages:")
+            for key, value in result.items():
+                print(f"   {key}: {value}")
+        else:
+            print("❌ Error subiendo a GitHub Pages")
+    except Exception as e:
+        print(f"❌ Error subiendo a GitHub Pages: {e}")
+        return
+    print("🎉 Proceso de escaneo avanzado finalizado.")
+
 import os
 import sys
 import subprocess
@@ -13,7 +105,6 @@ import zipfile
 from datetime import datetime
 from pathlib import Path
 import traceback
-
 
 class InsiderTradingSystem:
     """Sistema principal que gestiona todo el flujo"""
@@ -358,7 +449,6 @@ class InsiderTradingSystem:
             traceback.print_exc()
             return results
 
-
 def test_components():
     """Prueba cada componente individualmente"""
     print("\n🔧 MODO TEST - VERIFICANDO COMPONENTES")
@@ -407,7 +497,6 @@ def test_components():
     except ImportError:
         print("❌ config.py no importable")
 
-
 def main():
     """Función principal con menú"""
     if len(sys.argv) > 1:
@@ -438,13 +527,14 @@ def main():
             print("4. 📱 Solo enviar Telegram")
             print("5. 🔧 Verificar componentes")
             print("6. 🌐 Probar GitHub Pages")
+            print("7. 🎯 Escanear TODO el mercado USA (VCP Scanner avanzado)")
             print("0. ❌ Salir")
             print("=" * 60)
-            
+
             opcion = input("Selecciona opción: ").strip()
-            
+
             system = InsiderTradingSystem()
-            
+
             if opcion == "1":
                 system.run_complete_process()
             elif opcion == "2":
@@ -461,14 +551,15 @@ def main():
                     print("✅ GitHub Pages funcionando")
                 else:
                     print("❌ GitHub Pages no disponible")
+            elif opcion == "7":
+                run_vcp_scanner_usa_interactive()
             elif opcion == "0":
                 print("👋 ¡Hasta luego!")
                 break
             else:
                 print("❌ Opción inválida")
-            
-            input("\nPresiona Enter para continuar...")
 
+            input("\nPresiona Enter para continuar...")
 
 if __name__ == "__main__":
     main()
