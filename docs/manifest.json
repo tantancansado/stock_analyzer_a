@@ -1,6 +1,6 @@
 {
   "total_reports": 7,
-  "last_update": "2025-06-20T11:29:28.386229",
+  "last_update": "2025-06-20T11:29:56.246497",
   "reports": [
     {
       "id": "report_2025-06-20",
@@ -81,5 +81,20 @@
       "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/daily/report_2025-06-12/index.html"
     }
   ],
-  "base_url": "https://tantancansado.github.io/stock_analyzer_a"
+  "base_url": "https://tantancansado.github.io/stock_analyzer_a",
+  "dj_reports": [
+    {
+      "id": "dj_sectorial_2025-06-20",
+      "title": "📊 DJ Sectorial - 2 oportunidades - 2025-06-20 11:29",
+      "description": "Análisis sectorial Dow Jones con 16 sectores analizados",
+      "timestamp": "2025-06-20T11:29:56.246497",
+      "date": "2025-06-20",
+      "time": "11:29:56",
+      "html_url": "reports/dj_sectorial/dj_sectorial_2025-06-20/index.html",
+      "csv_url": "reports/dj_sectorial/dj_sectorial_2025-06-20/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/dj_sectorial/dj_sectorial_2025-06-20/index.html",
+      "type": "dj_sectorial"
+    }
+  ],
+  "total_dj_reports": 1
 }
