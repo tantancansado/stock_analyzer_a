@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Historial Insider Trading - Stock Analyzer</title>
-    <meta name="description" content="Historial completo de análisis de insider trading">
+    <title>📊 Sistema de análisis de insider trading | Actualización automática cada hora</title>
+    <meta name="description" content="Historial completo de análisis de insider trading y sectorial">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
         body {
@@ -238,8 +238,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Historial Insider Trading</h1>
-            <p>Sistema automatizado de monitoreo y análisis de transacciones</p>
+            <h1>📊 Sistema de análisis de insider trading</h1>
+            <p>Actualización automática cada hora</p>
             <div class="live-indicator">
                 <div class="live-dot"></div>
                 <span>Sistema Activo</span>
@@ -249,7 +249,11 @@
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-number">7</div>
-                <div class="stat-label">Reportes Totales</div>
+                <div class="stat-label">Reportes Insider</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Reportes DJ Sectorial</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">7</div>
@@ -266,10 +270,10 @@
 <div class="reports-grid">
 
                 <div class="report-card">
-                    <div class="report-title">📊 Trading Dashboard - 88 insider trades + DJ Sectorial (8 oportunidades) - 2025-06-20 10:32</div>
+                    <div class="report-title">📊 Insider Trading - 88 transacciones - 2025-06-20 10:56</div>
                     <div class="report-meta">
-                        📅 2025-06-20 - 🕐 10:32:36<br>
-                        Reporte completo con 88 transacciones detectadas + DJ Sectorial (8 oportunidades)
+                        📅 2025-06-20 - 🕐 10:56:19<br>
+                        Reporte con 88 transacciones detectadas
                     </div>
                     <div class="report-links">
                         <a href="reports/daily/report_2025-06-20/index.html" class="btn btn-primary">📊 Ver Reporte</a>
@@ -358,6 +362,7 @@
                 <a href="https://tantancansado.github.io/stock_analyzer_a">Inicio</a> | 
                 <a href="cross_analysis.html">Análisis Cruzado</a> | 
                 <a href="vcp_scanner.html">🎯 Scanner VCP</a> |
+                <a href="dj_sectorial.html">📊 DJ Sectorial</a> |
                 <a href="trends.html">Tendencias</a>
             </p>
         </div>
@@ -382,7 +387,8 @@
         });
         
         console.log('📊 Historial Insider Trading cargado');
-        console.log('Total reportes: 7');
+        console.log('Total reportes insider: 7');
+        console.log('Total reportes DJ sectorial: 0');
         console.log('GitHub Pages: https://tantancansado.github.io/stock_analyzer_a');
     </script>
 </body>
