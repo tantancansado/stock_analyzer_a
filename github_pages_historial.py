@@ -2,6 +2,7 @@
 """
 GitHub Pages Uploader - Versión para carpeta /docs
 Adaptado para trabajar con la configuración de GitHub Pages desde /docs
+MODIFICADO: Incluye sección DJ Sectorial
 """
 
 import os
@@ -37,6 +38,8 @@ class GitHubPagesHistoricalUploader:
             (self.reports_path / "daily").mkdir(exist_ok=True)
             (self.reports_path / "weekly").mkdir(exist_ok=True)
             (self.reports_path / "monthly").mkdir(exist_ok=True)
+            # NUEVO: Carpeta para DJ Sectorial
+            (self.reports_path / "dj_sectorial").mkdir(exist_ok=True)
             print(f"✅ Directorios creados en: {self.repo_path}")
             
             # Crear archivo .nojekyll para evitar procesamiento Jekyll
@@ -60,8 +63,10 @@ class GitHubPagesHistoricalUploader:
         # Manifest por defecto
         return {
             "total_reports": 0,
+            "total_dj_reports": 0,  # NUEVO
             "last_update": None,
             "reports": [],
+            "dj_reports": [],  # NUEVO
             "base_url": self.base_url
         }
     
@@ -76,9 +81,15 @@ class GitHubPagesHistoricalUploader:
             return False
     
     def upload_historical_report(self, html_file, csv_file, title, description):
-        """Sube un reporte manteniendo historial"""
+        """Sube un reporte manteniendo historial - CORREGIDO"""
         try:
-            print(f"\n📤 Subiendo reporte a /docs para GitHub Pages...")
+            # Determinar tipo de reporte PRIMERO
+            if "DJ Sectorial" in title or "sectorial" in title.lower():
+                report_type = "dj_sectorial"
+            else:
+                report_type = "insider"
+            
+            print(f"\n📤 Subiendo reporte {report_type} a /docs para GitHub Pages...")
             
             # Verificar archivos de entrada
             if not os.path.exists(html_file):
@@ -94,22 +105,29 @@ class GitHubPagesHistoricalUploader:
             date_only = timestamp.strftime('%Y-%m-%d')
             time_suffix = timestamp.strftime('%H-%M')
             
-            # Por defecto usar solo fecha (1 por día)
-            report_id = f"report_{date_only}"
+            # Determinar carpeta y ID según tipo de reporte
+            if report_type == "dj_sectorial":
+                report_dir_base = self.reports_path / "dj_sectorial"
+                report_id = f"dj_sectorial_{date_only}"
+            else:
+                report_dir_base = self.reports_path / "daily"
+                report_id = f"report_{date_only}"
             
-            # Verificar si ya existe un reporte de hoy
+            # Cargar manifest
             manifest = self.load_manifest()
+            
+            # Verificar si ya existe un reporte del mismo tipo hoy
             existing_today = None
-            for i, report in enumerate(manifest['reports']):
+            reports_list = manifest.get('dj_reports', []) if report_type == "dj_sectorial" else manifest.get('reports', [])
+            
+            for i, report in enumerate(reports_list):
                 if report['date'] == date_only:
                     existing_today = i
-                    # Si quieres mantener múltiples del mismo día, descomenta la siguiente línea:
-                    # report_id = f"report_{date_only}_{time_suffix}"
-                    print(f"⚠️ Ya existe un reporte de hoy, será reemplazado")
+                    print(f"⚠️ Ya existe un reporte {report_type} de hoy, será reemplazado")
                     break
             
             # Crear carpeta para este reporte
-            report_dir = self.reports_path / "daily" / report_id
+            report_dir = report_dir_base / report_id
             report_dir.mkdir(exist_ok=True, parents=True)
             
             # Copiar archivos
@@ -121,6 +139,11 @@ class GitHubPagesHistoricalUploader:
             shutil.copy2(csv_file, csv_dest)
             
             # URLs relativas para GitHub Pages
+            if report_type == "dj_sectorial":
+                base_path = f"reports/dj_sectorial/{report_id}"
+            else:
+                base_path = f"reports/daily/{report_id}"
+            
             report_entry = {
                 "id": report_id,
                 "title": title,
@@ -128,42 +151,61 @@ class GitHubPagesHistoricalUploader:
                 "timestamp": timestamp.isoformat(),
                 "date": timestamp.strftime('%Y-%m-%d'),
                 "time": timestamp.strftime('%H:%M:%S'),
-                "html_url": f"reports/daily/{report_id}/index.html",
-                "csv_url": f"reports/daily/{report_id}/data.csv",
-                "full_url": f"{self.base_url}/reports/daily/{report_id}/index.html"
+                "html_url": f"{base_path}/index.html",
+                "csv_url": f"{base_path}/data.csv",
+                "full_url": f"{self.base_url}/{base_path}/index.html",
+                "type": report_type
             }
             
-            # Si existe reporte de hoy, reemplazarlo
-            if existing_today is not None:
-                manifest["reports"][existing_today] = report_entry
-                print(f"✅ Reporte de hoy actualizado")
+            # Actualizar manifest según tipo de reporte
+            if report_type == "dj_sectorial":
+                if 'dj_reports' not in manifest:
+                    manifest['dj_reports'] = []
+                
+                if existing_today is not None:
+                    manifest["dj_reports"][existing_today] = report_entry
+                    print(f"✅ Reporte DJ de hoy actualizado")
+                else:
+                    manifest["dj_reports"].insert(0, report_entry)
+                    manifest["total_dj_reports"] = manifest.get("total_dj_reports", 0) + 1
+                
+                # Limitar a últimos 50 reportes DJ
+                if len(manifest["dj_reports"]) > 50:
+                    for old_report in manifest["dj_reports"][50:]:
+                        old_dir = self.reports_path / "dj_sectorial" / old_report["id"]
+                        if old_dir.exists():
+                            shutil.rmtree(old_dir)
+                            print(f"🗑️ Eliminado reporte DJ antiguo: {old_report['id']}")
+                    manifest["dj_reports"] = manifest["dj_reports"][:50]
+            
             else:
-                # Añadir al principio (más reciente primero)
-                manifest["reports"].insert(0, report_entry)
-                manifest["total_reports"] += 1
+                # Reporte insider tradicional
+                if existing_today is not None:
+                    manifest["reports"][existing_today] = report_entry
+                    print(f"✅ Reporte insider de hoy actualizado")
+                else:
+                    manifest["reports"].insert(0, report_entry)
+                    manifest["total_reports"] += 1
+                
+                # Limitar a últimos 100 reportes insider
+                if len(manifest["reports"]) > 100:
+                    for old_report in manifest["reports"][100:]:
+                        old_dir = self.reports_path / "daily" / old_report["id"]
+                        if old_dir.exists():
+                            shutil.rmtree(old_dir)
+                            print(f"🗑️ Eliminado reporte antiguo: {old_report['id']}")
+                    manifest["reports"] = manifest["reports"][:100]
             
             manifest["last_update"] = timestamp.isoformat()
             manifest["base_url"] = self.base_url
             
-            # Limitar a últimos 100 reportes
-            if len(manifest["reports"]) > 100:
-                # Eliminar reportes antiguos del disco
-                for old_report in manifest["reports"][100:]:
-                    old_dir = self.reports_path / "daily" / old_report["id"]
-                    if old_dir.exists():
-                        shutil.rmtree(old_dir)
-                        print(f"🗑️ Eliminado reporte antiguo: {old_report['id']}")
-                
-                manifest["reports"] = manifest["reports"][:100]
-            
             # Guardar manifest
             self.save_manifest(manifest)
             
-            # Generar índice principal
+            # Generar páginas
             self.generate_main_index()
-            
-            # Generar página VCP Scanner
             self.generate_vcp_scanner_page()
+            self.generate_dj_sectorial_page()
             
             # Intentar commit y push automático
             self.git_commit_and_push(report_id)
@@ -175,11 +217,12 @@ class GitHubPagesHistoricalUploader:
                 "file_url": str(html_dest),
                 "csv_url": str(csv_dest),
                 "index_url": str(self.index_file),
-                "github_url": f"{self.base_url}/reports/daily/{report_id}/index.html",
-                "timestamp": timestamp.isoformat()
+                "github_url": f"{self.base_url}/{base_path}/index.html",
+                "timestamp": timestamp.isoformat(),
+                "type": report_type
             }
             
-            print(f"\n✅ Reporte subido exitosamente")
+            print(f"\n✅ Reporte {report_type} subido exitosamente")
             print(f"📍 ID: {report_id}")
             print(f"📂 Local: {report_dir}")
             print(f"🌐 URL: {result['github_url']}")
@@ -193,10 +236,11 @@ class GitHubPagesHistoricalUploader:
             return None
     
     def generate_main_index(self):
-        """Genera la página principal con el historial"""
+        """Genera la página principal con el historial - MODIFICADO"""
         try:
             manifest = self.load_manifest()
             total_reports = manifest['total_reports']
+            total_dj_reports = manifest.get('total_dj_reports', 0)  # NUEVO
             last_update = manifest['last_update'][:10] if manifest['last_update'] else 'N/A'
             unique_days = len(set(r['date'] for r in manifest['reports'])) if manifest['reports'] else 0
             
@@ -205,8 +249,8 @@ class GitHubPagesHistoricalUploader:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Historial Insider Trading - Stock Analyzer</title>
-    <meta name="description" content="Historial completo de análisis de insider trading">
+    <title>📊 Sistema de análisis de insider trading | Actualización automática cada hora</title>
+    <meta name="description" content="Historial completo de análisis de insider trading y sectorial">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
         body {{
@@ -440,8 +484,8 @@ class GitHubPagesHistoricalUploader:
 <body>
     <div class="container">
         <div class="header">
-            <h1>📊 Historial Insider Trading</h1>
-            <p>Sistema automatizado de monitoreo y análisis de transacciones</p>
+            <h1>📊 Sistema de análisis de insider trading</h1>
+            <p>Actualización automática cada hora</p>
             <div class="live-indicator">
                 <div class="live-dot"></div>
                 <span>Sistema Activo</span>
@@ -451,7 +495,11 @@ class GitHubPagesHistoricalUploader:
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-number">{total_reports}</div>
-                <div class="stat-label">Reportes Totales</div>
+                <div class="stat-label">Reportes Insider</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{total_dj_reports}</div>
+                <div class="stat-label">Reportes DJ Sectorial</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">{unique_days}</div>
@@ -503,6 +551,7 @@ class GitHubPagesHistoricalUploader:
                 <a href="{self.base_url}">Inicio</a> | 
                 <a href="cross_analysis.html">Análisis Cruzado</a> | 
                 <a href="vcp_scanner.html">🎯 Scanner VCP</a> |
+                <a href="dj_sectorial.html">📊 DJ Sectorial</a> |
                 <a href="trends.html">Tendencias</a>
             </p>
         </div>
@@ -527,7 +576,8 @@ class GitHubPagesHistoricalUploader:
         }});
         
         console.log('📊 Historial Insider Trading cargado');
-        console.log('Total reportes: {total_reports}');
+        console.log('Total reportes insider: {total_reports}');
+        console.log('Total reportes DJ sectorial: {total_dj_reports}');
         console.log('GitHub Pages: {self.base_url}');
     </script>
 </body>
@@ -545,6 +595,272 @@ class GitHubPagesHistoricalUploader:
             print(f"❌ Error generando índice: {e}")
             return None
     
+    def generate_dj_sectorial_page(self):
+        """NUEVA: Genera página específica para DJ Sectorial"""
+        try:
+            print(f"\n📊 Generando página DJ Sectorial...")
+            
+            manifest = self.load_manifest()
+            dj_reports = manifest.get('dj_reports', [])
+            total_dj_reports = len(dj_reports)
+            
+            # HTML para la página DJ Sectorial
+            html_content = f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 DJ Sectorial - Análisis de Sectores Dow Jones</title>
+    <meta name="description" content="Análisis sectorial Dow Jones - Oportunidades y tendencias">
+    <style>
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #0a0e1a;
+            color: #ffffff;
+        }}
+        
+        .container {{
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }}
+        
+        .header {{
+            background: linear-gradient(135deg, #1a1f35 0%, #2d3748 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid #4a90e2;
+        }}
+        
+        .header h1 {{
+            margin: 0;
+            font-size: 3em;
+            color: #4a90e2;
+        }}
+        
+        .info-section {{
+            background: #1a202c;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #2d3748;
+        }}
+        
+        .info-section h2 {{
+            color: #4a90e2;
+            margin-bottom: 20px;
+        }}
+        
+        .reports-grid {{
+            display: grid;
+            gap: 20px;
+            margin: 30px 0;
+        }}
+        
+        .report-card {{
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+        }}
+        
+        .report-card:hover {{
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.3);
+        }}
+        
+        .report-title {{
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }}
+        
+        .report-meta {{
+            color: #a0aec0;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+        }}
+        
+        .report-links {{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }}
+        
+        .btn {{
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: bold;
+            transition: all 0.3s;
+        }}
+        
+        .btn-primary {{
+            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            color: white;
+        }}
+        
+        .btn-secondary {{
+            background: #4a5568;
+            color: #e2e8f0;
+        }}
+        
+        .explanation {{
+            background: rgba(74, 144, 226, 0.1);
+            border-left: 4px solid #4a90e2;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }}
+        
+        .no-data {{
+            text-align: center;
+            padding: 60px;
+            color: #a0aec0;
+        }}
+        
+        .stat-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }}
+        
+        .stat-item {{
+            background: #2d3748;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }}
+        
+        .stat-number {{
+            font-size: 2em;
+            font-weight: bold;
+            color: #4a90e2;
+        }}
+        
+        .stat-label {{
+            color: #a0aec0;
+            margin-top: 5px;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 DJ Sectorial Analysis</h1>
+            <p>Análisis de sectores Dow Jones - Oportunidades de inversión</p>
+        </div>
+        
+        <div class="info-section">
+            <h2>📈 ¿Qué es el análisis DJ Sectorial?</h2>
+            <p>El análisis sectorial de Dow Jones evalúa 43 sectores diferentes del mercado estadounidense, identificando oportunidades basadas en la distancia desde mínimos de 52 semanas, RSI y otros indicadores técnicos.</p>
+            
+            <div class="explanation">
+                <h3>Clasificación de sectores:</h3>
+                <ul>
+                    <li><strong>🟢  OPORTUNIDADES (&lt;10%):</strong> Sectores cerca de mínimos de 52 semanas - Potencial de rebote alto</li>
+                    <li><strong>🟡 CERCA (10-25%):</strong> Sectores en zona de consolidación - Vigilar para entrada</li>
+                    <li><strong>🔴 FUERTES SUBIDAS, PRECAUCIÓN (&gt;25%):</strong> Sectores en tendencia alcista - Momentum positivo</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-number">{total_dj_reports}</div>
+                <div class="stat-label">Análisis Totales</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">43</div>
+                <div class="stat-label">Sectores Disponibles</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Diario</div>
+                <div class="stat-label">Frecuencia</div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>📊 Análisis Recientes</h2>
+"""
+            
+            if dj_reports:
+                html_content += '<div class="reports-grid">'
+                
+                for report in dj_reports[:20]:  # Últimos 20 reportes DJ
+                    html_content += f"""
+                <div class="report-card">
+                    <div class="report-title">{report['title']}</div>
+                    <div class="report-meta">
+                        📅 {report['date']} - 🕐 {report['time']}<br>
+                        {report['description']}
+                    </div>
+                    <div class="report-links">
+                        <a href="{report['html_url']}" class="btn btn-primary">📊 Ver Análisis</a>
+                        <a href="{report['csv_url']}" class="btn btn-secondary">📥 Datos CSV</a>
+                    </div>
+                </div>
+"""
+                
+                html_content += '</div>'
+            else:
+                html_content += '''
+                <div class="no-data">
+                    <h3>No hay análisis sectoriales disponibles</h3>
+                    <p>Los análisis DJ Sectorial aparecerán aquí cuando se ejecute el sistema.</p>
+                </div>
+'''
+            
+            html_content += f"""
+        </div>
+        
+        <div class="info-section">
+            <h2>💡 Cómo usar esta información</h2>
+            <ol>
+                <li><strong>🟢  Buscar Oportunidades:</strong> Sectores cerca de mínimos suelen ofrecer el mejor potencial</li>
+                <li><strong>🟡 Vigilar Consolidaciones:</strong> Sectores en zona media pueden estar preparando un movimiento</li>
+                <li><strong>🔴 Confirmar Tendencias:</strong> Sectores fuertes indican momentum del mercado</li>
+                <li><strong>📊 Combinar con RSI:</strong> RSI bajo + cerca de mínimos = Oportunidad alta</li>
+                <li><strong>⏰ Timing:</strong> Usar análisis diario para timing de entrada/salida</li>
+            </ol>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #2d3748;">
+            <p style="color: #a0aec0;">
+                <a href="{self.base_url}" style="color: #4a90e2; text-decoration: none;">🏠 Volver al Dashboard Principal</a> | 
+                <a href="vcp_scanner.html" style="color: #4a90e2; text-decoration: none;">🎯 Scanner VCP</a> |
+                <a href="trends.html" style="color: #4a90e2; text-decoration: none;">📈 Tendencias</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+"""
+            
+            # Guardar página DJ Sectorial
+            dj_path = self.repo_path / "dj_sectorial.html"
+            with open(dj_path, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            
+            print(f"✅ Página DJ Sectorial generada: {dj_path}")
+            return str(dj_path)
+            
+        except Exception as e:
+            print(f"❌ Error generando página DJ Sectorial: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+    
     def git_commit_and_push(self, report_id):
         """Intenta hacer commit y push automático"""
         try:
@@ -559,7 +875,7 @@ class GitHubPagesHistoricalUploader:
             subprocess.run(["git", "add", "docs/"], check=True)
             
             # Commit
-            commit_msg = f"📊 Nuevo reporte insider trading: {report_id}"
+            commit_msg = f"📊 Nuevo reporte: {report_id}"
             subprocess.run(["git", "commit", "-m", commit_msg], check=True)
             
             # Push
@@ -676,135 +992,12 @@ class GitHubPagesHistoricalUploader:
             margin-bottom: 20px;
         }}
         
-        .vcp-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }}
-        
-        .vcp-card {{
-            background: #2d3748;
-            border: 1px solid #4a5568;
-            border-radius: 10px;
-            padding: 20px;
-            transition: all 0.3s;
-        }}
-        
-        .vcp-card:hover {{
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(74, 144, 226, 0.3);
-        }}
-        
-        .vcp-card.ready {{
-            border-color: #48bb78;
-            box-shadow: 0 0 15px rgba(72, 187, 120, 0.3);
-        }}
-        
-        .ticker-header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }}
-        
-        .ticker-symbol {{
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #4a90e2;
-        }}
-        
-        .status-badge {{
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-        }}
-        
-        .status-ready {{
-            background: #48bb78;
-            color: white;
-        }}
-        
-        .status-watch {{
-            background: #ed8936;
-            color: white;
-        }}
-        
-        .metrics-grid {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }}
-        
-        .metric {{
-            background: #1a202c;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }}
-        
-        .metric-label {{
-            color: #a0aec0;
-            font-size: 0.85em;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }}
-        
-        .metric-value {{
-            color: #ffffff;
-            font-size: 1.3em;
-            font-weight: bold;
-        }}
-        
-        .chart-preview {{
-            width: 100%;
-            height: 200px;
-            background: white;
-            border-radius: 8px;
-            padding: 5px;
-            margin: 15px 0;
-        }}
-        
-        .action-buttons {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-        }}
-        
-        .btn {{
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            text-align: center;
-            font-weight: bold;
-            transition: all 0.3s;
-        }}
-        
-        .btn-primary {{
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
-            color: white;
-        }}
-        
-        .btn-secondary {{
-            background: #4a5568;
-            color: #e2e8f0;
-        }}
-        
         .explanation {{
             background: rgba(74, 144, 226, 0.1);
             border-left: 4px solid #4a90e2;
             padding: 20px;
             border-radius: 8px;
             margin: 30px 0;
-        }}
-        
-        .no-data {{
-            text-align: center;
-            padding: 60px;
-            color: #a0aec0;
         }}
         
         .loading {{
@@ -826,6 +1019,12 @@ class GitHubPagesHistoricalUploader:
         @keyframes spin {{
             0% {{ transform: rotate(0deg); }}
             100% {{ transform: rotate(360deg); }}
+        }}
+        
+        .no-data {{
+            text-align: center;
+            padding: 60px;
+            color: #a0aec0;
         }}
     </style>
 </head>
@@ -866,7 +1065,7 @@ class GitHubPagesHistoricalUploader:
                 <p>Estas acciones con actividad insider muestran patrones de contracción de volatilidad:</p>
             </div>
             
-            <div class="vcp-grid" id="vcp-grid">
+            <div id="vcp-grid">
                 <!-- Los resultados se cargarán aquí dinámicamente -->
             </div>
         </div>
@@ -879,6 +1078,14 @@ class GitHubPagesHistoricalUploader:
                 <li><strong>Combinar con Insider Trading:</strong> Las compras de insiders + VCP = Alta probabilidad de éxito</li>
                 <li><strong>Gestión de riesgo:</strong> Colocar stop-loss por debajo del último mínimo de la base</li>
             </ol>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px; padding: 20px; border-top: 1px solid #2d3748;">
+            <p style="color: #a0aec0;">
+                <a href="{self.base_url}" style="color: #4a90e2; text-decoration: none;">🏠 Dashboard Principal</a> | 
+                <a href="dj_sectorial.html" style="color: #4a90e2; text-decoration: none;">📊 DJ Sectorial</a> |
+                <a href="trends.html" style="color: #4a90e2; text-decoration: none;">📈 Tendencias</a>
+            </p>
         </div>
     </div>
     
@@ -893,7 +1100,7 @@ class GitHubPagesHistoricalUploader:
             // Mostrar mensaje si no hay datos
             document.getElementById('vcp-results').style.display = 'block';
             document.getElementById('vcp-grid').innerHTML = `
-                <div class="no-data" style="grid-column: 1/-1;">
+                <div class="no-data">
                     <h3>No se encontraron patrones VCP claros en este momento</h3>
                     <p>Esto puede deberse a:</p>
                     <ul style="text-align: left; display: inline-block;">
@@ -939,39 +1146,55 @@ def setup_github_pages():
         if not uploader.index_file.exists():
             uploader.generate_main_index()
         
+        # Crear páginas adicionales
+        uploader.generate_vcp_scanner_page()
+        uploader.generate_dj_sectorial_page()  # NUEVO
+        
         # Crear README
         readme_path = uploader.repo_path / "README.md"
         if not readme_path.exists():
             with open(readme_path, 'w') as f:
-                f.write(f"""# 📊 Insider Trading Analysis
+                f.write(f"""# 📊 Trading Analysis System
 
-Sistema automatizado de análisis de transacciones insider.
+Sistema automatizado de análisis de trading con múltiples módulos.
 
 ## 🌐 Acceso
 
-Visita el historial completo en: [{uploader.base_url}]({uploader.base_url})
+Visita el dashboard completo en: [{uploader.base_url}]({uploader.base_url})
+
+## 📊 Módulos Disponibles
+
+- **🏛️ Insider Trading**: Análisis de transacciones de insiders
+- **📊 DJ Sectorial**: Análisis de 43 sectores Dow Jones  
+- **🎯 VCP Scanner**: Detección de patrones de volatilidad
+- **📈 Tendencias**: Análisis de tendencias de mercado
 
 ## 📁 Estructura
 
-- `/reports/daily/` - Reportes diarios
+- `/reports/daily/` - Reportes insider diarios
+- `/reports/dj_sectorial/` - Análisis sectorial DJ
 - `/reports/weekly/` - Resúmenes semanales
 - `/reports/monthly/` - Resúmenes mensuales
 - `manifest.json` - Índice de todos los reportes
-- `index.html` - Página principal
+- `index.html` - Dashboard principal
+- `dj_sectorial.html` - Página DJ Sectorial
+- `vcp_scanner.html` - Página VCP Scanner
 
 ## 🔄 Actualización
 
-Este sitio se actualiza automáticamente cada vez que se detectan nuevas transacciones insider.
+Este sitio se actualiza automáticamente cada vez que se ejecuta el sistema de análisis.
 """)
             print("✅ README.md creado")
         
         print(f"\n✅ GitHub Pages configurado correctamente")
         print(f"📂 Archivos en: /docs")
         print(f"🌐 URL del sitio: {uploader.base_url}")
-        print(f"\n💡 Próximos pasos:")
-        print("1. Ejecuta el sistema completo para generar reportes")
-        print("2. Los cambios se subirán automáticamente a GitHub")
-        print("3. Espera unos minutos para que GitHub Pages actualice")
+        print(f"\n💡 Secciones disponibles:")
+        print("  🏠 Dashboard Principal")
+        print("  🏛️ Insider Trading")
+        print("  📊 DJ Sectorial (NUEVO)")
+        print("  🎯 VCP Scanner")
+        print("  📈 Tendencias")
         
     except Exception as e:
         print(f"❌ Error configurando: {e}")
