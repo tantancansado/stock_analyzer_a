@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Sistema Unificado de Insider Trading + DJ Sectorial Analyzer
-Versión COMPLETA CORREGIDA - Con GitHub Pages funcionando
+Sistema Unificado de Insider Trading + DJ Sectorial + Market Breadth Analyzer
+Versión COMPLETA con Market Breadth integrado - Con GitHub Pages funcionando
 """
 
 import requests
@@ -17,6 +17,15 @@ import zipfile
 import shutil
 from pathlib import Path
 import traceback
+
+# Importar Market Breadth Analyzer
+try:
+    from market_breadth_analyzer import MarketBreadthAnalyzer, MarketBreadthHTMLGenerator
+    MARKET_BREADTH_AVAILABLE = True
+    print("✅ Market Breadth Analyzer cargado")
+except ImportError:
+    print("⚠️ Market Breadth Analyzer no disponible")
+    MARKET_BREADTH_AVAILABLE = False
 
 # Importar el VCP Scanner Enhanced si existe, si no, stub
 try:
@@ -382,6 +391,7 @@ class GitHubPagesUploader:
             self.reports_path.mkdir(exist_ok=True)
             (self.reports_path / "daily").mkdir(exist_ok=True)
             (self.reports_path / "dj_sectorial").mkdir(exist_ok=True)
+            (self.reports_path / "market_breadth").mkdir(exist_ok=True)  # NUEVO
             
             # Crear archivo .nojekyll
             nojekyll = self.repo_path / ".nojekyll"
@@ -402,9 +412,11 @@ class GitHubPagesUploader:
         return {
             "total_reports": 0,
             "total_dj_reports": 0,
+            "total_breadth_reports": 0,  # NUEVO
             "last_update": None,
             "reports": [],
             "dj_reports": [],
+            "breadth_reports": [],  # NUEVO
             "base_url": self.base_url
         }
     
@@ -424,6 +436,8 @@ class GitHubPagesUploader:
             # Determinar tipo de reporte
             if "DJ Sectorial" in title or "sectorial" in title.lower():
                 report_type = "dj_sectorial"
+            elif "Market Breadth" in title or "breadth" in title.lower():
+                report_type = "market_breadth"  # NUEVO
             else:
                 report_type = "insider"
             
@@ -439,6 +453,9 @@ class GitHubPagesUploader:
             if report_type == "dj_sectorial":
                 report_id = f"dj_sectorial_{date_only}"
                 report_dir = self.reports_path / "dj_sectorial" / report_id
+            elif report_type == "market_breadth":
+                report_id = f"market_breadth_{date_only}"
+                report_dir = self.reports_path / "market_breadth" / report_id
             else:
                 report_id = f"report_{date_only}"
                 report_dir = self.reports_path / "daily" / report_id
@@ -455,6 +472,8 @@ class GitHubPagesUploader:
             # Crear entrada del reporte
             if report_type == "dj_sectorial":
                 base_path = f"reports/dj_sectorial/{report_id}"
+            elif report_type == "market_breadth":
+                base_path = f"reports/market_breadth/{report_id}"
             else:
                 base_path = f"reports/daily/{report_id}"
             
@@ -477,6 +496,11 @@ class GitHubPagesUploader:
                     manifest['dj_reports'] = []
                 manifest["dj_reports"].insert(0, report_entry)
                 manifest["total_dj_reports"] = len(manifest["dj_reports"])
+            elif report_type == "market_breadth":
+                if 'breadth_reports' not in manifest:
+                    manifest['breadth_reports'] = []
+                manifest["breadth_reports"].insert(0, report_entry)
+                manifest["total_breadth_reports"] = len(manifest["breadth_reports"])
             else:
                 manifest["reports"].insert(0, report_entry)
                 manifest["total_reports"] = len(manifest["reports"])
@@ -509,7 +533,7 @@ class GitHubPagesUploader:
         try:
             if self.templates_available:
                 # Usar templates Liquid Glass
-                html_content = self.templates.generate_main_dashboard(manifest)
+                html_content = self.templates.generate_main_dashboard_with_breadth(manifest)
                 with open(self.index_file, 'w', encoding='utf-8') as f:
                     f.write(html_content)
                 
@@ -517,6 +541,11 @@ class GitHubPagesUploader:
                 dj_content = self.templates.generate_dj_sectorial_page(manifest)
                 with open(self.repo_path / "dj_sectorial.html", 'w', encoding='utf-8') as f:
                     f.write(dj_content)
+                
+                # Generar página Market Breadth (NUEVO)
+                breadth_content = self.templates.generate_breadth_page(manifest)
+                with open(self.repo_path / "market_breadth.html", 'w', encoding='utf-8') as f:
+                    f.write(breadth_content)
                 
                 print("✅ Páginas generadas con diseño Liquid Glass")
             else:
@@ -531,6 +560,7 @@ class GitHubPagesUploader:
         """Fallback básico si no hay templates"""
         total_reports = manifest['total_reports']
         total_dj = manifest.get('total_dj_reports', 0)
+        total_breadth = manifest.get('total_breadth_reports', 0)
         
         basic_html = f"""<!DOCTYPE html>
 <html><head><meta charset="UTF-8"><title>Trading Analytics</title>
@@ -542,6 +572,7 @@ class GitHubPagesUploader:
 <div class="card"><h2>📈 Estadísticas</h2>
 <div class="stat"><div class="stat-num">{total_reports}</div><div>Reportes Insider</div></div>
 <div class="stat"><div class="stat-num">{total_dj}</div><div>Análisis DJ</div></div>
+<div class="stat"><div class="stat-num">{total_breadth}</div><div>Market Breadth</div></div>
 </div></body></html>"""
         
         with open(self.index_file, 'w', encoding='utf-8') as f:
@@ -674,6 +705,81 @@ class InsiderTradingSystem:
             print(f"❌ Error en análisis DJ: {e}")
             traceback.print_exc()
             return []
+    
+    def run_market_breadth_analysis(self):
+        """Ejecuta análisis de amplitud de mercado - NUEVO"""
+        print("\n📊 EJECUTANDO ANÁLISIS DE AMPLITUD DE MERCADO")
+        print("=" * 60)
+        
+        try:
+            if not MARKET_BREADTH_AVAILABLE:
+                print("❌ Market Breadth Analyzer no disponible")
+                return None
+            
+            analyzer = MarketBreadthAnalyzer()
+            analysis_result = analyzer.run_breadth_analysis()
+            
+            if analysis_result:
+                # Guardar CSV
+                csv_path = analyzer.save_to_csv(analysis_result)
+                
+                # Generar HTML
+                html_generator = MarketBreadthHTMLGenerator(self.github_uploader.base_url)
+                html_content = html_generator.generate_breadth_html(analysis_result)
+                
+                if html_content:
+                    html_path = "reports/market_breadth_report.html"
+                    with open(html_path, 'w', encoding='utf-8') as f:
+                        f.write(html_content)
+                    print(f"✅ HTML generado: {html_path}")
+                    
+                    return {
+                        'analysis_result': analysis_result,
+                        'html_path': html_path,
+                        'csv_path': csv_path
+                    }
+                else:
+                    print("❌ Error generando HTML")
+                    return None
+            else:
+                print("❌ Error en análisis")
+                return None
+                
+        except Exception as e:
+            print(f"❌ Error en análisis de amplitud: {e}")
+            traceback.print_exc()
+            return None
+    
+    def upload_breadth_to_github_pages(self, breadth_results):
+        """Sube análisis de amplitud a GitHub Pages - NUEVO"""
+        try:
+            if not breadth_results:
+                return None
+            
+            analysis_result = breadth_results['analysis_result']
+            summary = analysis_result['summary']
+            timestamp = analysis_result['analysis_date']
+            
+            title = f"📊 Market Breadth - {summary['market_bias']} - {timestamp}"
+            description = f"Análisis de amplitud con {summary['bullish_signals']} señales alcistas y {summary['bearish_signals']} bajistas"
+            
+            result = self.github_uploader.upload_report(
+                breadth_results['html_path'],
+                breadth_results['csv_path'],
+                title,
+                description
+            )
+            
+            if result:
+                print(f"✅ Market Breadth subido a GitHub Pages: {result['github_url']}")
+                return result
+            else:
+                print("❌ Error subiendo Market Breadth")
+                return None
+                
+        except Exception as e:
+            print(f"❌ Error subiendo Market Breadth: {e}")
+            return None
     
     def save_dj_results_to_csv(self, results):
         """Guarda los resultados del análisis DJ en CSV"""
@@ -902,6 +1008,105 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             traceback.print_exc()
             return results
     
+    def run_daily_analysis_with_breadth(self, dj_mode="principales", include_breadth=True):
+        """Análisis diario ULTRA completo - Insider + DJ + Market Breadth - NUEVO"""
+        print("\n🌟 ANÁLISIS DIARIO ULTRA COMPLETO - INSIDER + DJ + MARKET BREADTH")
+        print("=" * 80)
+        print(f"📅 Inicio: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        
+        results = {
+            'insider_scraper': False,
+            'insider_html': False,
+            'dj_analysis': False,
+            'dj_html': False,
+            'breadth_analysis': False,
+            'breadth_html': False,
+            'github_insider': None,
+            'github_dj': None,
+            'github_breadth': None,
+            'telegram': False
+        }
+        
+        try:
+            # FASE 1: INSIDER TRADING
+            print("\n🔸 FASE 1: INSIDER TRADING")
+            print("=" * 40)
+            
+            results['insider_scraper'] = self.run_scraper()
+            if results['insider_scraper']:
+                results['insider_html'] = self.generate_html()
+                results['github_insider'] = self.upload_github_pages()
+            
+            # FASE 2: DJ SECTORIAL
+            print("\n🔸 FASE 2: DJ SECTORIAL")
+            print("=" * 40)
+            
+            dj_analysis_results = self.run_dj_sectorial_analysis(dj_mode)
+            results['dj_analysis'] = len(dj_analysis_results) > 0
+            
+            if results['dj_analysis']:
+                results['dj_html'] = True
+                results['github_dj'] = self.upload_dj_to_github_pages(dj_analysis_results)
+            
+            # FASE 3: MARKET BREADTH (NUEVO)
+            breadth_results = None
+            if include_breadth and MARKET_BREADTH_AVAILABLE:
+                print("\n🔸 FASE 3: MARKET BREADTH")
+                print("=" * 40)
+                
+                breadth_results = self.run_market_breadth_analysis()
+                results['breadth_analysis'] = breadth_results is not None
+                
+                if results['breadth_analysis']:
+                    results['breadth_html'] = True
+                    results['github_breadth'] = self.upload_breadth_to_github_pages(breadth_results)
+            else:
+                print("\n⚠️ FASE 3: MARKET BREADTH OMITIDA")
+            
+            # FASE 4: NOTIFICACIÓN TELEGRAM
+            print("\n🔸 FASE 4: NOTIFICACIÓN TELEGRAM")
+            print("=" * 40)
+            
+            results['telegram'] = self.send_ultra_telegram_report(results, dj_analysis_results, breadth_results)
+            
+            self.create_bundle()
+            
+            # Resumen final
+            print("\n" + "=" * 80)
+            print("🎉 RESUMEN ANÁLISIS ULTRA COMPLETO")
+            print("=" * 80)
+            print(f"🏛️ Insider Trading:")
+            print(f"   • Scraper: {'✓' if results['insider_scraper'] else '✗'}")
+            print(f"   • HTML: {'✓' if results['insider_html'] else '✗'}")
+            print(f"   • GitHub Pages: {'✓' if results['github_insider'] else '✗'}")
+            
+            print(f"📊 DJ Sectorial:")
+            print(f"   • Análisis: {'✓' if results['dj_analysis'] else '✗'}")
+            print(f"   • HTML: {'✓' if results['dj_html'] else '✗'}")
+            print(f"   • GitHub Pages: {'✓' if results['github_dj'] else '✗'}")
+            
+            print(f"📈 Market Breadth:")
+            print(f"   • Análisis: {'✓' if results['breadth_analysis'] else '✗'}")
+            print(f"   • HTML: {'✓' if results['breadth_html'] else '✗'}")
+            print(f"   • GitHub Pages: {'✓' if results['github_breadth'] else '✗'}")
+            
+            print(f"📱 Telegram: {'✓' if results['telegram'] else '✗'}")
+            
+            # URLs de GitHub Pages
+            if results['github_insider']:
+                print(f"\n🏛️ Ver Insider Trading: {results['github_insider'].get('github_url', 'N/A')}")
+            if results['github_dj']:
+                print(f"📊 Ver DJ Sectorial: {results['github_dj'].get('github_url', 'N/A')}")
+            if results['github_breadth']:
+                print(f"📈 Ver Market Breadth: {results['github_breadth'].get('github_url', 'N/A')}")
+            
+            return results
+            
+        except Exception as e:
+            print(f"\n❌ Error crítico en análisis ultra completo: {e}")
+            traceback.print_exc()
+            return results
+    
     def send_combined_telegram_report(self, results, dj_analysis_results):
         """Envía reporte combinado por Telegram"""
         try:
@@ -988,6 +1193,122 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             print(f"❌ Error enviando reporte combinado: {e}")
             return False
     
+    def send_ultra_telegram_report(self, results, dj_analysis_results, breadth_results):
+        """Envía reporte ultra completo por Telegram con Market Breadth - NUEVO"""
+        try:
+            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            from alerts.telegram_utils import send_message, send_file
+            
+            if not TELEGRAM_CHAT_ID or not TELEGRAM_BOT_TOKEN:
+                print("❌ Configuración Telegram incompleta")
+                return False
+            
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+            
+            # Estadísticas Insider
+            insider_stats = ""
+            if os.path.exists(self.csv_path):
+                df = pd.read_csv(self.csv_path)
+                if len(df) > 0:
+                    insider_stats = f"""🏛️ **Insider Trading:**
+• {len(df)} transacciones detectadas
+• {df['Insider'].nunique()} empresas únicas
+• Estado: {'✅ Subido' if results['github_insider'] else '❌ Error'}"""
+                else:
+                    insider_stats = f"""🏛️ **Insider Trading:**
+• Sin transacciones detectadas
+• Estado: {'✅ Monitoreado' if results['insider_scraper'] else '❌ Error'}"""
+            
+            # Estadísticas DJ Sectorial
+            dj_stats = ""
+            if dj_analysis_results:
+                oportunidades = len([r for r in dj_analysis_results if r['classification'] == 'OPORTUNIDAD'])
+                cerca = len([r for r in dj_analysis_results if r['classification'] == 'CERCA'])
+                fuertes = len([r for r in dj_analysis_results if r['classification'] == 'FUERTE'])
+                
+                dj_stats = f"""📊 **DJ Sectorial:**
+• {len(dj_analysis_results)} sectores analizados
+• 🟢 {oportunidades} oportunidades
+• 🟡 {cerca} cerca del mínimo
+• 🔴 {fuertes} en zona fuerte
+• Estado: {'✅ Subido' if results['github_dj'] else '❌ Error'}"""
+            else:
+                dj_stats = f"""📊 **DJ Sectorial:**
+• Sin datos disponibles
+• Estado: {'❌ Error en análisis' if results['dj_analysis'] else '⚠️ Sin ejecutar'}"""
+            
+            # Estadísticas Market Breadth (NUEVO)
+            breadth_stats = ""
+            if breadth_results and results['breadth_analysis']:
+                summary = breadth_results['analysis_result']['summary']
+                breadth_stats = f"""📈 **Market Breadth:**
+• Sesgo: {summary['market_bias']}
+• Confianza: {summary['confidence']}
+• 🟢 {summary['bullish_signals']} señales alcistas
+• 🔴 {summary['bearish_signals']} señales bajistas
+• 💪 Fuerza: {summary['strength_score']}
+• Estado: {'✅ Subido' if results['github_breadth'] else '❌ Error'}"""
+            else:
+                breadth_stats = f"""📈 **Market Breadth:**
+• Análisis de amplitud de mercado
+• Estado: {'❌ Error' if MARKET_BREADTH_AVAILABLE else '⚠️ No disponible'}"""
+            
+            # URLs de GitHub Pages
+            github_links = ""
+            if results['github_insider']:
+                github_links += f"\n🏛️ [Ver Insider Trading]({results['github_insider']['github_url']})"
+            if results['github_dj']:
+                github_links += f"\n📊 [Ver DJ Sectorial]({results['github_dj']['github_url']})"
+            if results['github_breadth']:
+                github_links += f"\n📈 [Ver Market Breadth]({results['github_breadth']['github_url']})"
+            
+            if github_links:
+                base_url = "https://tantancansado.github.io/stock_analyzer_a"
+                github_links += f"\n🏠 [Dashboard Principal]({base_url})"
+            
+            mensaje = f"""🌟 **REPORTE TRADING ULTRA COMPLETO**
+
+📅 **{timestamp}**
+
+{insider_stats}
+
+{dj_stats}
+
+{breadth_stats}
+
+🌐 **Enlaces GitHub Pages:**{github_links}
+
+📄 **Archivos CSV adjuntos para análisis detallado**"""
+            
+            send_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, mensaje)
+            
+            # Enviar archivos CSV
+            files_sent = 0
+            
+            # CSV Insider
+            if os.path.exists(self.csv_path):
+                if send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, self.csv_path, "📊 Datos Insider Trading"):
+                    files_sent += 1
+            
+            # CSV DJ Sectorial
+            csv_dj_path = "reports/dj_sectorial_analysis.csv"
+            if os.path.exists(csv_dj_path):
+                if send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, csv_dj_path, "📈 Datos DJ Sectorial"):
+                    files_sent += 1
+            
+            # CSV Market Breadth (NUEVO)
+            csv_breadth_path = "reports/market_breadth_analysis.csv"
+            if os.path.exists(csv_breadth_path) and results['breadth_analysis']:
+                if send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, csv_breadth_path, "📊 Datos Market Breadth"):
+                    files_sent += 1
+            
+            print(f"✅ Telegram ultra completo enviado - {files_sent} archivos adjuntados")
+            return True
+            
+        except Exception as e:
+            print(f"❌ Error enviando reporte ultra completo: {e}")
+            return False
+    
     def generate_html(self):
         """Genera el HTML con los datos del CSV usando templates externos"""
         print("\n📄 GENERANDO HTML INSIDER TRADING")
@@ -1070,6 +1391,14 @@ tr:nth-child(even){{background:#2d3748;}}</style>
                     zipf.write(dj_html, arcname="dj_sectorial_report.html")
                 if os.path.exists(dj_csv):
                     zipf.write(dj_csv, arcname="dj_sectorial_data.csv")
+                
+                # Añadir archivos Market Breadth al bundle
+                breadth_html = "reports/market_breadth_report.html"
+                breadth_csv = "reports/market_breadth_analysis.csv"
+                if os.path.exists(breadth_html):
+                    zipf.write(breadth_html, arcname="market_breadth_report.html")
+                if os.path.exists(breadth_csv):
+                    zipf.write(breadth_csv, arcname="market_breadth_data.csv")
             
             print(f"✅ Bundle creado: {self.bundle_path}")
             return True
@@ -1251,7 +1580,8 @@ def test_components():
         ("Config", ["config.py"]),
         ("Telegram Utils", ["alerts/telegram_utils.py"]),
         ("Templates HTML", ["templates/html_generator.py"]),
-        ("Templates GitHub", ["templates/github_pages_templates.py"])
+        ("Templates GitHub", ["templates/github_pages_templates.py"]),
+        ("Market Breadth", ["market_breadth_analyzer.py"])  # NUEVO
     ]
     
     for name, paths in files_to_check:
@@ -1304,7 +1634,27 @@ def test_components():
     except Exception as e:
         print(f"❌ Error en DJ Analyzer: {e}")
     
-    # 5. Test GitHub Pages Uploader
+    # 5. Test Market Breadth Analyzer (NUEVO)
+    print("\n📈 Testing Market Breadth Analyzer:")
+    try:
+        if MARKET_BREADTH_AVAILABLE:
+            analyzer = MarketBreadthAnalyzer()
+            print("✅ Market Breadth Analyzer inicializado")
+            
+            # Test rápido
+            test_result = analyzer.run_breadth_analysis()
+            if test_result:
+                summary = test_result['summary']
+                print(f"✅ Test exitoso: {summary['market_bias']}")
+                print(f"✅ Señales: {summary['bullish_signals']} alcistas, {summary['bearish_signals']} bajistas")
+            else:
+                print("❌ Test falló")
+        else:
+            print("❌ Market Breadth Analyzer no disponible")
+    except Exception as e:
+        print(f"❌ Error en Market Breadth: {e}")
+    
+    # 6. Test GitHub Pages Uploader
     print("\n🌐 Testing GitHub Pages:")
     try:
         system = InsiderTradingSystem()
@@ -1314,6 +1664,7 @@ def test_components():
         # Test de generación de páginas
         manifest = uploader.load_manifest()
         print(f"✅ Manifest cargado: {len(manifest.get('reports', []))} reportes")
+        print(f"✅ Manifest cargado: {len(manifest.get('breadth_reports', []))} reportes breadth")
         
         if uploader.templates_available:
             print("✅ Templates Liquid Glass disponibles")
@@ -1324,7 +1675,7 @@ def test_components():
         print(f"❌ Error en GitHub Pages: {e}")
 
 def main():
-    """Función principal con menú"""
+    """Función principal con menú ACTUALIZADO"""
     if len(sys.argv) > 1:
         if sys.argv[1] == "--auto":
             system = InsiderTradingSystem()
@@ -1333,6 +1684,21 @@ def main():
             mode = sys.argv[2] if len(sys.argv) > 2 else "principales"
             system = InsiderTradingSystem()
             system.run_daily_combined_analysis(mode)
+        elif sys.argv[1] == "--ultra":
+            mode = sys.argv[2] if len(sys.argv) > 2 else "principales"
+            system = InsiderTradingSystem()
+            if hasattr(system, 'run_daily_analysis_with_breadth'):
+                system.run_daily_analysis_with_breadth(mode, include_breadth=True)
+            else:
+                system.run_daily_combined_analysis(mode)
+        elif sys.argv[1] == "--breadth":
+            system = InsiderTradingSystem()
+            if hasattr(system, 'run_market_breadth_analysis'):
+                breadth_results = system.run_market_breadth_analysis()
+                if breadth_results:
+                    system.upload_breadth_to_github_pages(breadth_results)
+            else:
+                print("❌ Market Breadth no disponible")
         elif sys.argv[1] == "--test":
             test_components()
         elif sys.argv[1] == "--scraper":
@@ -1355,36 +1721,41 @@ def main():
             system = InsiderTradingSystem()
             system.run_dj_sectorial_analysis(mode)
     else:
-        # Modo interactivo
+        # Modo interactivo ACTUALIZADO
         while True:
             print("\n" + "=" * 80)
             print("📊 SISTEMA TRADING UNIFICADO - MENÚ PRINCIPAL")
             print("=" * 80)
             print("🌟 ANÁLISIS DIARIO RECOMENDADO:")
-            print("  1. 🚀 ANÁLISIS DIARIO COMPLETO (Insider + DJ Sectorial)")
+            print("  1. 🚀 ANÁLISIS DIARIO ULTRA COMPLETO (Insider + DJ + Breadth)")
+            print("  2. 🔥 ANÁLISIS DIARIO COMPLETO (Insider + DJ Sectorial)")
             print("")
             print("🏛️ INSIDER TRADING:")
-            print("  2. 🏛️  Proceso completo Insider Trading")
-            print("  3. 🕷️  Solo ejecutar scraper")
-            print("  4. 📄 Solo generar HTML")
-            print("  5. 📱 Solo enviar Telegram")
+            print("  3. 🏛️  Proceso completo Insider Trading")
+            print("  4. 🕷️  Solo ejecutar scraper")
+            print("  5. 📄 Solo generar HTML")
+            print("  6. 📱 Solo enviar Telegram")
             print("")
             print("📊 DJ SECTORIAL ANALYSIS:")
-            print("  6. 📈 Análisis principales (16 sectores)")
-            print("  7. 🔍 Análisis detallado (35 sectores)")
-            print("  8. 🚀 Análisis completo (TODOS los sectores)")
-            print("  9. 📊 Solo análisis DJ (sin subir)")
+            print("  7. 📈 Análisis principales (16 sectores)")
+            print("  8. 🔍 Análisis detallado (35 sectores)")
+            print("  9. 🚀 Análisis completo (TODOS los sectores)")
+            print(" 10. 📊 Solo análisis DJ (sin subir)")
+            print("")
+            print("📈 MARKET BREADTH ANALYSIS:")
+            print(" 11. 📊 Análisis completo de amplitud")
+            print(" 12. 📈 Solo análisis (sin subir)")
             print("")
             print("🎯 VCP SCANNER:")
-            print(" 10. 🎯 Escanear TODO el mercado USA (VCP Scanner avanzado)")
+            print(" 13. 🎯 Escanear TODO el mercado USA (VCP Scanner avanzado)")
             print("")
             print("🔧 UTILIDADES:")
-            print(" 11. 🔍 Verificar componentes")
-            print(" 12. 🌐 Probar GitHub Pages")
-            print(" 13. 📱 Test Telegram")
+            print(" 14. 🔍 Verificar componentes")
+            print(" 15. 🌐 Probar GitHub Pages")
+            print(" 16. 📱 Test Telegram")
             print("  0. ❌ Salir")
             print("=" * 80)
-            print("💡 Recomendado para uso diario: Opción 1")
+            print("💡 Recomendado para uso diario: Opción 1 (Ultra Completo)")
             print("=" * 80)
 
             opcion = input("Selecciona opción: ").strip()
@@ -1392,7 +1763,29 @@ def main():
             system = InsiderTradingSystem()
 
             if opcion == "1":
-                print("\n🌟 ANÁLISIS DIARIO COMPLETO")
+                print("\n🌟 ANÁLISIS DIARIO ULTRA COMPLETO")
+                print("Modo DJ Sectorial:")
+                print("  1. Principales (16 sectores) - Rápido")
+                print("  2. Detallado (35 sectores) - Medio")
+                print("  3. Completo (TODOS) - Lento")
+                
+                dj_mode_choice = input("Selecciona modo DJ (1/2/3): ").strip()
+                if dj_mode_choice == "2":
+                    dj_mode = "detallado"
+                elif dj_mode_choice == "3":
+                    dj_mode = "completo"
+                else:
+                    dj_mode = "principales"
+                
+                print(f"\n🚀 Ejecutando análisis ultra completo con modo DJ: {dj_mode}")
+                if hasattr(system, 'run_daily_analysis_with_breadth'):
+                    system.run_daily_analysis_with_breadth(dj_mode, include_breadth=True)
+                else:
+                    print("⚠️ Market Breadth no disponible, ejecutando análisis completo normal")
+                    system.run_daily_combined_analysis(dj_mode)
+                
+            elif opcion == "2":
+                print("\n🔥 ANÁLISIS DIARIO COMPLETO")
                 print("Modo DJ Sectorial:")
                 print("  1. Principales (16 sectores) - Rápido")
                 print("  2. Detallado (35 sectores) - Medio")
@@ -1409,42 +1802,56 @@ def main():
                 print(f"\n🚀 Ejecutando análisis diario con modo DJ: {dj_mode}")
                 system.run_daily_combined_analysis(dj_mode)
                 
-            elif opcion == "2":
-                system.run_complete_process()
             elif opcion == "3":
-                system.run_scraper()
+                system.run_complete_process()
             elif opcion == "4":
-                system.generate_html()
+                system.run_scraper()
             elif opcion == "5":
-                system.send_telegram()
+                system.generate_html()
             elif opcion == "6":
+                system.send_telegram()
+            elif opcion == "7":
                 dj_results = system.run_dj_sectorial_analysis("principales")
                 if dj_results:
                     system.upload_dj_to_github_pages(dj_results)
-            elif opcion == "7":
+            elif opcion == "8":
                 dj_results = system.run_dj_sectorial_analysis("detallado")
                 if dj_results:
                     system.upload_dj_to_github_pages(dj_results)
-            elif opcion == "8":
+            elif opcion == "9":
                 dj_results = system.run_dj_sectorial_analysis("completo")
                 if dj_results:
                     system.upload_dj_to_github_pages(dj_results)
-            elif opcion == "9":
+            elif opcion == "10":
                 mode = input("Modo (principales/detallado/completo): ").strip()
                 if mode not in ["principales", "detallado", "completo"]:
                     mode = "principales"
                 system.run_dj_sectorial_analysis(mode)
-            elif opcion == "10":
-                run_vcp_scanner_usa_interactive()
             elif opcion == "11":
-                test_components()
+                # Market Breadth completo con subida
+                if hasattr(system, 'run_market_breadth_analysis'):
+                    breadth_results = system.run_market_breadth_analysis()
+                    if breadth_results:
+                        system.upload_breadth_to_github_pages(breadth_results)
+                else:
+                    print("❌ Market Breadth no disponible")
             elif opcion == "12":
+                # Market Breadth solo análisis
+                if hasattr(system, 'run_market_breadth_analysis'):
+                    system.run_market_breadth_analysis()
+                else:
+                    print("❌ Market Breadth no disponible")
+            elif opcion == "13":
+                run_vcp_scanner_usa_interactive()
+            elif opcion == "14":
+                test_components()
+            elif opcion == "15":
                 result = system.upload_github_pages()
                 if result:
                     print("✅ GitHub Pages funcionando")
                 else:
                     print("❌ GitHub Pages no disponible")
-            elif opcion == "13":
+            elif opcion == "16":
                 system.send_telegram()
             elif opcion == "0":
                 print("👋 ¡Hasta luego!")

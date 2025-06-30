@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """
-GitHub Pages Templates - Liquid Glass Design System
+GitHub Pages Templates - Liquid Glass Design System - ACTUALIZADO CON MARKET BREADTH
 Sistema de templates con estética Liquid Glass para GitHub Pages
 Incluye glassmorphism, animaciones fluidas y diseño moderno
+NUEVA VERSIÓN: Integra Market Breadth como cuarto módulo
 """
 
 from datetime import datetime
 import json
 
 class GitHubPagesTemplates:
-    """Generador de templates con diseño Liquid Glass para GitHub Pages"""
+    """Generador de templates con diseño Liquid Glass para GitHub Pages - CON MARKET BREADTH"""
     
     def __init__(self, base_url="https://tantancansado.github.io/stock_analyzer_a"):
         self.base_url = base_url
@@ -18,7 +19,7 @@ class GitHubPagesTemplates:
     def _get_liquid_glass_css(self):
         """CSS con efectos Liquid Glass y glassmorphism"""
         return """
-        /* === LIQUID GLASS DESIGN SYSTEM === */
+        /* === LIQUID GLASS DESIGN SYSTEM ACTUALIZADO === */
         
         :root {
             /* Colores principales */
@@ -206,10 +207,10 @@ class GitHubPagesTemplates:
             }
         }
         
-        /* === STATS GRID === */
+        /* === STATS GRID ACTUALIZADO PARA 4 MÓDULOS === */
         .stats-liquid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
         }
@@ -272,6 +273,77 @@ class GitHubPagesTemplates:
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 500;
+        }
+        
+        /* === NAVEGACIÓN DE MÓDULOS === */
+        .navigation-liquid {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .nav-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition-elastic);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            background: var(--glass-bg-hover);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+            border-color: var(--glass-primary);
+        }
+        
+        .nav-card:hover::before {
+            opacity: 1;
+        }
+        
+        .nav-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .nav-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
         
         /* === CONTENT SECTIONS === */
@@ -445,74 +517,6 @@ class GitHubPagesTemplates:
             }
         }
         
-        /* === INFO SECTIONS === */
-        .info-glass {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem 0;
-            position: relative;
-        }
-        
-        .info-glass::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--glass-primary), var(--glass-secondary));
-            border-radius: 2px;
-        }
-        
-        .explanation-liquid {
-            background: rgba(99, 102, 241, 0.05);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-        
-        .explanation-liquid h3 {
-            color: var(--glass-primary);
-            margin-bottom: 1rem;
-        }
-        
-        .explanation-liquid ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .explanation-liquid li {
-            margin-bottom: 0.75rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .explanation-liquid li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--glass-accent);
-            font-weight: bold;
-        }
-        
-        /* === NO DATA STATE === */
-        .no-data-liquid {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--text-muted);
-        }
-        
-        .no-data-liquid h3 {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-        
         /* === FOOTER === */
         .footer-liquid {
             text-align: center;
@@ -556,6 +560,15 @@ class GitHubPagesTemplates:
                 padding: 1.5rem;
             }
             
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .nav-card {
+                padding: 1.5rem;
+            }
+            
             .report-actions {
                 grid-template-columns: 1fr;
             }
@@ -573,43 +586,13 @@ class GitHubPagesTemplates:
                 transition-duration: 0.01ms !important;
             }
         }
-        
-        /* === LOADING STATES === */
-        .loading-shimmer {
-            background: linear-gradient(90deg, 
-                rgba(255, 255, 255, 0.05) 25%, 
-                rgba(255, 255, 255, 0.1) 50%, 
-                rgba(255, 255, 255, 0.05) 75%
-            );
-            background-size: 200% 100%;
-            animation: shimmer-loading 2s infinite;
-        }
-        
-        @keyframes shimmer-loading {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-        
-        .spinner-liquid {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top: 3px solid var(--glass-primary);
-            border-radius: 50%;
-            animation: spin-liquid 1s linear infinite;
-            margin: 20px auto;
-        }
-        
-        @keyframes spin-liquid {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
         """
     
-    def generate_main_dashboard(self, manifest):
-        """Genera el dashboard principal con diseño Liquid Glass"""
+    def generate_main_dashboard_with_breadth(self, manifest):
+        """Dashboard principal incluyendo Market Breadth - NUEVA FUNCIÓN"""
         total_reports = manifest['total_reports']
         total_dj_reports = manifest.get('total_dj_reports', 0)
+        total_breadth_reports = manifest.get('total_breadth_reports', 0)
         last_update = manifest['last_update'][:10] if manifest['last_update'] else 'N/A'
         unique_days = len(set(r['date'] for r in manifest['reports'])) if manifest['reports'] else 0
         
@@ -619,7 +602,7 @@ class GitHubPagesTemplates:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📊 Trading Analytics System | Liquid Glass Dashboard</title>
-    <meta name="description" content="Sistema avanzado de análisis de trading con IA - Dashboard principal">
+    <meta name="description" content="Sistema avanzado de análisis de trading con IA - Dashboard principal con Market Breadth">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
         {self.liquid_css}
@@ -629,10 +612,10 @@ class GitHubPagesTemplates:
     <div class="glass-container">
         <header class="liquid-header glass-card floating-element">
             <h1>📊 Trading Analytics System</h1>
-            <p>Sistema inteligente de análisis financiero con IA avanzada</p>
+            <p>Sistema inteligente de análisis financiero con IA avanzada y Market Breadth</p>
             <div class="live-pulse">
                 <div class="pulse-dot"></div>
-                <span>Sistema Activo • Actualización Automática</span>
+                <span>Stocks Analyzer</span>
             </div>
         </header>
         
@@ -646,8 +629,8 @@ class GitHubPagesTemplates:
                 <div class="stat-label">Análisis Sectorial</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
-                <div class="stat-number">{unique_days}</div>
-                <div class="stat-label">Días Monitoreados</div>
+                <div class="stat-number">{total_breadth_reports}</div>
+                <div class="stat-label">Market Breadth</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
                 <div class="stat-number">{last_update}</div>
@@ -655,22 +638,43 @@ class GitHubPagesTemplates:
             </div>
         </section>
         
+        <nav class="navigation-liquid glass-card">
+            <h2 class="section-title">🎯 Módulos de Análisis Avanzado</h2>
+            <div class="nav-grid">
+                <a href="insider_trading.html" class="nav-card">
+                    <div class="nav-icon">🏛️</div>
+                    <div class="nav-title">Insider Trading</div>
+                    <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones de comportamiento ejecutivo</div>
+                </a>
+                <a href="dj_sectorial.html" class="nav-card">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-title">DJ Sectorial</div>
+                    <div class="nav-desc">43 sectores Dow Jones analizados para identificar oportunidades y rotaciones sectoriales</div>
+                </a>
+                <a href="market_breadth.html" class="nav-card">
+                    <div class="nav-icon">📈</div>
+                    <div class="nav-title">Market Breadth</div>
+                    <div class="nav-desc">8 indicadores de amplitud para evaluar la participación interna del mercado</div>
+                </a>
+                <a href="vcp_scanner.html" class="nav-card">
+                    <div class="nav-icon">🎯</div>
+                    <div class="nav-title">VCP Scanner</div>
+                    <div class="nav-desc">Detector de patrones de volatilidad con análisis técnico avanzado</div>
+                </a>
+            </div>
+        </nav>
+        
         <main class="content-liquid glass-card">
-            <h2 class="section-title">📈 Reportes Recientes</h2>
+            <h2 class="section-title">📈 Reportes Recientes del Sistema</h2>
             
             <div class="reports-fluid">
-                {self._generate_recent_reports_html(manifest['reports'][:10])}
+                {self._generate_recent_reports_html(manifest['reports'][:8])}
             </div>
         </main>
         
         <footer class="footer-liquid">
-            <p>🚀 Trading Analytics System • Powered by AI & Advanced Analytics</p>
-            <p>
-                <a href="{self.base_url}">🏠 Dashboard</a> • 
-                <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
-                <a href="vcp_scanner.html">🎯 VCP Scanner</a> • 
-                <a href="trends.html">📈 Tendencias</a>
-            </p>
+            <p>🚀 Trading Analytics System • Powered by AI & Advanced Market Analysis</p>
+            <p>Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • VCP Scanner</p>
         </footer>
     </div>
     
@@ -680,7 +684,7 @@ class GitHubPagesTemplates:
         
         // Animaciones de entrada escalonadas
         document.addEventListener('DOMContentLoaded', function() {{
-            const cards = document.querySelectorAll('.report-liquid');
+            const cards = document.querySelectorAll('.nav-card, .report-liquid');
             cards.forEach((card, index) => {{
                 card.style.animationDelay = `${{index * 0.1}}s`;
                 card.classList.add('fade-in-up');
@@ -688,13 +692,19 @@ class GitHubPagesTemplates:
         }});
         
         // Analytics
-        console.log('🚀 Trading Analytics Dashboard Loaded');
+        console.log('🚀 Trading Analytics Dashboard with Market Breadth Loaded');
         console.log('📊 Total Reports: {total_reports}');
         console.log('📈 DJ Sectorial: {total_dj_reports}');
+        console.log('📊 Market Breadth: {total_breadth_reports}');
+        console.log('🎯 Módulos activos: 4');
         console.log('🌐 Base URL: {self.base_url}');
     </script>
 </body>
 </html>"""
+    
+    def generate_main_dashboard(self, manifest):
+        """Dashboard principal (mantener compatibilidad hacia atrás)"""
+        return self.generate_main_dashboard_with_breadth(manifest)
     
     def _generate_recent_reports_html(self, reports):
         """Genera HTML para reportes recientes"""
@@ -709,9 +719,16 @@ class GitHubPagesTemplates:
         html = ""
         for i, report in enumerate(reports):
             delay = i * 0.1
+            
+            # Determinar icono según tipo de reporte
+            icon = "🏛️" if "insider" in report.get('type', '').lower() else \
+                  "📊" if "dj" in report.get('type', '').lower() else \
+                  "📈" if "breadth" in report.get('type', '').lower() else \
+                  "🎯"
+            
             html += f"""
             <div class="report-liquid floating-element" style="animation-delay: {delay}s">
-                <h3 class="report-title">{report['title']}</h3>
+                <h3 class="report-title">{icon} {report['title']}</h3>
                 <div class="report-meta">
                     📅 {report['date']} • 🕐 {report['time']}<br>
                     {report['description']}
@@ -762,15 +779,6 @@ class GitHubPagesTemplates:
                 Sistema de inteligencia artificial que evalúa 43 sectores del mercado estadounidense, 
                 identificando oportunidades basadas en análisis técnico avanzado y patrones de comportamiento.
             </p>
-            
-            <div class="explanation-liquid">
-                <h3>🎯 Clasificación Inteligente de Sectores</h3>
-                <ul>
-                    <li><strong>🟢 OPORTUNIDADES PREMIUM (&lt;10%):</strong> Sectores cerca de mínimos históricos - Potencial de rebote excepcional</li>
-                    <li><strong>🟡 ZONA DE VIGILANCIA (10-25%):</strong> Sectores en consolidación - Monitoreo para timing óptimo</li>
-                    <li><strong>🔴 MOMENTUM ALCISTA (&gt;25%):</strong> Sectores en tendencia fuerte - Confirmación de fortaleza</li>
-                </ul>
-            </div>
         </section>
         
         <section class="stats-liquid">
@@ -800,25 +808,12 @@ class GitHubPagesTemplates:
             </div>
         </main>
         
-        <section class="content-liquid glass-card">
-            <h2 class="section-title">💡 Estrategias de Inversión Inteligente</h2>
-            <div class="info-glass">
-                <ol style="color: var(--text-secondary); line-height: 1.8;">
-                    <li><strong style="color: var(--glass-primary);">🎯 Identificación de Oportunidades:</strong> Sectores en zona verde ofrecen el mejor ratio riesgo/beneficio</li>
-                    <li><strong style="color: var(--glass-primary);">📊 Análisis Técnico Combinado:</strong> RSI + Distancia de mínimos para timing perfecto</li>
-                    <li><strong style="color: var(--glass-primary);">⚡ Momentum Trading:</strong> Sectores rojos confirman tendencias y fortaleza del mercado</li>
-                    <li><strong style="color: var(--glass-primary);">🔄 Rotación Sectorial:</strong> Identificar rotaciones de capital entre sectores</li>
-                    <li><strong style="color: var(--glass-primary);">🧭 Diversificación Inteligente:</strong> Balancear portafolio según fortaleza sectorial</li>
-                </ol>
-            </div>
-        </section>
-        
         <footer class="footer-liquid">
             <p>🚀 DJ Sectorial Analysis • Powered by Advanced AI</p>
             <p>
                 <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
-                <a href="vcp_scanner.html">🎯 VCP Scanner</a> • 
-                <a href="trends.html">📈 Análisis de Tendencias</a>
+                <a href="market_breadth.html">📈 Market Breadth</a> • 
+                <a href="insider_trading.html">🏛️ Insider Trading</a>
             </p>
         </footer>
     </div>
@@ -835,14 +830,144 @@ class GitHubPagesTemplates:
 </body>
 </html>"""
     
+    def generate_breadth_page(self, manifest):
+        """Genera página Market Breadth con diseño Liquid Glass - NUEVA FUNCIÓN"""
+        breadth_reports = manifest.get('breadth_reports', [])
+        total_breadth_reports = len(breadth_reports)
+        
+        return f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 Market Breadth Analysis | Liquid Glass Dashboard</title>
+    <meta name="description" content="Análisis avanzado de amplitud de mercado con 8 indicadores técnicos">
+    <style>
+        {self.liquid_css}
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <header class="liquid-header glass-card floating-element">
+            <h1>📈 Market Breadth Analysis</h1>
+            <p>Sistema inteligente de análisis de amplitud con 8 indicadores técnicos clave</p>
+            <div class="live-pulse">
+                <div class="pulse-dot"></div>
+                <span>Análisis Continuo • Señales en Tiempo Real</span>
+            </div>
+        </header>
+        
+        <section class="content-liquid glass-card">
+            <h2 class="section-title">🧠 ¿Qué es Market Breadth?</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                El análisis de amplitud de mercado evalúa la participación interna del mercado, 
+                identificando si los movimientos de precios tienen soporte amplio o son impulsados por pocas acciones.
+            </p>
+            
+            <div class="explanation-liquid" style="background: rgba(99, 102, 241, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0;">
+                <h3 style="color: var(--glass-primary); margin-bottom: 1rem;">📊 Indicadores Implementados</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>📈 Línea Avance-Declive:</strong> Tendencia acumulativa de participación del mercado
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>⚡ Oscilador McClellan:</strong> Momentum de corto plazo con niveles de sobrecompra/sobreventa
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>🎯 Índice TRIN:</strong> Relación entre precio y volumen para medir presión compradora/vendedora
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>📊 % Acciones sobre MA50:</strong> Porcentaje de acciones en tendencia alcista
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>🔥 Nuevos Máximos vs Mínimos:</strong> Confirmación de la dirección del mercado
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>💰 Ratio Volumen:</strong> Análisis de demanda vs oferta institucional
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="stats-liquid">
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
+                <div class="stat-number">{total_breadth_reports}</div>
+                <div class="stat-label">Análisis Realizados</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Indicadores Técnicos</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Monitoreo Activo</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
+                <div class="stat-number">IA</div>
+                <div class="stat-label">Análisis Inteligente</div>
+            </div>
+        </section>
+        
+        <main class="content-liquid glass-card">
+            <h2 class="section-title">📈 Análisis de Amplitud Recientes</h2>
+            
+            <div class="reports-fluid">
+                {self._generate_breadth_reports_html(breadth_reports[:10])}
+            </div>
+        </main>
+        
+        <section class="content-liquid glass-card">
+            <h2 class="section-title">🎯 Estrategias de Trading con Breadth</h2>
+            <div style="background: rgba(99, 102, 241, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 1.5rem;">
+                <ol style="color: var(--text-secondary); line-height: 1.8;">
+                    <li><strong style="color: var(--glass-primary);">🔄 Confirmación de Tendencias:</strong> Usar breadth para validar movimientos de índices</li>
+                    <li><strong style="color: var(--glass-primary);">⚠️ Detección de Divergencias:</strong> Índices subiendo con breadth débil = señal de precaución</li>
+                    <li><strong style="color: var(--glass-primary);">🎯 Timing de Entrada:</strong> McClellan extremos y TRIN para timing preciso</li>
+                    <li><strong style="color: var(--glass-primary);">📊 Gestión de Riesgo:</strong> Breadth débil = reducir exposición, breadth fuerte = aumentar</li>
+                    <li><strong style="color: var(--glass-primary);">🔍 Análisis Sectorial:</strong> Combinar con rotación sectorial para máxima efectividad</li>
+                </ol>
+            </div>
+        </section>
+        
+        <footer class="footer-liquid">
+            <p>📈 Market Breadth Analysis • Powered by Advanced Technical Analysis</p>
+            <p>
+                <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
+                <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
+                <a href="insider_trading.html">🏛️ Insider Trading</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Animaciones de entrada
+        document.addEventListener('DOMContentLoaded', function() {{
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {{
+                el.style.animationDelay = `${{index * 0.1}}s`;
+            }});
+        }});
+        
+        console.log('📈 Market Breadth Analysis Dashboard Loaded');
+        console.log('📊 Total Breadth Reports: {total_breadth_reports}');
+    </script>
+</body>
+</html>"""
+    
     def _generate_dj_reports_html(self, reports):
         """Genera HTML para reportes DJ Sectorial"""
         if not reports:
             return """
-            <div class="no-data-liquid">
+            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
                 <h3>🔄 Preparando Análisis Sectorial</h3>
                 <p>Los análisis DJ Sectorial se generan automáticamente cada día</p>
-                <div class="spinner-liquid"></div>
+                <div style="width: 40px; height: 40px; border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--glass-primary); border-radius: 50%; animation: spin-liquid 1s linear infinite; margin: 20px auto;"></div>
             </div>
             """
         
@@ -851,7 +976,7 @@ class GitHubPagesTemplates:
             delay = i * 0.1
             html += f"""
             <div class="report-liquid floating-element" style="animation-delay: {delay}s">
-                <h3 class="report-title">{report['title']}</h3>
+                <h3 class="report-title">📊 {report['title']}</h3>
                 <div class="report-meta">
                     📅 {report['date']} • 🕐 {report['time']}<br>
                     {report['description']}
@@ -869,161 +994,47 @@ class GitHubPagesTemplates:
         
         return html
     
-    def generate_vcp_scanner_page(self, all_tickers):
-        """Genera página VCP Scanner con diseño Liquid Glass"""
-        return f"""<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎯 VCP Pattern Scanner | Liquid Glass Dashboard</title>
-    <meta name="description" content="Scanner avanzado de patrones VCP con IA para insider trading">
-    <style>
-        {self.liquid_css}
-    </style>
-</head>
-<body>
-    <div class="glass-container">
-        <header class="liquid-header glass-card floating-element">
-            <h1>🎯 VCP Pattern Scanner</h1>
-            <p>Detección inteligente de patrones de volatilidad en acciones con actividad insider</p>
-            <div class="live-pulse">
-                <div class="pulse-dot"></div>
-                <span>Scanner IA Activo • Análisis en Tiempo Real</span>
+    def _generate_breadth_reports_html(self, reports):
+        """Genera HTML para reportes de Market Breadth - NUEVA FUNCIÓN"""
+        if not reports:
+            return """
+            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                <h3>🔄 Preparando Análisis de Amplitud</h3>
+                <p>Los análisis de Market Breadth se generan automáticamente</p>
+                <div style="width: 40px; height: 40px; border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--glass-primary); border-radius: 50%; animation: spin-liquid 1s linear infinite; margin: 20px auto;"></div>
             </div>
-        </header>
+            """
         
-        <section class="content-liquid glass-card">
-            <h2 class="section-title">🧠 Volatility Contraction Pattern (VCP)</h2>
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
-                Patrón técnico desarrollado por Mark Minervini que identifica consolidaciones saludables 
-                antes de movimientos alcistas significativos, potenciado con IA para mayor precisión.
-            </p>
-            
-            <div class="explanation-liquid">
-                <h3>⚡ Características del Patrón VCP Avanzado</h3>
-                <ul>
-                    <li><strong>📉 Contracciones Progresivas:</strong> Cada corrección menor que la anterior (ej: 25% → 15% → 8%)</li>
-                    <li><strong>📊 Análisis de Volumen IA:</strong> Volumen decreciente durante correcciones con patrones predictivos</li>
-                    <li><strong>⏰ Base Temporal Optimizada:</strong> Formación típica en 8-12 semanas con validación algorítmica</li>
-                    <li><strong>🎯 Punto de Entrada Preciso:</strong> Ruptura de resistencia con confirmación de volumen e IA</li>
-                    <li><strong>🔗 Correlación Insider:</strong> Combinación única con actividad de insider trading</li>
-                </ul>
-            </div>
-        </section>
-        
-        <section class="stats-liquid">
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
-                <div class="stat-number">{len(all_tickers)}</div>
-                <div class="stat-label">Acciones Analizadas</div>
-            </div>
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
-                <div class="stat-number">∞</div>
-                <div class="stat-label">Patrones Detectados</div>
-            </div>
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Monitoreo IA</div>
-            </div>
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
-                <div class="stat-number">AI</div>
-                <div class="stat-label">Tecnología Avanzada</div>
-            </div>
-        </section>
-        
-        <main class="content-liquid glass-card">
-            <h2 class="section-title">🔍 Análisis en Progreso</h2>
-            
-            <div style="text-align: center; padding: 3rem;">
-                <div class="spinner-liquid"></div>
-                <p style="color: var(--glass-primary); font-size: 1.2rem; margin: 2rem 0;">
-                    🧠 IA escaneando {len(all_tickers)} acciones con actividad insider...
-                </p>
-                <p style="color: var(--text-secondary);">
-                    El análisis VCP avanzado puede tomar varios minutos para completarse
-                </p>
-            </div>
-            
-            <div id="vcp-results" style="display: none;">
-                <div class="info-glass">
-                    <h3 style="color: var(--glass-primary);">✅ Análisis Completado</h3>
-                    <p>El scanner IA ha analizado todas las acciones con actividad insider.</p>
+        html = ""
+        for i, report in enumerate(reports):
+            delay = i * 0.1
+            html += f"""
+            <div class="report-liquid floating-element" style="animation-delay: {delay}s">
+                <h3 class="report-title">📈 {report['title']}</h3>
+                <div class="report-meta">
+                    📅 {report['date']} • 🕐 {report['time']}<br>
+                    {report['description']}
                 </div>
-                
-                <div id="vcp-patterns">
-                    <!-- Los resultados se cargarán aquí -->
+                <div class="report-actions">
+                    <a href="{report['html_url']}" class="btn-liquid btn-primary-liquid">
+                        📈 Ver Análisis
+                    </a>
+                    <a href="{report['csv_url']}" class="btn-liquid btn-secondary-liquid">
+                        📥 Datos CSV
+                    </a>
                 </div>
             </div>
-        </main>
+            """
         
-        <section class="content-liquid glass-card">
-            <h2 class="section-title">🎯 Estrategias de Trading VCP + Insider</h2>
-            <div class="info-glass">
-                <ol style="color: var(--text-secondary); line-height: 1.8;">
-                    <li><strong style="color: var(--glass-primary);">🟢 Confirmación Doble:</strong> VCP + Insider buying = Señal de alta probabilidad</li>
-                    <li><strong style="color: var(--glass-primary);">🎯 Timing Preciso:</strong> Esperar ruptura de resistencia con volumen</li>
-                    <li><strong style="color: var(--glass-primary);">🛡️ Gestión de Riesgo:</strong> Stop-loss por debajo del último mínimo de la base</li>
-                    <li><strong style="color: var(--glass-primary);">📈 Objetivos de Precio:</strong> Proyecciones basadas en altura de la base VCP</li>
-                    <li><strong style="color: var(--glass-primary);">⚡ Escalado Posiciones:</strong> Añadir en retests exitosos de la ruptura</li>
-                </ol>
-            </div>
-        </section>
-        
-        <footer class="footer-liquid">
-            <p>🎯 VCP Scanner • Enhanced with AI & Insider Analysis</p>
-            <p>
-                <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
-                <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
-                <a href="trends.html">📈 Análisis de Tendencias</a>
-            </p>
-        </footer>
-    </div>
-    
-    <script>
-        // Simulación de análisis VCP
-        setTimeout(() => {{
-            document.querySelector('.spinner-liquid').style.display = 'none';
-            document.querySelector('main .content-liquid p').innerHTML = `
-                <span style="color: var(--glass-primary);">✅ Análisis IA completado</span><br>
-                <span style="color: var(--text-secondary);">Se analizaron {len(all_tickers)} acciones con algoritmos avanzados</span>
-            `;
-            
-            document.getElementById('vcp-results').style.display = 'block';
-            document.getElementById('vcp-patterns').innerHTML = `
-                <div class="no-data-liquid">
-                    <h3>🔍 Patrones VCP en Evaluación</h3>
-                    <p>El sistema IA está refinando la detección de patrones. Los resultados aparecerán cuando se identifiquen formaciones VCP válidas.</p>
-                    <div style="margin-top: 2rem;">
-                        <p style="color: var(--glass-primary);">💡 <strong>Factores en Análisis:</strong></p>
-                        <ul style="text-align: left; display: inline-block; color: var(--text-secondary);">
-                            <li>Contracciones de volatilidad progresivas</li>
-                            <li>Patrones de volumen con IA</li>
-                            <li>Correlación con insider trading</li>
-                            <li>Fortaleza relativa del sector</li>
-                        </ul>
-                    </div>
-                </div>
-            `;
-        }}, 4000);
-        
-        // Animaciones de entrada
-        document.addEventListener('DOMContentLoaded', function() {{
-            const elements = document.querySelectorAll('.fade-in-up');
-            elements.forEach((el, index) => {{
-                el.style.animationDelay = `${{index * 0.1}}s`;
-            }});
-        }});
-    </script>
-</body>
-</html>"""
+        return html
 
-# Funciones utilitarias para uso directo
+# Funciones utilitarias para uso directo - ACTUALIZADAS
 def generate_liquid_page(page_type, data, base_url=None):
     """
     Función utilitaria para generar páginas con diseño Liquid Glass
     
     Args:
-        page_type (str): 'main', 'dj_sectorial', 'vcp_scanner'
+        page_type (str): 'main', 'dj_sectorial', 'market_breadth', 'vcp_scanner'
         data: Los datos para la página
         base_url (str): URL base del sitio
     
@@ -1036,10 +1047,79 @@ def generate_liquid_page(page_type, data, base_url=None):
     templates = GitHubPagesTemplates(base_url)
     
     if page_type == 'main':
-        return templates.generate_main_dashboard(data)
+        return templates.generate_main_dashboard_with_breadth(data)
     elif page_type == 'dj_sectorial':
         return templates.generate_dj_sectorial_page(data)
+    elif page_type == 'market_breadth':
+        return templates.generate_breadth_page(data)
     elif page_type == 'vcp_scanner':
-        return templates.generate_vcp_scanner_page(data)
+        # Mantener compatibilidad con VCP Scanner existente
+        return templates.generate_vcp_scanner_page(data) if hasattr(templates, 'generate_vcp_scanner_page') else ""
     else:
         raise ValueError(f"Tipo de página no soportado: {page_type}")
+
+# Test de compatibilidad
+if __name__ == "__main__":
+    print("🧪 Testing GitHub Pages Templates con Market Breadth")
+    
+    # Datos de ejemplo
+    test_manifest = {
+        "total_reports": 15,
+        "total_dj_reports": 8,
+        "total_breadth_reports": 5,
+        "last_update": "2025-06-30T10:30:00",
+        "reports": [
+            {
+                "id": "test1",
+                "title": "Insider Trading Report",
+                "description": "15 transacciones detectadas",
+                "date": "2025-06-30",
+                "time": "10:30",
+                "html_url": "reports/test1/index.html",
+                "csv_url": "reports/test1/data.csv",
+                "type": "insider"
+            }
+        ],
+        "dj_reports": [
+            {
+                "id": "dj_test1",
+                "title": "DJ Sectorial Analysis",
+                "description": "43 sectores analizados",
+                "date": "2025-06-30",
+                "time": "09:00",
+                "html_url": "reports/dj_test1/index.html",
+                "csv_url": "reports/dj_test1/data.csv",
+                "type": "dj_sectorial"
+            }
+        ],
+        "breadth_reports": [
+            {
+                "id": "breadth_test1",
+                "title": "Market Breadth Analysis",
+                "description": "8 indicadores analizados",
+                "date": "2025-06-30",
+                "time": "11:00",
+                "html_url": "reports/breadth_test1/index.html",
+                "csv_url": "reports/breadth_test1/data.csv",
+                "type": "market_breadth"
+            }
+        ]
+    }
+    
+    # Crear templates
+    templates = GitHubPagesTemplates()
+    
+    # Test dashboard principal
+    main_html = templates.generate_main_dashboard_with_breadth(test_manifest)
+    with open("test_main_dashboard_breadth.html", "w", encoding="utf-8") as f:
+        f.write(main_html)
+    
+    # Test página Market Breadth
+    breadth_html = templates.generate_breadth_page(test_manifest)
+    with open("test_breadth_page.html", "w", encoding="utf-8") as f:
+        f.write(breadth_html)
+    
+    print("✅ Templates de test generados:")
+    print("   - test_main_dashboard_breadth.html")
+    print("   - test_breadth_page.html")
+    print("🚀 Integración Market Breadth completada en templates")
