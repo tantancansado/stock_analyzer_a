@@ -1,6 +1,6 @@
 {
   "total_reports": 13,
-  "last_update": "2025-06-30T13:11:59.617820",
+  "last_update": "2025-06-30T13:49:43.506337",
   "reports": [
     {
       "id": "report_2025-06-30",
@@ -240,5 +240,20 @@
       "type": "dj_sectorial"
     }
   ],
-  "total_dj_reports": 7
+  "total_dj_reports": 7,
+  "breadth_reports": [
+    {
+      "id": "market_breadth_2025-06-30",
+      "title": "📊 Market Breadth - 🟡 NEUTRAL - 2025-06-30",
+      "description": "Análisis de amplitud con 1 señales alcistas y 2 bajistas",
+      "timestamp": "2025-06-30T13:49:43.506337",
+      "date": "2025-06-30",
+      "time": "13:49:43",
+      "html_url": "reports/market_breadth/market_breadth_2025-06-30/index.html",
+      "csv_url": "reports/market_breadth/market_breadth_2025-06-30/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/market_breadth/market_breadth_2025-06-30/index.html",
+      "type": "market_breadth"
+    }
+  ],
+  "total_breadth_reports": 1
 }

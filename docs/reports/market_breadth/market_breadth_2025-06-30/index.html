@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Market Breadth Analysis | Liquid Glass Dashboard</title>
+    <meta name="description" content="Análisis avanzado de amplitud de mercado con indicadores técnicos">
+    <style>
+        
+        /* Market Breadth Liquid Glass CSS */
+        :root {
+            --glass-primary: rgba(99, 102, 241, 0.9);
+            --glass-secondary: rgba(139, 92, 246, 0.8);
+            --glass-accent: rgba(59, 130, 246, 1);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg-hover: rgba(255, 255, 255, 0.12);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.75);
+            --success: rgba(72, 187, 120, 0.9);
+            --warning: rgba(251, 191, 36, 0.9);
+            --danger: rgba(239, 68, 68, 0.9);
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: #020617;
+            background-image: radial-gradient(ellipse at top, rgba(16, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.95) 50%, rgba(0, 0, 0, 0.98) 100%);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .glass-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-card:hover {
+            background: var(--glass-bg-hover);
+            transform: translateY(-4px);
+        }
+        
+        .liquid-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .liquid-header h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .market-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid;
+        }
+        
+        .market-status.alcista {
+            background: rgba(72, 187, 120, 0.1);
+            border-color: rgba(72, 187, 120, 0.3);
+            color: var(--success);
+        }
+        
+        .market-status.bajista {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+        
+        .market-status.neutral {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.3);
+            color: var(--warning);
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .alcista .pulse-dot { background: #48bb78; box-shadow: 0 0 10px rgba(72, 187, 120, 0.8); }
+        .bajista .pulse-dot { background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
+        .neutral .pulse-dot { background: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.8); }
+        
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(1.2); }
+        }
+        
+        .stats-liquid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .stat-glass:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        .content-liquid {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--glass-primary), var(--glass-secondary));
+            border-radius: 2px;
+        }
+        
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .indicator-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.4s ease;
+        }
+        
+        .indicator-card:hover {
+            transform: translateY(-4px);
+            background: var(--glass-bg-hover);
+        }
+        
+        .indicator-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .indicator-name {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .indicator-value {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .indicator-signal {
+            margin-bottom: 0.5rem;
+        }
+        
+        .signal-strong { color: var(--success); }
+        .signal-moderate { color: var(--warning); }
+        .signal-weak { color: var(--text-secondary); }
+        .signal-bearish { color: var(--danger); }
+        
+        .charts-section {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+        
+        .chart-title {
+            color: var(--glass-primary);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        canvas {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            height: 250px !important;
+        }
+        
+        .floating-element {
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+        
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .footer-liquid {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+        }
+        
+        .footer-liquid a {
+            color: var(--glass-accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-liquid a:hover {
+            color: var(--glass-primary);
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .glass-container { padding: 1rem; }
+            .liquid-header { padding: 2rem 1rem; }
+            .stats-liquid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .charts-grid { grid-template-columns: 1fr; }
+            .indicators-grid { grid-template-columns: 1fr; }
+        }
+        
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="glass-container">
+        <header class="liquid-header glass-card floating-element">
+            <h1>📊 Market Breadth Analysis</h1>
+            <p>Análisis completo de amplitud de mercado con 8 indicadores clave</p>
+            <div class="market-status neutral">
+                <div class="pulse-dot"></div>
+                <span>⚖️ 🟡 NEUTRAL • Confianza Baja</span>
+            </div>
+        </header>
+        
+        <section class="stats-liquid">
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
+                <div class="stat-number">1</div>
+                <div class="stat-label">Señales Alcistas</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Señales Bajistas</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Señales Neutrales</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
+                <div class="stat-number">-4</div>
+                <div class="stat-label">Puntuación Fuerza</div>
+            </div>
+        </section>
+        
+        <main class="content-liquid glass-card">
+            <h2 class="section-title">🎯 Indicadores de Amplitud</h2>
+            
+            <div class="indicators-grid">
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Línea Avance-Declive</div>
+                        <div class="indicator-value signal-strong">10492.00</div>
+                    </div>
+                    <div class="indicator-signal signal-strong">
+                        <strong>Alcista</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Fuerte
+                    </div>
+                    <div class="indicator-description">
+                        Tendencia de participación del mercado
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Oscilador McClellan</div>
+                        <div class="indicator-value signal-weak">1.97</div>
+                    </div>
+                    <div class="indicator-signal signal-weak">
+                        <strong>Neutral</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Baja
+                    </div>
+                    <div class="indicator-description">
+                        Momentum de corto plazo
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Índice TRIN</div>
+                        <div class="indicator-value signal-weak">1.04</div>
+                    </div>
+                    <div class="indicator-signal signal-weak">
+                        <strong>Equilibrado</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Neutral
+                    </div>
+                    <div class="indicator-description">
+                        Presión compradora vs vendedora
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">% Acciones sobre MA50</div>
+                        <div class="indicator-value signal-bearish">27.06</div>
+                    </div>
+                    <div class="indicator-signal signal-bearish">
+                        <strong>Mercado Débil</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Alta
+                    </div>
+                    <div class="indicator-description">
+                        Fortaleza general del mercado
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Nuevos Máximos - Mínimos</div>
+                        <div class="indicator-value signal-bearish">-21.00</div>
+                    </div>
+                    <div class="indicator-signal signal-bearish">
+                        <strong>Debilidad Moderada</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Moderada
+                    </div>
+                    <div class="indicator-description">
+                        Confirmación de tendencia
+                    </div>
+                </div>
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Ratio Volumen</div>
+                        <div class="indicator-value signal-weak">0.71</div>
+                    </div>
+                    <div class="indicator-signal signal-weak">
+                        <strong>Equilibrado</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Neutral
+                    </div>
+                    <div class="indicator-description">
+                        Demanda vs oferta institucional
+                    </div>
+                </div>
+                
+            </div>
+        </main>
+        
+        <section class="charts-section glass-card">
+            <h2 class="section-title">📈 Gráficos Interactivos</h2>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3 class="chart-title">Línea Avance-Declive</h3>
+                    <canvas id="adLineChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Oscilador McClellan</h3>
+                    <canvas id="mcclellanChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">Índice TRIN</h3>
+                    <canvas id="trinChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 class="chart-title">% Acciones sobre MA50</h3>
+                    <canvas id="ma50Chart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <section class="content-liquid glass-card">
+            <h2 class="section-title">💡 Interpretación de Señales</h2>
+            
+        <div class="interpretation-grid">
+            <div class="explanation-liquid">
+                <h3>🎯 Cómo Interpretar las Señales</h3>
+                <ul>
+                    <li><strong>🟢 Señales Alcistas:</strong> Indican fortaleza amplia del mercado y momentum positivo</li>
+                    <li><strong>🔴 Señales Bajistas:</strong> Sugieren debilidad subyacente y presión vendedora</li>
+                    <li><strong>🟡 Señales Neutrales:</strong> Mercado en equilibrio, esperar confirmación direccional</li>
+                </ul>
+            </div>
+            
+            <div class="explanation-liquid">
+                <h3>⚡ Estrategias de Trading</h3>
+                <ul>
+                    <li><strong>Confluencia Alcista:</strong> 4+ indicadores alcistas = Sesgo comprador</li>
+                    <li><strong>Divergencias:</strong> Índices subiendo con breadth débil = Precaución</li>
+                    <li><strong>Extremos McClellan:</strong> >+100 o <-100 para timing de reversiones</li>
+                    <li><strong>TRIN Extremo:</strong> <0.8 o >1.2 para confirmación intraday</li>
+                </ul>
+            </div>
+        </div>
+        
+        </section>
+        
+        <footer class="footer-liquid">
+            <p>📊 Market Breadth Analysis • Powered by Advanced TA</p>
+            <p>
+                <a href="https://tantancansado.github.io/stock_analyzer_a">🏠 Dashboard Principal</a> • 
+                <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
+                <a href="insider_trading.html">🏛️ Insider Trading</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // Datos para gráficos
+        const chartData = {"dates": ["2025-05-02", "2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03", "2025-06-04", "2025-06-05", "2025-06-06", "2025-06-09", "2025-06-10", "2025-06-11", "2025-06-12", "2025-06-13", "2025-06-16", "2025-06-17", "2025-06-18", "2025-06-19", "2025-06-20", "2025-06-23", "2025-06-24", "2025-06-25", "2025-06-26", "2025-06-27", "2025-06-30"], "ad_line": [497, -376, -1139, -1848, -1151, -1535, -1594, -1622, -1251, -1051, -1090, -692, 721, 1041, 1757, 2617, 2635, 2458, 2952, 4139, 4291, 4098, 4306, 4732, 3919, 3201, 2830, 2963, 4062, 5169, 5580, 6050, 6542, 7548, 8654, 8560, 8903, 9500, 10420, 10539, 10965, 10492], "mcclellan": [0.0, -68.5, -121.22500000000002, -162.99875, -127.60031250000003, -150.74664687500004, -153.53302953125007, -153.59772155468755, -132.93504462695316, -123.15378063060547, -126.12503101057519, -106.18482493039642, -37.85502460719158, -33.893770207815464, -10.537428845309819, 16.684930163859065, -2.2233775341208, -28.128863728222996, -16.587410105539277, 28.013469792382978, 14.257154756144587, -14.825780373619978, -19.567561007700476, -12.623945644800813, -68.57403478129766, -111.31849081909591, -129.95840827731797, -120.04574566271127, -62.67019039890894, -12.900739696363416, -5.083355647205224, 4.575924493061052, 13.91172939052342, 47.52428393090122, 81.02539664326969, 49.26372102912836, 43.711169773891925, 51.44518260179524, 73.95053765664363, 52.7728635402558, 49.75208785304295, 1.9705642012107205], "trin": [0.9106550236067874, 1.0081602820965359, 0.8398639232930089, 0.7028084203646454, 1.2203908710845923, 0.8923635680710675, 0.9684282685551814, 0.8288806206606466, 0.9131758144380693, 0.9672154220971998, 1.2455748058268492, 1.07054514272996, 0.9657412921519931, 1.028654632923985, 0.9583722575071417, 1.1932172008491277, 0.7622850648971847, 1.136267981355777, 0.8196103973936424, 0.9303694403249074, 0.8894470419130254, 0.9216200063031549, 0.9315655093098295, 0.8809364351388637, 0.8173931929119364, 1.074317097329575, 0.9320443023856154, 0.7764418830774726, 1.1747412192951796, 0.8580287180182656, 1.239131358882249, 0.8737217587934463, 1.3864742084420325, 1.0164042647458293, 0.6773386195468412, 0.8238784745429697, 1.0393235373557883, 1.1463571374172512, 1.0765718177148502, 1.2579064170093108, 1.1131665218484457, 1.0373852311237715], "ma50_percent": [78.03010453021471, 34.02405147278752, 32.29074572225699, 25.96693259574308, 69.7580686822037, 30.18913689092271, 11.002015938477953, 62.30122536600492, 38.531526947142915, 67.30107328971084, 78.67053674711363, 60.774703507460075, 76.16414990795396, 52.2136811611314, 79.10576237769737, 62.36182036296313, 47.224935665789204, 29.45106255675976, 42.78866291578076, 80.37154637246961, 44.877855406085004, 30.379787060472328, 58.39113763330584, 47.23324703610447, 12.616636079047744, 39.07517027270268, 61.459278558766044, 19.401219017835004, 43.17721579780347, 65.79151733498281, 67.59461530202377, 62.146297751109735, 55.18017067405055, 12.391887690753464, 41.083544819440576, 18.661764769143563, 18.9820636121769, 64.22788289427862, 76.83330679374116, 16.659293757954046, 70.45922207818847, 27.064468789180328]};
+        
+        // Configuración común de gráficos
+        const chartConfig = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: 'white' } }
+            },
+            scales: {
+                x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+            }
+        };
+        
+        // Inicializar gráficos
+        function initCharts() {
+            // A/D Line Chart
+            new Chart(document.getElementById('adLineChart'), {
+                type: 'line',
+                data: {
+                    labels: chartData.dates,
+                    datasets: [{
+                        label: 'Línea A/D',
+                        data: chartData.ad_line,
+                        borderColor: '#4ade80',
+                        backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: chartConfig
+            });
+            
+            // McClellan Oscillator
+            new Chart(document.getElementById('mcclellanChart'), {
+                type: 'line',
+                data: {
+                    labels: chartData.dates,
+                    datasets: [{
+                        label: 'McClellan',
+                        data: chartData.mcclellan,
+                        borderColor: '#fbbf24',
+                        backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: chartConfig
+            });
+            
+            // TRIN Chart
+            new Chart(document.getElementById('trinChart'), {
+                type: 'line',
+                data: {
+                    labels: chartData.dates,
+                    datasets: [{
+                        label: 'TRIN',
+                        data: chartData.trin,
+                        borderColor: '#f87171',
+                        backgroundColor: 'rgba(248, 113, 113, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: chartConfig
+            });
+            
+            // MA50 Percent Chart
+            new Chart(document.getElementById('ma50Chart'), {
+                type: 'line',
+                data: {
+                    labels: chartData.dates,
+                    datasets: [{
+                        label: '% sobre MA50',
+                        data: chartData.ma50_percent,
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: chartConfig
+            });
+        }
+        
+        // Inicializar cuando carga la página
+        window.addEventListener('load', initCharts);
+        
+        // Animaciones de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+        
+        console.log('📊 Market Breadth Analysis - Liquid Glass Dashboard Loaded');
+        console.log('🎯 Market Bias: 🟡 NEUTRAL');
+        console.log('💪 Strength Score: -4');
+    </script>
+</body>
+</html>
