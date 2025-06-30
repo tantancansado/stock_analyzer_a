@@ -1,12 +1,801 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Trading Analytics</title>
-<style>body{background:#020617;color:white;font-family:Arial;padding:20px;}
-.card{background:rgba(255,255,255,0.1);padding:20px;margin:20px 0;border-radius:12px;}
-.stat{display:inline-block;margin:20px;text-align:center;}
-.stat-num{font-size:2em;color:#4a90e2;}</style></head>
-<body><div class="card"><h1>📊 Trading Analytics System</h1></div>
-<div class="card"><h2>📈 Estadísticas</h2>
-<div class="stat"><div class="stat-num">17</div><div>Reportes Insider</div></div>
-<div class="stat"><div class="stat-num">11</div><div>Análisis DJ</div></div>
-<div class="stat"><div class="stat-num">5</div><div>Market Breadth</div></div>
-</div></body></html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Trading Analytics System | Liquid Glass Dashboard</title>
+    <meta name="description" content="Sistema avanzado de análisis de trading con IA - Dashboard principal con Market Breadth">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <style>
+        
+        /* === LIQUID GLASS DESIGN SYSTEM ACTUALIZADO === */
+        
+        :root {
+            /* Colores principales */
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-secondary: rgba(139, 92, 246, 0.7);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-shadow-hover: 0 16px 64px rgba(99, 102, 241, 0.3);
+            
+            /* Texto */
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+            
+            /* Fondo */
+            --bg-gradient: radial-gradient(ellipse at top, rgba(16, 23, 42, 0.8) 0%, rgba(2, 6, 23, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%);
+            --bg-secondary: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+            
+            /* Animaciones */
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --transition-elastic: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* === FLOATING PARTICLES BACKGROUND === */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(-10px) rotate(-1deg); }
+        }
+        
+        /* === GLASS CONTAINER === */
+        .glass-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        
+        .glass-card:hover {
+            background: var(--glass-bg-hover);
+            box-shadow: var(--glass-shadow-hover);
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* === HEADER === */
+        .liquid-header {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .liquid-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary), var(--glass-accent));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            animation: gradient-shift 4s ease-in-out infinite;
+            text-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+        }
+        
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .liquid-header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+        
+        .live-pulse {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(72, 187, 120, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(72, 187, 120, 0.3);
+            color: rgba(72, 187, 120, 0.9);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        
+        .live-pulse:hover {
+            background: rgba(72, 187, 120, 0.2);
+            box-shadow: 0 8px 32px rgba(72, 187, 120, 0.3);
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #48bb78;
+            border-radius: 50%;
+            animation: pulse-glow 2s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(72, 187, 120, 0.8);
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(72, 187, 120, 0.8);
+            }
+            50% { 
+                opacity: 0.3; 
+                transform: scale(1.2);
+                box-shadow: 0 0 20px rgba(72, 187, 120, 1);
+            }
+        }
+        
+        /* === STATS GRID ACTUALIZADO PARA 4 MÓDULOS === */
+        .stats-liquid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-glass::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition-smooth);
+            opacity: 0;
+        }
+        
+        .stat-glass:hover {
+            transform: translateY(-12px) scale(1.05);
+            border-color: var(--glass-primary);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        }
+        
+        .stat-glass:hover::after {
+            opacity: 1;
+            animation: slide-shine 0.8s ease-out;
+        }
+        
+        @keyframes slide-shine {
+            from { transform: translateX(-100%) rotate(45deg); }
+            to { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        /* === NAVEGACIÓN DE MÓDULOS === */
+        .navigation-liquid {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .nav-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: var(--transition-elastic);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            background: var(--glass-bg-hover);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+            border-color: var(--glass-primary);
+        }
+        
+        .nav-card:hover::before {
+            opacity: 1;
+        }
+        
+        .nav-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .nav-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        /* === CONTENT SECTIONS === */
+        .content-liquid {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--glass-primary), var(--glass-secondary));
+            border-radius: 2px;
+        }
+        
+        /* === REPORT CARDS === */
+        .reports-fluid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .report-liquid {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition-elastic);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .report-liquid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+        
+        .report-liquid:hover {
+            transform: translateX(12px) scale(1.02);
+            border-color: var(--glass-accent);
+            box-shadow: 0 16px 48px rgba(59, 130, 246, 0.25);
+        }
+        
+        .report-liquid:hover::before {
+            opacity: 1;
+        }
+        
+        .report-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .report-liquid:hover .report-title {
+            color: var(--glass-accent);
+        }
+        
+        .report-meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .report-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        /* === LIQUID BUTTONS === */
+        .btn-liquid {
+            padding: 0.875rem 1.5rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+        }
+        
+        .btn-liquid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition-smooth);
+        }
+        
+        .btn-liquid:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-liquid {
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            color: white;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-primary-liquid:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 16px 40px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-secondary-liquid {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-color: var(--glass-border);
+        }
+        
+        .btn-secondary-liquid:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* === SPECIAL EFFECTS === */
+        .floating-element {
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+        
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* === FOOTER === */
+        .footer-liquid {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+        }
+        
+        .footer-liquid a {
+            color: var(--glass-accent);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        
+        .footer-liquid a:hover {
+            color: var(--glass-primary);
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 768px) {
+            .glass-container {
+                padding: 1rem;
+            }
+            
+            .liquid-header {
+                padding: 2rem 1rem;
+            }
+            
+            .liquid-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats-liquid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .stat-glass {
+                padding: 1.5rem;
+            }
+            
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .nav-card {
+                padding: 1.5rem;
+            }
+            
+            .report-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-liquid {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* === ACCESSIBILITY === */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <header class="liquid-header glass-card floating-element">
+            <h1>📊 Trading Analytics System</h1>
+            <p>Sistema inteligente de análisis financiero con IA avanzada y Market Breadth</p>
+            <div class="live-pulse">
+                <div class="pulse-dot"></div>
+                <span>Stocks Analyzer</span>
+            </div>
+        </header>
+        
+        <section class="stats-liquid">
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
+                <div class="stat-number">18</div>
+                <div class="stat-label">Análisis Insider</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
+                <div class="stat-number">11</div>
+                <div class="stat-label">Análisis Sectorial</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Market Breadth</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
+                <div class="stat-number">2025-06-30</div>
+                <div class="stat-label">Última Actualización</div>
+            </div>
+        </section>
+        
+        <nav class="navigation-liquid glass-card">
+            <h2 class="section-title">🎯 Módulos de Análisis Avanzado</h2>
+            <div class="nav-grid">
+                <a href="insider_trading.html" class="nav-card">
+                    <div class="nav-icon">🏛️</div>
+                    <div class="nav-title">Insider Trading</div>
+                    <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones de comportamiento ejecutivo</div>
+                </a>
+                <a href="dj_sectorial.html" class="nav-card">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-title">DJ Sectorial</div>
+                    <div class="nav-desc">43 sectores Dow Jones analizados para identificar oportunidades y rotaciones sectoriales</div>
+                </a>
+                <a href="market_breadth.html" class="nav-card">
+                    <div class="nav-icon">📈</div>
+                    <div class="nav-title">Market Breadth</div>
+                    <div class="nav-desc">8 indicadores de amplitud para evaluar la participación interna del mercado</div>
+                </a>
+                <a href="vcp_scanner.html" class="nav-card">
+                    <div class="nav-icon">🎯</div>
+                    <div class="nav-title">VCP Scanner</div>
+                    <div class="nav-desc">Detector de patrones de volatilidad con análisis técnico avanzado</div>
+                </a>
+            </div>
+        </nav>
+        
+        <main class="content-liquid glass-card">
+            <h2 class="section-title">📈 Reportes Recientes del Sistema</h2>
+            
+            <div class="reports-fluid">
+                
+            <div class="report-liquid floating-element" style="animation-delay: 0.0s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 82 transacciones - 2025-06-30 18:08</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 18:08:58<br>
+                    Reporte con 82 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.1s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 82 transacciones - 2025-06-30 18:05</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 18:05:12<br>
+                    Reporte con 82 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.2s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 82 transacciones - 2025-06-30 17:53</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 17:53:45<br>
+                    Reporte con 82 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.30000000000000004s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 82 transacciones - 2025-06-30 17:51</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 17:51:10<br>
+                    Reporte con 82 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.4s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 77 transacciones - 2025-06-30 13:51</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 13:51:33<br>
+                    Reporte con 77 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.5s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 77 transacciones - 2025-06-30 13:10</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 13:10:47<br>
+                    Reporte con 77 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.6000000000000001s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 77 transacciones - 2025-06-30 13:08</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 13:08:32<br>
+                    Reporte con 77 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.7000000000000001s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 77 transacciones - 2025-06-30 12:57</h3>
+                <div class="report-meta">
+                    📅 2025-06-30 • 🕐 12:57:35<br>
+                    Reporte con 77 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2025-06-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2025-06-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            </div>
+        </main>
+        
+        <footer class="footer-liquid">
+            <p>🚀 Trading Analytics System • Powered by AI & Advanced Market Analysis</p>
+            <p>Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • VCP Scanner</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Auto-refresh inteligente cada 5 minutos
+        setTimeout(() => location.reload(), 300000);
+        
+        // Animaciones de entrada escalonadas
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.nav-card, .report-liquid');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in-up');
+            });
+        });
+        
+        // Analytics
+        console.log('🚀 Trading Analytics Dashboard with Market Breadth Loaded');
+        console.log('📊 Total Reports: 18');
+        console.log('📈 DJ Sectorial: 11');
+        console.log('📊 Market Breadth: 5');
+        console.log('🎯 Módulos activos: 4');
+        console.log('🌐 Base URL: https://tantancansado.github.io/stock_analyzer_a');
+    </script>
+</body>
+</html>
