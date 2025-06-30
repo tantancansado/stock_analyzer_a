@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Sistema Unificado de Insider Trading + DJ Sectorial Analyzer
-Versión completa con análisis sectorial integrado
+Versión COMPLETA CORREGIDA - Con GitHub Pages funcionando
 """
 
 import requests
@@ -14,6 +14,7 @@ import os
 import sys
 import subprocess
 import zipfile
+import shutil
 from pathlib import Path
 import traceback
 
@@ -33,6 +34,14 @@ except ImportError:
         def save_csv(self, results, csv_path):
             pd.DataFrame(results).to_csv(csv_path, index=False)
             return csv_path
+
+# Importar templates HTML
+try:
+    from templates.html_generator import HTMLGenerator, generate_html_report
+    HTML_TEMPLATES_AVAILABLE = True
+except ImportError:
+    print("⚠️ Templates HTML no disponibles - usando fallback básico")
+    HTML_TEMPLATES_AVAILABLE = False
 
 class DJMasterAnalyzer:
     """
@@ -344,6 +353,213 @@ class DJMasterAnalyzer:
                 rsi_info = f" | RSI: {r['rsi']:.1f}" if r['rsi'] else ""
                 print(f"   • {r['sector']}: {r['distance_pct']:.1f}% del mínimo{rsi_info}")
 
+class GitHubPagesUploader:
+    """
+    NUEVA CLASE: Uploader integrado para GitHub Pages
+    """
+    def __init__(self):
+        self.repo_path = Path("docs")
+        self.reports_path = self.repo_path / "reports"
+        self.manifest_file = self.repo_path / "manifest.json"
+        self.index_file = self.repo_path / "index.html"
+        self.base_url = "https://tantancansado.github.io/stock_analyzer_a"
+        
+        # Inicializar templates si están disponibles
+        try:
+            from templates.github_pages_templates import GitHubPagesTemplates
+            self.templates = GitHubPagesTemplates(self.base_url)
+            self.templates_available = True
+        except ImportError:
+            self.templates = None
+            self.templates_available = False
+        
+        self.setup_directories()
+    
+    def setup_directories(self):
+        """Crea la estructura de directorios necesaria"""
+        try:
+            self.repo_path.mkdir(exist_ok=True)
+            self.reports_path.mkdir(exist_ok=True)
+            (self.reports_path / "daily").mkdir(exist_ok=True)
+            (self.reports_path / "dj_sectorial").mkdir(exist_ok=True)
+            
+            # Crear archivo .nojekyll
+            nojekyll = self.repo_path / ".nojekyll"
+            if not nojekyll.exists():
+                nojekyll.touch()
+        except Exception as e:
+            print(f"❌ Error creando directorios: {e}")
+    
+    def load_manifest(self):
+        """Carga el manifest de reportes"""
+        if self.manifest_file.exists():
+            try:
+                with open(self.manifest_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except:
+                pass
+        
+        return {
+            "total_reports": 0,
+            "total_dj_reports": 0,
+            "last_update": None,
+            "reports": [],
+            "dj_reports": [],
+            "base_url": self.base_url
+        }
+    
+    def save_manifest(self, manifest):
+        """Guarda el manifest"""
+        try:
+            with open(self.manifest_file, 'w', encoding='utf-8') as f:
+                json.dump(manifest, f, indent=2, ensure_ascii=False)
+            return True
+        except Exception as e:
+            print(f"❌ Error guardando manifest: {e}")
+            return False
+    
+    def upload_report(self, html_file, csv_file, title, description):
+        """Sube un reporte a GitHub Pages"""
+        try:
+            # Determinar tipo de reporte
+            if "DJ Sectorial" in title or "sectorial" in title.lower():
+                report_type = "dj_sectorial"
+            else:
+                report_type = "insider"
+            
+            # Verificar archivos
+            if not os.path.exists(html_file) or not os.path.exists(csv_file):
+                print(f"❌ Archivos no encontrados: {html_file}, {csv_file}")
+                return None
+            
+            timestamp = datetime.now()
+            date_only = timestamp.strftime('%Y-%m-%d')
+            
+            # Crear ID y carpeta
+            if report_type == "dj_sectorial":
+                report_id = f"dj_sectorial_{date_only}"
+                report_dir = self.reports_path / "dj_sectorial" / report_id
+            else:
+                report_id = f"report_{date_only}"
+                report_dir = self.reports_path / "daily" / report_id
+            
+            report_dir.mkdir(exist_ok=True, parents=True)
+            
+            # Copiar archivos
+            shutil.copy2(html_file, report_dir / "index.html")
+            shutil.copy2(csv_file, report_dir / "data.csv")
+            
+            # Actualizar manifest
+            manifest = self.load_manifest()
+            
+            # Crear entrada del reporte
+            if report_type == "dj_sectorial":
+                base_path = f"reports/dj_sectorial/{report_id}"
+            else:
+                base_path = f"reports/daily/{report_id}"
+            
+            report_entry = {
+                "id": report_id,
+                "title": title,
+                "description": description,
+                "timestamp": timestamp.isoformat(),
+                "date": timestamp.strftime('%Y-%m-%d'),
+                "time": timestamp.strftime('%H:%M:%S'),
+                "html_url": f"{base_path}/index.html",
+                "csv_url": f"{base_path}/data.csv",
+                "full_url": f"{self.base_url}/{base_path}/index.html",
+                "type": report_type
+            }
+            
+            # Actualizar lista de reportes
+            if report_type == "dj_sectorial":
+                if 'dj_reports' not in manifest:
+                    manifest['dj_reports'] = []
+                manifest["dj_reports"].insert(0, report_entry)
+                manifest["total_dj_reports"] = len(manifest["dj_reports"])
+            else:
+                manifest["reports"].insert(0, report_entry)
+                manifest["total_reports"] = len(manifest["reports"])
+            
+            manifest["last_update"] = timestamp.isoformat()
+            
+            # Guardar manifest
+            self.save_manifest(manifest)
+            
+            # Generar páginas
+            self.generate_all_pages(manifest)
+            
+            # Git commit
+            self.git_push(report_id)
+            
+            return {
+                "success": True,
+                "report_id": report_id,
+                "github_url": f"{self.base_url}/{base_path}/index.html",
+                "type": report_type
+            }
+            
+        except Exception as e:
+            print(f"❌ Error subiendo reporte: {e}")
+            traceback.print_exc()
+            return None
+    
+    def generate_all_pages(self, manifest):
+        """Genera todas las páginas usando templates"""
+        try:
+            if self.templates_available:
+                # Usar templates Liquid Glass
+                html_content = self.templates.generate_main_dashboard(manifest)
+                with open(self.index_file, 'w', encoding='utf-8') as f:
+                    f.write(html_content)
+                
+                # Generar página DJ Sectorial
+                dj_content = self.templates.generate_dj_sectorial_page(manifest)
+                with open(self.repo_path / "dj_sectorial.html", 'w', encoding='utf-8') as f:
+                    f.write(dj_content)
+                
+                print("✅ Páginas generadas con diseño Liquid Glass")
+            else:
+                # Fallback básico
+                self.generate_basic_pages(manifest)
+                print("✅ Páginas generadas con diseño básico")
+            
+        except Exception as e:
+            print(f"❌ Error generando páginas: {e}")
+    
+    def generate_basic_pages(self, manifest):
+        """Fallback básico si no hay templates"""
+        total_reports = manifest['total_reports']
+        total_dj = manifest.get('total_dj_reports', 0)
+        
+        basic_html = f"""<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Trading Analytics</title>
+<style>body{{background:#020617;color:white;font-family:Arial;padding:20px;}}
+.card{{background:rgba(255,255,255,0.1);padding:20px;margin:20px 0;border-radius:12px;}}
+.stat{{display:inline-block;margin:20px;text-align:center;}}
+.stat-num{{font-size:2em;color:#4a90e2;}}</style></head>
+<body><div class="card"><h1>📊 Trading Analytics System</h1></div>
+<div class="card"><h2>📈 Estadísticas</h2>
+<div class="stat"><div class="stat-num">{total_reports}</div><div>Reportes Insider</div></div>
+<div class="stat"><div class="stat-num">{total_dj}</div><div>Análisis DJ</div></div>
+</div></body></html>"""
+        
+        with open(self.index_file, 'w', encoding='utf-8') as f:
+            f.write(basic_html)
+    
+    def git_push(self, report_id):
+        """Intenta hacer push automático a GitHub"""
+        try:
+            if not os.path.exists(".git"):
+                return False
+            
+            subprocess.run(["git", "add", "docs/"], check=True, capture_output=True)
+            subprocess.run(["git", "commit", "-m", f"📊 {report_id}"], check=True, capture_output=True)
+            subprocess.run(["git", "push"], check=True, capture_output=True)
+            return True
+        except:
+            return False
+
 class InsiderTradingSystem:
     """Sistema principal que gestiona todo el flujo"""
     
@@ -352,8 +568,17 @@ class InsiderTradingSystem:
         self.html_path = "reports/insiders_report_completo.html"
         self.bundle_path = "reports/insiders_report_bundle.zip"
         
-        # NUEVO: Inicializar DJ Analyzer
+        # Inicializar DJ Analyzer
         self.dj_analyzer = DJMasterAnalyzer()
+        
+        # Inicializar GitHub Pages Uploader
+        self.github_uploader = GitHubPagesUploader()
+        
+        # Inicializar generador HTML
+        if HTML_TEMPLATES_AVAILABLE:
+            self.html_generator = HTMLGenerator()
+        else:
+            self.html_generator = None
         
         self.setup_directories()
     
@@ -361,6 +586,7 @@ class InsiderTradingSystem:
         """Crea los directorios necesarios"""
         os.makedirs("reports", exist_ok=True)
         os.makedirs("alerts", exist_ok=True)
+        os.makedirs("templates", exist_ok=True)
         print("✅ Directorios verificados")
     
     def run_scraper(self):
@@ -373,7 +599,7 @@ class InsiderTradingSystem:
             scraper_paths = [
                 "insiders/openinsider_scraper.py",
                 "openinsider_scraper.py",
-                "paste-3.txt"  # Por si está como texto
+                "paste-3.txt"
             ]
             
             scraper_found = None
@@ -388,7 +614,6 @@ class InsiderTradingSystem:
             
             print(f"✅ Ejecutando: {scraper_found}")
             
-            # Si es paste-3.txt, ejecutarlo como Python
             if scraper_found.endswith('.txt'):
                 with open(scraper_found, 'r') as f:
                     exec(f.read())
@@ -404,7 +629,6 @@ class InsiderTradingSystem:
                     print(f"❌ Error ejecutando scraper: {result.stderr}")
                     return False
             
-            # Verificar que se generó el CSV
             if os.path.exists(self.csv_path):
                 df = pd.read_csv(self.csv_path)
                 print(f"✅ CSV generado: {len(df)} registros")
@@ -418,19 +642,12 @@ class InsiderTradingSystem:
             traceback.print_exc()
             return False
     
-    # NUEVA FUNCIÓN: Ejecutar análisis DJ Sectorial
     def run_dj_sectorial_analysis(self, mode="principales"):
-        """
-        Ejecuta el análisis sectorial de Dow Jones
-        
-        Args:
-            mode (str): "principales", "detallado", "completo"
-        """
+        """Ejecuta el análisis sectorial de Dow Jones"""
         print("\n📊 EJECUTANDO ANÁLISIS SECTORIAL DJ")
         print("=" * 50)
         
         try:
-            # Seleccionar tickers según modo
             if mode == "principales":
                 tickers = list(self.dj_analyzer.ALL_INVESTING_IDS.keys())[:16]
                 print(f"📊 Modo Principales: {len(tickers)} sectores")
@@ -443,16 +660,11 @@ class InsiderTradingSystem:
             else:
                 tickers = list(self.dj_analyzer.ALL_INVESTING_IDS.keys())[:16]
             
-            # Ejecutar análisis
             results = self.dj_analyzer.batch_analysis(tickers, batch_size=5)
-            
-            # Mostrar reporte en consola
             self.dj_analyzer.generate_report(results)
             
-            # Guardar CSV
             if results:
                 self.save_dj_results_to_csv(results)
-                # Generar HTML
                 self.generate_dj_html(results)
             
             print(f"\n✅ ANÁLISIS DJ COMPLETADO: {len(results)} sectores procesados")
@@ -463,15 +675,12 @@ class InsiderTradingSystem:
             traceback.print_exc()
             return []
     
-    # NUEVA FUNCIÓN: Guardar resultados DJ en CSV
     def save_dj_results_to_csv(self, results):
         """Guarda los resultados del análisis DJ en CSV"""
         try:
             if not results:
-                print("⚠️ Sin resultados para guardar")
                 return False
             
-            # Convertir resultados a DataFrame
             df_data = []
             for r in results:
                 df_data.append({
@@ -498,261 +707,20 @@ class InsiderTradingSystem:
             print(f"❌ Error guardando CSV DJ: {e}")
             return False
     
-    # NUEVA FUNCIÓN: Generar HTML para DJ Sectorial
     def generate_dj_html(self, results):
-        """Genera HTML optimizado para móvil para análisis DJ"""
+        """Genera HTML para análisis DJ usando templates externos"""
         print("\n📄 GENERANDO HTML DJ SECTORIAL")
         print("=" * 50)
         
         try:
+            html_path = "reports/dj_sectorial_report.html"
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
             
-            # Estadísticas
-            total_sectores = len(results)
-            oportunidades = len([r for r in results if r['classification'] == 'OPORTUNIDAD'])
-            cerca = len([r for r in results if r['classification'] == 'CERCA'])
-            fuertes = len([r for r in results if r['classification'] == 'FUERTE'])
-            
-            # HTML con diseño consistente con el sistema
-            html_content = f"""
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 DJ Sectorial Dashboard</title>
-    <style>
-        :root {{
-            --bg-dark: #0a0e1a;
-            --bg-card: #1a202c;
-            --bg-card-light: #2d3748;
-            --border-color: #4a5568;
-            --primary: #4a90e2;
-            --text-primary: #ffffff;
-            --text-secondary: #a0aec0;
-            --success: #48bb78;
-            --warning: #ffd700;
-            --danger: #f56565;
-        }}
-        
-        * {{ box-sizing: border-box; }}
-        
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }}
-        
-        .header {{
-            background: linear-gradient(135deg, #1a1f35 0%, #2d3748 100%);
-            padding: 20px;
-            text-align: center;
-            border-bottom: 2px solid var(--primary);
-        }}
-        
-        .header h1 {{
-            color: var(--primary);
-            font-size: 2em;
-            margin: 0 0 10px 0;
-        }}
-        
-        .stats-grid {{
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 15px;
-            padding: 20px;
-            background: var(--bg-card);
-        }}
-        
-        .stat-card {{
-            background: var(--bg-card-light);
-            padding: 15px;
-            border-radius: 12px;
-            text-align: center;
-            border-left: 4px solid var(--primary);
-        }}
-        
-        .stat-number {{
-            font-size: 1.8em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }}
-        
-        .stat-label {{
-            color: var(--text-secondary);
-            font-size: 0.9em;
-        }}
-        
-        .oportunidad {{ color: var(--success); }}
-        .cerca {{ color: var(--warning); }}
-        .fuerte {{ color: var(--danger); }}
-        
-        .sectors-container {{
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }}
-        
-        .sector-card {{
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 4px solid var(--primary);
-            transition: transform 0.2s ease;
-        }}
-        
-        .sector-card:hover {{
-            transform: translateY(-2px);
-        }}
-        
-        .sector-header {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }}
-        
-        .sector-ticker {{
-            font-size: 1.3em;
-            font-weight: bold;
-            color: var(--primary);
-        }}
-        
-        .sector-status {{
-            font-size: 1.5em;
-        }}
-        
-        .sector-name {{
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }}
-        
-        .metrics-grid {{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }}
-        
-        .metric {{
-            background: var(--bg-card-light);
-            padding: 10px;
-            border-radius: 8px;
-        }}
-        
-        .metric-label {{
-            font-size: 0.8em;
-            color: var(--text-secondary);
-            margin-bottom: 3px;
-        }}
-        
-        .metric-value {{
-            font-weight: bold;
-        }}
-        
-        @media (max-width: 768px) {{
-            .sectors-container {{
-                grid-template-columns: 1fr;
-                padding: 10px;
-            }}
-        }}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>📊 Dow Jones Sectorial Dashboard</h1>
-        <p>Análisis completo de sectores • {timestamp}</p>
-    </div>
-    
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-number">{total_sectores}</div>
-            <div class="stat-label">Total Sectores</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number oportunidad">{oportunidades}</div>
-            <div class="stat-label">🟢 Oportunidades</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number cerca">{cerca}</div>
-            <div class="stat-label">🟡 Cerca</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-number fuerte">{fuertes}</div>
-            <div class="stat-label">🔴 Fuertes</div>
-        </div>
-    </div>
-    
-    <div class="sectors-container">
-"""
-            
-            # Generar cards de sectores ordenados por oportunidad
-            if results:
-                results_sorted = sorted(results, key=lambda x: x['distance_pct'])
-                
-                for r in results_sorted:
-                    distance_pct = r['distance_pct']
-                    rsi = r['rsi']
-                    estado = r['estado']
-                    classification = r['classification']
-                    
-                    # Color según clasificación
-                    if classification == 'OPORTUNIDAD':
-                        border_color = 'var(--success)'
-                    elif classification == 'CERCA':
-                        border_color = 'var(--warning)'
-                    else:
-                        border_color = 'var(--danger)'
-                    
-                    html_content += f"""
-        <div class="sector-card" style="border-left-color: {border_color}">
-            <div class="sector-header">
-                <div class="sector-ticker">{r['ticker']}</div>
-                <div class="sector-status">{estado}</div>
-            </div>
-            <div class="sector-name">{r['sector']}</div>
-            
-            <div class="metrics-grid">
-                <div class="metric">
-                    <div class="metric-label">Precio Actual</div>
-                    <div class="metric-value">${r['current_price']:.2f}</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-label">Min 52s</div>
-                    <div class="metric-value">${r['min_52w']:.2f}</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-label">Distancia Min</div>
-                    <div class="metric-value">{distance_pct:.1f}%</div>
-                </div>
-                <div class="metric">
-                    <div class="metric-label">RSI</div>
-                    <div class="metric-value">{'N/A' if not pd.notna(rsi) or rsi is None else f'{rsi:.1f}'}</div>
-                </div>
-            </div>
-        </div>
-"""
+            if self.html_generator:
+                html_content = self.html_generator.generate_dj_sectorial_html(results, timestamp)
             else:
-                html_content += """
-        <div class="sector-card">
-            <div class="sector-header">
-                <div class="sector-ticker">Sin Datos</div>
-                <div class="sector-status">⚠️</div>
-            </div>
-            <div class="sector-name">No se pudieron obtener datos de sectores</div>
-        </div>
-"""
+                html_content = self._generate_basic_dj_html_fallback(results, timestamp)
             
-            html_content += """
-    </div>
-</body>
-</html>
-"""
-            
-            html_path = "reports/dj_sectorial_report.html"
             with open(html_path, 'w', encoding='utf-8') as f:
                 f.write(html_content)
             
@@ -764,114 +732,67 @@ class InsiderTradingSystem:
             traceback.print_exc()
             return False
     
-    # NUEVA FUNCIÓN: Análisis diario completo (Insider + DJ)
-    def run_daily_combined_analysis(self, dj_mode="principales"):
-        """
-        NUEVA: Análisis diario completo - Insider Trading + DJ Sectorial
-        Los sube por separado para tener secciones independientes en GitHub Pages
-        """
-        print("\n🌟 ANÁLISIS DIARIO COMPLETO - INSIDER + DJ SECTORIAL")
-        print("=" * 80)
-        print(f"📅 Inicio: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    def _generate_basic_dj_html_fallback(self, results, timestamp):
+        """Fallback básico para HTML DJ si no hay templates"""
+        total_sectores = len(results) if results else 0
+        oportunidades = len([r for r in results if r['classification'] == 'OPORTUNIDAD']) if results else 0
         
-        results = {
-            'insider_scraper': False,
-            'insider_html': False,
-            'dj_analysis': False,
-            'dj_html': False,
-            'github_insider': None,
-            'github_dj': None,
-            'telegram': False
-        }
+        html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>DJ Sectorial Report</title>
+<style>body{{background:#0a0e1a;color:white;font-family:Arial;margin:20px;}}
+h1{{color:#4a90e2;}}table{{width:100%;border-collapse:collapse;}}
+th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
+</head><body><h1>📊 DJ Sectorial - {timestamp}</h1>
+<p>Total: {total_sectores} | Oportunidades: {oportunidades}</p><table>
+<tr><th>Sector</th><th>Precio</th><th>Distancia</th><th>Estado</th></tr>"""
+        
+        if results:
+            for r in sorted(results, key=lambda x: x['distance_pct']):
+                html += f"<tr><td>{r['sector']}</td><td>${r['current_price']:.2f}</td><td>{r['distance_pct']:.1f}%</td><td>{r['estado']}</td></tr>"
+        
+        html += "</table></body></html>"
+        return html
+    
+    def upload_github_pages(self):
+        """Sube reporte insider a GitHub Pages"""
+        print("\n🌐 SUBIENDO INSIDER A GITHUB PAGES")
+        print("=" * 50)
         
         try:
-            print("\n🔸 FASE 1: INSIDER TRADING")
-            print("=" * 40)
+            df = pd.read_csv(self.csv_path) if os.path.exists(self.csv_path) else pd.DataFrame()
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
             
-            # 1. Ejecutar scraper insider
-            results['insider_scraper'] = self.run_scraper()
-            if results['insider_scraper']:
-                # 2. Generar HTML insider
-                results['insider_html'] = self.generate_html()
-                # 3. Subir insider a GitHub Pages
-                results['github_insider'] = self.upload_github_pages()
+            if len(df) > 0:
+                title = f"📊 Insider Trading - {len(df)} transacciones - {timestamp}"
+                description = f"Reporte con {len(df)} transacciones detectadas"
             else:
-                print("⚠️ Fallo en scraper insider, continuando con DJ...")
+                title = f"📊 Monitoreo Insider Trading - {timestamp}"
+                description = "Monitoreo completado sin transacciones"
             
-            print("\n🔸 FASE 2: DJ SECTORIAL")
-            print("=" * 40)
+            result = self.github_uploader.upload_report(
+                self.html_path,
+                self.csv_path,
+                title,
+                description
+            )
             
-            # 4. Ejecutar análisis DJ
-            dj_analysis_results = self.run_dj_sectorial_analysis(dj_mode)
-            results['dj_analysis'] = len(dj_analysis_results) > 0
-            
-            if results['dj_analysis']:
-                # 5. HTML DJ ya se genera en run_dj_sectorial_analysis
-                results['dj_html'] = True
-                # 6. Subir DJ a GitHub Pages como sección separada
-                results['github_dj'] = self.upload_dj_to_github_pages(dj_analysis_results)
+            if result:
+                print(f"✅ Subido a GitHub Pages: {result['github_url']}")
+                return result
             else:
-                print("⚠️ Fallo en análisis DJ")
-            
-            print("\n🔸 FASE 3: NOTIFICACIÓN TELEGRAM")
-            print("=" * 40)
-            
-            # 7. Enviar notificación unificada por Telegram
-            results['telegram'] = self.send_combined_telegram_report(results, dj_analysis_results)
-            
-            # 8. Crear bundle local (opcional)
-            self.create_bundle()
-            
-            # Resumen final
-            print("\n" + "=" * 80)
-            print("🎉 RESUMEN ANÁLISIS DIARIO")
-            print("=" * 80)
-            print(f"🏛️ Insider Trading:")
-            print(f"   • Scraper: {'✓' if results['insider_scraper'] else '✗'}")
-            print(f"   • HTML: {'✓' if results['insider_html'] else '✗'}")
-            print(f"   • GitHub Pages: {'✓' if results['github_insider'] else '✗'}")
-            
-            print(f"📊 DJ Sectorial:")
-            print(f"   • Análisis: {'✓' if results['dj_analysis'] else '✗'}")
-            print(f"   • HTML: {'✓' if results['dj_html'] else '✗'}")
-            print(f"   • GitHub Pages: {'✓' if results['github_dj'] else '✗'}")
-            
-            print(f"📱 Telegram: {'✓' if results['telegram'] else '✗'}")
-            
-            # URLs de GitHub Pages
-            if results['github_insider']:
-                print(f"\n🏛️ Ver Insider Trading: {results['github_insider'].get('github_url', 'N/A')}")
-            if results['github_dj']:
-                print(f"📊 Ver DJ Sectorial: {results['github_dj'].get('url', 'N/A')}")
-            
-            return results
-            
+                print("❌ Error subiendo a GitHub Pages")
+                return None
+                
         except Exception as e:
-            print(f"\n❌ Error crítico en análisis diario: {e}")
+            print(f"❌ Error con GitHub Pages: {e}")
             traceback.print_exc()
-            return results
+            return None
     
     def upload_dj_to_github_pages(self, dj_results):
-        """NUEVA: Sube análisis DJ como sección separada a GitHub Pages"""
+        """Sube análisis DJ a GitHub Pages"""
         try:
             print("🌐 Subiendo DJ Sectorial a GitHub Pages...")
             
-            # Verificar si existe el módulo
-            if not os.path.exists("github_pages_historial.py"):
-                print("⚠️ github_pages_historial.py no encontrado")
-                return None
-            
-            # Intentar importar
-            try:
-                from github_pages_historial import GitHubPagesHistoricalUploader
-            except ImportError as e:
-                print(f"❌ Error importando: {e}")
-                return None
-            
-            # Crear uploader
-            uploader = GitHubPagesHistoricalUploader()
-            
-            # Generar título específico para DJ Sectorial
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
             
             if dj_results:
@@ -882,12 +803,11 @@ class InsiderTradingSystem:
                 title = f"📊 DJ Sectorial - Sin datos - {timestamp}"
                 description = f"Análisis sectorial completado sin datos disponibles"
             
-            # Subir usando el sistema existente
             html_path = "reports/dj_sectorial_report.html"
             csv_path = "reports/dj_sectorial_analysis.csv"
             
             if os.path.exists(html_path) and os.path.exists(csv_path):
-                result = uploader.upload_historical_report(
+                result = self.github_uploader.upload_report(
                     html_path,
                     csv_path,
                     title,
@@ -908,8 +828,82 @@ class InsiderTradingSystem:
             print(f"❌ Error subiendo DJ a GitHub Pages: {e}")
             return None
     
+    def run_daily_combined_analysis(self, dj_mode="principales"):
+        """Análisis diario completo - Insider Trading + DJ Sectorial"""
+        print("\n🌟 ANÁLISIS DIARIO COMPLETO - INSIDER + DJ SECTORIAL")
+        print("=" * 80)
+        print(f"📅 Inicio: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        
+        results = {
+            'insider_scraper': False,
+            'insider_html': False,
+            'dj_analysis': False,
+            'dj_html': False,
+            'github_insider': None,
+            'github_dj': None,
+            'telegram': False
+        }
+        
+        try:
+            print("\n🔸 FASE 1: INSIDER TRADING")
+            print("=" * 40)
+            
+            results['insider_scraper'] = self.run_scraper()
+            if results['insider_scraper']:
+                results['insider_html'] = self.generate_html()
+                results['github_insider'] = self.upload_github_pages()
+            else:
+                print("⚠️ Fallo en scraper insider, continuando con DJ...")
+            
+            print("\n🔸 FASE 2: DJ SECTORIAL")
+            print("=" * 40)
+            
+            dj_analysis_results = self.run_dj_sectorial_analysis(dj_mode)
+            results['dj_analysis'] = len(dj_analysis_results) > 0
+            
+            if results['dj_analysis']:
+                results['dj_html'] = True
+                results['github_dj'] = self.upload_dj_to_github_pages(dj_analysis_results)
+            else:
+                print("⚠️ Fallo en análisis DJ")
+            
+            print("\n🔸 FASE 3: NOTIFICACIÓN TELEGRAM")
+            print("=" * 40)
+            
+            results['telegram'] = self.send_combined_telegram_report(results, dj_analysis_results)
+            
+            self.create_bundle()
+            
+            # Resumen final
+            print("\n" + "=" * 80)
+            print("🎉 RESUMEN ANÁLISIS DIARIO")
+            print("=" * 80)
+            print(f"🏛️ Insider Trading:")
+            print(f"   • Scraper: {'✓' if results['insider_scraper'] else '✗'}")
+            print(f"   • HTML: {'✓' if results['insider_html'] else '✗'}")
+            print(f"   • GitHub Pages: {'✓' if results['github_insider'] else '✗'}")
+            
+            print(f"📊 DJ Sectorial:")
+            print(f"   • Análisis: {'✓' if results['dj_analysis'] else '✗'}")
+            print(f"   • HTML: {'✓' if results['dj_html'] else '✗'}")
+            print(f"   • GitHub Pages: {'✓' if results['github_dj'] else '✗'}")
+            
+            print(f"📱 Telegram: {'✓' if results['telegram'] else '✗'}")
+            
+            if results['github_insider']:
+                print(f"\n🏛️ Ver Insider Trading: {results['github_insider'].get('github_url', 'N/A')}")
+            if results['github_dj']:
+                print(f"📊 Ver DJ Sectorial: {results['github_dj'].get('github_url', 'N/A')}")
+            
+            return results
+            
+        except Exception as e:
+            print(f"\n❌ Error crítico en análisis diario: {e}")
+            traceback.print_exc()
+            return results
+    
     def send_combined_telegram_report(self, results, dj_analysis_results):
-        """NUEVA: Envía reporte combinado por Telegram"""
+        """Envía reporte combinado por Telegram"""
         try:
             from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
             from alerts.telegram_utils import send_message, send_file
@@ -920,11 +914,8 @@ class InsiderTradingSystem:
             
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
             
-            # Leer estadísticas de ambos análisis
-            insider_stats = ""
-            dj_stats = ""
-            
             # Estadísticas Insider
+            insider_stats = ""
             if os.path.exists(self.csv_path):
                 df = pd.read_csv(self.csv_path)
                 if len(df) > 0:
@@ -938,6 +929,7 @@ class InsiderTradingSystem:
 • Estado: {'✅ Monitoreado' if results['insider_scraper'] else '❌ Error'}"""
             
             # Estadísticas DJ Sectorial
+            dj_stats = ""
             if dj_analysis_results:
                 oportunidades = len([r for r in dj_analysis_results if r['classification'] == 'OPORTUNIDAD'])
                 cerca = len([r for r in dj_analysis_results if r['classification'] == 'CERCA'])
@@ -965,7 +957,6 @@ class InsiderTradingSystem:
                 base_url = "https://tantancansado.github.io/stock_analyzer_a"
                 github_links += f"\n🏠 [Dashboard Principal]({base_url})"
             
-            # Mensaje principal
             mensaje = f"""🌟 **REPORTE TRADING DIARIO**
 
 📅 **{timestamp}**
@@ -978,10 +969,8 @@ class InsiderTradingSystem:
 
 📄 **Archivos CSV adjuntos para análisis detallado**"""
             
-            # Enviar mensaje principal
             send_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, mensaje)
             
-            # Enviar CSVs como archivos adjuntos
             files_sent = 0
             if os.path.exists(self.csv_path):
                 if send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, self.csv_path, "📊 Datos Insider Trading"):
@@ -1000,92 +989,68 @@ class InsiderTradingSystem:
             return False
     
     def generate_html(self):
-        """Genera el HTML con los datos del CSV - FUNCIÓN ORIGINAL"""
-        print("\n📄 GENERANDO HTML")
+        """Genera el HTML con los datos del CSV usando templates externos"""
+        print("\n📄 GENERANDO HTML INSIDER TRADING")
         print("=" * 50)
         
         try:
-            # Verificar CSV
             if not os.path.exists(self.csv_path):
                 print("❌ CSV no encontrado")
                 return False
             
-            # Importar función de generación existente
             try:
                 from alerts.plot_utils import crear_html_moderno_finviz
                 self.html_path = crear_html_moderno_finviz()
                 return self.html_path is not None
             except ImportError:
-                print("⚠️ plot_utils no disponible, generando HTML básico")
-                return self.generate_basic_html()
+                print("⚠️ plot_utils no disponible, usando templates propios")
+                return self.generate_insider_html_with_templates()
                 
         except Exception as e:
             print(f"❌ Error generando HTML: {e}")
             return False
     
-    def generate_basic_html(self):
-        """Genera un HTML básico si plot_utils no está disponible"""
+    def generate_insider_html_with_templates(self):
+        """Genera HTML de insider trading usando templates externos"""
         try:
             df = pd.read_csv(self.csv_path)
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
             
-            html_content = f"""
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Insider Trading Report</title>
-    <style>
-        body {{ font-family: Arial, sans-serif; margin: 20px; }}
-        h1 {{ color: #333; }}
-        table {{ border-collapse: collapse; width: 100%; }}
-        th, td {{ border: 1px solid #ddd; padding: 8px; text-align: left; }}
-        th {{ background-color: #4CAF50; color: white; }}
-        tr:nth-child(even) {{ background-color: #f2f2f2; }}
-    </style>
-</head>
-<body>
-    <h1>📊 Insider Trading Report - {datetime.now().strftime('%Y-%m-%d %H:%M')}</h1>
-    <p>Total transacciones: {len(df)}</p>
-    <p>Empresas únicas: {df['Insider'].nunique() if 'Insider' in df.columns else 0}</p>
-    
-    <table>
-        <tr>
-            <th>Ticker</th>
-            <th>Company</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Value</th>
-            <th>Type</th>
-        </tr>
-"""
-            
-            for _, row in df.head(50).iterrows():
-                html_content += f"""
-        <tr>
-            <td>{row.get('Insider', 'N/A')}</td>
-            <td>{row.get('Title', 'N/A')}</td>
-            <td>{row.get('Price', 'N/A')}</td>
-            <td>{row.get('Qty', 'N/A')}</td>
-            <td>{row.get('Value', 'N/A')}</td>
-            <td>{row.get('Type', 'N/A')}</td>
-        </tr>
-"""
-            
-            html_content += """
-    </table>
-</body>
-</html>
-"""
+            if self.html_generator:
+                html_content = self.html_generator.generate_insider_trading_html(df, timestamp)
+            else:
+                html_content = self._generate_basic_insider_html_fallback(df, timestamp)
             
             with open(self.html_path, 'w', encoding='utf-8') as f:
                 f.write(html_content)
             
-            print(f"✅ HTML básico generado: {self.html_path}")
+            print(f"✅ HTML Insider generado: {self.html_path}")
             return True
             
         except Exception as e:
-            print(f"❌ Error generando HTML básico: {e}")
+            print(f"❌ Error generando HTML Insider con templates: {e}")
             return False
+    
+    def _generate_basic_insider_html_fallback(self, df, timestamp):
+        """Fallback básico para HTML Insider si no hay templates"""
+        total_transactions = len(df)
+        unique_companies = df['Insider'].nunique() if 'Insider' in df.columns else 0
+        
+        html = f"""<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>Insider Trading Report</title>
+<style>body{{background:#0a0e1a;color:white;font-family:Arial;margin:20px;}}
+h1{{color:#4a90e2;}}table{{width:100%;border-collapse:collapse;}}
+th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}
+tr:nth-child(even){{background:#2d3748;}}</style>
+</head><body><h1>🏛️ Insider Trading - {timestamp}</h1>
+<p>Total: {total_transactions} | Empresas: {unique_companies}</p><table>
+<tr><th>Ticker</th><th>Company</th><th>Price</th><th>Qty</th><th>Value</th><th>Type</th></tr>"""
+        
+        for _, row in df.head(50).iterrows():
+            html += f"<tr><td>{row.get('Insider', 'N/A')}</td><td>{row.get('Title', 'N/A')}</td><td>{row.get('Price', 'N/A')}</td><td>{row.get('Qty', 'N/A')}</td><td>{row.get('Value', 'N/A')}</td><td>{row.get('Type', 'N/A')}</td></tr>"
+        
+        html += "</table></body></html>"
+        return html
     
     def create_bundle(self):
         """Crea un ZIP con todos los archivos"""
@@ -1094,13 +1059,11 @@ class InsiderTradingSystem:
         
         try:
             with zipfile.ZipFile(self.bundle_path, 'w') as zipf:
-                # Archivos originales
                 if os.path.exists(self.html_path):
                     zipf.write(self.html_path, arcname=os.path.basename(self.html_path))
                 if os.path.exists(self.csv_path):
                     zipf.write(self.csv_path, arcname=os.path.basename(self.csv_path))
                 
-                # Archivos DJ Sectorial
                 dj_html = "reports/dj_sectorial_report.html"
                 dj_csv = "reports/dj_sectorial_analysis.csv"
                 if os.path.exists(dj_html):
@@ -1121,7 +1084,6 @@ class InsiderTradingSystem:
         print("=" * 50)
         
         try:
-            # Intentar importar configuración
             try:
                 from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
             except ImportError:
@@ -1132,18 +1094,15 @@ class InsiderTradingSystem:
                 print("❌ Configuración Telegram incompleta")
                 return False
             
-            # Importar utilidades de Telegram
             try:
                 from alerts.telegram_utils import send_message, send_file
             except ImportError:
                 print("❌ telegram_utils no encontrado")
                 return False
             
-            # Leer estadísticas
             df = pd.read_csv(self.csv_path) if os.path.exists(self.csv_path) else pd.DataFrame()
             timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
             
-            # Crear mensaje
             mensaje = f"""📊 REPORTE INSIDER TRADING
 
 📅 Fecha: {timestamp}
@@ -1152,10 +1111,8 @@ class InsiderTradingSystem:
 
 📄 Archivos adjuntos"""
             
-            # Enviar mensaje
             send_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, mensaje)
             
-            # Enviar archivos
             if os.path.exists(self.html_path):
                 send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, self.html_path)
             
@@ -1169,61 +1126,6 @@ class InsiderTradingSystem:
             print(f"❌ Error enviando por Telegram: {e}")
             traceback.print_exc()
             return False
-    
-    def upload_github_pages(self):
-        """Intenta subir a GitHub Pages si está disponible"""
-        print("\n🌐 SUBIENDO A GITHUB PAGES")
-        print("=" * 50)
-        
-        try:
-            # Verificar si existe el módulo
-            if not os.path.exists("github_pages_historial.py"):
-                print("⚠️ github_pages_historial.py no encontrado")
-                print("   GitHub Pages no disponible")
-                return None
-            
-            # Intentar importar
-            try:
-                from github_pages_historial import GitHubPagesHistoricalUploader
-            except ImportError as e:
-                print(f"❌ Error importando: {e}")
-                return None
-            
-            # Crear uploader
-            uploader = GitHubPagesHistoricalUploader()
-            
-            # Preparar datos
-            df = pd.read_csv(self.csv_path) if os.path.exists(self.csv_path) else pd.DataFrame()
-            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
-            
-            if len(df) > 0:
-                title = f"📊 Insider Trading - {len(df)} transacciones - {timestamp}"
-                description = f"Reporte con {len(df)} transacciones detectadas"
-            else:
-                title = f"📊 Monitoreo Insider Trading - {timestamp}"
-                description = "Monitoreo completado sin transacciones"
-            
-            # Subir
-            result = uploader.upload_historical_report(
-                self.html_path,
-                self.csv_path,
-                title,
-                description
-            )
-            
-            if result:
-                print(f"✅ Subido a GitHub Pages:")
-                for key, value in result.items():
-                    print(f"   {key}: {value}")
-                return result
-            else:
-                print("❌ Error subiendo a GitHub Pages")
-                return None
-                
-        except Exception as e:
-            print(f"❌ Error con GitHub Pages: {e}")
-            traceback.print_exc()
-            return None
     
     def run_complete_process(self):
         """Ejecuta el proceso completo insider trading"""
@@ -1240,27 +1142,19 @@ class InsiderTradingSystem:
         }
         
         try:
-            # 1. Ejecutar scraper
             results['scraper'] = self.run_scraper()
             if not results['scraper']:
                 print("❌ Fallo en scraper, abortando")
                 return results
             
-            # 2. Generar HTML
             results['html'] = self.generate_html()
             if not results['html']:
                 print("⚠️ Fallo en HTML, continuando...")
             
-            # 3. Crear bundle
             results['bundle'] = self.create_bundle()
-            
-            # 4. GitHub Pages (opcional)
             results['github'] = self.upload_github_pages()
-            
-            # 5. Telegram
             results['telegram'] = self.send_telegram()
             
-            # Resumen
             print("\n" + "=" * 60)
             print("📊 RESUMEN DE EJECUCIÓN")
             print("=" * 60)
@@ -1268,7 +1162,7 @@ class InsiderTradingSystem:
             print(f"✅ HTML: {'✓' if results['html'] else '✗'}")
             print(f"✅ Bundle: {'✓' if results['bundle'] else '✗'}")
             print(f"✅ Telegram: {'✓' if results['telegram'] else '✗'}")
-            print(f"✅ GitHub Pages: {'✓' if results['github'] else '✗ (opcional)'}")
+            print(f"✅ GitHub Pages: {'✓' if results['github'] else '✗'}")
             
             if results['github']:
                 print(f"\n🌐 Ver en GitHub Pages:")
@@ -1299,16 +1193,15 @@ def run_vcp_scanner_usa_interactive():
     print(f"✅ Escaneo completado. Candidatos detectados: {num_candidates}")
     if num_candidates == 0:
         print("⚠️  No se detectaron candidatos.")
-    # Preguntar si quiere generar HTML
+    
     gen_html = input("¿Quieres generar HTML con los resultados? (s/n): ").strip().lower()
     if gen_html != "s":
         print("🛑 Proceso finalizado (no se generó HTML).")
         return
-    # Generar HTML
+    
     html_path = "reports/vcp_market_scan.html"
     csv_path = "reports/vcp_market_scan.csv"
     try:
-        # Guardar CSV si hay resultados (aunque sean 0)
         if results is not None:
             scanner.save_csv(results, csv_path)
         scanner.generate_html(results, html_path)
@@ -1316,31 +1209,28 @@ def run_vcp_scanner_usa_interactive():
     except Exception as e:
         print(f"❌ Error generando HTML: {e}")
         return
-    # Preguntar si quiere subir a GitHub Pages
+    
     subir = input("¿Quieres subir el HTML a GitHub Pages? (s/n): ").strip().lower()
     if subir != "s":
         print("🛑 Proceso finalizado (HTML no subido a GitHub Pages).")
         return
-    # Intentar subir a GitHub Pages usando uploader de historial, con título/desc diferentes
-    if not os.path.exists("github_pages_historial.py"):
-        print("⚠️ github_pages_historial.py no encontrado. No se puede subir.")
-        return
+    
     try:
-        from github_pages_historial import GitHubPagesHistoricalUploader
-        uploader = GitHubPagesHistoricalUploader()
+        system = InsiderTradingSystem()
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
         title = f"🎯 VCP Market Scanner - {num_candidates} candidatos - {timestamp}"
         description = f"Reporte avanzado de escaneo de TODO el mercado USA. Candidatos detectados: {num_candidates}."
-        result = uploader.upload_historical_report(
+        
+        result = system.github_uploader.upload_report(
             html_path,
             csv_path,
             title,
             description
         )
+        
         if result:
             print("✅ Subido a GitHub Pages:")
-            for key, value in result.items():
-                print(f"   {key}: {value}")
+            print(f"   {result['github_url']}")
         else:
             print("❌ Error subiendo a GitHub Pages")
     except Exception as e:
@@ -1360,7 +1250,8 @@ def test_components():
         ("Plot Utils", ["alerts/plot_utils.py", "paste-2.txt"]),
         ("Config", ["config.py"]),
         ("Telegram Utils", ["alerts/telegram_utils.py"]),
-        ("GitHub Pages", ["github_pages_historial.py"])
+        ("Templates HTML", ["templates/html_generator.py"]),
+        ("Templates GitHub", ["templates/github_pages_templates.py"])
     ]
     
     for name, paths in files_to_check:
@@ -1396,14 +1287,13 @@ def test_components():
     except ImportError:
         print("❌ config.py no importable")
     
-    # NUEVO: 4. Test DJ Analyzer
+    # 4. Test DJ Analyzer
     print("\n📊 Testing DJ Analyzer:")
     try:
         analyzer = DJMasterAnalyzer()
         print(f"✅ DJ Analyzer inicializado")
         print(f"✅ {len(analyzer.ALL_INVESTING_IDS)} sectores disponibles")
         
-        # Test de conexión con un sector
         print("🔄 Probando conexión API...")
         success, df = analyzer.get_historical_data('DJUSTC')  # Technology
         if success and df is not None:
@@ -1413,16 +1303,33 @@ def test_components():
             
     except Exception as e:
         print(f"❌ Error en DJ Analyzer: {e}")
+    
+    # 5. Test GitHub Pages Uploader
+    print("\n🌐 Testing GitHub Pages:")
+    try:
+        system = InsiderTradingSystem()
+        uploader = system.github_uploader
+        print("✅ GitHub Pages Uploader inicializado")
+        
+        # Test de generación de páginas
+        manifest = uploader.load_manifest()
+        print(f"✅ Manifest cargado: {len(manifest.get('reports', []))} reportes")
+        
+        if uploader.templates_available:
+            print("✅ Templates Liquid Glass disponibles")
+        else:
+            print("⚠️ Usando templates básicos")
+            
+    except Exception as e:
+        print(f"❌ Error en GitHub Pages: {e}")
 
 def main():
     """Función principal con menú"""
     if len(sys.argv) > 1:
-        # Modo automático
         if sys.argv[1] == "--auto":
             system = InsiderTradingSystem()
             system.run_complete_process()
         elif sys.argv[1] == "--daily":
-            # NUEVO: Análisis diario completo (Insider + DJ Sectorial)
             mode = sys.argv[2] if len(sys.argv) > 2 else "principales"
             system = InsiderTradingSystem()
             system.run_daily_combined_analysis(mode)
@@ -1437,7 +1344,6 @@ def main():
         elif sys.argv[1] == "--telegram":
             system = InsiderTradingSystem()
             system.send_telegram()
-        # NUEVOS comandos para DJ Sectorial
         elif sys.argv[1] == "--dj":
             mode = sys.argv[2] if len(sys.argv) > 2 else "principales"
             system = InsiderTradingSystem()
@@ -1486,7 +1392,6 @@ def main():
             system = InsiderTradingSystem()
 
             if opcion == "1":
-                # NUEVA OPCIÓN: Análisis diario completo
                 print("\n🌟 ANÁLISIS DIARIO COMPLETO")
                 print("Modo DJ Sectorial:")
                 print("  1. Principales (16 sectores) - Rápido")
@@ -1512,7 +1417,6 @@ def main():
                 system.generate_html()
             elif opcion == "5":
                 system.send_telegram()
-            # Opciones DJ Sectorial
             elif opcion == "6":
                 dj_results = system.run_dj_sectorial_analysis("principales")
                 if dj_results:
@@ -1530,7 +1434,6 @@ def main():
                 if mode not in ["principales", "detallado", "completo"]:
                     mode = "principales"
                 system.run_dj_sectorial_analysis(mode)
-            # Opciones originales
             elif opcion == "10":
                 run_vcp_scanner_usa_interactive()
             elif opcion == "11":

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📊 DJ Sectorial Dashboard</title>
     <style>
+        
         :root {
             --bg-dark: #0a0e1a;
             --bg-card: #1a202c;
@@ -42,6 +43,17 @@
             font-size: 2em;
             margin: 0 0 10px 0;
         }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+        }
+        
         
         .stats-grid {
             display: grid;
@@ -142,13 +154,20 @@
                 grid-template-columns: 1fr;
                 padding: 10px;
             }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 10px;
+            }
         }
+        
     </style>
 </head>
 <body>
+
     <div class="header">
         <h1>📊 Dow Jones Sectorial Dashboard</h1>
-        <p>Análisis completo de sectores • 2025-06-30 11:50</p>
+        <p>Análisis completo de sectores • 2025-06-30 13:11</p>
     </div>
     
     <div class="stats-grid">
