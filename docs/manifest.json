@@ -1,6 +1,6 @@
 {
   "total_reports": 22,
-  "last_update": "2025-07-01T09:29:25.779788",
+  "last_update": "2025-07-01T09:30:55.960686",
   "reports": [
     {
       "id": "report_2025-07-01",
@@ -264,6 +264,18 @@
   "base_url": "https://tantancansado.github.io/stock_analyzer_a",
   "dj_reports": [
     {
+      "id": "dj_sectorial_2025-07-01",
+      "title": "📊 DJ Sectorial - 8 oportunidades - 2025-07-01 09:30",
+      "description": "Análisis sectorial Dow Jones con 43 sectores analizados",
+      "timestamp": "2025-07-01T09:30:55.960686",
+      "date": "2025-07-01",
+      "time": "09:30:55",
+      "html_url": "reports/dj_sectorial/dj_sectorial_2025-07-01/index.html",
+      "csv_url": "reports/dj_sectorial/dj_sectorial_2025-07-01/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/dj_sectorial/dj_sectorial_2025-07-01/index.html",
+      "type": "dj_sectorial"
+    },
+    {
       "id": "dj_sectorial_2025-06-30",
       "title": "📊 DJ Sectorial - 8 oportunidades - 2025-06-30 22:02",
       "description": "Análisis sectorial Dow Jones con 43 sectores analizados",
@@ -444,7 +456,7 @@
       "type": "dj_sectorial"
     }
   ],
-  "total_dj_reports": 15,
+  "total_dj_reports": 16,
   "breadth_reports": [
     {
       "id": "market_breadth_2025-06-30",
