@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Market Breadth - Análisis por Índices con Gráficos | Dashboard</title>
-    <meta name="description" content="Análisis específico de 9 índices con métricas técnicas detalladas y gráficos Finviz">
+    <title>📊 Market Breadth COMPLETO - Índices + Indicadores de Amplitud | Dashboard</title>
+    <meta name="description" content="Análisis completo de 9 índices con métricas técnicas+ indicadores de amplitud extendidos y gráficos Finviz">
     <style>
         
-        /* CSS para análisis por índices específicos CON GRÁFICOS */
+        /* CSS COMPLETO para análisis por índices + indicadores extendidos */
         :root {
             --glass-primary: rgba(99, 102, 241, 0.9);
             --glass-secondary: rgba(139, 92, 246, 0.8);
@@ -29,580 +29,15 @@
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
             background: #020617;
             background-image: radial-gradient(ellipse at top, rgba(16, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.95) 50%, rgba(0, 0, 0, 0.98) 100%);
-            background-attachment: fixed;
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-        
-        .glass-container { max-width: 1600px; margin: 0 auto; padding: 2rem; }
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--glass-shadow);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .liquid-header { text-align: center; padding: 3rem 2rem; margin-bottom: 2rem; }
-        .liquid-header h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-        
-        .market-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(72, 187, 120, 0.3);
-            background: rgba(72, 187, 120, 0.1);
-            color: var(--success);
-        }
-        
-        .score-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            margin-left: 0.5rem;
-        }
-        
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: #48bb78;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.2); }
-        }
-        
-        .stats-liquid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .stat-glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .stat-glass:hover {
-            transform: translateY(-12px) scale(1.05);
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
-        }
-        
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-        
-        .stat-percent {
-            color: var(--glass-accent);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 0.25rem;
-        }
-        
-        .indices-analysis { padding: 2.5rem; margin-bottom: 2rem; }
-        
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--glass-primary), var(--glass-secondary));
-            border-radius: 2px;
-        }
-        
-        .indices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2rem;
-        }
-        
-        /* ESTILOS ESPECÍFICOS PARA CARDS CON GRÁFICOS */
-        .index-detailed-card-with-chart {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.5rem;
-            transition: all 0.4s ease;
-            overflow: hidden;
-        }
-        
-        .index-detailed-card-with-chart:hover {
-            transform: translateY(-8px);
-            background: var(--glass-bg-hover);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .index-detailed-card-with-chart.bullish { border-left: 4px solid var(--success); }
-        .index-detailed-card-with-chart.bearish { border-left: 4px solid var(--danger); }
-        .index-detailed-card-with-chart.neutral { border-left: 4px solid var(--warning); }
-        
-        .index-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        .index-symbol {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--glass-primary);
-        }
-        
-        .index-name {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-        }
-        
-        .price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        .change-20d {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-        
-        .positive { color: var(--success); }
-        .negative { color: var(--danger); }
-        
-        /* ESTILOS PARA GRÁFICOS FINVIZ */
-        .chart-section {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .chart-wrapper {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
-        }
-        
-        .finviz-chart {
-            width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: cover;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover .chart-overlay {
-            opacity: 1;
-        }
-        
-        .chart-expand {
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: rgba(99, 102, 241, 0.8);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .chart-fallback {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 2px dashed var(--glass-border);
-        }
-        
-        .fallback-content {
-            text-align: center;
-            color: var(--text-secondary);
-        }
-        
-        .fallback-icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        .fallback-text {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-        }
-        
-        .fallback-link {
-            color: var(--glass-accent);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            border: 1px solid var(--glass-accent);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        
-        .fallback-link:hover {
-            background: var(--glass-accent);
-            color: white;
-        }
-        
-        /* MODAL PARA GRÁFICOS */
-        .chart-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .modal-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .modal-content {
-            position: relative;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 0;
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow: hidden;
-            box-shadow: var(--glass-shadow);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .modal-header h3 {
-            color: var(--text-primary);
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 0.25rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--danger);
-        }
-        
-        .modal-body {
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .modal-body img {
-            max-width: 100%;
-            max-height: 70vh;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-        }
-        
-        .modal-actions {
-            margin-top: 1rem;
-        }
-        
-        .btn-finviz {
-            display: inline-block;
-            color: white;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .btn-finviz:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-        }
-        
-        .signals-section { margin-bottom: 1.5rem; }
-        
-        .signal-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-        }
-        
-        .signal-row.overall {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            font-weight: 600;
-        }
-        
-        .signal-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .signal-value {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-        }
-        
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-        
-        .metric-label { color: var(--text-secondary); }
-        .metric-value { font-weight: 600; }
-        
-        .performers-section { padding: 2.5rem; margin-bottom: 2rem; }
-        
-        .performers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .performers-column {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .performers-title {
-            color: var(--glass-primary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .performer-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-        
-        .performer-item.best {
-            background: rgba(72, 187, 120, 0.1);
-            border: 1px solid rgba(72, 187, 120, 0.3);
-        }
-        
-        .performer-item.worst {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        .charts-section { padding: 2.5rem; margin-bottom: 2rem; }
-        
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-        
-        .chart-container {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .chart-title {
-            color: var(--glass-primary);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        canvas {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            height: 250px !important;
-        }
-        
-        .floating-element { animation: float 6s ease-in-out infinite; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .footer-liquid {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2rem 0;
-            border-top: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-        }
-        
-        .footer-liquid a {
-            color: var(--glass-accent);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        @media (max-width: 768px) {
-            .glass-container { padding: 1rem; }
-            .indices-grid { grid-template-columns: 1fr; }
-            .charts-grid { grid-template-columns: 1fr; }
-            .performers-grid { grid-template-columns: 1fr; }
-            .metrics-grid { grid-template-columns: 1fr; }
-            
-            .modal-content {
-                max-width: 95vw;
-                max-height: 95vh;
-            }
-            
-            .modal-body img {
-                max-height: 60vh;
-            }
-        }
-        
+            background-attachment:
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body>
     <div class="glass-container">
         <header class="liquid-header glass-card floating-element">
-            <h1>📊 Market Breadth Analysis</h1>
-            <p>Análisis específico de 9 índices con métricas técnicas reales y gráficos</p>
+            <h1>📊 Market Breadth Analysis COMPLETO</h1>
+            <p>Análisis completo de 9 índices con métricas técnicas reales + indicadores extendidos</p>
             <div class="market-status">
                 <div class="pulse-dot"></div>
                 <span>🚀 🟢 EXTREMADAMENTE ALCISTA • 88.9% Alcistas</span>
@@ -617,11 +52,11 @@
                 <div class="stat-percent">88.9%</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
-                <div class="stat-number">65</div>
+                <div class="stat-number">64</div>
                 <div class="stat-label">RSI Promedio</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
-                <div class="stat-number">+7.0%</div>
+                <div class="stat-number">+7.2%</div>
                 <div class="stat-label">Distancia MA200</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
@@ -629,6 +64,180 @@
                 <div class="stat-label">Índices Analizados</div>
             </div>
         </section>
+        
+        
+        <!-- SECCIÓN EXTENDIDA DE AMPLITUD -->
+        <section class="extended-breadth-section glass-card">
+            <h2 class="section-title">🎯 Indicadores de Amplitud Extendidos</h2>
+            
+            <div class="extended-summary-card">
+                <div class="extended-summary-header">
+                    <span class="extended-bias">🔴 BAJISTA</span>
+                    <span class="extended-confidence">Confianza: Moderada</span>
+                </div>
+                <div class="extended-signals">
+                    <span class="signal-count bullish">🟢 1</span>
+                    <span class="signal-count bearish">🔴 1</span>
+                    <span class="signal-count neutral">🟡 3</span>
+                </div>
+            </div>
+            
+            <div class="extended-indicators-grid">
+                
+        <div class="extended-indicator-card fear-greed-card">
+            <div class="indicator-header">
+                <h3>😱 Fear & Greed Index</h3>
+                <span class="indicator-source">Alternative.me</span>
+            </div>
+            <div class="indicator-value-large">
+                <span class="value">64</span>
+                <span class="classification">Greed</span>
+            </div>
+            <div class="indicator-signal">🟡 Greed</div>
+            <div class="fear-greed-meter">
+                <div class="meter-track">
+                    <div class="meter-fill" style="width: 64%"></div>
+                    <div class="meter-pointer" style="left: 64%"></div>
+                </div>
+                <div class="meter-labels">
+                    <span>Fear</span>
+                    <span>Greed</span>
+                </div>
+            </div>
+        </div>
+        
+                
+        <div class="extended-indicator-card vix-card">
+            <div class="indicator-header">
+                <h3>📊 Volatilidad (VIX)</h3>
+                <span class="indicator-source">CBOE</span>
+            </div>
+            <div class="indicator-metrics">
+                <div class="metric-row">
+                    <span class="metric-label">VIX Actual:</span>
+                    <span class="metric-value">16.73</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">VIX MA20:</span>
+                    <span class="metric-value">18.13</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Percentil:</span>
+                    <span class="metric-value">21.1%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Régimen:</span>
+                    <span class="metric-value">Normal</span>
+                </div>
+            </div>
+            <div class="indicator-signal">🟢 Volatilidad Normal</div>
+        </div>
+        
+                
+        <div class="extended-indicator-card ad-card">
+            <div class="indicator-header">
+                <h3>📈 Línea A-D (NYSE)</h3>
+                <span class="indicator-source">NYSE</span>
+            </div>
+            <div class="indicator-metrics">
+                <div class="metric-row">
+                    <span class="metric-label">Valor Actual:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Tendencia:</span>
+                    <span class="metric-value">Neutral</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Cambio 5d:</span>
+                    <span class="metric-value negative">+0.00%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Cambio 20d:</span>
+                    <span class="metric-value negative">+0.00%</span>
+                </div>
+            </div>
+            <div class="indicator-signal">🟡 Sin datos</div>
+        </div>
+        
+                
+        <div class="extended-indicator-card mcclellan-card">
+            <div class="indicator-header">
+                <h3>🌊 Oscilador McClellan</h3>
+                <span class="indicator-source">NYSE</span>
+            </div>
+            <div class="indicator-metrics">
+                <div class="metric-row">
+                    <span class="metric-label">Oscilador:</span>
+                    <span class="metric-value">0.00</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Summation:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Régimen:</span>
+                    <span class="metric-value">Neutral</span>
+                </div>
+            </div>
+            <div class="indicator-signal">🟡 Neutral</div>
+        </div>
+        
+                
+        <div class="extended-indicator-card arms-tick-card">
+            <div class="indicator-header">
+                <h3>⚖️ Arms Index & TICK</h3>
+                <span class="indicator-source">NYSE</span>
+            </div>
+            <div class="indicator-metrics">
+                <div class="metric-row">
+                    <span class="metric-label">TRIN:</span>
+                    <span class="metric-value">1.00</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">TICK:</span>
+                    <span class="metric-value">0</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">TICK Promedio:</span>
+                    <span class="metric-value">0</span>
+                </div>
+            </div>
+            <div class="indicator-signals">
+                <div class="signal-item">🟡 Neutral</div>
+                <div class="signal-item">🟡 Neutral</div>
+            </div>
+        </div>
+        
+                
+        <div class="extended-indicator-card breadth-metrics-card">
+            <div class="indicator-header">
+                <h3>📊 Métricas de Amplitud</h3>
+                <span class="indicator-source">Calculado</span>
+            </div>
+            <div class="indicator-metrics">
+                <div class="metric-row">
+                    <span class="metric-label">% sobre MA200:</span>
+                    <span class="metric-value">100.0%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">% Positivo 20d:</span>
+                    <span class="metric-value">100.0%</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">RSI Promedio:</span>
+                    <span class="metric-value">63.7</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">Score Amplitud:</span>
+                    <span class="metric-value">96.3</span>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+        </section>
+        
         
         <main class="indices-analysis glass-card">
             <h2 class="section-title">🎯 Análisis Detallado por Índice con Gráficos</h2>
@@ -641,8 +250,8 @@
                         <span class="index-name">S&P 500 ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$617.85</span>
-                        <span class="change-20d positive">+5.1%</span>
+                        <span class="price">$617.65</span>
+                        <span class="change-20d positive">+4.5%</span>
                     </div>
                 </div>
                 
@@ -689,11 +298,11 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">69.9</span>
+                        <span class="metric-value">67.4</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+6.9%</span>
+                        <span class="metric-value positive">+6.8%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
@@ -705,11 +314,11 @@
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.2x</span>
+                        <span class="metric-value">0.9x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">107%</span>
+                        <span class="metric-value">98%</span>
                     </div>
                 </div>
             </div>
@@ -721,8 +330,8 @@
                         <span class="index-name">NASDAQ 100 ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$551.64</span>
-                        <span class="change-20d positive">+6.4%</span>
+                        <span class="price">$546.99</span>
+                        <span class="change-20d positive">+4.7%</span>
                     </div>
                 </div>
                 
@@ -754,7 +363,7 @@
                     </div>
                     <div class="signal-row">
                         <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🔴 Sobrecomprado</span>
+                        <span class="signal-value">🟢 Momentum Fuerte</span>
                     </div>
                     <div class="signal-row">
                         <span class="signal-label">Posición:</span>
@@ -769,27 +378,27 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">70.2</span>
+                        <span class="metric-value">62.3</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+10.2%</span>
+                        <span class="metric-value positive">+9.2%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.2%</span>
+                        <span class="metric-value">-1.1%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">12.1%</span>
+                        <span class="metric-value">12.6%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.0x</span>
+                        <span class="metric-value">1.2x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">107%</span>
+                        <span class="metric-value">88%</span>
                     </div>
                 </div>
             </div>
@@ -801,8 +410,8 @@
                         <span class="index-name">Dow Jones ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$440.65</span>
-                        <span class="change-20d positive">+4.5%</span>
+                        <span class="price">$444.89</span>
+                        <span class="change-20d positive">+5.3%</span>
                     </div>
                 </div>
                 
@@ -834,7 +443,7 @@
                     </div>
                     <div class="signal-row">
                         <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟢 Momentum Fuerte</span>
+                        <span class="signal-value">🔴 Sobrecomprado</span>
                     </div>
                     <div class="signal-row">
                         <span class="signal-label">Posición:</span>
@@ -849,27 +458,27 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">68.0</span>
+                        <span class="metric-value">70.3</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+4.2%</span>
+                        <span class="metric-value positive">+5.1%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-1.4%</span>
+                        <span class="metric-value">-0.5%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">11.3%</span>
+                        <span class="metric-value">11.6%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">0.9x</span>
+                        <span class="metric-value">1.3x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">112%</span>
+                        <span class="metric-value">113%</span>
                     </div>
                 </div>
             </div>
@@ -881,8 +490,8 @@
                         <span class="index-name">Russell 2000 ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$215.79</span>
-                        <span class="change-20d positive">+5.5%</span>
+                        <span class="price">$218.01</span>
+                        <span class="change-20d positive">+6.3%</span>
                     </div>
                 </div>
                 
@@ -929,27 +538,27 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">56.1</span>
+                        <span class="metric-value">58.0</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+0.6%</span>
+                        <span class="metric-value positive">+1.6%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-11.2%</span>
+                        <span class="metric-value">-10.3%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">15.6%</span>
+                        <span class="metric-value">15.8%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">0.8x</span>
+                        <span class="metric-value">1.2x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">88%</span>
+                        <span class="metric-value">101%</span>
                     </div>
                 </div>
             </div>
@@ -962,7 +571,7 @@
                     </div>
                     <div class="index-price">
                         <span class="price">$303.93</span>
-                        <span class="change-20d positive">+5.2%</span>
+                        <span class="change-20d positive">+4.6%</span>
                     </div>
                 </div>
                 
@@ -1009,11 +618,11 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">68.9</span>
+                        <span class="metric-value">66.8</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+6.5%</span>
+                        <span class="metric-value positive">+6.4%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
@@ -1025,11 +634,11 @@
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.1x</span>
+                        <span class="metric-value">1.3x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">107%</span>
+                        <span class="metric-value">99%</span>
                     </div>
                 </div>
             </div>
@@ -1041,8 +650,8 @@
                         <span class="index-name">iShares MSCI USA ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$99.12</span>
-                        <span class="change-20d positive">+3.7%</span>
+                        <span class="price">$99.95</span>
+                        <span class="change-20d positive">+4.5%</span>
                     </div>
                 </div>
                 
@@ -1089,27 +698,27 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">63.7</span>
+                        <span class="metric-value">65.9</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+4.0%</span>
+                        <span class="metric-value positive">+4.8%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-2.2%</span>
+                        <span class="metric-value">-1.4%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">9.8%</span>
+                        <span class="metric-value">10.1%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">0.7x</span>
+                        <span class="metric-value">0.4x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">108%</span>
+                        <span class="metric-value">114%</span>
                     </div>
                 </div>
             </div>
@@ -1121,8 +730,8 @@
                         <span class="index-name">iShares MSCI ACWI ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$128.6</span>
-                        <span class="change-20d positive">+4.8%</span>
+                        <span class="price">$128.53</span>
+                        <span class="change-20d positive">+4.0%</span>
                     </div>
                 </div>
                 
@@ -1169,11 +778,11 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">67.0</span>
+                        <span class="metric-value">64.6</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+8.5%</span>
+                        <span class="metric-value positive">+8.4%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
@@ -1181,15 +790,15 @@
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">10.1%</span>
+                        <span class="metric-value">9.9%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.6x</span>
+                        <span class="metric-value">1.2x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">106%</span>
+                        <span class="metric-value">98%</span>
                     </div>
                 </div>
             </div>
@@ -1201,8 +810,8 @@
                         <span class="index-name">iShares MSCI EAFE ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$89.39</span>
-                        <span class="change-20d positive">+2.4%</span>
+                        <span class="price">$89.24</span>
+                        <span class="change-20d positive">+1.1%</span>
                     </div>
                 </div>
                 
@@ -1249,27 +858,27 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">57.0</span>
+                        <span class="metric-value">55.4</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+11.6%</span>
+                        <span class="metric-value positive">+11.4%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.3%</span>
+                        <span class="metric-value">-0.4%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">12.1%</span>
+                        <span class="metric-value">11.5%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.7x</span>
+                        <span class="metric-value">0.7x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">96%</span>
+                        <span class="metric-value">87%</span>
                     </div>
                 </div>
             </div>
@@ -1281,8 +890,8 @@
                         <span class="index-name">iShares MSCI Emerging Markets ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$48.24</span>
-                        <span class="change-20d positive">+7.0%</span>
+                        <span class="price">$48.33</span>
+                        <span class="change-20d positive">+6.4%</span>
                     </div>
                 </div>
                 
@@ -1329,11 +938,11 @@
                 <div class="metrics-grid">
                     <div class="metric-item">
                         <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">63.6</span>
+                        <span class="metric-value">62.3</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+10.7%</span>
+                        <span class="metric-value positive">+10.8%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">52W High:</span>
@@ -1341,15 +950,15 @@
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">14.4%</span>
+                        <span class="metric-value">14.3%</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.2x</span>
+                        <span class="metric-value">0.9x</span>
                     </div>
                     <div class="metric-item">
                         <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">88%</span>
+                        <span class="metric-value">87%</span>
                     </div>
                 </div>
             </div>
@@ -1367,17 +976,17 @@
         
                 <div class="performer-item best">
                     <span class="performer-symbol">EEM</span>
-                    <span class="performer-change">+7.0%</span>
-                </div>
-            
-                <div class="performer-item best">
-                    <span class="performer-symbol">QQQ</span>
                     <span class="performer-change">+6.4%</span>
                 </div>
             
                 <div class="performer-item best">
                     <span class="performer-symbol">IWM</span>
-                    <span class="performer-change">+5.5%</span>
+                    <span class="performer-change">+6.3%</span>
+                </div>
+            
+                <div class="performer-item best">
+                    <span class="performer-symbol">DIA</span>
+                    <span class="performer-change">+5.3%</span>
                 </div>
             
             </div>
@@ -1388,18 +997,18 @@
             <div class="performers-list">
         
                 <div class="performer-item worst">
-                    <span class="performer-symbol">DIA</span>
+                    <span class="performer-symbol">EUSA</span>
                     <span class="performer-change">+4.5%</span>
                 </div>
             
                 <div class="performer-item worst">
-                    <span class="performer-symbol">EUSA</span>
-                    <span class="performer-change">+3.7%</span>
+                    <span class="performer-symbol">ACWI</span>
+                    <span class="performer-change">+4.0%</span>
                 </div>
             
                 <div class="performer-item worst">
                     <span class="performer-symbol">EFA</span>
-                    <span class="performer-change">+2.4%</span>
+                    <span class="performer-change">+1.1%</span>
                 </div>
             
             </div>
@@ -1431,7 +1040,7 @@
         </section>
         
         <footer class="footer-liquid">
-            <p>📊 Market Breadth Analysis por Índices • Métricas Técnicas Reales • Gráficos Finviz</p>
+            <p>📊 Market Breadth Analysis COMPLETO • Métricas Técnicas Reales • Gráficos Finviz</p>
             <p>
                 <a href="https://tantancansado.github.io/stock_analyzer_a">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
@@ -1442,7 +1051,7 @@
     
     <script>
         // Datos para gráficos específicos por índice
-        const chartData = {"symbols": ["SPY", "QQQ", "DIA", "IWM", "VTI", "EUSA", "ACWI", "EFA", "EEM"], "performance_20d": [5.14, 6.39, 4.51, 5.52, 5.16, 3.68, 4.81, 2.4, 7.0], "rsi_values": [69.9, 70.2, 68.0, 56.1, 68.9, 63.7, 67.0, 57.0, 63.6], "ma200_distance": [6.86, 10.17, 4.15, 0.57, 6.5, 3.97, 8.5, 11.62, 10.67], "volatility": [9.94, 12.08, 11.27, 15.58, 10.43, 9.85, 10.05, 12.05, 14.37], "prices": [617.85, 551.64, 440.65, 215.79, 303.93, 99.12, 128.6, 89.39, 48.24]};
+        const chartData = {"symbols": ["SPY", "QQQ", "DIA", "IWM", "VTI", "EUSA", "ACWI", "EFA", "EEM"], "performance_20d": [4.52, 4.66, 5.3, 6.27, 4.63, 4.45, 3.98, 1.14, 6.43], "rsi_values": [67.4, 62.3, 70.3, 58.0, 66.8, 65.9, 64.6, 55.4, 62.3], "ma200_distance": [6.76, 9.16, 5.1, 1.58, 6.44, 4.79, 8.37, 11.36, 10.79], "volatility": [9.92, 12.61, 11.57, 15.81, 10.42, 10.11, 9.91, 11.54, 14.31], "prices": [617.65, 546.99, 444.89, 218.01, 303.93, 99.95, 128.53, 89.24, 48.33]};
         
         // Inicializar gráficos específicos
         
@@ -1580,10 +1189,11 @@
         });
         
         
-        console.log('📊 Market Breadth por Índices con Gráficos Loaded');
+        console.log('📊 Market Breadth COMPLETO Loaded');
         console.log('🎯 Índices analizados: 9');
         console.log('📈 Alcistas: 88.9%');
         console.log('💪 Strength Score: 47');
+        console.log("🔍 Con indicadores extendidos");
     </script>
 </body>
 </html>
