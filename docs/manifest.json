@@ -1,6 +1,6 @@
 {
   "total_reports": 33,
-  "last_update": "2025-07-01T15:09:44.749054",
+  "last_update": "2025-07-01T15:09:48.081234",
   "reports": [
     {
       "id": "report_2025-07-01",
@@ -724,6 +724,18 @@
   "breadth_reports": [
     {
       "id": "market_breadth_2025-07-01",
+      "title": "📊 Market Breadth - 🟢 EXTREMADAMENTE ALCISTA - 2025-07-01",
+      "description": "Análisis de amplitud con 8 señales alcistas y 0 bajistas",
+      "timestamp": "2025-07-01T15:09:48.081234",
+      "date": "2025-07-01",
+      "time": "15:09:48",
+      "html_url": "reports/market_breadth/market_breadth_2025-07-01/index.html",
+      "csv_url": "reports/market_breadth/market_breadth_2025-07-01/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/market_breadth/market_breadth_2025-07-01/index.html",
+      "type": "market_breadth"
+    },
+    {
+      "id": "market_breadth_2025-07-01",
       "title": "📊 Market Breadth - 🔴 BAJISTA - 2025-07-01",
       "description": "Análisis de amplitud con 0 señales alcistas y 4 bajistas",
       "timestamp": "2025-07-01T14:32:29.710321",
@@ -891,5 +903,5 @@
       "type": "market_breadth"
     }
   ],
-  "total_breadth_reports": 14
+  "total_breadth_reports": 15
 }
