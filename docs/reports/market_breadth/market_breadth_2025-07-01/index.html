@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Market Breadth - Análisis por Índices con Gráficos | Dashboard</title>
-    <meta name="description" content="Análisis específico de 9 índices con métricas técnicas detalladas y gráficos Finviz">
+    <title>📊 Market Breadth Analysis | Liquid Glass Dashboard</title>
+    <meta name="description" content="Análisis avanzado de amplitud de mercado con indicadores técnicos">
     <style>
         
-        /* CSS para análisis por índices específicos CON GRÁFICOS */
+        /* Market Breadth Liquid Glass CSS */
         :root {
             --glass-primary: rgba(99, 102, 241, 0.9);
             --glass-secondary: rgba(139, 92, 246, 0.8);
@@ -36,19 +36,34 @@
             min-height: 100vh;
         }
         
-        .glass-container { max-width: 1600px; margin: 0 auto; padding: 2rem; }
+        .glass-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             box-shadow: var(--glass-shadow);
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
         
-        .liquid-header { text-align: center; padding: 3rem 2rem; margin-bottom: 2rem; }
+        .glass-card:hover {
+            background: var(--glass-bg-hover);
+            transform: translateY(-4px);
+        }
+        
+        .liquid-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+        }
+        
         .liquid-header h1 {
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 800;
@@ -67,35 +82,46 @@
             border-radius: 50px;
             font-weight: 600;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(72, 187, 120, 0.3);
+            border: 1px solid;
+        }
+        
+        .market-status.alcista {
             background: rgba(72, 187, 120, 0.1);
+            border-color: rgba(72, 187, 120, 0.3);
             color: var(--success);
         }
         
-        .score-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            margin-left: 0.5rem;
+        .market-status.bajista {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+        
+        .market-status.neutral {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.3);
+            color: var(--warning);
         }
         
         .pulse-dot {
             width: 8px;
             height: 8px;
-            background: #48bb78;
             border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse-glow 2s ease-in-out infinite;
         }
         
-        @keyframes pulse {
+        .alcista .pulse-dot { background: #48bb78; box-shadow: 0 0 10px rgba(72, 187, 120, 0.8); }
+        .bajista .pulse-dot { background: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
+        .neutral .pulse-dot { background: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.8); }
+        
+        @keyframes pulse-glow {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(1.2); }
         }
         
         .stats-liquid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
         }
@@ -133,14 +159,10 @@
             font-weight: 500;
         }
         
-        .stat-percent {
-            color: var(--glass-accent);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 0.25rem;
+        .content-liquid {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
         }
-        
-        .indices-analysis { padding: 2.5rem; margin-bottom: 2rem; }
         
         .section-title {
             font-size: 2rem;
@@ -163,363 +185,56 @@
             border-radius: 2px;
         }
         
-        .indices-grid {
+        .indicators-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
         
-        /* ESTILOS ESPECÍFICOS PARA CARDS CON GRÁFICOS */
-        .index-detailed-card-with-chart {
+        .indicator-card {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 1.5rem;
             transition: all 0.4s ease;
-            overflow: hidden;
         }
         
-        .index-detailed-card-with-chart:hover {
-            transform: translateY(-8px);
+        .indicator-card:hover {
+            transform: translateY(-4px);
             background: var(--glass-bg-hover);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
         
-        .index-detailed-card-with-chart.bullish { border-left: 4px solid var(--success); }
-        .index-detailed-card-with-chart.bearish { border-left: 4px solid var(--danger); }
-        .index-detailed-card-with-chart.neutral { border-left: 4px solid var(--warning); }
-        
-        .index-header {
+        .indicator-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 1rem;
         }
         
-        .index-symbol {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--glass-primary);
-        }
-        
-        .index-name {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-        }
-        
-        .price {
-            font-size: 1.8rem;
+        .indicator-name {
             font-weight: 700;
             color: var(--text-primary);
         }
         
-        .change-20d {
+        .indicator-value {
+            font-weight: 600;
             font-size: 1.1rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
         }
         
-        .positive { color: var(--success); }
-        .negative { color: var(--danger); }
-        
-        /* ESTILOS PARA GRÁFICOS FINVIZ */
-        .chart-section {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .chart-wrapper {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
-        }
-        
-        .finviz-chart {
-            width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: cover;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover .chart-overlay {
-            opacity: 1;
-        }
-        
-        .chart-expand {
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: rgba(99, 102, 241, 0.8);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .chart-fallback {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 2px dashed var(--glass-border);
-        }
-        
-        .fallback-content {
-            text-align: center;
-            color: var(--text-secondary);
-        }
-        
-        .fallback-icon {
-            font-size: 2rem;
-            display: block;
+        .indicator-signal {
             margin-bottom: 0.5rem;
         }
         
-        .fallback-text {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
+        .signal-strong { color: var(--success); }
+        .signal-moderate { color: var(--warning); }
+        .signal-weak { color: var(--text-secondary); }
+        .signal-bearish { color: var(--danger); }
+        
+        .charts-section {
+            padding: 2.5rem;
+            margin-bottom: 2rem;
         }
-        
-        .fallback-link {
-            color: var(--glass-accent);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            border: 1px solid var(--glass-accent);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        
-        .fallback-link:hover {
-            background: var(--glass-accent);
-            color: white;
-        }
-        
-        /* MODAL PARA GRÁFICOS */
-        .chart-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .modal-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .modal-content {
-            position: relative;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 0;
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow: hidden;
-            box-shadow: var(--glass-shadow);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .modal-header h3 {
-            color: var(--text-primary);
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 0.25rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--danger);
-        }
-        
-        .modal-body {
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .modal-body img {
-            max-width: 100%;
-            max-height: 70vh;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-        }
-        
-        .modal-actions {
-            margin-top: 1rem;
-        }
-        
-        .btn-finviz {
-            display: inline-block;
-            color: white;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .btn-finviz:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-        }
-        
-        .signals-section { margin-bottom: 1.5rem; }
-        
-        .signal-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-        }
-        
-        .signal-row.overall {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            font-weight: 600;
-        }
-        
-        .signal-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .signal-value {
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-        }
-        
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-        
-        .metric-label { color: var(--text-secondary); }
-        .metric-value { font-weight: 600; }
-        
-        .performers-section { padding: 2.5rem; margin-bottom: 2rem; }
-        
-        .performers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .performers-column {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .performers-title {
-            color: var(--glass-primary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        .performer-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-        }
-        
-        .performer-item.best {
-            background: rgba(72, 187, 120, 0.1);
-            border: 1px solid rgba(72, 187, 120, 0.3);
-        }
-        
-        .performer-item.worst {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        
-        .charts-section { padding: 2.5rem; margin-bottom: 2rem; }
         
         .charts-grid {
             display: grid;
@@ -547,9 +262,11 @@
             height: 250px !important;
         }
         
-        .floating-element { animation: float 6s ease-in-out infinite; }
+        .floating-element {
+            animation: float-gentle 6s ease-in-out infinite;
+        }
         
-        @keyframes float {
+        @keyframes float-gentle {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
         }
@@ -578,21 +295,17 @@
             transition: all 0.3s ease;
         }
         
+        .footer-liquid a:hover {
+            color: var(--glass-primary);
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        
         @media (max-width: 768px) {
             .glass-container { padding: 1rem; }
-            .indices-grid { grid-template-columns: 1fr; }
+            .liquid-header { padding: 2rem 1rem; }
+            .stats-liquid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
             .charts-grid { grid-template-columns: 1fr; }
-            .performers-grid { grid-template-columns: 1fr; }
-            .metrics-grid { grid-template-columns: 1fr; }
-            
-            .modal-content {
-                max-width: 95vw;
-                max-height: 95vh;
-            }
-            
-            .modal-body img {
-                max-height: 60vh;
-            }
+            .indicators-grid { grid-template-columns: 1fr; }
         }
         
     </style>
@@ -602,836 +315,186 @@
     <div class="glass-container">
         <header class="liquid-header glass-card floating-element">
             <h1>📊 Market Breadth Analysis</h1>
-            <p>Análisis específico de 9 índices con métricas técnicas reales y gráficos</p>
-            <div class="market-status">
+            <p>Análisis completo de amplitud de mercado con 8 indicadores clave</p>
+            <div class="market-status bajista">
                 <div class="pulse-dot"></div>
-                <span>🚀 🟢 EXTREMADAMENTE ALCISTA • 88.9% Alcistas</span>
-                <div class="score-badge">Score: 47</div>
+                <span>📉 🔴 BAJISTA • Confianza Alta</span>
             </div>
         </header>
         
         <section class="stats-liquid">
             <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
-                <div class="stat-number">8</div>
-                <div class="stat-label">Índices Alcistas</div>
-                <div class="stat-percent">88.9%</div>
+                <div class="stat-number">0</div>
+                <div class="stat-label">Señales Alcistas</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
-                <div class="stat-number">65</div>
-                <div class="stat-label">RSI Promedio</div>
+                <div class="stat-number">4</div>
+                <div class="stat-label">Señales Bajistas</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
-                <div class="stat-number">+7.0%</div>
-                <div class="stat-label">Distancia MA200</div>
+                <div class="stat-number">2</div>
+                <div class="stat-label">Señales Neutrales</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
-                <div class="stat-number">9</div>
-                <div class="stat-label">Índices Analizados</div>
+                <div class="stat-number">-8</div>
+                <div class="stat-label">Puntuación Fuerza</div>
             </div>
         </section>
         
-        <main class="indices-analysis glass-card">
-            <h2 class="section-title">🎯 Análisis Detallado por Índice con Gráficos</h2>
-            <div class="indices-grid">
-                
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">SPY</span>
-                        <span class="index-name">S&P 500 ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$617.85</span>
-                        <span class="change-20d positive">+5.1%</span>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico SPY" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('SPY', 'https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟢 Momentum Fuerte</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">69.9</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+6.9%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.2%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">9.9%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.2x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">107%</span>
-                    </div>
-                </div>
-            </div>
+        <main class="content-liquid glass-card">
+            <h2 class="section-title">🎯 Indicadores de Amplitud</h2>
             
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">QQQ</span>
-                        <span class="index-name">NASDAQ 100 ETF</span>
+            <div class="indicators-grid">
+                
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Línea Avance-Declive</div>
+                        <div class="indicator-value signal-bearish">13888.00</div>
                     </div>
-                    <div class="index-price">
-                        <span class="price">$551.64</span>
-                        <span class="change-20d positive">+6.4%</span>
+                    <div class="indicator-signal signal-bearish">
+                        <strong>Bajista</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Fuerte
+                    </div>
+                    <div class="indicator-description">
+                        Tendencia de participación del mercado
                     </div>
                 </div>
                 
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=QQQ&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico QQQ" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('QQQ', 'https://finviz.com/chart.ashx?t=QQQ&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=QQQ&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Oscilador McClellan</div>
+                        <div class="indicator-value signal-weak">-340.99</div>
+                    </div>
+                    <div class="indicator-signal signal-weak">
+                        <strong>Sobreventa</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Alta
+                    </div>
+                    <div class="indicator-description">
+                        Momentum de corto plazo
                     </div>
                 </div>
                 
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Índice TRIN</div>
+                        <div class="indicator-value signal-weak">1.13</div>
                     </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🔴 Sobrecomprado</span>
+                    <div class="indicator-signal signal-weak">
+                        <strong>Equilibrado</strong>
                     </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
+                    <div class="indicator-strength">
+                        Fuerza: Neutral
                     </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
+                    <div class="indicator-description">
+                        Presión compradora vs vendedora
                     </div>
                 </div>
                 
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">70.2</span>
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">% Acciones sobre MA50</div>
+                        <div class="indicator-value signal-bearish">24.10</div>
                     </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+10.2%</span>
+                    <div class="indicator-signal signal-bearish">
+                        <strong>Mercado Débil</strong>
                     </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.2%</span>
+                    <div class="indicator-strength">
+                        Fuerza: Alta
                     </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">12.1%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.0x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">107%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">DIA</span>
-                        <span class="index-name">Dow Jones ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$440.65</span>
-                        <span class="change-20d positive">+4.5%</span>
+                    <div class="indicator-description">
+                        Fortaleza general del mercado
                     </div>
                 </div>
                 
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=DIA&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico DIA" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('DIA', 'https://finviz.com/chart.ashx?t=DIA&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=DIA&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Nuevos Máximos - Mínimos</div>
+                        <div class="indicator-value signal-bearish">-33.00</div>
+                    </div>
+                    <div class="indicator-signal signal-bearish">
+                        <strong>Debilidad Moderada</strong>
+                    </div>
+                    <div class="indicator-strength">
+                        Fuerza: Moderada
+                    </div>
+                    <div class="indicator-description">
+                        Confirmación de tendencia
                     </div>
                 </div>
                 
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
+                <div class="indicator-card">
+                    <div class="indicator-header">
+                        <div class="indicator-name">Ratio Volumen</div>
+                        <div class="indicator-value signal-moderate">0.64</div>
                     </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟢 Momentum Fuerte</span>
+                    <div class="indicator-signal signal-moderate">
+                        <strong>Oferta Moderada</strong>
                     </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
+                    <div class="indicator-strength">
+                        Fuerza: Moderada
                     </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
+                    <div class="indicator-description">
+                        Demanda vs oferta institucional
                     </div>
                 </div>
                 
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">68.0</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+4.2%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-1.4%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">11.3%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">0.9x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">112%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="index-detailed-card-with-chart neutral">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">IWM</span>
-                        <span class="index-name">Russell 2000 ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$215.79</span>
-                        <span class="change-20d positive">+5.5%</span>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=IWM&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico IWM" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('IWM', 'https://finviz.com/chart.ashx?t=IWM&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=IWM&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟡 Momentum Neutral</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🔴 Bollinger Superior</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟡 NEUTRAL</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">56.1</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+0.6%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-11.2%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">15.6%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">0.8x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">88%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">VTI</span>
-                        <span class="index-name">Total Stock Market ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$303.93</span>
-                        <span class="change-20d positive">+5.2%</span>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=VTI&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico VTI" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('VTI', 'https://finviz.com/chart.ashx?t=VTI&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=VTI&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟢 Momentum Fuerte</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">68.9</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+6.5%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.2%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">10.4%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.1x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">107%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">EUSA</span>
-                        <span class="index-name">iShares MSCI USA ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$99.12</span>
-                        <span class="change-20d positive">+3.7%</span>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=EUSA&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico EUSA" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('EUSA', 'https://finviz.com/chart.ashx?t=EUSA&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=EUSA&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟢 Momentum Fuerte</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">63.7</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+4.0%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-2.2%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">9.8%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">0.7x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">108%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">ACWI</span>
-                        <span class="index-name">iShares MSCI ACWI ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$128.6</span>
-                        <span class="change-20d positive">+4.8%</span>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=ACWI&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico ACWI" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('ACWI', 'https://finviz.com/chart.ashx?t=ACWI&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=ACWI&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟢 Momentum Fuerte</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">67.0</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+8.5%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.2%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">10.1%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.6x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">106%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">EFA</span>
-                        <span class="index-name">iShares MSCI EAFE ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$89.39</span>
-                        <span class="change-20d positive">+2.4%</span>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=EFA&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico EFA" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('EFA', 'https://finviz.com/chart.ashx?t=EFA&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=EFA&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Alcista</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟡 Momentum Neutral</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">57.0</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+11.6%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.3%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">12.1%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.7x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">96%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="index-detailed-card-with-chart bullish">
-                <div class="index-header">
-                    <div class="index-info">
-                        <span class="index-symbol">EEM</span>
-                        <span class="index-name">iShares MSCI Emerging Markets ETF</span>
-                    </div>
-                    <div class="index-price">
-                        <span class="price">$48.24</span>
-                        <span class="change-20d positive">+7.0%</span>
-                    </div>
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="https://finviz.com/chart.ashx?t=EEM&ty=c&ta=1&p=d&s=l" 
-                             alt="Gráfico EEM" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('EEM', 'https://finviz.com/chart.ashx?t=EEM&ty=c&ta=1&p=d&s=l')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="https://finviz.com/chart.ashx?t=EEM&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">🟢 Tendencia Muy Alcista</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">🟢 Momentum Fuerte</span>
-                    </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">🟢 Cerca de Máximos</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">🟢 ALCISTA</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">63.6</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value positive">+10.7%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">-0.2%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">14.4%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">1.2x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">88%</span>
-                    </div>
-                </div>
-            </div>
-            
             </div>
         </main>
         
-        <section class="performers-section glass-card">
-            <h2 class="section-title">🏆 Mejores y Peores Performers</h2>
-            <div class="performers-grid">
-                
-        <div class="performers-column">
-            <h3 class="performers-title">🚀 Mejores Performers (20d)</h3>
-            <div class="performers-list">
-        
-                <div class="performer-item best">
-                    <span class="performer-symbol">EEM</span>
-                    <span class="performer-change">+7.0%</span>
+        <section class="charts-section glass-card">
+            <h2 class="section-title">📈 Gráficos Interactivos</h2>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3 class="chart-title">Línea Avance-Declive</h3>
+                    <canvas id="adLineChart"></canvas>
                 </div>
-            
-                <div class="performer-item best">
-                    <span class="performer-symbol">QQQ</span>
-                    <span class="performer-change">+6.4%</span>
+                <div class="chart-container">
+                    <h3 class="chart-title">Oscilador McClellan</h3>
+                    <canvas id="mcclellanChart"></canvas>
                 </div>
-            
-                <div class="performer-item best">
-                    <span class="performer-symbol">IWM</span>
-                    <span class="performer-change">+5.5%</span>
+                <div class="chart-container">
+                    <h3 class="chart-title">Índice TRIN</h3>
+                    <canvas id="trinChart"></canvas>
                 </div>
-            
-            </div>
-        </div>
-        
-        <div class="performers-column">
-            <h3 class="performers-title">📉 Peores Performers (20d)</h3>
-            <div class="performers-list">
-        
-                <div class="performer-item worst">
-                    <span class="performer-symbol">DIA</span>
-                    <span class="performer-change">+4.5%</span>
+                <div class="chart-container">
+                    <h3 class="chart-title">% Acciones sobre MA50</h3>
+                    <canvas id="ma50Chart"></canvas>
                 </div>
-            
-                <div class="performer-item worst">
-                    <span class="performer-symbol">EUSA</span>
-                    <span class="performer-change">+3.7%</span>
-                </div>
-            
-                <div class="performer-item worst">
-                    <span class="performer-symbol">EFA</span>
-                    <span class="performer-change">+2.4%</span>
-                </div>
-            
-            </div>
-        </div>
-        
             </div>
         </section>
         
-        <section class="charts-section glass-card">
-            <h2 class="section-title">📈 Análisis Visual Comparativo</h2>
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <h3 class="chart-title">Rendimiento 20 Días</h3>
-                    <canvas id="performanceChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">RSI de Índices</h3>
-                    <canvas id="rsiChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Distancia de MA200</h3>
-                    <canvas id="ma200Chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Volatilidad 20D</h3>
-                    <canvas id="volatilityChart"></canvas>
-                </div>
+        <section class="content-liquid glass-card">
+            <h2 class="section-title">💡 Interpretación de Señales</h2>
+            
+        <div class="interpretation-grid">
+            <div class="explanation-liquid">
+                <h3>🎯 Cómo Interpretar las Señales</h3>
+                <ul>
+                    <li><strong>🟢 Señales Alcistas:</strong> Indican fortaleza amplia del mercado y momentum positivo</li>
+                    <li><strong>🔴 Señales Bajistas:</strong> Sugieren debilidad subyacente y presión vendedora</li>
+                    <li><strong>🟡 Señales Neutrales:</strong> Mercado en equilibrio, esperar confirmación direccional</li>
+                </ul>
             </div>
+            
+            <div class="explanation-liquid">
+                <h3>⚡ Estrategias de Trading</h3>
+                <ul>
+                    <li><strong>Confluencia Alcista:</strong> 4+ indicadores alcistas = Sesgo comprador</li>
+                    <li><strong>Divergencias:</strong> Índices subiendo con breadth débil = Precaución</li>
+                    <li><strong>Extremos McClellan:</strong> >+100 o <-100 para timing de reversiones</li>
+                    <li><strong>TRIN Extremo:</strong> <0.8 o >1.2 para confirmación intraday</li>
+                </ul>
+            </div>
+        </div>
+        
         </section>
         
         <footer class="footer-liquid">
-            <p>📊 Market Breadth Analysis por Índices • Métricas Técnicas Reales • Gráficos Finviz</p>
+            <p>📊 Market Breadth Analysis • Powered by Advanced TA</p>
             <p>
                 <a href="https://tantancansado.github.io/stock_analyzer_a">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
@@ -1441,149 +504,103 @@
     </div>
     
     <script>
-        // Datos para gráficos específicos por índice
-        const chartData = {"symbols": ["SPY", "QQQ", "DIA", "IWM", "VTI", "EUSA", "ACWI", "EFA", "EEM"], "performance_20d": [5.14, 6.39, 4.51, 5.52, 5.16, 3.68, 4.81, 2.4, 7.0], "rsi_values": [69.9, 70.2, 68.0, 56.1, 68.9, 63.7, 67.0, 57.0, 63.6], "ma200_distance": [6.86, 10.17, 4.15, 0.57, 6.5, 3.97, 8.5, 11.62, 10.67], "volatility": [9.94, 12.08, 11.27, 15.58, 10.43, 9.85, 10.05, 12.05, 14.37], "prices": [617.85, 551.64, 440.65, 215.79, 303.93, 99.12, 128.6, 89.39, 48.24]};
+        // Datos para gráficos
+        const chartData = {"dates": ["2025-05-05", "2025-05-06", "2025-05-07", "2025-05-08", "2025-05-09", "2025-05-12", "2025-05-13", "2025-05-14", "2025-05-15", "2025-05-16", "2025-05-19", "2025-05-20", "2025-05-21", "2025-05-22", "2025-05-23", "2025-05-26", "2025-05-27", "2025-05-28", "2025-05-29", "2025-05-30", "2025-06-02", "2025-06-03", "2025-06-04", "2025-06-05", "2025-06-06", "2025-06-09", "2025-06-10", "2025-06-11", "2025-06-12", "2025-06-13", "2025-06-16", "2025-06-17", "2025-06-18", "2025-06-19", "2025-06-20", "2025-06-23", "2025-06-24", "2025-06-25", "2025-06-26", "2025-06-27", "2025-06-30", "2025-07-01"], "ad_line": [61, -458, -157, -146, 82, 1222, 1744, 2280, 2556, 3287, 3421, 4304, 4860, 5299, 5698, 6425, 8016, 9027, 10339, 11830, 13271, 13589, 14466, 15633, 16418, 16785, 17376, 18502, 20240, 21239, 22262, 23371, 22947, 22321, 21165, 20122, 18444, 17586, 17025, 15354, 14386, 13888], "mcclellan": [0.0, -29.0, -12.649999999999991, -13.107499999999984, -2.5831249999999812, 52.02813125000003, 67.56061468750005, 81.20308495312503, 79.46138160546877, 100.32491833519532, 87.81161764743558, 114.1236874711638, 119.69988873309563, 118.01904136838192, 113.99182166470973, 126.37858970974645, 179.53738343970412, 195.09046516161942, 222.46289770804896, 253.704013046706, 276.6466465960242, 238.7293650477111, 233.06644249866497, 241.55931150673723, 228.51291795110524, 195.31568687128436, 177.1554758636811, 187.49271807286186, 225.9935965713472, 220.83187970469533, 216.51445238518454, 216.04047976507684, 137.90503077605945, 60.30969673656921, -32.83586235087779, -106.66113605889046, -200.9984393989469, -239.6518415577005, -256.6522411956463, -325.4043216801117, -347.41032888592906, -340.98841340247327], "trin": [0.9835883813372885, 0.8512019541563265, 1.413842248589774, 1.2416177173710579, 0.9797329565561469, 1.1170216575365859, 1.0758226659425392, 0.9836219687932335, 1.1080722502696527, 0.7029210267136474, 1.0109540584415215, 0.7025626219195095, 1.0598482346281608, 1.0038410969295986, 0.8147333306116696, 0.8104287696042598, 0.9163319730390876, 1.0340464303839223, 0.8855429839440578, 1.042829853956716, 1.0188433974661675, 1.0075592188958515, 0.6966571156408923, 0.921418068163397, 0.9402187285524674, 0.7521757848588764, 0.8626448129064793, 1.1370363124611196, 1.3768149735604147, 0.9047683786695947, 0.8753117609402956, 1.282437463511985, 0.8296442318489284, 0.8576560819612423, 1.1113112285172932, 1.2204882750713961, 0.821273603630859, 1.1367250424869497, 0.9979960246074101, 1.002995525503774, 0.8493726918807676, 1.1326053589993665], "ma50_percent": [53.581800340993354, 45.30626417939461, 31.689229072801435, 52.802366254002465, 29.92672502527683, 77.04798894969754, 43.36592061018713, 57.10570727950643, 70.8595098233812, 71.62946292568665, 56.88605175845187, 59.91375079720447, 73.67881713014276, 25.522278453809072, 60.72449317386409, 48.95992201702599, 70.379380692281, 51.347765072898426, 60.7839640752489, 80.47502303222478, 51.82493884926048, 68.52747475045965, 73.01899935623732, 65.8649101849656, 76.4222000215776, 55.947580533679165, 64.31564990520275, 67.2445160905905, 100, 86.4827003761367, 83.72246243799016, 69.7054219273581, 49.189345725735976, 62.89710187088993, 13.415742531947455, 28.194746605445438, 2.7701098319697692, 41.66755450565705, 32.82450613497636, 0, 50.86844743501694, 24.09560090443402]};
         
-        // Inicializar gráficos específicos
-        
-        // Configuración de gráficos
+        // Configuración común de gráficos
         const chartConfig = {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: 'white' } } },
+            plugins: {
+                legend: { labels: { color: 'white' } }
+            },
             scales: {
                 x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
                 y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
             }
         };
         
-        window.addEventListener('load', function() {
-            // Performance Chart
-            new Chart(document.getElementById('performanceChart'), {
-                type: 'bar',
+        // Inicializar gráficos
+        function initCharts() {
+            // A/D Line Chart
+            new Chart(document.getElementById('adLineChart'), {
+                type: 'line',
                 data: {
-                    labels: chartData.symbols,
+                    labels: chartData.dates,
                     datasets: [{
-                        label: 'Rendimiento 20d (%)',
-                        data: chartData.performance_20d,
-                        backgroundColor: chartData.performance_20d.map(val => 
-                            val > 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                        )
+                        label: 'Línea A/D',
+                        data: chartData.ad_line,
+                        borderColor: '#4ade80',
+                        backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                        tension: 0.4
                     }]
                 },
                 options: chartConfig
             });
             
-            // RSI Chart
-            new Chart(document.getElementById('rsiChart'), {
-                type: 'bar',
+            // McClellan Oscillator
+            new Chart(document.getElementById('mcclellanChart'), {
+                type: 'line',
                 data: {
-                    labels: chartData.symbols,
+                    labels: chartData.dates,
                     datasets: [{
-                        label: 'RSI 14',
-                        data: chartData.rsi_values,
-                        backgroundColor: chartData.rsi_values.map(val => 
-                            val > 70 ? 'rgba(239, 68, 68, 0.8)' : 
-                            val < 30 ? 'rgba(34, 197, 94, 0.8)' : 
-                            'rgba(99, 102, 241, 0.8)'
-                        )
+                        label: 'McClellan',
+                        data: chartData.mcclellan,
+                        borderColor: '#fbbf24',
+                        backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                        tension: 0.4
                     }]
                 },
                 options: chartConfig
             });
             
-            // MA200 Chart
-            new Chart(document.getElementById('ma200Chart'), {
-                type: 'bar',
+            // TRIN Chart
+            new Chart(document.getElementById('trinChart'), {
+                type: 'line',
                 data: {
-                    labels: chartData.symbols,
+                    labels: chartData.dates,
                     datasets: [{
-                        label: 'Distancia MA200 (%)',
-                        data: chartData.ma200_distance,
-                        backgroundColor: chartData.ma200_distance.map(val => 
-                            val > 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                        )
+                        label: 'TRIN',
+                        data: chartData.trin,
+                        borderColor: '#f87171',
+                        backgroundColor: 'rgba(248, 113, 113, 0.1)',
+                        tension: 0.4
                     }]
                 },
                 options: chartConfig
             });
             
-            // Volatility Chart
-            new Chart(document.getElementById('volatilityChart'), {
-                type: 'bar',
+            // MA50 Percent Chart
+            new Chart(document.getElementById('ma50Chart'), {
+                type: 'line',
                 data: {
-                    labels: chartData.symbols,
+                    labels: chartData.dates,
                     datasets: [{
-                        label: 'Volatilidad 20d (%)',
-                        data: chartData.volatility,
-                        backgroundColor: 'rgba(251, 191, 36, 0.8)'
+                        label: '% sobre MA50',
+                        data: chartData.ma50_percent,
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.4
                     }]
                 },
                 options: chartConfig
+            });
+        }
+        
+        // Inicializar cuando carga la página
+        window.addEventListener('load', initCharts);
+        
+        // Animaciones de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
             });
         });
         
-        
-        // Funcionalidad de modal para gráficos Finviz
-        
-        // Modal para gráficos Finviz
-        function openChartModal(symbol, chartUrl) {
-            // Crear modal si no existe
-            let modal = document.getElementById('chartModal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'chartModal';
-                modal.className = 'chart-modal';
-                modal.innerHTML = `
-                    <div class="modal-backdrop" onclick="closeChartModal()"></div>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="modalTitle">Gráfico</h3>
-                            <button class="modal-close" onclick="closeChartModal()">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <img id="modalChart" src="" alt="Gráfico ampliado" />
-                            <div class="modal-actions">
-                                <a id="finvizLink" href="" target="_blank" class="btn-finviz">
-                                    Ver en Finviz →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
-            
-            // Actualizar contenido del modal
-            document.getElementById('modalTitle').textContent = `Gráfico ${symbol}`;
-            document.getElementById('modalChart').src = chartUrl;
-            document.getElementById('finvizLink').href = chartUrl;
-            
-            // Mostrar modal
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeChartModal() {
-            const modal = document.getElementById('chartModal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-        
-        // Cerrar modal con ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeChartModal();
-            }
-        });
-        
-        
-        console.log('📊 Market Breadth por Índices con Gráficos Loaded');
-        console.log('🎯 Índices analizados: 9');
-        console.log('📈 Alcistas: 88.9%');
-        console.log('💪 Strength Score: 47');
+        console.log('📊 Market Breadth Analysis - Liquid Glass Dashboard Loaded');
+        console.log('🎯 Market Bias: 🔴 BAJISTA');
+        console.log('💪 Strength Score: -8');
     </script>
 </body>
 </html>
