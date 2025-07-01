@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Market Breadth - Análisis por Índices con Gráficos | Dashboard</title>
-    <meta name="description" content="Análisis específico de 9 índices con métricas técnicas detalladas y gráficos Finviz">
+    <title>📊 Market Breadth COMPLETO - Análisis Profesional | Dashboard</title>
+    <meta name="description" content="Análisis completo: 9 índices + 2 indicadores profesionales + 4 indicadores %MA">
     <style>
         
-        /* CSS para análisis por índices específicos CON GRÁFICOS */
+        /* CSS MEJORADO PARA MARKET BREADTH COMPLETO */
         :root {
             --glass-primary: rgba(99, 102, 241, 0.9);
             --glass-secondary: rgba(139, 92, 246, 0.8);
@@ -169,7 +169,6 @@
             gap: 2rem;
         }
         
-        /* ESTILOS ESPECÍFICOS PARA CARDS CON GRÁFICOS */
         .index-detailed-card-with-chart {
             background: var(--glass-bg);
             backdrop-filter: blur(16px);
@@ -226,7 +225,6 @@
         .positive { color: var(--success); }
         .negative { color: var(--danger); }
         
-        /* ESTILOS PARA GRÁFICOS FINVIZ */
         .chart-section {
             margin-bottom: 1.5rem;
             position: relative;
@@ -237,13 +235,6 @@
             border-radius: 12px;
             overflow: hidden;
             background: rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
         }
         
         .finviz-chart {
@@ -252,35 +243,6 @@
             max-height: 200px;
             object-fit: cover;
             display: block;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover .chart-overlay {
-            opacity: 1;
-        }
-        
-        .chart-expand {
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: rgba(99, 102, 241, 0.8);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .chart-fallback {
@@ -319,117 +281,6 @@
             border: 1px solid var(--glass-accent);
             border-radius: 6px;
             transition: all 0.3s ease;
-        }
-        
-        .fallback-link:hover {
-            background: var(--glass-accent);
-            color: white;
-        }
-        
-        /* MODAL PARA GRÁFICOS */
-        .chart-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .modal-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .modal-content {
-            position: relative;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 0;
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow: hidden;
-            box-shadow: var(--glass-shadow);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .modal-header h3 {
-            color: var(--text-primary);
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 0.25rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--danger);
-        }
-        
-        .modal-body {
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .modal-body img {
-            max-width: 100%;
-            max-height: 70vh;
-            border-radius: 12px;
-            margin-bottom: 1rem;
-        }
-        
-        .modal-actions {
-            margin-top: 1rem;
-        }
-        
-        .btn-finviz {
-            display: inline-block;
-            color: white;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .btn-finviz:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
         }
         
         .signals-section { margin-bottom: 1.5rem; }
@@ -478,6 +329,87 @@
         .metric-label { color: var(--text-secondary); }
         .metric-value { font-weight: 600; }
         
+        /* NUEVAS SECCIONES */
+        .professional-section, .ma-section { padding: 2.5rem; margin-bottom: 2rem; }
+        
+        .professional-grid, .ma-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .professional-item, .ma-item {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.4s ease;
+        }
+        
+        .professional-item:hover, .ma-item:hover {
+            transform: translateY(-5px);
+            background: var(--glass-bg-hover);
+        }
+        
+        .professional-item.bullish, .ma-item.bullish { border-left: 4px solid var(--success); }
+        .professional-item.bearish, .ma-item.bearish { border-left: 4px solid var(--danger); }
+        .professional-item.neutral, .ma-item.neutral { border-left: 4px solid var(--warning); }
+        
+        .professional-header, .ma-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+        
+        .professional-symbol, .ma-symbol {
+            font-weight: 800;
+            color: var(--glass-primary);
+            font-size: 1.1rem;
+        }
+        
+        .professional-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .ma-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .professional-details, .ma-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .professional-signal, .ma-signal {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .ma-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .ma-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--glass-primary), var(--glass-secondary));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
         .performers-section { padding: 2.5rem; margin-bottom: 2rem; }
         
         .performers-grid {
@@ -519,34 +451,6 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
         }
         
-        .charts-section { padding: 2.5rem; margin-bottom: 2rem; }
-        
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-        
-        .chart-container {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .chart-title {
-            color: var(--glass-primary);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        canvas {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            height: 250px !important;
-        }
-        
         .floating-element { animation: float 6s ease-in-out infinite; }
         
         @keyframes float {
@@ -581,18 +485,10 @@
         @media (max-width: 768px) {
             .glass-container { padding: 1rem; }
             .indices-grid { grid-template-columns: 1fr; }
-            .charts-grid { grid-template-columns: 1fr; }
+            .professional-grid { grid-template-columns: 1fr; }
+            .ma-grid { grid-template-columns: 1fr; }
             .performers-grid { grid-template-columns: 1fr; }
             .metrics-grid { grid-template-columns: 1fr; }
-            
-            .modal-content {
-                max-width: 95vw;
-                max-height: 95vh;
-            }
-            
-            .modal-body img {
-                max-height: 60vh;
-            }
         }
         
     </style>
@@ -601,11 +497,11 @@
 <body>
     <div class="glass-container">
         <header class="liquid-header glass-card floating-element">
-            <h1>📊 Market Breadth Analysis</h1>
-            <p>Análisis específico de 9 índices con métricas técnicas reales y gráficos</p>
+            <h1>📊 Market Breadth COMPLETO</h1>
+            <p>Análisis profesional: 9 índices + 2 indicadores profesionales + 4 indicadores %MA</p>
             <div class="market-status">
                 <div class="pulse-dot"></div>
-                <span>🚀 🟢 EXTREMADAMENTE ALCISTA • 88.9% Alcistas</span>
+                <span>📈 🟢 FUERTEMENTE ALCISTA • 60.6% Alcistas</span>
                 <div class="score-badge">Score: 47</div>
             </div>
         </header>
@@ -614,7 +510,7 @@
             <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
                 <div class="stat-number">8</div>
                 <div class="stat-label">Índices Alcistas</div>
-                <div class="stat-percent">88.9%</div>
+                <div class="stat-percent">60.6%</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
                 <div class="stat-number">65</div>
@@ -652,7 +548,6 @@
                              alt="Gráfico SPY" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('SPY', 'https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -660,9 +555,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -732,7 +624,6 @@
                              alt="Gráfico QQQ" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('QQQ', 'https://finviz.com/chart.ashx?t=QQQ&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -740,9 +631,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=QQQ&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -812,7 +700,6 @@
                              alt="Gráfico DIA" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('DIA', 'https://finviz.com/chart.ashx?t=DIA&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -820,9 +707,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=DIA&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -892,7 +776,6 @@
                              alt="Gráfico IWM" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('IWM', 'https://finviz.com/chart.ashx?t=IWM&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -900,9 +783,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=IWM&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -972,7 +852,6 @@
                              alt="Gráfico VTI" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('VTI', 'https://finviz.com/chart.ashx?t=VTI&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -980,9 +859,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=VTI&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -1052,7 +928,6 @@
                              alt="Gráfico EUSA" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('EUSA', 'https://finviz.com/chart.ashx?t=EUSA&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -1060,9 +935,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=EUSA&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -1132,7 +1004,6 @@
                              alt="Gráfico ACWI" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('ACWI', 'https://finviz.com/chart.ashx?t=ACWI&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -1140,9 +1011,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=ACWI&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -1212,7 +1080,6 @@
                              alt="Gráfico EFA" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('EFA', 'https://finviz.com/chart.ashx?t=EFA&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -1220,9 +1087,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=EFA&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -1292,7 +1156,6 @@
                              alt="Gráfico EEM" 
                              class="finviz-chart"
                              loading="lazy"
-                             onclick="openChartModal('EEM', 'https://finviz.com/chart.ashx?t=EEM&ty=c&ta=1&p=d&s=l')"
                              onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <div class="chart-fallback" style="display: none;">
                             <div class="fallback-content">
@@ -1300,9 +1163,6 @@
                                 <span class="fallback-text">Gráfico no disponible</span>
                                 <a href="https://finviz.com/chart.ashx?t=EEM&ty=c&ta=1&p=d&s=l" target="_blank" class="fallback-link">Ver en Finviz →</a>
                             </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
                         </div>
                     </div>
                 </div>
@@ -1357,6 +1217,108 @@
             </div>
         </main>
         
+        
+        <section class="professional-section glass-card">
+            <h2 class="section-title">📈 Indicadores Profesionales de Amplitud</h2>
+            <div class="professional-grid">
+        
+            <div class="professional-item neutral">
+                <div class="professional-header">
+                    <span class="professional-symbol">VIX</span>
+                    <span class="professional-value">17.13</span>
+                </div>
+                <div class="professional-details">
+                    <span class="professional-name">Volatility Index</span>
+                    <span class="professional-change positive">+2.39%</span>
+                </div>
+                <div class="professional-signal">🟡 Volatilidad Normal</div>
+            </div>
+            
+            <div class="professional-item neutral">
+                <div class="professional-header">
+                    <span class="professional-symbol">VXN</span>
+                    <span class="professional-value">19.56</span>
+                </div>
+                <div class="professional-details">
+                    <span class="professional-name">NASDAQ Volatility</span>
+                    <span class="professional-change positive">+3.55%</span>
+                </div>
+                <div class="professional-signal">🟡 Volatilidad Normal</div>
+            </div>
+            
+            </div>
+        </section>
+        
+        
+        
+        <section class="ma-section glass-card">
+            <h2 class="section-title">📊 Porcentaje de Stocks sobre Medias Móviles</h2>
+            <div class="ma-grid">
+        
+            <div class="ma-item bullish">
+                <div class="ma-header">
+                    <span class="ma-symbol">MMTW</span>
+                    <span class="ma-percentage">62.0%</span>
+                </div>
+                <div class="ma-details">
+                    <span class="ma-name">Percent Above 20-Day MA</span>
+                    <span class="ma-change negative">-1.2%</span>
+                </div>
+                <div class="ma-signal">🟢 Bullish</div>
+                <div class="ma-bar">
+                    <div class="ma-bar-fill" style="width: 62.0%"></div>
+                </div>
+            </div>
+            
+            <div class="ma-item bullish">
+                <div class="ma-header">
+                    <span class="ma-symbol">MMFI</span>
+                    <span class="ma-percentage">64.8%</span>
+                </div>
+                <div class="ma-details">
+                    <span class="ma-name">Percent Above 50-Day MA</span>
+                    <span class="ma-change negative">-1.1%</span>
+                </div>
+                <div class="ma-signal">🟢 Bullish</div>
+                <div class="ma-bar">
+                    <div class="ma-bar-fill" style="width: 64.8%"></div>
+                </div>
+            </div>
+            
+            <div class="ma-item bullish">
+                <div class="ma-header">
+                    <span class="ma-symbol">MMOH</span>
+                    <span class="ma-percentage">68.0%</span>
+                </div>
+                <div class="ma-details">
+                    <span class="ma-name">Percent Above 100-Day MA</span>
+                    <span class="ma-change negative">-0.9%</span>
+                </div>
+                <div class="ma-signal">🟢 Bullish</div>
+                <div class="ma-bar">
+                    <div class="ma-bar-fill" style="width: 68.0%"></div>
+                </div>
+            </div>
+            
+            <div class="ma-item bullish">
+                <div class="ma-header">
+                    <span class="ma-symbol">MMTH</span>
+                    <span class="ma-percentage">65.6%</span>
+                </div>
+                <div class="ma-details">
+                    <span class="ma-name">Percent Above 200-Day MA</span>
+                    <span class="ma-change negative">-1.4%</span>
+                </div>
+                <div class="ma-signal">🟢 Bullish</div>
+                <div class="ma-bar">
+                    <div class="ma-bar-fill" style="width: 65.6%"></div>
+                </div>
+            </div>
+            
+            </div>
+        </section>
+        
+        
         <section class="performers-section glass-card">
             <h2 class="section-title">🏆 Mejores y Peores Performers</h2>
             <div class="performers-grid">
@@ -1408,30 +1370,8 @@
             </div>
         </section>
         
-        <section class="charts-section glass-card">
-            <h2 class="section-title">📈 Análisis Visual Comparativo</h2>
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <h3 class="chart-title">Rendimiento 20 Días</h3>
-                    <canvas id="performanceChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">RSI de Índices</h3>
-                    <canvas id="rsiChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Distancia de MA200</h3>
-                    <canvas id="ma200Chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Volatilidad 20D</h3>
-                    <canvas id="volatilityChart"></canvas>
-                </div>
-            </div>
-        </section>
-        
         <footer class="footer-liquid">
-            <p>📊 Market Breadth Analysis por Índices • Métricas Técnicas Reales • Gráficos Finviz</p>
+            <p>📊 Market Breadth COMPLETO • Análisis Profesional • Gráficos Finviz • 2025-07-01</p>
             <p>
                 <a href="https://tantancansado.github.io/stock_analyzer_a">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
@@ -1441,149 +1381,25 @@
     </div>
     
     <script>
-        // Datos para gráficos específicos por índice
-        const chartData = {"symbols": ["SPY", "QQQ", "DIA", "IWM", "VTI", "EUSA", "ACWI", "EFA", "EEM"], "performance_20d": [5.14, 6.39, 4.51, 5.52, 5.16, 3.68, 4.81, 2.4, 7.0], "rsi_values": [69.9, 70.2, 68.0, 56.1, 68.9, 63.7, 67.0, 57.0, 63.6], "ma200_distance": [6.86, 10.17, 4.15, 0.57, 6.5, 3.97, 8.5, 11.62, 10.67], "volatility": [9.94, 12.08, 11.27, 15.58, 10.43, 9.85, 10.05, 12.05, 14.37], "prices": [617.85, 551.64, 440.65, 215.79, 303.93, 99.12, 128.6, 89.39, 48.24]};
+        // Funcionalidad del dashboard
         
-        // Inicializar gráficos específicos
+        console.log('📊 Market Breadth COMPLETO Loaded');
+        console.log('🏛️ Índices: 9');
+        console.log('📈 Profesionales: 2');
+        console.log('📊 %MA: 4');
         
-        // Configuración de gráficos
-        const chartConfig = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: 'white' } } },
-            scales: {
-                x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
-            }
-        };
-        
-        window.addEventListener('load', function() {
-            // Performance Chart
-            new Chart(document.getElementById('performanceChart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'Rendimiento 20d (%)',
-                        data: chartData.performance_20d,
-                        backgroundColor: chartData.performance_20d.map(val => 
-                            val > 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                        )
-                    }]
-                },
-                options: chartConfig
-            });
-            
-            // RSI Chart
-            new Chart(document.getElementById('rsiChart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'RSI 14',
-                        data: chartData.rsi_values,
-                        backgroundColor: chartData.rsi_values.map(val => 
-                            val > 70 ? 'rgba(239, 68, 68, 0.8)' : 
-                            val < 30 ? 'rgba(34, 197, 94, 0.8)' : 
-                            'rgba(99, 102, 241, 0.8)'
-                        )
-                    }]
-                },
-                options: chartConfig
-            });
-            
-            // MA200 Chart
-            new Chart(document.getElementById('ma200Chart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'Distancia MA200 (%)',
-                        data: chartData.ma200_distance,
-                        backgroundColor: chartData.ma200_distance.map(val => 
-                            val > 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                        )
-                    }]
-                },
-                options: chartConfig
-            });
-            
-            // Volatility Chart
-            new Chart(document.getElementById('volatilityChart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'Volatilidad 20d (%)',
-                        data: chartData.volatility,
-                        backgroundColor: 'rgba(251, 191, 36, 0.8)'
-                    }]
-                },
-                options: chartConfig
+        // Funcionalidad del dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animaciones de entrada
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 100);
             });
         });
         
-        
-        // Funcionalidad de modal para gráficos Finviz
-        
-        // Modal para gráficos Finviz
-        function openChartModal(symbol, chartUrl) {
-            // Crear modal si no existe
-            let modal = document.getElementById('chartModal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'chartModal';
-                modal.className = 'chart-modal';
-                modal.innerHTML = `
-                    <div class="modal-backdrop" onclick="closeChartModal()"></div>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="modalTitle">Gráfico</h3>
-                            <button class="modal-close" onclick="closeChartModal()">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <img id="modalChart" src="" alt="Gráfico ampliado" />
-                            <div class="modal-actions">
-                                <a id="finvizLink" href="" target="_blank" class="btn-finviz">
-                                    Ver en Finviz →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
-            
-            // Actualizar contenido del modal
-            document.getElementById('modalTitle').textContent = `Gráfico ${symbol}`;
-            document.getElementById('modalChart').src = chartUrl;
-            document.getElementById('finvizLink').href = chartUrl;
-            
-            // Mostrar modal
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeChartModal() {
-            const modal = document.getElementById('chartModal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-        
-        // Cerrar modal con ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeChartModal();
-            }
-        });
-        
-        
-        console.log('📊 Market Breadth por Índices con Gráficos Loaded');
-        console.log('🎯 Índices analizados: 9');
-        console.log('📈 Alcistas: 88.9%');
-        console.log('💪 Strength Score: 47');
     </script>
 </body>
 </html>
