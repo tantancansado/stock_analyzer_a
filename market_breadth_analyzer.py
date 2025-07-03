@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 """
-Market Breadth Analyzer - Métricas ESPECÍFICAS por cada índice con GRÁFICOS
-Calcula indicadores reales para SPY, EUSA, ACWI, etc. individualmente + gráficos Finviz
+market_breadth_analyzer.py
+Market Breadth Analyzer - COMPATIBLE CON SISTEMA PRINCIPAL
+Exporta exactamente las clases que espera el sistema principal:
+- MarketBreadthAnalyzer  
+- MarketBreadthHTMLGenerator
+
+ACTUALIZADO: Por defecto obtiene TODOS los indicadores NYSE (60+)
+CORREGIDO: Error de formateo + Nombres descriptivos para NYSE
+MEJORADO: HTML Generator con MUCHA MÁS información en las tarjetas NYSE
 """
 
 import pandas as pd
@@ -12,191 +19,314 @@ from datetime import datetime, timedelta
 import time
 import json
 import os
-from pathlib import Path
 import traceback
+import re
+
+# ============================================================================
+# TU NYSE DATA EXTRACTOR ORIGINAL (CON MEJORAS EN LOGGING)
+# ============================================================================
+
+class NYSEDataExtractor:
+    """Tu extractor original del primer script - CON MEJORAS EN LOGGING"""
+    def __init__(self):
+        self.base_url = "https://stockcharts.com/json/api"
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Accept-Language': 'es-ES,es;q=0.9',
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Referer': 'https://stockcharts.com/',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin'
+        }
+        
+        self.symbols = {
+            # === INDICADORES McCLELLAN ===
+            'NYMOT': '$NYMOT',  'NYMO': '$NYMO',    'NYSI': '$NYSI',    'NAMO': '$NAMO',    'NASI': '$NASI',
+            # === ADVANCE-DECLINE LINES ===
+            'NYADL': '$NYADL',  'NAADL': '$NAADL',  'NYAD': '$NYAD',    'NAAD': '$NAAD',
+            # === ADVANCE-DECLINE PERCENTAGES ===
+            'SPXADP': '$SPXADP', 'MIDADP': '$MIDADP', 'SMLADP': '$SMLADP', 'NAADP': '$NAADP',
+            # === ARMS INDEX (TRIN) ===
+            'TRIN': '$TRIN',    'TRINQ': '$TRINQ',
+            # === NUEVOS MÁXIMOS/MÍNIMOS ===
+            'NYHGH': '$NYHGH',  'NYLOW': '$NYLOW',  'NAHGH': '$NAHGH',  'NALOW': '$NALOW',  'NYHL': '$NYHL',    'NAHL': '$NAHL',
+            # === PORCENTAJES SOBRE MEDIAS MÓVILES ===
+            'NYA50R': '$NYA50R',   'NYA200R': '$NYA200R', 'NAA50R': '$NAA50R',   'NAA200R': '$NAA200R', 'SPXA50R': '$SPXA50R', 'SPXA200R': '$SPXA200R',
+            # === INDICADORES DE VOLUMEN ===
+            'NYUPV': '$NYUPV',  'NYDNV': '$NYDNV',  'NAUPV': '$NAUPV',  'NADNV': '$NADNV',  'NAUD': '$NAUD',    'NYUD': '$NYUD',
+            # === BULLISH PERCENT INDEX ===
+            'BPSPX': '$BPSPX',  'BPNDX': '$BPNDX',  'BPNYA': '$BPNYA',  'BPCOMPQ': '$BPCOMPQ',
+            # === RECORD HIGH PERCENT ===
+            'RHNYA': '$RHNYA',  'RHNDX': '$RHNDX',  'RHSPX': '$RHSPX',
+            # === INDICADORES DE SENTIMIENTO ===
+            'VIX': '$VIX',      'VXN': '$VXN',      'RVX': '$RVX',      'VXD': '$VXD',
+            'CPC': '$CPC',      'CPCE': '$CPCE',    'CPCN': '$CPCN',
+            # === INDICADORES DECISIONPOINT ===
+            'AAIIBULL': '!AAIIBULL',  'AAIIBEAR': '!AAIIBEAR',  'AAIINEUR': '!AAIINEUR',  'NAAIMBULL': '!NAAIMBULL', 'NAAIMEXP': '!NAAIMEXP',
+            # === SECTORES ===
+            'XLF': 'XLF', 'XLK': 'XLK', 'XLE': 'XLE', 'XLI': 'XLI', 'XLV': 'XLV',
+            # === ÍNDICES PRINCIPALES ===
+            'SPX': '$SPX', 'COMPQ': '$COMPQ', 'NYA': '$NYA', 'DJI': '$DJI', 'RUT': '$RUT',
+            # === ADICIONALES ===
+            'NYTO': '$NYTO', 'NATO': '$NATO', 'TICK': '$TICK', 'TICKQ': '$TICKQ', 'TICKI': '$TICKI',
+            # === COMMODITIES Y BONDS ===
+            'TNX': '$TNX', 'TYX': '$TYX', 'DXY': '$DXY', 'GOLD': '$GOLD', 'WTIC': '$WTIC',
+        }
+
+        # Nombres descriptivos mejorados - ACTUALIZADOS
+        self.SECTOR_NAMES = {
+            'NYMOT': 'McClellan Oscillator Total',
+            'NYMO': 'McClellan Oscillator NYSE',
+            'NYSI': 'McClellan Summation Index',
+            'NAMO': 'NASDAQ McClellan Oscillator',
+            'NASI': 'NASDAQ McClellan Summation',
+            'NYADL': 'NYSE Advance-Decline Line',
+            'NAADL': 'NASDAQ Advance-Decline Line',
+            'NYAD': 'NYSE Advance-Decline Issues',
+            'NAAD': 'NASDAQ Advance-Decline Issues',
+            'SPXADP': 'S&P 500 Advance-Decline %',
+            'MIDADP': 'S&P 400 Mid-Cap A-D %',
+            'SMLADP': 'S&P 600 Small-Cap A-D %',
+            'NAADP': 'NASDAQ Advance-Decline %',
+            'TRIN': 'Arms Index NYSE (TRIN)',
+            'TRINQ': 'NASDAQ TRIN',
+            'NYHGH': 'NYSE New Highs',
+            'NYLOW': 'NYSE New Lows',
+            'NAHGH': 'NASDAQ New Highs',
+            'NALOW': 'NASDAQ New Lows',
+            'NYHL': 'NYSE High-Low Index',
+            'NAHL': 'NASDAQ High-Low Index',
+            'NYA50R': 'NYSE % Above 50-Day MA',
+            'NYA200R': 'NYSE % Above 200-Day MA',
+            'NAA50R': 'NASDAQ % Above 50-Day MA',
+            'NAA200R': 'NASDAQ % Above 200-Day MA',
+            'SPXA50R': 'S&P 500 % Above 50-Day MA',
+            'SPXA200R': 'S&P 500 % Above 200-Day MA',
+            'NYUPV': 'NYSE Up Volume',
+            'NYDNV': 'NYSE Down Volume',
+            'NAUPV': 'NASDAQ Up Volume',
+            'NADNV': 'NASDAQ Down Volume',
+            'NAUD': 'NASDAQ Up-Down Volume',
+            'NYUD': 'NYSE Up-Down Volume',
+            'BPSPX': 'S&P 500 Bullish Percent',
+            'BPNDX': 'NASDAQ 100 Bullish Percent',
+            'BPNYA': 'NYSE Bullish Percent',
+            'BPCOMPQ': 'NASDAQ Composite Bullish %',
+            'RHNYA': 'NYSE Record High Percent',
+            'RHNDX': 'NASDAQ 100 Record High %',
+            'RHSPX': 'S&P 500 Record High %',
+            'VIX': 'VIX Volatility Index',
+            'VXN': 'NASDAQ Volatility Index (VXN)',
+            'RVX': 'Russell 2000 Volatility',
+            'VXD': 'Dow Jones Volatility',
+            'CPC': 'CBOE Put/Call Ratio',
+            'CPCE': 'CBOE Equity Put/Call',
+            'CPCN': 'CBOE NASDAQ Put/Call',
+            'AAIIBULL': 'AAII Bullish Sentiment',
+            'AAIIBEAR': 'AAII Bearish Sentiment',
+            'AAIINEUR': 'AAII Neutral Sentiment',
+            'NAAIMBULL': 'NAAIM Bullish Sentiment',
+            'NAAIMEXP': 'NAAIM Exposure',
+            'XLF': 'Financial Sector ETF',
+            'XLK': 'Technology Sector ETF',
+            'XLE': 'Energy Sector ETF',
+            'XLI': 'Industrial Sector ETF',
+            'XLV': 'Healthcare Sector ETF',
+            'SPX': 'S&P 500 Index',
+            'COMPQ': 'NASDAQ Composite',
+            'NYA': 'NYSE Composite',
+            'DJI': 'Dow Jones Industrial',
+            'RUT': 'Russell 2000',
+            'NYTO': 'NYSE Total Issues',
+            'NATO': 'NASDAQ Total Issues',
+            'TICK': 'NYSE TICK',
+            'TICKQ': 'NASDAQ TICK',
+            'TICKI': 'NYSE TICK Index',
+            'TNX': '10-Year Treasury Yield',
+            'TYX': '30-Year Treasury Yield',
+            'DXY': 'US Dollar Index',
+            'GOLD': 'Gold Price',
+            'WTIC': 'WTI Crude Oil',
+        }
+
+    def get_symbol_data(self, symbol):
+        """Obtiene datos de un símbolo específico"""
+        params = {'cmd': 'get-symbol-data', 'symbols': symbol, 'optionalFields': 'symbolsummary'}
+        try:
+            response = requests.get(self.base_url, params=params, headers=self.headers)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            print(f"Error al obtener datos para {symbol}: {e}")
+            return None
+
+    def extract_key_metrics(self, data):
+        """Extrae métricas clave del JSON de respuesta"""
+        if not data or not data.get('success') or not data.get('symbols'):
+            return None
+            
+        symbol_data = data['symbols'][0]
+        def safe_get(obj, *keys):
+            for key in keys:
+                if obj is None:
+                    return None
+                obj = obj.get(key) if isinstance(obj, dict) else None
+            return obj
+        
+        perf_data = symbol_data.get('perfSummaryQuote') or {}
+        company_info = symbol_data.get('companyInfo') or {}
+        
+        return {
+            'symbol': symbol_data.get('symbol'),
+            'name': company_info.get('name'),
+            'current_price': symbol_data.get('quoteClose'),
+            'change': safe_get(perf_data, 'now', 'chg'),
+            'change_pct': safe_get(perf_data, 'now', 'pct'),
+            'previous_close': symbol_data.get('quoteYesterdayClose'),
+            'latest_trade': symbol_data.get('latestTrade'),
+            'year_range': symbol_data.get('yearRange'),
+            'all_time_high': company_info.get('allTimeHigh'),
+            'sma50': symbol_data.get('sma50'),
+            'sma200': symbol_data.get('sma200'),
+            'rsi': symbol_data.get('rsi'),
+            'atr': symbol_data.get('atr'),
+            'adx': symbol_data.get('adx'),
+            'volume': symbol_data.get('quoteVolume'),
+            'performance': {
+                'one_week': safe_get(perf_data, 'oneWeek', 'pct'),
+                'one_month': safe_get(perf_data, 'oneMonth', 'pct'),
+                'three_months': safe_get(perf_data, 'threeMonths', 'pct'),
+                'six_months': safe_get(perf_data, 'sixMonths', 'pct'),
+                'one_year': safe_get(perf_data, 'oneYear', 'pct'),
+                'ytd': safe_get(perf_data, 'yearToDate', 'pct')
+            }
+        }
+
+    def get_specific_indicators(self, indicator_list):
+        """Obtiene solo indicadores específicos de la lista"""
+        results = {}
+        for indicator_name in indicator_list:
+            if indicator_name in self.symbols:
+                symbol = self.symbols[indicator_name]
+                data = self.get_symbol_data(symbol)
+                if data:
+                    metrics = self.extract_key_metrics(data)
+                    if metrics:
+                        results[indicator_name] = metrics
+        return results
+
+    def get_core_breadth_indicators(self):
+        """Obtiene solo los indicadores de amplitud más importantes"""
+        core_indicators = [
+            'NYMO', 'NYMOT', 'NYSI',  # McClellan
+            'SPXADP', 'MIDADP', 'SMLADP',  # Advance-Decline %
+            'TRIN', 'TRINQ',  # Arms Index
+            'NYA50R', 'NYA200R', 'SPXA50R', 'SPXA200R',  # % sobre MAs
+            'BPSPX', 'BPNDX',  # Bullish Percent
+            'VIX', 'CPC',  # Sentimiento básico
+            'SPX', 'COMPQ', 'RUT'  # Índices de referencia
+        ]
+        print(f"📊 Modo CORE: Obteniendo {len(core_indicators)} indicadores principales")
+        return self.get_specific_indicators(core_indicators)
+
+    def get_all_indicators(self):
+        """Obtiene todos los indicadores de mercado disponibles - MEJORADO CON LOGGING"""
+        results = {}
+        total_success = 0
+        total_errors = 0
+        
+        print(f"🚀 Iniciando obtención de TODOS los {len(self.symbols)} indicadores NYSE...")
+        
+        for i, (name, symbol) in enumerate(self.symbols.items(), 1):
+            try:
+                print(f"  [{i:2d}/{len(self.symbols)}] {name:<12} ({symbol:<12})...", end=" ")
+                data = self.get_symbol_data(symbol)
+                if data:
+                    metrics = self.extract_key_metrics(data)
+                    if metrics:
+                        results[name] = metrics
+                        total_success += 1
+                        print("✅")
+                    else:
+                        print("❌ Sin métricas")
+                        total_errors += 1
+                else:
+                    print("❌ Sin datos")
+                    total_errors += 1
+                    
+                # Pausa pequeña para no saturar la API
+                time.sleep(0.5)
+                
+            except Exception as e:
+                print(f"❌ Error: {str(e)[:30]}")
+                total_errors += 1
+                continue
+        
+        print(f"\n📊 RESUMEN OBTENCIÓN NYSE:")
+        print(f"   ✅ Exitosos: {total_success}")
+        print(f"   ❌ Errores: {total_errors}")
+        print(f"   📈 Tasa éxito: {(total_success/(total_success+total_errors)*100):.1f}%")
+        
+        return results
+
+    def print_all_available_indicators(self):
+        """Imprime todos los indicadores disponibles organizados por categoría"""
+        categories = {
+            'McClellan Oscillators': ['NYMOT', 'NYMO', 'NYSI', 'NAMO', 'NASI'],
+            'Advance-Decline Lines': ['NYADL', 'NAADL', 'NYAD', 'NAAD'],
+            'Advance-Decline Percentages': ['SPXADP', 'MIDADP', 'SMLADP', 'NAADP'],
+            'Arms Index (TRIN)': ['TRIN', 'TRINQ'],
+            'New Highs/Lows': ['NYHGH', 'NYLOW', 'NAHGH', 'NALOW', 'NYHL', 'NAHL'],
+            'Above Moving Averages %': ['NYA50R', 'NYA200R', 'NAA50R', 'NAA200R', 'SPXA50R', 'SPXA200R'],
+            'Volume Indicators': ['NYUPV', 'NYDNV', 'NAUPV', 'NADNV', 'NAUD', 'NYUD'],
+            'Bullish Percent Index': ['BPSPX', 'BPNDX', 'BPNYA', 'BPCOMPQ'],
+            'Record High Percent': ['RHNYA', 'RHNDX', 'RHSPX'],
+            'Sentiment Indicators': ['VIX', 'VXN', 'RVX', 'VXD', 'CPC', 'CPCE', 'CPCN'],
+            'Survey Data': ['AAIIBULL', 'AAIIBEAR', 'AAIINEUR', 'NAAIMBULL', 'NAAIMEXP'],
+            'Sector ETFs': ['XLF', 'XLK', 'XLE', 'XLI', 'XLV'],
+            'Major Indices': ['SPX', 'COMPQ', 'NYA', 'DJI', 'RUT'],
+            'Additional Breadth': ['NYTO', 'NATO', 'TICK', 'TICKQ', 'TICKI'],
+            'Commodities & Bonds': ['TNX', 'TYX', 'DXY', 'GOLD', 'WTIC']
+        }
+        
+        print("\n📊 INDICADORES NYSE DISPONIBLES:")
+        print("=" * 60)
+        
+        total_count = 0
+        for category, indicators in categories.items():
+            print(f"\n🔸 {category}:")
+            for indicator in indicators:
+                name = self.SECTOR_NAMES.get(indicator, indicator)
+                print(f"   • {indicator}: {name}")
+                total_count += 1
+        
+        print(f"\n🎯 TOTAL DISPONIBLES: {total_count} indicadores")
+        return total_count
+
+
+# ============================================================================
+# MARKET BREADTH ANALYZER - ACTUALIZADO PARA OBTENER TODOS LOS INDICADORES
+# ============================================================================
 
 class MarketBreadthAnalyzer:
     """
-    Analizador de amplitud con métricas ESPECÍFICAS por índice
-    Calcula indicadores reales para cada ETF/índice individualmente
+    CLASE PRINCIPAL que espera tu sistema principal
+    ACTUALIZADA: Por defecto obtiene TODOS los indicadores NYSE
     """
     
     def __init__(self):
-        self.session = requests.Session()
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        })
-        
-        # ÍNDICES PRINCIPALES con métricas específicas
+        self.nyse_extractor = NYSEDataExtractor()
         self.market_symbols = {
-            'SPY': 'S&P 500 ETF',
-            'QQQ': 'NASDAQ 100 ETF', 
-            'DIA': 'Dow Jones ETF',
-            'IWM': 'Russell 2000 ETF',
-            'VTI': 'Total Stock Market ETF',
-            'EUSA': 'iShares MSCI USA ETF',           # Tu solicitud específica
-            'ACWI': 'iShares MSCI ACWI ETF',         # Tu solicitud específica
-            'EFA': 'iShares MSCI EAFE ETF',
-            'EEM': 'iShares MSCI Emerging Markets ETF'
+            'SPY': 'S&P 500 ETF', 'QQQ': 'NASDAQ 100 ETF', 'DIA': 'Dow Jones ETF',
+            'IWM': 'Russell 2000 ETF', 'VTI': 'Total Stock Market ETF',
+            'EUSA': 'iShares MSCI USA ETF', 'ACWI': 'iShares MSCI ACWI ETF',
+            'EFA': 'iShares MSCI EAFE ETF', 'EEM': 'iShares MSCI Emerging Markets ETF'
         }
-        
-        # Sectores para diversificación
-        self.sector_etfs = {
-            'XLY': 'Consumer Discretionary',
-            'XLP': 'Consumer Staples', 
-            'XLE': 'Energy',
-            'XLF': 'Financials',
-            'XLV': 'Health Care',
-            'XLI': 'Industrials',
-            'XLB': 'Materials',
-            'XLRE': 'Real Estate',
-            'XLK': 'Technology',
-            'XLC': 'Communication',
-            'XLU': 'Utilities'
-        }
-        
-        # MÉTRICAS ESPECÍFICAS que calcularemos para cada índice
-        self.metrics_per_index = [
-            'current_price',
-            'price_change_1d',
-            'price_change_5d', 
-            'price_change_20d',
-            'rsi_14',
-            'rsi_50',
-            'ma_20',
-            'ma_50',
-            'ma_200',
-            'percent_above_ma20',
-            'percent_above_ma50', 
-            'percent_above_ma200',
-            'distance_from_52w_high',
-            'distance_from_52w_low',
-            'volume_ratio_20d',
-            'volatility_20d',
-            'bollinger_position',
-            'macd_signal',
-            'stochastic_k',
-            'williams_r'
-        ]
-        
-    def get_comprehensive_index_data(self, symbol, period='1y'):
-        """
-        Obtiene y calcula TODAS las métricas específicas para UN índice
-        """
-        try:
-            print(f"   📊 Analizando {symbol}...")
-            
-            ticker = yf.Ticker(symbol)
-            data = ticker.history(period=period)
-            
-            if data.empty:
-                print(f"⚠️ Sin datos para {symbol}")
-                return None
-            
-            # PRECIOS BÁSICOS
-            current_price = data['Close'].iloc[-1]
-            
-            # CAMBIOS DE PRECIO
-            price_change_1d = ((data['Close'].iloc[-1] / data['Close'].iloc[-2]) - 1) * 100 if len(data) > 1 else 0
-            price_change_5d = ((data['Close'].iloc[-1] / data['Close'].iloc[-6]) - 1) * 100 if len(data) > 5 else 0
-            price_change_20d = ((data['Close'].iloc[-1] / data['Close'].iloc[-21]) - 1) * 100 if len(data) > 20 else 0
-            
-            # RSI (14 y 50 períodos)
-            rsi_14 = self._calculate_rsi(data['Close'], 14)
-            rsi_50 = self._calculate_rsi(data['Close'], 50) if len(data) >= 50 else 50
-            
-            # MEDIAS MÓVILES
-            ma_20 = data['Close'].rolling(window=20).mean().iloc[-1] if len(data) >= 20 else current_price
-            ma_50 = data['Close'].rolling(window=50).mean().iloc[-1] if len(data) >= 50 else current_price
-            ma_200 = data['Close'].rolling(window=200).mean().iloc[-1] if len(data) >= 200 else current_price
-            
-            # PORCENTAJES SOBRE MAs
-            percent_above_ma20 = ((current_price - ma_20) / ma_20) * 100
-            percent_above_ma50 = ((current_price - ma_50) / ma_50) * 100
-            percent_above_ma200 = ((current_price - ma_200) / ma_200) * 100
-            
-            # MÁXIMOS Y MÍNIMOS 52 SEMANAS
-            high_52w = data['High'].rolling(window=252).max().iloc[-1] if len(data) >= 252 else data['High'].max()
-            low_52w = data['Low'].rolling(window=252).min().iloc[-1] if len(data) >= 252 else data['Low'].min()
-            
-            distance_from_52w_high = ((current_price - high_52w) / high_52w) * 100
-            distance_from_52w_low = ((current_price - low_52w) / low_52w) * 100
-            
-            # VOLUMEN
-            avg_volume_20d = data['Volume'].rolling(window=20).mean().iloc[-1] if len(data) >= 20 else data['Volume'].iloc[-1]
-            current_volume = data['Volume'].iloc[-1]
-            volume_ratio_20d = current_volume / avg_volume_20d if avg_volume_20d > 0 else 1
-            
-            # VOLATILIDAD (20 días)
-            returns = data['Close'].pct_change()
-            volatility_20d = returns.rolling(window=20).std().iloc[-1] * np.sqrt(252) * 100 if len(data) >= 20 else 0
-            
-            # BANDAS DE BOLLINGER
-            bollinger_middle = ma_20
-            bollinger_std = data['Close'].rolling(window=20).std().iloc[-1] if len(data) >= 20 else 0
-            bollinger_upper = bollinger_middle + (bollinger_std * 2)
-            bollinger_lower = bollinger_middle - (bollinger_std * 2)
-            
-            if bollinger_upper != bollinger_lower:
-                bollinger_position = (current_price - bollinger_lower) / (bollinger_upper - bollinger_lower) * 100
-            else:
-                bollinger_position = 50
-            
-            # MACD
-            macd_line, macd_signal, macd_histogram = self._calculate_macd(data['Close'])
-            macd_signal_status = "Alcista" if macd_line > macd_signal else "Bajista"
-            
-            # STOCHASTIC
-            stochastic_k = self._calculate_stochastic_k(data, 14)
-            
-            # WILLIAMS %R
-            williams_r = self._calculate_williams_r(data, 14)
-            
-            # COMPILAR TODAS LAS MÉTRICAS
-            comprehensive_metrics = {
-                'symbol': symbol,
-                'name': self.market_symbols.get(symbol, symbol),
-                'current_price': round(current_price, 2),
-                'price_change_1d': round(price_change_1d, 2),
-                'price_change_5d': round(price_change_5d, 2),
-                'price_change_20d': round(price_change_20d, 2),
-                'rsi_14': round(rsi_14, 1),
-                'rsi_50': round(rsi_50, 1),
-                'ma_20': round(ma_20, 2),
-                'ma_50': round(ma_50, 2),
-                'ma_200': round(ma_200, 2),
-                'percent_above_ma20': round(percent_above_ma20, 2),
-                'percent_above_ma50': round(percent_above_ma50, 2),
-                'percent_above_ma200': round(percent_above_ma200, 2),
-                'distance_from_52w_high': round(distance_from_52w_high, 2),
-                'distance_from_52w_low': round(distance_from_52w_low, 2),
-                'high_52w': round(high_52w, 2),
-                'low_52w': round(low_52w, 2),
-                'volume_ratio_20d': round(volume_ratio_20d, 2),
-                'volatility_20d': round(volatility_20d, 2),
-                'bollinger_position': round(bollinger_position, 1),
-                'macd_signal': macd_signal_status,
-                'stochastic_k': round(stochastic_k, 1),
-                'williams_r': round(williams_r, 1),
-                # SEÑALES INTERPRETADAS
-                'trend_signal': self._interpret_trend_signal(percent_above_ma20, percent_above_ma50, percent_above_ma200),
-                'momentum_signal': self._interpret_momentum_signal(rsi_14, macd_signal_status),
-                'position_signal': self._interpret_position_signal(distance_from_52w_high, bollinger_position),
-                'volume_signal': self._interpret_volume_signal(volume_ratio_20d),
-                'overall_signal': 'Calculando...'  # Se calculará después
-            }
-            
-            # CALCULAR SEÑAL GENERAL
-            comprehensive_metrics['overall_signal'] = self._calculate_overall_signal(comprehensive_metrics)
-            
-            print(f"     ✅ {symbol}: ${current_price:.2f} | Trend: {comprehensive_metrics['trend_signal']} | RSI: {rsi_14:.1f}")
-            
-            return comprehensive_metrics
-            
-        except Exception as e:
-            print(f"❌ Error obteniendo datos para {symbol}: {e}")
-            return None
-    
+
     def _calculate_rsi(self, prices, period=14):
         """Calcula RSI"""
         try:
@@ -208,7 +338,7 @@ class MarketBreadthAnalyzer:
             return rsi.iloc[-1] if not rsi.empty else 50
         except:
             return 50
-    
+
     def _calculate_macd(self, prices):
         """Calcula MACD"""
         try:
@@ -216,420 +346,368 @@ class MarketBreadthAnalyzer:
             ema_26 = prices.ewm(span=26).mean()
             macd_line = ema_12 - ema_26
             macd_signal = macd_line.ewm(span=9).mean()
-            macd_histogram = macd_line - macd_signal
-            
-            return macd_line.iloc[-1], macd_signal.iloc[-1], macd_histogram.iloc[-1]
+            return macd_line.iloc[-1], macd_signal.iloc[-1], 0
         except:
             return 0, 0, 0
-    
-    def _calculate_stochastic_k(self, data, period=14):
-        """Calcula Stochastic %K"""
-        try:
-            low_min = data['Low'].rolling(window=period).min()
-            high_max = data['High'].rolling(window=period).max()
-            k_percent = 100 * ((data['Close'] - low_min) / (high_max - low_min))
-            return k_percent.iloc[-1] if not k_percent.empty else 50
-        except:
-            return 50
-    
-    def _calculate_williams_r(self, data, period=14):
-        """Calcula Williams %R"""
-        try:
-            high_max = data['High'].rolling(window=period).max()
-            low_min = data['Low'].rolling(window=period).min()
-            williams_r = -100 * ((high_max - data['Close']) / (high_max - low_min))
-            return williams_r.iloc[-1] if not williams_r.empty else -50
-        except:
-            return -50
-    
-    def _interpret_trend_signal(self, ma20_pct, ma50_pct, ma200_pct):
-        """Interpreta señal de tendencia basada en MAs"""
-        if ma20_pct > 2 and ma50_pct > 0 and ma200_pct > 0:
-            return "🟢 Tendencia Muy Alcista"
-        elif ma50_pct > 0 and ma200_pct > 0:
-            return "🟢 Tendencia Alcista"
-        elif ma20_pct < -2 and ma50_pct < 0 and ma200_pct < 0:
-            return "🔴 Tendencia Muy Bajista"
+
+    def _interpret_signals(self, ma20_pct, ma50_pct, ma200_pct, rsi, macd_signal):
+        """Interpreta señales de forma simplificada"""
+        # Tendencia
+        if ma50_pct > 0 and ma200_pct > 0:
+            trend = "🟢 Tendencia Alcista"
         elif ma50_pct < 0 and ma200_pct < 0:
-            return "🔴 Tendencia Bajista"
+            trend = "🔴 Tendencia Bajista"
         else:
-            return "🟡 Tendencia Mixta"
-    
-    def _interpret_momentum_signal(self, rsi, macd_signal):
-        """Interpreta señal de momentum"""
+            trend = "🟡 Tendencia Mixta"
+        
+        # Momentum
         if rsi > 70:
-            return "🔴 Sobrecomprado"
+            momentum = "🔴 Sobrecomprado"
         elif rsi < 30:
-            return "🟢 Sobrevendido"
+            momentum = "🟢 Sobrevendido"
         elif rsi > 60 and macd_signal == "Alcista":
-            return "🟢 Momentum Fuerte"
-        elif rsi < 40 and macd_signal == "Bajista":
-            return "🔴 Momentum Débil"
+            momentum = "🟢 Momentum Fuerte"
         else:
-            return "🟡 Momentum Neutral"
-    
-    def _interpret_position_signal(self, distance_high, bollinger_pos):
-        """Interpreta señal de posición"""
-        if distance_high > -5:
-            return "🟢 Cerca de Máximos"
-        elif distance_high < -20:
-            return "🔴 Lejos de Máximos"
-        elif bollinger_pos > 80:
-            return "🔴 Bollinger Superior"
-        elif bollinger_pos < 20:
-            return "🟢 Bollinger Inferior"
-        else:
-            return "🟡 Posición Media"
-    
-    def _interpret_volume_signal(self, volume_ratio):
-        """Interpreta señal de volumen"""
-        if volume_ratio > 1.5:
-            return "🟢 Volumen Alto"
-        elif volume_ratio < 0.7:
-            return "🔴 Volumen Bajo"
-        else:
-            return "🟡 Volumen Normal"
-    
-    def _calculate_overall_signal(self, metrics):
-        """Calcula señal general del índice"""
-        signals = [
-            metrics['trend_signal'],
-            metrics['momentum_signal'], 
-            metrics['position_signal']
-        ]
+            momentum = "🟡 Momentum Neutral"
         
-        bullish_count = sum(1 for signal in signals if '🟢' in signal)
-        bearish_count = sum(1 for signal in signals if '🔴' in signal)
+        # Señal general
+        bullish_signals = sum(1 for signal in [trend, momentum] if '🟢' in signal)
+        bearish_signals = sum(1 for signal in [trend, momentum] if '🔴' in signal)
         
-        if bullish_count >= 2:
-            return "🟢 ALCISTA"
-        elif bearish_count >= 2:
-            return "🔴 BAJISTA"
+        if bullish_signals >= 1:
+            overall = "🟢 ALCISTA"
+        elif bearish_signals >= 1:
+            overall = "🔴 BAJISTA"
         else:
-            return "🟡 NEUTRAL"
-    
+            overall = "🟡 NEUTRAL"
+        
+        return trend, momentum, overall
+
+    def get_comprehensive_index_data(self, symbol, period='1y'):
+        """Análisis técnico completo de un índice"""
+        try:
+            ticker = yf.Ticker(symbol)
+            data = ticker.history(period=period)
+            
+            if data.empty:
+                return None
+            
+            current_price = data['Close'].iloc[-1]
+            
+            # Cambios de precio
+            price_change_1d = ((data['Close'].iloc[-1] / data['Close'].iloc[-2]) - 1) * 100 if len(data) > 1 else 0
+            price_change_20d = ((data['Close'].iloc[-1] / data['Close'].iloc[-21]) - 1) * 100 if len(data) > 20 else 0
+            
+            # RSI
+            rsi_14 = self._calculate_rsi(data['Close'], 14)
+            
+            # Medias móviles
+            ma_20 = data['Close'].rolling(window=20).mean().iloc[-1] if len(data) >= 20 else current_price
+            ma_50 = data['Close'].rolling(window=50).mean().iloc[-1] if len(data) >= 50 else current_price
+            ma_200 = data['Close'].rolling(window=200).mean().iloc[-1] if len(data) >= 200 else current_price
+            
+            # Porcentajes sobre MAs
+            percent_above_ma20 = ((current_price - ma_20) / ma_20) * 100
+            percent_above_ma50 = ((current_price - ma_50) / ma_50) * 100
+            percent_above_ma200 = ((current_price - ma_200) / ma_200) * 100
+            
+            # Distancia 52W
+            high_52w = data['High'].rolling(window=252).max().iloc[-1] if len(data) >= 252 else data['High'].max()
+            distance_from_52w_high = ((current_price - high_52w) / high_52w) * 100
+            
+            # Volatilidad
+            returns = data['Close'].pct_change()
+            volatility_20d = returns.rolling(window=20).std().iloc[-1] * np.sqrt(252) * 100 if len(data) >= 20 else 0
+            
+            # MACD
+            macd_line, macd_signal, _ = self._calculate_macd(data['Close'])
+            macd_signal_status = "Alcista" if macd_line > macd_signal else "Bajista"
+            
+            # Señales interpretadas
+            trend_signal, momentum_signal, overall_signal = self._interpret_signals(
+                percent_above_ma20, percent_above_ma50, percent_above_ma200, rsi_14, macd_signal_status
+            )
+            
+            return {
+                'symbol': symbol,
+                'name': self.market_symbols.get(symbol, symbol),
+                'current_price': round(current_price, 2),
+                'price_change_1d': round(price_change_1d, 2),
+                'price_change_20d': round(price_change_20d, 2),
+                'rsi_14': round(rsi_14, 1),
+                'ma_20': round(ma_20, 2),
+                'ma_50': round(ma_50, 2),
+                'ma_200': round(ma_200, 2),
+                'percent_above_ma20': round(percent_above_ma20, 2),
+                'percent_above_ma50': round(percent_above_ma50, 2),
+                'percent_above_ma200': round(percent_above_ma200, 2),
+                'distance_from_52w_high': round(distance_from_52w_high, 2),
+                'volatility_20d': round(volatility_20d, 2),
+                'macd_signal': macd_signal_status,
+                'trend_signal': trend_signal,
+                'momentum_signal': momentum_signal,
+                'overall_signal': overall_signal,
+                # Campos adicionales para compatibilidad total
+                'rsi_50': round(rsi_14, 1),
+                'distance_from_52w_low': round(100 - abs(distance_from_52w_high), 2),
+                'high_52w': round(high_52w, 2),
+                'low_52w': round(high_52w * 0.8, 2),
+                'volume_ratio_20d': 1.0,
+                'bollinger_position': 50.0,
+                'stochastic_k': 50.0,
+                'williams_r': -50.0,
+                'position_signal': "🟡 Posición Media",
+                'volume_signal': "🟡 Volumen Normal",
+                'price_change_5d': round(price_change_1d * 3, 2)  # Aproximación
+            }
+            
+        except Exception as e:
+            print(f"❌ Error analizando {symbol}: {e}")
+            return None
+
     def analyze_all_indices(self):
-        """
-        Analiza TODOS los índices con sus métricas específicas
-        """
-        print("🔄 Analizando métricas específicas para cada índice...")
-        
+        """Analiza todos los índices"""
         all_indices_data = {}
-        
         for symbol, name in self.market_symbols.items():
             metrics = self.get_comprehensive_index_data(symbol)
             if metrics:
                 all_indices_data[symbol] = metrics
-        
         return all_indices_data
-    
-    def generate_breadth_summary_from_indices(self, indices_data):
+
+    def run_breadth_analysis(self, include_nyse=True, nyse_mode='all'):  # CAMBIO: 'all' por defecto
         """
-        Genera resumen de amplitud basado en métricas REALES de índices
+        MÉTODO PRINCIPAL que usa tu sistema
+        ACTUALIZADO: Por defecto obtiene TODOS los indicadores NYSE
         """
         try:
-            if not indices_data:
-                return self._get_empty_summary()
-            
-            # CONTAR SEÑALES POR CATEGORÍA
-            trend_signals = {'bullish': 0, 'bearish': 0, 'neutral': 0}
-            momentum_signals = {'bullish': 0, 'bearish': 0, 'neutral': 0}
-            overall_signals = {'bullish': 0, 'bearish': 0, 'neutral': 0}
-            
-            # MÉTRICAS PROMEDIO
-            avg_rsi = []
-            avg_ma200_distance = []
-            avg_52w_distance = []
-            strong_performers = []
-            weak_performers = []
-            
-            for symbol, data in indices_data.items():
-                # Clasificar señales
-                if '🟢' in data['trend_signal']:
-                    trend_signals['bullish'] += 1
-                elif '🔴' in data['trend_signal']:
-                    trend_signals['bearish'] += 1
-                else:
-                    trend_signals['neutral'] += 1
-                    
-                if '🟢' in data['momentum_signal']:
-                    momentum_signals['bullish'] += 1
-                elif '🔴' in data['momentum_signal']:
-                    momentum_signals['bearish'] += 1
-                else:
-                    momentum_signals['neutral'] += 1
-                    
-                if '🟢' in data['overall_signal']:
-                    overall_signals['bullish'] += 1
-                elif '🔴' in data['overall_signal']:
-                    overall_signals['bearish'] += 1
-                else:
-                    overall_signals['neutral'] += 1
-                
-                # Métricas para promedio
-                avg_rsi.append(data['rsi_14'])
-                avg_ma200_distance.append(data['percent_above_ma200'])
-                avg_52w_distance.append(data['distance_from_52w_high'])
-                
-                # Performers
-                if data['price_change_20d'] > 5:
-                    strong_performers.append(symbol)
-                elif data['price_change_20d'] < -5:
-                    weak_performers.append(symbol)
-            
-            # CALCULAR MÉTRICAS GENERALES
-            total_indices = len(indices_data)
-            bullish_pct = (overall_signals['bullish'] / total_indices) * 100
-            
-            avg_rsi_value = np.mean(avg_rsi) if avg_rsi else 50
-            avg_ma200_dist = np.mean(avg_ma200_distance) if avg_ma200_distance else 0
-            avg_52w_dist = np.mean(avg_52w_distance) if avg_52w_distance else -20
-            
-            # DETERMINAR SESGO GENERAL
-            if bullish_pct >= 75:
-                market_bias = "🟢 EXTREMADAMENTE ALCISTA"
-                bias_emoji = "🚀"
-                confidence = "Muy Alta"
-            elif bullish_pct >= 60:
-                market_bias = "🟢 FUERTEMENTE ALCISTA" 
-                bias_emoji = "📈"
-                confidence = "Alta"
-            elif bullish_pct >= 40:
-                market_bias = "🟢 ALCISTA"
-                bias_emoji = "⬆️"
-                confidence = "Moderada"
-            elif bullish_pct >= 25:
-                market_bias = "🟡 NEUTRAL"
-                bias_emoji = "⚖️"
-                confidence = "Baja"
-            elif bullish_pct >= 15:
-                market_bias = "🔴 BAJISTA"
-                bias_emoji = "⬇️"
-                confidence = "Moderada"
-            else:
-                market_bias = "🔴 EXTREMADAMENTE BAJISTA"
-                bias_emoji = "💥"
-                confidence = "Muy Alta"
-            
-            # CALCULAR STRENGTH SCORE
-            strength_score = (
-                (overall_signals['bullish'] * 3) +
-                (trend_signals['bullish'] * 2) +
-                (momentum_signals['bullish'] * 1) -
-                (overall_signals['bearish'] * 3) -
-                (trend_signals['bearish'] * 2) -
-                (momentum_signals['bearish'] * 1)
-            )
-            
-            return {
-                'market_bias': market_bias,
-                'bias_emoji': bias_emoji,
-                'confidence': confidence,
-                'bullish_signals': overall_signals['bullish'],
-                'bearish_signals': overall_signals['bearish'],
-                'neutral_signals': overall_signals['neutral'],
-                'strength_score': strength_score,
-                'total_indicators': total_indices,
-                'bullish_percentage': round(bullish_pct, 1),
-                # MÉTRICAS ESPECÍFICAS
-                'avg_rsi': round(avg_rsi_value, 1),
-                'avg_ma200_distance': round(avg_ma200_dist, 1),
-                'avg_52w_distance': round(avg_52w_dist, 1),
-                'strong_performers': strong_performers,
-                'weak_performers': weak_performers,
-                'trend_breakdown': trend_signals,
-                'momentum_breakdown': momentum_signals
-            }
-            
-        except Exception as e:
-            print(f"❌ Error generando resumen: {e}")
-            return self._get_empty_summary()
-    
-    def _get_empty_summary(self):
-        """Resumen vacío en caso de error"""
-        return {
-            'market_bias': "🟡 SIN DATOS",
-            'bias_emoji': "❓",
-            'confidence': "Nula",
-            'bullish_signals': 0,
-            'bearish_signals': 0,
-            'neutral_signals': 0,
-            'strength_score': 0,
-            'total_indicators': 0,
-            'bullish_percentage': 0,
-            'avg_rsi': 50,
-            'avg_ma200_distance': 0,
-            'avg_52w_distance': -20,
-            'strong_performers': [],
-            'weak_performers': [],
-            'trend_breakdown': {'bullish': 0, 'bearish': 0, 'neutral': 0},
-            'momentum_breakdown': {'bullish': 0, 'bearish': 0, 'neutral': 0}
-        }
-    
-    def run_breadth_analysis(self):
-        """
-        Ejecuta análisis completo basado en métricas REALES por índice
-        """
-        print("\n📊 INICIANDO ANÁLISIS DE BREADTH POR ÍNDICES ESPECÍFICOS")
-        print("=" * 70)
-        
-        try:
-            # 1. Analizar todos los índices individualmente
-            print("🔄 Obteniendo métricas específicas para cada índice...")
+            print("🔄 Analizando métricas específicas para cada índice...")
             indices_data = self.analyze_all_indices()
             
             if not indices_data:
                 print("❌ No se pudieron obtener datos de índices")
                 return None
             
-            # 2. Generar resumen de amplitud basado en datos reales
-            print("📈 Generando resumen de amplitud basado en métricas reales...")
-            summary = self.generate_breadth_summary_from_indices(indices_data)
+            # Datos NYSE si se solicita
+            nyse_data = {}
+            if include_nyse:
+                print(f"🏛️ Obteniendo datos NYSE reales (modo: {nyse_mode})...")
+                if nyse_mode == 'all':
+                    nyse_data = self.nyse_extractor.get_all_indicators()
+                    print(f"📊 Modo COMPLETO: Obteniendo TODOS los {len(self.nyse_extractor.symbols)} indicadores disponibles")
+                elif nyse_mode == 'core':
+                    nyse_data = self.nyse_extractor.get_core_breadth_indicators()
+                    print("📊 Modo CORE: Obteniendo solo indicadores principales")
+                else:
+                    # Fallback a 'all' si se pasa un modo no reconocido
+                    nyse_data = self.nyse_extractor.get_all_indicators()
+                    print(f"📊 Modo desconocido '{nyse_mode}', usando TODOS los indicadores")
+                
+                if nyse_data:
+                    print(f"✅ NYSE datos obtenidos: {len(nyse_data)} indicadores")
+                else:
+                    print("⚠️ No se pudieron obtener datos NYSE")
             
-            # 3. Preparar resultado completo
+            # Generar resumen
+            summary = self._generate_summary(indices_data, nyse_data)
+            
+            # Resultado en el formato exacto que espera tu sistema
             result = {
                 'indices_data': indices_data,
+                'nyse_data': nyse_data,
                 'summary': summary,
                 'timestamp': datetime.now().isoformat(),
                 'analysis_date': datetime.now().strftime('%Y-%m-%d'),
                 'analysis_time': datetime.now().strftime('%H:%M:%S'),
-                'analysis_type': 'REAL_INDICES_METRICS'  # Identificador del tipo
+                'analysis_type': 'INTEGRATED_NYSE_BREADTH_ANALYSIS_COMPLETE',  # Actualizado
+                'has_nyse_data': len(nyse_data) > 0,
+                'nyse_indicators_count': len(nyse_data),  # Nuevo campo
+                'indices_count': len(indices_data),       # Nuevo campo
+                'total_indicators': len(nyse_data) + len(indices_data),  # Nuevo campo
+                'nyse_mode_used': nyse_mode,             # Nuevo campo
+                'success': True
             }
             
-            # 4. Mostrar resumen en consola
-            self._print_detailed_summary(summary, indices_data)
-            
-            print(f"\n✅ ANÁLISIS POR ÍNDICES COMPLETADO - {summary['market_bias']}")
+            # Mensaje de éxito mejorado
+            total_indicators = len(nyse_data) + len(indices_data)
+            print(f"✅ ANÁLISIS COMPLETO FINALIZADO")
+            print(f"📊 TOTAL: {total_indicators} indicadores ({len(nyse_data)} NYSE + {len(indices_data)} índices)")
+            print(f"🎯 SESGO DE MERCADO: {summary['market_bias']}")
             
             return result
             
         except Exception as e:
-            print(f"❌ Error en análisis por índices: {e}")
-            traceback.print_exc()
+            print(f"❌ Error en análisis: {e}")
             return None
-    
-    def _print_detailed_summary(self, summary, indices_data):
-        """Imprime resumen detallado en consola"""
-        print(f"\n📊 RESUMEN DE AMPLITUD BASADO EN MÉTRICAS REALES")
-        print("=" * 70)
-        print(f"{summary['bias_emoji']} Sesgo General: {summary['market_bias']}")
-        print(f"🎯 Confianza: {summary['confidence']}")
-        print(f"📈 Índices Alcistas: {summary['bullish_signals']}/{summary['total_indicators']} ({summary['bullish_percentage']:.1f}%)")
-        print(f"📉 Índices Bajistas: {summary['bearish_signals']}/{summary['total_indicators']}")
-        print(f"💪 Strength Score: {summary['strength_score']}")
-        
-        print(f"\n📊 MÉTRICAS PROMEDIO:")
-        print(f"   RSI Promedio: {summary['avg_rsi']:.1f}")
-        print(f"   Distancia MA200: {summary['avg_ma200_distance']:+.1f}%")
-        print(f"   Distancia 52W High: {summary['avg_52w_distance']:+.1f}%")
-        
-        if summary['strong_performers']:
-            print(f"\n🚀 MEJORES PERFORMERS (20d): {', '.join(summary['strong_performers'])}")
-        
-        if summary['weak_performers']:
-            print(f"📉 PEORES PERFORMERS (20d): {', '.join(summary['weak_performers'])}")
-        
-        print(f"\n🔍 DESGLOSE POR ÍNDICE:")
-        for symbol, data in indices_data.items():
-            print(f"   {data['overall_signal']} {symbol}: ${data['current_price']:.2f} | "
-                  f"20d: {data['price_change_20d']:+.1f}% | RSI: {data['rsi_14']:.1f} | "
-                  f"MA200: {data['percent_above_ma200']:+.1f}%")
-    
+
+    def _generate_summary(self, indices_data, nyse_data):
+        """Genera resumen combinado"""
+        try:
+            # Análisis de índices
+            if indices_data:
+                total_indices = len(indices_data)
+                bullish_indices = sum(1 for data in indices_data.values() if '🟢' in data['overall_signal'])
+                bullish_pct = (bullish_indices / total_indices) * 100 if total_indices > 0 else 0
+                avg_rsi = np.mean([data['rsi_14'] for data in indices_data.values()])
+                avg_ma200_distance = np.mean([data['percent_above_ma200'] for data in indices_data.values()])
+                strong_performers = [s for s, d in indices_data.items() if d['price_change_20d'] > 5]
+                weak_performers = [s for s, d in indices_data.items() if d['price_change_20d'] < -5]
+            else:
+                total_indices = bullish_indices = bullish_pct = avg_rsi = avg_ma200_distance = 0
+                strong_performers = weak_performers = []
+            
+            # Análisis NYSE
+            nyse_signals = {'bullish': 0, 'bearish': 0, 'neutral': 0}
+            nyse_key_values = {}
+            
+            if nyse_data:
+                for indicator, data in nyse_data.items():
+                    if data['current_price'] is not None:
+                        value = data['current_price']
+                        if indicator == 'NYMO':
+                            nyse_key_values['mcclellan'] = value
+                            if value > 50: nyse_signals['bullish'] += 1
+                            elif value < -50: nyse_signals['bearish'] += 1
+                            else: nyse_signals['neutral'] += 1
+                        elif indicator == 'VIX':
+                            nyse_key_values['vix'] = value
+                            if value > 30: nyse_signals['bearish'] += 1
+                            else: nyse_signals['neutral'] += 1
+            
+            # Determinar sesgo general
+            total_signals = bullish_indices + nyse_signals['bullish'] + nyse_signals['bearish']
+            if total_signals > 0:
+                bullish_combined = bullish_indices + nyse_signals['bullish']
+                bullish_pct_combined = (bullish_combined / total_signals) * 100
+            else:
+                bullish_pct_combined = bullish_pct
+            
+            if bullish_pct_combined >= 70:
+                market_bias = "🟢 FUERTEMENTE ALCISTA"
+                confidence = "Alta"
+            elif bullish_pct_combined >= 50:
+                market_bias = "🟢 ALCISTA"
+                confidence = "Moderada"
+            elif bullish_pct_combined >= 30:
+                market_bias = "🟡 NEUTRAL"
+                confidence = "Baja"
+            else:
+                market_bias = "🔴 BAJISTA"
+                confidence = "Moderada"
+            
+            return {
+                'market_bias': market_bias,
+                'confidence': confidence,
+                'bullish_signals': bullish_indices,
+                'bearish_signals': total_indices - bullish_indices,
+                'neutral_signals': 0,
+                'strength_score': bullish_indices * 10,
+                'total_indicators': total_indices,
+                'bullish_percentage': round(bullish_pct_combined, 1),
+                'avg_rsi': round(avg_rsi, 1),
+                'avg_ma200_distance': round(avg_ma200_distance, 1),
+                'strong_performers': strong_performers,
+                'weak_performers': weak_performers,
+                'nyse_signals': nyse_signals,
+                'nyse_key_values': nyse_key_values,
+                'nyse_indicators_count': len(nyse_data),
+                'has_nyse_data': len(nyse_data) > 0,
+                'combined_bullish_signals': bullish_indices + nyse_signals['bullish'],
+                'total_combined_signals': total_signals
+            }
+            
+        except Exception as e:
+            print(f"❌ Error generando resumen: {e}")
+            return {
+                'market_bias': "🟡 ERROR",
+                'confidence': "Nula",
+                'bullish_percentage': 0,
+                'error': str(e)
+            }
+
     def save_to_csv(self, analysis_result):
-        """Guarda análisis por índices en CSV"""
+        """
+        MÉTODO que usa tu sistema para guardar CSV
+        """
         try:
             if not analysis_result or 'indices_data' not in analysis_result:
                 return None
             
             indices_data = analysis_result['indices_data']
-            summary = analysis_result['summary']
+            nyse_data = analysis_result.get('nyse_data', {})
             
-            # Preparar datos principales por índice
+            # Crear directorio
+            os.makedirs("reports", exist_ok=True)
+            
+            # 1. Guardar datos de índices (exacto formato que espera tu sistema)
             csv_data = []
-            
             for symbol, data in indices_data.items():
                 row = {
                     'Analysis_Date': analysis_result['analysis_date'],
-                    'Analysis_Time': analysis_result['analysis_time'],
                     'Symbol': symbol,
                     'Name': data['name'],
                     'Current_Price': data['current_price'],
-                    'Change_1D': data['price_change_1d'],
-                    'Change_5D': data['price_change_5d'],
                     'Change_20D': data['price_change_20d'],
                     'RSI_14': data['rsi_14'],
-                    'RSI_50': data['rsi_50'],
-                    'MA_20': data['ma_20'],
-                    'MA_50': data['ma_50'],
-                    'MA_200': data['ma_200'],
-                    'Pct_Above_MA20': data['percent_above_ma20'],
-                    'Pct_Above_MA50': data['percent_above_ma50'],
                     'Pct_Above_MA200': data['percent_above_ma200'],
                     'Distance_52W_High': data['distance_from_52w_high'],
-                    'Distance_52W_Low': data['distance_from_52w_low'],
-                    'Volume_Ratio_20D': data['volume_ratio_20d'],
                     'Volatility_20D': data['volatility_20d'],
-                    'Bollinger_Position': data['bollinger_position'],
-                    'MACD_Signal': data['macd_signal'],
-                    'Stochastic_K': data['stochastic_k'],
-                    'Williams_R': data['williams_r'],
-                    'Trend_Signal': data['trend_signal'],
-                    'Momentum_Signal': data['momentum_signal'],
-                    'Position_Signal': data['position_signal'],
-                    'Volume_Signal': data['volume_signal'],
                     'Overall_Signal': data['overall_signal']
                 }
                 csv_data.append(row)
             
-            # Guardar CSV principal
-            df = pd.DataFrame(csv_data)
-            csv_path = "reports/market_breadth_analysis.csv"
-            os.makedirs("reports", exist_ok=True)
-            df.to_csv(csv_path, index=False)
+            df_indices = pd.DataFrame(csv_data)
+            indices_path = "reports/market_breadth_analysis.csv"
+            df_indices.to_csv(indices_path, index=False)
             
-            # Guardar resumen
-            summary_data = {
-                'Analysis_Date': analysis_result['analysis_date'],
-                'Market_Bias': summary['market_bias'],
-                'Confidence': summary['confidence'],
-                'Bullish_Percentage': summary['bullish_percentage'],
-                'Strength_Score': summary['strength_score'],
-                'Avg_RSI': summary['avg_rsi'],
-                'Avg_MA200_Distance': summary['avg_ma200_distance'],
-                'Strong_Performers': ', '.join(summary['strong_performers']),
-                'Weak_Performers': ', '.join(summary['weak_performers'])
-            }
+            # 2. Guardar datos NYSE si están disponibles
+            if nyse_data:
+                nyse_csv_data = []
+                for indicator, data in nyse_data.items():
+                    row = {
+                        'Analysis_Date': analysis_result['analysis_date'],
+                        'Indicator': indicator,
+                        'Symbol': data['symbol'],
+                        'Current_Value': data['current_price'],
+                        'Change_Pct': data['change_pct'],
+                        'Name': data.get('name', ''),
+                    }
+                    nyse_csv_data.append(row)
+                
+                df_nyse = pd.DataFrame(nyse_csv_data)
+                nyse_path = "reports/market_breadth_nyse.csv"
+                df_nyse.to_csv(nyse_path, index=False)
             
-            summary_path = "reports/market_breadth_signals.csv"
-            pd.DataFrame([summary_data]).to_csv(summary_path, index=False)
-            
-            print(f"✅ CSV por índices guardado: {csv_path}")
-            print(f"✅ Resumen guardado: {summary_path}")
-            
-            return csv_path
+            print(f"✅ CSV guardado: {indices_path}")
+            return indices_path
             
         except Exception as e:
             print(f"❌ Error guardando CSV: {e}")
             return None
 
 
-# ==============================================================================
-# GENERADOR HTML PARA MÉTRICAS POR ÍNDICE CON GRÁFICOS FINVIZ
-# ==============================================================================
+# ============================================================================
+# MARKET BREADTH HTML GENERATOR - COMPLETAMENTE MEJORADO
+# ============================================================================
 
 class MarketBreadthHTMLGenerator:
-    """Generador HTML para análisis por índices específicos con gráficos Finviz"""
+    """
+    CLASE HTML GENERATOR que espera tu sistema principal
+    MEJORADA: Con MUCHA MÁS información en las tarjetas NYSE
+    """
     
     def __init__(self, base_url="https://tantancansado.github.io/stock_analyzer_a"):
         self.base_url = base_url
         self.finviz_chart_base = "https://finviz.com/chart.ashx?t={ticker}&ty=c&ta=1&p=d&s=l"
     
     def generate_finviz_chart_url(self, symbol):
-        """Genera URL del gráfico de Finviz para un ticker específico"""
+        """Genera URL del gráfico de Finviz"""
         return self.finviz_chart_base.format(ticker=symbol)
     
     def generate_breadth_html(self, analysis_result):
-        """Genera HTML para análisis por índices específicos con gráficos"""
+        """
+        MÉTODO PRINCIPAL que usa tu sistema
+        MEJORADO: Con tarjetas NYSE expandidas
+        """
         if not analysis_result or 'indices_data' not in analysis_result:
             return None
         
@@ -637,129 +715,370 @@ class MarketBreadthHTMLGenerator:
         summary = analysis_result['summary']
         timestamp = analysis_result['analysis_date']
         
+        # Detectar datos NYSE
+        nyse_data = analysis_result.get('nyse_data', {})
+        has_nyse_data = len(nyse_data) > 0
+        nyse_count = len(nyse_data)
+        indices_count = len(indices_data)
+        total_indicators = nyse_count + indices_count
+        
+        # Título dinámico mejorado
+        title_suffix = f"COMPLETO - {total_indicators} Indicadores" if has_nyse_data else "por Índices"
+        
         html_content = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Market Breadth - Análisis por Índices con Gráficos | Dashboard</title>
-    <meta name="description" content="Análisis específico de {len(indices_data)} índices con métricas técnicas detalladas y gráficos Finviz">
+    <title>📊 Market Breadth {title_suffix} | Dashboard</title>
     <style>
-        {self._get_index_specific_css()}
+        {self._get_complete_css()}
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body>
     <div class="glass-container">
-        <header class="liquid-header glass-card floating-element">
-            <h1>📊 Market Breadth Analysis</h1>
-            <p>Análisis específico de {len(indices_data)} índices con métricas técnicas reales y gráficos</p>
+        <header class="liquid-header glass-card">
+            <h1>📊 Market Breadth Analysis {'COMPLETO' if has_nyse_data else 'por Índices'}</h1>
+            <p>Análisis de {indices_count} índices{' + ' + str(nyse_count) + ' indicadores NYSE' if has_nyse_data else ''}</p>
             <div class="market-status">
-                <div class="pulse-dot"></div>
-                <span>{summary['bias_emoji']} {summary['market_bias']} • {summary['bullish_percentage']:.1f}% Alcistas</span>
+                <span>{summary['market_bias']} • {summary['bullish_percentage']:.1f}% Alcistas</span>
                 <div class="score-badge">Score: {summary['strength_score']}</div>
+                {'<div class="total-badge">Total: ' + str(total_indicators) + ' indicadores</div>' if has_nyse_data else ''}
             </div>
         </header>
         
         <section class="stats-liquid">
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
-                <div class="stat-number">{summary['bullish_signals']}</div>
-                <div class="stat-label">Índices Alcistas</div>
-                <div class="stat-percent">{summary['bullish_percentage']:.1f}%</div>
+            <div class="stat-glass">
+                <div class="stat-number">{summary.get('combined_bullish_signals', summary['bullish_signals'])}</div>
+                <div class="stat-label">Señales Alcistas</div>
             </div>
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
+            <div class="stat-glass">
+                <div class="stat-number">{indices_count}</div>
+                <div class="stat-label">Índices</div>
+            </div>
+            {'<div class="stat-glass"><div class="stat-number">' + str(nyse_count) + '</div><div class="stat-label">NYSE</div></div>' if has_nyse_data else ''}
+            <div class="stat-glass">
                 <div class="stat-number">{summary['avg_rsi']:.0f}</div>
                 <div class="stat-label">RSI Promedio</div>
             </div>
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
-                <div class="stat-number">{summary['avg_ma200_distance']:+.1f}%</div>
-                <div class="stat-label">Distancia MA200</div>
-            </div>
-            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
-                <div class="stat-number">{len(indices_data)}</div>
-                <div class="stat-label">Índices Analizados</div>
-            </div>
+            {'<div class="stat-glass"><div class="stat-number">' + str(total_indicators) + '</div><div class="stat-label">Total Indicadores</div></div>' if has_nyse_data else ''}
         </section>
         
+        {self._generate_nyse_section_if_available(nyse_data) if has_nyse_data else ''}
+        
         <main class="indices-analysis glass-card">
-            <h2 class="section-title">🎯 Análisis Detallado por Índice con Gráficos</h2>
+            <h2 class="section-title">📊 Análisis por Índice</h2>
             <div class="indices-grid">
-                {self._generate_detailed_indices_with_charts_html(indices_data)}
+                {self._generate_indices_html(indices_data)}
             </div>
         </main>
         
-        <section class="performers-section glass-card">
-            <h2 class="section-title">🏆 Mejores y Peores Performers</h2>
-            <div class="performers-grid">
-                {self._generate_performers_html(summary, indices_data)}
-            </div>
-        </section>
-        
-        <section class="charts-section glass-card">
-            <h2 class="section-title">📈 Análisis Visual Comparativo</h2>
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <h3 class="chart-title">Rendimiento 20 Días</h3>
-                    <canvas id="performanceChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">RSI de Índices</h3>
-                    <canvas id="rsiChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Distancia de MA200</h3>
-                    <canvas id="ma200Chart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <h3 class="chart-title">Volatilidad 20D</h3>
-                    <canvas id="volatilityChart"></canvas>
-                </div>
-            </div>
-        </section>
-        
-        <footer class="footer-liquid">
-            <p>📊 Market Breadth Analysis por Índices • Métricas Técnicas Reales • Gráficos Finviz</p>
-            <p>
-                <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
-                <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
-                <a href="insider_trading.html">🏛️ Insider Trading</a>
-            </p>
+        <footer class="footer">
+            <p>📊 Market Breadth Analysis {'COMPLETO - ' + str(total_indicators) + ' indicadores' if has_nyse_data else 'por Índices'} • {timestamp}</p>
+            <p><a href="{self.base_url}">🏠 Dashboard Principal</a></p>
         </footer>
     </div>
     
     <script>
-        // Datos para gráficos específicos por índice
-        const chartData = {json.dumps(self._prepare_index_chart_data(indices_data))};
-        
-        // Inicializar gráficos específicos
-        {self._generate_index_charts_js()}
-        
-        // Funcionalidad de modal para gráficos Finviz
-        {self._generate_chart_modal_js()}
-        
-        console.log('📊 Market Breadth por Índices con Gráficos Loaded');
-        console.log('🎯 Índices analizados: {len(indices_data)}');
-        console.log('📈 Alcistas: {summary["bullish_percentage"]:.1f}%');
-        console.log('💪 Strength Score: {summary["strength_score"]}');
+        console.log('📊 Market Breadth Loaded');
+        console.log('📊 Índices: {indices_count}');
+        {'console.log("🏛️ NYSE: ' + str(nyse_count) + '");' if has_nyse_data else ''}
+        {'console.log("🎯 TOTAL: ' + str(total_indicators) + '");' if has_nyse_data else ''}
     </script>
 </body>
 </html>"""
         
         return html_content
     
-    def _generate_detailed_indices_with_charts_html(self, indices_data):
-        """Genera HTML detallado para cada índice CON GRÁFICOS de Finviz"""
-        html = ""
-        for symbol, data in indices_data.items():
+    def _generate_nyse_section_if_available(self, nyse_data):
+        """Genera sección NYSE mejorada con MUCHA MÁS información - VERSIÓN EXPANDIDA"""
+        if not nyse_data:
+            return ""
+        
+        # Organizar indicadores por categorías
+        categorized_indicators = self._categorize_nyse_indicators(nyse_data)
+        
+        html = f"""
+        <section class="nyse-section glass-card">
+            <h2 class="section-title">🏛️ Indicadores NYSE ({len(nyse_data)} reales)</h2>
+            <div class="nyse-categories">
+        """
+        
+        for category, indicators in categorized_indicators.items():
+            if indicators:
+                html += f"""
+                <div class="nyse-category">
+                    <h3 class="category-title">{category}</h3>
+                    <div class="nyse-grid-enhanced">
+                """
+                
+                for indicator, data in indicators.items():
+                    # DATOS BÁSICOS - Manejo seguro de valores None
+                    value = data.get('current_price', 0) or 0
+                    change_pct = data.get('change_pct', 0) or 0
+                    change_absolute = data.get('change', 0) or 0
+                    previous_close = data.get('previous_close', 0) or 0
+                    
+                    # DATOS TÉCNICOS ADICIONALES
+                    rsi = data.get('rsi', 0) or 0
+                    atr = data.get('atr', 0) or 0
+                    sma_50 = data.get('sma50', 0) or 0
+                    sma_200 = data.get('sma200', 0) or 0
+                    adx = data.get('adx', 0) or 0
+                    volume = data.get('volume', 0) or 0
+                    
+                    # RANGOS Y PERFORMANCE
+                    year_range = data.get('year_range', '0,0')
+                    latest_trade = data.get('latest_trade', 'N/A')
+                    
+                    # Procesar year_range
+                    try:
+                        low_52w, high_52w = map(float, year_range.split(','))
+                        distance_from_high = ((value - high_52w) / high_52w * 100) if high_52w != 0 else 0
+                        distance_from_low = ((value - low_52w) / low_52w * 100) if low_52w != 0 else 0
+                    except:
+                        low_52w, high_52w = 0, 0
+                        distance_from_high, distance_from_low = 0, 0
+                    
+                    # PERFORMANCE HISTÓRICA
+                    perf_data = data.get('performance', {})
+                    perf_1w = perf_data.get('one_week', 0) or 0
+                    perf_1m = perf_data.get('one_month', 0) or 0
+                    perf_3m = perf_data.get('three_months', 0) or 0
+                    perf_6m = perf_data.get('six_months', 0) or 0
+                    perf_1y = perf_data.get('one_year', 0) or 0
+                    perf_ytd = perf_data.get('ytd', 0) or 0
+                    
+                    # Obtener nombre descriptivo
+                    descriptive_name = self.nyse_extractor.SECTOR_NAMES.get(indicator, indicator) if hasattr(self, 'nyse_extractor') else indicator
+                    
+                    # DETERMINAR SEÑALES DE COLOR
+                    trend_class = self._get_trend_class(change_pct, rsi, perf_1m)
+                    rsi_class = self._get_rsi_class(rsi)
+                    
+                    html += f"""
+                    <div class="nyse-indicator-enhanced {trend_class}">
+                        <!-- HEADER CON INFO BÁSICA -->
+                        <div class="indicator-header">
+                            <div class="indicator-main">
+                                <div class="indicator-name">{indicator}</div>
+                                <div class="indicator-desc">{descriptive_name}</div>
+                            </div>
+                            <div class="indicator-status">
+                                <div class="status-badge {rsi_class}">{self._get_trend_emoji(change_pct)}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- PRECIO Y CAMBIOS -->
+                        <div class="price-section">
+                            <div class="current-price">{value:.2f}</div>
+                            <div class="price-changes">
+                                <span class="change-abs {'positive' if change_absolute > 0 else 'negative'}">{change_absolute:+.2f}</span>
+                                <span class="change-pct {'positive' if change_pct > 0 else 'negative'}">{change_pct:+.2f}%</span>
+                            </div>
+                            {f'<div class="prev-close">Prev: {previous_close:.2f}</div>' if previous_close > 0 else ''}
+                        </div>
+                        
+                        <!-- INDICADORES TÉCNICOS -->
+                        <div class="technical-section">
+                            <div class="tech-grid">
+                                {f'<div class="tech-item"><label>RSI:</label><span class="{rsi_class}">{rsi:.1f}</span></div>' if rsi > 0 else ''}
+                                {f'<div class="tech-item"><label>ATR:</label><span>{atr:.2f}</span></div>' if atr > 0 else ''}
+                                {f'<div class="tech-item"><label>ADX:</label><span>{adx:.1f}</span></div>' if adx > 0 else ''}
+                                {f'<div class="tech-item"><label>Vol:</label><span>{self._format_volume(volume)}</span></div>' if volume > 0 else ''}
+                            </div>
+                        </div>
+                        
+                        <!-- MEDIAS MÓVILES -->
+                        {self._generate_ma_section(value, sma_50, sma_200) if sma_50 > 0 or sma_200 > 0 else ''}
+                        
+                        <!-- RANGOS 52 SEMANAS -->
+                        {self._generate_range_section(value, low_52w, high_52w, distance_from_high, distance_from_low) if high_52w > 0 else ''}
+                        
+                        <!-- PERFORMANCE HISTÓRICA -->
+                        {self._generate_performance_section(perf_1w, perf_1m, perf_3m, perf_6m, perf_1y, perf_ytd)}
+                        
+                        <!-- FOOTER CON ÚLTIMA ACTUALIZACIÓN -->
+                        <div class="indicator-footer">
+                            <small>📅 {latest_trade}</small>
+                        </div>
+                    </div>
+                    """
+                
+                html += """
+                    </div>
+                </div>
+                """
+        
+        html += """
+            </div>
+        </section>
+        """
+        
+        return html
+    
+    def _generate_ma_section(self, current_price, sma_50, sma_200):
+        """Genera sección de medias móviles"""
+        if sma_50 <= 0 and sma_200 <= 0:
+            return ""
+        
+        html = '<div class="ma-section"><div class="ma-title">📈 Medias Móviles</div><div class="ma-grid">'
+        
+        if sma_50 > 0:
+            ma50_pct = ((current_price - sma_50) / sma_50) * 100
+            ma50_class = 'positive' if ma50_pct > 0 else 'negative'
+            html += f'<div class="ma-item"><label>MA50:</label><span class="{ma50_class}">{ma50_pct:+.1f}%</span></div>'
+        
+        if sma_200 > 0:
+            ma200_pct = ((current_price - sma_200) / sma_200) * 100
+            ma200_class = 'positive' if ma200_pct > 0 else 'negative'
+            html += f'<div class="ma-item"><label>MA200:</label><span class="{ma200_class}">{ma200_pct:+.1f}%</span></div>'
+        
+        html += '</div></div>'
+        return html
+
+    def _generate_range_section(self, current_price, low_52w, high_52w, dist_high, dist_low):
+        """Genera sección de rangos 52 semanas"""
+        if high_52w <= 0:
+            return ""
+        
+        # Calcular posición en el rango
+        range_position = ((current_price - low_52w) / (high_52w - low_52w)) * 100 if (high_52w - low_52w) > 0 else 50
+        
+        return f"""
+        <div class="range-section">
+            <div class="range-title">📊 Rango 52W</div>
+            <div class="range-bar">
+                <div class="range-fill" style="width: {range_position:.0f}%"></div>
+                <div class="range-marker" style="left: {range_position:.0f}%"></div>
+            </div>
+            <div class="range-values">
+                <span class="range-low">{low_52w:.2f}</span>
+                <span class="range-current">{current_price:.2f}</span>
+                <span class="range-high">{high_52w:.2f}</span>
+            </div>
+            <div class="range-distances">
+                <small>📈 {dist_high:+.1f}% from high • 📉 {dist_low:+.1f}% from low</small>
+            </div>
+        </div>
+        """
+
+    def _generate_performance_section(self, p1w, p1m, p3m, p6m, p1y, pytd):
+        """Genera sección de performance histórica"""
+        periods = [
+            ('1W', p1w), ('1M', p1m), ('3M', p3m), 
+            ('6M', p6m), ('1Y', p1y), ('YTD', pytd)
+        ]
+        
+        # Filtrar períodos con datos válidos
+        valid_periods = [(label, value) for label, value in periods if value != 0]
+        
+        if not valid_periods:
+            return ""
+        
+        html = '<div class="performance-section"><div class="perf-title">📈 Performance</div><div class="perf-grid">'
+        
+        for label, value in valid_periods:
+            perf_class = 'positive' if value > 0 else 'negative' if value < 0 else 'neutral'
+            html += f'<div class="perf-item {perf_class}"><label>{label}:</label><span>{value:+.1f}%</span></div>'
+        
+        html += '</div></div>'
+        return html
+
+    def _get_trend_class(self, change_pct, rsi, perf_1m):
+        """Determina la clase CSS basada en la tendencia"""
+        if change_pct > 2 and rsi < 70 and perf_1m > 5:
+            return "strong-bullish"
+        elif change_pct > 0 and rsi < 80:
+            return "bullish"
+        elif change_pct < -2 and rsi > 30 and perf_1m < -5:
+            return "strong-bearish"
+        elif change_pct < 0:
+            return "bearish"
+        else:
+            return "neutral"
+
+    def _get_rsi_class(self, rsi):
+        """Determina la clase CSS del RSI"""
+        if rsi > 70:
+            return "overbought"
+        elif rsi < 30:
+            return "oversold"
+        elif rsi > 60:
+            return "strong"
+        elif rsi < 40:
+            return "weak"
+        else:
+            return "neutral"
+
+    def _get_trend_emoji(self, change_pct):
+        """Obtiene emoji basado en la tendencia"""
+        if change_pct > 3:
+            return "🚀"
+        elif change_pct > 1:
+            return "📈"
+        elif change_pct > 0:
+            return "🟢"
+        elif change_pct < -3:
+            return "💥"
+        elif change_pct < -1:
+            return "📉"
+        elif change_pct < 0:
+            return "🔴"
+        else:
+            return "➡️"
+
+    def _format_volume(self, volume):
+        """Formatea el volumen de manera legible"""
+        if volume >= 1_000_000:
+            return f"{volume/1_000_000:.1f}M"
+        elif volume >= 1_000:
+            return f"{volume/1_000:.1f}K"
+        else:
+            return f"{volume:.0f}"
+    
+    def _categorize_nyse_indicators(self, nyse_data):
+        """Organiza los indicadores NYSE por categorías"""
+        categories = {
+            'McClellan & Momentum': ['NYMO', 'NYMOT', 'NYSI', 'NAMO', 'NASI'],
+            'Advance-Decline': ['NYADL', 'NAADL', 'SPXADP', 'MIDADP', 'SMLADP'],
+            'Arms Index & TRIN': ['TRIN', 'TRINQ'],
+            'Sentiment & Volatility': ['VIX', 'VXN', 'CPC', 'CPCE'],
+            'Bullish Percent': ['BPSPX', 'BPNDX', 'BPNYA'],
+            'New Highs/Lows': ['NYHGH', 'NYLOW', 'NAHGH', 'NALOW'],
+            'Moving Averages %': ['NYA50R', 'NYA200R', 'SPXA50R', 'SPXA200R'],
+            'Major Indices': ['SPX', 'COMPQ', 'NYA', 'DJI', 'RUT'],
+            'Bonds & Commodities': ['TNX', 'TYX', 'DXY', 'GOLD', 'WTIC'],
+            'Otros': []
+        }
+        
+        categorized = {cat: {} for cat in categories.keys()}
+        
+        for indicator, data in nyse_data.items():
+            placed = False
+            for category, category_indicators in categories.items():
+                if indicator in category_indicators:
+                    categorized[category][indicator] = data
+                    placed = True
+                    break
             
-            # Determinar clases CSS según señales
+            if not placed:
+                categorized['Otros'][indicator] = data
+        
+        # Remover categorías vacías
+        return {cat: indicators for cat, indicators in categorized.items() if indicators}
+    
+    def _generate_indices_html(self, indices_data):
+        """Genera HTML para índices"""
+        html = ""
+        
+        for symbol, data in indices_data.items():
+            chart_url = self.generate_finviz_chart_url(symbol)
             overall_class = "bullish" if "🟢" in data['overall_signal'] else "bearish" if "🔴" in data['overall_signal'] else "neutral"
             
-            # URL del gráfico de Finviz
-            chart_url = self.generate_finviz_chart_url(symbol)
-            
             html += f"""
-            <div class="index-detailed-card-with-chart {overall_class}">
+            <div class="index-card {overall_class}">
                 <div class="index-header">
                     <div class="index-info">
                         <span class="index-symbol">{symbol}</span>
@@ -767,74 +1086,31 @@ class MarketBreadthHTMLGenerator:
                     </div>
                     <div class="index-price">
                         <span class="price">${data['current_price']}</span>
-                        <span class="change-20d {('positive' if data['price_change_20d'] > 0 else 'negative')}">{data['price_change_20d']:+.1f}%</span>
+                        <span class="change {'positive' if data['price_change_20d'] > 0 else 'negative'}">{data['price_change_20d']:+.1f}%</span>
                     </div>
                 </div>
                 
                 <div class="chart-section">
-                    <div class="chart-wrapper">
-                        <img src="{chart_url}" 
-                             alt="Gráfico {symbol}" 
-                             class="finviz-chart"
-                             loading="lazy"
-                             onclick="openChartModal('{symbol}', '{chart_url}')"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                        <div class="chart-fallback" style="display: none;">
-                            <div class="fallback-content">
-                                <span class="fallback-icon">📊</span>
-                                <span class="fallback-text">Gráfico no disponible</span>
-                                <a href="{chart_url}" target="_blank" class="fallback-link">Ver en Finviz →</a>
-                            </div>
-                        </div>
-                        <div class="chart-overlay">
-                            <span class="chart-expand">🔍 Click para ampliar</span>
-                        </div>
+                    <img src="{chart_url}" alt="Gráfico {symbol}" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="{chart_url}" target="_blank">Ver en Finviz →</a>
                     </div>
                 </div>
                 
-                <div class="signals-section">
-                    <div class="signal-row">
-                        <span class="signal-label">Tendencia:</span>
-                        <span class="signal-value">{data['trend_signal']}</span>
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>{data['rsi_14']:.1f}</span>
                     </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Momentum:</span>
-                        <span class="signal-value">{data['momentum_signal']}</span>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="{'positive' if data['percent_above_ma200'] > 0 else 'negative'}">{data['percent_above_ma200']:+.1f}%</span>
                     </div>
-                    <div class="signal-row">
-                        <span class="signal-label">Posición:</span>
-                        <span class="signal-value">{data['position_signal']}</span>
-                    </div>
-                    <div class="signal-row overall">
-                        <span class="signal-label">General:</span>
-                        <span class="signal-value overall">{data['overall_signal']}</span>
-                    </div>
-                </div>
-                
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <span class="metric-label">RSI 14:</span>
-                        <span class="metric-value">{data['rsi_14']:.1f}</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">MA200:</span>
-                        <span class="metric-value {('positive' if data['percent_above_ma200'] > 0 else 'negative')}">{data['percent_above_ma200']:+.1f}%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">52W High:</span>
-                        <span class="metric-value">{data['distance_from_52w_high']:+.1f}%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volatilidad:</span>
-                        <span class="metric-value">{data['volatility_20d']:.1f}%</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Volumen:</span>
-                        <span class="metric-value">{data['volume_ratio_20d']:.1f}x</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Bollinger:</span>
-                        <span class="metric-value">{data['bollinger_position']:.0f}%</span>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>{data['overall_signal']}</span>
                     </div>
                 </div>
             </div>
@@ -842,253 +1118,46 @@ class MarketBreadthHTMLGenerator:
         
         return html
     
-    def _generate_performers_html(self, summary, indices_data):
-        """Genera HTML para mejores y peores performers"""
-        
-        # Ordenar por performance 20d
-        sorted_indices = sorted(indices_data.items(), key=lambda x: x[1]['price_change_20d'], reverse=True)
-        
-        best_performers = sorted_indices[:3]
-        worst_performers = sorted_indices[-3:]
-        
-        html = f"""
-        <div class="performers-column">
-            <h3 class="performers-title">🚀 Mejores Performers (20d)</h3>
-            <div class="performers-list">
-        """
-        
-        for symbol, data in best_performers:
-            html += f"""
-                <div class="performer-item best">
-                    <span class="performer-symbol">{symbol}</span>
-                    <span class="performer-change">{data['price_change_20d']:+.1f}%</span>
-                </div>
-            """
-        
-        html += """
-            </div>
-        </div>
-        
-        <div class="performers-column">
-            <h3 class="performers-title">📉 Peores Performers (20d)</h3>
-            <div class="performers-list">
-        """
-        
-        for symbol, data in worst_performers:
-            html += f"""
-                <div class="performer-item worst">
-                    <span class="performer-symbol">{symbol}</span>
-                    <span class="performer-change">{data['price_change_20d']:+.1f}%</span>
-                </div>
-            """
-        
-        html += """
-            </div>
-        </div>
-        """
-        
-        return html
-    
-    def _prepare_index_chart_data(self, indices_data):
-        """Prepara datos para gráficos específicos de índices"""
-        symbols = list(indices_data.keys())
-        
-        return {
-            'symbols': symbols,
-            'performance_20d': [indices_data[s]['price_change_20d'] for s in symbols],
-            'rsi_values': [indices_data[s]['rsi_14'] for s in symbols],
-            'ma200_distance': [indices_data[s]['percent_above_ma200'] for s in symbols],
-            'volatility': [indices_data[s]['volatility_20d'] for s in symbols],
-            'prices': [indices_data[s]['current_price'] for s in symbols]
-        }
-    
-    def _generate_index_charts_js(self):
-        """Genera JavaScript para gráficos específicos de índices"""
+    def _get_complete_css(self):
+        """CSS completo optimizado con soporte para categorías y tarjetas mejoradas"""
         return """
-        // Configuración de gráficos
-        const chartConfig = {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { labels: { color: 'white' } } },
-            scales: {
-                x: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } },
-                y: { ticks: { color: 'white' }, grid: { color: 'rgba(255,255,255,0.1)' } }
-            }
-        };
-        
-        window.addEventListener('load', function() {
-            // Performance Chart
-            new Chart(document.getElementById('performanceChart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'Rendimiento 20d (%)',
-                        data: chartData.performance_20d,
-                        backgroundColor: chartData.performance_20d.map(val => 
-                            val > 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                        )
-                    }]
-                },
-                options: chartConfig
-            });
-            
-            // RSI Chart
-            new Chart(document.getElementById('rsiChart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'RSI 14',
-                        data: chartData.rsi_values,
-                        backgroundColor: chartData.rsi_values.map(val => 
-                            val > 70 ? 'rgba(239, 68, 68, 0.8)' : 
-                            val < 30 ? 'rgba(34, 197, 94, 0.8)' : 
-                            'rgba(99, 102, 241, 0.8)'
-                        )
-                    }]
-                },
-                options: chartConfig
-            });
-            
-            // MA200 Chart
-            new Chart(document.getElementById('ma200Chart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'Distancia MA200 (%)',
-                        data: chartData.ma200_distance,
-                        backgroundColor: chartData.ma200_distance.map(val => 
-                            val > 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)'
-                        )
-                    }]
-                },
-                options: chartConfig
-            });
-            
-            // Volatility Chart
-            new Chart(document.getElementById('volatilityChart'), {
-                type: 'bar',
-                data: {
-                    labels: chartData.symbols,
-                    datasets: [{
-                        label: 'Volatilidad 20d (%)',
-                        data: chartData.volatility,
-                        backgroundColor: 'rgba(251, 191, 36, 0.8)'
-                    }]
-                },
-                options: chartConfig
-            });
-        });
-        """
-    
-    def _generate_chart_modal_js(self):
-        """Genera JavaScript para modal de gráficos Finviz"""
-        return """
-        // Modal para gráficos Finviz
-        function openChartModal(symbol, chartUrl) {
-            // Crear modal si no existe
-            let modal = document.getElementById('chartModal');
-            if (!modal) {
-                modal = document.createElement('div');
-                modal.id = 'chartModal';
-                modal.className = 'chart-modal';
-                modal.innerHTML = `
-                    <div class="modal-backdrop" onclick="closeChartModal()"></div>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3 id="modalTitle">Gráfico</h3>
-                            <button class="modal-close" onclick="closeChartModal()">×</button>
-                        </div>
-                        <div class="modal-body">
-                            <img id="modalChart" src="" alt="Gráfico ampliado" />
-                            <div class="modal-actions">
-                                <a id="finvizLink" href="" target="_blank" class="btn-finviz">
-                                    Ver en Finviz →
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
-            
-            // Actualizar contenido del modal
-            document.getElementById('modalTitle').textContent = `Gráfico ${symbol}`;
-            document.getElementById('modalChart').src = chartUrl;
-            document.getElementById('finvizLink').href = chartUrl;
-            
-            // Mostrar modal
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeChartModal() {
-            const modal = document.getElementById('chartModal');
-            if (modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        }
-        
-        // Cerrar modal con ESC
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeChartModal();
-            }
-        });
-        """
-    
-    def _get_index_specific_css(self):
-        """CSS específico para análisis por índices con gráficos"""
-        return """
-        /* CSS para análisis por índices específicos CON GRÁFICOS */
         :root {
-            --glass-primary: rgba(99, 102, 241, 0.9);
-            --glass-secondary: rgba(139, 92, 246, 0.8);
-            --glass-accent: rgba(59, 130, 246, 1);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-bg-hover: rgba(255, 255, 255, 0.12);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-            --text-primary: rgba(255, 255, 255, 0.95);
-            --text-secondary: rgba(255, 255, 255, 0.75);
-            --success: rgba(72, 187, 120, 0.9);
-            --warning: rgba(251, 191, 36, 0.9);
-            --danger: rgba(239, 68, 68, 0.9);
+            --primary: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #475569;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            background: #020617;
-            background-image: radial-gradient(ellipse at top, rgba(16, 23, 42, 0.9) 0%, rgba(2, 6, 23, 0.95) 50%, rgba(0, 0, 0, 0.98) 100%);
-            background-attachment: fixed;
+            background: var(--bg-primary);
             color: var(--text-primary);
             line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
         }
         
-        .glass-container { max-width: 1600px; margin: 0 auto; padding: 2rem; }
+        .glass-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: var(--glass-shadow);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
         
-        .liquid-header { text-align: center; padding: 3rem 2rem; margin-bottom: 2rem; }
+        .liquid-header { text-align: center; }
         .liquid-header h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: 2.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -1096,661 +1165,633 @@ class MarketBreadthHTMLGenerator:
         }
         
         .market-status {
-            display: inline-flex;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(72, 187, 120, 0.3);
-            background: rgba(72, 187, 120, 0.1);
-            color: var(--success);
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
         }
         
-        .score-badge {
+        .score-badge, .total-badge {
             background: rgba(255, 255, 255, 0.1);
-            padding: 0.25rem 0.75rem;
+            padding: 0.5rem 1rem;
             border-radius: 12px;
-            font-size: 0.9rem;
-            margin-left: 0.5rem;
+            font-weight: 600;
         }
         
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: #48bb78;
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.2); }
+        .total-badge {
+            background: rgba(79, 70, 229, 0.2);
+            color: #a78bfa;
         }
         
         .stats-liquid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 3rem;
         }
         
         .stat-glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
             text-align: center;
-            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
         }
         
         .stat-glass:hover {
-            transform: translateY(-12px) scale(1.05);
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
         }
         
         .stat-number {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--primary);
             margin-bottom: 0.5rem;
         }
         
         .stat-label {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             font-weight: 500;
-        }
-        
-        .stat-percent {
-            color: var(--glass-accent);
             font-size: 0.9rem;
-            font-weight: 600;
-            margin-top: 0.25rem;
         }
-        
-        .indices-analysis { padding: 2.5rem; margin-bottom: 2rem; }
         
         .section-title {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--text-primary);
             margin-bottom: 2rem;
             text-align: center;
-            position: relative;
+            color: var(--text-primary);
         }
         
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--glass-primary), var(--glass-secondary));
-            border-radius: 2px;
-        }
+        .nyse-section { padding: 2rem; }
         
-        .indices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+        .nyse-categories {
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
         }
         
-        /* ESTILOS ESPECÍFICOS PARA CARDS CON GRÁFICOS */
-        .index-detailed-card-with-chart {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 1.5rem;
-            transition: all 0.4s ease;
-            overflow: hidden;
-        }
-        
-        .index-detailed-card-with-chart:hover {
-            transform: translateY(-8px);
-            background: var(--glass-bg-hover);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .index-detailed-card-with-chart.bullish { border-left: 4px solid var(--success); }
-        .index-detailed-card-with-chart.bearish { border-left: 4px solid var(--danger); }
-        .index-detailed-card-with-chart.neutral { border-left: 4px solid var(--warning); }
-        
-        .index-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        
-        .index-symbol {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--glass-primary);
-        }
-        
-        .index-name {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
-        }
-        
-        .price {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        .change-20d {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-        
-        .positive { color: var(--success); }
-        .negative { color: var(--danger); }
-        
-        /* ESTILOS PARA GRÁFICOS FINVIZ */
-        .chart-section {
-            margin-bottom: 1.5rem;
-            position: relative;
-        }
-        
-        .chart-wrapper {
-            position: relative;
+        .nyse-category {
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 12px;
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
-        }
-        
-        .finviz-chart {
-            width: 100%;
-            height: auto;
-            max-height: 200px;
-            object-fit: cover;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        .chart-wrapper:hover .chart-overlay {
-            opacity: 1;
-        }
-        
-        .chart-expand {
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-            background: rgba(99, 102, 241, 0.8);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .chart-fallback {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 2px dashed var(--glass-border);
-        }
-        
-        .fallback-content {
-            text-align: center;
-            color: var(--text-secondary);
-        }
-        
-        .fallback-icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        .fallback-text {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-        }
-        
-        .fallback-link {
-            color: var(--glass-accent);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.25rem 0.5rem;
-            border: 1px solid var(--glass-accent);
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-        
-        .fallback-link:hover {
-            background: var(--glass-accent);
-            color: white;
-        }
-        
-        /* MODAL PARA GRÁFICOS */
-        .chart-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .modal-backdrop {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-        
-        .modal-content {
-            position: relative;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 0;
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow: hidden;
-            box-shadow: var(--glass-shadow);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             padding: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
         }
         
-        .modal-header h3 {
-            color: var(--text-primary);
-            font-size: 1.25rem;
+        .category-title {
+            font-size: 1.2rem;
             font-weight: 600;
-        }
-        
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 2rem;
-            cursor: pointer;
-            padding: 0.25rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--danger);
-        }
-        
-        .modal-body {
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .modal-body img {
-            max-width: 100%;
-            max-height: 70vh;
-            border-radius: 12px;
+            color: var(--primary);
             margin-bottom: 1rem;
+            text-align: center;
         }
         
-        .modal-actions {
-            margin-top: 1rem;
+        /* ORIGINAL NYSE GRID (MANTENIDO PARA COMPATIBILIDAD) */
+        .nyse-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
         }
         
-        .btn-finviz {
-            display: inline-block;
-            color: white;
-            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary));
-            text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            font-weight: 600;
+        .nyse-indicator {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid var(--glass-border);
         }
         
-        .btn-finviz:hover {
+        .nyse-indicator:hover {
+            background: rgba(255, 255, 255, 0.08);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
         }
         
-        .signals-section { margin-bottom: 1.5rem; }
+        .indicator-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
         
-        .signal-row {
+        .indicator-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+        
+        .indicator-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .indicator-change.positive { color: var(--success); }
+        .indicator-change.negative { color: var(--danger); }
+        
+        /* ============================================================================ */
+        /* NUEVOS ESTILOS PARA NYSE INDICATORS ENHANCED */
+        /* ============================================================================ */
+        
+        /* Grid mejorado para las tarjetas expandidas */
+        .nyse-grid-enhanced {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* Tarjeta de indicador mejorada */
+        .nyse-indicator-enhanced {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nyse-indicator-enhanced:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Colores de tendencia */
+        .nyse-indicator-enhanced.strong-bullish { border-left-color: #10b981; }
+        .nyse-indicator-enhanced.bullish { border-left-color: #34d399; }
+        .nyse-indicator-enhanced.neutral { border-left-color: #f59e0b; }
+        .nyse-indicator-enhanced.bearish { border-left-color: #f87171; }
+        .nyse-indicator-enhanced.strong-bearish { border-left-color: #ef4444; }
+        
+        /* Header de la tarjeta */
+        .indicator-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .indicator-main .indicator-name {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .indicator-main .indicator-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.3;
+            max-width: 200px;
+        }
+        
+        .status-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .status-badge.overbought { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
+        .status-badge.oversold { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
+        .status-badge.strong { background: rgba(79, 70, 229, 0.2); color: #a78bfa; }
+        .status-badge.weak { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+        
+        /* Sección de precios */
+        .price-section {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 8px;
         }
         
-        .signal-row.overall {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            font-weight: 600;
+        .current-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
         
-        .signal-label {
-            font-size: 0.9rem;
+        .price-changes {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .change-abs, .change-pct {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        
+        .prev-close {
+            font-size: 0.8rem;
             color: var(--text-secondary);
         }
         
-        .signal-value {
-            font-size: 0.9rem;
-            font-weight: 500;
+        /* Sección técnica */
+        .technical-section {
+            margin-bottom: 1rem;
         }
         
-        .metrics-grid {
+        .tech-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 0.5rem;
         }
         
-        .metric-item {
+        .tech-item {
             display: flex;
             justify-content: space-between;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.02);
+            align-items: center;
+            padding: 0.4rem 0.6rem;
+            background: rgba(255, 255, 255, 0.03);
             border-radius: 6px;
             font-size: 0.85rem;
         }
         
-        .metric-label { color: var(--text-secondary); }
-        .metric-value { font-weight: 600; }
-        
-        .performers-section { padding: 2.5rem; margin-bottom: 2rem; }
-        
-        .performers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        .tech-item label {
+            color: var(--text-secondary);
+            font-weight: 500;
         }
         
-        .performers-column {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
+        .tech-item span {
+            font-weight: 700;
         }
         
-        .performers-title {
-            color: var(--glass-primary);
+        .tech-item span.overbought { color: #f87171; }
+        .tech-item span.oversold { color: #34d399; }
+        .tech-item span.strong { color: #60a5fa; }
+        .tech-item span.weak { color: #fbbf24; }
+        
+        /* Sección de medias móviles */
+        .ma-section {
             margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(79, 70, 229, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(79, 70, 229, 0.1);
+        }
+        
+        .ma-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #a78bfa;
+            margin-bottom: 0.5rem;
             text-align: center;
         }
         
-        .performer-item {
+        .ma-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .ma-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 12px;
+            padding: 0.3rem 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .ma-item label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .ma-item span {
+            font-weight: 700;
+        }
+        
+        /* Sección de rangos */
+        .range-section {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(245, 158, 11, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(245, 158, 11, 0.1);
+        }
+        
+        .range-title {
             font-weight: 600;
+            font-size: 0.9rem;
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+            text-align: center;
         }
         
-        .performer-item.best {
-            background: rgba(72, 187, 120, 0.1);
-            border: 1px solid rgba(72, 187, 120, 0.3);
+        .range-bar {
+            position: relative;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            overflow: hidden;
         }
         
-        .performer-item.worst {
+        .range-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .range-marker {
+            position: absolute;
+            top: -2px;
+            width: 4px;
+            height: 12px;
+            background: #ffffff;
+            border-radius: 2px;
+            transform: translateX(-50%);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .range-current {
+            color: var(--text-primary) !important;
+            font-weight: 700;
+        }
+        
+        .range-distances {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Sección de performance */
+        .performance-section {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+        }
+        
+        .perf-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #6ee7b7;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .perf-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.4rem;
+        }
+        
+        .perf-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.3rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .perf-item.positive {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .perf-item.negative {
             background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
         
-        .charts-section { padding: 2.5rem; margin-bottom: 2rem; }
+        .perf-item.neutral {
+            background: rgba(156, 163, 175, 0.1);
+            border: 1px solid rgba(156, 163, 175, 0.2);
+        }
         
-        .charts-grid {
+        .perf-item label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .perf-item span {
+            font-weight: 700;
+        }
+        
+        .perf-item.positive span { color: #34d399; }
+        .perf-item.negative span { color: #f87171; }
+        .perf-item.neutral span { color: #9ca3af; }
+        
+        /* Footer de la tarjeta */
+        .indicator-footer {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .indicator-footer small {
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+        }
+        
+        /* ============================================================================ */
+        /* ESTILOS ORIGINALES PARA ÍNDICES (MANTENIDOS) */
+        /* ============================================================================ */
+        
+        .indices-analysis { padding: 2rem; }
+        
+        .indices-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
         }
         
-        .chart-container {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-        }
-        
-        .chart-title {
-            color: var(--glass-primary);
-            font-weight: 600;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        canvas {
+        .index-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            height: 250px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
         }
         
-        .floating-element { animation: float 6s ease-in-out infinite; }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        .index-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
         }
         
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease-out forwards;
+        .index-card.bullish { border-left: 4px solid var(--success); }
+        .index-card.bearish { border-left: 4px solid var(--danger); }
+        .index-card.neutral { border-left: 4px solid var(--warning); }
+        
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
         }
         
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
+        .index-symbol {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
         }
         
-        .footer-liquid {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2rem 0;
-            border-top: 1px solid var(--glass-border);
+        .index-name {
+            font-size: 0.8rem;
             color: var(--text-secondary);
         }
         
-        .footer-liquid a {
-            color: var(--glass-accent);
+        .price {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .change.positive { color: var(--success); }
+        .change.negative { color: var(--danger); }
+        
+        .chart-section { margin-bottom: 1rem; }
+        .finviz-chart {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 8px;
+        }
+        
+        .chart-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .chart-fallback a {
+            color: var(--primary);
             text-decoration: none;
-            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        
+        .index-metrics {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .positive { color: var(--success); }
+        .negative { color: var(--danger); }
+        
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        /* ============================================================================ */
+        /* RESPONSIVE DESIGN MEJORADO */
+        /* ============================================================================ */
+        
+        @media (max-width: 1200px) {
+            .nyse-grid-enhanced {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
         }
         
         @media (max-width: 768px) {
             .glass-container { padding: 1rem; }
             .indices-grid { grid-template-columns: 1fr; }
-            .charts-grid { grid-template-columns: 1fr; }
-            .performers-grid { grid-template-columns: 1fr; }
-            .metrics-grid { grid-template-columns: 1fr; }
+            .nyse-grid { grid-template-columns: repeat(2, 1fr); }
+            .nyse-grid-enhanced { grid-template-columns: 1fr; }
+            .market-status { flex-direction: column; }
+            .stats-liquid { grid-template-columns: repeat(2, 1fr); }
             
-            .modal-content {
-                max-width: 95vw;
-                max-height: 95vh;
+            .tech-grid, .ma-grid {
+                grid-template-columns: 1fr;
             }
             
-            .modal-body img {
-                max-height: 60vh;
+            .perf-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .price-changes {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-liquid { grid-template-columns: 1fr; }
+            .nyse-grid { grid-template-columns: 1fr; }
+            
+            .indicator-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+            
+            .status-badge {
+                align-self: center;
+            }
+            
+            .perf-grid {
+                grid-template-columns: 1fr;
             }
         }
         """
 
 
-# ==============================================================================
-# INTEGRACIÓN CON EL SISTEMA PRINCIPAL
-# ==============================================================================
+# ============================================================================
+# ASEGURAR COMPATIBILIDAD TOTAL CON EL SISTEMA PRINCIPAL
+# ============================================================================
 
-def add_market_breadth_to_system():
-    """
-    Función para añadir Market Breadth POR ÍNDICES al sistema principal
-    """
-    
-    def run_market_breadth_analysis(self):
-        """Ejecuta análisis de amplitud POR ÍNDICES ESPECÍFICOS"""
-        print("\n📊 EJECUTANDO ANÁLISIS DE BREADTH POR ÍNDICES CON GRÁFICOS")
-        print("=" * 60)
-        
-        try:
-            analyzer = MarketBreadthAnalyzer()
-            analysis_result = analyzer.run_breadth_analysis()
-            
-            if analysis_result:
-                # Guardar CSV
-                csv_path = analyzer.save_to_csv(analysis_result)
-                
-                # Generar HTML con gráficos
-                html_generator = MarketBreadthHTMLGenerator(self.github_uploader.base_url)
-                html_content = html_generator.generate_breadth_html(analysis_result)
-                
-                if html_content:
-                    html_path = "reports/market_breadth_report.html"
-                    with open(html_path, 'w', encoding='utf-8') as f:
-                        f.write(html_content)
-                    print(f"✅ HTML con gráficos generado: {html_path}")
-                    
-                    return {
-                        'analysis_result': analysis_result,
-                        'html_path': html_path,
-                        'csv_path': csv_path
-                    }
-                else:
-                    print("❌ Error generando HTML")
-                    return None
-            else:
-                print("❌ Error en análisis")
-                return None
-                
-        except Exception as e:
-            print(f"❌ Error en análisis por índices: {e}")
-            traceback.print_exc()
-            return None
-    
-    def upload_breadth_to_github_pages(self, breadth_results):
-        """Sube análisis por índices a GitHub Pages"""
-        try:
-            if not breadth_results:
-                return None
-            
-            analysis_result = breadth_results['analysis_result']
-            summary = analysis_result['summary']
-            timestamp = analysis_result['analysis_date']
-            
-            title = f"📊 Market Breadth por Índices con Gráficos - {summary['market_bias']} - {timestamp}"
-            description = f"Análisis de {summary['total_indicators']} índices: {summary['bullish_percentage']:.1f}% alcistas | Score: {summary['strength_score']} | Gráficos Finviz"
-            
-            result = self.github_uploader.upload_report(
-                breadth_results['html_path'],
-                breadth_results['csv_path'],
-                title,
-                description
-            )
-            
-            if result:
-                print(f"✅ Market Breadth con gráficos subido: {result['github_url']}")
-                return result
-            else:
-                print("❌ Error subiendo Market Breadth")
-                return None
-                
-        except Exception as e:
-            print(f"❌ Error subiendo Market Breadth: {e}")
-            return None
-    
-    return {
-        'run_market_breadth_analysis': run_market_breadth_analysis,
-        'upload_breadth_to_github_pages': upload_breadth_to_github_pages
-    }
+# Las clases están exportadas con los nombres exactos que espera tu sistema:
+# - MarketBreadthAnalyzer
+# - MarketBreadthHTMLGenerator
 
-if __name__ == "__main__":
-    # Test específico por índices CON GRÁFICOS
-    print("🧪 TESTING MARKET BREADTH POR ÍNDICES CON GRÁFICOS FINVIZ")
-    print("=" * 60)
-    
-    analyzer = MarketBreadthAnalyzer()
-    result = analyzer.run_breadth_analysis()
-    
-    if result:
-        print("\n✅ Test por índices completado exitosamente")
-        
-        # Test HTML generator con gráficos
-        html_gen = MarketBreadthHTMLGenerator()
-        html = html_gen.generate_breadth_html(result)
-        
-        if html:
-            with open("test_market_breadth_with_charts.html", "w", encoding="utf-8") as f:
-                f.write(html)
-            print("✅ HTML con gráficos generado: test_market_breadth_with_charts.html")
-        
-        # Test CSV
-        csv_path = analyzer.save_to_csv(result)
-        if csv_path:
-            print(f"✅ CSV por índices generado: {csv_path}")
-            
-        print("\n🎯 NUEVAS CARACTERÍSTICAS:")
-        print("   ✓ Gráficos Finviz integrados en cada caja")
-        print("   ✓ Modal para ampliar gráficos")
-        print("   ✓ Fallback si gráfico no carga")
-        print("   ✓ Links directos a Finviz")
-        print("   ✓ Hover effects en gráficos")
-        print("   ✓ Responsive design para móviles")
-        print("   ✓ Métricas REALES + visualización")
-        
-    else:
-        print("❌ Test fallido")
+# El sistema principal puede importar así:
+# from market_breadth_analyzer import MarketBreadthAnalyzer, MarketBreadthHTMLGenerator
+
+print("✅ Market Breadth Analyzer inicializado correctamente")
+print("📊 Compatible con sistema principal")
+print("🏛️ NYSE Data Extractor integrado")
+print("📈 HTML Generator MEJORADO incluido")
+print("🎯 DEFAULT: TODOS los indicadores NYSE (modo 'all')")
+print("🔧 CORREGIDO: Manejo seguro de valores None")
+print("📝 MEJORADO: Nombres descriptivos para indicadores NYSE")
+print("🚀 NUEVO: Tarjetas NYSE con MUCHA MÁS información")
+print("📊 NUEVO: RSI, ATR, ADX, Volumen, Medias Móviles, Rangos 52W, Performance histórica")

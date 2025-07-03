@@ -2,7 +2,6 @@
 """
 Sistema Unificado de Insider Trading + DJ Sectorial + Market Breadth Analyzer
 Versión COMPLETA con Market Breadth integrado - Con GitHub Pages funcionando
-ACTUALIZADO: Market Breadth usa TODOS los indicadores NYSE por defecto (60+)
 """
 
 import requests
@@ -23,7 +22,7 @@ import traceback
 try:
     from market_breadth_analyzer import MarketBreadthAnalyzer, MarketBreadthHTMLGenerator
     MARKET_BREADTH_AVAILABLE = True
-    print("✅ Market Breadth Analyzer cargado - MODO COMPLETO (60+ indicadores)")
+    print("✅ Market Breadth Analyzer cargado")
 except ImportError:
     print("⚠️ Market Breadth Analyzer no disponible")
     MARKET_BREADTH_AVAILABLE = False
@@ -708,8 +707,8 @@ class InsiderTradingSystem:
             return []
     
     def run_market_breadth_analysis(self):
-        """Ejecuta análisis de amplitud de mercado COMPLETO - ACTUALIZADO"""
-        print("\n📊 EJECUTANDO ANÁLISIS DE AMPLITUD DE MERCADO COMPLETO")
+        """Ejecuta análisis de amplitud de mercado - NUEVO"""
+        print("\n📊 EJECUTANDO ANÁLISIS DE AMPLITUD DE MERCADO")
         print("=" * 60)
         
         try:
@@ -718,22 +717,9 @@ class InsiderTradingSystem:
                 return None
             
             analyzer = MarketBreadthAnalyzer()
-            
-            # CAMBIO PRINCIPAL: El analyzer ya usa 'all' por defecto, pero lo explicitamos
-            print("🚀 Ejecutando análisis con TODOS los indicadores NYSE disponibles...")
-            analysis_result = analyzer.run_breadth_analysis(include_nyse=True, nyse_mode='all')
+            analysis_result = analyzer.run_breadth_analysis()
             
             if analysis_result:
-                nyse_count = len(analysis_result.get('nyse_data', {}))
-                indices_count = len(analysis_result.get('indices_data', {}))
-                total_indicators = nyse_count + indices_count
-                
-                print(f"✅ Market Breadth COMPLETO:")
-                print(f"   📊 Índices analizados: {indices_count}")
-                print(f"   🏛️ Indicadores NYSE: {nyse_count}")
-                print(f"   🎯 TOTAL indicadores: {total_indicators}")
-                print(f"   📈 Modo usado: {analysis_result.get('nyse_mode_used', 'all')}")
-                
                 # Guardar CSV
                 csv_path = analyzer.save_to_csv(analysis_result)
                 
@@ -765,7 +751,7 @@ class InsiderTradingSystem:
             return None
     
     def upload_breadth_to_github_pages(self, breadth_results):
-        """Sube análisis de amplitud a GitHub Pages - MEJORADO"""
+        """Sube análisis de amplitud a GitHub Pages - NUEVO"""
         try:
             if not breadth_results:
                 return None
@@ -774,13 +760,8 @@ class InsiderTradingSystem:
             summary = analysis_result['summary']
             timestamp = analysis_result['analysis_date']
             
-            # Información mejorada para el título
-            nyse_count = analysis_result.get('nyse_indicators_count', 0)
-            indices_count = analysis_result.get('indices_count', 0)
-            total_indicators = analysis_result.get('total_indicators', nyse_count + indices_count)
-            
-            title = f"📊 Market Breadth COMPLETO - {total_indicators} indicadores - {summary['market_bias']} - {timestamp}"
-            description = f"Análisis completo de amplitud con {nyse_count} indicadores NYSE + {indices_count} índices. Sesgo: {summary['market_bias']} ({summary['bullish_signals']} alcistas, {summary['bearish_signals']} bajistas)"
+            title = f"📊 Market Breadth - {summary['market_bias']} - {timestamp}"
+            description = f"Análisis de amplitud con {summary['bullish_signals']} señales alcistas y {summary['bearish_signals']} bajistas"
             
             result = self.github_uploader.upload_report(
                 breadth_results['html_path'],
@@ -790,9 +771,7 @@ class InsiderTradingSystem:
             )
             
             if result:
-                print(f"✅ Market Breadth COMPLETO subido a GitHub Pages:")
-                print(f"   🌐 URL: {result['github_url']}")
-                print(f"   📊 Indicadores: {total_indicators} totales")
+                print(f"✅ Market Breadth subido a GitHub Pages: {result['github_url']}")
                 return result
             else:
                 print("❌ Error subiendo Market Breadth")
@@ -1030,8 +1009,8 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             return results
     
     def run_daily_analysis_with_breadth(self, dj_mode="principales", include_breadth=True):
-        """Análisis diario ULTRA completo - Insider + DJ + Market Breadth COMPLETO - ACTUALIZADO"""
-        print("\n🌟 ANÁLISIS DIARIO ULTRA COMPLETO - INSIDER + DJ + MARKET BREADTH COMPLETO")
+        """Análisis diario ULTRA completo - Insider + DJ + Market Breadth - NUEVO"""
+        print("\n🌟 ANÁLISIS DIARIO ULTRA COMPLETO - INSIDER + DJ + MARKET BREADTH")
         print("=" * 80)
         print(f"📅 Inicio: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         
@@ -1069,10 +1048,10 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
                 results['dj_html'] = True
                 results['github_dj'] = self.upload_dj_to_github_pages(dj_analysis_results)
             
-            # FASE 3: MARKET BREADTH COMPLETO
+            # FASE 3: MARKET BREADTH (NUEVO)
             breadth_results = None
             if include_breadth and MARKET_BREADTH_AVAILABLE:
-                print("\n🔸 FASE 3: MARKET BREADTH COMPLETO (60+ INDICADORES)")
+                print("\n🔸 FASE 3: MARKET BREADTH")
                 print("=" * 40)
                 
                 breadth_results = self.run_market_breadth_analysis()
@@ -1092,7 +1071,7 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             
             self.create_bundle()
             
-            # Resumen final MEJORADO
+            # Resumen final
             print("\n" + "=" * 80)
             print("🎉 RESUMEN ANÁLISIS ULTRA COMPLETO")
             print("=" * 80)
@@ -1106,15 +1085,8 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             print(f"   • HTML: {'✓' if results['dj_html'] else '✗'}")
             print(f"   • GitHub Pages: {'✓' if results['github_dj'] else '✗'}")
             
-            print(f"📈 Market Breadth COMPLETO:")
+            print(f"📈 Market Breadth:")
             print(f"   • Análisis: {'✓' if results['breadth_analysis'] else '✗'}")
-            if results['breadth_analysis'] and breadth_results:
-                analysis_result = breadth_results['analysis_result']
-                nyse_count = analysis_result.get('nyse_indicators_count', 0)
-                indices_count = analysis_result.get('indices_count', 0)
-                total_indicators = analysis_result.get('total_indicators', nyse_count + indices_count)
-                print(f"   • Indicadores: {total_indicators} TOTAL ({nyse_count} NYSE + {indices_count} índices)")
-                print(f"   • Modo: {analysis_result.get('nyse_mode_used', 'all')} (COMPLETO)")
             print(f"   • HTML: {'✓' if results['breadth_html'] else '✗'}")
             print(f"   • GitHub Pages: {'✓' if results['github_breadth'] else '✗'}")
             
@@ -1126,7 +1098,7 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             if results['github_dj']:
                 print(f"📊 Ver DJ Sectorial: {results['github_dj'].get('github_url', 'N/A')}")
             if results['github_breadth']:
-                print(f"📈 Ver Market Breadth COMPLETO: {results['github_breadth'].get('github_url', 'N/A')}")
+                print(f"📈 Ver Market Breadth: {results['github_breadth'].get('github_url', 'N/A')}")
             
             return results
             
@@ -1222,7 +1194,7 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             return False
     
     def send_ultra_telegram_report(self, results, dj_analysis_results, breadth_results):
-        """Envía reporte ultra completo por Telegram MEJORADO con indicadores completos"""
+        """Envía reporte ultra completo por Telegram con Market Breadth - NUEVO"""
         try:
             from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
             from alerts.telegram_utils import send_message, send_file
@@ -1265,29 +1237,20 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
 • Sin datos disponibles
 • Estado: {'❌ Error en análisis' if results['dj_analysis'] else '⚠️ Sin ejecutar'}"""
             
-            # Estadísticas Market Breadth MEJORADAS CON INDICADORES COMPLETOS
+            # Estadísticas Market Breadth (NUEVO)
             breadth_stats = ""
             if breadth_results and results['breadth_analysis']:
-                analysis_result = breadth_results['analysis_result']
-                summary = analysis_result['summary']
-                nyse_count = analysis_result.get('nyse_indicators_count', 0)
-                indices_count = analysis_result.get('indices_count', 0)
-                total_indicators = analysis_result.get('total_indicators', nyse_count + indices_count)
-                nyse_mode = analysis_result.get('nyse_mode_used', 'all')
-                
-                breadth_stats = f"""📈 **Market Breadth COMPLETO:**
-• 🎯 {total_indicators} indicadores totales (MODO: {nyse_mode.upper()})
-• 🏛️ {nyse_count} indicadores NYSE reales
-• 📊 {indices_count} índices principales
+                summary = breadth_results['analysis_result']['summary']
+                breadth_stats = f"""📈 **Market Breadth:**
 • Sesgo: {summary['market_bias']}
 • Confianza: {summary['confidence']}
 • 🟢 {summary['bullish_signals']} señales alcistas
 • 🔴 {summary['bearish_signals']} señales bajistas
-• 💪 Score: {summary['strength_score']}
+• 💪 Fuerza: {summary['strength_score']}
 • Estado: {'✅ Subido' if results['github_breadth'] else '❌ Error'}"""
             else:
                 breadth_stats = f"""📈 **Market Breadth:**
-• Análisis de amplitud de mercado COMPLETO
+• Análisis de amplitud de mercado
 • Estado: {'❌ Error' if MARKET_BREADTH_AVAILABLE else '⚠️ No disponible'}"""
             
             # URLs de GitHub Pages
@@ -1297,7 +1260,7 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             if results['github_dj']:
                 github_links += f"\n📊 [Ver DJ Sectorial]({results['github_dj']['github_url']})"
             if results['github_breadth']:
-                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({results['github_breadth']['github_url']})"
+                github_links += f"\n📈 [Ver Market Breadth]({results['github_breadth']['github_url']})"
             
             if github_links:
                 base_url = "https://tantancansado.github.io/stock_analyzer_a"
@@ -1333,15 +1296,10 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
                 if send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, csv_dj_path, "📈 Datos DJ Sectorial"):
                     files_sent += 1
             
-            # CSV Market Breadth COMPLETO
+            # CSV Market Breadth (NUEVO)
             csv_breadth_path = "reports/market_breadth_analysis.csv"
             if os.path.exists(csv_breadth_path) and results['breadth_analysis']:
-                caption = "📊 Datos Market Breadth COMPLETO"
-                if breadth_results:
-                    total_indicators = breadth_results['analysis_result'].get('total_indicators', 0)
-                    caption += f" ({total_indicators} indicadores)"
-                
-                if send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, csv_breadth_path, caption):
+                if send_file(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, csv_breadth_path, "📊 Datos Market Breadth"):
                     files_sent += 1
             
             print(f"✅ Telegram ultra completo enviado - {files_sent} archivos adjuntados")
@@ -1676,38 +1634,19 @@ def test_components():
     except Exception as e:
         print(f"❌ Error en DJ Analyzer: {e}")
     
-    # 5. Test Market Breadth Analyzer COMPLETO
-    print("\n📈 Testing Market Breadth Analyzer COMPLETO:")
+    # 5. Test Market Breadth Analyzer (NUEVO)
+    print("\n📈 Testing Market Breadth Analyzer:")
     try:
         if MARKET_BREADTH_AVAILABLE:
             analyzer = MarketBreadthAnalyzer()
             print("✅ Market Breadth Analyzer inicializado")
             
-            # Test del modo por defecto (debería ser 'all' ahora)
-            print("🔄 Probando modo por defecto (debería ser COMPLETO)...")
+            # Test rápido
             test_result = analyzer.run_breadth_analysis()
             if test_result:
                 summary = test_result['summary']
-                nyse_count = test_result.get('nyse_indicators_count', 0)
-                indices_count = test_result.get('indices_count', 0)
-                total_indicators = test_result.get('total_indicators', 0)
-                nyse_mode = test_result.get('nyse_mode_used', 'unknown')
-                
-                print(f"✅ Test exitoso:")
-                print(f"   📊 Modo usado: {nyse_mode}")
-                print(f"   🏛️ NYSE: {nyse_count} indicadores")
-                print(f"   📈 Índices: {indices_count}")
-                print(f"   🎯 TOTAL: {total_indicators} indicadores")
-                print(f"   💪 Sesgo: {summary['market_bias']}")
-                print(f"   🟢 Señales alcistas: {summary['bullish_signals']}")
-                print(f"   🔴 Señales bajistas: {summary['bearish_signals']}")
-                
-                if nyse_count >= 40:
-                    print("🎉 ¡PERFECTO! Obteniendo TODOS los indicadores")
-                elif nyse_count >= 15:
-                    print("⚠️ Obteniendo indicadores básicos (modo CORE)")
-                else:
-                    print("❌ Muy pocos indicadores obtenidos")
+                print(f"✅ Test exitoso: {summary['market_bias']}")
+                print(f"✅ Señales: {summary['bullish_signals']} alcistas, {summary['bearish_signals']} bajistas")
             else:
                 print("❌ Test falló")
         else:
@@ -1724,10 +1663,8 @@ def test_components():
         
         # Test de generación de páginas
         manifest = uploader.load_manifest()
-        print(f"✅ Manifest cargado:")
-        print(f"   📊 Reportes insider: {len(manifest.get('reports', []))}")
-        print(f"   📈 Reportes DJ: {len(manifest.get('dj_reports', []))}")
-        print(f"   🎯 Reportes breadth: {len(manifest.get('breadth_reports', []))}")
+        print(f"✅ Manifest cargado: {len(manifest.get('reports', []))} reportes")
+        print(f"✅ Manifest cargado: {len(manifest.get('breadth_reports', []))} reportes breadth")
         
         if uploader.templates_available:
             print("✅ Templates Liquid Glass disponibles")
@@ -1738,7 +1675,7 @@ def test_components():
         print(f"❌ Error en GitHub Pages: {e}")
 
 def main():
-    """Función principal con menú ACTUALIZADO para indicadores completos"""
+    """Función principal con menú ACTUALIZADO"""
     if len(sys.argv) > 1:
         if sys.argv[1] == "--auto":
             system = InsiderTradingSystem()
@@ -1750,12 +1687,18 @@ def main():
         elif sys.argv[1] == "--ultra":
             mode = sys.argv[2] if len(sys.argv) > 2 else "principales"
             system = InsiderTradingSystem()
-            system.run_daily_analysis_with_breadth(mode, include_breadth=True)
+            if hasattr(system, 'run_daily_analysis_with_breadth'):
+                system.run_daily_analysis_with_breadth(mode, include_breadth=True)
+            else:
+                system.run_daily_combined_analysis(mode)
         elif sys.argv[1] == "--breadth":
             system = InsiderTradingSystem()
-            breadth_results = system.run_market_breadth_analysis()
-            if breadth_results:
-                system.upload_breadth_to_github_pages(breadth_results)
+            if hasattr(system, 'run_market_breadth_analysis'):
+                breadth_results = system.run_market_breadth_analysis()
+                if breadth_results:
+                    system.upload_breadth_to_github_pages(breadth_results)
+            else:
+                print("❌ Market Breadth no disponible")
         elif sys.argv[1] == "--test":
             test_components()
         elif sys.argv[1] == "--scraper":
@@ -1784,7 +1727,7 @@ def main():
             print("📊 SISTEMA TRADING UNIFICADO - MENÚ PRINCIPAL")
             print("=" * 80)
             print("🌟 ANÁLISIS DIARIO RECOMENDADO:")
-            print("  1. 🚀 ANÁLISIS DIARIO ULTRA COMPLETO (Insider + DJ + Breadth 60+ indicadores)")
+            print("  1. 🚀 ANÁLISIS DIARIO ULTRA COMPLETO (Insider + DJ + Breadth)")
             print("  2. 🔥 ANÁLISIS DIARIO COMPLETO (Insider + DJ Sectorial)")
             print("")
             print("🏛️ INSIDER TRADING:")
@@ -1799,8 +1742,8 @@ def main():
             print("  9. 🚀 Análisis completo (TODOS los sectores)")
             print(" 10. 📊 Solo análisis DJ (sin subir)")
             print("")
-            print("📈 MARKET BREADTH ANALYSIS COMPLETO:")
-            print(" 11. 📊 Análisis completo de amplitud (60+ indicadores NYSE)")
+            print("📈 MARKET BREADTH ANALYSIS:")
+            print(" 11. 📊 Análisis completo de amplitud")
             print(" 12. 📈 Solo análisis (sin subir)")
             print("")
             print("🎯 VCP SCANNER:")
@@ -1812,8 +1755,7 @@ def main():
             print(" 16. 📱 Test Telegram")
             print("  0. ❌ Salir")
             print("=" * 80)
-            print("💡 Recomendado para uso diario: Opción 1 (Ultra Completo con 60+ indicadores)")
-            print("🎯 Market Breadth ahora obtiene TODOS los indicadores NYSE por defecto")
+            print("💡 Recomendado para uso diario: Opción 1 (Ultra Completo)")
             print("=" * 80)
 
             opcion = input("Selecciona opción: ").strip()
@@ -1821,7 +1763,7 @@ def main():
             system = InsiderTradingSystem()
 
             if opcion == "1":
-                print("\n🌟 ANÁLISIS DIARIO ULTRA COMPLETO (60+ INDICADORES NYSE)")
+                print("\n🌟 ANÁLISIS DIARIO ULTRA COMPLETO")
                 print("Modo DJ Sectorial:")
                 print("  1. Principales (16 sectores) - Rápido")
                 print("  2. Detallado (35 sectores) - Medio")
@@ -1836,8 +1778,11 @@ def main():
                     dj_mode = "principales"
                 
                 print(f"\n🚀 Ejecutando análisis ultra completo con modo DJ: {dj_mode}")
-                print("📊 Market Breadth: TODOS los indicadores NYSE (60+)")
-                system.run_daily_analysis_with_breadth(dj_mode, include_breadth=True)
+                if hasattr(system, 'run_daily_analysis_with_breadth'):
+                    system.run_daily_analysis_with_breadth(dj_mode, include_breadth=True)
+                else:
+                    print("⚠️ Market Breadth no disponible, ejecutando análisis completo normal")
+                    system.run_daily_combined_analysis(dj_mode)
                 
             elif opcion == "2":
                 print("\n🔥 ANÁLISIS DIARIO COMPLETO")
@@ -1883,26 +1828,17 @@ def main():
                     mode = "principales"
                 system.run_dj_sectorial_analysis(mode)
             elif opcion == "11":
-                # Market Breadth completo con subida (60+ indicadores)
-                print("\n📊 EJECUTANDO MARKET BREADTH COMPLETO (60+ INDICADORES NYSE)")
-                breadth_results = system.run_market_breadth_analysis()
-                if breadth_results:
-                    analysis_result = breadth_results['analysis_result']
-                    total_indicators = analysis_result.get('total_indicators', 0)
-                    nyse_count = analysis_result.get('nyse_indicators_count', 0)
-                    print(f"🎯 Obtenidos {total_indicators} indicadores totales ({nyse_count} NYSE)")
-                    system.upload_breadth_to_github_pages(breadth_results)
+                # Market Breadth completo con subida
+                if hasattr(system, 'run_market_breadth_analysis'):
+                    breadth_results = system.run_market_breadth_analysis()
+                    if breadth_results:
+                        system.upload_breadth_to_github_pages(breadth_results)
                 else:
                     print("❌ Market Breadth no disponible")
             elif opcion == "12":
-                # Market Breadth solo análisis (60+ indicadores)
-                print("\n📊 EJECUTANDO MARKET BREADTH SOLO ANÁLISIS (60+ INDICADORES)")
-                breadth_results = system.run_market_breadth_analysis()
-                if breadth_results:
-                    analysis_result = breadth_results['analysis_result']
-                    total_indicators = analysis_result.get('total_indicators', 0)
-                    nyse_count = analysis_result.get('nyse_indicators_count', 0)
-                    print(f"🎯 Análisis completado: {total_indicators} indicadores totales ({nyse_count} NYSE)")
+                # Market Breadth solo análisis
+                if hasattr(system, 'run_market_breadth_analysis'):
+                    system.run_market_breadth_analysis()
                 else:
                     print("❌ Market Breadth no disponible")
             elif opcion == "13":
