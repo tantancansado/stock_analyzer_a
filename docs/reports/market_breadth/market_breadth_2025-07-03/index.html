@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Market Breadth COMPLETO - Índices + Indicadores de Amplitud | Dashboard</title>
-    <meta name="description" content="Análisis completo de 9 índices con métricas técnicas+ indicadores de amplitud extendidos y gráficos Finviz">
+    <title>📊 Market Breadth COMPLETO - Índices + Indicadores Ampliados + Extendidos | Dashboard</title>
+    <meta name="description" content="ANÁLISIS TRIPLE de 9 índices con indicadores de amplitud avanzados">
     <style>
         
-        /* CSS COMPLETO para análisis por índices + indicadores extendidos */
+        /* CSS MEJORADO para análisis original + indicadores ampliados */
         :root {
             --glass-primary: rgba(99, 102, 241, 0.9);
             --glass-secondary: rgba(139, 92, 246, 0.8);
@@ -21,6 +21,8 @@
             --success: rgba(72, 187, 120, 0.9);
             --warning: rgba(251, 191, 36, 0.9);
             --danger: rgba(239, 68, 68, 0.9);
+            --enhanced-primary: rgba(16, 185, 129, 0.9);
+            --enhanced-secondary: rgba(245, 158, 11, 0.9);
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -57,6 +59,35 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
+        }
+        
+        /* NUEVAS CLASES PARA BADGES DE ANÁLISIS */
+        .analysis-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .badge.active {
+            background: linear-gradient(135deg, var(--enhanced-primary), var(--enhanced-secondary));
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .badge.inactive {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
         }
         
         .market-status {
@@ -140,7 +171,246 @@
             margin-top: 0.25rem;
         }
         
-        /* SECCIÓN EXTENDIDA */
+        /* NUEVAS CLASES PARA INDICADORES AMPLIADOS */
+        .enhanced-breadth-section {
+            padding: 2.5rem;
+            margin: 2rem 0;
+        }
+        
+        .enhanced-breadth-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(245, 158, 11, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+        }
+        
+        .enhanced-breadth-intro p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .indicators-count {
+            display: inline-block;
+        }
+        
+        .count-badge {
+            background: linear-gradient(135deg, var(--enhanced-primary), var(--enhanced-secondary));
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .enhanced-indicators-grid {
+            margin-bottom: 2rem;
+        }
+        
+        .indicator-category {
+            margin-bottom: 2rem;
+        }
+        
+        .category-title {
+            color: var(--enhanced-primary);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--enhanced-primary);
+        }
+        
+        .category-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .enhanced-indicator-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enhanced-indicator-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* CLASES ESPECÍFICAS POR TIPO DE INDICADOR */
+        .mcclellan-card { border-left: 4px solid #3b82f6; }
+        .rasi-card { border-left: 4px solid #f59e0b; }
+        .percentage-card { border-left: 4px solid #10b981; }
+        .volatility-card { border-left: 4px solid #ef4444; }
+        .general-card { border-left: 4px solid #8b5cf6; }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .indicator-name {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .indicator-source-badge {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+        
+        .card-main-value {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .main-value {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--enhanced-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .value-change {
+            display: block;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .value-change.positive { color: var(--success); }
+        .value-change.negative { color: var(--danger); }
+        .value-change.neutral { color: var(--text-secondary); }
+        
+        .indicator-signal {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .indicator-regime {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin: 0.5rem 0;
+        }
+        
+        .card-footer {
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        
+        .last-update {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .enhanced-summary {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .enhanced-summary h3 {
+            color: var(--enhanced-primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+        
+        .stat-label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .stat-value.bullish { color: var(--success); }
+        .stat-value.bearish { color: var(--danger); }
+        .stat-value.neutral { color: var(--warning); }
+        
+        .key-indicators {
+            margin-top: 2rem;
+        }
+        
+        .key-indicators h4 {
+            color: var(--enhanced-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .key-indicator-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+        
+        .key-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .key-value {
+            font-weight: 700;
+            color: var(--enhanced-primary);
+        }
+        
+        .key-signal {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        /* SECCIÓN EXTENDIDA ORIGINAL */
         .extended-breadth-section {
             padding: 2.5rem;
             margin: 2rem 0;
@@ -290,16 +560,6 @@
         .metric-value.positive { color: var(--success); }
         .metric-value.negative { color: var(--danger); }
         
-        .indicator-signal {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 12px;
-            padding: 0.75rem;
-            text-align: center;
-            font-weight: 600;
-            margin-top: 1rem;
-        }
-        
         .indicator-signals {
             margin-top: 1rem;
         }
@@ -353,7 +613,7 @@
             color: var(--text-secondary);
         }
         
-        /* SECCIÓN ORIGINAL */
+        /* ANÁLISIS DE ÍNDICES (MANTENER ORIGINAL) */
         .indices-analysis { padding: 2.5rem; margin-bottom: 2rem; }
         
         .section-title {
@@ -688,9 +948,6 @@
             font-size: 0.85rem;
         }
         
-        .metric-label { color: var(--text-secondary); }
-        .metric-value { font-weight: 600; }
-        
         .performers-section { padding: 2.5rem; margin-bottom: 2rem; }
         
         .performers-grid {
@@ -798,6 +1055,8 @@
             .performers-grid { grid-template-columns: 1fr; }
             .metrics-grid { grid-template-columns: 1fr; }
             .extended-indicators-grid { grid-template-columns: 1fr; }
+            .category-cards { grid-template-columns: 1fr; }
+            .summary-stats { grid-template-columns: repeat(2, 1fr); }
             
             .extended-summary-header {
                 flex-direction: column;
@@ -807,6 +1066,11 @@
             .extended-signals {
                 justify-content: center;
                 gap: 1rem;
+            }
+            
+            .analysis-badges {
+                flex-direction: column;
+                align-items: center;
             }
             
             .modal-content {
@@ -824,8 +1088,13 @@
 <body>
     <div class="glass-container">
         <header class="liquid-header glass-card floating-element">
-            <h1>📊 Market Breadth Analysis COMPLETO</h1>
-            <p>Análisis completo de 9 índices con métricas técnicas reales + indicadores extendidos</p>
+            <h1>📊 Market Breadth Analysis ANÁLISIS TRIPLE</h1>
+            <p>ANÁLISIS TRIPLE de 9 índices con indicadores técnicos y de amplitud avanzados</p>
+            <div class="analysis-badges">
+                <span class="badge active">📊 Índices</span>
+                <span class="badge active">🎯 Amplitud Ampliada</span>
+                <span class="badge active">🔍 Extendido</span>
+            </div>
             <div class="market-status">
                 <div class="pulse-dot"></div>
                 <span>🚀 🟢 EXTREMADAMENTE ALCISTA • 100.0% Alcistas</span>
@@ -854,9 +1123,191 @@
         </section>
         
         
-        <!-- SECCIÓN EXTENDIDA DE AMPLITUD -->
+        <!-- SECCIÓN DE INDICADORES DE AMPLITUD AMPLIADOS -->
+        <section class="enhanced-breadth-section glass-card">
+            <h2 class="section-title">🎯 Indicadores de Amplitud Ampliados</h2>
+            <div class="enhanced-breadth-intro">
+                <p>Indicadores profesionales de amplitud de mercado obtenidos de fuentes múltiples</p>
+                <div class="indicators-count">
+                    <span class="count-badge">5 indicadores obtenidos</span>
+                </div>
+            </div>
+            
+            <div class="enhanced-indicators-grid">
+                
+                <div class="indicator-category">
+                    <h4 class="category-title">McClellan Family</h4>
+                    <div class="category-cards">
+                        
+        <div class="enhanced-indicator-card mcclellan-card">
+            <div class="card-header">
+                <h5 class="indicator-name">🌊 McClellan Oscillator (NYMO)</h5>
+                <span class="indicator-source-badge">amplitudmercado.com McClellan</span>
+            </div>
+            
+            <div class="card-main-value">
+                <span class="main-value">1.00</span>
+                
+            </div>
+            
+            <div class="indicator-signal">🟡 Neutral</div>
+            <div class="indicator-regime">Régimen: Neutral</div>
+            
+            <div class="card-footer">
+                <span class="last-update">Actualizado: N/A</span>
+            </div>
+        </div>
+        
+        <div class="enhanced-indicator-card mcclellan-card">
+            <div class="card-header">
+                <h5 class="indicator-name">📈 McClellan Summation (NYMOT)</h5>
+                <span class="indicator-source-badge">amplitudmercado.com Summation</span>
+            </div>
+            
+            <div class="card-main-value">
+                <span class="main-value">1.00</span>
+                
+            </div>
+            
+            <div class="indicator-signal">🟡 Neutral</div>
+            <div class="indicator-regime">Régimen: Neutral</div>
+            
+            <div class="card-footer">
+                <span class="last-update">Actualizado: N/A</span>
+            </div>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="indicator-category">
+                    <h4 class="category-title">Indicadores Especiales</h4>
+                    <div class="category-cards">
+                        
+        <div class="enhanced-indicator-card rasi-card">
+            <div class="card-header">
+                <h5 class="indicator-name">📊 RASI (Ramsey Stock Index)</h5>
+                <span class="indicator-source-badge">amplitudmercado.com RASI</span>
+            </div>
+            
+            <div class="card-main-value">
+                <span class="main-value">1.00</span>
+                
+            </div>
+            
+            <div class="indicator-signal">🟢 Extremo Sobrevendido</div>
+            
+            
+            <div class="card-footer">
+                <span class="last-update">Actualizado: N/A</span>
+            </div>
+        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="indicator-category">
+                    <h4 class="category-title">Volatilidad & Flujo</h4>
+                    <div class="category-cards">
+                        
+        <div class="enhanced-indicator-card volatility-card">
+            <div class="card-header">
+                <h5 class="indicator-name">😱 VIX (Volatilidad)</h5>
+                <span class="indicator-source-badge">Yahoo Finance (^VIX)</span>
+            </div>
+            
+            <div class="card-main-value">
+                <span class="main-value">16.69</span>
+                <span class="value-change positive">+0.30%</span>
+            </div>
+            
+            
+            
+            
+            <div class="card-footer">
+                <span class="last-update">Actualizado: N/A</span>
+            </div>
+        </div>
+        
+        <div class="enhanced-indicator-card general-card">
+            <div class="card-header">
+                <h5 class="indicator-name">📊 VXN (Vol. NASDAQ)</h5>
+                <span class="indicator-source-badge">Yahoo Finance (^VXN)</span>
+            </div>
+            
+            <div class="card-main-value">
+                <span class="main-value">19.74</span>
+                <span class="value-change negative">-0.70%</span>
+            </div>
+            
+            
+            
+            
+            <div class="card-footer">
+                <span class="last-update">Actualizado: N/A</span>
+            </div>
+        </div>
+        
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="enhanced-summary">
+                <h3>📊 Resumen de Amplitud</h3>
+                <div class="summary-metrics">
+                    
+        <div class="summary-stats">
+            <div class="stat-item">
+                <span class="stat-label">Total Indicadores:</span>
+                <span class="stat-value">5</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Alcistas:</span>
+                <span class="stat-value bullish">1 (20.0%)</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Bajistas:</span>
+                <span class="stat-value bearish">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Neutrales:</span>
+                <span class="stat-value neutral">4</span>
+            </div>
+        </div>
+        
+        <div class="key-indicators">
+            <h4>🎯 Indicadores Clave</h4>
+            
+                <div class="key-indicator-item">
+                    <span class="key-name">Mcclellan Oscillator:</span>
+                    <span class="key-value">1.00</span>
+                    <span class="key-signal">🟡 Neutral</span>
+                </div>
+                
+                <div class="key-indicator-item">
+                    <span class="key-name">Mcclellan Summation:</span>
+                    <span class="key-value">1.00</span>
+                    <span class="key-signal">🟡 Neutral</span>
+                </div>
+                
+                <div class="key-indicator-item">
+                    <span class="key-name">Rasi Index:</span>
+                    <span class="key-value">1.00</span>
+                    <span class="key-signal">🟢 Extremo Sobrevendido</span>
+                </div>
+                
+        </div>
+        
+                </div>
+            </div>
+        </section>
+        
+        
+        
+        <!-- SECCIÓN EXTENDIDA ORIGINAL -->
         <section class="extended-breadth-section glass-card">
-            <h2 class="section-title">🎯 Indicadores de Amplitud Extendidos</h2>
+            <h2 class="section-title">🔍 Indicadores Extendidos (Original)</h2>
             
             <div class="extended-summary-card">
                 <div class="extended-summary-header">
@@ -903,7 +1354,7 @@
             <div class="indicator-metrics">
                 <div class="metric-row">
                     <span class="metric-label">VIX Actual:</span>
-                    <span class="metric-value">16.68</span>
+                    <span class="metric-value">16.70</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">VIX MA20:</span>
@@ -957,11 +1408,11 @@
             <div class="indicator-metrics">
                 <div class="metric-row">
                     <span class="metric-label">Oscilador:</span>
-                    <span class="metric-value">-8.00</span>
+                    <span class="metric-value">25.00</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">Summation:</span>
-                    <span class="metric-value">-120</span>
+                    <span class="metric-value">375</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">Régimen:</span>
@@ -984,11 +1435,11 @@
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">TICK:</span>
-                    <span class="metric-value">531</span>
+                    <span class="metric-value">279</span>
                 </div>
                 <div class="metric-row">
                     <span class="metric-label">TICK Promedio:</span>
-                    <span class="metric-value">372</span>
+                    <span class="metric-value">195</span>
                 </div>
             </div>
             <div class="indicator-signals">
@@ -1828,8 +2279,8 @@
         </section>
         
         <footer class="footer-liquid">
-            <p>📊 Market Breadth Analysis COMPLETO • Métricas Técnicas Reales • Gráficos Finviz</p>
-            <p>
+            <p>📊 Market Breadth Analysis ANÁLISIS TRIPLE • Indicadores Técnicos Avanzados • Gráficos Finviz</p>
+            <p>Generado: 2025-07-03 • 
                 <a href="https://tantancansado.github.io/stock_analyzer_a">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
                 <a href="insider_trading.html">🏛️ Insider Trading</a>
@@ -1843,7 +2294,6 @@
         
         // Inicializar gráficos específicos
         
-        // Configuración de gráficos
         const chartConfig = {
             responsive: true,
             maintainAspectRatio: false,
@@ -1855,7 +2305,6 @@
         };
         
         window.addEventListener('load', function() {
-            // Performance Chart
             new Chart(document.getElementById('performanceChart'), {
                 type: 'bar',
                 data: {
@@ -1871,7 +2320,6 @@
                 options: chartConfig
             });
             
-            // RSI Chart
             new Chart(document.getElementById('rsiChart'), {
                 type: 'bar',
                 data: {
@@ -1889,7 +2337,6 @@
                 options: chartConfig
             });
             
-            // MA200 Chart
             new Chart(document.getElementById('ma200Chart'), {
                 type: 'bar',
                 data: {
@@ -1905,7 +2352,6 @@
                 options: chartConfig
             });
             
-            // Volatility Chart
             new Chart(document.getElementById('volatilityChart'), {
                 type: 'bar',
                 data: {
@@ -1923,9 +2369,7 @@
         
         // Funcionalidad de modal para gráficos Finviz
         
-        // Modal para gráficos Finviz
         function openChartModal(symbol, chartUrl) {
-            // Crear modal si no existe
             let modal = document.getElementById('chartModal');
             if (!modal) {
                 modal = document.createElement('div');
@@ -1951,12 +2395,10 @@
                 document.body.appendChild(modal);
             }
             
-            // Actualizar contenido del modal
             document.getElementById('modalTitle').textContent = `Gráfico ${symbol}`;
             document.getElementById('modalChart').src = chartUrl;
             document.getElementById('finvizLink').href = chartUrl;
             
-            // Mostrar modal
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -1969,7 +2411,6 @@
             }
         }
         
-        // Cerrar modal con ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeChartModal();
@@ -1977,11 +2418,12 @@
         });
         
         
-        console.log('📊 Market Breadth COMPLETO Loaded');
+        console.log('📊 Market Breadth ANÁLISIS TRIPLE Loaded');
         console.log('🎯 Índices analizados: 9');
         console.log('📈 Alcistas: 100.0%');
         console.log('💪 Strength Score: 47');
-        console.log("🔍 Con indicadores extendidos");
+        console.log("🎯 Con indicadores de amplitud ampliados");
+        console.log("🔍 Con análisis extendido");
     </script>
 </body>
 </html>
