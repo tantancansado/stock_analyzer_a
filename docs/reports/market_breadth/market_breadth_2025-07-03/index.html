@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Market Breadth COMPLETO - Índices + NYSE | Dashboard</title>
+    <title>📊 Market Breadth COMPLETO - 81 Indicadores | Dashboard</title>
     <style>
         
         :root {
@@ -58,16 +58,22 @@
             flex-wrap: wrap;
         }
         
-        .score-badge {
+        .score-badge, .total-badge {
             background: rgba(255, 255, 255, 0.1);
             padding: 0.5rem 1rem;
             border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .total-badge {
+            background: rgba(79, 70, 229, 0.2);
+            color: #a78bfa;
         }
         
         .stats-liquid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
             margin-bottom: 3rem;
         }
         
@@ -75,7 +81,7 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
         }
@@ -95,6 +101,7 @@
         .stat-label {
             color: var(--text-secondary);
             font-weight: 500;
+            font-size: 0.9rem;
         }
         
         .section-title {
@@ -106,6 +113,27 @@
         }
         
         .nyse-section { padding: 2rem; }
+        
+        .nyse-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .nyse-category {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
         .nyse-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -117,16 +145,30 @@
             border-radius: 8px;
             padding: 1rem;
             text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .nyse-indicator:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
         }
         
         .indicator-name {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary);
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+        
+        .indicator-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
             margin-bottom: 0.5rem;
+            font-style: italic;
         }
         
         .indicator-value {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 700;
             margin-bottom: 0.25rem;
         }
@@ -242,6 +284,12 @@
             .indices-grid { grid-template-columns: 1fr; }
             .nyse-grid { grid-template-columns: repeat(2, 1fr); }
             .market-status { flex-direction: column; }
+            .stats-liquid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-liquid { grid-template-columns: 1fr; }
+            .nyse-grid { grid-template-columns: 1fr; }
         }
         
     </style>
@@ -251,10 +299,11 @@
     <div class="glass-container">
         <header class="liquid-header glass-card">
             <h1>📊 Market Breadth Analysis COMPLETO</h1>
-            <p>Análisis de 9 índices + 19 indicadores NYSE</p>
+            <p>Análisis de 9 índices + 72 indicadores NYSE</p>
             <div class="market-status">
                 <span>🟢 FUERTEMENTE ALCISTA • 100.0% Alcistas</span>
                 <div class="score-badge">Score: 90</div>
+                <div class="total-badge">Total: 81 indicadores</div>
             </div>
         </header>
         
@@ -267,90 +316,593 @@
                 <div class="stat-number">9</div>
                 <div class="stat-label">Índices</div>
             </div>
-            <div class="stat-glass"><div class="stat-number">19</div><div class="stat-label">NYSE</div></div>
+            <div class="stat-glass"><div class="stat-number">72</div><div class="stat-label">NYSE</div></div>
             <div class="stat-glass">
-                <div class="stat-number">67</div>
+                <div class="stat-number">68</div>
                 <div class="stat-label">RSI Promedio</div>
             </div>
+            <div class="stat-glass"><div class="stat-number">81</div><div class="stat-label">Total Indicadores</div></div>
         </section>
         
         
         <section class="nyse-section glass-card">
-            <h2 class="section-title">🏛️ Indicadores NYSE (19 reales)</h2>
-            <div class="nyse-grid">
+            <h2 class="section-title">🏛️ Indicadores NYSE (72 reales)</h2>
+            <div class="nyse-categories">
         
-            <div class="nyse-indicator">
-                <div class="indicator-name">NYMO</div>
-                <div class="indicator-value">54.89</div>
-                <div class="indicator-change positive">+34.34%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">NYMOT</div>
-                <div class="indicator-value">153.40</div>
-                <div class="indicator-change positive">+34.21%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">NYSI</div>
-                <div class="indicator-value">743.53</div>
-                <div class="indicator-change positive">+7.97%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">SPXADP</div>
-                <div class="indicator-value">48.20</div>
-                <div class="indicator-change positive">+230.14%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">MIDADP</div>
-                <div class="indicator-value">58.50</div>
-                <div class="indicator-change positive">+5.88%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">SMLADP</div>
-                <div class="indicator-value">51.67</div>
-                <div class="indicator-change negative">-14.84%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">TRIN</div>
-                <div class="indicator-value">1.10</div>
-                <div class="indicator-change negative">-11.39%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">TRINQ</div>
-                <div class="indicator-value">0.66</div>
-                <div class="indicator-change negative">-49.97%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">NYA50R</div>
-                <div class="indicator-value">79.86</div>
-                <div class="indicator-change positive">+1.39%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">NYA200R</div>
-                <div class="indicator-value">56.84</div>
-                <div class="indicator-change positive">+2.04%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">SPXA50R</div>
-                <div class="indicator-value">78.40</div>
-                <div class="indicator-change positive">+2.08%</div>
-            </div>
-            
-            <div class="nyse-indicator">
-                <div class="indicator-name">SPXA200R</div>
-                <div class="indicator-value">64.60</div>
-                <div class="indicator-change positive">+3.19%</div>
-            </div>
-            
+                <div class="nyse-category">
+                    <h3 class="category-title">McClellan & Momentum</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYMOT</div>
+                        <div class="indicator-desc">McClellan Oscillator Total</div>
+                        <div class="indicator-value">153.40</div>
+                        <div class="indicator-change positive">+34.21%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYMO</div>
+                        <div class="indicator-desc">McClellan Oscillator NYSE</div>
+                        <div class="indicator-value">54.89</div>
+                        <div class="indicator-change positive">+34.34%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYSI</div>
+                        <div class="indicator-desc">McClellan Summation Index</div>
+                        <div class="indicator-value">743.53</div>
+                        <div class="indicator-change positive">+7.97%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAMO</div>
+                        <div class="indicator-desc">NASDAQ McClellan Oscillator</div>
+                        <div class="indicator-value">32.69</div>
+                        <div class="indicator-change positive">+68.42%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NASI</div>
+                        <div class="indicator-desc">NASDAQ McClellan Summation</div>
+                        <div class="indicator-value">314.46</div>
+                        <div class="indicator-change positive">+11.60%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Advance-Decline</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYADL</div>
+                        <div class="indicator-desc">NYSE Advance-Decline Line</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAADL</div>
+                        <div class="indicator-desc">NASDAQ Advance-Decline Line</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">SPXADP</div>
+                        <div class="indicator-desc">S&P 500 Advance-Decline %</div>
+                        <div class="indicator-value">42.20</div>
+                        <div class="indicator-change positive">+189.04%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">MIDADP</div>
+                        <div class="indicator-desc">S&P 400 Mid-Cap A-D %</div>
+                        <div class="indicator-value">58.00</div>
+                        <div class="indicator-change positive">+4.98%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">SMLADP</div>
+                        <div class="indicator-desc">S&P 600 Small-Cap A-D %</div>
+                        <div class="indicator-value">52.00</div>
+                        <div class="indicator-change negative">-14.29%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Arms Index & TRIN</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">TRIN</div>
+                        <div class="indicator-desc">Arms Index NYSE (TRIN)</div>
+                        <div class="indicator-value">0.59</div>
+                        <div class="indicator-change negative">-46.67%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">TRINQ</div>
+                        <div class="indicator-desc">NASDAQ TRIN</div>
+                        <div class="indicator-value">0.40</div>
+                        <div class="indicator-change negative">-38.36%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Sentiment & Volatility</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">VIX</div>
+                        <div class="indicator-desc">VIX Volatility Index</div>
+                        <div class="indicator-value">16.41</div>
+                        <div class="indicator-change negative">-1.38%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">VXN</div>
+                        <div class="indicator-desc">NASDAQ Volatility Index (VXN)</div>
+                        <div class="indicator-value">19.48</div>
+                        <div class="indicator-change negative">-1.32%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">CPC</div>
+                        <div class="indicator-desc">CBOE Put/Call Ratio</div>
+                        <div class="indicator-value">0.83</div>
+                        <div class="indicator-change negative">-3.49%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">CPCE</div>
+                        <div class="indicator-desc">CBOE Equity Put/Call</div>
+                        <div class="indicator-value">0.55</div>
+                        <div class="indicator-change positive">+7.84%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Bullish Percent</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">BPSPX</div>
+                        <div class="indicator-desc">S&P 500 Bullish Percent</div>
+                        <div class="indicator-value">73.40</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">BPNDX</div>
+                        <div class="indicator-desc">NASDAQ 100 Bullish Percent</div>
+                        <div class="indicator-value">76.00</div>
+                        <div class="indicator-change negative">-1.30%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">BPNYA</div>
+                        <div class="indicator-desc">NYSE Bullish Percent</div>
+                        <div class="indicator-value">63.55</div>
+                        <div class="indicator-change positive">+0.69%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">New Highs/Lows</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYHGH</div>
+                        <div class="indicator-desc">NYSE New Highs</div>
+                        <div class="indicator-value">127.00</div>
+                        <div class="indicator-change positive">+3.28%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYLOW</div>
+                        <div class="indicator-desc">NYSE New Lows</div>
+                        <div class="indicator-value">5.00</div>
+                        <div class="indicator-change negative">-58.33%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAHGH</div>
+                        <div class="indicator-desc">NASDAQ New Highs</div>
+                        <div class="indicator-value">175.00</div>
+                        <div class="indicator-change negative">-13.37%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NALOW</div>
+                        <div class="indicator-desc">NASDAQ New Lows</div>
+                        <div class="indicator-value">22.00</div>
+                        <div class="indicator-change negative">-65.08%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Moving Averages %</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYA50R</div>
+                        <div class="indicator-desc">NYSE % Above 50-Day MA</div>
+                        <div class="indicator-value">79.77</div>
+                        <div class="indicator-change positive">+1.28%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYA200R</div>
+                        <div class="indicator-desc">NYSE % Above 200-Day MA</div>
+                        <div class="indicator-value">57.10</div>
+                        <div class="indicator-change positive">+2.51%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">SPXA50R</div>
+                        <div class="indicator-desc">S&P 500 % Above 50-Day MA</div>
+                        <div class="indicator-value">77.80</div>
+                        <div class="indicator-change positive">+1.30%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">SPXA200R</div>
+                        <div class="indicator-desc">S&P 500 % Above 200-Day MA</div>
+                        <div class="indicator-value">64.20</div>
+                        <div class="indicator-change positive">+2.56%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Major Indices</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">SPX</div>
+                        <div class="indicator-desc">S&P 500 Index</div>
+                        <div class="indicator-value">6270.63</div>
+                        <div class="indicator-change positive">+0.69%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">COMPQ</div>
+                        <div class="indicator-desc">NASDAQ Composite</div>
+                        <div class="indicator-value">20584.95</div>
+                        <div class="indicator-change positive">+0.94%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYA</div>
+                        <div class="indicator-desc">NYSE Composite</div>
+                        <div class="indicator-value">20686.10</div>
+                        <div class="indicator-change positive">+0.43%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">DJI</div>
+                        <div class="indicator-desc">Dow Jones Industrial</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">RUT</div>
+                        <div class="indicator-desc">Russell 2000</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Bonds & Commodities</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">TNX</div>
+                        <div class="indicator-desc">10-Year Treasury Yield</div>
+                        <div class="indicator-value">43.44</div>
+                        <div class="indicator-change positive">+1.19%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">TYX</div>
+                        <div class="indicator-desc">30-Year Treasury Yield</div>
+                        <div class="indicator-value">48.54</div>
+                        <div class="indicator-change positive">+0.64%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">DXY</div>
+                        <div class="indicator-desc">US Dollar Index</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">GOLD</div>
+                        <div class="indicator-desc">Gold Price</div>
+                        <div class="indicator-value">3364.63</div>
+                        <div class="indicator-change positive">+0.79%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">WTIC</div>
+                        <div class="indicator-desc">WTI Crude Oil</div>
+                        <div class="indicator-value">67.53</div>
+                        <div class="indicator-change positive">+3.18%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                <div class="nyse-category">
+                    <h3 class="category-title">Otros</h3>
+                    <div class="nyse-grid">
+                
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYAD</div>
+                        <div class="indicator-desc">NYSE Advance-Decline Issues</div>
+                        <div class="indicator-value">1183.00</div>
+                        <div class="indicator-change negative">-9.67%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAAD</div>
+                        <div class="indicator-desc">NASDAQ Advance-Decline Issues</div>
+                        <div class="indicator-value">1285.00</div>
+                        <div class="indicator-change negative">-18.54%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAADP</div>
+                        <div class="indicator-desc">NASDAQ Advance-Decline %</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYHL</div>
+                        <div class="indicator-desc">NYSE High-Low Index</div>
+                        <div class="indicator-value">122.00</div>
+                        <div class="indicator-change positive">+10.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAHL</div>
+                        <div class="indicator-desc">NASDAQ High-Low Index</div>
+                        <div class="indicator-value">153.00</div>
+                        <div class="indicator-change positive">+10.07%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAA50R</div>
+                        <div class="indicator-desc">NASDAQ % Above 50-Day MA</div>
+                        <div class="indicator-value">65.10</div>
+                        <div class="indicator-change positive">+1.92%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAA200R</div>
+                        <div class="indicator-desc">NASDAQ % Above 200-Day MA</div>
+                        <div class="indicator-value">41.87</div>
+                        <div class="indicator-change positive">+2.38%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYUPV</div>
+                        <div class="indicator-desc">NYSE Up Volume</div>
+                        <div class="indicator-value">431.72</div>
+                        <div class="indicator-change negative">-89.25%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYDNV</div>
+                        <div class="indicator-desc">NYSE Down Volume</div>
+                        <div class="indicator-value">92.33</div>
+                        <div class="indicator-change negative">-94.17%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAUPV</div>
+                        <div class="indicator-desc">NASDAQ Up Volume</div>
+                        <div class="indicator-value">1640.90</div>
+                        <div class="indicator-change negative">-73.98%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NADNV</div>
+                        <div class="indicator-desc">NASDAQ Down Volume</div>
+                        <div class="indicator-value">335.33</div>
+                        <div class="indicator-change negative">-83.37%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAUD</div>
+                        <div class="indicator-desc">NASDAQ Up-Down Volume</div>
+                        <div class="indicator-value">1305.57</div>
+                        <div class="indicator-change negative">-69.56%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYUD</div>
+                        <div class="indicator-desc">NYSE Up-Down Volume</div>
+                        <div class="indicator-value">339.39</div>
+                        <div class="indicator-change negative">-85.99%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">BPCOMPQ</div>
+                        <div class="indicator-desc">NASDAQ Composite Bullish %</div>
+                        <div class="indicator-value">57.19</div>
+                        <div class="indicator-change positive">+0.71%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">RHNYA</div>
+                        <div class="indicator-desc">NYSE Record High Percent</div>
+                        <div class="indicator-value">91.04</div>
+                        <div class="indicator-change positive">+3.84%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">RHNDX</div>
+                        <div class="indicator-desc">NASDAQ 100 Record High %</div>
+                        <div class="indicator-value">100.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">RHSPX</div>
+                        <div class="indicator-desc">S&P 500 Record High %</div>
+                        <div class="indicator-value">88.24</div>
+                        <div class="indicator-change negative">-11.76%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">RVX</div>
+                        <div class="indicator-desc">Russell 2000 Volatility</div>
+                        <div class="indicator-value">22.32</div>
+                        <div class="indicator-change negative">-4.74%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">VXD</div>
+                        <div class="indicator-desc">Dow Jones Volatility</div>
+                        <div class="indicator-value">15.37</div>
+                        <div class="indicator-change negative">-1.09%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">CPCN</div>
+                        <div class="indicator-desc">CBOE NASDAQ Put/Call</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">AAIIBULL</div>
+                        <div class="indicator-desc">AAII Bullish Sentiment</div>
+                        <div class="indicator-value">35.10</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">AAIIBEAR</div>
+                        <div class="indicator-desc">AAII Bearish Sentiment</div>
+                        <div class="indicator-value">40.30</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">AAIINEUR</div>
+                        <div class="indicator-desc">AAII Neutral Sentiment</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAAIMBULL</div>
+                        <div class="indicator-desc">NAAIM Bullish Sentiment</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NAAIMEXP</div>
+                        <div class="indicator-desc">NAAIM Exposure</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">XLF</div>
+                        <div class="indicator-desc">Financial Sector ETF</div>
+                        <div class="indicator-value">53.07</div>
+                        <div class="indicator-change positive">+0.86%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">XLK</div>
+                        <div class="indicator-desc">Technology Sector ETF</div>
+                        <div class="indicator-value">256.93</div>
+                        <div class="indicator-change positive">+1.31%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">XLE</div>
+                        <div class="indicator-desc">Energy Sector ETF</div>
+                        <div class="indicator-value">86.89</div>
+                        <div class="indicator-change negative">-0.05%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">XLI</div>
+                        <div class="indicator-desc">Industrial Sector ETF</div>
+                        <div class="indicator-value">149.22</div>
+                        <div class="indicator-change positive">+0.72%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">XLV</div>
+                        <div class="indicator-desc">Healthcare Sector ETF</div>
+                        <div class="indicator-value">135.55</div>
+                        <div class="indicator-change positive">+0.14%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NYTO</div>
+                        <div class="indicator-desc">NYSE Total Issues</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">NATO</div>
+                        <div class="indicator-desc">NASDAQ Total Issues</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">TICK</div>
+                        <div class="indicator-desc">NYSE TICK</div>
+                        <div class="indicator-value">-823.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">TICKQ</div>
+                        <div class="indicator-desc">NASDAQ TICK</div>
+                        <div class="indicator-value">-1237.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    <div class="nyse-indicator">
+                        <div class="indicator-name">TICKI</div>
+                        <div class="indicator-desc">NYSE TICK Index</div>
+                        <div class="indicator-value">0.00</div>
+                        <div class="indicator-change negative">+0.00%</div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
             </div>
         </section>
         
@@ -366,8 +918,8 @@
                         <span class="index-name">S&P 500 ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$623.41</span>
-                        <span class="change positive">+4.9%</span>
+                        <span class="price">$624.82</span>
+                        <span class="change positive">+5.2%</span>
                     </div>
                 </div>
                 
@@ -383,11 +935,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>72.1</span>
+                        <span>72.9</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+7.6%</span>
+                        <span class="positive">+7.9%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -403,8 +955,8 @@
                         <span class="index-name">NASDAQ 100 ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$553.79</span>
-                        <span class="change positive">+4.8%</span>
+                        <span class="price">$555.99</span>
+                        <span class="change positive">+5.3%</span>
                     </div>
                 </div>
                 
@@ -420,11 +972,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>67.8</span>
+                        <span>68.9</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+10.3%</span>
+                        <span class="positive">+10.8%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -440,8 +992,8 @@
                         <span class="index-name">Dow Jones ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$446.8</span>
-                        <span class="change positive">+5.4%</span>
+                        <span class="price">$447.71</span>
+                        <span class="change positive">+5.7%</span>
                     </div>
                 </div>
                 
@@ -457,11 +1009,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>70.9</span>
+                        <span>71.5</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+5.5%</span>
+                        <span class="positive">+5.7%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -477,8 +1029,8 @@
                         <span class="index-name">Russell 2000 ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$222.33</span>
-                        <span class="change positive">+7.0%</span>
+                        <span class="price">$223.04</span>
+                        <span class="change positive">+7.3%</span>
                     </div>
                 </div>
                 
@@ -494,11 +1046,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>68.0</span>
+                        <span>68.7</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+3.5%</span>
+                        <span class="positive">+3.9%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -514,8 +1066,8 @@
                         <span class="index-name">Total Stock Market ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$307.03</span>
-                        <span class="change positive">+5.0%</span>
+                        <span class="price">$307.78</span>
+                        <span class="change positive">+5.2%</span>
                     </div>
                 </div>
                 
@@ -531,11 +1083,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>71.8</span>
+                        <span>72.7</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+7.4%</span>
+                        <span class="positive">+7.7%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -551,8 +1103,8 @@
                         <span class="index-name">iShares MSCI USA ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$100.81</span>
-                        <span class="change positive">+4.6%</span>
+                        <span class="price">$100.87</span>
+                        <span class="change positive">+4.7%</span>
                     </div>
                 </div>
                 
@@ -568,11 +1120,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>70.4</span>
+                        <span>70.6</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+5.6%</span>
+                        <span class="positive">+5.7%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -588,8 +1140,8 @@
                         <span class="index-name">iShares MSCI ACWI ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$129.51</span>
-                        <span class="change positive">+4.3%</span>
+                        <span class="price">$129.75</span>
+                        <span class="change positive">+4.5%</span>
                     </div>
                 </div>
                 
@@ -605,11 +1157,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>67.3</span>
+                        <span>68.0</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+9.1%</span>
+                        <span class="positive">+9.3%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -625,8 +1177,8 @@
                         <span class="index-name">iShares MSCI EAFE ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$89.54</span>
-                        <span class="change positive">+1.8%</span>
+                        <span class="price">$89.58</span>
+                        <span class="change positive">+1.9%</span>
                     </div>
                 </div>
                 
@@ -642,7 +1194,7 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>54.3</span>
+                        <span>54.6</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
@@ -662,8 +1214,8 @@
                         <span class="index-name">iShares MSCI Emerging Markets ETF</span>
                     </div>
                     <div class="index-price">
-                        <span class="price">$48.72</span>
-                        <span class="change positive">+5.7%</span>
+                        <span class="price">$48.76</span>
+                        <span class="change positive">+5.8%</span>
                     </div>
                 </div>
                 
@@ -679,11 +1231,11 @@
                 <div class="index-metrics">
                     <div class="metric-row">
                         <span>RSI:</span>
-                        <span>63.1</span>
+                        <span>63.4</span>
                     </div>
                     <div class="metric-row">
                         <span>MA200:</span>
-                        <span class="positive">+11.5%</span>
+                        <span class="positive">+11.6%</span>
                     </div>
                     <div class="metric-row">
                         <span>Señal:</span>
@@ -696,7 +1248,7 @@
         </main>
         
         <footer class="footer">
-            <p>📊 Market Breadth Analysis COMPLETO • 2025-07-03</p>
+            <p>📊 Market Breadth Analysis COMPLETO - 81 indicadores • 2025-07-03</p>
             <p><a href="https://tantancansado.github.io/stock_analyzer_a">🏠 Dashboard Principal</a></p>
         </footer>
     </div>
@@ -704,7 +1256,8 @@
     <script>
         console.log('📊 Market Breadth Loaded');
         console.log('📊 Índices: 9');
-        console.log("🏛️ NYSE: 19");
+        console.log("🏛️ NYSE: 72");
+        console.log("🎯 TOTAL: 81");
     </script>
 </body>
 </html>
