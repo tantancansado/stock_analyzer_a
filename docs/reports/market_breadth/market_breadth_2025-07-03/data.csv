@@ -1,10 +1,10 @@
-Analysis_Date,Analysis_Time,Symbol,Name,Current_Price,Change_1D,Change_5D,Change_20D,RSI_14,RSI_50,MA_20,MA_50,MA_200,Pct_Above_MA20,Pct_Above_MA50,Pct_Above_MA200,Distance_52W_High,Distance_52W_Low,Volume_Ratio_20D,Volatility_20D,Bollinger_Position,MACD_Signal,Stochastic_K,Williams_R,Trend_Signal,Momentum_Signal,Position_Signal,Volume_Signal,Overall_Signal
-2025-07-03,11:49:59,SPY,S&P 500 ETF,620.45,0.45,2.2,4.39,71.7,76.8,603.11,583.83,578.86,2.87,6.27,7.18,-0.01,29.16,0.88,9.87,98.2,Alcista,99.9,-0.1,🟢 Tendencia Muy Alcista,🔴 Sobrecomprado,🟢 Cerca de Máximos,🟡 Volumen Normal,🟢 ALCISTA
-2025-07-03,11:49:59,QQQ,NASDAQ 100 ETF,550.8,0.7,1.78,4.57,66.8,77.2,535.49,512.88,501.5,2.86,7.39,9.83,-0.36,37.04,0.79,12.56,92.9,Alcista,93.1,-6.9,🟢 Tendencia Muy Alcista,🟢 Momentum Fuerte,🟢 Cerca de Máximos,🟡 Volumen Normal,🟢 ALCISTA
-2025-07-03,11:49:59,DIA,Dow Jones ETF,444.71,-0.04,3.45,4.69,70.0,72.8,429.37,419.88,423.48,3.57,5.91,5.01,-0.51,21.9,0.97,11.56,101.5,Alcista,95.2,-4.8,🟢 Tendencia Muy Alcista,🔴 Sobrecomprado,🟢 Cerca de Máximos,🟡 Volumen Normal,🟢 ALCISTA
-2025-07-03,11:49:59,IWM,Russell 2000 ETF,221.03,1.39,4.27,6.03,64.4,70.0,212.47,205.67,214.68,4.03,7.47,2.96,-9.05,29.06,1.03,15.57,110.6,Alcista,99.5,-0.5,🟢 Tendencia Muy Alcista,🟢 Momentum Fuerte,🔴 Bollinger Superior,🟡 Volumen Normal,🟢 ALCISTA
-2025-07-03,11:49:59,VTI,Total Stock Market ETF,305.51,0.52,2.36,4.45,71.2,76.8,296.8,287.28,285.71,2.93,6.34,6.93,-0.02,29.61,1.47,10.33,99.5,Alcista,99.7,-0.3,🟢 Tendencia Muy Alcista,🔴 Sobrecomprado,🟢 Cerca de Máximos,🟡 Volumen Normal,🟢 ALCISTA
-2025-07-03,11:49:59,EUSA,iShares MSCI USA ETF,100.28,0.33,2.9,3.91,69.3,72.3,97.42,95.29,95.43,2.93,5.24,5.08,-1.1,23.68,1.1,9.84,107.2,Alcista,99.8,-0.2,🟢 Tendencia Muy Alcista,🟢 Momentum Fuerte,🟢 Cerca de Máximos,🟡 Volumen Normal,🟢 ALCISTA
-2025-07-03,11:49:59,ACWI,iShares MSCI ACWI ETF,129.05,0.4,2.09,4.16,67.4,77.7,125.81,122.07,118.68,2.57,5.72,8.74,-0.01,28.44,0.66,9.94,97.7,Alcista,99.8,-0.2,🟢 Tendencia Muy Alcista,🟢 Momentum Fuerte,🟢 Cerca de Máximos,🔴 Volumen Bajo,🟢 ALCISTA
-2025-07-03,11:49:59,EFA,iShares MSCI EAFE ETF,89.5,0.29,2.22,2.21,57.7,70.2,88.12,86.27,80.19,1.57,3.75,11.61,-0.13,26.2,0.84,11.15,89.6,Alcista,97.0,-3.0,🟢 Tendencia Alcista,🟡 Momentum Neutral,🟢 Cerca de Máximos,🟡 Volumen Normal,🟢 ALCISTA
-2025-07-03,11:49:59,EEM,iShares MSCI Emerging Markets ETF,48.54,0.43,1.21,6.64,62.3,73.7,47.26,45.73,43.66,2.72,6.15,11.18,0.0,28.33,0.88,14.31,90.6,Alcista,100.0,-0.0,🟢 Tendencia Muy Alcista,🟢 Momentum Fuerte,🟢 Cerca de Máximos,🟡 Volumen Normal,🟢 ALCISTA
+Analysis_Date,Symbol,Name,Current_Price,Change_20D,RSI_14,Pct_Above_MA200,Distance_52W_High,Volatility_20D,Overall_Signal
+2025-07-03,SPY,S&P 500 ETF,623.38,4.92,72.1,7.63,-0.04,9.87,🟢 ALCISTA
+2025-07-03,QQQ,NASDAQ 100 ETF,553.45,4.78,67.6,10.27,-0.19,12.59,🟢 ALCISTA
+2025-07-03,DIA,Dow Jones ETF,447.02,5.5,71.1,5.51,0.0,11.46,🟢 ALCISTA
+2025-07-03,IWM,Russell 2000 ETF,222.66,7.12,68.3,3.69,-8.38,15.49,🟢 ALCISTA
+2025-07-03,VTI,Total Stock Market ETF,307.1,5.01,71.9,7.42,-0.03,10.35,🟢 ALCISTA
+2025-07-03,EUSA,iShares MSCI USA ETF,100.81,4.59,70.4,5.59,-0.58,9.83,🟢 ALCISTA
+2025-07-03,ACWI,iShares MSCI ACWI ETF,129.49,4.25,67.2,9.04,-0.03,9.95,🟢 ALCISTA
+2025-07-03,EFA,iShares MSCI EAFE ETF,89.58,1.85,54.6,11.64,-0.04,11.08,🟢 ALCISTA
+2025-07-03,EEM,iShares MSCI Emerging Markets ETF,48.54,5.33,61.7,11.09,-0.35,13.93,🟢 ALCISTA
