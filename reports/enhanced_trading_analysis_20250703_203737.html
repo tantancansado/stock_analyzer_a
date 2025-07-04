@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Enhanced Trading Opportunities Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c1426 0%, #1a202c 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #4f9cf9, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .timestamp {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(79, 156, 249, 0.1);
+        }
+        
+        .card h3 {
+            color: #4f9cf9;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        .opportunities-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .opportunities-table th,
+        .opportunities-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .opportunities-table th {
+            background: rgba(79, 156, 249, 0.2);
+            font-weight: 600;
+            color: #4f9cf9;
+        }
+        
+        .opportunities-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .urgency-crítica {
+            background: linear-gradient(45deg, #ff4757, #ff6b7a);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .urgency-alta {
+            background: linear-gradient(45deg, #ffa726, #ffcc02);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .urgency-media {
+            background: linear-gradient(45deg, #26c6da, #00acc1);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .section {
+            margin: 40px 0;
+        }
+        
+        .section h2 {
+            color: #4f9cf9;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 2px solid #4f9cf9;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Enhanced Trading Opportunities Dashboard</h1>
+            <div class="timestamp">📅 Generado: 2025-07-03 20:37:37</div>
+        </div>
+        <div class="section">
+            <h2>🎯 Resumen Ejecutivo Mejorado</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>📊 Estado del Mercado</h3>
+                    <div class="stat">
+                        <span>Estado General:</span>
+                        <span class="stat-value">EXCEPCIONAL</span>
+                    </div>
+                    <div class="stat">
+                        <span>Sentimiento:</span>
+                        <span class="stat-value">BULLISH</span>
+                    </div>
+                    <div class="stat">
+                        <span>Cobertura Mapeo:</span>
+                        <span class="stat-value">0.0%</span>
+                    </div>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                        Mercado en estado excepcional con 4 oportunidades críticas detectadas
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📈 Estadísticas Mejoradas</h3>
+                    <div class="stat">
+                        <span>Total Oportunidades:</span>
+                        <span class="stat-value">43</span>
+                    </div>
+                    <div class="stat">
+                        <span>Críticas:</span>
+                        <span class="stat-value">4</span>
+                    </div>
+                    <div class="stat">
+                        <span>Con Insider Activity:</span>
+                        <span class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Efectividad Correlación:</span>
+                        <span class="stat-value">0.0%</span>
+                    </div>
+                    <div class="stat">
+                        <span>Score Promedio:</span>
+                        <span class="stat-value">65.0/100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>🏆 Top Oportunidades Mejoradas</h2>
+            <div class="card">
+                <h3>#1 Household Goods (DJUSHG)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">85/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$1063.25</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">6.4%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+15.6%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Household Goods a solo 6.4% del mínimo con potencial upside de 15.6%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#2 Food Producers (DJUSFO)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">85/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$392.80</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">6.8%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+17.3%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Food Producers a solo 6.8% del mínimo con potencial upside de 17.3%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#3 Beverages (DJUSBV)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">85/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$946.06</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">8.1%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+13.1%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Beverages a solo 8.1% del mínimo con potencial upside de 13.1%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#4 Food & Beverage (DJUSFB)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">85/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$714.82</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">6.9%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+14.3%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Food & Beverage a solo 6.9% del mínimo con potencial upside de 14.3%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#5 Healthcare Equipment (DJUSMC)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">80/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$2278.20</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">4.2%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+12.3%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-alta">ALTA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>CONSIDERAR COMPRA</strong><br>
+                    OPORTUNIDAD SÓLIDA: Healthcare Equipment con score alto y riesgo bajo
+                </div>
+            </div></div>
+        <div class="section">
+            <h2>📋 Todas las Oportunidades (Mejoradas)</h2>
+            <div style="overflow-x: auto;">
+                <table class="opportunities-table">
+                    <thead>
+                        <tr>
+                            <th>Sector</th>
+                            <th>Score</th>
+                            <th>Precio</th>
+                            <th>Dist. Min %</th>
+                            <th>RSI</th>
+                            <th>Urgencia</th>
+                            <th>Insider</th>
+                            <th>Empresas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Household Goods</strong></td>
+                            <td><strong>85</strong></td>
+                            <td>$1063.25</td>
+                            <td>6.4%</td>
+                            <td>48.7</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Food Producers</strong></td>
+                            <td><strong>85</strong></td>
+                            <td>$392.80</td>
+                            <td>6.8%</td>
+                            <td>44.9</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Beverages</strong></td>
+                            <td><strong>85</strong></td>
+                            <td>$946.06</td>
+                            <td>8.1%</td>
+                            <td>47.7</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Food & Beverage</strong></td>
+                            <td><strong>85</strong></td>
+                            <td>$714.82</td>
+                            <td>6.9%</td>
+                            <td>46.3</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Healthcare Equipment</strong></td>
+                            <td><strong>80</strong></td>
+                            <td>$2278.20</td>
+                            <td>4.2%</td>
+                            <td>50.2</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Healthcare</strong></td>
+                            <td><strong>79</strong></td>
+                            <td>$1436.80</td>
+                            <td>6.9%</td>
+                            <td>53.0</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industrial Transport</strong></td>
+                            <td><strong>77</strong></td>
+                            <td>$1495.70</td>
+                            <td>20.3%</td>
+                            <td>31.5</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chemicals</strong></td>
+                            <td><strong>76</strong></td>
+                            <td>$864.73</td>
+                            <td>22.9%</td>
+                            <td>39.5</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Apparel Retail</strong></td>
+                            <td><strong>75</strong></td>
+                            <td>$1652.42</td>
+                            <td>10.8%</td>
+                            <td>45.2</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Personal Goods</strong></td>
+                            <td><strong>73</strong></td>
+                            <td>$1054.73</td>
+                            <td>16.0%</td>
+                            <td>42.0</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Support Services</strong></td>
+                            <td><strong>72</strong></td>
+                            <td>$899.69</td>
+                            <td>17.7%</td>
+                            <td>48.0</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oil & Gas</strong></td>
+                            <td><strong>72</strong></td>
+                            <td>$734.55</td>
+                            <td>17.7%</td>
+                            <td>45.2</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Oil Producers</strong></td>
+                            <td><strong>72</strong></td>
+                            <td>$833.18</td>
+                            <td>17.8%</td>
+                            <td>45.5</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Utilities</strong></td>
+                            <td><strong>71</strong></td>
+                            <td>$406.99</td>
+                            <td>20.6%</td>
+                            <td>47.3</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>General Industrial</strong></td>
+                            <td><strong>69</strong></td>
+                            <td>$772.64</td>
+                            <td>26.0%</td>
+                            <td>29.1</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pharmaceuticals</strong></td>
+                            <td><strong>68</strong></td>
+                            <td>$1076.81</td>
+                            <td>12.2%</td>
+                            <td>54.2</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Insurance</strong></td>
+                            <td><strong>66</strong></td>
+                            <td>$1356.28</td>
+                            <td>17.2%</td>
+                            <td>54.6</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Real Estate</strong></td>
+                            <td><strong>66</strong></td>
+                            <td>$364.69</td>
+                            <td>16.9%</td>
+                            <td>52.8</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>REITs</strong></td>
+                            <td><strong>66</strong></td>
+                            <td>$147.62</td>
+                            <td>16.4%</td>
+                            <td>54.6</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Industrial Engineering</strong></td>
+                            <td><strong>66</strong></td>
+                            <td>$4356.30</td>
+                            <td>31.3%</td>
+                            <td>29.8</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="card" style="text-align: center;">
+                <h3>🎯 Enhanced Trading Opportunities System</h3>
+                <p>Análisis con mapeo robusto de 202 tickers a sectores</p>
+                <p>Timestamp: 2025-07-03 20:37:37</p>
+                <p style="color: #a0aec0; font-size: 0.9rem;">
+                    ⚠️ Este análisis es solo para fines informativos. No constituye asesoramiento financiero.
+                </p>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

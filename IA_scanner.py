@@ -15,6 +15,7 @@ class AdvancedTradingScanner:
     - Analiza tendencias temporales de insider trading
     - Detecta patrones cross-sectoriales evolutivos
     - Se integra en sistemas mayores con estructura dinámica de carpetas
+    - MEJORADO: Mapeo robusto de tickers individuales a sectores DJ
     """
     
     def __init__(self, base_path: str = "."):
@@ -24,6 +25,123 @@ class AdvancedTradingScanner:
         self.consolidated_insider = pd.DataFrame()
         self.consolidated_sector = pd.DataFrame()
         self.analysis_results = {}
+        
+        # NUEVO: Mapeo comprehensivo de tickers a sectores DJ
+        self.comprehensive_ticker_mapping = {
+            # TECHNOLOGY (DJUSTC)
+            'AAPL': 'Technology', 'MSFT': 'Technology', 'GOOGL': 'Technology', 'GOOG': 'Technology',
+            'AMZN': 'Technology', 'META': 'Technology', 'NVDA': 'Technology', 'TSLA': 'Technology',
+            'NFLX': 'Technology', 'CRM': 'Technology', 'ORCL': 'Technology', 'ADBE': 'Technology',
+            'INTC': 'Technology', 'AMD': 'Technology', 'QCOM': 'Technology', 'AVGO': 'Technology',
+            'TXN': 'Technology', 'IBM': 'Technology', 'CSCO': 'Technology', 'NOW': 'Technology',
+            'SNOW': 'Technology', 'PLTR': 'Technology', 'COIN': 'Technology', 'RBLX': 'Technology',
+            'SHOP': 'Technology', 'SQ': 'Technology', 'BLOCK': 'Technology', 'ZM': 'Technology',
+            'DOCU': 'Technology', 'TEAM': 'Technology', 'OKTA': 'Technology', 'TWLO': 'Technology',
+            
+            # BANKS (DJUSBK)
+            'JPM': 'Banks', 'BAC': 'Banks', 'WFC': 'Banks', 'C': 'Banks', 'GS': 'Banks',
+            'MS': 'Banks', 'USB': 'Banks', 'PNC': 'Banks', 'TFC': 'Banks', 'COF': 'Banks',
+            'BK': 'Banks', 'STT': 'Banks', 'SCHW': 'Banks', 'AXP': 'Banks', 'MA': 'Banks',
+            'V': 'Banks', 'PYPL': 'Banks', 'DFS': 'Banks', 'SYF': 'Banks', 'ALLY': 'Banks',
+            'FITB': 'Banks', 'HBAN': 'Banks', 'RF': 'Banks', 'KEY': 'Banks', 'CFG': 'Banks',
+            
+            # HEALTHCARE (DJUSHC)
+            'JNJ': 'Healthcare', 'UNH': 'Healthcare', 'PFE': 'Healthcare', 'ABBV': 'Healthcare',
+            'TMO': 'Healthcare', 'ABT': 'Healthcare', 'DHR': 'Healthcare', 'BMY': 'Healthcare',
+            'LLY': 'Healthcare', 'MDT': 'Healthcare', 'GILD': 'Healthcare', 'AMGN': 'Healthcare',
+            'CVS': 'Healthcare', 'CI': 'Healthcare', 'HUM': 'Healthcare', 'ANTM': 'Healthcare',
+            'ELV': 'Healthcare', 'CNC': 'Healthcare', 'MOH': 'Healthcare', 'HCA': 'Healthcare',
+            'ISRG': 'Healthcare', 'SYK': 'Healthcare', 'EW': 'Healthcare', 'ZBH': 'Healthcare',
+            'MRNA': 'Healthcare', 'BNTX': 'Healthcare', 'VRTX': 'Healthcare', 'REGN': 'Healthcare',
+            
+            # OIL & GAS (DJUSEN)
+            'XOM': 'Oil & Gas', 'CVX': 'Oil & Gas', 'COP': 'Oil & Gas', 'SLB': 'Oil & Gas',
+            'EOG': 'Oil & Gas', 'PSX': 'Oil & Gas', 'VLO': 'Oil & Gas', 'MPC': 'Oil & Gas',
+            'KMI': 'Oil & Gas', 'OKE': 'Oil & Gas', 'WMB': 'Oil & Gas', 'EPD': 'Oil & Gas',
+            'ET': 'Oil & Gas', 'MPLX': 'Oil & Gas', 'DVN': 'Oil & Gas', 'FANG': 'Oil & Gas',
+            'MRO': 'Oil & Gas', 'APA': 'Oil & Gas', 'HAL': 'Oil & Gas', 'BKR': 'Oil & Gas',
+            'OXY': 'Oil & Gas', 'PXD': 'Oil & Gas', 'CTRA': 'Oil & Gas', 'EQT': 'Oil & Gas',
+            
+            # REAL ESTATE (DJUSRE)
+            'AMT': 'Real Estate', 'CCI': 'Real Estate', 'EQIX': 'Real Estate', 'PLD': 'Real Estate',
+            'SPG': 'Real Estate', 'EXR': 'Real Estate', 'AVB': 'Real Estate', 'EQR': 'Real Estate',
+            'WELL': 'Real Estate', 'DLR': 'Real Estate', 'PSA': 'Real Estate', 'O': 'Real Estate',
+            'SBAC': 'Real Estate', 'VTR': 'Real Estate', 'ESS': 'Real Estate', 'MAA': 'Real Estate',
+            'AIV': 'Real Estate', 'BXP': 'Real Estate', 'HST': 'Real Estate', 'KIM': 'Real Estate',
+            
+            # RETAIL (DJUSRT)
+            'WMT': 'Retail', 'HD': 'Retail', 'COST': 'Retail', 'LOW': 'Retail', 'TGT': 'Retail',
+            'TJX': 'Retail', 'SBUX': 'Retail', 'NKE': 'Retail', 'MCD': 'Retail', 'BKNG': 'Retail',
+            'EBAY': 'Retail', 'ETSY': 'Retail', 'W': 'Retail', 'RH': 'Retail', 'BBY': 'Retail',
+            'DG': 'Retail', 'DLTR': 'Retail', 'ROST': 'Retail', 'GPS': 'Retail', 'ANF': 'Retail',
+            
+            # UTILITIES (DJUSUT)
+            'NEE': 'Utilities', 'DUK': 'Utilities', 'SO': 'Utilities', 'D': 'Utilities',
+            'EXC': 'Utilities', 'XEL': 'Utilities', 'SRE': 'Utilities', 'PEG': 'Utilities',
+            'AWK': 'Utilities', 'AEP': 'Utilities', 'ED': 'Utilities', 'ES': 'Utilities',
+            'PPL': 'Utilities', 'FE': 'Utilities', 'ETR': 'Utilities', 'CNP': 'Utilities',
+            
+            # CHEMICALS (DJUSCH)
+            'LIN': 'Chemicals', 'APD': 'Chemicals', 'DD': 'Chemicals', 'DOW': 'Chemicals',
+            'ECL': 'Chemicals', 'EMN': 'Chemicals', 'LYB': 'Chemicals', 'CF': 'Chemicals',
+            'FMC': 'Chemicals', 'ALB': 'Chemicals', 'CE': 'Chemicals', 'PPG': 'Chemicals',
+            'SHW': 'Chemicals', 'IFF': 'Chemicals', 'RPM': 'Chemicals', 'FCX': 'Chemicals',
+            
+            # INDUSTRIAL GOODS (DJUSIG)
+            'BA': 'Industrial Goods', 'CAT': 'Industrial Goods', 'DE': 'Industrial Goods',
+            'HON': 'Industrial Goods', 'GE': 'Industrial Goods', 'MMM': 'Industrial Goods',
+            'RTX': 'Industrial Goods', 'LMT': 'Industrial Goods', 'NOC': 'Industrial Goods',
+            'GD': 'Industrial Goods', 'UPS': 'Industrial Goods', 'FDX': 'Industrial Goods',
+            'CSX': 'Industrial Goods', 'UNP': 'Industrial Goods', 'NSC': 'Industrial Goods',
+            
+            # MEDIA (DJUSME)
+            'DIS': 'Media', 'CMCSA': 'Media', 'NFLX': 'Media', 'T': 'Media', 'VZ': 'Media',
+            'CHTR': 'Media', 'TMUS': 'Media', 'WBD': 'Media', 'PARA': 'Media', 'FOX': 'Media',
+            
+            # FOOD & BEVERAGE (DJUSFB)
+            'PEP': 'Food & Beverage', 'KO': 'Food & Beverage', 'PG': 'Food & Beverage',
+            'UL': 'Food & Beverage', 'MDLZ': 'Food & Beverage', 'GIS': 'Food & Beverage',
+            'K': 'Food & Beverage', 'CPB': 'Food & Beverage', 'CAG': 'Food & Beverage',
+            'TSN': 'Food & Beverage', 'KR': 'Food & Beverage', 'WBA': 'Food & Beverage',
+            'CL': 'Food & Beverage', 'KMB': 'Food & Beverage', 'CHD': 'Food & Beverage',
+            
+            # AUTOMOBILES & PARTS (DJUSAP)
+            'TSLA': 'Auto & Parts', 'F': 'Auto & Parts', 'GM': 'Auto & Parts',
+            'RIVN': 'Auto & Parts', 'LCID': 'Auto & Parts', 'NIO': 'Auto & Parts',
+            'XPEV': 'Auto & Parts', 'LI': 'Auto & Parts', 'APTV': 'Auto & Parts',
+            
+            # TELECOMMUNICATIONS (DJUSTL)
+            'VZ': 'Telecommunications', 'T': 'Telecommunications', 'TMUS': 'Telecommunications',
+            'CHTR': 'Telecommunications', 'CMCSA': 'Telecommunications',
+            
+            # BASIC RESOURCES (DJUSBS)
+            'BHP': 'Basic Resources', 'RIO': 'Basic Resources', 'FCX': 'Basic Resources',
+            'NEM': 'Basic Resources', 'GOLD': 'Basic Resources', 'AA': 'Basic Resources',
+            
+            # CONSTRUCTION & MATERIALS (DJUSCN)
+            'CAT': 'Construction', 'VMC': 'Construction', 'MLM': 'Construction',
+            'NUE': 'Construction', 'STLD': 'Construction', 'X': 'Construction',
+            
+            # AEROSPACE (DJUSAS)
+            'BA': 'Aerospace', 'LMT': 'Aerospace', 'RTX': 'Aerospace', 'NOC': 'Aerospace',
+            'GD': 'Aerospace', 'TXT': 'Aerospace', 'HWM': 'Aerospace',
+            
+            # AIRLINES (DJUSAR)
+            'DAL': 'Airlines', 'AAL': 'Airlines', 'UAL': 'Airlines', 'LUV': 'Airlines',
+            'JBLU': 'Airlines', 'ALK': 'Airlines', 'SAVE': 'Airlines',
+            
+            # INSURANCE (DJUSIX)
+            'BRK.A': 'Insurance', 'BRK.B': 'Insurance', 'PGR': 'Insurance', 'TRV': 'Insurance',
+            'AIG': 'Insurance', 'MET': 'Insurance', 'PRU': 'Insurance', 'ALL': 'Insurance',
+            
+            # SOFTWARE (DJUSSV)
+            'MSFT': 'Software', 'ORCL': 'Software', 'CRM': 'Software', 'ADBE': 'Software',
+            'NOW': 'Software', 'SNOW': 'Software', 'PLTR': 'Software', 'TEAM': 'Software',
+            
+            # PERSONAL GOODS (DJUSPG)
+            'NKE': 'Personal Goods', 'LULU': 'Personal Goods', 'ADDYY': 'Personal Goods',
+            'UAA': 'Personal Goods', 'CROX': 'Personal Goods', 'DECK': 'Personal Goods',
+        }
         
     def scan_directory_structure(self) -> Dict[str, List[str]]:
         """Escanear automáticamente la estructura de directorios específica del sistema"""
@@ -420,9 +538,13 @@ class AdvancedTradingScanner:
         return trends
     
     def create_sector_mapping(self) -> Dict[str, str]:
-        """Crear mapeo dinámico de tickers a sectores"""
+        """Crear mapeo dinámico de tickers a sectores - MEJORADO"""
         mapping = {}
         
+        # PASO 1: Usar el mapeo comprehensivo como base
+        mapping.update(self.comprehensive_ticker_mapping)
+        
+        # PASO 2: Sobrescribir con datos dinámicos si están disponibles
         if not self.consolidated_sector.empty:
             # Usar datos sectoriales más recientes
             latest_sectors = self.consolidated_sector.loc[
@@ -433,20 +555,11 @@ class AdvancedTradingScanner:
                 if pd.notna(row['Ticker']) and pd.notna(row['Sector']):
                     mapping[str(row['Ticker']).strip()] = str(row['Sector']).strip()
         
-        # Mapeo estático como fallback
-        static_mapping = {
-            'AAPL': 'Technology', 'MSFT': 'Technology', 'GOOGL': 'Technology',
-            'AMZN': 'Technology', 'META': 'Technology', 'NVDA': 'Technology',
-            'JPM': 'Banks', 'BAC': 'Banks', 'WFC': 'Banks', 'C': 'Banks',
-            'JNJ': 'Healthcare', 'PFE': 'Pharmaceuticals', 'UNH': 'Healthcare',
-            'XOM': 'Oil & Gas', 'CVX': 'Oil & Gas', 'COP': 'Oil & Gas',
-            'PG': 'Household Goods', 'KO': 'Beverages', 'PEP': 'Food & Beverage'
-        }
-        
-        return {**static_mapping, **mapping}
+        print(f"🎯 Mapeo de sectores creado: {len(mapping)} tickers mapeados")
+        return mapping
     
     def cross_analyze_opportunities(self, recent_days: int = 30) -> pd.DataFrame:
-        """Análisis cruzado avanzado con datos temporales"""
+        """Análisis cruzado MEJORADO con mapeo robusto"""
         if self.consolidated_sector.empty:
             print("❌ No hay datos sectoriales para analizar")
             return pd.DataFrame()
@@ -463,31 +576,59 @@ class AdvancedTradingScanner:
         insider_trends = self.analyze_insider_trends(recent_days)
         sector_mapping = self.create_sector_mapping()
         
-        # Agregar información de insider por sector
+        # MEJORA: Agregar información de insider por sector con mapeo robusto
         sector_insider_activity = {}
+        mapped_tickers = 0
+        total_insider_tickers = len(insider_trends)
+        
         for ticker, trend in insider_trends.items():
+            # Buscar sector usando el mapeo comprehensivo
             sector = sector_mapping.get(ticker, 'Unknown')
-            if sector not in sector_insider_activity:
-                sector_insider_activity[sector] = {
-                    'total_trades': 0,
-                    'recent_trades': 0,
-                    'total_value': 0,
-                    'recent_value': 0,
-                    'tickers_with_activity': set(),
-                    'executive_activity': 0,
-                    'increasing_activity': 0
-                }
             
-            activity = sector_insider_activity[sector]
-            activity['total_trades'] += trend['total_trades']
-            activity['recent_trades'] += trend['recent_trades']
-            activity['total_value'] += trend['total_value']
-            activity['recent_value'] += trend['recent_value']
-            activity['tickers_with_activity'].add(ticker)
-            activity['executive_activity'] += trend['executive_trades']
-            
-            if trend['activity_trend'] == 'INCREASING':
-                activity['increasing_activity'] += 1
+            if sector != 'Unknown':
+                mapped_tickers += 1
+                
+                if sector not in sector_insider_activity:
+                    sector_insider_activity[sector] = {
+                        'total_trades': 0,
+                        'recent_trades': 0,
+                        'total_value': 0,
+                        'recent_value': 0,
+                        'tickers_with_activity': set(),
+                        'executive_activity': 0,
+                        'increasing_activity': 0,
+                        'insider_tickers': []
+                    }
+                
+                activity = sector_insider_activity[sector]
+                activity['total_trades'] += trend['total_trades']
+                activity['recent_trades'] += trend['recent_trades']
+                activity['total_value'] += trend['total_value']
+                activity['recent_value'] += trend['recent_value']
+                activity['tickers_with_activity'].add(ticker)
+                activity['executive_activity'] += trend['executive_trades']
+                activity['insider_tickers'].append(ticker)
+                
+                if trend['activity_trend'] == 'INCREASING':
+                    activity['increasing_activity'] += 1
+        
+        # Estadísticas de mapeo
+        mapping_coverage = (mapped_tickers / total_insider_tickers * 100) if total_insider_tickers > 0 else 0
+        print(f"🎯 ESTADÍSTICAS DE MAPEO:")
+        print(f"   📊 Tickers insider: {total_insider_tickers}")
+        print(f"   ✅ Tickers mapeados: {mapped_tickers}")
+        print(f"   📈 Sectores con actividad: {len(sector_insider_activity)}")
+        print(f"   🔍 Cobertura: {mapping_coverage:.1f}%")
+        
+        # Mostrar correlaciones encontradas
+        if sector_insider_activity:
+            print(f"\n🔗 CORRELACIONES DETECTADAS:")
+            for sector, activity in sorted(sector_insider_activity.items(), 
+                                         key=lambda x: x[1]['recent_trades'], reverse=True):
+                tickers_str = ', '.join(activity['insider_tickers'][:3])
+                if len(activity['insider_tickers']) > 3:
+                    tickers_str += f" (+{len(activity['insider_tickers'])-3} más)"
+                print(f"   📊 {sector}: {activity['recent_trades']} trades | {tickers_str}")
         
         # Crear análisis final
         results = []
@@ -547,9 +688,11 @@ class AdvancedTradingScanner:
                 'InsiderActivity': len(insider_activity) > 0,
                 'InsiderTrades': insider_activity.get('recent_trades', 0),
                 'InsiderValue': insider_activity.get('recent_value', 0),
+                'InsiderTickers': insider_activity.get('insider_tickers', []),
                 'Signals': signals,
                 'Urgency': urgency,
-                'RiskLevel': self._calculate_risk_level(sector, insider_activity)
+                'RiskLevel': self._calculate_risk_level(sector, insider_activity),
+                'MappingCoverage': mapping_coverage
             })
         
         # Convertir a DataFrame y ordenar
@@ -628,9 +771,9 @@ class AdvancedTradingScanner:
             return 'ALTO'
     
     def generate_comprehensive_report(self, top_n: int = 15) -> Dict:
-        """Generar reporte completo con análisis temporal"""
-        print('\n🚀 GENERANDO REPORTE COMPRENSIVO DE OPORTUNIDADES')
-        print('=' * 60)
+        """Generar reporte completo con análisis temporal MEJORADO"""
+        print('\n🚀 GENERANDO REPORTE COMPRENSIVO DE OPORTUNIDADES MEJORADO')
+        print('=' * 70)
         
         # Realizar análisis cruzado
         opportunities = self.cross_analyze_opportunities()
@@ -640,8 +783,8 @@ class AdvancedTradingScanner:
         
         top_opportunities = opportunities.head(top_n)
         
-        print(f'\n🎯 TOP {top_n} OPORTUNIDADES DE INVERSIÓN')
-        print('=' * 50)
+        print(f'\n🎯 TOP {top_n} OPORTUNIDADES DE INVERSIÓN MEJORADAS')
+        print('=' * 60)
         
         for i, (_, opp) in enumerate(top_opportunities.iterrows()):
             print(f"\n{i+1}. {opp['Sector']} ({opp['Ticker']})")
@@ -654,6 +797,11 @@ class AdvancedTradingScanner:
                 print(f"   👥 Insider: {opp['InsiderTrades']} trades recientes")
                 if opp['InsiderValue'] > 0:
                     print(f"   💵 Volumen: ${opp['InsiderValue']/1_000_000:.1f}M")
+                if len(opp['InsiderTickers']) > 0:
+                    tickers_str = ', '.join(opp['InsiderTickers'][:3])
+                    if len(opp['InsiderTickers']) > 3:
+                        tickers_str += f" (+{len(opp['InsiderTickers'])-3})"
+                    print(f"   🏢 Empresas: {tickers_str}")
                 if opp['Signals']:
                     print(f"   🎯 Señales: {', '.join(opp['Signals'])}")
         
@@ -662,12 +810,16 @@ class AdvancedTradingScanner:
         high_urgency = top_opportunities[top_opportunities['Urgency'].isin(['CRÍTICA', 'ALTA'])]
         with_insider = top_opportunities[top_opportunities['InsiderActivity'] == True]
         
-        print(f'\n📈 RESUMEN EJECUTIVO:')
-        print('=' * 30)
+        # Estadísticas de mapeo
+        mapping_coverage = opportunities['MappingCoverage'].iloc[0] if len(opportunities) > 0 else 0
+        
+        print(f'\n📈 RESUMEN EJECUTIVO MEJORADO:')
+        print('=' * 40)
         print(f'📊 {len(opportunities)} oportunidades analizadas')
         print(f'🚨 {len(critical_opportunities)} oportunidades CRÍTICAS')
         print(f'⚠️  {len(high_urgency)} de urgencia ALTA/CRÍTICA')
         print(f'👥 {len(with_insider)} con actividad insider reciente')
+        print(f'🎯 Mapeo ticker-sector: {mapping_coverage:.1f}% cobertura')
         print(f'⭐ Score promedio: {opportunities["FinalScore"].mean():.1f}/100')
         
         # Detectar patrones especiales
@@ -690,6 +842,7 @@ class AdvancedTradingScanner:
                 'high_urgency_count': len(high_urgency),
                 'with_insider_activity': len(with_insider),
                 'average_score': opportunities['FinalScore'].mean(),
+                'mapping_coverage': mapping_coverage,
                 'data_coverage_days': self._calculate_data_coverage()
             }
         }
@@ -754,9 +907,9 @@ class AdvancedTradingScanner:
         return int(min_days) if min_days != float('inf') else 0
     
     def run_full_scan(self, recent_days: int = 14) -> Dict:
-        """Ejecutar escaneo completo automático"""
-        print("🚀 INICIANDO ESCANEO COMPLETO DEL SISTEMA")
-        print("=" * 60)
+        """Ejecutar escaneo completo automático MEJORADO"""
+        print("🚀 INICIANDO ESCANEO COMPLETO DEL SISTEMA MEJORADO")
+        print("=" * 70)
         
         # 1. Escanear estructura de directorios
         structure = self.scan_directory_structure()
@@ -784,49 +937,75 @@ class AdvancedTradingScanner:
         
         # 5. Guardar resultados
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        output_file = f"trading_scan_results_{timestamp}.json"
+        output_file = f"trading_scan_results_enhanced_{timestamp}.json"
         
         # Convertir DataFrames a dict para JSON
         json_results = {
             'scan_timestamp': timestamp,
             'summary': results.get('summary', {}),
             'special_patterns': results.get('special_patterns', []),
-            'top_opportunities': results.get('top_opportunities', pd.DataFrame()).to_dict('records') if 'top_opportunities' in results else []
+            'top_opportunities': results.get('top_opportunities', pd.DataFrame()).to_dict('records') if 'top_opportunities' in results else [],
+            'mapping_used': 'comprehensive_enhanced',
+            'total_ticker_mappings': len(self.comprehensive_ticker_mapping)
         }
         
         with open(output_file, 'w', encoding='utf-8') as f:
             json.dump(json_results, f, indent=2, ensure_ascii=False, default=str)
         
-        print(f"\n💾 Resultados guardados en: {output_file}")
+        print(f"\n💾 Resultados mejorados guardados en: {output_file}")
         
         return results
 
 
-# FUNCIONES DE TESTING Y DEBUGGING
+# FUNCIONES DE TESTING Y DEBUGGING MEJORADAS
 
-def test_directory_structure(base_path: str = ".") -> Dict:
+def test_directory_structure_enhanced(base_path: str = ".") -> Dict:
     """
-    Función de testing para verificar que el escáner encuentra correctamente
-    la estructura de directorios del usuario
+    Función de testing MEJORADA para verificar que el escáner encuentra correctamente
+    la estructura de directorios del usuario y el mapeo de sectores
     """
-    print("🧪 MODO TEST: Verificando estructura de directorios")
-    print("=" * 60)
+    print("🧪 MODO TEST MEJORADO: Verificando estructura + mapeo sectorial")
+    print("=" * 70)
     
     scanner = AdvancedTradingScanner(base_path)
     
     # 1. Escanear estructura
     structure = scanner.scan_directory_structure()
     
-    # 2. Verificar archivos encontrados
+    # 2. Test del mapeo de sectores
+    print(f"\n🎯 TESTING MAPEO SECTORIAL MEJORADO...")
+    test_tickers = ['AAPL', 'JPM', 'XOM', 'UNH', 'PFE', 'GOOGL', 'BAC', 'CVX', 'JNJ', 'UNKNOWN_TICKER']
+    sector_mapping = scanner.create_sector_mapping()
+    
+    mapped_count = 0
+    for ticker in test_tickers:
+        sector = sector_mapping.get(ticker)
+        if sector:
+            mapped_count += 1
+            print(f"   ✅ {ticker} → {sector}")
+        else:
+            print(f"   ❌ {ticker} → No mapeado")
+    
+    mapping_coverage = (mapped_count / len(test_tickers)) * 100
+    print(f"   📊 Cobertura de mapeo: {mapping_coverage:.1f}%")
+    print(f"   🎯 Total tickers en mapeo: {len(scanner.comprehensive_ticker_mapping)}")
+    
+    # 3. Verificar archivos encontrados
     test_results = {
         'structure_found': structure,
         'insider_files_count': len(structure['insider_files']),
         'sector_files_count': len(structure['sector_files']),
+        'mapping_test': {
+            'test_tickers': test_tickers,
+            'mapped_count': mapped_count,
+            'coverage_percentage': mapping_coverage,
+            'total_mappings': len(scanner.comprehensive_ticker_mapping)
+        },
         'test_results': {},
         'recommendations': []
     }
     
-    # 3. Probar cargar un archivo de muestra de cada tipo
+    # 4. Probar cargar un archivo de muestra de cada tipo
     if structure['insider_files']:
         print(f"\n🧪 PROBANDO CARGA DE ARCHIVO INSIDER DE MUESTRA...")
         sample_insider = structure['insider_files'][0]
@@ -873,7 +1052,7 @@ def test_directory_structure(base_path: str = ".") -> Dict:
             }
             print(f"   ❌ Error cargando archivo sectorial: {e}")
     
-    # 4. Generar recomendaciones
+    # 5. Generar recomendaciones mejoradas
     if test_results['insider_files_count'] == 0:
         test_results['recommendations'].append(
             "❌ No se encontraron archivos insider. Verifica que existan directorios reports/report_YYYY-MM-DD/ con data.csv"
@@ -892,165 +1071,36 @@ def test_directory_structure(base_path: str = ".") -> Dict:
             f"✅ {test_results['sector_files_count']} archivos sectoriales encontrados"
         )
     
-    # 5. Mostrar resumen
-    print(f"\n📋 RESUMEN DEL TEST:")
-    print("=" * 30)
+    if mapping_coverage >= 70:
+        test_results['recommendations'].append(
+            f"✅ Mapeo sectorial funcionando bien ({mapping_coverage:.1f}% cobertura)"
+        )
+    else:
+        test_results['recommendations'].append(
+            f"⚠️ Mapeo sectorial necesita mejoras ({mapping_coverage:.1f}% cobertura)"
+        )
+    
+    # 6. Mostrar resumen
+    print(f"\n📋 RESUMEN DEL TEST MEJORADO:")
+    print("=" * 40)
     for rec in test_results['recommendations']:
         print(f"   {rec}")
     
     return test_results
 
-def quick_preview_data(base_path: str = ".", max_files: int = 3) -> Dict:
-    """
-    Vista previa rápida de los datos sin procesamiento completo
-    """
-    print("👀 VISTA PREVIA RÁPIDA DE DATOS")
-    print("=" * 40)
-    
-    scanner = AdvancedTradingScanner(base_path)
-    structure = scanner.scan_directory_structure()
-    
-    preview = {
-        'insider_preview': [],
-        'sector_preview': [],
-        'date_range': {'earliest': None, 'latest': None},
-        'summary': {}
-    }
-    
-    # Preview archivos insider
-    for i, file_path in enumerate(structure['insider_files'][:max_files]):
-        try:
-            date = scanner.extract_date_from_path(file_path)
-            raw_data = pd.read_csv(file_path, encoding='utf-8', sep=',', engine='python', nrows=5)
-            
-            preview['insider_preview'].append({
-                'file': file_path,
-                'date': date.strftime('%Y-%m-%d') if date else 'unknown',
-                'rows_sample': len(raw_data),
-                'columns': len(raw_data.columns),
-                'sample_data': raw_data.head(2).to_dict('records')
-            })
-            
-            print(f"📊 Insider {i+1}: {file_path} ({date.strftime('%Y-%m-%d') if date else 'fecha desconocida'})")
-            
-        except Exception as e:
-            print(f"❌ Error preview insider {file_path}: {e}")
-    
-    # Preview archivos sectoriales
-    for i, file_path in enumerate(structure['sector_files'][:max_files]):
-        try:
-            date = scanner.extract_date_from_path(file_path)
-            raw_data = pd.read_csv(file_path, encoding='utf-8', sep=',', engine='python', nrows=5)
-            
-            preview['sector_preview'].append({
-                'file': file_path,
-                'date': date.strftime('%Y-%m-%d') if date else 'unknown',
-                'rows_sample': len(raw_data),
-                'columns': len(raw_data.columns),
-                'sample_data': raw_data.head(2).to_dict('records')
-            })
-            
-            print(f"📊 Sectorial {i+1}: {file_path} ({date.strftime('%Y-%m-%d') if date else 'fecha desconocida'})")
-            
-        except Exception as e:
-            print(f"❌ Error preview sectorial {file_path}: {e}")
-    
-    return preview
 
-
-# FUNCIONES DE INTEGRACIÓN PARA SISTEMAS MAYORES
-
-def quick_scan(base_path: str = ".", recent_days: int = 7, min_score: int = 70) -> Dict:
-    """
-    Escaneo rápido para integración en sistemas mayores
-    
-    Args:
-        base_path: Directorio base donde buscar datos
-        recent_days: Días a considerar como "actividad reciente"
-        min_score: Score mínimo para considerar oportunidad
-    
-    Returns:
-        Dict con alertas y métricas clave
-    """
-    scanner = AdvancedTradingScanner(base_path)
-    results = scanner.run_full_scan(recent_days)
-    
-    if 'error' in results:
-        return results
-    
-    # Filtrar oportunidades por score mínimo
-    opportunities = results.get('opportunities', pd.DataFrame())
-    if not opportunities.empty:
-        high_score_opps = opportunities[opportunities['FinalScore'] >= min_score]
-        
-        return {
-            'status': 'success',
-            'timestamp': datetime.now().isoformat(),
-            'alerts': high_score_opps.to_dict('records'),
-            'critical_count': len(opportunities[opportunities['Urgency'] == 'CRÍTICA']),
-            'patterns_detected': len(results.get('special_patterns', [])),
-            'data_coverage_days': results.get('summary', {}).get('data_coverage_days', 0),
-            'total_analyzed': len(opportunities)
-        }
-    
-    return {'status': 'no_data', 'message': 'No se encontraron datos suficientes'}
-
-def get_daily_alerts(base_path: str = ".", alert_threshold: int = 75) -> List[Dict]:
-    """
-    Obtener alertas diarias para monitoreo automático
-    
-    Args:
-        base_path: Directorio base
-        alert_threshold: Threshold para generar alertas
-    
-    Returns:
-        Lista de alertas priorizadas
-    """
-    scanner = AdvancedTradingScanner(base_path)
-    results = scanner.run_full_scan(recent_days=3)  # Solo últimos 3 días
-    
-    if 'error' in results:
-        return []
-    
-    opportunities = results.get('opportunities', pd.DataFrame())
-    if opportunities.empty:
-        return []
-    
-    # Generar alertas
-    alerts = []
-    for _, opp in opportunities[opportunities['FinalScore'] >= alert_threshold].iterrows():
-        alert = {
-            'timestamp': datetime.now().isoformat(),
-            'sector': opp['Sector'],
-            'ticker': opp['Ticker'],
-            'score': int(opp['FinalScore']),
-            'urgency': opp['Urgency'],
-            'risk_level': opp['RiskLevel'],
-            'price': float(opp['CurrentPrice']),
-            'distance_from_min': float(opp['DistanceFromMin']),
-            'rsi': float(opp['RSI']),
-            'insider_activity': bool(opp['InsiderActivity']),
-            'insider_trades': int(opp.get('InsiderTrades', 0)),
-            'signals': opp.get('Signals', []),
-            'alert_type': 'CRITICAL' if opp['FinalScore'] >= 90 else 'HIGH' if opp['FinalScore'] >= 80 else 'MEDIUM'
-        }
-        alerts.append(alert)
-    
-    return sorted(alerts, key=lambda x: x['score'], reverse=True)
-
-
-# EJEMPLO DE USO
+# EJEMPLO DE USO MEJORADO
 if __name__ == "__main__":
     import sys
     
     # Permitir diferentes modos de ejecución
     if len(sys.argv) > 1 and sys.argv[1] == 'test':
-        # Modo test: verificar estructura de directorios
-        print("🧪 EJECUTANDO EN MODO TEST")
-        test_results = test_directory_structure(".")
+        # Modo test: verificar estructura de directorios y mapeo
+        print("🧪 EJECUTANDO EN MODO TEST MEJORADO")
+        test_results = test_directory_structure_enhanced(".")
         
         if test_results['insider_files_count'] > 0 or test_results['sector_files_count'] > 0:
-            print("\n✅ Test exitoso. El escáner puede proceder con el análisis completo.")
+            print("\n✅ Test exitoso. El escáner mejorado puede proceder con el análisis completo.")
             print("💡 Para ejecutar análisis completo: python script.py")
         else:
             print("\n❌ Test falló. Revisa la estructura de directorios.")
@@ -1061,15 +1111,28 @@ if __name__ == "__main__":
     elif len(sys.argv) > 1 and sys.argv[1] == 'preview':
         # Modo preview: vista rápida de datos
         print("👀 EJECUTANDO EN MODO PREVIEW")
-        preview_results = quick_preview_data(".")
-        print("\n✅ Preview completado. Revisa los datos de muestra arriba.")
+        scanner = AdvancedTradingScanner(".")
+        structure = scanner.scan_directory_structure()
+        
+        # Mostrar estadísticas de mapeo
+        print(f"\n🎯 ESTADÍSTICAS DE MAPEO:")
+        print(f"   📊 Total tickers mapeados: {len(scanner.comprehensive_ticker_mapping)}")
+        
+        # Mostrar sectores disponibles
+        sectors = set(scanner.comprehensive_ticker_mapping.values())
+        print(f"   📈 Sectores disponibles: {len(sectors)}")
+        for sector in sorted(sectors):
+            count = list(scanner.comprehensive_ticker_mapping.values()).count(sector)
+            print(f"      • {sector}: {count} tickers")
+        
+        print("\n✅ Preview completado.")
     
     else:
         # Modo normal: escaneo completo
-        print("🚀 EJECUTANDO ANÁLISIS COMPLETO")
+        print("🚀 EJECUTANDO ANÁLISIS COMPLETO MEJORADO")
         
         # Primero hacer un test rápido
-        test_results = test_directory_structure(".")
+        test_results = test_directory_structure_enhanced(".")
         
         if test_results['insider_files_count'] == 0 and test_results['sector_files_count'] == 0:
             print("\n❌ No se encontraron archivos de datos.")
@@ -1083,10 +1146,8 @@ if __name__ == "__main__":
         if 'error' not in results:
             print("\n🎯 ¡ANÁLISIS COMPLETADO EXITOSAMENTE!")
             print("📄 Revisa el archivo JSON generado para resultados detallados.")
+            summary = results.get('summary', {})
+            print(f"🎯 Correlaciones encontradas: {summary.get('with_insider_activity', 0)} sectores")
+            print(f"📊 Cobertura de mapeo: {summary.get('mapping_coverage', 0):.1f}%")
         else:
             print(f"\n❌ Error en análisis: {results['error']}")
-    
-    # También disponibles las funciones de integración:
-    # quick_scan(".", recent_days=7, min_score=75)
-    # get_daily_alerts(".", alert_threshold=80)
-    # test_directory_structure(".")  # Para debugging
