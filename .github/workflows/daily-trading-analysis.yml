@@ -1,0 +1,187 @@
+name: Trading Analysis Ultra Enhanced
+
+on:
+  schedule:
+    - cron: '30 14 * * 1-5'
+    - cron: '30 21 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      analysis_mode:
+        description: 'Tipo de análisis'
+        required: true
+        default: 'ultra-enhanced'
+        type: choice
+        options:
+        - ultra-enhanced
+        - insider-only
+        - dj-only
+      dj_mode:
+        description: 'Modo DJ'
+        required: true
+        default: 'principales'
+        type: choice
+        options:
+        - principales
+        - detallado
+        - completo
+
+jobs:
+  trading-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas numpy requests beautifulsoup4 lxml
+        pip install plotly matplotlib seaborn 
+        pip install yfinance python-telegram-bot
+        pip install scikit-learn scipy openpyxl
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        fi
+    
+    - name: Create Config
+      run: |
+        cat > config.py << 'EOF'
+        import os
+        from datetime import datetime
+        
+        TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
+        TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '')
+        GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '')
+        GITHUB_REPOSITORY = os.getenv('GITHUB_REPOSITORY', '')
+        RUNTIME_MODE = 'github_actions'
+        EXECUTION_TIME = datetime.now().isoformat()
+        
+        print(f"Config loaded - Telegram: {'OK' if TELEGRAM_BOT_TOKEN else 'MISSING'}")
+        EOF
+    
+    - name: System Check
+      run: |
+        echo "Python version: $(python --version)"
+        echo "Working directory: $(pwd)"
+        echo "Files available:"
+        ls -la
+        if [ -f "paste.txt" ]; then
+          echo "paste.txt found"
+          head -5 paste.txt
+        else
+          echo "paste.txt not found"
+          find . -name "*.py" -type f | head -10
+        fi
+    
+    - name: Execute Trading Analysis
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        PYTHONPATH: ${{ github.workspace }}
+        PYTHONUNBUFFERED: 1
+      run: |
+        echo "Starting trading analysis..."
+        MODE="${{ github.event.inputs.analysis_mode || 'ultra-enhanced' }}"
+        DJ_MODE="${{ github.event.inputs.dj_mode || 'principales' }}"
+        echo "Mode: $MODE"
+        echo "DJ Mode: $DJ_MODE"
+        echo "Time: $(date)"
+        
+        if [ "$MODE" = "ultra-enhanced" ]; then
+          echo "Running ULTRA ENHANCED analysis..."
+          python paste.txt --ultra-enhanced $DJ_MODE
+        elif [ "$MODE" = "insider-only" ]; then
+          echo "Running Insider Trading only..."
+          python paste.txt --insider
+        elif [ "$MODE" = "dj-only" ]; then
+          echo "Running DJ Sectorial only..."
+          python paste.txt --dj $DJ_MODE
+        else
+          echo "Running default mode..."
+          python paste.txt --ultra-enhanced principales
+        fi
+        echo "Analysis completed"
+    
+    - name: Verify Results
+      run: |
+        echo "Verifying results..."
+        find . -name "*.html" -o -name "*.csv" -o -name "*.json" | sort
+        for dir in reports docs; do
+          if [ -d "$dir" ]; then
+            echo "$dir/ found:"
+            ls -la $dir/ | head -5
+          else
+            echo "$dir/ not found"
+          fi
+        done
+    
+    - name: Configure Git
+      run: |
+        git config --global user.name "Trading Bot"
+        git config --global user.email "trading-bot@github-actions.com"
+    
+    - name: Commit Results
+      run: |
+        echo "Saving results..."
+        git add docs/ reports/ || true
+        git add *.html *.csv *.json || true
+        if git diff --staged --quiet; then
+          echo "No new changes to commit"
+        else
+          TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S UTC')
+          MODE="${{ github.event.inputs.analysis_mode || 'ultra-enhanced' }}"
+          git commit -m "Trading Analysis [$MODE] - $TIMESTAMP [skip ci]"
+          git push origin HEAD:main || git push origin HEAD:master
+          echo "Results saved to GitHub"
+        fi
+    
+    - name: Success Summary
+      run: |
+        echo "ANALYSIS COMPLETED SUCCESSFULLY!"
+        echo "Executed: $(date)"
+        echo "Mode: ${{ github.event.inputs.analysis_mode || 'ultra-enhanced' }}"
+        echo "Dashboard: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+    
+    - name: Error Handler
+      if: failure()
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: |
+        echo "ERROR IN TRADING ANALYSIS"
+        if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+          python3 -c "
+import requests
+import os
+from datetime import datetime
+
+token = os.getenv('TELEGRAM_BOT_TOKEN')
+chat_id = os.getenv('TELEGRAM_CHAT_ID')
+
+if token and chat_id:
+    message = f'ERROR EN TRADING ANALYSIS - {datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")} UTC - GitHub Actions falló'
+    url = f'https://api.telegram.org/bot{token}/sendMessage'
+    try:
+        resp = requests.post(url, json={'chat_id': chat_id, 'text': message}, timeout=10)
+        print('Error notification sent' if resp.status_code == 200 else f'Error: {resp.status_code}')
+    except Exception as e:
+        print(f'Error: {e}')
+"
+        fi
