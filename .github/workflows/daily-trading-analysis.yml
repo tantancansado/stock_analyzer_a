@@ -1,0 +1,282 @@
+# .github/workflows/daily-trading-analysis.yml
+name: 📊 Trading Analysis Ultra Enhanced
+
+on:
+  # Programación automática - DÍAS LABORABLES SOLAMENTE
+  schedule:
+    # 9:30 AM EST = 14:30 UTC (después del market open)
+    - cron: '30 14 * * 1-5'
+    # 4:30 PM EST = 21:30 UTC (después del market close)  
+    - cron: '30 21 * * 1-5'
+  
+  # Permitir ejecución manual para testing
+  workflow_dispatch:
+    inputs:
+      analysis_mode:
+        description: 'Tipo de análisis'
+        required: true
+        default: 'ultra-enhanced'
+        type: choice
+        options:
+        - ultra-enhanced
+        - insider-only  
+        - dj-only
+        - enhanced-only
+      
+      dj_mode:
+        description: 'Modo DJ Sectorial'
+        required: true
+        default: 'principales'
+        type: choice
+        options:
+        - principales
+        - detallado
+        - completo
+
+jobs:
+  trading-analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: 🐍 Setup Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: 📦 Install Dependencies
+      run: |
+        echo "📦 Instalando dependencias..."
+        python -m pip install --upgrade pip
+        
+        # Dependencias core
+        pip install pandas numpy requests beautifulsoup4 lxml
+        pip install plotly matplotlib seaborn 
+        pip install yfinance python-telegram-bot
+        pip install scikit-learn scipy openpyxl
+        
+        # Si existe requirements.txt, usarlo también
+        if [ -f requirements.txt ]; then
+          echo "📋 Instalando desde requirements.txt..."
+          pip install -r requirements.txt
+        fi
+        
+        echo "✅ Dependencias instaladas"
+    
+    - name: 🔧 Create Config
+      run: |
+        echo "🔧 Creando configuración..."
+        cat > config.py << 'EOF'
+        import os
+        from datetime import datetime
+        
+        # Telegram Configuration
+        TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
+        TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '')
+        
+        # GitHub Configuration  
+        GITHUB_TOKEN = os.getenv('GITHUB_TOKEN', '')
+        GITHUB_REPOSITORY = os.getenv('GITHUB_REPOSITORY', '')
+        
+        # Runtime info
+        RUNTIME_MODE = 'github_actions'
+        EXECUTION_TIME = datetime.now().isoformat()
+        
+        print(f"✅ Config loaded - Telegram: {'✓' if TELEGRAM_BOT_TOKEN else '✗'}")
+        EOF
+        echo "✅ Configuración creada"
+    
+    - name: 🔍 System Check
+      run: |
+        echo "🔍 Verificando sistema..."
+        echo "Python version: $(python --version)"
+        echo "Working directory: $(pwd)"
+        echo "Files available:"
+        ls -la
+        
+        # Verificar archivo principal
+        if [ -f "paste.txt" ]; then
+          echo "✅ paste.txt encontrado"
+          head -5 paste.txt
+        else
+          echo "❌ paste.txt no encontrado"
+          echo "Archivos Python disponibles:"
+          find . -name "*.py" -type f | head -10
+        fi
+    
+    - name: 🚀 Execute Trading Analysis  
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        PYTHONPATH: ${{ github.workspace }}
+        PYTHONUNBUFFERED: 1
+      run: |
+        echo "🚀 Iniciando análisis de trading..."
+        
+        # Configurar modo
+        MODE="${{ github.event.inputs.analysis_mode || 'ultra-enhanced' }}"
+        DJ_MODE="${{ github.event.inputs.dj_mode || 'principales' }}"
+        
+        echo "📊 Modo: $MODE"
+        echo "📈 DJ Mode: $DJ_MODE"
+        echo "🕐 Hora: $(date)"
+        
+        # Ejecutar análisis según el modo
+        if [ "$MODE" = "ultra-enhanced" ]; then
+          echo "🌟 Ejecutando análisis ULTRA MEJORADO..."
+          python paste.txt --ultra-enhanced $DJ_MODE
+        elif [ "$MODE" = "insider-only" ]; then
+          echo "🏛️ Solo Insider Trading..."
+          python paste.txt --insider
+        elif [ "$MODE" = "dj-only" ]; then
+          echo "📊 Solo DJ Sectorial..."  
+          python paste.txt --dj $DJ_MODE
+        elif [ "$MODE" = "enhanced-only" ]; then
+          echo "🎯 Solo Enhanced Opportunities..."
+          python paste.txt --enhanced
+        else
+          echo "🔄 Modo por defecto..."
+          python paste.txt --ultra-enhanced principales
+        fi
+        
+        echo "✅ Análisis completado"
+    
+    - name: 📊 Verify Results
+      run: |
+        echo "📊 Verificando resultados..."
+        
+        # Mostrar estructura generada
+        echo "📁 Estructura de archivos:"
+        find . -name "*.html" -o -name "*.csv" -o -name "*.json" | sort
+        
+        # Verificar directorios principales
+        for dir in reports docs; do
+          if [ -d "$dir" ]; then
+            echo "✅ $dir/ encontrado:"
+            ls -la $dir/ | head -10
+          else
+            echo "❌ $dir/ no encontrado"
+          fi
+        done
+        
+        # Stats de archivos generados
+        HTML_COUNT=$(find . -name "*.html" -newer . 2>/dev/null | wc -l || echo "0")
+        CSV_COUNT=$(find . -name "*.csv" -newer . 2>/dev/null | wc -l || echo "0")
+        
+        echo "📈 Archivos generados: $HTML_COUNT HTML, $CSV_COUNT CSV"
+    
+    - name: 🌐 Configure Git
+      run: |
+        echo "🌐 Configurando Git..."
+        git config --global user.name "Trading Bot 🤖"
+        git config --global user.email "trading-bot@github-actions.com"
+        git config --global init.defaultBranch main
+        
+        echo "✅ Git configurado"
+    
+    - name: 💾 Commit Results
+      run: |
+        echo "💾 Guardando resultados..."
+        
+        # Agregar archivos generados
+        git add docs/ reports/ || true
+        git add *.html *.csv *.json || true
+        
+        # Verificar cambios
+        if git diff --staged --quiet; then
+          echo "ℹ️ No hay cambios nuevos para commitear"
+        else
+          # Commit con información detallada
+          TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S UTC')
+          MODE="${{ github.event.inputs.analysis_mode || 'ultra-enhanced' }}"
+          
+          git commit -m "📊 Trading Analysis [$MODE] - $TIMESTAMP
+
+🤖 Automated analysis via GitHub Actions
+📅 Timestamp: $TIMESTAMP  
+🔧 Mode: $MODE
+📊 Generated by: github-actions
+🌐 View results: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+
+[skip ci]"
+          
+          # Push cambios
+          echo "📤 Pushing to repository..."
+          git push origin HEAD:main || git push origin HEAD:master
+          
+          echo "✅ Resultados guardados en GitHub"
+        fi
+    
+    - name: 🎉 Success Summary
+      run: |
+        echo "🎉 ¡ANÁLISIS COMPLETADO EXITOSAMENTE!"
+        echo ""
+        echo "📊 Resumen:"
+        echo "   🕐 Ejecutado: $(date)"
+        echo "   🔧 Modo: ${{ github.event.inputs.analysis_mode || 'ultra-enhanced' }}"
+        echo "   🤖 Runner: GitHub Actions"
+        echo ""
+        echo "🌐 Ver resultados:"
+        echo "   📊 Dashboard: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+        echo "   📋 Repository: https://github.com/${{ github.repository }}"
+        echo "   📜 Actions: https://github.com/${{ github.repository }}/actions"
+        echo ""
+        echo "📱 Notificación enviada por Telegram ✅"
+    
+    - name: 🚨 Error Handler
+      if: failure()
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: |
+        echo "🚨 ERROR EN TRADING ANALYSIS"
+        
+        # Intentar enviar notificación de error por Telegram
+        if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
+          python3 -c "
+import requests
+import os
+from datetime import datetime
+
+token = os.getenv('TELEGRAM_BOT_TOKEN')
+chat_id = os.getenv('TELEGRAM_CHAT_ID')
+
+if token and chat_id:
+    message = f'''🚨 ERROR EN TRADING ANALYSIS
+
+📅 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} UTC
+🤖 GitHub Actions falló
+🔗 Ver logs: https://github.com/${{ github.repository }}/actions
+📋 Revisar configuración y volver a intentar
+
+❌ El análisis automático requiere atención'''
+    
+    url = f'https://api.telegram.org/bot{token}/sendMessage'
+    try:
+        resp = requests.post(url, json={'chat_id': chat_id, 'text': message}, timeout=10)
+        if resp.status_code == 200:
+            print('✅ Notificación de error enviada')
+        else:
+            print(f'❌ Error enviando notificación: {resp.status_code}')
+    except Exception as e:
+        print(f'❌ Error: {e}')
+else:
+    print('⚠️ Telegram no configurado')
+"
+        fi
+        
+        echo "📋 Ver logs completos en: https://github.com/${{ github.repository }}/actions"
