@@ -14,7 +14,7 @@ Sistema inteligente de análisis financiero con IA avanzada y diseño Liquid Gla
 - Análisis de correlaciones sectoriales
 
 ### 📈 DJ Sectorial Analysis  
-- Análisis de 139 sectores Dow Jones
+- Análisis de 140 sectores Dow Jones
 - Identificación de oportunidades por RSI y distancia de mínimos
 - Clasificación inteligente: 🟢 Oportunidades, 🟡 Vigilancia, 🔴 Momentum
 

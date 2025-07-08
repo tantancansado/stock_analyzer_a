@@ -653,7 +653,7 @@ class GitHubPagesTemplates:
                 <a href="dj_sectorial.html" class="nav-card">
                     <div class="nav-icon">📊</div>
                     <div class="nav-title">DJ Sectorial</div>
-                    <div class="nav-desc">139 sectores Dow Jones analizados para identificar oportunidades y rotaciones sectoriales</div>
+                    <div class="nav-desc">140 sectores Dow Jones analizados para identificar oportunidades y rotaciones sectoriales</div>
                 </a>
                 <a href="market_breadth.html" class="nav-card">
                     <div class="nav-icon">📈</div>
@@ -864,7 +864,7 @@ class GitHubPagesTemplates:
     <div class="glass-container">
         <header class="liquid-header glass-card floating-element">
             <h1>📊 DJ Sectorial Analysis</h1>
-            <p>Análisis inteligente de 139 sectores Dow Jones con patrones avanzados</p>
+            <p>Análisis inteligente de 140 sectores Dow Jones con patrones avanzados</p>
             <div class="live-pulse">
                 <div class="pulse-dot"></div>
                 <span>Análisis Automatizado • IA Integrada</span>
@@ -874,7 +874,7 @@ class GitHubPagesTemplates:
         <section class="content-liquid glass-card">
             <h2 class="section-title">🧠 ¿Qué es el análisis DJ Sectorial?</h2>
             <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
-                Sistema de inteligencia artificial que evalúa 139 sectores del mercado estadounidense, 
+                Sistema de inteligencia artificial que evalúa 140 sectores del mercado estadounidense, 
                 identificando oportunidades basadas en análisis técnico avanzado y patrones de comportamiento.
             </p>
         </section>
@@ -1219,7 +1219,7 @@ if __name__ == "__main__":
             {
                 "id": "dj_test1",
                 "title": "DJ Sectorial Analysis",
-                "description": "139 sectores analizados",
+                "description": "140 sectores analizados",
                 "date": "2025-07-03",
                 "time": "09:00",
                 "html_url": "reports/dj_test1/index.html",

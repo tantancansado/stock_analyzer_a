@@ -1649,7 +1649,7 @@ class DJMasterAnalyzer:
         })
         self.api_base = "https://de.api.investing.com/api/financialdata/historical"        # TODOS LOS 140 IDs DE SECTORES DOW JONES VÁLIDOS
         self.ALL_INVESTING_IDS = {
-            'DJUSAE': '19977', 'DJUSAF': '20029', 'DJUSAG': '20008', 'DJUSAI': '20037',
+            'DJUSFR': '19965','DJUSAE': '19977', 'DJUSAF': '20029', 'DJUSAG': '20008', 'DJUSAI': '20037',
             'DJUSAL': '20006', 'DJUSAM': '20067', 'DJUSAP': '19962', 'DJUSAR': '20005',
             'DJUSAS': '20004', 'DJUSAT': '20009', 'DJUSAU': '20010', 'DJUSAV': '20066',
             'DJUSBC': '20013', 'DJUSBD': '20015', 'DJUSBE': '20017', 'DJUSBK': '19963',
@@ -1688,49 +1688,214 @@ class DJMasterAnalyzer:
         
         # Nombres descriptivos para los sectores
         self.SECTOR_NAMES = {
-            'DJUSEN': 'Oil & Gas',
-            'DJUSTC': 'Technology', 
-            'DJUSBK': 'Banks',
-            'DJUSRE': 'Real Estate',
-            'DJUSHC': 'Healthcare',
-            'DJUSCH': 'Chemicals',
-            'DJUSUT': 'Utilities',
-            'DJUSFN': 'Financials',
-            'DJUSRT': 'Retail',
-            'DJUSIG': 'Industrial Goods',
-            'DJUSME': 'Media',
-            'DJUSTL': 'Telecommunications',
-            'DJUSFB': 'Food & Beverage',
-            'DJUSNG': 'Personal Goods',
-            'DJUSBS': 'Basic Resources',
-            'DJUSCN': 'Construction',
-            'DJUSAP': 'Auto & Parts',
-            'DJUSBV': 'Beverages',
-            'DJUSDR': 'Drug Retailers',
-            'DJUSEE': 'Electronics',
-            'DJUSFO': 'Food Producers',
-            'DJUSGI': 'General Industrial',
-            'DJUSGT': 'General Retail',
-            'DJUSMC': 'Healthcare Equipment',
-            'DJUSHG': 'Household Goods',
-            'DJUSIQ': 'Industrial Engineering',
-            'DJUSIM': 'Metals & Mining',
-            'DJUSIT': 'Industrial Transport',
-            'DJUSLE': 'Leisure Goods',
-            'DJUSMG': 'Mining',
-            'DJUSIX': 'Insurance',
-            'DJUSOG': 'Oil Producers',
-            'DJUSPG': 'Personal Goods',
-            'DJUSPN': 'Pharmaceuticals',
-            'DJUSRH': 'RE Investment',
-            'DJUSRI': 'REITs',
-            'DJUSSV': 'Software',
-            'DJUSIS': 'Support Services',
-            'DJUSTQ': 'Tech Hardware',
-            'DJUSAS': 'Aerospace',
-            'DJUSAR': 'Airlines',
-            'DJUSAL': 'Aluminum',
-            'DJUSRA': 'Apparel Retail',
+            # Aerospace & Defense
+            'DJUSAE': 'Dow Jones U.S. Aerospace & Defense Index',
+            'DJUSAS': 'Dow Jones U.S. Aerospace Index',
+            'DJUSDN': 'Dow Jones U.S. Defense Index',
+            
+            # Airlines
+            'DJUSAR': 'Dow Jones U.S. Airlines Index',
+            
+            # Aluminum & Metals
+            'DJUSAL': 'Dow Jones U.S. Aluminum Index',
+            'DJUSNF': 'Dow Jones U.S. Nonferrous Metals Index',
+            'DJUSST': 'Dow Jones U.S. Iron & Steel Index',
+            'DJUSPM': 'Dow Jones U.S. Gold Mining Index',
+            'DJUSPT': 'Dow Jones U.S. Platinum & Precious Metals Index',
+            
+            # Asset Management & Banks
+            'DJUSAG': 'Dow Jones U.S. Asset Managers Index',
+            'DJUSBK': 'Dow Jones U.S. Banks Index',
+            
+            # Automobiles & Parts
+            'DJUSAP': 'Dow Jones U.S. Automobiles & Parts Index',
+            'DJUSAU': 'Dow Jones U.S. Automobiles Index',
+            'DJUSAT': 'Dow Jones U.S. Auto Parts Index',
+            'DJUSTR': 'Dow Jones U.S. Tires Index',
+            
+            # Basic Resources & Materials
+            'DJUSBS': 'Dow Jones U.S. Basic Resources Index',
+            'DJUSIM': 'Dow Jones U.S. Industrial Metals & Mining Index',
+            'DJUSMG': 'Dow Jones U.S. Mining Index',
+            'DJUSMD': 'Dow Jones U.S. General Mining Index',
+            
+            # Beverages & Food
+            'DJUSBV': 'Dow Jones U.S. Beverages Index',
+            'DJUSDB': 'Dow Jones U.S. Brewers Index',
+            'DJUSVN': 'Dow Jones U.S. Distillers & Vintners Index',
+            'DJUSSD': 'Dow Jones U.S. Soft Drinks Index',
+            'DJUSFB': 'Dow Jones U.S. Food & Beverage Index',
+            'DJUSFO': 'Dow Jones U.S. Food Producers Index',
+            'DJUSFP': 'Dow Jones U.S. Food Products Index',
+            'DJUSFD': 'Dow Jones U.S. Food Retailers & Wholesalers Index',
+            
+            # Biotechnology & Pharmaceuticals
+            'DJUSBT': 'Dow Jones U.S. Biotechnology Index',
+            'DJUSPN': 'Dow Jones U.S. Pharmaceuticals & Biotechnology Index',
+            'DJUSPR': 'Dow Jones U.S. Pharmaceuticals Index',
+            
+            # Broadcasting & Media
+            'DJUSBC': 'Dow Jones U.S. Broadcasting & Entertainment Index',
+            'DJUSAV': 'Dow Jones U.S. Media Agencies Index',
+            'DJUSME': 'Dow Jones U.S. Media Index',
+            'DJUSPB': 'Dow Jones U.S. Publishing Index',
+            
+            # Building & Construction
+            'DJUSBD': 'Dow Jones U.S. Building Materials & Fixtures Index',
+            'DJUSCN': 'Dow Jones U.S. Construction & Materials Index',
+            'DJUSHV': 'Dow Jones U.S. Heavy Construction Index',
+            'DJUSHB': 'Dow Jones U.S. Home Construction Index',
+            
+            # Business Services
+            'DJUSBE': 'Dow Jones U.S. Business Training & Employment Agencies Index',
+            'DJUSIV': 'Dow Jones U.S. Business Support Services Index',
+            'DJUSFA': 'Dow Jones U.S. Financial Administration Index',
+            'DJUSIS': 'Dow Jones U.S. Support Services Index',
+            
+            # Chemicals
+            'DJUSCH': 'Dow Jones U.S. Chemicals Index',
+            'DJUSCC': 'Dow Jones U.S. Commodity Chemicals Index',
+            'DJUSCX': 'Dow Jones U.S. Specialty Chemicals Index',
+            
+            # Consumer Electronics & Goods
+            'DJUSCE': 'Dow Jones U.S. Consumer Electronics Index',
+            'DJUSNG': 'Dow Jones U.S. Personal & Household Goods Index',
+            'DJUSHG': 'Dow Jones U.S. Household Goods & Home Construction Index',
+            'DJUSHD': 'Dow Jones U.S. Durable Household Products Index',
+            'DJUSHN': 'Dow Jones U.S. Nondurable Household Products Index',
+            'DJUSFH': 'Dow Jones U.S. Furnishings Index',
+            'DJUSCM': 'Dow Jones U.S. Personal Products Index',
+            'DJUSCF': 'Dow Jones U.S. Clothing & Accessories Index',
+            'DJUSFT': 'Dow Jones U.S. Footwear Index',
+            
+            # Delivery & Transportation
+            'DJUSAF': 'Dow Jones U.S. Delivery Services Index',
+            'DJUSIT': 'Dow Jones U.S. Industrial Transportation Index',
+            'DJUSMT': 'Dow Jones U.S. Marine Transportation Index',
+            'DJUSRR': 'Dow Jones U.S. Railroads Index',
+            'DJUSTS': 'Dow Jones U.S. Transportation Services Index',
+            'DJUSTK': 'Dow Jones U.S. Trucking Index',
+            
+            # Electronics & Equipment
+            'DJUSAI': 'Dow Jones U.S. Electronic Equipment Index',
+            'DJUSEC': 'Dow Jones U.S. Electrical Components & Equipment Index',
+            'DJUSEE': 'Dow Jones U.S. Electronic & Electrical Equipment Index',
+            'DJUSOE': 'Dow Jones U.S. Electronic Office Equipment Index',
+            
+            # Energy & Oil
+            'DJUSEN': 'Dow Jones U.S. Oil & Gas Index',
+            'DJUSOG': 'Dow Jones U.S. Oil & Gas Producers',
+            'DJUSOS': 'Dow Jones U.S. Exploration & Production Index',
+            'DJUSOL': 'Dow Jones U.S. Integrated Oil & Gas Index',
+            'DJUSOI': 'Dow Jones U.S. Oil Equipment & Services Index',
+            'DJUSPL': 'Dow Jones U.S. Pipelines Index',
+            
+            # Financial Services
+            'DJUSFI': 'Dow Jones U.S. Financial Services Index',
+            'DJUSGF': 'Dow Jones U.S. Financial Services Index',
+            'DJUSSF': 'Dow Jones U.S. Consumer Finance Index',
+            'DJUSSP': 'Dow Jones U.S. Specialty Finance Index',
+            'DJUSSB': 'Dow Jones U.S. Investment Services Index',
+            'DJUSMF': 'Dow Jones U.S. Mortgage Finance Index',
+            
+            # Gambling & Leisure
+            'DJUSCA': 'Dow Jones U.S. Gambling Index',
+            'DJUSCG': 'Dow Jones U.S. Travel & Leisure Index',
+            'DJUSLE': 'Dow Jones U.S. Leisure Goods Index',
+            'DJUSRP': 'Dow Jones U.S. Recreational Products Index',
+            'DJUSRQ': 'Dow Jones U.S. Recreational Services Index',
+            'DJUSTY': 'Dow Jones U.S. Toys Index',
+            'DJUSLG': 'Dow Jones U.S. Hotels Index',
+            'DJUSRU': 'Dow Jones U.S. Restaurants & Bars Index',
+            'DJUSTT': 'Dow Jones U.S. Travel & Tourism Index',
+            
+            # Healthcare
+            'DJUSHC': 'Dow Jones U.S. Health Care Index',
+            'DJUSMC': 'Dow Jones U.S. Health Care Equipment & Services Index',
+            'DJUSHP': 'Dow Jones U.S. Health Care Providers Index',
+            'DJUSAM': 'Dow Jones U.S. Medical Equipment Index',
+            'DJUSMS': 'Dow Jones U.S. Medical Supplies Index',
+            
+            # Industrial & Equipment
+            'DJUSIG': 'Dow Jones U.S. Industrial Goods & Services Index',
+            'DJUSGI': 'Dow Jones U.S. General Industrials Index',
+            'DJUSCP': 'Dow Jones U.S. Containers & Packaging Index',
+            'DJUSID': 'Dow Jones U.S. Diversified Industrials Index',
+            'DJUSIQ': 'Dow Jones U.S. Industrial Engineering Index',
+            'DJUSHR': 'Dow Jones U.S. Commercial Vehicles & Trucks Index',
+            'DJUSFE': 'Dow Jones U.S. Industrial Machinery Index',
+            'DJUSDS': 'Dow Jones U.S. Industrial Suppliers Index',
+            'DJUSPC': 'Dow Jones U.S. Waste & Disposal Services Index',
+            
+            # Insurance
+            'DJUSIR': 'Dow Jones U.S. Insurance Index',
+            'DJUSIX': 'Dow Jones U.S. Nonlife Insurance Index',
+            'DJUSIF': 'Dow Jones U.S. Full Line Insurance Index',
+            'DJUSIB': 'Dow Jones U.S. Insurance Brokers Index',
+            'DJUSIP': 'Dow Jones U.S. Property & Casualty Insurance Index',
+            'DJUSIU': 'Dow Jones U.S. Reinsurance Index',
+            'DJUSIL': 'Dow Jones U.S. Life Insurance Index',
+            
+            # Real Estate & REITs
+            'DJUSRE': 'Dow Jones U.S. Real Estate Index',
+            'DJUSRH': 'Dow Jones U.S. Real Estate Investment & Services',
+            'DJUSEH': 'Dow Jones U.S. Real Estate Holding & Development Index',
+            'DJUSES': 'Dow Jones U.S. Real Estate Services Index',
+            'DJUSRI': 'Dow Jones U.S. Real Estate Investment Trusts Index',
+            'DJUSIO': 'Dow Jones U.S. Industrial & Office REITs Index',
+            'DJUSRL': 'Dow Jones U.S. Retail REITs Index',
+            'DJUSRN': 'Dow Jones U.S. Residential REITs Index',
+            'DJUSDT': 'Dow Jones U.S. Diversified REITs Index',
+            'DJUSSR': 'Dow Jones U.S. Specialty REITs Index',
+            'DJUSMR': 'Dow Jones U.S. Mortgage REITs Index',
+            'DJUSHL': 'Dow Jones U.S. Hotel & Lodging REITs Index',
+            
+            # Retail
+            'DJUSRT': 'Dow Jones U.S. Retail Index',
+            'DJUSDR': 'Dow Jones U.S. Food & Drug Retailers Index',
+            'DJUSRD': 'Dow Jones U.S. Drug Retailers Index',
+            'DJUSGT': 'Dow Jones U.S. General Retailers Index',
+            'DJUSRA': 'Dow Jones U.S. Apparel Retailers Index',
+            'DJUSRB': 'Dow Jones U.S. Broadline Retailers Index',
+            'DJUSHI': 'Dow Jones U.S. Home Improvement Retailers Index',
+            'DJUSCS': 'Dow Jones U.S. Specialized Consumer Services Index',
+            'DJUSRS': 'Dow Jones U.S. Specialty Retailers Index',
+            
+            # Technology & Software
+            'DJUSTC': 'Dow Jones U.S. Technology Index',
+            'DJUSSV': 'Dow Jones U.S. Software & Computer Services Index',
+            'DJUSDV': 'Dow Jones U.S. Computer Services Index',
+            'DJUSNS': 'Dow Jones U.S. Internet Index',
+            'DJUSSW': 'Dow Jones U.S. Software Index',
+            'DJUSTQ': 'Dow Jones U.S. Technology Hardware & Equipment Index',
+            'DJUSCR': 'Dow Jones U.S. Computer Hardware Index',
+            'DJUSSC': 'Dow Jones U.S. Semiconductors Index',
+            'DJUSCT': 'Dow Jones U.S. Telecommunications Equipment Index',
+            
+            # Telecommunications
+            'DJUSTL': 'Dow Jones U.S. Telecommunications Index',
+            'DJUSFC': 'Dow Jones U.S. Fixed Line Telecommunications Index',
+            'DJUSWC': 'Dow Jones U.S. Mobile Telecommunications Index',
+            
+            # Tobacco
+            'DJUSTB': 'Dow Jones U.S. Tobacco Index',
+            
+            # Utilities
+            'DJUSUT': 'Dow Jones U.S. Utilities Index',
+            'DJUSEU': 'Dow Jones U.S. Electricity Index',
+            'DJUSVE': 'Dow Jones U.S. Conventional Electricity Index',
+            'DJUSUO': 'Dow Jones U.S. Gas, Water & Multiutilities Index',
+            'DJUSGU': 'Dow Jones U.S. Gas Distribution Index',
+            'DJUSMU': 'Dow Jones U.S. Multiutilities Index',
+            'DJUSWU': 'Dow Jones U.S. Water Index',
+            
+            # Forestry & Paper
+            'DJUSFR': 'Dow Jones U.S. Forestry & Paper Index',
+            'DJUSFS': 'Dow Jones U.S. Forestry Index',
+            'DJUSPP': 'Dow Jones U.S. Paper Index',
+            
+            # Coal
+            'DJUSCL': 'Dow Jones U.S. Coal Index',
         }    
     def get_sector_name(self, ticker):
         """Obtiene el nombre del sector, generando uno automático si no existe"""
