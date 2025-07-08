@@ -874,7 +874,7 @@ class GitHubPagesTemplates:
         <section class="content-liquid glass-card">
             <h2 class="section-title">🧠 ¿Qué es el análisis DJ Sectorial?</h2>
             <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
-                Sistema de inteligencia artificial que evalúa 43 sectores del mercado estadounidense, 
+                Sistema de inteligencia artificial que evalúa 139 sectores del mercado estadounidense, 
                 identificando oportunidades basadas en análisis técnico avanzado y patrones de comportamiento.
             </p>
         </section>
@@ -885,7 +885,7 @@ class GitHubPagesTemplates:
                 <div class="stat-label">Análisis Completados</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
-                <div class="stat-number">43</div>
+                <div class="stat-number">139</div>
                 <div class="stat-label">Sectores Monitoreados</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
