@@ -1651,52 +1651,193 @@ class DJMasterAnalyzer:
         
         # TODOS los IDs de sectores Dow Jones
         self.ALL_INVESTING_IDS = {
-            # SECTORES PRINCIPALES (Nivel 1)
-            'DJUSEN': '19972',  # Oil & Gas ⛽
-            'DJUSTC': '19976',  # Technology 💻
-            'DJUSBK': '19963',  # Banks 🏦
-            'DJUSRE': '19974',  # Real Estate 🏠
-            'DJUSHC': '19958',  # Healthcare 🏥
-            'DJUSCH': '19965',  # Chemicals 🧪
-            'DJUSUT': '19961',  # Utilities ⚡
-            'DJUSFN': '19967',  # Financials 💰
-            'DJUSRT': '19975',  # Retail 🛒
-            'DJUSIG': '19969',  # Industrial Goods 🏭
-            'DJUSME': '19971',  # Media 📺
-            'DJUSTL': '19960',  # Telecommunications 📞
-            'DJUSFB': '19968',  # Food & Beverage 🍔
-            'DJUSNG': '19973',  # Personal & Household Goods 🏠
-            'DJUSBS': '19964',  # Basic Resources ⛏️
-            'DJUSCN': '19966',  # Construction & Materials 🏗️
-            
-            # SECTORES ESPECÍFICOS (Nivel 2)
-            'DJUSAP': '19962',  # Automobiles & Parts 🚗
-            'DJUSBV': '19978',  # Beverages 🥤
-            'DJUSDR': '19980',  # Food & Drug Retailers 🏪
-            'DJUSEE': '19979',  # Electronic & Electrical Equipment ⚡
-            'DJUSFO': '19981',  # Food Producers 🌾
-            'DJUSGI': '19984',  # General Industrials 🏭
-            'DJUSGT': '19985',  # General Retailers 🛍️
-            'DJUSMC': '19986',  # Health Care Equipment & Services 🩺
-            'DJUSHG': '19987',  # Household Goods & Home Construction 🏠
-            'DJUSIQ': '19988',  # Industrial Engineering ⚙️
-            'DJUSIM': '19989',  # Industrial Metals & Mining ⛏️
-            'DJUSIT': '19990',  # Industrial Transportation 🚛
-            'DJUSLE': '19991',  # Leisure Goods 🎮
-            'DJUSMG': '19992',  # Mining ⛏️
-            'DJUSIX': '19993',  # Nonlife Insurance 🛡️
-            'DJUSOG': '19994',  # Oil & Gas Producers ⛽
-            'DJUSPG': '19996',  # Personal Goods 👕
-            'DJUSPN': '19997',  # Pharmaceuticals & Biotechnology 💊
-            'DJUSRH': '19998',  # Real Estate Investment & Services 🏢
-            'DJUSRI': '19999',  # Real Estate Investment Trusts 🏠
-            'DJUSSV': '20000',  # Software & Computer Services 💻
-            'DJUSIS': '20001',  # Support Services 📋
-            'DJUSTQ': '20002',  # Technology Hardware & Equipment 🖥️
-            'DJUSAS': '20004',  # Aerospace 🚀
-            'DJUSAR': '20005',  # Airlines ✈️
-            'DJUSAL': '20006',  # Aluminum 🔩
-            'DJUSRA': '20007',  # Apparel Retailers 👗
+            'DJUSAE': '19977',
+            'DJUSAF': '20029',
+            'DJUSAG': '20008',
+            'DJUSAI': '20037',
+            'DJUSAL': '20006',
+            'DJUSAM': '20067',
+            'DJUSAP': '19962',
+            'DJUSAR': '20005',
+            'DJUSAS': '20004',
+            'DJUSAT': '20009',
+            'DJUSAU': '20010',
+            'DJUSAV': '20066',
+            'DJUSBC': '20013',
+            'DJUSBD': '20015',
+            'DJUSBE': '20017',
+            'DJUSBK': '19963',
+            'DJUSBS': '19964',
+            'DJUSBT': '20011',
+            'DJUSBV': '19978',
+            'DJUSCA': '20047',
+            'DJUSCC': '20021',
+            'DJUSCH': '20003',
+            'DJUSCM': '20077',
+            'DJUSCN': '19966',
+            'DJUSCP': '20026',
+            'DJUSCR': '20022',
+            'DJUSCS': '20095',
+            'DJUSCT': '20100',
+            'DJUSCX': '20096',
+            'DJUSDB': '20012',
+            'DJUSDN': '20028',
+            'DJUSDR': '19980',
+            'DJUSDS': '20058',
+            'DJUSDT': '20032',
+            'DJUSDV': '20023',
+            'DJUSEC': '20035',
+            'DJUSEE': '19979',
+            'DJUSEH': '20084',
+            'DJUSEN': '19972',
+            'DJUSES': '20085',
+            'DJUSEU': '20036',
+            'DJUSFA': '20040',
+            'DJUSFB': '19968',
+            'DJUSFC': '20041',
+            'DJUSFD': '20043',
+            'DJUSFE': '20056',
+            'DJUSFH': '20046',
+            'DJUSFI': '19967',
+            'DJUSFO': '19981',
+            'DJUSFP': '20042',
+            'DJUSFT': '20044',
+            'DJUSGF': '40825',
+            'DJUSGI': '19984',
+            'DJUSGT': '19985',
+            'DJUSGU': '20048',
+            'DJUSHB': '20052',
+            'DJUSHC': '19958',
+            'DJUSHD': '20034',
+            'DJUSHG': '19987',
+            'DJUSHI': '20053',
+            'DJUSHL': '20055',
+            'DJUSHN': '20073',
+            'DJUSHP': '20050',
+            'DJUSHR': '20020',
+            'DJUSHV': '20051',
+            'DJUSIB': '20059',
+            'DJUSID': '20031',
+            'DJUSIG': '19969',
+            'DJUSIL': '20064',
+            'DJUSIM': '19989',
+            'DJUSIO': '20057',
+            'DJUSIP': '20081',
+            'DJUSIQ': '19988',
+            'DJUSIR': '19970',
+            'DJUSIS': '20001',
+            'DJUSIT': '19990',
+            'DJUSIU': '20088',
+            'DJUSIV': '20016',
+            'DJUSIX': '19993',
+            'DJUSLE': '19991',
+            'DJUSLG': '20054',
+            'DJUSMC': '19986',
+            'DJUSME': '19971',
+            'DJUSMF': '20070',
+            'DJUSMG': '19992',
+            'DJUSMR': '20071',
+            'DJUSMS': '20068',
+            'DJUSMT': '20065',
+            'DJUSMU': '20072',
+            'DJUSNF': '20074',
+            'DJUSNG': '19973',
+            'DJUSNS': '20061',
+            'DJUSOG': '19994',
+            'DJUSOI': '20075',
+            'DJUSOL': '20060',
+            'DJUSOS': '20039',
+            'DJUSPB': '20082',
+            'DJUSPC': '20107',
+            'DJUSPG': '19996',
+            'DJUSPL': '20079',
+            'DJUSPM': '20049',
+            'DJUSPN': '19997',
+            'DJUSPR': '20078',
+            'DJUSRA': '20007',
+            'DJUSRB': '20014',
+            'DJUSRD': '20033',
+            'DJUSRE': '19974',
+            'DJUSRH': '19998',
+            'DJUSRI': '19999',
+            'DJUSRL': '20091',
+            'DJUSRN': '20089',
+            'DJUSRP': '20086',
+            'DJUSRQ': '20087',
+            'DJUSRR': '20083',
+            'DJUSRS': '20099',
+            'DJUSRT': '19975',
+            'DJUSRU': '20090',
+            'DJUSSB': '20062',
+            'DJUSSC': '20092',
+            'DJUSSD': '20093',
+            'DJUSSF': '20025',
+            'DJUSSP': '20097',
+            'DJUSSR': '20098',
+            'DJUSST': '20063',
+            'DJUSSV': '20000',
+            'DJUSSW': '20094',
+            'DJUSTB': '20102',
+            'DJUSTC': '19976',
+            'DJUSTK': '20106',
+            'DJUSTL': '19960',
+            'DJUSTQ': '20002',
+            'DJUSTR': '20002',
+            'DJUSTS': '20104',
+            'DJUSTT': '20105',
+            'DJUSTY': '20103',
+            'DJUSUT': '19961',
+            'DJUSVE': '20027',
+            'DJUSVN': '20030',
+            'DJUSWC': '20069',
+            'DJUSWU': '20108'
+        }
+        
+        # Nombres descriptivos para los sectores
+        self.SECTOR_NAMES = {
+            'DJUSEN': 'Oil & Gas',
+            'DJUSTC': 'Technology', 
+            'DJUSBK': 'Banks',
+            'DJUSRE': 'Real Estate',
+            'DJUSHC': 'Healthcare',
+            'DJUSCH': 'Chemicals',
+            'DJUSUT': 'Utilities',
+            'DJUSFN': 'Financials',
+            'DJUSRT': 'Retail',
+            'DJUSIG': 'Industrial Goods',
+            'DJUSME': 'Media',
+            'DJUSTL': 'Telecommunications',
+            'DJUSFB': 'Food & Beverage',
+            'DJUSNG': 'Personal Goods',
+            'DJUSBS': 'Basic Resources',
+            'DJUSCN': 'Construction',
+            'DJUSAP': 'Auto & Parts',
+            'DJUSBV': 'Beverages',
+            'DJUSDR': 'Drug Retailers',
+            'DJUSEE': 'Electronics',
+            'DJUSFO': 'Food Producers',
+            'DJUSGI': 'General Industrial',
+            'DJUSGT': 'General Retail',
+            'DJUSMC': 'Healthcare Equipment',
+            'DJUSHG': 'Household Goods',
+            'DJUSIQ': 'Industrial Engineering',
+            'DJUSIM': 'Metals & Mining',
+            'DJUSIT': 'Industrial Transport',
+            'DJUSLE': 'Leisure Goods',
+            'DJUSMG': 'Mining',
+            'DJUSIX': 'Insurance',
+            'DJUSOG': 'Oil Producers',
+            'DJUSPG': 'Personal Goods',
+            'DJUSPN': 'Pharmaceuticals',
+            'DJUSRH': 'RE Investment',
+            'DJUSRI': 'REITs',
+            'DJUSSV': 'Software',
+            'DJUSIS': 'Support Services',
+            'DJUSTQ': 'Tech Hardware',
+            'DJUSAS': 'Aerospace',
+            'DJUSAR': 'Airlines',
+            'DJUSAL': 'Aluminum',
+            'DJUSRA': 'Apparel Retail',
         }
         
         # Nombres descriptivos para los sectores
