@@ -23,7 +23,7 @@ jobs:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       run: |
-        python sistema_principal.py --ultra-enhanced principales
+        python sistema_principal.py --ultra-enhanced completo
     - name: Commit
       run: |
         git config --global user.name "Bot"
