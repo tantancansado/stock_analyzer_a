@@ -1627,7 +1627,7 @@ class EnhancedTradingOpportunityAnalyzer:
 
 class DJMasterAnalyzer:
     """
-    Analizador de sectores Dow Jones - VERSIÓN COMPLETA CON 140 SECTORES
+    Analizador de sectores Dow Jones - INTEGRADO
     """
     def __init__(self):
         self.session = requests.Session()
@@ -1647,43 +1647,150 @@ class DJMasterAnalyzer:
             'Domain-Id': 'www',
             'Dnt': '1',
         })
-        self.api_base = "https://de.api.investing.com/api/financialdata/historical"        # TODOS LOS 140 IDs DE SECTORES DOW JONES VÁLIDOS
+        self.api_base = "https://de.api.investing.com/api/financialdata/historical"
+        
+        # TODOS los IDs de sectores Dow Jones
         self.ALL_INVESTING_IDS = {
-            'DJUSAE': '19977', 'DJUSAF': '20029', 'DJUSAG': '20008', 'DJUSAI': '20037',
-            'DJUSAL': '20006', 'DJUSAM': '20067', 'DJUSAP': '19962', 'DJUSAR': '20005',
-            'DJUSAS': '20004', 'DJUSAT': '20009', 'DJUSAU': '20010', 'DJUSAV': '20066',
-            'DJUSBC': '20013', 'DJUSBD': '20015', 'DJUSBE': '20017', 'DJUSBK': '19963',
-            'DJUSBS': '19964', 'DJUSBT': '20011', 'DJUSBV': '19978', 'DJUSCA': '20047',
-            'DJUSCC': '20021', 'DJUSCH': '20003', 'DJUSCM': '20077', 'DJUSCN': '19966',
-            'DJUSCP': '20026', 'DJUSCR': '20022', 'DJUSCS': '20095', 'DJUSCT': '20100',
-            'DJUSCX': '20096', 'DJUSDB': '20012', 'DJUSDN': '20028', 'DJUSDR': '19980',
-            'DJUSDS': '20058', 'DJUSDT': '20032', 'DJUSDV': '20023', 'DJUSEC': '20035',
-            'DJUSEE': '19979', 'DJUSEH': '20084', 'DJUSEN': '19972', 'DJUSES': '20085',
-            'DJUSEU': '20036', 'DJUSFA': '20040', 'DJUSFB': '19968', 'DJUSFC': '20041',
-            'DJUSFD': '20043', 'DJUSFE': '20056', 'DJUSFH': '20046', 'DJUSFI': '19967',
-            'DJUSFO': '19981', 'DJUSFP': '20042', 'DJUSFT': '20044', 'DJUSGF': '40825',
-            'DJUSGI': '19984', 'DJUSGT': '19985', 'DJUSGU': '20048', 'DJUSHB': '20052',
-            'DJUSHC': '19958', 'DJUSHD': '20034', 'DJUSHG': '19987', 'DJUSHI': '20053',
-            'DJUSHL': '20055', 'DJUSHN': '20073', 'DJUSHP': '20050', 'DJUSHR': '20020',
-            'DJUSHV': '20051', 'DJUSIB': '20059', 'DJUSID': '20031', 'DJUSIG': '19969',
-            'DJUSIL': '20064', 'DJUSIM': '19989', 'DJUSIO': '20057', 'DJUSIP': '20081',
-            'DJUSIQ': '19988', 'DJUSIR': '19970', 'DJUSIS': '20001', 'DJUSIT': '19990',
-            'DJUSIU': '20088', 'DJUSIV': '20016', 'DJUSIX': '19993', 'DJUSLE': '19991',
-            'DJUSLG': '20054', 'DJUSMC': '19986', 'DJUSME': '19971', 'DJUSMF': '20070',
-            'DJUSMG': '19992', 'DJUSMR': '20071', 'DJUSMS': '20068', 'DJUSMT': '20065',
-            'DJUSMU': '20072', 'DJUSNF': '20074', 'DJUSNG': '19973', 'DJUSNS': '20061',
-            'DJUSOG': '19994', 'DJUSOI': '20075', 'DJUSOL': '20060', 'DJUSOS': '20039',
-            'DJUSPB': '20082', 'DJUSPC': '20107', 'DJUSPG': '19996', 'DJUSPL': '20079',
-            'DJUSPM': '20049', 'DJUSPN': '19997', 'DJUSPR': '20078', 'DJUSRA': '20007',
-            'DJUSRB': '20014', 'DJUSRD': '20033', 'DJUSRE': '19974', 'DJUSRH': '19998',
-            'DJUSRI': '19999', 'DJUSRL': '20091', 'DJUSRN': '20089', 'DJUSRP': '20086',
-            'DJUSRQ': '20087', 'DJUSRR': '20083', 'DJUSRS': '20099', 'DJUSRT': '19975',
-            'DJUSRU': '20090', 'DJUSSB': '20062', 'DJUSSC': '20092', 'DJUSSD': '20093',
-            'DJUSSF': '20025', 'DJUSSP': '20097', 'DJUSSR': '20098', 'DJUSST': '20063',
-            'DJUSSV': '20000', 'DJUSSW': '20094', 'DJUSTB': '20102', 'DJUSTC': '19976',
-            'DJUSTK': '20106', 'DJUSTL': '19960', 'DJUSTQ': '20002', 'DJUSTR': '20002',
-            'DJUSTS': '20104', 'DJUSTT': '20105', 'DJUSTY': '20103', 'DJUSUT': '19961',
-            'DJUSVE': '20027', 'DJUSVN': '20030', 'DJUSWC': '20069', 'DJUSWU': '20108'
+            'DJUSAE': '19977',
+            'DJUSAF': '20029',
+            'DJUSAG': '20008',
+            'DJUSAI': '20037',
+            'DJUSAL': '20006',
+            'DJUSAM': '20067',
+            'DJUSAP': '19962',
+            'DJUSAR': '20005',
+            'DJUSAS': '20004',
+            'DJUSAT': '20009',
+            'DJUSAU': '20010',
+            'DJUSAV': '20066',
+            'DJUSBC': '20013',
+            'DJUSBD': '20015',
+            'DJUSBE': '20017',
+            'DJUSBK': '19963',
+            'DJUSBS': '19964',
+            'DJUSBT': '20011',
+            'DJUSBV': '19978',
+            'DJUSCA': '20047',
+            'DJUSCC': '20021',
+            'DJUSCH': '20003',
+            'DJUSCM': '20077',
+            'DJUSCN': '19966',
+            'DJUSCP': '20026',
+            'DJUSCR': '20022',
+            'DJUSCS': '20095',
+            'DJUSCT': '20100',
+            'DJUSCX': '20096',
+            'DJUSDB': '20012',
+            'DJUSDN': '20028',
+            'DJUSDR': '19980',
+            'DJUSDS': '20058',
+            'DJUSDT': '20032',
+            'DJUSDV': '20023',
+            'DJUSEC': '20035',
+            'DJUSEE': '19979',
+            'DJUSEH': '20084',
+            'DJUSEN': '19972',
+            'DJUSES': '20085',
+            'DJUSEU': '20036',
+            'DJUSFA': '20040',
+            'DJUSFB': '19968',
+            'DJUSFC': '20041',
+            'DJUSFD': '20043',
+            'DJUSFE': '20056',
+            'DJUSFH': '20046',
+            'DJUSFI': '19967',
+            'DJUSFO': '19981',
+            'DJUSFP': '20042',
+            'DJUSFT': '20044',
+            'DJUSGF': '40825',
+            'DJUSGI': '19984',
+            'DJUSGT': '19985',
+            'DJUSGU': '20048',
+            'DJUSHB': '20052',
+            'DJUSHC': '19958',
+            'DJUSHD': '20034',
+            'DJUSHG': '19987',
+            'DJUSHI': '20053',
+            'DJUSHL': '20055',
+            'DJUSHN': '20073',
+            'DJUSHP': '20050',
+            'DJUSHR': '20020',
+            'DJUSHV': '20051',
+            'DJUSIB': '20059',
+            'DJUSID': '20031',
+            'DJUSIG': '19969',
+            'DJUSIL': '20064',
+            'DJUSIM': '19989',
+            'DJUSIO': '20057',
+            'DJUSIP': '20081',
+            'DJUSIQ': '19988',
+            'DJUSIR': '19970',
+            'DJUSIS': '20001',
+            'DJUSIT': '19990',
+            'DJUSIU': '20088',
+            'DJUSIV': '20016',
+            'DJUSIX': '19993',
+            'DJUSLE': '19991',
+            'DJUSLG': '20054',
+            'DJUSMC': '19986',
+            'DJUSME': '19971',
+            'DJUSMF': '20070',
+            'DJUSMG': '19992',
+            'DJUSMR': '20071',
+            'DJUSMS': '20068',
+            'DJUSMT': '20065',
+            'DJUSMU': '20072',
+            'DJUSNF': '20074',
+            'DJUSNG': '19973',
+            'DJUSNS': '20061',
+            'DJUSOG': '19994',
+            'DJUSOI': '20075',
+            'DJUSOL': '20060',
+            'DJUSOS': '20039',
+            'DJUSPB': '20082',
+            'DJUSPC': '20107',
+            'DJUSPG': '19996',
+            'DJUSPL': '20079',
+            'DJUSPM': '20049',
+            'DJUSPN': '19997',
+            'DJUSPR': '20078',
+            'DJUSRA': '20007',
+            'DJUSRB': '20014',
+            'DJUSRD': '20033',
+            'DJUSRE': '19974',
+            'DJUSRH': '19998',
+            'DJUSRI': '19999',
+            'DJUSRL': '20091',
+            'DJUSRN': '20089',
+            'DJUSRP': '20086',
+            'DJUSRQ': '20087',
+            'DJUSRR': '20083',
+            'DJUSRS': '20099',
+            'DJUSRT': '19975',
+            'DJUSRU': '20090',
+            'DJUSSB': '20062',
+            'DJUSSC': '20092',
+            'DJUSSD': '20093',
+            'DJUSSF': '20025',
+            'DJUSSP': '20097',
+            'DJUSSR': '20098',
+            'DJUSST': '20063',
+            'DJUSSV': '20000',
+            'DJUSSW': '20094',
+            'DJUSTB': '20102',
+            'DJUSTC': '19976',
+            'DJUSTK': '20106',
+            'DJUSTL': '19960',
+            'DJUSTQ': '20002',
+            'DJUSTR': '20002',
+            'DJUSTS': '20104',
+            'DJUSTT': '20105',
+            'DJUSTY': '20103',
+            'DJUSUT': '19961',
+            'DJUSVE': '20027',
+            'DJUSVN': '20030',
+            'DJUSWC': '20069',
+            'DJUSWU': '20108'
         }
         
         # Nombres descriptivos para los sectores
@@ -1731,55 +1838,7 @@ class DJMasterAnalyzer:
             'DJUSAR': 'Airlines',
             'DJUSAL': 'Aluminum',
             'DJUSRA': 'Apparel Retail',
-        }    
-    def get_sector_name(self, ticker):
-        """Obtiene el nombre del sector, generando uno automático si no existe"""
-        if ticker in self.SECTOR_NAMES:
-            return self.SECTOR_NAMES[ticker]
-        else:
-            # Generar nombre automático basado en el código
-            code = ticker.replace('DJUS', '')
-            
-            # Mapeo de códigos comunes
-            code_mapping = {
-                'AE': 'Aerospace Equipment', 'AF': 'Agricultural Futures', 'AG': 'Agriculture',
-                'AI': 'Artificial Intelligence', 'AM': 'Advanced Materials', 'AV': 'Aviation',
-                'BC': 'Broadcasting', 'BD': 'Building', 'BE': 'Biotech Equipment',
-                'BT': 'Biotechnology', 'CA': 'Capital Goods', 'CC': 'Consumer Credit',
-                'CM': 'Commercial', 'CP': 'Consumer Products', 'CR': 'Consumer Recreation',
-                'CS': 'Consumer Services', 'CT': 'Construction Technology', 'CX': 'Consumer Complex',
-                'DB': 'Databases', 'DN': 'Defense', 'DS': 'Data Services',
-                'DT': 'Digital Technology', 'DV': 'Development', 'EC': 'E-Commerce',
-                'EH': 'Environmental Health', 'ES': 'Energy Services', 'EU': 'European Markets',
-                'FA': 'Financial Analytics', 'FC': 'Financial Credit', 'FD': 'Food Distribution',
-                'FE': 'Financial Engineering', 'FH': 'Financial Holdings', 'FI': 'Financial Instruments',
-                'FP': 'Financial Products', 'FT': 'Financial Technology', 'GF': 'Green Finance',
-                'GU': 'Gaming & Utilities', 'HB': 'Healthcare Biotech', 'HD': 'Healthcare Devices',
-                'HI': 'Healthcare Innovation', 'HL': 'Healthcare Logistics', 'HN': 'Healthcare Networks',
-                'HP': 'Healthcare Products', 'HR': 'Healthcare Research', 'HV': 'Healthcare Ventures',
-                'IB': 'Investment Banking', 'ID': 'Industrial Design', 'IL': 'Industrial Logistics',
-                'IO': 'Industrial Operations', 'IP': 'Intellectual Property', 'IR': 'Industrial Research',
-                'IU': 'Industrial Utilities', 'IV': 'Industrial Ventures', 'LG': 'Logistics',
-                'MF': 'Manufacturing', 'MR': 'Materials Research', 'MS': 'Materials Science',
-                'MT': 'Materials Technology', 'MU': 'Materials Utilities', 'NF': 'New Finance',
-                'NS': 'Network Services', 'OI': 'Oil Infrastructure', 'OL': 'Oil Logistics',
-                'OS': 'Oil Services', 'PB': 'Publishing & Broadcasting', 'PC': 'Personal Computing',
-                'PL': 'Plastics', 'PM': 'Precious Metals', 'PR': 'Public Relations',
-                'RB': 'Renewable Bio', 'RD': 'Research & Development', 'RL': 'Real Estate Logistics',
-                'RN': 'Renewable', 'RP': 'Real Estate Products', 'RQ': 'Real Estate Quality',
-                'RR': 'Real Estate Research', 'RU': 'Real Estate Utilities', 'SB': 'Sustainable Business',
-                'SC': 'Supply Chain', 'SD': 'Sustainable Development', 'SF': 'Sustainable Finance',
-                'SP': 'Specialty Products', 'SR': 'Sustainable Resources', 'ST': 'Space Technology',
-                'SW': 'Software', 'TB': 'Technology Business', 'TK': 'Technology Kits',
-                'TR': 'Transportation', 'TS': 'Technology Services', 'TT': 'Technology Tools',
-                'TY': 'Technology Systems', 'VE': 'Ventures', 'VN': 'Venture Networks',
-                'WC': 'Wireless Communications', 'WU': 'Wireless Utilities'
-            }
-            
-            if code in code_mapping:
-                return code_mapping[code]
-            else:
-                return f"Sector {code}"
+        }
     
     def get_historical_data(self, ticker, days_back=365):
         """Obtiene datos históricos para un ticker"""
@@ -1888,7 +1947,7 @@ class DJMasterAnalyzer:
         
         return {
             'ticker': ticker,
-            'sector': self.get_sector_name(ticker),
+            'sector': self.SECTOR_NAMES.get(ticker, ticker),
             'current_price': current_price,
             'min_52w': min_52w,
             'max_52w': max_52w,
@@ -1904,16 +1963,7 @@ class DJMasterAnalyzer:
         results = []
         total = len(tickers)
         
-        print(f"🚀 INICIANDO ANÁLISIS COMPLETO DE {total} SECTORES DOW JONES")
-
-        
-        print("=" * 70)
-
-        
-        if total > 50:
-
-        
-            print("⚠️  ANÁLISIS EXTENDIDO: Esto puede tomar 15-20 minutos")
+        print(f"🚀 INICIANDO ANÁLISIS DE {total} SECTORES")
         print("=" * 60)
         
         for i in range(0, len(tickers), batch_size):
