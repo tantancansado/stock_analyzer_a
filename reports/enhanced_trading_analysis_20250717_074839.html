@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Enhanced Trading Opportunities Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c1426 0%, #1a202c 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #4f9cf9, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .timestamp {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(79, 156, 249, 0.1);
+        }
+        
+        .card h3 {
+            color: #4f9cf9;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        .opportunities-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .opportunities-table th,
+        .opportunities-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .opportunities-table th {
+            background: rgba(79, 156, 249, 0.2);
+            font-weight: 600;
+            color: #4f9cf9;
+        }
+        
+        .opportunities-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .urgency-crítica {
+            background: linear-gradient(45deg, #ff4757, #ff6b7a);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .urgency-alta {
+            background: linear-gradient(45deg, #ffa726, #ffcc02);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .urgency-media {
+            background: linear-gradient(45deg, #26c6da, #00acc1);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .section {
+            margin: 40px 0;
+        }
+        
+        .section h2 {
+            color: #4f9cf9;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 2px solid #4f9cf9;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Enhanced Trading Opportunities Dashboard</h1>
+            <div class="timestamp">📅 Generado: 2025-07-17 07:48:39</div>
+        </div>
+        <div class="section">
+            <h2>🎯 Resumen Ejecutivo Mejorado</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>📊 Estado del Mercado</h3>
+                    <div class="stat">
+                        <span>Estado General:</span>
+                        <span class="stat-value">EXCEPCIONAL</span>
+                    </div>
+                    <div class="stat">
+                        <span>Sentimiento:</span>
+                        <span class="stat-value">BULLISH</span>
+                    </div>
+                    <div class="stat">
+                        <span>Cobertura Mapeo:</span>
+                        <span class="stat-value">0.0%</span>
+                    </div>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                        Mercado en estado excepcional con 9 oportunidades críticas detectadas
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📈 Estadísticas Mejoradas</h3>
+                    <div class="stat">
+                        <span>Total Oportunidades:</span>
+                        <span class="stat-value">140</span>
+                    </div>
+                    <div class="stat">
+                        <span>Críticas:</span>
+                        <span class="stat-value">9</span>
+                    </div>
+                    <div class="stat">
+                        <span>Con Insider Activity:</span>
+                        <span class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Efectividad Correlación:</span>
+                        <span class="stat-value">0.0%</span>
+                    </div>
+                    <div class="stat">
+                        <span>Score Promedio:</span>
+                        <span class="stat-value">64.3/100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>🏆 Top Oportunidades Mejoradas</h2>
+            <div class="card">
+                <h3>#1 Dow Jones U.S. Brewers Index (DJUSDB)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">98/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$507.17</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">5.8%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+30.1%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Dow Jones U.S. Brewers Index a solo 5.8% del mínimo con potencial upside de 30.1%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#2 Dow Jones U.S. Distillers & Vintners Index (DJUSVN)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">92/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$328.25</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">5.9%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+59.6%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Dow Jones U.S. Distillers & Vintners Index a solo 5.9% del mínimo con potencial upside de 59.6%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#3 Dow Jones U.S. Food Products Index (DJUSFP)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">87/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$543.05</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">2.6%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+22.8%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Dow Jones U.S. Food Products Index a solo 2.6% del mínimo con potencial upside de 22.8%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#4 Dow Jones U.S. Food Producers Index (DJUSFO)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">87/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$380.54</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">3.5%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+21.1%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Dow Jones U.S. Food Producers Index a solo 3.5% del mínimo con potencial upside de 21.1%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#5 Dow Jones U.S. Health Care Index (DJUSHC)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">86/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$1420.84</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">5.7%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+17.1%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Dow Jones U.S. Health Care Index a solo 5.7% del mínimo con potencial upside de 17.1%
+                </div>
+            </div></div>
+        <div class="section">
+            <h2>📋 Todas las Oportunidades (Mejoradas)</h2>
+            <div style="overflow-x: auto;">
+                <table class="opportunities-table">
+                    <thead>
+                        <tr>
+                            <th>Sector</th>
+                            <th>Score</th>
+                            <th>Precio</th>
+                            <th>Dist. Min %</th>
+                            <th>RSI</th>
+                            <th>Urgencia</th>
+                            <th>Insider</th>
+                            <th>Empresas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Brewers Index</strong></td>
+                            <td><strong>98</strong></td>
+                            <td>$507.17</td>
+                            <td>5.8%</td>
+                            <td>27.5</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Distillers & Vintners Index</strong></td>
+                            <td><strong>92</strong></td>
+                            <td>$328.25</td>
+                            <td>5.9%</td>
+                            <td>38.8</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Food Products Index</strong></td>
+                            <td><strong>87</strong></td>
+                            <td>$543.05</td>
+                            <td>2.6%</td>
+                            <td>48.8</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Food Producers Index</strong></td>
+                            <td><strong>87</strong></td>
+                            <td>$380.54</td>
+                            <td>3.5%</td>
+                            <td>49.8</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Health Care Index</strong></td>
+                            <td><strong>86</strong></td>
+                            <td>$1420.84</td>
+                            <td>5.7%</td>
+                            <td>49.4</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Beverages Index</strong></td>
+                            <td><strong>86</strong></td>
+                            <td>$925.10</td>
+                            <td>5.7%</td>
+                            <td>41.3</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Food & Beverage Index</strong></td>
+                            <td><strong>86</strong></td>
+                            <td>$696.69</td>
+                            <td>4.2%</td>
+                            <td>44.9</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Apparel Retailers Index</strong></td>
+                            <td><strong>85</strong></td>
+                            <td>$1604.32</td>
+                            <td>7.6%</td>
+                            <td>47.1</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Soft Drinks Index</strong></td>
+                            <td><strong>85</strong></td>
+                            <td>$894.58</td>
+                            <td>7.0%</td>
+                            <td>42.7</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Business Training & Employment Agencies Index</strong></td>
+                            <td><strong>84</strong></td>
+                            <td>$114.14</td>
+                            <td>9.6%</td>
+                            <td>47.2</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Household Goods & Home Construction Index</strong></td>
+                            <td><strong>81</strong></td>
+                            <td>$1026.36</td>
+                            <td>2.7%</td>
+                            <td>52.6</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Real Estate Holding & Development Index</strong></td>
+                            <td><strong>79</strong></td>
+                            <td>$57.03</td>
+                            <td>15.2%</td>
+                            <td>33.8</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Multiutilities Index</strong></td>
+                            <td><strong>79</strong></td>
+                            <td>$272.23</td>
+                            <td>14.4%</td>
+                            <td>39.8</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Integrated Oil & Gas Index</strong></td>
+                            <td><strong>79</strong></td>
+                            <td>$734.99</td>
+                            <td>13.9%</td>
+                            <td>38.5</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Personal & Household Goods Index</strong></td>
+                            <td><strong>79</strong></td>
+                            <td>$1040.90</td>
+                            <td>14.4%</td>
+                            <td>39.3</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Home Improvement Retailers Index</strong></td>
+                            <td><strong>78</strong></td>
+                            <td>$772.08</td>
+                            <td>9.5%</td>
+                            <td>53.8</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Utilities Index</strong></td>
+                            <td><strong>78</strong></td>
+                            <td>$407.88</td>
+                            <td>17.6%</td>
+                            <td>38.1</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Reinsurance Index</strong></td>
+                            <td><strong>78</strong></td>
+                            <td>$512.27</td>
+                            <td>9.6%</td>
+                            <td>53.0</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Containers & Packaging Index</strong></td>
+                            <td><strong>77</strong></td>
+                            <td>$472.61</td>
+                            <td>19.0%</td>
+                            <td>32.7</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Electricity Index</strong></td>
+                            <td><strong>77</strong></td>
+                            <td>$404.26</td>
+                            <td>19.4%</td>
+                            <td>38.8</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="card" style="text-align: center;">
+                <h3>🎯 Enhanced Trading Opportunities System</h3>
+                <p>Análisis con mapeo robusto de 202 tickers a sectores</p>
+                <p>Timestamp: 2025-07-17 07:48:39</p>
+                <p style="color: #a0aec0; font-size: 0.9rem;">
+                    ⚠️ Este análisis es solo para fines informativos. No constituye asesoramiento financiero.
+                </p>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
