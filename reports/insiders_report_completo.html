@@ -591,24 +591,111 @@
     
     <div class="stats-bar">
         <div class="stat-item">
-            <span class="stat-number">67</span>
+            <span class="stat-number">74</span>
             <span class="stat-label">Transacciones</span>
         </div>
         <div class="stat-item">
-            <span class="stat-number">41</span>
+            <span class="stat-number">44</span>
             <span class="stat-label">Empresas</span>
         </div>
         <div class="stat-item">
-            <span class="stat-number">$76.6M</span>
+            <span class="stat-number">$181.3M</span>
             <span class="stat-label">Valor Total</span>
         </div>
         <div class="stat-item">
-            <span class="stat-number">07:43</span>
+            <span class="stat-number">07:46</span>
             <span class="stat-label">Actualización</span>
         </div>
     </div>
     
     <div class="main-container">
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
+                    <span class="ticker-symbol">REZI</span>
+                    <span class="transaction-count">1 transacción</span>
+                </div>
+                <div class="company-name">Resideo Technologies, Inc....</div>
+                <div class="insider-name">👤 10%</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$22.33</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">4,477,919</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$100.0M</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">99%</div>
+                </div>
+
+                <div class="data-item full-width holdings-change">
+                    <div class="data-label">Cambio en Holdings</div>
+                    <div class="data-value success">
+                        <div class="change-indicator">
+                            <span class="arrow-up">↗</span>
+                            <span>+77.8% (5,754,501 → 10,232,420)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$100.0M (4,477,919 @ $22.33)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=REZI&ty=c&ta=1&p=d&s=l" 
+                        alt="REZI Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'REZI - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=REZI&ty=c&ta=1&p=w&s=l" 
+                        alt="REZI Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'REZI - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=REZI" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/REZI" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
 
         <div class="ticker-card">
             <div class="ticker-header">
@@ -650,17 +737,17 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$20.0M (1,333,333 @ $15.00)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$7.0M (466,666 @ $15.00)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$900K (59,999 @ $15.00)</span>
                 </div>
 
@@ -705,29 +792,29 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
-                    <span class="ticker-symbol">NEGG</span>
-                    <span class="transaction-count">1 transacción</span>
+                    <span class="ticker-symbol">DMAC</span>
+                    <span class="transaction-count">3 transacciónes</span>
                 </div>
-                <div class="company-name">Newegg Commerce, Inc....</div>
+                <div class="company-name">Diamedica Therapeutics Inc....</div>
                 <div class="insider-name">👤 10%</div>
             </div>
             
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$29.68</div>
+                    <div class="data-value">$3.50</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">416,799</div>
+                    <div class="data-value">4,799,999</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$12.4M</div>
+                    <div class="data-value highlight">$16.8M</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">12%</div>
+                    <div class="data-value highlight">9%</div>
                 </div>
 
                 <div class="data-item full-width holdings-change">
@@ -735,7 +822,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+15.0% (2,777,777 → 3,194,576)</span>
+                            <span>+3022.2% (158,824 → 4,958,823)</span>
                         </div>
                     </div>
                 </div>
@@ -747,8 +834,18 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$12.4M (416,799 @ $29.68)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$10.0M (2,857,142 @ $3.50)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$5.4M (1,542,857 @ $3.50)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$1.4M (400,000 @ $3.50)</span>
                 </div>
 
             </div>
@@ -758,10 +855,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📊 Gráfico Diario</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=NEGG&ty=c&ta=1&p=d&s=l" 
-                        alt="NEGG Daily"
+                        src="https://finviz.com/chart.ashx?t=DMAC&ty=c&ta=1&p=d&s=l" 
+                        alt="DMAC Daily"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'NEGG - Diario')"
+                        onclick="openModal(this.src, 'DMAC - Diario')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -769,10 +866,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📈 Gráfico Semanal</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=NEGG&ty=c&ta=1&p=w&s=l" 
-                        alt="NEGG Weekly"
+                        src="https://finviz.com/chart.ashx?t=DMAC&ty=c&ta=1&p=w&s=l" 
+                        alt="DMAC Weekly"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'NEGG - Semanal')"
+                        onclick="openModal(this.src, 'DMAC - Semanal')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -780,10 +877,10 @@
             
             <!-- Enlaces externos -->
             <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=NEGG" target="_blank" class="external-link finviz-link">
+                <a href="https://finviz.com/quote.ashx?t=DMAC" target="_blank" class="external-link finviz-link">
                     📊 FinViz
                 </a>
-                <a href="https://finance.yahoo.com/chart/NEGG" target="_blank" class="external-link yahoo-link">
+                <a href="https://finance.yahoo.com/chart/DMAC" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -834,7 +931,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$10.0M (563,697 @ $17.74)</span>
                 </div>
 
@@ -889,15 +986,15 @@
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$14.78</div>
+                    <div class="data-value">$14.98</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">897,907</div>
+                    <div class="data-value">900,000</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$13.3M</div>
+                    <div class="data-value highlight">$13.5M</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
@@ -909,7 +1006,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+1.6% (56,980,138 → 57,878,045)</span>
+                            <span>+1.6% (57,428,045 → 58,328,045)</span>
                         </div>
                     </div>
                 </div>
@@ -921,13 +1018,13 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$6.7M (450,000 @ $14.97)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$6.7M (450,000 @ $14.98)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$6.5M (447,907 @ $14.59)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$6.7M (450,000 @ $14.97)</span>
                 </div>
 
             </div>
@@ -1013,7 +1110,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$2.5M (760,000 @ $3.25)</span>
                 </div>
 
@@ -1100,7 +1197,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$1.4M (112,507 @ $12.07)</span>
                 </div>
 
@@ -1145,21 +1242,21 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
-                    <span class="ticker-symbol">LRHC</span>
-                    <span class="transaction-count">1 transacción</span>
+                    <span class="ticker-symbol">LOOP</span>
+                    <span class="transaction-count">2 transacciónes</span>
                 </div>
-                <div class="company-name">La Rosa Holdings Corp....</div>
-                <div class="insider-name">👤 CEO, interim CFO, 10%</div>
+                <div class="company-name">Loop Industries, Inc....</div>
+                <div class="insider-name">👤 CEO, 10%</div>
             </div>
             
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$7.64</div>
+                    <div class="data-value">$1.01</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">150,000</div>
+                    <div class="data-value">1,056,794</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
@@ -1167,17 +1264,12 @@
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">1%</div>
+                    <div class="data-value highlight">915%</div>
                 </div>
 
-                <div class="data-item full-width holdings-change">
-                    <div class="data-label">Cambio en Holdings</div>
-                    <div class="data-value success">
-                        <div class="change-indicator">
-                            <span class="arrow-up">↗</span>
-                            <span>+58.0% (258,798 → 408,798)</span>
-                        </div>
-                    </div>
+                <div class="data-item full-width">
+                    <div class="data-label">Acciones Totales</div>
+                    <div class="data-value">430,050</div>
                 </div>
 
             </div>
@@ -1187,8 +1279,13 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$1.1M (150,000 @ $7.64)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$916K (906,794 @ $1.01)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$152K (150,000 @ $1.01)</span>
                 </div>
 
             </div>
@@ -1198,10 +1295,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📊 Gráfico Diario</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=LRHC&ty=c&ta=1&p=d&s=l" 
-                        alt="LRHC Daily"
+                        src="https://finviz.com/chart.ashx?t=LOOP&ty=c&ta=1&p=d&s=l" 
+                        alt="LOOP Daily"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'LRHC - Diario')"
+                        onclick="openModal(this.src, 'LOOP - Diario')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -1209,10 +1306,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📈 Gráfico Semanal</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=LRHC&ty=c&ta=1&p=w&s=l" 
-                        alt="LRHC Weekly"
+                        src="https://finviz.com/chart.ashx?t=LOOP&ty=c&ta=1&p=w&s=l" 
+                        alt="LOOP Weekly"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'LRHC - Semanal')"
+                        onclick="openModal(this.src, 'LOOP - Semanal')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -1220,10 +1317,10 @@
             
             <!-- Enlaces externos -->
             <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=LRHC" target="_blank" class="external-link finviz-link">
+                <a href="https://finviz.com/quote.ashx?t=LOOP" target="_blank" class="external-link finviz-link">
                     📊 FinViz
                 </a>
-                <a href="https://finance.yahoo.com/chart/LRHC" target="_blank" class="external-link yahoo-link">
+                <a href="https://finance.yahoo.com/chart/LOOP" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -1269,17 +1366,17 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$844K (45,625 @ $18.50)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$250K (13,500 @ $18.50)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$140K (7,550 @ $18.50)</span>
                 </div>
 
@@ -1361,12 +1458,12 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$800K (161,943 @ $4.94)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$98K (16,000 @ $6.11)</span>
                 </div>
 
@@ -1403,98 +1500,6 @@
                     📊 FinViz
                 </a>
                 <a href="https://finance.yahoo.com/chart/UPXI" target="_blank" class="external-link yahoo-link">
-                    📈 Yahoo
-                </a>
-            </div>
-        </div>
-
-        <div class="ticker-card">
-            <div class="ticker-header">
-                <div class="ticker-header-top">
-                    <span class="ticker-symbol">SHEN</span>
-                    <span class="transaction-count">2 transacciónes</span>
-                </div>
-                <div class="company-name">Shenandoah Telecommunications Co/Va/...</div>
-                <div class="insider-name">👤 10%</div>
-            </div>
-            
-            <div class="data-grid">
-                <div class="data-item">
-                    <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$14.96</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">84,054</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$1.3M</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">735%</div>
-                </div>
-
-                <div class="data-item full-width holdings-change">
-                    <div class="data-label">Cambio en Holdings</div>
-                    <div class="data-value success">
-                        <div class="change-indicator">
-                            <span class="arrow-up">↗</span>
-                            <span>+2.9% (2,873,506 → 2,957,560)</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Resumen de transacciones -->
-            <div class="transactions-summary">
-                <div class="summary-title">📋 Últimas Transacciones</div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$736K (50,004 @ $14.71)</span>
-                </div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$518K (34,050 @ $15.22)</span>
-                </div>
-
-            </div>
-            
-            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
-            <div class="charts-container">
-                <div class="chart-section">
-                    <div class="chart-title">📊 Gráfico Diario</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=SHEN&ty=c&ta=1&p=d&s=l" 
-                        alt="SHEN Daily"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'SHEN - Diario')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
-                        loading="lazy">
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-title">📈 Gráfico Semanal</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=SHEN&ty=c&ta=1&p=w&s=l" 
-                        alt="SHEN Weekly"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'SHEN - Semanal')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
-                        loading="lazy">
-                </div>
-            </div>
-            
-            <!-- Enlaces externos -->
-            <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=SHEN" target="_blank" class="external-link finviz-link">
-                    📊 FinViz
-                </a>
-                <a href="https://finance.yahoo.com/chart/SHEN" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -1545,7 +1550,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$734K (128,848 @ $5.70)</span>
                 </div>
 
@@ -1582,6 +1587,98 @@
                     📊 FinViz
                 </a>
                 <a href="https://finance.yahoo.com/chart/PASG" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
+                    <span class="ticker-symbol">SHEN</span>
+                    <span class="transaction-count">2 transacciónes</span>
+                </div>
+                <div class="company-name">Shenandoah Telecommunications Co/Va/...</div>
+                <div class="insider-name">👤 10%</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$15.41</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">58,831</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$905K</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">518%</div>
+                </div>
+
+                <div class="data-item full-width holdings-change">
+                    <div class="data-label">Cambio en Holdings</div>
+                    <div class="data-value success">
+                        <div class="change-indicator">
+                            <span class="arrow-up">↗</span>
+                            <span>+2.0% (2,923,510 → 2,982,341)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$518K (34,050 @ $15.22)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$387K (24,781 @ $15.60)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=SHEN&ty=c&ta=1&p=d&s=l" 
+                        alt="SHEN Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'SHEN - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=SHEN&ty=c&ta=1&p=w&s=l" 
+                        alt="SHEN Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'SHEN - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=SHEN" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/SHEN" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -1632,7 +1729,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$500K (400,000 @ $1.25)</span>
                 </div>
 
@@ -1714,7 +1811,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$340K (20,000 @ $17.00)</span>
                 </div>
 
@@ -1801,7 +1898,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$282K (100,000 @ $2.82)</span>
                 </div>
 
@@ -1888,7 +1985,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$267K (1,200 @ $222.55)</span>
                 </div>
 
@@ -1925,6 +2022,103 @@
                     📊 FinViz
                 </a>
                 <a href="https://finance.yahoo.com/chart/CTAS" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
+                    <span class="ticker-symbol">CHMG</span>
+                    <span class="transaction-count">4 transacciónes</span>
+                </div>
+                <div class="company-name">Chemung Financial Corp...</div>
+                <div class="insider-name">👤 Dir</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$52.95</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">12,863</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$682K</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">264%</div>
+                </div>
+
+                <div class="data-item full-width holdings-change">
+                    <div class="data-label">Cambio en Holdings</div>
+                    <div class="data-value success">
+                        <div class="change-indicator">
+                            <span class="arrow-up">↗</span>
+                            <span>+2373.2% (542 → 13,405)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$265K (5,000 @ $52.94)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$217K (4,103 @ $52.91)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$175K (3,285 @ $53.19)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=CHMG&ty=c&ta=1&p=d&s=l" 
+                        alt="CHMG Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'CHMG - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=CHMG&ty=c&ta=1&p=w&s=l" 
+                        alt="CHMG Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'CHMG - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=CHMG" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/CHMG" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -1970,7 +2164,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$252K (8,060 @ $31.26)</span>
                 </div>
 
@@ -2057,12 +2251,12 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$251K (5,125 @ $48.90)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$103K (2,100 @ $49.14)</span>
                 </div>
 
@@ -2149,7 +2343,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$207K (3,000 @ $69.15)</span>
                 </div>
 
@@ -2236,7 +2430,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$200K (6,050 @ $33.11)</span>
                 </div>
 
@@ -2281,116 +2475,29 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
-                    <span class="ticker-symbol">ATRA</span>
-                    <span class="transaction-count">1 transacción</span>
-                </div>
-                <div class="company-name">Atara Biotherapeutics, Inc....</div>
-                <div class="insider-name">👤 10%</div>
-            </div>
-            
-            <div class="data-grid">
-                <div class="data-item">
-                    <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$9.64</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">19,335</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$186K</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">186%</div>
-                </div>
-
-                <div class="data-item full-width holdings-change">
-                    <div class="data-label">Cambio en Holdings</div>
-                    <div class="data-value success">
-                        <div class="change-indicator">
-                            <span class="arrow-up">↗</span>
-                            <span>+1.5% (1,330,665 → 1,350,000)</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Resumen de transacciones -->
-            <div class="transactions-summary">
-                <div class="summary-title">📋 Últimas Transacciones</div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$186K (19,335 @ $9.64)</span>
-                </div>
-
-            </div>
-            
-            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
-            <div class="charts-container">
-                <div class="chart-section">
-                    <div class="chart-title">📊 Gráfico Diario</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=ATRA&ty=c&ta=1&p=d&s=l" 
-                        alt="ATRA Daily"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'ATRA - Diario')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
-                        loading="lazy">
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-title">📈 Gráfico Semanal</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=ATRA&ty=c&ta=1&p=w&s=l" 
-                        alt="ATRA Weekly"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'ATRA - Semanal')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
-                        loading="lazy">
-                </div>
-            </div>
-            
-            <!-- Enlaces externos -->
-            <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=ATRA" target="_blank" class="external-link finviz-link">
-                    📊 FinViz
-                </a>
-                <a href="https://finance.yahoo.com/chart/ATRA" target="_blank" class="external-link yahoo-link">
-                    📈 Yahoo
-                </a>
-            </div>
-        </div>
-
-        <div class="ticker-card">
-            <div class="ticker-header">
-                <div class="ticker-header-top">
-                    <span class="ticker-symbol">CHMG</span>
+                    <span class="ticker-symbol">SIGI</span>
                     <span class="transaction-count">2 transacciónes</span>
                 </div>
-                <div class="company-name">Chemung Financial Corp...</div>
+                <div class="company-name">Selective Insurance Group Inc...</div>
                 <div class="insider-name">👤 Dir</div>
             </div>
             
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$52.97</div>
+                    <div class="data-value">$76.27</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">3,760</div>
+                    <div class="data-value">3,402</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$200K</div>
+                    <div class="data-value highlight">$259K</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">174%</div>
+                    <div class="data-value highlight">151%</div>
                 </div>
 
                 <div class="data-item full-width holdings-change">
@@ -2398,7 +2505,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+39.0% (9,645 → 13,405)</span>
+                            <span>+37.4% (9,090 → 12,492)</span>
                         </div>
                     </div>
                 </div>
@@ -2410,13 +2517,13 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$175K (3,285 @ $53.19)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$151K (2,000 @ $75.72)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$25K (475 @ $52.75)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$108K (1,402 @ $76.82)</span>
                 </div>
 
             </div>
@@ -2426,10 +2533,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📊 Gráfico Diario</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=CHMG&ty=c&ta=1&p=d&s=l" 
-                        alt="CHMG Daily"
+                        src="https://finviz.com/chart.ashx?t=SIGI&ty=c&ta=1&p=d&s=l" 
+                        alt="SIGI Daily"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'CHMG - Diario')"
+                        onclick="openModal(this.src, 'SIGI - Diario')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -2437,10 +2544,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📈 Gráfico Semanal</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=CHMG&ty=c&ta=1&p=w&s=l" 
-                        alt="CHMG Weekly"
+                        src="https://finviz.com/chart.ashx?t=SIGI&ty=c&ta=1&p=w&s=l" 
+                        alt="SIGI Weekly"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'CHMG - Semanal')"
+                        onclick="openModal(this.src, 'SIGI - Semanal')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -2448,10 +2555,10 @@
             
             <!-- Enlaces externos -->
             <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=CHMG" target="_blank" class="external-link finviz-link">
+                <a href="https://finviz.com/quote.ashx?t=SIGI" target="_blank" class="external-link finviz-link">
                     📊 FinViz
                 </a>
-                <a href="https://finance.yahoo.com/chart/CHMG" target="_blank" class="external-link yahoo-link">
+                <a href="https://finance.yahoo.com/chart/SIGI" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -2460,39 +2567,34 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
-                    <span class="ticker-symbol">MRAI</span>
+                    <span class="ticker-symbol">MH</span>
                     <span class="transaction-count">1 transacción</span>
                 </div>
-                <div class="company-name">Marpai, Inc....</div>
-                <div class="insider-name">👤 CEO, 10%</div>
+                <div class="company-name">McGraw Hill, Inc....</div>
+                <div class="insider-name">👤 Dir</div>
             </div>
             
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$1.15</div>
+                    <div class="data-value">$17.00</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">86,805</div>
+                    <div class="data-value">7,500</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$100K</div>
+                    <div class="data-value highlight">$128K</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">99%</div>
+                    <div class="data-value highlight">127%</div>
                 </div>
 
-                <div class="data-item full-width holdings-change">
-                    <div class="data-label">Cambio en Holdings</div>
-                    <div class="data-value success">
-                        <div class="change-indicator">
-                            <span class="arrow-up">↗</span>
-                            <span>+1.3% (6,649,331 → 6,736,136)</span>
-                        </div>
-                    </div>
+                <div class="data-item full-width">
+                    <div class="data-label">Acciones Totales</div>
+                    <div class="data-value">7,500</div>
                 </div>
 
             </div>
@@ -2502,8 +2604,8 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$100K (86,805 @ $1.15)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$128K (7,500 @ $17.00)</span>
                 </div>
 
             </div>
@@ -2513,10 +2615,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📊 Gráfico Diario</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=MRAI&ty=c&ta=1&p=d&s=l" 
-                        alt="MRAI Daily"
+                        src="https://finviz.com/chart.ashx?t=MH&ty=c&ta=1&p=d&s=l" 
+                        alt="MH Daily"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'MRAI - Diario')"
+                        onclick="openModal(this.src, 'MH - Diario')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -2524,10 +2626,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📈 Gráfico Semanal</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=MRAI&ty=c&ta=1&p=w&s=l" 
-                        alt="MRAI Weekly"
+                        src="https://finviz.com/chart.ashx?t=MH&ty=c&ta=1&p=w&s=l" 
+                        alt="MH Weekly"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'MRAI - Semanal')"
+                        onclick="openModal(this.src, 'MH - Semanal')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -2535,10 +2637,10 @@
             
             <!-- Enlaces externos -->
             <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=MRAI" target="_blank" class="external-link finviz-link">
+                <a href="https://finviz.com/quote.ashx?t=MH" target="_blank" class="external-link finviz-link">
                     📊 FinViz
                 </a>
-                <a href="https://finance.yahoo.com/chart/MRAI" target="_blank" class="external-link yahoo-link">
+                <a href="https://finance.yahoo.com/chart/MH" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -2589,7 +2691,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$98K (3,720 @ $26.24)</span>
                 </div>
 
@@ -2635,7 +2737,7 @@
             <div class="ticker-header">
                 <div class="ticker-header-top">
                     <span class="ticker-symbol">PETS</span>
-                    <span class="transaction-count">2 transacciónes</span>
+                    <span class="transaction-count">1 transacción</span>
                 </div>
                 <div class="company-name">Petmed Express Inc...</div>
                 <div class="insider-name">👤 10%</div>
@@ -2644,15 +2746,15 @@
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$3.37</div>
+                    <div class="data-value">$3.50</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">42,565</div>
+                    <div class="data-value">25,000</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$144K</div>
+                    <div class="data-value highlight">$88K</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
@@ -2664,7 +2766,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+1.8% (2,317,931 → 2,360,496)</span>
+                            <span>+1.0% (2,550,000 → 2,575,000)</span>
                         </div>
                     </div>
                 </div>
@@ -2676,13 +2778,8 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$88K (25,000 @ $3.50)</span>
-                </div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$57K (17,565 @ $3.23)</span>
                 </div>
 
             </div>
@@ -2768,7 +2865,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$75K (113,500 @ $0.66)</span>
                 </div>
 
@@ -2855,7 +2952,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$49K (3,612 @ $13.56)</span>
                 </div>
 
@@ -2900,29 +2997,29 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
-                    <span class="ticker-symbol">PLBC</span>
-                    <span class="transaction-count">1 transacción</span>
+                    <span class="ticker-symbol">CBAN</span>
+                    <span class="transaction-count">2 transacciónes</span>
                 </div>
-                <div class="company-name">Plumas Bancorp...</div>
-                <div class="insider-name">👤 Dir</div>
+                <div class="company-name">Colony Bankcorp Inc...</div>
+                <div class="insider-name">👤 CHIEF BANKING OFFICER</div>
             </div>
             
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$42.56</div>
+                    <div class="data-value">$16.57</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">749</div>
+                    <div class="data-value">2,500</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$32K</div>
+                    <div class="data-value highlight">$41K</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">31%</div>
+                    <div class="data-value highlight">24%</div>
                 </div>
 
                 <div class="data-item full-width holdings-change">
@@ -2930,7 +3027,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+47.4% (1,581 → 2,330)</span>
+                            <span>+2.5% (99,390 → 101,890)</span>
                         </div>
                     </div>
                 </div>
@@ -2942,8 +3039,13 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$32K (749 @ $42.56)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$25K (1,500 @ $16.54)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$17K (1,000 @ $16.61)</span>
                 </div>
 
             </div>
@@ -2953,10 +3055,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📊 Gráfico Diario</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=PLBC&ty=c&ta=1&p=d&s=l" 
-                        alt="PLBC Daily"
+                        src="https://finviz.com/chart.ashx?t=CBAN&ty=c&ta=1&p=d&s=l" 
+                        alt="CBAN Daily"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'PLBC - Diario')"
+                        onclick="openModal(this.src, 'CBAN - Diario')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -2964,10 +3066,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📈 Gráfico Semanal</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=PLBC&ty=c&ta=1&p=w&s=l" 
-                        alt="PLBC Weekly"
+                        src="https://finviz.com/chart.ashx?t=CBAN&ty=c&ta=1&p=w&s=l" 
+                        alt="CBAN Weekly"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'PLBC - Semanal')"
+                        onclick="openModal(this.src, 'CBAN - Semanal')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -2975,10 +3077,10 @@
             
             <!-- Enlaces externos -->
             <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=PLBC" target="_blank" class="external-link finviz-link">
+                <a href="https://finviz.com/quote.ashx?t=CBAN" target="_blank" class="external-link finviz-link">
                     📊 FinViz
                 </a>
-                <a href="https://finance.yahoo.com/chart/PLBC" target="_blank" class="external-link yahoo-link">
+                <a href="https://finance.yahoo.com/chart/CBAN" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -3029,7 +3131,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$21K (11,072 @ $1.93)</span>
                 </div>
 
@@ -3066,6 +3168,93 @@
                     📊 FinViz
                 </a>
                 <a href="https://finance.yahoo.com/chart/RMCF" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
+                    <span class="ticker-symbol">NTRP</span>
+                    <span class="transaction-count">1 transacción</span>
+                </div>
+                <div class="company-name">Nexttrip, Inc....</div>
+                <div class="insider-name">👤 Dir</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$4.12</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">5,000</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$21K</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">20%</div>
+                </div>
+
+                <div class="data-item full-width holdings-change">
+                    <div class="data-label">Cambio en Holdings</div>
+                    <div class="data-value success">
+                        <div class="change-indicator">
+                            <span class="arrow-up">↗</span>
+                            <span>+6.7% (75,000 → 80,000)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$21K (5,000 @ $4.12)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=NTRP&ty=c&ta=1&p=d&s=l" 
+                        alt="NTRP Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'NTRP - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=NTRP&ty=c&ta=1&p=w&s=l" 
+                        alt="NTRP Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'NTRP - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=NTRP" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/NTRP" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -3116,12 +3305,12 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$20K (550 @ $36.77)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$11K (300 @ $35.05)</span>
                 </div>
 
@@ -3158,98 +3347,6 @@
                     📊 FinViz
                 </a>
                 <a href="https://finance.yahoo.com/chart/FFIN" target="_blank" class="external-link yahoo-link">
-                    📈 Yahoo
-                </a>
-            </div>
-        </div>
-
-        <div class="ticker-card">
-            <div class="ticker-header">
-                <div class="ticker-header-top">
-                    <span class="ticker-symbol">ETST</span>
-                    <span class="transaction-count">2 transacciónes</span>
-                </div>
-                <div class="company-name">Earth Science Tech, Inc....</div>
-                <div class="insider-name">👤 CEO, 10%</div>
-            </div>
-            
-            <div class="data-grid">
-                <div class="data-item">
-                    <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$0.21</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">150,000</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$30K</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">20%</div>
-                </div>
-
-                <div class="data-item full-width holdings-change">
-                    <div class="data-label">Cambio en Holdings</div>
-                    <div class="data-value success">
-                        <div class="change-indicator">
-                            <span class="arrow-up">↗</span>
-                            <span>+0.1% (122,780,127 → 122,930,127)</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Resumen de transacciones -->
-            <div class="transactions-summary">
-                <div class="summary-title">📋 Últimas Transacciones</div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$20K (100,000 @ $0.20)</span>
-                </div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$10K (50,000 @ $0.21)</span>
-                </div>
-
-            </div>
-            
-            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
-            <div class="charts-container">
-                <div class="chart-section">
-                    <div class="chart-title">📊 Gráfico Diario</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=ETST&ty=c&ta=1&p=d&s=l" 
-                        alt="ETST Daily"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'ETST - Diario')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
-                        loading="lazy">
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-title">📈 Gráfico Semanal</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=ETST&ty=c&ta=1&p=w&s=l" 
-                        alt="ETST Weekly"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'ETST - Semanal')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
-                        loading="lazy">
-                </div>
-            </div>
-            
-            <!-- Enlaces externos -->
-            <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=ETST" target="_blank" class="external-link finviz-link">
-                    📊 FinViz
-                </a>
-                <a href="https://finance.yahoo.com/chart/ETST" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -3300,7 +3397,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$20K (6,000 @ $3.25)</span>
                 </div>
 
@@ -3345,29 +3442,29 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
-                    <span class="ticker-symbol">ANIX</span>
+                    <span class="ticker-symbol">PEBO</span>
                     <span class="transaction-count">1 transacción</span>
                 </div>
-                <div class="company-name">Anixa Biosciences Inc...</div>
-                <div class="insider-name">👤 Dir</div>
+                <div class="company-name">Peoples Bancorp Inc...</div>
+                <div class="insider-name">👤 CEO</div>
             </div>
             
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$3.39</div>
+                    <div class="data-value">$30.03</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">5,000</div>
+                    <div class="data-value">400</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$17K</div>
+                    <div class="data-value highlight">$12K</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">16%</div>
+                    <div class="data-value highlight">12%</div>
                 </div>
 
                 <div class="data-item full-width holdings-change">
@@ -3375,7 +3472,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+4.2% (120,000 → 125,000)</span>
+                            <span>+0.8% (48,363 → 48,763)</span>
                         </div>
                     </div>
                 </div>
@@ -3387,8 +3484,8 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$17K (5,000 @ $3.39)</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$12K (400 @ $30.03)</span>
                 </div>
 
             </div>
@@ -3398,10 +3495,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📊 Gráfico Diario</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=ANIX&ty=c&ta=1&p=d&s=l" 
-                        alt="ANIX Daily"
+                        src="https://finviz.com/chart.ashx?t=PEBO&ty=c&ta=1&p=d&s=l" 
+                        alt="PEBO Daily"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'ANIX - Diario')"
+                        onclick="openModal(this.src, 'PEBO - Diario')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -3409,10 +3506,10 @@
                 <div class="chart-section">
                     <div class="chart-title">📈 Gráfico Semanal</div>
                     <img 
-                        src="https://finviz.com/chart.ashx?t=ANIX&ty=c&ta=1&p=w&s=l" 
-                        alt="ANIX Weekly"
+                        src="https://finviz.com/chart.ashx?t=PEBO&ty=c&ta=1&p=w&s=l" 
+                        alt="PEBO Weekly"
                         class="finviz-image"
-                        onclick="openModal(this.src, 'ANIX - Semanal')"
+                        onclick="openModal(this.src, 'PEBO - Semanal')"
                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
                         loading="lazy">
                 </div>
@@ -3420,10 +3517,97 @@
             
             <!-- Enlaces externos -->
             <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=ANIX" target="_blank" class="external-link finviz-link">
+                <a href="https://finviz.com/quote.ashx?t=PEBO" target="_blank" class="external-link finviz-link">
                     📊 FinViz
                 </a>
-                <a href="https://finance.yahoo.com/chart/ANIX" target="_blank" class="external-link yahoo-link">
+                <a href="https://finance.yahoo.com/chart/PEBO" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
+                    <span class="ticker-symbol">ETST</span>
+                    <span class="transaction-count">1 transacción</span>
+                </div>
+                <div class="company-name">Earth Science Tech, Inc....</div>
+                <div class="insider-name">👤 CEO, 10%</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$0.21</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">50,000</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$10K</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">10%</div>
+                </div>
+
+                <div class="data-item full-width holdings-change">
+                    <div class="data-label">Cambio en Holdings</div>
+                    <div class="data-value success">
+                        <div class="change-indicator">
+                            <span class="arrow-up">↗</span>
+                            <span>+0.0% (122,880,127 → 122,930,127)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$10K (50,000 @ $0.21)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=ETST&ty=c&ta=1&p=d&s=l" 
+                        alt="ETST Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'ETST - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=ETST&ty=c&ta=1&p=w&s=l" 
+                        alt="ETST Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'ETST - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=ETST" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/ETST" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -3474,7 +3658,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$10K (1,000 @ $10.48)</span>
                 </div>
 
@@ -3519,29 +3703,111 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
-                    <span class="ticker-symbol">CALC</span>
-                    <span class="transaction-count">3 transacciónes</span>
+                    <span class="ticker-symbol">ELTP</span>
+                    <span class="transaction-count">1 transacción</span>
                 </div>
-                <div class="company-name">Calcimedica, Inc....</div>
-                <div class="insider-name">👤 CHIEF BUSINESS OFFICER, 10%</div>
+                <div class="company-name">Elite Pharmaceuticals Inc /Nv/...</div>
+                <div class="insider-name">👤 Chief Commercial Officer</div>
             </div>
             
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$3.52</div>
+                    <div class="data-value">$0.59</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">4,000</div>
+                    <div class="data-value">16,366</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$14K</div>
+                    <div class="data-value highlight">$10K</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">5%</div>
+                    <div class="data-value highlight">9%</div>
+                </div>
+
+                <div class="data-item full-width">
+                    <div class="data-label">Acciones Totales</div>
+                    <div class="data-value">16,366</div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$10K (16,366 @ $0.59)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=ELTP&ty=c&ta=1&p=d&s=l" 
+                        alt="ELTP Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'ELTP - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=ELTP&ty=c&ta=1&p=w&s=l" 
+                        alt="ELTP Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'ELTP - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=ELTP" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/ELTP" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
+                    <span class="ticker-symbol">NBBK</span>
+                    <span class="transaction-count">1 transacción</span>
+                </div>
+                <div class="company-name">Nb Bancorp, Inc....</div>
+                <div class="insider-name">👤 EVP, Dir Spec. Bank. Ctr.</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$18.39</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">500</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$9K</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">9%</div>
                 </div>
 
                 <div class="data-item full-width holdings-change">
@@ -3549,7 +3815,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+0.5% (870,752 → 874,752)</span>
+                            <span>+1.3% (38,883 → 39,383)</span>
                         </div>
                     </div>
                 </div>
@@ -3561,18 +3827,100 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$9K (500 @ $18.39)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=NBBK&ty=c&ta=1&p=d&s=l" 
+                        alt="NBBK Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'NBBK - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=NBBK&ty=c&ta=1&p=w&s=l" 
+                        alt="NBBK Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'NBBK - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=NBBK" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/NBBK" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
+                    <span class="ticker-symbol">CALC</span>
+                    <span class="transaction-count">2 transacciónes</span>
+                </div>
+                <div class="company-name">Calcimedica, Inc....</div>
+                <div class="insider-name">👤 CHIEF BUSINESS OFFICER, 10%</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$3.58</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">3,000</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$11K</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">5%</div>
+                </div>
+
+                <div class="data-item full-width holdings-change">
+                    <div class="data-label">Cambio en Holdings</div>
+                    <div class="data-value success">
+                        <div class="change-indicator">
+                            <span class="arrow-up">↗</span>
+                            <span>+0.3% (1,009,410 → 1,012,410)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$6K (1,500 @ $3.78)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$5K (1,500 @ $3.37)</span>
-                </div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$3K (1,000 @ $3.40)</span>
                 </div>
 
             </div>
@@ -3608,190 +3956,6 @@
                     📊 FinViz
                 </a>
                 <a href="https://finance.yahoo.com/chart/CALC" target="_blank" class="external-link yahoo-link">
-                    📈 Yahoo
-                </a>
-            </div>
-        </div>
-
-        <div class="ticker-card">
-            <div class="ticker-header">
-                <div class="ticker-header-top">
-                    <span class="ticker-symbol">DLPN</span>
-                    <span class="transaction-count">1 transacción</span>
-                </div>
-                <div class="company-name">Dolphin Entertainment, Inc....</div>
-                <div class="insider-name">👤 CEO</div>
-            </div>
-            
-            <div class="data-grid">
-                <div class="data-item">
-                    <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$1.19</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">4,150</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$5K</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">4%</div>
-                </div>
-
-                <div class="data-item full-width holdings-change">
-                    <div class="data-label">Cambio en Holdings</div>
-                    <div class="data-value success">
-                        <div class="change-indicator">
-                            <span class="arrow-up">↗</span>
-                            <span>+1.1% (364,620 → 368,770)</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Resumen de transacciones -->
-            <div class="transactions-summary">
-                <div class="summary-title">📋 Últimas Transacciones</div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$5K (4,150 @ $1.19)</span>
-                </div>
-
-            </div>
-            
-            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
-            <div class="charts-container">
-                <div class="chart-section">
-                    <div class="chart-title">📊 Gráfico Diario</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=DLPN&ty=c&ta=1&p=d&s=l" 
-                        alt="DLPN Daily"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'DLPN - Diario')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
-                        loading="lazy">
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-title">📈 Gráfico Semanal</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=DLPN&ty=c&ta=1&p=w&s=l" 
-                        alt="DLPN Weekly"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'DLPN - Semanal')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
-                        loading="lazy">
-                </div>
-            </div>
-            
-            <!-- Enlaces externos -->
-            <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=DLPN" target="_blank" class="external-link finviz-link">
-                    📊 FinViz
-                </a>
-                <a href="https://finance.yahoo.com/chart/DLPN" target="_blank" class="external-link yahoo-link">
-                    📈 Yahoo
-                </a>
-            </div>
-        </div>
-
-        <div class="ticker-card">
-            <div class="ticker-header">
-                <div class="ticker-header-top">
-                    <span class="ticker-symbol">TOFB</span>
-                    <span class="transaction-count">3 transacciónes</span>
-                </div>
-                <div class="company-name">Tofutti Brands Inc...</div>
-                <div class="insider-name">👤 10%</div>
-            </div>
-            
-            <div class="data-grid">
-                <div class="data-item">
-                    <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$0.71</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">9,000</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">Valor Total</div>
-                    <div class="data-value highlight">$6K</div>
-                </div>
-                <div class="data-item">
-                    <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">3%</div>
-                </div>
-
-                <div class="data-item full-width holdings-change">
-                    <div class="data-label">Cambio en Holdings</div>
-                    <div class="data-value success">
-                        <div class="change-indicator">
-                            <span class="arrow-up">↗</span>
-                            <span>+1.5% (582,142 → 591,142)</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Resumen de transacciones -->
-            <div class="transactions-summary">
-                <div class="summary-title">📋 Últimas Transacciones</div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$4K (5,000 @ $0.72)</span>
-                </div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$3K (3,967 @ $0.70)</span>
-                </div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$23 (33 @ $0.70)</span>
-                </div>
-
-            </div>
-            
-            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
-            <div class="charts-container">
-                <div class="chart-section">
-                    <div class="chart-title">📊 Gráfico Diario</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=TOFB&ty=c&ta=1&p=d&s=l" 
-                        alt="TOFB Daily"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'TOFB - Diario')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
-                        loading="lazy">
-                </div>
-                
-                <div class="chart-section">
-                    <div class="chart-title">📈 Gráfico Semanal</div>
-                    <img 
-                        src="https://finviz.com/chart.ashx?t=TOFB&ty=c&ta=1&p=w&s=l" 
-                        alt="TOFB Weekly"
-                        class="finviz-image"
-                        onclick="openModal(this.src, 'TOFB - Semanal')"
-                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
-                        loading="lazy">
-                </div>
-            </div>
-            
-            <!-- Enlaces externos -->
-            <div class="links-section">
-                <a href="https://finviz.com/quote.ashx?t=TOFB" target="_blank" class="external-link finviz-link">
-                    📊 FinViz
-                </a>
-                <a href="https://finance.yahoo.com/chart/TOFB" target="_blank" class="external-link yahoo-link">
                     📈 Yahoo
                 </a>
             </div>
@@ -3842,7 +4006,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$4K (563 @ $6.27)</span>
                 </div>
 
@@ -3929,7 +4093,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$3K (5,000 @ $0.66)</span>
                 </div>
 
@@ -4016,7 +4180,7 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$3K (1,000 @ $2.93)</span>
                 </div>
 
@@ -4061,8 +4225,100 @@
         <div class="ticker-card">
             <div class="ticker-header">
                 <div class="ticker-header-top">
+                    <span class="ticker-symbol">TOFB</span>
+                    <span class="transaction-count">2 transacciónes</span>
+                </div>
+                <div class="company-name">Tofutti Brands Inc...</div>
+                <div class="insider-name">👤 10%</div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">Precio Promedio</div>
+                    <div class="data-value">$0.70</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Cantidad Total</div>
+                    <div class="data-value">4,000</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Valor Total</div>
+                    <div class="data-value highlight">$3K</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">% del Total</div>
+                    <div class="data-value highlight">2%</div>
+                </div>
+
+                <div class="data-item full-width holdings-change">
+                    <div class="data-label">Cambio en Holdings</div>
+                    <div class="data-value success">
+                        <div class="change-indicator">
+                            <span class="arrow-up">↗</span>
+                            <span>+0.7% (587,142 → 591,142)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Resumen de transacciones -->
+            <div class="transactions-summary">
+                <div class="summary-title">📋 Últimas Transacciones</div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$3K (3,967 @ $0.70)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$23 (33 @ $0.70)</span>
+                </div>
+
+            </div>
+            
+            <!-- Gráficos FinViz - MANTIENE estructura vertical -->
+            <div class="charts-container">
+                <div class="chart-section">
+                    <div class="chart-title">📊 Gráfico Diario</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=TOFB&ty=c&ta=1&p=d&s=l" 
+                        alt="TOFB Daily"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'TOFB - Diario')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📊 No disponible</div>'"
+                        loading="lazy">
+                </div>
+                
+                <div class="chart-section">
+                    <div class="chart-title">📈 Gráfico Semanal</div>
+                    <img 
+                        src="https://finviz.com/chart.ashx?t=TOFB&ty=c&ta=1&p=w&s=l" 
+                        alt="TOFB Weekly"
+                        class="finviz-image"
+                        onclick="openModal(this.src, 'TOFB - Semanal')"
+                        onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'loading\'>📈 No disponible</div>'"
+                        loading="lazy">
+                </div>
+            </div>
+            
+            <!-- Enlaces externos -->
+            <div class="links-section">
+                <a href="https://finviz.com/quote.ashx?t=TOFB" target="_blank" class="external-link finviz-link">
+                    📊 FinViz
+                </a>
+                <a href="https://finance.yahoo.com/chart/TOFB" target="_blank" class="external-link yahoo-link">
+                    📈 Yahoo
+                </a>
+            </div>
+        </div>
+
+        <div class="ticker-card">
+            <div class="ticker-header">
+                <div class="ticker-header-top">
                     <span class="ticker-symbol">MNTR</span>
-                    <span class="transaction-count">1 transacción</span>
+                    <span class="transaction-count">2 transacciónes</span>
                 </div>
                 <div class="company-name">Mentor Capital, Inc....</div>
                 <div class="insider-name">👤 CEO, 10%</div>
@@ -4075,7 +4331,7 @@
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
-                    <div class="data-value">33,000</div>
+                    <div class="data-value">45,000</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Valor Total</div>
@@ -4091,7 +4347,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+1.4% (2,294,296 → 2,327,296)</span>
+                            <span>+2.0% (2,294,296 → 2,339,296)</span>
                         </div>
                     </div>
                 </div>
@@ -4103,8 +4359,13 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$2K (33,000 @ $0.05)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$600 (12,000 @ $0.05)</span>
                 </div>
 
             </div>
@@ -4158,7 +4419,7 @@
             <div class="data-grid">
                 <div class="data-item">
                     <div class="data-label">Precio Promedio</div>
-                    <div class="data-value">$970.05</div>
+                    <div class="data-value">$950.06</div>
                 </div>
                 <div class="data-item">
                     <div class="data-label">Cantidad Total</div>
@@ -4170,7 +4431,7 @@
                 </div>
                 <div class="data-item">
                     <div class="data-label">% del Total</div>
-                    <div class="data-value highlight">1%</div>
+                    <div class="data-value highlight">986%</div>
                 </div>
 
                 <div class="data-item full-width holdings-change">
@@ -4178,7 +4439,7 @@
                     <div class="data-value success">
                         <div class="change-indicator">
                             <span class="arrow-up">↗</span>
-                            <span>+0.0% (1,163,955 → 1,163,959)</span>
+                            <span>+0.0% (1,163,956 → 1,163,960)</span>
                         </div>
                     </div>
                 </div>
@@ -4190,18 +4451,18 @@
                 <div class="summary-title">📋 Últimas Transacciones</div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
-                    <span class="transaction-value">$1K (1 @ $1004.61)</span>
-                </div>
-
-                <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$986 (1 @ $986.43)</span>
                 </div>
 
                 <div class="transaction-item">
-                    <span class="transaction-date">2025-07-25 07:43:40</span>
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
                     <span class="transaction-value">$961 (1 @ $961.07)</span>
+                </div>
+
+                <div class="transaction-item">
+                    <span class="transaction-date">2025-07-28 07:46:32</span>
+                    <span class="transaction-value">$928 (1 @ $928.10)</span>
                 </div>
 
             </div>
