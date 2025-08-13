@@ -1,0 +1,25 @@
+{
+  "headers": {
+    "User-Agent": "Python Buyback Monitor 1.0 (tu-email@dominio.com)"
+  },
+  "email": {
+    "enabled": false,
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "smtp_user": "tu-email@gmail.com",
+    "smtp_password": "tu-password-app",
+    "to_email": "destino@email.com"
+  },
+  "webhook_url": "https://hooks.slack.com/services/TU_WEBHOOK_URL",
+  "sec_api_key": "56abdf31ba27c38d14dcd193db67e1bae535a2d70d85a21582cf698545ea47f0",
+  "monitoring_interval": 300,
+  "stock_watchlist": [
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "AMZN",
+    "TSLA",
+    "META",
+    "NVDA"
+  ]
+}

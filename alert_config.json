@@ -1,0 +1,42 @@
+{
+  "alert_thresholds": {
+    "min_amount_million": 100,
+    "high_impact_million": 500,
+    "mega_impact_million": 2000
+  },
+  "monitoring": {
+    "interval_minutes": 15,
+    "market_hours_only": true,
+    "weekend_monitoring": false
+  },
+  "notifications": {
+    "email": {
+      "enabled": false,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "",
+      "password": "",
+      "to_email": ""
+    },
+    "webhook": {
+      "enabled": false,
+      "url": ""
+    },
+    "desktop": {
+      "enabled": true
+    }
+  },
+  "filters": {
+    "track_tickers": [
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "AMZN",
+      "TSLA",
+      "META",
+      "NVDA"
+    ],
+    "exclude_low_quality": true,
+    "min_market_cap_billion": 1
+  }
+}

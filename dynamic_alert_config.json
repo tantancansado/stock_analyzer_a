@@ -1,0 +1,109 @@
+{
+  "dynamic_thresholds": {
+    "mega_caps": {
+      "market_cap_min_billion": 50,
+      "min_yield_percent": 2.5,
+      "optimal_yield_percent": 4.0,
+      "min_absolute_million": 1250,
+      "win_rate_expected": 0.58
+    },
+    "large_caps": {
+      "market_cap_min_billion": 10,
+      "market_cap_max_billion": 50,
+      "min_yield_percent": 3.0,
+      "optimal_yield_percent": 5.0,
+      "min_absolute_million": 300,
+      "win_rate_expected": 0.65
+    },
+    "mid_caps": {
+      "market_cap_min_billion": 2,
+      "market_cap_max_billion": 10,
+      "min_yield_percent": 4.0,
+      "optimal_yield_percent": 6.0,
+      "min_absolute_million": 80,
+      "win_rate_expected": 0.72
+    },
+    "small_caps": {
+      "market_cap_min_billion": 0.5,
+      "market_cap_max_billion": 2,
+      "min_yield_percent": 5.0,
+      "optimal_yield_percent": 7.0,
+      "min_absolute_million": 25,
+      "win_rate_expected": 0.66
+    }
+  },
+  "quality_filters": {
+    "balance_sheet": {
+      "max_debt_to_equity": 1.0,
+      "min_current_ratio": 1.0,
+      "check_balance_sheet": true
+    },
+    "execution_history": {
+      "min_execution_rate": 0.5,
+      "check_history": false
+    },
+    "market_conditions": {
+      "check_vix": true,
+      "vix_boost_threshold": 25,
+      "vix_penalty_threshold": 15
+    }
+  },
+  "sector_adjustments": {
+    "financials": {"multiplier": 1.15, "success_rate": 0.72},
+    "technology": {"multiplier": 1.10, "success_rate": 0.68},
+    "healthcare": {"multiplier": 1.05, "success_rate": 0.64},
+    "industrials": {"multiplier": 0.95, "success_rate": 0.58},
+    "energy": {"multiplier": 0.90, "success_rate": 0.55},
+    "default": {"multiplier": 1.0, "success_rate": 0.60}
+  },
+  "monitoring": {
+    "interval_minutes": 10,
+    "market_hours_only": true,
+    "weekend_monitoring": false,
+    "premarket_monitoring": true,
+    "afterhours_monitoring": true
+  },
+  "notifications": {
+    "email": {
+      "enabled": true,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "tantancansado@gmail.com",
+      "password": "oonf omvr lwkv daor",
+      "to_email": "tantancansado@gmail.com"
+    },
+    "telegram": {
+      "enabled": true,
+      "bot_token": "bot7662243037:AAExBqSLxv0QuLRxTYZR_JpxgGbKIpVhZFQ",
+      "chat_id": "-4915766806",
+      "parse_mode": "HTML",
+      "disable_notification": false,
+      "high_priority_sound": true
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "https://hooks.slack.com/services/TU_WEBHOOK_URL",
+      "mention_high_priority": true
+    },
+    "desktop": {
+      "enabled": true,
+      "priority_sound": true
+    }
+  },
+  "advanced_filters": {
+    "priority_tickers": [
+      "AAPL", "MSFT", "GOOGL", "AMZN", "META", "NVDA", "TSLA",
+      "JPM", "BAC", "WFC", "C",
+      "JNJ", "PFE", "UNH", "ABBV",
+      "HD", "WMT", "PG", "KO"
+    ],
+    "exclude_sectors": [],
+    "min_volume_million": 10,
+    "max_insider_selling_days": 30
+  },
+  "api_keys": {
+    "polygon": "",
+    "alpha_vantage": "",
+    "fmp": ""
+  }
+}

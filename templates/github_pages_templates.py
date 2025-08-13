@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-GitHub Pages Templates - Liquid Glass Design System - CON ENHANCED OPPORTUNITIES
+GitHub Pages Templates - Liquid Glass Design System - CON BUYBACKS
 Sistema de templates con estética Liquid Glass para GitHub Pages
-VERSIÓN ACTUALIZADA: Integra Enhanced Opportunities como 5º módulo
+VERSIÓN COMPLETA: Integra todos los módulos incluyendo Buybacks
 """
 
 from datetime import datetime
 import json
 
 class GitHubPagesTemplates:
-    """Generador de templates con diseño Liquid Glass para GitHub Pages - CON ENHANCED OPPORTUNITIES"""
+    """Generador de templates con diseño Liquid Glass para GitHub Pages - CON BUYBACKS"""
     
     def __init__(self, base_url="https://tantancansado.github.io/stock_analyzer_a"):
         self.base_url = base_url
@@ -18,31 +18,20 @@ class GitHubPagesTemplates:
     def _get_liquid_glass_css(self):
         """CSS con efectos Liquid Glass y glassmorphism"""
         return """
-        /* === LIQUID GLASS DESIGN SYSTEM ACTUALIZADO === */
-        
         :root {
-            /* Colores principales */
             --glass-primary: rgba(99, 102, 241, 0.8);
             --glass-secondary: rgba(139, 92, 246, 0.7);
             --glass-accent: rgba(59, 130, 246, 0.9);
-            
-            /* Glassmorphism */
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-bg-hover: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             --glass-shadow-hover: 0 16px 64px rgba(99, 102, 241, 0.3);
-            
-            /* Texto */
             --text-primary: rgba(255, 255, 255, 0.95);
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-muted: rgba(255, 255, 255, 0.5);
-            
-            /* Fondo */
             --bg-gradient: radial-gradient(ellipse at top, rgba(16, 23, 42, 0.8) 0%, rgba(2, 6, 23, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%);
             --bg-secondary: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
-            
-            /* Animaciones */
             --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --transition-elastic: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -65,7 +54,6 @@ class GitHubPagesTemplates:
             min-height: 100vh;
         }
         
-        /* === FLOATING PARTICLES BACKGROUND === */
         body::before {
             content: '';
             position: fixed;
@@ -88,7 +76,6 @@ class GitHubPagesTemplates:
             66% { transform: translateY(-10px) rotate(-1deg); }
         }
         
-        /* === GLASS CONTAINER === */
         .glass-container {
             max-width: 1400px;
             margin: 0 auto;
@@ -131,7 +118,6 @@ class GitHubPagesTemplates:
             border-color: rgba(255, 255, 255, 0.2);
         }
         
-        /* === HEADER === */
         .liquid-header {
             text-align: center;
             padding: 4rem 2rem;
@@ -206,10 +192,9 @@ class GitHubPagesTemplates:
             }
         }
         
-        /* === STATS GRID ACTUALIZADO PARA 5 MÓDULOS === */
         .stats-liquid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
         }
@@ -274,7 +259,6 @@ class GitHubPagesTemplates:
             font-weight: 500;
         }
         
-        /* === NAVEGACIÓN DE MÓDULOS ACTUALIZADA PARA 5 === */
         .navigation-liquid {
             padding: 2.5rem;
             margin-bottom: 2rem;
@@ -282,7 +266,7 @@ class GitHubPagesTemplates:
         
         .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 2rem;
         }
         
@@ -345,7 +329,6 @@ class GitHubPagesTemplates:
             line-height: 1.4;
         }
         
-        /* === CONTENT SECTIONS === */
         .content-liquid {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
@@ -377,7 +360,6 @@ class GitHubPagesTemplates:
             border-radius: 2px;
         }
         
-        /* === REPORT CARDS === */
         .reports-fluid {
             display: grid;
             gap: 1.5rem;
@@ -441,7 +423,6 @@ class GitHubPagesTemplates:
             gap: 1rem;
         }
         
-        /* === LIQUID BUTTONS === */
         .btn-liquid {
             padding: 0.875rem 1.5rem;
             border-radius: 16px;
@@ -493,7 +474,6 @@ class GitHubPagesTemplates:
             box-shadow: 0 12px 32px rgba(255, 255, 255, 0.1);
         }
         
-        /* === SPECIAL EFFECTS === */
         .floating-element {
             animation: float-gentle 6s ease-in-out infinite;
         }
@@ -516,7 +496,6 @@ class GitHubPagesTemplates:
             }
         }
         
-        /* === FOOTER === */
         .footer-liquid {
             text-align: center;
             margin-top: 4rem;
@@ -536,7 +515,6 @@ class GitHubPagesTemplates:
             text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
         }
         
-        /* === RESPONSIVE DESIGN === */
         @media (max-width: 768px) {
             .glass-container {
                 padding: 1rem;
@@ -577,7 +555,6 @@ class GitHubPagesTemplates:
             }
         }
         
-        /* === ACCESSIBILITY === */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.01ms !important;
@@ -588,11 +565,12 @@ class GitHubPagesTemplates:
         """
     
     def generate_main_dashboard_with_breadth(self, manifest):
-        """Dashboard principal incluyendo TODOS los módulos - ACTUALIZADO CON ENHANCED OPPORTUNITIES"""
+        """Dashboard principal incluyendo TODOS los módulos con Buybacks"""
         total_reports = manifest['total_reports']
         total_dj_reports = manifest.get('total_dj_reports', 0)
         total_breadth_reports = manifest.get('total_breadth_reports', 0)
-        total_enhanced_reports = manifest.get('total_enhanced_reports', 0)  # NUEVO
+        total_enhanced_reports = manifest.get('total_enhanced_reports', 0)
+        total_buyback_reports = manifest.get('total_buyback_reports', 0)
         last_update = manifest['last_update'][:10] if manifest['last_update'] else 'N/A'
         unique_days = len(set(r['date'] for r in manifest['reports'])) if manifest['reports'] else 0
         
@@ -602,7 +580,7 @@ class GitHubPagesTemplates:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📊 Trading Analytics System | Liquid Glass Dashboard</title>
-    <meta name="description" content="Sistema avanzado de análisis de trading con IA - Dashboard principal con Enhanced Opportunities">
+    <meta name="description" content="Sistema avanzado de análisis de trading con IA - Dashboard principal con todos los módulos">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
         {self.liquid_css}
@@ -612,10 +590,10 @@ class GitHubPagesTemplates:
     <div class="glass-container">
         <header class="liquid-header glass-card floating-element">
             <h1>📊 Trading Analytics System</h1>
-            <p>Sistema inteligente de análisis financiero con IA avanzada, Market Breadth y Enhanced Opportunities</p>
+            <p>Sistema inteligente de análisis financiero con IA avanzada y análisis de buybacks</p>
             <div class="live-pulse">
                 <div class="pulse-dot"></div>
-                <span>5 Módulos Activos • IA Integrada</span>
+                <span>6 Módulos Activos • IA Integrada</span>
             </div>
         </header>
         
@@ -637,6 +615,10 @@ class GitHubPagesTemplates:
                 <div class="stat-label">Enhanced Opportunities</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.5s">
+                <div class="stat-number">{total_buyback_reports}</div>
+                <div class="stat-label">Buybacks</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.6s">
                 <div class="stat-number">{last_update}</div>
                 <div class="stat-label">Última Actualización</div>
             </div>
@@ -648,27 +630,32 @@ class GitHubPagesTemplates:
                 <a href="insider_trading.html" class="nav-card">
                     <div class="nav-icon">🏛️</div>
                     <div class="nav-title">Insider Trading</div>
-                    <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones de comportamiento ejecutivo</div>
+                    <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones</div>
                 </a>
                 <a href="dj_sectorial.html" class="nav-card">
                     <div class="nav-icon">📊</div>
                     <div class="nav-title">DJ Sectorial</div>
-                    <div class="nav-desc">140 sectores Dow Jones analizados para identificar oportunidades y rotaciones sectoriales</div>
+                    <div class="nav-desc">140 sectores Dow Jones analizados para oportunidades</div>
                 </a>
                 <a href="market_breadth.html" class="nav-card">
                     <div class="nav-icon">📈</div>
                     <div class="nav-title">Market Breadth</div>
-                    <div class="nav-desc">60+ indicadores de amplitud para evaluar la participación interna del mercado</div>
+                    <div class="nav-desc">60+ indicadores de amplitud del mercado</div>
                 </a>
                 <a href="enhanced_opportunities.html" class="nav-card">
                     <div class="nav-icon">🎯</div>
                     <div class="nav-title">Enhanced Opportunities</div>
-                    <div class="nav-desc">Correlaciones automáticas insider-sector con análisis avanzado de oportunidades</div>
+                    <div class="nav-desc">Correlaciones automáticas insider-sector</div>
+                </a>
+                <a href="buybacks.html" class="nav-card">
+                    <div class="nav-icon">💰</div>
+                    <div class="nav-title">Buybacks Analysis</div>
+                    <div class="nav-desc">Programas de recompra de acciones y su impacto</div>
                 </a>
                 <a href="vcp_scanner.html" class="nav-card">
                     <div class="nav-icon">🚀</div>
                     <div class="nav-title">VCP Scanner</div>
-                    <div class="nav-desc">Detector de patrones de volatilidad con análisis técnico avanzado</div>
+                    <div class="nav-desc">Detector de patrones de volatilidad</div>
                 </a>
             </div>
         </nav>
@@ -683,15 +670,13 @@ class GitHubPagesTemplates:
         
         <footer class="footer-liquid">
             <p>🚀 Trading Analytics System • Powered by AI & Advanced Market Analysis</p>
-            <p>Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner</p>
+            <p>Sistema completo: Insider • DJ Sectorial • Market Breadth • Enhanced • Buybacks • VCP</p>
         </footer>
     </div>
     
     <script>
-        // Auto-refresh inteligente cada 5 minutos
         setTimeout(() => location.reload(), 300000);
         
-        // Animaciones de entrada escalonadas
         document.addEventListener('DOMContentLoaded', function() {{
             const cards = document.querySelectorAll('.nav-card, .report-liquid');
             cards.forEach((card, index) => {{
@@ -700,20 +685,153 @@ class GitHubPagesTemplates:
             }});
         }});
         
-        // Analytics
-        console.log('🚀 Trading Analytics Dashboard with Enhanced Opportunities Loaded');
+        console.log('🚀 Trading Analytics Dashboard with Buybacks Loaded');
         console.log('📊 Total Reports: {total_reports}');
         console.log('📈 DJ Sectorial: {total_dj_reports}');
         console.log('📊 Market Breadth: {total_breadth_reports}');
         console.log('🎯 Enhanced Opportunities: {total_enhanced_reports}');
-        console.log('🎯 Módulos activos: 5');
+        console.log('💰 Buybacks: {total_buyback_reports}');
+        console.log('🎯 Módulos activos: 6');
         console.log('🌐 Base URL: {self.base_url}');
     </script>
 </body>
 </html>"""
     
+    def generate_buybacks_page(self, manifest):
+        """Genera página de Buybacks con diseño Liquid Glass"""
+        buyback_reports = manifest.get('buyback_reports', [])
+        total_buyback_reports = len(buyback_reports)
+        
+        return f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Buybacks Analysis | Liquid Glass Dashboard</title>
+    <meta name="description" content="Análisis de programas de recompra de acciones y su impacto en el mercado">
+    <style>
+        {self.liquid_css}
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <header class="liquid-header glass-card floating-element">
+            <h1>💰 Buybacks Analysis</h1>
+            <p>Sistema inteligente de análisis de programas de recompra de acciones</p>
+            <div class="live-pulse">
+                <div class="pulse-dot"></div>
+                <span>Análisis en Tiempo Real • Impacto de Mercado</span>
+            </div>
+        </header>
+        
+        <section class="content-liquid glass-card">
+            <h2 class="section-title">🧠 ¿Qué son los Buybacks?</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                Los programas de recompra de acciones (buybacks) son operaciones mediante las cuales las empresas 
+                compran sus propias acciones en el mercado abierto, reduciendo el número de acciones en circulación 
+                y potencialmente aumentando el valor por acción.
+            </p>
+            
+            <div class="explanation-liquid" style="background: rgba(99, 102, 241, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0;">
+                <h3 style="color: var(--glass-primary); margin-bottom: 1rem;">🔍 Análisis Implementados</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>💵 Valor Total:</strong> Análisis del monto total autorizado para recompras
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>📊 Porcentaje del Market Cap:</strong> Evaluación del impacto relativo en la empresa
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>🎯 Clasificación de Impacto:</strong> Alto, Medio o Bajo según el tamaño del programa
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>📈 Tendencias Sectoriales:</strong> Identificación de sectores con mayor actividad de buybacks
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>⚡ Detección de Señales:</strong> Identificación de buybacks agresivos o defensivos
+                    </li>
+                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
+                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
+                        <strong>🏢 Análisis por Empresa:</strong> Historial y frecuencia de programas de recompra
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <section class="stats-liquid">
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
+                <div class="stat-number">{total_buyback_reports}</div>
+                <div class="stat-label">Análisis Realizados</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
+                <div class="stat-number">$500B+</div>
+                <div class="stat-label">Valor Analizado</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Empresas Monitoreadas</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Monitoreo Activo</div>
+            </div>
+        </section>
+        
+        <main class="content-liquid glass-card">
+            <h2 class="section-title">💰 Análisis de Buybacks Recientes</h2>
+            
+            <div class="reports-fluid">
+                {self._generate_buyback_reports_html(buyback_reports[:10])}
+            </div>
+        </main>
+        
+        <section class="content-liquid glass-card">
+            <h2 class="section-title">💡 Por qué son importantes los Buybacks</h2>
+            <div style="background: rgba(99, 102, 241, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 1.5rem;">
+                <ol style="color: var(--text-secondary); line-height: 1.8;">
+                    <li><strong style="color: var(--glass-primary);">📈 Señal de Confianza:</strong> Indica que la empresa cree que sus acciones están infravaloradas</li>
+                    <li><strong style="color: var(--glass-primary);">💵 Retorno de Capital:</strong> Forma eficiente de devolver efectivo a los accionistas</li>
+                    <li><strong style="color: var(--glass-primary);">📊 Mejora de Métricas:</strong> Aumenta el EPS al reducir el número de acciones</li>
+                    <li><strong style="color: var(--glass-primary);">🎯 Soporte de Precio:</strong> Crea demanda adicional que puede sostener el precio</li>
+                    <li><strong style="color: var(--glass-primary);">⚡ Flexibilidad:</strong> Más flexible que los dividendos, puede ajustarse según condiciones</li>
+                    <li><strong style="color: var(--glass-primary);">🏢 Gestión de Capital:</strong> Herramienta para optimizar la estructura de capital</li>
+                </ol>
+            </div>
+        </section>
+        
+        <footer class="footer-liquid">
+            <p>💰 Buybacks Analysis • Powered by Real-Time Market Data</p>
+            <p>
+                <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
+                <a href="insider_trading.html">🏛️ Insider Trading</a> • 
+                <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
+                <a href="market_breadth.html">📈 Market Breadth</a> • 
+                <a href="enhanced_opportunities.html">🎯 Enhanced Opportunities</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {{
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {{
+                el.style.animationDelay = `${{index * 0.1}}s`;
+            }});
+        }});
+        
+        console.log('💰 Buybacks Analysis Dashboard Loaded');
+        console.log('📊 Total Buyback Reports: {total_buyback_reports}');
+    </script>
+</body>
+</html>"""
+    
     def generate_enhanced_opportunities_page(self, manifest):
-        """NUEVA FUNCIÓN: Genera página Enhanced Opportunities con diseño Liquid Glass"""
+        """Genera página Enhanced Opportunities con diseño Liquid Glass"""
         enhanced_reports = manifest.get('enhanced_reports', [])
         total_enhanced_reports = len(enhanced_reports)
         
@@ -745,36 +863,6 @@ class GitHubPagesTemplates:
                 Sistema de inteligencia artificial que correlaciona automáticamente la actividad insider con análisis sectorial, 
                 identificando oportunidades de alta probabilidad basadas en patrones de comportamiento ejecutivo.
             </p>
-            
-            <div class="explanation-liquid" style="background: rgba(99, 102, 241, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 1.5rem; margin: 1.5rem 0;">
-                <h3 style="color: var(--glass-primary); margin-bottom: 1rem;">🔍 Análisis Implementados</h3>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
-                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
-                        <strong>🎯 Mapeo Ticker-Sector:</strong> Correlación automática de 200+ tickers con sectores Dow Jones
-                    </li>
-                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
-                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
-                        <strong>🏛️ Actividad Insider:</strong> Análisis de transacciones ejecutivas y patrones de comportamiento
-                    </li>
-                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
-                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
-                        <strong>📊 Análisis Sectorial:</strong> RSI, distancia a mínimos y clasificación técnica automática
-                    </li>
-                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
-                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
-                        <strong>🧠 Scoring Inteligente:</strong> Algoritmo que pondera actividad insider con análisis técnico
-                    </li>
-                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
-                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
-                        <strong>⚠️ Alertas Automáticas:</strong> Detección de patrones Golden Cross y Volume Explosion
-                    </li>
-                    <li style="margin-bottom: 0.75rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); line-height: 1.5;">
-                        <span style="position: absolute; left: 0; color: var(--glass-accent); font-weight: bold;">→</span>
-                        <strong>📈 Upside Calculation:</strong> Cálculos automáticos de potencial alcista ajustado por riesgo
-                    </li>
-                </ul>
-            </div>
         </section>
         
         <section class="stats-liquid">
@@ -804,33 +892,19 @@ class GitHubPagesTemplates:
             </div>
         </main>
         
-        <section class="content-liquid glass-card">
-            <h2 class="section-title">💡 Metodología Enhanced Opportunities</h2>
-            <div style="background: rgba(99, 102, 241, 0.05); backdrop-filter: blur(8px); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 16px; padding: 1.5rem;">
-                <ol style="color: var(--text-secondary); line-height: 1.8;">
-                    <li><strong style="color: var(--glass-primary);">🔍 Escaneo Automático:</strong> Búsqueda de datos insider y sectoriales históricos</li>
-                    <li><strong style="color: var(--glass-primary);">🎯 Mapeo Inteligente:</strong> Correlación automática ticker-sector con 200+ empresas</li>
-                    <li><strong style="color: var(--glass-primary);">📊 Scoring Avanzado:</strong> Algoritmo que combina RSI, proximidad a mínimos y actividad insider</li>
-                    <li><strong style="color: var(--glass-primary);">⚡ Detección de Patrones:</strong> Identificación automática de Golden Cross y Volume Explosion</li>
-                    <li><strong style="color: var(--glass-primary);">📈 Interpretación IA:</strong> Análisis automático del estado del mercado y recomendaciones</li>
-                    <li><strong style="color: var(--glass-primary);">🎯 Alertas Contextuales:</strong> Generación de alertas con nivel de urgencia y acciones recomendadas</li>
-                </ol>
-            </div>
-        </section>
-        
         <footer class="footer-liquid">
             <p>🎯 Enhanced Opportunities Analysis • Powered by Advanced AI Correlations</p>
             <p>
                 <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
                 <a href="market_breadth.html">📈 Market Breadth</a> • 
-                <a href="insider_trading.html">🏛️ Insider Trading</a>
+                <a href="insider_trading.html">🏛️ Insider Trading</a> • 
+                <a href="buybacks.html">💰 Buybacks</a>
             </p>
         </footer>
     </div>
     
     <script>
-        // Animaciones de entrada
         document.addEventListener('DOMContentLoaded', function() {{
             const elements = document.querySelectorAll('.fade-in-up');
             elements.forEach((el, index) => {{
@@ -871,21 +945,13 @@ class GitHubPagesTemplates:
             </div>
         </header>
         
-        <section class="content-liquid glass-card">
-            <h2 class="section-title">🧠 ¿Qué es el análisis DJ Sectorial?</h2>
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
-                Sistema de inteligencia artificial que evalúa 140 sectores del mercado estadounidense, 
-                identificando oportunidades basadas en análisis técnico avanzado y patrones de comportamiento.
-            </p>
-        </section>
-        
         <section class="stats-liquid">
             <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
                 <div class="stat-number">{total_dj_reports}</div>
                 <div class="stat-label">Análisis Completados</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
-                <div class="stat-number">139</div>
+                <div class="stat-number">140</div>
                 <div class="stat-label">Sectores Monitoreados</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
@@ -912,20 +978,11 @@ class GitHubPagesTemplates:
                 <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
                 <a href="market_breadth.html">📈 Market Breadth</a> • 
                 <a href="enhanced_opportunities.html">🎯 Enhanced Opportunities</a> • 
-                <a href="insider_trading.html">🏛️ Insider Trading</a>
+                <a href="insider_trading.html">🏛️ Insider Trading</a> • 
+                <a href="buybacks.html">💰 Buybacks</a>
             </p>
         </footer>
     </div>
-    
-    <script>
-        // Animaciones de entrada
-        document.addEventListener('DOMContentLoaded', function() {{
-            const elements = document.querySelectorAll('.fade-in-up');
-            elements.forEach((el, index) => {{
-                el.style.animationDelay = `${{index * 0.1}}s`;
-            }});
-        }});
-    </script>
 </body>
 </html>"""
     
@@ -955,14 +1012,6 @@ class GitHubPagesTemplates:
                 <span>Análisis Continuo • Señales en Tiempo Real</span>
             </div>
         </header>
-        
-        <section class="content-liquid glass-card">
-            <h2 class="section-title">🧠 ¿Qué es Market Breadth?</h2>
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
-                El análisis de amplitud de mercado evalúa la participación interna del mercado, 
-                identificando si los movimientos de precios tienen soporte amplio o son impulsados por pocas acciones.
-            </p>
-        </section>
         
         <section class="stats-liquid">
             <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
@@ -997,23 +1046,11 @@ class GitHubPagesTemplates:
                 <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
                 <a href="enhanced_opportunities.html">🎯 Enhanced Opportunities</a> • 
-                <a href="insider_trading.html">🏛️ Insider Trading</a>
+                <a href="insider_trading.html">🏛️ Insider Trading</a> • 
+                <a href="buybacks.html">💰 Buybacks</a>
             </p>
         </footer>
     </div>
-    
-    <script>
-        // Animaciones de entrada
-        document.addEventListener('DOMContentLoaded', function() {{
-            const elements = document.querySelectorAll('.fade-in-up');
-            elements.forEach((el, index) => {{
-                el.style.animationDelay = `${{index * 0.1}}s`;
-            }});
-        }});
-        
-        console.log('📈 Market Breadth Analysis Dashboard Loaded');
-        console.log('📊 Total Breadth Reports: {total_breadth_reports}');
-    </script>
 </body>
 </html>"""
     
@@ -1031,11 +1068,11 @@ class GitHubPagesTemplates:
         for i, report in enumerate(reports):
             delay = i * 0.1
             
-            # Determinar icono según tipo de reporte
             icon = "🏛️" if "insider" in report.get('type', '').lower() else \
                   "📊" if "dj" in report.get('type', '').lower() else \
                   "📈" if "breadth" in report.get('type', '').lower() else \
                   "🎯" if "enhanced" in report.get('type', '').lower() else \
+                  "💰" if "buyback" in report.get('type', '').lower() else \
                   "🚀"
             
             html += f"""
@@ -1058,8 +1095,42 @@ class GitHubPagesTemplates:
         
         return html
     
+    def _generate_buyback_reports_html(self, reports):
+        """Genera HTML para reportes de Buybacks"""
+        if not reports:
+            return """
+            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                <h3>🔄 Preparando Análisis de Buybacks</h3>
+                <p>Los análisis de programas de recompra se generan automáticamente</p>
+                <div style="width: 40px; height: 40px; border: 3px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--glass-primary); border-radius: 50%; animation: spin-liquid 1s linear infinite; margin: 20px auto;"></div>
+            </div>
+            """
+        
+        html = ""
+        for i, report in enumerate(reports):
+            delay = i * 0.1
+            html += f"""
+            <div class="report-liquid floating-element" style="animation-delay: {delay}s">
+                <h3 class="report-title">💰 {report['title']}</h3>
+                <div class="report-meta">
+                    📅 {report['date']} • 🕐 {report['time']}<br>
+                    {report['description']}
+                </div>
+                <div class="report-actions">
+                    <a href="{report['html_url']}" class="btn-liquid btn-primary-liquid">
+                        💰 Ver Buybacks
+                    </a>
+                    <a href="{report['csv_url']}" class="btn-liquid btn-secondary-liquid">
+                        📥 Datos CSV
+                    </a>
+                </div>
+            </div>
+            """
+        
+        return html
+    
     def _generate_enhanced_reports_html(self, reports):
-        """NUEVA FUNCIÓN: Genera HTML para reportes Enhanced Opportunities"""
+        """Genera HTML para reportes Enhanced Opportunities"""
         if not reports:
             return """
             <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
@@ -1160,13 +1231,13 @@ class GitHubPagesTemplates:
         
         return html
 
-# Funciones utilitarias para uso directo - ACTUALIZADAS
+
 def generate_liquid_page(page_type, data, base_url=None):
     """
     Función utilitaria para generar páginas con diseño Liquid Glass
     
     Args:
-        page_type (str): 'main', 'dj_sectorial', 'market_breadth', 'enhanced_opportunities', 'vcp_scanner'
+        page_type (str): 'main', 'dj_sectorial', 'market_breadth', 'enhanced_opportunities', 'buybacks', 'vcp_scanner'
         data: Los datos para la página
         base_url (str): URL base del sitio
     
@@ -1186,22 +1257,23 @@ def generate_liquid_page(page_type, data, base_url=None):
         return templates.generate_breadth_page(data)
     elif page_type == 'enhanced_opportunities':
         return templates.generate_enhanced_opportunities_page(data)
+    elif page_type == 'buybacks':
+        return templates.generate_buybacks_page(data)
     elif page_type == 'vcp_scanner':
-        # Mantener compatibilidad con VCP Scanner existente
         return templates.generate_vcp_scanner_page(data) if hasattr(templates, 'generate_vcp_scanner_page') else ""
     else:
         raise ValueError(f"Tipo de página no soportado: {page_type}")
 
-# Test de compatibilidad - ACTUALIZADO
+
 if __name__ == "__main__":
-    print("🧪 Testing GitHub Pages Templates con Enhanced Opportunities")
+    print("🧪 Testing GitHub Pages Templates con Buybacks")
     
-    # Datos de ejemplo
     test_manifest = {
         "total_reports": 15,
         "total_dj_reports": 8,
         "total_breadth_reports": 5,
-        "total_enhanced_reports": 3,  # NUEVO
+        "total_enhanced_reports": 3,
+        "total_buyback_reports": 4,
         "last_update": "2025-07-03T10:30:00",
         "reports": [
             {
@@ -1239,7 +1311,7 @@ if __name__ == "__main__":
                 "type": "market_breadth"
             }
         ],
-        "enhanced_reports": [  # NUEVO
+        "enhanced_reports": [
             {
                 "id": "enhanced_test1",
                 "title": "Enhanced Opportunities Analysis",
@@ -1250,23 +1322,37 @@ if __name__ == "__main__":
                 "csv_url": "reports/enhanced_test1/data.csv",
                 "type": "enhanced_opportunities"
             }
+        ],
+        "buyback_reports": [
+            {
+                "id": "buyback_test1",
+                "title": "Buybacks Analysis",
+                "description": "25 programas detectados - $50B total",
+                "date": "2025-07-03",
+                "time": "13:00",
+                "html_url": "reports/buyback_test1/index.html",
+                "csv_url": "reports/buyback_test1/data.csv",
+                "type": "buybacks"
+            }
         ]
     }
     
-    # Crear templates
     templates = GitHubPagesTemplates()
     
-    # Test dashboard principal
     main_html = templates.generate_main_dashboard_with_breadth(test_manifest)
-    with open("test_main_dashboard_enhanced.html", "w", encoding="utf-8") as f:
+    with open("test_main_dashboard_buybacks.html", "w", encoding="utf-8") as f:
         f.write(main_html)
     
-    # Test página Enhanced Opportunities
+    buybacks_html = templates.generate_buybacks_page(test_manifest)
+    with open("test_buybacks_page.html", "w", encoding="utf-8") as f:
+        f.write(buybacks_html)
+    
     enhanced_html = templates.generate_enhanced_opportunities_page(test_manifest)
     with open("test_enhanced_opportunities_page.html", "w", encoding="utf-8") as f:
         f.write(enhanced_html)
     
     print("✅ Templates de test generados:")
-    print("   - test_main_dashboard_enhanced.html")
+    print("   - test_main_dashboard_buybacks.html")
+    print("   - test_buybacks_page.html")
     print("   - test_enhanced_opportunities_page.html")
-    print("🚀 Enhanced Opportunities completamente integrado en templates")
+    print("🚀 Sistema completo con Buybacks integrado")

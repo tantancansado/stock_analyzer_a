@@ -1,0 +1,94 @@
+{
+  "dynamic_thresholds": {
+    "mega_caps": {
+      "market_cap_min_billion": 50,
+      "min_yield_percent": 2.5,
+      "optimal_yield_percent": 4.0,
+      "min_absolute_million": 1250,
+      "win_rate_expected": 0.58
+    },
+    "large_caps": {
+      "market_cap_min_billion": 10,
+      "market_cap_max_billion": 50,
+      "min_yield_percent": 3.0,
+      "optimal_yield_percent": 5.0,
+      "min_absolute_million": 300,
+      "win_rate_expected": 0.65
+    },
+    "mid_caps": {
+      "market_cap_min_billion": 2,
+      "market_cap_max_billion": 10,
+      "min_yield_percent": 4.0,
+      "optimal_yield_percent": 6.0,
+      "min_absolute_million": 80,
+      "win_rate_expected": 0.72
+    },
+    "small_caps": {
+      "market_cap_min_billion": 0.5,
+      "market_cap_max_billion": 2,
+      "min_yield_percent": 5.0,
+      "optimal_yield_percent": 7.0,
+      "min_absolute_million": 25,
+      "win_rate_expected": 0.66
+    }
+  },
+  "monitoring": {
+    "interval_minutes": 10,
+    "market_hours_only": true,
+    "premarket_monitoring": true,
+    "afterhours_monitoring": true,
+    "max_retries": 3,
+    "request_delay_min": 2,
+    "request_delay_max": 5
+  },
+  "notifications": {
+    "email": {
+      "enabled": false,
+      "smtp_server": "smtp.gmail.com",
+      "smtp_port": 587,
+      "username": "",
+      "password": "",
+      "to_email": ""
+    },
+    "telegram": {
+      "enabled": false,
+      "bot_token": "",
+      "chat_id": "",
+      "parse_mode": "HTML"
+    },
+    "webhook": {
+      "enabled": false,
+      "url": "",
+      "mention_high_priority": true
+    },
+    "desktop": {
+      "enabled": true,
+      "priority_sound": true
+    }
+  },
+  "advanced_filters": {
+    "priority_tickers": [
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "AMZN",
+      "META",
+      "NVDA",
+      "TSLA",
+      "JPM",
+      "BAC",
+      "WFC",
+      "C",
+      "JNJ",
+      "PFE",
+      "UNH",
+      "ABBV",
+      "HD",
+      "WMT",
+      "PG",
+      "KO"
+    ],
+    "exclude_sectors": [],
+    "min_volume_million": 10
+  }
+}
