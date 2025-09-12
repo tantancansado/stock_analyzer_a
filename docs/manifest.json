@@ -1,6 +1,6 @@
 {
   "total_reports": 120,
-  "last_update": "2025-09-11T07:43:48.850316",
+  "last_update": "2025-09-12T07:43:14.010217",
   "reports": [
     {
       "id": "report_2025-09-11",
@@ -1440,6 +1440,18 @@
   "base_url": "https://tantancansado.github.io/stock_analyzer_a",
   "dj_reports": [
     {
+      "id": "dj_sectorial_2025-09-12",
+      "title": "📊 DJ Sectorial - 17 oportunidades - 2025-09-12 07:42",
+      "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
+      "timestamp": "2025-09-12T07:42:30.442118",
+      "date": "2025-09-12",
+      "time": "07:42:30",
+      "html_url": "reports/dj_sectorial/dj_sectorial_2025-09-12/index.html",
+      "csv_url": "reports/dj_sectorial/dj_sectorial_2025-09-12/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/dj_sectorial/dj_sectorial_2025-09-12/index.html",
+      "type": "dj_sectorial"
+    },
+    {
       "id": "dj_sectorial_2025-09-11",
       "title": "📊 DJ Sectorial - 24 oportunidades - 2025-09-11 07:43",
       "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
@@ -2772,8 +2784,20 @@
       "type": "dj_sectorial"
     }
   ],
-  "total_dj_reports": 111,
+  "total_dj_reports": 112,
   "breadth_reports": [
+    {
+      "id": "market_breadth_2025-09-12",
+      "title": "📊 Market Breadth COMPLETO - 81 indicadores - 🟢 FUERTEMENTE ALCISTA - 2025-09-12",
+      "description": "Análisis completo de amplitud con 72 indicadores NYSE + 9 índices. Sesgo: 🟢 FUERTEMENTE ALCISTA (9 alcistas, 0 bajistas)",
+      "timestamp": "2025-09-12T07:43:13.927963",
+      "date": "2025-09-12",
+      "time": "07:43:13",
+      "html_url": "reports/market_breadth/market_breadth_2025-09-12/index.html",
+      "csv_url": "reports/market_breadth/market_breadth_2025-09-12/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/market_breadth/market_breadth_2025-09-12/index.html",
+      "type": "market_breadth"
+    },
     {
       "id": "market_breadth_2025-09-11",
       "title": "📊 Market Breadth COMPLETO - 81 indicadores - 🟢 FUERTEMENTE ALCISTA - 2025-09-11",
@@ -4359,8 +4383,20 @@
       "type": "market_breadth"
     }
   ],
-  "total_breadth_reports": 132,
+  "total_breadth_reports": 133,
   "enhanced_reports": [
+    {
+      "id": "enhanced_opportunities_2025-09-12",
+      "title": "🎯 Enhanced Opportunities - 1 críticas de 140 - Score 61.9 - 2025-09-12 07:43",
+      "description": "Análisis avanzado de oportunidades con correlaciones insider-sector. 1 oportunidades críticas, 0 con actividad insider",
+      "timestamp": "2025-09-12T07:43:14.010217",
+      "date": "2025-09-12",
+      "time": "07:43:14",
+      "html_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-09-12/index.html",
+      "csv_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-09-12/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/enhanced_opportunities/enhanced_opportunities_2025-09-12/index.html",
+      "type": "enhanced_opportunities"
+    },
     {
       "id": "enhanced_opportunities_2025-09-11",
       "title": "🎯 Enhanced Opportunities - 2 críticas de 140 - Score 59.9 - 2025-09-11 07:43",
@@ -5130,5 +5166,5 @@
       "type": "enhanced_opportunities"
     }
   ],
-  "total_enhanced_reports": 64
+  "total_enhanced_reports": 65
 }
