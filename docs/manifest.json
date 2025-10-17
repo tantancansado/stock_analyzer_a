@@ -1,7 +1,19 @@
 {
-  "total_reports": 144,
-  "last_update": "2025-10-16T07:44:56.794039",
+  "total_reports": 145,
+  "last_update": "2025-10-17T07:44:25.171183",
   "reports": [
+    {
+      "id": "report_2025-10-17",
+      "title": "📊 Insider Trading - 57 transacciones - 2025-10-17 07:38",
+      "description": "Reporte con 57 transacciones detectadas",
+      "timestamp": "2025-10-17T07:38:10.340811",
+      "date": "2025-10-17",
+      "time": "07:38:10",
+      "html_url": "reports/daily/report_2025-10-17/index.html",
+      "csv_url": "reports/daily/report_2025-10-17/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/daily/report_2025-10-17/index.html",
+      "type": "insider"
+    },
     {
       "id": "report_2025-10-16",
       "title": "📊 Insider Trading - 41 transacciones - 2025-10-16 07:38",
@@ -1728,6 +1740,18 @@
   "base_url": "https://tantancansado.github.io/stock_analyzer_a",
   "dj_reports": [
     {
+      "id": "dj_sectorial_2025-10-17",
+      "title": "📊 DJ Sectorial - 27 oportunidades - 2025-10-17 07:43",
+      "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
+      "timestamp": "2025-10-17T07:43:36.853399",
+      "date": "2025-10-17",
+      "time": "07:43:36",
+      "html_url": "reports/dj_sectorial/dj_sectorial_2025-10-17/index.html",
+      "csv_url": "reports/dj_sectorial/dj_sectorial_2025-10-17/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/dj_sectorial/dj_sectorial_2025-10-17/index.html",
+      "type": "dj_sectorial"
+    },
+    {
       "id": "dj_sectorial_2025-10-16",
       "title": "📊 DJ Sectorial - 25 oportunidades - 2025-10-16 07:44",
       "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
@@ -3360,8 +3384,20 @@
       "type": "dj_sectorial"
     }
   ],
-  "total_dj_reports": 136,
+  "total_dj_reports": 137,
   "breadth_reports": [
+    {
+      "id": "market_breadth_2025-10-17",
+      "title": "📊 Market Breadth COMPLETO - 81 indicadores - 🟢 FUERTEMENTE ALCISTA - 2025-10-17",
+      "description": "Análisis completo de amplitud con 72 indicadores NYSE + 9 índices. Sesgo: 🟢 FUERTEMENTE ALCISTA (8 alcistas, 1 bajistas)",
+      "timestamp": "2025-10-17T07:44:25.084081",
+      "date": "2025-10-17",
+      "time": "07:44:25",
+      "html_url": "reports/market_breadth/market_breadth_2025-10-17/index.html",
+      "csv_url": "reports/market_breadth/market_breadth_2025-10-17/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/market_breadth/market_breadth_2025-10-17/index.html",
+      "type": "market_breadth"
+    },
     {
       "id": "market_breadth_2025-10-16",
       "title": "📊 Market Breadth COMPLETO - 81 indicadores - 🟢 FUERTEMENTE ALCISTA - 2025-10-16",
@@ -5247,8 +5283,20 @@
       "type": "market_breadth"
     }
   ],
-  "total_breadth_reports": 157,
+  "total_breadth_reports": 158,
   "enhanced_reports": [
+    {
+      "id": "enhanced_opportunities_2025-10-17",
+      "title": "🎯 Enhanced Opportunities - 7 críticas de 140 - Score 59.0 - 2025-10-17 07:44",
+      "description": "Análisis avanzado de oportunidades con correlaciones insider-sector. 7 oportunidades críticas, 0 con actividad insider",
+      "timestamp": "2025-10-17T07:44:25.171183",
+      "date": "2025-10-17",
+      "time": "07:44:25",
+      "html_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-10-17/index.html",
+      "csv_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-10-17/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/enhanced_opportunities/enhanced_opportunities_2025-10-17/index.html",
+      "type": "enhanced_opportunities"
+    },
     {
       "id": "enhanced_opportunities_2025-10-16",
       "title": "🎯 Enhanced Opportunities - 12 críticas de 140 - Score 60.9 - 2025-10-16 07:44",
@@ -6318,5 +6366,5 @@
       "type": "enhanced_opportunities"
     }
   ],
-  "total_enhanced_reports": 89
+  "total_enhanced_reports": 90
 }
