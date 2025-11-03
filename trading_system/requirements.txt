@@ -1,0 +1,14 @@
+# Dependencias críticas
+pandas>=1.3.0
+numpy>=1.20.0
+requests>=2.25.0
+
+# Dependencias para análisis financiero
+yfinance>=0.1.70
+
+# Dependencias para HTML y visualización
+beautifulsoup4>=4.9.0
+
+# Dependencias opcionales para gráficos
+matplotlib>=3.3.0
+plotly>=5.0.0

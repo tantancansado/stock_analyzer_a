@@ -13,7 +13,7 @@ import re
 import os
 import glob
 from pathlib import Path
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 import json
 import traceback
 from epic_mapping_update import get_epic_ticker_mapping
