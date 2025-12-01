@@ -1,0 +1,898 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 DJ Sectorial Dashboard</title>
+    <style>
+        
+        :root {
+            --bg-dark: #0a0e1a;
+            --bg-card: #1a202c;
+            --bg-card-light: #2d3748;
+            --border-color: #4a5568;
+            --primary: #4a90e2;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --success: #48bb78;
+            --warning: #ffd700;
+            --danger: #f56565;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a1f35 0%, #2d3748 100%);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .header h1 {
+            color: var(--primary);
+            font-size: 2em;
+            margin: 0 0 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+        }
+        
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            background: var(--bg-card);
+        }
+        
+        .stat-card {
+            background: var(--bg-card-light);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+        
+        .oportunidad { color: var(--success); }
+        .cerca { color: var(--warning); }
+        .fuerte { color: var(--danger); }
+        
+        .sectors-container {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .sector-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary);
+            transition: transform 0.2s ease;
+        }
+        
+        .sector-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .sector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .sector-ticker {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .sector-status {
+            font-size: 1.5em;
+        }
+        
+        .sector-name {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .metric {
+            background: var(--bg-card-light);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .metric-label {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .sectors-container {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 10px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>📊 Dow Jones Sectorial Dashboard</h1>
+        <p>Análisis completo de sectores • 2025-12-01 07:47</p>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number">26</div>
+            <div class="stat-label">Total Sectores</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number oportunidad">10</div>
+            <div class="stat-label">🟢 Oportunidades</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number cerca">8</div>
+            <div class="stat-label">🟡 Cerca</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number fuerte">8</div>
+            <div class="stat-label">🔴 Fuertes</div>
+        </div>
+    </div>
+    
+    <div class="sectors-container">
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSAV</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Media Agencies Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$355.89</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$346.44</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">2.7%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">64.1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSBE</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Business Training & Employment Agencies Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$98.35</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$95.19</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">3.3%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">44.8</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSFO</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Food Producers Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$369.91</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$353.81</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">4.6%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">36.5</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSFA</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Financial Administration Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$481.66</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$457.18</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">5.4%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">50.8</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSRP</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Recreational Products Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$296.13</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$279.15</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">6.1%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">57.2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSFB</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Food & Beverage Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$714.82</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$668.77</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">6.9%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">25.2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSIR</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Insurance Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$1326.08</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$1239.53</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">7.0%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">36.0</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSVN</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Distillers & Vintners Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$281.58</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$260.67</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">8.0%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">26.4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSDB</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Brewers Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$474.80</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$438.36</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">8.3%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">48.8</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--success)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSIU</div>
+                <div class="sector-status">🟢</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Reinsurance Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$512.74</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$467.58</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">9.7%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">60.7</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSPL</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Pipelines Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$1034.68</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$925.07</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">11.8%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">35.5</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSWU</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Water Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$2733.30</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$2432.70</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">12.4%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">51.4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSSP</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Specialty Finance Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$763.05</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$671.10</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">13.7%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">34.7</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSTK</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Trucking Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$1425.09</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$1244.48</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">14.5%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">51.8</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSOL</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Integrated Oil & Gas Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$750.23</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$645.42</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">16.2%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">56.4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSID</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Diversified Industrials Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$942.34</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$767.22</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">22.8%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">45.4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSRR</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Railroads Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$3473.60</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$2788.90</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">24.6%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">34.9</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--warning)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSHC</div>
+                <div class="sector-status">🟡</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Health Care Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$1675.00</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$1344.15</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">24.6%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">18.4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSCA</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Gambling Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$652.12</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$513.60</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">27.0%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">45.4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSRH</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Real Estate Investment & Services</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$725.42</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$563.10</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">28.8%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">35.2</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSMT</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Marine Transportation Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$372.63</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$261.01</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">42.8%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">34.6</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSTY</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Toys Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$1744.28</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$1149.53</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">51.7%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">57.7</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSHR</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Commercial Vehicles & Trucks Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$6221.50</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$3916.00</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">58.9%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">41.3</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSAR</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Airlines Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$235.65</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$137.83</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">71.0%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">41.4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSEC</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Electrical Components & Equipment Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$1034.73</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$562.61</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">83.9%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">52.6</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sector-card" style="border-left-color: var(--danger)">
+            <div class="sector-header">
+                <div class="sector-ticker">DJUSPM</div>
+                <div class="sector-status">🔴</div>
+            </div>
+            <div class="sector-name">Dow Jones U.S. Gold Mining Index</div>
+            
+            <div class="metrics-grid">
+                <div class="metric">
+                    <div class="metric-label">Precio Actual</div>
+                    <div class="metric-value">$241.35</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Min 52s</div>
+                    <div class="metric-value">$94.85</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">Distancia Min</div>
+                    <div class="metric-value">154.5%</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-label">RSI</div>
+                    <div class="metric-value">34.5</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
