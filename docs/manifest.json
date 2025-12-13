@@ -1,7 +1,31 @@
 {
-  "total_reports": 186,
-  "last_update": "2025-12-13T11:22:20.921092",
+  "total_reports": 188,
+  "last_update": "2025-12-13T13:08:32.920910",
   "reports": [
+    {
+      "id": "report_2025-12-13",
+      "title": "📊 Insider Trading - 98 transacciones - 2025-12-13 13:03",
+      "description": "Reporte con 98 transacciones detectadas",
+      "timestamp": "2025-12-13T13:03:43.057129",
+      "date": "2025-12-13",
+      "time": "13:03:43",
+      "html_url": "reports/daily/report_2025-12-13/index.html",
+      "csv_url": "reports/daily/report_2025-12-13/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/daily/report_2025-12-13/index.html",
+      "type": "insider"
+    },
+    {
+      "id": "report_2025-12-13",
+      "title": "📊 Insider Trading - 98 transacciones - 2025-12-13 12:09",
+      "description": "Reporte con 98 transacciones detectadas",
+      "timestamp": "2025-12-13T12:09:22.216479",
+      "date": "2025-12-13",
+      "time": "12:09:22",
+      "html_url": "reports/daily/report_2025-12-13/index.html",
+      "csv_url": "reports/daily/report_2025-12-13/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/daily/report_2025-12-13/index.html",
+      "type": "insider"
+    },
     {
       "id": "report_2025-12-13",
       "title": "📊 Insider Trading - 98 transacciones - 2025-12-13 11:17",
@@ -4386,6 +4410,30 @@
       "id": "market_breadth",
       "title": "📊 Market Breadth COMPLETO - 93 indicadores - 🟢 FUERTEMENTE ALCISTA - 2025-12-13",
       "description": "Análisis completo de amplitud con 72 indicadores NYSE + 9 índices. Sesgo: 🟢 FUERTEMENTE ALCISTA (9 alcistas, 0 bajistas)",
+      "timestamp": "2025-12-13T13:08:32.828534",
+      "date": "2025-12-13",
+      "time": "13:08:32",
+      "html_url": "reports/market_breadth/index.html",
+      "csv_url": "reports/market_breadth/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/market_breadth/index.html",
+      "type": "market_breadth"
+    },
+    {
+      "id": "market_breadth",
+      "title": "📊 Market Breadth COMPLETO - 93 indicadores - 🟢 FUERTEMENTE ALCISTA - 2025-12-13",
+      "description": "Análisis completo de amplitud con 72 indicadores NYSE + 9 índices. Sesgo: 🟢 FUERTEMENTE ALCISTA (9 alcistas, 0 bajistas)",
+      "timestamp": "2025-12-13T12:15:39.046105",
+      "date": "2025-12-13",
+      "time": "12:15:39",
+      "html_url": "reports/market_breadth/index.html",
+      "csv_url": "reports/market_breadth/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/market_breadth/index.html",
+      "type": "market_breadth"
+    },
+    {
+      "id": "market_breadth",
+      "title": "📊 Market Breadth COMPLETO - 93 indicadores - 🟢 FUERTEMENTE ALCISTA - 2025-12-13",
+      "description": "Análisis completo de amplitud con 72 indicadores NYSE + 9 índices. Sesgo: 🟢 FUERTEMENTE ALCISTA (9 alcistas, 0 bajistas)",
       "timestamp": "2025-12-13T11:22:20.830284",
       "date": "2025-12-13",
       "time": "11:22:20",
@@ -6783,8 +6831,32 @@
       "type": "market_breadth"
     }
   ],
-  "total_breadth_reports": 200,
+  "total_breadth_reports": 202,
   "enhanced_reports": [
+    {
+      "id": "enhanced_opportunities_2025-12-13",
+      "title": "🎯 Enhanced Opportunities - 15 críticas de 140 - Score 63.5 - 2025-12-13 13:08",
+      "description": "Análisis avanzado de oportunidades con correlaciones insider-sector. 15 oportunidades críticas, 0 con actividad insider",
+      "timestamp": "2025-12-13T13:08:32.920910",
+      "date": "2025-12-13",
+      "time": "13:08:32",
+      "html_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-12-13/index.html",
+      "csv_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-12-13/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/enhanced_opportunities/enhanced_opportunities_2025-12-13/index.html",
+      "type": "enhanced_opportunities"
+    },
+    {
+      "id": "enhanced_opportunities_2025-12-13",
+      "title": "🎯 Enhanced Opportunities - 15 críticas de 140 - Score 63.5 - 2025-12-13 12:15",
+      "description": "Análisis avanzado de oportunidades con correlaciones insider-sector. 15 oportunidades críticas, 0 con actividad insider",
+      "timestamp": "2025-12-13T12:15:39.137520",
+      "date": "2025-12-13",
+      "time": "12:15:39",
+      "html_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-12-13/index.html",
+      "csv_url": "reports/enhanced_opportunities/enhanced_opportunities_2025-12-13/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/enhanced_opportunities/enhanced_opportunities_2025-12-13/index.html",
+      "type": "enhanced_opportunities"
+    },
     {
       "id": "enhanced_opportunities_2025-12-13",
       "title": "🎯 Enhanced Opportunities - 15 críticas de 140 - Score 63.5 - 2025-12-13 11:22",
@@ -8370,5 +8442,5 @@
       "type": "enhanced_opportunities"
     }
   ],
-  "total_enhanced_reports": 132
+  "total_enhanced_reports": 134
 }
