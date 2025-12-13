@@ -645,7 +645,7 @@ class GitHubPagesTemplates:
         <nav class="navigation-liquid glass-card">
             <h2 class="section-title">🎯 Módulos de Análisis Avanzado</h2>
             <div class="nav-grid">
-                <a href="insider_trading.html" class="nav-card">
+                <a href="reports/insider/index.html" class="nav-card">
                     <div class="nav-icon">🏛️</div>
                     <div class="nav-title">Insider Trading</div>
                     <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones de comportamiento ejecutivo</div>

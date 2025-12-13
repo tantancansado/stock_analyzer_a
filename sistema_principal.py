@@ -2219,8 +2219,9 @@ class GitHubPagesUploader:
         """Sube un reporte a GitHub Pages"""
         try:
             # Determinar tipo de reporte
-            if "DJ Sectorial" in title or "sectorial" in title.lower():
-                report_type = "dj_sectorial"
+            if report_type == "dj_sectorial":
+                report_id = "dj_sectorial"
+                report_dir = self.reports_path / "dj_sectorial"
             elif "Market Breadth" in title or "breadth" in title.lower():
                 report_type = "market_breadth"
             elif "Enhanced" in title or "enhanced" in title.lower() or "opportunities" in title.lower():
@@ -2261,7 +2262,7 @@ class GitHubPagesUploader:
             
             # Crear entrada del reporte
             if report_type == "dj_sectorial":
-                base_path = f"reports/dj_sectorial/{report_id}"
+                base_path = "reports/dj_sectorial"
             elif report_type == "market_breadth":
                 base_path = "reports/market_breadth"
             elif report_type == "enhanced_opportunities":
