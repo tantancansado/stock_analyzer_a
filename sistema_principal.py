@@ -2218,10 +2218,9 @@ class GitHubPagesUploader:
     def upload_report(self, html_file, csv_file, title, description):
         """Sube un reporte a GitHub Pages"""
         try:
-            # Determinar tipo de reporte
+            # Determinar tipo de reporte PRIMERO
             if "DJ Sectorial" in title or "sectorial" in title.lower():
-                report_id = "dj_sectorial"
-                report_dir = self.reports_path / "dj_sectorial"
+                report_type = "dj_sectorial"
             elif "Market Breadth" in title or "breadth" in title.lower():
                 report_type = "market_breadth"
             elif "Enhanced" in title or "enhanced" in title.lower() or "opportunities" in title.lower():
