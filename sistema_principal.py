@@ -2263,7 +2263,7 @@ class GitHubPagesUploader:
             if report_type == "dj_sectorial":
                 base_path = f"reports/dj_sectorial/{report_id}"
             elif report_type == "market_breadth":
-                base_path = f"reports/market_breadth/{report_id}"
+                base_path = "reports/market_breadth"
             elif report_type == "enhanced_opportunities":
                 base_path = f"reports/enhanced_opportunities/{report_id}"
             else:
