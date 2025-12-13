@@ -2218,9 +2218,10 @@ class GitHubPagesUploader:
     def upload_report(self, html_file, csv_file, title, description):
         """Sube un reporte a GitHub Pages"""
         try:
-            # Determinar tipo de reporte PRIMERO
+            # Determinar tipo de reporte
             if "DJ Sectorial" in title or "sectorial" in title.lower():
-                report_type = "dj_sectorial"
+                report_id = "dj_sectorial"
+                report_dir = self.reports_path / "dj_sectorial"
             elif "Market Breadth" in title or "breadth" in title.lower():
                 report_type = "market_breadth"
             elif "Enhanced" in title or "enhanced" in title.lower() or "opportunities" in title.lower():
@@ -2238,81 +2239,48 @@ class GitHubPagesUploader:
             
             # Crear ID y carpeta
             if report_type == "dj_sectorial":
-
                 report_id = "dj_sectorial"
-
                 report_dir = self.reports_path / "dj_sectorial"
-
-                base_path = "reports/dj_sectorial"
-
             elif report_type == "market_breadth":
-
                 report_id = "market_breadth"
-
                 report_dir = self.reports_path / "market_breadth"
-
-                base_path = "reports/market_breadth"
-
             elif report_type == "enhanced_opportunities":
-
-                report_id = f"enhanced_opportunities_20251213_151250" # ID completo
-
+                report_id = f"enhanced_opportunities_{date_only}"
                 report_dir = self.reports_path / "enhanced_opportunities" / report_id
-
-                base_path = f"reports/enhanced_opportunities/{report_id}"
-
-            else: # insider
-
-                report_id = f"report_2025-12-13"
-
+            else:
+                report_id = f"report_{date_only}"
                 report_dir = self.reports_path / "daily" / report_id
-
-                base_path = f"reports/daily/{report_id}"
-
             
-
             report_dir.mkdir(exist_ok=True, parents=True)
-
             
-
             # Copiar archivos
-
             shutil.copy2(html_file, report_dir / "index.html")
-
             shutil.copy2(csv_file, report_dir / "data.csv")
-
             
-
             # Actualizar manifest
-
             manifest = self.load_manifest()
-
             
-
             # Crear entrada del reporte
-
+            if report_type == "dj_sectorial":
+                base_path = "reports/dj_sectorial"
+            elif report_type == "market_breadth":
+                base_path = "reports/market_breadth"
+            elif report_type == "enhanced_opportunities":
+                base_path = f"reports/enhanced_opportunities/{report_id}"
+            else:
+                base_path = f"reports/daily/{report_id}"
+            
             report_entry = {
-
                 "id": report_id,
-
                 "title": title,
-
                 "description": description,
-
-                "timestamp": datetime.now().isoformat(),
-
-                "date": datetime.now().strftime('%Y-%m-%d'),
-
-                "time": datetime.now().strftime('%H:%M:%S'),
-
+                "timestamp": timestamp.isoformat(),
+                "date": timestamp.strftime('%Y-%m-%d'),
+                "time": timestamp.strftime('%H:%M:%S'),
                 "html_url": f"{base_path}/index.html",
-
                 "csv_url": f"{base_path}/data.csv",
-
                 "full_url": f"{self.base_url}/{base_path}/index.html",
-
                 "type": report_type
-
             }
             
             # Actualizar lista de reportes
@@ -2970,42 +2938,131 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             print(f"📱 Telegram: {'✓' if results['telegram'] else '✗'}")
             
             # URLs de GitHub Pages
-
-            
-            github_links = ""
-
-            
+            base_url = "https://tantancansado.github.io/stock_analyzer_a"
             if results['github_insider']:
-
-            
-                github_links += f"
-🏛️ [Ver Insider Trading]({results['github_insider']['github_url']})"
-
-            
+                github_links += f"\n🏛️ [Ver Insider Trading]({base_url}/reports/insider/index.html)"
             if results['github_dj']:
-
-            
-                github_links += f"
-📊 [Ver DJ Sectorial]({results['github_dj']['github_url']})"
-
-            
+                github_links += f"\n📊 [Ver DJ Sectorial]({base_url}/reports/dj_sectorial/index.html)"
             if results['github_breadth']:
-
-            
-                github_links += f"
-📈 [Ver Market Breadth COMPLETO]({results['github_breadth']['github_url']})"
-
-            
+                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({base_url}/reports/market_breadth/index.html)"
             if results['github_enhanced']:
-
+                github_links += f"\n🎯 [Ver Enhanced Opportunities]({base_url}/reports/enhanced_opportunities/index.html)"
             
-                github_links += f"
-🎯 [Ver Enhanced Opportunities]({results['github_enhanced']['github_url']})"
-
+            return results
             
+        except Exception as e:
+            print(f"\n❌ Error crítico en análisis ultra mejorado: {e}")
+            traceback.print_exc()
+            return results
+    
+    def send_ultra_enhanced_telegram_report(self, results, dj_analysis_results, breadth_results, enhanced_results):
+        """NUEVO: Envía reporte ultra mejorado por Telegram con Enhanced Opportunities"""
+        try:
+            from config import TELEGRAM_CHAT_ID, TELEGRAM_BOT_TOKEN
+            from alerts.telegram_utils import send_message, send_file
             
+            if not TELEGRAM_CHAT_ID or not TELEGRAM_BOT_TOKEN:
+                print("❌ Configuración Telegram incompleta")
+                return False
             
+            timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
             
+            # Estadísticas Insider
+            insider_stats = ""
+            if os.path.exists(self.csv_path):
+                df = pd.read_csv(self.csv_path)
+                if len(df) > 0:
+                    insider_stats = f"""🏛️ **Insider Trading:**
+• {len(df)} transacciones detectadas
+• {df['Insider'].nunique()} empresas únicas
+• Estado: {'✅ Subido' if results['github_insider'] else '❌ Error'}"""
+                else:
+                    insider_stats = f"""🏛️ **Insider Trading:**
+• Sin transacciones detectadas
+• Estado: {'✅ Monitoreado' if results['insider_scraper'] else '❌ Error'}"""
+            
+            # Estadísticas DJ Sectorial
+            dj_stats = ""
+            if dj_analysis_results:
+                oportunidades = len([r for r in dj_analysis_results if r['classification'] == 'OPORTUNIDAD'])
+                cerca = len([r for r in dj_analysis_results if r['classification'] == 'CERCA'])
+                fuertes = len([r for r in dj_analysis_results if r['classification'] == 'FUERTE'])
+                
+                dj_stats = f"""📊 **DJ Sectorial:**
+• {len(dj_analysis_results)} sectores analizados
+• 🟢 {oportunidades} oportunidades
+• 🟡 {cerca} cerca del mínimo
+• 🔴 {fuertes} en zona fuerte
+• Estado: {'✅ Subido' if results['github_dj'] else '❌ Error'}"""
+            else:
+                dj_stats = f"""📊 **DJ Sectorial:**
+• Sin datos disponibles
+• Estado: {'❌ Error en análisis' if results['dj_analysis'] else '⚠️ Sin ejecutar'}"""
+            
+            # Estadísticas Market Breadth
+            breadth_stats = ""
+            if breadth_results and results['breadth_analysis']:
+                analysis_result = breadth_results['analysis_result']
+                summary = analysis_result['summary']
+                nyse_count = analysis_result.get('nyse_indicators_count', 0)
+                indices_count = analysis_result.get('indices_count', 0)
+                total_indicators = analysis_result.get('total_indicators', nyse_count + indices_count)
+                nyse_mode = analysis_result.get('nyse_mode_used', 'all')
+                
+                breadth_stats = f"""📈 **Market Breadth COMPLETO:**
+• 🎯 {total_indicators} indicadores totales (MODO: {nyse_mode.upper()})
+• 🏛️ {nyse_count} indicadores NYSE reales
+• 📊 {indices_count} índices principales
+• Sesgo: {summary['market_bias']}
+• Confianza: {summary['confidence']}
+• 🟢 {summary['bullish_signals']} señales alcistas
+• 🔴 {summary['bearish_signals']} señales bajistas
+• Estado: {'✅ Subido' if results['github_breadth'] else '❌ Error'}"""
+            else:
+                breadth_stats = f"""📈 **Market Breadth:**
+• Análisis de amplitud de mercado COMPLETO
+• Estado: {'❌ Error' if MARKET_BREADTH_AVAILABLE else '⚠️ No disponible'}"""
+            
+            # Estadísticas Enhanced Opportunities (NUEVO)
+            enhanced_stats = ""
+            if enhanced_results and results['enhanced_analysis']:
+                summary = enhanced_results.get('summary', {})
+                enhanced_analysis = enhanced_results.get('enhanced_analysis', {})
+                market_overview = enhanced_analysis.get('market_overview', {})
+                
+                total_opps = summary.get('total_opportunities', 0)
+                critical_count = summary.get('critical_count', 0)
+                with_insider = summary.get('with_insider_activity', 0)
+                avg_score = summary.get('average_score', 0)
+                mapping_coverage = summary.get('mapping_coverage', 0)
+                market_state = market_overview.get('market_state', 'N/A')
+                
+                enhanced_stats = f"""🎯 **Enhanced Opportunities:**
+• 🔍 {total_opps} oportunidades analizadas
+• 🚨 {critical_count} oportunidades CRÍTICAS
+• 👥 {with_insider} con actividad insider
+• ⭐ Score promedio: {avg_score}/100
+• 🎯 Mapeo ticker-sector: {mapping_coverage:.1f}%
+• 📈 Estado mercado: {market_state}
+• Estado: {'✅ Subido' if results['github_enhanced'] else '❌ Error'}"""
+            else:
+                enhanced_stats = f"""🎯 **Enhanced Opportunities:**
+• Análisis de correlaciones insider-sector
+• Estado: {'❌ Error en análisis' if results['enhanced_analysis'] else '⚠️ Sin ejecutar'}"""
+            
+            # URLs de GitHub Pages
+            base_url = "https://tantancansado.github.io/stock_analyzer_a"
+            github_links = ""
+            if results['github_insider']:
+                github_links += f"\n🏛️ [Ver Insider Trading]({base_url}/reports/insider/index.html)"
+            if results['github_dj']:
+                github_links += f"\n📊 [Ver DJ Sectorial]({base_url}/reports/dj_sectorial/index.html)"
+            if results['github_breadth']:
+                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({base_url}/reports/market_breadth/index.html)"
+            if results['github_enhanced']:
+                github_links += f"\n🎯 [Ver Enhanced Opportunities]({base_url}/reports/enhanced_opportunities/index.html)"
+            
+            if github_links:
                 base_url = "https://tantancansado.github.io/stock_analyzer_a"
                 github_links += f"\n🏠 [Dashboard Principal]({base_url})"
             
