@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Market Breadth COMPLETO - 93 Indicadores | Dashboard</title>
+    <style>
+        
+        :root {
+            --primary: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #475569;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .glass-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .liquid-header { text-align: center; }
+        .liquid-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .market-status {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .score-badge, .total-badge {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .total-badge {
+            background: rgba(79, 70, 229, 0.2);
+            color: #a78bfa;
+        }
+        
+        .update-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .update-info code {
+            background: rgba(79, 70, 229, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a78bfa;
+        }
+        
+        .stats-liquid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-glass {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-glass:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-primary);
+        }
+        
+        /* SECTOR BREADTH STYLES (NUEVO) */
+        .sector-breadth-section { padding: 2rem; }
+        
+        .sector-breadth-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .sector-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .sector-card.strong { border-left-color: var(--success); }
+        .sector-card.healthy { border-left-color: var(--warning); }
+        .sector-card.weak { border-left-color: var(--danger); }
+        
+        .sector-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .sector-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .sector-emoji {
+            font-size: 2rem;
+        }
+        
+        .sector-code {
+            font-weight: 800;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+        
+        .sector-name {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .sector-value {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .breadth-percentage {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-primary);
+        }
+        
+        .breadth-status {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .sector-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .sector-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .sector-fill.strong { background: linear-gradient(90deg, var(--success), #34d399); }
+        .sector-fill.healthy { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+        .sector-fill.weak { background: linear-gradient(90deg, var(--danger), #f87171); }
+        
+        /* NYSE COMPACT STYLES */
+        .nyse-section-compact { padding: 2rem; }
+        
+        .nyse-grid-compact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+        
+        .nyse-card-compact {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .nyse-card-compact:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .nyse-header-compact {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nyse-indicator {
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            font-size: 0.95rem;
+        }
+        
+        .nyse-category {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+        
+        .nyse-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-bottom: 0.25rem;
+        }
+        
+        .nyse-change {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .nyse-change.positive { color: var(--success); }
+        .nyse-change.negative { color: var(--danger); }
+        .nyse-change.neutral { color: var(--text-secondary); }
+        
+        /* INDICES STYLES (ORIGINAL) */
+        .indices-analysis { padding: 2rem; }
+        
+        .indices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .index-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .index-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .index-card.bullish { border-left: 4px solid var(--success); }
+        .index-card.bearish { border-left: 4px solid var(--danger); }
+        .index-card.neutral { border-left: 4px solid var(--warning); }
+        
+        .index-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .index-symbol {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .index-name {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .price {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        .change.positive { color: var(--success); }
+        .change.negative { color: var(--danger); }
+        
+        .chart-section { margin-bottom: 1rem; }
+        .finviz-chart {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            border-radius: 8px;
+        }
+        
+        .chart-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .chart-fallback a {
+            color: var(--primary);
+            text-decoration: none;
+            margin-top: 0.5rem;
+        }
+        
+        .index-metrics {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .positive { color: var(--success); }
+        .negative { color: var(--danger); }
+        
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+        
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .footer code {
+            background: rgba(79, 70, 229, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a78bfa;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .glass-container { padding: 1rem; }
+            .indices-grid, .sector-breadth-grid { grid-template-columns: 1fr; }
+            .nyse-grid-compact { grid-template-columns: repeat(2, 1fr); }
+            .market-status { flex-direction: column; }
+            .stats-liquid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 480px) {
+            .stats-liquid, .nyse-grid-compact { grid-template-columns: 1fr; }
+        }
+        
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="glass-container">
+        <header class="liquid-header glass-card">
+            <h1>📊 Market Breadth Analysis COMPLETO - 93 Indicadores</h1>
+            <p>Análisis de 9 índices + 72 NYSE + 12 Sectores</p>
+            <div class="market-status">
+                <span>🟢 FUERTEMENTE ALCISTA • 100.0% Alcistas</span>
+                <div class="score-badge">Score: 90</div>
+                <div class="total-badge">Total: 93 indicadores</div>
+            </div>
+            <div class="update-info">
+                <small>📅 Última actualización: 2025-12-13 • URL estática: market_breadth.html</small>
+            </div>
+        </header>
+        
+        <section class="stats-liquid">
+            <div class="stat-glass">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Señales Alcistas</div>
+            </div>
+            <div class="stat-glass">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Índices</div>
+            </div>
+            <div class="stat-glass"><div class="stat-number">72</div><div class="stat-label">NYSE</div></div>
+            <div class="stat-glass"><div class="stat-number">12</div><div class="stat-label">Sectores</div></div>
+            <div class="stat-glass">
+                <div class="stat-number">74</div>
+                <div class="stat-label">RSI Promedio</div>
+            </div>
+            <div class="stat-glass">
+                <div class="stat-number">93</div>
+                <div class="stat-label">Total</div>
+            </div>
+        </section>
+        
+        
+        <section class="sector-breadth-section glass-card">
+            <h2 class="section-title">📈 Sector Breadth (12 sectores)</h2>
+            <div class="sector-breadth-grid">
+        
+            <div class="sector-card strong">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟢</span>
+                    <div class="sector-info">
+                        <div class="sector-code">FIN</div>
+                        <div class="sector-name">Financiero</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">88%</div>
+                    <div class="breadth-status">Fuerte</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill strong" style="width: 88%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card strong">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟢</span>
+                    <div class="sector-info">
+                        <div class="sector-code">CND</div>
+                        <div class="sector-name">Consumo Discrecional</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">84%</div>
+                    <div class="breadth-status">Fuerte</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill strong" style="width: 84%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card strong">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟢</span>
+                    <div class="sector-info">
+                        <div class="sector-code">MAT</div>
+                        <div class="sector-name">Materiales</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">81%</div>
+                    <div class="breadth-status">Fuerte</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill strong" style="width: 81%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card healthy">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟡</span>
+                    <div class="sector-info">
+                        <div class="sector-code">IND</div>
+                        <div class="sector-name">Industrial</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">78%</div>
+                    <div class="breadth-status">Saludable</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill healthy" style="width: 78%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card healthy">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟡</span>
+                    <div class="sector-info">
+                        <div class="sector-code">COM</div>
+                        <div class="sector-name">Comunicaciones</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">74%</div>
+                    <div class="breadth-status">Saludable</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill healthy" style="width: 74%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card healthy">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟡</span>
+                    <div class="sector-info">
+                        <div class="sector-code">TEC</div>
+                        <div class="sector-name">Tecnología</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">69%</div>
+                    <div class="breadth-status">Saludable</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill healthy" style="width: 69%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card healthy">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟡</span>
+                    <div class="sector-info">
+                        <div class="sector-code">TOTAL</div>
+                        <div class="sector-name">Mercado Total</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">64%</div>
+                    <div class="breadth-status">Saludable</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill healthy" style="width: 64%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card healthy">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟡</span>
+                    <div class="sector-info">
+                        <div class="sector-code">CNS</div>
+                        <div class="sector-name">Consumo Básico</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">61%</div>
+                    <div class="breadth-status">Saludable</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill healthy" style="width: 61%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card healthy">
+                <div class="sector-header">
+                    <span class="sector-emoji">🟡</span>
+                    <div class="sector-info">
+                        <div class="sector-code">REI</div>
+                        <div class="sector-name">Inmobiliario</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">61%</div>
+                    <div class="breadth-status">Saludable</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill healthy" style="width: 61%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card weak">
+                <div class="sector-header">
+                    <span class="sector-emoji">🔴</span>
+                    <div class="sector-info">
+                        <div class="sector-code">HLT</div>
+                        <div class="sector-name">Salud</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">50%</div>
+                    <div class="breadth-status">Débil</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill weak" style="width: 50%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card weak">
+                <div class="sector-header">
+                    <span class="sector-emoji">🔴</span>
+                    <div class="sector-info">
+                        <div class="sector-code">ENE</div>
+                        <div class="sector-name">Energía</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">45%</div>
+                    <div class="breadth-status">Débil</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill weak" style="width: 45%"></div>
+                </div>
+            </div>
+            
+            <div class="sector-card weak">
+                <div class="sector-header">
+                    <span class="sector-emoji">🔴</span>
+                    <div class="sector-info">
+                        <div class="sector-code">UTL</div>
+                        <div class="sector-name">Servicios Públicos</div>
+                    </div>
+                </div>
+                <div class="sector-value">
+                    <div class="breadth-percentage">10%</div>
+                    <div class="breadth-status">Débil</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill weak" style="width: 10%"></div>
+                </div>
+            </div>
+            
+            </div>
+        </section>
+        
+        
+        <section class="nyse-section-compact glass-card">
+            <h2 class="section-title">🏛️ NYSE Indicators (72 reales)</h2>
+            <div class="nyse-grid-compact">
+        
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">NYMO</span>
+                            <span class="nyse-category">McClellan</span>
+                        </div>
+                        <div class="nyse-value">16.86</div>
+                        <div class="nyse-change negative">-58.29%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">NYMOT</span>
+                            <span class="nyse-category">McClellan</span>
+                        </div>
+                        <div class="nyse-value">46.68</div>
+                        <div class="nyse-change negative">-58.22%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">NYSI</span>
+                            <span class="nyse-category">McClellan</span>
+                        </div>
+                        <div class="nyse-value">210.10</div>
+                        <div class="nyse-change positive">+8.71%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">SPXADP</span>
+                            <span class="nyse-category">Advance-Decline</span>
+                        </div>
+                        <div class="nyse-value">-12.00</div>
+                        <div class="nyse-change negative">-125.10%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">MIDADP</span>
+                            <span class="nyse-category">Advance-Decline</span>
+                        </div>
+                        <div class="nyse-value">-28.75</div>
+                        <div class="nyse-change negative">-164.25%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">SMLADP</span>
+                            <span class="nyse-category">Advance-Decline</span>
+                        </div>
+                        <div class="nyse-value">-32.67</div>
+                        <div class="nyse-change negative">-171.53%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">VIX</span>
+                            <span class="nyse-category">Sentiment</span>
+                        </div>
+                        <div class="nyse-value">15.74</div>
+                        <div class="nyse-change positive">+5.99%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">CPC</span>
+                            <span class="nyse-category">Sentiment</span>
+                        </div>
+                        <div class="nyse-value">0.91</div>
+                        <div class="nyse-change positive">+9.64%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">BPSPX</span>
+                            <span class="nyse-category">Bullish %</span>
+                        </div>
+                        <div class="nyse-value">59.80</div>
+                        <div class="nyse-change negative">-2.61%</div>
+                    </div>
+                    
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">BPNDX</span>
+                            <span class="nyse-category">Bullish %</span>
+                        </div>
+                        <div class="nyse-value">59.00</div>
+                        <div class="nyse-change negative">-3.28%</div>
+                    </div>
+                    
+            </div>
+        </section>
+        
+        
+        <main class="indices-analysis glass-card">
+            <h2 class="section-title">📊 Análisis por Índice</h2>
+            <div class="indices-grid">
+                
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">SPY</span>
+                        <span class="index-name">S&P 500 ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$681.76</span>
+                        <span class="change positive">+1.4%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d&s=l" alt="Gráfico SPY" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=SPY&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>73.2</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+10.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">QQQ</span>
+                        <span class="index-name">NASDAQ 100 ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$613.62</span>
+                        <span class="change positive">+0.9%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=QQQ&ty=c&ta=1&p=d&s=l" alt="Gráfico QQQ" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=QQQ&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>69.9</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+11.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">DIA</span>
+                        <span class="index-name">Dow Jones ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$485.4</span>
+                        <span class="change positive">+2.4%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=DIA&ty=c&ta=1&p=d&s=l" alt="Gráfico DIA" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=DIA&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>76.3</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+10.5%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">IWM</span>
+                        <span class="index-name">Russell 2000 ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$253.85</span>
+                        <span class="change positive">+7.2%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=IWM&ty=c&ta=1&p=d&s=l" alt="Gráfico IWM" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=IWM&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>75.8</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+14.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">VTI</span>
+                        <span class="index-name">Total Stock Market ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$335.99</span>
+                        <span class="change positive">+1.8%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=VTI&ty=c&ta=1&p=d&s=l" alt="Gráfico VTI" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=VTI&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>73.5</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+10.4%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">EUSA</span>
+                        <span class="index-name">iShares MSCI USA ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$104.69</span>
+                        <span class="change positive">+2.7%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=EUSA&ty=c&ta=1&p=d&s=l" alt="Gráfico EUSA" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=EUSA&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>74.6</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+6.6%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">ACWI</span>
+                        <span class="index-name">iShares MSCI ACWI ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$141.77</span>
+                        <span class="change positive">+1.2%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=ACWI&ty=c&ta=1&p=d&s=l" alt="Gráfico ACWI" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=ACWI&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>74.9</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+10.1%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">EFA</span>
+                        <span class="index-name">iShares MSCI EAFE ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$96.5</span>
+                        <span class="change positive">+1.0%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=EFA&ty=c&ta=1&p=d&s=l" alt="Gráfico EFA" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=EFA&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>78.9</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+8.7%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="index-card bullish">
+                <div class="index-header">
+                    <div class="index-info">
+                        <span class="index-symbol">EEM</span>
+                        <span class="index-name">iShares MSCI Emerging Markets ETF</span>
+                    </div>
+                    <div class="index-price">
+                        <span class="price">$54.24</span>
+                        <span class="change negative">-1.3%</span>
+                    </div>
+                </div>
+                
+                <div class="chart-section">
+                    <img src="https://finviz.com/chart.ashx?t=EEM&ty=c&ta=1&p=d&s=l" alt="Gráfico EEM" class="finviz-chart" loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="chart-fallback" style="display: none;">
+                        <span>📊 Gráfico no disponible</span>
+                        <a href="https://finviz.com/chart.ashx?t=EEM&ty=c&ta=1&p=d&s=l" target="_blank">Ver en Finviz →</a>
+                    </div>
+                </div>
+                
+                <div class="index-metrics">
+                    <div class="metric-row">
+                        <span>RSI:</span>
+                        <span>66.5</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>MA200:</span>
+                        <span class="positive">+11.0%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span>Señal:</span>
+                        <span>🟢 ALCISTA</span>
+                    </div>
+                </div>
+            </div>
+            
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>📊 Market Breadth Analysis COMPLETO - 93 Indicadores • 2025-12-13</p>
+            <p>🔗 URL Estática: <code>market_breadth.html</code> (sin fecha)</p>
+            <p><a href="https://tantancansado.github.io/stock_analyzer_a">🏠 Dashboard Principal</a></p>
+        </footer>
+    </div>
+    
+    <script>
+        console.log('📊 Market Breadth Loaded - URL Estática');
+        console.log('📊 Índices: 9');
+        console.log("🏛️ NYSE: 72");
+        console.log("📈 Sectores: 12");
+        console.log('🎯 TOTAL: 93');
+        console.log('🔗 Archivo: market_breadth.html');
+    </script>
+</body>
+</html>
