@@ -2584,7 +2584,7 @@ class InsiderTradingSystem:
             analyzer = MarketBreadthAnalyzer()
             
             print("🚀 Ejecutando análisis con TODOS los indicadores NYSE disponibles...")
-            analysis_result = analyzer.run_breadth_analysis(include_nyse=True, nyse_mode='all')
+            analysis_result = analyzer.run_breadth_analysis(include_nyse=True, nyse_mode='all',include_sector_breadth=True )
             
             if analysis_result:
                 nyse_count = len(analysis_result.get('nyse_data', {}))
