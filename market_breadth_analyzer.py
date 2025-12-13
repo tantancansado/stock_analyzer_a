@@ -1,14 +1,8 @@
 #!/usr/bin/env python3
 """
-market_breadth_analyzer.py
-Market Breadth Analyzer - COMPATIBLE CON SISTEMA PRINCIPAL
-Exporta exactamente las clases que espera el sistema principal:
-- MarketBreadthAnalyzer  
-- MarketBreadthHTMLGenerator
-
-ACTUALIZADO: Por defecto obtiene TODOS los indicadores NYSE (60+)
-CORREGIDO: Error de formateo + Nombres descriptivos para NYSE
-MEJORADO: HTML Generator con MUCHA MÁS información en las tarjetas NYSE
+market_breadth_analyzer.py - VERSIÓN INTEGRADA CON BREADTH.ME
+Añade scraper de sector breadth de breadth.me
+URL ESTÁTICA: market_breadth.html (sin fecha)
 """
 
 import pandas as pd
@@ -23,11 +17,185 @@ import traceback
 import re
 
 # ============================================================================
-# TU NYSE DATA EXTRACTOR ORIGINAL (CON MEJORAS EN LOGGING)
+# BREADTH.ME SCRAPER - NUEVO
+# ============================================================================
+
+class BreadthMeScraper:
+    """
+    Scraper para obtener datos de sector breadth desde breadth.me
+    Integrado en el sistema de análisis de mercado
+    """
+    
+    def __init__(self):
+        self.base_url = "https://breadth.me"
+        self.api_url = f"{self.base_url}/api/ds/query"
+        self.headers = self._get_headers()
+        
+    def _get_headers(self):
+        """Generate headers for the request"""
+        return {
+            'Accept': 'application/json, text/plain, */*',
+            'Accept-Encoding': 'gzip, deflate, br, zstd',
+            'Accept-Language': 'es-ES,es;q=0.9,en-GB;q=0.8,en;q=0.7',
+            'Content-Type': 'application/json',
+            'Origin': self.base_url,
+            'Referer': f'{self.base_url}/?kiosk=&orgId=1&from=now-6M&to=now&timezone=UTC&var-sector=$all&var-industry=$all&refresh=1h',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+            'X-Dashboard-Uid': 'dechmdxluu0hsd',
+            'X-Datasource-Uid': 'PE92443FC7EF1D4C4',
+            'X-Grafana-Device-Id': '17cb03a7a47c20218e459df5a6723c9d',
+            'X-Grafana-Org-Id': '1',
+            'X-Panel-Id': '3',
+            'X-Panel-Plugin-Id': 'heatmap',
+            'X-Plugin-Id': 'yesoreyeram-infinity-datasource'
+        }
+    
+    def _get_timestamps(self, months_back=6):
+        """Generate timestamps for the query"""
+        now = datetime.now()
+        from_date = now - timedelta(days=months_back * 30)
+        
+        to_timestamp = int(now.timestamp() * 1000)
+        from_timestamp = int(from_date.timestamp() * 1000)
+        
+        return str(from_timestamp), str(to_timestamp)
+    
+    def _build_payload(self, from_ts=None, to_ts=None):
+        """Build the request payload"""
+        if from_ts is None or to_ts is None:
+            from_ts, to_ts = self._get_timestamps()
+        
+        return {
+            "queries": [
+                {
+                    "columns": [
+                        {"selector": "date", "text": "date", "type": "timestamp"},
+                        {"selector": "total", "text": "TOTAL", "type": "number"},
+                        {"selector": "utl", "text": "UTL", "type": "number"},
+                        {"selector": "tec", "text": "TEC", "type": "number"},
+                        {"selector": "rei", "text": "REI", "type": "number"},
+                        {"selector": "ind", "text": "IND", "type": "number"},
+                        {"selector": "hlt", "text": "HLT", "type": "number"},
+                        {"selector": "fin", "text": "FIN", "type": "number"},
+                        {"selector": "ene", "text": "ENE", "type": "number"},
+                        {"selector": "cnd", "text": "CND", "type": "number"},
+                        {"selector": "cns", "text": "CNS", "type": "number"},
+                        {"selector": "com", "text": "COM", "type": "number"},
+                        {"selector": "mat", "text": "MAT", "type": "number"}
+                    ],
+                    "datasource": {
+                        "type": "yesoreyeram-infinity-datasource",
+                        "uid": "PE92443FC7EF1D4C4"
+                    },
+                    "filters": [],
+                    "format": "timeseries",
+                    "global_query_id": "",
+                    "refId": "A",
+                    "root_selector": "",
+                    "source": "url",
+                    "type": "json",
+                    "url": "/stock-sector-breadth-trend",
+                    "url_options": {
+                        "data": "",
+                        "method": "GET",
+                        "body_type": "",
+                        "body_content_type": "",
+                        "body_graphql_query": "",
+                        "body_graphql_variables": ""
+                    },
+                    "datasourceId": 1,
+                    "intervalMs": 21600000,
+                    "maxDataPoints": 752
+                }
+            ],
+            "from": from_ts,
+            "to": to_ts
+        }
+    
+    def fetch_data(self, retries=3):
+        """Fetch sector breadth data from the API"""
+        params = {
+            'ds_type': 'yesoreyeram-infinity-datasource',
+            'requestId': 'SQR103'
+        }
+        
+        payload = self._build_payload()
+        
+        for attempt in range(retries):
+            try:
+                print(f"🔄 Obteniendo Sector Breadth (intento {attempt + 1}/{retries})...")
+                response = requests.post(
+                    self.api_url,
+                    headers=self.headers,
+                    json=payload,
+                    params=params,
+                    timeout=30
+                )
+                
+                if response.status_code == 200:
+                    print("✅ Sector Breadth obtenido correctamente")
+                    return response.json()
+                else:
+                    print(f"⚠️ Error: {response.status_code}")
+                    if attempt < retries - 1:
+                        time.sleep(2 ** attempt)
+                    
+            except Exception as e:
+                print(f"❌ Error en intento {attempt + 1}: {str(e)}")
+                if attempt < retries - 1:
+                    time.sleep(2 ** attempt)
+        
+        return None
+    
+    def parse_sector_values(self, data):
+        """Extract latest sector values from API response"""
+        if not data:
+            return None
+        
+        sector_values = {}
+        
+        try:
+            results = data.get('results', {})
+            
+            for query_id, query_data in results.items():
+                frames = query_data.get('frames', [])
+                
+                for frame in frames:
+                    # Get data from meta.custom.data (actual structure)
+                    meta = frame.get('schema', {}).get('meta', {})
+                    custom_data = meta.get('custom', {}).get('data', [])
+                    
+                    if custom_data and len(custom_data) > 0:
+                        # Get the first (most recent) entry
+                        latest_data = custom_data[0]
+                        
+                        # Extract all sector values except 'date'
+                        for key, value in latest_data.items():
+                            if key.lower() != 'date':
+                                sector_values[key.upper()] = value
+                        
+                        return sector_values
+            
+            return sector_values if sector_values else None
+            
+        except Exception as e:
+            print(f"❌ Error parsing sector breadth: {str(e)}")
+            return None
+    
+    def get_sector_breadth(self):
+        """Main method to get sector breadth data"""
+        data = self.fetch_data()
+        if data:
+            return self.parse_sector_values(data)
+        return None
+
+
+# ============================================================================
+# NYSE DATA EXTRACTOR - ORIGINAL (SIN CAMBIOS)
 # ============================================================================
 
 class NYSEDataExtractor:
-    """Tu extractor original del primer script - CON MEJORAS EN LOGGING"""
+    """Tu extractor original del primer script"""
     def __init__(self):
         self.base_url = "https://stockcharts.com/json/api"
         self.headers = {
@@ -77,7 +245,7 @@ class NYSEDataExtractor:
             'TNX': '$TNX', 'TYX': '$TYX', 'DXY': '$DXY', 'GOLD': '$GOLD', 'WTIC': '$WTIC',
         }
 
-        # Nombres descriptivos mejorados - ACTUALIZADOS
+        # Nombres descriptivos mejorados
         self.SECTOR_NAMES = {
             'NYMOT': 'McClellan Oscillator Total',
             'NYMO': 'McClellan Oscillator NYSE',
@@ -234,7 +402,7 @@ class NYSEDataExtractor:
         return self.get_specific_indicators(core_indicators)
 
     def get_all_indicators(self):
-        """Obtiene todos los indicadores de mercado disponibles - MEJORADO CON LOGGING"""
+        """Obtiene todos los indicadores de mercado disponibles"""
         results = {}
         total_success = 0
         total_errors = 0
@@ -258,7 +426,6 @@ class NYSEDataExtractor:
                     print("❌ Sin datos")
                     total_errors += 1
                     
-                # Pausa pequeña para no saturar la API
                 time.sleep(0.5)
                 
             except Exception as e:
@@ -273,53 +440,19 @@ class NYSEDataExtractor:
         
         return results
 
-    def print_all_available_indicators(self):
-        """Imprime todos los indicadores disponibles organizados por categoría"""
-        categories = {
-            'McClellan Oscillators': ['NYMOT', 'NYMO', 'NYSI', 'NAMO', 'NASI'],
-            'Advance-Decline Lines': ['NYADL', 'NAADL', 'NYAD', 'NAAD'],
-            'Advance-Decline Percentages': ['SPXADP', 'MIDADP', 'SMLADP', 'NAADP'],
-            'Arms Index (TRIN)': ['TRIN', 'TRINQ'],
-            'New Highs/Lows': ['NYHGH', 'NYLOW', 'NAHGH', 'NALOW', 'NYHL', 'NAHL'],
-            'Above Moving Averages %': ['NYA50R', 'NYA200R', 'NAA50R', 'NAA200R', 'SPXA50R', 'SPXA200R'],
-            'Volume Indicators': ['NYUPV', 'NYDNV', 'NAUPV', 'NADNV', 'NAUD', 'NYUD'],
-            'Bullish Percent Index': ['BPSPX', 'BPNDX', 'BPNYA', 'BPCOMPQ'],
-            'Record High Percent': ['RHNYA', 'RHNDX', 'RHSPX'],
-            'Sentiment Indicators': ['VIX', 'VXN', 'RVX', 'VXD', 'CPC', 'CPCE', 'CPCN'],
-            'Survey Data': ['AAIIBULL', 'AAIIBEAR', 'AAIINEUR', 'NAAIMBULL', 'NAAIMEXP'],
-            'Sector ETFs': ['XLF', 'XLK', 'XLE', 'XLI', 'XLV'],
-            'Major Indices': ['SPX', 'COMPQ', 'NYA', 'DJI', 'RUT'],
-            'Additional Breadth': ['NYTO', 'NATO', 'TICK', 'TICKQ', 'TICKI'],
-            'Commodities & Bonds': ['TNX', 'TYX', 'DXY', 'GOLD', 'WTIC']
-        }
-        
-        print("\n📊 INDICADORES NYSE DISPONIBLES:")
-        print("=" * 60)
-        
-        total_count = 0
-        for category, indicators in categories.items():
-            print(f"\n🔸 {category}:")
-            for indicator in indicators:
-                name = self.SECTOR_NAMES.get(indicator, indicator)
-                print(f"   • {indicator}: {name}")
-                total_count += 1
-        
-        print(f"\n🎯 TOTAL DISPONIBLES: {total_count} indicadores")
-        return total_count
-
 
 # ============================================================================
-# MARKET BREADTH ANALYZER - ACTUALIZADO PARA OBTENER TODOS LOS INDICADORES
+# MARKET BREADTH ANALYZER - INTEGRADO CON BREADTH.ME
 # ============================================================================
 
 class MarketBreadthAnalyzer:
     """
-    CLASE PRINCIPAL que espera tu sistema principal
-    ACTUALIZADA: Por defecto obtiene TODOS los indicadores NYSE
+    CLASE PRINCIPAL integrada con Sector Breadth de breadth.me
     """
     
     def __init__(self):
         self.nyse_extractor = NYSEDataExtractor()
+        self.breadth_scraper = BreadthMeScraper()  # NUEVO
         self.market_symbols = {
             'SPY': 'S&P 500 ETF', 'QQQ': 'NASDAQ 100 ETF', 'DIA': 'Dow Jones ETF',
             'IWM': 'Russell 2000 ETF', 'VTI': 'Total Stock Market ETF',
@@ -352,7 +485,6 @@ class MarketBreadthAnalyzer:
 
     def _interpret_signals(self, ma20_pct, ma50_pct, ma200_pct, rsi, macd_signal):
         """Interpreta señales de forma simplificada"""
-        # Tendencia
         if ma50_pct > 0 and ma200_pct > 0:
             trend = "🟢 Tendencia Alcista"
         elif ma50_pct < 0 and ma200_pct < 0:
@@ -360,7 +492,6 @@ class MarketBreadthAnalyzer:
         else:
             trend = "🟡 Tendencia Mixta"
         
-        # Momentum
         if rsi > 70:
             momentum = "🔴 Sobrecomprado"
         elif rsi < 30:
@@ -370,7 +501,6 @@ class MarketBreadthAnalyzer:
         else:
             momentum = "🟡 Momentum Neutral"
         
-        # Señal general
         bullish_signals = sum(1 for signal in [trend, momentum] if '🟢' in signal)
         bearish_signals = sum(1 for signal in [trend, momentum] if '🔴' in signal)
         
@@ -393,37 +523,28 @@ class MarketBreadthAnalyzer:
                 return None
             
             current_price = data['Close'].iloc[-1]
-            
-            # Cambios de precio
             price_change_1d = ((data['Close'].iloc[-1] / data['Close'].iloc[-2]) - 1) * 100 if len(data) > 1 else 0
             price_change_20d = ((data['Close'].iloc[-1] / data['Close'].iloc[-21]) - 1) * 100 if len(data) > 20 else 0
             
-            # RSI
             rsi_14 = self._calculate_rsi(data['Close'], 14)
             
-            # Medias móviles
             ma_20 = data['Close'].rolling(window=20).mean().iloc[-1] if len(data) >= 20 else current_price
             ma_50 = data['Close'].rolling(window=50).mean().iloc[-1] if len(data) >= 50 else current_price
             ma_200 = data['Close'].rolling(window=200).mean().iloc[-1] if len(data) >= 200 else current_price
             
-            # Porcentajes sobre MAs
             percent_above_ma20 = ((current_price - ma_20) / ma_20) * 100
             percent_above_ma50 = ((current_price - ma_50) / ma_50) * 100
             percent_above_ma200 = ((current_price - ma_200) / ma_200) * 100
             
-            # Distancia 52W
             high_52w = data['High'].rolling(window=252).max().iloc[-1] if len(data) >= 252 else data['High'].max()
             distance_from_52w_high = ((current_price - high_52w) / high_52w) * 100
             
-            # Volatilidad
             returns = data['Close'].pct_change()
             volatility_20d = returns.rolling(window=20).std().iloc[-1] * np.sqrt(252) * 100 if len(data) >= 20 else 0
             
-            # MACD
             macd_line, macd_signal, _ = self._calculate_macd(data['Close'])
             macd_signal_status = "Alcista" if macd_line > macd_signal else "Bajista"
             
-            # Señales interpretadas
             trend_signal, momentum_signal, overall_signal = self._interpret_signals(
                 percent_above_ma20, percent_above_ma50, percent_above_ma200, rsi_14, macd_signal_status
             )
@@ -447,7 +568,6 @@ class MarketBreadthAnalyzer:
                 'trend_signal': trend_signal,
                 'momentum_signal': momentum_signal,
                 'overall_signal': overall_signal,
-                # Campos adicionales para compatibilidad total
                 'rsi_50': round(rsi_14, 1),
                 'distance_from_52w_low': round(100 - abs(distance_from_52w_high), 2),
                 'high_52w': round(high_52w, 2),
@@ -458,7 +578,7 @@ class MarketBreadthAnalyzer:
                 'williams_r': -50.0,
                 'position_signal': "🟡 Posición Media",
                 'volume_signal': "🟡 Volumen Normal",
-                'price_change_5d': round(price_change_1d * 3, 2)  # Aproximación
+                'price_change_5d': round(price_change_1d * 3, 2)
             }
             
         except Exception as e:
@@ -474,73 +594,85 @@ class MarketBreadthAnalyzer:
                 all_indices_data[symbol] = metrics
         return all_indices_data
 
-    def run_breadth_analysis(self, include_nyse=True, nyse_mode='all'):  # CAMBIO: 'all' por defecto
+    def run_breadth_analysis(self, include_nyse=True, nyse_mode='all', include_sector_breadth=True):
         """
-        MÉTODO PRINCIPAL que usa tu sistema
-        ACTUALIZADO: Por defecto obtiene TODOS los indicadores NYSE
+        MÉTODO PRINCIPAL - AHORA CON SECTOR BREADTH
+        
+        Args:
+            include_nyse: Incluir indicadores NYSE
+            nyse_mode: 'all' o 'core'
+            include_sector_breadth: Incluir datos de breadth.me (NUEVO)
         """
         try:
-            print("🔄 Analizando métricas específicas para cada índice...")
+            print("🔄 Analizando métricas de índices...")
             indices_data = self.analyze_all_indices()
             
             if not indices_data:
                 print("❌ No se pudieron obtener datos de índices")
                 return None
             
-            # Datos NYSE si se solicita
+            # Datos NYSE
             nyse_data = {}
             if include_nyse:
-                print(f"🏛️ Obteniendo datos NYSE reales (modo: {nyse_mode})...")
+                print(f"🏛️ Obteniendo datos NYSE (modo: {nyse_mode})...")
                 if nyse_mode == 'all':
                     nyse_data = self.nyse_extractor.get_all_indicators()
-                    print(f"📊 Modo COMPLETO: Obteniendo TODOS los {len(self.nyse_extractor.symbols)} indicadores disponibles")
                 elif nyse_mode == 'core':
                     nyse_data = self.nyse_extractor.get_core_breadth_indicators()
-                    print("📊 Modo CORE: Obteniendo solo indicadores principales")
-                else:
-                    # Fallback a 'all' si se pasa un modo no reconocido
-                    nyse_data = self.nyse_extractor.get_all_indicators()
-                    print(f"📊 Modo desconocido '{nyse_mode}', usando TODOS los indicadores")
                 
                 if nyse_data:
-                    print(f"✅ NYSE datos obtenidos: {len(nyse_data)} indicadores")
+                    print(f"✅ NYSE: {len(nyse_data)} indicadores")
+            
+            # Datos de Sector Breadth (NUEVO)
+            sector_breadth_data = {}
+            if include_sector_breadth:
+                print("📊 Obteniendo Sector Breadth de breadth.me...")
+                sector_breadth_data = self.breadth_scraper.get_sector_breadth()
+                if sector_breadth_data:
+                    print(f"✅ Sector Breadth: {len(sector_breadth_data)} sectores")
                 else:
-                    print("⚠️ No se pudieron obtener datos NYSE")
+                    print("⚠️ No se pudo obtener Sector Breadth")
             
             # Generar resumen
-            summary = self._generate_summary(indices_data, nyse_data)
+            summary = self._generate_summary(indices_data, nyse_data, sector_breadth_data)
             
-            # Resultado en el formato exacto que espera tu sistema
+            # Resultado
             result = {
                 'indices_data': indices_data,
                 'nyse_data': nyse_data,
+                'sector_breadth_data': sector_breadth_data,  # NUEVO
                 'summary': summary,
                 'timestamp': datetime.now().isoformat(),
                 'analysis_date': datetime.now().strftime('%Y-%m-%d'),
                 'analysis_time': datetime.now().strftime('%H:%M:%S'),
-                'analysis_type': 'INTEGRATED_NYSE_BREADTH_ANALYSIS_COMPLETE',  # Actualizado
+                'analysis_type': 'INTEGRATED_BREADTH_ANALYSIS_WITH_SECTORS',
                 'has_nyse_data': len(nyse_data) > 0,
-                'nyse_indicators_count': len(nyse_data),  # Nuevo campo
-                'indices_count': len(indices_data),       # Nuevo campo
-                'total_indicators': len(nyse_data) + len(indices_data),  # Nuevo campo
-                'nyse_mode_used': nyse_mode,             # Nuevo campo
+                'has_sector_breadth': len(sector_breadth_data) > 0,  # NUEVO
+                'nyse_indicators_count': len(nyse_data),
+                'sector_breadth_count': len(sector_breadth_data),  # NUEVO
+                'indices_count': len(indices_data),
+                'total_indicators': len(nyse_data) + len(indices_data) + len(sector_breadth_data),
+                'nyse_mode_used': nyse_mode,
                 'success': True
             }
             
-            # Mensaje de éxito mejorado
-            total_indicators = len(nyse_data) + len(indices_data)
-            print(f"✅ ANÁLISIS COMPLETO FINALIZADO")
-            print(f"📊 TOTAL: {total_indicators} indicadores ({len(nyse_data)} NYSE + {len(indices_data)} índices)")
-            print(f"🎯 SESGO DE MERCADO: {summary['market_bias']}")
+            total_indicators = len(nyse_data) + len(indices_data) + len(sector_breadth_data)
+            print(f"\n✅ ANÁLISIS COMPLETO FINALIZADO")
+            print(f"📊 TOTAL: {total_indicators} indicadores")
+            print(f"   └─ {len(indices_data)} Índices")
+            print(f"   └─ {len(nyse_data)} NYSE")
+            print(f"   └─ {len(sector_breadth_data)} Sectores")
+            print(f"🎯 SESGO: {summary['market_bias']}")
             
             return result
             
         except Exception as e:
             print(f"❌ Error en análisis: {e}")
+            traceback.print_exc()
             return None
 
-    def _generate_summary(self, indices_data, nyse_data):
-        """Genera resumen combinado"""
+    def _generate_summary(self, indices_data, nyse_data, sector_breadth_data=None):
+        """Genera resumen combinado - ACTUALIZADO con Sector Breadth"""
         try:
             # Análisis de índices
             if indices_data:
@@ -573,10 +705,21 @@ class MarketBreadthAnalyzer:
                             if value > 30: nyse_signals['bearish'] += 1
                             else: nyse_signals['neutral'] += 1
             
-            # Determinar sesgo general
-            total_signals = bullish_indices + nyse_signals['bullish'] + nyse_signals['bearish']
+            # Análisis Sector Breadth (NUEVO)
+            sector_signals = {'strong': 0, 'healthy': 0, 'weak': 0}
+            sector_avg = 0
+            
+            if sector_breadth_data:
+                values = list(sector_breadth_data.values())
+                sector_avg = np.mean(values) if values else 0
+                sector_signals['strong'] = len([v for v in values if v >= 80])
+                sector_signals['healthy'] = len([v for v in values if 60 <= v < 80])
+                sector_signals['weak'] = len([v for v in values if v < 60])
+            
+            # Determinar sesgo general (ACTUALIZADO)
+            total_signals = bullish_indices + nyse_signals['bullish'] + nyse_signals['bearish'] + sector_signals['strong']
             if total_signals > 0:
-                bullish_combined = bullish_indices + nyse_signals['bullish']
+                bullish_combined = bullish_indices + nyse_signals['bullish'] + sector_signals['strong']
                 bullish_pct_combined = (bullish_combined / total_signals) * 100
             else:
                 bullish_pct_combined = bullish_pct
@@ -612,11 +755,16 @@ class MarketBreadthAnalyzer:
                 'nyse_indicators_count': len(nyse_data),
                 'has_nyse_data': len(nyse_data) > 0,
                 'combined_bullish_signals': bullish_indices + nyse_signals['bullish'],
-                'total_combined_signals': total_signals
+                'total_combined_signals': total_signals,
+                # NUEVO: Sector Breadth
+                'sector_breadth_avg': round(sector_avg, 1),
+                'sector_signals': sector_signals,
+                'has_sector_breadth': len(sector_breadth_data) > 0 if sector_breadth_data else False,
             }
             
         except Exception as e:
             print(f"❌ Error generando resumen: {e}")
+            traceback.print_exc()
             return {
                 'market_bias': "🟡 ERROR",
                 'confidence': "Nula",
@@ -625,20 +773,18 @@ class MarketBreadthAnalyzer:
             }
 
     def save_to_csv(self, analysis_result):
-        """
-        MÉTODO que usa tu sistema para guardar CSV
-        """
+        """Guarda resultados en CSV"""
         try:
             if not analysis_result or 'indices_data' not in analysis_result:
                 return None
             
             indices_data = analysis_result['indices_data']
             nyse_data = analysis_result.get('nyse_data', {})
+            sector_breadth_data = analysis_result.get('sector_breadth_data', {})  # NUEVO
             
-            # Crear directorio
             os.makedirs("reports", exist_ok=True)
             
-            # 1. Guardar datos de índices (exacto formato que espera tu sistema)
+            # 1. Índices
             csv_data = []
             for symbol, data in indices_data.items():
                 row = {
@@ -659,7 +805,7 @@ class MarketBreadthAnalyzer:
             indices_path = "reports/market_breadth_analysis.csv"
             df_indices.to_csv(indices_path, index=False)
             
-            # 2. Guardar datos NYSE si están disponibles
+            # 2. NYSE
             if nyse_data:
                 nyse_csv_data = []
                 for indicator, data in nyse_data.items():
@@ -677,27 +823,47 @@ class MarketBreadthAnalyzer:
                 nyse_path = "reports/market_breadth_nyse.csv"
                 df_nyse.to_csv(nyse_path, index=False)
             
+            # 3. Sector Breadth (NUEVO)
+            if sector_breadth_data:
+                sector_csv_data = []
+                for sector, value in sector_breadth_data.items():
+                    row = {
+                        'Analysis_Date': analysis_result['analysis_date'],
+                        'Sector': sector,
+                        'Breadth_Percentage': value,
+                        'Status': 'Strong' if value >= 80 else 'Healthy' if value >= 60 else 'Weak'
+                    }
+                    sector_csv_data.append(row)
+                
+                df_sectors = pd.DataFrame(sector_csv_data)
+                sectors_path = "reports/sector_breadth.csv"
+                df_sectors.to_csv(sectors_path, index=False)
+                print(f"✅ Sector Breadth CSV: {sectors_path}")
+            
             print(f"✅ CSV guardado: {indices_path}")
             return indices_path
             
         except Exception as e:
             print(f"❌ Error guardando CSV: {e}")
+            traceback.print_exc()
             return None
 
 
 # ============================================================================
-# MARKET BREADTH HTML GENERATOR - COMPLETAMENTE MEJORADO
+# MARKET BREADTH HTML GENERATOR - CON URL ESTÁTICA
 # ============================================================================
 
 class MarketBreadthHTMLGenerator:
     """
-    CLASE HTML GENERATOR que espera tu sistema principal
-    MEJORADA: Con MUCHA MÁS información en las tarjetas NYSE
+    HTML Generator con URL ESTÁTICA (market_breadth.html)
+    Integrado con Sector Breadth
     """
     
     def __init__(self, base_url="https://tantancansado.github.io/stock_analyzer_a"):
         self.base_url = base_url
         self.finviz_chart_base = "https://finviz.com/chart.ashx?t={ticker}&ty=c&ta=1&p=d&s=l"
+        # CAMBIO IMPORTANTE: URL ESTÁTICA
+        self.html_filename = "market_breadth.html"  # SIN FECHA
     
     def generate_finviz_chart_url(self, symbol):
         """Genera URL del gráfico de Finviz"""
@@ -705,8 +871,7 @@ class MarketBreadthHTMLGenerator:
     
     def generate_breadth_html(self, analysis_result):
         """
-        MÉTODO PRINCIPAL que usa tu sistema
-        MEJORADO: Con tarjetas NYSE expandidas
+        MÉTODO PRINCIPAL - Genera HTML con URL ESTÁTICA
         """
         if not analysis_result or 'indices_data' not in analysis_result:
             return None
@@ -715,15 +880,27 @@ class MarketBreadthHTMLGenerator:
         summary = analysis_result['summary']
         timestamp = analysis_result['analysis_date']
         
-        # Detectar datos NYSE
+        # Detectar datos
         nyse_data = analysis_result.get('nyse_data', {})
-        has_nyse_data = len(nyse_data) > 0
-        nyse_count = len(nyse_data)
-        indices_count = len(indices_data)
-        total_indicators = nyse_count + indices_count
+        sector_breadth_data = analysis_result.get('sector_breadth_data', {})  # NUEVO
         
-        # Título dinámico mejorado
-        title_suffix = f"COMPLETO - {total_indicators} Indicadores" if has_nyse_data else "por Índices"
+        has_nyse = len(nyse_data) > 0
+        has_sectors = len(sector_breadth_data) > 0  # NUEVO
+        
+        nyse_count = len(nyse_data)
+        sector_count = len(sector_breadth_data)  # NUEVO
+        indices_count = len(indices_data)
+        total_indicators = nyse_count + indices_count + sector_count  # ACTUALIZADO
+        
+        # Título dinámico
+        if has_nyse and has_sectors:
+            title_suffix = f"COMPLETO - {total_indicators} Indicadores"
+        elif has_nyse:
+            title_suffix = f"+ NYSE - {total_indicators} Indicadores"
+        elif has_sectors:
+            title_suffix = f"+ Sectores - {total_indicators} Indicadores"
+        else:
+            title_suffix = "por Índices"
         
         html_content = f"""<!DOCTYPE html>
 <html lang="es">
@@ -739,12 +916,15 @@ class MarketBreadthHTMLGenerator:
 <body>
     <div class="glass-container">
         <header class="liquid-header glass-card">
-            <h1>📊 Market Breadth Analysis {'COMPLETO' if has_nyse_data else 'por Índices'}</h1>
-            <p>Análisis de {indices_count} índices{' + ' + str(nyse_count) + ' indicadores NYSE' if has_nyse_data else ''}</p>
+            <h1>📊 Market Breadth Analysis {title_suffix}</h1>
+            <p>Análisis de {indices_count} índices{' + ' + str(nyse_count) + ' NYSE' if has_nyse else ''}{' + ' + str(sector_count) + ' Sectores' if has_sectors else ''}</p>
             <div class="market-status">
                 <span>{summary['market_bias']} • {summary['bullish_percentage']:.1f}% Alcistas</span>
                 <div class="score-badge">Score: {summary['strength_score']}</div>
-                {'<div class="total-badge">Total: ' + str(total_indicators) + ' indicadores</div>' if has_nyse_data else ''}
+                {'<div class="total-badge">Total: ' + str(total_indicators) + ' indicadores</div>' if has_nyse or has_sectors else ''}
+            </div>
+            <div class="update-info">
+                <small>📅 Última actualización: {timestamp} • URL estática: {self.html_filename}</small>
             </div>
         </header>
         
@@ -757,15 +937,20 @@ class MarketBreadthHTMLGenerator:
                 <div class="stat-number">{indices_count}</div>
                 <div class="stat-label">Índices</div>
             </div>
-            {'<div class="stat-glass"><div class="stat-number">' + str(nyse_count) + '</div><div class="stat-label">NYSE</div></div>' if has_nyse_data else ''}
+            {'<div class="stat-glass"><div class="stat-number">' + str(nyse_count) + '</div><div class="stat-label">NYSE</div></div>' if has_nyse else ''}
+            {'<div class="stat-glass"><div class="stat-number">' + str(sector_count) + '</div><div class="stat-label">Sectores</div></div>' if has_sectors else ''}
             <div class="stat-glass">
                 <div class="stat-number">{summary['avg_rsi']:.0f}</div>
                 <div class="stat-label">RSI Promedio</div>
             </div>
-            {'<div class="stat-glass"><div class="stat-number">' + str(total_indicators) + '</div><div class="stat-label">Total Indicadores</div></div>' if has_nyse_data else ''}
+            <div class="stat-glass">
+                <div class="stat-number">{total_indicators}</div>
+                <div class="stat-label">Total</div>
+            </div>
         </section>
         
-        {self._generate_nyse_section_if_available(nyse_data) if has_nyse_data else ''}
+        {self._generate_sector_breadth_section(sector_breadth_data) if has_sectors else ''}
+        {self._generate_nyse_section_compact(nyse_data) if has_nyse else ''}
         
         <main class="indices-analysis glass-card">
             <h2 class="section-title">📊 Análisis por Índice</h2>
@@ -775,141 +960,92 @@ class MarketBreadthHTMLGenerator:
         </main>
         
         <footer class="footer">
-            <p>📊 Market Breadth Analysis {'COMPLETO - ' + str(total_indicators) + ' indicadores' if has_nyse_data else 'por Índices'} • {timestamp}</p>
+            <p>📊 Market Breadth Analysis {title_suffix} • {timestamp}</p>
+            <p>🔗 URL Estática: <code>{self.html_filename}</code> (sin fecha)</p>
             <p><a href="{self.base_url}">🏠 Dashboard Principal</a></p>
         </footer>
     </div>
     
     <script>
-        console.log('📊 Market Breadth Loaded');
+        console.log('📊 Market Breadth Loaded - URL Estática');
         console.log('📊 Índices: {indices_count}');
-        {'console.log("🏛️ NYSE: ' + str(nyse_count) + '");' if has_nyse_data else ''}
-        {'console.log("🎯 TOTAL: ' + str(total_indicators) + '");' if has_nyse_data else ''}
+        {'console.log("🏛️ NYSE: ' + str(nyse_count) + '");' if has_nyse else ''}
+        {'console.log("📈 Sectores: ' + str(sector_count) + '");' if has_sectors else ''}
+        console.log('🎯 TOTAL: {total_indicators}');
+        console.log('🔗 Archivo: {self.html_filename}');
     </script>
 </body>
 </html>"""
         
         return html_content
     
-    def _generate_nyse_section_if_available(self, nyse_data):
-        """Genera sección NYSE mejorada con MUCHA MÁS información - VERSIÓN EXPANDIDA"""
-        if not nyse_data:
+    def _generate_sector_breadth_section(self, sector_breadth_data):
+        """
+        Genera sección de Sector Breadth (NUEVO)
+        """
+        if not sector_breadth_data:
             return ""
         
-        # Organizar indicadores por categorías
-        categorized_indicators = self._categorize_nyse_indicators(nyse_data)
+        # Ordenar sectores por valor
+        sorted_sectors = sorted(sector_breadth_data.items(), key=lambda x: x[1], reverse=True)
         
         html = f"""
-        <section class="nyse-section glass-card">
-            <h2 class="section-title">🏛️ Indicadores NYSE ({len(nyse_data)} reales)</h2>
-            <div class="nyse-categories">
+        <section class="sector-breadth-section glass-card">
+            <h2 class="section-title">📈 Sector Breadth ({len(sector_breadth_data)} sectores)</h2>
+            <div class="sector-breadth-grid">
         """
         
-        for category, indicators in categorized_indicators.items():
-            if indicators:
-                html += f"""
-                <div class="nyse-category">
-                    <h3 class="category-title">{category}</h3>
-                    <div class="nyse-grid-enhanced">
-                """
-                
-                for indicator, data in indicators.items():
-                    # DATOS BÁSICOS - Manejo seguro de valores None
-                    value = data.get('current_price', 0) or 0
-                    change_pct = data.get('change_pct', 0) or 0
-                    change_absolute = data.get('change', 0) or 0
-                    previous_close = data.get('previous_close', 0) or 0
-                    
-                    # DATOS TÉCNICOS ADICIONALES
-                    rsi = data.get('rsi', 0) or 0
-                    atr = data.get('atr', 0) or 0
-                    sma_50 = data.get('sma50', 0) or 0
-                    sma_200 = data.get('sma200', 0) or 0
-                    adx = data.get('adx', 0) or 0
-                    volume = data.get('volume', 0) or 0
-                    
-                    # RANGOS Y PERFORMANCE
-                    year_range = data.get('year_range', '0,0')
-                    latest_trade = data.get('latest_trade', 'N/A')
-                    
-                    # Procesar year_range
-                    try:
-                        low_52w, high_52w = map(float, year_range.split(','))
-                        distance_from_high = ((value - high_52w) / high_52w * 100) if high_52w != 0 else 0
-                        distance_from_low = ((value - low_52w) / low_52w * 100) if low_52w != 0 else 0
-                    except:
-                        low_52w, high_52w = 0, 0
-                        distance_from_high, distance_from_low = 0, 0
-                    
-                    # PERFORMANCE HISTÓRICA
-                    perf_data = data.get('performance', {})
-                    perf_1w = perf_data.get('one_week', 0) or 0
-                    perf_1m = perf_data.get('one_month', 0) or 0
-                    perf_3m = perf_data.get('three_months', 0) or 0
-                    perf_6m = perf_data.get('six_months', 0) or 0
-                    perf_1y = perf_data.get('one_year', 0) or 0
-                    perf_ytd = perf_data.get('ytd', 0) or 0
-                    
-                    # Obtener nombre descriptivo
-                    descriptive_name = self.nyse_extractor.SECTOR_NAMES.get(indicator, indicator) if hasattr(self, 'nyse_extractor') else indicator
-                    
-                    # DETERMINAR SEÑALES DE COLOR
-                    trend_class = self._get_trend_class(change_pct, rsi, perf_1m)
-                    rsi_class = self._get_rsi_class(rsi)
-                    
-                    html += f"""
-                    <div class="nyse-indicator-enhanced {trend_class}">
-                        <!-- HEADER CON INFO BÁSICA -->
-                        <div class="indicator-header">
-                            <div class="indicator-main">
-                                <div class="indicator-name">{indicator}</div>
-                                <div class="indicator-desc">{descriptive_name}</div>
-                            </div>
-                            <div class="indicator-status">
-                                <div class="status-badge {rsi_class}">{self._get_trend_emoji(change_pct)}</div>
-                            </div>
-                        </div>
-                        
-                        <!-- PRECIO Y CAMBIOS -->
-                        <div class="price-section">
-                            <div class="current-price">{value:.2f}</div>
-                            <div class="price-changes">
-                                <span class="change-abs {'positive' if change_absolute > 0 else 'negative'}">{change_absolute:+.2f}</span>
-                                <span class="change-pct {'positive' if change_pct > 0 else 'negative'}">{change_pct:+.2f}%</span>
-                            </div>
-                            {f'<div class="prev-close">Prev: {previous_close:.2f}</div>' if previous_close > 0 else ''}
-                        </div>
-                        
-                        <!-- INDICADORES TÉCNICOS -->
-                        <div class="technical-section">
-                            <div class="tech-grid">
-                                {f'<div class="tech-item"><label>RSI:</label><span class="{rsi_class}">{rsi:.1f}</span></div>' if rsi > 0 else ''}
-                                {f'<div class="tech-item"><label>ATR:</label><span>{atr:.2f}</span></div>' if atr > 0 else ''}
-                                {f'<div class="tech-item"><label>ADX:</label><span>{adx:.1f}</span></div>' if adx > 0 else ''}
-                                {f'<div class="tech-item"><label>Vol:</label><span>{self._format_volume(volume)}</span></div>' if volume > 0 else ''}
-                            </div>
-                        </div>
-                        
-                        <!-- MEDIAS MÓVILES -->
-                        {self._generate_ma_section(value, sma_50, sma_200) if sma_50 > 0 or sma_200 > 0 else ''}
-                        
-                        <!-- RANGOS 52 SEMANAS -->
-                        {self._generate_range_section(value, low_52w, high_52w, distance_from_high, distance_from_low) if high_52w > 0 else ''}
-                        
-                        <!-- PERFORMANCE HISTÓRICA -->
-                        {self._generate_performance_section(perf_1w, perf_1m, perf_3m, perf_6m, perf_1y, perf_ytd)}
-                        
-                        <!-- FOOTER CON ÚLTIMA ACTUALIZACIÓN -->
-                        <div class="indicator-footer">
-                            <small>📅 {latest_trade}</small>
-                        </div>
-                    </div>
-                    """
-                
-                html += """
+        for sector, value in sorted_sectors:
+            # Determinar color según valor
+            if value >= 80:
+                status_class = "strong"
+                status_text = "Fuerte"
+                emoji = "🟢"
+            elif value >= 60:
+                status_class = "healthy"
+                status_text = "Saludable"
+                emoji = "🟡"
+            else:
+                status_class = "weak"
+                status_text = "Débil"
+                emoji = "🔴"
+            
+            # Nombres descriptivos de sectores
+            sector_names = {
+                'TOTAL': 'Mercado Total',
+                'TEC': 'Tecnología',
+                'FIN': 'Financiero',
+                'CND': 'Consumo Discrecional',
+                'IND': 'Industrial',
+                'HLT': 'Salud',
+                'MAT': 'Materiales',
+                'ENE': 'Energía',
+                'UTL': 'Servicios Públicos',
+                'REI': 'Inmobiliario',
+                'CNS': 'Consumo Básico',
+                'COM': 'Comunicaciones'
+            }
+            
+            sector_name = sector_names.get(sector, sector)
+            
+            html += f"""
+            <div class="sector-card {status_class}">
+                <div class="sector-header">
+                    <span class="sector-emoji">{emoji}</span>
+                    <div class="sector-info">
+                        <div class="sector-code">{sector}</div>
+                        <div class="sector-name">{sector_name}</div>
                     </div>
                 </div>
-                """
+                <div class="sector-value">
+                    <div class="breadth-percentage">{value}%</div>
+                    <div class="breadth-status">{status_text}</div>
+                </div>
+                <div class="sector-bar">
+                    <div class="sector-fill {status_class}" style="width: {value}%"></div>
+                </div>
+            </div>
+            """
         
         html += """
             </div>
@@ -918,156 +1054,51 @@ class MarketBreadthHTMLGenerator:
         
         return html
     
-    def _generate_ma_section(self, current_price, sma_50, sma_200):
-        """Genera sección de medias móviles"""
-        if sma_50 <= 0 and sma_200 <= 0:
+    def _generate_nyse_section_compact(self, nyse_data):
+        """Genera sección NYSE compacta"""
+        if not nyse_data:
             return ""
         
-        html = '<div class="ma-section"><div class="ma-title">📈 Medias Móviles</div><div class="ma-grid">'
-        
-        if sma_50 > 0:
-            ma50_pct = ((current_price - sma_50) / sma_50) * 100
-            ma50_class = 'positive' if ma50_pct > 0 else 'negative'
-            html += f'<div class="ma-item"><label>MA50:</label><span class="{ma50_class}">{ma50_pct:+.1f}%</span></div>'
-        
-        if sma_200 > 0:
-            ma200_pct = ((current_price - sma_200) / sma_200) * 100
-            ma200_class = 'positive' if ma200_pct > 0 else 'negative'
-            html += f'<div class="ma-item"><label>MA200:</label><span class="{ma200_class}">{ma200_pct:+.1f}%</span></div>'
-        
-        html += '</div></div>'
-        return html
-
-    def _generate_range_section(self, current_price, low_52w, high_52w, dist_high, dist_low):
-        """Genera sección de rangos 52 semanas"""
-        if high_52w <= 0:
-            return ""
-        
-        # Calcular posición en el rango
-        range_position = ((current_price - low_52w) / (high_52w - low_52w)) * 100 if (high_52w - low_52w) > 0 else 50
-        
-        return f"""
-        <div class="range-section">
-            <div class="range-title">📊 Rango 52W</div>
-            <div class="range-bar">
-                <div class="range-fill" style="width: {range_position:.0f}%"></div>
-                <div class="range-marker" style="left: {range_position:.0f}%"></div>
-            </div>
-            <div class="range-values">
-                <span class="range-low">{low_52w:.2f}</span>
-                <span class="range-current">{current_price:.2f}</span>
-                <span class="range-high">{high_52w:.2f}</span>
-            </div>
-            <div class="range-distances">
-                <small>📈 {dist_high:+.1f}% from high • 📉 {dist_low:+.1f}% from low</small>
-            </div>
-        </div>
-        """
-
-    def _generate_performance_section(self, p1w, p1m, p3m, p6m, p1y, pytd):
-        """Genera sección de performance histórica"""
-        periods = [
-            ('1W', p1w), ('1M', p1m), ('3M', p3m), 
-            ('6M', p6m), ('1Y', p1y), ('YTD', pytd)
-        ]
-        
-        # Filtrar períodos con datos válidos
-        valid_periods = [(label, value) for label, value in periods if value != 0]
-        
-        if not valid_periods:
-            return ""
-        
-        html = '<div class="performance-section"><div class="perf-title">📈 Performance</div><div class="perf-grid">'
-        
-        for label, value in valid_periods:
-            perf_class = 'positive' if value > 0 else 'negative' if value < 0 else 'neutral'
-            html += f'<div class="perf-item {perf_class}"><label>{label}:</label><span>{value:+.1f}%</span></div>'
-        
-        html += '</div></div>'
-        return html
-
-    def _get_trend_class(self, change_pct, rsi, perf_1m):
-        """Determina la clase CSS basada en la tendencia"""
-        if change_pct > 2 and rsi < 70 and perf_1m > 5:
-            return "strong-bullish"
-        elif change_pct > 0 and rsi < 80:
-            return "bullish"
-        elif change_pct < -2 and rsi > 30 and perf_1m < -5:
-            return "strong-bearish"
-        elif change_pct < 0:
-            return "bearish"
-        else:
-            return "neutral"
-
-    def _get_rsi_class(self, rsi):
-        """Determina la clase CSS del RSI"""
-        if rsi > 70:
-            return "overbought"
-        elif rsi < 30:
-            return "oversold"
-        elif rsi > 60:
-            return "strong"
-        elif rsi < 40:
-            return "weak"
-        else:
-            return "neutral"
-
-    def _get_trend_emoji(self, change_pct):
-        """Obtiene emoji basado en la tendencia"""
-        if change_pct > 3:
-            return "🚀"
-        elif change_pct > 1:
-            return "📈"
-        elif change_pct > 0:
-            return "🟢"
-        elif change_pct < -3:
-            return "💥"
-        elif change_pct < -1:
-            return "📉"
-        elif change_pct < 0:
-            return "🔴"
-        else:
-            return "➡️"
-
-    def _format_volume(self, volume):
-        """Formatea el volumen de manera legible"""
-        if volume >= 1_000_000:
-            return f"{volume/1_000_000:.1f}M"
-        elif volume >= 1_000:
-            return f"{volume/1_000:.1f}K"
-        else:
-            return f"{volume:.0f}"
-    
-    def _categorize_nyse_indicators(self, nyse_data):
-        """Organiza los indicadores NYSE por categorías"""
+        # Organizar por categorías
         categories = {
-            'McClellan & Momentum': ['NYMO', 'NYMOT', 'NYSI', 'NAMO', 'NASI'],
-            'Advance-Decline': ['NYADL', 'NAADL', 'SPXADP', 'MIDADP', 'SMLADP'],
-            'Arms Index & TRIN': ['TRIN', 'TRINQ'],
-            'Sentiment & Volatility': ['VIX', 'VXN', 'CPC', 'CPCE'],
-            'Bullish Percent': ['BPSPX', 'BPNDX', 'BPNYA'],
-            'New Highs/Lows': ['NYHGH', 'NYLOW', 'NAHGH', 'NALOW'],
-            'Moving Averages %': ['NYA50R', 'NYA200R', 'SPXA50R', 'SPXA200R'],
-            'Major Indices': ['SPX', 'COMPQ', 'NYA', 'DJI', 'RUT'],
-            'Bonds & Commodities': ['TNX', 'TYX', 'DXY', 'GOLD', 'WTIC'],
-            'Otros': []
+            'McClellan': ['NYMO', 'NYMOT', 'NYSI'],
+            'Advance-Decline': ['SPXADP', 'MIDADP', 'SMLADP'],
+            'Sentiment': ['VIX', 'CPC'],
+            'Bullish %': ['BPSPX', 'BPNDX'],
         }
         
-        categorized = {cat: {} for cat in categories.keys()}
+        html = f"""
+        <section class="nyse-section-compact glass-card">
+            <h2 class="section-title">🏛️ NYSE Indicators ({len(nyse_data)} reales)</h2>
+            <div class="nyse-grid-compact">
+        """
         
-        for indicator, data in nyse_data.items():
-            placed = False
-            for category, category_indicators in categories.items():
-                if indicator in category_indicators:
-                    categorized[category][indicator] = data
-                    placed = True
-                    break
-            
-            if not placed:
-                categorized['Otros'][indicator] = data
+        for category, indicators in categories.items():
+            for indicator in indicators:
+                if indicator in nyse_data:
+                    data = nyse_data[indicator]
+                    value = data.get('current_price', 0) or 0
+                    change_pct = data.get('change_pct', 0) or 0
+                    
+                    change_class = 'positive' if change_pct > 0 else 'negative' if change_pct < 0 else 'neutral'
+                    
+                    html += f"""
+                    <div class="nyse-card-compact">
+                        <div class="nyse-header-compact">
+                            <span class="nyse-indicator">{indicator}</span>
+                            <span class="nyse-category">{category}</span>
+                        </div>
+                        <div class="nyse-value">{value:.2f}</div>
+                        <div class="nyse-change {change_class}">{change_pct:+.2f}%</div>
+                    </div>
+                    """
         
-        # Remover categorías vacías
-        return {cat: indicators for cat, indicators in categorized.items() if indicators}
+        html += """
+            </div>
+        </section>
+        """
+        
+        return html
     
     def _generate_indices_html(self, indices_data):
         """Genera HTML para índices"""
@@ -1119,7 +1150,7 @@ class MarketBreadthHTMLGenerator:
         return html
     
     def _get_complete_css(self):
-        """CSS completo optimizado con soporte para categorías y tarjetas mejoradas"""
+        """CSS completo optimizado"""
         return """
         :root {
             --primary: #4f46e5;
@@ -1185,9 +1216,23 @@ class MarketBreadthHTMLGenerator:
             color: #a78bfa;
         }
         
+        .update-info {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .update-info code {
+            background: rgba(79, 70, 229, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a78bfa;
+        }
+        
         .stats-liquid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1.5rem;
             margin-bottom: 3rem;
         }
@@ -1227,396 +1272,145 @@ class MarketBreadthHTMLGenerator:
             color: var(--text-primary);
         }
         
-        .nyse-section { padding: 2rem; }
+        /* SECTOR BREADTH STYLES (NUEVO) */
+        .sector-breadth-section { padding: 2rem; }
         
-        .nyse-categories {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-        
-        .nyse-category {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-        
-        .category-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        
-        /* ORIGINAL NYSE GRID (MANTENIDO PARA COMPATIBILIDAD) */
-        .nyse-grid {
+        .sector-breadth-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        
-        .nyse-indicator {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .nyse-indicator:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-2px);
-        }
-        
-        .indicator-name {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.25rem;
-            font-size: 0.95rem;
-        }
-        
-        .indicator-desc {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.5rem;
-            font-style: italic;
-        }
-        
-        .indicator-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        
-        .indicator-change.positive { color: var(--success); }
-        .indicator-change.negative { color: var(--danger); }
-        
-        /* ============================================================================ */
-        /* NUEVOS ESTILOS PARA NYSE INDICATORS ENHANCED */
-        /* ============================================================================ */
-        
-        /* Grid mejorado para las tarjetas expandidas */
-        .nyse-grid-enhanced {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
         
-        /* Tarjeta de indicador mejorada */
-        .nyse-indicator-enhanced {
+        .sector-card {
             background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 1.25rem;
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
-            position: relative;
-            overflow: hidden;
         }
         
-        .nyse-indicator-enhanced:hover {
-            background: rgba(255, 255, 255, 0.08);
+        .sector-card.strong { border-left-color: var(--success); }
+        .sector-card.healthy { border-left-color: var(--warning); }
+        .sector-card.weak { border-left-color: var(--danger); }
+        
+        .sector-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
         
-        /* Colores de tendencia */
-        .nyse-indicator-enhanced.strong-bullish { border-left-color: #10b981; }
-        .nyse-indicator-enhanced.bullish { border-left-color: #34d399; }
-        .nyse-indicator-enhanced.neutral { border-left-color: #f59e0b; }
-        .nyse-indicator-enhanced.bearish { border-left-color: #f87171; }
-        .nyse-indicator-enhanced.strong-bearish { border-left-color: #ef4444; }
-        
-        /* Header de la tarjeta */
-        .indicator-header {
+        .sector-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
+            gap: 0.75rem;
             margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .indicator-main .indicator-name {
+        .sector-emoji {
+            font-size: 2rem;
+        }
+        
+        .sector-code {
             font-weight: 800;
             color: var(--primary);
             font-size: 1.1rem;
-            margin-bottom: 0.25rem;
         }
         
-        .indicator-main .indicator-desc {
-            font-size: 0.8rem;
+        .sector-name {
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            line-height: 1.3;
-            max-width: 200px;
         }
         
-        .status-badge {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            min-width: 50px;
-            text-align: center;
-        }
-        
-        .status-badge.overbought { background: rgba(239, 68, 68, 0.2); color: #fca5a5; }
-        .status-badge.oversold { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; }
-        .status-badge.strong { background: rgba(79, 70, 229, 0.2); color: #a78bfa; }
-        .status-badge.weak { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
-        
-        /* Sección de precios */
-        .price-section {
+        .sector-value {
             text-align: center;
             margin-bottom: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
         }
         
-        .current-price {
-            font-size: 1.8rem;
+        .breadth-percentage {
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
         }
         
-        .price-changes {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .change-abs, .change-pct {
-            font-weight: 700;
-            font-size: 1rem;
-        }
-        
-        .prev-close {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        /* Sección técnica */
-        .technical-section {
-            margin-bottom: 1rem;
-        }
-        
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-        }
-        
-        .tech-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.4rem 0.6rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
-            font-size: 0.85rem;
-        }
-        
-        .tech-item label {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        
-        .tech-item span {
-            font-weight: 700;
-        }
-        
-        .tech-item span.overbought { color: #f87171; }
-        .tech-item span.oversold { color: #34d399; }
-        .tech-item span.strong { color: #60a5fa; }
-        .tech-item span.weak { color: #fbbf24; }
-        
-        /* Sección de medias móviles */
-        .ma-section {
-            margin-bottom: 1rem;
-            padding: 0.75rem;
-            background: rgba(79, 70, 229, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(79, 70, 229, 0.1);
-        }
-        
-        .ma-title {
-            font-weight: 600;
+        .breadth-status {
             font-size: 0.9rem;
-            color: #a78bfa;
-            margin-bottom: 0.5rem;
-            text-align: center;
-        }
-        
-        .ma-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-        }
-        
-        .ma-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.3rem 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-        
-        .ma-item label {
             color: var(--text-secondary);
-            font-weight: 500;
-        }
-        
-        .ma-item span {
-            font-weight: 700;
-        }
-        
-        /* Sección de rangos */
-        .range-section {
-            margin-bottom: 1rem;
-            padding: 0.75rem;
-            background: rgba(245, 158, 11, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(245, 158, 11, 0.1);
-        }
-        
-        .range-title {
             font-weight: 600;
-            font-size: 0.9rem;
-            color: #fbbf24;
-            margin-bottom: 0.5rem;
-            text-align: center;
         }
         
-        .range-bar {
-            position: relative;
+        .sector-bar {
             height: 8px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
-            margin-bottom: 0.5rem;
             overflow: hidden;
         }
         
-        .range-fill {
+        .sector-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
             border-radius: 4px;
             transition: width 0.3s ease;
         }
         
-        .range-marker {
-            position: absolute;
-            top: -2px;
-            width: 4px;
-            height: 12px;
-            background: #ffffff;
-            border-radius: 2px;
-            transform: translateX(-50%);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        .sector-fill.strong { background: linear-gradient(90deg, var(--success), #34d399); }
+        .sector-fill.healthy { background: linear-gradient(90deg, var(--warning), #fbbf24); }
+        .sector-fill.weak { background: linear-gradient(90deg, var(--danger), #f87171); }
+        
+        /* NYSE COMPACT STYLES */
+        .nyse-section-compact { padding: 2rem; }
+        
+        .nyse-grid-compact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
         }
         
-        .range-values {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75rem;
+        .nyse-card-compact {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .nyse-card-compact:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        
+        .nyse-header-compact {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nyse-indicator {
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            font-size: 0.95rem;
+        }
+        
+        .nyse-category {
+            font-size: 0.7rem;
             color: var(--text-secondary);
+            display: block;
+        }
+        
+        .nyse-value {
+            font-size: 1.5rem;
+            font-weight: 900;
             margin-bottom: 0.25rem;
         }
         
-        .range-current {
-            color: var(--text-primary) !important;
+        .nyse-change {
             font-weight: 700;
-        }
-        
-        .range-distances {
-            text-align: center;
-            font-size: 0.7rem;
-            color: var(--text-secondary);
-        }
-        
-        /* Sección de performance */
-        .performance-section {
-            margin-bottom: 1rem;
-            padding: 0.75rem;
-            background: rgba(16, 185, 129, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(16, 185, 129, 0.1);
-        }
-        
-        .perf-title {
-            font-weight: 600;
             font-size: 0.9rem;
-            color: #6ee7b7;
-            margin-bottom: 0.5rem;
-            text-align: center;
         }
         
-        .perf-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.4rem;
-        }
+        .nyse-change.positive { color: var(--success); }
+        .nyse-change.negative { color: var(--danger); }
+        .nyse-change.neutral { color: var(--text-secondary); }
         
-        .perf-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.3rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            background: rgba(255, 255, 255, 0.03);
-        }
-        
-        .perf-item.positive {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-        
-        .perf-item.negative {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-        
-        .perf-item.neutral {
-            background: rgba(156, 163, 175, 0.1);
-            border: 1px solid rgba(156, 163, 175, 0.2);
-        }
-        
-        .perf-item label {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        
-        .perf-item span {
-            font-weight: 700;
-        }
-        
-        .perf-item.positive span { color: #34d399; }
-        .perf-item.negative span { color: #f87171; }
-        .perf-item.neutral span { color: #9ca3af; }
-        
-        /* Footer de la tarjeta */
-        .indicator-footer {
-            margin-top: 1rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        
-        .indicator-footer small {
-            color: var(--text-secondary);
-            font-size: 0.7rem;
-        }
-        
-        /* ============================================================================ */
-        /* ESTILOS ORIGINALES PARA ÍNDICES (MANTENIDOS) */
-        /* ============================================================================ */
-        
+        /* INDICES STYLES (ORIGINAL) */
         .indices-analysis { padding: 2rem; }
         
         .indices-grid {
@@ -1722,76 +1516,58 @@ class MarketBreadthHTMLGenerator:
             text-decoration: none;
         }
         
-        /* ============================================================================ */
-        /* RESPONSIVE DESIGN MEJORADO */
-        /* ============================================================================ */
-        
-        @media (max-width: 1200px) {
-            .nyse-grid-enhanced {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            }
+        .footer code {
+            background: rgba(79, 70, 229, 0.2);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #a78bfa;
         }
         
+        /* RESPONSIVE */
         @media (max-width: 768px) {
             .glass-container { padding: 1rem; }
-            .indices-grid { grid-template-columns: 1fr; }
-            .nyse-grid { grid-template-columns: repeat(2, 1fr); }
-            .nyse-grid-enhanced { grid-template-columns: 1fr; }
+            .indices-grid, .sector-breadth-grid { grid-template-columns: 1fr; }
+            .nyse-grid-compact { grid-template-columns: repeat(2, 1fr); }
             .market-status { flex-direction: column; }
             .stats-liquid { grid-template-columns: repeat(2, 1fr); }
-            
-            .tech-grid, .ma-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .perf-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .price-changes {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
         }
         
         @media (max-width: 480px) {
-            .stats-liquid { grid-template-columns: 1fr; }
-            .nyse-grid { grid-template-columns: 1fr; }
-            
-            .indicator-header {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
-            }
-            
-            .status-badge {
-                align-self: center;
-            }
-            
-            .perf-grid {
-                grid-template-columns: 1fr;
-            }
+            .stats-liquid, .nyse-grid-compact { grid-template-columns: 1fr; }
         }
         """
+    
+    def save_html(self, html_content, output_dir="reports"):
+        """
+        Guarda HTML con nombre ESTÁTICO
+        """
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+            
+            # CAMBIO IMPORTANTE: Nombre fijo sin fecha
+            filepath = os.path.join(output_dir, self.html_filename)
+            
+            with open(filepath, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            
+            print(f"✅ HTML generado: {filepath}")
+            print(f"🔗 URL ESTÁTICA: {self.html_filename} (sin cambios de fecha)")
+            return filepath
+            
+        except Exception as e:
+            print(f"❌ Error guardando HTML: {e}")
+            traceback.print_exc()
+            return None
 
 
 # ============================================================================
-# ASEGURAR COMPATIBILIDAD TOTAL CON EL SISTEMA PRINCIPAL
+# FIN DEL SCRIPT
 # ============================================================================
 
-# Las clases están exportadas con los nombres exactos que espera tu sistema:
-# - MarketBreadthAnalyzer
-# - MarketBreadthHTMLGenerator
-
-# El sistema principal puede importar así:
-# from market_breadth_analyzer import MarketBreadthAnalyzer, MarketBreadthHTMLGenerator
-
-print("✅ Market Breadth Analyzer inicializado correctamente")
+print("✅ Market Breadth Analyzer INTEGRADO inicializado")
 print("📊 Compatible con sistema principal")
-print("🏛️ NYSE Data Extractor integrado")
-print("📈 HTML Generator MEJORADO incluido")
-print("🎯 DEFAULT: TODOS los indicadores NYSE (modo 'all')")
-print("🔧 CORREGIDO: Manejo seguro de valores None")
-print("📝 MEJORADO: Nombres descriptivos para indicadores NYSE")
-print("🚀 NUEVO: Tarjetas NYSE con MUCHA MÁS información")
-print("📊 NUEVO: RSI, ATR, ADX, Volumen, Medias Móviles, Rangos 52W, Performance histórica")
+print("🏛️ NYSE Data Extractor incluido")
+print("📈 Sector Breadth (breadth.me) AÑADIDO")
+print("💾 URL ESTÁTICA: market_breadth.html (sin fecha)")
+print("🎯 Listo para uso")
