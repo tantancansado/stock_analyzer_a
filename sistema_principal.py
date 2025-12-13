@@ -2938,14 +2938,15 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             print(f"📱 Telegram: {'✓' if results['telegram'] else '✗'}")
             
             # URLs de GitHub Pages
+            base_url = "https://tantancansado.github.io/stock_analyzer_a"
             if results['github_insider']:
-                print(f"\n🏛️ Ver Insider Trading: {results['github_insider'].get('github_url', 'N/A')}")
+                github_links += f"\n🏛️ [Ver Insider Trading]({base_url}/reports/insider/index.html)"
             if results['github_dj']:
-                print(f"📊 Ver DJ Sectorial: {results['github_dj'].get('github_url', 'N/A')}")
+                github_links += f"\n📊 [Ver DJ Sectorial]({base_url}/reports/dj_sectorial/index.html)"
             if results['github_breadth']:
-                print(f"📈 Ver Market Breadth COMPLETO: {results['github_breadth'].get('github_url', 'N/A')}")
+                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({base_url}/reports/market_breadth/index.html)"
             if results['github_enhanced']:
-                print(f"🎯 Ver Enhanced Opportunities: {results['github_enhanced'].get('github_url', 'N/A')}")
+                github_links += f"\n🎯 [Ver Enhanced Opportunities]({base_url}/reports/enhanced_opportunities/index.html)"
             
             return results
             
