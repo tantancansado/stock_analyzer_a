@@ -2241,8 +2241,8 @@ class GitHubPagesUploader:
                 report_id = f"dj_sectorial_{date_only}"
                 report_dir = self.reports_path / "dj_sectorial" / report_id
             elif report_type == "market_breadth":
-                report_id = f"market_breadth_{date_only}"
-                report_dir = self.reports_path / "market_breadth" / report_id
+                report_id = "market_breadth"
+                report_dir = self.reports_path / "market_breadth"
             elif report_type == "enhanced_opportunities":
                 report_id = f"enhanced_opportunities_{date_only}"
                 report_dir = self.reports_path / "enhanced_opportunities" / report_id
