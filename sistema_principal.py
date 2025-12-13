@@ -2219,7 +2219,7 @@ class GitHubPagesUploader:
         """Sube un reporte a GitHub Pages"""
         try:
             # Determinar tipo de reporte
-            if report_type == "dj_sectorial":
+            if "DJ Sectorial" in title or "sectorial" in title.lower():
                 report_id = "dj_sectorial"
                 report_dir = self.reports_path / "dj_sectorial"
             elif "Market Breadth" in title or "breadth" in title.lower():
@@ -2239,8 +2239,8 @@ class GitHubPagesUploader:
             
             # Crear ID y carpeta
             if report_type == "dj_sectorial":
-                report_id = f"dj_sectorial_{date_only}"
-                report_dir = self.reports_path / "dj_sectorial" / report_id
+                report_id = "dj_sectorial"
+                report_dir = self.reports_path / "dj_sectorial"
             elif report_type == "market_breadth":
                 report_id = "market_breadth"
                 report_dir = self.reports_path / "market_breadth"
@@ -3051,15 +3051,16 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
 • Estado: {'❌ Error en análisis' if results['enhanced_analysis'] else '⚠️ Sin ejecutar'}"""
             
             # URLs de GitHub Pages
+            base_url = "https://tantancansado.github.io/stock_analyzer_a"
             github_links = ""
             if results['github_insider']:
-                github_links += f"\n🏛️ [Ver Insider Trading]({results['github_insider']['github_url']})"
+                github_links += f"\n🏛️ [Ver Insider Trading]({base_url}/reports/insider/index.html)"
             if results['github_dj']:
-                github_links += f"\n📊 [Ver DJ Sectorial]({results['github_dj']['github_url']})"
+                github_links += f"\n📊 [Ver DJ Sectorial]({base_url}/reports/dj_sectorial/index.html)"
             if results['github_breadth']:
-                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({results['github_breadth']['github_url']})"
+                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({base_url}/reports/market_breadth/index.html)"
             if results['github_enhanced']:
-                github_links += f"\n🎯 [Ver Enhanced Opportunities]({results['github_enhanced']['github_url']})"
+                github_links += f"\n🎯 [Ver Enhanced Opportunities]({base_url}/reports/enhanced_opportunities/index.html)"
             
             if github_links:
                 base_url = "https://tantancansado.github.io/stock_analyzer_a"
