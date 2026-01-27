@@ -1,7 +1,19 @@
 {
-  "total_reports": 220,
-  "last_update": "2026-01-26T07:53:51.601341",
+  "total_reports": 221,
+  "last_update": "2026-01-27T07:54:41.709502",
   "reports": [
+    {
+      "id": "report_2026-01-27",
+      "title": "📊 Insider Trading - 66 transacciones - 2026-01-27 07:48",
+      "description": "Reporte con 66 transacciones detectadas",
+      "timestamp": "2026-01-27T07:48:35.441145",
+      "date": "2026-01-27",
+      "time": "07:48:35",
+      "html_url": "reports/daily/report_2026-01-27/index.html",
+      "csv_url": "reports/daily/report_2026-01-27/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/daily/report_2026-01-27/index.html",
+      "type": "insider"
+    },
     {
       "id": "report_2026-01-26",
       "title": "📊 Insider Trading - 74 transacciones - 2026-01-26 07:47",
@@ -2641,6 +2653,18 @@
   "dj_reports": [
     {
       "id": "dj_sectorial",
+      "title": "📊 DJ Sectorial - 21 oportunidades - 2026-01-27 07:53",
+      "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
+      "timestamp": "2026-01-27T07:53:57.448154",
+      "date": "2026-01-27",
+      "time": "07:53:57",
+      "html_url": "reports/dj_sectorial/index.html",
+      "csv_url": "reports/dj_sectorial/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/dj_sectorial/index.html",
+      "type": "dj_sectorial"
+    },
+    {
+      "id": "dj_sectorial",
       "title": "📊 DJ Sectorial - 21 oportunidades - 2026-01-26 07:53",
       "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
       "timestamp": "2026-01-26T07:53:07.141983",
@@ -5172,8 +5196,20 @@
       "type": "dj_sectorial"
     }
   ],
-  "total_dj_reports": 211,
+  "total_dj_reports": 212,
   "breadth_reports": [
+    {
+      "id": "market_breadth",
+      "title": "📊 Market Breadth COMPLETO - 93 indicadores - 🟢 FUERTEMENTE ALCISTA - 2026-01-27",
+      "description": "Análisis completo de amplitud con 72 indicadores NYSE + 9 índices. Sesgo: 🟢 FUERTEMENTE ALCISTA (9 alcistas, 0 bajistas)",
+      "timestamp": "2026-01-27T07:54:41.601214",
+      "date": "2026-01-27",
+      "time": "07:54:41",
+      "html_url": "reports/market_breadth/index.html",
+      "csv_url": "reports/market_breadth/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/market_breadth/index.html",
+      "type": "market_breadth"
+    },
     {
       "id": "market_breadth",
       "title": "📊 Market Breadth COMPLETO - 93 indicadores - 🟢 FUERTEMENTE ALCISTA - 2026-01-26",
@@ -7983,8 +8019,20 @@
       "type": "market_breadth"
     }
   ],
-  "total_breadth_reports": 234,
+  "total_breadth_reports": 235,
   "enhanced_reports": [
+    {
+      "id": "enhanced_opportunities_2026-01-27",
+      "title": "🎯 Enhanced Opportunities - 12 críticas de 140 - Score 59.2 - 2026-01-27 07:54",
+      "description": "Análisis avanzado de oportunidades con correlaciones insider-sector. 12 oportunidades críticas, 0 con actividad insider",
+      "timestamp": "2026-01-27T07:54:41.709502",
+      "date": "2026-01-27",
+      "time": "07:54:41",
+      "html_url": "reports/enhanced_opportunities/enhanced_opportunities_2026-01-27/index.html",
+      "csv_url": "reports/enhanced_opportunities/enhanced_opportunities_2026-01-27/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/enhanced_opportunities/enhanced_opportunities_2026-01-27/index.html",
+      "type": "enhanced_opportunities"
+    },
     {
       "id": "enhanced_opportunities_2026-01-26",
       "title": "🎯 Enhanced Opportunities - 14 críticas de 140 - Score 60.1 - 2026-01-26 07:53",
@@ -9978,5 +10026,5 @@
       "type": "enhanced_opportunities"
     }
   ],
-  "total_enhanced_reports": 166
+  "total_enhanced_reports": 167
 }
