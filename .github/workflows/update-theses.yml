@@ -1,0 +1,136 @@
+name: 🔄 Auto Update Investment Theses
+
+on:
+  # Ejecuta automáticamente de lunes a viernes a las 18:00 UTC (después del cierre del mercado US)
+  schedule:
+    - cron: '0 18 * * 1-5'  # 18:00 UTC = 13:00 EST (después del cierre a las 16:00 EST)
+
+  # Permite ejecución manual desde GitHub UI
+  workflow_dispatch:
+    inputs:
+      num_stocks:
+        description: 'Número de tesis a generar'
+        required: false
+        default: '50'
+        type: choice
+        options:
+          - '25'
+          - '50'
+          - '100'
+
+jobs:
+  update-data-and-theses:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necesario para commit history
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas yfinance numpy
+
+      - name: 📊 Update 5D data (sector + fundamentals + entry scores)
+        run: |
+          echo "🔄 Actualizando datos 5D..."
+          python3 enrich_5d.py
+        continue-on-error: false
+
+      - name: 📝 Generate investment theses
+        run: |
+          NUM_STOCKS=${{ github.event.inputs.num_stocks || '50' }}
+          echo "🔄 Generando tesis para top $NUM_STOCKS stocks..."
+          python3 thesis_generator.py $NUM_STOCKS
+        continue-on-error: false
+
+      - name: 📈 Generate summary report
+        id: summary
+        run: |
+          echo "Generando reporte de actualización..."
+
+          # Contar tesis generadas
+          THESIS_COUNT=$(grep -c '"ticker"' docs/theses.json || echo "0")
+          THESIS_SIZE=$(du -h docs/theses.json | cut -f1)
+
+          # Timestamp
+          TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S UTC')
+
+          # Crear summary
+          cat > update_summary.txt << EOF
+          📊 Update Summary - $TIMESTAMP
+          ════════════════════════════════════════
+
+          ✅ 5D Data Updated
+          ✅ Investment Theses Generated: $THESIS_COUNT
+          ✅ Theses File Size: $THESIS_SIZE
+
+          Updated Files:
+          - docs/super_opportunities_5d_complete.csv
+          - docs/super_opportunities_5d_complete_with_earnings.csv
+          - docs/theses.json
+          - data/sector_cache.json
+
+          Next Update: Scheduled for next market day at 18:00 UTC
+          Manual Trigger: Available via GitHub Actions
+          EOF
+
+          cat update_summary.txt
+
+          # Export para usar en commit message
+          echo "thesis_count=$THESIS_COUNT" >> $GITHUB_OUTPUT
+          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+
+      - name: 🔍 Check for changes
+        id: check_changes
+        run: |
+          git diff --quiet docs/theses.json && echo "changed=false" >> $GITHUB_OUTPUT || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: 💾 Commit and push changes
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          git add docs/super_opportunities_5d_complete*.csv
+          git add docs/theses.json
+          git add data/sector_cache.json
+
+          git commit -m "chore: Auto-update theses and 5D data - ${{ steps.summary.outputs.timestamp }}
+
+          📊 Updated Data:
+          - Investment theses: ${{ steps.summary.outputs.thesis_count }} stocks
+          - 5D scores with sector, fundamentals, and entry evaluation
+          - Sector cache refreshed
+
+          🤖 Automated update via GitHub Actions
+          Next scheduled update: next market day at 18:00 UTC"
+
+          git push
+
+      - name: 📢 Summary
+        if: always()
+        run: |
+          if [ "${{ steps.check_changes.outputs.changed }}" == "true" ]; then
+            echo "✅ Changes detected and committed successfully"
+          else
+            echo "ℹ️ No changes detected - data is up to date"
+          fi
+
+          cat update_summary.txt
+
+      - name: 📤 Upload summary as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: update-summary-${{ steps.summary.outputs.timestamp }}
+          path: update_summary.txt
+          retention-days: 30
