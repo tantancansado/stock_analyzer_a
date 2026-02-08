@@ -1,0 +1,663 @@
+/Users/ale/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🐋 WHALE SCANNER - Mass 13F Extraction
+================================================================================
+
+Opciones:
+1. Scan completo (20 whales) - ~15-20 minutos
+2. Test rápido (5 whales) - ~3-4 minutos
+3. Test mini (2 whales) - ~1 minuto
+
+Selecciona (1-3): 🐋🐋🐋 MASS WHALE SCAN INICIADO 🐋🐋🐋
+================================================================================
+⏰ Inicio: 2026-02-08 14:37:37
+🎯 Whales a escanear: 20
+⚠️  Tiempo estimado: 900 segundos
+================================================================================
+
+
+🔄 PROGRESO: 1/20 (5%)
+
+================================================================================
+🐋 Berkshire Hathaway (Warren Buffett) (CIK: 0001067983)
+   Tier: LEGEND
+================================================================================
+📡 Scraping filings for CIK 0001067983...
+   ✅ BERKSHIRE HATHAWAY INC
+   📅 Filing: 2025-11-14
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1067983/000119312525282901/0001193125-25-282901-index.htm
+📄 Descargando índice de documentos...
+   📄 INFORMATION TABLE FOR FORM 13F
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 INFORMATION TABLE FOR FORM 13F
+   📊 Parseando XML...
+   ✅ 115 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   1. 02005N100 → ALLY (ALLY FINL INC)
+   2. 02005N100 → ALLY (ALLY FINL INC)
+   3. 02005N100 → ALLY (ALLY FINL INC)
+   4. 02005N100 → ALLY (ALLY FINL INC)
+   5. 02005N100 → ALLY (ALLY FINL INC)
+   6. 02005N100 → ALLY (ALLY FINL INC)
+   7. 02079K305 → GOOGL (ALPHABET INC)
+   8. 02079K305 → GOOGL (ALPHABET INC)
+   9. 023135106 → AMZN (AMAZON COM INC)
+   10. 023135106 → AMZN (AMAZON COM INC)
+   11. 025816109 → AXP (AMERICAN EXPRESS CO)
+   12. 025816109 → AXP (AMERICAN EXPRESS CO)
+   13. 025816109 → AXP (AMERICAN EXPRESS CO)
+   14. 037833100 → AAPL (APPLE INC)
+   15. 037833100 → AAPL (APPLE INC)
+   16. 037833100 → AAPL (APPLE INC)
+   17. 037833100 → AAPL (APPLE INC)
+   18. 037833100 → AAPL (APPLE INC)
+   19. 037833100 → AAPL (APPLE INC)
+   20. 037833100 → AAPL (APPLE INC)
+
+💾 Holdings guardados: data/institutional/holdings/0001067983_20251114.json
+   Total holdings: 115
+   Total value: $267,334,501,955,000
+   ✅ SUCCESS
+   📊 Holdings: 115
+   🎯 Con tickers: 20
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 2/20 (10%)
+
+================================================================================
+🐋 Bridgewater Associates (Ray Dalio) (CIK: 0001350694)
+   Tier: LEGEND
+================================================================================
+📡 Scraping filings for CIK 0001350694...
+   ✅ Bridgewater Associates, LP
+   📅 Filing: 2025-11-13
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1350694/000117266125004777/0001172661-25-004777-index.htm
+📄 Descargando índice de documentos...
+   📄 
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 
+   📊 Parseando XML...
+   ✅ 1014 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   1. 002824100 → ABT (ABBOTT LABS)
+   2. 00287Y109 → ABBV (ABBVIE INC)
+   3. 002896207 → ANF (ABERCROMBIE & FITCH CO)
+   4. 000957100 → ABM (ABM INDS INC)
+   5. 00402L107 → ASO (ACADEMY SPORTS & OUTDOORS IN)
+   6. 00404A109 → ACHC (ACADIA HEALTHCARE COMPANY IN)
+   7. 004225108 → ACAD (ACADIA PHARMACEUTICALS INC)
+   9. 004498101 → TSA (ACI WORLDWIDE INC)
+   10. 00508Y102 → AYI (ACUITY INC)
+   11. 00650F109 → ADPT (ADAPTIVE BIOTECHNOLOGIES COR)
+   13. 000899104 → ADMA (ADMA BIOLOGICS INC)
+   14. 00724F101 → ADBE (ADOBE INC)
+   15. 00090Q103 → ADT (ADT INC DEL)
+   16. 00737L103 → ATGE (ADTALEM GLOBAL ED INC)
+   17. 007973100 → AEIS (ADVANCED ENERGY INDS)
+   18. 007903107 → AMD (ADVANCED MICRO DEVICES INC)
+   19. 00766T100 → ACM (AECOM)
+   20. 00760J108 → AEHR (AEHR TEST SYS)
+
+💾 Holdings guardados: data/institutional/holdings/0001350694_20251113.json
+   Total holdings: 1014
+   Total value: $25,527,677,108,000
+   ✅ SUCCESS
+   📊 Holdings: 1014
+   🎯 Con tickers: 18
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 3/20 (15%)
+
+================================================================================
+🐋 BlackRock (CIK: 0001086364)
+   Tier: MEGA
+================================================================================
+📡 Scraping filings for CIK 0001086364...
+   ✅ BLACKROCK ADVISORS LLC
+   📅 Filing: 2017-02-10
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1086364/000108636417000003/0001086364-17-000003-index.htm
+📄 Descargando índice de documentos...
+   📄 DESCRIPTION FOR INFORMATION TABLE
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 DESCRIPTION FOR INFORMATION TABLE
+   📊 Parseando XML...
+   ✅ 4510 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   1. 68243Q106 → FLWS (1 800 FLOWERS COM)
+   2. 336901103 → SRCE (1ST SOURCE CORP)
+   4. 88554D205 → DDD (3-D SYS CORP DEL)
+   5. 88579Y101 → MMM (3M CO)
+   6. 88579Y101 → MMM (3M CO)
+   7. 31680Q104 → WUBAUSD (58 COM INC)
+   8. 282914100 → EGHT (8X8 INC NEW)
+   10. 00181T107 → GOLD (A MARK PRECIOUS METALS INC)
+   11. 002121101 → ATEN (A10 NETWORKS INC)
+   12. 000307108 → AACH (AAC HLDGS INC)
+   13. 000360206 → AAON (AAON INC)
+   14. 000361105 → AIR (AAR CORP)
+   15. 002535300 → AANUSD (AARONS INC)
+   17. 002824100 → ABT (ABBOTT LABS)
+   18. 002824100 → ABT (ABBOTT LABS)
+   19. 00287Y109 → ABBV (ABBVIE INC)
+   20. 00287Y109 → ABBV (ABBVIE INC)
+
+💾 Holdings guardados: data/institutional/holdings/0001086364_20170210.json
+   Total holdings: 4510
+   Total value: $98,753,590,000
+   ✅ SUCCESS
+   📊 Holdings: 4510
+   🎯 Con tickers: 17
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 4/20 (20%)
+
+================================================================================
+🐋 Vanguard Group (CIK: 0000102909)
+   Tier: MEGA
+================================================================================
+📡 Scraping filings for CIK 0000102909...
+   ✅ VANGUARD GROUP INC
+   📅 Filing: 2026-01-29
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/102909/000010290926000031/0000102909-26-000031-index.htm
+📄 Descargando índice de documentos...
+   📄 13F INFORMATION TABLE 12/31/2025
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 13F INFORMATION TABLE 12/31/2025
+   📊 Parseando XML...
+   ✅ 17686 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   1. 11271J107 → BN (BROOKFIELD CORP)
+   2. 013872106 → AA (ALCOA CORP)
+   3. 20460L104 → SPWR (SUNPOWER INC)
+   4. 71601V105 → WOOF (PETCO HEALTH & WELLNESS CO I)
+   5. 10576N102 → BRZE (BRAZE INC)
+   6. 204448104 → BVN (COMPANIA DE MINAS BUENAVENTU)
+   7. 05601C105 → BGSF (BGSF INC)
+   8. 21871N101 → CXW (CORECIVIC INC)
+
+💾 Holdings guardados: data/institutional/holdings/0000102909_20260129.json
+   Total holdings: 17686
+   Total value: $6,897,676,080,637,000
+   ✅ SUCCESS
+   📊 Holdings: 17686
+   🎯 Con tickers: 8
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 5/20 (25%)
+
+================================================================================
+🐋 State Street (CIK: 0000315066)
+   Tier: MEGA
+================================================================================
+📡 Scraping filings for CIK 0000315066...
+   ✅ FMR LLC
+   📅 Filing: 2025-11-13
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/315066/000031506625002929/0000315066-25-002929-index.htm
+📄 Descargando índice de documentos...
+   📄 FMR LLC
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 FMR LLC
+   📊 Parseando XML...
+   ✅ 13217 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   1. 68243Q106 → FLWS (1 800 FLOWERS COM INC)
+   2. 68243Q106 → FLWS (1 800 FLOWERS COM INC)
+   7. 336901103 → SRCE (1ST SOURCE CORP)
+   8. 336901103 → SRCE (1ST SOURCE CORP)
+   10. 88554D205 → DDD (3-D SYS CORP DEL)
+   11. 88554D205 → DDD (3-D SYS CORP DEL)
+   13. 88579Y101 → MMM (3M CO)
+   14. 88579Y101 → MMM (3M CO)
+   15. 88579Y101 → MMM (3M CO)
+   16. 88579Y101 → MMM (3M CO)
+   17. 88579Y101 → MMM (3M CO)
+
+💾 Holdings guardados: data/institutional/holdings/0000315066_20251113.json
+   Total holdings: 13217
+   Total value: $1,923,243,414,014,000
+   ✅ SUCCESS
+   📊 Holdings: 13217
+   🎯 Con tickers: 11
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 6/20 (30%)
+
+================================================================================
+🐋 Fidelity (CIK: 0000930667)
+   Tier: MEGA
+================================================================================
+📡 Scraping filings for CIK 0000930667...
+   ✅ iShares, Inc.
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 7/20 (35%)
+
+================================================================================
+🐋 ARK Investment (Cathie Wood) (CIK: 0001649339)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001649339...
+   ✅ Scion Asset Management, LLC
+   📅 Filing: 2025-11-03
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1649339/000164933925000007/0001649339-25-000007-index.htm
+📄 Descargando índice de documentos...
+   📄 
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 
+   📊 Parseando XML...
+   ✅ 8 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+
+💾 Holdings guardados: data/institutional/holdings/0001649339_20251103.json
+   Total holdings: 8
+   Total value: $1,381,198,076,000
+   ✅ SUCCESS
+   📊 Holdings: 8
+   🎯 Con tickers: 0
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 8/20 (40%)
+
+================================================================================
+🐋 Pershing Square (Bill Ackman) (CIK: 0001336528)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001336528...
+   ✅ Pershing Square Capital Management, L.P.
+   📅 Filing: 2025-11-14
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1336528/000117266125005039/0001172661-25-005039-index.htm
+📄 Descargando índice de documentos...
+   📄 
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 
+   📊 Parseando XML...
+   ✅ 11 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   2. 02079K305 → GOOGL (ALPHABET INC)
+   3. 023135106 → AMZN (AMAZON COM INC)
+   4. 11271J107 → BN (BROOKFIELD CORP)
+
+💾 Holdings guardados: data/institutional/holdings/0001336528_20251114.json
+   Total holdings: 11
+   Total value: $14,643,293,767,000
+   ✅ SUCCESS
+   📊 Holdings: 11
+   🎯 Con tickers: 3
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 9/20 (45%)
+
+================================================================================
+🐋 Tiger Global Management (CIK: 0001061768)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001061768...
+   ✅ BAUPOST GROUP LLC/MA
+   📅 Filing: 2025-11-13
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1061768/000106176825000007/0001061768-25-000007-index.htm
+📄 Descargando índice de documentos...
+   📄 
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 
+   📊 Parseando XML...
+   ✅ 22 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   1. 02079K107 → GOOG (ALPHABET INC)
+   2. 03064D108 → COLD (AMERICOLD REALTY TRUST INC)
+   3. 12685JAG0 → CABO 1.125 03/15/28 (CABLE ONE INC)
+   5. 256677105 → DG (DOLLAR GEN CORP NEW)
+   6. 26969P108 → EXP (EAGLE MATLS INC)
+   7. 036752103 → ELV (ELEVANCE HEALTH INC FORMERLY)
+   8. 31488V107 → FERG (FERGUSON ENTERPRISES INC)
+   9. 31620M106 → FIS (FIDELITY NATL INFORMATION SV)
+   10. 337738108 → FISV (FISERV INC)
+   11. 36165L108 → GDS (GDS HLDGS LTD)
+   12. 372460105 → GPC (GENUINE PARTS CO)
+   14. 42703MAF0 → HLF 4.25 06/15/28 (HERBALIFE LTD)
+   18. 76131D103 → QSR (RESTAURANT BRANDS INTL INC)
+   19. 87507T101 → TBN (TAMBORAN RES CORP)
+   20. 907818108 → UNP (UNION PAC CORP)
+
+💾 Holdings guardados: data/institutional/holdings/0001061768_20251113.json
+   Total holdings: 22
+   Total value: $4,790,804,000
+   ✅ SUCCESS
+   📊 Holdings: 22
+   🎯 Con tickers: 15
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 10/20 (50%)
+
+================================================================================
+🐋 Renaissance Technologies (CIK: 0001549469)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001549469...
+   ✅ Cook Irene
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 11/20 (55%)
+
+================================================================================
+🐋 Third Point (Dan Loeb) (CIK: 0001567892)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001567892...
+   ✅ Keenova Therapeutics plc
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 12/20 (60%)
+
+================================================================================
+🐋 Appaloosa Management (David Tepper) (CIK: 0001079114)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001079114...
+   ✅ GREENLIGHT CAPITAL INC
+   📅 Filing: 2024-02-14
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1079114/000117266124001512/0001172661-24-001512-index.htm
+📄 Descargando índice de documentos...
+   📄 
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 
+   📊 Parseando XML...
+   ✅ 116 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   3. 01626W101 → ALIT (ALIGHT INC)
+   4. 01626W101 → ALIT (ALIGHT INC)
+   5. 01626W101 → ALIT (ALIGHT INC)
+   6. 01626W101 → ALIT (ALIGHT INC)
+   7. 10922N103 → BHF (BRIGHTHOUSE FINL INC)
+   8. 10922N103 → BHF (BRIGHTHOUSE FINL INC)
+   9. 10922N103 → BHF (BRIGHTHOUSE FINL INC)
+   10. 10922N103 → BHF (BRIGHTHOUSE FINL INC)
+   11. 20854L108 → CEIXEUR (CONSOL ENERGY INC NEW)
+   12. 20854L108 → CEIXEUR (CONSOL ENERGY INC NEW)
+   13. 20854L108 → CEIXEUR (CONSOL ENERGY INC NEW)
+   14. 20854L108 → CEIXEUR (CONSOL ENERGY INC NEW)
+
+💾 Holdings guardados: data/institutional/holdings/0001079114_20240214.json
+   Total holdings: 116
+   Total value: $2,047,998,727,000
+   ✅ SUCCESS
+   📊 Holdings: 116
+   🎯 Con tickers: 12
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 13/20 (65%)
+
+================================================================================
+🐋 Two Sigma Investments (CIK: 0001266171)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001266171...
+   ✅ RAGAN JOHN W
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 14/20 (70%)
+
+================================================================================
+🐋 D.E. Shaw (CIK: 0001040273)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001040273...
+   ✅ Third Point LLC
+   📅 Filing: 2025-11-14
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1040273/000104027325000003/0001040273-25-000003-index.htm
+📄 Descargando índice de documentos...
+   📄 INFORMATION TABLE
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 INFORMATION TABLE
+   📊 Parseando XML...
+   ✅ 46 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   1. 023135106 → AMZN (AMAZON COM INC)
+   7. 11271J107 → BN (BROOKFIELD CORP)
+
+💾 Holdings guardados: data/institutional/holdings/0001040273_20251114.json
+   Total holdings: 46
+   Total value: $8,989,033,614,000
+   ✅ SUCCESS
+   📊 Holdings: 46
+   🎯 Con tickers: 2
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 15/20 (75%)
+
+================================================================================
+🐋 Millennium Management (CIK: 0001037389)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001037389...
+   ✅ RENAISSANCE TECHNOLOGIES LLC
+   📅 Filing: 2025-11-13
+
+📋 Parseando filing: https://www.sec.gov/Archives/edgar/data/1037389/000103738925000064/0001037389-25-000064-index.htm
+📄 Descargando índice de documentos...
+   📄 RENTEC Q3 HOLDINGS
+   📊 Parseando XML...
+   ❌ Error parseando XML: mismatched tag: line 33, column 2
+   📊 Parseando TXT...
+   ✅ 0 holdings parseados
+   📄 RENTEC Q3 HOLDINGS
+   📊 Parseando XML...
+   ✅ 3457 holdings parseados
+
+🔍 Convirtiendo CUSIPs a tickers...
+   5. 336901103 → SRCE (1ST SOURCE CORP)
+   7. 88554D205 → DDD (3-D SYS CORP DEL)
+   11. 282914100 → EGHT (8X8 INC NEW)
+   13. 002121101 → ATEN (A10 NETWORKS INC)
+   16. 00287Y109 → ABBV (ABBVIE INC)
+   19. 002896207 → ANF (ABERCROMBIE & FITCH CO)
+
+💾 Holdings guardados: data/institutional/holdings/0001037389_20251113.json
+   Total holdings: 3457
+   Total value: $75,753,182,516,000
+   ✅ SUCCESS
+   📊 Holdings: 3457
+   🎯 Con tickers: 6
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 16/20 (80%)
+
+================================================================================
+🐋 Citadel Advisors (Ken Griffin) (CIK: 0001661450)
+   Tier: HEDGE
+================================================================================
+📡 Scraping filings for CIK 0001661450...
+   ✅ Howard Jeffrey Charles
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 17/20 (85%)
+
+================================================================================
+🐋 Tiger Cub - Chase Coleman (CIK: 0001767143)
+   Tier: GROWTH
+================================================================================
+📡 Scraping filings for CIK 0001767143...
+   ✅ CRESTVIEW MANAGEMENT LLC
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 18/20 (90%)
+
+================================================================================
+🐋 Lone Pine Capital (CIK: 0001159191)
+   Tier: GROWTH
+================================================================================
+📡 Scraping filings for CIK 0001159191...
+   ✅ JOHNSON GARY ROBERT
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 19/20 (95%)
+
+================================================================================
+🐋 Viking Global (CIK: 0001013542)
+   Tier: GROWTH
+================================================================================
+📡 Scraping filings for CIK 0001013542...
+   ✅ RA CAPITAL ASSOCIATES LLC
+   ⚠️  No se encontraron filings
+
+⏳ Esperando antes del siguiente whale...
+
+
+🔄 PROGRESO: 20/20 (100%)
+
+================================================================================
+🐋 Coatue Management (CIK: 0001336471)
+   Tier: GROWTH
+================================================================================
+📡 Scraping filings for CIK 0001336471...
+   ✅ 2472 West Foster LLC
+   ⚠️  No se encontraron filings
+
+
+================================================================================
+📊 RESUMEN DEL SCAN
+================================================================================
+
+✅ Exitosos: 11
+❌ Errores: 9
+
+🏆 TOP WHALES POR HOLDINGS:
+--------------------------------------------------------------------------------
+ 1. Vanguard Group                                17686 holdings (  8 con ticker)
+ 2. State Street                                  13217 holdings ( 11 con ticker)
+ 3. BlackRock                                     4510 holdings ( 17 con ticker)
+ 4. Millennium Management                         3457 holdings (  6 con ticker)
+ 5. Bridgewater Associates (Ray Dalio)            1014 holdings ( 18 con ticker)
+ 6. Appaloosa Management (David Tepper)            116 holdings ( 12 con ticker)
+ 7. Berkshire Hathaway (Warren Buffett)            115 holdings ( 20 con ticker)
+ 8. D.E. Shaw                                       46 holdings (  2 con ticker)
+ 9. Tiger Global Management                         22 holdings ( 15 con ticker)
+10. Pershing Square (Bill Ackman)                   11 holdings (  3 con ticker)
+
+⚠️  ERRORES:
+   • Fidelity: No filings found
+   • Renaissance Technologies: No filings found
+   • Third Point (Dan Loeb): No filings found
+   • Two Sigma Investments: No filings found
+   • Citadel Advisors (Ken Griffin): No filings found
+   • Tiger Cub - Chase Coleman: No filings found
+   • Lone Pine Capital: No filings found
+   • Viking Global: No filings found
+   • Coatue Management: No filings found
+
+📈 ESTADÍSTICAS POR TIER:
+--------------------------------------------------------------------------------
+HEDGE      -  6 whales |  3660 holdings | Avg: 610
+LEGEND     -  2 whales |  1129 holdings | Avg: 564
+MEGA       -  3 whales | 35413 holdings | Avg: 11804
+
+⏰ Completado: 2026-02-08 14:39:48
+================================================================================
+
+🎯 SIGUIENTE PASO:
+   python3 build_institutional_index.py
+
+   Esto construirá el índice completo y calculará scores institucionales
+
+🎉 SCAN COMPLETADO!
+
+================================================================================
+🤔 ¿Quieres construir el índice ahora? (recomendado)
+Construir índice (y/n): Traceback (most recent call last):
+  File "/Users/ale/Documents/stock_analyzer_a/scan_all_whales.py", line 216, in <module>
+    main()
+  File "/Users/ale/Documents/stock_analyzer_a/scan_all_whales.py", line 206, in main
+    build_now = input("Construir índice (y/n): ").strip().lower()
+EOFError: EOF when reading a line
