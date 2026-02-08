@@ -118,6 +118,12 @@
             font-weight: 800;
             color: var(--glass-accent);
         }
+        .company-name {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 0.25rem;
+        }
         .ticker-stats {
             display: flex;
             gap: 1.5rem;
@@ -259,6 +265,18 @@
 
     <script>
         let insiderData = {};
+        let tickerNames = {};
+
+        // Load ticker names
+        fetch('ticker_names.json')
+            .then(response => response.json())
+            .then(data => {
+                tickerNames = data;
+                console.log('✅ Nombres de empresas cargados');
+            })
+            .catch(error => {
+                console.log('ℹ️ Nombres de empresas no disponibles aún');
+            });
 
         // Load insider index
         fetch('insider_index.json')
@@ -346,11 +364,15 @@
 
             const buyRatio = data.total > 0 ? (data.purchases / data.total * 100).toFixed(0) : 0;
             const sellRatio = data.total > 0 ? (data.sales / data.total * 100).toFixed(0) : 0;
+            const companyName = tickerNames[ticker] || '';
 
             return `
                 <div class="glass-card ticker-card">
                     <div class="ticker-header">
-                        <div class="ticker-symbol">${ticker}</div>
+                        <div>
+                            <div class="ticker-symbol">${ticker}</div>
+                            ${companyName ? `<div class="company-name">${companyName}</div>` : ''}
+                        </div>
                         <div class="ticker-stats">
                             <div class="stat-item">
                                 <div class="stat-value">${data.total}</div>

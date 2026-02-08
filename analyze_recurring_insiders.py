@@ -87,17 +87,19 @@ def analyze_recurring_purchases(df):
     print("=" * 60)
 
     # Análisis por ticker
-    ticker_counts = defaultdict(lambda: {'count': 0, 'dates': [], 'insiders': set(), 'total_qty': 0})
+    ticker_counts = defaultdict(lambda: {'count': 0, 'dates': [], 'insiders': set(), 'total_qty': 0, 'company': ''})
 
     for _, row in df.iterrows():
         ticker = row['Ticker']
         date = row['Date']
         insider_title = row['InsiderTitle']
         qty = row['Qty']
+        company = row.get('Company', ticker)
 
         ticker_counts[ticker]['count'] += 1
         ticker_counts[ticker]['dates'].append(date)
         ticker_counts[ticker]['insiders'].add(insider_title)
+        ticker_counts[ticker]['company'] = company  # Guardar nombre de empresa
         try:
             ticker_counts[ticker]['total_qty'] += float(qty)
         except:
@@ -118,6 +120,7 @@ def analyze_recurring_purchases(df):
 
             recurring_tickers.append({
                 'ticker': ticker,
+                'company': data['company'],
                 'purchase_count': data['count'],
                 'unique_insiders': unique_insiders,
                 'days_span': days_span,
@@ -159,7 +162,10 @@ def generate_recurring_insiders_report(df, recurring_tickers):
         rows_html += f"""
         <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
             <td style="padding: 1rem; text-align: center;">{i}</td>
-            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">{item['ticker']}</td>
+            <td style="padding: 1rem;">
+                <div style="font-weight: 700; color: var(--glass-accent); font-size: 1.1rem;">{item['ticker']}</div>
+                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.25rem;">{item['company']}</div>
+            </td>
             <td style="padding: 1rem; text-align: center; font-weight: 700;">{item['purchase_count']}</td>
             <td style="padding: 1rem; text-align: center;">{item['unique_insiders']}</td>
             <td style="padding: 1rem; text-align: center;">{item['days_span']}</td>
