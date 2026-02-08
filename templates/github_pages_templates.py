@@ -1165,6 +1165,123 @@ class GitHubPagesTemplates:
         
         return html
 
+    def generate_vcp_scanner_page(self, manifest):
+        """Genera página VCP Scanner con diseño Liquid Glass"""
+        vcp_reports = manifest.get('vcp_reports', [])
+        total_vcp_reports = len(vcp_reports)
+        
+        return f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 VCP Scanner | Liquid Glass Dashboard</title>
+    <meta name="description" content="Sistema avanzado de detección de patrones VCP">
+    <style>
+        {self.liquid_css}
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <header class="liquid-header glass-card floating-element">
+            <h1>🚀 VCP Pattern Scanner</h1>
+            <p>Sistema inteligente de detección de patrones Volatility Contraction Pattern (VCP)</p>
+            <div class="live-pulse">
+                <div class="pulse-dot"></div>
+                <span>Detección Automática • Análisis Avanzado</span>
+            </div>
+        </header>
+        
+        <section class="content-liquid glass-card">
+            <h2 class="section-title">🧠 ¿Qué es el VCP Pattern?</h2>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                El Volatility Contraction Pattern (VCP) es un patrón de consolidación desarrollado por Mark Minervini.
+                Identifica acciones con contracciones de volatilidad sucesivas que preceden a grandes movimientos alcistas.
+            </p>
+        </section>
+        
+        <section class="stats-liquid">
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
+                <div class="stat-number">{total_vcp_reports}</div>
+                <div class="stat-label">Análisis Realizados</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
+                <div class="stat-number">3000+</div>
+                <div class="stat-label">Acciones Escaneadas</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Monitoreo Continuo</div>
+            </div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
+                <div class="stat-number">IA</div>
+                <div class="stat-label">Detección Automática</div>
+            </div>
+        </section>
+        
+        <main class="content-liquid glass-card">
+            <h2 class="section-title">🎯 Escaneos VCP Recientes</h2>
+            <div class="reports-fluid">
+                {self._generate_vcp_reports_html(vcp_reports[:10])}
+            </div>
+        </main>
+        
+        <footer class="footer-liquid">
+            <p>🚀 VCP Pattern Scanner • Powered by Advanced Pattern Recognition</p>
+            <p>
+                <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
+                <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
+                <a href="market_breadth.html">📈 Market Breadth</a>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {{
+            const elements = document.querySelectorAll('.fade-in-up');
+            elements.forEach((el, index) => {{
+                el.style.animationDelay = `${{index * 0.1}}s`;
+            }});
+        }});
+        console.log('🚀 VCP Scanner Dashboard Loaded');
+    </script>
+</body>
+</html>"""
+    
+    def _generate_vcp_reports_html(self, reports):
+        """Genera HTML para reportes VCP"""
+        if not reports:
+            return """
+            <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                <h3>🔄 Preparando Análisis VCP</h3>
+                <p>Los análisis de patrones VCP se generan periódicamente</p>
+            </div>
+            """
+        
+        html = ""
+        for i, report in enumerate(reports):
+            delay = round(i * 0.1, 1)
+            html += f"""
+            <div class="report-liquid floating-element" style="animation-delay: {delay}s">
+                <h3 class="report-title">🚀 {report['title']}</h3>
+                <div class="report-meta">
+                    📅 {report['date']} • 🕐 {report['time']}<br>
+                    {report['description']}
+                </div>
+                <div class="report-actions">
+                    <a href="{report['html_url']}" class="btn-liquid btn-primary-liquid">
+                        🎯 Ver Patrones VCP
+                    </a>
+                    <a href="{report['csv_url']}" class="btn-liquid btn-secondary-liquid">
+                        📥 Datos CSV
+                    </a>
+                </div>
+            </div>
+            """
+        
+        return html
+
+
 # Funciones utilitarias para uso directo - ACTUALIZADAS
 def generate_liquid_page(page_type, data, base_url=None):
     """
@@ -1274,4 +1391,4 @@ if __name__ == "__main__":
     print("✅ Templates de test generados:")
     print("   - test_main_dashboard_enhanced.html")
     print("   - test_enhanced_opportunities_page.html")
-    print("🚀 Enhanced Opportunities completamente integrado en templates")
+    print("🚀 Enhanced Opportunities completamente integrado en templates")    

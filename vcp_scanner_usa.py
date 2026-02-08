@@ -1309,3 +1309,342 @@ if __name__ == "__main__":
         print(f"❌ Error crítico: {e}")
     finally:
         print("🙏 Gracias por usar VCP Scanner Calibrado")
+# ===== WRAPPER PARA INTEGRACIÓN CON SISTEMA PRINCIPAL =====
+
+class VCPScannerEnhanced:
+    """Wrapper para integración con sistema_principal.py"""
+    
+    def __init__(self, alpha_vantage_key=None):
+        self.scanner = CalibratedVCPScanner(alpha_vantage_key)
+        self.last_results = []
+        logger.info("✅ VCPScannerEnhanced inicializado")
+    
+    def scan_market(self, symbol_list=None, quick_test=False):
+        """Escanear mercado - compatible con sistema_principal"""
+        try:
+            if quick_test:
+                # Test rápido con 30 acciones populares
+                symbols = [
+                    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX',
+                    'CRM', 'ADBE', 'PYPL', 'SQ', 'SHOP', 'ROKU', 'ZM', 'DOCU',
+                    'TWLO', 'OKTA', 'CRWD', 'ZS', 'DDOG', 'SNOW', 'PLTR', 'COIN',
+                    'RBLX', 'U', 'SOFI', 'HOOD', 'RIVN', 'LCID'
+                ]
+            elif symbol_list:
+                symbols = symbol_list
+            else:
+                # Por defecto, S&P 500
+                symbols = self.scanner.universe_manager.get_sp500_symbols()
+            
+            logger.info(f"🚀 Escaneando {len(symbols)} símbolos...")
+            results = self.scanner.scan_sequential(symbols)
+            self.last_results = results
+            
+            logger.info(f"✅ Escaneo completado: {len(results)} patrones VCP detectados")
+            return results
+            
+        except Exception as e:
+            logger.error(f"Error en scan_market: {e}")
+            return []
+    
+    def save_csv(self, results, csv_path):
+        """Guardar resultados en CSV"""
+        try:
+            if not results:
+                logger.warning("No hay resultados para guardar")
+                return False
+            
+            data = []
+            for result in results:
+                data.append({
+                    'ticker': result.ticker,
+                    'precio': result.current_price,
+                    'vcp_score': result.vcp_score,
+                    'calidad_patron': result.pattern_quality,
+                    'num_contracciones': len(result.contractions),
+                    'contracciones': ' → '.join([f'{c:.1f}%' for c in result.contractions]),
+                    'profundidad_base': result.base_depth,
+                    'etapa_analisis': result.stage_analysis,
+                    'trend_score': result.trend_score,
+                    'volumen_score': result.volume_score,
+                    'breakout_potential': result.breakout_potential,
+                    'listo_comprar': result.ready_to_buy,
+                    'sector': result.sector,
+                    'market_cap': result.market_cap,
+                    'razon': result.reason
+                })
+            
+            df = pd.DataFrame(data)
+            df.to_csv(csv_path, index=False)
+            logger.info(f"✅ CSV guardado: {csv_path}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error guardando CSV: {e}")
+            return False
+    
+    def generate_html(self, results, html_path):
+        """Generar HTML con diseño Liquid Glass"""
+        try:
+            if not results:
+                results = []
+            
+            # Separar por categorías
+            buy_candidates = [r for r in results if r.ready_to_buy]
+            excellent = [r for r in results if r.pattern_quality == "Excellent"]
+            good = [r for r in results if r.pattern_quality == "Good"]
+            
+            # Ordenar por score
+            results_sorted = sorted(results, key=lambda x: x.vcp_score, reverse=True)
+            
+            # Generar HTML
+            html_content = self._generate_vcp_html_page(
+                results_sorted[:20],  # Top 20
+                total_scanned=self.scanner.processed_count,
+                buy_candidates=len(buy_candidates),
+                excellent=len(excellent),
+                good=len(good)
+            )
+            
+            with open(html_path, 'w', encoding='utf-8') as f:
+                f.write(html_content)
+            
+            logger.info(f"✅ HTML generado: {html_path}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error generando HTML: {e}")
+            return False
+    
+    def _generate_vcp_html_page(self, results, total_scanned, buy_candidates, excellent, good):
+        """Generar página HTML con diseño Liquid Glass"""
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M')
+        
+        # Generar tabla de resultados
+        results_html = ""
+        for i, result in enumerate(results[:20], 1):
+            status_color = "#48bb78" if result.ready_to_buy else "#f6ad55"
+            status_text = "🟢 COMPRAR" if result.ready_to_buy else "🟡 VIGILAR"
+            quality_color = {"Excellent": "#48bb78", "Good": "#4299e1", "Fair": "#f6ad55", "Poor": "#fc8181"}.get(result.pattern_quality, "#a0aec0")
+            
+            contractions_str = ' → '.join([f'{c:.1f}%' for c in result.contractions[:4]])
+            if len(result.contractions) > 4:
+                contractions_str += "..."
+            
+            results_html += f"""
+            <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <td style="padding: 1rem; text-align: center;">{i}</td>
+                <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">{result.ticker}</td>
+                <td style="padding: 1rem;">${result.current_price:.2f}</td>
+                <td style="padding: 1rem; font-weight: 700; color: {quality_color};">{result.vcp_score:.1f}%</td>
+                <td style="padding: 1rem; color: {quality_color};">{result.pattern_quality}</td>
+                <td style="padding: 1rem;">{result.base_depth:.1f}%</td>
+                <td style="padding: 1rem; font-size: 0.85rem;">{contractions_str}</td>
+                <td style="padding: 1rem; font-size: 0.85rem;">{result.stage_analysis[:20]}</td>
+                <td style="padding: 1rem; color: {status_color}; font-weight: 600;">{status_text}</td>
+            </tr>
+            """
+        
+        if not results_html:
+            results_html = """
+            <tr>
+                <td colspan="9" style="padding: 2rem; text-align: center; color: var(--text-secondary);">
+                    <h3>🔍 No se encontraron patrones VCP</h3>
+                    <p>Intenta escanear un universo más amplio o ajustar los criterios</p>
+                </td>
+            </tr>
+            """
+        
+        return f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 VCP Scanner | Liquid Glass Dashboard</title>
+    <style>
+        :root {{
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-secondary: rgba(139, 92, 246, 0.7);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-bg-hover: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }}
+        
+        * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+        
+        body {{
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }}
+        
+        .container {{
+            max-width: 1600px;
+            margin: 0 auto;
+        }}
+        
+        .glass-card {{
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }}
+        
+        h1 {{
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }}
+        
+        .stats-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }}
+        
+        .stat-box {{
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }}
+        
+        .stat-number {{
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }}
+        
+        .stat-label {{
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }}
+        
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+        }}
+        
+        th {{
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }}
+        
+        .back-link {{
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }}
+        
+        .back-link:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="https://tantancansado.github.io/stock_analyzer_a" class="back-link">🏠 Volver al Dashboard</a>
+        
+        <div class="glass-card">
+            <h1>🚀 VCP Pattern Scanner</h1>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1rem;">
+                Volatility Contraction Pattern Detection System
+            </p>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                📅 {timestamp}
+            </p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number">{total_scanned}</div>
+                <div class="stat-label">Acciones Escaneadas</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">{len(results)}</div>
+                <div class="stat-label">Patrones VCP</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">{buy_candidates}</div>
+                <div class="stat-label">Listos Comprar</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">{excellent}</div>
+                <div class="stat-label">Excelentes</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">{good}</div>
+                <div class="stat-label">Buenos</div>
+            </div>
+        </div>
+        
+        <div class="glass-card">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🏆 Top Candidatos VCP</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ticker</th>
+                            <th>Precio</th>
+                            <th>VCP Score</th>
+                            <th>Calidad</th>
+                            <th>Base %</th>
+                            <th>Contracciones</th>
+                            <th>Etapa</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {results_html}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="glass-card" style="text-align: center; color: var(--text-secondary);">
+            <p>🚀 VCP Scanner Calibrado • Powered by Advanced Pattern Recognition</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">
+                Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner
+            </p>
+        </div>
+    </div>
+</body>
+</html>"""
+
+logger.info("✅ VCPScannerEnhanced wrapper creado correctamente")
+
