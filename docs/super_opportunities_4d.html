@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <parameter name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌟 Super Opportunities 4D | Quadruple Analysis</title>
+    <style>
+        :root {
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-secondary: rgba(139, 92, 246, 0.7);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            --glass-gold: rgba(255, 215, 0, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container { max-width: 2000px; margin: 0 auto; }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #ff8c00, #ff1493, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ticker {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--glass-accent);
+        }
+
+        .score {
+            font-weight: 900;
+            font-size: 1.3rem;
+        }
+
+        .legendary { color: #ffd700; }
+        .epic { color: #ff8c00; }
+        .excellent { color: #00ff88; }
+        .good { color: #00bfff; }
+        .moderate { color: #8b5cf6; }
+
+        .dimension-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 0.15rem;
+        }
+
+        .vcp-badge { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .insider-badge { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .sector-badge { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .institutional-badge { background: rgba(168, 85, 247, 0.2); color: #a78bfa; }
+
+        .whale-info {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            border-color: var(--glass-accent);
+            transform: translateY(-2px);
+        }
+
+        .methodology {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-left: 4px solid var(--glass-accent);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card hero-section">
+            <h1>🌟 SUPER OPPORTUNITIES 4D</h1>
+            <div class="subtitle">Quadruple Analysis: VCP + Insiders + Sector + Institutional</div>
+            <div class="subtitle" style="font-size: 0.9rem; margin-top: 1rem;">
+                📅 Actualizado: <span id="lastUpdate">Loading...</span>
+            </div>
+
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="index.html" class="nav-link">🏠 Dashboard</a>
+                <a href="super_opportunities.html" class="nav-link">⭐ 3D Analysis (Legacy)</a>
+                <a href="institutional_tracker.html" class="nav-link">🏛️ Institutional Tracker</a>
+                <a href="vcp_scanner_results.html" class="nav-link">📊 VCP Scanner</a>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number" id="totalOpps">-</div>
+                    <div class="stat-label">Total Opportunities</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="legendaryCount">-</div>
+                    <div class="stat-label">⭐⭐⭐⭐ LEGENDARY</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="epicCount">-</div>
+                    <div class="stat-label">⭐⭐⭐ ÉPICAS</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="excellentCount">-</div>
+                    <div class="stat-label">⭐⭐ EXCELENTES</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="withInstitutional">-</div>
+                    <div class="stat-label">🐋 With Whale Data</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🏆 All 4D Opportunities</h2>
+            <div style="overflow-x: auto;">
+                <table id="opportunitiesTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ticker</th>
+                            <th>4D Score</th>
+                            <th>Tier</th>
+                            <th>VCP</th>
+                            <th>Insiders</th>
+                            <th>Sector</th>
+                            <th>Institutional</th>
+                            <th>Whales</th>
+                        </tr>
+                    </thead>
+                    <tbody id="opportunitiesBody">
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 2rem;">
+                                Loading opportunities...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="methodology">
+            <h3 style="color: var(--glass-accent); margin-bottom: 1rem;">📖 Metodología 4D</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                Sistema de análisis cuádruple que combina 4 dimensiones clave para identificar oportunidades de alta probabilidad.
+            </p>
+            <h4 style="color: var(--text-primary); margin-top: 1rem;">Las 4 Dimensiones:</h4>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li><strong>🚀 VCP Pattern (0-100):</strong> Análisis técnico del patrón Volatility Contraction Pattern</li>
+                <li><strong>🔁 Recurring Insiders (0-100):</strong> Compras repetidas de ejecutivos (señal de confianza interna)</li>
+                <li><strong>📊 Sector State (0-100):</strong> Estado relativo del sector (DJ Sectorial Analysis)</li>
+                <li><strong>🏛️ Institutional (0-100):</strong> Holdings de whale investors (Buffett, Dalio, etc.)</li>
+            </ul>
+            <h4 style="color: var(--text-primary); margin-top: 1rem;">Super Score 4D:</h4>
+            <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                Promedio ponderado de las 4 dimensiones. Score ≥ 85 = LEGENDARY (confirmación cuádruple).
+            </p>
+            <h4 style="color: var(--text-primary); margin-top: 1rem;">Whale Investors:</h4>
+            <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+                Trackeamos holdings de Berkshire Hathaway, Bridgewater, Vanguard, BlackRock, State Street, ARK, Pershing Square, y más.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        async function loadOpportunities() {
+            try {
+                const response = await fetch('super_opportunities_4d_complete.csv');
+                const csvText = await response.text();
+
+                // Parse CSV
+                const lines = csvText.trim().split('\n');
+                const headers = lines[0].split(',');
+                const data = lines.slice(1).map(line => {
+                    const values = parseCSVLine(line);
+                    const obj = {};
+                    headers.forEach((header, i) => {
+                        obj[header.trim()] = values[i] ? values[i].trim() : '';
+                    });
+                    return obj;
+                });
+
+                // Calculate stats
+                const legendary = data.filter(d => parseFloat(d.super_score_4d) >= 85);
+                const epic = data.filter(d => parseFloat(d.super_score_4d) >= 75 && parseFloat(d.super_score_4d) < 85);
+                const excellent = data.filter(d => parseFloat(d.super_score_4d) >= 65 && parseFloat(d.super_score_4d) < 75);
+                const withInst = data.filter(d => parseFloat(d.institutional_score) > 0);
+
+                // Update stats
+                document.getElementById('totalOpps').textContent = data.length;
+                document.getElementById('legendaryCount').textContent = legendary.length;
+                document.getElementById('epicCount').textContent = epic.length;
+                document.getElementById('excellentCount').textContent = excellent.length;
+                document.getElementById('withInstitutional').textContent = withInst.length;
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString();
+
+                // Display table
+                displayTable(data);
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('opportunitiesBody').innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; color: var(--text-secondary);">
+                            ❌ Error loading data: ${error.message}
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current);
+
+            return result;
+        }
+
+        function displayTable(data) {
+            const tbody = document.getElementById('opportunitiesBody');
+
+            tbody.innerHTML = data.map((opp, index) => {
+                const score = parseFloat(opp.super_score_4d);
+                const vcp = parseFloat(opp.vcp_score);
+                const insiders = parseFloat(opp.insiders_score);
+                const sector = parseFloat(opp.sector_score);
+                const institutional = parseFloat(opp.institutional_score);
+                const numWhales = parseInt(opp.num_whales) || 0;
+
+                const scoreClass = score >= 85 ? 'legendary' :
+                                 score >= 75 ? 'epic' :
+                                 score >= 65 ? 'excellent' :
+                                 score >= 55 ? 'good' : 'moderate';
+
+                const whaleInfo = numWhales > 0 ?
+                    `<div class="whale-info">🐋 ${numWhales} whales: ${opp.top_whales.substring(0, 50)}${opp.top_whales.length > 50 ? '...' : ''}</div>` :
+                    '';
+
+                return `
+                    <tr>
+                        <td style="text-align: center; color: var(--text-secondary);">${index + 1}</td>
+                        <td class="ticker">${opp.ticker}</td>
+                        <td class="score ${scoreClass}">${score.toFixed(1)}</td>
+                        <td>${opp.tier}</td>
+                        <td><span class="dimension-badge vcp-badge">${vcp.toFixed(0)}</span></td>
+                        <td><span class="dimension-badge insider-badge">${insiders.toFixed(0)}</span></td>
+                        <td><span class="dimension-badge sector-badge">${sector.toFixed(0)}</span></td>
+                        <td>
+                            <span class="dimension-badge institutional-badge">${institutional.toFixed(0)}</span>
+                            ${whaleInfo}
+                        </td>
+                        <td style="text-align: center; font-weight: 700;">${numWhales}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Load data on page load
+        loadOpportunities();
+    </script>
+</body>
+</html>
