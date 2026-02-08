@@ -595,7 +595,12 @@ class GitHubPagesTemplates:
         total_enhanced_reports = manifest.get('total_enhanced_reports', 0)  # NUEVO
         last_update = manifest['last_update'][:10] if manifest['last_update'] else 'N/A'
         unique_days = len(set(r['date'] for r in manifest['reports'])) if manifest['reports'] else 0
-        
+
+        # Get latest insider report URL (fix for broken link)
+        latest_insider_url = "reports/daily/"
+        if manifest.get('reports') and len(manifest['reports']) > 0:
+            latest_insider_url = manifest['reports'][0].get('html_url', 'reports/daily/')
+
         return f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -645,7 +650,7 @@ class GitHubPagesTemplates:
         <nav class="navigation-liquid glass-card">
             <h2 class="section-title">🎯 Módulos de Análisis Avanzado</h2>
             <div class="nav-grid">
-                <a href="reports/insider/index.html" class="nav-card">
+                <a href="{latest_insider_url}" class="nav-card">
                     <div class="nav-icon">🏛️</div>
                     <div class="nav-title">Insider Trading</div>
                     <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones de comportamiento ejecutivo</div>
@@ -824,7 +829,7 @@ class GitHubPagesTemplates:
                 <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
                 <a href="market_breadth.html">📈 Market Breadth</a> • 
-                <a href="insider_trading.html">🏛️ Insider Trading</a>
+                <a href="reports/daily/">🏛️ Insider Trading</a>
             </p>
         </footer>
     </div>
@@ -912,7 +917,7 @@ class GitHubPagesTemplates:
                 <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
                 <a href="market_breadth.html">📈 Market Breadth</a> • 
                 <a href="enhanced_opportunities.html">🎯 Enhanced Opportunities</a> • 
-                <a href="insider_trading.html">🏛️ Insider Trading</a>
+                <a href="reports/daily/">🏛️ Insider Trading</a>
             </p>
         </footer>
     </div>
@@ -997,7 +1002,7 @@ class GitHubPagesTemplates:
                 <a href="{self.base_url}">🏠 Dashboard Principal</a> • 
                 <a href="dj_sectorial.html">📊 DJ Sectorial</a> • 
                 <a href="enhanced_opportunities.html">🎯 Enhanced Opportunities</a> • 
-                <a href="insider_trading.html">🏛️ Insider Trading</a>
+                <a href="reports/daily/">🏛️ Insider Trading</a>
             </p>
         </footer>
     </div>
@@ -1026,10 +1031,10 @@ class GitHubPagesTemplates:
                 <p>Los análisis aparecerán aquí cuando el sistema esté en funcionamiento</p>
             </div>
             """
-        
+
         html = ""
         for i, report in enumerate(reports):
-            delay = i * 0.1
+            delay = round(i * 0.1, 1)  # Fix floating point precision
             
             # Determinar icono según tipo de reporte
             icon = "🏛️" if "insider" in report.get('type', '').lower() else \
@@ -1071,7 +1076,7 @@ class GitHubPagesTemplates:
         
         html = ""
         for i, report in enumerate(reports):
-            delay = i * 0.1
+            delay = round(i * 0.1, 1)  # Fix floating point precision
             html += f"""
             <div class="report-liquid floating-element" style="animation-delay: {delay}s">
                 <h3 class="report-title">🎯 {report['title']}</h3>
@@ -1105,7 +1110,7 @@ class GitHubPagesTemplates:
         
         html = ""
         for i, report in enumerate(reports):
-            delay = i * 0.1
+            delay = round(i * 0.1, 1)  # Fix floating point precision
             html += f"""
             <div class="report-liquid floating-element" style="animation-delay: {delay}s">
                 <h3 class="report-title">📊 {report['title']}</h3>
@@ -1139,7 +1144,7 @@ class GitHubPagesTemplates:
         
         html = ""
         for i, report in enumerate(reports):
-            delay = i * 0.1
+            delay = round(i * 0.1, 1)  # Fix floating point precision
             html += f"""
             <div class="report-liquid floating-element" style="animation-delay: {delay}s">
                 <h3 class="report-title">📈 {report['title']}</h3>

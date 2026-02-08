@@ -2939,13 +2939,17 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             # URLs de GitHub Pages
             base_url = "https://tantancansado.github.io/stock_analyzer_a"
             if results['github_insider']:
-                github_links += f"\n🏛️ [Ver Insider Trading]({base_url}/reports/insider/index.html)"
+                insider_url = results['github_insider'].get('github_url', f"{base_url}/reports/daily/") if isinstance(results['github_insider'], dict) else f"{base_url}/reports/daily/"
+                github_links += f"\n🏛️ [Ver Insider Trading]({insider_url})"
             if results['github_dj']:
-             github_links += f"\n📊 [Ver DJ Sectorial]({results['github_dj']['github_url']})"
+                dj_url = results['github_dj'].get('github_url', f"{base_url}/reports/dj_sectorial/index.html") if isinstance(results['github_dj'], dict) else f"{base_url}/reports/dj_sectorial/index.html"
+                github_links += f"\n📊 [Ver DJ Sectorial]({dj_url})"
             if results['github_breadth']:
-                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({base_url}/reports/market_breadth/index.html)"
+                breadth_url = results['github_breadth'].get('github_url', f"{base_url}/reports/market_breadth/index.html") if isinstance(results['github_breadth'], dict) else f"{base_url}/reports/market_breadth/index.html"
+                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({breadth_url})"
             if results['github_enhanced']:
-                github_links += f"\n🎯 [Ver Enhanced Opportunities]({base_url}/reports/enhanced_opportunities/index.html)"
+                enhanced_url = results['github_enhanced'].get('github_url', f"{base_url}/reports/enhanced_opportunities/index.html") if isinstance(results['github_enhanced'], dict) else f"{base_url}/reports/enhanced_opportunities/index.html"
+                github_links += f"\n🎯 [Ver Enhanced Opportunities]({enhanced_url})"
             
             return results
             
@@ -3053,13 +3057,17 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             base_url = "https://tantancansado.github.io/stock_analyzer_a"
             github_links = ""
             if results['github_insider']:
-                github_links += f"\n🏛️ [Ver Insider Trading]({base_url}/reports/insider/index.html)"
+                insider_url = results['github_insider'].get('github_url', f"{base_url}/reports/daily/") if isinstance(results['github_insider'], dict) else f"{base_url}/reports/daily/"
+                github_links += f"\n🏛️ [Ver Insider Trading]({insider_url})"
             if results['github_dj']:
-                github_links += f"\n📊 [Ver DJ Sectorial]({base_url}/reports/dj_sectorial/index.html)"
+                dj_url = results['github_dj'].get('github_url', f"{base_url}/reports/dj_sectorial/index.html") if isinstance(results['github_dj'], dict) else f"{base_url}/reports/dj_sectorial/index.html"
+                github_links += f"\n📊 [Ver DJ Sectorial]({dj_url})"
             if results['github_breadth']:
-                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({base_url}/reports/market_breadth/index.html)"
+                breadth_url = results['github_breadth'].get('github_url', f"{base_url}/reports/market_breadth/index.html") if isinstance(results['github_breadth'], dict) else f"{base_url}/reports/market_breadth/index.html"
+                github_links += f"\n📈 [Ver Market Breadth COMPLETO]({breadth_url})"
             if results['github_enhanced']:
-                github_links += f"\n🎯 [Ver Enhanced Opportunities]({base_url}/reports/enhanced_opportunities/index.html)"
+                enhanced_url = results['github_enhanced'].get('github_url', f"{base_url}/reports/enhanced_opportunities/index.html") if isinstance(results['github_enhanced'], dict) else f"{base_url}/reports/enhanced_opportunities/index.html"
+                github_links += f"\n🎯 [Ver Enhanced Opportunities]({enhanced_url})"
             
             if github_links:
                 base_url = "https://tantancansado.github.io/stock_analyzer_a"
