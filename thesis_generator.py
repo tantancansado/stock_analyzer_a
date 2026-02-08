@@ -447,10 +447,25 @@ def main():
         else:
             print(f"❌ {thesis['error']}")
 
-    # Guardar JSON
+    # Guardar JSON (convertir NaN a null para compatibilidad con JavaScript)
+    import numpy as np
+    def convert_nan_to_none(obj):
+        """Convierte NaN/Inf a None recursivamente para compatibilidad JSON"""
+        if isinstance(obj, dict):
+            return {k: convert_nan_to_none(v) for k, v in obj.items()}
+        elif isinstance(obj, list):
+            return [convert_nan_to_none(item) for item in obj]
+        elif isinstance(obj, float):
+            if np.isnan(obj) or np.isinf(obj):
+                return None
+            return obj
+        return obj
+
+    theses_clean = convert_nan_to_none(theses)
+
     output_file = Path("docs/theses.json")
     with open(output_file, 'w') as f:
-        json.dump(theses, f, indent=2, default=str)
+        json.dump(theses_clean, f, indent=2, default=str)
 
     print(f"\n{'='*80}")
     print(f"✅ {len(theses)} tesis guardadas en: {output_file}")
