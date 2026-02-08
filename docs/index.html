@@ -493,15 +493,28 @@
         // Load 5D opportunities data
         async function loadDashboardData() {
             try {
-                // Try loading with earnings first
-                let response;
-                try {
-                    response = await fetch('super_opportunities_5d_complete_with_earnings.csv');
-                } catch (e) {
-                    response = await fetch('super_opportunities_5d_complete.csv');
+                // Try loading from multiple fallback paths
+                const csvPaths = [
+                    'super_opportunities_5d_complete_with_earnings.csv',
+                    'super_opportunities_5d_complete.csv',
+                    'super_opportunities_4d_complete_with_earnings.csv',
+                    'super_opportunities_4d_complete.csv'
+                ];
+
+                let csvText = null;
+                for (const path of csvPaths) {
+                    try {
+                        const r = await fetch(path);
+                        if (r.ok) {
+                            csvText = await r.text();
+                            break;
+                        }
+                    } catch (fetchError) {
+                        console.warn('Could not load', path, fetchError.message);
+                    }
                 }
 
-                const csvText = await response.text();
+                if (!csvText) throw new Error('No CSV found');
                 const lines = csvText.trim().split('\n');
                 const headers = lines[0].split(',');
 
