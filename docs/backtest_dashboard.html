@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Backtest Dashboard | Performance Validation</title>
+    <style>
+        :root {
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-secondary: rgba(139, 92, 246, 0.7);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --green: #48bb78;
+            --red: #f56565;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15) 0%, rgba(2, 6, 23, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container { max-width: 1800px; margin: 0 auto; }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #ff8c00, #ff1493, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            border-color: var(--glass-accent);
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .positive { color: var(--green); }
+        .negative { color: var(--red); }
+        .neutral { color: #fbbf24; }
+
+        .timeframe-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab:hover {
+            border-color: var(--glass-accent);
+        }
+
+        .tab.active {
+            background: var(--glass-primary);
+            color: white;
+            border-color: var(--glass-primary);
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            min-height: 300px;
+        }
+
+        .tier-section {
+            margin-bottom: 2rem;
+        }
+
+        .tier-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+        }
+
+        .tier-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .tier-stat {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ticker {
+            font-weight: 700;
+            color: var(--glass-accent);
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .warning-box {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--glass-primary), var(--glass-accent));
+            transition: width 1s ease;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            h1 { font-size: 2rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .timeframe-tabs { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="glass-card">
+            <h1>📊 BACKTEST DASHBOARD</h1>
+            <p class="subtitle">Performance Validation System - Signal Analysis Over Time</p>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">🏠 Dashboard</a>
+                <a href="super_opportunities_4d.html" class="nav-link">🌟 4D Opportunities</a>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="info-box">
+            <strong>ℹ️ Sistema de Backtesting</strong><br>
+            El backtesting valida la efectividad de las señales 4D trackeando performance real en diferentes timeframes.
+            Cada snapshot captura precios de entrada y calcula returns a 7d, 30d, 60d y 90d.
+        </div>
+
+        <!-- Snapshots Available -->
+        <div class="glass-card">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">📸 Snapshots Disponibles</h2>
+            <div id="snapshotsList">
+                <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                    Buscando snapshots...
+                </div>
+            </div>
+        </div>
+
+        <!-- Global Performance Stats -->
+        <div class="glass-card" id="globalStats" style="display: none;">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">📈 Performance Global</h2>
+
+            <!-- Timeframe Tabs -->
+            <div class="timeframe-tabs">
+                <div class="tab active" onclick="switchTimeframe('7d')">7 Días</div>
+                <div class="tab" onclick="switchTimeframe('30d')">30 Días</div>
+                <div class="tab" onclick="switchTimeframe('60d')">60 Días</div>
+                <div class="tab" onclick="switchTimeframe('90d')">90 Días</div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number positive" id="avgReturn">-</div>
+                    <div class="stat-label">Avg Return</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number neutral" id="medianReturn">-</div>
+                    <div class="stat-label">Median Return</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="winRate">-</div>
+                    <div class="stat-label">Win Rate</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="winRateBar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number positive" id="bestReturn">-</div>
+                    <div class="stat-label">Best Trade</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number negative" id="worstReturn">-</div>
+                    <div class="stat-label">Worst Trade</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number neutral" id="totalSamples">-</div>
+                    <div class="stat-label">Total Samples</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance by Tier -->
+        <div class="glass-card" id="tierStats" style="display: none;">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🏆 Performance por Tier</h2>
+
+            <!-- LEGENDARY -->
+            <div class="tier-section">
+                <div class="tier-header" style="color: #ffd700;">
+                    ⭐⭐⭐⭐ LEGENDARY (Score ≥ 85)
+                </div>
+                <div class="tier-stats" id="legendaryStats">
+                    <div class="tier-stat">
+                        <div class="stat-number positive" id="legendary-avg">-</div>
+                        <div class="stat-label">Avg Return</div>
+                    </div>
+                    <div class="tier-stat">
+                        <div class="stat-number" id="legendary-winrate">-</div>
+                        <div class="stat-label">Win Rate</div>
+                    </div>
+                    <div class="tier-stat">
+                        <div class="stat-number neutral" id="legendary-samples">-</div>
+                        <div class="stat-label">Samples</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉPICAS -->
+            <div class="tier-section">
+                <div class="tier-header" style="color: #ff8c00;">
+                    ⭐⭐⭐ ÉPICAS (Score ≥ 75)
+                </div>
+                <div class="tier-stats" id="epicStats">
+                    <div class="tier-stat">
+                        <div class="stat-number positive" id="epic-avg">-</div>
+                        <div class="stat-label">Avg Return</div>
+                    </div>
+                    <div class="tier-stat">
+                        <div class="stat-number" id="epic-winrate">-</div>
+                        <div class="stat-label">Win Rate</div>
+                    </div>
+                    <div class="tier-stat">
+                        <div class="stat-number neutral" id="epic-samples">-</div>
+                        <div class="stat-label">Samples</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXCELENTES -->
+            <div class="tier-section">
+                <div class="tier-header" style="color: #00ff88;">
+                    ⭐⭐ EXCELENTES (Score ≥ 65)
+                </div>
+                <div class="tier-stats" id="excellentStats">
+                    <div class="tier-stat">
+                        <div class="stat-number positive" id="excellent-avg">-</div>
+                        <div class="stat-label">Avg Return</div>
+                    </div>
+                    <div class="tier-stat">
+                        <div class="stat-number" id="excellent-winrate">-</div>
+                        <div class="stat-label">Win Rate</div>
+                    </div>
+                    <div class="tier-stat">
+                        <div class="stat-number neutral" id="excellent-samples">-</div>
+                        <div class="stat-label">Samples</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top/Bottom Trades -->
+        <div class="glass-card" id="tradesTable" style="display: none;">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🎯 Best & Worst Trades</h2>
+
+            <h3 style="color: var(--green); margin: 1.5rem 0 1rem 0;">✅ Top 10 Winners</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticker</th>
+                            <th>Entry</th>
+                            <th>Exit</th>
+                            <th>Return</th>
+                            <th>Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topWinnersBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                No data available
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 style="color: var(--red); margin: 2rem 0 1rem 0;">❌ Top 10 Losers</h3>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticker</th>
+                            <th>Entry</th>
+                            <th>Exit</th>
+                            <th>Return</th>
+                            <th>Tier</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topLosersBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                                No data available
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="warning-box">
+            <strong>⚠️ Cómo usar el sistema:</strong><br>
+            1. <strong>Crear snapshots</strong>: Ejecuta <code>python3 backtest_system.py</code> regularmente para capturar oportunidades con precios<br>
+            2. <strong>Analizar resultados</strong>: Después de X días, ejecuta el análisis para calcular returns<br>
+            3. <strong>Validar sistema</strong>: Verifica si LEGENDARY tiene mejor performance que otras tiers<br>
+            <br>
+            📖 <strong>Documentación completa</strong>: Ver <a href="../BACKTEST_README.md" style="color: #fbbf24;">BACKTEST_README.md</a>
+        </div>
+    </div>
+
+    <script>
+        let currentTimeframe = '7d';
+        let currentData = null;
+
+        // Check for available snapshots and results
+        async function loadBacktestData() {
+            try {
+                // Try to load the most recent backtest result
+                // For now, we'll show instructions since backtest data needs to be generated
+                displayInstructions();
+            } catch (error) {
+                console.error('Error loading backtest data:', error);
+                displayInstructions();
+            }
+        }
+
+        function displayInstructions() {
+            const snapshotsList = document.getElementById('snapshotsList');
+            snapshotsList.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">No hay snapshots disponibles todavía</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        El sistema de backtesting requiere snapshots históricos para analizar performance.<br>
+                        Crea tu primer snapshot ejecutando el comando:
+                    </p>
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; margin: 1rem auto; max-width: 500px; font-family: monospace;">
+                        python3 backtest_system.py
+                    </div>
+                    <p style="color: var(--text-secondary); margin-top: 1.5rem; font-size: 0.9rem;">
+                        Los snapshots se guardan en <code>data/backtest/snapshots/</code><br>
+                        Los resultados se guardan en <code>data/backtest/results/</code>
+                    </p>
+                    <div style="margin-top: 2rem;">
+                        <h4 style="color: var(--text-primary); margin-bottom: 1rem;">🎯 Próximos pasos:</h4>
+                        <div style="text-align: left; max-width: 600px; margin: 0 auto; color: var(--text-secondary);">
+                            <p style="margin-bottom: 0.5rem;">1. ✅ Crear primer snapshot (hoy)</p>
+                            <p style="margin-bottom: 0.5rem;">2. ⏱️ Esperar 7-30 días</p>
+                            <p style="margin-bottom: 0.5rem;">3. 📊 Analizar resultados con <code>analyze_latest_snapshot()</code></p>
+                            <p style="margin-bottom: 0.5rem;">4. 🔄 Repetir semanalmente para tracking continuo</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchTimeframe(timeframe) {
+            currentTimeframe = timeframe;
+
+            // Update tab styles
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update stats if data is available
+            if (currentData) {
+                updateStats(currentData, timeframe);
+            }
+        }
+
+        function updateStats(data, timeframe) {
+            // This would be populated when actual backtest results are loaded
+            // For now, showing placeholder
+        }
+
+        // Load data on page load
+        loadBacktestData();
+    </script>
+</body>
+</html>
