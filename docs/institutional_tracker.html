@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏛️ Institutional Tracker | Whale Investors</title>
+    <style>
+        :root {
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            --glass-gold: rgba(255, 215, 0, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1800px; margin: 0 auto; }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .stat-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .whale-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .whale-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .whale-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--glass-accent);
+            box-shadow: 0 12px 36px rgba(59, 130, 246, 0.3);
+        }
+        .whale-card.legend {
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(255, 140, 0, 0.05));
+        }
+        .whale-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--glass-accent);
+            margin-bottom: 0.5rem;
+        }
+        .whale-tier {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .tier-legend {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+        }
+        .tier-mega {
+            background: rgba(139, 92, 246, 0.2);
+            color: #8B5CF6;
+        }
+        .tier-hedge {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3B82F6;
+        }
+        .tier-growth {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .back-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        }
+        .methodology {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="https://tantancansado.github.io/stock_analyzer_a" class="back-link">🏠 Volver al Dashboard</a>
+
+        <div class="glass-card hero-section">
+            <h1>🏛️ Institutional Tracker</h1>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem;">
+                Tracking SEC 13F Filings from Top Whale Investors
+            </p>
+            <p style="text-align: center; color: var(--text-secondary); margin-top: 0.5rem;">
+                📅 Data actualizada: <span id="lastUpdate">Loading...</span>
+            </p>
+        </div>
+
+        <div class="stats-grid" id="globalStats">
+            <div class="stat-box">
+                <div class="stat-number" id="totalWhales">-</div>
+                <div class="stat-label">Whale Investors</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="totalHoldings">-</div>
+                <div class="stat-label">Total Holdings</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="uniqueTickers">-</div>
+                <div class="stat-label">Unique Tickers</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number" id="totalValue">-</div>
+                <div class="stat-label">Total AUM</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🐋 Whale Investors Tracked</h2>
+            <div class="whale-grid" id="whalesGrid">
+                <div class="loading">Cargando datos de whales...</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🏆 Top Holdings Across All Whales</h2>
+            <div style="overflow-x: auto;">
+                <table id="topHoldingsTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ticker</th>
+                            <th>Company</th>
+                            <th>Whales Holding</th>
+                            <th>Total Value</th>
+                            <th>Institutional Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topHoldingsBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 2rem;">
+                                Cargando holdings...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="methodology">
+            <h3 style="color: var(--glass-accent); margin-bottom: 1rem;">📖 Metodología</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                Este sistema trackea los holdings institucionales de los top 20 whale investors mediante scraping de SEC 13F filings.
+            </p>
+            <h4 style="color: var(--text-primary); margin-top: 1rem;">Whale Tiers:</h4>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li><strong>LEGEND</strong>: Warren Buffett, Ray Dalio - Multiplicador 3x</li>
+                <li><strong>MEGA</strong>: BlackRock, Vanguard, State Street - Multiplicador 2x</li>
+                <li><strong>HEDGE</strong>: ARK, Pershing Square, Tiger Global - Multiplicador 1.5x</li>
+                <li><strong>GROWTH</strong>: Coatue, Lone Pine, Viking - Multiplicador 1.5x</li>
+            </ul>
+            <h4 style="color: var(--text-primary); margin-top: 1rem;">Institutional Score:</h4>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li>Nuevas posiciones: +50 puntos por whale</li>
+                <li>Incrementos +20%: +30 puntos por whale</li>
+                <li>Múltiples whales: +10 puntos por whale</li>
+                <li>Aplicado tier multiplier</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function loadInstitutionalData() {
+            try {
+                // Cargar índice de holdings
+                const response = await fetch('../data/institutional/ticker_institutional_index.json');
+                const tickerIndex = await response.json();
+
+                // Calcular stats globales
+                const uniqueTickers = Object.keys(tickerIndex).length;
+                let totalHoldings = 0;
+                let totalValue = 0;
+
+                const whalesSet = new Set();
+
+                for (const [ticker, holdings] of Object.entries(tickerIndex)) {
+                    totalHoldings += holdings.length;
+                    holdings.forEach(h => {
+                        totalValue += h.value || 0;
+                        whalesSet.add(h.whale_name);
+                    });
+                }
+
+                // Update stats
+                document.getElementById('totalWhales').textContent = whalesSet.size;
+                document.getElementById('totalHoldings').textContent = totalHoldings.toLocaleString();
+                document.getElementById('uniqueTickers').textContent = uniqueTickers.toLocaleString();
+                document.getElementById('totalValue').textContent = formatValue(totalValue);
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString();
+
+                // Top holdings
+                displayTopHoldings(tickerIndex);
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('topHoldingsBody').innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: var(--text-secondary);">
+                            ⚠️ Ejecuta primero: python3 scan_all_whales.py
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function displayTopHoldings(tickerIndex) {
+            const holdings = Object.entries(tickerIndex).map(([ticker, whales]) => {
+                const numWhales = whales.length;
+                const totalValue = whales.reduce((sum, w) => sum + (w.value || 0), 0);
+                const instScore = Math.min(100, numWhales * 10);
+
+                return {
+                    ticker,
+                    company: whales[0].company_name || ticker,
+                    numWhales,
+                    totalValue,
+                    instScore,
+                    whales
+                };
+            });
+
+            holdings.sort((a, b) => b.numWhales - a.numWhales);
+
+            const tbody = document.getElementById('topHoldingsBody');
+            tbody.innerHTML = holdings.slice(0, 20).map((h, i) => `
+                <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                    <td style="text-align: center;">${i + 1}</td>
+                    <td style="font-weight: 700; color: var(--glass-accent);">${h.ticker}</td>
+                    <td>${h.company.substring(0, 40)}</td>
+                    <td style="text-align: center; font-weight: 700;">${h.numWhales}</td>
+                    <td style="text-align: right;">${formatValue(h.totalValue)}</td>
+                    <td style="text-align: center;">
+                        <span style="color: ${getScoreColor(h.instScore)}; font-weight: 700;">
+                            ${h.instScore}/100
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function formatValue(value) {
+            if (value >= 1e12) return `$${(value / 1e12).toFixed(1)}T`;
+            if (value >= 1e9) return `$${(value / 1e9).toFixed(1)}B`;
+            if (value >= 1e6) return `$${(value / 1e6).toFixed(1)}M`;
+            return `$${value.toFixed(0)}`;
+        }
+
+        function getScoreColor(score) {
+            if (score >= 70) return '#48bb78';
+            if (score >= 50) return '#4299e1';
+            if (score >= 30) return '#f6ad55';
+            return '#fc8181';
+        }
+
+        // Load data on page load
+        loadInstitutionalData();
+    </script>
+</body>
+</html>
