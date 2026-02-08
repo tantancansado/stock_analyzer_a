@@ -15,6 +15,24 @@ from pathlib import Path
 from datetime import datetime, timedelta
 import json
 
+SECTOR_CACHE_FILE = Path("data/sector_cache.json")
+
+# Mapeo de sectores Yahoo Finance → ticker DJ Sectorial
+DJ_SECTOR_MAP = {
+    'Technology': 'DJUSTC',
+    'Financial Services': 'DJUSFN',
+    'Healthcare': 'DJUSHC',
+    'Consumer Cyclical': 'DJUSCY',
+    'Communication Services': 'DJUSTL',
+    'Industrials': 'DJUSIN',
+    'Consumer Defensive': 'DJUSCD',
+    'Energy': 'DJUSEN',
+    'Real Estate': 'DJUSRE',
+    'Basic Materials': 'DJUSBS',
+    'Utilities': 'DJUSUT',
+}
+
+
 class SectorEnhancement:
     """Sistema de mejora sectorial inteligente"""
 
@@ -22,6 +40,53 @@ class SectorEnhancement:
         self.sector_data = None
         self.sector_rankings = {}
         self.ticker_to_sector = {}
+        self._load_sector_cache()
+
+    def _load_sector_cache(self):
+        """Carga caché de ticker→sector desde disco"""
+        if SECTOR_CACHE_FILE.exists():
+            with open(SECTOR_CACHE_FILE, 'r') as f:
+                self.ticker_to_sector = json.load(f)
+
+    def _save_sector_cache(self):
+        """Guarda caché de ticker→sector en disco"""
+        SECTOR_CACHE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(SECTOR_CACHE_FILE, 'w') as f:
+            json.dump(self.ticker_to_sector, f)
+
+    def prefetch_sectors(self, tickers, batch_size=20, delay=1.0):
+        """
+        Pre-carga sectores para una lista de tickers en lotes
+        Solo consulta los que no están en caché
+        """
+        import time
+        missing = [t for t in tickers if t not in self.ticker_to_sector]
+
+        if not missing:
+            print(f"✅ Todos los sectores en caché ({len(tickers)} tickers)")
+            return
+
+        print(f"📡 Descargando sectores para {len(missing)} tickers (en lotes de {batch_size})...")
+        for i in range(0, len(missing), batch_size):
+            batch = missing[i:i + batch_size]
+            for ticker in batch:
+                try:
+                    info = yf.Ticker(ticker).info
+                    sector = info.get('sector', '')
+                    industry = info.get('industry', '')
+                    self.ticker_to_sector[ticker] = {
+                        'sector': sector,
+                        'industry': industry,
+                        'dj_ticker': DJ_SECTOR_MAP.get(sector)
+                    }
+                except Exception:  # noqa: BLE001
+                    self.ticker_to_sector[ticker] = {'sector': '', 'industry': '', 'dj_ticker': None}
+            print(f"   Lote {i//batch_size + 1}/{(len(missing)-1)//batch_size + 1} completado")
+            if i + batch_size < len(missing):
+                time.sleep(delay)
+
+        self._save_sector_cache()
+        print("✅ Sectores descargados y guardados en caché")
 
     def load_dj_sectorial(self):
         """Carga análisis DJ Sectorial"""
@@ -60,46 +125,22 @@ class SectorEnhancement:
         return True
 
     def map_ticker_to_sector(self, ticker):
-        """
-        Mapea un ticker individual a su sector DJ
+        """Mapea ticker a sector DJ, usando caché si está disponible"""
+        if ticker in self.ticker_to_sector:
+            return self.ticker_to_sector[ticker].get('dj_ticker')
 
-        Usa yfinance para obtener el sector y buscar el índice DJ correspondiente
-        """
         try:
-            stock = yf.Ticker(ticker)
-            info = stock.info
-
-            # Obtener sector e industria
+            info = yf.Ticker(ticker).info
             sector = info.get('sector', '')
-            industry = info.get('industry', '')
-
-            # Mapeo a sectores DJ (simplificado - puede mejorarse)
-            dj_sector_map = {
-                'Technology': 'DJUSTC',  # Tech
-                'Financial Services': 'DJUSFN',  # Financials
-                'Healthcare': 'DJUSHC',  # Healthcare
-                'Consumer Cyclical': 'DJUSCY',  # Consumer Cyclical
-                'Communication Services': 'DJUSTL',  # Telecom
-                'Industrials': 'DJUSIN',  # Industrials
-                'Consumer Defensive': 'DJUSCD',  # Consumer Defensive
-                'Energy': 'DJUSEN',  # Energy
-                'Real Estate': 'DJUSRE',  # Real Estate
-                'Basic Materials': 'DJUSBS',  # Basic Resources
-                'Utilities': 'DJUSUT',  # Utilities
-            }
-
-            dj_ticker = dj_sector_map.get(sector, None)
-
-            # Guardar en cache
             self.ticker_to_sector[ticker] = {
                 'sector': sector,
-                'industry': industry,
-                'dj_ticker': dj_ticker
+                'industry': info.get('industry', ''),
+                'dj_ticker': DJ_SECTOR_MAP.get(sector)
             }
-
-            return dj_ticker
-
-        except Exception as e:
+            self._save_sector_cache()
+            return self.ticker_to_sector[ticker]['dj_ticker']
+        except Exception:
+            self.ticker_to_sector[ticker] = {'sector': '', 'industry': '', 'dj_ticker': None}
             return None
 
     def calculate_sector_score(self, ticker, use_cache=True):
