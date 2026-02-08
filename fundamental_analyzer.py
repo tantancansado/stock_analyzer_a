@@ -171,15 +171,25 @@ class FundamentalAnalyzer:
 
         fcf = fundamental_data['cashflow']['free_cash_flow']
         market_cap = fundamental_data['market_cap']
-        growth_rate = fundamental_data['growth']['earnings_growth']
+        earnings_growth = fundamental_data['growth']['earnings_growth']
+        revenue_growth = fundamental_data['growth']['revenue_growth']
 
         # Validaciones
         if not fcf or not market_cap or market_cap == 0:
             return None
 
-        # Growth rate default si no hay datos
-        if not growth_rate or growth_rate < 0:
-            growth_rate = 0.05  # 5% conservador
+        if fcf <= 0:
+            return None  # No tiene sentido DCF con FCF negativo
+
+        # Growth rate: usamos revenue_growth como base más estable que earnings_growth
+        # (earnings puede tener picos por one-time items o base effects)
+        # Cap conservador: 12% máximo para DCF a 5 años
+        if revenue_growth and 0 < revenue_growth < 1.0:
+            growth_rate = min(revenue_growth, 0.12)
+        elif earnings_growth and 0 < earnings_growth < 0.5:
+            growth_rate = min(earnings_growth, 0.12)
+        else:
+            growth_rate = 0.04  # 4% conservador por defecto
 
         # Parámetros
         discount_rate = 0.10  # WACC 10%
@@ -214,6 +224,12 @@ class FundamentalAnalyzer:
         # Precio por acción
         dcf_price = equity_value / shares
 
+        # Sanity check: DCF no puede ser más de 2.5x ni menos de 0.2x el precio actual
+        current = fundamental_data['current_price']
+        if current and current > 0:
+            if dcf_price > current * 2.5 or dcf_price < current * 0.2:
+                return None  # Resultado irreal, descartamos
+
         return round(dcf_price, 2)
 
     def calculate_pe_multiple_target(self, ticker, fundamental_data=None):
@@ -239,21 +255,30 @@ class FundamentalAnalyzer:
         if not pe or not current_price or current_price == 0:
             return None
 
-        # Calcular earnings actuales
-        eps = current_price / pe if pe > 0 else 0
+        # Limitar P/E a rango razonable (evitar múltiplos extremos)
+        pe = max(5, min(pe, 50))
 
+        # Calcular EPS actual
+        eps = current_price / pe if pe > 0 else 0
         if eps == 0:
             return None
 
-        # Proyectar earnings 1 año adelante
-        if earnings_growth and earnings_growth > 0:
-            future_eps = eps * (1 + earnings_growth)
+        # Normalizar growth rate: yfinance devuelve decimales (1.13 = 113%)
+        # Limitamos a rango conservador [-10%, 25%]
+        if earnings_growth and 0 < earnings_growth < 2.0:
+            growth = min(earnings_growth, 0.25)
         else:
-            future_eps = eps * 1.10  # 10% conservador
+            growth = 0.10  # 10% conservador
 
-        # Aplicar múltiplo P/E (usar el actual como proxy del sector)
-        # En versión completa: usar P/E promedio del sector
+        # Proyectar EPS 1 año adelante
+        future_eps = eps * (1 + growth)
+
+        # Target = EPS proyectado × múltiplo actual
         target_price = future_eps * pe
+
+        # Sanity check: no más de 2x el precio actual
+        if target_price > current_price * 2:
+            return None
 
         return round(target_price, 2)
 
