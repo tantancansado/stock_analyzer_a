@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Insider Search - Stock Analyzer</title>
+    <style>
+        :root {
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1600px; margin: 0 auto; }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .search-box {
+            width: 100%;
+            padding: 1.25rem 1.75rem;
+            font-size: 1.25rem;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: var(--glass-accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        .search-box::placeholder {
+            color: var(--text-secondary);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+        .results-container {
+            display: none;
+        }
+        .results-container.active {
+            display: block;
+        }
+        .ticker-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        .ticker-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--glass-accent);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+        }
+        .ticker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .ticker-symbol {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--glass-accent);
+        }
+        .ticker-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .stat-value.buy { color: #48bb78; }
+        .stat-value.sell { color: #fc8181; }
+        .transactions-table {
+            width: 100%;
+            margin-top: 1rem;
+            border-collapse: collapse;
+        }
+        .transactions-table th {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+        .transactions-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .type-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .type-badge.buy {
+            background: rgba(72, 187, 120, 0.2);
+            color: #48bb78;
+        }
+        .type-badge.sell {
+            background: rgba(252, 129, 129, 0.2);
+            color: #fc8181;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+        .back-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+        .toggle-transactions {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .toggle-transactions:hover {
+            background: var(--glass-border);
+        }
+        .transactions-list {
+            display: none;
+            margin-top: 1rem;
+        }
+        .transactions-list.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="https://tantancansado.github.io/stock_analyzer_a" class="back-link">🏠 Volver al Dashboard</a>
+
+        <div class="glass-card">
+            <h1>🔍 Insider Trading Search</h1>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
+                Busca cualquier ticker en el historial completo de transacciones de insiders
+            </p>
+
+            <input
+                type="text"
+                class="search-box"
+                id="searchInput"
+                placeholder="Escribe un ticker (ej: AAPL, TSLA, MSFT)..."
+                autocomplete="off"
+            >
+
+            <div class="stats-grid" id="globalStats">
+                <div class="stat-box">
+                    <div class="stat-number" id="totalTickers">-</div>
+                    <div class="stat-label">Tickers</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number" id="totalTransactions">-</div>
+                    <div class="stat-label">Transacciones</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingMsg" class="loading">
+            Cargando datos...
+        </div>
+
+        <div id="resultsContainer" class="results-container">
+            <!-- Results will be inserted here -->
+        </div>
+
+        <div id="noResults" class="glass-card no-results" style="display: none;">
+            <h2>😕 No se encontraron resultados</h2>
+            <p>No hay transacciones de insiders para este ticker en nuestra base de datos.</p>
+        </div>
+    </div>
+
+    <script>
+        let insiderData = {};
+
+        // Load insider index
+        fetch('insider_index.json')
+            .then(response => response.json())
+            .then(data => {
+                insiderData = data;
+                document.getElementById('loadingMsg').style.display = 'none';
+
+                // Calculate global stats
+                const totalTickers = Object.keys(data).length;
+                const totalTransactions = Object.values(data).reduce((sum, ticker) => sum + ticker.total, 0);
+
+                document.getElementById('totalTickers').textContent = totalTickers.toLocaleString();
+                document.getElementById('totalTransactions').textContent = totalTransactions.toLocaleString();
+            })
+            .catch(error => {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingMsg').innerHTML = '❌ Error cargando datos';
+            });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const noResults = document.getElementById('noResults');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.trim().toUpperCase();
+
+            if (query === '') {
+                resultsContainer.classList.remove('active');
+                noResults.style.display = 'none';
+                return;
+            }
+
+            // Find matching tickers
+            const matches = Object.keys(insiderData).filter(ticker =>
+                ticker.includes(query)
+            );
+
+            if (matches.length === 0) {
+                resultsContainer.classList.remove('active');
+                noResults.style.display = 'block';
+                return;
+            }
+
+            // Display results
+            noResults.style.display = 'none';
+            resultsContainer.classList.add('active');
+            resultsContainer.innerHTML = matches.map(ticker => {
+                const data = insiderData[ticker];
+                return createTickerCard(ticker, data);
+            }).join('');
+
+            // Add toggle listeners
+            document.querySelectorAll('.toggle-transactions').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const ticker = e.target.dataset.ticker;
+                    const list = document.getElementById(`transactions-${ticker}`);
+                    list.classList.toggle('active');
+                    e.target.textContent = list.classList.contains('active')
+                        ? '▲ Ocultar transacciones'
+                        : '▼ Ver todas las transacciones';
+                });
+            });
+        });
+
+        function createTickerCard(ticker, data) {
+            const transactionsHtml = data.transactions.map(t => {
+                const isBuy = t.type.includes('P -');
+                const typeClass = isBuy ? 'buy' : 'sell';
+                const typeIcon = isBuy ? '🟢' : '🔴';
+                const value = (t.qty * t.price).toFixed(0);
+
+                return `
+                    <tr>
+                        <td>${t.date}</td>
+                        <td>${t.insider}</td>
+                        <td><span class="type-badge ${typeClass}">${typeIcon} ${t.type}</span></td>
+                        <td style="text-align: right;">${t.qty.toLocaleString()}</td>
+                        <td style="text-align: right;">$${t.price.toFixed(2)}</td>
+                        <td style="text-align: right; font-weight: 600;">$${parseInt(value).toLocaleString()}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            const buyRatio = data.total > 0 ? (data.purchases / data.total * 100).toFixed(0) : 0;
+            const sellRatio = data.total > 0 ? (data.sales / data.total * 100).toFixed(0) : 0;
+
+            return `
+                <div class="glass-card ticker-card">
+                    <div class="ticker-header">
+                        <div class="ticker-symbol">${ticker}</div>
+                        <div class="ticker-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${data.total}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value buy">${data.purchases}</div>
+                                <div class="stat-label">🟢 Compras (${buyRatio}%)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value sell">${data.sales}</div>
+                                <div class="stat-label">🔴 Ventas (${sellRatio}%)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="toggle-transactions" data-ticker="${ticker}">
+                        ▼ Ver todas las transacciones
+                    </button>
+
+                    <div class="transactions-list" id="transactions-${ticker}">
+                        <table class="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Insider</th>
+                                    <th>Tipo</th>
+                                    <th style="text-align: right;">Cantidad</th>
+                                    <th style="text-align: right;">Precio</th>
+                                    <th style="text-align: right;">Valor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${transactionsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Auto-focus search box
+        searchInput.focus();
+    </script>
+</body>
+</html>
