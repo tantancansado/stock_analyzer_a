@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Stock | 5D System</title>
+    <style>
+        :root {
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-secondary: rgba(139, 92, 246, 0.7);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            --glass-gold: rgba(255, 215, 0, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --accent-gold: #ffd700;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --danger: #f87171;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .back-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .back-button:hover {
+            background: rgba(255,255,255,0.08);
+            color: var(--text-primary);
+            transform: translateX(-4px);
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-header {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 140, 0, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+        }
+
+        .ticker-title {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .classification {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .stat-value.positive { color: var(--success); }
+        .stat-value.negative { color: var(--danger); }
+
+        .section-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subsection-header {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-gold);
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .two-col { grid-template-columns: 1fr; }
+        }
+
+        .strength-item, .concern-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+        }
+
+        .strength-item {
+            background: rgba(74, 222, 128, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+
+        .concern-item {
+            background: rgba(248, 113, 113, 0.1);
+            border-left: 4px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .signal-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .signal-buy { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+        .signal-hold { background: rgba(96, 165, 250, 0.2); color: #60a5fa; }
+        .signal-warning { background: rgba(251, 191, 36, 0.2); color: var(--warning); }
+
+        .narrative {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .rating-stars {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rating-label {
+            font-weight: 600;
+            min-width: 150px;
+        }
+
+        .stars {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+        }
+
+        .catalyst-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .catalyst-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .error {
+            text-align: center;
+            padding: 2rem;
+            color: var(--danger);
+            font-size: 1.1rem;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .metric-item {
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-button">← Volver al Dashboard</a>
+
+        <div id="content">
+            <div class="loading">
+                ⏳ Cargando análisis...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get ticker from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const ticker = urlParams.get('ticker');
+
+        if (!ticker) {
+            document.getElementById('content').innerHTML = `
+                <div class="error">
+                    ❌ No se especificó ticker. Vuelve al dashboard y selecciona una acción.
+                </div>
+            `;
+        } else {
+            loadThesis(ticker);
+        }
+
+        async function loadThesis(ticker) {
+            try {
+                const response = await fetch('theses.json');
+                if (!response.ok) {
+                    throw new Error('Theses file not found');
+                }
+
+                const theses = await response.json();
+                const thesis = theses[ticker];
+
+                if (!thesis) {
+                    throw new Error(`No thesis found for ${ticker}`);
+                }
+
+                displayThesis(thesis);
+
+            } catch (error) {
+                console.error('Error loading thesis:', error);
+                document.getElementById('content').innerHTML = `
+                    <div class="error">
+                        ❌ Error: ${error.message}<br><br>
+                        Este ticker aún no tiene tesis generada. Por favor vuelve al dashboard.
+                    </div>
+                `;
+            }
+        }
+
+        function displayThesis(thesis) {
+            const overview = thesis.overview;
+            const technical = thesis.technical;
+            const fundamental = thesis.fundamental;
+            const catalysts = thesis.catalysts;
+            const rating = thesis.rating;
+
+            const upsideClass = overview.upside_percent > 0 ? 'positive' : overview.upside_percent < 0 ? 'negative' : '';
+
+            const html = `
+                <!-- Hero Header -->
+                <div class="glass-card hero-header">
+                    <div class="ticker-title">${thesis.ticker}</div>
+                    <div class="classification">${overview.classification}</div>
+
+                    <div class="overview-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">5D Score</div>
+                            <div class="stat-value">${overview.score_5d.toFixed(1)}</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Tier</div>
+                            <div class="stat-value">${overview.tier}</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Precio Actual</div>
+                            <div class="stat-value">${overview.current_price ? '$' + overview.current_price.toFixed(2) : 'N/A'}</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Target</div>
+                            <div class="stat-value ${upsideClass}">
+                                ${overview.price_target ? '$' + overview.price_target.toFixed(2) : 'N/A'}
+                            </div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Upside</div>
+                            <div class="stat-value ${upsideClass}">
+                                ${overview.upside_percent ? (overview.upside_percent > 0 ? '+' : '') + overview.upside_percent.toFixed(1) + '%' : 'N/A'}
+                            </div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Sector</div>
+                            <div class="stat-value" style="font-size: 1rem;">${overview.sector}</div>
+                            <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.25rem;">${overview.sector_momentum}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Investment Thesis Narrative -->
+                <div class="glass-card">
+                    <h2 class="section-header">📄 Tesis de Inversión</h2>
+                    <div class="narrative">${thesis.thesis_narrative.replace(/\n/g, '<br>')}</div>
+                </div>
+
+                <!-- Technical Analysis -->
+                <div class="glass-card">
+                    <h2 class="section-header">📊 Análisis Técnico</h2>
+
+                    <div class="metric-grid">
+                        <div class="metric-item">
+                            <div class="metric-label">VCP Score</div>
+                            <div class="metric-value">${technical.vcp_score.toFixed(0)}/100</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-label">Entry Score</div>
+                            <div class="metric-value">${technical.entry_score ? technical.entry_score.toFixed(0) : 'N/A'}/100</div>
+                        </div>
+                        ${technical.stage ? `
+                        <div class="metric-item">
+                            <div class="metric-label">Stage</div>
+                            <div class="metric-value" style="font-size: 1rem;">${technical.stage}</div>
+                        </div>
+                        ` : ''}
+                        ${technical.num_contractions ? `
+                        <div class="metric-item">
+                            <div class="metric-label">Contracciones</div>
+                            <div class="metric-value">${technical.num_contractions}</div>
+                        </div>
+                        ` : ''}
+                        ${technical.breakout_potential ? `
+                        <div class="metric-item">
+                            <div class="metric-label">Breakout Pot.</div>
+                            <div class="metric-value">${technical.breakout_potential.toFixed(0)}/100</div>
+                        </div>
+                        ` : ''}
+                    </div>
+
+                    ${technical.signals.length > 0 ? `
+                    <div class="subsection-header">Señales</div>
+                    <div>
+                        ${technical.signals.map(s => `<span class="signal-badge signal-buy">${s}</span>`).join('')}
+                    </div>
+                    ` : ''}
+
+                    <div class="two-col">
+                        <div>
+                            <div class="subsection-header">✅ Fortalezas Técnicas</div>
+                            ${technical.strengths.map(s => `<div class="strength-item">✓ ${s}</div>`).join('')}
+                        </div>
+                        <div>
+                            <div class="subsection-header">⚠️ Preocupaciones</div>
+                            ${technical.concerns.length > 0 ? technical.concerns.map(c => `<div class="concern-item">⚠ ${c}</div>`).join('') : '<div class="concern-item">Ninguna detectada</div>'}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fundamental Analysis -->
+                <div class="glass-card">
+                    <h2 class="section-header">💰 Análisis Fundamental</h2>
+
+                    <div class="subsection-header">Ratings</div>
+                    <div class="rating-stars">
+                        <div class="rating-label">Valoración:</div>
+                        <div>${fundamental.valuation_rating}</div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="rating-label">Rentabilidad:</div>
+                        <div>${fundamental.profitability_rating}</div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="rating-label">Crecimiento:</div>
+                        <div>${fundamental.growth_rating}</div>
+                    </div>
+
+                    <div class="two-col">
+                        <div>
+                            <div class="subsection-header">✅ Fortalezas Fundamentales</div>
+                            ${fundamental.strengths.map(s => `<div class="strength-item">✓ ${s}</div>`).join('')}
+                        </div>
+                        <div>
+                            <div class="subsection-header">⚠️ Preocupaciones</div>
+                            ${fundamental.concerns.length > 0 ? fundamental.concerns.map(c => `<div class="concern-item">⚠ ${c}</div>`).join('') : '<div class="concern-item">Ninguna detectada</div>'}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Catalysts -->
+                <div class="glass-card">
+                    <h2 class="section-header">🚀 Catalizadores & Contexto</h2>
+
+                    ${catalysts.sector.length > 0 ? `
+                    <div class="subsection-header">📊 Sector</div>
+                    <ul class="catalyst-list">
+                        ${catalysts.sector.map(c => `<li class="catalyst-item">${c}</li>`).join('')}
+                    </ul>
+                    ` : ''}
+
+                    ${catalysts.insiders.length > 0 ? `
+                    <div class="subsection-header">👔 Insiders</div>
+                    <ul class="catalyst-list">
+                        ${catalysts.insiders.map(c => `<li class="catalyst-item">${c}</li>`).join('')}
+                    </ul>
+                    ` : ''}
+
+                    ${catalysts.institutional.length > 0 ? `
+                    <div class="subsection-header">🐋 Institucionales</div>
+                    <ul class="catalyst-list">
+                        ${catalysts.institutional.map(c => `<li class="catalyst-item">${c}</li>`).join('')}
+                    </ul>
+                    ` : ''}
+
+                    ${catalysts.earnings.length > 0 ? `
+                    <div class="subsection-header">📅 Earnings</div>
+                    <ul class="catalyst-list">
+                        ${catalysts.earnings.map(c => `<li class="catalyst-item">${c}</li>`).join('')}
+                    </ul>
+                    ` : ''}
+                </div>
+
+                <!-- Overall Rating -->
+                <div class="glass-card">
+                    <h2 class="section-header">⭐ Rating Final</h2>
+
+                    <div class="rating-stars">
+                        <div class="rating-label">Technical Setup:</div>
+                        <div class="stars">${'⭐'.repeat(rating.technical)}</div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="rating-label">Fundamental Value:</div>
+                        <div class="stars">${'⭐'.repeat(rating.fundamental)}</div>
+                    </div>
+                    <div class="rating-stars">
+                        <div class="rating-label">Risk/Reward:</div>
+                        <div class="stars">${'⭐'.repeat(rating.risk_reward)}</div>
+                    </div>
+                    <div class="rating-stars" style="border-top: 2px solid var(--glass-border); padding-top: 1rem; margin-top: 1rem;">
+                        <div class="rating-label" style="font-size: 1.2rem;">Overall:</div>
+                        <div class="stars" style="font-size: 2rem;">${'⭐'.repeat(Math.round(rating.overall))}</div>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-gold);">${rating.overall.toFixed(1)}/5</div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <a href="super_opportunities_4d.html" class="back-button" style="margin-right: 1rem;">← Ver todas las oportunidades</a>
+                    <a href="index.html" class="back-button">🏠 Dashboard principal</a>
+                </div>
+            `;
+
+            document.getElementById('content').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

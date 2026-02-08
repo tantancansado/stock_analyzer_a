@@ -52,6 +52,10 @@ def _enrich_fundamentals(ticker, fa, new_cols):
             new_cols['num_analysts'].append(fund_data['analysts']['num_analysts'])
             new_cols['fundamental_score'].append(fa.get_fundamental_score(ticker))
 
+            entry_score = fa.calculate_entry_score(ticker)
+            new_cols['entry_score'].append(entry_score)
+            new_cols['entry_bonus'].append(fa.get_entry_bonus(entry_score))
+
             if pt:
                 new_cols['price_target'].append(pt['custom_target'])
                 new_cols['upside_percent'].append(pt['upside_percent'])
@@ -73,10 +77,11 @@ def _fill_empty_fundamentals(new_cols):
     """Rellena con None cuando no hay datos fundamentales"""
     for col in ['current_price', 'pe_ratio', 'peg_ratio', 'fcf_yield',
                 'roe', 'revenue_growth', 'analyst_target', 'analyst_upside',
-                'price_target', 'upside_percent']:
+                'price_target', 'upside_percent', 'entry_score']:
         new_cols[col].append(None)
     new_cols['num_analysts'].append(0)
     new_cols['fundamental_score'].append(None)
+    new_cols['entry_bonus'].append(0)
 
 
 def _save_and_report(df, new_cols, se):
@@ -85,7 +90,9 @@ def _save_and_report(df, new_cols, se):
         df[col] = values
 
     df['sector_score'] = df['ticker'].apply(se.calculate_sector_score)
-    df['super_score_5d'] = (df['super_score_4d'] + df['tier_boost']).clip(upper=100).round(1)
+    df['super_score_5d'] = (
+        df['super_score_4d'] + df['tier_boost'] + df['entry_bonus'].fillna(0)
+    ).clip(upper=100).round(1)
     df = df.sort_values('super_score_5d', ascending=False).reset_index(drop=True)
 
     out_path = Path("docs/super_opportunities_5d_complete.csv")
@@ -141,6 +148,7 @@ def enrich_csv():
         'analyst_target': [], 'analyst_upside': [], 'num_analysts': [],
         'fundamental_score': [], 'pe_ratio': [], 'peg_ratio': [],
         'fcf_yield': [], 'roe': [], 'revenue_growth': [],
+        'entry_score': [], 'entry_bonus': [],
     }
 
     total = len(df)

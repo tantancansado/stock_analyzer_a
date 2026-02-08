@@ -83,6 +83,13 @@ class FundamentalAnalyzer:
             dividend_yield = info.get('dividendYield', None)
             payout_ratio = info.get('payoutRatio', None)
 
+            # Técnicos para entry evaluation
+            fifty_two_week_high = info.get('fiftyTwoWeekHigh', None)
+            fifty_two_week_low = info.get('fiftyTwoWeekLow', None)
+            fifty_day_avg = info.get('fiftyDayAverage', None)
+            two_hundred_day_avg = info.get('twoHundredDayAverage', None)
+            fifty_two_week_change = info.get('52WeekChange', None)
+
             fundamental_data = {
                 # Price Targets
                 'analysts': {
@@ -141,6 +148,15 @@ class FundamentalAnalyzer:
                 'dividends': {
                     'yield': dividend_yield,
                     'payout_ratio': payout_ratio,
+                },
+
+                # Técnicos (para entry evaluation)
+                'technicals': {
+                    'fifty_two_week_high': fifty_two_week_high,
+                    'fifty_two_week_low': fifty_two_week_low,
+                    'fifty_day_avg': fifty_day_avg,
+                    'two_hundred_day_avg': two_hundred_day_avg,
+                    'fifty_two_week_change': fifty_two_week_change,
                 },
 
                 'market_cap': market_cap,
@@ -438,6 +454,79 @@ class FundamentalAnalyzer:
             final_score = 50
 
         return round(final_score, 2)
+
+
+    def calculate_entry_score(self, ticker):
+        """
+        Evalúa si es un buen momento técnico de entrada (0-100)
+
+        Pensado para sistemas VCP: premia acción en Stage 2, cerca del
+        breakout (52w high) y en uptrend confirmado por medias móviles.
+
+        Componentes:
+        - Proximidad a 52w high (40 pts): cuanto más cerca del máximo, mejor
+        - Medias móviles (30 pts): por encima de SMA50 y SMA200
+        - Momentum anual (30 pts): retorno positivo en 52 semanas
+        """
+        data = self.get_fundamental_data(ticker)
+        if not data:
+            return None
+
+        tech = data.get('technicals', {})
+        price = data.get('current_price', 0)
+        if not price or price <= 0:
+            return None
+
+        score = 0
+
+        # 1. Proximidad a 52w high (40 pts) — VCP breakout zone
+        high_52w = tech.get('fifty_two_week_high')
+        if high_52w and high_52w > 0:
+            distance_pct = (high_52w - price) / high_52w * 100  # % por debajo del máximo
+            if distance_pct <= 5:
+                score += 40   # Zona de breakout
+            elif distance_pct <= 10:
+                score += 30
+            elif distance_pct <= 20:
+                score += 20
+            elif distance_pct <= 35:
+                score += 10
+            # >35% del máximo = 0 pts (no está en zona)
+
+        # 2. Medias móviles (30 pts)
+        sma50 = tech.get('fifty_day_avg')
+        sma200 = tech.get('two_hundred_day_avg')
+        if sma50 and price > sma50:
+            score += 15
+        if sma200 and price > sma200:
+            score += 15
+
+        # 3. Momentum anual (30 pts)
+        change_52w = tech.get('fifty_two_week_change')
+        if change_52w is not None:
+            if change_52w > 0.30:
+                score += 30   # >30% en el año
+            elif change_52w > 0.15:
+                score += 20
+            elif change_52w > 0:
+                score += 10
+            # Negativo = 0 pts
+
+        return round(score, 1)
+
+    def get_entry_bonus(self, entry_score):
+        """
+        Convierte entry_score (0-100) en bonus para el super score (+0 a +5)
+        """
+        if entry_score is None:
+            return 0
+        if entry_score >= 80:
+            return 5
+        if entry_score >= 60:
+            return 3
+        if entry_score >= 40:
+            return 1
+        return 0
 
 
 def main():

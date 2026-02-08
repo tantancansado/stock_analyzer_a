@@ -18,18 +18,19 @@ import json
 SECTOR_CACHE_FILE = Path("data/sector_cache.json")
 
 # Mapeo de sectores Yahoo Finance → ticker DJ Sectorial
+# Verificado contra reports/dj_sectorial_analysis.csv
 DJ_SECTOR_MAP = {
-    'Technology': 'DJUSTC',
-    'Financial Services': 'DJUSFN',
-    'Healthcare': 'DJUSHC',
-    'Consumer Cyclical': 'DJUSCY',
-    'Communication Services': 'DJUSTL',
-    'Industrials': 'DJUSIN',
-    'Consumer Defensive': 'DJUSCD',
-    'Energy': 'DJUSEN',
-    'Real Estate': 'DJUSRE',
-    'Basic Materials': 'DJUSBS',
-    'Utilities': 'DJUSUT',
+    'Technology': 'DJUSTC',           # Dow Jones U.S. Technology Index
+    'Financial Services': 'DJUSFI',   # Dow Jones U.S. Financial Services Index
+    'Healthcare': 'DJUSHC',           # Dow Jones U.S. Health Care Index
+    'Consumer Cyclical': 'DJUSGT',    # Dow Jones U.S. General Retailers Index
+    'Communication Services': 'DJUSTL',  # Dow Jones U.S. Telecommunications Index
+    'Industrials': 'DJUSIG',          # Dow Jones U.S. Industrial Goods & Services Index
+    'Consumer Defensive': 'DJUSFB',   # Dow Jones U.S. Food & Beverage Index
+    'Energy': 'DJUSEN',               # Dow Jones U.S. Oil & Gas Index
+    'Real Estate': 'DJUSRE',          # Dow Jones U.S. Real Estate Index
+    'Basic Materials': 'DJUSBS',      # Dow Jones U.S. Basic Resources Index
+    'Utilities': 'DJUSUT',            # Dow Jones U.S. Utilities Index
 }
 
 
@@ -43,10 +44,20 @@ class SectorEnhancement:
         self._load_sector_cache()
 
     def _load_sector_cache(self):
-        """Carga caché de ticker→sector desde disco"""
+        """Carga caché de ticker→sector desde disco y re-aplica el mapa actualizado"""
         if SECTOR_CACHE_FILE.exists():
             with open(SECTOR_CACHE_FILE, 'r') as f:
                 self.ticker_to_sector = json.load(f)
+            # Re-mapear dj_ticker con el mapa actual (corrige entradas desactualizadas)
+            updated = False
+            for ticker, info in self.ticker_to_sector.items():
+                sector = info.get('sector', '')
+                correct_dj = DJ_SECTOR_MAP.get(sector)
+                if info.get('dj_ticker') != correct_dj:
+                    info['dj_ticker'] = correct_dj
+                    updated = True
+            if updated:
+                self._save_sector_cache()
 
     def _save_sector_cache(self):
         """Guarda caché de ticker→sector en disco"""

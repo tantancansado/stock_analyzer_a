@@ -254,6 +254,25 @@
             border-collapse: collapse;
         }
 
+        .top-opps-table th.sortable {
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .top-opps-table th.sortable:hover {
+            color: var(--accent-gold);
+        }
+
+        .top-opps-table th.active-sort {
+            color: var(--accent-gold);
+        }
+
+        .sort-icon {
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+
         .top-opps-table th {
             padding: 1rem;
             text-align: left;
@@ -395,19 +414,19 @@
 
         <!-- Top 10 Opportunities Preview -->
         <div class="glass-card" style="padding: 2rem; margin-bottom: 3rem;">
-            <h2 class="section-header">🏆 Top 10 Opportunities 5D</h2>
+            <h2 class="section-header">🏆 Top Opportunities 5D <span id="oppsCount" style="font-size: 0.7em; color: var(--text-secondary);"></span></h2>
             <div style="overflow-x: auto;">
                 <table class="top-opps-table">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Ticker</th>
-                            <th>5D Score</th>
+                            <th class="sortable" data-col="rank"># <span class="sort-icon">↕</span></th>
+                            <th class="sortable" data-col="ticker">Ticker <span class="sort-icon">↕</span></th>
+                            <th class="sortable active-sort" data-col="score">5D Score <span class="sort-icon">↓</span></th>
                             <th>Tier</th>
-                            <th>Sector</th>
-                            <th>Target / Upside</th>
-                            <th>Indicators</th>
-                            <th>Earnings</th>
+                            <th class="sortable" data-col="sector">Sector <span class="sort-icon">↕</span></th>
+                            <th class="sortable" data-col="upside">Target / Upside <span class="sort-icon">↕</span></th>
+                            <th class="sortable" data-col="whales">Indicators <span class="sort-icon">↕</span></th>
+                            <th class="sortable" data-col="earnings">Earnings <span class="sort-icon">↕</span></th>
                         </tr>
                     </thead>
                     <tbody id="topOppsBody">
@@ -490,10 +509,13 @@
     </div>
 
     <script>
+        // Global state
+        let allData = [];
+        let sortState = { col: 'score', dir: 'desc' };
+
         // Load 5D opportunities data
         async function loadDashboardData() {
             try {
-                // Try loading from multiple fallback paths
                 const csvPaths = [
                     'super_opportunities_5d_complete_with_earnings.csv',
                     'super_opportunities_5d_complete.csv',
@@ -505,10 +527,7 @@
                 for (const path of csvPaths) {
                     try {
                         const r = await fetch(path);
-                        if (r.ok) {
-                            csvText = await r.text();
-                            break;
-                        }
+                        if (r.ok) { csvText = await r.text(); break; }
                     } catch (fetchError) {
                         console.warn('Could not load', path, fetchError.message);
                     }
@@ -518,7 +537,7 @@
                 const lines = csvText.trim().split('\n');
                 const headers = lines[0].split(',');
 
-                const data = lines.slice(1).map(line => {
+                allData = lines.slice(1).map(line => {
                     const values = parseCSVLine(line);
                     const obj = {};
                     headers.forEach((header, i) => {
@@ -528,27 +547,24 @@
                 });
 
                 // Calculate stats
-                const legendary = data.filter(d => parseFloat(d.super_score_4d) >= 85);
-                const earningsThisWeek = data.filter(d => {
+                const score5DKey = allData[0] && allData[0].super_score_5d ? 'super_score_5d' : 'super_score_4d';
+                const legendary = allData.filter(d => parseFloat(d[score5DKey]) >= 85);
+                const earningsThisWeek = allData.filter(d => {
                     const days = parseInt(d.days_to_earnings);
                     return !isNaN(days) && days >= 0 && days <= 7;
                 });
 
-                // Update stats
-                document.getElementById('total5DOpps').textContent = data.length;
+                document.getElementById('total5DOpps').textContent = allData.length;
                 document.getElementById('legendaryCount').textContent = legendary.length;
                 document.getElementById('earningsAlerts').textContent = earningsThisWeek.length;
 
                 const today = new Date();
                 document.getElementById('lastUpdate').textContent = today.toLocaleDateString('es-ES', {
-                    month: 'short',
-                    day: 'numeric'
+                    month: 'short', day: 'numeric'
                 });
 
-                // Display top 10
-                displayTop10(data.slice(0, 10));
+                renderOpps();
 
-                // Display earnings alerts
                 if (earningsThisWeek.length > 0) {
                     displayEarningsAlerts(earningsThisWeek);
                 }
@@ -556,41 +572,95 @@
             } catch (error) {
                 console.error('Error loading data:', error);
                 document.getElementById('topOppsBody').innerHTML = `
-                    <tr>
-                        <td colspan="6" style="text-align: center; color: var(--text-secondary);">
-                            ❌ Error loading data
-                        </td>
-                    </tr>
+                    <tr><td colspan="8" style="text-align: center; color: var(--text-secondary);">❌ Error loading data</td></tr>
                 `;
             }
+        }
+
+        function getScore(opp) {
+            return parseFloat(opp.super_score_5d || opp.super_score_4d) || 0;
+        }
+
+        function getUpside(opp) {
+            const v = parseFloat(opp.upside_percent);
+            return isNaN(v) ? null : v;
+        }
+
+        function renderOpps() {
+            // Filter: only quality entries (score >= 55) AND no negative upside
+            let filtered = allData.filter(opp => {
+                const score = getScore(opp);
+                if (score < 55) return false;
+                const upside = getUpside(opp);
+                if (upside !== null && upside < 0) return false;
+                return true;
+            });
+
+            // Sort
+            filtered.sort((a, b) => {
+                let va, vb;
+                switch (sortState.col) {
+                    case 'rank':
+                    case 'score': va = getScore(a); vb = getScore(b); break;
+                    case 'ticker': va = a.ticker; vb = b.ticker; break;
+                    case 'sector': va = (a.sector_name || ''); vb = (b.sector_name || ''); break;
+                    case 'upside':
+                        va = getUpside(a) ?? -999;
+                        vb = getUpside(b) ?? -999;
+                        break;
+                    case 'whales': va = parseInt(a.num_whales) || 0; vb = parseInt(b.num_whales) || 0; break;
+                    case 'earnings':
+                        va = parseInt(a.days_to_earnings) || 9999;
+                        vb = parseInt(b.days_to_earnings) || 9999;
+                        break;
+                    default: va = getScore(a); vb = getScore(b);
+                }
+                if (typeof va === 'string') {
+                    return sortState.dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+                }
+                return sortState.dir === 'asc' ? va - vb : vb - va;
+            });
+
+            // Show top 15
+            const display = filtered.slice(0, 15);
+            document.getElementById('oppsCount').textContent = `(${filtered.length} quality)`;
+
+            displayOpps(display);
+            updateSortHeaders();
+        }
+
+        function updateSortHeaders() {
+            document.querySelectorAll('th.sortable').forEach(th => {
+                const col = th.dataset.col;
+                const icon = th.querySelector('.sort-icon');
+                th.classList.toggle('active-sort', col === sortState.col);
+                if (col === sortState.col) {
+                    icon.textContent = sortState.dir === 'asc' ? '↑' : '↓';
+                } else {
+                    icon.textContent = '↕';
+                }
+            });
         }
 
         function parseCSVLine(line) {
             const result = [];
             let current = '';
             let inQuotes = false;
-
             for (let i = 0; i < line.length; i++) {
                 const char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current);
-                    current = '';
-                } else {
-                    current += char;
-                }
+                if (char === '"') { inQuotes = !inQuotes; }
+                else if (char === ',' && !inQuotes) { result.push(current); current = ''; }
+                else { current += char; }
             }
             result.push(current);
             return result;
         }
 
-        function displayTop10(data) {
+        function displayOpps(data) {
             const tbody = document.getElementById('topOppsBody');
 
             tbody.innerHTML = data.map((opp, index) => {
-                const score = parseFloat(opp.super_score_5d || opp.super_score_4d);
-                const institutional = parseFloat(opp.institutional_score);
+                const score = getScore(opp);
                 const numWhales = parseInt(opp.num_whales) || 0;
                 const daysToEarnings = opp.days_to_earnings ? parseInt(opp.days_to_earnings) : null;
                 const nextEarnings = opp.next_earnings || '';
@@ -605,34 +675,28 @@
                 let earningsHTML = '';
                 if (daysToEarnings !== null && daysToEarnings >= 0 && daysToEarnings <= 7) {
                     earningsHTML = `<span class="badge earnings-badge">⚠️ ${daysToEarnings}d</span>`;
-                } else if (nextEarnings) {
+                } else if (daysToEarnings !== null && daysToEarnings > 0) {
                     earningsHTML = `<small style="color: var(--text-secondary);">${daysToEarnings}d</small>`;
                 } else {
                     earningsHTML = '<small style="color: var(--text-secondary);">N/A</small>';
                 }
 
-                // NEW: Sector badge
                 const sectorName = opp.sector_name || 'N/A';
                 const sectorMomentum = opp.sector_momentum || '';
                 const tierBoost = parseInt(opp.tier_boost) || 0;
                 const sectorClass = sectorMomentum === 'improving' ? 'sector-improving' :
                                    sectorMomentum === 'declining' ? 'sector-declining' : 'sector-stable';
-                const sectorHTML = `<span class="badge ${sectorClass}" title="Momentum: ${sectorMomentum} | Boost: +${tierBoost}">
-                    ${sectorName}
-                </span>`;
+                const sectorHTML = `<span class="badge ${sectorClass}" title="Momentum: ${sectorMomentum} | Boost: +${tierBoost}">${sectorName}</span>`;
 
-                // NEW: Price target & upside
                 const priceTarget = opp.price_target ? parseFloat(opp.price_target) : null;
-                const upside = opp.upside_percent ? parseFloat(opp.upside_percent) : null;
+                const upside = getUpside(opp);
                 let targetHTML = '';
                 if (priceTarget && upside !== null) {
                     const upsideClass = upside > 20 ? 'text-success' : upside > 0 ? 'text-info' : 'text-danger';
-                    targetHTML = `
-                        <div style="font-size: 0.9rem;">
-                            <div style="font-weight: 600;">$${priceTarget.toFixed(2)}</div>
-                            <div class="${upsideClass}">${upside > 0 ? '+' : ''}${upside.toFixed(1)}%</div>
-                        </div>
-                    `;
+                    targetHTML = `<div style="font-size: 0.9rem;">
+                        <div style="font-weight: 600;">$${priceTarget.toFixed(2)}</div>
+                        <div class="${upsideClass}">${upside > 0 ? '+' : ''}${upside.toFixed(1)}%</div>
+                    </div>`;
                 } else {
                     targetHTML = '<small style="color: var(--text-secondary);">N/A</small>';
                 }
@@ -640,7 +704,9 @@
                 return `
                     <tr>
                         <td style="text-align: center; color: var(--text-secondary);">${index + 1}</td>
-                        <td class="ticker">${opp.ticker}</td>
+                        <td class="ticker" style="cursor: pointer;" onclick="window.location.href='stock_detail.html?ticker=${opp.ticker}'">
+                            ${opp.ticker} 🔍
+                        </td>
                         <td class="score ${scoreClass}">${score.toFixed(1)}</td>
                         <td>${opp.tier}</td>
                         <td>${sectorHTML}</td>
@@ -673,6 +739,20 @@
                     `;
                 }).join('');
         }
+
+        // Sort column click handlers
+        document.querySelectorAll('th.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                const col = th.dataset.col;
+                if (sortState.col === col) {
+                    sortState.dir = sortState.dir === 'desc' ? 'asc' : 'desc';
+                } else {
+                    sortState.col = col;
+                    sortState.dir = col === 'ticker' || col === 'sector' ? 'asc' : 'desc';
+                }
+                renderOpps();
+            });
+        });
 
         // Load data on page load
         loadDashboardData();
