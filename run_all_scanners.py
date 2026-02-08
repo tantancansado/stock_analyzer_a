@@ -118,6 +118,75 @@ class MasterScanner:
             timeout=300
         )
 
+        # 8. Telegram Alerts (si están configuradas)
+        self.log("\n📱 FASE 8: TELEGRAM ALERTS")
+        self.send_telegram_alerts()
+
+    def send_telegram_alerts(self):
+        """Envía alertas de Telegram si hay LEGENDARY opportunities"""
+        try:
+            from telegram_legendary_alerts import TelegramLegendaryAlerts
+
+            # Verificar si existe configuración
+            config_path = Path('config/telegram_config.json')
+            if not config_path.exists():
+                self.log("   ℹ️  Telegram no configurado - saltando alertas")
+                self.log("   💡 Ver TELEGRAM_SETUP.md para configurar")
+                return
+
+            # Intentar enviar alertas
+            alerts = TelegramLegendaryAlerts()
+
+            # Verificar si hay LEGENDARY opportunities
+            csv_path = Path('docs/super_opportunities_4d_complete.csv')
+            if not csv_path.exists():
+                self.log("   ℹ️  No hay datos 4D para alertas")
+                return
+
+            import pandas as pd
+            df = pd.read_csv(csv_path)
+            legendary = df[df['super_score_4d'] >= 85]
+
+            if legendary.empty:
+                self.log("   ℹ️  No hay LEGENDARY opportunities - sin alertas")
+                return
+
+            self.log(f"   🌟 {len(legendary)} LEGENDARY opportunities detectadas!")
+            self.log("   📤 Enviando alertas...")
+
+            # Enviar alertas
+            sent = 0
+            for _, row in legendary.iterrows():
+                opportunity = {
+                    'ticker': row['ticker'],
+                    'super_score_4d': row['super_score_4d'],
+                    'tier': row.get('tier', '⭐⭐⭐⭐ LEGENDARY'),
+                    'dimensions': {
+                        'vcp': row.get('vcp_score', 0),
+                        'insiders': row.get('insiders_score', 0),
+                        'sector': row.get('sector_score', 0),
+                        'institutional': row.get('institutional_score', 0)
+                    },
+                    'description': 'Confirmación cuádruple - Probabilidad histórica',
+                    'institutional_details': {
+                        'num_whales': row.get('num_whales', 0),
+                        'top_whales': row.get('top_whales', '').split(', ') if row.get('top_whales') else []
+                    }
+                }
+
+                message = alerts.format_legendary_alert(opportunity)
+                if alerts.send_message(message):
+                    sent += 1
+
+            self.log(f"   ✅ {sent}/{len(legendary)} alertas enviadas")
+
+        except ImportError:
+            self.log("   ⚠️  telegram_legendary_alerts.py no encontrado")
+        except ValueError as e:
+            self.log(f"   ℹ️  Telegram no configurado: {e}")
+        except Exception as e:
+            self.log(f"   ⚠️  Error enviando alertas: {e}")
+
     def print_summary(self):
         """Imprime resumen de ejecución"""
         duration = (datetime.now() - self.start_time).total_seconds()

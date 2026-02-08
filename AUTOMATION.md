@@ -12,6 +12,7 @@ Ejecuta todos los scanners del sistema (excepto whale scan).
 - ✅ Recurring Insiders
 - ✅ Super Analyzer 4D
 - ✅ Super Opportunities
+- ✅ **Telegram Alerts** (si está configurado)
 - ✅ Auto-commit y push
 
 **Uso:**
@@ -30,6 +31,7 @@ Escanea whales institucionales (13F filings).
 - 🐋 Scan de 20 whale investors
 - 🔨 Build institutional index
 - 🎯 Update análisis 4D
+- 📱 **Telegram Alerts** (si está configurado)
 - 📤 Auto-commit y push
 
 **Uso:**
@@ -332,6 +334,7 @@ tail -f /var/log/syslog | grep CRON
 - [ ] Logs directory creado (`mkdir -p logs`)
 - [ ] Cron configurado o LaunchAgents instalados
 - [ ] GitHub Actions configurado (opcional)
+- [ ] **Telegram alerts configurado** (opcional - ver `TELEGRAM_SETUP.md`)
 - [ ] Primera ejecución manual exitosa
 - [ ] Verificar que auto-commit funciona
 
@@ -348,11 +351,39 @@ tail -f /var/log/syslog | grep CRON
 
 ---
 
+## 📱 TELEGRAM ALERTS (NUEVO!)
+
+El sistema ahora incluye **alertas automáticas por Telegram** cuando se detectan oportunidades LEGENDARY.
+
+**Setup rápido:**
+```bash
+# 1. Ver guía completa
+cat TELEGRAM_SETUP.md
+
+# 2. Crear bot con @BotFather en Telegram
+# 3. Configurar credenciales
+mkdir -p config
+echo '{"bot_token": "TU_TOKEN", "chat_id": "TU_CHAT_ID"}' > config/telegram_config.json
+
+# 4. Test
+python3 telegram_legendary_alerts.py
+```
+
+**Características:**
+- ✅ Alertas instantáneas para score ≥ 85 (LEGENDARY)
+- ✅ Integrado con daily/weekly scanners
+- ✅ Funciona en GitHub Actions (usando Secrets)
+- ✅ Formato rico con emojis y análisis detallado
+
+Ver **`TELEGRAM_SETUP.md`** para guía completa paso a paso.
+
+---
+
 ## 🎯 SIGUIENTE NIVEL
 
 Para llevar la automatización al máximo:
 
-1. **Alertas por email/Slack** cuando se detecten LEGENDARY opportunities
+1. ✅ **Alertas por Telegram** (¡YA DISPONIBLE! - ver `TELEGRAM_SETUP.md`)
 2. **Dashboard de salud del sistema** con uptime monitoring
 3. **Rollback automático** si un scan falla
 4. **A/B testing** de diferentes estrategias de scoring

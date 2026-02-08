@@ -314,6 +314,14 @@ class InstitutionalIndexBuilder:
             json.dump(ticker_index, f, indent=2)
         print(f"\n💾 Ticker index guardado: {index_path}")
 
+        # Copiar a docs/ para GitHub Pages
+        docs_dir = Path("docs/data/institutional")
+        docs_dir.mkdir(parents=True, exist_ok=True)
+        docs_index_path = docs_dir / "ticker_institutional_index.json"
+        with open(docs_index_path, 'w') as f:
+            json.dump(ticker_index, f, indent=2)
+        print(f"💾 Copiado a docs: {docs_index_path}")
+
         # Detect changes
         if len(set(h['cik'] for h in all_holdings.values())) > 1 or \
            len(set(h['filing_date'] for h in all_holdings.values())) > 1:
@@ -324,6 +332,12 @@ class InstitutionalIndexBuilder:
             with open(changes_path, 'w') as f:
                 json.dump(changes_report, f, indent=2)
             print(f"💾 Changes report guardado: {changes_path}")
+
+            # Copiar a docs/
+            docs_changes_path = docs_dir / "institutional_changes.json"
+            with open(docs_changes_path, 'w') as f:
+                json.dump(changes_report, f, indent=2)
+            print(f"💾 Copiado a docs: {docs_changes_path}")
         else:
             changes_report = {}
 

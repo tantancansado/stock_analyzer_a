@@ -7,6 +7,64 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
+def send_telegram_alerts():
+    """Envía alertas de Telegram después del whale scan"""
+    try:
+        from telegram_legendary_alerts import TelegramLegendaryAlerts
+        import pandas as pd
+
+        # Verificar configuración
+        config_path = Path('config/telegram_config.json')
+        if not config_path.exists():
+            print("   ℹ️  Telegram no configurado")
+            return
+
+        alerts = TelegramLegendaryAlerts()
+
+        # Verificar datos
+        csv_path = Path('docs/super_opportunities_4d_complete.csv')
+        if not csv_path.exists():
+            print("   ℹ️  No hay datos 4D")
+            return
+
+        df = pd.read_csv(csv_path)
+        legendary = df[df['super_score_4d'] >= 85]
+
+        if legendary.empty:
+            print("   ℹ️  No hay LEGENDARY opportunities")
+            return
+
+        print(f"   🌟 {len(legendary)} LEGENDARY opportunities!")
+
+        # Enviar alertas
+        sent = 0
+        for _, row in legendary.iterrows():
+            opportunity = {
+                'ticker': row['ticker'],
+                'super_score_4d': row['super_score_4d'],
+                'tier': row.get('tier', '⭐⭐⭐⭐ LEGENDARY'),
+                'dimensions': {
+                    'vcp': row.get('vcp_score', 0),
+                    'insiders': row.get('insiders_score', 0),
+                    'sector': row.get('sector_score', 0),
+                    'institutional': row.get('institutional_score', 0)
+                },
+                'description': 'Confirmación cuádruple - Probabilidad histórica',
+                'institutional_details': {
+                    'num_whales': row.get('num_whales', 0),
+                    'top_whales': row.get('top_whales', '').split(', ') if row.get('top_whales') else []
+                }
+            }
+
+            message = alerts.format_legendary_alert(opportunity)
+            if alerts.send_message(message):
+                sent += 1
+
+        print(f"   ✅ {sent}/{len(legendary)} alertas enviadas")
+
+    except Exception as e:
+        print(f"   ⚠️  Error en alertas: {e}")
+
 def run_weekly_whale_scan():
     """Ejecuta scan de whales y actualiza sistema"""
     print("🐋 WEEKLY WHALE SCAN")
@@ -56,8 +114,12 @@ def run_weekly_whale_scan():
     else:
         print("   ⚠️  Error en análisis 4D")
 
-    # 4. Commit and push
-    print("\n📤 FASE 4: Subiendo cambios...")
+    # 4. Telegram alerts
+    print("\n📱 FASE 4: Telegram alerts...")
+    send_telegram_alerts()
+
+    # 5. Commit and push
+    print("\n📤 FASE 5: Subiendo cambios...")
 
     subprocess.run('git add -A', shell=True)
 

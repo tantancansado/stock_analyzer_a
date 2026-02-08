@@ -264,7 +264,7 @@
         async function loadInstitutionalData() {
             try {
                 // Cargar índice de holdings
-                const response = await fetch('../data/institutional/ticker_institutional_index.json');
+                const response = await fetch('data/institutional/ticker_institutional_index.json');
                 const tickerIndex = await response.json();
 
                 // Calcular stats globales
