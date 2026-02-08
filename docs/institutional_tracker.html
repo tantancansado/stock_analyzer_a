@@ -297,9 +297,15 @@
                 document.getElementById('topHoldingsBody').innerHTML = `
                     <tr>
                         <td colspan="6" style="text-align: center; color: var(--text-secondary);">
-                            ⚠️ Ejecuta primero: python3 scan_all_whales.py
+                            ❌ Error cargando datos: ${error.message}<br>
+                            <small>Verifica que exista: data/institutional/ticker_institutional_index.json</small>
                         </td>
                     </tr>
+                `;
+                document.getElementById('whalesGrid').innerHTML = `
+                    <div style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+                        ❌ Error: ${error.message}
+                    </div>
                 `;
             }
         }
