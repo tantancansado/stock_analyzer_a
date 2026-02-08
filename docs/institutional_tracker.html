@@ -289,6 +289,9 @@
                 document.getElementById('totalValue').textContent = formatValue(totalValue);
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString();
 
+                // Display whale cards
+                displayWhaleCards(tickerIndex, whalesSet);
+
                 // Top holdings
                 displayTopHoldings(tickerIndex);
 
@@ -308,6 +311,69 @@
                     </div>
                 `;
             }
+        }
+
+        function displayWhaleCards(tickerIndex, whalesSet) {
+            // Crear mapa de whales con stats
+            const whaleStats = {};
+
+            for (const [ticker, holdings] of Object.entries(tickerIndex)) {
+                holdings.forEach(h => {
+                    const name = h.whale_name;
+                    if (!whaleStats[name]) {
+                        whaleStats[name] = {
+                            name: name,
+                            tickers: new Set(),
+                            totalValue: 0,
+                            holdings: []
+                        };
+                    }
+                    whaleStats[name].tickers.add(ticker);
+                    whaleStats[name].totalValue += h.value || 0;
+                    whaleStats[name].holdings.push(h);
+                });
+            }
+
+            // Convertir a array y ordenar por total value
+            const whales = Object.values(whaleStats).map(w => ({
+                ...w,
+                tickers: w.tickers.size,
+                tickerSet: w.tickers
+            })).sort((a, b) => b.totalValue - a.totalValue);
+
+            // Generar HTML
+            const whalesGrid = document.getElementById('whalesGrid');
+            whalesGrid.innerHTML = whales.map(whale => {
+                const isLegend = whale.name.includes('Buffett') || whale.name.includes('Dalio');
+                const cardClass = isLegend ? 'whale-card legend' : 'whale-card';
+                const tier = isLegend ? '⭐⭐⭐⭐ LEGEND' : whale.totalValue > 1e12 ? '⭐⭐⭐ MEGA' : '⭐⭐ HEDGE';
+
+                return `
+                    <div class="${cardClass}">
+                        <div class="whale-name">${whale.name}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary); margin: 0.5rem 0;">
+                            ${tier}
+                        </div>
+                        <div style="margin: 1rem 0;">
+                            <div style="display: flex; justify-content: space-between; margin: 0.5rem 0;">
+                                <span style="color: var(--text-secondary);">Holdings:</span>
+                                <span style="font-weight: 700;">${whale.holdings.length}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin: 0.5rem 0;">
+                                <span style="color: var(--text-secondary);">Unique Tickers:</span>
+                                <span style="font-weight: 700;">${whale.tickers}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin: 0.5rem 0;">
+                                <span style="color: var(--text-secondary);">Total Value:</span>
+                                <span style="font-weight: 700; color: var(--glass-accent);">${formatValue(whale.totalValue)}</span>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 1rem;">
+                            Latest filing: ${whale.holdings[0].filing_date}
+                        </div>
+                    </div>
+                `;
+            }).join('');
         }
 
         function displayTopHoldings(tickerIndex) {
