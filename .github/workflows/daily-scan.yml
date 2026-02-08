@@ -1,0 +1,39 @@
+name: Daily Market Scan
+
+on:
+  schedule:
+    # Ejecutar de Lunes a Viernes a las 18:00 UTC (después del cierre USA)
+    - cron: '0 18 * * 1-5'
+  workflow_dispatch:  # Permite ejecución manual
+
+jobs:
+  daily-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy yfinance beautifulsoup4 requests lxml
+
+      - name: Run daily scanners
+        run: |
+          python3 run_all_scanners.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Daily scan $(date +%Y-%m-%d)" && git push)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
