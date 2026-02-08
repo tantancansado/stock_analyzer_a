@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 Stock Analyzer 4D | Advanced Trading Analytics</title>
-    <meta name="description" content="Sistema avanzado de análisis cuádruple: VCP + Insiders + Sector + Institutional con Earnings Calendar y Backtesting">
+    <title>🌟 Stock Analyzer 5D | Advanced Trading Analytics</title>
+    <meta name="description" content="Sistema avanzado de análisis 5D: VCP + Insiders + Sector Enhancement + Institutional + Fundamental Analysis con Price Targets">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
     <style>
         :root {
@@ -300,6 +300,12 @@
 
         .whale-badge { background: rgba(168, 85, 247, 0.2); color: #a78bfa; }
         .earnings-badge { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
+        .sector-improving { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .sector-declining { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .sector-stable { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .text-success { color: #22c55e; }
+        .text-info { color: #3b82f6; }
+        .text-danger { color: #ef4444; }
 
         /* Earnings Alerts */
         .alert-box {
@@ -345,8 +351,8 @@
     <div class="container">
         <!-- Hero Section -->
         <div class="glass-card hero">
-            <h1>🌟 STOCK ANALYZER 4D</h1>
-            <p class="hero-subtitle">Quadruple Analysis System: VCP + Insiders + Sector + Institutional</p>
+            <h1>🌟 STOCK ANALYZER 5D</h1>
+            <p class="hero-subtitle">5D Analysis System: VCP + Insiders + Sector Enhancement + Institutional + Fundamentals</p>
             <div class="live-badge">
                 <div class="pulse-dot"></div>
                 <span id="moduleCount">8 Módulos Activos</span>
@@ -356,8 +362,8 @@
         <!-- Global Stats -->
         <div class="stats-grid">
             <div class="stat-box">
-                <div class="stat-number" id="total4DOpps">-</div>
-                <div class="stat-label">🌟 4D Opportunities</div>
+                <div class="stat-number" id="total5DOpps">-</div>
+                <div class="stat-label">🌟 5D Opportunities</div>
             </div>
             <div class="stat-box">
                 <div class="stat-number" id="legendaryCount">-</div>
@@ -389,22 +395,24 @@
 
         <!-- Top 10 Opportunities Preview -->
         <div class="glass-card" style="padding: 2rem; margin-bottom: 3rem;">
-            <h2 class="section-header">🏆 Top 10 Opportunities 4D</h2>
+            <h2 class="section-header">🏆 Top 10 Opportunities 5D</h2>
             <div style="overflow-x: auto;">
                 <table class="top-opps-table">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Ticker</th>
-                            <th>4D Score</th>
+                            <th>5D Score</th>
                             <th>Tier</th>
+                            <th>Sector</th>
+                            <th>Target / Upside</th>
                             <th>Indicators</th>
                             <th>Earnings</th>
                         </tr>
                     </thead>
                     <tbody id="topOppsBody">
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
                                 Loading top opportunities...
                             </td>
                         </tr>
@@ -413,7 +421,7 @@
             </div>
             <div style="text-align: center; margin-top: 1.5rem;">
                 <a href="super_opportunities_4d.html" style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; text-decoration: none; border-radius: 16px; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);">
-                    🚀 Ver Todas las Oportunidades 4D
+                    🚀 Ver Todas las Oportunidades 5D
                 </a>
             </div>
         </div>
@@ -424,8 +432,8 @@
             <div class="modules-grid">
                 <a href="super_opportunities_4d.html" class="module-card">
                     <div class="module-icon">🌟</div>
-                    <div class="module-title">Super Opportunities 4D</div>
-                    <div class="module-desc">Análisis cuádruple con VCP, Insiders recurrentes, DJ Sectorial e Institutional tracking</div>
+                    <div class="module-title">Super Opportunities 5D</div>
+                    <div class="module-desc">Análisis 5D: VCP, Insiders, Sector Enhancement (DJ), Institutional + Price Targets y Fundamental Analysis</div>
                 </a>
 
                 <a href="institutional_tracker.html" class="module-card">
@@ -474,23 +482,23 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>🚀 Stock Analyzer 4D • Powered by Advanced Market Analysis & AI</p>
+            <p>🚀 Stock Analyzer 5D • Powered by Advanced Market Analysis & AI</p>
             <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                🌟 4D Analysis • 🐋 Institutional Tracking • 📅 Earnings Calendar • 📊 Backtesting System
+                🌟 5D Analysis • 📊 Sector Enhancement • 🎯 Price Targets • 🐋 Institutional • 📅 Earnings • 📈 Backtesting
             </p>
         </div>
     </div>
 
     <script>
-        // Load 4D opportunities data
+        // Load 5D opportunities data
         async function loadDashboardData() {
             try {
                 // Try loading with earnings first
                 let response;
                 try {
-                    response = await fetch('super_opportunities_4d_complete_with_earnings.csv');
+                    response = await fetch('super_opportunities_5d_complete_with_earnings.csv');
                 } catch (e) {
-                    response = await fetch('super_opportunities_4d_complete.csv');
+                    response = await fetch('super_opportunities_5d_complete.csv');
                 }
 
                 const csvText = await response.text();
@@ -514,7 +522,7 @@
                 });
 
                 // Update stats
-                document.getElementById('total4DOpps').textContent = data.length;
+                document.getElementById('total5DOpps').textContent = data.length;
                 document.getElementById('legendaryCount').textContent = legendary.length;
                 document.getElementById('earningsAlerts').textContent = earningsThisWeek.length;
 
@@ -568,7 +576,7 @@
             const tbody = document.getElementById('topOppsBody');
 
             tbody.innerHTML = data.map((opp, index) => {
-                const score = parseFloat(opp.super_score_4d);
+                const score = parseFloat(opp.super_score_5d || opp.super_score_4d);
                 const institutional = parseFloat(opp.institutional_score);
                 const numWhales = parseInt(opp.num_whales) || 0;
                 const daysToEarnings = opp.days_to_earnings ? parseInt(opp.days_to_earnings) : null;
@@ -590,12 +598,40 @@
                     earningsHTML = '<small style="color: var(--text-secondary);">N/A</small>';
                 }
 
+                // NEW: Sector badge
+                const sectorName = opp.sector_name || 'N/A';
+                const sectorMomentum = opp.sector_momentum || '';
+                const tierBoost = parseInt(opp.tier_boost) || 0;
+                const sectorClass = sectorMomentum === 'improving' ? 'sector-improving' :
+                                   sectorMomentum === 'declining' ? 'sector-declining' : 'sector-stable';
+                const sectorHTML = `<span class="badge ${sectorClass}" title="Momentum: ${sectorMomentum} | Boost: +${tierBoost}">
+                    ${sectorName}
+                </span>`;
+
+                // NEW: Price target & upside
+                const priceTarget = opp.price_target ? parseFloat(opp.price_target) : null;
+                const upside = opp.upside_percent ? parseFloat(opp.upside_percent) : null;
+                let targetHTML = '';
+                if (priceTarget && upside !== null) {
+                    const upsideClass = upside > 20 ? 'text-success' : upside > 0 ? 'text-info' : 'text-danger';
+                    targetHTML = `
+                        <div style="font-size: 0.9rem;">
+                            <div style="font-weight: 600;">$${priceTarget.toFixed(2)}</div>
+                            <div class="${upsideClass}">${upside > 0 ? '+' : ''}${upside.toFixed(1)}%</div>
+                        </div>
+                    `;
+                } else {
+                    targetHTML = '<small style="color: var(--text-secondary);">N/A</small>';
+                }
+
                 return `
                     <tr>
                         <td style="text-align: center; color: var(--text-secondary);">${index + 1}</td>
                         <td class="ticker">${opp.ticker}</td>
                         <td class="score ${scoreClass}">${score.toFixed(1)}</td>
                         <td>${opp.tier}</td>
+                        <td>${sectorHTML}</td>
+                        <td style="text-align: center;">${targetHTML}</td>
                         <td>${whaleBadge}</td>
                         <td style="text-align: center;">${earningsHTML}</td>
                     </tr>

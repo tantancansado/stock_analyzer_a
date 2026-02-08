@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-RUN SUPER ANALYZER 4D - Con datos institucionales reales
-Ejecuta análisis completo con las 4 dimensiones
+RUN SUPER ANALYZER 5D - Sistema completo
+Ejecuta análisis con 5 dimensiones:
+  1. VCP Patterns
+  2. Recurring Insiders
+  3. Sector Enhancement (DJ Sectorial)
+  4. Institutional Buying
+  5. Fundamental Analysis + Price Targets
 """
 import json
 from pathlib import Path
@@ -38,8 +43,8 @@ def load_institutional_scores():
     return scores
 
 def run_4d_analysis():
-    """Ejecuta análisis 4D completo"""
-    print("🎯 SUPER ANALYZER 4D - ANÁLISIS COMPLETO")
+    """Ejecuta análisis 5D completo"""
+    print("🎯 SUPER ANALYZER 5D - ANÁLISIS COMPLETO")
     print("=" * 80)
 
     # Cargar scores institucionales
@@ -57,11 +62,12 @@ def run_4d_analysis():
     else:
         print(f"   ⚠️  Sin datos institucionales - Scores será 0")
 
-    # Ejecutar Super Analyzer 4D
+    # Ejecutar Super Analyzer 5D
+    # (incluye sector enhancement + fundamental analysis automáticamente)
     analyzer = SuperAnalyzer4D()
     opportunities = analyzer.find_4d_opportunities()
 
-    # Enriquecer con datos institucionales reales
+    # Enriquecer con datos institucionales reales (si los hay)
     for opp in opportunities:
         ticker = opp['ticker']
         if ticker in inst_scores:
@@ -87,22 +93,50 @@ def run_4d_analysis():
     # Generar reporte
     analyzer.generate_4d_report(opportunities)
 
-    # Guardar con datos institucionales
-    output_csv = Path("docs/super_opportunities_4d_complete.csv")
+    # Guardar con datos institucionales + sector + fundamentales
+    output_csv = Path("docs/super_opportunities_5d_complete.csv")
 
     import pandas as pd
 
-    # Preparar datos para CSV
+    # Preparar datos para CSV con TODAS las columnas 5D
     csv_data = []
     for opp in opportunities:
         row = {
+            # Core
             'ticker': opp['ticker'],
-            'super_score_4d': opp['super_score_4d'],
+            'super_score_5d': opp['super_score_4d'],
             'tier': opp['tier'],
+            'description': opp['description'],
+
+            # 4 Dimensiones base
             'vcp_score': opp['dimensions']['vcp'],
             'insiders_score': opp['dimensions']['insiders'],
             'sector_score': opp['dimensions']['sector'],
             'institutional_score': opp['dimensions']['institutional'],
+
+            # Sector Enhancement
+            'sector_name': opp.get('sector_name', 'Unknown'),
+            'sector_momentum': opp.get('sector_momentum', 'stable'),
+            'tier_boost': opp.get('tier_boost', 0),
+            'dj_ticker': opp.get('dj_ticker', ''),
+
+            # Price Targets
+            'current_price': opp.get('current_price'),
+            'price_target': opp.get('price_target'),
+            'upside_percent': opp.get('upside_percent'),
+            'analyst_target': opp.get('analyst_target'),
+            'analyst_upside': opp.get('analyst_upside'),
+            'num_analysts': opp.get('num_analysts', 0),
+
+            # Fundamentales
+            'fundamental_score': opp.get('fundamental_score', 50),
+            'pe_ratio': opp.get('pe_ratio'),
+            'peg_ratio': opp.get('peg_ratio'),
+            'fcf_yield': opp.get('fcf_yield'),
+            'roe': opp.get('roe'),
+            'revenue_growth': opp.get('revenue_growth'),
+
+            # Institucionales
             'num_whales': opp.get('institutional_details', {}).get('num_whales', 0),
             'top_whales': ', '.join(opp.get('institutional_details', {}).get('top_whales', []))
         }
@@ -111,7 +145,12 @@ def run_4d_analysis():
     df = pd.DataFrame(csv_data)
     df.to_csv(output_csv, index=False)
 
-    print(f"\n✅ Reporte 4D completo guardado: {output_csv}")
+    print(f"\n✅ Reporte 5D completo guardado: {output_csv}")
+    print(f"   📊 {len(csv_data)} oportunidades con datos completos:")
+    print(f"      - Sector Enhancement (DJ Sectorial)")
+    print(f"      - Price Targets (DCF + P/E + Analistas)")
+    print(f"      - Fundamental Scores (FCF, ROE, P/E, PEG)")
+    print(f"      - Institutional Holdings")
 
     # Destacar LEGENDARY opportunities
     legendary = [o for o in opportunities if '⭐⭐⭐⭐' in o['tier']]
@@ -127,6 +166,16 @@ def run_4d_analysis():
             dims = opp['dimensions']
             print(f"   VCP: {dims['vcp']:.0f} | Insiders: {dims['insiders']:.0f} | "
                   f"Sector: {dims['sector']:.0f} | Institutional: {dims['institutional']:.0f}")
+
+            # Sector info
+            print(f"   📊 {opp.get('sector_name', 'N/A')} | "
+                  f"Momentum: {opp.get('sector_momentum', 'N/A')} | "
+                  f"Boost: +{opp.get('tier_boost', 0)}")
+
+            # Price targets
+            if opp.get('price_target'):
+                print(f"   🎯 Target: ${opp['price_target']:.2f} ({opp['upside_percent']:+.1f}%) | "
+                      f"Fundamental: {opp.get('fundamental_score', 50):.0f}/100")
 
             if opp.get('institutional_details'):
                 inst = opp['institutional_details']

@@ -122,7 +122,7 @@ class MasterScanner:
         self.log("\n📅 FASE 8: EARNINGS CALENDAR")
         self.run_command(
             "Earnings Calendar",
-            "python3 -c \"from earnings_calendar import EarningsCalendar; EarningsCalendar().enrich_opportunities_csv('docs/super_opportunities_4d_complete.csv')\"",
+            "python3 -c \"from earnings_calendar import EarningsCalendar; EarningsCalendar().enrich_opportunities_csv('docs/super_opportunities_5d_complete.csv')\"",
             timeout=600
         )
 
@@ -140,12 +140,12 @@ class MasterScanner:
             from backtest_system import BacktestSystem
             from pathlib import Path
 
-            csv_path = Path('docs/super_opportunities_4d_complete_with_earnings.csv')
+            csv_path = Path('docs/super_opportunities_5d_complete_with_earnings.csv')
             if not csv_path.exists():
-                csv_path = Path('docs/super_opportunities_4d_complete.csv')
+                csv_path = Path('docs/super_opportunities_5d_complete.csv')
 
             if not csv_path.exists():
-                self.log("   ℹ️  No hay datos 4D - saltando snapshot")
+                self.log("   ℹ️  No hay datos 5D - saltando snapshot")
                 return
 
             backtest = BacktestSystem()
@@ -177,7 +177,7 @@ class MasterScanner:
             alerts = TelegramLegendaryAlerts()
 
             # Verificar si hay LEGENDARY opportunities
-            csv_path = Path('docs/super_opportunities_4d_complete.csv')
+            csv_path = Path('docs/super_opportunities_5d_complete.csv')
             if not csv_path.exists():
                 self.log("   ℹ️  No hay datos 4D para alertas")
                 return
