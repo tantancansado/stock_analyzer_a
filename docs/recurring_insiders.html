@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔁 Recurring Insider Purchases | High Confidence Signals</title>
+    <style>
+        :root {
+            --glass-primary: rgba(99, 102, 241, 0.8);
+            --glass-secondary: rgba(139, 92, 246, 0.7);
+            --glass-accent: rgba(59, 130, 246, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #020617;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+
+        .container { max-width: 1800px; margin: 0 auto; }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-box {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 2px solid var(--glass-border);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="https://tantancansado.github.io/stock_analyzer_a" class="back-link">🏠 Volver al Dashboard</a>
+
+        <div class="glass-card">
+            <h1>🔁 Recurring Insider Purchases</h1>
+            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1rem;">
+                High Confidence Signals - Múltiples Compras en los Últimos 3 Meses
+            </p>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                📅 2026-02-08 13:13
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number">5323</div>
+                <div class="stat-label">Total Compras</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">685</div>
+                <div class="stat-label">Tickers Recurrentes</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">562</div>
+                <div class="stat-label">Confianza MUY ALTA</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">550</div>
+                <div class="stat-label">3+ Compras</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">237</div>
+                <div class="stat-label">Múltiples Insiders</div>
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🏆 Top Compras Recurrentes</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                Estos tickers han tenido múltiples compras de insiders en los últimos 90 días,
+                indicando alta confianza por parte de ejecutivos y directores.
+            </p>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">#</th>
+                            <th>Ticker</th>
+                            <th style="text-align: center;">Compras</th>
+                            <th style="text-align: center;">Insiders</th>
+                            <th style="text-align: center;">Días</th>
+                            <th>Primera Compra</th>
+                            <th>Última Compra</th>
+                            <th style="text-align: center;">Score</th>
+                            <th>Confianza</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">TPL</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">158</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">87</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-11</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">3170</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">CBC</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">53</td>
+            <td style="padding: 1rem; text-align: center;">8</td>
+            <td style="padding: 1rem; text-align: center;">5</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-26</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-01</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">1140</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">3</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">NYC</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">48</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">72</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-26</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">970</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">4</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">MNTR</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">43</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">72</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-26</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">870</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">5</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">WRB</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">43</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">44</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-23</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-05</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">870</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">6</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">COSM</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">42</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">70</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-21</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-30</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">850</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">7</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">DLPN</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">41</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">66</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-02</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">830</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">8</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">SPG</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">39</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">51</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-19</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-09</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">790</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">9</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">IRIX</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">38</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">78</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-18</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-04</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">780</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">10</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">HYMC</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">38</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">80</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-17</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-05</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">770</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">11</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">AVO</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">37</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">80</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-11</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-30</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">750</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">12</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">KFS</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">35</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">78</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-20</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">720</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">13</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">LUCY</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">34</td>
+            <td style="padding: 1rem; text-align: center;">4</td>
+            <td style="padding: 1rem; text-align: center;">50</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-09</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-28</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">720</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">14</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">UUU</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">35</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">63</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-25</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-27</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">710</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">15</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">SPRU</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">35</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">70</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-17</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-26</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">710</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">16</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">CABA</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">32</td>
+            <td style="padding: 1rem; text-align: center;">6</td>
+            <td style="padding: 1rem; text-align: center;">5</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-22</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-27</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">700</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">17</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">ELUT</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">32</td>
+            <td style="padding: 1rem; text-align: center;">4</td>
+            <td style="padding: 1rem; text-align: center;">81</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-17</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">680</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">18</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">MAIA</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">33</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">51</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-26</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-16</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">680</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">19</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">PFBX</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">32</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">56</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-11</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-05</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">660</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">20</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">SLGL</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">32</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">72</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-24</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-04</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">650</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">21</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">YORW</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">29</td>
+            <td style="padding: 1rem; text-align: center;">7</td>
+            <td style="padding: 1rem; text-align: center;">66</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-17</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-22</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">650</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">22</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">NRDY</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">32</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">28</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-24</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-22</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">650</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">23</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">XZO</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">28</td>
+            <td style="padding: 1rem; text-align: center;">5</td>
+            <td style="padding: 1rem; text-align: center;">45</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-11</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-26</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">610</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">24</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">HKHC</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">29</td>
+            <td style="padding: 1rem; text-align: center;">3</td>
+            <td style="padding: 1rem; text-align: center;">21</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-24</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-15</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">610</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">25</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">AIRJ</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">27</td>
+            <td style="padding: 1rem; text-align: center;">5</td>
+            <td style="padding: 1rem; text-align: center;">46</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-11</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-26</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">590</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">26</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">ISBA</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">28</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">7</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-22</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-29</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">580</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">27</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">CBKM</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">26</td>
+            <td style="padding: 1rem; text-align: center;">4</td>
+            <td style="padding: 1rem; text-align: center;">59</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-08</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-05</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">560</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">28</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">AUBN</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">27</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">78</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-19</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-05</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">560</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">29</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">LAKE</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">25</td>
+            <td style="padding: 1rem; text-align: center;">6</td>
+            <td style="padding: 1rem; text-align: center;">30</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-22</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-21</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">560</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">30</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">GTE</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">27</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">65</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-11</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-15</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">560</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">31</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">STEX</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">25</td>
+            <td style="padding: 1rem; text-align: center;">4</td>
+            <td style="padding: 1rem; text-align: center;">72</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-24</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-04</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">540</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">32</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">EML</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">25</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">35</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-17</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-22</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">520</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">33</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">GPUS</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">25</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">46</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-21</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">510</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">34</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">ONMD</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">24</td>
+            <td style="padding: 1rem; text-align: center;">3</td>
+            <td style="padding: 1rem; text-align: center;">5</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-27</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-02</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">510</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">35</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">MIGI</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">24</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">23</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-13</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-05</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">490</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">36</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">SQNS</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">24</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">22</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-12</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-03</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">490</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">37</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">BUKS</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">23</td>
+            <td style="padding: 1rem; text-align: center;">3</td>
+            <td style="padding: 1rem; text-align: center;">26</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-24</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-19</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">490</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">38</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">ALMS</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">23</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">62</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-18</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-19</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">480</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">39</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">NEWT</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">5</td>
+            <td style="padding: 1rem; text-align: center;">44</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-09</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-22</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">450</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">40</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">IMRX</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">4</td>
+            <td style="padding: 1rem; text-align: center;">12</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-15</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-27</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">440</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">41</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">RNXT</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">64</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-25</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-28</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">420</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">42</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">ANDG</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">4</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-22</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-26</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">420</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">43</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">GAIA</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">17</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-09</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-26</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">420</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">44</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">CMTV</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">19</td>
+            <td style="padding: 1rem; text-align: center;">3</td>
+            <td style="padding: 1rem; text-align: center;">32</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-05</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-02-06</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">410</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">45</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">PRPO</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">66</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-21</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-26</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">410</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">46</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">NAVN</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">19</td>
+            <td style="padding: 1rem; text-align: center;">3</td>
+            <td style="padding: 1rem; text-align: center;">27</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-19</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-15</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">410</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">47</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">ALT</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">23</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-23</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-15</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">410</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">48</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">NEXT</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">20</td>
+            <td style="padding: 1rem; text-align: center;">1</td>
+            <td style="padding: 1rem; text-align: center;">30</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-17</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-17</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">410</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">49</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">SRZN</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">19</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">69</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-18</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2026-01-26</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">400</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 1rem; text-align: center;">50</td>
+            <td style="padding: 1rem; font-weight: 700; color: var(--glass-accent);">MLP</td>
+            <td style="padding: 1rem; text-align: center; font-weight: 700;">19</td>
+            <td style="padding: 1rem; text-align: center;">2</td>
+            <td style="padding: 1rem; text-align: center;">24</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-11-24</td>
+            <td style="padding: 1rem; font-size: 0.9rem;">2025-12-18</td>
+            <td style="padding: 1rem; text-align: center; color: #48bb78; font-weight: 700;">400</td>
+            <td style="padding: 1rem; color: #48bb78; font-weight: 600;">🟢 MUY ALTA</td>
+        </tr>
+        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="glass-card" style="text-align: center; color: var(--text-secondary);">
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">💡 Cómo Interpretar Este Análisis</h3>
+            <div style="text-align: left; max-width: 1000px; margin: 0 auto;">
+                <p style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-primary);">🟢 Confianza MUY ALTA (Score ≥60):</strong>
+                    Múltiples compras (3+) o múltiples insiders comprando. Señal muy fuerte de confianza interna.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-primary);">🟡 Confianza ALTA (Score ≥40):</strong>
+                    2-3 compras recientes. Patrón positivo que merece seguimiento.
+                </p>
+                <p style="margin-bottom: 1rem;">
+                    <strong style="color: var(--text-primary);">🔵 Confianza MODERADA (Score <40):</strong>
+                    Compras recurrentes pero con menor frecuencia. Vigilar evolución.
+                </p>
+                <p style="margin-top: 2rem; font-size: 0.9rem;">
+                    ⚠️ Nota: Este análisis es informativo. Siempre realiza tu propia investigación antes de invertir.
+                </p>
+            </div>
+        </div>
+
+        <div class="glass-card" style="text-align: center; color: var(--text-secondary);">
+            <p>🔁 Recurring Insider Purchases Analysis • Powered by Advanced Pattern Detection</p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">
+                Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner
+            </p>
+        </div>
+    </div>
+</body>
+</html>

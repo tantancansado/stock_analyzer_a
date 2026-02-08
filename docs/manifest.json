@@ -10410,5 +10410,26 @@
       "type": "enhanced_opportunities"
     }
   ],
-  "total_enhanced_reports": 175
+  "total_enhanced_reports": 175,
+  "vcp_reports": [
+    {
+      "id": "vcp_scan_20250711_103128",
+      "title": "🚀 VCP Scanner - 167 patrones detectados",
+      "description": "121 listos para comprar • 167 Excellent • 0 Good",
+      "timestamp": "2026-02-08T13:11:01.312217",
+      "date": "2025-07-11",
+      "time": "13:11:01",
+      "html_url": "reports/vcp/vcp_scan_20250711_103128/index.html",
+      "csv_url": "reports/vcp/vcp_scan_20250711_103128/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/vcp/vcp_scan_20250711_103128/index.html",
+      "type": "vcp",
+      "stats": {
+        "total_patterns": 167,
+        "buy_candidates": 121,
+        "excellent": 167,
+        "good": 0
+      }
+    }
+  ],
+  "total_vcp_reports": 1
 }
