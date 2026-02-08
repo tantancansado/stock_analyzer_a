@@ -236,11 +236,12 @@
                             <th>Sector</th>
                             <th>Institutional</th>
                             <th>Whales</th>
+                            <th>Earnings</th>
                         </tr>
                     </thead>
                     <tbody id="opportunitiesBody">
                         <tr>
-                            <td colspan="9" style="text-align: center; padding: 2rem;">
+                            <td colspan="10" style="text-align: center; padding: 2rem;">
                                 Loading opportunities...
                             </td>
                         </tr>
@@ -275,7 +276,14 @@
     <script>
         async function loadOpportunities() {
             try {
-                const response = await fetch('super_opportunities_4d_complete.csv');
+                // Intentar cargar CSV con earnings primero
+                let response;
+                try {
+                    response = await fetch('super_opportunities_4d_complete_with_earnings.csv');
+                } catch (e) {
+                    // Fallback to original CSV
+                    response = await fetch('super_opportunities_4d_complete.csv');
+                }
                 const csvText = await response.text();
 
                 // Parse CSV
@@ -311,7 +319,7 @@
                 console.error('Error loading data:', error);
                 document.getElementById('opportunitiesBody').innerHTML = `
                     <tr>
-                        <td colspan="9" style="text-align: center; color: var(--text-secondary);">
+                        <td colspan="10" style="text-align: center; color: var(--text-secondary);">
                             ❌ Error loading data: ${error.message}
                         </td>
                     </tr>
@@ -351,6 +359,8 @@
                 const sector = parseFloat(opp.sector_score);
                 const institutional = parseFloat(opp.institutional_score);
                 const numWhales = parseInt(opp.num_whales) || 0;
+                const nextEarnings = opp.next_earnings || '';
+                const daysToEarnings = opp.days_to_earnings ? parseInt(opp.days_to_earnings) : null;
 
                 const scoreClass = score >= 85 ? 'legendary' :
                                  score >= 75 ? 'epic' :
@@ -360,6 +370,23 @@
                 const whaleInfo = numWhales > 0 ?
                     `<div class="whale-info">🐋 ${numWhales} whales: ${opp.top_whales.substring(0, 50)}${opp.top_whales.length > 50 ? '...' : ''}</div>` :
                     '';
+
+                // Earnings info
+                let earningsHTML = '';
+                if (nextEarnings) {
+                    const isUpcoming = daysToEarnings !== null && daysToEarnings >= 0 && daysToEarnings <= 7;
+                    const isPast = daysToEarnings !== null && daysToEarnings < 0;
+
+                    if (isUpcoming) {
+                        earningsHTML = `<span style="color: #ff6b6b; font-weight: 700;">⚠️ ${daysToEarnings}d</span><br><small style="color: var(--text-secondary);">${nextEarnings}</small>`;
+                    } else if (isPast) {
+                        earningsHTML = `<small style="color: var(--text-secondary);">Past</small>`;
+                    } else {
+                        earningsHTML = `<small style="color: var(--text-secondary);">${daysToEarnings}d</small><br><small style="color: var(--text-secondary);">${nextEarnings}</small>`;
+                    }
+                } else {
+                    earningsHTML = '<small style="color: var(--text-secondary);">N/A</small>';
+                }
 
                 return `
                     <tr>
@@ -375,6 +402,7 @@
                             ${whaleInfo}
                         </td>
                         <td style="text-align: center; font-weight: 700;">${numWhales}</td>
+                        <td style="text-align: center;">${earningsHTML}</td>
                     </tr>
                 `;
             }).join('');
