@@ -239,6 +239,90 @@ class BacktestSystem:
         # Calcular returns
         return self.calculate_returns(snapshot_id)
 
+    def analyze_ready_snapshots(self):
+        """
+        Analiza automáticamente snapshots que estén listos para análisis
+
+        Un snapshot está listo si:
+        - Tiene al menos 7 días de antigüedad (para 7d analysis)
+        - No ha sido analizado previamente
+
+        Returns:
+            List of analyzed snapshot IDs
+        """
+        print(f"\n🔍 BACKTEST AUTO-ANALYSIS")
+        print("="*80)
+
+        analyzed = []
+
+        # Buscar todos los snapshots
+        snapshots = sorted(self.snapshots_dir.glob("snapshot_*.csv"))
+
+        if not snapshots:
+            print("ℹ️  No hay snapshots para analizar")
+            return analyzed
+
+        print(f"📸 Snapshots encontrados: {len(snapshots)}")
+
+        from datetime import datetime, timedelta
+        today = datetime.now()
+
+        for snapshot_file in snapshots:
+            snapshot_id = snapshot_file.stem.replace('snapshot_', '')
+
+            # Parsear fecha del snapshot
+            try:
+                snapshot_date = datetime.strptime(snapshot_id[:8], '%Y%m%d')
+            except:
+                print(f"⚠️  Formato de fecha inválido: {snapshot_id}")
+                continue
+
+            # Calcular edad
+            age_days = (today - snapshot_date).days
+
+            # Verificar si ya fue analizado
+            result_file = self.results_dir / f"backtest_{snapshot_id}.csv"
+
+            if result_file.exists():
+                # Ya analizado, skip
+                continue
+
+            # Determinar qué timeframes analizar según edad
+            timeframes = []
+            if age_days >= 7:
+                timeframes.append(7)
+            if age_days >= 30:
+                timeframes.append(30)
+            if age_days >= 60:
+                timeframes.append(60)
+            if age_days >= 90:
+                timeframes.append(90)
+
+            if not timeframes:
+                print(f"⏳ {snapshot_id} ({age_days}d) - Muy reciente, esperando 7 días")
+                continue
+
+            print(f"\n📊 Analizando {snapshot_id} ({age_days} días) - Timeframes: {timeframes}")
+
+            try:
+                # Analizar snapshot
+                results = self.calculate_returns(snapshot_id, timeframes)
+
+                if results is not None:
+                    analyzed.append(snapshot_id)
+                    print(f"✅ {snapshot_id} analizado exitosamente")
+                else:
+                    print(f"⚠️  Error analizando {snapshot_id}")
+
+            except Exception as e:
+                print(f"❌ Error en {snapshot_id}: {e}")
+
+        print(f"\n" + "="*80)
+        print(f"📈 RESUMEN: {len(analyzed)} snapshots analizados")
+        print("="*80)
+
+        return analyzed
+
     def generate_html_report(self, snapshot_id=None):
         """
         Genera reporte HTML con visualizaciones de performance

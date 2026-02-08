@@ -470,13 +470,198 @@
         // Check for available snapshots and results
         async function loadBacktestData() {
             try {
-                // Try to load the most recent backtest result
-                // For now, we'll show instructions since backtest data needs to be generated
-                displayInstructions();
+                // Try to load the latest backtest result
+                const response = await fetch('data/backtest/latest_backtest.csv');
+
+                if (!response.ok) {
+                    throw new Error('No backtest results available yet');
+                }
+
+                const csvText = await response.text();
+                const lines = csvText.trim().split('\n');
+                const headers = lines[0].split(',');
+
+                const data = lines.slice(1).map(line => {
+                    const values = parseCSVLine(line);
+                    const obj = {};
+                    headers.forEach((header, i) => {
+                        obj[header.trim()] = values[i] ? values[i].trim() : '';
+                    });
+                    return obj;
+                });
+
+                // Store data and display
+                currentData = data;
+                displayBacktestResults(data);
+
             } catch (error) {
                 console.error('Error loading backtest data:', error);
                 displayInstructions();
             }
+        }
+
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current);
+            return result;
+        }
+
+        function displayBacktestResults(data) {
+            // Show sections
+            document.getElementById('globalStats').style.display = 'block';
+            document.getElementById('tierStats').style.display = 'block';
+            document.getElementById('tradesTable').style.display = 'block';
+
+            // Update snapshots list
+            const snapshotsList = document.getElementById('snapshotsList');
+            const snapshotId = data[0]?.snapshot_id || 'Unknown';
+            const entryDate = data[0]?.entry_date || 'Unknown';
+
+            snapshotsList.innerHTML = `
+                <div style="text-align: center; padding: 2rem;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
+                    <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Snapshot Analizado</h3>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 0.5rem;">
+                        <strong>${snapshotId}</strong>
+                    </p>
+                    <p style="color: var(--text-secondary);">
+                        Entry Date: ${entryDate} • Samples: ${data.length}
+                    </p>
+                </div>
+            `;
+
+            // Update stats for current timeframe
+            updateStats(data, currentTimeframe);
+        }
+
+        function updateStats(data, timeframe) {
+            const returnCol = `return_${timeframe}`;
+            const exitCol = `exit_price_${timeframe}`;
+
+            // Filter valid returns
+            const validReturns = data
+                .map(row => parseFloat(row[returnCol]))
+                .filter(r => !isNaN(r));
+
+            if (validReturns.length === 0) {
+                // No data for this timeframe yet
+                document.getElementById('avgReturn').textContent = 'N/A';
+                document.getElementById('medianReturn').textContent = 'N/A';
+                document.getElementById('winRate').textContent = 'N/A';
+                document.getElementById('bestReturn').textContent = 'N/A';
+                document.getElementById('worstReturn').textContent = 'N/A';
+                document.getElementById('totalSamples').textContent = '0';
+                return;
+            }
+
+            // Calculate stats
+            const avgReturn = validReturns.reduce((a, b) => a + b, 0) / validReturns.length;
+            const sortedReturns = [...validReturns].sort((a, b) => a - b);
+            const medianReturn = sortedReturns[Math.floor(sortedReturns.length / 2)];
+            const winRate = (validReturns.filter(r => r > 0).length / validReturns.length) * 100;
+            const bestReturn = Math.max(...validReturns);
+            const worstReturn = Math.min(...validReturns);
+
+            // Update display
+            document.getElementById('avgReturn').textContent = avgReturn.toFixed(2) + '%';
+            document.getElementById('medianReturn').textContent = medianReturn.toFixed(2) + '%';
+            document.getElementById('winRate').textContent = winRate.toFixed(1) + '%';
+            document.getElementById('winRateBar').style.width = winRate + '%';
+            document.getElementById('bestReturn').textContent = '+' + bestReturn.toFixed(2) + '%';
+            document.getElementById('worstReturn').textContent = worstReturn.toFixed(2) + '%';
+            document.getElementById('totalSamples').textContent = validReturns.length;
+
+            // Update tier stats
+            updateTierStats(data, timeframe);
+
+            // Update top/bottom trades
+            updateTrades(data, timeframe);
+        }
+
+        function updateTierStats(data, timeframe) {
+            const returnCol = `return_${timeframe}`;
+
+            const tiers = {
+                'legendary': { name: '⭐⭐⭐⭐ LEGENDARY', min: 85 },
+                'epic': { name: '⭐⭐⭐ ÉPICAS', min: 75 },
+                'excellent': { name: '⭐⭐ EXCELENTES', min: 65 }
+            };
+
+            Object.entries(tiers).forEach(([key, tier]) => {
+                const tierData = data.filter(row =>
+                    parseFloat(row.super_score_4d) >= tier.min &&
+                    (key === 'legendary' ? parseFloat(row.super_score_4d) >= 85 :
+                     key === 'epic' ? parseFloat(row.super_score_4d) >= 75 && parseFloat(row.super_score_4d) < 85 :
+                     parseFloat(row.super_score_4d) >= 65 && parseFloat(row.super_score_4d) < 75)
+                );
+
+                const returns = tierData
+                    .map(row => parseFloat(row[returnCol]))
+                    .filter(r => !isNaN(r));
+
+                if (returns.length > 0) {
+                    const avg = returns.reduce((a, b) => a + b, 0) / returns.length;
+                    const winrate = (returns.filter(r => r > 0).length / returns.length) * 100;
+
+                    document.getElementById(`${key}-avg`).textContent = avg.toFixed(2) + '%';
+                    document.getElementById(`${key}-winrate`).textContent = winrate.toFixed(0) + '%';
+                    document.getElementById(`${key}-samples`).textContent = returns.length;
+                } else {
+                    document.getElementById(`${key}-avg`).textContent = 'N/A';
+                    document.getElementById(`${key}-winrate`).textContent = 'N/A';
+                    document.getElementById(`${key}-samples`).textContent = '0';
+                }
+            });
+        }
+
+        function updateTrades(data, timeframe) {
+            const returnCol = `return_${timeframe}`;
+            const exitCol = `exit_price_${timeframe}`;
+
+            // Sort by return
+            const sorted = [...data]
+                .filter(row => !isNaN(parseFloat(row[returnCol])))
+                .sort((a, b) => parseFloat(b[returnCol]) - parseFloat(a[returnCol]));
+
+            // Top 10 winners
+            const winners = sorted.slice(0, 10);
+            const winnersBody = document.getElementById('topWinnersBody');
+            winnersBody.innerHTML = winners.map(row => `
+                <tr>
+                    <td class="ticker">${row.ticker}</td>
+                    <td>$${parseFloat(row.entry_price).toFixed(2)}</td>
+                    <td>$${parseFloat(row[exitCol]).toFixed(2)}</td>
+                    <td class="positive">+${parseFloat(row[returnCol]).toFixed(2)}%</td>
+                    <td>${row.tier}</td>
+                </tr>
+            `).join('');
+
+            // Top 10 losers
+            const losers = sorted.slice(-10).reverse();
+            const losersBody = document.getElementById('topLosersBody');
+            losersBody.innerHTML = losers.map(row => `
+                <tr>
+                    <td class="ticker">${row.ticker}</td>
+                    <td>$${parseFloat(row.entry_price).toFixed(2)}</td>
+                    <td>$${parseFloat(row[exitCol]).toFixed(2)}</td>
+                    <td class="negative">${parseFloat(row[returnCol]).toFixed(2)}%</td>
+                    <td>${row.tier}</td>
+                </tr>
+            `).join('');
         }
 
         function displayInstructions() {

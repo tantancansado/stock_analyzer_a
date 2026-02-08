@@ -118,9 +118,48 @@ class MasterScanner:
             timeout=300
         )
 
-        # 8. Telegram Alerts (si están configuradas)
-        self.log("\n📱 FASE 8: TELEGRAM ALERTS")
+        # 8. Earnings Calendar Enrichment
+        self.log("\n📅 FASE 8: EARNINGS CALENDAR")
+        self.run_command(
+            "Earnings Calendar",
+            "python3 -c \"from earnings_calendar import EarningsCalendar; EarningsCalendar().enrich_opportunities_csv('docs/super_opportunities_4d_complete.csv')\"",
+            timeout=600
+        )
+
+        # 9. Backtest Snapshot Creation
+        self.log("\n📸 FASE 9: BACKTEST SNAPSHOT")
+        self.create_backtest_snapshot()
+
+        # 10. Telegram Alerts (si están configuradas)
+        self.log("\n📱 FASE 10: TELEGRAM ALERTS")
         self.send_telegram_alerts()
+
+    def create_backtest_snapshot(self):
+        """Crea snapshot diario de oportunidades para backtesting"""
+        try:
+            from backtest_system import BacktestSystem
+            from pathlib import Path
+
+            csv_path = Path('docs/super_opportunities_4d_complete_with_earnings.csv')
+            if not csv_path.exists():
+                csv_path = Path('docs/super_opportunities_4d_complete.csv')
+
+            if not csv_path.exists():
+                self.log("   ℹ️  No hay datos 4D - saltando snapshot")
+                return
+
+            backtest = BacktestSystem()
+            snapshot = backtest.create_snapshot(str(csv_path))
+
+            if snapshot is not None:
+                self.log(f"   ✅ Snapshot creado con {len(snapshot)} oportunidades")
+            else:
+                self.log("   ⚠️  Error creando snapshot")
+
+        except ImportError:
+            self.log("   ⚠️  backtest_system.py no encontrado")
+        except Exception as e:
+            self.log(f"   ⚠️  Error en snapshot: {e}")
 
     def send_telegram_alerts(self):
         """Envía alertas de Telegram si hay LEGENDARY opportunities"""
