@@ -267,7 +267,16 @@ def enrich_csv_parallel():
         csv_path = Path("docs/super_opportunities_4d_complete.csv")
 
     df = pd.read_csv(csv_path)
-    print(f"✅ CSV cargado: {len(df)} tickers")
+
+    # Filter out invalid tickers (NaN, empty, etc.)
+    original_len = len(df)
+    df = df[df['ticker'].notna() & (df['ticker'] != '') & (df['ticker'] != 'nan')]
+    df = df.reset_index(drop=True)
+
+    if len(df) < original_len:
+        print(f"⚠️  Filtrados {original_len - len(df)} tickers inválidos")
+
+    print(f"✅ CSV cargado: {len(df)} tickers válidos")
 
     # Setup enricher
     print("\n🔍 Cargando Sector Enhancement...")

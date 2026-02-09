@@ -55,6 +55,10 @@ class FundamentalCache:
         Returns:
             Cached data dict or None if not found/expired
         """
+        # Validate ticker type
+        if not isinstance(ticker, str) or not ticker or ticker == 'nan':
+            return None
+
         cache_path = self._get_cache_path(ticker)
 
         if not cache_path.exists():
@@ -98,6 +102,10 @@ class FundamentalCache:
         Returns:
             True if saved successfully
         """
+        # Validate ticker type
+        if not isinstance(ticker, str) or not ticker or ticker == 'nan':
+            return False
+
         try:
             cache_path = self._get_cache_path(ticker)
 
