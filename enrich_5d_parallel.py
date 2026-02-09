@@ -15,11 +15,11 @@ from sector_enhancement import SectorEnhancement
 from fundamental_analyzer import FundamentalAnalyzer
 from utils.retry_utils import retry_with_backoff
 
-# Configuración optimizada
-MAX_WORKERS = 10              # Parallel workers (10x speedup)
+# Configuración optimizada (tuned para evitar rate limiting)
+MAX_WORKERS = 3               # Workers paralelos (balance speed vs rate limits)
 FUNDAMENTAL_LIMIT = None      # None = todos los tickers, o int para limitar
-RETRY_ATTEMPTS = 3           # Intentos por ticker
-RATE_LIMIT_DELAY = 0.1       # Delay mínimo entre requests (parallel)
+RETRY_ATTEMPTS = 3            # Intentos por ticker
+RATE_LIMIT_DELAY = 0.5        # Delay entre requests (más conservador)
 
 
 class ParallelEnricher:
@@ -249,8 +249,20 @@ def enrich_csv_parallel():
     # Convert results to dataframe
     enriched_df = pd.DataFrame(enriched_results)
 
-    # Merge with original data
-    df_final = df.merge(enriched_df, on='ticker', how='left')
+    # Merge with original data (drop sector_score from enriched to avoid duplicates)
+    if 'sector_score' in enriched_df.columns:
+        enriched_df = enriched_df.drop(columns=['sector_score'])
+
+    df_final = df.merge(enriched_df, on='ticker', how='left', suffixes=('', '_enriched'))
+
+    # Clean up any duplicate columns from merge
+    for col in df_final.columns:
+        if col.endswith('_enriched'):
+            base_col = col.replace('_enriched', '')
+            if base_col in df_final.columns:
+                # Use enriched version if not null, otherwise keep original
+                df_final[base_col] = df_final[col].fillna(df_final[base_col])
+                df_final = df_final.drop(columns=[col])
 
     # Calculate final 5D score
     df_final['super_score_5d'] = (
