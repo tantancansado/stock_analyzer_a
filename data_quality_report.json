@@ -1,16 +1,16 @@
 {
   "file": "docs/super_opportunities_5d_complete.csv",
-  "timestamp": "2026-02-09T10:21:31.820564",
+  "timestamp": "2026-02-09T09:56:27.147900",
   "passed": false,
   "issues": [
-    "Data completeness: 33.4%",
-    "Unrealistic values in upside_percent: max=715.67"
+    "Data completeness: 57.5%",
+    "Unrealistic values in upside_percent: max=886.64"
   ],
   "schema_valid": true,
   "total_rows": 685,
   "completeness": {
-    "score": 33.4,
-    "complete_rows": 229,
+    "score": 57.5,
+    "complete_rows": 394,
     "total_rows": 685,
     "column_completeness": {
       "ticker": {
@@ -26,27 +26,27 @@
         "percentage": 100.0
       },
       "current_price": {
-        "non_null": 229,
-        "percentage": 33.4
+        "non_null": 394,
+        "percentage": 57.5
       }
     }
   },
   "outliers": {
     "upside_percent": {
-      "count": 26,
-      "percentage": 3.8,
-      "mean": 52.76,
-      "median": 18.96,
-      "std": 101.43,
+      "count": 43,
+      "percentage": 6.3,
+      "mean": 54.84,
+      "median": 19.84,
+      "std": 104.01,
       "min": -46.4,
-      "max": 715.67
+      "max": 886.64
     }
   },
   "price_targets": {
     "passed": false,
     "issues": [
-      "470 tickers missing price targets (68.6%)",
-      "15 tickers with upside >200%"
+      "327 tickers missing price targets (47.7%)",
+      "23 tickers with upside >200%"
     ]
   },
   "duplicates": 0

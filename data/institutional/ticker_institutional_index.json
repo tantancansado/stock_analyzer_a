@@ -1,6 +1,15 @@
 {
   "GOOG": [
     {
+      "whale_name": "Pershing Square (Bill Ackman)",
+      "cik": "0001336528",
+      "filing_date": "2025-11-14",
+      "shares": 6324031,
+      "value": 1540217750000,
+      "company_name": "ALPHABET INC",
+      "ticker": "GOOG"
+    },
+    {
       "whale_name": "Tiger Global Management",
       "cik": "0001061768",
       "filing_date": "2025-11-13",
@@ -44,6 +53,15 @@
     }
   ],
   "EXP": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 27637,
+      "value": 5712015000,
+      "company_name": "EAGLE MATLS INC",
+      "ticker": "EXP"
+    },
     {
       "whale_name": "Tiger Global Management",
       "cik": "0001061768",
@@ -133,6 +151,15 @@
   ],
   "QSR": [
     {
+      "whale_name": "Pershing Square (Bill Ackman)",
+      "cik": "0001336528",
+      "filing_date": "2025-11-14",
+      "shares": 22915496,
+      "value": 1469799913000,
+      "company_name": "RESTAURANT BRANDS INTL INC",
+      "ticker": "QSR"
+    },
+    {
       "whale_name": "Tiger Global Management",
       "cik": "0001061768",
       "filing_date": "2025-11-13",
@@ -162,6 +189,739 @@
       "value": 353658000,
       "company_name": "UNION PAC CORP",
       "ticker": "UNP"
+    }
+  ],
+  "BN": [
+    {
+      "whale_name": "Pershing Square (Bill Ackman)",
+      "cik": "0001336528",
+      "filing_date": "2025-11-14",
+      "shares": 41020231,
+      "value": 2813167442000,
+      "company_name": "BROOKFIELD CORP",
+      "ticker": "BN"
+    },
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 18968006,
+      "value": 870915995000,
+      "company_name": "BROOKFIELD CORP",
+      "ticker": "BN"
+    },
+    {
+      "whale_name": "D.E. Shaw",
+      "cik": "0001040273",
+      "filing_date": "2025-11-14",
+      "shares": 4675000,
+      "value": 320611500000,
+      "company_name": "BROOKFIELD CORP",
+      "ticker": "BN"
+    }
+  ],
+  "AA": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 80886,
+      "value": 4298282000,
+      "company_name": "ALCOA CORP",
+      "ticker": "AA"
+    }
+  ],
+  "SPWR": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 430790,
+      "value": 676340000,
+      "company_name": "SUNPOWER INC",
+      "ticker": "SPWR"
+    }
+  ],
+  "WOOF": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 7574303,
+      "value": 21283791000,
+      "company_name": "PETCO HEALTH & WELLNESS CO I",
+      "ticker": "WOOF"
+    }
+  ],
+  "BRZE": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 73877,
+      "value": 2533242000,
+      "company_name": "BRAZE INC",
+      "ticker": "BRZE"
+    }
+  ],
+  "BVN": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 29927,
+      "value": 832868000,
+      "company_name": "COMPANIA DE MINAS BUENAVENTU",
+      "ticker": "BVN"
+    }
+  ],
+  "BGSF": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 474269,
+      "value": 2195865000,
+      "company_name": "BGSF INC",
+      "ticker": "BGSF"
+    }
+  ],
+  "CXW": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 25578,
+      "value": 488796000,
+      "company_name": "CORECIVIC INC",
+      "ticker": "CXW"
+    }
+  ],
+  "UHAL/B": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 11520,
+      "value": 538445000,
+      "company_name": "U HAUL HOLDING COMPANY",
+      "ticker": "UHAL/B"
+    }
+  ],
+  "IBM": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 40,
+      "value": 11848000,
+      "company_name": "INTERNATIONAL BUSINESS MACHS",
+      "ticker": "IBM"
+    }
+  ],
+  "EPRT": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 1258631,
+      "value": 37330995000,
+      "company_name": "ESSENTIAL PPTYS RLTY TR INC",
+      "ticker": "EPRT"
+    }
+  ],
+  "PEPG": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 1935414,
+      "value": 12599545000,
+      "company_name": "PEPGEN INC",
+      "ticker": "PEPG"
+    }
+  ],
+  "MERC": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 217648,
+      "value": 430943000,
+      "company_name": "MERCER INTL INC",
+      "ticker": "MERC"
+    }
+  ],
+  "RSG": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 1126804,
+      "value": 238803572000,
+      "company_name": "REPUBLIC SVCS INC",
+      "ticker": "RSG"
+    }
+  ],
+  "USNA": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 4902,
+      "value": 96226000,
+      "company_name": "USANA HEALTH SCIENCES INC",
+      "ticker": "USNA"
+    }
+  ],
+  "PTGX": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 31439,
+      "value": 2745882000,
+      "company_name": "PROTAGONIST THERAPEUTICS INC",
+      "ticker": "PTGX"
+    }
+  ],
+  "CRCT": [
+    {
+      "whale_name": "Vanguard Group",
+      "cik": "0000102909",
+      "filing_date": "2026-01-29",
+      "shares": 4187491,
+      "value": 20728080000,
+      "company_name": "CRICUT INC",
+      "ticker": "CRCT"
+    }
+  ],
+  "FLWS": [
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 2926,
+      "value": 13460000,
+      "company_name": "1 800 FLOWERS COM INC",
+      "ticker": "FLWS"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 556841,
+      "value": 5958000,
+      "company_name": "1 800 FLOWERS COM",
+      "ticker": "FLWS"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 238,
+      "value": 1097000,
+      "company_name": "1 800 FLOWERS COM INC",
+      "ticker": "FLWS"
+    }
+  ],
+  "SRCE": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 175644,
+      "value": 10812645000,
+      "company_name": "1ST SOURCE CORP",
+      "ticker": "SRCE"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 107600,
+      "value": 6623881000,
+      "company_name": "1ST SOURCE CORP",
+      "ticker": "SRCE"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 53,
+      "value": 3267000,
+      "company_name": "1ST SOURCE CORP",
+      "ticker": "SRCE"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 8637,
+      "value": 386000,
+      "company_name": "1ST SOURCE CORP",
+      "ticker": "SRCE"
+    }
+  ],
+  "DDD": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 1492205,
+      "value": 4327395000,
+      "company_name": "3-D SYS CORP DEL",
+      "ticker": "DDD"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 2983,
+      "value": 8651000,
+      "company_name": "3-D SYS CORP DEL",
+      "ticker": "DDD"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 1242,
+      "value": 3600000,
+      "company_name": "3-D SYS CORP DEL",
+      "ticker": "DDD"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 55851,
+      "value": 742000,
+      "company_name": "3-D SYS CORP DEL",
+      "ticker": "DDD"
+    }
+  ],
+  "MMM": [
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 6350798,
+      "value": 985516787000,
+      "company_name": "3M CO",
+      "ticker": "MMM"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 1329546,
+      "value": 206318948000,
+      "company_name": "3M CO",
+      "ticker": "MMM"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 938644,
+      "value": 145658776000,
+      "company_name": "3M CO",
+      "ticker": "MMM"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 48278,
+      "value": 7491780000,
+      "company_name": "3M CO",
+      "ticker": "MMM"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 1490,
+      "value": 231218000,
+      "company_name": "3M CO",
+      "ticker": "MMM"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 986858,
+      "value": 176223000,
+      "company_name": "3M CO",
+      "ticker": "MMM"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 352881,
+      "value": 63014000,
+      "company_name": "3M CO",
+      "ticker": "MMM"
+    }
+  ],
+  "WUBAUSD": [
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 1541,
+      "value": 43000,
+      "company_name": "58 COM INC",
+      "ticker": "WUBAUSD"
+    }
+  ],
+  "EGHT": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 407095,
+      "value": 863041000,
+      "company_name": "8X8 INC NEW",
+      "ticker": "EGHT"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 47087,
+      "value": 673000,
+      "company_name": "8X8 INC NEW",
+      "ticker": "EGHT"
+    }
+  ],
+  "GOLD": [
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 133,
+      "value": 3000,
+      "company_name": "A MARK PRECIOUS METALS INC",
+      "ticker": "GOLD"
+    }
+  ],
+  "ATEN": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 2386787,
+      "value": 43320184000,
+      "company_name": "A10 NETWORKS INC",
+      "ticker": "ATEN"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 681086,
+      "value": 5660000,
+      "company_name": "A10 NETWORKS INC",
+      "ticker": "ATEN"
+    }
+  ],
+  "AACH": [
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 5859,
+      "value": 42000,
+      "company_name": "AAC HLDGS INC",
+      "ticker": "AACH"
+    }
+  ],
+  "AAON": [
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 20945,
+      "value": 692000,
+      "company_name": "AAON INC",
+      "ticker": "AAON"
+    }
+  ],
+  "AIR": [
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 17156,
+      "value": 567000,
+      "company_name": "AAR CORP",
+      "ticker": "AIR"
+    }
+  ],
+  "AANUSD": [
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 81670,
+      "value": 2613000,
+      "company_name": "AARONS INC",
+      "ticker": "AANUSD"
+    }
+  ],
+  "ABT": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 119235,
+      "value": 15970336000,
+      "company_name": "ABBOTT LABS",
+      "ticker": "ABT"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 2325227,
+      "value": 89312000,
+      "company_name": "ABBOTT LABS",
+      "ticker": "ABT"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 847713,
+      "value": 32561000,
+      "company_name": "ABBOTT LABS",
+      "ticker": "ABT"
+    }
+  ],
+  "ABBV": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 928071,
+      "value": 214885559000,
+      "company_name": "ABBVIE INC",
+      "ticker": "ABBV"
+    },
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 260689,
+      "value": 60359931000,
+      "company_name": "ABBVIE INC",
+      "ticker": "ABBV"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 1547928,
+      "value": 96931000,
+      "company_name": "ABBVIE INC",
+      "ticker": "ABBV"
+    },
+    {
+      "whale_name": "BlackRock",
+      "cik": "0001086364",
+      "filing_date": "2017-02-10",
+      "shares": 14485,
+      "value": 907000,
+      "company_name": "ABBVIE INC",
+      "ticker": "ABBV"
+    }
+  ],
+  "ANF": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 1136310,
+      "value": 97211321000,
+      "company_name": "ABERCROMBIE & FITCH CO",
+      "ticker": "ANF"
+    },
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 162357,
+      "value": 13889641000,
+      "company_name": "ABERCROMBIE & FITCH CO",
+      "ticker": "ANF"
+    }
+  ],
+  "ABM": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 31679,
+      "value": 1461035000,
+      "company_name": "ABM INDS INC",
+      "ticker": "ABM"
+    }
+  ],
+  "ASO": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 266122,
+      "value": 13311422000,
+      "company_name": "ACADEMY SPORTS & OUTDOORS IN",
+      "ticker": "ASO"
+    }
+  ],
+  "ACHC": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 90978,
+      "value": 2252615000,
+      "company_name": "ACADIA HEALTHCARE COMPANY IN",
+      "ticker": "ACHC"
+    }
+  ],
+  "ACAD": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 163245,
+      "value": 3483648000,
+      "company_name": "ACADIA PHARMACEUTICALS INC",
+      "ticker": "ACAD"
+    }
+  ],
+  "TSA": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 33120,
+      "value": 1747742000,
+      "company_name": "ACI WORLDWIDE INC",
+      "ticker": "TSA"
+    }
+  ],
+  "AYI": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 18781,
+      "value": 6467989000,
+      "company_name": "ACUITY INC",
+      "ticker": "AYI"
+    }
+  ],
+  "ADPT": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 151254,
+      "value": 2262760000,
+      "company_name": "ADAPTIVE BIOTECHNOLOGIES COR",
+      "ticker": "ADPT"
+    }
+  ],
+  "ADMA": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 60282,
+      "value": 883734000,
+      "company_name": "ADMA BIOLOGICS INC",
+      "ticker": "ADMA"
+    }
+  ],
+  "ADBE": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 1262696,
+      "value": 445416014000,
+      "company_name": "ADOBE INC",
+      "ticker": "ADBE"
+    }
+  ],
+  "ADT": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 1380674,
+      "value": 12025671000,
+      "company_name": "ADT INC DEL",
+      "ticker": "ADT"
+    }
+  ],
+  "ATGE": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 79951,
+      "value": 12348432000,
+      "company_name": "ADTALEM GLOBAL ED INC",
+      "ticker": "ATGE"
+    }
+  ],
+  "AEIS": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 9473,
+      "value": 1611736000,
+      "company_name": "ADVANCED ENERGY INDS",
+      "ticker": "AEIS"
+    }
+  ],
+  "AMD": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 1794801,
+      "value": 290380854000,
+      "company_name": "ADVANCED MICRO DEVICES INC",
+      "ticker": "AMD"
+    }
+  ],
+  "ACM": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 58075,
+      "value": 7577045000,
+      "company_name": "AECOM",
+      "ticker": "ACM"
+    }
+  ],
+  "AEHR": [
+    {
+      "whale_name": "Bridgewater Associates (Ray Dalio)",
+      "cik": "0001350694",
+      "filing_date": "2025-11-13",
+      "shares": 8394,
+      "value": 252743000,
+      "company_name": "AEHR TEST SYS",
+      "ticker": "AEHR"
     }
   ],
   "ALLY": [
@@ -381,638 +1141,81 @@
       "ticker": "AAPL"
     }
   ],
-  "FLWS": [
+  "BRKR 6.375 09/01/28": [
     {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 2926,
-      "value": 13460000,
-      "company_name": "1 800 FLOWERS COM INC",
-      "ticker": "FLWS"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 556841,
-      "value": 5958000,
-      "company_name": "1 800 FLOWERS COM",
-      "ticker": "FLWS"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 238,
-      "value": 1097000,
-      "company_name": "1 800 FLOWERS COM INC",
-      "ticker": "FLWS"
+      "whale_name": "ARK Investment (Cathie Wood)",
+      "cik": "0001649339",
+      "filing_date": "2025-11-03",
+      "shares": 48334,
+      "value": 13137181000,
+      "company_name": "BRUKER CORP",
+      "ticker": "BRKR 6.375 09/01/28"
     }
   ],
-  "SRCE": [
+  "HAL": [
     {
-      "whale_name": "Millennium Management",
-      "cik": "0001037389",
-      "filing_date": "2025-11-13",
-      "shares": 175644,
-      "value": 10812645000,
-      "company_name": "1ST SOURCE CORP",
-      "ticker": "SRCE"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 107600,
-      "value": 6623881000,
-      "company_name": "1ST SOURCE CORP",
-      "ticker": "SRCE"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 53,
-      "value": 3267000,
-      "company_name": "1ST SOURCE CORP",
-      "ticker": "SRCE"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 8637,
-      "value": 386000,
-      "company_name": "1ST SOURCE CORP",
-      "ticker": "SRCE"
+      "whale_name": "ARK Investment (Cathie Wood)",
+      "cik": "0001649339",
+      "filing_date": "2025-11-03",
+      "shares": 2500000,
+      "value": 61500000000,
+      "company_name": "HALLIBURTON CO",
+      "ticker": "HAL"
     }
   ],
-  "DDD": [
+  "LULU": [
     {
-      "whale_name": "Millennium Management",
-      "cik": "0001037389",
-      "filing_date": "2025-11-13",
-      "shares": 1492205,
-      "value": 4327395000,
-      "company_name": "3-D SYS CORP DEL",
-      "ticker": "DDD"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 2983,
-      "value": 8651000,
-      "company_name": "3-D SYS CORP DEL",
-      "ticker": "DDD"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 1242,
-      "value": 3600000,
-      "company_name": "3-D SYS CORP DEL",
-      "ticker": "DDD"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 55851,
-      "value": 742000,
-      "company_name": "3-D SYS CORP DEL",
-      "ticker": "DDD"
+      "whale_name": "ARK Investment (Cathie Wood)",
+      "cik": "0001649339",
+      "filing_date": "2025-11-03",
+      "shares": 100000,
+      "value": 17793000000,
+      "company_name": "LULULEMON ATHLETICA INC",
+      "ticker": "LULU"
     }
   ],
-  "MMM": [
+  "MOH": [
     {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 6350798,
-      "value": 985516787000,
-      "company_name": "3M CO",
-      "ticker": "MMM"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 1329546,
-      "value": 206318948000,
-      "company_name": "3M CO",
-      "ticker": "MMM"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 938644,
-      "value": 145658776000,
-      "company_name": "3M CO",
-      "ticker": "MMM"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 48278,
-      "value": 7491780000,
-      "company_name": "3M CO",
-      "ticker": "MMM"
-    },
-    {
-      "whale_name": "State Street",
-      "cik": "0000315066",
-      "filing_date": "2025-11-13",
-      "shares": 1490,
-      "value": 231218000,
-      "company_name": "3M CO",
-      "ticker": "MMM"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 986858,
-      "value": 176223000,
-      "company_name": "3M CO",
-      "ticker": "MMM"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 352881,
-      "value": 63014000,
-      "company_name": "3M CO",
-      "ticker": "MMM"
+      "whale_name": "ARK Investment (Cathie Wood)",
+      "cik": "0001649339",
+      "filing_date": "2025-11-03",
+      "shares": 125000,
+      "value": 23920000000,
+      "company_name": "MOLINA HEALTHCARE INC",
+      "ticker": "MOH"
     }
   ],
-  "BN": [
+  "NVDA": [
     {
-      "whale_name": "Pershing Square (Bill Ackman)",
-      "cik": "0001336528",
-      "filing_date": "2025-11-14",
-      "shares": 41020231,
-      "value": 2813167442000,
-      "company_name": "BROOKFIELD CORP",
-      "ticker": "BN"
-    },
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 18968006,
-      "value": 870915995000,
-      "company_name": "BROOKFIELD CORP",
-      "ticker": "BN"
-    },
-    {
-      "whale_name": "D.E. Shaw",
-      "cik": "0001040273",
-      "filing_date": "2025-11-14",
-      "shares": 4675000,
-      "value": 320611500000,
-      "company_name": "BROOKFIELD CORP",
-      "ticker": "BN"
+      "whale_name": "ARK Investment (Cathie Wood)",
+      "cik": "0001649339",
+      "filing_date": "2025-11-03",
+      "shares": 1000000,
+      "value": 186580000000,
+      "company_name": "NVIDIA CORPORATION",
+      "ticker": "NVDA"
     }
   ],
-  "WUBAUSD": [
+  "PLTR": [
     {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 1541,
-      "value": 43000,
-      "company_name": "58 COM INC",
-      "ticker": "WUBAUSD"
+      "whale_name": "ARK Investment (Cathie Wood)",
+      "cik": "0001649339",
+      "filing_date": "2025-11-03",
+      "shares": 5000000,
+      "value": 912100000000,
+      "company_name": "PALANTIR TECHNOLOGIES INC",
+      "ticker": "PLTR"
     }
   ],
-  "EGHT": [
+  "PFE": [
     {
-      "whale_name": "Millennium Management",
-      "cik": "0001037389",
-      "filing_date": "2025-11-13",
-      "shares": 407095,
-      "value": 863041000,
-      "company_name": "8X8 INC NEW",
-      "ticker": "EGHT"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 47087,
-      "value": 673000,
-      "company_name": "8X8 INC NEW",
-      "ticker": "EGHT"
-    }
-  ],
-  "GOLD": [
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 133,
-      "value": 3000,
-      "company_name": "A MARK PRECIOUS METALS INC",
-      "ticker": "GOLD"
-    }
-  ],
-  "ATEN": [
-    {
-      "whale_name": "Millennium Management",
-      "cik": "0001037389",
-      "filing_date": "2025-11-13",
-      "shares": 2386787,
-      "value": 43320184000,
-      "company_name": "A10 NETWORKS INC",
-      "ticker": "ATEN"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 681086,
-      "value": 5660000,
-      "company_name": "A10 NETWORKS INC",
-      "ticker": "ATEN"
-    }
-  ],
-  "AACH": [
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 5859,
-      "value": 42000,
-      "company_name": "AAC HLDGS INC",
-      "ticker": "AACH"
-    }
-  ],
-  "AAON": [
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 20945,
-      "value": 692000,
-      "company_name": "AAON INC",
-      "ticker": "AAON"
-    }
-  ],
-  "AIR": [
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 17156,
-      "value": 567000,
-      "company_name": "AAR CORP",
-      "ticker": "AIR"
-    }
-  ],
-  "AANUSD": [
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 81670,
-      "value": 2613000,
-      "company_name": "AARONS INC",
-      "ticker": "AANUSD"
-    }
-  ],
-  "ABT": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 119235,
-      "value": 15970336000,
-      "company_name": "ABBOTT LABS",
-      "ticker": "ABT"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 2325227,
-      "value": 89312000,
-      "company_name": "ABBOTT LABS",
-      "ticker": "ABT"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 847713,
-      "value": 32561000,
-      "company_name": "ABBOTT LABS",
-      "ticker": "ABT"
-    }
-  ],
-  "ABBV": [
-    {
-      "whale_name": "Millennium Management",
-      "cik": "0001037389",
-      "filing_date": "2025-11-13",
-      "shares": 928071,
-      "value": 214885559000,
-      "company_name": "ABBVIE INC",
-      "ticker": "ABBV"
-    },
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 260689,
-      "value": 60359931000,
-      "company_name": "ABBVIE INC",
-      "ticker": "ABBV"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 1547928,
-      "value": 96931000,
-      "company_name": "ABBVIE INC",
-      "ticker": "ABBV"
-    },
-    {
-      "whale_name": "BlackRock",
-      "cik": "0001086364",
-      "filing_date": "2017-02-10",
-      "shares": 14485,
-      "value": 907000,
-      "company_name": "ABBVIE INC",
-      "ticker": "ABBV"
-    }
-  ],
-  "AA": [
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 80886,
-      "value": 4298282000,
-      "company_name": "ALCOA CORP",
-      "ticker": "AA"
-    }
-  ],
-  "SPWR": [
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 430790,
-      "value": 676340000,
-      "company_name": "SUNPOWER INC",
-      "ticker": "SPWR"
-    }
-  ],
-  "WOOF": [
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 7574303,
-      "value": 21283791000,
-      "company_name": "PETCO HEALTH & WELLNESS CO I",
-      "ticker": "WOOF"
-    }
-  ],
-  "BRZE": [
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 73877,
-      "value": 2533242000,
-      "company_name": "BRAZE INC",
-      "ticker": "BRZE"
-    }
-  ],
-  "BVN": [
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 29927,
-      "value": 832868000,
-      "company_name": "COMPANIA DE MINAS BUENAVENTU",
-      "ticker": "BVN"
-    }
-  ],
-  "BGSF": [
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 474269,
-      "value": 2195865000,
-      "company_name": "BGSF INC",
-      "ticker": "BGSF"
-    }
-  ],
-  "CXW": [
-    {
-      "whale_name": "Vanguard Group",
-      "cik": "0000102909",
-      "filing_date": "2026-01-29",
-      "shares": 25578,
-      "value": 488796000,
-      "company_name": "CORECIVIC INC",
-      "ticker": "CXW"
-    }
-  ],
-  "ANF": [
-    {
-      "whale_name": "Millennium Management",
-      "cik": "0001037389",
-      "filing_date": "2025-11-13",
-      "shares": 1136310,
-      "value": 97211321000,
-      "company_name": "ABERCROMBIE & FITCH CO",
-      "ticker": "ANF"
-    },
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 162357,
-      "value": 13889641000,
-      "company_name": "ABERCROMBIE & FITCH CO",
-      "ticker": "ANF"
-    }
-  ],
-  "ABM": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 31679,
-      "value": 1461035000,
-      "company_name": "ABM INDS INC",
-      "ticker": "ABM"
-    }
-  ],
-  "ASO": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 266122,
-      "value": 13311422000,
-      "company_name": "ACADEMY SPORTS & OUTDOORS IN",
-      "ticker": "ASO"
-    }
-  ],
-  "ACHC": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 90978,
-      "value": 2252615000,
-      "company_name": "ACADIA HEALTHCARE COMPANY IN",
-      "ticker": "ACHC"
-    }
-  ],
-  "ACAD": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 163245,
-      "value": 3483648000,
-      "company_name": "ACADIA PHARMACEUTICALS INC",
-      "ticker": "ACAD"
-    }
-  ],
-  "TSA": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 33120,
-      "value": 1747742000,
-      "company_name": "ACI WORLDWIDE INC",
-      "ticker": "TSA"
-    }
-  ],
-  "AYI": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 18781,
-      "value": 6467989000,
-      "company_name": "ACUITY INC",
-      "ticker": "AYI"
-    }
-  ],
-  "ADPT": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 151254,
-      "value": 2262760000,
-      "company_name": "ADAPTIVE BIOTECHNOLOGIES COR",
-      "ticker": "ADPT"
-    }
-  ],
-  "ADMA": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 60282,
-      "value": 883734000,
-      "company_name": "ADMA BIOLOGICS INC",
-      "ticker": "ADMA"
-    }
-  ],
-  "ADBE": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 1262696,
-      "value": 445416014000,
-      "company_name": "ADOBE INC",
-      "ticker": "ADBE"
-    }
-  ],
-  "ADT": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 1380674,
-      "value": 12025671000,
-      "company_name": "ADT INC DEL",
-      "ticker": "ADT"
-    }
-  ],
-  "ATGE": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 79951,
-      "value": 12348432000,
-      "company_name": "ADTALEM GLOBAL ED INC",
-      "ticker": "ATGE"
-    }
-  ],
-  "AEIS": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 9473,
-      "value": 1611736000,
-      "company_name": "ADVANCED ENERGY INDS",
-      "ticker": "AEIS"
-    }
-  ],
-  "AMD": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 1794801,
-      "value": 290380854000,
-      "company_name": "ADVANCED MICRO DEVICES INC",
-      "ticker": "AMD"
-    }
-  ],
-  "ACM": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 58075,
-      "value": 7577045000,
-      "company_name": "AECOM",
-      "ticker": "ACM"
-    }
-  ],
-  "AEHR": [
-    {
-      "whale_name": "Bridgewater Associates (Ray Dalio)",
-      "cik": "0001350694",
-      "filing_date": "2025-11-13",
-      "shares": 8394,
-      "value": 252743000,
-      "company_name": "AEHR TEST SYS",
-      "ticker": "AEHR"
+      "whale_name": "ARK Investment (Cathie Wood)",
+      "cik": "0001649339",
+      "filing_date": "2025-11-03",
+      "shares": 6000000,
+      "value": 152880000000,
+      "company_name": "PFIZER INC",
+      "ticker": "PFE"
     }
   ],
   "ALIT": [
@@ -1127,6 +1330,155 @@
       "value": 1751936000,
       "company_name": "CONSOL ENERGY INC NEW",
       "ticker": "CEIXEUR"
+    }
+  ],
+  "TXG": [
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 7074638,
+      "value": 82702518000,
+      "company_name": "10X GENOMICS INC",
+      "ticker": "TXG"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 1244297,
+      "value": 14545832000,
+      "company_name": "10X GENOMICS INC",
+      "ticker": "TXG"
+    },
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 1044921,
+      "value": 12215126000,
+      "company_name": "10X GENOMICS INC",
+      "ticker": "TXG"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 138745,
+      "value": 1621929000,
+      "company_name": "10X GENOMICS INC",
+      "ticker": "TXG"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 321,
+      "value": 3748000,
+      "company_name": "10X GENOMICS INC",
+      "ticker": "TXG"
+    }
+  ],
+  "DIBS": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 419799,
+      "value": 1087279000,
+      "company_name": "1STDIBS COM INC",
+      "ticker": "DIBS"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 2541,
+      "value": 6581000,
+      "company_name": "1STDIBS COM INC",
+      "ticker": "DIBS"
+    }
+  ],
+  "FDMT": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 313186,
+      "value": 2721586000,
+      "company_name": "4D MOLECULAR THERAPEUTICS IN",
+      "ticker": "FDMT"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 65535,
+      "value": 569499000,
+      "company_name": "4D MOLECULAR THERAPEUTICS IN",
+      "ticker": "FDMT"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 35,
+      "value": 300000,
+      "company_name": "4D MOLECULAR THERAPEUTICS IN",
+      "ticker": "FDMT"
+    }
+  ],
+  "ETNBGBP": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 510500,
+      "value": 7504350000,
+      "company_name": "89BIO INC",
+      "ticker": "ETNBGBP"
+    },
+    {
+      "whale_name": "State Street",
+      "cik": "0000315066",
+      "filing_date": "2025-11-13",
+      "shares": 4383,
+      "value": 64430000,
+      "company_name": "89BIO INC",
+      "ticker": "ETNBGBP"
+    }
+  ],
+  "ABCL": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 3360729,
+      "value": 16904467000,
+      "company_name": "ABCELLERA BIOLOGICS INC",
+      "ticker": "ABCL"
+    }
+  ],
+  "ABEO": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 526437,
+      "value": 2779587000,
+      "company_name": "ABEONA THERAPEUTICS INC",
+      "ticker": "ABEO"
+    }
+  ],
+  "BCI": [
+    {
+      "whale_name": "Millennium Management",
+      "cik": "0001037389",
+      "filing_date": "2025-11-13",
+      "shares": 10300,
+      "value": 221862000,
+      "company_name": "ABRDN ETFS",
+      "ticker": "BCI"
     }
   ]
 }
