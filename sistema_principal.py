@@ -3052,7 +3052,42 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
                 enhanced_stats = f"""🎯 **Enhanced Opportunities:**
 • Análisis de correlaciones insider-sector
 • Estado: {'❌ Error en análisis' if results['enhanced_analysis'] else '⚠️ Sin ejecutar'}"""
-            
+
+            # Estadísticas Investment Thesis (NUEVO)
+            thesis_stats = ""
+            theses_file = "docs/theses.json"
+            if os.path.exists(theses_file):
+                try:
+                    import json
+                    with open(theses_file, 'r') as f:
+                        theses_data = json.load(f)
+
+                    num_theses = len(theses_data)
+                    # Calcular ratings promedio
+                    ratings = [t.get('rating', {}).get('overall', 0) for t in theses_data.values() if 'rating' in t]
+                    avg_rating = sum(ratings) / len(ratings) if ratings else 0
+                    top_rated = max(ratings) if ratings else 0
+
+                    # Contar tesis por tier
+                    tier_counts = {}
+                    for t in theses_data.values():
+                        tier = t.get('overview', {}).get('tier', 'N/A')
+                        tier_counts[tier] = tier_counts.get(tier, 0) + 1
+
+                    thesis_stats = f"""📄 **Investment Thesis:**
+• 📊 {num_theses} tesis generadas
+• ⭐ Rating promedio: {avg_rating:.1f}/5
+• 🏆 Mejor rating: {top_rated:.1f}/5
+• 🎯 Con setup técnico fuerte: {len([r for r in ratings if r >= 3])}
+• Estado: ✅ Actualizado"""
+                except:
+                    thesis_stats = f"""📄 **Investment Thesis:**
+• Estado: ⚠️ Error al leer datos"""
+            else:
+                thesis_stats = f"""📄 **Investment Thesis:**
+• Sistema de análisis narrativo completo
+• Estado: ⚠️ No generado aún"""
+
             # URLs de GitHub Pages
             base_url = "https://tantancansado.github.io/stock_analyzer_a"
             github_links = ""
@@ -3068,7 +3103,11 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
             if results['github_enhanced']:
                 enhanced_url = results['github_enhanced'].get('github_url', f"{base_url}/reports/enhanced_opportunities/index.html") if isinstance(results['github_enhanced'], dict) else f"{base_url}/reports/enhanced_opportunities/index.html"
                 github_links += f"\n🎯 [Ver Enhanced Opportunities]({enhanced_url})"
-            
+
+            # Link a Investment Thesis
+            if os.path.exists("docs/theses.json"):
+                github_links += f"\n📄 [Ver Investment Thesis]({base_url}/super_opportunities_4d.html)"
+
             if github_links:
                 base_url = "https://tantancansado.github.io/stock_analyzer_a"
                 github_links += f"\n🏠 [Dashboard Principal]({base_url})"
@@ -3084,6 +3123,8 @@ th,td{{border:1px solid #4a5568;padding:8px;}}th{{background:#4a90e2;}}</style>
 {breadth_stats}
 
 {enhanced_stats}
+
+{thesis_stats}
 
 🌐 **Enlaces GitHub Pages:**{github_links}
 
