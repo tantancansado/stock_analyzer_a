@@ -181,6 +181,28 @@ def run_4d_analysis():
                 inst = opp['institutional_details']
                 print(f"   🐋 Whales: {', '.join(inst['top_whales'])}")
 
+    # DATA QUALITY VALIDATION
+    print(f"\n{'='*80}")
+    print("🔍 VALIDANDO CALIDAD DE DATOS")
+    print(f"{'='*80}\n")
+
+    from validators.data_quality import DataQualityValidator
+
+    validator = DataQualityValidator(verbose=True)
+    validation_report = validator.validate_5d_pipeline(str(output_csv))
+
+    # Save validation report
+    validator.save_report(validation_report, "data_quality_report.json")
+
+    if not validation_report['passed']:
+        print(f"\n⚠️  ADVERTENCIA: Se encontraron {len(validation_report['issues'])} problemas de calidad")
+        print("   Ver data_quality_report.json para detalles")
+        print("\n   Principales problemas:")
+        for issue in validation_report['issues'][:5]:
+            print(f"   - {issue}")
+    else:
+        print("\n✅ Validación de calidad PASSED - Datos listos para producción")
+
     return opportunities
 
 if __name__ == "__main__":
