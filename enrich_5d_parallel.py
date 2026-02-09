@@ -14,6 +14,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from sector_enhancement import SectorEnhancement
 from fundamental_analyzer import FundamentalAnalyzer
 from utils.retry_utils import retry_with_backoff
+from utils.cache import FundamentalCache
 
 # Configuración optimizada (tuned para evitar rate limiting)
 MAX_WORKERS = 3               # Workers paralelos (balance speed vs rate limits)
@@ -23,18 +24,23 @@ RATE_LIMIT_DELAY = 0.5        # Delay entre requests (más conservador)
 
 
 class ParallelEnricher:
-    """Enriquecedor paralelo con retry logic"""
+    """Enriquecedor paralelo con retry logic y caching"""
 
-    def __init__(self, max_workers=MAX_WORKERS):
+    def __init__(self, max_workers=MAX_WORKERS, use_cache=True, cache_ttl_hours=24):
         self.max_workers = max_workers
         self.se = SectorEnhancement()
         self.fa = FundamentalAnalyzer()
+        self.use_cache = use_cache
+        self.cache = FundamentalCache(ttl_hours=cache_ttl_hours) if use_cache else None
         self.stats = {
             'total': 0,
             'success': 0,
             'failures': 0,
             'with_sector': 0,
-            'with_target': 0
+            'with_target': 0,
+            'cache_hits': 0,
+            'cache_misses': 0,
+            'cache_saves': 0
         }
 
     def enrich_sector(self, ticker: str) -> dict:
@@ -72,7 +78,21 @@ class ParallelEnricher:
         return fund_data
 
     def enrich_fundamentals(self, ticker: str) -> dict:
-        """Enriquece con datos fundamentales (API, con retry)"""
+        """Enriquece con datos fundamentales (API, con retry y cache)"""
+        # Check cache first
+        if self.use_cache:
+            cached_data = self.cache.get(ticker)
+            if cached_data:
+                self.stats['cache_hits'] += 1
+                self.stats['success'] += 1
+                if cached_data.get('price_target'):
+                    self.stats['with_target'] += 1
+                return cached_data
+
+        # Cache miss - fetch from API
+        if self.use_cache:
+            self.stats['cache_misses'] += 1
+
         try:
             fund_data = self._fetch_fundamental_data(ticker)
             pt = self.fa.calculate_custom_price_target(ticker)
@@ -109,6 +129,12 @@ class ParallelEnricher:
                 result['upside_percent'] = None
 
             self.stats['success'] += 1
+
+            # Save to cache
+            if self.use_cache:
+                self.cache.set(ticker, result)
+                self.stats['cache_saves'] += 1
+
             return result
 
         except Exception as e:
@@ -213,6 +239,18 @@ class ParallelEnricher:
         print(f"   ❌ Fallos: {self.stats['failures']} ({self.stats['failures']/self.stats['total']*100:.1f}%)")
         print(f"   📊 Con sector: {self.stats['with_sector']} ({self.stats['with_sector']/self.stats['total']*100:.1f}%)")
         print(f"   🎯 Con price target: {self.stats['with_target']} ({self.stats['with_target']/self.stats['total']*100:.1f}%)")
+
+        if self.use_cache:
+            print(f"\n📦 CACHE PERFORMANCE:")
+            print(f"   💾 Cache hits: {self.stats['cache_hits']} (evitó API calls)")
+            print(f"   🔍 Cache misses: {self.stats['cache_misses']} (requirió API)")
+            print(f"   💿 Cache saves: {self.stats['cache_saves']} (guardados)")
+            total_cache_requests = self.stats['cache_hits'] + self.stats['cache_misses']
+            if total_cache_requests > 0:
+                hit_rate = (self.stats['cache_hits'] / total_cache_requests) * 100
+                print(f"   📊 Hit rate: {hit_rate:.1f}%")
+                api_calls_saved = self.stats['cache_hits']
+                print(f"   ⚡ API calls ahorradas: {api_calls_saved}")
 
 
 def enrich_csv_parallel():
