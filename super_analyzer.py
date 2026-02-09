@@ -87,19 +87,19 @@ def analyze_sector_state(sector_name, dj_data):
     if avg_distance < 10:
         sector_score += 40
         state = "🟢 MÍNIMOS"
-        details = f"A {avg_distance:.1f}% de mínimos - GRAN OPORTUNIDAD"
+        details = f"Subió {avg_distance:.1f}% desde mínimos - GRAN OPORTUNIDAD"
     elif avg_distance < 25:
         sector_score += 30
         state = "🟡 RECUPERACIÓN"
-        details = f"A {avg_distance:.1f}% de mínimos - Recuperándose"
+        details = f"Subió {avg_distance:.1f}% desde mínimos - Recuperándose"
     elif avg_distance < 50:
         sector_score += 20
         state = "🔵 NEUTRAL"
-        details = f"A {avg_distance:.1f}% de mínimos - Zona media"
+        details = f"Subió {avg_distance:.1f}% desde mínimos - Zona media"
     else:
         sector_score += 10
         state = "🔴 MÁXIMOS"
-        details = f"A {avg_distance:.1f}% de mínimos - Zona alta"
+        details = f"Subió {avg_distance:.1f}% desde mínimos - Zona alta"
 
     # RSI (sobreventa = oportunidad)
     if avg_rsi < 30:
