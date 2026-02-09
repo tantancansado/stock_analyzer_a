@@ -3,35 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌟 Stock Analyzer 5D | Advanced Trading Analytics</title>
-    <meta name="description" content="Sistema avanzado de análisis 5D: VCP + Insiders + Sector Enhancement + Institutional + Fundamental Analysis con Price Targets">
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌟</text></svg>">
+    <title>📊 Trading Analytics System | Liquid Glass Dashboard</title>
+    <meta name="description" content="Sistema avanzado de análisis de trading con IA - Dashboard principal con Enhanced Opportunities">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
+        
+        /* === LIQUID GLASS DESIGN SYSTEM ACTUALIZADO === */
+        
         :root {
+            /* Colores principales */
             --glass-primary: rgba(99, 102, 241, 0.8);
             --glass-secondary: rgba(139, 92, 246, 0.7);
             --glass-accent: rgba(59, 130, 246, 0.9);
-            --glass-gold: rgba(255, 215, 0, 0.3);
+            
+            /* Glassmorphism */
             --glass-bg: rgba(255, 255, 255, 0.03);
             --glass-bg-hover: rgba(255, 255, 255, 0.08);
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass-shadow-hover: 0 16px 64px rgba(99, 102, 241, 0.3);
+            
+            /* Texto */
             --text-primary: rgba(255, 255, 255, 0.95);
             --text-secondary: rgba(255, 255, 255, 0.7);
             --text-muted: rgba(255, 255, 255, 0.5);
+            
+            /* Fondo */
+            --bg-gradient: radial-gradient(ellipse at top, rgba(16, 23, 42, 0.8) 0%, rgba(2, 6, 23, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%);
+            --bg-secondary: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+            
+            /* Animaciones */
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --transition-elastic: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
             background: #020617;
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
         }
-
+        
+        /* === FLOATING PARTICLES BACKGROUND === */
         body::before {
             content: '';
             position: fixed;
@@ -39,24 +63,41 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15) 0%, rgba(2, 6, 23, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%);
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: -1;
+            animation: float 20s ease-in-out infinite;
         }
-
-        .container { max-width: 1600px; margin: 0 auto; padding: 2rem; }
-
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(-10px) rotate(-1deg); }
+        }
+        
+        /* === GLASS CONTAINER === */
+        .glass-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
         .glass-card {
             background: var(--glass-bg);
             backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             box-shadow: var(--glass-shadow);
-            transition: all 0.4s ease;
+            transition: var(--transition-smooth);
             position: relative;
             overflow: hidden;
         }
-
+        
         .glass-card::before {
             content: '';
             position: absolute;
@@ -67,140 +108,189 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             animation: shimmer 3s ease-in-out infinite;
         }
-
+        
         @keyframes shimmer {
             0%, 100% { opacity: 0; }
             50% { opacity: 1; }
         }
-
-        /* Hero Section */
-        .hero {
+        
+        .glass-card:hover {
+            background: var(--glass-bg-hover);
+            box-shadow: var(--glass-shadow-hover);
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* === HEADER === */
+        .liquid-header {
             text-align: center;
             padding: 4rem 2rem;
             margin-bottom: 3rem;
+            position: relative;
+            z-index: 10;
         }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffd700, #ff8c00, #ff1493, #8b5cf6);
+        
+        .liquid-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-secondary), var(--glass-accent));
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 1rem;
             animation: gradient-shift 4s ease-in-out infinite;
+            text-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
         }
-
+        
         @keyframes gradient-shift {
-            0%, 100% { filter: hue-rotate(0deg); }
-            50% { filter: hue-rotate(20deg); }
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
-
-        .hero-subtitle {
-            font-size: 1.3rem;
+        
+        .liquid-header p {
+            font-size: 1.25rem;
             color: var(--text-secondary);
             margin-bottom: 2rem;
             font-weight: 300;
         }
-
-        .live-badge {
+        
+        .live-pulse {
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
-            background: rgba(72, 187, 120, 0.15);
-            border: 1px solid rgba(72, 187, 120, 0.4);
-            color: rgba(72, 187, 120, 1);
+            background: rgba(72, 187, 120, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(72, 187, 120, 0.3);
+            color: rgba(72, 187, 120, 0.9);
             padding: 0.75rem 1.5rem;
             border-radius: 50px;
             font-weight: 600;
-            backdrop-filter: blur(10px);
+            transition: var(--transition-smooth);
         }
-
+        
+        .live-pulse:hover {
+            background: rgba(72, 187, 120, 0.2);
+            box-shadow: 0 8px 32px rgba(72, 187, 120, 0.3);
+        }
+        
         .pulse-dot {
             width: 8px;
             height: 8px;
             background: #48bb78;
             border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse-glow 2s ease-in-out infinite;
             box-shadow: 0 0 10px rgba(72, 187, 120, 0.8);
         }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.3; transform: scale(1.3); }
+        
+        @keyframes pulse-glow {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(72, 187, 120, 0.8);
+            }
+            50% { 
+                opacity: 0.3; 
+                transform: scale(1.2);
+                box-shadow: 0 0 20px rgba(72, 187, 120, 1);
+            }
         }
-
-        /* Stats Grid */
-        .stats-grid {
+        
+        /* === STATS GRID ACTUALIZADO PARA 5 MÓDULOS === */
+        .stats-liquid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
             margin-bottom: 3rem;
         }
-
-        .stat-box {
+        
+        .stat-glass {
             background: var(--glass-bg);
+            backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
             text-align: center;
-            transition: all 0.4s ease;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
         }
-
-        .stat-box:hover {
-            transform: translateY(-8px);
-            background: var(--glass-bg-hover);
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
+        
+        .stat-glass::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: rotate(45deg);
+            transition: var(--transition-smooth);
+            opacity: 0;
+        }
+        
+        .stat-glass:hover {
+            transform: translateY(-12px) scale(1.05);
             border-color: var(--glass-primary);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
         }
-
+        
+        .stat-glass:hover::after {
+            opacity: 1;
+            animation: slide-shine 0.8s ease-out;
+        }
+        
+        @keyframes slide-shine {
+            from { transform: translateX(-100%) rotate(45deg); }
+            to { transform: translateX(100%) rotate(45deg); }
+        }
+        
         .stat-number {
-            font-size: 2.8rem;
+            font-size: 3rem;
             font-weight: 900;
             background: linear-gradient(135deg, var(--glass-accent), var(--glass-primary));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
+            display: block;
         }
-
+        
         .stat-label {
             color: var(--text-secondary);
-            font-size: 0.85rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-weight: 600;
+            font-weight: 500;
         }
-
-        /* Section Cards */
-        .section-header {
-            font-size: 2rem;
-            font-weight: 700;
+        
+        /* === NAVEGACIÓN DE MÓDULOS ACTUALIZADA PARA 5 === */
+        .navigation-liquid {
+            padding: 2.5rem;
             margin-bottom: 2rem;
-            text-align: center;
-            color: var(--text-primary);
         }
-
-        .modules-grid {
+        
+        .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
         }
-
-        .module-card {
+        
+        .nav-card {
             background: var(--glass-bg);
+            backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
             border-radius: 20px;
             padding: 2rem;
             text-decoration: none;
             color: var(--text-primary);
-            transition: all 0.4s ease;
+            transition: var(--transition-elastic);
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
-
-        .module-card::before {
+        
+        .nav-card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -209,556 +299,513 @@
             height: 100%;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: var(--transition-smooth);
         }
-
-        .module-card:hover {
+        
+        .nav-card:hover {
             transform: translateY(-12px) scale(1.03);
             background: var(--glass-bg-hover);
-            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
             border-color: var(--glass-primary);
         }
-
-        .module-card:hover::before {
+        
+        .nav-card:hover::before {
             opacity: 1;
         }
-
-        .module-icon {
+        
+        .nav-icon {
             font-size: 3.5rem;
             margin-bottom: 1.5rem;
             display: block;
-            text-align: center;
         }
-
-        .module-title {
+        
+        .nav-title {
             font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
-            text-align: center;
             background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        .module-desc {
+        
+        .nav-desc {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.5;
-            text-align: center;
+            line-height: 1.4;
         }
-
-        /* Top Opportunities */
-        .top-opps-table {
-            width: 100%;
-            border-collapse: collapse;
+        
+        /* === CONTENT SECTIONS === */
+        .content-liquid {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            transition: var(--transition-smooth);
         }
-
-        .top-opps-table th.sortable {
-            cursor: pointer;
-            user-select: none;
-            white-space: nowrap;
-        }
-
-        .top-opps-table th.sortable:hover {
-            color: var(--accent-gold);
-        }
-
-        .top-opps-table th.active-sort {
-            color: var(--accent-gold);
-        }
-
-        .sort-icon {
-            font-size: 0.8em;
-            opacity: 0.6;
-        }
-
-        .top-opps-table th {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 2px solid var(--glass-border);
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
             color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--glass-primary), var(--glass-secondary));
+            border-radius: 2px;
+        }
+        
+        /* === REPORT CARDS === */
+        .reports-fluid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .report-liquid {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition-elastic);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .report-liquid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+        
+        .report-liquid:hover {
+            transform: translateX(12px) scale(1.02);
+            border-color: var(--glass-accent);
+            box-shadow: 0 16px 48px rgba(59, 130, 246, 0.25);
+        }
+        
+        .report-liquid:hover::before {
+            opacity: 1;
+        }
+        
+        .report-title {
+            font-size: 1.4rem;
             font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            transition: var(--transition-smooth);
         }
-
-        .top-opps-table td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-
-        .top-opps-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .ticker {
-            font-weight: 700;
-            font-size: 1.1rem;
+        
+        .report-liquid:hover .report-title {
             color: var(--glass-accent);
         }
-
-        .score {
-            font-weight: 900;
-            font-size: 1.2rem;
-        }
-
-        .legendary { color: #ffd700; }
-        .epic { color: #ff8c00; }
-        .excellent { color: #00ff88; }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            margin: 0.15rem;
-        }
-
-        .whale-badge { background: rgba(168, 85, 247, 0.2); color: #a78bfa; }
-        .earnings-badge { background: rgba(255, 107, 107, 0.2); color: #ff6b6b; }
-        .sector-improving { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
-        .sector-declining { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .sector-stable { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
-        .text-success { color: #22c55e; }
-        .text-info { color: #3b82f6; }
-        .text-danger { color: #ef4444; }
-
-        /* Earnings Alerts */
-        .alert-box {
-            background: rgba(255, 107, 107, 0.1);
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .alert-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #ff6b6b;
-            margin-bottom: 1rem;
-        }
-
-        .alert-item {
-            padding: 0.5rem 0;
+        
+        .report-meta {
             color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
-
-        /* Footer */
-        .footer {
+        
+        .report-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        /* === LIQUID BUTTONS === */
+        .btn-liquid {
+            padding: 0.875rem 1.5rem;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition-bounce);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+        }
+        
+        .btn-liquid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: var(--transition-smooth);
+        }
+        
+        .btn-liquid:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary-liquid {
+            background: linear-gradient(135deg, var(--glass-primary), var(--glass-accent));
+            color: white;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-primary-liquid:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 16px 40px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-secondary-liquid {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-color: var(--glass-border);
+        }
+        
+        .btn-secondary-liquid:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.1);
+        }
+        
+        /* === SPECIAL EFFECTS === */
+        .floating-element {
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+        
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* === FOOTER === */
+        .footer-liquid {
             text-align: center;
             margin-top: 4rem;
             padding: 2rem 0;
             border-top: 1px solid var(--glass-border);
             color: var(--text-muted);
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container { padding: 1rem; }
-            .hero { padding: 2rem 1rem; }
-            .hero h1 { font-size: 2rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-            .modules-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+        
+        .footer-liquid a {
+            color: var(--glass-accent);
+            text-decoration: none;
+            transition: var(--transition-smooth);
         }
+        
+        .footer-liquid a:hover {
+            color: var(--glass-primary);
+            text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+        }
+        
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 768px) {
+            .glass-container {
+                padding: 1rem;
+            }
+            
+            .liquid-header {
+                padding: 2rem 1rem;
+            }
+            
+            .liquid-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats-liquid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .stat-glass {
+                padding: 1.5rem;
+            }
+            
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .nav-card {
+                padding: 1.5rem;
+            }
+            
+            .report-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .content-liquid {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* === ACCESSIBILITY === */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="glass-card hero">
-            <h1>🌟 STOCK ANALYZER 5D</h1>
-            <p class="hero-subtitle">5D Analysis System: VCP + Insiders + Sector Enhancement + Institutional + Fundamentals</p>
-            <div class="live-badge">
+    <div class="glass-container">
+        <header class="liquid-header glass-card floating-element">
+            <h1>📊 Trading Analytics System</h1>
+            <p>Sistema inteligente de análisis financiero con IA avanzada, Market Breadth y Enhanced Opportunities</p>
+            <div class="live-pulse">
                 <div class="pulse-dot"></div>
-                <span id="moduleCount">8 Módulos Activos</span>
+                <span>5 Módulos Activos • IA Integrada</span>
             </div>
-        </div>
-
-        <!-- Global Stats -->
-        <div class="stats-grid">
-            <div class="stat-box">
-                <div class="stat-number" id="total5DOpps">-</div>
-                <div class="stat-label">🌟 5D Opportunities</div>
+        </header>
+        
+        <section class="stats-liquid">
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
+                <div class="stat-number">230</div>
+                <div class="stat-label">Análisis Insider</div>
             </div>
-            <div class="stat-box">
-                <div class="stat-number" id="legendaryCount">-</div>
-                <div class="stat-label">⭐⭐⭐⭐ LEGENDARY</div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
+                <div class="stat-number">221</div>
+                <div class="stat-label">Análisis Sectorial</div>
             </div>
-            <div class="stat-box">
-                <div class="stat-number" id="whalesTracked">11</div>
-                <div class="stat-label">🐋 Whale Investors</div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
+                <div class="stat-number">244</div>
+                <div class="stat-label">Market Breadth</div>
             </div>
-            <div class="stat-box">
-                <div class="stat-number" id="earningsAlerts">-</div>
-                <div class="stat-label">⚠️ Earnings This Week</div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
+                <div class="stat-number">176</div>
+                <div class="stat-label">Enhanced Opportunities</div>
             </div>
-            <div class="stat-box">
-                <div class="stat-number" id="lastUpdate">-</div>
-                <div class="stat-label">Last Update</div>
+            <div class="stat-glass fade-in-up" style="animation-delay: 0.5s">
+                <div class="stat-number">2026-02-09</div>
+                <div class="stat-label">Última Actualización</div>
             </div>
-        </div>
-
-        <!-- Earnings Alerts -->
-        <div class="glass-card" id="earningsAlertsSection" style="padding: 2rem; margin-bottom: 2rem; display: none;">
-            <div class="alert-box">
-                <div class="alert-title">⚠️ Earnings Próximos 7 Días</div>
-                <div id="earningsAlertsList">
-                    Loading...
+        </section>
+        
+        <nav class="navigation-liquid glass-card">
+            <h2 class="section-title">🎯 Módulos de Análisis Avanzado</h2>
+            <div class="nav-grid">
+                <a href="reports/daily/report_2026-02-09/index.html" class="nav-card">
+                    <div class="nav-icon">🏛️</div>
+                    <div class="nav-title">Insider Trading</div>
+                    <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones de comportamiento ejecutivo</div>
+                </a>
+                <a href="dj_sectorial.html" class="nav-card">
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-title">DJ Sectorial</div>
+                    <div class="nav-desc">140 sectores Dow Jones analizados para identificar oportunidades y rotaciones sectoriales</div>
+                </a>
+                <a href="market_breadth.html" class="nav-card">
+                    <div class="nav-icon">📈</div>
+                    <div class="nav-title">Market Breadth</div>
+                    <div class="nav-desc">60+ indicadores de amplitud para evaluar la participación interna del mercado</div>
+                </a>
+                <a href="enhanced_opportunities.html" class="nav-card">
+                    <div class="nav-icon">🎯</div>
+                    <div class="nav-title">Enhanced Opportunities</div>
+                    <div class="nav-desc">Correlaciones automáticas insider-sector con análisis avanzado de oportunidades</div>
+                </a>
+                <a href="vcp_scanner.html" class="nav-card">
+                    <div class="nav-icon">🚀</div>
+                    <div class="nav-title">VCP Scanner</div>
+                    <div class="nav-desc">Detector de patrones de volatilidad con análisis técnico avanzado</div>
+                </a>
+            </div>
+        </nav>
+        
+        <main class="content-liquid glass-card">
+            <h2 class="section-title">📈 Reportes Recientes del Sistema</h2>
+            
+            <div class="reports-fluid">
+                
+            <div class="report-liquid floating-element" style="animation-delay: 0.0s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 91 transacciones - 2026-02-09 08:06</h3>
+                <div class="report-meta">
+                    📅 2026-02-09 • 🕐 08:06:52<br>
+                    Reporte con 91 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-02-09/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-02-09/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
                 </div>
             </div>
-        </div>
-
-        <!-- Top 10 Opportunities Preview -->
-        <div class="glass-card" style="padding: 2rem; margin-bottom: 3rem;">
-            <h2 class="section-header">🏆 Top Opportunities 5D <span id="oppsCount" style="font-size: 0.7em; color: var(--text-secondary);"></span></h2>
-            <div style="overflow-x: auto;">
-                <table class="top-opps-table">
-                    <thead>
-                        <tr>
-                            <th class="sortable" data-col="rank"># <span class="sort-icon">↕</span></th>
-                            <th class="sortable" data-col="ticker">Ticker <span class="sort-icon">↕</span></th>
-                            <th class="sortable active-sort" data-col="score">5D Score <span class="sort-icon">↓</span></th>
-                            <th>Tier</th>
-                            <th class="sortable" data-col="sector">Sector <span class="sort-icon">↕</span></th>
-                            <th class="sortable" data-col="upside">Target / Upside <span class="sort-icon">↕</span></th>
-                            <th class="sortable" data-col="whales">Indicators <span class="sort-icon">↕</span></th>
-                            <th class="sortable" data-col="earnings">Earnings <span class="sort-icon">↕</span></th>
-                        </tr>
-                    </thead>
-                    <tbody id="topOppsBody">
-                        <tr>
-                            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                Loading top opportunities...
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.1s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 46 transacciones - 2026-02-06 08:01</h3>
+                <div class="report-meta">
+                    📅 2026-02-06 • 🕐 08:01:34<br>
+                    Reporte con 46 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-02-06/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-02-06/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
             </div>
-            <div style="text-align: center; margin-top: 1.5rem;">
-                <a href="super_opportunities_4d.html" style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #ffd700, #ff8c00); color: #000; text-decoration: none; border-radius: 16px; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(255, 215, 0, 0.3);">
-                    🚀 Ver Todas las Oportunidades 5D
-                </a>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.2s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 58 transacciones - 2026-02-05 08:02</h3>
+                <div class="report-meta">
+                    📅 2026-02-05 • 🕐 08:02:36<br>
+                    Reporte con 58 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-02-05/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-02-05/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
             </div>
-        </div>
-
-        <!-- Modules Grid -->
-        <div class="glass-card" style="padding: 2.5rem; margin-bottom: 2rem;">
-            <h2 class="section-header">🎯 Módulos de Análisis</h2>
-            <div class="modules-grid">
-                <a href="super_opportunities_4d.html" class="module-card">
-                    <div class="module-icon">🌟</div>
-                    <div class="module-title">Super Opportunities 5D</div>
-                    <div class="module-desc">Análisis 5D: VCP, Insiders, Sector Enhancement (DJ), Institutional + Price Targets y Fundamental Analysis</div>
-                </a>
-
-                <a href="institutional_tracker.html" class="module-card">
-                    <div class="module-icon">🐋</div>
-                    <div class="module-title">Institutional Tracker</div>
-                    <div class="module-desc">SEC 13F tracking de 11 whale investors - Berkshire, BlackRock, ARK, Bridgewater y más</div>
-                </a>
-
-                <a href="vcp_scanner_results.html" class="module-card">
-                    <div class="module-icon">🚀</div>
-                    <div class="module-title">VCP Scanner</div>
-                    <div class="module-desc">Detector de patrones Volatility Contraction Pattern con análisis técnico avanzado</div>
-                </a>
-
-                <a href="recurring_insiders.html" class="module-card">
-                    <div class="module-icon">🔁</div>
-                    <div class="module-title">Recurring Insiders</div>
-                    <div class="module-desc">Compras recurrentes de ejecutivos - Señales de alta confianza con múltiples transacciones</div>
-                </a>
-
-                <a href="dj_sectorial.html" class="module-card">
-                    <div class="module-icon">📊</div>
-                    <div class="module-title">DJ Sectorial Analysis</div>
-                    <div class="module-desc">140 sectores Dow Jones analizados para identificar rotaciones y oportunidades sectoriales</div>
-                </a>
-
-                <a href="insider_search.html" class="module-card">
-                    <div class="module-icon">🔍</div>
-                    <div class="module-title">Insider Search</div>
-                    <div class="module-desc">Busca cualquier ticker en el historial completo de transacciones internas</div>
-                </a>
-
-                <a href="market_breadth.html" class="module-card">
-                    <div class="module-icon">📈</div>
-                    <div class="module-title">Market Breadth</div>
-                    <div class="module-desc">60+ indicadores de amplitud para evaluar la participación interna del mercado</div>
-                </a>
-
-                <a href="backtest_dashboard.html" class="module-card">
-                    <div class="module-icon">📊</div>
-                    <div class="module-title">Backtest Dashboard</div>
-                    <div class="module-desc">Visualización de backtesting con performance stats, win rates y análisis por tier</div>
-                </a>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.3s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 82 transacciones - 2026-02-04 08:01</h3>
+                <div class="report-meta">
+                    📅 2026-02-04 • 🕐 08:01:45<br>
+                    Reporte con 82 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-02-04/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-02-04/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
             </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>🚀 Stock Analyzer 5D • Powered by Advanced Market Analysis & AI</p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                🌟 5D Analysis • 📊 Sector Enhancement • 🎯 Price Targets • 🐋 Institutional • 📅 Earnings • 📈 Backtesting
-            </p>
-        </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.4s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 97 transacciones - 2026-02-03 08:00</h3>
+                <div class="report-meta">
+                    📅 2026-02-03 • 🕐 08:00:37<br>
+                    Reporte con 97 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-02-03/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-02-03/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.5s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 94 transacciones - 2026-02-02 08:01</h3>
+                <div class="report-meta">
+                    📅 2026-02-02 • 🕐 08:01:53<br>
+                    Reporte con 94 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-02-02/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-02-02/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.6s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 81 transacciones - 2026-01-30 07:58</h3>
+                <div class="report-meta">
+                    📅 2026-01-30 • 🕐 07:58:49<br>
+                    Reporte con 81 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-01-30/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-01-30/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.7s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 75 transacciones - 2026-01-29 07:59</h3>
+                <div class="report-meta">
+                    📅 2026-01-29 • 🕐 07:59:38<br>
+                    Reporte con 75 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-01-29/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-01-29/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            </div>
+        </main>
+        
+        <footer class="footer-liquid">
+            <p>🚀 Trading Analytics System • Powered by AI & Advanced Market Analysis</p>
+            <p>Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner</p>
+        </footer>
     </div>
-
+    
     <script>
-        // Global state
-        let allData = [];
-        let sortState = { col: 'score', dir: 'desc' };
-
-        // Load 5D opportunities data
-        async function loadDashboardData() {
-            try {
-                const csvPaths = [
-                    'super_opportunities_5d_complete_with_earnings.csv',
-                    'super_opportunities_5d_complete.csv',
-                    'super_opportunities_4d_complete_with_earnings.csv',
-                    'super_opportunities_4d_complete.csv'
-                ];
-
-                let csvText = null;
-                for (const path of csvPaths) {
-                    try {
-                        const r = await fetch(path);
-                        if (r.ok) { csvText = await r.text(); break; }
-                    } catch (fetchError) {
-                        console.warn('Could not load', path, fetchError.message);
-                    }
-                }
-
-                if (!csvText) throw new Error('No CSV found');
-                const lines = csvText.trim().split('\n');
-                const headers = lines[0].split(',');
-
-                allData = lines.slice(1).map(line => {
-                    const values = parseCSVLine(line);
-                    const obj = {};
-                    headers.forEach((header, i) => {
-                        obj[header.trim()] = values[i] ? values[i].trim() : '';
-                    });
-                    return obj;
-                });
-
-                // Calculate stats
-                const score5DKey = allData[0] && allData[0].super_score_5d ? 'super_score_5d' : 'super_score_4d';
-                const legendary = allData.filter(d => parseFloat(d[score5DKey]) >= 85);
-                const earningsThisWeek = allData.filter(d => {
-                    const days = parseInt(d.days_to_earnings);
-                    return !isNaN(days) && days >= 0 && days <= 7;
-                });
-
-                document.getElementById('total5DOpps').textContent = allData.length;
-                document.getElementById('legendaryCount').textContent = legendary.length;
-                document.getElementById('earningsAlerts').textContent = earningsThisWeek.length;
-
-                const today = new Date();
-                document.getElementById('lastUpdate').textContent = today.toLocaleDateString('es-ES', {
-                    month: 'short', day: 'numeric'
-                });
-
-                renderOpps();
-
-                if (earningsThisWeek.length > 0) {
-                    displayEarningsAlerts(earningsThisWeek);
-                }
-
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('topOppsBody').innerHTML = `
-                    <tr><td colspan="8" style="text-align: center; color: var(--text-secondary);">❌ Error loading data</td></tr>
-                `;
-            }
-        }
-
-        function getScore(opp) {
-            return parseFloat(opp.super_score_5d || opp.super_score_4d) || 0;
-        }
-
-        function getUpside(opp) {
-            const v = parseFloat(opp.upside_percent);
-            return isNaN(v) ? null : v;
-        }
-
-        function renderOpps() {
-            // Filter: only quality entries (score >= 55) AND no negative upside
-            let filtered = allData.filter(opp => {
-                const score = getScore(opp);
-                if (score < 55) return false;
-                const upside = getUpside(opp);
-                if (upside !== null && upside < 0) return false;
-                return true;
-            });
-
-            // Sort
-            filtered.sort((a, b) => {
-                let va, vb;
-                switch (sortState.col) {
-                    case 'rank':
-                    case 'score': va = getScore(a); vb = getScore(b); break;
-                    case 'ticker': va = a.ticker; vb = b.ticker; break;
-                    case 'sector': va = (a.sector_name || ''); vb = (b.sector_name || ''); break;
-                    case 'upside':
-                        va = getUpside(a) ?? -999;
-                        vb = getUpside(b) ?? -999;
-                        break;
-                    case 'whales': va = parseInt(a.num_whales) || 0; vb = parseInt(b.num_whales) || 0; break;
-                    case 'earnings':
-                        va = parseInt(a.days_to_earnings) || 9999;
-                        vb = parseInt(b.days_to_earnings) || 9999;
-                        break;
-                    default: va = getScore(a); vb = getScore(b);
-                }
-                if (typeof va === 'string') {
-                    return sortState.dir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
-                }
-                return sortState.dir === 'asc' ? va - vb : vb - va;
-            });
-
-            // Show top 15
-            const display = filtered.slice(0, 15);
-            document.getElementById('oppsCount').textContent = `(${filtered.length} quality)`;
-
-            displayOpps(display);
-            updateSortHeaders();
-        }
-
-        function updateSortHeaders() {
-            document.querySelectorAll('th.sortable').forEach(th => {
-                const col = th.dataset.col;
-                const icon = th.querySelector('.sort-icon');
-                th.classList.toggle('active-sort', col === sortState.col);
-                if (col === sortState.col) {
-                    icon.textContent = sortState.dir === 'asc' ? '↑' : '↓';
-                } else {
-                    icon.textContent = '↕';
-                }
-            });
-        }
-
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let inQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') { inQuotes = !inQuotes; }
-                else if (char === ',' && !inQuotes) { result.push(current); current = ''; }
-                else { current += char; }
-            }
-            result.push(current);
-            return result;
-        }
-
-        function displayOpps(data) {
-            const tbody = document.getElementById('topOppsBody');
-
-            tbody.innerHTML = data.map((opp, index) => {
-                const score = getScore(opp);
-                const numWhales = parseInt(opp.num_whales) || 0;
-                const daysToEarnings = opp.days_to_earnings ? parseInt(opp.days_to_earnings) : null;
-                const nextEarnings = opp.next_earnings || '';
-
-                const scoreClass = score >= 85 ? 'legendary' :
-                                 score >= 75 ? 'epic' :
-                                 score >= 65 ? 'excellent' : '';
-
-                const whaleBadge = numWhales > 0 ?
-                    `<span class="badge whale-badge">🐋 ${numWhales}</span>` : '';
-
-                let earningsHTML = '';
-                if (daysToEarnings !== null && daysToEarnings >= 0 && daysToEarnings <= 7) {
-                    earningsHTML = `<span class="badge earnings-badge">⚠️ ${daysToEarnings}d</span>`;
-                } else if (daysToEarnings !== null && daysToEarnings > 0) {
-                    earningsHTML = `<small style="color: var(--text-secondary);">${daysToEarnings}d</small>`;
-                } else {
-                    earningsHTML = '<small style="color: var(--text-secondary);">N/A</small>';
-                }
-
-                const sectorName = opp.sector_name || 'N/A';
-                const sectorMomentum = opp.sector_momentum || '';
-                const tierBoost = parseInt(opp.tier_boost) || 0;
-                const sectorClass = sectorMomentum === 'improving' ? 'sector-improving' :
-                                   sectorMomentum === 'declining' ? 'sector-declining' : 'sector-stable';
-                const sectorHTML = `<span class="badge ${sectorClass}" title="Momentum: ${sectorMomentum} | Boost: +${tierBoost}">${sectorName}</span>`;
-
-                const priceTarget = opp.price_target ? parseFloat(opp.price_target) : null;
-                const upside = getUpside(opp);
-                let targetHTML = '';
-                if (priceTarget && upside !== null) {
-                    const upsideClass = upside > 20 ? 'text-success' : upside > 0 ? 'text-info' : 'text-danger';
-                    targetHTML = `<div style="font-size: 0.9rem;">
-                        <div style="font-weight: 600;">$${priceTarget.toFixed(2)}</div>
-                        <div class="${upsideClass}">${upside > 0 ? '+' : ''}${upside.toFixed(1)}%</div>
-                    </div>`;
-                } else {
-                    targetHTML = '<small style="color: var(--text-secondary);">N/A</small>';
-                }
-
-                return `
-                    <tr>
-                        <td style="text-align: center; color: var(--text-secondary);">${index + 1}</td>
-                        <td class="ticker" style="cursor: pointer;" onclick="window.location.href='stock_detail.html?ticker=${opp.ticker}'">
-                            ${opp.ticker} 🔍
-                        </td>
-                        <td class="score ${scoreClass}">${score.toFixed(1)}</td>
-                        <td>${opp.tier}</td>
-                        <td>${sectorHTML}</td>
-                        <td style="text-align: center;">${targetHTML}</td>
-                        <td>${whaleBadge}</td>
-                        <td style="text-align: center;">${earningsHTML}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function displayEarningsAlerts(earningsData) {
-            const section = document.getElementById('earningsAlertsSection');
-            const list = document.getElementById('earningsAlertsList');
-
-            section.style.display = 'block';
-
-            list.innerHTML = earningsData
-                .sort((a, b) => parseInt(a.days_to_earnings) - parseInt(b.days_to_earnings))
-                .slice(0, 10)
-                .map(opp => {
-                    const days = parseInt(opp.days_to_earnings);
-                    return `
-                        <div class="alert-item">
-                            <strong style="color: var(--text-primary);">${opp.ticker}</strong> -
-                            <span style="color: #ff6b6b; font-weight: 600;">Earnings en ${days} día${days !== 1 ? 's' : ''}</span>
-                            ${opp.next_earnings ? `(${opp.next_earnings})` : ''}
-                            - Score: ${parseFloat(opp.super_score_4d).toFixed(1)}
-                        </div>
-                    `;
-                }).join('');
-        }
-
-        // Sort column click handlers
-        document.querySelectorAll('th.sortable').forEach(th => {
-            th.addEventListener('click', () => {
-                const col = th.dataset.col;
-                if (sortState.col === col) {
-                    sortState.dir = sortState.dir === 'desc' ? 'asc' : 'desc';
-                } else {
-                    sortState.col = col;
-                    sortState.dir = col === 'ticker' || col === 'sector' ? 'asc' : 'desc';
-                }
-                renderOpps();
+        // Auto-refresh inteligente cada 5 minutos
+        setTimeout(() => location.reload(), 300000);
+        
+        // Animaciones de entrada escalonadas
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.nav-card, .report-liquid');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('fade-in-up');
             });
         });
-
-        // Load data on page load
-        loadDashboardData();
-
-        // Auto-refresh every 5 minutes
-        setTimeout(() => location.reload(), 300000);
+        
+        // Analytics
+        console.log('🚀 Trading Analytics Dashboard with Enhanced Opportunities Loaded');
+        console.log('📊 Total Reports: 230');
+        console.log('📈 DJ Sectorial: 221');
+        console.log('📊 Market Breadth: 244');
+        console.log('🎯 Enhanced Opportunities: 176');
+        console.log('🎯 Módulos activos: 5');
+        console.log('🌐 Base URL: https://tantancansado.github.io/stock_analyzer_a');
     </script>
 </body>
 </html>
