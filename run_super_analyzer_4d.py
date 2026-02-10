@@ -120,6 +120,11 @@ def run_4d_analysis():
             'tier_boost': opp.get('tier_boost', 0),
             'dj_ticker': opp.get('dj_ticker', ''),
 
+            # Timing Convergence (VCP + Insider timing)
+            'timing_convergence': opp.get('timing_convergence', False),
+            'timing_bonus': opp.get('timing_bonus', 0),
+            'timing_reason': opp.get('timing_reason', ''),
+
             # Price Targets
             'current_price': opp.get('current_price'),
             'price_target': opp.get('price_target'),

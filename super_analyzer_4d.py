@@ -62,7 +62,13 @@ class SuperAnalyzer4D:
         insiders_csv = Path("docs/recurring_insiders.csv")
         if insiders_csv.exists():
             df = pd.read_csv(insiders_csv)
-            print(f"✅ Recurring Insiders: {len(df)} tickers cargados")
+            # Filter out invalid tickers (NaN, empty, etc.)
+            original_len = len(df)
+            df = df[df['ticker'].notna() & (df['ticker'] != '') & (df['ticker'] != 'nan')]
+            df = df.reset_index(drop=True)
+            if len(df) < original_len:
+                print(f"   ⚠️  Filtrados {original_len - len(df)} tickers inválidos")
+            print(f"✅ Recurring Insiders: {len(df)} tickers válidos cargados")
             return df
         return pd.DataFrame()
 
@@ -87,6 +93,54 @@ class SuperAnalyzer4D:
                 return data
         print(f"⚠️  Institutional: Sin datos (ejecuta institutional_tracker.py)")
         return {}
+
+    def detect_timing_convergence(self, ticker, vcp_data, insider_data):
+        """
+        Detecta convergencia de timing: insiders comprando durante VCP base
+
+        Setup PERFECTO:
+        - VCP en Stage 1-2 (acumulación/base)
+        - 2+ compras de insiders
+        - Compras dentro de 90 días
+
+        Returns: (has_convergence, bonus_points, reason)
+        """
+        # Check VCP stage
+        vcp_match = vcp_data[vcp_data['ticker'] == ticker]
+        if vcp_match.empty:
+            return False, 0, None
+
+        vcp_stage = str(vcp_match.iloc[0].get('etapa_analisis', ''))
+
+        # Stage 1-2 indica base formation/acumulación
+        in_base_stage = ('stage 1' in vcp_stage.lower() or
+                        'stage 2' in vcp_stage.lower() or
+                        'etapa 1' in vcp_stage.lower() or
+                        'etapa 2' in vcp_stage.lower())
+
+        if not in_base_stage:
+            return False, 0, None
+
+        # Check insider activity
+        insider_match = insider_data[insider_data['ticker'] == ticker]
+        if insider_match.empty:
+            return False, 0, None
+
+        purchase_count = insider_match.iloc[0].get('purchase_count', 0)
+        days_span = insider_match.iloc[0].get('days_span', 999)
+
+        # Timing convergence: múltiples compras recientes durante base
+        if purchase_count >= 2 and days_span <= 90:
+            bonus = 10
+            reason = f"🔥 TIMING PERFECTO: {purchase_count} compras de insiders durante VCP base ({days_span} días)"
+            return True, bonus, reason
+        elif purchase_count >= 2:
+            # Compras múltiples pero más antiguas
+            bonus = 5
+            reason = f"⚡ Timing bueno: {purchase_count} compras de insiders en VCP base"
+            return True, bonus, reason
+
+        return False, 0, None
 
     def calculate_4d_score(self, ticker, vcp_score=0, insider_score=0, sector_score=0, institutional_score=0):
         """
@@ -171,7 +225,8 @@ class SuperAnalyzer4D:
             tier_boost = self.sector_enhancer.calculate_tier_boost(sector_score, sector_momentum)
 
             # Institutional score - REAL usando whale holdings
-            institutional_score = self.institutional_tracker.calculate_institutional_score(ticker)
+            institutional_data = self.institutional_tracker.calculate_institutional_score(ticker)
+            institutional_score = institutional_data.get('institutional_score', 0)
 
             # Calcular super score 4D base
             result = self.calculate_4d_score(
@@ -187,6 +242,23 @@ class SuperAnalyzer4D:
                 min(100, result['super_score_4d'] + tier_boost), 1
             )
 
+            # DETECTAR TIMING CONVERGENCE (VCP + Insider timing)
+            has_convergence, timing_bonus, timing_reason = self.detect_timing_convergence(
+                ticker, vcp_df, insiders_df
+            )
+
+            if has_convergence:
+                result['super_score_4d'] = round(
+                    min(100, result['super_score_4d'] + timing_bonus), 1
+                )
+                result['timing_convergence'] = True
+                result['timing_bonus'] = timing_bonus
+                result['timing_reason'] = timing_reason
+            else:
+                result['timing_convergence'] = False
+                result['timing_bonus'] = 0
+                result['timing_reason'] = None
+
             # Añadir información sectorial
             result['sector_momentum'] = sector_momentum
             result['tier_boost'] = tier_boost
@@ -195,6 +267,9 @@ class SuperAnalyzer4D:
             sector_info = self.sector_enhancer.ticker_to_sector.get(ticker, {})
             result['sector_name'] = sector_info.get('sector', 'Unknown')
             result['dj_ticker'] = sector_info.get('dj_ticker', None)
+
+            # Institutional details
+            result['institutional_details'] = institutional_data.get('details', {})
 
             # FUNDAMENTAL ANALYSIS + PRICE TARGETS
             try:

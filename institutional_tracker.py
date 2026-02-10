@@ -267,43 +267,21 @@ class InstitutionalTracker:
         Calcula score institucional para un ticker
 
         Factores:
-        - Nuevas posiciones de whales (+50 puntos cada una)
-        - Incrementos en posiciones existentes (+30 puntos)
-        - Tier del whale (legend=3x, mega=2x, hedge/growth=1x)
+        - Número de whales holding (10 puntos cada uno)
+        - Tier del whale (legend=+15, mega=+10, hedge=+5)
+        - Normalized a 0-100
         """
         activity = self.get_whale_activity(ticker)
 
-        score = 0
-
-        # Nuevas posiciones (muy bullish)
-        score += activity['new_positions'] * 50
-
-        # Incrementos
-        score += activity['increased_positions'] * 30
-
-        # Decrementos (bearish)
-        score -= activity['decreased_positions'] * 20
-
-        # Bonus por tier de whale
-        for whale in activity['whales_holding']:
-            tier_multiplier = {
-                'legend': 3.0,
-                'mega': 2.0,
-                'hedge': 1.5,
-                'growth': 1.5
-            }.get(whale['tier'], 1.0)
-
-            score *= tier_multiplier
-
-        # Normalizar a 0-100
-        normalized_score = min(100, max(0, score))
+        # Usar whale_score calculado en get_whale_activity()
+        normalized_score = activity.get('whale_score', 0)
 
         return {
             'ticker': ticker,
             'institutional_score': normalized_score,
-            'new_positions': activity['new_positions'],
-            'increased_positions': activity['increased_positions'],
-            'decreased_positions': activity['decreased_positions'],
+            'new_positions': 0,  # TODO: Requiere comparar con holdings previos
+            'increased_positions': 0,  # TODO: Requiere comparar con holdings previos
+            'decreased_positions': 0,  # TODO: Requiere comparar con holdings previos
             'whales_holding': len(activity['whales_holding']),
             'details': activity
         }
