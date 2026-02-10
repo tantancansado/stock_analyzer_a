@@ -1,0 +1,51 @@
+{
+  "total_trades": 8,
+  "winning_trades": 6,
+  "losing_trades": 2,
+  "win_rate": 75.0,
+  "avg_return": 4.39478566830873,
+  "median_return": 3.3674291891393953,
+  "total_return": 35.15828534646984,
+  "best_trade": {
+    "ticker": "INTC",
+    "return": 20.536460574960877,
+    "score": 67.1
+  },
+  "worst_trade": {
+    "ticker": "BA",
+    "return": -7.397401183326637,
+    "score": 59.6
+  },
+  "tier_metrics": {
+    "\u2b50 BUENA": {
+      "total_trades": 3,
+      "win_rate": 100.0,
+      "avg_return": 9.158635174669199,
+      "median_return": 4.228237904309355,
+      "best_return": 20.536460574960877,
+      "worst_return": 2.7112070447373617
+    },
+    "\ud83d\udd35 MODERADA": {
+      "total_trades": 5,
+      "win_rate": 60.0,
+      "avg_return": 1.5364759644924493,
+      "median_return": 2.5555301193078725,
+      "best_return": 12.36325665637967,
+      "worst_return": -7.397401183326637
+    }
+  },
+  "timing_impact": {
+    "with_timing": {
+      "count": 0,
+      "win_rate": 0,
+      "avg_return": 0
+    },
+    "without_timing": {
+      "count": 8,
+      "win_rate": 75.0,
+      "avg_return": 4.39478566830873
+    }
+  },
+  "avg_hold_days": 32.75,
+  "avg_max_drawdown": -10.50195820733726
+}

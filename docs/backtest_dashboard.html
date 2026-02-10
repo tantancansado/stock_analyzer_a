@@ -3,195 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📊 Backtest Dashboard | Performance Validation</title>
+    <title>📊 Backtest Dashboard - 5D Strategy</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
-        :root {
-            --glass-primary: rgba(99, 102, 241, 0.8);
-            --glass-secondary: rgba(139, 92, 246, 0.7);
-            --glass-accent: rgba(59, 130, 246, 0.9);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-primary: rgba(255, 255, 255, 0.95);
-            --text-secondary: rgba(255, 255, 255, 0.7);
-            --green: #48bb78;
-            --red: #f56565;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
-            background: #020617;
-            color: var(--text-primary);
-            line-height: 1.6;
-            padding: 2rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15) 0%, rgba(2, 6, 23, 0.9) 50%, rgba(0, 0, 0, 0.95) 100%);
-            pointer-events: none;
-            z-index: -1;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        .container { max-width: 1800px; margin: 0 auto; }
-
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #ffd700, #ff8c00, #ff1493, #8b5cf6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
+        .header {
             text-align: center;
+            color: white;
+            margin-bottom: 30px;
         }
 
-        .subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
-        .nav-links {
-            text-align: center;
-            margin-bottom: 2rem;
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
         }
 
-        .nav-link {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: var(--text-primary);
-            text-decoration: none;
-            margin: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            border-color: var(--glass-accent);
-            transform: translateY(-2px);
-        }
-
-        .stats-grid {
+        .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
 
-        .stat-box {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
+        .metric-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
         }
 
-        .stat-box:hover {
+        .metric-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3);
         }
 
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 10px;
         }
 
-        .positive { color: var(--green); }
-        .negative { color: var(--red); }
-        .neutral { color: #fbbf24; }
-
-        .timeframe-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #333;
         }
 
-        .tab {
-            padding: 0.75rem 1.5rem;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
+        .metric-value.positive {
+            color: #10b981;
         }
 
-        .tab:hover {
-            border-color: var(--glass-accent);
-        }
-
-        .tab.active {
-            background: var(--glass-primary);
-            color: white;
-            border-color: var(--glass-primary);
+        .metric-value.negative {
+            color: #ef4444;
         }
 
         .chart-container {
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            min-height: 300px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .tier-section {
-            margin-bottom: 2rem;
+        .chart-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
         }
 
-        .tier-header {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 12px;
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
         }
 
-        .tier-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .tier-stat {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 1rem;
-            text-align: center;
+        .trades-table {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-x: auto;
         }
 
         table {
@@ -200,522 +115,515 @@
         }
 
         th {
-            padding: 1rem;
+            background: #667eea;
+            color: white;
+            padding: 15px;
             text-align: left;
-            border-bottom: 2px solid var(--glass-border);
-            color: var(--text-primary);
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
+            font-weight: 600;
         }
 
         td {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 12px 15px;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            background: #f9fafb;
         }
 
-        .ticker {
-            font-weight: 700;
-            color: var(--glass-accent);
+        .win {
+            color: #10b981;
+            font-weight: bold;
         }
 
-        .info-box {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .loss {
+            color: #ef4444;
+            font-weight: bold;
         }
 
-        .warning-box {
-            background: rgba(251, 191, 36, 0.1);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+        .tier-badge {
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-weight: bold;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--glass-primary), var(--glass-accent));
-            transition: width 1s ease;
-        }
-
-        @media (max-width: 768px) {
-            body { padding: 1rem; }
-            h1 { font-size: 2rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .timeframe-tabs { flex-direction: column; }
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="glass-card">
-            <h1>📊 BACKTEST DASHBOARD</h1>
-            <p class="subtitle">Performance Validation System - Signal Analysis Over Time</p>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link">🏠 Dashboard</a>
-                <a href="super_opportunities_4d.html" class="nav-link">🌟 4D Opportunities</a>
+        <div class="header">
+            <h1>📊 Backtest Dashboard</h1>
+            <div class="subtitle">5D Strategy Performance Analysis</div>
+            <div class="subtitle" style="font-size: 0.9em; margin-top: 10px;">
+                Generated: 2026-02-10 19:57:26
             </div>
         </div>
 
-        <!-- System Status -->
-        <div class="info-box">
-            <strong>ℹ️ Sistema de Backtesting</strong><br>
-            El backtesting valida la efectividad de las señales 4D trackeando performance real en diferentes timeframes.
-            Cada snapshot captura precios de entrada y calcula returns a 7d, 30d, 60d y 90d.
-        </div>
-
-        <!-- Snapshots Available -->
-        <div class="glass-card">
-            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">📸 Snapshots Disponibles</h2>
-            <div id="snapshotsList">
-                <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                    Buscando snapshots...
+        <!-- Métricas Principales -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-label">Total Trades</div>
+                <div class="metric-value">8</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Win Rate</div>
+                <div class="metric-value positive">75.0%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Avg Return</div>
+                <div class="metric-value positive">
+                    4.39%
                 </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Total Return</div>
+                <div class="metric-value positive">
+                    35.16%
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Avg Hold Days</div>
+                <div class="metric-value">33</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Avg Max DD</div>
+                <div class="metric-value negative">-10.50%</div>
             </div>
         </div>
 
-        <!-- Global Performance Stats -->
-        <div class="glass-card" id="globalStats" style="display: none;">
-            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">📈 Performance Global</h2>
-
-            <!-- Timeframe Tabs -->
-            <div class="timeframe-tabs">
-                <div class="tab active" onclick="switchTimeframe('7d')">7 Días</div>
-                <div class="tab" onclick="switchTimeframe('30d')">30 Días</div>
-                <div class="tab" onclick="switchTimeframe('60d')">60 Días</div>
-                <div class="tab" onclick="switchTimeframe('90d')">90 Días</div>
-            </div>
-
-            <!-- Stats Grid -->
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-number positive" id="avgReturn">-</div>
-                    <div class="stat-label">Avg Return</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number neutral" id="medianReturn">-</div>
-                    <div class="stat-label">Median Return</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number" id="winRate">-</div>
-                    <div class="stat-label">Win Rate</div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="winRateBar" style="width: 0%"></div>
-                    </div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number positive" id="bestReturn">-</div>
-                    <div class="stat-label">Best Trade</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number negative" id="worstReturn">-</div>
-                    <div class="stat-label">Worst Trade</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number neutral" id="totalSamples">-</div>
-                    <div class="stat-label">Total Samples</div>
-                </div>
+        <!-- Equity Curve -->
+        <div class="chart-container">
+            <div class="chart-title">📈 Equity Curve</div>
+            <div class="chart-wrapper">
+                <canvas id="equityChart"></canvas>
             </div>
         </div>
 
-        <!-- Performance by Tier -->
-        <div class="glass-card" id="tierStats" style="display: none;">
-            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🏆 Performance por Tier</h2>
-
-            <!-- LEGENDARY -->
-            <div class="tier-section">
-                <div class="tier-header" style="color: #ffd700;">
-                    ⭐⭐⭐⭐ LEGENDARY (Score ≥ 85)
-                </div>
-                <div class="tier-stats" id="legendaryStats">
-                    <div class="tier-stat">
-                        <div class="stat-number positive" id="legendary-avg">-</div>
-                        <div class="stat-label">Avg Return</div>
-                    </div>
-                    <div class="tier-stat">
-                        <div class="stat-number" id="legendary-winrate">-</div>
-                        <div class="stat-label">Win Rate</div>
-                    </div>
-                    <div class="tier-stat">
-                        <div class="stat-number neutral" id="legendary-samples">-</div>
-                        <div class="stat-label">Samples</div>
-                    </div>
-                </div>
+        <!-- Performance por Tier -->
+        <div class="chart-container">
+            <div class="chart-title">⭐ Performance por Tier</div>
+            <div class="chart-wrapper">
+                <canvas id="tierChart"></canvas>
             </div>
+        </div>
 
-            <!-- ÉPICAS -->
-            <div class="tier-section">
-                <div class="tier-header" style="color: #ff8c00;">
-                    ⭐⭐⭐ ÉPICAS (Score ≥ 75)
-                </div>
-                <div class="tier-stats" id="epicStats">
-                    <div class="tier-stat">
-                        <div class="stat-number positive" id="epic-avg">-</div>
-                        <div class="stat-label">Avg Return</div>
-                    </div>
-                    <div class="tier-stat">
-                        <div class="stat-number" id="epic-winrate">-</div>
-                        <div class="stat-label">Win Rate</div>
-                    </div>
-                    <div class="tier-stat">
-                        <div class="stat-number neutral" id="epic-samples">-</div>
-                        <div class="stat-label">Samples</div>
-                    </div>
-                </div>
+        <!-- Timing Convergence Impact -->
+        <div class="chart-container">
+            <div class="chart-title">🔥 Timing Convergence Impact</div>
+            <div class="chart-wrapper">
+                <canvas id="timingChart"></canvas>
             </div>
+        </div>
 
-            <!-- EXCELENTES -->
-            <div class="tier-section">
-                <div class="tier-header" style="color: #00ff88;">
-                    ⭐⭐ EXCELENTES (Score ≥ 65)
-                </div>
-                <div class="tier-stats" id="excellentStats">
-                    <div class="tier-stat">
-                        <div class="stat-number positive" id="excellent-avg">-</div>
-                        <div class="stat-label">Avg Return</div>
-                    </div>
-                    <div class="tier-stat">
-                        <div class="stat-number" id="excellent-winrate">-</div>
-                        <div class="stat-label">Win Rate</div>
-                    </div>
-                    <div class="tier-stat">
-                        <div class="stat-number neutral" id="excellent-samples">-</div>
-                        <div class="stat-label">Samples</div>
-                    </div>
-                </div>
+        <!-- Returns Distribution -->
+        <div class="chart-container">
+            <div class="chart-title">📊 Returns Distribution</div>
+            <div class="chart-wrapper">
+                <canvas id="returnsChart"></canvas>
             </div>
         </div>
 
         <!-- Top/Bottom Trades -->
-        <div class="glass-card" id="tradesTable" style="display: none;">
-            <h2 style="color: var(--text-primary); margin-bottom: 1.5rem;">🎯 Best & Worst Trades</h2>
-
-            <h3 style="color: var(--green); margin: 1.5rem 0 1rem 0;">✅ Top 10 Winners</h3>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Ticker</th>
-                            <th>Entry</th>
-                            <th>Exit</th>
-                            <th>Return</th>
-                            <th>Tier</th>
-                        </tr>
-                    </thead>
-                    <tbody id="topWinnersBody">
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                No data available
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3 style="color: var(--red); margin: 2rem 0 1rem 0;">❌ Top 10 Losers</h3>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Ticker</th>
-                            <th>Entry</th>
-                            <th>Exit</th>
-                            <th>Return</th>
-                            <th>Tier</th>
-                        </tr>
-                    </thead>
-                    <tbody id="topLosersBody">
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--text-secondary);">
-                                No data available
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="trades-table">
+            <h2 style="margin-bottom: 20px;">🏆 Best Trades</h2>
+            
+        <table>
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Entry</th>
+                    <th>Exit</th>
+                    <th>Entry Price</th>
+                    <th>Exit Price</th>
+                    <th>Return</th>
+                    <th>Hold</th>
+                    <th>Tier</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            <tr>
+                <td><strong>INTC</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-22</td>
+                <td>$23.86</td>
+                <td>$28.76</td>
+                <td class="win">20.54%</td>
+                <td>39 días</td>
+                <td><span class="tier-badge">⭐ BUENA</span></td>
+                <td>67</td>
+            </tr>
+            
+            <tr>
+                <td><strong>CVS</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$65.65</td>
+                <td>$73.77</td>
+                <td class="win">12.36%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>58</td>
+            </tr>
+            
+            <tr>
+                <td><strong>NCLH</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-22</td>
+                <td>$24.36</td>
+                <td>$25.39</td>
+                <td class="win">4.23%</td>
+                <td>39 días</td>
+                <td><span class="tier-badge">⭐ BUENA</span></td>
+                <td>63</td>
+            </tr>
+            
+            <tr>
+                <td><strong>CRM</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$232.59</td>
+                <td>$241.95</td>
+                <td class="win">4.02%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>58</td>
+            </tr>
+            
+            <tr>
+                <td><strong>WRB</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-22</td>
+                <td>$70.35</td>
+                <td>$72.26</td>
+                <td class="win">2.71%</td>
+                <td>39 días</td>
+                <td><span class="tier-badge">⭐ BUENA</span></td>
+                <td>57</td>
+            </tr>
+            
+            <tr>
+                <td><strong>OXY</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$44.27</td>
+                <td>$45.41</td>
+                <td class="win">2.56%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>55</td>
+            </tr>
+            
+            <tr>
+                <td><strong>BEN</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$24.94</td>
+                <td>$23.97</td>
+                <td class="loss">-3.86%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>59</td>
+            </tr>
+            
+            <tr>
+                <td><strong>BA</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$233.19</td>
+                <td>$215.94</td>
+                <td class="loss">-7.40%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>60</td>
+            </tr>
+            
+            </tbody>
+        </table>
+        
         </div>
 
-        <!-- Instructions -->
-        <div class="warning-box">
-            <strong>⚠️ Cómo usar el sistema:</strong><br>
-            1. <strong>Crear snapshots</strong>: Ejecuta <code>python3 backtest_system.py</code> regularmente para capturar oportunidades con precios<br>
-            2. <strong>Analizar resultados</strong>: Después de X días, ejecuta el análisis para calcular returns<br>
-            3. <strong>Validar sistema</strong>: Verifica si LEGENDARY tiene mejor performance que otras tiers<br>
-            <br>
-            📖 <strong>Documentación completa</strong>: Ver <a href="../BACKTEST_README.md" style="color: #fbbf24;">BACKTEST_README.md</a>
+        <div class="trades-table" style="margin-top: 30px;">
+            <h2 style="margin-bottom: 20px;">💔 Worst Trades</h2>
+            
+        <table>
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Entry</th>
+                    <th>Exit</th>
+                    <th>Entry Price</th>
+                    <th>Exit Price</th>
+                    <th>Return</th>
+                    <th>Hold</th>
+                    <th>Tier</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            <tr>
+                <td><strong>BA</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$233.19</td>
+                <td>$215.94</td>
+                <td class="loss">-7.40%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>60</td>
+            </tr>
+            
+            <tr>
+                <td><strong>BEN</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$24.94</td>
+                <td>$23.97</td>
+                <td class="loss">-3.86%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>59</td>
+            </tr>
+            
+            <tr>
+                <td><strong>OXY</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$44.27</td>
+                <td>$45.41</td>
+                <td class="win">2.56%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>55</td>
+            </tr>
+            
+            <tr>
+                <td><strong>WRB</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-22</td>
+                <td>$70.35</td>
+                <td>$72.26</td>
+                <td class="win">2.71%</td>
+                <td>39 días</td>
+                <td><span class="tier-badge">⭐ BUENA</span></td>
+                <td>57</td>
+            </tr>
+            
+            <tr>
+                <td><strong>CRM</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$232.59</td>
+                <td>$241.95</td>
+                <td class="win">4.02%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>58</td>
+            </tr>
+            
+            <tr>
+                <td><strong>NCLH</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-22</td>
+                <td>$24.36</td>
+                <td>$25.39</td>
+                <td class="win">4.23%</td>
+                <td>39 días</td>
+                <td><span class="tier-badge">⭐ BUENA</span></td>
+                <td>63</td>
+            </tr>
+            
+            <tr>
+                <td><strong>CVS</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-12</td>
+                <td>$65.65</td>
+                <td>$73.77</td>
+                <td class="win">12.36%</td>
+                <td>29 días</td>
+                <td><span class="tier-badge">🔵 MODERADA</span></td>
+                <td>58</td>
+            </tr>
+            
+            <tr>
+                <td><strong>INTC</strong></td>
+                <td>2025-08-14</td>
+                <td>2025-09-22</td>
+                <td>$23.86</td>
+                <td>$28.76</td>
+                <td class="win">20.54%</td>
+                <td>39 días</td>
+                <td><span class="tier-badge">⭐ BUENA</span></td>
+                <td>67</td>
+            </tr>
+            
+            </tbody>
+        </table>
+        
+        </div>
+
+        <div class="footer">
+            <p>🚀 Stock Analyzer 5D - Backtest Dashboard</p>
+            <p style="font-size: 0.9em; margin-top: 5px;">
+                Made with Claude Code
+            </p>
         </div>
     </div>
 
     <script>
-        let currentTimeframe = '7d';
-        let currentData = null;
-
-        // Check for available snapshots and results
-        async function loadBacktestData() {
-            try {
-                // Try to load the latest backtest result
-                const response = await fetch('data/backtest/latest_backtest.csv');
-
-                if (!response.ok) {
-                    throw new Error('No backtest results available yet');
-                }
-
-                const csvText = await response.text();
-                const lines = csvText.trim().split('\n');
-                const headers = lines[0].split(',');
-
-                const data = lines.slice(1).map(line => {
-                    const values = parseCSVLine(line);
-                    const obj = {};
-                    headers.forEach((header, i) => {
-                        obj[header.trim()] = values[i] ? values[i].trim() : '';
-                    });
-                    return obj;
-                });
-
-                // Store data and display
-                currentData = data;
-                displayBacktestResults(data);
-
-            } catch (error) {
-                console.error('Error loading backtest data:', error);
-                displayInstructions();
-            }
-        }
-
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let inQuotes = false;
-
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current);
-                    current = '';
-                } else {
-                    current += char;
+        // Equity Curve Chart
+        const equityCtx = document.getElementById('equityChart').getContext('2d');
+        new Chart(equityCtx, {
+            type: 'line',
+            data: {
+                labels: ['2025-08-14', '2025-09-12', '2025-09-12', '2025-09-12', '2025-09-12', '2025-09-12', '2025-09-22', '2025-09-22', '2025-09-22'],
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: [100000.0, 99260.26, 98876.85, 99274.7, 100502.06, 100758.89, 102828.12, 103262.9, 103542.87],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
                 }
             }
-            result.push(current);
-            return result;
-        }
+        });
 
-        function displayBacktestResults(data) {
-            // Show sections
-            document.getElementById('globalStats').style.display = 'block';
-            document.getElementById('tierStats').style.display = 'block';
-            document.getElementById('tradesTable').style.display = 'block';
-
-            // Update snapshots list
-            const snapshotsList = document.getElementById('snapshotsList');
-            const snapshotId = data[0]?.snapshot_id || 'Unknown';
-            const entryDate = data[0]?.entry_date || 'Unknown';
-
-            snapshotsList.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">📊</div>
-                    <h3 style="color: var(--text-primary); margin-bottom: 0.5rem;">Snapshot Analizado</h3>
-                    <p style="color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 0.5rem;">
-                        <strong>${snapshotId}</strong>
-                    </p>
-                    <p style="color: var(--text-secondary);">
-                        Entry Date: ${entryDate} • Samples: ${data.length}
-                    </p>
-                </div>
-            `;
-
-            // Update stats for current timeframe
-            updateStats(data, currentTimeframe);
-        }
-
-        function updateStats(data, timeframe) {
-            const returnCol = `return_${timeframe}`;
-            const exitCol = `exit_price_${timeframe}`;
-
-            // Filter valid returns
-            const validReturns = data
-                .map(row => parseFloat(row[returnCol]))
-                .filter(r => !isNaN(r));
-
-            if (validReturns.length === 0) {
-                // No data for this timeframe yet
-                document.getElementById('avgReturn').textContent = 'N/A';
-                document.getElementById('medianReturn').textContent = 'N/A';
-                document.getElementById('winRate').textContent = 'N/A';
-                document.getElementById('bestReturn').textContent = 'N/A';
-                document.getElementById('worstReturn').textContent = 'N/A';
-                document.getElementById('totalSamples').textContent = '0';
-                return;
-            }
-
-            // Calculate stats
-            const avgReturn = validReturns.reduce((a, b) => a + b, 0) / validReturns.length;
-            const sortedReturns = [...validReturns].sort((a, b) => a - b);
-            const medianReturn = sortedReturns[Math.floor(sortedReturns.length / 2)];
-            const winRate = (validReturns.filter(r => r > 0).length / validReturns.length) * 100;
-            const bestReturn = Math.max(...validReturns);
-            const worstReturn = Math.min(...validReturns);
-
-            // Update display
-            document.getElementById('avgReturn').textContent = avgReturn.toFixed(2) + '%';
-            document.getElementById('medianReturn').textContent = medianReturn.toFixed(2) + '%';
-            document.getElementById('winRate').textContent = winRate.toFixed(1) + '%';
-            document.getElementById('winRateBar').style.width = winRate + '%';
-            document.getElementById('bestReturn').textContent = '+' + bestReturn.toFixed(2) + '%';
-            document.getElementById('worstReturn').textContent = worstReturn.toFixed(2) + '%';
-            document.getElementById('totalSamples').textContent = validReturns.length;
-
-            // Update tier stats
-            updateTierStats(data, timeframe);
-
-            // Update top/bottom trades
-            updateTrades(data, timeframe);
-        }
-
-        function updateTierStats(data, timeframe) {
-            const returnCol = `return_${timeframe}`;
-
-            const tiers = {
-                'legendary': { name: '⭐⭐⭐⭐ LEGENDARY', min: 85 },
-                'epic': { name: '⭐⭐⭐ ÉPICAS', min: 75 },
-                'excellent': { name: '⭐⭐ EXCELENTES', min: 65 }
-            };
-
-            Object.entries(tiers).forEach(([key, tier]) => {
-                const tierData = data.filter(row =>
-                    parseFloat(row.super_score_4d) >= tier.min &&
-                    (key === 'legendary' ? parseFloat(row.super_score_4d) >= 85 :
-                     key === 'epic' ? parseFloat(row.super_score_4d) >= 75 && parseFloat(row.super_score_4d) < 85 :
-                     parseFloat(row.super_score_4d) >= 65 && parseFloat(row.super_score_4d) < 75)
-                );
-
-                const returns = tierData
-                    .map(row => parseFloat(row[returnCol]))
-                    .filter(r => !isNaN(r));
-
-                if (returns.length > 0) {
-                    const avg = returns.reduce((a, b) => a + b, 0) / returns.length;
-                    const winrate = (returns.filter(r => r > 0).length / returns.length) * 100;
-
-                    document.getElementById(`${key}-avg`).textContent = avg.toFixed(2) + '%';
-                    document.getElementById(`${key}-winrate`).textContent = winrate.toFixed(0) + '%';
-                    document.getElementById(`${key}-samples`).textContent = returns.length;
-                } else {
-                    document.getElementById(`${key}-avg`).textContent = 'N/A';
-                    document.getElementById(`${key}-winrate`).textContent = 'N/A';
-                    document.getElementById(`${key}-samples`).textContent = '0';
+        // Tier Performance Chart
+        const tierCtx = document.getElementById('tierChart').getContext('2d');
+        new Chart(tierCtx, {
+            type: 'bar',
+            data: {
+                labels: ['⭐ BUENA', '🔵 MODERADA'],
+                datasets: [{
+                    label: 'Win Rate %',
+                    data: [100.0, 60.0],
+                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    borderColor: '#667eea',
+                    borderWidth: 2,
+                    yAxisID: 'y'
+                }, {
+                    label: 'Avg Return %',
+                    data: [9.16, 1.54],
+                    backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                    borderColor: '#10b981',
+                    borderWidth: 2,
+                    yAxisID: 'y1'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Win Rate %'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Avg Return %'
+                        },
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
                 }
-            });
-        }
-
-        function updateTrades(data, timeframe) {
-            const returnCol = `return_${timeframe}`;
-            const exitCol = `exit_price_${timeframe}`;
-
-            // Sort by return
-            const sorted = [...data]
-                .filter(row => !isNaN(parseFloat(row[returnCol])))
-                .sort((a, b) => parseFloat(b[returnCol]) - parseFloat(a[returnCol]));
-
-            // Top 10 winners
-            const winners = sorted.slice(0, 10);
-            const winnersBody = document.getElementById('topWinnersBody');
-            winnersBody.innerHTML = winners.map(row => `
-                <tr>
-                    <td class="ticker">${row.ticker}</td>
-                    <td>$${parseFloat(row.entry_price).toFixed(2)}</td>
-                    <td>$${parseFloat(row[exitCol]).toFixed(2)}</td>
-                    <td class="positive">+${parseFloat(row[returnCol]).toFixed(2)}%</td>
-                    <td>${row.tier}</td>
-                </tr>
-            `).join('');
-
-            // Top 10 losers
-            const losers = sorted.slice(-10).reverse();
-            const losersBody = document.getElementById('topLosersBody');
-            losersBody.innerHTML = losers.map(row => `
-                <tr>
-                    <td class="ticker">${row.ticker}</td>
-                    <td>$${parseFloat(row.entry_price).toFixed(2)}</td>
-                    <td>$${parseFloat(row[exitCol]).toFixed(2)}</td>
-                    <td class="negative">${parseFloat(row[returnCol]).toFixed(2)}%</td>
-                    <td>${row.tier}</td>
-                </tr>
-            `).join('');
-        }
-
-        function displayInstructions() {
-            const snapshotsList = document.getElementById('snapshotsList');
-            snapshotsList.innerHTML = `
-                <div style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">📸</div>
-                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">No hay snapshots disponibles todavía</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
-                        El sistema de backtesting requiere snapshots históricos para analizar performance.<br>
-                        Crea tu primer snapshot ejecutando el comando:
-                    </p>
-                    <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; margin: 1rem auto; max-width: 500px; font-family: monospace;">
-                        python3 backtest_system.py
-                    </div>
-                    <p style="color: var(--text-secondary); margin-top: 1.5rem; font-size: 0.9rem;">
-                        Los snapshots se guardan en <code>data/backtest/snapshots/</code><br>
-                        Los resultados se guardan en <code>data/backtest/results/</code>
-                    </p>
-                    <div style="margin-top: 2rem;">
-                        <h4 style="color: var(--text-primary); margin-bottom: 1rem;">🎯 Próximos pasos:</h4>
-                        <div style="text-align: left; max-width: 600px; margin: 0 auto; color: var(--text-secondary);">
-                            <p style="margin-bottom: 0.5rem;">1. ✅ Crear primer snapshot (hoy)</p>
-                            <p style="margin-bottom: 0.5rem;">2. ⏱️ Esperar 7-30 días</p>
-                            <p style="margin-bottom: 0.5rem;">3. 📊 Analizar resultados con <code>analyze_latest_snapshot()</code></p>
-                            <p style="margin-bottom: 0.5rem;">4. 🔄 Repetir semanalmente para tracking continuo</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function switchTimeframe(timeframe) {
-            currentTimeframe = timeframe;
-
-            // Update tab styles
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            event.target.classList.add('active');
-
-            // Update stats if data is available
-            if (currentData) {
-                updateStats(currentData, timeframe);
             }
-        }
+        });
 
-        function updateStats(data, timeframe) {
-            // This would be populated when actual backtest results are loaded
-            // For now, showing placeholder
-        }
+        // Timing Convergence Chart
+        const timingCtx = document.getElementById('timingChart').getContext('2d');
+        new Chart(timingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Sin Timing', 'Con Timing'],
+                datasets: [{
+                    label: 'Win Rate %',
+                    data: [75.0, 0],
+                    backgroundColor: ['rgba(239, 68, 68, 0.8)', 'rgba(16, 185, 129, 0.8)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
 
-        // Load data on page load
-        loadBacktestData();
+        // Returns Distribution
+        const returnsCtx = document.getElementById('returnsChart').getContext('2d');
+        new Chart(returnsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['<-20%', '-20 to -10%', '-10 to -5%', '-5 to 0%', '0 to 5%', '5 to 10%', '10 to 20%', '20 to 50%', '50 to 100%', '>100%'],
+                datasets: [{
+                    label: 'Number of Trades',
+                    data: [0, 0, 1, 1, 4, 0, 1, 1, 0, 0],
+                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    borderColor: '#667eea',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Return %'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Count'
+                        }
+                    }
+                }
+            }
+        });
     </script>
 </body>
 </html>
