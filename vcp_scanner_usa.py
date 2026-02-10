@@ -235,19 +235,30 @@ class UniverseManager:
     def get_sp500_symbols():
         """Obtener símbolos del S&P 500"""
         try:
+            # Add user-agent to avoid 403 Forbidden
+            import requests
+            from io import StringIO
+
             url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-            tables = pd.read_html(url)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+
+            response = requests.get(url, headers=headers, timeout=10)
+            response.raise_for_status()
+
+            tables = pd.read_html(StringIO(response.text))
             sp500_df = tables[0]
             symbols = sp500_df['Symbol'].tolist()
-            
+
             clean_symbols = []
             for symbol in symbols:
                 if isinstance(symbol, str) and len(symbol) <= 5:
                     clean_symbols.append(symbol.replace('.', '-'))
-            
+
             logger.info(f"Obtenidos {len(clean_symbols)} símbolos del S&P 500")
             return clean_symbols
-            
+
         except Exception as e:
             logger.error(f"Error obteniendo S&P 500: {e}")
             return []
