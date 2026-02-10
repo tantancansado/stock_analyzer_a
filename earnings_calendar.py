@@ -1,245 +1,211 @@
 #!/usr/bin/env python3
 """
-EARNINGS CALENDAR
-Obtiene fechas de próximos earnings para tickers
+EARNINGS CALENDAR INTEGRATION
+Integra earnings dates para evitar trades riesgosos pre-earnings
 """
-import yfinance as yf
 import pandas as pd
-from datetime import datetime, timedelta
+import yfinance as yf
 from pathlib import Path
+from datetime import datetime, timedelta
+from typing import Dict, List
 import json
-from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 class EarningsCalendar:
-    """Obtiene y cachea fechas de earnings"""
+    """Manejo de earnings calendar para timing de trades"""
 
-    def __init__(self):
-        self.cache_dir = Path("data/earnings")
-        self.cache_dir.mkdir(parents=True, exist_ok=True)
-        self.cache_file = self.cache_dir / "earnings_cache.json"
-        self.cache = self.load_cache()
-
-    def load_cache(self):
-        """Carga cache de earnings"""
-        if self.cache_file.exists():
-            with open(self.cache_file, 'r') as f:
-                return json.load(f)
-        return {}
-
-    def save_cache(self):
-        """Guarda cache de earnings"""
-        with open(self.cache_file, 'w') as f:
-            json.dump(self.cache, f, indent=2)
-
-    def is_cache_valid(self, ticker):
-        """Verifica si el cache es válido (< 1 día)"""
-        if ticker not in self.cache:
-            return False
-
-        cache_time = datetime.fromisoformat(self.cache[ticker]['cached_at'])
-        age = datetime.now() - cache_time
-
-        return age < timedelta(days=1)
-
-    def get_earnings_date(self, ticker, force_refresh=False):
+    def __init__(self, warning_days: int = 7):
         """
-        Obtiene próxima fecha de earnings para un ticker
+        Args:
+            warning_days: Días de advertencia antes de earnings
+        """
+        self.warning_days = warning_days
+        self.cache_dir = Path("data/earnings_cache")
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
+
+    def get_earnings_date(self, ticker: str) -> Dict:
+        """
+        Obtiene próxima fecha de earnings
+
+        Args:
+            ticker: Stock ticker
 
         Returns:
-            dict: {
-                'ticker': str,
-                'next_earnings': str (YYYY-MM-DD) or None,
-                'days_to_earnings': int or None,
-                'cached_at': str
-            }
+            Dict con earnings info
         """
-        # Usar cache si es válido
-        if not force_refresh and self.is_cache_valid(ticker):
-            return self.cache[ticker]
+        cache_file = self.cache_dir / f"{ticker}_earnings.json"
+
+        # Check cache (válido por 1 día)
+        if cache_file.exists():
+            cache_age = datetime.now() - datetime.fromtimestamp(cache_file.stat().st_mtime)
+            if cache_age.total_seconds() < 86400:  # 24 horas
+                with open(cache_file, 'r') as f:
+                    return json.load(f)
 
         try:
             stock = yf.Ticker(ticker)
 
-            # Intentar obtener calendario de earnings
-            calendar = stock.calendar
+            # Get earnings dates
+            earnings_dates = stock.earnings_dates
 
-            next_earnings_str = None
-            days_to = None
+            if earnings_dates is not None and not earnings_dates.empty:
+                # Get next earnings date (first future date)
+                today = pd.Timestamp.now()
+                future_earnings = earnings_dates[earnings_dates.index > today]
 
-            if calendar is not None and isinstance(calendar, dict):
-                # Formato típico: {'Earnings Date': [datetime.date(...)], ...}
-                earnings_dates = calendar.get('Earnings Date', [])
+                if not future_earnings.empty:
+                    next_earnings = future_earnings.index[0]
+                    days_until = (next_earnings - today).days
 
-                if earnings_dates and len(earnings_dates) > 0:
-                    next_earnings = earnings_dates[0]
+                    result = {
+                        'ticker': ticker,
+                        'next_earnings_date': next_earnings.strftime('%Y-%m-%d'),
+                        'days_until': days_until,
+                        'has_upcoming_earnings': True,
+                        'warning': days_until <= self.warning_days,
+                        'timestamp': datetime.now().isoformat()
+                    }
+                else:
+                    result = {
+                        'ticker': ticker,
+                        'next_earnings_date': None,
+                        'days_until': None,
+                        'has_upcoming_earnings': False,
+                        'warning': False,
+                        'timestamp': datetime.now().isoformat()
+                    }
+            else:
+                result = {
+                    'ticker': ticker,
+                    'next_earnings_date': None,
+                    'days_until': None,
+                    'has_upcoming_earnings': False,
+                    'warning': False,
+                    'timestamp': datetime.now().isoformat()
+                }
 
-                    # Convertir a string y calcular días
-                    if next_earnings is not None:
-                        try:
-                            # Puede ser datetime.date, datetime.datetime, o pd.Timestamp
-                            if hasattr(next_earnings, 'strftime'):
-                                next_earnings_str = next_earnings.strftime('%Y-%m-%d')
-
-                                # Calcular días hasta earnings
-                                from datetime import date
-                                if isinstance(next_earnings, date):
-                                    days_to = (next_earnings - date.today()).days
-                                else:
-                                    days_to = (next_earnings - datetime.now()).days
-                            else:
-                                # Intentar parsear
-                                next_earnings_dt = pd.to_datetime(next_earnings)
-                                next_earnings_str = next_earnings_dt.strftime('%Y-%m-%d')
-                                days_to = (next_earnings_dt - pd.Timestamp.now()).days
-                        except Exception as e:
-                            print(f"   Debug {ticker}: Error parseando fecha: {e}")
-                            next_earnings_str = None
-                            days_to = None
-
-            result = {
-                'ticker': ticker,
-                'next_earnings': next_earnings_str,
-                'days_to_earnings': days_to,
-                'cached_at': datetime.now().isoformat()
-            }
-
-            # Actualizar cache
-            self.cache[ticker] = result
+            # Cache result
+            with open(cache_file, 'w') as f:
+                json.dump(result, f)
 
             return result
 
         except Exception as e:
-            print(f"⚠️  Error obteniendo earnings para {ticker}: {e}")
-
-            result = {
+            print(f"   ⚠️  Error obteniendo earnings para {ticker}: {e}")
+            return {
                 'ticker': ticker,
-                'next_earnings': None,
-                'days_to_earnings': None,
-                'cached_at': datetime.now().isoformat(),
+                'next_earnings_date': None,
+                'days_until': None,
+                'has_upcoming_earnings': False,
+                'warning': False,
                 'error': str(e)
             }
 
-            self.cache[ticker] = result
-            return result
+    def scan_opportunities(self, opportunities_csv: str) -> pd.DataFrame:
+        """Escanea oportunidades y añade earnings info"""
+        print("\n📅 EARNINGS CALENDAR SCAN")
+        print("=" * 70)
 
-    def get_earnings_batch(self, tickers, max_workers=10):
-        """
-        Obtiene earnings para múltiples tickers en paralelo
+        df = pd.read_csv(opportunities_csv)
+        df = df[df['super_score_5d'] >= 55].copy()
 
-        Args:
-            tickers: Lista de tickers
-            max_workers: Número de threads paralelos
+        print(f"   Escaneando earnings para {len(df)} oportunidades...")
 
-        Returns:
-            dict: {ticker: earnings_info}
-        """
-        print(f"📅 Obteniendo earnings calendar para {len(tickers)} tickers...")
+        earnings_data = []
+        for idx, row in df.iterrows():
+            ticker = row['ticker']
+            print(f"   {idx+1}/{len(df)} {ticker}...", end='\r')
+            earnings = self.get_earnings_date(ticker)
+            earnings_data.append(earnings)
 
-        results = {}
+        print(f"\n   ✅ {len(earnings_data)} tickers escaneados")
 
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            future_to_ticker = {
-                executor.submit(self.get_earnings_date, ticker): ticker
-                for ticker in tickers
+        earnings_df = pd.DataFrame(earnings_data)
+        result_df = df.merge(earnings_df[['ticker', 'next_earnings_date', 'days_until', 'warning']],
+                           on='ticker', how='left')
+
+        return result_df
+
+    def filter_safe_opportunities(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Filtra oportunidades sin earnings próximos"""
+        safe_df = df[
+            (df['warning'] == False) | (df['warning'].isna())
+        ].copy()
+        return safe_df
+
+    def generate_alerts(self, df: pd.DataFrame) -> List[Dict]:
+        """Genera alertas de earnings"""
+        alerts = []
+        warning_df = df[df['warning'] == True]
+
+        for _, row in warning_df.iterrows():
+            alert = {
+                'type': 'EARNINGS_WARNING',
+                'ticker': row['ticker'],
+                'days_until': row['days_until'],
+                'earnings_date': row['next_earnings_date'],
+                'message': f"⚠️  {row['ticker']}: Earnings en {row['days_until']} días ({row['next_earnings_date']})",
+                'action': 'NO ENTRAR - Esperar post-earnings'
             }
+            alerts.append(alert)
 
-            completed = 0
-            for future in as_completed(future_to_ticker):
-                ticker = future_to_ticker[future]
-                try:
-                    result = future.result()
-                    results[ticker] = result
-                    completed += 1
+        return alerts
 
-                    if completed % 10 == 0:
-                        print(f"   Procesados: {completed}/{len(tickers)}")
+    def print_summary(self, df: pd.DataFrame, alerts: List[Dict]):
+        """Imprime resumen"""
+        print("\n📊 EARNINGS CALENDAR SUMMARY")
+        print("=" * 70)
 
-                    # Mostrar si earnings están cerca
-                    if result['days_to_earnings'] is not None:
-                        days = result['days_to_earnings']
-                        if 0 <= days <= 7:
-                            print(f"   ⚠️  {ticker}: Earnings en {days} días ({result['next_earnings']})")
+        total = len(df)
+        with_earnings = len(df[df['has_upcoming_earnings'] == True])
+        warnings = len(df[df['warning'] == True])
+        safe = len(df[df['warning'] == False])
 
-                except Exception as e:
-                    print(f"   ❌ Error procesando {ticker}: {e}")
-                    results[ticker] = {
-                        'ticker': ticker,
-                        'next_earnings': None,
-                        'days_to_earnings': None,
-                        'error': str(e)
-                    }
+        print(f"\n📈 ESTADÍSTICAS:")
+        print(f"   Total Oportunidades: {total}")
+        print(f"   Con Earnings Próximos: {with_earnings}")
+        print(f"   ⚠️  Warnings (earnings <{self.warning_days}d): {warnings}")
+        print(f"   ✅ Safe to Enter: {safe}")
 
-        # Guardar cache
-        self.save_cache()
+        if alerts:
+            print(f"\n⚠️  EARNINGS ALERTS ({len(alerts)}):")
+            for alert in alerts[:10]:
+                print(f"   {alert['message']}")
+                print(f"      → {alert['action']}")
 
-        print(f"✅ Earnings calendar actualizado: {len(results)} tickers")
+        safe_df = self.filter_safe_opportunities(df)
+        if not safe_df.empty:
+            print(f"\n✅ TOP 10 SAFE OPPORTUNITIES (sin earnings próximos):")
+            top_safe = safe_df.nlargest(10, 'super_score_5d')
+            for _, row in top_safe.iterrows():
+                earnings_info = ""
+                if pd.notna(row.get('next_earnings_date')):
+                    earnings_info = f" | Next earnings: {row['next_earnings_date']} ({row['days_until']}d)"
+                print(f"   {row['ticker']:6} - Score: {row['super_score_5d']:5.1f}{earnings_info}")
 
-        # Stats
-        with_earnings = len([r for r in results.values() if r['next_earnings'] is not None])
-        upcoming_7d = len([r for r in results.values() if r.get('days_to_earnings', 999) is not None and 0 <= r['days_to_earnings'] <= 7])
+    def save_results(self, df: pd.DataFrame, alerts: List[Dict],
+                    output_csv: str = "docs/opportunities_with_earnings.csv",
+                    output_json: str = "docs/earnings_alerts.json"):
+        """Guarda resultados"""
+        df.to_csv(output_csv, index=False)
+        print(f"\n💾 Opportunities con earnings guardadas: {output_csv}")
 
-        print(f"   📊 {with_earnings}/{len(results)} con earnings conocidos")
-        print(f"   ⚠️  {upcoming_7d} con earnings en próximos 7 días")
-
-        return results
-
-    def enrich_opportunities_csv(self, csv_path):
-        """
-        Enriquece CSV de oportunidades con datos de earnings
-
-        Args:
-            csv_path: Path al CSV de oportunidades
-
-        Returns:
-            DataFrame enriquecido
-        """
-        print(f"\n📈 Enriqueciendo {csv_path} con earnings calendar...")
-
-        # Cargar CSV
-        df = pd.read_csv(csv_path)
-        tickers = df['ticker'].unique().tolist()
-
-        # Obtener earnings
-        earnings_data = self.get_earnings_batch(tickers)
-
-        # Añadir columnas
-        df['next_earnings'] = df['ticker'].map(lambda t: earnings_data.get(t, {}).get('next_earnings', ''))
-        df['days_to_earnings'] = df['ticker'].map(lambda t: earnings_data.get(t, {}).get('days_to_earnings', None))
-
-        # Guardar CSV actualizado
-        output_path = str(csv_path).replace('.csv', '_with_earnings.csv')
-        df.to_csv(output_path, index=False)
-
-        print(f"✅ CSV enriquecido guardado: {output_path}")
-
-        return df
+        with open(output_json, 'w') as f:
+            json.dump({
+                'timestamp': datetime.now().isoformat(),
+                'alerts': alerts
+            }, f, indent=2)
+        print(f"💾 Earnings alerts guardadas: {output_json}")
 
 
 def main():
-    """Test earnings calendar"""
-    print("📅 EARNINGS CALENDAR TEST")
-    print("=" * 80)
-
-    calendar = EarningsCalendar()
-
-    # Test con algunos tickers
-    test_tickers = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA']
-
-    print(f"\nTest con {len(test_tickers)} tickers:")
-    results = calendar.get_earnings_batch(test_tickers)
-
-    print(f"\nResultados:")
-    for ticker, data in results.items():
-        if data['next_earnings']:
-            print(f"  {ticker:6} - {data['next_earnings']} ({data['days_to_earnings']} días)")
-        else:
-            print(f"  {ticker:6} - No disponible")
-
-    # Enriquecer CSV de oportunidades 4D
-    csv_path = Path('docs/super_opportunities_4d_complete.csv')
-    if csv_path.exists():
-        print("\n" + "="*80)
-        calendar.enrich_opportunities_csv(csv_path)
+    """Main execution"""
+    calendar = EarningsCalendar(warning_days=7)
+    df = calendar.scan_opportunities("docs/super_opportunities_5d_complete.csv")
+    alerts = calendar.generate_alerts(df)
+    calendar.print_summary(df, alerts)
+    calendar.save_results(df, alerts)
+    print("\n✅ Earnings calendar scan completado!")
 
 
 if __name__ == "__main__":
