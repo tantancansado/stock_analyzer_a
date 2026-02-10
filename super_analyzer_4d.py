@@ -15,6 +15,7 @@ from datetime import datetime
 from collections import defaultdict
 from sector_enhancement import SectorEnhancement
 from fundamental_analyzer import FundamentalAnalyzer
+from institutional_tracker import InstitutionalTracker
 
 class SuperAnalyzer4D:
     """Analizador 5D con sector enhancement + fundamental analysis"""
@@ -30,6 +31,7 @@ class SuperAnalyzer4D:
         # Nuevos módulos
         self.sector_enhancer = SectorEnhancement()
         self.fundamental_analyzer = FundamentalAnalyzer()
+        self.institutional_tracker = InstitutionalTracker()
 
         # Cargar DJ Sectorial
         print("🔍 Cargando Sector Enhancement...")
@@ -37,6 +39,14 @@ class SuperAnalyzer4D:
             print("   ✅ DJ Sectorial cargado correctamente")
         else:
             print("   ⚠️  DJ Sectorial no disponible - usando scores base")
+
+        # Cargar holdings institucionales
+        print("🐋 Cargando Institutional Holdings...")
+        cached_holdings = self.institutional_tracker.load_cached_holdings()
+        if cached_holdings:
+            print(f"   ✅ {len(cached_holdings)} whales con holdings cacheados")
+        else:
+            print("   ⚠️  Sin holdings cacheados - Scores institucionales serán 0")
 
     def load_vcp_data(self):
         """Carga datos de VCP scanner"""
@@ -160,8 +170,8 @@ class SuperAnalyzer4D:
             sector_momentum = self.sector_enhancer.get_sector_momentum(ticker)
             tier_boost = self.sector_enhancer.calculate_tier_boost(sector_score, sector_momentum)
 
-            # Institutional score (placeholder hasta que tengamos datos reales)
-            institutional_score = 0
+            # Institutional score - REAL usando whale holdings
+            institutional_score = self.institutional_tracker.calculate_institutional_score(ticker)
 
             # Calcular super score 4D base
             result = self.calculate_4d_score(

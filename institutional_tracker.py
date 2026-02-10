@@ -10,6 +10,7 @@ from pathlib import Path
 import json
 import time
 from collections import defaultdict
+from parse_13f_holdings import Holdings13FParser
 
 # === WHALE INVESTORS (Top 50 institucionales) ===
 WHALE_INVESTORS = {
@@ -89,37 +90,142 @@ class InstitutionalTracker:
             print(f"   ❌ Error: {e}")
             return None
 
-    def parse_13f_xml(self, cik):
+    def parse_13f_xml(self, cik, filing_url):
         """
-        Parse XML de 13F para extraer holdings
-        Formato simplificado por ahora
+        Parse XML de 13F para extraer holdings usando Holdings13FParser
         """
-        # TODO: Implementar parser completo de XML
-        # Por ahora retornamos estructura de ejemplo
-        return {
-            'holdings': [],
-            'total_value': 0,
-            'filing_date': datetime.now().strftime('%Y-%m-%d')
-        }
+        print(f"   📊 Parseando holdings del filing...")
+
+        try:
+            parser = Holdings13FParser()
+            holdings = parser.parse_filing(filing_url)
+
+            if holdings:
+                # Calcular total value
+                total_value = sum(h.get('value', 0) for h in holdings)
+
+                return {
+                    'holdings': holdings,
+                    'total_value': total_value,
+                    'filing_date': datetime.now().strftime('%Y-%m-%d'),
+                    'holdings_count': len(holdings)
+                }
+            else:
+                print(f"   ⚠️  No se pudieron parsear holdings")
+                return {
+                    'holdings': [],
+                    'total_value': 0,
+                    'filing_date': datetime.now().strftime('%Y-%m-%d')
+                }
+
+        except Exception as e:
+            print(f"   ❌ Error parseando: {e}")
+            return {
+                'holdings': [],
+                'total_value': 0,
+                'filing_date': datetime.now().strftime('%Y-%m-%d')
+            }
+
+    def load_cached_holdings(self):
+        """
+        Carga todos los holdings cacheados
+        Returns dict: {cik: holdings_data}
+        """
+        holdings_dir = Path("data/institutional/holdings")
+        all_holdings = {}
+
+        if not holdings_dir.exists():
+            return all_holdings
+
+        for holdings_file in holdings_dir.glob("*.json"):
+            try:
+                with open(holdings_file, 'r') as f:
+                    data = json.load(f)
+                    cik = data.get('cik')
+                    if cik:
+                        all_holdings[cik] = data
+            except Exception as e:
+                print(f"   ⚠️  Error loading {holdings_file}: {e}")
+
+        return all_holdings
 
     def get_whale_activity(self, ticker):
         """Obtiene actividad de whales para un ticker específico"""
-        print(f"\n🐋 BUSCANDO ACTIVIDAD WHALE PARA {ticker}")
-        print("=" * 70)
+        ticker = ticker.upper()
 
         whale_activity = {
             'ticker': ticker,
             'whales_holding': [],
-            'new_positions': 0,
-            'increased_positions': 0,
-            'decreased_positions': 0,
-            'total_whale_score': 0
+            'num_whales': 0,
+            'total_value': 0,
+            'total_shares': 0,
+            'whale_score': 0
         }
 
-        # Buscar en holdings cacheados
-        # TODO: Implementar búsqueda en holdings reales
+        # Cargar holdings cacheados
+        all_holdings = self.load_cached_holdings()
+
+        if not all_holdings:
+            return whale_activity
+
+        # Buscar ticker en cada whale's holdings
+        for cik, holdings_data in all_holdings.items():
+            whale_name = WHALE_INVESTORS.get(cik, {}).get('name', f'CIK {cik}')
+            whale_tier = WHALE_INVESTORS.get(cik, {}).get('tier', 'unknown')
+
+            # Buscar ticker en holdings
+            for holding in holdings_data.get('holdings', []):
+                holding_ticker = (holding.get('ticker') or '').upper()
+
+                if holding_ticker == ticker:
+                    # Found match!
+                    value = holding.get('value', 0)
+                    shares = holding.get('shares', 0)
+
+                    whale_activity['whales_holding'].append({
+                        'whale_name': whale_name,
+                        'tier': whale_tier,
+                        'value': value,
+                        'shares': shares,
+                        'company_name': holding.get('company_name', '')
+                    })
+
+                    whale_activity['num_whales'] += 1
+                    whale_activity['total_value'] += value
+                    whale_activity['total_shares'] += shares
+
+        # Calcular whale score
+        if whale_activity['num_whales'] > 0:
+            # Score basado en número de whales y tier quality
+            base_score = whale_activity['num_whales'] * 10  # 10 puntos por whale
+
+            # Bonus por tier (legends valen más)
+            tier_bonus = 0
+            for whale in whale_activity['whales_holding']:
+                if whale['tier'] == 'legend':
+                    tier_bonus += 15
+                elif whale['tier'] == 'mega':
+                    tier_bonus += 10
+                elif whale['tier'] == 'hedge':
+                    tier_bonus += 5
+
+            whale_activity['whale_score'] = min(100, base_score + tier_bonus)
 
         return whale_activity
+
+    def calculate_institutional_score(self, ticker):
+        """
+        Calcula score institucional para un ticker (0-100)
+
+        Factores:
+        - Número de whales holding (más = mejor)
+        - Tier quality (legends > mega > hedge)
+        - Total position value
+
+        Returns: float 0-100
+        """
+        activity = self.get_whale_activity(ticker)
+        return activity.get('whale_score', 0)
 
     def scan_all_whales(self):
         """Escanea todos los whales y cachea sus holdings"""
