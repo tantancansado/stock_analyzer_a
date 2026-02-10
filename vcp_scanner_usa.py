@@ -28,6 +28,7 @@ from datetime import datetime, timedelta
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple, Union
 import logging
+import argparse
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -1290,18 +1291,93 @@ def show_calibrated_guide():
     
     input("\nPresiona Enter para continuar...")
 
+def parse_arguments():
+    """Parse command-line arguments for non-interactive execution"""
+    parser = argparse.ArgumentParser(
+        description='VCP Scanner - Interactive or Automated Execution',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='''
+Examples:
+  python3 vcp_scanner_usa.py              # Interactive menu
+  python3 vcp_scanner_usa.py --sp500      # Scan S&P 500
+  python3 vcp_scanner_usa.py --nasdaq     # Scan NASDAQ
+  python3 vcp_scanner_usa.py --quick      # Quick test (30 stocks)
+  python3 vcp_scanner_usa.py --symbols AAPL,MSFT,NVDA
+        '''
+    )
+
+    parser.add_argument('--sp500', action='store_true',
+                       help='Scan S&P 500 stocks (~500 stocks)')
+    parser.add_argument('--nasdaq', action='store_true',
+                       help='Scan NASDAQ stocks (~3000 stocks)')
+    parser.add_argument('--quick', action='store_true',
+                       help='Quick test with 30 popular stocks')
+    parser.add_argument('--symbols', type=str,
+                       help='Comma-separated list of symbols (e.g., AAPL,MSFT,NVDA)')
+
+    return parser.parse_args()
+
 if __name__ == "__main__":
     try:
-        print("🎯 VCP SCANNER CALIBRADO - FUNCIONALIDAD COMPLETA")
-        print("✅ Basado en investigación de patrones VCP reales")
-        print("✅ Tolerancias flexibles como traders profesionales")
-        print("✅ Sistema de puntuación granular")
-        print("✅ Detecta más patrones genuinos")
-        print("✅ SIN ERRORES DE SINTAXIS")
-        print()
-        
-        main_menu()
-        
+        args = parse_arguments()
+
+        # Check if running in non-interactive mode
+        if args.sp500 or args.nasdaq or args.quick or args.symbols:
+            # Non-interactive mode - run scan directly
+            print("🎯 VCP SCANNER - NON-INTERACTIVE MODE")
+            print("=" * 70)
+
+            scanner = CalibratedVCPScanner("GPA37GJVIDCNNTRL")
+
+            if args.quick:
+                print("🔥 Quick test mode - scanning 30 popular stocks...")
+                symbols = [
+                    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX',
+                    'CRM', 'ADBE', 'PYPL', 'SQ', 'SHOP', 'ROKU', 'ZM', 'DOCU',
+                    'TWLO', 'OKTA', 'CRWD', 'ZS', 'DDOG', 'SNOW', 'PLTR', 'COIN',
+                    'RBLX', 'U', 'SOFI', 'HOOD', 'RIVN', 'LCID', 'MRNA', 'BNTX'
+                ]
+            elif args.nasdaq:
+                print("💎 NASDAQ mode - scanning ~3000 stocks...")
+                print("⏱️  Estimated time: 1-2 hours")
+                symbols = scanner.universe_manager.get_nasdaq_symbols()
+                if not symbols:
+                    print("❌ Could not get NASDAQ symbols")
+                    exit(1)
+            elif args.symbols:
+                custom_symbols = [s.strip().upper() for s in args.symbols.split(',')]
+                print(f"🎯 Custom symbols mode - scanning {len(custom_symbols)} stocks...")
+                symbols = custom_symbols
+            else:  # args.sp500 is default
+                print("📈 S&P 500 mode - scanning ~500 stocks...")
+                print("⏱️  Estimated time: 15-25 minutes")
+                symbols = scanner.universe_manager.get_sp500_symbols()
+                if not symbols:
+                    print("❌ Could not get S&P 500 symbols")
+                    exit(1)
+
+            print(f"📊 Scanning {len(symbols)} symbols...")
+            print("=" * 70)
+
+            results = scanner.scan_sequential(symbols)
+            scanner.generate_detailed_report(results)
+
+            print("=" * 70)
+            print(f"✅ Scan completed: {len(results)} VCP patterns detected")
+            print("=" * 70)
+
+        else:
+            # Interactive mode - show menu as usual
+            print("🎯 VCP SCANNER CALIBRADO - FUNCIONALIDAD COMPLETA")
+            print("✅ Basado en investigación de patrones VCP reales")
+            print("✅ Tolerancias flexibles como traders profesionales")
+            print("✅ Sistema de puntuación granular")
+            print("✅ Detecta más patrones genuinos")
+            print("✅ SIN ERRORES DE SINTAXIS")
+            print()
+
+            main_menu()
+
     except KeyboardInterrupt:
         print("\n👋 Saliendo...")
     except Exception as e:
