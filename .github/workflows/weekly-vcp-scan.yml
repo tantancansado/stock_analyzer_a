@@ -1,0 +1,94 @@
+name: Weekly VCP Scanner
+
+on:
+  schedule:
+    # Domingos a las 2:00 AM UTC (antes de que abra el mercado el lunes)
+    - cron: '0 2 * * 0'
+
+  # Permite ejecución manual
+  workflow_dispatch:
+
+jobs:
+  vcp-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas yfinance requests beautifulsoup4 lxml
+
+      - name: 🚀 Run VCP Scanner
+        run: |
+          echo "🔍 Ejecutando VCP Scanner USA..."
+          python3 vcp_scanner_usa.py
+
+      - name: 📊 Check scan results
+        run: |
+          LATEST_SCAN=$(find docs/reports/vcp -name "vcp_scan_*" -type d | sort -r | head -1)
+          if [ -d "$LATEST_SCAN" ]; then
+            echo "✅ Scan completado: $LATEST_SCAN"
+            echo "📈 Stocks encontrados:"
+            wc -l $LATEST_SCAN/data.csv
+          else
+            echo "❌ No se encontró el scan"
+            exit 1
+          fi
+
+      - name: 💾 Commit & Push results
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+
+          # Add VCP scan results
+          git add docs/reports/vcp/
+
+          # Create commit with scan info
+          SCAN_DATE=$(date +%Y-%m-%d)
+          SCAN_DIR=$(find docs/reports/vcp -name "vcp_scan_*" -type d | sort -r | head -1)
+          NUM_STOCKS=$(tail -n +2 $SCAN_DIR/data.csv 2>/dev/null | wc -l | tr -d ' ')
+
+          git commit -m "chore: Weekly VCP scan - $SCAN_DATE
+
+          📊 VCP Patterns Detected: $NUM_STOCKS stocks
+          🤖 Automated via GitHub Actions
+
+          Scan directory: $(basename $SCAN_DIR)" || echo "No changes to commit"
+
+          git push
+
+      - name: 📢 Create scan summary
+        run: |
+          SCAN_DIR=$(find docs/reports/vcp -name "vcp_scan_*" -type d | sort -r | head -1)
+
+          echo "# 🚀 Weekly VCP Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Scan Date:** $(date +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f "$SCAN_DIR/data.csv" ]; then
+            NUM_STOCKS=$(tail -n +2 $SCAN_DIR/data.csv | wc -l | tr -d ' ')
+            echo "**Stocks Found:** $NUM_STOCKS" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Top 10 VCP Patterns" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Ticker | VCP Score | Stage |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-----------|-------|" >> $GITHUB_STEP_SUMMARY
+
+            # Extract top 10 (skip header, sort by score)
+            tail -n +2 $SCAN_DIR/data.csv | sort -t',' -k2 -rn | head -10 | \
+              awk -F',' '{printf "| %s | %.1f | %s |\n", $1, $2, $3}' >> $GITHUB_STEP_SUMMARY
+          fi
+
+env:
+  PYTHONUNBUFFERED: 1

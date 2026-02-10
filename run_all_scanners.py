@@ -126,12 +126,16 @@ class MasterScanner:
             timeout=600
         )
 
-        # 9. Backtest Snapshot Creation
-        self.log("\n📸 FASE 9: BACKTEST SNAPSHOT")
+        # 9. Data Quality Validation
+        self.log("\n✅ FASE 9: DATA QUALITY VALIDATION")
+        self.run_data_quality_checks()
+
+        # 10. Backtest Snapshot Creation
+        self.log("\n📸 FASE 10: BACKTEST SNAPSHOT")
         self.create_backtest_snapshot()
 
-        # 10. Telegram Alerts (si están configuradas)
-        self.log("\n📱 FASE 10: TELEGRAM ALERTS")
+        # 11. Telegram Alerts (si están configuradas)
+        self.log("\n📱 FASE 11: TELEGRAM ALERTS")
         self.send_telegram_alerts()
 
     def create_backtest_snapshot(self):
@@ -225,6 +229,64 @@ class MasterScanner:
             self.log(f"   ℹ️  Telegram no configurado: {e}")
         except Exception as e:
             self.log(f"   ⚠️  Error enviando alertas: {e}")
+
+    def run_data_quality_checks(self):
+        """Ejecuta validación de calidad de datos en el CSV 5D"""
+        try:
+            from validators.data_quality import DataQualityValidator
+            from pathlib import Path
+
+            # Buscar CSV 5D (con o sin earnings)
+            csv_path = Path('docs/super_opportunities_5d_complete_with_earnings.csv')
+            if not csv_path.exists():
+                csv_path = Path('docs/super_opportunities_5d_complete.csv')
+
+            if not csv_path.exists():
+                self.log("   ⚠️  CSV 5D no encontrado - saltando validación")
+                return
+
+            self.log(f"   📊 Validando: {csv_path}")
+
+            # Ejecutar validación
+            validator = DataQualityValidator(verbose=False)
+            report = validator.validate_5d_pipeline(str(csv_path))
+
+            # Guardar reporte
+            validator.save_report(report, "data_quality_report.json")
+            self.log(f"   💾 Reporte guardado: data_quality_report.json")
+
+            # Mostrar resultados
+            total_rows = report.get('total_rows', 0)
+            completeness = report.get('completeness', {})
+            comp_score = completeness.get('score', 0) if isinstance(completeness, dict) else 0
+
+            if report['passed']:
+                self.log(f"   ✅ VALIDACIÓN PASSED - Datos OK")
+                self.log(f"      Tickers: {total_rows}")
+                self.log(f"      Completeness: {comp_score:.1f}%")
+            else:
+                num_issues = len(report.get('issues', []))
+                self.log(f"   ⚠️  VALIDACIÓN FAILED - {num_issues} problemas")
+                self.log(f"      Tickers: {total_rows}")
+                self.log(f"      Completeness: {comp_score:.1f}%")
+
+                # Mostrar primeros 5 problemas
+                issues = report.get('issues', [])
+                if issues:
+                    self.log(f"\n   Top 5 problemas:")
+                    for i, issue in enumerate(issues[:5], 1):
+                        self.log(f"      {i}. {issue}")
+
+                    if len(issues) > 5:
+                        self.log(f"      ... y {len(issues) - 5} más (ver reporte)")
+
+                # NO falla el workflow, solo advierte
+                self.log(f"\n   ℹ️  Continuando a pesar de los warnings...")
+
+        except ImportError:
+            self.log("   ⚠️  validators/data_quality.py no encontrado")
+        except Exception as e:
+            self.log(f"   ⚠️  Error en validación: {e}")
 
     def print_summary(self):
         """Imprime resumen de ejecución"""

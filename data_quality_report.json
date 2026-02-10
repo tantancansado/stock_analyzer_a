@@ -1,52 +1,50 @@
 {
-  "file": "docs/super_opportunities_5d_complete.csv",
-  "timestamp": "2026-02-09T09:56:27.147900",
+  "file": "docs/super_opportunities_5d_complete_with_earnings.csv",
+  "timestamp": "2026-02-10T18:52:06.332470",
   "passed": false,
   "issues": [
-    "Data completeness: 57.5%",
-    "Unrealistic values in upside_percent: max=886.64"
+    "Unrealistic values in upside_percent: max=1346.17"
   ],
   "schema_valid": true,
-  "total_rows": 685,
+  "total_rows": 684,
   "completeness": {
-    "score": 57.5,
-    "complete_rows": 394,
-    "total_rows": 685,
+    "score": 99.7,
+    "complete_rows": 682,
+    "total_rows": 684,
     "column_completeness": {
       "ticker": {
         "non_null": 684,
-        "percentage": 99.9
+        "percentage": 100.0
       },
       "super_score_5d": {
-        "non_null": 685,
+        "non_null": 684,
         "percentage": 100.0
       },
       "vcp_score": {
-        "non_null": 685,
+        "non_null": 684,
         "percentage": 100.0
       },
       "current_price": {
-        "non_null": 394,
-        "percentage": 57.5
+        "non_null": 682,
+        "percentage": 99.7
       }
     }
   },
   "outliers": {
     "upside_percent": {
-      "count": 43,
-      "percentage": 6.3,
-      "mean": 54.84,
-      "median": 19.84,
-      "std": 104.01,
+      "count": 75,
+      "percentage": 11.0,
+      "mean": 53.27,
+      "median": 18.49,
+      "std": 118.32,
       "min": -46.4,
-      "max": 886.64
+      "max": 1346.17
     }
   },
   "price_targets": {
     "passed": false,
     "issues": [
-      "327 tickers missing price targets (47.7%)",
-      "23 tickers with upside >200%"
+      "37 tickers with upside >200%"
     ]
   },
   "duplicates": 0
