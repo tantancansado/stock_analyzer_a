@@ -811,19 +811,38 @@ class DataProvider:
         self.alpha_vantage_key = alpha_vantage_key or "GPA37GJVIDCNNTRL"
         self.last_request_time = 0
     
-    def get_stock_data(self, symbol):
-        """Obtener datos con período extendido - SIN ERRORES"""
+    def get_stock_data(self, symbol, as_of_date=None):
+        """Obtener datos con período extendido - SIN ERRORES
+
+        Args:
+            symbol: Stock ticker symbol
+            as_of_date: Optional date string (YYYY-MM-DD). If provided, only fetch data up to this date.
+                       This prevents look-ahead bias in historical backtesting.
+        """
         try:
             # Rate limiting más conservador
             elapsed = time.time() - self.last_request_time
             if elapsed < 1.5:
                 time.sleep(1.5 - elapsed)
             self.last_request_time = time.time()
-            
+
             ticker = yf.Ticker(symbol)
-            
-            # Período más largo para mejor análisis VCP
-            df = ticker.history(period='1y', interval='1d', timeout=30)
+
+            # 🔴 FIX LOOK-AHEAD BIAS: Use date range instead of period
+            if as_of_date:
+                # Historical mode: fetch data up to as_of_date
+                end_date = datetime.strptime(as_of_date, '%Y-%m-%d')
+                start_date = end_date - timedelta(days=365)  # 1 year lookback
+
+                df = ticker.history(
+                    start=start_date.strftime('%Y-%m-%d'),
+                    end=end_date.strftime('%Y-%m-%d'),
+                    interval='1d',
+                    timeout=30
+                )
+            else:
+                # Current mode: use standard period
+                df = ticker.history(period='1y', interval='1d', timeout=30)
             
             if df.empty or len(df) < 150:
                 return None
@@ -859,17 +878,26 @@ class DataProvider:
 
 class CalibratedVCPScanner:
     """Scanner VCP calibrado completo con criterios realistas"""
-    
-    def __init__(self, alpha_vantage_key=None):
+
+    def __init__(self, alpha_vantage_key=None, as_of_date=None):
+        """Initialize VCP Scanner
+
+        Args:
+            alpha_vantage_key: API key for Alpha Vantage (optional)
+            as_of_date: Historical date (YYYY-MM-DD) for scoring. Prevents look-ahead bias.
+        """
         self.data_provider = DataProvider(alpha_vantage_key)
         self.analyzer = CalibratedVCPAnalyzer()
         self.universe_manager = UniverseManager()
-        
+
+        # 🔴 FIX LOOK-AHEAD BIAS: Store as_of_date
+        self.as_of_date = as_of_date
+
         # Filtros más flexibles
         self.min_price = 5.0           # Más bajo
         self.min_volume = 50_000       # Más bajo
         self.min_market_cap = 100_000_000  # Más bajo
-        
+
         # Contadores
         self.processed_count = 0
         self.vcp_found_count = 0
@@ -880,8 +908,9 @@ class CalibratedVCPScanner:
         try:
             if self.processed_count % 50 == 0:
                 gc.collect()
-            
-            result = self.data_provider.get_stock_data(symbol)
+
+            # 🔴 FIX LOOK-AHEAD BIAS: Pass as_of_date to data provider
+            result = self.data_provider.get_stock_data(symbol, as_of_date=self.as_of_date)
             if not result:
                 return None
             
@@ -1371,11 +1400,23 @@ def show_calibrated_guide():
 
 class VCPScannerEnhanced:
     """Wrapper para integración con sistema_principal.py"""
-    
-    def __init__(self, alpha_vantage_key=None):
-        self.scanner = CalibratedVCPScanner(alpha_vantage_key)
+
+    def __init__(self, alpha_vantage_key=None, as_of_date=None):
+        """Initialize VCP Scanner Enhanced
+
+        Args:
+            alpha_vantage_key: API key for Alpha Vantage (optional)
+            as_of_date: Historical date (YYYY-MM-DD) for scoring. Prevents look-ahead bias.
+        """
+        # 🔴 FIX LOOK-AHEAD BIAS: Pass as_of_date to scanner
+        self.scanner = CalibratedVCPScanner(alpha_vantage_key, as_of_date=as_of_date)
         self.last_results = []
-        logger.info("✅ VCPScannerEnhanced inicializado")
+        self.as_of_date = as_of_date
+
+        if as_of_date:
+            logger.info(f"✅ VCPScannerEnhanced inicializado (Historical mode: as_of_date={as_of_date})")
+        else:
+            logger.info("✅ VCPScannerEnhanced inicializado")
     
     def scan_market(self, symbol_list=None, quick_test=False, parallel=False, num_workers=None):
         """
@@ -1756,6 +1797,9 @@ Performance:
                        help='⚡ Use parallel processing (6-8x faster)')
     parser.add_argument('--workers', type=int, default=None,
                        help='Number of parallel workers (default: CPU count - 1)')
+    parser.add_argument('--as-of-date', type=str, default=None,
+                       help='Historical date for scoring (YYYY-MM-DD). Only use data up to this date. '
+                            'Prevents look-ahead bias in backtesting.')
 
     return parser.parse_args()
 
@@ -1769,7 +1813,12 @@ if __name__ == "__main__":
             print("🎯 VCP SCANNER - NON-INTERACTIVE MODE")
             print("=" * 70)
 
-            scanner_enhanced = VCPScannerEnhanced("GPA37GJVIDCNNTRL")
+            # 🔴 FIX LOOK-AHEAD BIAS: Pass as_of_date from arguments
+            if args.as_of_date:
+                print(f"📅 Historical mode: Using data as of {args.as_of_date}")
+                print(f"🔴 This prevents look-ahead bias in backtesting")
+
+            scanner_enhanced = VCPScannerEnhanced("GPA37GJVIDCNNTRL", as_of_date=args.as_of_date)
             scanner = scanner_enhanced.scanner  # Keep reference for compatibility
 
             if args.quick:
