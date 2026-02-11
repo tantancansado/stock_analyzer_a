@@ -574,6 +574,8 @@ Detectados {len(df)} flujos inusuales de opciones:
             quality = row['quality']
             premium = row['total_premium']
             pc_ratio = row['put_call_ratio']
+            exp_date = row.get('expiration_date', 'N/A')
+            days_to_exp = row.get('days_to_expiration', 'N/A')
 
             # Emoji según sentiment
             if sentiment == 'BULLISH':
@@ -589,6 +591,7 @@ Sentiment: {sentiment}
 Score: {score:.0f}/100 {quality}
 Premium: ${premium/1000:.0f}K
 Put/Call: {pc_ratio if pc_ratio < 100 else '∞':.2f}
+📅 Vencimiento: {exp_date} ({days_to_exp} días)
 
 """
 

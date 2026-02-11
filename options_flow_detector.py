@@ -27,12 +27,12 @@ class OptionsFlowDetector:
         self.min_volume = 100  # Volumen mínimo para considerar
         self.min_premium = 10000  # Premium mínimo ($10k) para bloques
 
-    def get_options_chain(self, ticker: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    def get_options_chain(self, ticker: str) -> Tuple[pd.DataFrame, pd.DataFrame, str]:
         """
         Obtiene cadena de opciones para un ticker
 
         Returns:
-            Tuple de (calls DataFrame, puts DataFrame)
+            Tuple de (calls DataFrame, puts DataFrame, expiration_date str)
         """
         try:
             stock = yf.Ticker(ticker)
@@ -41,7 +41,7 @@ class OptionsFlowDetector:
             expirations = stock.options
 
             if not expirations or len(expirations) == 0:
-                return None, None
+                return None, None, None
 
             # Get nearest expiration (usually most liquid)
             nearest_exp = expirations[0]
@@ -52,11 +52,11 @@ class OptionsFlowDetector:
             calls = opt_chain.calls
             puts = opt_chain.puts
 
-            return calls, puts
+            return calls, puts, nearest_exp
 
         except Exception as e:
             print(f"   ⚠️  Error obteniendo opciones de {ticker}: {e}")
-            return None, None
+            return None, None, None
 
     def detect_unusual_activity(self, ticker: str,
                                company_name: str = None) -> Dict:
@@ -70,9 +70,9 @@ class OptionsFlowDetector:
         - Ratio volumen/OI anormal
         """
         try:
-            calls, puts = self.get_options_chain(ticker)
+            calls, puts, expiration_date = self.get_options_chain(ticker)
 
-            if calls is None or puts is None:
+            if calls is None or puts is None or expiration_date is None:
                 return None
 
             if len(calls) == 0 and len(puts) == 0:
@@ -218,10 +218,16 @@ class OptionsFlowDetector:
             # Cap at 100
             score = min(score, 100)
 
+            # Calculate days to expiration
+            exp_date = datetime.strptime(expiration_date, '%Y-%m-%d')
+            days_to_expiration = (exp_date - datetime.now()).days
+
             return {
                 'ticker': ticker,
                 'company_name': company_name or ticker,
                 'current_price': round(current_price, 2),
+                'expiration_date': expiration_date,
+                'days_to_expiration': days_to_expiration,
                 'unusual_calls': len(unusual_calls),
                 'unusual_puts': len(unusual_puts),
                 'total_unusual': num_unusual,

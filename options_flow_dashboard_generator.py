@@ -672,6 +672,14 @@ def generate_dashboard():
                         <div class="metric-label">Contratos Inusuales</div>
                         <div class="metric-value">{flow['unusual_calls']}C / {flow['unusual_puts']}P</div>
                     </div>
+                    <div class="metric">
+                        <div class="metric-label">📅 Vencimiento</div>
+                        <div class="metric-value">{flow['expiration_date']}</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">⏳ Días Restantes</div>
+                        <div class="metric-value">{flow['days_to_expiration']} días</div>
+                    </div>
                 </div>
 
                 <div class="options-detail">

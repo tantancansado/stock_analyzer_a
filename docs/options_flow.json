@@ -1,0 +1,287 @@
+{
+  "scan_date": "2026-02-11 13:57:54",
+  "total_flows": 7,
+  "sentiment_breakdown": {
+    "bullish": 2,
+    "bearish": 5,
+    "neutral": 0
+  },
+  "total_premium": 14923237.0,
+  "flows": [
+    {
+      "ticker": "CRM",
+      "company_name": "Salesforce,",
+      "current_price": 193.45,
+      "expiration_date": "2026-02-13",
+      "days_to_expiration": 1,
+      "unusual_calls": 0,
+      "unusual_puts": 1,
+      "total_unusual": 1,
+      "call_premium": 0,
+      "put_premium": 2744820.0,
+      "total_premium": 2744820.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 80,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 235.0,
+          "volume": 612.0,
+          "oi": 2,
+          "vol_oi_ratio": 306.0,
+          "last_price": 44.85,
+          "premium": 2744820.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-02-11"
+    },
+    {
+      "ticker": "ALLY",
+      "company_name": "Ally Financial",
+      "current_price": 42.39,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 8,
+      "unusual_calls": 3,
+      "unusual_puts": 0,
+      "total_unusual": 3,
+      "call_premium": 2723400.0,
+      "put_premium": 0,
+      "total_premium": 2723400.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 80,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 30.0,
+          "volume": 1070,
+          "oi": 2,
+          "vol_oi_ratio": 535.0,
+          "last_price": 12.6,
+          "premium": 1348200.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 33.0,
+          "volume": 865,
+          "oi": 0,
+          "vol_oi_ratio": 865,
+          "last_price": 9.4,
+          "premium": 813100.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "CALL",
+          "strike": 35.0,
+          "volume": 730,
+          "oi": 10,
+          "vol_oi_ratio": 73.0,
+          "last_price": 7.7,
+          "premium": 562100.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "top_puts": [],
+      "detected_date": "2026-02-11"
+    },
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global",
+      "current_price": 401.08,
+      "expiration_date": "2026-02-13",
+      "days_to_expiration": 1,
+      "unusual_calls": 0,
+      "unusual_puts": 3,
+      "total_unusual": 3,
+      "call_premium": 0,
+      "put_premium": 3714542.0,
+      "total_premium": 3714542.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 80,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 435.0,
+          "volume": 720.0,
+          "oi": 35,
+          "vol_oi_ratio": 20.571428571428573,
+          "last_price": 33.0,
+          "premium": 2376000.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        },
+        {
+          "type": "PUT",
+          "strike": 400.0,
+          "volume": 1434.0,
+          "oi": 181,
+          "vol_oi_ratio": 7.922651933701657,
+          "last_price": 7.0,
+          "premium": 1003800.0,
+          "itm": false,
+          "implied_volatility": 0.007822421875
+        },
+        {
+          "type": "PUT",
+          "strike": 395.0,
+          "volume": 766.0,
+          "oi": 40,
+          "vol_oi_ratio": 19.15,
+          "last_price": 4.37,
+          "premium": 334742.0,
+          "itm": false,
+          "implied_volatility": 0.0312596875
+        }
+      ],
+      "detected_date": "2026-02-11"
+    },
+    {
+      "ticker": "IT",
+      "company_name": "Gartner,",
+      "current_price": 159.89,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 8,
+      "unusual_calls": 0,
+      "unusual_puts": 1,
+      "total_unusual": 1,
+      "call_premium": 0,
+      "put_premium": 1741550.0,
+      "total_premium": 1741550.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 80,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 210.0,
+          "volume": 305.0,
+          "oi": 1,
+          "vol_oi_ratio": 305.0,
+          "last_price": 57.1,
+          "premium": 1741550.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-02-11"
+    },
+    {
+      "ticker": "MSTR",
+      "company_name": "Strategy",
+      "current_price": 133.0,
+      "expiration_date": "2026-02-13",
+      "days_to_expiration": 1,
+      "unusual_calls": 0,
+      "unusual_puts": 1,
+      "total_unusual": 1,
+      "call_premium": 0,
+      "put_premium": 1959000.0,
+      "total_premium": 1959000.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 80,
+      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 200.0,
+          "volume": 300.0,
+          "oi": 0,
+          "vol_oi_ratio": 300.0,
+          "last_price": 65.3,
+          "premium": 1959000.0,
+          "itm": true,
+          "implied_volatility": 1.0000000000000003e-05
+        }
+      ],
+      "detected_date": "2026-02-11"
+    },
+    {
+      "ticker": "AVGO",
+      "company_name": "Broadcom",
+      "current_price": 340.44,
+      "expiration_date": "2026-02-11",
+      "days_to_expiration": -1,
+      "unusual_calls": 0,
+      "unusual_puts": 1,
+      "total_unusual": 1,
+      "call_premium": 0,
+      "put_premium": 1062000.0,
+      "total_premium": 1062000.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 340.0,
+          "volume": 2950.0,
+          "oi": 939,
+          "vol_oi_ratio": 3.141640042598509,
+          "last_price": 3.6,
+          "premium": 1062000.0,
+          "itm": false,
+          "implied_volatility": 0.007822421875
+        }
+      ],
+      "detected_date": "2026-02-11"
+    },
+    {
+      "ticker": "ASTS",
+      "company_name": "AST SpaceMobile,",
+      "current_price": 96.27,
+      "expiration_date": "2026-02-13",
+      "days_to_expiration": 1,
+      "unusual_calls": 1,
+      "unusual_puts": 0,
+      "total_unusual": 1,
+      "call_premium": 977925.0,
+      "put_premium": 0,
+      "total_premium": 977925.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 50,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 100.0,
+          "volume": 3315,
+          "oi": 1090,
+          "vol_oi_ratio": 3.041284403669725,
+          "last_price": 2.95,
+          "premium": 977925.0,
+          "itm": false,
+          "implied_volatility": 0.12500875
+        }
+      ],
+      "top_puts": [],
+      "detected_date": "2026-02-11"
+    }
+  ]
+}
