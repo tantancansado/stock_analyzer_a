@@ -97,15 +97,29 @@ if [ $? -ne 0 ]; then
 fi
 
 echo ""
-echo "🔄 [7/8] Mean Reversion Dashboard..."
+echo "🔄 [7/9] Mean Reversion Dashboard..."
 python3 mean_reversion_dashboard_generator.py
 if [ $? -ne 0 ]; then
     echo "⚠️  Error en mean reversion dashboard (no crítico - continúa)"
 fi
 
+echo ""
+echo "🔄 [7/9] Mean Reversion Backtest..."
+python3 mean_reversion_backtester.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en mean reversion backtest (no crítico - continúa)"
+fi
+
+echo ""
+echo "🔄 [7/9] Mean Reversion Backtest Dashboard..."
+python3 mean_reversion_backtest_dashboard_generator.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en mean reversion backtest dashboard (no crítico - continúa)"
+fi
+
 # 8. Telegram Alerts (envía notificaciones automáticas)
 echo ""
-echo "📱 [8/8] Telegram Alerts..."
+echo "📱 [8/9] Telegram Alerts..."
 echo "----------------------------------------------------------------------"
 python3 auto_telegram_alerts.py
 if [ $? -ne 0 ]; then
@@ -122,6 +136,7 @@ echo "  - docs/super_dashboard.html"
 echo "  - docs/sector_rotation_dashboard.html"
 echo "  - docs/backtest_dashboard.html"
 echo "  - docs/mean_reversion_dashboard.html"
+echo "  - docs/mean_reversion_backtest_dashboard.html"
 echo ""
 echo "📁 Datos generados:"
 echo "  - docs/super_opportunities_5d_complete.csv"
