@@ -49,12 +49,26 @@ class SuperAnalyzer4D:
             print("   ⚠️  Sin holdings cacheados - Scores institucionales serán 0")
 
     def load_vcp_data(self):
-        """Carga datos de VCP scanner"""
-        vcp_csv = Path("docs/reports/vcp/vcp_scan_20250711_103128/data.csv")
-        if vcp_csv.exists():
-            df = pd.read_csv(vcp_csv)
-            print(f"✅ VCP: {len(df)} patrones cargados")
+        """Carga datos de VCP scanner - busca el scan más reciente"""
+        # Buscar archivos VCP en root directory (formato nuevo)
+        vcp_files = list(Path(".").glob("vcp_calibrated_results_*.csv"))
+
+        if vcp_files:
+            # Ordenar por nombre (timestamp está en el nombre) y tomar el más reciente
+            latest_vcp = sorted(vcp_files)[-1]
+            df = pd.read_csv(latest_vcp)
+            print(f"✅ VCP: {len(df)} patrones cargados desde {latest_vcp.name}")
             return df
+
+        # Fallback: buscar en docs/reports/vcp (formato viejo)
+        vcp_dirs = list(Path("docs/reports/vcp").glob("vcp_scan_*/data.csv"))
+        if vcp_dirs:
+            latest_vcp = sorted(vcp_dirs)[-1]
+            df = pd.read_csv(latest_vcp)
+            print(f"✅ VCP: {len(df)} patrones cargados desde {latest_vcp}")
+            return df
+
+        print("⚠️  No se encontraron datos VCP")
         return pd.DataFrame()
 
     def load_recurring_insiders_data(self):
