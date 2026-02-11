@@ -50,6 +50,10 @@ class BacktestEngine:
             df = yf.download(ticker, start=start_date, end=end_date, progress=False)
 
             if not df.empty:
+                # Flatten multi-level columns if present (fix for yfinance multi-index)
+                if isinstance(df.columns, pd.MultiIndex):
+                    df.columns = df.columns.get_level_values(0)
+
                 # Asegurar que el índice es Date
                 df.index.name = 'Date'
                 df.to_csv(cache_file)
@@ -137,13 +141,14 @@ class BacktestEngine:
 
         return trade
 
-    def run_backtest(self, opportunities_csv: str, lookback_days: int = 180) -> Dict:
+    def run_backtest(self, opportunities_csv: str, lookback_days: int = 180, min_score_override: int = None) -> Dict:
         """
         Ejecuta backtest sobre oportunidades históricas
 
         Args:
             opportunities_csv: Path al CSV con oportunidades
             lookback_days: Días hacia atrás para simular (180 = 6 meses)
+            min_score_override: Override para threshold mínimo (None = usar default)
 
         Returns:
             Dict con resultados del backtest
@@ -154,14 +159,37 @@ class BacktestEngine:
         # Cargar oportunidades
         df = pd.read_csv(opportunities_csv)
 
-        # Filtrar solo oportunidades con score >= 55 (BUENA o mejor)
-        df = df[df['super_score_5d'] >= 55].copy()
+        # Detectar tipo de scoring (nuevo vs legacy)
+        if 'super_score_ultimate' in df.columns:
+            score_col = 'super_score_ultimate'
+            min_score = 55  # Score >= 55 en escala 0-100
+            print(f"   🎯 Detectado: Super Score Ultimate (0-100 scale)")
+        elif 'super_score_5d' in df.columns:
+            score_col = 'super_score_5d'
+            min_score = 40  # Score >= 40 en escala legacy
+            print(f"   📊 Detectado: 5D Score (legacy scale)")
+        else:
+            print(f"   ❌ No se encontró columna de score")
+            return {}
+
+        # Override threshold si se especificó
+        if min_score_override is not None:
+            min_score = min_score_override
+            print(f"   ⚙️  Threshold override aplicado: {min_score}")
+
+        # Filtrar solo oportunidades con score mínimo
+        df = df[df[score_col] >= min_score].copy()
 
         # Fecha de referencia (today - lookback_days)
         reference_date = (datetime.now() - timedelta(days=lookback_days)).strftime('%Y-%m-%d')
 
         print(f"   📅 Fecha referencia: {reference_date}")
         print(f"   📊 Oportunidades a testear: {len(df)}")
+        print(f"   🎯 Threshold mínimo: {min_score}")
+
+        if len(df) == 0:
+            print(f"   ⚠️  No hay oportunidades con score >= {min_score}")
+            return {}
 
         # Simular trades
         self.trades = []
@@ -169,11 +197,11 @@ class BacktestEngine:
 
         for idx, row in df.iterrows():
             ticker = row['ticker']
-            score = row['super_score_5d']
-            tier = row['tier']
+            score = row[score_col]
+            tier = row.get('tier', '⭐⭐ GOOD')
             timing_conv = row.get('timing_convergence', False)
 
-            print(f"   {idx+1}/{len(df)} Simulando {ticker} (Score: {score})...", end='\r')
+            print(f"   {idx+1}/{len(df)} Simulando {ticker} (Score: {score:.1f})...", end='\r')
 
             trade = self.simulate_entry(ticker, reference_date, score, tier, timing_conv)
 
@@ -192,7 +220,7 @@ class BacktestEngine:
         Calcula métricas de performance del backtest
 
         Returns:
-            Dict con métricas detalladas
+            Dict con métricas detalladas incluyendo Sharpe, Profit Factor, etc.
         """
         if not self.trades:
             return {}
@@ -202,11 +230,29 @@ class BacktestEngine:
         # Métricas globales
         total_trades = len(df)
         winning_trades = len(df[df['win'] == True])
+        losing_trades = total_trades - winning_trades
         win_rate = (winning_trades / total_trades) * 100 if total_trades > 0 else 0
 
         avg_return = df['return_pct'].mean()
         median_return = df['return_pct'].median()
         total_return = df['return_pct'].sum()
+        std_return = df['return_pct'].std()
+
+        # Sharpe Ratio (asumiendo risk-free rate = 0)
+        sharpe_ratio = (avg_return / std_return) if std_return > 0 else 0
+
+        # Profit Factor (gross profit / gross loss)
+        winning_returns = df[df['win'] == True]['return_pct'].sum()
+        losing_returns = abs(df[df['win'] == False]['return_pct'].sum())
+        profit_factor = (winning_returns / losing_returns) if losing_returns > 0 else float('inf')
+
+        # Average Win / Average Loss ratio
+        avg_win = df[df['win'] == True]['return_pct'].mean() if winning_trades > 0 else 0
+        avg_loss = df[df['win'] == False]['return_pct'].mean() if losing_trades > 0 else 0
+        win_loss_ratio = abs(avg_win / avg_loss) if avg_loss != 0 else 0
+
+        # Expectancy
+        expectancy = (win_rate/100 * avg_win) - ((100-win_rate)/100 * abs(avg_loss))
 
         # Best/worst trades
         best_trade = df.loc[df['return_pct'].idxmax()]
@@ -216,14 +262,35 @@ class BacktestEngine:
         tier_metrics = {}
         for tier in df['tier'].unique():
             tier_df = df[df['tier'] == tier]
+            tier_win_rate = (len(tier_df[tier_df['win'] == True]) / len(tier_df)) * 100
             tier_metrics[tier] = {
                 'total_trades': len(tier_df),
-                'win_rate': (len(tier_df[tier_df['win'] == True]) / len(tier_df)) * 100,
+                'win_rate': tier_win_rate,
                 'avg_return': tier_df['return_pct'].mean(),
                 'median_return': tier_df['return_pct'].median(),
                 'best_return': tier_df['return_pct'].max(),
-                'worst_return': tier_df['return_pct'].min()
+                'worst_return': tier_df['return_pct'].min(),
+                'sharpe_ratio': (tier_df['return_pct'].mean() / tier_df['return_pct'].std()) if tier_df['return_pct'].std() > 0 else 0
             }
+
+        # Performance por score range
+        score_ranges = [
+            (85, 100, '🔥 LEGENDARY (85+)'),
+            (75, 85, '⭐⭐⭐⭐ ELITE (75-85)'),
+            (65, 75, '⭐⭐⭐ EXCELLENT (65-75)'),
+            (55, 65, '⭐⭐ GOOD (55-65)'),
+        ]
+
+        score_metrics = {}
+        for min_score, max_score, label in score_ranges:
+            score_df = df[(df['score'] >= min_score) & (df['score'] < max_score)]
+            if len(score_df) > 0:
+                score_metrics[label] = {
+                    'total_trades': len(score_df),
+                    'win_rate': (len(score_df[score_df['win'] == True]) / len(score_df)) * 100,
+                    'avg_return': score_df['return_pct'].mean(),
+                    'median_return': score_df['return_pct'].median()
+                }
 
         # Timing convergence impact
         timing_trades = df[df['timing_convergence'] == True]
@@ -245,11 +312,17 @@ class BacktestEngine:
         results = {
             'total_trades': total_trades,
             'winning_trades': winning_trades,
-            'losing_trades': total_trades - winning_trades,
+            'losing_trades': losing_trades,
             'win_rate': win_rate,
             'avg_return': avg_return,
             'median_return': median_return,
             'total_return': total_return,
+            'sharpe_ratio': sharpe_ratio,
+            'profit_factor': profit_factor,
+            'avg_win': avg_win,
+            'avg_loss': avg_loss,
+            'win_loss_ratio': win_loss_ratio,
+            'expectancy': expectancy,
             'best_trade': {
                 'ticker': best_trade['ticker'],
                 'return': best_trade['return_pct'],
@@ -261,6 +334,7 @@ class BacktestEngine:
                 'score': worst_trade['score']
             },
             'tier_metrics': tier_metrics,
+            'score_metrics': score_metrics,
             'timing_impact': timing_impact,
             'avg_hold_days': df['hold_days'].mean(),
             'avg_max_drawdown': df['max_drawdown'].mean()
@@ -335,19 +409,71 @@ class BacktestEngine:
 
         print(f"   💾 Métricas guardadas: {metrics_file}")
 
-    def print_summary(self, results: Dict):
-        """Imprime resumen de resultados"""
+    def compare_to_spy(self, lookback_days: int) -> Dict:
+        """
+        Compara performance vs SPY buy & hold
+
+        Args:
+            lookback_days: Período de backtest
+
+        Returns:
+            Dict con comparación SPY
+        """
+        reference_date = (datetime.now() - timedelta(days=lookback_days)).strftime('%Y-%m-%d')
+        end_date = datetime.now().strftime('%Y-%m-%d')
+
+        try:
+            spy_prices = self.get_historical_prices('SPY', reference_date, end_date)
+
+            if not spy_prices.empty and len(spy_prices) >= 2:
+                spy_start = float(spy_prices.iloc[0]['Close'])
+                spy_end = float(spy_prices.iloc[-1]['Close'])
+                spy_return = ((spy_end - spy_start) / spy_start) * 100
+
+                return {
+                    'spy_return': spy_return,
+                    'spy_start_price': spy_start,
+                    'spy_end_price': spy_end,
+                    'period_days': len(spy_prices)
+                }
+        except Exception as e:
+            print(f"   ⚠️  No se pudo comparar con SPY: {e}")
+
+        return {}
+
+    def print_summary(self, results: Dict, spy_comparison: Dict = None):
+        """Imprime resumen de resultados con métricas avanzadas"""
         print("\n📊 RESULTADOS DEL BACKTEST")
-        print("=" * 70)
+        print("=" * 80)
 
         print(f"\n🎯 MÉTRICAS GLOBALES:")
         print(f"   Total trades: {results['total_trades']}")
+        print(f"   Winning trades: {results['winning_trades']} | Losing trades: {results['losing_trades']}")
         print(f"   Win rate: {results['win_rate']:.1f}%")
         print(f"   Avg return: {results['avg_return']:.2f}%")
         print(f"   Median return: {results['median_return']:.2f}%")
         print(f"   Total return: {results['total_return']:.2f}%")
         print(f"   Avg hold: {results['avg_hold_days']:.0f} días")
-        print(f"   Avg max drawdown: {results['avg_max_drawdown']:.2f}%")
+
+        print(f"\n📈 MÉTRICAS AVANZADAS:")
+        print(f"   Sharpe Ratio: {results['sharpe_ratio']:.2f}")
+        print(f"   Profit Factor: {results['profit_factor']:.2f}")
+        print(f"   Avg Win: {results['avg_win']:.2f}% | Avg Loss: {results['avg_loss']:.2f}%")
+        print(f"   Win/Loss Ratio: {results['win_loss_ratio']:.2f}")
+        print(f"   Expectancy: {results['expectancy']:.2f}%")
+        print(f"   Avg Max Drawdown: {results['avg_max_drawdown']:.2f}%")
+
+        # SPY Comparison
+        if spy_comparison and 'spy_return' in spy_comparison:
+            print(f"\n📊 COMPARACIÓN VS SPY BUY & HOLD:")
+            print(f"   SPY Return: {spy_comparison['spy_return']:.2f}%")
+            print(f"   Strategy Return: {results['avg_return']:.2f}%")
+            outperformance = results['avg_return'] - spy_comparison['spy_return']
+            print(f"   Outperformance: {outperformance:+.2f}%")
+            if outperformance > 0:
+                print(f"   ✅ Estrategia SUPERA a SPY en {outperformance:.2f}%")
+            else:
+                print(f"   ❌ Estrategia PIERDE vs SPY en {abs(outperformance):.2f}%")
 
         print(f"\n🏆 BEST/WORST TRADES:")
         print(f"   Best: {results['best_trade']['ticker']} "
@@ -361,7 +487,17 @@ class BacktestEngine:
             print(f"   {tier}:")
             print(f"      Trades: {metrics['total_trades']} | "
                   f"Win rate: {metrics['win_rate']:.1f}% | "
-                  f"Avg: {metrics['avg_return']:.2f}%")
+                  f"Avg: {metrics['avg_return']:.2f}% | "
+                  f"Sharpe: {metrics['sharpe_ratio']:.2f}")
+
+        # Performance por score range
+        if 'score_metrics' in results and results['score_metrics']:
+            print(f"\n🎯 PERFORMANCE POR SCORE RANGE:")
+            for score_range, metrics in results['score_metrics'].items():
+                print(f"   {score_range}:")
+                print(f"      Trades: {metrics['total_trades']} | "
+                      f"Win rate: {metrics['win_rate']:.1f}% | "
+                      f"Avg: {metrics['avg_return']:.2f}%")
 
         print(f"\n🔥 TIMING CONVERGENCE IMPACT:")
         timing = results['timing_impact']
@@ -377,19 +513,50 @@ class BacktestEngine:
 
 def main():
     """Main execution"""
+    import sys
+
+    print("\n🔬 BACKTEST ENGINE - Validación de Estrategia")
+    print("=" * 80)
+
     engine = BacktestEngine(initial_capital=100000, position_size=0.10)
 
-    # Run backtest on 5D opportunities
-    csv_path = "docs/super_opportunities_5d_complete.csv"
-    results = engine.run_backtest(csv_path, lookback_days=180)
+    # Try new Super Score Ultimate first, fallback to 5D
+    ultimate_path = Path("docs/super_scores_ultimate.csv")
+    opps_5d_path = Path("docs/super_opportunities_5d_complete.csv")
+
+    if ultimate_path.exists():
+        print(f"🎯 Usando Super Score Ultimate (nuevo sistema VCP+ML+Fund)")
+        csv_path = str(ultimate_path)
+        lookback_days = 180
+    elif opps_5d_path.exists():
+        print(f"📊 Usando 5D Opportunities (sistema legacy)")
+        csv_path = str(opps_5d_path)
+        lookback_days = 180
+        print("   ⚠️  Nota: Sistema legacy usa escala de scoring diferente")
+    else:
+        print("\n❌ No se encontró archivo CSV de oportunidades")
+        print("   Ejecuta primero: python3 super_score_integrator.py")
+        sys.exit(1)
+
+    results = engine.run_backtest(csv_path, lookback_days=lookback_days)
+
+    if not results:
+        print("\n❌ No se pudieron calcular resultados del backtest")
+        return
+
+    # Compare to SPY
+    print("\n📊 Comparando con SPY buy & hold...")
+    spy_comparison = engine.compare_to_spy(lookback_days)
 
     # Print summary
-    engine.print_summary(results)
+    engine.print_summary(results, spy_comparison)
 
     # Save results
     engine.save_results(results)
 
-    print("\n✅ Backtest completado!")
+    print("\n" + "=" * 80)
+    print("✅ BACKTEST COMPLETADO")
+    print("=" * 80)
 
 
 if __name__ == "__main__":
