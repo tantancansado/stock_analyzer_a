@@ -7,7 +7,7 @@ MODEL_DIR = os.path.join(BASE_DIR, "models")
 
 # Telegram Configuration - MODIFICADO para GitHub Actions
 # Usar variables de entorno si están disponibles, sino usar valores por defecto
-TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', "762243037:AAFnEVl8saspHl40caBWePSnhe8CLSXWlvY")
+TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', "7662243037:AAExBqSLxv0QuLRxTYZR_JpxgGbKIpVhZFQ")
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', "3165866")
 
 # GitHub Actions detection
