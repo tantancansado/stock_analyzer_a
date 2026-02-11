@@ -428,6 +428,127 @@ class SuperDashboardGenerator:
             margin-top: 50px;
             opacity: 0.8;
         }}
+
+        /* === RESPONSIVE DESIGN - MOBILE OPTIMIZED === */
+
+        /* Tablets */
+        @media (max-width: 1024px) {{
+            .container {{
+                padding: 1.5rem;
+            }}
+
+            .opportunities-table {{
+                font-size: 0.9rem;
+            }}
+        }}
+
+        /* Mobile Large */
+        @media (max-width: 768px) {{
+            .container {{
+                padding: 1rem;
+            }}
+
+            .header {{
+                padding: 2rem 1rem;
+            }}
+
+            .header h1 {{
+                font-size: 2rem;
+            }}
+
+            .header a {{
+                font-size: 1rem !important;
+                padding: 6px 12px !important;
+            }}
+
+            .stats-grid {{
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem;
+            }}
+
+            .stat-card {{
+                padding: 1.5rem;
+            }}
+
+            .opportunities-table-container {{
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }}
+
+            .opportunities-table {{
+                font-size: 0.85rem;
+                min-width: 600px;
+            }}
+
+            .opportunities-table th,
+            .opportunities-table td {{
+                padding: 0.6rem 0.5rem;
+            }}
+        }}
+
+        /* Mobile Small */
+        @media (max-width: 480px) {{
+            .container {{
+                padding: 0.75rem;
+                margin: 0.5rem;
+            }}
+
+            .header {{
+                padding: 1.5rem 0.75rem;
+                position: relative;
+            }}
+
+            .header h1 {{
+                font-size: 1.75rem;
+                margin-top: 2.5rem;
+            }}
+
+            .header a {{
+                position: absolute !important;
+                left: 0.75rem !important;
+                top: 0.75rem !important;
+                font-size: 0.9rem !important;
+                padding: 6px 10px !important;
+            }}
+
+            .stats-grid {{
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem;
+            }}
+
+            .stat-card {{
+                padding: 1.25rem;
+            }}
+
+            .stat-value {{
+                font-size: 1.75rem;
+            }}
+
+            .opportunities-table {{
+                font-size: 0.8rem;
+                min-width: 500px;
+            }}
+
+            .opportunities-table th,
+            .opportunities-table td {{
+                padding: 0.5rem 0.4rem;
+            }}
+
+            button, a {{
+                min-height: 44px;
+            }}
+        }}
+
+        /* Ultra Small */
+        @media (max-width: 360px) {{
+            .header h1 {{
+                font-size: 1.5rem;
+            }}
+
+            .stat-value {{
+                font-size: 1.5rem;
+            }}
+        }}
     </style>
 </head>
 <body>

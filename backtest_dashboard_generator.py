@@ -209,6 +209,68 @@ class BacktestDashboardGenerator:
             margin-top: 50px;
             opacity: 0.8;
         }}
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 1024px) {{
+            .container {{ padding: 1.5rem; }}
+            .metrics-grid {{ grid-template-columns: repeat(2, 1fr) !important; }}
+        }}
+
+        @media (max-width: 768px) {{
+            .container {{ padding: 1rem; }}
+            .header {{ padding: 2rem 1rem; }}
+            .header h1 {{ font-size: 2rem; }}
+            .header a {{ font-size: 1rem !important; padding: 6px 12px !important; }}
+
+            .metrics-grid {{
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem;
+            }}
+
+            .metric-card {{ padding: 1.5rem; }}
+
+            .trades-table-container {{
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }}
+
+            .trades-table {{
+                font-size: 0.85rem;
+                min-width: 600px;
+            }}
+
+            .chart-container {{
+                padding: 1rem;
+            }}
+        }}
+
+        @media (max-width: 480px) {{
+            .container {{ padding: 0.75rem; margin: 0.5rem; }}
+            .header {{ padding: 1.5rem 0.75rem; position: relative; }}
+            .header h1 {{ font-size: 1.75rem; margin-top: 2.5rem; }}
+            .header a {{
+                position: absolute !important;
+                left: 0.75rem !important;
+                top: 0.75rem !important;
+                font-size: 0.9rem !important;
+            }}
+
+            .metrics-grid {{
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem;
+            }}
+
+            .metric-card {{ padding: 1.25rem; }}
+            .metric-value {{ font-size: 1.75rem; }}
+
+            .trades-table {{ font-size: 0.8rem; min-width: 500px; }}
+            button, a {{ min-height: 44px; }}
+        }}
+
+        @media (max-width: 360px) {{
+            .header h1 {{ font-size: 1.5rem; }}
+            .metric-value {{ font-size: 1.5rem; }}
+        }}
     </style>
 </head>
 <body>

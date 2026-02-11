@@ -292,6 +292,49 @@ class SectorRotationDashboardGenerator:
             margin-top: 50px;
             opacity: 0.8;
         }}
+
+        /* === RESPONSIVE DESIGN === */
+        @media (max-width: 1024px) {{
+            .container {{ padding: 1.5rem; }}
+        }}
+
+        @media (max-width: 768px) {{
+            .container {{ padding: 1rem; }}
+            .header {{ padding: 2rem 1rem; }}
+            .header h1 {{ font-size: 2rem; }}
+            .header a {{ font-size: 1rem !important; padding: 6px 12px !important; }}
+
+            .sector-grid {{
+                grid-template-columns: 1fr !important;
+                gap: 1rem;
+            }}
+
+            .sector-table {{
+                font-size: 0.85rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }}
+
+            .sector-table th,
+            .sector-table td {{
+                padding: 0.6rem 0.5rem;
+            }}
+        }}
+
+        @media (max-width: 480px) {{
+            .container {{ padding: 0.75rem; margin: 0.5rem; }}
+            .header {{ padding: 1.5rem 0.75rem; position: relative; }}
+            .header h1 {{ font-size: 1.75rem; margin-top: 2.5rem; }}
+            .header a {{
+                position: absolute !important;
+                left: 0.75rem !important;
+                top: 0.75rem !important;
+                font-size: 0.9rem !important;
+            }}
+
+            .sector-table {{ font-size: 0.8rem; }}
+            button, a {{ min-height: 44px; }}
+        }}
     </style>
 </head>
 <body>

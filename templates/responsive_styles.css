@@ -1,0 +1,258 @@
+/* ===================================================================
+   RESPONSIVE DESIGN SYSTEM - Mobile-First Approach
+   =================================================================== */
+
+/* Base styles are designed for desktop, media queries adjust for mobile */
+
+/* === TABLETS (768px - 1024px) === */
+@media (max-width: 1024px) {
+    .container {
+        padding: 1.5rem;
+        max-width: 100%;
+    }
+
+    .opportunities-table {
+        font-size: 0.9rem;
+    }
+
+    .opportunities-table th,
+    .opportunities-table td {
+        padding: 0.75rem;
+    }
+}
+
+/* === MOBILE LARGE (481px - 768px) === */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        padding: 2rem 1rem;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .subtitle {
+        font-size: 0.95rem;
+    }
+
+    /* Stats Grid - 2 columns */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem;
+    }
+
+    .stat-card {
+        padding: 1.5rem;
+    }
+
+    .stat-value {
+        font-size: 2rem;
+    }
+
+    /* Tables - Horizontal scroll */
+    .opportunities-table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .opportunities-table {
+        font-size: 0.85rem;
+        min-width: 600px; /* Prevent extreme compression */
+    }
+
+    .opportunities-table th,
+    .opportunities-table td {
+        padding: 0.6rem 0.5rem;
+    }
+
+    /* Charts */
+    .chart-container {
+        padding: 1rem;
+    }
+
+    /* Back button */
+    .header a {
+        font-size: 1rem !important;
+        padding: 6px 12px !important;
+    }
+}
+
+/* === MOBILE SMALL (max 480px) === */
+@media (max-width: 480px) {
+    .container {
+        padding: 0.75rem;
+        margin: 0.5rem;
+    }
+
+    .header {
+        padding: 1.5rem 0.75rem;
+        position: relative;
+    }
+
+    .header h1 {
+        font-size: 1.75rem;
+        margin-top: 2.5rem; /* Space for back button */
+    }
+
+    .subtitle {
+        font-size: 0.85rem;
+    }
+
+    /* Back button - move to top */
+    .header a {
+        position: absolute;
+        left: 0.75rem;
+        top: 0.75rem;
+        font-size: 0.9rem !important;
+        padding: 6px 10px !important;
+    }
+
+    /* Stats Grid - Single column */
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem;
+    }
+
+    .stat-card {
+        padding: 1.25rem;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+    }
+
+    /* Tables - Compact */
+    .opportunities-table {
+        font-size: 0.8rem;
+        min-width: 500px;
+    }
+
+    .opportunities-table th,
+    .opportunities-table td {
+        padding: 0.5rem 0.4rem;
+    }
+
+    /* Hide less important columns on very small screens */
+    .opportunities-table .hide-mobile {
+        display: none;
+    }
+
+    /* Charts */
+    .chart-container {
+        padding: 0.75rem;
+    }
+
+    /* Insights */
+    .insight-card {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Touch-friendly buttons (min 44px height) */
+    button,
+    a.button,
+    .nav-card {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Sections */
+    .section {
+        padding: 1.5rem 0;
+    }
+
+    .section h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+}
+
+/* === ULTRA SMALL (max 360px) === */
+@media (max-width: 360px) {
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .opportunities-table {
+        font-size: 0.75rem;
+        min-width: 400px;
+    }
+
+    .chart-container canvas {
+        height: 200px !important;
+    }
+}
+
+/* === LANDSCAPE MODE ON MOBILE === */
+@media (max-height: 500px) and (orientation: landscape) {
+    .header {
+        padding: 1rem;
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+}
+
+/* === ACCESSIBILITY - Touch Targets === */
+@media (pointer: coarse) {
+    /* Increase touch targets on touch devices */
+    button,
+    a,
+    input,
+    select {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .opportunities-table tr {
+        cursor: pointer;
+    }
+
+    .opportunities-table tr:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* === PRINT STYLES === */
+@media print {
+    .header a,
+    .navigation,
+    .footer {
+        display: none;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .opportunities-table {
+        font-size: 10pt;
+    }
+
+    .chart-container {
+        page-break-inside: avoid;
+    }
+}

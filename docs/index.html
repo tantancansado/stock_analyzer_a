@@ -527,43 +527,154 @@
         }
         
         /* === RESPONSIVE DESIGN === */
+        /* === RESPONSIVE DESIGN MEJORADO === */
+
+        /* Tablets (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .glass-container {
+                padding: 1.5rem;
+            }
+
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Mobile Large (481px - 768px) */
         @media (max-width: 768px) {
             .glass-container {
                 padding: 1rem;
             }
-            
+
             .liquid-header {
                 padding: 2rem 1rem;
             }
-            
+
             .liquid-header h1 {
                 font-size: 2.5rem;
+                line-height: 1.2;
             }
-            
+
+            .liquid-header .subtitle {
+                font-size: 0.95rem;
+            }
+
             .stats-liquid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
-            
+
             .stat-glass {
                 padding: 1.5rem;
             }
-            
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
             .nav-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
-            
+
             .nav-card {
                 padding: 1.5rem;
             }
-            
+
+            .nav-card h3 {
+                font-size: 1.1rem;
+            }
+
             .report-actions {
                 grid-template-columns: 1fr;
             }
-            
+
             .content-liquid {
                 padding: 1.5rem;
+            }
+        }
+
+        /* Mobile Small (max 480px) */
+        @media (max-width: 480px) {
+            .glass-container {
+                padding: 0.75rem;
+                margin: 0.75rem;
+            }
+
+            .liquid-header {
+                padding: 1.5rem 0.75rem;
+            }
+
+            .liquid-header h1 {
+                font-size: 2rem;
+            }
+
+            .liquid-header .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .stats-liquid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .stat-glass {
+                padding: 1.25rem;
+            }
+
+            .stat-value {
+                font-size: 1.75rem;
+            }
+
+            .stat-label {
+                font-size: 0.85rem;
+            }
+
+            .nav-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .nav-card {
+                padding: 1.25rem;
+            }
+
+            .nav-card h3 {
+                font-size: 1rem;
+            }
+
+            .nav-card p {
+                font-size: 0.85rem;
+            }
+
+            .content-liquid {
+                padding: 1rem;
+            }
+
+            .content-liquid h2 {
+                font-size: 1.5rem;
+            }
+
+            /* Make buttons and interactive elements touch-friendly (min 44px) */
+            .nav-card,
+            button,
+            a {
+                min-height: 44px;
+            }
+        }
+
+        /* Ultra Small (max 360px) */
+        @media (max-width: 360px) {
+            .liquid-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .nav-card h3 {
+                font-size: 0.95rem;
             }
         }
         
