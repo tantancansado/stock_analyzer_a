@@ -1338,7 +1338,8 @@ if __name__ == "__main__":
             print("🎯 VCP SCANNER - NON-INTERACTIVE MODE")
             print("=" * 70)
 
-            scanner = CalibratedVCPScanner("GPA37GJVIDCNNTRL")
+            scanner_enhanced = VCPScannerEnhanced("GPA37GJVIDCNNTRL")
+            scanner = scanner_enhanced.scanner  # Keep reference for compatibility
 
             if args.quick:
                 print("🔥 Quick test mode - scanning 30 popular stocks...")
@@ -1373,8 +1374,21 @@ if __name__ == "__main__":
             results = scanner.scan_sequential(symbols)
             scanner.generate_detailed_report(results)
 
+            # Generate timestamp for files
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+            # Save CSV
+            csv_path = f"vcp_calibrated_results_{timestamp}.csv"
+            scanner_enhanced.save_csv(results, csv_path)
+
+            # Generate HTML report
+            html_path = "docs/vcp_scanner.html"
+            scanner_enhanced.generate_html(results, html_path)
+
             print("=" * 70)
             print(f"✅ Scan completed: {len(results)} VCP patterns detected")
+            print(f"📊 CSV saved: {csv_path}")
+            print(f"🌐 HTML saved: {html_path}")
             print("=" * 70)
 
         else:
