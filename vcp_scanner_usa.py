@@ -1367,155 +1367,6 @@ def show_calibrated_guide():
     
     input("\nPresiona Enter para continuar...")
 
-def parse_arguments():
-    """Parse command-line arguments for non-interactive execution"""
-    parser = argparse.ArgumentParser(
-        description='VCP Scanner - Interactive or Automated Execution',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog='''
-Examples:
-  python3 vcp_scanner_usa.py                        # Interactive menu
-  python3 vcp_scanner_usa.py --sp500                # Scan S&P 500 (sequential)
-  python3 vcp_scanner_usa.py --sp500 --parallel     # ⚡ Scan S&P 500 (PARALLEL - 6x faster!)
-  python3 vcp_scanner_usa.py --nasdaq --parallel    # ⚡ Scan NASDAQ (parallel)
-  python3 vcp_scanner_usa.py --quick                # Quick test (30 stocks)
-  python3 vcp_scanner_usa.py --symbols AAPL,MSFT,NVDA --parallel
-
-Performance:
-  Sequential mode: ~2 hours for S&P 500
-  Parallel mode:   ~15-20 minutes for S&P 500 (6-8x faster!) ⚡
-        '''
-    )
-
-    parser.add_argument('--sp500', action='store_true',
-                       help='Scan S&P 500 stocks (~500 stocks)')
-    parser.add_argument('--nasdaq', action='store_true',
-                       help='Scan NASDAQ stocks (~3000 stocks)')
-    parser.add_argument('--quick', action='store_true',
-                       help='Quick test with 30 popular stocks')
-    parser.add_argument('--symbols', type=str,
-                       help='Comma-separated list of symbols (e.g., AAPL,MSFT,NVDA)')
-    parser.add_argument('--parallel', action='store_true',
-                       help='⚡ Use parallel processing (6-8x faster)')
-    parser.add_argument('--workers', type=int, default=None,
-                       help='Number of parallel workers (default: CPU count - 1)')
-
-    return parser.parse_args()
-
-if __name__ == "__main__":
-    try:
-        args = parse_arguments()
-
-        # Check if running in non-interactive mode
-        if args.sp500 or args.nasdaq or args.quick or args.symbols:
-            # Non-interactive mode - run scan directly
-            print("🎯 VCP SCANNER - NON-INTERACTIVE MODE")
-            print("=" * 70)
-
-            scanner_enhanced = VCPScannerEnhanced("GPA37GJVIDCNNTRL")
-            scanner = scanner_enhanced.scanner  # Keep reference for compatibility
-
-            if args.quick:
-                print("🔥 Quick test mode - scanning 30 popular stocks...")
-                symbols = [
-                    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX',
-                    'CRM', 'ADBE', 'PYPL', 'SQ', 'SHOP', 'ROKU', 'ZM', 'DOCU',
-                    'TWLO', 'OKTA', 'CRWD', 'ZS', 'DDOG', 'SNOW', 'PLTR', 'COIN',
-                    'RBLX', 'U', 'SOFI', 'HOOD', 'RIVN', 'LCID', 'MRNA', 'BNTX'
-                ]
-            elif args.nasdaq:
-                print("💎 NASDAQ mode - scanning ~3000 stocks...")
-                print("⏱️  Estimated time: 1-2 hours")
-                symbols = scanner.universe_manager.get_nasdaq_symbols()
-                if not symbols:
-                    print("❌ Could not get NASDAQ symbols")
-                    exit(1)
-            elif args.symbols:
-                custom_symbols = [s.strip().upper() for s in args.symbols.split(',')]
-                print(f"🎯 Custom symbols mode - scanning {len(custom_symbols)} stocks...")
-                symbols = custom_symbols
-            else:  # args.sp500 is default
-                print("📈 S&P 500 mode - scanning ~500 stocks...")
-                print("⏱️  Estimated time: 15-25 minutes")
-                symbols = scanner.universe_manager.get_sp500_symbols()
-                if not symbols:
-                    print("❌ Could not get S&P 500 symbols")
-                    exit(1)
-
-            print(f"📊 Scanning {len(symbols)} symbols...")
-            if args.parallel:
-                print(f"⚡ PARALLEL MODE - Using {args.workers or (cpu_count() - 1)} workers")
-                print(f"🚀 Expected speedup: 6-8x faster")
-            print("=" * 70)
-
-            # Use scanner_enhanced.scan_market for parallel support
-            results = scanner_enhanced.scan_market(
-                symbol_list=symbols,
-                parallel=args.parallel,
-                num_workers=args.workers
-            )
-
-            scanner.generate_detailed_report(results)
-
-            # Generate timestamp for files
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
-            # Ensure output directory exists
-            from pathlib import Path
-            output_dir = Path("docs/reports/vcp")
-            output_dir.mkdir(parents=True, exist_ok=True)
-
-            # Save CSV to standardized location
-            csv_path = output_dir / f"vcp_calibrated_results_{timestamp}.csv"
-            scanner_enhanced.save_csv(results, str(csv_path))
-
-            # Save HTML to standardized location
-            html_path = output_dir / f"vcp_scanner_{timestamp}.html"
-            scanner_enhanced.generate_html(results, str(html_path))
-
-            # Create/update symlinks for latest files
-            latest_csv = output_dir / "latest.csv"
-            latest_html = output_dir / "latest.html"
-
-            # Remove old symlinks if they exist
-            if latest_csv.exists() or latest_csv.is_symlink():
-                latest_csv.unlink()
-            if latest_html.exists() or latest_html.is_symlink():
-                latest_html.unlink()
-
-            # Create new symlinks (relative paths for portability)
-            latest_csv.symlink_to(f"vcp_calibrated_results_{timestamp}.csv")
-            latest_html.symlink_to(f"vcp_scanner_{timestamp}.html")
-
-            # Also update docs/vcp_scanner.html as main entry point
-            import shutil
-            shutil.copy(str(html_path), "docs/vcp_scanner.html")
-
-            print("=" * 70)
-            print(f"✅ Scan completed: {len(results)} VCP patterns detected")
-            print(f"📊 CSV saved: {csv_path}")
-            print(f"🌐 HTML saved: {html_path}")
-            print("=" * 70)
-
-        else:
-            # Interactive mode - show menu as usual
-            print("🎯 VCP SCANNER CALIBRADO - FUNCIONALIDAD COMPLETA")
-            print("✅ Basado en investigación de patrones VCP reales")
-            print("✅ Tolerancias flexibles como traders profesionales")
-            print("✅ Sistema de puntuación granular")
-            print("✅ Detecta más patrones genuinos")
-            print("✅ SIN ERRORES DE SINTAXIS")
-            print()
-
-            main_menu()
-
-    except KeyboardInterrupt:
-        print("\n👋 Saliendo...")
-    except Exception as e:
-        logger.error(f"Error crítico: {e}")
-        print(f"❌ Error crítico: {e}")
-    finally:
-        print("🙏 Gracias por usar VCP Scanner Calibrado")
 # ===== WRAPPER PARA INTEGRACIÓN CON SISTEMA PRINCIPAL =====
 
 class VCPScannerEnhanced:
@@ -1871,3 +1722,154 @@ class VCPScannerEnhanced:
 
 logger.info("✅ VCPScannerEnhanced wrapper creado correctamente")
 
+
+
+def parse_arguments():
+    """Parse command-line arguments for non-interactive execution"""
+    parser = argparse.ArgumentParser(
+        description='VCP Scanner - Interactive or Automated Execution',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='''
+Examples:
+  python3 vcp_scanner_usa.py                        # Interactive menu
+  python3 vcp_scanner_usa.py --sp500                # Scan S&P 500 (sequential)
+  python3 vcp_scanner_usa.py --sp500 --parallel     # ⚡ Scan S&P 500 (PARALLEL - 6x faster!)
+  python3 vcp_scanner_usa.py --nasdaq --parallel    # ⚡ Scan NASDAQ (parallel)
+  python3 vcp_scanner_usa.py --quick                # Quick test (30 stocks)
+  python3 vcp_scanner_usa.py --symbols AAPL,MSFT,NVDA --parallel
+
+Performance:
+  Sequential mode: ~2 hours for S&P 500
+  Parallel mode:   ~15-20 minutes for S&P 500 (6-8x faster!) ⚡
+        '''
+    )
+
+    parser.add_argument('--sp500', action='store_true',
+                       help='Scan S&P 500 stocks (~500 stocks)')
+    parser.add_argument('--nasdaq', action='store_true',
+                       help='Scan NASDAQ stocks (~3000 stocks)')
+    parser.add_argument('--quick', action='store_true',
+                       help='Quick test with 30 popular stocks')
+    parser.add_argument('--symbols', type=str,
+                       help='Comma-separated list of symbols (e.g., AAPL,MSFT,NVDA)')
+    parser.add_argument('--parallel', action='store_true',
+                       help='⚡ Use parallel processing (6-8x faster)')
+    parser.add_argument('--workers', type=int, default=None,
+                       help='Number of parallel workers (default: CPU count - 1)')
+
+    return parser.parse_args()
+
+if __name__ == "__main__":
+    try:
+        args = parse_arguments()
+
+        # Check if running in non-interactive mode
+        if args.sp500 or args.nasdaq or args.quick or args.symbols:
+            # Non-interactive mode - run scan directly
+            print("🎯 VCP SCANNER - NON-INTERACTIVE MODE")
+            print("=" * 70)
+
+            scanner_enhanced = VCPScannerEnhanced("GPA37GJVIDCNNTRL")
+            scanner = scanner_enhanced.scanner  # Keep reference for compatibility
+
+            if args.quick:
+                print("🔥 Quick test mode - scanning 30 popular stocks...")
+                symbols = [
+                    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'NFLX',
+                    'CRM', 'ADBE', 'PYPL', 'SQ', 'SHOP', 'ROKU', 'ZM', 'DOCU',
+                    'TWLO', 'OKTA', 'CRWD', 'ZS', 'DDOG', 'SNOW', 'PLTR', 'COIN',
+                    'RBLX', 'U', 'SOFI', 'HOOD', 'RIVN', 'LCID', 'MRNA', 'BNTX'
+                ]
+            elif args.nasdaq:
+                print("💎 NASDAQ mode - scanning ~3000 stocks...")
+                print("⏱️  Estimated time: 1-2 hours")
+                symbols = scanner.universe_manager.get_nasdaq_symbols()
+                if not symbols:
+                    print("❌ Could not get NASDAQ symbols")
+                    exit(1)
+            elif args.symbols:
+                custom_symbols = [s.strip().upper() for s in args.symbols.split(',')]
+                print(f"🎯 Custom symbols mode - scanning {len(custom_symbols)} stocks...")
+                symbols = custom_symbols
+            else:  # args.sp500 is default
+                print("📈 S&P 500 mode - scanning ~500 stocks...")
+                print("⏱️  Estimated time: 15-25 minutes")
+                symbols = scanner.universe_manager.get_sp500_symbols()
+                if not symbols:
+                    print("❌ Could not get S&P 500 symbols")
+                    exit(1)
+
+            print(f"📊 Scanning {len(symbols)} symbols...")
+            if args.parallel:
+                print(f"⚡ PARALLEL MODE - Using {args.workers or (cpu_count() - 1)} workers")
+                print(f"🚀 Expected speedup: 6-8x faster")
+            print("=" * 70)
+
+            # Use scanner_enhanced.scan_market for parallel support
+            results = scanner_enhanced.scan_market(
+                symbol_list=symbols,
+                parallel=args.parallel,
+                num_workers=args.workers
+            )
+
+            scanner.generate_detailed_report(results)
+
+            # Generate timestamp for files
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+            # Ensure output directory exists
+            from pathlib import Path
+            output_dir = Path("docs/reports/vcp")
+            output_dir.mkdir(parents=True, exist_ok=True)
+
+            # Save CSV to standardized location
+            csv_path = output_dir / f"vcp_calibrated_results_{timestamp}.csv"
+            scanner_enhanced.save_csv(results, str(csv_path))
+
+            # Save HTML to standardized location
+            html_path = output_dir / f"vcp_scanner_{timestamp}.html"
+            scanner_enhanced.generate_html(results, str(html_path))
+
+            # Create/update symlinks for latest files
+            latest_csv = output_dir / "latest.csv"
+            latest_html = output_dir / "latest.html"
+
+            # Remove old symlinks if they exist
+            if latest_csv.exists() or latest_csv.is_symlink():
+                latest_csv.unlink()
+            if latest_html.exists() or latest_html.is_symlink():
+                latest_html.unlink()
+
+            # Create new symlinks (relative paths for portability)
+            latest_csv.symlink_to(f"vcp_calibrated_results_{timestamp}.csv")
+            latest_html.symlink_to(f"vcp_scanner_{timestamp}.html")
+
+            # Also update docs/vcp_scanner.html as main entry point
+            import shutil
+            shutil.copy(str(html_path), "docs/vcp_scanner.html")
+
+            print("=" * 70)
+            print(f"✅ Scan completed: {len(results)} VCP patterns detected")
+            print(f"📊 CSV saved: {csv_path}")
+            print(f"🌐 HTML saved: {html_path}")
+            print("=" * 70)
+
+        else:
+            # Interactive mode - show menu as usual
+            print("🎯 VCP SCANNER CALIBRADO - FUNCIONALIDAD COMPLETA")
+            print("✅ Basado en investigación de patrones VCP reales")
+            print("✅ Tolerancias flexibles como traders profesionales")
+            print("✅ Sistema de puntuación granular")
+            print("✅ Detecta más patrones genuinos")
+            print("✅ SIN ERRORES DE SINTAXIS")
+            print()
+
+            main_menu()
+
+    except KeyboardInterrupt:
+        print("\n👋 Saliendo...")
+    except Exception as e:
+        logger.error(f"Error crítico: {e}")
+        print(f"❌ Error crítico: {e}")
+    finally:
+        print("🙏 Gracias por usar VCP Scanner Calibrado")
