@@ -23,12 +23,13 @@ class SuperDashboardGenerator:
         sector_data = self._load_sector_rotation()
         opportunities_data = self._load_5d_opportunities()
         backtest_data = self._load_backtest_metrics()
+        vcp_metadata = self._load_vcp_metadata()
 
         # Generate integrated insights
         insights = self._generate_insights(sector_data, opportunities_data, backtest_data)
 
         # Generate HTML
-        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights)
+        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata)
 
         # Save
         with open(output_file, 'w', encoding='utf-8') as f:
@@ -49,8 +50,12 @@ class SuperDashboardGenerator:
         csv_file = Path("docs/super_opportunities_5d_complete.csv")
         if csv_file.exists():
             df = pd.read_csv(csv_file)
+            # Store total count before filtering
+            total_count = len(df)
             # Filter score >= 55 (BUENA o mejor)
             df = df[df['super_score_5d'] >= 55].copy()
+            # Add total count as attribute
+            df.attrs['total_count'] = total_count
             return df
         return None
 
@@ -63,6 +68,37 @@ class SuperDashboardGenerator:
                 latest = sorted(metrics_files)[-1]
                 with open(latest, 'r') as f:
                     return json.load(f)
+        return None
+
+    def _load_vcp_metadata(self):
+        """Carga metadata del último scan VCP"""
+        # Buscar archivos VCP más recientes
+        vcp_files = list(Path(".").glob("vcp_calibrated_results_*.csv"))
+
+        if vcp_files:
+            latest_vcp = sorted(vcp_files)[-1]
+            df = pd.read_csv(latest_vcp)
+
+            # Extraer fecha del nombre del archivo
+            # Formato: vcp_calibrated_results_YYYYMMDD_HHMMSS.csv
+            filename = latest_vcp.stem  # Remove .csv
+            parts = filename.split('_')
+            if len(parts) >= 4:
+                date_str = parts[3]  # YYYYMMDD
+                time_str = parts[4] if len(parts) > 4 else "000000"  # HHMMSS
+                scan_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                scan_time = f"{time_str[:2]}:{time_str[2:4]}"
+            else:
+                scan_date = "Unknown"
+                scan_time = ""
+
+            return {
+                'pattern_count': len(df),
+                'scan_date': scan_date,
+                'scan_time': scan_time,
+                'filename': latest_vcp.name
+            }
+
         return None
 
     def _generate_insights(self, sector_data, opportunities_data, backtest_data):
@@ -124,12 +160,18 @@ class SuperDashboardGenerator:
 
         return insights
 
-    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights):
+    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights, vcp_metadata=None):
         """Genera HTML del super dashboard"""
 
         # Prepare data
         top_opportunities = []
+        total_opportunities = 0
+        filtered_count = 0
         if opportunities_data is not None:
+            # Get total count from attrs (before filtering)
+            total_opportunities = opportunities_data.attrs.get('total_count', len(opportunities_data))
+            # Get filtered count (score >= 55)
+            filtered_count = len(opportunities_data)
             top_opportunities = opportunities_data.nlargest(10, 'super_score_5d').to_dict('records')
 
         sector_alerts = []
@@ -372,21 +414,24 @@ class SuperDashboardGenerator:
 
         <!-- Quick Stats -->
         <div class="quick-stats">
+            <div class="stat-card" style="background: linear-gradient(135deg, #fef3c7, #fbbf24);">
+                <div class="stat-value" style="color: #92400e;">{vcp_metadata['pattern_count'] if vcp_metadata else 0}</div>
+                <div class="stat-label" style="color: #92400e;">🎯 VCP Patterns</div>
+                <div style="font-size: 0.8em; color: #92400e; margin-top: 5px;">{vcp_metadata['scan_date'] if vcp_metadata else 'N/A'}</div>
+            </div>
             <div class="stat-card">
-                <div class="stat-value">{len(top_opportunities) if opportunities_data is not None else 0}</div>
-                <div class="stat-label">5D Opportunities</div>
+                <div class="stat-value">{total_opportunities}</div>
+                <div class="stat-label">Total 5D Opps</div>
+                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">⭐ BUENA+: {filtered_count}</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">{len(sector_alerts)}</div>
                 <div class="stat-label">Sector Alerts</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">{backtest_summary.get('win_rate', 0):.0f}%</div>
-                <div class="stat-label">Win Rate</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">{backtest_summary.get('avg_return', 0):.1f}%</div>
-                <div class="stat-label">Avg Return</div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #d1fae5, #10b981);">
+                <div class="stat-value" style="color: #065f46;">{backtest_summary.get('win_rate', 0):.0f}%</div>
+                <div class="stat-label" style="color: #065f46;">Win Rate</div>
+                <div style="font-size: 0.8em; color: #065f46; margin-top: 5px;">Avg: {backtest_summary.get('avg_return', 0):.1f}%</div>
             </div>
         </div>
 
