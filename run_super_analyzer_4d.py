@@ -42,6 +42,20 @@ def load_institutional_scores():
 
     return scores
 
+def load_vcp_repeaters():
+    """Carga datos de VCP repeaters históricos"""
+    repeater_path = Path("docs/vcp_repeaters.json")
+
+    if not repeater_path.exists():
+        print("⚠️  No hay datos de VCP repeaters")
+        print("   Ejecuta: python3 vcp_history_analyzer.py")
+        return {}
+
+    with open(repeater_path, 'r') as f:
+        repeater_data = json.load(f)
+
+    return repeater_data.get('repeaters', {})
+
 def run_4d_analysis():
     """Ejecuta análisis 5D completo"""
     print("🎯 SUPER ANALYZER 5D - ANÁLISIS COMPLETO")
@@ -62,14 +76,34 @@ def run_4d_analysis():
     else:
         print(f"   ⚠️  Sin datos institucionales - Scores será 0")
 
+    # Cargar VCP Repeaters
+    print("\n🔁 Cargando VCP Repeaters históricos...")
+    vcp_repeaters = load_vcp_repeaters()
+
+    if vcp_repeaters:
+        print(f"   ✅ {len(vcp_repeaters)} VCP Repeaters identificados")
+
+        # Top 5 por consistency score
+        top_repeaters = sorted(vcp_repeaters.items(),
+                             key=lambda x: x[1]['consistency_score'],
+                             reverse=True)[:5]
+        print(f"\n   🏆 TOP 5 REPEATERS MÁS CONSISTENTES:")
+        for ticker, data in top_repeaters:
+            print(f"      {ticker:6} - {data['repeat_count']}x apariciones | "
+                  f"Score: {data['consistency_score']:.0f}/50")
+    else:
+        print(f"   ⚠️  Sin datos de repeaters - Bonus será 0")
+
     # Ejecutar Super Analyzer 5D
     # (incluye sector enhancement + fundamental analysis automáticamente)
     analyzer = SuperAnalyzer4D()
     opportunities = analyzer.find_4d_opportunities()
 
-    # Enriquecer con datos institucionales reales (si los hay)
+    # Enriquecer con datos institucionales reales y VCP repeaters
     for opp in opportunities:
         ticker = opp['ticker']
+
+        # Datos institucionales
         if ticker in inst_scores:
             inst_data = inst_scores[ticker]
             opp['dimensions']['institutional'] = inst_data['institutional_score']
@@ -86,6 +120,38 @@ def run_4d_analysis():
             )
 
             opp.update(opp_recalc)
+
+        # VCP Repeater bonus
+        if ticker in vcp_repeaters:
+            repeater_data = vcp_repeaters[ticker]
+
+            # Add repeater info
+            opp['vcp_repeater'] = True
+            opp['repeat_count'] = repeater_data['repeat_count']
+            opp['consistency_score'] = repeater_data['consistency_score']
+
+            # Calculate bonus: 3 points per appearance, max 15
+            repeater_bonus = min(repeater_data['repeat_count'] * 3, 15)
+            opp['repeater_bonus'] = repeater_bonus
+
+            # Add bonus to super score
+            opp['super_score_4d'] = opp.get('super_score_4d', 0) + repeater_bonus
+
+            # Update tier if needed
+            new_score = opp['super_score_4d']
+            if new_score >= 80:
+                opp['tier'] = '⭐⭐⭐⭐ LEGENDARY'
+            elif new_score >= 70:
+                opp['tier'] = '⭐⭐⭐ EXCELENTE'
+            elif new_score >= 60:
+                opp['tier'] = '⭐⭐ BUENA'
+            elif new_score >= 50:
+                opp['tier'] = '⭐ BUENA'
+        else:
+            opp['vcp_repeater'] = False
+            opp['repeat_count'] = 0
+            opp['consistency_score'] = 0
+            opp['repeater_bonus'] = 0
 
     # Reordenar por nuevo score
     opportunities.sort(key=lambda x: x['super_score_4d'], reverse=True)
@@ -143,7 +209,13 @@ def run_4d_analysis():
 
             # Institucionales
             'num_whales': opp.get('institutional_details', {}).get('num_whales', 0),
-            'top_whales': ', '.join(opp.get('institutional_details', {}).get('top_whales', []))
+            'top_whales': ', '.join(opp.get('institutional_details', {}).get('top_whales', [])),
+
+            # VCP Repeaters
+            'vcp_repeater': opp.get('vcp_repeater', False),
+            'repeat_count': opp.get('repeat_count', 0),
+            'consistency_score': opp.get('consistency_score', 0),
+            'repeater_bonus': opp.get('repeater_bonus', 0)
         }
         csv_data.append(row)
 

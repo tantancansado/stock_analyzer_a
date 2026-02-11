@@ -24,9 +24,10 @@ class SuperDashboardGenerator:
         opportunities_data = self._load_5d_opportunities()
         backtest_data = self._load_backtest_metrics()
         vcp_metadata = self._load_vcp_metadata()
+        vcp_repeaters = self._load_vcp_repeaters()
 
         # Generate integrated insights
-        insights = self._generate_insights(sector_data, opportunities_data, backtest_data)
+        insights = self._generate_insights(sector_data, opportunities_data, backtest_data, vcp_repeaters)
 
         # Generate HTML
         html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata)
@@ -101,9 +102,32 @@ class SuperDashboardGenerator:
 
         return None
 
-    def _generate_insights(self, sector_data, opportunities_data, backtest_data):
+    def _load_vcp_repeaters(self):
+        """Carga datos de VCP repeaters"""
+        repeater_file = Path("docs/vcp_repeaters.json")
+        if repeater_file.exists():
+            with open(repeater_file, 'r') as f:
+                data = json.load(f)
+                return data.get('repeaters', {})
+        return None
+
+    def _generate_insights(self, sector_data, opportunities_data, backtest_data, vcp_repeaters=None):
         """Genera insights integrados cruzando datos"""
         insights = []
+
+        # VCP Repeaters insight (PRIORITY #1)
+        if vcp_repeaters and opportunities_data is not None and 'vcp_repeater' in opportunities_data.columns:
+            repeater_opps = opportunities_data[opportunities_data['vcp_repeater'] == True]
+
+            if len(repeater_opps) > 0:
+                top_repeaters = repeater_opps.nlargest(5, 'repeat_count')
+                insights.append({
+                    'type': 'VCP_REPEATERS',
+                    'title': f"🔁 {len(repeater_opps)} VCP REPEATERS - Stocks con Historial Comprobado",
+                    'description': f"Estos stocks formaron VCP patterns múltiples veces. Mayor probabilidad de éxito.",
+                    'tickers': top_repeaters['ticker'].tolist(),
+                    'priority': 'CRITICAL'
+                })
 
         if sector_data and opportunities_data is not None:
             # Cross-reference: 5D opportunities en sectores LEADING
