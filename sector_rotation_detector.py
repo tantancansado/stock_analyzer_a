@@ -76,6 +76,10 @@ class SectorRotationDetector:
             df = yf.download(ticker, start=start_date, end=end_date, progress=False)
 
             if not df.empty:
+                # Handle MultiIndex columns (yfinance sometimes returns ticker in column names)
+                if isinstance(df.columns, pd.MultiIndex):
+                    df.columns = df.columns.get_level_values(0)
+
                 df.index.name = 'Date'
                 df.to_csv(cache_file)
                 return df
