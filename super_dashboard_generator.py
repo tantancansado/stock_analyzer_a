@@ -47,17 +47,68 @@ class SuperDashboardGenerator:
         return None
 
     def _load_5d_opportunities(self):
-        """Carga oportunidades 5D"""
-        csv_file = Path("docs/super_opportunities_5d_complete.csv")
-        if csv_file.exists():
-            df = pd.read_csv(csv_file)
+        """
+        Carga oportunidades con Super Score Ultimate (VCP + ML + Fundamental)
+
+        Strategy: Hybrid merge
+        1. Load super_scores_ultimate.csv (VCP + ML + Fundamental combined)
+        2. Merge with super_opportunities_5d_complete.csv for enrichment
+        3. Use ultimate score as PRIMARY while keeping 5D features
+        """
+        ultimate_file = Path("docs/super_scores_ultimate.csv")
+        opps_5d_file = Path("docs/super_opportunities_5d_complete.csv")
+
+        # Try to load Super Score Ultimate (preferred)
+        if ultimate_file.exists():
+            ultimate_df = pd.read_csv(ultimate_file)
+
+            # If 5D data available, enrich with insiders/institutional/timing
+            if opps_5d_file.exists():
+                opps_5d = pd.read_csv(opps_5d_file)
+
+                # Merge to get enrichment data from 5D
+                enrichment_cols = [
+                    'ticker', 'insiders_score', 'institutional_score',
+                    'timing_convergence', 'timing_reason', 'vcp_repeater',
+                    'repeat_count', 'consistency_score', 'sector_name',
+                    'sector_momentum', 'price_target', 'analyst_target',
+                    'upside_percent', 'top_whales', 'num_whales'
+                ]
+
+                # Only keep columns that exist in 5D data
+                available_enrichment = [col for col in enrichment_cols if col in opps_5d.columns]
+
+                df = ultimate_df.merge(
+                    opps_5d[available_enrichment],
+                    on='ticker',
+                    how='left'
+                )
+            else:
+                df = ultimate_df.copy()
+
+            # Rename super_score_ultimate to super_score_5d for compatibility
+            if 'super_score_ultimate' in df.columns:
+                df['super_score_5d'] = df['super_score_ultimate']
+
             # Store total count before filtering
             total_count = len(df)
-            # Filter score >= 55 (BUENA o mejor)
+
+            # Filter score >= 55 (GOOD o mejor)
             df = df[df['super_score_5d'] >= 55].copy()
+
             # Add total count as attribute
             df.attrs['total_count'] = total_count
+
             return df
+
+        # Fallback to 5D-only if ultimate doesn't exist yet
+        elif opps_5d_file.exists():
+            df = pd.read_csv(opps_5d_file)
+            total_count = len(df)
+            df = df[df['super_score_5d'] >= 55].copy()
+            df.attrs['total_count'] = total_count
+            return df
+
         return None
 
     def _load_backtest_metrics(self):
@@ -219,7 +270,7 @@ class SuperDashboardGenerator:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎯 Super Dashboard - Sistema 5D Integrado</title>
+    <title>🎯 Super Dashboard Ultimate - VCP + ML + Fundamentals</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {{
@@ -557,7 +608,8 @@ class SuperDashboardGenerator:
             <a href="index.html" style="position: absolute; left: 20px; top: 20px; color: white; text-decoration: none; font-size: 1.2em; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 8px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
                 🏠 Volver
             </a>
-            <h1>🎯 Super Dashboard</h1>
+            <h1>🎯 Super Dashboard Ultimate</h1>
+            <p style="font-size: 0.9em; color: #cbd5e0; margin-top: 5px;">VCP Pattern + ML Predictions + Fundamental Analysis</p>
             <div class="subtitle">Sistema 5D Integrado - Análisis Completo del Mercado</div>
             <div style="margin-top: 10px; font-size: 0.9em;">
                 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
@@ -622,7 +674,7 @@ class SuperDashboardGenerator:
         </div>
 
         <div class="footer">
-            <p>🚀 Stock Analyzer 5D - Super Dashboard Integrado</p>
+            <p>🚀 Stock Analyzer Ultimate - Super Dashboard (VCP + ML + Fundamental)</p>
             <p style="font-size: 0.9em; margin-top: 5px;">Made with Claude Code</p>
         </div>
     </div>
@@ -662,7 +714,7 @@ class SuperDashboardGenerator:
         """
 
     def _generate_opportunities_table(self, opportunities):
-        """Genera tabla de oportunidades"""
+        """Genera tabla de oportunidades con Super Score Ultimate"""
         if not opportunities:
             return "<p>No hay oportunidades disponibles</p>"
 
@@ -671,21 +723,33 @@ class SuperDashboardGenerator:
             score = opp.get('super_score_5d', 0)
             score_class = 'score-high' if score >= 70 else 'score-medium'
             timing_badge = '🔥' if opp.get('timing_convergence', False) else ''
+            repeater_badge = '🔁' if opp.get('vcp_repeater', False) else ''
 
             # Company name for tooltip
             ticker = opp.get('ticker', 'N/A')
             company_name = opp.get('company_name', ticker)
             ticker_display = f'<strong title="{company_name}">{ticker}</strong>' if company_name != ticker else f'<strong>{ticker}</strong>'
 
+            # Component scores
+            vcp_score = opp.get('vcp_score', 0)
+            ml_score = opp.get('ml_score', 0)
+            fundamental_score = opp.get('fundamental_score', 0)
+            insiders_score = opp.get('insiders_score', 0)
+
+            # Sector (prefer sector_name, fallback to sector)
+            sector = opp.get('sector_name', opp.get('sector', 'N/A'))
+
             rows.append(f"""
             <tr>
                 <td>{ticker_display}</td>
                 <td><span class="score-badge {score_class}">{score:.1f}</span></td>
                 <td>{opp.get('tier', 'N/A')}</td>
-                <td>{opp.get('sector_name', 'N/A')}</td>
-                <td>{opp.get('vcp_score', 0):.0f}</td>
-                <td>{opp.get('insiders_score', 0):.0f}</td>
-                <td>{timing_badge}</td>
+                <td>{sector}</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">{vcp_score:.0f}</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">{ml_score:.0f}</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">{fundamental_score:.0f}</span></td>
+                <td>{insiders_score:.0f}</td>
+                <td>{timing_badge} {repeater_badge}</td>
             </tr>
             """)
 
@@ -694,12 +758,14 @@ class SuperDashboardGenerator:
             <thead>
                 <tr>
                     <th>Ticker</th>
-                    <th>Score 5D</th>
+                    <th>Ultimate</th>
                     <th>Tier</th>
                     <th>Sector</th>
                     <th>VCP</th>
-                    <th>Insiders</th>
-                    <th>Timing</th>
+                    <th>ML</th>
+                    <th>Fund</th>
+                    <th>Ins</th>
+                    <th>⚡</th>
                 </tr>
             </thead>
             <tbody>
