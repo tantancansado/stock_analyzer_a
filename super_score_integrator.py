@@ -15,11 +15,17 @@ import numpy as np
 from pathlib import Path
 from datetime import datetime
 import json
+import argparse
 
 class SuperScoreIntegrator:
     """Integra VCP, ML y Fundamental scores en Super Score Ultimate"""
 
-    def __init__(self):
+    def __init__(self, as_of_date: str = None):
+        """Initialize Super Score Integrator
+
+        Args:
+            as_of_date: Historical date (YYYY-MM-DD) for scoring. Used for timestamps.
+        """
         # Weights para cada sistema
         self.weights = {
             'vcp': 0.40,        # 40% - Patrón técnico es critical
@@ -27,12 +33,17 @@ class SuperScoreIntegrator:
             'fundamental': 0.30 # 30% - Earnings & growth quality
         }
 
+        # 🔴 FIX LOOK-AHEAD BIAS: Store as_of_date for timestamps
+        self.as_of_date = as_of_date
+        if as_of_date:
+            print(f"📅 Super Score Integrator: Historical mode (as_of_date={as_of_date})")
+
     def integrate_scores(self, reference_date: str = None) -> pd.DataFrame:
         """
         Integra todos los scores disponibles
 
         Args:
-            reference_date: Fecha de referencia para los datos (YYYY-MM-DD). None = hoy
+            reference_date: Fecha de referencia para los datos (YYYY-MM-DD). None = usa as_of_date del constructor o hoy
 
         Returns:
             DataFrame con Super Score Ultimate + timestamps
@@ -41,8 +52,8 @@ class SuperScoreIntegrator:
         print("=" * 80)
         print("Integrando VCP + ML + Fundamental scores...\n")
 
-        # Store reference date for timestamp
-        self.reference_date = reference_date if reference_date else datetime.now().strftime('%Y-%m-%d')
+        # 🔴 FIX LOOK-AHEAD BIAS: Use reference_date > as_of_date > today
+        self.reference_date = reference_date if reference_date else (self.as_of_date if self.as_of_date else datetime.now().strftime('%Y-%m-%d'))
 
         # 1. Cargar VCP scores
         vcp_df = self._load_vcp_scores()
@@ -325,11 +336,38 @@ class SuperScoreIntegrator:
 
 def main():
     """Main execution"""
+    # 🔴 FIX LOOK-AHEAD BIAS: Add argparse for --as-of-date
+    parser = argparse.ArgumentParser(
+        description='Super Score Integrator - Combines VCP + ML + Fundamental scores',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='''
+Examples:
+  python3 super_score_integrator.py                           # Current mode
+  python3 super_score_integrator.py --as-of-date 2025-08-15   # Historical mode
+
+Note:
+  For historical mode, you must first run all scorers with the same --as-of-date:
+
+  1. python3 vcp_scanner_usa.py --sp500 --as-of-date 2025-08-15
+  2. python3 ml_scoring.py --as-of-date 2025-08-15
+  3. python3 fundamental_scorer.py --vcp --as-of-date 2025-08-15
+  4. python3 super_score_integrator.py --as-of-date 2025-08-15
+        '''
+    )
+
+    parser.add_argument('--as-of-date', type=str, default=None,
+                       help='Historical date for scoring (YYYY-MM-DD). Used for timestamps.')
+
+    args = parser.parse_args()
+
     print("🎯 SUPER SCORE INTEGRATOR")
     print("Combinando VCP + ML + Fundamental scores...")
+    if args.as_of_date:
+        print(f"📅 Historical mode: as_of_date={args.as_of_date}")
     print()
 
-    integrator = SuperScoreIntegrator()
+    # 🔴 FIX LOOK-AHEAD BIAS: Pass as_of_date to integrator
+    integrator = SuperScoreIntegrator(as_of_date=args.as_of_date)
 
     # Integrar todos los scores
     integrated_df = integrator.integrate_scores()
@@ -337,9 +375,14 @@ def main():
     if integrated_df.empty:
         print("\n❌ No hay datos suficientes para integrar")
         print("Ejecuta primero:")
-        print("  1. python3 vcp_scanner_usa.py --sp500")
-        print("  2. python3 ml_scoring.py")
-        print("  3. python3 fundamental_scorer.py --vcp")
+        if args.as_of_date:
+            print(f"  1. python3 vcp_scanner_usa.py --sp500 --as-of-date {args.as_of_date}")
+            print(f"  2. python3 ml_scoring.py --as-of-date {args.as_of_date}")
+            print(f"  3. python3 fundamental_scorer.py --vcp --as-of-date {args.as_of_date}")
+        else:
+            print("  1. python3 vcp_scanner_usa.py --sp500")
+            print("  2. python3 ml_scoring.py")
+            print("  3. python3 fundamental_scorer.py --vcp")
         return
 
     # Guardar resultados
