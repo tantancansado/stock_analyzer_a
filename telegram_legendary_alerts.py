@@ -22,26 +22,36 @@ class TelegramLegendaryAlerts:
 
         Prioridad de credenciales:
         1. Parámetros directos
-        2. Variables de entorno (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
-        3. Archivo de configuración
+        2. config.py (configuración del proyecto)
+        3. Variables de entorno (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+        4. Archivo de configuración
         """
-        # Intentar cargar desde config
-        config = self.load_config()
+        # Intentar importar config.py del proyecto
+        project_config = None
+        try:
+            import config as project_config
+        except ImportError:
+            pass
 
-        # Prioridad: parámetros > env vars > config file
+        # Intentar cargar desde archivo config
+        file_config = self.load_config()
+
+        # Prioridad: parámetros > config.py > env vars > config file
         self.bot_token = (
             bot_token or
+            (project_config.TELEGRAM_BOT_TOKEN if project_config else None) or
             os.getenv('TELEGRAM_BOT_TOKEN') or
-            config.get('bot_token')
+            file_config.get('bot_token')
         )
         self.chat_id = (
             chat_id or
+            (project_config.TELEGRAM_CHAT_ID if project_config else None) or
             os.getenv('TELEGRAM_CHAT_ID') or
-            config.get('chat_id')
+            file_config.get('chat_id')
         )
 
         if not self.bot_token or not self.chat_id:
-            raise ValueError("Bot token y chat_id requeridos. Ver TELEGRAM_SETUP.md")
+            raise ValueError("Bot token y chat_id requeridos. Configurar en config.py o variables de entorno")
 
     def load_config(self):
         """Carga configuración desde archivo"""
@@ -77,7 +87,8 @@ class TelegramLegendaryAlerts:
             opportunity: Dict con datos de la oportunidad
         """
         ticker = opportunity['ticker']
-        score = opportunity['super_score_4d']
+        company = opportunity.get('company_name', ticker)
+        score = opportunity.get('super_score_5d', opportunity.get('super_score_4d', 0))
         tier = opportunity['tier']
         dims = opportunity['dimensions']
 
@@ -88,41 +99,61 @@ class TelegramLegendaryAlerts:
 🌟 <b>LEGENDARY OPPORTUNITY DETECTED!</b> 🌟
 {fire}
 
-<b>Ticker:</b> {ticker}
-<b>Super Score 4D:</b> {score:.1f}/100
+<b>{ticker}</b> - {company}
+<b>Super Score 5D:</b> {score:.1f}/100
 <b>Tier:</b> {tier}
 
-📊 <b>ANÁLISIS 4 DIMENSIONES:</b>
+📊 <b>ANÁLISIS 5 DIMENSIONES:</b>
 
 🚀 <b>VCP Pattern:</b> {dims['vcp']:.0f}/100
-   └ Patrón técnico {self._get_quality_emoji(dims['vcp'])}
+   └ {self._get_quality_emoji(dims['vcp'])}
 
-🔁 <b>Recurring Insiders:</b> {dims['insiders']:.0f}/100
-   └ Compras ejecutivos {self._get_quality_emoji(dims['insiders'])}
+👔 <b>Recurring Insiders:</b> {dims['insiders']:.0f}/100
+   └ {self._get_quality_emoji(dims['insiders'])}
 
-📊 <b>Sector State:</b> {dims['sector']:.0f}/100
-   └ Estado sectorial {self._get_quality_emoji(dims['sector'])}
+📈 <b>Sector:</b> {dims['sector']:.0f}/100
+   └ {self._get_quality_emoji(dims['sector'])}
 
 🏛️ <b>Institutional:</b> {dims['institutional']:.0f}/100
-   └ Whales acumulando {self._get_quality_emoji(dims['institutional'])}
+   └ {self._get_quality_emoji(dims['institutional'])}
+
+🎯 <b>Quality:</b> {dims.get('quality', dims.get('fundamental', 50)):.0f}/100
+   └ {self._get_quality_emoji(dims.get('quality', dims.get('fundamental', 50)))}
 """
 
-        # Añadir detalles institucionales si existen
+        # Timing Convergence
+        if opportunity.get('timing_convergence'):
+            message += f"\n🔥 <b>TIMING PERFECTO!</b>\n{opportunity.get('timing_reason', 'VCP + Insider timing aligned')}\n"
+
+        # VCP Repeater
+        if opportunity.get('vcp_repeater'):
+            count = opportunity.get('repeat_count', 0)
+            bonus = opportunity.get('repeater_bonus', 0)
+            message += f"\n🔁 <b>VCP REPEATER:</b> {count}x histórico (+{bonus} bonus)\n"
+
+        # Price Target
+        upside = opportunity.get('upside_percent')
+        if upside and upside > 0:
+            target = opportunity.get('price_target', 0)
+            current = opportunity.get('current_price', 0)
+            message += f"\n💰 <b>Upside:</b> +{upside:.1f}% (${current:.2f} → ${target:.2f})\n"
+
+        # Whales
         if opportunity.get('institutional_details'):
             inst = opportunity['institutional_details']
-            message += f"""
-🐋 <b>Whales Holding:</b>
-"""
-            for whale in inst.get('top_whales', [])[:3]:
-                message += f"   • {whale}\n"
+            if inst.get('top_whales'):
+                message += f"\n🐋 <b>Whales:</b>\n"
+                for whale in inst.get('top_whales', [])[:3]:
+                    message += f"   • {whale}\n"
 
-        # Añadir razón
+        # Investment Thesis (short)
+        thesis = opportunity.get('thesis_short')
+        if thesis:
+            message += f"\n💡 <b>Thesis:</b> {thesis}\n"
+
         message += f"""
-💡 <b>Razón:</b>
-{opportunity.get('description', 'Confirmación cuádruple detectada')}
-
 🔗 <b>Ver más:</b>
-<a href="https://tantancansado.github.io/stock_analyzer_a/super_opportunities.html">Dashboard completo</a>
+<a href="https://tantancansado.github.io/stock_analyzer_a/super_dashboard.html">Dashboard completo</a>
 
 ⏰ <i>Detectado: {datetime.now().strftime('%Y-%m-%d %H:%M')}</i>
 """
@@ -141,22 +172,28 @@ class TelegramLegendaryAlerts:
 
     def check_and_alert_legendary(self):
         """
-        Revisa oportunidades 4D y envía alertas para LEGENDARY
+        Revisa oportunidades 5D y envía alertas para LEGENDARY
         """
         print("🔍 Buscando LEGENDARY opportunities...")
 
-        # Cargar resultados del Super Analyzer 4D
-        csv_path = Path('docs/super_opportunities_4d_complete.csv')
+        # Cargar resultados del Super Analyzer 5D
+        csv_path = Path('docs/super_opportunities_5d_complete.csv')
 
         if not csv_path.exists():
-            print("⚠️  No hay datos 4D. Ejecuta: python3 run_super_analyzer_4d.py")
-            return
+            # Fallback a 4D si existe
+            csv_path = Path('docs/super_opportunities_4d_complete.csv')
+            if not csv_path.exists():
+                print("⚠️  No hay datos 5D. Ejecuta: python3 run_super_analyzer_4d.py")
+                return
 
         import pandas as pd
         df = pd.read_csv(csv_path)
 
-        # Filtrar LEGENDARY (score >= 85)
-        legendary = df[df['super_score_4d'] >= 85]
+        # Usar columna correcta dependiendo del CSV
+        score_col = 'super_score_5d' if 'super_score_5d' in df.columns else 'super_score_4d'
+
+        # Filtrar LEGENDARY (score >= 80)
+        legendary = df[df[score_col] >= 80]
 
         if legendary.empty:
             print("ℹ️  No hay LEGENDARY opportunities en este momento")
@@ -169,15 +206,26 @@ class TelegramLegendaryAlerts:
         for _, row in legendary.iterrows():
             opportunity = {
                 'ticker': row['ticker'],
-                'super_score_4d': row['super_score_4d'],
+                'company_name': row.get('company_name', row['ticker']),
+                'super_score_5d': row.get(score_col, 0),
                 'tier': row.get('tier', '⭐⭐⭐⭐ LEGENDARY'),
                 'dimensions': {
                     'vcp': row.get('vcp_score', 0),
                     'insiders': row.get('insiders_score', 0),
                     'sector': row.get('sector_score', 0),
-                    'institutional': row.get('institutional_score', 0)
+                    'institutional': row.get('institutional_score', 0),
+                    'quality': row.get('fundamental_score', 50)
                 },
-                'description': 'Confirmación cuádruple - Probabilidad histórica',
+                'description': 'Confirmación 5D - Probabilidad histórica',
+                'timing_convergence': row.get('timing_convergence', False),
+                'timing_reason': row.get('timing_reason', ''),
+                'vcp_repeater': row.get('vcp_repeater', False),
+                'repeat_count': row.get('repeat_count', 0),
+                'repeater_bonus': row.get('repeater_bonus', 0),
+                'upside_percent': row.get('upside_percent'),
+                'price_target': row.get('price_target'),
+                'current_price': row.get('current_price'),
+                'thesis_short': row.get('thesis_short', ''),
                 'institutional_details': {
                     'num_whales': row.get('num_whales', 0),
                     'top_whales': row.get('top_whales', '').split(', ') if row.get('top_whales') else []
@@ -196,52 +244,76 @@ class TelegramLegendaryAlerts:
 
     def send_daily_summary(self):
         """
-        Envía resumen diario con top opportunities
-        (Para integrar con tu análisis diario existente)
+        Envía resumen diario con top opportunities 5D
         """
         print("📊 Generando resumen diario...")
 
         import pandas as pd
 
-        # Cargar datos
-        csv_path = Path('docs/super_opportunities_4d_complete.csv')
+        # Cargar datos 5D
+        csv_path = Path('docs/super_opportunities_5d_complete.csv')
         if not csv_path.exists():
-            print("⚠️  No hay datos")
-            return
+            csv_path = Path('docs/super_opportunities_4d_complete.csv')
+            if not csv_path.exists():
+                print("⚠️  No hay datos")
+                return
 
         df = pd.read_csv(csv_path)
 
+        # Detectar columna de score
+        score_col = 'super_score_5d' if 'super_score_5d' in df.columns else 'super_score_4d'
+
         # Top 10 por score
-        top10 = df.nlargest(10, 'super_score_4d')
+        top10 = df.nlargest(10, score_col)
 
         # Contar por tier
-        legendary = len(df[df['super_score_4d'] >= 85])
-        epic = len(df[(df['super_score_4d'] >= 75) & (df['super_score_4d'] < 85)])
-        excellent = len(df[(df['super_score_4d'] >= 65) & (df['super_score_4d'] < 75)])
+        legendary = len(df[df[score_col] >= 80])
+        epic = len(df[(df[score_col] >= 70) & (df[score_col] < 80)])
+        excellent = len(df[(df[score_col] >= 60) & (df[score_col] < 70)])
+
+        # Contar features especiales
+        timing_conv = len(df[df.get('timing_convergence', pd.Series([False]*len(df))) == True])
+        repeaters = len(df[df.get('vcp_repeater', pd.Series([False]*len(df))) == True])
 
         message = f"""
-📊 <b>RESUMEN DIARIO - SUPER ANALYZER 4D</b>
+📊 <b>RESUMEN DIARIO - SISTEMA 5D</b>
 📅 {datetime.now().strftime('%Y-%m-%d')}
 
 🎯 <b>OPORTUNIDADES DETECTADAS:</b>
 ⭐⭐⭐⭐ LEGENDARY: {legendary}
-⭐⭐⭐ ÉPICAS: {epic}
-⭐⭐ EXCELENTES: {excellent}
+⭐⭐⭐ EXCELENTE: {epic}
+⭐⭐ BUENA: {excellent}
+
+🔥 Timing Convergence: {timing_conv}
+🔁 VCP Repeaters: {repeaters}
 
 🏆 <b>TOP 5 OPORTUNIDADES:</b>
 """
 
         for i, (_, row) in enumerate(top10.head(5).iterrows(), 1):
-            emoji = "⭐" * min(4, int(row['super_score_4d'] / 25))
+            ticker = row['ticker']
+            company = row.get('company_name', ticker)
+            score = row[score_col]
+            emoji = "⭐" * min(4, int(score / 25))
+
+            # Badges
+            badges = []
+            if row.get('timing_convergence'):
+                badges.append("🔥")
+            if row.get('vcp_repeater'):
+                badges.append("🔁")
+            badge_str = " ".join(badges)
+
             message += f"""
-{i}. <b>{row['ticker']}</b> - {row['super_score_4d']:.1f} {emoji}
-   VCP:{row.get('vcp_score', 0):.0f} | INS:{row.get('insiders_score', 0):.0f} | SEC:{row.get('sector_score', 0):.0f} | INST:{row.get('institutional_score', 0):.0f}
+{i}. <b>{ticker}</b> - {company}
+   Score: {score:.1f}/100 {emoji} {badge_str}
+   VCP:{row.get('vcp_score', 0):.0f} | INS:{row.get('insiders_score', 0):.0f} | SEC:{row.get('sector_score', 0):.0f}
 """
 
         message += f"""
-🔗 <a href="https://tantancansado.github.io/stock_analyzer_a">Ver Dashboard Completo</a>
+🔗 <a href="https://tantancansado.github.io/stock_analyzer_a/super_dashboard.html">Ver Dashboard Completo</a>
 
-💡 <i>Sistema 4D operativo con {len(df)} tickers analizados</i>
+💡 <i>Sistema 5D operativo con {len(df)} tickers analizados</i>
 """
 
         if self.send_message(message):
@@ -249,26 +321,161 @@ class TelegramLegendaryAlerts:
         else:
             print("❌ Error enviando resumen")
 
+    def send_timing_convergence_alerts(self):
+        """Alerta específica para Timing Convergence (VCP + Insider timing)"""
+        print("🔥 Buscando Timing Convergence...")
+
+        import pandas as pd
+
+        csv_path = Path('docs/super_opportunities_5d_complete.csv')
+        if not csv_path.exists():
+            print("⚠️  No hay datos 5D")
+            return
+
+        df = pd.read_csv(csv_path)
+
+        # Filtrar timing convergence
+        timing = df[df['timing_convergence'] == True]
+
+        if timing.empty:
+            print("ℹ️  No hay timing convergence en este momento")
+            return
+
+        print(f"🔥 {len(timing)} Timing Convergence detectados!")
+
+        message = f"""
+🔥 <b>TIMING CONVERGENCE ALERT!</b> 🔥
+
+Detectados {len(timing)} stocks con timing perfecto:
+VCP + Insider buying convergencia
+
+"""
+
+        for _, row in timing.head(5).iterrows():
+            ticker = row['ticker']
+            company = row.get('company_name', ticker)
+            score = row.get('super_score_5d', row.get('super_score_4d', 0))
+            reason = row.get('timing_reason', 'Timing detected')
+
+            message += f"""
+<b>{ticker}</b> - {company}
+Score: {score:.1f}/100
+{reason}
+
+"""
+
+        message += f"""
+💡 <b>¿Por qué es importante?</b>
+El timing convergence indica que insiders están comprando
+justo durante la formación del patrón VCP - señal histórica
+de alta probabilidad de éxito.
+
+🔗 <a href="https://tantancansado.github.io/stock_analyzer_a/super_dashboard.html">Ver detalles</a>
+"""
+
+        if self.send_message(message):
+            print("✅ Timing Convergence alert enviada")
+        else:
+            print("❌ Error enviando alerta")
+
+    def send_vcp_repeater_alerts(self):
+        """Alerta específica para VCP Repeaters"""
+        print("🔁 Buscando VCP Repeaters...")
+
+        import pandas as pd
+
+        csv_path = Path('docs/super_opportunities_5d_complete.csv')
+        if not csv_path.exists():
+            print("⚠️  No hay datos 5D")
+            return
+
+        df = pd.read_csv(csv_path)
+
+        # Filtrar repeaters
+        repeaters = df[df['vcp_repeater'] == True]
+
+        if repeaters.empty:
+            print("ℹ️  No hay VCP repeaters activos")
+            return
+
+        # Sort by repeat count
+        repeaters = repeaters.sort_values('repeat_count', ascending=False)
+
+        print(f"🔁 {len(repeaters)} VCP Repeaters activos!")
+
+        message = f"""
+🔁 <b>VCP REPEATERS ALERT!</b> 🔁
+
+{len(repeaters)} stocks con historial comprobado de VCP patterns:
+
+"""
+
+        for _, row in repeaters.head(5).iterrows():
+            ticker = row['ticker']
+            company = row.get('company_name', ticker)
+            count = row.get('repeat_count', 0)
+            score = row.get('super_score_5d', row.get('super_score_4d', 0))
+            bonus = row.get('repeater_bonus', 0)
+
+            message += f"""
+<b>{ticker}</b> - {company}
+🔁 {count}x VCP históricos (+{bonus} bonus)
+Score actual: {score:.1f}/100
+
+"""
+
+        message += f"""
+💡 <b>¿Por qué importa?</b>
+Los VCP Repeaters tienen track record comprobado.
+Stocks que forman VCP múltiples veces tienen mayor
+probabilidad de éxito en futuros breakouts.
+
+🔗 <a href="https://tantancansado.github.io/stock_analyzer_a/super_dashboard.html">Ver análisis</a>
+"""
+
+        if self.send_message(message):
+            print("✅ VCP Repeater alert enviada")
+        else:
+            print("❌ Error enviando alerta")
+
 
 def main():
     """Main execution"""
-    print("🤖 TELEGRAM LEGENDARY ALERTS")
+    print("🤖 TELEGRAM ALERTS - SISTEMA 5D")
     print("="*80)
 
     try:
         alerts = TelegramLegendaryAlerts()
 
         print("\nOpciones:")
-        print("1. Buscar y alertar LEGENDARY (score >= 85)")
-        print("2. Enviar resumen diario (top 10)")
-        print("3. Test de conexión")
+        print("1. 🌟 Alertar LEGENDARY (score >= 80)")
+        print("2. 📊 Resumen diario completo")
+        print("3. 🔥 Timing Convergence alerts")
+        print("4. 🔁 VCP Repeater alerts")
+        print("5. 🚀 Ejecutar TODAS las alertas")
+        print("6. 🧪 Test de conexión")
 
-        choice = input("\nSelecciona (1-3): ").strip()
+        choice = input("\nSelecciona (1-6): ").strip()
 
         if choice == '1':
             alerts.check_and_alert_legendary()
         elif choice == '2':
             alerts.send_daily_summary()
+        elif choice == '3':
+            alerts.send_timing_convergence_alerts()
+        elif choice == '4':
+            alerts.send_vcp_repeater_alerts()
+        elif choice == '5':
+            # Ejecutar todas las alertas
+            print("\n🚀 Ejecutando pipeline completo de alertas...\n")
+            alerts.send_daily_summary()
+            print()
+            alerts.check_and_alert_legendary()
+            print()
+            alerts.send_timing_convergence_alerts()
+            print()
+            alerts.send_vcp_repeater_alerts()
+            print("\n✅ Pipeline completo ejecutado!")
         else:
             # Test
             test_msg = f"🧪 Test de conexión - {datetime.now().strftime('%H:%M:%S')}"
@@ -279,7 +486,7 @@ def main():
 
     except ValueError as e:
         print(f"\n❌ {e}")
-        print("\n📖 Consulta TELEGRAM_SETUP.md para configuración")
+        print("\n📖 Consulta config.py para configuración Telegram")
 
 
 if __name__ == "__main__":

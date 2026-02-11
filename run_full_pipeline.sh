@@ -12,6 +12,7 @@ echo "  3. Super Dashboard"
 echo "  4. Backtest Engine"
 echo "  5. Position Sizing"
 echo "  6. Earnings Calendar"
+echo "  7. Telegram Alerts"
 echo "======================================================================"
 echo ""
 
@@ -82,9 +83,18 @@ fi
 
 # 6. Earnings Calendar (opcional - tiene timezone issues conocidos)
 echo ""
-echo "📅 [6/6] Earnings Calendar..."
+echo "📅 [6/7] Earnings Calendar..."
 echo "----------------------------------------------------------------------"
 python3 earnings_calendar.py || echo "⚠️  Earnings calendar warning (conocido - no crítico)"
+
+# 7. Telegram Alerts (envía notificaciones automáticas)
+echo ""
+echo "📱 [7/7] Telegram Alerts..."
+echo "----------------------------------------------------------------------"
+python3 auto_telegram_alerts.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en telegram alerts (no crítico - continúa)"
+fi
 
 echo ""
 echo "======================================================================"
@@ -101,4 +111,6 @@ echo "  - docs/super_opportunities_5d_complete.csv"
 echo "  - docs/position_sizing.csv"
 echo "  - docs/sector_rotation/latest_scan.json"
 echo "  - docs/backtest/*.json"
+echo ""
+echo "📱 Alertas enviadas a Telegram"
 echo ""
