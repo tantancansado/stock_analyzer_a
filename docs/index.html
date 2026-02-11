@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📊 Trading Analytics System | Liquid Glass Dashboard</title>
-    <meta name="description" content="Sistema avanzado de análisis 5D: VCP + Insiders + Sector Rotation + Institutional + Quality. Super Dashboard integrado con AI insights y timing convergence.">
+    <meta name="description" content="Quantitative stock analysis platform: Technical patterns, machine learning predictions, and fundamental analysis. Integrated multi-factor framework for systematic equity selection.">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
         
@@ -327,12 +327,20 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
         }
-        
+
         .nav-desc {
             color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.4;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            max-width: 100%;
         }
         
         /* === CONTENT SECTIONS === */
@@ -647,6 +655,17 @@
                 font-size: 0.85rem;
             }
 
+            /* FIX: Asegurar word-wrap en mobile */
+            .nav-title,
+            .nav-desc,
+            .section-title {
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+                word-break: break-word !important;
+                hyphens: auto !important;
+                max-width: 100% !important;
+            }
+
             .content-liquid {
                 padding: 1rem;
             }
@@ -724,12 +743,12 @@
         </section>
         
         <nav class="navigation-liquid glass-card">
-            <h2 class="section-title">🎯 Módulos de Análisis Avanzado</h2>
+            <h2 class="section-title">Analysis Modules</h2>
             <div class="nav-grid">
                 <a href="super_dashboard.html" class="nav-card" style="grid-column: span 2; background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(79, 70, 229, 0.1));">
-                    <div class="nav-icon">✨</div>
-                    <div class="nav-title">🔥 Super Dashboard 5D</div>
-                    <div class="nav-desc"><strong>NUEVO:</strong> Sistema integrado 5 dimensiones: VCP + Insiders + Sector Rotation + Institutional + Quality Validation. Oportunidades con timing convergence y AI insights</div>
+                    <div class="nav-icon">📊</div>
+                    <div class="nav-title">Quantitative Analysis Platform</div>
+                    <div class="nav-desc">Multi-factor equity selection framework: Technical pattern recognition, machine learning momentum models, and fundamental quality metrics with integrated timing convergence signals</div>
                 </a>
                 <a href="sector_rotation_dashboard.html" class="nav-card">
                     <div class="nav-icon">🔄</div>
@@ -739,7 +758,7 @@
                 <a href="backtest_dashboard.html" class="nav-card">
                     <div class="nav-icon">📉</div>
                     <div class="nav-title">Backtest Engine</div>
-                    <div class="nav-desc">Validación histórica de estrategia 5D con métricas de rendimiento, timing impact y equity curve</div>
+                    <div class="nav-desc">Historical validation framework with performance metrics, timing impact analysis, and equity curve visualization for systematic strategy evaluation</div>
                 </a>
                 <a href="mean_reversion_dashboard.html" class="nav-card">
                     <div class="nav-icon">🔄</div>
@@ -921,8 +940,8 @@
         </main>
         
         <footer class="footer-liquid">
-            <p>🚀 Trading Analytics System • Powered by AI & Advanced Market Analysis</p>
-            <p>Sistema completo: Super Dashboard 5D • Sector Rotation • Backtest Engine • Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner</p>
+            <p>Quantitative Stock Analysis Platform • Systematic Multi-Factor Framework</p>
+            <p>Integrated modules: Quantitative Analysis · Sector Rotation · Backtest Engine · Insider Trading · Market Breadth · Technical Patterns</p>
         </footer>
     </div>
     
