@@ -191,10 +191,18 @@
             font-size: 1.8em;
         }
 
+        /* FIX: Table wrapper for horizontal scroll on mobile */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            margin-bottom: 20px;
+        }
+
         .trades-table {
             width: 100%;
             border-collapse: collapse;
-            overflow-x: auto;
+            min-width: 800px; /* Prevents table from shrinking too much */
         }
 
         .trades-table th {
@@ -300,8 +308,14 @@
                 grid-template-columns: 1fr;
             }
 
+            /* FIX: Better table display on tablets */
+            .trades-section {
+                padding: 20px;
+            }
+
             .trades-table {
                 font-size: 0.85em;
+                min-width: 700px; /* Slightly smaller for tablets */
             }
 
             .trades-table th,
@@ -311,6 +325,10 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
             .header h1 {
                 font-size: 1.6em;
             }
@@ -321,6 +339,41 @@
 
             .nav-button, button, a {
                 min-height: 44px;
+            }
+
+            /* FIX: Ultra compact table for mobile */
+            .trades-section {
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            .trades-table {
+                font-size: 0.75em;
+                min-width: 600px; /* Smaller for phones */
+            }
+
+            .trades-table th,
+            .trades-table td {
+                padding: 8px 4px;
+                white-space: nowrap;
+            }
+
+            .ticker-cell {
+                font-size: 1em;
+            }
+
+            /* Show scroll hint */
+            .table-wrapper::after {
+                content: '← Scroll →';
+                display: block;
+                text-align: center;
+                padding: 8px;
+                background: rgba(30, 60, 114, 0.1);
+                border-radius: 5px;
+                margin-top: 10px;
+                font-size: 0.85em;
+                color: #1e3c72;
+                font-weight: 600;
             }
         }
     </style>
@@ -426,6 +479,7 @@
 
         <div class="trades-section">
             <h2>🏆 Top 10 Best Trades</h2>
+            <div class="table-wrapper">
             <table class="trades-table">
                 <thead>
                     <tr>
@@ -542,6 +596,7 @@
 
                 </tbody>
             </table>
+            </div>
         </div>
 
         <div style="text-align: center; color: white; opacity: 0.8; padding: 20px 0;">
