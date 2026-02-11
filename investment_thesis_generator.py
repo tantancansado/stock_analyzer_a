@@ -142,8 +142,9 @@ class InvestmentThesisGenerator:
             count = opportunity.get('repeat_count', 0)
             parts.append(f"Repeater {count}x")
 
-        if opportunity.get('upside_percent', 0) > 25:
-            parts.append(f"{opportunity.get('upside_percent', 0):.0f}% upside")
+        upside = opportunity.get('upside_percent')
+        if upside and upside > 25:
+            parts.append(f"{upside:.0f}% upside")
 
         return " | ".join(parts) if parts else "Multiple signals converging"
 
