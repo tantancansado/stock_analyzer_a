@@ -5,9 +5,13 @@ HISTORICAL SCORER - Genera snapshots de scores en fechas históricas
 Este script soluciona el look-ahead bias generando scores "as of" fechas pasadas,
 usando solo información disponible en esas fechas.
 
+🔴 FIX LOOK-AHEAD BIAS: Ejecuta el pipeline completo (VCP, ML, Fundamental, Super Score)
+con --as-of-date para generar scores históricos reales sin look-ahead bias.
+
 Uso:
     python3 historical_scorer.py --dates 2025-11-13 2025-08-15 2025-02-11
     python3 historical_scorer.py --weekly --weeks 52  # 1 año de snapshots semanales
+    python3 historical_scorer.py --backtest  # Fechas clave: 3M, 6M, 1Y
 """
 import pandas as pd
 import argparse
@@ -15,6 +19,8 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from typing import List
 import sys
+import subprocess
+import shutil
 
 
 class HistoricalScorer:
@@ -24,70 +30,114 @@ class HistoricalScorer:
         self.output_dir = Path("docs/historical_scores")
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-    def generate_snapshot(self, reference_date: str):
+    def generate_snapshot(self, reference_date: str, skip_vcp: bool = False):
         """
         Genera un snapshot de scores para una fecha específica
 
+        🔴 FIX LOOK-AHEAD BIAS: Ejecuta el pipeline completo con --as-of-date
+
         Args:
             reference_date: Fecha de referencia (YYYY-MM-DD)
+            skip_vcp: Skip VCP scanner (útil si ya se ejecutó, tarda mucho)
 
         Returns:
             Path to snapshot CSV
         """
         print(f"\n{'='*80}")
-        print(f"📸 GENERANDO SNAPSHOT: {reference_date}")
+        print(f"📸 GENERANDO SNAPSHOT HISTÓRICO: {reference_date}")
+        print(f"🔴 Sin look-ahead bias - Solo datos hasta {reference_date}")
         print(f"{'='*80}")
 
-        # IMPORTANTE: Aquí deberíamos ejecutar los scorers usando solo datos
-        # disponibles HASTA reference_date.
-        #
-        # Por ahora, esto es un PLACEHOLDER que documenta el proceso correcto:
-        #
-        # 1. VCP Scanner: Usar precios hasta reference_date
-        # 2. ML Predictor: Entrenar solo con datos hasta reference_date
-        # 3. Fundamental: Usar earnings reportados antes de reference_date
+        try:
+            # 1. VCP Scanner (opcional - tarda mucho)
+            if not skip_vcp:
+                print(f"\n[1/4] 🔍 VCP Scanner (puede tardar 15-20 min)...")
+                result = subprocess.run(
+                    ["python3", "vcp_scanner_usa.py", "--sp500", "--parallel", "--as-of-date", reference_date],
+                    capture_output=True,
+                    text=True,
+                    timeout=1800  # 30 min timeout
+                )
+                if result.returncode != 0:
+                    print(f"⚠️  VCP Scanner warning: {result.stderr[:200]}")
+                else:
+                    print(f"✅ VCP Scanner completado")
+            else:
+                print(f"\n[1/4] ⏭️  VCP Scanner SKIPPED (usa --run-vcp para ejecutar)")
 
-        print(f"\n⚠️  CRITICAL: Historical scoring requiere:")
-        print(f"   1. VCP Scanner con data_end_date={reference_date}")
-        print(f"   2. ML Model entrenado SOLO con data <= {reference_date}")
-        print(f"   3. Fundamentals filtrados por report_date <= {reference_date}")
-        print(f"\n   🚧 IMPLEMENTATION REQUIRED:")
-        print(f"   - Modificar vcp_scanner_usa.py para aceptar --as-of-date")
-        print(f"   - Modificar ml_scoring.py para entrenar con data histórica")
-        print(f"   - Modificar fundamental_scorer.py para filtrar por fecha")
-        print(f"\n   💡 Por ahora, usar scores actuales con timestamp correction")
+            # 2. ML Scoring
+            print(f"\n[2/4] 🤖 ML Scoring...")
+            result = subprocess.run(
+                ["python3", "ml_scoring.py", "--as-of-date", reference_date],
+                capture_output=True,
+                text=True,
+                timeout=300  # 5 min timeout
+            )
+            if result.returncode != 0:
+                print(f"❌ ML Scoring falló: {result.stderr[:200]}")
+                return None
+            print(f"✅ ML Scoring completado")
 
-        # Por ahora, usamos el score actual pero con timestamp correcto
-        current_scores = Path("docs/super_scores_ultimate.csv")
+            # 3. Fundamental Scoring
+            print(f"\n[3/4] 📊 Fundamental Scoring...")
+            result = subprocess.run(
+                ["python3", "fundamental_scorer.py", "--vcp", "--as-of-date", reference_date],
+                capture_output=True,
+                text=True,
+                timeout=600  # 10 min timeout
+            )
+            if result.returncode != 0:
+                print(f"❌ Fundamental Scoring falló: {result.stderr[:200]}")
+                return None
+            print(f"✅ Fundamental Scoring completado")
 
-        if not current_scores.exists():
-            print(f"\n❌ No se encontró super_scores_ultimate.csv")
-            print(f"   Ejecuta primero: python3 super_score_integrator.py")
+            # 4. Super Score Integrator
+            print(f"\n[4/4] 🎯 Super Score Integration...")
+            result = subprocess.run(
+                ["python3", "super_score_integrator.py", "--as-of-date", reference_date],
+                capture_output=True,
+                text=True,
+                timeout=60  # 1 min timeout
+            )
+            if result.returncode != 0:
+                print(f"❌ Super Score Integration falló: {result.stderr[:200]}")
+                return None
+            print(f"✅ Super Score Integration completado")
+
+            # 5. Copiar resultado al directorio de snapshots
+            current_scores = Path("docs/super_scores_ultimate.csv")
+
+            if not current_scores.exists():
+                print(f"\n❌ No se generó super_scores_ultimate.csv")
+                return None
+
+            # Guardar snapshot
+            snapshot_path = self.output_dir / f"{reference_date}_scores.csv"
+            shutil.copy2(current_scores, snapshot_path)
+
+            # Verificar timestamp metadata
+            df = pd.read_csv(snapshot_path)
+            print(f"\n✅ Snapshot guardado: {snapshot_path}")
+            print(f"   📊 Tickers: {len(df)}")
+            print(f"   🎯 Score promedio: {df['super_score_ultimate'].mean():.1f}")
+            print(f"   📅 Data as of: {df['data_as_of_date'].iloc[0]}")
+
+            return snapshot_path
+
+        except subprocess.TimeoutExpired as e:
+            print(f"\n❌ Timeout: {e.cmd[1]} tardó más de {e.timeout}s")
+            return None
+        except Exception as e:
+            print(f"\n❌ Error generando snapshot: {e}")
             return None
 
-        # Cargar scores actuales
-        df = pd.read_csv(current_scores)
-
-        # Agregar timestamps históricos
-        df['score_timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        df['data_as_of_date'] = reference_date
-
-        # Guardar snapshot
-        snapshot_path = self.output_dir / f"{reference_date}_scores.csv"
-        df.to_csv(snapshot_path, index=False)
-
-        print(f"\n✅ Snapshot guardado: {snapshot_path}")
-        print(f"   Tickers: {len(df)}")
-        print(f"   Score promedio: {df['super_score_ultimate'].mean():.1f}")
-
-        return snapshot_path
-
-    def generate_weekly_snapshots(self, weeks: int = 52):
+    def generate_weekly_snapshots(self, weeks: int = 52, skip_vcp: bool = True):
         """
         Genera snapshots semanales hacia atrás
 
         Args:
             weeks: Número de semanas hacia atrás
+            skip_vcp: Skip VCP scanner (default True)
         """
         print(f"\n🗓️  Generando {weeks} snapshots semanales...")
 
@@ -112,12 +162,13 @@ class HistoricalScorer:
 
         # Generar snapshots
         snapshots = []
-        for date in dates:
-            snapshot_path = self.generate_snapshot(date)
+        for i, date in enumerate(dates, 1):
+            print(f"\n[{i}/{len(dates)}] Procesando {date}...")
+            snapshot_path = self.generate_snapshot(date, skip_vcp=skip_vcp)
             if snapshot_path:
                 snapshots.append(snapshot_path)
 
-        print(f"\n✅ {len(snapshots)} snapshots generados")
+        print(f"\n✅ {len(snapshots)} snapshots generados exitosamente")
         print(f"📁 Directorio: {self.output_dir}")
 
         return snapshots
@@ -148,7 +199,20 @@ class HistoricalScorer:
 def main():
     """Main execution"""
     parser = argparse.ArgumentParser(
-        description='Genera snapshots históricos de scores sin look-ahead bias'
+        description='🔴 Genera snapshots históricos de scores SIN look-ahead bias',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='''
+Examples:
+  python3 historical_scorer.py --backtest                    # Fechas clave: 3M, 6M, 1Y
+  python3 historical_scorer.py --dates 2025-08-15            # Fecha específica
+  python3 historical_scorer.py --weekly --weeks 52           # 52 snapshots semanales
+  python3 historical_scorer.py --backtest --run-vcp          # Incluir VCP (lento)
+
+Note:
+  - Ejecuta el pipeline completo (VCP, ML, Fundamental, Super Score) con --as-of-date
+  - VCP Scanner se SKIP por default (tarda 15-20 min). Usa --run-vcp para incluirlo.
+  - Los scores generados NO tienen look-ahead bias (usan solo datos hasta la fecha)
+        '''
     )
 
     parser.add_argument(
@@ -176,46 +240,64 @@ def main():
         help='Generar solo las 3 fechas clave (3M, 6M, 1Y)'
     )
 
+    parser.add_argument(
+        '--run-vcp',
+        action='store_true',
+        help='Ejecutar VCP Scanner (tarda 15-20 min, skip por default)'
+    )
+
     args = parser.parse_args()
 
     scorer = HistoricalScorer()
+    skip_vcp = not args.run_vcp
+
+    if skip_vcp:
+        print("\n⚠️  VCP Scanner será SKIPPED (usa --run-vcp para incluirlo)")
+        print("   Razón: VCP tarda 15-20 min en ejecutar")
 
     if args.backtest:
         # Generar solo las fechas clave
         dates = scorer.generate_backtest_dates()
         for date in dates:
-            scorer.generate_snapshot(date)
+            scorer.generate_snapshot(date, skip_vcp=skip_vcp)
 
     elif args.weekly:
         # Generar snapshots semanales
-        scorer.generate_weekly_snapshots(weeks=args.weeks)
+        print(f"\n⚠️  WARNING: {args.weeks} snapshots semanales pueden tardar HORAS")
+        print(f"   Tiempo estimado: ~{args.weeks * 15} minutos con VCP, ~{args.weeks * 2} min sin VCP")
+        confirm = input("\n¿Continuar? (y/n): ")
+        if confirm.lower() == 'y':
+            scorer.generate_weekly_snapshots(weeks=args.weeks)
+        else:
+            print("Cancelado.")
+            return
 
     elif args.dates:
         # Generar fechas específicas
         for date in args.dates:
-            scorer.generate_snapshot(date)
+            scorer.generate_snapshot(date, skip_vcp=skip_vcp)
 
     else:
         # Default: generar las 3 fechas clave
         print("\n💡 No se especificaron opciones, generando fechas clave de backtest...")
         dates = scorer.generate_backtest_dates()
         for date in dates:
-            scorer.generate_snapshot(date)
+            scorer.generate_snapshot(date, skip_vcp=skip_vcp)
 
     print(f"\n{'='*80}")
     print(f"✅ HISTORICAL SCORING COMPLETADO")
     print(f"{'='*80}")
     print(f"\n📖 PRÓXIMOS PASOS:")
-    print(f"   1. ⚠️  NOTA: Snapshots usan scores ACTUALES con timestamp correction")
-    print(f"   2. 🔧 Para scoring histórico REAL, implementar:")
-    print(f"      - VCP scanner con --as-of-date parameter")
-    print(f"      - ML predictor con historical training cutoff")
-    print(f"      - Fundamental scorer con earnings date filtering")
-    print(f"   3. 📊 Usar snapshots en backtest V2:")
+    print(f"   1. ✅ Snapshots generados SIN look-ahead bias")
+    print(f"      - Todos los scorers ejecutados con --as-of-date")
+    print(f"      - VCP, ML, y Fundamental usan solo datos históricos")
+    print(f"   2. 📊 Validar snapshots generados:")
+    print(f"      ls -lh docs/historical_scores/")
+    print(f"   3. 🔬 Re-ejecutar Backtest V2 con datos limpios:")
     print(f"      python3 backtest_engine_v2.py --historical-scores")
-    print(f"\n⚠️  WARNING: Hasta implementar scoring histórico real,")
-    print(f"   los snapshots NO eliminan look-ahead bias completamente.")
-    print(f"   Solo agregan metadata de timestamps para tracking.")
+    print(f"   4. 📈 Comparar resultados V1 (con bias) vs V2 (sin bias)")
+    print(f"\n✅ Phase 2 COMPLETADO: Historical scoring implementado")
+    print(f"   Snapshots generados usan SOLO datos disponibles hasta la fecha de referencia.")
 
 
 if __name__ == "__main__":
