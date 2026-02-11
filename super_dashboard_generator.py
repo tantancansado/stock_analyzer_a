@@ -73,8 +73,12 @@ class SuperDashboardGenerator:
 
     def _load_vcp_metadata(self):
         """Carga metadata del último scan VCP"""
-        # Buscar archivos VCP más recientes
-        vcp_files = list(Path(".").glob("vcp_calibrated_results_*.csv"))
+        # Buscar archivos VCP en ubicación estandarizada
+        vcp_files = list(Path("docs/reports/vcp").glob("vcp_calibrated_results_*.csv"))
+
+        # Fallback a root directory para backward compatibility
+        if not vcp_files:
+            vcp_files = list(Path(".").glob("vcp_calibrated_results_*.csv"))
 
         if vcp_files:
             latest_vcp = sorted(vcp_files)[-1]

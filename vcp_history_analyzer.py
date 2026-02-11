@@ -26,8 +26,11 @@ class VCPHistoryAnalyzer:
 
         scans = []
 
-        # Load new format CSVs (root directory)
-        vcp_files = sorted(Path(".").glob("vcp_calibrated_results_*.csv"))
+        # Load new format CSVs (standardized location: docs/reports/vcp/)
+        vcp_files = sorted(Path("docs/reports/vcp").glob("vcp_calibrated_results_*.csv"))
+
+        # Also check root directory for backward compatibility
+        vcp_files.extend(sorted(Path(".").glob("vcp_calibrated_results_*.csv")))
         for vcp_file in vcp_files:
             try:
                 df = pd.read_csv(vcp_file)

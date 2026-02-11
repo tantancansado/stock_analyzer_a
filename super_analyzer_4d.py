@@ -50,8 +50,8 @@ class SuperAnalyzer4D:
 
     def load_vcp_data(self):
         """Carga datos de VCP scanner - busca el scan más reciente"""
-        # Buscar archivos VCP en root directory (formato nuevo)
-        vcp_files = list(Path(".").glob("vcp_calibrated_results_*.csv"))
+        # Buscar en ubicación estandarizada primero (docs/reports/vcp/)
+        vcp_files = list(Path("docs/reports/vcp").glob("vcp_calibrated_results_*.csv"))
 
         if vcp_files:
             # Ordenar por nombre (timestamp está en el nombre) y tomar el más reciente
@@ -60,7 +60,15 @@ class SuperAnalyzer4D:
             print(f"✅ VCP: {len(df)} patrones cargados desde {latest_vcp.name}")
             return df
 
-        # Fallback: buscar en docs/reports/vcp (formato viejo)
+        # Fallback 1: buscar en root directory (backward compatibility)
+        vcp_files_root = list(Path(".").glob("vcp_calibrated_results_*.csv"))
+        if vcp_files_root:
+            latest_vcp = sorted(vcp_files_root)[-1]
+            df = pd.read_csv(latest_vcp)
+            print(f"✅ VCP: {len(df)} patrones cargados desde {latest_vcp.name}")
+            return df
+
+        # Fallback 2: buscar en docs/reports/vcp (formato viejo vcp_scan_*)
         vcp_dirs = list(Path("docs/reports/vcp").glob("vcp_scan_*/data.csv"))
         if vcp_dirs:
             latest_vcp = sorted(vcp_dirs)[-1]

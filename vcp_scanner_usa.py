@@ -1377,13 +1377,36 @@ if __name__ == "__main__":
             # Generate timestamp for files
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-            # Save CSV
-            csv_path = f"vcp_calibrated_results_{timestamp}.csv"
-            scanner_enhanced.save_csv(results, csv_path)
+            # Ensure output directory exists
+            from pathlib import Path
+            output_dir = Path("docs/reports/vcp")
+            output_dir.mkdir(parents=True, exist_ok=True)
 
-            # Generate HTML report
-            html_path = "docs/vcp_scanner.html"
-            scanner_enhanced.generate_html(results, html_path)
+            # Save CSV to standardized location
+            csv_path = output_dir / f"vcp_calibrated_results_{timestamp}.csv"
+            scanner_enhanced.save_csv(results, str(csv_path))
+
+            # Save HTML to standardized location
+            html_path = output_dir / f"vcp_scanner_{timestamp}.html"
+            scanner_enhanced.generate_html(results, str(html_path))
+
+            # Create/update symlinks for latest files
+            latest_csv = output_dir / "latest.csv"
+            latest_html = output_dir / "latest.html"
+
+            # Remove old symlinks if they exist
+            if latest_csv.exists() or latest_csv.is_symlink():
+                latest_csv.unlink()
+            if latest_html.exists() or latest_html.is_symlink():
+                latest_html.unlink()
+
+            # Create new symlinks (relative paths for portability)
+            latest_csv.symlink_to(f"vcp_calibrated_results_{timestamp}.csv")
+            latest_html.symlink_to(f"vcp_scanner_{timestamp}.html")
+
+            # Also update docs/vcp_scanner.html as main entry point
+            import shutil
+            shutil.copy(str(html_path), "docs/vcp_scanner.html")
 
             print("=" * 70)
             print(f"✅ Scan completed: {len(results)} VCP patterns detected")
