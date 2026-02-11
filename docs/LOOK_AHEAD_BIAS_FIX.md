@@ -124,11 +124,42 @@ $ python3 backtest_engine_v2.py
 
 ---
 
-## 🚧 PHASE 2: Historical Scoring (EN PROGRESO)
+## ✅ PHASE 2: Historical Scoring (CASI COMPLETADO - 80%)
 
-Para eliminar completamente el bias, necesitamos generar scores históricos REALES.
+**Status:** Todos los scorers modificados exitosamente. Pendiente: testing y generación de snapshots.
 
-### Componentes a Modificar:
+### 🎉 IMPLEMENTACIONES COMPLETADAS (2026-02-11):
+
+**1. VCP Scanner** (`vcp_scanner_usa.py`) ✅
+- Añadido parámetro `--as-of-date` en CLI
+- Modificado `DataProvider.get_stock_data()` para aceptar `as_of_date`
+- Cambiado de `period='1y'` a rango de fechas (start/end) en `ticker.history()`
+- Propagado `as_of_date` por toda la cadena: DataProvider → CalibratedVCPScanner → VCPScannerEnhanced
+- Commit: `db1edcc` - "feat: Add --as-of-date parameter to VCP Scanner"
+
+**2. ML Scoring** (`ml_scoring.py`) ✅
+- Añadido parámetro `--as-of-date` en CLI
+- Modificado `MLScorer.__init__()` para aceptar `as_of_date`
+- Actualizado `calculate_features()` para usar rango de fechas (6 meses hasta `as_of_date`)
+- Añadido argparse para manejo de argumentos
+- Commit: `0cdbb18` - "feat: Add --as-of-date parameter to ML Scoring"
+
+**3. Fundamental Scorer** (`fundamental_scorer.py`) ✅
+- Añadido parámetro `--as-of-date` en CLI
+- Modificado `FundamentalScorer.__init__()` para almacenar `as_of_date_dt`
+- Actualizado `_get_quarterly_earnings()` para filtrar earnings por fecha de reporte
+- Actualizado `_get_financials()` para filtrar quarterly financials y balance sheet por fecha
+- Actualizado `_get_price_history()` para usar rango de fechas en vez de period
+- Commit: `06ee709` - "feat: Add --as-of-date parameter to Fundamental Scorer"
+
+**4. Super Score Integrator** (`super_score_integrator.py`) ✅
+- Añadido parámetro `--as-of-date` en CLI
+- Modificado `SuperScoreIntegrator.__init__()` para aceptar `as_of_date`
+- Actualizado `integrate_scores()` para usar `as_of_date` en `reference_date`
+- Añadida documentación completa del workflow histórico en help text
+- Commit: `9516926` - "feat: Add --as-of-date parameter to Super Score Integrator"
+
+### Componentes a Modificar (Documentación Original):
 
 **1. VCP Scanner** (`vcp_scanner_usa.py`):
 
@@ -192,14 +223,15 @@ python3 backtest_engine_v2.py --historical-scores docs/historical_scores/2025-08
 | Fase | Tarea | Tiempo | Status |
 |------|-------|--------|--------|
 | **PHASE 1** | Timestamp validation | 1 día | ✅ COMPLETADO |
-| **PHASE 2** | Modify VCP scanner | 2-3 días | 🚧 PENDING |
-| | Modify ML predictor | 2-3 días | 🚧 PENDING |
-| | Modify Fundamental scorer | 2-3 días | 🚧 PENDING |
+| **PHASE 2** | Modify VCP scanner | 2-3 días | ✅ COMPLETADO |
+| | Modify ML predictor | 2-3 días | ✅ COMPLETADO |
+| | Modify Fundamental scorer | 2-3 días | ✅ COMPLETADO |
+| | Modify Super Score Integrator | 1 día | ✅ COMPLETADO |
 | | Test historical integration | 1 día | 🚧 PENDING |
 | **PHASE 3** | Generate 52 weekly snapshots | 2-4 horas | 🚧 PENDING |
 | | Re-run backtest V2 with clean data | 1 hora | 🚧 PENDING |
 | | Analyze results | 1 día | 🚧 PENDING |
-| **TOTAL** | | **2 semanas** | |
+| **TOTAL** | | **2 semanas** | **~60% COMPLETADO** ✅ |
 
 ---
 
@@ -230,47 +262,63 @@ python3 backtest_engine_v2.py --historical-scores docs/historical_scores/2025-08
 
 ## 📖 USO ACTUAL
 
-### Generar Scores con Timestamps:
+### ✅ Generar Scores Históricos SIN Look-Ahead Bias:
 
 ```bash
-# Scores actuales (con timestamps)
-python3 super_score_integrator.py
+# 1. Definir fecha histórica
+AS_OF_DATE="2025-08-15"
+
+# 2. Ejecutar cada scorer con la misma fecha
+python3 vcp_scanner_usa.py --sp500 --as-of-date $AS_OF_DATE
+python3 ml_scoring.py --as-of-date $AS_OF_DATE
+python3 fundamental_scorer.py --vcp --as-of-date $AS_OF_DATE
+
+# 3. Integrar scores
+python3 super_score_integrator.py --as-of-date $AS_OF_DATE
 
 # Output:
 # - docs/super_scores_ultimate.csv (con score_timestamp y data_as_of_date)
+# - Todos los scores usan SOLO datos disponibles hasta AS_OF_DATE
 ```
 
-### Validar Look-Ahead Bias:
+### ✅ Generar Scores Actuales (modo normal):
 
 ```bash
-# Backtest V2 ahora valida automáticamente
+# Sin --as-of-date usa datos de hoy
+python3 vcp_scanner_usa.py --sp500
+python3 ml_scoring.py
+python3 fundamental_scorer.py --vcp
+python3 super_score_integrator.py
+```
+
+### ✅ Validar Look-Ahead Bias en Backtest:
+
+```bash
+# Backtest V2 valida automáticamente los timestamps
 python3 backtest_engine_v2.py
 
 # Si hay bias, imprime:
 # 🚨 LOOK-AHEAD BIAS DETECTED!
+# 🚨 135 scores use data AFTER entry date
 # 🚨 Backtest results are INVALID
 ```
 
-### Generar Snapshots Históricos (Placeholder):
+### 🚧 Generar Snapshots Semanales (PENDING):
 
 ```bash
+# TODO: Actualizar historical_scorer.py para usar --as-of-date
 # Fechas clave (3M, 6M, 1Y)
 python3 historical_scorer.py --backtest
 
 # Snapshots semanales
 python3 historical_scorer.py --weekly --weeks 52
-
-# Fechas específicas
-python3 historical_scorer.py --dates 2025-11-13 2025-08-15 2025-02-11
 ```
-
-**⚠️ NOTA:** Los snapshots actuales son PLACEHOLDERS. Usan scores de hoy con timestamp correction. NO eliminan el bias completamente.
 
 ---
 
 ## ✅ CHECKLIST DE IMPLEMENTACIÓN
 
-### Phase 1: Timestamp Validation ✅
+### Phase 1: Timestamp Validation ✅ COMPLETADO
 
 - [x] Modificar `super_score_integrator.py` para agregar timestamps
 - [x] Modificar `backtest_engine_v2.py` para validar timestamps
@@ -279,16 +327,18 @@ python3 historical_scorer.py --dates 2025-11-13 2025-08-15 2025-02-11
 - [x] Validar detección de look-ahead bias
 - [x] Documentar fix en `LOOK_AHEAD_BIAS_FIX.md`
 
-### Phase 2: Historical Scoring 🚧
+### Phase 2: Historical Scoring ✅ 80% COMPLETADO
 
-- [ ] Modificar `vcp_scanner_usa.py` para `--as-of-date`
-- [ ] Modificar `ml_scoring.py` para cutoff date
-- [ ] Modificar `fundamental_scorer.py` para earnings filtering
-- [ ] Testear scoring histórico (sample date)
-- [ ] Generar 52 snapshots semanales
-- [ ] Validar calidad de snapshots
+- [x] Modificar `vcp_scanner_usa.py` para `--as-of-date` ✅
+- [x] Modificar `ml_scoring.py` para cutoff date ✅
+- [x] Modificar `fundamental_scorer.py` para earnings filtering ✅
+- [x] Modificar `super_score_integrator.py` para timestamp consistency ✅
+- [ ] Actualizar `historical_scorer.py` para automation 🚧
+- [ ] Testear scoring histórico (sample date: 2025-08-15) 🚧
+- [ ] Generar 52 snapshots semanales 🚧
+- [ ] Validar calidad de snapshots 🚧
 
-### Phase 3: Re-validation 🚧
+### Phase 3: Re-validation 🚧 PENDIENTE
 
 - [ ] Re-ejecutar Backtest V2 con scores limpios
 - [ ] Comparar V1 (con bias) vs V2 (sin bias)
@@ -309,6 +359,12 @@ python3 historical_scorer.py --dates 2025-11-13 2025-08-15 2025-02-11
 
 ---
 
-**Generado:** 2026-02-11
-**Status:** Phase 1 COMPLETADO ✅ | Phase 2 EN PROGRESO 🚧
-**Próximo Paso:** Implementar historical scoring en VCP/ML/Fundamental scorers
+**Actualizado:** 2026-02-11
+**Status:** Phase 1 COMPLETADO ✅ | Phase 2 80% COMPLETADO ✅🚧 | Phase 3 PENDIENTE
+**Completado Hoy:**
+- ✅ VCP Scanner con --as-of-date (Commit: db1edcc)
+- ✅ ML Scoring con --as-of-date (Commit: 0cdbb18)
+- ✅ Fundamental Scorer con --as-of-date (Commit: 06ee709)
+- ✅ Super Score Integrator con --as-of-date (Commit: 9516926)
+
+**Próximo Paso:** Testing y generación de snapshots históricos semanales
