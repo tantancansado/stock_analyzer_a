@@ -429,6 +429,9 @@ class SuperDashboardGenerator:
 <body>
     <div class="container">
         <div class="header">
+            <a href="index.html" style="position: absolute; left: 20px; top: 20px; color: white; text-decoration: none; font-size: 1.2em; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 8px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                🏠 Volver
+            </a>
             <h1>🎯 Super Dashboard</h1>
             <div class="subtitle">Sistema 5D Integrado - Análisis Completo del Mercado</div>
             <div style="margin-top: 10px; font-size: 0.9em;">
@@ -544,9 +547,14 @@ class SuperDashboardGenerator:
             score_class = 'score-high' if score >= 70 else 'score-medium'
             timing_badge = '🔥' if opp.get('timing_convergence', False) else ''
 
+            # Company name for tooltip
+            ticker = opp.get('ticker', 'N/A')
+            company_name = opp.get('company_name', ticker)
+            ticker_display = f'<strong title="{company_name}">{ticker}</strong>' if company_name != ticker else f'<strong>{ticker}</strong>'
+
             rows.append(f"""
             <tr>
-                <td><strong>{opp.get('ticker', 'N/A')}</strong></td>
+                <td>{ticker_display}</td>
                 <td><span class="score-badge {score_class}">{score:.1f}</span></td>
                 <td>{opp.get('tier', 'N/A')}</td>
                 <td>{opp.get('sector_name', 'N/A')}</td>

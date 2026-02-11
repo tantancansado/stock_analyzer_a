@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 from super_analyzer_4d import SuperAnalyzer4D
 from investment_thesis_generator import add_thesis_to_opportunities
+from company_name_fetcher import add_company_names_to_opportunities
 
 def load_institutional_scores():
     """Carga scores institucionales del índice"""
@@ -162,6 +163,10 @@ def run_4d_analysis():
     opportunities = add_thesis_to_opportunities(opportunities)
     print(f"   ✅ Thesis generadas para {len(opportunities)} opportunities")
 
+    # Obtener nombres de empresas
+    print("\n🏢 Obteniendo nombres de empresas...")
+    opportunities = add_company_names_to_opportunities(opportunities)
+
     # Generar reporte
     analyzer.generate_4d_report(opportunities)
 
@@ -176,6 +181,7 @@ def run_4d_analysis():
         row = {
             # Core
             'ticker': opp['ticker'],
+            'company_name': opp.get('company_name', opp['ticker']),
             'super_score_5d': opp['super_score_4d'],
             'tier': opp['tier'],
             'description': opp['description'],

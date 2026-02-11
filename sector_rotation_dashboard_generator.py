@@ -297,6 +297,9 @@ class SectorRotationDashboardGenerator:
 <body>
     <div class="container">
         <div class="header">
+            <a href="index.html" style="position: absolute; left: 20px; top: 20px; color: white; text-decoration: none; font-size: 1.2em; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 8px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                🏠 Volver
+            </a>
             <h1>🔄 Sector Rotation Dashboard</h1>
             <div class="subtitle">Real-time Sector Momentum Analysis</div>
         </div>
