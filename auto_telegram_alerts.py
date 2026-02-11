@@ -61,6 +61,11 @@ Ejecutando pipeline automático de alertas 5D...
         alerts.send_vcp_repeater_alerts()
         print()
 
+        # 5. Mean Reversion opportunities (dip buying)
+        print("🔄 Analizando Mean Reversion...")
+        alerts.send_mean_reversion_alerts()
+        print()
+
         # Send completion message
         completion_msg = """
 ✅ <b>Pipeline de Alertas Completado</b>

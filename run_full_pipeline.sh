@@ -83,13 +83,29 @@ fi
 
 # 6. Earnings Calendar (opcional - tiene timezone issues conocidos)
 echo ""
-echo "📅 [6/7] Earnings Calendar..."
+echo "📅 [6/8] Earnings Calendar..."
 echo "----------------------------------------------------------------------"
 python3 earnings_calendar.py || echo "⚠️  Earnings calendar warning (conocido - no crítico)"
 
-# 7. Telegram Alerts (envía notificaciones automáticas)
+# 7. Mean Reversion Detector (compra en dips)
 echo ""
-echo "📱 [7/7] Telegram Alerts..."
+echo "🔄 [7/8] Mean Reversion Detector..."
+echo "----------------------------------------------------------------------"
+python3 mean_reversion_detector.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en mean reversion detector (no crítico - continúa)"
+fi
+
+echo ""
+echo "🔄 [7/8] Mean Reversion Dashboard..."
+python3 mean_reversion_dashboard_generator.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en mean reversion dashboard (no crítico - continúa)"
+fi
+
+# 8. Telegram Alerts (envía notificaciones automáticas)
+echo ""
+echo "📱 [8/8] Telegram Alerts..."
 echo "----------------------------------------------------------------------"
 python3 auto_telegram_alerts.py
 if [ $? -ne 0 ]; then
@@ -105,12 +121,14 @@ echo "📊 Dashboards generados:"
 echo "  - docs/super_dashboard.html"
 echo "  - docs/sector_rotation_dashboard.html"
 echo "  - docs/backtest_dashboard.html"
+echo "  - docs/mean_reversion_dashboard.html"
 echo ""
 echo "📁 Datos generados:"
 echo "  - docs/super_opportunities_5d_complete.csv"
 echo "  - docs/position_sizing.csv"
 echo "  - docs/sector_rotation/latest_scan.json"
 echo "  - docs/backtest/*.json"
+echo "  - docs/mean_reversion_opportunities.csv"
 echo ""
 echo "📱 Alertas enviadas a Telegram"
 echo ""

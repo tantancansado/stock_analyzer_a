@@ -438,6 +438,90 @@ probabilidad de éxito en futuros breakouts.
         else:
             print("❌ Error enviando alerta")
 
+    def send_mean_reversion_alerts(self):
+        """Alerta específica para oportunidades de Mean Reversion"""
+        print("🔄 Buscando oportunidades de Mean Reversion...")
+
+        import pandas as pd
+
+        csv_path = Path('docs/mean_reversion_opportunities.csv')
+        if not csv_path.exists():
+            print("⚠️  No hay datos de Mean Reversion")
+            return
+
+        df = pd.read_csv(csv_path)
+
+        if df.empty:
+            print("ℹ️  No hay oportunidades de reversión")
+            return
+
+        # Filtrar solo las mejores (score >= 70)
+        top_opps = df[df['reversion_score'] >= 70].head(10)
+
+        if top_opps.empty:
+            print("ℹ️  No hay oportunidades de alta calidad")
+            return
+
+        print(f"🔄 {len(top_opps)} oportunidades de reversión detectadas!")
+
+        # Contar por estrategia
+        oversold = len(df[df['strategy'] == 'Oversold Bounce'])
+        bull_flag = len(df[df['strategy'] == 'Bull Flag Pullback'])
+
+        message = f"""
+🔄 <b>MEAN REVERSION ALERT!</b> 🔄
+
+Detectadas {len(df)} oportunidades de compra en dips:
+
+📉 Oversold Bounce: {oversold}
+📊 Bull Flag Pullback: {bull_flag}
+
+<b>🏆 TOP 5 OPORTUNIDADES:</b>
+
+"""
+
+        for _, row in top_opps.head(5).iterrows():
+            ticker = row['ticker']
+            company = row.get('company_name', ticker)
+            strategy = row['strategy']
+            score = row['reversion_score']
+            quality = row['quality']
+            current = row['current_price']
+            target = row['target']
+            rr = row.get('risk_reward', 0)
+
+            # Emoji según estrategia
+            emoji = "📉" if strategy == "Oversold Bounce" else "📊"
+
+            upside_pct = ((target - current) / current * 100) if current > 0 else 0
+
+            message += f"""
+{emoji} <b>{ticker}</b> - {company}
+Estrategia: {strategy}
+Score: {score:.0f}/100 {quality}
+Precio: ${current:.2f} → Target: ${target:.2f} (+{upside_pct:.1f}%)
+R/R: {rr:.1f}:1
+
+"""
+
+        message += f"""
+💡 <b>¿Qué es Mean Reversion?</b>
+Comprar stocks de calidad cuando caen significativamente
+y tienen alta probabilidad de recuperación. Complementa
+la estrategia VCP (breakouts).
+
+<b>Estrategias:</b>
+📉 <b>Oversold Bounce:</b> RSI &lt; 30, caída &gt; 20%, cerca de soporte
+📊 <b>Bull Flag:</b> Pullback saludable en tendencia alcista
+
+🔗 <a href="https://tantancansado.github.io/stock_analyzer_a/mean_reversion_dashboard.html">Ver dashboard completo</a>
+"""
+
+        if self.send_message(message):
+            print("✅ Mean Reversion alert enviada")
+        else:
+            print("❌ Error enviando alerta")
+
 
 def main():
     """Main execution"""
@@ -452,10 +536,11 @@ def main():
         print("2. 📊 Resumen diario completo")
         print("3. 🔥 Timing Convergence alerts")
         print("4. 🔁 VCP Repeater alerts")
-        print("5. 🚀 Ejecutar TODAS las alertas")
-        print("6. 🧪 Test de conexión")
+        print("5. 🔄 Mean Reversion alerts")
+        print("6. 🚀 Ejecutar TODAS las alertas")
+        print("7. 🧪 Test de conexión")
 
-        choice = input("\nSelecciona (1-6): ").strip()
+        choice = input("\nSelecciona (1-7): ").strip()
 
         if choice == '1':
             alerts.check_and_alert_legendary()
@@ -466,6 +551,8 @@ def main():
         elif choice == '4':
             alerts.send_vcp_repeater_alerts()
         elif choice == '5':
+            alerts.send_mean_reversion_alerts()
+        elif choice == '6':
             # Ejecutar todas las alertas
             print("\n🚀 Ejecutando pipeline completo de alertas...\n")
             alerts.send_daily_summary()
@@ -475,14 +562,18 @@ def main():
             alerts.send_timing_convergence_alerts()
             print()
             alerts.send_vcp_repeater_alerts()
+            print()
+            alerts.send_mean_reversion_alerts()
             print("\n✅ Pipeline completo ejecutado!")
-        else:
+        elif choice == '7':
             # Test
             test_msg = f"🧪 Test de conexión - {datetime.now().strftime('%H:%M:%S')}"
             if alerts.send_message(test_msg):
                 print("✅ Conexión exitosa!")
             else:
                 print("❌ Error de conexión")
+        else:
+            print("❌ Opción no válida")
 
     except ValueError as e:
         print(f"\n❌ {e}")

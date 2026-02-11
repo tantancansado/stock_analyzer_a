@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Mean Reversion Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .nav-button {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding-top: 10px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .timestamp {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1em;
+            font-weight: 500;
+        }
+
+        .explanation-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .explanation-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .strategy-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .strategy-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid #667eea;
+        }
+
+        .strategy-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .strategy-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .strategy-card li {
+            color: #555;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .strategy-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .opportunities-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .opportunities-section h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .opportunities-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+        }
+
+        .opportunities-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .opportunities-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .opportunities-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .ticker-cell {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .company-name {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 3px;
+        }
+
+        .score-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .score-excellent {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .score-very-good {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .score-good {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .strategy-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .strategy-oversold {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .strategy-bullflag {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .price-info {
+            font-size: 0.9em;
+        }
+
+        .price-current {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .price-target {
+            color: #10b981;
+            margin-left: 5px;
+        }
+
+        .upside-positive {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .rr-good {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .rr-moderate {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .nav-button {
+                position: static;
+                display: block;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .strategy-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .opportunities-table {
+                font-size: 0.85em;
+            }
+
+            .opportunities-table th,
+            .opportunities-table td {
+                padding: 10px 5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+
+            .stat-value {
+                font-size: 2em;
+            }
+
+            .opportunities-section,
+            .explanation-section {
+                padding: 20px;
+            }
+
+            /* Make table scrollable horizontally on very small screens */
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            .nav-button, button, a {
+                min-height: 44px; /* WCAG 2.1 touch target */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="nav-button">🏠 Volver</a>
+
+        <div class="header">
+            <h1>🔄 Mean Reversion Dashboard</h1>
+            <div class="subtitle">Oportunidades de Compra en Dips de Calidad</div>
+        </div>
+
+        <div class="timestamp">
+            📅 Última actualización: 2026-02-11 12:27:59
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">41</div>
+                <div class="stat-label">Total Oportunidades</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">27</div>
+                <div class="stat-label">Alta Calidad (≥60)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">31</div>
+                <div class="stat-label">📉 Oversold Bounce</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">10</div>
+                <div class="stat-label">📊 Bull Flag Pullback</div>
+            </div>
+        </div>
+
+        <div class="explanation-section">
+            <h2>💡 ¿Qué es Mean Reversion?</h2>
+            <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
+                <strong>Mean Reversion</strong> es la estrategia de comprar stocks de alta calidad cuando
+                caen significativamente por debajo de su valor promedio, anticipando que revertirán a la media.
+                Complementa la estrategia VCP (breakouts) permitiendo entradas en dips controlados.
+            </p>
+
+            <div class="strategy-cards">
+                <div class="strategy-card">
+                    <h3>📉 Oversold Bounce</h3>
+                    <p style="color: #666; margin-bottom: 15px;">
+                        Stocks sobrevendidos con fundamentos sólidos listos para recuperación
+                    </p>
+                    <ul>
+                        <li>RSI &lt; 30 (oversold)</li>
+                        <li>Caída &gt; 20% desde máximo reciente</li>
+                        <li>Cerca de nivel de soporte técnico</li>
+                        <li>Volumen incrementando en bounce</li>
+                        <li><strong>Ideal para:</strong> Entradas en pánico del mercado</li>
+                    </ul>
+                </div>
+
+                <div class="strategy-card">
+                    <h3>📊 Bull Flag Pullback</h3>
+                    <p style="color: #666; margin-bottom: 15px;">
+                        Retrocesos saludables en tendencias alcistas fuertes
+                    </p>
+                    <ul>
+                        <li>Rally previo &gt; 30%</li>
+                        <li>Pullback ordenado 10-15%</li>
+                        <li>Tendencia mayor alcista (SMA50 &gt; SMA200)</li>
+                        <li>Volumen decreciente en pullback</li>
+                        <li><strong>Ideal para:</strong> Entradas en consolidaciones</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="opportunities-section">
+            <h2>🏆 Top Oportunidades de Reversión</h2>
+            <div class="table-wrapper">
+                <table class="opportunities-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ticker / Company</th>
+                            <th>Estrategia</th>
+                            <th>Score</th>
+                            <th>Precio Actual</th>
+                            <th>Target</th>
+                            <th>Upside %</th>
+                            <th>R/R</th>
+                            <th>Entry Zone</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <div class="ticker-cell">SPGI</div>
+                                <div class="company-name">S&P Global</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    100/100
+                                </span>
+                            </td>
+                            <td class="price-current">$401.08</td>
+                            <td class="price-target">$546.35</td>
+                            <td class="upside-positive">+36.2%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$472.21 - $491.48</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <div class="ticker-cell">IT</div>
+                                <div class="company-name">Gartner,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    100/100
+                                </span>
+                            </td>
+                            <td class="price-current">$159.89</td>
+                            <td class="price-target">$254.59</td>
+                            <td class="upside-positive">+59.2%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$225.34 - $234.53</td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <div class="ticker-cell">PODD</div>
+                                <div class="company-name">Insulet</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    100/100
+                                </span>
+                            </td>
+                            <td class="price-current">$252.41</td>
+                            <td class="price-target">$337.79</td>
+                            <td class="upside-positive">+33.8%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$302.79 - $315.14</td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>
+                                <div class="ticker-cell">FIS</div>
+                                <div class="company-name">Fidelity National Information Services,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    100/100
+                                </span>
+                            </td>
+                            <td class="price-current">$50.55</td>
+                            <td class="price-target">$67.39</td>
+                            <td class="upside-positive">+33.3%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$60.76 - $63.24</td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>
+                                <div class="ticker-cell">CRM</div>
+                                <div class="company-name">Salesforce,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$193.45</td>
+                            <td class="price-target">$262.99</td>
+                            <td class="upside-positive">+35.9%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$230.6 - $240.02</td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>
+                                <div class="ticker-cell">SQNS</div>
+                                <div class="company-name">Sequansmmunications S.A.</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$3.50</td>
+                            <td class="price-target">$6.75</td>
+                            <td class="upside-positive">+92.9%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$6.51 - $6.77</td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>
+                                <div class="ticker-cell">SVCO</div>
+                                <div class="company-name">Silvaco Group,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$3.73</td>
+                            <td class="price-target">$4.83</td>
+                            <td class="upside-positive">+29.5%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$3.93 - $4.09</td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>
+                                <div class="ticker-cell">BLND</div>
+                                <div class="company-name">Blend Labs,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$1.98</td>
+                            <td class="price-target">$3.45</td>
+                            <td class="upside-positive">+74.2%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$2.93 - $3.05</td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>
+                                <div class="ticker-cell">MYSZ</div>
+                                <div class="company-name">My Size,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$0.64</td>
+                            <td class="price-target">$1.26</td>
+                            <td class="upside-positive">+96.9%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$0.92 - $0.96</td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>
+                                <div class="ticker-cell">AISP</div>
+                                <div class="company-name">Airship AI,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$2.60</td>
+                            <td class="price-target">$5.09</td>
+                            <td class="upside-positive">+95.8%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$2.91 - $3.03</td>
+                        </tr>
+
+                        <tr>
+                            <td>11</td>
+                            <td>
+                                <div class="ticker-cell">SPT</div>
+                                <div class="company-name">Sprout Social,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$7.96</td>
+                            <td class="price-target">$11.37</td>
+                            <td class="upside-positive">+42.8%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$11.27 - $11.73</td>
+                        </tr>
+
+                        <tr>
+                            <td>12</td>
+                            <td>
+                                <div class="ticker-cell">PAR</div>
+                                <div class="company-name">PAR Technology</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$23.25</td>
+                            <td class="price-target">$38.44</td>
+                            <td class="upside-positive">+65.3%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$32.51 - $33.83</td>
+                        </tr>
+
+                        <tr>
+                            <td>13</td>
+                            <td>
+                                <div class="ticker-cell">FLYW</div>
+                                <div class="company-name">Flywire</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-excellent">
+                                    80/100
+                                </span>
+                            </td>
+                            <td class="price-current">$11.24</td>
+                            <td class="price-target">$13.86</td>
+                            <td class="upside-positive">+23.3%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$12.79 - $13.31</td>
+                        </tr>
+
+                        <tr>
+                            <td>14</td>
+                            <td>
+                                <div class="ticker-cell">AMR</div>
+                                <div class="company-name">Alpha Metallurgical Resources,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-very-good">
+                                    75/100
+                                </span>
+                            </td>
+                            <td class="price-current">$189.95</td>
+                            <td class="price-target">$177.76</td>
+                            <td class="upside-positive">+-6.4%</td>
+                            <td class="rr-moderate">-0.3:1</td>
+                            <td style="font-size: 0.9em;">$149.96 - $156.08</td>
+                        </tr>
+
+                        <tr>
+                            <td>15</td>
+                            <td>
+                                <div class="ticker-cell">SAIC</div>
+                                <div class="company-name">Science Applications International</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-very-good">
+                                    75/100
+                                </span>
+                            </td>
+                            <td class="price-current">$97.92</td>
+                            <td class="price-target">$113.94</td>
+                            <td class="upside-positive">+16.4%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$95.96 - $99.88</td>
+                        </tr>
+
+                        <tr>
+                            <td>16</td>
+                            <td>
+                                <div class="ticker-cell">VAC</div>
+                                <div class="company-name">Marriott Vacations Worldwide</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-very-good">
+                                    75/100
+                                </span>
+                            </td>
+                            <td class="price-current">$55.93</td>
+                            <td class="price-target">$65.37</td>
+                            <td class="upside-positive">+16.9%</td>
+                            <td class="rr-good">30.9:1</td>
+                            <td style="font-size: 0.9em;">$54.81 - $57.05</td>
+                        </tr>
+
+                        <tr>
+                            <td>17</td>
+                            <td>
+                                <div class="ticker-cell">BH</div>
+                                <div class="company-name">Biglari</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-very-good">
+                                    75/100
+                                </span>
+                            </td>
+                            <td class="price-current">$407.56</td>
+                            <td class="price-target">$476.92</td>
+                            <td class="upside-positive">+17.0%</td>
+                            <td class="rr-moderate">1.5:1</td>
+                            <td style="font-size: 0.9em;">$399.41 - $415.71</td>
+                        </tr>
+
+                        <tr>
+                            <td>18</td>
+                            <td>
+                                <div class="ticker-cell">RPD</div>
+                                <div class="company-name">Rapid7,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-very-good">
+                                    70/100
+                                </span>
+                            </td>
+                            <td class="price-current">$10.39</td>
+                            <td class="price-target">$18.76</td>
+                            <td class="upside-positive">+80.6%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$15.3 - $15.93</td>
+                        </tr>
+
+                        <tr>
+                            <td>19</td>
+                            <td>
+                                <div class="ticker-cell">INTZ</div>
+                                <div class="company-name">Intrusion</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-very-good">
+                                    70/100
+                                </span>
+                            </td>
+                            <td class="price-current">$1.00</td>
+                            <td class="price-target">$1.95</td>
+                            <td class="upside-positive">+95.0%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$1.57 - $1.63</td>
+                        </tr>
+
+                        <tr>
+                            <td>20</td>
+                            <td>
+                                <div class="ticker-cell">SSGC</div>
+                                <div class="company-name">SafeSpace Global</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-oversold">
+                                    📉 Oversold Bounce
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-very-good">
+                                    70/100
+                                </span>
+                            </td>
+                            <td class="price-current">$0.21</td>
+                            <td class="price-target">$0.35</td>
+                            <td class="upside-positive">+66.7%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$0.26 - $0.27</td>
+                        </tr>
+
+                        <tr>
+                            <td>21</td>
+                            <td>
+                                <div class="ticker-cell">INTC</div>
+                                <div class="company-name">Intel</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-good">
+                                    60/100
+                                </span>
+                            </td>
+                            <td class="price-current">$47.13</td>
+                            <td class="price-target">$54.32</td>
+                            <td class="upside-positive">+15.3%</td>
+                            <td class="rr-moderate">1.3:1</td>
+                            <td style="font-size: 0.9em;">$46.19 - $48.07</td>
+                        </tr>
+
+                        <tr>
+                            <td>22</td>
+                            <td>
+                                <div class="ticker-cell">THM</div>
+                                <div class="company-name">International Tower Hill Mines</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-good">
+                                    60/100
+                                </span>
+                            </td>
+                            <td class="price-current">$2.64</td>
+                            <td class="price-target">$3.08</td>
+                            <td class="upside-positive">+16.7%</td>
+                            <td class="rr-moderate">0.8:1</td>
+                            <td style="font-size: 0.9em;">$2.59 - $2.69</td>
+                        </tr>
+
+                        <tr>
+                            <td>23</td>
+                            <td>
+                                <div class="ticker-cell">LSAK</div>
+                                <div class="company-name">Lesaka Technologies,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-good">
+                                    60/100
+                                </span>
+                            </td>
+                            <td class="price-current">$4.21</td>
+                            <td class="price-target">$4.92</td>
+                            <td class="upside-positive">+16.9%</td>
+                            <td class="rr-moderate">0.0:1</td>
+                            <td style="font-size: 0.9em;">$4.13 - $4.29</td>
+                        </tr>
+
+                        <tr>
+                            <td>24</td>
+                            <td>
+                                <div class="ticker-cell">AUID</div>
+                                <div class="company-name">authID</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-good">
+                                    60/100
+                                </span>
+                            </td>
+                            <td class="price-current">$1.82</td>
+                            <td class="price-target">$2.09</td>
+                            <td class="upside-positive">+14.8%</td>
+                            <td class="rr-moderate">0.5:1</td>
+                            <td style="font-size: 0.9em;">$1.78 - $1.86</td>
+                        </tr>
+
+                        <tr>
+                            <td>25</td>
+                            <td>
+                                <div class="ticker-cell">CNXC</div>
+                                <div class="company-name">Concentrix</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-good">
+                                    60/100
+                                </span>
+                            </td>
+                            <td class="price-current">$39.27</td>
+                            <td class="price-target">$43.66</td>
+                            <td class="upside-positive">+11.2%</td>
+                            <td class="rr-good">6.8:1</td>
+                            <td style="font-size: 0.9em;">$38.48 - $40.06</td>
+                        </tr>
+
+                        <tr>
+                            <td>26</td>
+                            <td>
+                                <div class="ticker-cell">MU</div>
+                                <div class="company-name">Micron Technology,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-good">
+                                    60/100
+                                </span>
+                            </td>
+                            <td class="price-current">$373.25</td>
+                            <td class="price-target">$437.80</td>
+                            <td class="upside-positive">+17.3%</td>
+                            <td class="rr-moderate">1.0:1</td>
+                            <td style="font-size: 0.9em;">$365.78 - $380.72</td>
+                        </tr>
+
+                        <tr>
+                            <td>27</td>
+                            <td>
+                                <div class="ticker-cell">UA</div>
+                                <div class="company-name">Under Armour,</div>
+                            </td>
+                            <td>
+                                <span class="strategy-badge strategy-bullflag">
+                                    📊 Bull Flag Pullback
+                                </span>
+                            </td>
+                            <td>
+                                <span class="score-badge score-good">
+                                    60/100
+                                </span>
+                            </td>
+                            <td class="price-current">$6.84</td>
+                            <td class="price-target">$7.66</td>
+                            <td class="upside-positive">+12.0%</td>
+                            <td class="rr-moderate">0.5:1</td>
+                            <td style="font-size: 0.9em;">$6.7 - $6.98</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center; color: white; opacity: 0.8; padding: 20px 0;">
+            <p>🤖 Generated by Stock Analyzer System</p>
+            <p style="margin-top: 5px;">Mean Reversion Detector - Buy the Dip Strategy</p>
+        </div>
+    </div>
+</body>
+</html>
