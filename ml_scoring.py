@@ -7,10 +7,11 @@ No requiere entrenamiento previo - usa weighted scoring
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 import yfinance as yf
-from typing import Dict, List
+from typing import Dict, List, Optional
 import json
+import argparse
 
 
 class MLScorer:
@@ -20,7 +21,12 @@ class MLScorer:
     Usa features técnicos con pesos optimizados para generar ML Score
     """
 
-    def __init__(self):
+    def __init__(self, as_of_date: Optional[str] = None):
+        """Initialize ML Scorer
+
+        Args:
+            as_of_date: Historical date (YYYY-MM-DD) for scoring. Prevents look-ahead bias.
+        """
         # Feature weights (optimizados basados en backtesting)
         self.weights = {
             'momentum_score': 0.25,
@@ -31,11 +37,37 @@ class MLScorer:
             'position_score': 0.10
         }
 
+        # 🔴 FIX LOOK-AHEAD BIAS: Store as_of_date
+        self.as_of_date = as_of_date
+        if as_of_date:
+            print(f"📅 ML Scorer: Historical mode (as_of_date={as_of_date})")
+
     def calculate_features(self, ticker: str) -> Dict:
-        """Calcula features técnicos para un ticker"""
+        """Calcula features técnicos para un ticker
+
+        Args:
+            ticker: Stock ticker symbol
+
+        Returns:
+            Dictionary with calculated features, or None if data insufficient
+        """
         try:
             stock = yf.Ticker(ticker)
-            df = stock.history(period="6mo")
+
+            # 🔴 FIX LOOK-AHEAD BIAS: Use date range instead of period
+            if self.as_of_date:
+                # Historical mode: fetch data up to as_of_date
+                end_date = datetime.strptime(self.as_of_date, '%Y-%m-%d')
+                start_date = end_date - timedelta(days=180)  # 6 months lookback
+
+                df = stock.history(
+                    start=start_date.strftime('%Y-%m-%d'),
+                    end=end_date.strftime('%Y-%m-%d'),
+                    interval='1d'
+                )
+            else:
+                # Current mode: use standard period
+                df = stock.history(period="6mo")
 
             if len(df) < 50:
                 return None
@@ -270,11 +302,17 @@ def load_5d_opportunities() -> tuple:
     return tickers, company_names
 
 
-def main():
-    """Main execution"""
+def main(as_of_date: Optional[str] = None):
+    """Main execution
+
+    Args:
+        as_of_date: Historical date (YYYY-MM-DD) for scoring. Prevents look-ahead bias.
+    """
     print("=" * 80)
     print("🤖 ML SCORING SYSTEM")
     print("   Predictive scoring basado en features técnicos")
+    if as_of_date:
+        print(f"   📅 Historical mode: as_of_date={as_of_date}")
     print("=" * 80)
     print()
 
@@ -290,8 +328,8 @@ def main():
         print(f"⚠️  Limitando a 100 tickers para velocidad")
         tickers = tickers[:100]
 
-    # Score
-    scorer = MLScorer()
+    # Score - 🔴 FIX LOOK-AHEAD BIAS: Pass as_of_date
+    scorer = MLScorer(as_of_date=as_of_date)
     results = scorer.score_batch(tickers, company_names)
 
     # Save
@@ -322,4 +360,23 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # 🔴 FIX LOOK-AHEAD BIAS: Add argparse for --as-of-date
+    parser = argparse.ArgumentParser(
+        description='ML Scoring System - Predictive scoring based on technical features',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='''
+Examples:
+  python3 ml_scoring.py                           # Current mode (today's data)
+  python3 ml_scoring.py --as-of-date 2025-08-15   # Historical mode (data as of Aug 15, 2025)
+
+Note:
+  --as-of-date prevents look-ahead bias by using only data available up to that date.
+  This is critical for accurate backtesting and historical validation.
+        '''
+    )
+
+    parser.add_argument('--as-of-date', type=str, default=None,
+                       help='Historical date for scoring (YYYY-MM-DD). Prevents look-ahead bias.')
+
+    args = parser.parse_args()
+    main(as_of_date=args.as_of_date)
