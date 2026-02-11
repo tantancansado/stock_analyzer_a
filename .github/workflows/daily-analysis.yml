@@ -78,15 +78,25 @@ jobs:
 
       - name: 🤖 Run ML Scoring
         run: |
-          echo "🤖 [10/11] ML Scoring System..."
+          echo "🤖 [10/13] ML Scoring System..."
           python3 ml_scoring.py
+
+      - name: 📊 Run Fundamental Scoring
+        run: |
+          echo "📊 [11/13] Fundamental Scoring (Earnings, Growth, RS, Health)..."
+          python3 fundamental_scorer.py --vcp --top 100
+
+      - name: 🎯 Run Super Score Integration
+        run: |
+          echo "🎯 [12/13] Super Score Integration (VCP + ML + Fundamental)..."
+          python3 super_score_integrator.py
 
       - name: 📱 Send Telegram Alerts
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          echo "📱 [11/11] Sending Telegram Alerts..."
+          echo "📱 [13/13] Sending Telegram Alerts..."
           python3 auto_telegram_alerts.py
 
       - name: 💾 Commit and Push All Results
@@ -125,6 +135,9 @@ jobs:
           echo "- ✅ Mean Reversion Detector" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Mean Reversion Backtest" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Options Flow Detector" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ ML Scoring System" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Fundamental Scoring" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Super Score Integration" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Telegram Alerts" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Generated Dashboards:" >> $GITHUB_STEP_SUMMARY

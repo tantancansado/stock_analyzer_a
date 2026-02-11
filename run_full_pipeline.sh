@@ -135,16 +135,34 @@ fi
 
 # 9. ML Scoring (predictive analysis)
 echo ""
-echo "🤖 [9/11] ML Scoring System..."
+echo "🤖 [9/13] ML Scoring System..."
 echo "----------------------------------------------------------------------"
 python3 ml_scoring.py
 if [ $? -ne 0 ]; then
     echo "⚠️  Error en ML scoring (no crítico - continúa)"
 fi
 
-# 10. Telegram Alerts (envía notificaciones automáticas)
+# 10. Fundamental Scoring (earnings, growth, RS, health)
 echo ""
-echo "📱 [10/11] Telegram Alerts..."
+echo "📊 [10/13] Fundamental Scoring..."
+echo "----------------------------------------------------------------------"
+python3 fundamental_scorer.py --vcp --top 100
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en fundamental scoring (no crítico - continúa)"
+fi
+
+# 11. Super Score Integration (VCP + ML + Fundamental)
+echo ""
+echo "🎯 [11/13] Super Score Integration..."
+echo "----------------------------------------------------------------------"
+python3 super_score_integrator.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en super score integration (no crítico - continúa)"
+fi
+
+# 12. Telegram Alerts (envía notificaciones automáticas)
+echo ""
+echo "📱 [12/13] Telegram Alerts..."
 echo "----------------------------------------------------------------------"
 python3 auto_telegram_alerts.py
 if [ $? -ne 0 ]; then
@@ -172,6 +190,8 @@ echo "  - docs/backtest/*.json"
 echo "  - docs/mean_reversion_opportunities.csv"
 echo "  - docs/options_flow.csv"
 echo "  - docs/ml_scores.csv"
+echo "  - docs/fundamental_scores.csv"
+echo "  - docs/super_scores_ultimate.csv"
 echo ""
 echo "📱 Alertas enviadas a Telegram"
 echo ""
