@@ -288,6 +288,9 @@
             text-align: center;
             position: relative;
             overflow: hidden;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            max-width: 100%;
         }
         
         .nav-card::before {
@@ -336,10 +339,10 @@
         .nav-desc {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.4;
+            line-height: 1.5;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            word-break: break-word;
+            hyphens: none;
             max-width: 100%;
         }
         
@@ -580,13 +583,17 @@
                 font-size: 2rem;
             }
 
+            /* FIX: Cambiar a flexbox vertical en mobile para evitar conflictos */
             .nav-grid {
-                grid-template-columns: repeat(2, 1fr);
+                display: flex !important;
+                flex-direction: column !important;
                 gap: 1rem;
             }
 
             .nav-card {
                 padding: 1.5rem;
+                width: 100% !important;
+                max-width: 100% !important;
             }
 
             .nav-card h3 {
@@ -606,7 +613,6 @@
         @media (max-width: 480px) {
             .glass-container {
                 padding: 0.75rem;
-                margin: 0.75rem;
             }
 
             .liquid-header {
@@ -622,12 +628,14 @@
             }
 
             .stats-liquid {
-                grid-template-columns: 1fr;
+                display: flex !important;
+                flex-direction: column !important;
                 gap: 0.75rem;
             }
 
             .stat-glass {
                 padding: 1.25rem;
+                width: 100% !important;
             }
 
             .stat-value {
@@ -638,13 +646,17 @@
                 font-size: 0.85rem;
             }
 
+            /* FIX: Usar flexbox vertical para layout de 1 columna limpio */
             .nav-grid {
-                grid-template-columns: 1fr;
+                display: flex !important;
+                flex-direction: column !important;
                 gap: 0.75rem;
             }
 
             .nav-card {
                 padding: 1.25rem;
+                width: 100% !important;
+                max-width: 100% !important;
             }
 
             .nav-card h3 {
