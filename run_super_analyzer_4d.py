@@ -11,6 +11,7 @@ Ejecuta análisis con 5 dimensiones:
 import json
 from pathlib import Path
 from super_analyzer_4d import SuperAnalyzer4D
+from investment_thesis_generator import add_thesis_to_opportunities
 
 def load_institutional_scores():
     """Carga scores institucionales del índice"""
@@ -156,6 +157,11 @@ def run_4d_analysis():
     # Reordenar por nuevo score
     opportunities.sort(key=lambda x: x['super_score_4d'], reverse=True)
 
+    # Generar Investment Thesis para cada opportunity
+    print("\n📝 Generando Investment Thesis...")
+    opportunities = add_thesis_to_opportunities(opportunities)
+    print(f"   ✅ Thesis generadas para {len(opportunities)} opportunities")
+
     # Generar reporte
     analyzer.generate_4d_report(opportunities)
 
@@ -215,7 +221,11 @@ def run_4d_analysis():
             'vcp_repeater': opp.get('vcp_repeater', False),
             'repeat_count': opp.get('repeat_count', 0),
             'consistency_score': opp.get('consistency_score', 0),
-            'repeater_bonus': opp.get('repeater_bonus', 0)
+            'repeater_bonus': opp.get('repeater_bonus', 0),
+
+            # Investment Thesis
+            'thesis_short': opp.get('thesis_short', ''),
+            'investment_thesis': opp.get('investment_thesis', '')
         }
         csv_data.append(row)
 
