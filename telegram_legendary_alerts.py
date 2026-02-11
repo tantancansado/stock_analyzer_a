@@ -522,6 +522,94 @@ la estrategia VCP (breakouts).
         else:
             print("❌ Error enviando alerta")
 
+    def send_options_flow_alerts(self):
+        """Alerta específica para Whale Activity en opciones"""
+        print("🐋 Buscando Whale Activity en opciones...")
+
+        import pandas as pd
+
+        csv_path = Path('docs/options_flow.csv')
+        if not csv_path.exists():
+            print("⚠️  No hay datos de Options Flow")
+            return
+
+        df = pd.read_csv(csv_path)
+
+        if df.empty:
+            print("ℹ️  No hay flujos inusuales")
+            return
+
+        # Filtrar solo whale activity (score >= 65)
+        whale_flows = df[df['flow_score'] >= 65]
+
+        if whale_flows.empty:
+            print("ℹ️  No hay whale activity detectada")
+            return
+
+        print(f"🐋 {len(whale_flows)} whale flows detectados!")
+
+        # Count by sentiment
+        bullish = len(df[df['sentiment'] == 'BULLISH'])
+        bearish = len(df[df['sentiment'] == 'BEARISH'])
+        neutral = len(df[df['sentiment'] == 'NEUTRAL'])
+
+        message = f"""
+🐋 <b>WHALE ACTIVITY ALERT!</b> 🐋
+
+Detectados {len(df)} flujos inusuales de opciones:
+
+🟢 Bullish: {bullish}
+🔴 Bearish: {bearish}
+🟡 Neutral: {neutral}
+
+<b>🔥 TOP 5 WHALE FLOWS:</b>
+
+"""
+
+        for _, row in whale_flows.head(5).iterrows():
+            ticker = row['ticker']
+            company = row.get('company_name', ticker)
+            sentiment = row['sentiment']
+            score = row['flow_score']
+            quality = row['quality']
+            premium = row['total_premium']
+            pc_ratio = row['put_call_ratio']
+
+            # Emoji según sentiment
+            if sentiment == 'BULLISH':
+                emoji = "🟢"
+            elif sentiment == 'BEARISH':
+                emoji = "🔴"
+            else:
+                emoji = "🟡"
+
+            message += f"""
+{emoji} <b>{ticker}</b> - {company}
+Sentiment: {sentiment}
+Score: {score:.0f}/100 {quality}
+Premium: ${premium/1000:.0f}K
+Put/Call: {pc_ratio if pc_ratio < 100 else '∞':.2f}
+
+"""
+
+        message += f"""
+💡 <b>¿Qué es Whale Activity?</b>
+Institucionales y fondos dejando huellas de movimientos grandes
+en el mercado de opciones. Pueden anticipar movimientos del stock.
+
+<b>Interpretación:</b>
+🟢 <b>Bullish Flow:</b> Calls dominantes = expectativas alcistas
+🔴 <b>Bearish Flow:</b> Puts dominantes = protección/apuestas bajistas
+🟡 <b>Neutral:</b> Flujos balanceados = incertidumbre
+
+🔗 <a href="https://tantancansado.github.io/stock_analyzer_a/options_flow_dashboard.html">Ver dashboard completo</a>
+"""
+
+        if self.send_message(message):
+            print("✅ Options Flow alert enviada")
+        else:
+            print("❌ Error enviando alerta")
+
 
 def main():
     """Main execution"""
@@ -537,10 +625,11 @@ def main():
         print("3. 🔥 Timing Convergence alerts")
         print("4. 🔁 VCP Repeater alerts")
         print("5. 🔄 Mean Reversion alerts")
-        print("6. 🚀 Ejecutar TODAS las alertas")
-        print("7. 🧪 Test de conexión")
+        print("6. 🐋 Options Flow (Whale Activity)")
+        print("7. 🚀 Ejecutar TODAS las alertas")
+        print("8. 🧪 Test de conexión")
 
-        choice = input("\nSelecciona (1-7): ").strip()
+        choice = input("\nSelecciona (1-8): ").strip()
 
         if choice == '1':
             alerts.check_and_alert_legendary()
@@ -553,6 +642,8 @@ def main():
         elif choice == '5':
             alerts.send_mean_reversion_alerts()
         elif choice == '6':
+            alerts.send_options_flow_alerts()
+        elif choice == '7':
             # Ejecutar todas las alertas
             print("\n🚀 Ejecutando pipeline completo de alertas...\n")
             alerts.send_daily_summary()
@@ -564,8 +655,10 @@ def main():
             alerts.send_vcp_repeater_alerts()
             print()
             alerts.send_mean_reversion_alerts()
+            print()
+            alerts.send_options_flow_alerts()
             print("\n✅ Pipeline completo ejecutado!")
-        elif choice == '7':
+        elif choice == '8':
             # Test
             test_msg = f"🧪 Test de conexión - {datetime.now().strftime('%H:%M:%S')}"
             if alerts.send_message(test_msg):

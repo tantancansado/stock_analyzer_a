@@ -66,6 +66,11 @@ Ejecutando pipeline automático de alertas 5D...
         alerts.send_mean_reversion_alerts()
         print()
 
+        # 6. Options Flow (whale activity)
+        print("🐋 Analizando Options Flow...")
+        alerts.send_options_flow_alerts()
+        print()
+
         # Send completion message
         completion_msg = """
 ✅ <b>Pipeline de Alertas Completado</b>

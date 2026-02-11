@@ -117,9 +117,25 @@ if [ $? -ne 0 ]; then
     echo "⚠️  Error en mean reversion backtest dashboard (no crítico - continúa)"
 fi
 
-# 8. Telegram Alerts (envía notificaciones automáticas)
+# 8. Options Flow Detector (whale activity)
 echo ""
-echo "📱 [8/9] Telegram Alerts..."
+echo "🐋 [8/10] Options Flow Detector..."
+echo "----------------------------------------------------------------------"
+python3 options_flow_detector.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en options flow detector (no crítico - continúa)"
+fi
+
+echo ""
+echo "🐋 [8/10] Options Flow Dashboard..."
+python3 options_flow_dashboard_generator.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en options flow dashboard (no crítico - continúa)"
+fi
+
+# 9. Telegram Alerts (envía notificaciones automáticas)
+echo ""
+echo "📱 [9/10] Telegram Alerts..."
 echo "----------------------------------------------------------------------"
 python3 auto_telegram_alerts.py
 if [ $? -ne 0 ]; then
@@ -137,6 +153,7 @@ echo "  - docs/sector_rotation_dashboard.html"
 echo "  - docs/backtest_dashboard.html"
 echo "  - docs/mean_reversion_dashboard.html"
 echo "  - docs/mean_reversion_backtest_dashboard.html"
+echo "  - docs/options_flow_dashboard.html"
 echo ""
 echo "📁 Datos generados:"
 echo "  - docs/super_opportunities_5d_complete.csv"
@@ -144,6 +161,7 @@ echo "  - docs/position_sizing.csv"
 echo "  - docs/sector_rotation/latest_scan.json"
 echo "  - docs/backtest/*.json"
 echo "  - docs/mean_reversion_opportunities.csv"
+echo "  - docs/options_flow.csv"
 echo ""
 echo "📱 Alertas enviadas a Telegram"
 echo ""
