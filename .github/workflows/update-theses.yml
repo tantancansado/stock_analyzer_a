@@ -61,8 +61,8 @@ jobs:
           THESIS_COUNT=$(grep -c '"ticker"' docs/theses.json || echo "0")
           THESIS_SIZE=$(du -h docs/theses.json | cut -f1)
 
-          # Timestamp
-          TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S UTC')
+          # Timestamp (sin colons para artifact name)
+          TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S_UTC')
 
           # Crear summary
           cat > update_summary.txt << EOF
