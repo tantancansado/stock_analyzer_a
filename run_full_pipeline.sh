@@ -133,9 +133,18 @@ if [ $? -ne 0 ]; then
     echo "⚠️  Error en options flow dashboard (no crítico - continúa)"
 fi
 
-# 9. Telegram Alerts (envía notificaciones automáticas)
+# 9. ML Scoring (predictive analysis)
 echo ""
-echo "📱 [9/10] Telegram Alerts..."
+echo "🤖 [9/11] ML Scoring System..."
+echo "----------------------------------------------------------------------"
+python3 ml_scoring.py
+if [ $? -ne 0 ]; then
+    echo "⚠️  Error en ML scoring (no crítico - continúa)"
+fi
+
+# 10. Telegram Alerts (envía notificaciones automáticas)
+echo ""
+echo "📱 [10/11] Telegram Alerts..."
 echo "----------------------------------------------------------------------"
 python3 auto_telegram_alerts.py
 if [ $? -ne 0 ]; then
@@ -162,6 +171,7 @@ echo "  - docs/sector_rotation/latest_scan.json"
 echo "  - docs/backtest/*.json"
 echo "  - docs/mean_reversion_opportunities.csv"
 echo "  - docs/options_flow.csv"
+echo "  - docs/ml_scores.csv"
 echo ""
 echo "📱 Alertas enviadas a Telegram"
 echo ""

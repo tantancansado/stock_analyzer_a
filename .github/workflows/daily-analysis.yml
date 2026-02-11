@@ -72,16 +72,21 @@ jobs:
 
       - name: 🐋 Run Options Flow Detector
         run: |
-          echo "🐋 [9/10] Options Flow Detector..."
+          echo "🐋 [9/11] Options Flow Detector..."
           python3 options_flow_detector.py
           python3 options_flow_dashboard_generator.py
+
+      - name: 🤖 Run ML Scoring
+        run: |
+          echo "🤖 [10/11] ML Scoring System..."
+          python3 ml_scoring.py
 
       - name: 📱 Send Telegram Alerts
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          echo "📱 [10/10] Sending Telegram Alerts..."
+          echo "📱 [11/11] Sending Telegram Alerts..."
           python3 auto_telegram_alerts.py
 
       - name: 💾 Commit and Push All Results
