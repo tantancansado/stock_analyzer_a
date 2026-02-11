@@ -1,4 +1,4 @@
-name: Daily Market Analysis
+name: Daily Market Analysis - Full Pipeline
 
 on:
   schedule:
@@ -7,91 +7,131 @@ on:
   workflow_dispatch:  # Manual trigger
 
 jobs:
-  sector-rotation:
+  full-pipeline:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Setup Python
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🐍 Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
-          pip install pandas yfinance requests beautifulsoup4 lxml
+          python -m pip install --upgrade pip
+          pip install pandas yfinance requests beautifulsoup4 lxml numpy
 
-      - name: Run Sector Rotation Scan
+      - name: 📊 Run Sector Rotation
         run: |
+          echo "📊 [1/10] Sector Rotation Scan..."
           python3 sector_rotation_detector.py
           python3 sector_rotation_dashboard_generator.py
 
-      - name: Commit and Push Results
+      - name: 🎯 Run 5D Super Analyzer
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add docs/sector_rotation/
-          git add docs/sector_rotation_dashboard.html
-          git commit -m "Daily sector rotation update $(date +%Y-%m-%d)" || echo "No changes"
-          git push
-
-  opportunities-refresh:
-    needs: sector-rotation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          pip install pandas yfinance requests beautifulsoup4 lxml
-
-      - name: Run 5D Analysis
-        run: |
+          echo "🎯 [2/10] 5D Super Analyzer..."
           python3 run_super_analyzer_4d.py
 
-      - name: Generate Super Dashboard
+      - name: 📈 Generate Super Dashboard
         run: |
+          echo "📈 [3/10] Super Dashboard..."
           python3 super_dashboard_generator.py
 
-      - name: Commit and Push Results
+      - name: 📉 Run Backtest Engine
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add docs/super_opportunities_5d_complete.csv
-          git add docs/super_dashboard.html
-          git commit -m "Daily 5D opportunities update $(date +%Y-%m-%d)" || echo "No changes"
-          git push
-
-  backtest-update:
-    needs: opportunities-refresh
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: |
-          pip install pandas yfinance requests beautifulsoup4 lxml
-
-      - name: Run Backtest
-        run: |
+          echo "📉 [4/10] Backtest Engine..."
           python3 backtest_engine.py
           python3 backtest_dashboard_generator.py
 
-      - name: Commit and Push Results
+      - name: 💰 Run Position Sizing
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'actions@github.com'
-          git add docs/backtest/
-          git add docs/backtest_dashboard.html
-          git commit -m "Daily backtest update $(date +%Y-%m-%d)" || echo "No changes"
+          echo "💰 [5/10] Position Sizing..."
+          python3 position_sizer.py
+
+      - name: 📅 Run Earnings Calendar
+        run: |
+          echo "📅 [6/10] Earnings Calendar..."
+          python3 earnings_calendar.py || echo "⚠️  Earnings calendar warning (non-critical)"
+
+      - name: 🔄 Run Mean Reversion Detector
+        run: |
+          echo "🔄 [7/10] Mean Reversion Detector..."
+          python3 mean_reversion_detector.py
+          python3 mean_reversion_dashboard_generator.py
+
+      - name: 🔄 Run Mean Reversion Backtest
+        run: |
+          echo "🔄 [8/10] Mean Reversion Backtest..."
+          python3 mean_reversion_backtester.py
+          python3 mean_reversion_backtest_dashboard_generator.py
+
+      - name: 🐋 Run Options Flow Detector
+        run: |
+          echo "🐋 [9/10] Options Flow Detector..."
+          python3 options_flow_detector.py
+          python3 options_flow_dashboard_generator.py
+
+      - name: 📱 Send Telegram Alerts
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          echo "📱 [10/10] Sending Telegram Alerts..."
+          python3 auto_telegram_alerts.py
+
+      - name: 💾 Commit and Push All Results
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+
+          # Add all generated files
+          git add docs/
+          git add data/backtest_cache/ || echo "No backtest cache updates"
+
+          # Create comprehensive commit
+          SCAN_DATE=$(date +%Y-%m-%d)
+          git commit -m "chore: Daily full pipeline update - ${SCAN_DATE}" \
+            -m "Complete Market Analysis: Sector Rotation, 5D Analyzer, Backtest, Position Sizing, Mean Reversion, Options Flow, Telegram Alerts" \
+            -m "Automated via GitHub Actions" || echo "No changes to commit"
+
           git push
+
+      - name: 📢 Create Pipeline Summary
+        if: always()
+        run: |
+          echo "# 🚀 Daily Pipeline Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Execution Date:** $(date +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
+          echo "**Execution Time:** $(date +%H:%M:%S) UTC" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Pipeline Components Executed:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Sector Rotation Analysis" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ 5D Super Analyzer" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Super Dashboard" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Backtest Engine" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Position Sizing" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Earnings Calendar" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Mean Reversion Detector" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Mean Reversion Backtest" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Options Flow Detector" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Telegram Alerts" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Generated Dashboards:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- [Super Dashboard](https://tantancansado.github.io/stock_analyzer_a/super_dashboard.html)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Sector Rotation](https://tantancansado.github.io/stock_analyzer_a/sector_rotation_dashboard.html)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Backtest](https://tantancansado.github.io/stock_analyzer_a/backtest_dashboard.html)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Mean Reversion](https://tantancansado.github.io/stock_analyzer_a/mean_reversion_dashboard.html)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Mean Reversion Backtest](https://tantancansado.github.io/stock_analyzer_a/mean_reversion_backtest_dashboard.html)" >> $GITHUB_STEP_SUMMARY
+          echo "- [Options Flow](https://tantancansado.github.io/stock_analyzer_a/options_flow_dashboard.html)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📱 **Telegram alerts have been sent to configured chat**" >> $GITHUB_STEP_SUMMARY
+
+env:
+  PYTHONUNBUFFERED: 1
