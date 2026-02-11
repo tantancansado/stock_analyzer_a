@@ -27,16 +27,22 @@ class SuperScoreIntegrator:
             'fundamental': 0.30 # 30% - Earnings & growth quality
         }
 
-    def integrate_scores(self) -> pd.DataFrame:
+    def integrate_scores(self, reference_date: str = None) -> pd.DataFrame:
         """
         Integra todos los scores disponibles
 
+        Args:
+            reference_date: Fecha de referencia para los datos (YYYY-MM-DD). None = hoy
+
         Returns:
-            DataFrame con Super Score Ultimate
+            DataFrame con Super Score Ultimate + timestamps
         """
         print("\n🎯 SUPER SCORE INTEGRATOR")
         print("=" * 80)
         print("Integrando VCP + ML + Fundamental scores...\n")
+
+        # Store reference date for timestamp
+        self.reference_date = reference_date if reference_date else datetime.now().strftime('%Y-%m-%d')
 
         # 1. Cargar VCP scores
         vcp_df = self._load_vcp_scores()
@@ -194,6 +200,10 @@ class SuperScoreIntegrator:
         df['vcp_contribution'] = (df['vcp_score'] * self.weights['vcp']).round(1)
         df['ml_contribution'] = (df['ml_score'] * self.weights['ml']).round(1)
         df['fundamental_contribution'] = (df['fundamental_score'] * self.weights['fundamental']).round(1)
+
+        # 🔴 FIX LOOK-AHEAD BIAS: Agregar timestamps
+        df['score_timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        df['data_as_of_date'] = self.reference_date
 
         return df
 

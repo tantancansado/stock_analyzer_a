@@ -187,6 +187,44 @@ class BacktestEngineV2:
 
         return trade
 
+    def _validate_timestamps(self, df: pd.DataFrame, lookback_days: int):
+        """
+        Valida que los scores tengan timestamps y no haya look-ahead bias
+
+        Args:
+            df: DataFrame con scores
+            lookback_days: Días hacia atrás del backtest
+
+        Raises:
+            Warning si no hay timestamps o hay look-ahead bias
+        """
+        reference_date = datetime.now() - timedelta(days=lookback_days)
+
+        # Check 1: ¿Existen columnas de timestamp?
+        has_score_timestamp = 'score_timestamp' in df.columns
+        has_data_as_of_date = 'data_as_of_date' in df.columns
+
+        if not has_score_timestamp or not has_data_as_of_date:
+            print(f"\n   ⚠️  WARNING: No timestamp columns found in scores CSV")
+            print(f"   ⚠️  This indicates potential LOOK-AHEAD BIAS")
+            print(f"   ⚠️  Scores may be using current data for historical trades")
+            print(f"   ⚠️  Backtest results may be INFLATED\n")
+            return
+
+        # Check 2: Validar que data_as_of_date <= entry_date
+        df['data_as_of_date_parsed'] = pd.to_datetime(df['data_as_of_date'])
+
+        future_data_count = len(df[df['data_as_of_date_parsed'] > reference_date])
+
+        if future_data_count > 0:
+            print(f"\n   🚨 LOOK-AHEAD BIAS DETECTED!")
+            print(f"   🚨 {future_data_count} scores use data AFTER entry date")
+            print(f"   🚨 Entry date: {reference_date.strftime('%Y-%m-%d')}")
+            print(f"   🚨 Data as of: {df['data_as_of_date'].iloc[0]}")
+            print(f"   🚨 Backtest results are INVALID\n")
+        else:
+            print(f"   ✅ Timestamp validation passed - No look-ahead bias detected")
+
     def run_backtest_v2(self, opportunities_csv: str, lookback_days: int = 180,
                         min_score_override: int = None, use_regime_filter: bool = True) -> Dict:
         """
@@ -206,6 +244,9 @@ class BacktestEngineV2:
 
         # Cargar oportunidades
         df = pd.read_csv(opportunities_csv)
+
+        # 🔴 VALIDAR TIMESTAMPS (Look-Ahead Bias Check)
+        self._validate_timestamps(df, lookback_days)
 
         # Detectar tipo de scoring
         if 'super_score_ultimate' in df.columns:
