@@ -19,14 +19,28 @@ from datetime import datetime, timedelta
 from pathlib import Path
 import json
 import time
+import argparse
 from typing import Dict, List, Optional
 
 class FundamentalScorer:
     """Sistema de scoring fundamental completo"""
 
-    def __init__(self):
+    def __init__(self, as_of_date: Optional[str] = None):
+        """Initialize Fundamental Scorer
+
+        Args:
+            as_of_date: Historical date (YYYY-MM-DD) for scoring. Prevents look-ahead bias.
+        """
         self.cache_dir = Path('cache/fundamentals')
         self.cache_dir.mkdir(parents=True, exist_ok=True)
+
+        # 🔴 FIX LOOK-AHEAD BIAS: Store as_of_date
+        self.as_of_date = as_of_date
+        if as_of_date:
+            self.as_of_date_dt = datetime.strptime(as_of_date, '%Y-%m-%d')
+            print(f"📅 Fundamental Scorer: Historical mode (as_of_date={as_of_date})")
+        else:
+            self.as_of_date_dt = datetime.now()
 
         # Weights para el fundamental score
         self.weights = {
@@ -128,21 +142,55 @@ class FundamentalScorer:
             return self._get_empty_result(ticker)
 
     def _get_quarterly_earnings(self, stock) -> pd.DataFrame:
-        """Obtiene earnings trimestrales"""
+        """Obtiene earnings trimestrales
+
+        Returns:
+            DataFrame with quarterly earnings reported before as_of_date (if specified)
+        """
         try:
             earnings = stock.quarterly_earnings
             if earnings is not None and not earnings.empty:
+                # 🔴 FIX LOOK-AHEAD BIAS: Filter earnings by date
+                if self.as_of_date:
+                    # Filter to only include earnings with dates <= as_of_date
+                    # Earnings index is typically datetime, so filter by index
+                    if isinstance(earnings.index, pd.DatetimeIndex):
+                        earnings = earnings[earnings.index <= self.as_of_date_dt]
+                    # Some earnings might have a date column instead
+                    elif 'date' in earnings.columns:
+                        earnings['date'] = pd.to_datetime(earnings['date'])
+                        earnings = earnings[earnings['date'] <= self.as_of_date_dt]
+
                 return earnings
         except:
             pass
         return pd.DataFrame()
 
     def _get_financials(self, stock) -> Dict:
-        """Obtiene datos financieros"""
+        """Obtiene datos financieros
+
+        Returns:
+            Dict with quarterly financials reported before as_of_date (if specified)
+        """
         try:
+            quarterly_financials = stock.quarterly_financials
+            quarterly_balance_sheet = stock.quarterly_balance_sheet
+
+            # 🔴 FIX LOOK-AHEAD BIAS: Filter financials by date
+            if self.as_of_date:
+                # Filter quarterly financials
+                if quarterly_financials is not None and not quarterly_financials.empty:
+                    if isinstance(quarterly_financials.columns, pd.DatetimeIndex):
+                        quarterly_financials = quarterly_financials.loc[:, quarterly_financials.columns <= self.as_of_date_dt]
+
+                # Filter balance sheet
+                if quarterly_balance_sheet is not None and not quarterly_balance_sheet.empty:
+                    if isinstance(quarterly_balance_sheet.columns, pd.DatetimeIndex):
+                        quarterly_balance_sheet = quarterly_balance_sheet.loc[:, quarterly_balance_sheet.columns <= self.as_of_date_dt]
+
             return {
-                'quarterly_financials': stock.quarterly_financials,
-                'quarterly_balance_sheet': stock.quarterly_balance_sheet,
+                'quarterly_financials': quarterly_financials,
+                'quarterly_balance_sheet': quarterly_balance_sheet,
             }
         except:
             return {
@@ -151,9 +199,26 @@ class FundamentalScorer:
             }
 
     def _get_price_history(self, stock) -> pd.DataFrame:
-        """Obtiene histórico de precios (1 año)"""
+        """Obtiene histórico de precios (1 año)
+
+        Returns:
+            DataFrame with price history up to as_of_date (if specified)
+        """
         try:
-            hist = stock.history(period='1y')
+            # 🔴 FIX LOOK-AHEAD BIAS: Use date range instead of period
+            if self.as_of_date:
+                # Historical mode: fetch data up to as_of_date
+                end_date = self.as_of_date_dt
+                start_date = end_date - timedelta(days=365)
+
+                hist = stock.history(
+                    start=start_date.strftime('%Y-%m-%d'),
+                    end=end_date.strftime('%Y-%m-%d')
+                )
+            else:
+                # Current mode: use standard period
+                hist = stock.history(period='1y')
+
             if hist is not None and not hist.empty:
                 return hist
         except:
@@ -656,10 +721,18 @@ def main():
     parser.add_argument('--ml', action='store_true', help='Score ML top stocks')
     parser.add_argument('--top', type=int, default=50, help='Top N tickers (default: 50)')
     parser.add_argument('--all', action='store_true', help='Score todas las fuentes (VCP + ML)')
+    parser.add_argument('--as-of-date', type=str, default=None,
+                       help='Historical date for scoring (YYYY-MM-DD). Only use earnings/financials reported before this date. '
+                            'Prevents look-ahead bias in backtesting.')
 
     args = parser.parse_args()
 
-    scorer = FundamentalScorer()
+    # 🔴 FIX LOOK-AHEAD BIAS: Pass as_of_date to scorer
+    scorer = FundamentalScorer(as_of_date=args.as_of_date)
+
+    if args.as_of_date:
+        print(f"📅 Historical mode: Scoring as of {args.as_of_date}")
+        print(f"🔴 Only using earnings/financials reported before this date\n")
 
     if args.ticker:
         # Score un ticker
