@@ -71,6 +71,11 @@ Ejecutando pipeline automático de alertas 5D...
         alerts.send_options_flow_alerts()
         print()
 
+        # 7. ML Scores (predictive analysis)
+        print("🤖 Analizando ML Scores...")
+        alerts.send_ml_scores_alerts()
+        print()
+
         # Send completion message
         completion_msg = """
 ✅ <b>Pipeline de Alertas Completado</b>

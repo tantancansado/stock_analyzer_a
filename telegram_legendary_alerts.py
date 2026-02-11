@@ -613,6 +613,96 @@ en el mercado de opciones. Pueden anticipar movimientos del stock.
         else:
             print("❌ Error enviando alerta")
 
+    def send_ml_scores_alerts(self):
+        """Alerta específica para Top ML Scores (predictive analysis)"""
+        print("🤖 Buscando Top ML Scores...")
+
+        import pandas as pd
+
+        csv_path = Path('docs/ml_scores.csv')
+        if not csv_path.exists():
+            print("⚠️  No hay datos de ML Scores")
+            return
+
+        df = pd.read_csv(csv_path)
+
+        if df.empty:
+            print("ℹ️  No hay ML scores disponibles")
+            return
+
+        # Top 10 por ML score
+        top_ml = df.nlargest(10, 'ml_score')
+
+        if top_ml.empty:
+            print("ℹ️  No hay scores suficientemente altos")
+            return
+
+        print(f"🤖 {len(top_ml)} top ML scores detectados!")
+
+        # Estadísticas
+        avg_score = df['ml_score'].mean()
+        high_scores = len(df[df['ml_score'] >= 70])
+
+        message = f"""
+🤖 <b>ML PREDICTIONS ALERT!</b> 🤖
+
+Sistema de Machine Learning detectó {high_scores} stocks
+con score predictivo alto (&gt;= 70/100)
+
+📊 <b>ESTADÍSTICAS:</b>
+• Stocks analizados: {len(df)}
+• Score promedio: {avg_score:.1f}/100
+• High scores (≥70): {high_scores}
+
+<b>🏆 TOP 5 ML SCORES:</b>
+
+"""
+
+        for i, (_, row) in enumerate(top_ml.head(5).iterrows(), 1):
+            ticker = row['ticker']
+            company = row.get('company_name', ticker)
+            ml_score = row['ml_score']
+
+            # Componentes del score
+            momentum = row.get('momentum_score', 0)
+            trend = row.get('trend_score', 0)
+            volume = row.get('volume_score', 0)
+
+            # Emojis según score
+            if ml_score >= 80:
+                emoji = "🔥"
+            elif ml_score >= 70:
+                emoji = "⭐"
+            else:
+                emoji = "✅"
+
+            message += f"""
+{i}. {emoji} <b>{ticker}</b> - {company}
+   ML Score: {ml_score:.1f}/100
+   Momentum:{momentum:.0f} | Trend:{trend:.0f} | Volume:{volume:.0f}
+
+"""
+
+        message += f"""
+💡 <b>¿Qué es ML Score?</b>
+Sistema de scoring predictivo basado en 6 dimensiones:
+• Momentum (returns 7d/14d/30d)
+• Trend (MA alignment)
+• Volume (strength vs historical)
+• Volatility (contraction)
+• Technical indicators (RSI, ATR)
+• Position in range
+
+Complementa VCP y otras señales para timing óptimo.
+
+🔗 Ver datos completos: docs/ml_scores.csv
+"""
+
+        if self.send_message(message):
+            print("✅ ML Scores alert enviada")
+        else:
+            print("❌ Error enviando alerta")
+
 
 def main():
     """Main execution"""
@@ -629,10 +719,11 @@ def main():
         print("4. 🔁 VCP Repeater alerts")
         print("5. 🔄 Mean Reversion alerts")
         print("6. 🐋 Options Flow (Whale Activity)")
-        print("7. 🚀 Ejecutar TODAS las alertas")
-        print("8. 🧪 Test de conexión")
+        print("7. 🤖 ML Scores (Predictive Analysis)")
+        print("8. 🚀 Ejecutar TODAS las alertas")
+        print("9. 🧪 Test de conexión")
 
-        choice = input("\nSelecciona (1-8): ").strip()
+        choice = input("\nSelecciona (1-9): ").strip()
 
         if choice == '1':
             alerts.check_and_alert_legendary()
@@ -647,6 +738,8 @@ def main():
         elif choice == '6':
             alerts.send_options_flow_alerts()
         elif choice == '7':
+            alerts.send_ml_scores_alerts()
+        elif choice == '8':
             # Ejecutar todas las alertas
             print("\n🚀 Ejecutando pipeline completo de alertas...\n")
             alerts.send_daily_summary()
@@ -660,8 +753,10 @@ def main():
             alerts.send_mean_reversion_alerts()
             print()
             alerts.send_options_flow_alerts()
+            print()
+            alerts.send_ml_scores_alerts()
             print("\n✅ Pipeline completo ejecutado!")
-        elif choice == '8':
+        elif choice == '9':
             # Test
             test_msg = f"🧪 Test de conexión - {datetime.now().strftime('%H:%M:%S')}"
             if alerts.send_message(test_msg):

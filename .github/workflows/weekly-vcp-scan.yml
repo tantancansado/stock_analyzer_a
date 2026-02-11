@@ -30,8 +30,8 @@ jobs:
 
       - name: 🚀 Run VCP Scanner
         run: |
-          echo "🔍 Ejecutando VCP Scanner USA (non-interactive mode)..."
-          python3 vcp_scanner_usa.py --sp500
+          echo "🔍 Ejecutando VCP Scanner USA (non-interactive mode con procesamiento paralelo)..."
+          python3 vcp_scanner_usa.py --sp500 --parallel
 
       - name: 📊 Check scan results
         run: |
