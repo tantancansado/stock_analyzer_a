@@ -124,9 +124,9 @@ $ python3 backtest_engine_v2.py
 
 ---
 
-## ✅ PHASE 2: Historical Scoring (CASI COMPLETADO - 80%)
+## ✅ PHASE 2: Historical Scoring (CASI COMPLETADO - 90%)
 
-**Status:** Todos los scorers modificados exitosamente. Pendiente: testing y generación de snapshots.
+**Status:** Todos los scorers modificados exitosamente + pipeline automatizado. Pendiente: testing y generación de snapshots.
 
 ### 🎉 IMPLEMENTACIONES COMPLETADAS (2026-02-11):
 
@@ -158,6 +158,16 @@ $ python3 backtest_engine_v2.py
 - Actualizado `integrate_scores()` para usar `as_of_date` en `reference_date`
 - Añadida documentación completa del workflow histórico en help text
 - Commit: `9516926` - "feat: Add --as-of-date parameter to Super Score Integrator"
+
+**5. Historical Scorer** (`historical_scorer.py`) ✅
+- Reescrito `generate_snapshot()` para ejecutar pipeline completo vía subprocess
+- Pipeline automatizado: VCP Scanner → ML Scoring → Fundamental Scoring → Super Score Integration
+- Cada componente ejecutado con `--as-of-date` parameter para consistencia histórica
+- Añadido flag `--run-vcp` (VCP opcional, tarda 15-20 min)
+- Parámetro `skip_vcp` (default True) para acelerar generación de snapshots
+- Actualizado CLI con confirmación para operaciones largas (52 snapshots semanales)
+- Snapshots guardados en `docs/historical_scores/{date}_scores.csv`
+- Commit: `228bb07` - "feat: Automate historical scoring pipeline in historical_scorer.py"
 
 ### Componentes a Modificar (Documentación Original):
 
@@ -327,13 +337,13 @@ python3 historical_scorer.py --weekly --weeks 52
 - [x] Validar detección de look-ahead bias
 - [x] Documentar fix en `LOOK_AHEAD_BIAS_FIX.md`
 
-### Phase 2: Historical Scoring ✅ 80% COMPLETADO
+### Phase 2: Historical Scoring ✅ 90% COMPLETADO
 
 - [x] Modificar `vcp_scanner_usa.py` para `--as-of-date` ✅
 - [x] Modificar `ml_scoring.py` para cutoff date ✅
 - [x] Modificar `fundamental_scorer.py` para earnings filtering ✅
 - [x] Modificar `super_score_integrator.py` para timestamp consistency ✅
-- [ ] Actualizar `historical_scorer.py` para automation 🚧
+- [x] Actualizar `historical_scorer.py` para automation ✅
 - [ ] Testear scoring histórico (sample date: 2025-08-15) 🚧
 - [ ] Generar 52 snapshots semanales 🚧
 - [ ] Validar calidad de snapshots 🚧
@@ -360,11 +370,12 @@ python3 historical_scorer.py --weekly --weeks 52
 ---
 
 **Actualizado:** 2026-02-11
-**Status:** Phase 1 COMPLETADO ✅ | Phase 2 80% COMPLETADO ✅🚧 | Phase 3 PENDIENTE
+**Status:** Phase 1 COMPLETADO ✅ | Phase 2 90% COMPLETADO ✅🚧 | Phase 3 PENDIENTE
 **Completado Hoy:**
 - ✅ VCP Scanner con --as-of-date (Commit: db1edcc)
 - ✅ ML Scoring con --as-of-date (Commit: 0cdbb18)
 - ✅ Fundamental Scorer con --as-of-date (Commit: 06ee709)
 - ✅ Super Score Integrator con --as-of-date (Commit: 9516926)
+- ✅ Historical Scorer automation (Commit: 228bb07)
 
-**Próximo Paso:** Testing y generación de snapshots históricos semanales
+**Próximo Paso:** Testing con fecha ejemplo (2025-08-15) y generación de snapshots
