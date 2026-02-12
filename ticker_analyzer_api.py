@@ -652,7 +652,8 @@ class TickerAnalyzer:
         try:
             # Calculate validation metrics from stock_info (no API calls!)
             current_price = stock_info.get('current_price', 0)
-            year_high = stock_info.get('52_week_high', 0)
+            # Try both naming conventions
+            year_high = stock_info.get('52_week_high') or stock_info.get('fifty_two_week_high', 0)
             pe_ratio = stock_info.get('pe_ratio')
 
             # Get VCP score if available
@@ -760,7 +761,9 @@ class TickerAnalyzer:
                                     ma, ad, float_filter, market_regime, validation, final_score) -> dict:
         """Generate comprehensive investment thesis"""
 
-        # Determine recommendation (IMPROVED: More aggressive with high scores)
+        # Determine recommendation (IMPROVED: Respects validation BUY with strong VCP)
+        vcp_score = vcp.get('score', 0)
+
         if final_score >= 80 and validation['status'] == 'BUY':
             recommendation = 'BUY'
             confidence = 'VERY HIGH'
@@ -770,6 +773,10 @@ class TickerAnalyzer:
         elif final_score >= 65 and validation['status'] == 'BUY':
             recommendation = 'BUY'
             confidence = 'MEDIUM-HIGH'
+        # SPECIAL CASE: Strong VCP + Validation BUY, even if final score is lower
+        elif vcp_score >= 75 and validation['status'] == 'BUY' and final_score >= 50:
+            recommendation = 'BUY'
+            confidence = 'MEDIUM'
         elif final_score >= 60 and validation['status'] in ['BUY', 'HOLD']:
             recommendation = 'HOLD'
             confidence = 'MEDIUM'
@@ -803,12 +810,19 @@ class TickerAnalyzer:
         elif ad_signal in ['DISTRIBUTION', 'STRONG_DISTRIBUTION']:
             weaknesses.append(f"Institutional distribution detected ({ad_signal})")
 
-        # Validation
+        # Validation (UPDATED: Respect VCP + ATH logic)
         price_vs_ath = validation.get('price_vs_ath')
+        validation_status = validation.get('status', 'UNKNOWN')
+        vcp_score = vcp.get('score', 0)
+
         if price_vs_ath and price_vs_ath < -15:
             strengths.append(f"Good pullback from ATH ({price_vs_ath:+.1f}%)")
         elif price_vs_ath and price_vs_ath > -5:
-            weaknesses.append(f"Too close to ATH ({price_vs_ath:+.1f}%) - poor entry")
+            # Near ATH: only a weakness if VCP is weak
+            if vcp_score >= 70 and validation_status == 'BUY':
+                strengths.append(f"VCP breakout near ATH ({price_vs_ath:+.1f}%) - strong momentum")
+            else:
+                weaknesses.append(f"Too close to ATH ({price_vs_ath:+.1f}%) - poor entry")
 
         # P/E ratio
         pe = stock_info.get('pe_ratio')
