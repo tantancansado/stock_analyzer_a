@@ -242,10 +242,10 @@ class SeekingAlphaClient:
 
     def _get_yf_fundamentals(self, ticker: str) -> Dict[str, Any]:
         """
-        Get PE/EPS/Beta from Yahoo Finance with retry logic and persistent cache
+        Get PE/Beta/Float from Yahoo Finance using timeseries endpoint (less rate limiting)
 
-        This is a lightweight call to get only fundamental ratios
-        that Seeking Alpha free API doesn't provide
+        Uses fundamentals-timeseries endpoint which has pre-calculated ratios
+        and typically has better rate limits than quoteSummary
         """
         import time
 
@@ -265,63 +265,106 @@ class SeekingAlphaClient:
             except:
                 pass
 
-        url = f"https://query2.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
-        params = {
-            'modules': 'defaultKeyStatistics,financialData',
-            'formatted': 'false'
-        }
+        print("   📊 Fetching PE/Beta from Yahoo Finance (timeseries endpoint - better rate limits)...")
+        time.sleep(2)  # Shorter delay since this endpoint has better limits
 
-        # Retry with exponential backoff (3 attempts)
-        max_retries = 3
-        for attempt in range(max_retries):
+        # Try timeseries endpoint first (better rate limits)
+        fundamentals = self._get_yf_timeseries(ticker)
+
+        # Fallback to quoteSummary if timeseries fails
+        if not fundamentals or all(v is None for v in fundamentals.values()):
+            fundamentals = self._get_yf_quotesummary(ticker)
+
+        # Save to persistent cache if we got data
+        if fundamentals and any(v is not None for v in fundamentals.values()):
             try:
-                # Increasing delay: 10s, 20s, 30s
-                delay = 10 * (attempt + 1)
-                print(f"   📊 Fetching PE/Beta from Yahoo Finance (attempt {attempt + 1}/{max_retries}, {delay}s delay)...")
-                time.sleep(delay)
+                with open(cache_file, 'w') as f:
+                    json.dump({
+                        'ticker': ticker,
+                        'cached_at': datetime.now().isoformat(),
+                        'data': fundamentals
+                    }, f, indent=2)
+                print("   ✓ Cached fundamentals for future use")
+            except:
+                pass
 
-                response = requests.get(url, params=params, timeout=15)
-                response.raise_for_status()
-                data = response.json()
+        return fundamentals
 
-                result = data.get('quoteSummary', {}).get('result', [])
-                if result and len(result) > 0:
-                    stats = result[0].get('defaultKeyStatistics', {})
-                    financial = result[0].get('financialData', {})
+    def _get_yf_timeseries(self, ticker: str) -> Dict[str, Any]:
+        """Get fundamentals from Yahoo Finance timeseries endpoint (better rate limits)"""
+        try:
+            # Request multiple ratio types
+            url = f"https://query1.finance.yahoo.com/ws/fundamentals-timeseries/v1/finance/timeseries/{ticker}"
+            params = {
+                'type': 'trailingPeRatio,trailingForwardPeRatio,trailingPegRatio,quarterlyMarketCap',
+                'merge': 'false',
+                'padTimeSeries': 'false'
+            }
 
-                    fundamentals = {
-                        'pe_ratio': stats.get('trailingPE', {}).get('raw'),
-                        'forward_pe': stats.get('forwardPE', {}).get('raw'),
-                        'peg_ratio': stats.get('pegRatio', {}).get('raw'),
-                        'beta': stats.get('beta', {}).get('raw'),
-                        'eps': financial.get('currentPrice', {}).get('raw'),
-                        'float_shares': stats.get('floatShares', {}).get('raw')
-                    }
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
 
-                    # Save to persistent cache
-                    try:
-                        with open(cache_file, 'w') as f:
-                            json.dump({
-                                'ticker': ticker,
-                                'cached_at': datetime.now().isoformat(),
-                                'data': fundamentals
-                            }, f, indent=2)
-                        print(f"   ✓ Cached fundamentals for future use")
-                    except:
-                        pass
+            fundamentals = {}
 
-                    return fundamentals
+            # Extract latest values from timeseries
+            results = data.get('timeseries', {}).get('result', [])
+            for result in results:
+                result_type = result.get('meta', {}).get('type', [None])[0]
 
-            except requests.exceptions.HTTPError as e:
-                if e.response.status_code == 429:
-                    print(f"   ⚠️  Rate limited (429), retrying with longer delay...")
-                    continue
-                else:
-                    print(f"   ⚠️  Yahoo Finance error: {str(e)}")
-                    break
-            except Exception as e:
-                print(f"   ⚠️  Yahoo Finance fundamentals failed: {str(e)}")
-                break
+                if result_type == 'trailingPeRatio' and result_type in result:
+                    values = result[result_type]
+                    if values and len(values) > 0:
+                        # Get most recent value
+                        fundamentals['pe_ratio'] = values[-1].get('reportedValue', {}).get('raw')
+
+                elif result_type == 'trailingForwardPeRatio' and result_type in result:
+                    values = result[result_type]
+                    if values and len(values) > 0:
+                        fundamentals['forward_pe'] = values[-1].get('reportedValue', {}).get('raw')
+
+                elif result_type == 'trailingPegRatio' and result_type in result:
+                    values = result[result_type]
+                    if values and len(values) > 0:
+                        fundamentals['peg_ratio'] = values[-1].get('reportedValue', {}).get('raw')
+
+            # Still need quoteSummary for beta and float_shares (not in timeseries)
+            if fundamentals:
+                print(f"   ✓ Got PE/PEG from timeseries endpoint")
+
+            return fundamentals
+
+        except Exception as e:
+            print(f"   ⚠️  Timeseries endpoint failed: {str(e)}")
+            return {}
+
+    def _get_yf_quotesummary(self, ticker: str) -> Dict[str, Any]:
+        """Fallback: Get fundamentals from quoteSummary (may have rate limits)"""
+        try:
+            url = f"https://query2.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
+            params = {
+                'modules': 'defaultKeyStatistics',
+                'formatted': 'false'
+            }
+
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            result = data.get('quoteSummary', {}).get('result', [])
+            if result and len(result) > 0:
+                stats = result[0].get('defaultKeyStatistics', {})
+
+                return {
+                    'pe_ratio': stats.get('trailingPE', {}).get('raw'),
+                    'forward_pe': stats.get('forwardPE', {}).get('raw'),
+                    'peg_ratio': stats.get('pegRatio', {}).get('raw'),
+                    'beta': stats.get('beta', {}).get('raw'),
+                    'float_shares': stats.get('floatShares', {}).get('raw')
+                }
+
+        except Exception as e:
+            print(f"   ⚠️  QuoteSummary fallback failed: {str(e)}")
 
         return {}
 
