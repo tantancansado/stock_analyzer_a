@@ -25,6 +25,57 @@ class MarketRegimeDetector:
         self.cache_dir = Path('cache/market_regime')
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
+        # Load ticker cache if available (for Railway deployment)
+        self.ticker_cache = {}
+        self._load_ticker_cache()
+
+    def _load_ticker_cache(self):
+        """Load ticker cache from JSON (optional, for Railway)"""
+        cache_path = Path('docs/ticker_data_cache.json')
+        if cache_path.exists():
+            try:
+                with open(cache_path, 'r') as f:
+                    self.ticker_cache = json.load(f)
+            except Exception:
+                pass  # Silently fail, will use yfinance fallback
+
+    def _get_historical_data(self, symbol: str) -> pd.DataFrame:
+        """
+        Get historical data from cache or yfinance
+
+        Args:
+            symbol: Ticker symbol (e.g., 'SPY', 'QQQ', '^VIX')
+
+        Returns:
+            DataFrame with OHLCV data or None
+        """
+        # 1. Try cache first (fast, no API calls)
+        if symbol in self.ticker_cache:
+            try:
+                ticker_data = self.ticker_cache[symbol]
+                historical = ticker_data.get('historical', {})
+
+                if historical and historical.get('dates'):
+                    hist = pd.DataFrame({
+                        'Open': historical['open'],
+                        'High': historical['high'],
+                        'Low': historical['low'],
+                        'Close': historical['close'],
+                        'Volume': historical['volume']
+                    }, index=pd.to_datetime(historical['dates']))
+                    return hist
+            except Exception:
+                pass  # Fall through to yfinance
+
+        # 2. Fallback to yfinance (may fail with rate limiting)
+        try:
+            ticker = yf.Ticker(symbol)
+            hist = ticker.history(period='1y')
+            return hist if not hist.empty else None
+        except Exception as e:
+            print(f"   ⚠️  Failed to fetch {symbol}: {str(e)[:60]}")
+            return None
+
     def detect_regime(self, save_report: bool = True) -> dict:
         """
         Detecta el régimen actual del mercado
@@ -85,11 +136,10 @@ class MarketRegimeDetector:
         print(f"📊 Analyzing {name} ({symbol})...")
 
         try:
-            # Get data
-            ticker = yf.Ticker(symbol)
-            hist = ticker.history(period='1y')
+            # Try to get data from cache first
+            hist = self._get_historical_data(symbol)
 
-            if hist.empty:
+            if hist is None or hist.empty:
                 return {'status': 'ERROR', 'reason': 'No data'}
 
             current_price = hist['Close'].iloc[-1]
@@ -158,10 +208,10 @@ class MarketRegimeDetector:
         print("\n📊 Analyzing VIX (Volatility Index)...")
 
         try:
-            vix = yf.Ticker('^VIX')
-            hist = vix.history(period='3mo')
+            # Try to get data from cache first
+            hist = self._get_historical_data('^VIX')
 
-            if hist.empty:
+            if hist is None or hist.empty:
                 return {'level': 'UNKNOWN', 'value': None}
 
             current_vix = hist['Close'].iloc[-1]
@@ -208,7 +258,10 @@ class MarketRegimeDetector:
         """
         spy = spy_status.get('status', 'ERROR')
         qqq = qqq_status.get('status', 'ERROR')
-        vix_value = vix_level.get('value', 100)
+        vix_value = vix_level.get('value')
+        # Handle None case (VIX data not available)
+        if vix_value is None:
+            vix_value = 20  # Assume normal volatility if no data
 
         # Count strong uptrends
         strong_count = sum([

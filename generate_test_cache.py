@@ -11,7 +11,8 @@ from datetime import datetime
 def generate_test_cache():
     """Generate ticker cache for test tickers"""
 
-    test_tickers = ['NVDA', 'AAPL', 'TSLA', 'MSFT', 'GOOGL']
+    # Include market regime indicators + popular stocks + user request
+    test_tickers = ['SPY', 'QQQ', '^VIX', 'NVDA', 'AAPL', 'TSLA', 'MSFT', 'GOOGL', 'FISV']
     ticker_cache = {}
 
     print("🧪 Generating test ticker cache...")
