@@ -725,10 +725,13 @@ class SuperDashboardGenerator:
             timing_badge = '🔥' if opp.get('timing_convergence', False) else ''
             repeater_badge = '🔁' if opp.get('vcp_repeater', False) else ''
 
-            # Company name for tooltip
+            # Company name display
             ticker = opp.get('ticker', 'N/A')
             company_name = opp.get('company_name', ticker)
-            ticker_display = f'<strong title="{company_name}">{ticker}</strong>' if company_name != ticker else f'<strong>{ticker}</strong>'
+
+            # Show ticker + company name (shortened if too long)
+            company_short = company_name[:25] + '...' if len(company_name) > 25 else company_name
+            ticker_display = f'<div><strong>{ticker}</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">{company_short}</span></div>' if company_name != ticker else f'<strong>{ticker}</strong>'
 
             # Component scores
             vcp_score = opp.get('vcp_score', 0)
@@ -782,21 +785,37 @@ class SuperDashboardGenerator:
             </tr>
             """)
 
-        return f"""
+        legend_html = """
+        <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
+            <h4 style="color: var(--glass-primary); margin-bottom: 0.75rem;">📖 Guía de Columnas</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-size: 0.85em;">
+                <div><strong>Score:</strong> Puntuación final (VCP 40% + ML 30% + Fund 30%)</div>
+                <div><strong>Tier:</strong> Clasificación por calidad (⭐⭐⭐⭐ ELITE = top)</div>
+                <div><strong>VCP:</strong> Setup técnico (patrón volatilidad)</div>
+                <div><strong>ML:</strong> Predicción momentum/tendencia</div>
+                <div><strong>Fund:</strong> Análisis fundamental (earnings, growth, salud)</div>
+                <div><strong>Ins:</strong> Actividad insider trading</div>
+                <div><strong>Val:</strong> Validación web - ✅ BUY (good entry) | ⚠️ HOLD (wait) | ❌ AVOID (near ATH)</div>
+                <div><strong>Timing:</strong> 🔥 Convergencia temporal | 🔁 VCP recurrente</div>
+            </div>
+        </div>
+        """
+
+        return legend_html + f"""
         <div class="opportunities-table-container">
             <table class="opportunities-table">
                 <thead>
                     <tr>
-                        <th>Ticker</th>
-                        <th>Ultimate</th>
-                        <th>Tier</th>
+                        <th>Ticker / Company</th>
+                        <th title="Super Score Ultimate: VCP 40% + ML 30% + Fundamental 30%">Score</th>
+                        <th title="Quality Tier">Tier</th>
                         <th>Sector</th>
-                        <th>VCP</th>
-                        <th>ML</th>
-                        <th>Fund</th>
-                        <th>Ins</th>
-                        <th title="Validation: ✅ BUY | ⚠️ HOLD | ❌ AVOID">Val</th>
-                        <th>⚡</th>
+                        <th title="VCP Pattern Score (40%)">VCP</th>
+                        <th title="ML Predictive Score (30%)">ML</th>
+                        <th title="Fundamental Score (30%)">Fund</th>
+                        <th title="Insider Trading Activity">Ins</th>
+                        <th title="Web Validation: ✅ BUY | ⚠️ HOLD | ❌ AVOID">Val</th>
+                        <th title="🔥 Timing Convergence | 🔁 VCP Repeater">Timing</th>
                     </tr>
                 </thead>
                 <tbody>
