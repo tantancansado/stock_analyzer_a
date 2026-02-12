@@ -53,7 +53,9 @@ class SeekingAlphaClient:
             # Decode bytes to string if needed
             if isinstance(cookies, bytes):
                 cookies = cookies.decode('utf-8')
-            self.headers['Cookie'] = str(cookies)
+            # Strip whitespace and newlines (common issue when pasting cookies)
+            cookies = str(cookies).strip()
+            self.headers['Cookie'] = cookies
 
         # Cache for ticker ID lookups
         self.ticker_id_cache = {}
