@@ -754,24 +754,26 @@ class SuperDashboardGenerator:
             """)
 
         return f"""
-        <table class="opportunities-table">
-            <thead>
-                <tr>
-                    <th>Ticker</th>
-                    <th>Ultimate</th>
-                    <th>Tier</th>
-                    <th>Sector</th>
-                    <th>VCP</th>
-                    <th>ML</th>
-                    <th>Fund</th>
-                    <th>Ins</th>
-                    <th>⚡</th>
-                </tr>
-            </thead>
-            <tbody>
-                {''.join(rows)}
-            </tbody>
-        </table>
+        <div class="opportunities-table-container">
+            <table class="opportunities-table">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Ultimate</th>
+                        <th>Tier</th>
+                        <th>Sector</th>
+                        <th>VCP</th>
+                        <th>ML</th>
+                        <th>Fund</th>
+                        <th>Ins</th>
+                        <th>⚡</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {''.join(rows)}
+                </tbody>
+            </table>
+        </div>
         """
 
     def _generate_alerts_html(self, alerts):

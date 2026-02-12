@@ -2,10 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Stock Analysis Dashboard - Quantitative Strategy Platform</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Super Dashboard Ultimate - VCP + ML + Fundamentals</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
@@ -14,20 +12,11 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            overflow-x: hidden;
-            width: 100%;
-            max-width: 100%;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
@@ -115,18 +104,11 @@
             font-size: 1.3em;
             font-weight: bold;
             margin-bottom: 10px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
         }
 
         .insight-desc {
             color: #666;
             margin-bottom: 10px;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            max-width: 100%;
         }
 
         .ticker-list {
@@ -147,7 +129,7 @@
 
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
             gap: 30px;
             margin-bottom: 30px;
         }
@@ -157,16 +139,12 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            overflow-wrap: break-word;
         }
 
         .section-title {
             font-size: 1.8em;
             margin-bottom: 20px;
             color: #333;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
         }
 
         .opportunities-table {
@@ -294,128 +272,45 @@
 
         /* Mobile Small */
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
             .container {
-                padding: 0.5rem;
-                margin: 0;
-                width: 100%;
-            }
-
-            /* FIX: Asegurar que todos los textos wrappeen */
-            .insight-item,
-            .section-card,
-            .stat-card {
-                word-wrap: break-word;
-                overflow-wrap: break-word;
-                word-break: break-word;
-                max-width: 100%;
-            }
-
-            .insight-title,
-            .section-title,
-            .insight-desc {
-                word-wrap: break-word !important;
-                overflow-wrap: break-word !important;
-                word-break: break-word !important;
-                hyphens: auto !important;
-                max-width: 100% !important;
-            }
-
-            .grid-2 {
-                grid-template-columns: 1fr !important;
-                min-width: 0 !important;
-            }
-
-            .section-card {
-                padding: 15px !important;
-                min-width: 0 !important;
+                padding: 0.75rem;
+                margin: 0.5rem;
             }
 
             .header {
-                padding: 1rem 0.5rem;
+                padding: 1.5rem 0.75rem;
                 position: relative;
             }
 
             .header h1 {
-                font-size: 1.5rem;
-                margin-top: 2rem;
-                line-height: 1.2;
-            }
-
-            .header .subtitle {
-                font-size: 0.9em;
+                font-size: 1.75rem;
+                margin-top: 2.5rem;
             }
 
             .header a {
                 position: absolute !important;
-                left: 0.5rem !important;
-                top: 0.5rem !important;
-                font-size: 0.85rem !important;
-                padding: 5px 8px !important;
+                left: 0.75rem !important;
+                top: 0.75rem !important;
+                font-size: 0.9rem !important;
+                padding: 6px 10px !important;
             }
 
-            .quick-stats {
+            .stats-grid {
                 grid-template-columns: 1fr !important;
                 gap: 0.75rem;
             }
 
             .stat-card {
-                padding: 1rem;
+                padding: 1.25rem;
             }
 
             .stat-value {
-                font-size: 1.5rem;
-            }
-
-            .stat-label {
-                font-size: 0.75em;
-            }
-
-            .grid-2 {
-                grid-template-columns: 1fr !important;
-                gap: 1rem;
-            }
-
-            .section-card {
-                padding: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.3em;
-            }
-
-            .opportunities-table-container {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                border-radius: 10px;
+                font-size: 1.75rem;
             }
 
             .opportunities-table {
-                font-size: 0.75rem;
-                min-width: 100%;
-            }
-
-            .opportunities-table th,
-            .opportunities-table td {
-                padding: 0.5rem 0.4rem;
-                white-space: nowrap;
-            }
-
-            .insight-item {
-                padding: 1rem;
-                margin-bottom: 0.75rem;
-            }
-
-            .insight-title {
-                font-size: 1.1em;
-            }
-
-            .ticker-badge {
-                font-size: 0.75em;
-                padding: 4px 8px;
+                font-size: 0.8rem;
+                min-width: 500px;
             }
 
             .opportunities-table th,
@@ -444,36 +339,36 @@
     <div class="container">
         <div class="header">
             <a href="index.html" style="position: absolute; left: 20px; top: 20px; color: white; text-decoration: none; font-size: 1.2em; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 8px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                ← Back
+                🏠 Volver
             </a>
-            <h1>Quantitative Stock Analysis Platform</h1>
-            <p style="font-size: 0.9em; color: #cbd5e0; margin-top: 5px;">Multi-Factor Analysis: Technical Patterns · Machine Learning · Fundamentals</p>
-            <div class="subtitle">Integrated Analytical Framework for Equity Selection</div>
+            <h1>🎯 Super Dashboard Ultimate</h1>
+            <p style="font-size: 0.9em; color: #cbd5e0; margin-top: 5px;">VCP Pattern + ML Predictions + Fundamental Analysis</p>
+            <div class="subtitle">Sistema 5D Integrado - Análisis Completo del Mercado</div>
             <div style="margin-top: 10px; font-size: 0.9em;">
-                2026-02-11 18:18:56
+                2026-02-12 09:17:26
             </div>
         </div>
 
         <!-- Quick Stats -->
         <div class="quick-stats">
             <div class="stat-card" style="background: linear-gradient(135deg, #fef3c7, #fbbf24);">
-                <div class="stat-value" style="color: #92400e;">17</div>
+                <div class="stat-value" style="color: #92400e;">139</div>
                 <div class="stat-label" style="color: #92400e;">🎯 VCP Patterns</div>
-                <div style="font-size: 0.8em; color: #92400e; margin-top: 5px;">2026-02-11</div>
+                <div style="font-size: 0.8em; color: #92400e; margin-top: 5px;">2026-02-12</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">17</div>
-                <div class="stat-label">Total Opportunities</div>
-                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">⭐ BUENA+: 11</div>
+                <div class="stat-value">139</div>
+                <div class="stat-label">Total 5D Opps</div>
+                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">⭐ BUENA+: 103</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">4</div>
                 <div class="stat-label">Sector Alerts</div>
             </div>
             <div class="stat-card" style="background: linear-gradient(135deg, #d1fae5, #10b981);">
-                <div class="stat-value" style="color: #065f46;">57%</div>
+                <div class="stat-value" style="color: #065f46;">64%</div>
                 <div class="stat-label" style="color: #065f46;">Win Rate</div>
-                <div style="font-size: 0.8em; color: #065f46; margin-top: 5px;">Avg: 7.0%</div>
+                <div style="font-size: 0.8em; color: #065f46; margin-top: 5px;">Avg: 5.5%</div>
             </div>
         </div>
 
@@ -484,152 +379,154 @@
         <div class="grid-2">
             <!-- Top Opportunities -->
             <div class="section-card">
-                <h2 class="section-title">Top Investment Candidates</h2>
+                <h2 class="section-title">🏆 Top 5D Opportunities</h2>
                 
-        <table class="opportunities-table">
-            <thead>
-                <tr>
-                    <th>Ticker</th>
-                    <th>Composite</th>
-                    <th>Rating</th>
-                    <th>Sector</th>
-                    <th>Technical</th>
-                    <th>Momentum</th>
-                    <th>Fundamental</th>
-                    <th>Insights</th>
-                    <th>Timing</th>
-                </tr>
-            </thead>
-            <tbody>
-                
+        <div class="opportunities-table-container">
+            <table class="opportunities-table">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Ultimate</th>
+                        <th>Tier</th>
+                        <th>Sector</th>
+                        <th>VCP</th>
+                        <th>ML</th>
+                        <th>Fund</th>
+                        <th>Ins</th>
+                        <th>⚡</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
             <tr>
-                <td><strong title="Meta Platforms, Inc.">META</strong></td>
-                <td><span class="score-badge score-medium">69.4</span></td>
+                <td><strong title="Texas Pacific Land Corporation">TPL</strong></td>
+                <td><span class="score-badge score-high">81.1</span></td>
+                <td>⭐⭐⭐⭐ ELITE</td>
+                <td>Energy</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">89</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">80</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">71</span></td>
+                <td>100</td>
+                <td> </td>
+            </tr>
+            
+            <tr>
+                <td><strong title="Simon Property Group, Inc.">SPG</strong></td>
+                <td><span class="score-badge score-high">80.2</span></td>
+                <td>⭐⭐⭐⭐ ELITE</td>
+                <td>Real Estate</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">86</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">61</span></td>
+                <td>100</td>
+                <td> </td>
+            </tr>
+            
+            <tr>
+                <td><strong title="IDEX Corporation">IEX</strong></td>
+                <td><span class="score-badge score-high">80.1</span></td>
+                <td>⭐⭐⭐⭐ ELITE</td>
+                <td>Industrials</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">89</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">85</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">64</span></td>
+                <td>70</td>
+                <td> </td>
+            </tr>
+            
+            <tr>
+                <td><strong title="Deckers Outdoor Corporation">DECK</strong></td>
+                <td><span class="score-badge score-high">72.0</span></td>
                 <td>⭐⭐⭐ EXCELLENT</td>
                 <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">83</span></td>
+                <td><span class="component-score" title="VCP Pattern (40%)">89</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">72</span></td>
+                <td>nan</td>
+                <td> </td>
+            </tr>
+            
+            <tr>
+                <td><strong title="Gilead Sciences, Inc.">GILD</strong></td>
+                <td><span class="score-badge score-high">71.9</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
+                <td>nan</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">89</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">71</span></td>
                 <td>nan</td>
-                <td>🔥 🔁</td>
+                <td> </td>
             </tr>
             
             <tr>
-                <td><strong title="Tesla, Inc.">TSLA</strong></td>
-                <td><span class="score-badge score-medium">62.2</span></td>
-                <td>⭐⭐ GOOD</td>
+                <td><strong title="ONEOK, Inc.">OKE</strong></td>
+                <td><span class="score-badge score-high">71.8</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
                 <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">71</span></td>
+                <td><span class="component-score" title="VCP Pattern (40%)">91</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">62</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">68</span></td>
                 <td>nan</td>
-                <td>🔥 🔁</td>
+                <td> </td>
             </tr>
             
             <tr>
-                <td><strong title="BioNTech SE">BNTX</strong></td>
-                <td><span class="score-badge score-medium">61.4</span></td>
-                <td>⭐⭐ GOOD</td>
+                <td><strong title="Interactive Brokers Group, Inc.">IBKR</strong></td>
+                <td><span class="score-badge score-high">71.6</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
                 <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">68</span></td>
+                <td><span class="component-score" title="VCP Pattern (40%)">91</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">64</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">68</span></td>
                 <td>nan</td>
-                <td>🔥 🔁</td>
+                <td> </td>
             </tr>
             
             <tr>
-                <td><strong title="Okta, Inc.">OKTA</strong></td>
-                <td><span class="score-badge score-medium">58.3</span></td>
-                <td>⭐⭐ GOOD</td>
+                <td><strong title="Edison International">EIX</strong></td>
+                <td><span class="score-badge score-high">71.5</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
                 <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">67</span></td>
+                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">55</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">68</span></td>
                 <td>nan</td>
-                <td>🔥 🔁</td>
+                <td> </td>
             </tr>
             
             <tr>
-                <td><strong title="Palantir Technologies Inc.">PLTR</strong></td>
-                <td><span class="score-badge score-medium">57.9</span></td>
-                <td>⭐⭐ GOOD</td>
+                <td><strong title="Exxon Mobil Corporation">XOM</strong></td>
+                <td><span class="score-badge score-high">71.5</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
                 <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">57</span></td>
+                <td><span class="component-score" title="VCP Pattern (40%)">91</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">67</span></td>
                 <td>nan</td>
-                <td>🔥 🔁</td>
+                <td> </td>
             </tr>
             
             <tr>
-                <td><strong title="Netflix, Inc.">NFLX</strong></td>
-                <td><span class="score-badge score-medium">57.5</span></td>
-                <td>⭐⭐ GOOD</td>
+                <td><strong title="Mosaic Company (The)">MOS</strong></td>
+                <td><span class="score-badge score-high">71.4</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
                 <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">61</span></td>
+                <td><span class="component-score" title="VCP Pattern (40%)">89</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">61</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">69</span></td>
                 <td>nan</td>
-                <td>🔥 🔁</td>
+                <td> </td>
             </tr>
             
-            <tr>
-                <td><strong title="Twilio Inc.">TWLO</strong></td>
-                <td><span class="score-badge score-medium">57.3</span></td>
-                <td>⭐⭐ GOOD</td>
-                <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">60</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">61</span></td>
-                <td>nan</td>
-                <td>🔥 🔁</td>
-            </tr>
-            
-            <tr>
-                <td><strong title="SoFi Technologies, Inc.">SOFI</strong></td>
-                <td><span class="score-badge score-medium">56.9</span></td>
-                <td>⭐⭐ GOOD</td>
-                <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">58</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">62</span></td>
-                <td>nan</td>
-                <td>🔥 🔁</td>
-            </tr>
-            
-            <tr>
-                <td><strong title="Roku, Inc.">ROKU</strong></td>
-                <td><span class="score-badge score-medium">56.8</span></td>
-                <td>⭐⭐ GOOD</td>
-                <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">60</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">59</span></td>
-                <td>nan</td>
-                <td>🔥 🔁</td>
-            </tr>
-            
-            <tr>
-                <td><strong title="Lucid Group, Inc.">LCID</strong></td>
-                <td><span class="score-badge score-medium">55.4</span></td>
-                <td>⭐⭐ GOOD</td>
-                <td>nan</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">58</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">57</span></td>
-                <td>nan</td>
-                <td>🔥 🔁</td>
-            </tr>
-            
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         
             </div>
 
             <!-- Sector Alerts -->
             <div class="section-card">
-                <h2 class="section-title">Sector Rotation Analysis</h2>
+                <h2 class="section-title">🔄 Sector Rotation Alerts</h2>
                 <ul class="alert-list">
             <li>
                 <strong>⚡ ⚡ Financials emergiendo (RS: 100)</strong><br>
@@ -656,7 +553,7 @@
 
         <!-- Quick Links -->
         <div class="section-card">
-            <h2 class="section-title">Specialized Analysis Modules</h2>
+            <h2 class="section-title">🔗 Dashboards Especializados</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 20px;">
                 <a href="sector_rotation_dashboard.html" style="display: block; padding: 20px; background: #667eea; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
                     🔄 Sector Rotation
@@ -665,13 +562,13 @@
                     📊 Backtest Performance
                 </a>
                 <a href="super_opportunities_4d.html" style="display: block; padding: 20px; background: #f59e0b; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
-                    Multi-Factor Analysis
+                    ⭐ 5D Complete Analysis
                 </a>
             </div>
         </div>
 
         <div class="footer">
-            <p>Quantitative Stock Analysis Platform · Technical · Momentum · Fundamental</p>
+            <p>🚀 Stock Analyzer Ultimate - Super Dashboard (VCP + ML + Fundamental)</p>
             <p style="font-size: 0.9em; margin-top: 5px;">Made with Claude Code</p>
         </div>
     </div>
