@@ -48,9 +48,12 @@ class SeekingAlphaClient:
             'Sec-Fetch-Site': 'same-origin',
         }
 
-        # Add cookies if provided
+        # Add cookies if provided (ensure it's a string, not bytes)
         if cookies:
-            self.headers['Cookie'] = cookies
+            # Decode bytes to string if needed
+            if isinstance(cookies, bytes):
+                cookies = cookies.decode('utf-8')
+            self.headers['Cookie'] = str(cookies)
 
         # Cache for ticker ID lookups
         self.ticker_id_cache = {}
