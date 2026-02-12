@@ -9,4 +9,28 @@ sector_breadth_values.json
 
 # Telegram config (contiene credenciales sensibles)
 config/telegram_config.json
+
+# Cache directories (analysis results, temporary data)
 data/cache/
+data/backtest_cache/
+data/earnings_cache/
+data/sector_rotation_cache/
+docs/historical_scores/
+
+# Cache JSON files
+*_cache.json
+company_names_cache.json
+market_regime_cache.json
+sector_cache.json
+
+# VCP calibrated results (temporary analysis files)
+vcp_calibrated_results_*.csv
+
+# Backtest results (too large for git)
+docs/backtest/
+docs/optimization/
+docs/diagnostics/
+
+# Temporary reports
+docs/reports/vcp/vcp_scan_*/
+docs/sector_rotation/scan_*.csv
