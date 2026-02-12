@@ -17,6 +17,10 @@ from datetime import datetime
 import json
 import argparse
 from opportunity_validator import OpportunityValidator
+from market_regime_detector import MarketRegimeDetector
+from moving_average_filter import MovingAverageFilter
+from accumulation_distribution_filter import AccumulationDistributionFilter
+from float_filter import FloatFilter
 
 class SuperScoreIntegrator:
     """Integra VCP, ML y Fundamental scores en Super Score Ultimate"""
@@ -77,14 +81,18 @@ class SuperScoreIntegrator:
         # 5. Calcular Super Score Ultimate
         integrated_df = self._calculate_super_score(integrated_df)
 
-        # 6. Determinar tier final
+        # 6. Aplicar filtros profesionales (MA, Market Regime, A/D, Float)
+        print("\n🔍 Aplicando filtros profesionales...")
+        integrated_df = self._apply_advanced_filters(integrated_df)
+
+        # 7. Determinar tier final
         integrated_df['tier'] = integrated_df['super_score_ultimate'].apply(self._get_tier)
         integrated_df['quality'] = integrated_df['super_score_ultimate'].apply(self._get_quality)
 
-        # 7. Ordenar por super score
+        # 8. Ordenar por super score
         integrated_df = integrated_df.sort_values('super_score_ultimate', ascending=False)
 
-        # 8. Validar oportunidades (web research confirmation)
+        # 9. Validar oportunidades (web research confirmation)
         print(f"\n🔍 Validando top opportunities...")
         integrated_df = self._validate_opportunities(integrated_df)
 
@@ -222,6 +230,173 @@ class SuperScoreIntegrator:
         df['data_as_of_date'] = self.reference_date
 
         return df
+
+    def _apply_advanced_filters(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Aplica filtros profesionales avanzados:
+        1. Market Regime Detector (SPY/QQQ/VIX)
+        2. Moving Average Filter (Minervini Trend Template)
+        3. Accumulation/Distribution (institutional flow)
+        4. Float Filter (shares outstanding)
+
+        Ajusta super_score_ultimate basado en resultados de filtros
+        """
+        print("\n" + "="*70)
+        print("🔍 ADVANCED FILTERS - Professional Trading Criteria")
+        print("="*70)
+
+        # 1. Check Market Regime (global filter)
+        print("\n1️⃣ MARKET REGIME CHECK")
+        print("-" * 70)
+        market_detector = MarketRegimeDetector()
+        market_regime = market_detector.detect_regime(save_report=True)
+
+        df['market_regime'] = market_regime['regime']
+        df['market_recommendation'] = market_regime['recommendation']
+
+        # Penalize if market in correction
+        market_penalty = 0
+        if market_regime['recommendation'] == 'AVOID':
+            market_penalty = 15
+            print("⚠️  WARNING: Market in CORRECTION - reducing all scores by 15 points")
+        elif market_regime['recommendation'] == 'CAUTION':
+            market_penalty = 5
+            print("⚠️  CAUTION: Market under pressure - reducing all scores by 5 points")
+        else:
+            print("✅ Market in CONFIRMED_UPTREND - safe to trade")
+
+        # 2. Apply Moving Average Filter (stock-by-stock)
+        print("\n2️⃣ MOVING AVERAGE FILTER (Minervini Trend Template)")
+        print("-" * 70)
+        ma_filter = MovingAverageFilter()
+
+        ma_results = []
+        for ticker in df['ticker']:
+            result = ma_filter.check_stock(ticker, verbose=False)
+            ma_results.append(result)
+
+        ma_df = pd.DataFrame(ma_results)
+        df = df.merge(
+            ma_df[['ticker', 'passes', 'score', 'reason']].rename(columns={
+                'passes': 'ma_filter_pass',
+                'score': 'ma_filter_score',
+                'reason': 'ma_filter_reason'
+            }),
+            on='ticker',
+            how='left'
+        )
+
+        ma_passed = int(df['ma_filter_pass'].sum())
+        ma_failed = len(df) - ma_passed
+        print(f"✅ Passed MA filter: {ma_passed}/{len(df)}")
+        print(f"❌ Failed MA filter: {ma_failed}/{len(df)}")
+
+        # 3. Apply Accumulation/Distribution Filter
+        print("\n3️⃣ ACCUMULATION/DISTRIBUTION FILTER")
+        print("-" * 70)
+        ad_filter = AccumulationDistributionFilter()
+
+        ad_results = []
+        for ticker in df['ticker']:
+            result = ad_filter.analyze_stock(ticker, period_days=50, verbose=False)
+            ad_results.append(result)
+
+        ad_df = pd.DataFrame(ad_results)
+        df = df.merge(
+            ad_df[['ticker', 'signal', 'score', 'reason']].rename(columns={
+                'signal': 'ad_signal',
+                'score': 'ad_score',
+                'reason': 'ad_reason'
+            }),
+            on='ticker',
+            how='left'
+        )
+
+        accumulation_count = int((df['ad_signal'] == 'STRONG_ACCUMULATION').sum() + (df['ad_signal'] == 'ACCUMULATION').sum())
+        distribution_count = int((df['ad_signal'] == 'DISTRIBUTION').sum() + (df['ad_signal'] == 'STRONG_DISTRIBUTION').sum())
+        print(f"🟢 Accumulation: {accumulation_count}/{len(df)}")
+        print(f"🔴 Distribution: {distribution_count}/{len(df)}")
+
+        # 4. Apply Float Filter (optional - informational)
+        print("\n4️⃣ FLOAT FILTER (Informational)")
+        print("-" * 70)
+        float_filter = FloatFilter()
+
+        float_results = []
+        for ticker in df['ticker']:
+            result = float_filter.check_stock(ticker, verbose=False)
+            float_results.append(result)
+
+        float_df = pd.DataFrame(float_results)
+        df = df.merge(
+            float_df[['ticker', 'float_category', 'shares_outstanding_millions']],
+            on='ticker',
+            how='left'
+        )
+
+        low_float_count = int(df['float_category'].isin(['MICRO_FLOAT', 'LOW_FLOAT', 'MEDIUM_FLOAT']).sum())
+        print(f"🔥 Low/Medium Float: {low_float_count}/{len(df)}")
+
+        # 5. Calculate filter penalties and adjust super_score_ultimate
+        print("\n" + "="*70)
+        print("📊 CALCULATING FILTER PENALTIES")
+        print("="*70)
+
+        df['filter_penalty'] = 0.0
+
+        # Market regime penalty (global)
+        df['filter_penalty'] += market_penalty
+
+        # MA filter penalty
+        df.loc[df['ma_filter_pass'] == False, 'filter_penalty'] += 20
+        df.loc[(df['ma_filter_pass'] == True) & (df['ma_filter_score'] < 80), 'filter_penalty'] += 5
+
+        # A/D filter penalty
+        df.loc[df['ad_signal'] == 'STRONG_DISTRIBUTION', 'filter_penalty'] += 15
+        df.loc[df['ad_signal'] == 'DISTRIBUTION', 'filter_penalty'] += 10
+        df.loc[df['ad_score'] < 50, 'filter_penalty'] += 5
+
+        # Float penalty (minimal - only for mega caps)
+        df.loc[df['float_category'] == 'MEGA_FLOAT', 'filter_penalty'] += 3
+
+        # Apply penalties to super_score_ultimate
+        df['super_score_before_filters'] = df['super_score_ultimate'].copy()
+        df['super_score_ultimate'] = (df['super_score_ultimate'] - df['filter_penalty']).clip(lower=0)
+
+        # Calculate how many stocks had penalties
+        penalized = int((df['filter_penalty'] > 0).sum())
+        avg_penalty = df['filter_penalty'].mean()
+
+        print(f"\n📉 Stocks penalized: {penalized}/{len(df)}")
+        print(f"📉 Average penalty: {avg_penalty:.1f} points")
+        print(f"📊 Score range after filters: {df['super_score_ultimate'].min():.1f} - {df['super_score_ultimate'].max():.1f}")
+
+        # Add filter summary column
+        df['filters_passed'] = df.apply(self._count_filters_passed, axis=1)
+
+        print("\n✅ Advanced filters applied successfully")
+        print("="*70)
+
+        return df
+
+    def _count_filters_passed(self, row) -> str:
+        """Count how many filters a stock passed"""
+        filters_passed = 0
+        total_filters = 3  # MA, A/D, Market Regime (Float is informational)
+
+        # Market regime
+        if row.get('market_recommendation') in ['TRADE', 'CAUTION']:
+            filters_passed += 1
+
+        # MA filter
+        if row.get('ma_filter_pass') == True:
+            filters_passed += 1
+
+        # A/D filter
+        if row.get('ad_signal') in ['STRONG_ACCUMULATION', 'ACCUMULATION']:
+            filters_passed += 1
+
+        return f"{filters_passed}/{total_filters}"
 
     def _validate_opportunities(self, df: pd.DataFrame) -> pd.DataFrame:
         """

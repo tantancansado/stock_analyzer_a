@@ -26,69 +26,74 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas yfinance requests beautifulsoup4 lxml numpy
 
+      - name: 📈 Run Market Regime Detector
+        run: |
+          echo "📈 [1/14] Market Regime Detector..."
+          python3 market_regime_detector.py
+
       - name: 📊 Run Sector Rotation
         run: |
-          echo "📊 [1/10] Sector Rotation Scan..."
+          echo "📊 [2/14] Sector Rotation Scan..."
           python3 sector_rotation_detector.py
           python3 sector_rotation_dashboard_generator.py
 
       - name: 🎯 Run 5D Super Analyzer
         run: |
-          echo "🎯 [2/13] 5D Super Analyzer..."
+          echo "🎯 [3/15] 5D Super Analyzer..."
           python3 run_super_analyzer_4d.py
 
       - name: 📉 Run Backtest Engine
         run: |
-          echo "📉 [4/10] Backtest Engine..."
+          echo "📉 [4/15] Backtest Engine..."
           python3 backtest_engine.py
           python3 backtest_dashboard_generator.py
 
       - name: 💰 Run Position Sizing
         run: |
-          echo "💰 [5/10] Position Sizing..."
+          echo "💰 [5/15] Position Sizing..."
           python3 position_sizer.py
 
       - name: 📅 Run Earnings Calendar
         run: |
-          echo "📅 [6/10] Earnings Calendar..."
+          echo "📅 [6/15] Earnings Calendar..."
           python3 earnings_calendar.py || echo "⚠️  Earnings calendar warning (non-critical)"
 
       - name: 🔄 Run Mean Reversion Detector
         run: |
-          echo "🔄 [7/10] Mean Reversion Detector..."
+          echo "🔄 [7/15] Mean Reversion Detector..."
           python3 mean_reversion_detector.py
           python3 mean_reversion_dashboard_generator.py
 
       - name: 🔄 Run Mean Reversion Backtest
         run: |
-          echo "🔄 [8/10] Mean Reversion Backtest..."
+          echo "🔄 [8/15] Mean Reversion Backtest..."
           python3 mean_reversion_backtester.py
           python3 mean_reversion_backtest_dashboard_generator.py
 
       - name: 🐋 Run Options Flow Detector
         run: |
-          echo "🐋 [9/11] Options Flow Detector..."
+          echo "🐋 [9/15] Options Flow Detector..."
           python3 options_flow_detector.py
           python3 options_flow_dashboard_generator.py
 
       - name: 🤖 Run ML Scoring
         run: |
-          echo "🤖 [10/13] ML Scoring System..."
+          echo "🤖 [10/15] ML Scoring System..."
           python3 ml_scoring.py
 
       - name: 📊 Run Fundamental Scoring
         run: |
-          echo "📊 [11/13] Fundamental Scoring (Earnings, Growth, RS, Health)..."
+          echo "📊 [11/15] Fundamental Scoring (Earnings, Growth, RS, Health)..."
           python3 fundamental_scorer.py --vcp --top 100
 
       - name: 🎯 Run Super Score Integration
         run: |
-          echo "🎯 [12/13] Super Score Integration (VCP + ML + Fundamental + Validation)..."
+          echo "🎯 [12/15] Super Score Integration (VCP + ML + Fundamental + Filters + Validation)..."
           python3 super_score_integrator.py
 
       - name: 📈 Generate Super Dashboard
         run: |
-          echo "📈 [13/13] Generate Super Dashboard with Validation Badges..."
+          echo "📈 [13/15] Generate Super Dashboard with Advanced Filters..."
           python3 super_dashboard_generator.py
 
       - name: 📱 Send Telegram Alerts
@@ -96,7 +101,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          echo "📱 [14/14] Sending Telegram Alerts..."
+          echo "📱 [14/15] Sending Telegram Alerts..."
           python3 auto_telegram_alerts.py
 
       - name: 💾 Commit and Push All Results
@@ -111,7 +116,7 @@ jobs:
           # Create comprehensive commit
           SCAN_DATE=$(date +%Y-%m-%d)
           git commit -m "chore: Daily full pipeline update - ${SCAN_DATE}" \
-            -m "Complete Market Analysis: Sector Rotation, 5D Analyzer, Backtest, Position Sizing, Mean Reversion, Options Flow, Telegram Alerts" \
+            -m "Complete Market Analysis with Advanced Filters: Market Regime, Sector Rotation, 5D Analyzer, MA Filter, A/D Filter, Backtest, Position Sizing, Mean Reversion, Options Flow, Telegram Alerts" \
             -m "Automated via GitHub Actions" || echo "No changes to commit"
 
           git push
@@ -126,9 +131,9 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Pipeline Components Executed:" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Market Regime Detector (SPY/QQQ/VIX)" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Sector Rotation Analysis" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ 5D Super Analyzer" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Super Dashboard" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Backtest Engine" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Position Sizing" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Earnings Calendar" >> $GITHUB_STEP_SUMMARY
@@ -137,7 +142,9 @@ jobs:
           echo "- ✅ Options Flow Detector" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ ML Scoring System" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Fundamental Scoring" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Super Score Integration" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ **Advanced Filters** (MA, A/D, Float)" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Super Score Integration + Validation" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Super Dashboard with Filter Columns" >> $GITHUB_STEP_SUMMARY
           echo "- ✅ Telegram Alerts" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Generated Dashboards:" >> $GITHUB_STEP_SUMMARY

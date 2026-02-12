@@ -46,6 +46,27 @@ docs/super_scores_ultimate_*.json
 docs/validation_report.json
 cache/validation/
 
+# Advanced filter caches
+cache/market_regime/
+cache/ma_filter/
+cache/ad_filter/
+cache/float_filter/
+docs/market_regime.json
+
+# Flask / Railway / Backend
+.env
+*.pyc
+__pycache__/
+*.log
+/tmp/
+flask_server.log
+flask_server.pid
+
+# Python virtual environments
+venv/
+env/
+.venv/
+
 # VCP scanner reports (timestamped)
 docs/reports/vcp/vcp_scanner_*.html
 

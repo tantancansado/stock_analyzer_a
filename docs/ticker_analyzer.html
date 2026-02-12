@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Stock Analyzer - On Demand Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e27;
+            --bg-card: #1a1f3a;
+            --glass-bg: rgba(26, 31, 58, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #e8eaf6;
+            --text-muted: #9ca3af;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --accent-red: #ef4444;
+            --glow-blue: rgba(59, 130, 246, 0.3);
+            --glow-green: rgba(16, 185, 129, 0.3);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .search-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px var(--glow-blue);
+        }
+
+        .search-box button {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent-blue), #2563eb);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px var(--glow-blue);
+        }
+
+        .search-box button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--glass-border);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .report {
+            display: none;
+        }
+
+        .report.active {
+            display: block;
+        }
+
+        .error {
+            display: none;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--accent-red);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-red);
+        }
+
+        .error.active {
+            display: block;
+        }
+
+        /* Score Card */
+        .score-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .score-badge {
+            font-size: 4rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .score-badge.high {
+            color: var(--accent-green);
+            text-shadow: 0 0 30px var(--glow-green);
+        }
+
+        .score-badge.medium {
+            color: var(--accent-yellow);
+        }
+
+        .score-badge.low {
+            color: var(--accent-red);
+        }
+
+        .recommendation-badge {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .recommendation-badge.BUY {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--accent-green);
+            border: 2px solid var(--accent-green);
+        }
+
+        .recommendation-badge.HOLD {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-yellow);
+            border: 2px solid var(--accent-yellow);
+        }
+
+        .recommendation-badge.AVOID {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+            border: 2px solid var(--accent-red);
+        }
+
+        /* Thesis Section */
+        .thesis-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .thesis-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+        }
+
+        .thesis-summary {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .pros-cons h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .pros-cons ul {
+            list-style: none;
+        }
+
+        .pros-cons li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pros li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        .cons li:before {
+            content: "❌";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Component Scores */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .component-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .component-card h3 {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .component-score {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .component-details {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Details Section */
+        .details-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Stock Analyzer</h1>
+            <p>On-Demand Professional Analysis - Full Pipeline</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="tickerInput"
+                    placeholder="Enter ticker (e.g., NVDA, AAPL, TSLA)"
+                    onkeypress="if(event.key==='Enter') analyzeStock()"
+                >
+                <button onclick="analyzeStock()" id="analyzeBtn">
+                    Analyze Stock
+                </button>
+            </div>
+        </div>
+
+        <div class="error" id="errorDiv">
+            <strong>❌ Error:</strong>
+            <p id="errorMessage"></p>
+        </div>
+
+        <div class="loading" id="loadingDiv">
+            <div class="spinner"></div>
+            <p>Analyzing <strong id="analyzingTicker"></strong>...</p>
+            <p style="color: var(--text-muted); margin-top: 0.5rem;">
+                Running VCP, ML, Fundamental, Filters & Validation...
+            </p>
+        </div>
+
+        <div class="report" id="reportDiv">
+            <!-- Score Card -->
+            <div class="score-card">
+                <div style="font-size: 0.9rem; color: var(--text-muted);">
+                    <span id="companyName"></span> · <span id="sector"></span>
+                </div>
+                <h2 id="tickerName" style="font-size: 2rem; margin: 0.5rem 0;"></h2>
+                <div style="font-size: 1.2rem; color: var(--text-muted);">
+                    $<span id="currentPrice"></span>
+                </div>
+                <div class="score-badge" id="finalScore">--</div>
+                <div style="color: var(--text-muted); margin-bottom: 1rem;">Final Score</div>
+                <div class="recommendation-badge" id="recommendation">--</div>
+                <div style="margin-top: 1rem; color: var(--text-muted);">
+                    Confidence: <strong id="confidence"></strong>
+                </div>
+            </div>
+
+            <!-- Investment Thesis -->
+            <div class="thesis-section">
+                <h2>📝 Investment Thesis</h2>
+                <div class="thesis-summary" id="thesisSummary"></div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3 style="color: var(--accent-green);">Strengths</h3>
+                        <ul id="strengthsList"></ul>
+                    </div>
+                    <div class="cons">
+                        <h3 style="color: var(--accent-red);">Weaknesses</h3>
+                        <ul id="weaknessesList"></ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px;">
+                    <strong>Entry Timing:</strong> <span id="entryTiming"></span><br>
+                    <strong>Risk Level:</strong> <span id="riskLevel"></span>
+                </div>
+            </div>
+
+            <!-- Component Scores -->
+            <h2 style="margin-bottom: 1rem; color: var(--accent-blue);">📊 Component Analysis</h2>
+            <div class="components-grid" id="componentsGrid"></div>
+
+            <!-- Filters & Validation -->
+            <h2 style="margin-bottom: 1rem; color: var(--accent-blue);">🔍 Professional Filters</h2>
+            <div class="components-grid" id="filtersGrid"></div>
+
+            <!-- Stock Details -->
+            <div class="details-section">
+                <h2 style="margin-bottom: 1rem; color: var(--accent-blue);">📈 Stock Information</h2>
+                <div class="details-grid" id="stockDetailsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5001';
+
+        async function analyzeStock() {
+            const ticker = document.getElementById('tickerInput').value.trim().toUpperCase();
+
+            if (!ticker) {
+                showError('Please enter a ticker symbol');
+                return;
+            }
+
+            // Hide error and report, show loading
+            document.getElementById('errorDiv').classList.remove('active');
+            document.getElementById('reportDiv').classList.remove('active');
+            document.getElementById('loadingDiv').classList.add('active');
+            document.getElementById('analyzingTicker').textContent = ticker;
+            document.getElementById('analyzeBtn').disabled = true;
+
+            try {
+                const response = await fetch(`${API_URL}/api/analyze/${ticker}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    showError(data.error);
+                    return;
+                }
+
+                displayReport(data);
+
+            } catch (error) {
+                showError(`Failed to connect to backend. Make sure the Flask server is running:\n\npython3 ticker_analyzer_api.py\n\nError: ${error.message}`);
+            } finally {
+                document.getElementById('loadingDiv').classList.remove('active');
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorDiv').classList.add('active');
+            document.getElementById('loadingDiv').classList.remove('active');
+        }
+
+        function displayReport(data) {
+            // Score Card
+            document.getElementById('tickerName').textContent = data.ticker;
+            document.getElementById('companyName').textContent = data.company_name;
+            document.getElementById('sector').textContent = data.sector;
+            document.getElementById('currentPrice').textContent = data.current_price;
+
+            const scoreElement = document.getElementById('finalScore');
+            scoreElement.textContent = data.final_score;
+            scoreElement.className = 'score-badge ' +
+                (data.final_score >= 70 ? 'high' : data.final_score >= 50 ? 'medium' : 'low');
+
+            const recElement = document.getElementById('recommendation');
+            recElement.textContent = `${getRecommendationEmoji(data.recommendation)} ${data.recommendation}`;
+            recElement.className = `recommendation-badge ${data.recommendation}`;
+
+            document.getElementById('confidence').textContent = data.confidence;
+
+            // Investment Thesis
+            document.getElementById('thesisSummary').textContent = data.thesis.summary;
+
+            const strengthsList = document.getElementById('strengthsList');
+            strengthsList.innerHTML = data.thesis.strengths.map(s => `<li>${s}</li>`).join('');
+
+            const weaknessesList = document.getElementById('weaknessesList');
+            weaknessesList.innerHTML = data.thesis.weaknesses.map(w => `<li>${w}</li>`).join('');
+
+            document.getElementById('entryTiming').textContent = data.thesis.entry_timing;
+            document.getElementById('riskLevel').textContent = data.thesis.risk_level;
+
+            // Component Scores
+            const componentsGrid = document.getElementById('componentsGrid');
+            componentsGrid.innerHTML = `
+                <div class="component-card">
+                    <h3>VCP Pattern</h3>
+                    <div class="component-score">${data.vcp_analysis.score}</div>
+                    <div class="component-details">${data.vcp_analysis.reason}</div>
+                </div>
+                <div class="component-card">
+                    <h3>ML Momentum</h3>
+                    <div class="component-score">${data.ml_score.score}</div>
+                    <div class="component-details">${data.ml_score.reason}</div>
+                </div>
+                <div class="component-card">
+                    <h3>Fundamentals</h3>
+                    <div class="component-score">${data.fundamental_analysis.score}</div>
+                    <div class="component-details">
+                        P/E: ${data.fundamental_analysis.pe_ratio?.toFixed(1) || 'N/A'}
+                    </div>
+                </div>
+            `;
+
+            // Filters
+            const filtersGrid = document.getElementById('filtersGrid');
+            filtersGrid.innerHTML = `
+                <div class="component-card">
+                    <h3>Market Regime</h3>
+                    <div class="component-score">${getMarketEmoji(data.market_regime.regime)}</div>
+                    <div class="component-details">${data.market_regime.regime}</div>
+                </div>
+                <div class="component-card">
+                    <h3>MA Filter (Minervini)</h3>
+                    <div class="component-score">${data.ma_filter.passes ? '✅' : '❌'}</div>
+                    <div class="component-details">${data.ma_filter.reason}</div>
+                </div>
+                <div class="component-card">
+                    <h3>A/D Signal</h3>
+                    <div class="component-score">${getADEmoji(data.ad_filter.signal)}</div>
+                    <div class="component-details">${data.ad_filter.signal}</div>
+                </div>
+                <div class="component-card">
+                    <h3>Float Category</h3>
+                    <div class="component-score">${getFloatEmoji(data.float_filter.float_category)}</div>
+                    <div class="component-details">${data.float_filter.float_category}</div>
+                </div>
+                <div class="component-card">
+                    <h3>Web Validation</h3>
+                    <div class="component-score">${getValidationEmoji(data.validation.status)}</div>
+                    <div class="component-details">${data.validation.reason}</div>
+                </div>
+            `;
+
+            // Stock Details
+            const stockDetailsGrid = document.getElementById('stockDetailsGrid');
+            const si = data.stock_info;
+            stockDetailsGrid.innerHTML = `
+                <div class="detail-item">
+                    <div class="detail-label">Market Cap</div>
+                    <div class="detail-value">${formatMarketCap(si.market_cap)}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">P/E Ratio</div>
+                    <div class="detail-value">${si.pe_ratio?.toFixed(1) || 'N/A'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">52W High</div>
+                    <div class="detail-value">$${si.fifty_two_week_high?.toFixed(2) || 'N/A'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">52W Low</div>
+                    <div class="detail-value">$${si.fifty_two_week_low?.toFixed(2) || 'N/A'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Beta</div>
+                    <div class="detail-value">${si.beta?.toFixed(2) || 'N/A'}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Industry</div>
+                    <div class="detail-value" style="font-size: 0.9rem;">${si.industry || 'N/A'}</div>
+                </div>
+            `;
+
+            // Show report
+            document.getElementById('reportDiv').classList.add('active');
+        }
+
+        function getRecommendationEmoji(rec) {
+            return rec === 'BUY' ? '🟢' : rec === 'HOLD' ? '🟡' : '🔴';
+        }
+
+        function getMarketEmoji(regime) {
+            return regime.includes('CONFIRMED') ? '🟢' : regime.includes('PRESSURE') ? '🟡' : '🔴';
+        }
+
+        function getADEmoji(signal) {
+            const map = {
+                'STRONG_ACCUMULATION': '🟢',
+                'ACCUMULATION': '🟡',
+                'NEUTRAL': '⚪',
+                'DISTRIBUTION': '🟠',
+                'STRONG_DISTRIBUTION': '🔴'
+            };
+            return map[signal] || '⚪';
+        }
+
+        function getFloatEmoji(category) {
+            const map = {
+                'MICRO_FLOAT': '🔥',
+                'LOW_FLOAT': '🟢',
+                'MEDIUM_FLOAT': '🟡',
+                'HIGH_FLOAT': '🟠',
+                'MEGA_FLOAT': '🔴'
+            };
+            return map[category] || '⚪';
+        }
+
+        function getValidationEmoji(status) {
+            return status === 'BUY' ? '✅' : status === 'HOLD' ? '⚠️' : '❌';
+        }
+
+        function formatMarketCap(mcap) {
+            if (!mcap) return 'N/A';
+            if (mcap >= 1e12) return `$${(mcap / 1e12).toFixed(2)}T`;
+            if (mcap >= 1e9) return `$${(mcap / 1e9).toFixed(2)}B`;
+            if (mcap >= 1e6) return `$${(mcap / 1e6).toFixed(2)}M`;
+            return `$${mcap}`;
+        }
+    </script>
+</body>
+</html>

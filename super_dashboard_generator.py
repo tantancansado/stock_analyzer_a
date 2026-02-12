@@ -770,6 +770,24 @@ class SuperDashboardGenerator:
 
             validation_badge = f'<span title="{validation_tooltip}">{validation_emoji}</span>' if validation_emoji else ''
 
+            # Filter badges
+            ma_filter_pass = opp.get('ma_filter_pass', False)
+            ma_badge = '✅' if ma_filter_pass else '❌'
+            ma_reason = opp.get('ma_filter_reason', 'N/A')
+
+            ad_signal = opp.get('ad_signal', 'NEUTRAL')
+            ad_emoji = {
+                'STRONG_ACCUMULATION': '🟢',
+                'ACCUMULATION': '🟡',
+                'NEUTRAL': '⚪',
+                'DISTRIBUTION': '🟠',
+                'STRONG_DISTRIBUTION': '🔴'
+            }.get(ad_signal, '⚪')
+
+            filters_passed = opp.get('filters_passed', 'N/A')
+            filter_penalty = opp.get('filter_penalty', 0)
+            filter_tooltip = f"Penalty: -{filter_penalty:.0f} points"
+
             rows.append(f"""
             <tr>
                 <td>{ticker_display}</td>
@@ -779,6 +797,9 @@ class SuperDashboardGenerator:
                 <td><span class="component-score" title="VCP Pattern (40%)">{vcp_score:.0f}</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">{ml_score:.0f}</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">{fundamental_score:.0f}</span></td>
+                <td><span title="{ma_reason}">{ma_badge}</span></td>
+                <td><span title="{ad_signal}">{ad_emoji}</span></td>
+                <td><span title="{filter_tooltip}">{filters_passed}</span></td>
                 <td>{insiders_score:.0f}</td>
                 <td>{validation_badge}</td>
                 <td>{timing_badge} {repeater_badge}</td>
@@ -789,11 +810,14 @@ class SuperDashboardGenerator:
         <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
             <h4 style="color: var(--glass-primary); margin-bottom: 0.75rem;">📖 Guía de Columnas</h4>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-size: 0.85em;">
-                <div><strong>Score:</strong> Puntuación final (VCP 40% + ML 30% + Fund 30%)</div>
+                <div><strong>Score:</strong> Puntuación final con filtros aplicados</div>
                 <div><strong>Tier:</strong> Clasificación por calidad (⭐⭐⭐⭐ ELITE = top)</div>
                 <div><strong>VCP:</strong> Setup técnico (patrón volatilidad)</div>
                 <div><strong>ML:</strong> Predicción momentum/tendencia</div>
                 <div><strong>Fund:</strong> Análisis fundamental (earnings, growth, salud)</div>
+                <div><strong>MA:</strong> Minervini Trend Template - ✅ Pass | ❌ Fail</div>
+                <div><strong>A/D:</strong> Acumulación/Distribución - 🟢 Strong Acc | 🟡 Acc | ⚪ Neutral | 🟠 Dist | 🔴 Strong Dist</div>
+                <div><strong>Filt:</strong> Filtros pasados (Market + MA + A/D) - X/3</div>
                 <div><strong>Ins:</strong> Actividad insider trading</div>
                 <div><strong>Val:</strong> Validación web - ✅ BUY (good entry) | ⚠️ HOLD (wait) | ❌ AVOID (near ATH)</div>
                 <div><strong>Timing:</strong> 🔥 Convergencia temporal | 🔁 VCP recurrente</div>
@@ -807,12 +831,15 @@ class SuperDashboardGenerator:
                 <thead>
                     <tr>
                         <th>Ticker / Company</th>
-                        <th title="Super Score Ultimate: VCP 40% + ML 30% + Fundamental 30%">Score</th>
+                        <th title="Super Score Ultimate with Filters Applied">Score</th>
                         <th title="Quality Tier">Tier</th>
                         <th>Sector</th>
                         <th title="VCP Pattern Score (40%)">VCP</th>
                         <th title="ML Predictive Score (30%)">ML</th>
                         <th title="Fundamental Score (30%)">Fund</th>
+                        <th title="Moving Average Filter (Minervini)">MA</th>
+                        <th title="Accumulation/Distribution">A/D</th>
+                        <th title="Filters Passed (Market + MA + A/D)">Filt</th>
                         <th title="Insider Trading Activity">Ins</th>
                         <th title="Web Validation: ✅ BUY | ⚠️ HOLD | ❌ AVOID">Val</th>
                         <th title="🔥 Timing Convergence | 🔁 VCP Repeater">Timing</th>

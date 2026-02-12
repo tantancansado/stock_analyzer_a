@@ -1,230 +1,311 @@
 #!/usr/bin/env python3
 """
-MARKET REGIME DETECTOR - Detecta Bull/Bear/Choppy markets
-Ajusta scoring dinámicamente según condiciones del mercado
+MARKET REGIME DETECTOR
+Detecta la tendencia del mercado general (SPY/QQQ) para evitar operar contra corriente
+
+Basado en CAN SLIM: "3 de cada 4 stocks siguen la dirección del mercado"
+
+Regímenes:
+- CONFIRMED_UPTREND: Mercado alcista confirmado (operar)
+- UPTREND_PRESSURE: Tendencia bajo presión (precaución)
+- CORRECTION: Mercado en corrección (evitar nuevas posiciones)
 """
 import yfinance as yf
 import pandas as pd
+import numpy as np
 from datetime import datetime, timedelta
-from typing import Dict, Tuple
-import json
 from pathlib import Path
+import json
 
 
 class MarketRegimeDetector:
-    """Detecta el régimen actual del mercado"""
+    """Detecta régimen del mercado basado en SPY/QQQ"""
 
     def __init__(self):
-        self.spy = yf.Ticker("SPY")
-        self.vix = yf.Ticker("^VIX")
-        self.cache_file = Path("data/market_regime_cache.json")
-        self.cache_file.parent.mkdir(parents=True, exist_ok=True)
+        self.cache_dir = Path('cache/market_regime')
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
 
-    def get_market_regime(self, as_of_date: str = None) -> Dict:
+    def detect_regime(self, save_report: bool = True) -> dict:
         """
-        Detecta el régimen del mercado en una fecha específica
-
-        Args:
-            as_of_date: Fecha para detectar régimen (YYYY-MM-DD). None = hoy
+        Detecta el régimen actual del mercado
 
         Returns:
-            Dict con régimen, indicators, y scoring weights
+            dict con:
+            - regime: CONFIRMED_UPTREND | UPTREND_PRESSURE | CORRECTION
+            - spy_status: análisis de SPY
+            - qqq_status: análisis de QQQ
+            - vix_level: nivel de VIX
+            - recommendation: TRADE | CAUTION | AVOID
         """
-        # Parse date
-        if as_of_date:
-            ref_date = pd.to_datetime(as_of_date)
-        else:
-            ref_date = pd.Timestamp.now()
+        print("\n" + "="*70)
+        print("📈 MARKET REGIME DETECTOR")
+        print("="*70 + "\n")
 
-        # Check cache
-        cache = self._load_cache()
-        cache_key = ref_date.strftime('%Y-%m-%d')
+        # Analyze SPY (S&P 500)
+        spy_status = self._analyze_index('SPY', 'S&P 500')
 
-        if cache_key in cache:
-            print(f"📂 Usando régimen cacheado para {cache_key}")
-            return cache[cache_key]
+        # Analyze QQQ (Nasdaq 100)
+        qqq_status = self._analyze_index('QQQ', 'Nasdaq 100')
 
-        # Fetch SPY data (últimos 100 días para calcular SMA)
-        start_date = (ref_date - timedelta(days=100)).strftime('%Y-%m-%d')
-        end_date = ref_date.strftime('%Y-%m-%d')
+        # Analyze VIX (volatility)
+        vix_level = self._analyze_vix()
 
-        print(f"📊 Detectando régimen del mercado ({cache_key})...")
+        # Determine overall regime
+        regime = self._determine_regime(spy_status, qqq_status, vix_level)
+
+        result = {
+            'detected_at': datetime.now().isoformat(),
+            'regime': regime['regime'],
+            'recommendation': regime['recommendation'],
+            'confidence': regime['confidence'],
+            'spy_status': spy_status,
+            'qqq_status': qqq_status,
+            'vix_level': vix_level,
+            'explanation': regime['explanation']
+        }
+
+        if save_report:
+            self._save_report(result)
+
+        # Print summary
+        self._print_summary(result)
+
+        return result
+
+    def _analyze_index(self, symbol: str, name: str) -> dict:
+        """
+        Analiza un índice (SPY o QQQ)
+
+        Checks:
+        - Price above 50/150/200 day MA
+        - MA alignment (50 > 150 > 200)
+        - 200 MA slope (trending up)
+        - Recent price action
+        """
+        print(f"📊 Analyzing {name} ({symbol})...")
 
         try:
-            # Get SPY data
-            spy_data = yf.download("SPY", start=start_date, end=end_date, progress=False)
+            # Get data
+            ticker = yf.Ticker(symbol)
+            hist = ticker.history(period='1y')
 
-            if spy_data.empty:
-                print("⚠️  No se pudo obtener datos de SPY")
-                return self._get_default_regime()
+            if hist.empty:
+                return {'status': 'ERROR', 'reason': 'No data'}
 
-            # Flatten multi-index if present
-            if isinstance(spy_data.columns, pd.MultiIndex):
-                spy_data.columns = spy_data.columns.get_level_values(0)
+            current_price = hist['Close'].iloc[-1]
 
-            # Calculate 50-day SMA
-            spy_data['SMA50'] = spy_data['Close'].rolling(window=50).mean()
+            # Calculate MAs
+            ma_50 = hist['Close'].rolling(50).mean().iloc[-1]
+            ma_150 = hist['Close'].rolling(150).mean().iloc[-1]
+            ma_200 = hist['Close'].rolling(200).mean().iloc[-1]
 
-            # Get latest values
-            latest = spy_data.iloc[-1]
-            spy_price = latest['Close']
-            spy_sma50 = latest['SMA50']
+            # Calculate 200 MA slope (20-day change)
+            ma_200_20d_ago = hist['Close'].rolling(200).mean().iloc[-20]
+            ma_200_slope = ((ma_200 - ma_200_20d_ago) / ma_200_20d_ago * 100)
 
-            # Get VIX
-            vix_data = yf.download("^VIX", start=start_date, end=end_date, progress=False)
+            # Check criteria
+            above_50 = current_price > ma_50
+            above_150 = current_price > ma_150
+            above_200 = current_price > ma_200
+            ma_aligned = ma_50 > ma_150 > ma_200
+            ma_200_rising = ma_200_slope > 0
 
-            if vix_data.empty:
-                vix_value = 20  # Default
+            # Calculate distance from 200 MA
+            distance_200 = ((current_price - ma_200) / ma_200 * 100)
+
+            # Determine status
+            checks_passed = sum([above_50, above_150, above_200, ma_aligned, ma_200_rising])
+
+            if checks_passed >= 4:
+                status = 'STRONG_UPTREND'
+            elif checks_passed >= 3:
+                status = 'UPTREND'
+            elif checks_passed >= 2:
+                status = 'WEAK_UPTREND'
             else:
-                if isinstance(vix_data.columns, pd.MultiIndex):
-                    vix_data.columns = vix_data.columns.get_level_values(0)
-                vix_value = vix_data['Close'].iloc[-1]
+                status = 'CORRECTION'
 
-            # Detect regime
-            regime_data = self._classify_regime(spy_price, spy_sma50, vix_value, ref_date)
+            result = {
+                'status': status,
+                'current_price': float(round(current_price, 2)),
+                'ma_50': float(round(ma_50, 2)),
+                'ma_150': float(round(ma_150, 2)),
+                'ma_200': float(round(ma_200, 2)),
+                'above_50': bool(above_50),
+                'above_150': bool(above_150),
+                'above_200': bool(above_200),
+                'ma_aligned': bool(ma_aligned),
+                'ma_200_slope': float(round(ma_200_slope, 2)),
+                'ma_200_rising': bool(ma_200_rising),
+                'distance_from_200ma': float(round(distance_200, 2)),
+                'checks_passed': f"{checks_passed}/5"
+            }
 
-            # Cache it
-            cache[cache_key] = regime_data
-            self._save_cache(cache)
+            # Print details
+            status_emoji = {'STRONG_UPTREND': '🟢', 'UPTREND': '🟡', 'WEAK_UPTREND': '🟠', 'CORRECTION': '🔴'}.get(status, '⚪')
+            print(f"   {status_emoji} {status} ({checks_passed}/5 checks passed)")
+            print(f"   Price: ${current_price:.2f} | 200 MA: ${ma_200:.2f} ({distance_200:+.1f}%)")
+            print(f"   MA Slope: {ma_200_slope:+.2f}% | Aligned: {'✅' if ma_aligned else '❌'}")
 
-            return regime_data
+            return result
 
         except Exception as e:
-            print(f"⚠️  Error detectando régimen: {e}")
-            return self._get_default_regime()
+            print(f"   ❌ Error analyzing {symbol}: {str(e)}")
+            return {'status': 'ERROR', 'reason': str(e)}
 
-    def _classify_regime(self, spy_price: float, spy_sma50: float, vix: float, date: pd.Timestamp) -> Dict:
-        """Clasifica el régimen del mercado"""
+    def _analyze_vix(self) -> dict:
+        """Analiza el VIX (volatility index)"""
+        print("\n📊 Analyzing VIX (Volatility Index)...")
 
-        above_sma = spy_price > spy_sma50
-        pct_above_sma = ((spy_price - spy_sma50) / spy_sma50) * 100
+        try:
+            vix = yf.Ticker('^VIX')
+            hist = vix.history(period='3mo')
 
-        # Classification logic
-        if above_sma and vix < 20:
-            regime = "BULL"
-            confidence = "HIGH" if pct_above_sma > 2 and vix < 15 else "MEDIUM"
-            weights = {'vcp': 50, 'ml': 30, 'fundamental': 20}
-            color = "🟢"
+            if hist.empty:
+                return {'level': 'UNKNOWN', 'value': None}
 
-        elif not above_sma and vix > 30:
-            regime = "BEAR"
-            confidence = "HIGH" if pct_above_sma < -2 and vix > 35 else "MEDIUM"
-            weights = {'vcp': 20, 'ml': 30, 'fundamental': 50}
-            color = "🔴"
+            current_vix = hist['Close'].iloc[-1]
+            avg_vix_30d = hist['Close'].tail(30).mean()
 
-        elif above_sma and vix >= 20 and vix <= 30:
-            regime = "CAUTIOUS_BULL"
-            confidence = "MEDIUM"
-            weights = {'vcp': 40, 'ml': 35, 'fundamental': 25}
-            color = "🟡"
+            # VIX interpretation
+            if current_vix < 15:
+                level = 'LOW'  # Complacency
+                interpretation = 'Low fear, market complacent'
+            elif current_vix < 20:
+                level = 'NORMAL'  # Healthy market
+                interpretation = 'Normal volatility'
+            elif current_vix < 30:
+                level = 'ELEVATED'  # Caution
+                interpretation = 'Elevated fear, use caution'
+            else:
+                level = 'HIGH'  # Panic
+                interpretation = 'High fear, market stress'
 
-        elif not above_sma and vix <= 30:
-            regime = "CHOPPY"
-            confidence = "MEDIUM"
-            weights = {'vcp': 30, 'ml': 50, 'fundamental': 20}
-            color = "🟠"
+            result = {
+                'level': level,
+                'value': round(current_vix, 2),
+                'avg_30d': round(avg_vix_30d, 2),
+                'interpretation': interpretation
+            }
+
+            level_emoji = {'LOW': '🟢', 'NORMAL': '🟡', 'ELEVATED': '🟠', 'HIGH': '🔴'}.get(level, '⚪')
+            print(f"   {level_emoji} VIX: {current_vix:.2f} ({level}) - {interpretation}")
+
+            return result
+
+        except Exception as e:
+            print(f"   ⚠️  Could not fetch VIX: {str(e)}")
+            return {'level': 'UNKNOWN', 'value': None}
+
+    def _determine_regime(self, spy_status: dict, qqq_status: dict, vix_level: dict) -> dict:
+        """
+        Determina el régimen general del mercado
+
+        Logic:
+        - CONFIRMED_UPTREND: Ambos índices STRONG/UPTREND + VIX < 30
+        - UPTREND_PRESSURE: Uno débil o VIX elevado
+        - CORRECTION: Ambos débiles o VIX alto
+        """
+        spy = spy_status.get('status', 'ERROR')
+        qqq = qqq_status.get('status', 'ERROR')
+        vix_value = vix_level.get('value', 100)
+
+        # Count strong uptrends
+        strong_count = sum([
+            spy in ['STRONG_UPTREND', 'UPTREND'],
+            qqq in ['STRONG_UPTREND', 'UPTREND']
+        ])
+
+        # Check for corrections
+        correction_count = sum([
+            spy == 'CORRECTION',
+            qqq == 'CORRECTION'
+        ])
+
+        # Determine regime
+        if strong_count == 2 and vix_value < 30:
+            regime = 'CONFIRMED_UPTREND'
+            recommendation = 'TRADE'
+            confidence = 'HIGH'
+            explanation = 'Both indices in uptrend, low volatility. Safe to trade.'
+
+        elif strong_count >= 1 and correction_count == 0:
+            regime = 'UPTREND_PRESSURE'
+            recommendation = 'CAUTION'
+            confidence = 'MEDIUM'
+            explanation = 'Market showing some weakness. Be selective with new trades.'
 
         else:
-            regime = "CHOPPY"
-            confidence = "LOW"
-            weights = {'vcp': 33, 'ml': 34, 'fundamental': 33}
-            color = "⚪"
+            regime = 'CORRECTION'
+            recommendation = 'AVOID'
+            confidence = 'HIGH'
+            explanation = 'Market in correction. Avoid new positions, protect capital.'
+
+        # VIX override
+        if vix_value > 30 and regime != 'CORRECTION':
+            regime = 'UPTREND_PRESSURE'
+            recommendation = 'CAUTION'
+            explanation += ' High volatility detected.'
 
         return {
             'regime': regime,
+            'recommendation': recommendation,
             'confidence': confidence,
-            'date': date.strftime('%Y-%m-%d'),
-            'indicators': {
-                'spy_price': round(spy_price, 2),
-                'spy_sma50': round(spy_sma50, 2),
-                'pct_above_sma': round(pct_above_sma, 2),
-                'vix': round(vix, 2),
-            },
-            'weights': weights,
-            'emoji': color,
-            'description': self._get_regime_description(regime)
+            'explanation': explanation
         }
 
-    def _get_regime_description(self, regime: str) -> str:
-        """Descripción del régimen"""
-        descriptions = {
-            'BULL': 'Mercado alcista - Favorece VCP breakouts y momentum',
-            'BEAR': 'Mercado bajista - Favorece fundamentales sólidos',
-            'CAUTIOUS_BULL': 'Alcista con cautela - Volatilidad moderada',
-            'CHOPPY': 'Mercado lateral - Favorece ML predictions y selectividad'
-        }
-        return descriptions.get(regime, 'Régimen desconocido')
+    def _save_report(self, result: dict):
+        """Guarda reporte de régimen del mercado"""
+        output_file = Path("docs/market_regime.json")
 
-    def _get_default_regime(self) -> Dict:
-        """Régimen por defecto si no se puede detectar"""
-        return {
-            'regime': 'UNKNOWN',
-            'confidence': 'LOW',
-            'date': datetime.now().strftime('%Y-%m-%d'),
-            'indicators': {
-                'spy_price': 0,
-                'spy_sma50': 0,
-                'pct_above_sma': 0,
-                'vix': 20,
-            },
-            'weights': {'vcp': 40, 'ml': 30, 'fundamental': 30},  # Default weights
-            'emoji': '⚪',
-            'description': 'No se pudo detectar régimen - usando defaults'
-        }
+        with open(output_file, 'w') as f:
+            json.dump(result, f, indent=2)
 
-    def _load_cache(self) -> Dict:
-        """Carga cache de regímenes"""
-        if self.cache_file.exists():
-            try:
-                with open(self.cache_file, 'r') as f:
-                    return json.load(f)
-            except:
-                pass
-        return {}
+        print(f"\n✅ Market regime report saved: {output_file}")
 
-    def _save_cache(self, cache: Dict):
-        """Guarda cache de regímenes"""
-        with open(self.cache_file, 'w') as f:
-            json.dump(cache, f, indent=2)
+    def _print_summary(self, result: dict):
+        """Imprime resumen del régimen detectado"""
+        print("\n" + "="*70)
+        print("📊 MARKET REGIME SUMMARY")
+        print("="*70)
 
-    def print_regime_summary(self, regime_data: Dict):
-        """Imprime resumen del régimen"""
-        print("\n" + "=" * 80)
-        print(f"{regime_data['emoji']} MARKET REGIME: {regime_data['regime']}")
-        print("=" * 80)
-        print(f"📅 Date: {regime_data['date']}")
-        print(f"🎯 Confidence: {regime_data['confidence']}")
-        print(f"📝 {regime_data['description']}")
-        print(f"\n📊 Indicators:")
-        for key, value in regime_data['indicators'].items():
-            print(f"   {key}: {value}")
-        print(f"\n⚖️  Scoring Weights:")
-        for key, value in regime_data['weights'].items():
-            print(f"   {key}: {value}%")
-        print("=" * 80)
+        regime = result['regime']
+        recommendation = result['recommendation']
+
+        regime_emoji = {
+            'CONFIRMED_UPTREND': '🟢',
+            'UPTREND_PRESSURE': '🟡',
+            'CORRECTION': '🔴'
+        }.get(regime, '⚪')
+
+        rec_emoji = {
+            'TRADE': '✅',
+            'CAUTION': '⚠️',
+            'AVOID': '❌'
+        }.get(recommendation, '❓')
+
+        print(f"\n{regime_emoji} Market Regime: {regime}")
+        print(f"{rec_emoji} Recommendation: {recommendation}")
+        print(f"📝 {result['explanation']}")
+        print("\n" + "="*70)
 
 
 def main():
-    """Test regime detection"""
+    """Run standalone market regime detection"""
     detector = MarketRegimeDetector()
+    regime = detector.detect_regime()
 
-    # Test today
-    print("\n🔍 Detectando régimen ACTUAL:")
-    regime_today = detector.get_market_regime()
-    detector.print_regime_summary(regime_today)
-
-    # Test historical dates
-    test_dates = [
-        "2025-11-13",  # 3 meses atrás
-        "2025-08-15",  # 6 meses atrás
-        "2025-02-11",  # 1 año atrás
-    ]
-
-    for date in test_dates:
-        print(f"\n🔍 Detectando régimen para {date}:")
-        regime = detector.get_market_regime(as_of_date=date)
-        detector.print_regime_summary(regime)
+    # Return exit code based on recommendation
+    if regime['recommendation'] == 'AVOID':
+        print("\n⚠️  WARNING: Market in correction - avoid new trades")
+        return 1
+    elif regime['recommendation'] == 'CAUTION':
+        print("\n⚠️  CAUTION: Market under pressure - be selective")
+        return 0
+    else:
+        print("\n✅ GREEN LIGHT: Market in confirmed uptrend - safe to trade")
+        return 0
 
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    exit(main())
