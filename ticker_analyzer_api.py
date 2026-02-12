@@ -393,7 +393,7 @@ class TickerAnalyzer:
     def _analyze_vcp_pattern_cached(self, hist: pd.DataFrame) -> dict:
         """VCP analysis using cached historical data (OPTIMIZED - no API calls)"""
         try:
-            if hist.empty or len(hist) < 200:
+            if hist.empty or len(hist) < 150:
                 return {'score': 50, 'pattern_detected': False, 'reason': 'Insufficient data'}
 
             # Simple volatility contraction check
@@ -472,7 +472,7 @@ class TickerAnalyzer:
     def _check_ma_filter_cached(self, ticker: str, hist: pd.DataFrame) -> dict:
         """MA Filter using cached data (OPTIMIZED - no API calls)"""
         try:
-            if hist.empty or len(hist) < 200:
+            if hist.empty or len(hist) < 150:
                 return {'ticker': ticker, 'passes': False, 'score': 0, 'reason': 'Insufficient data', 'details': {}}
 
             current_price = float(hist['Close'].iloc[-1])

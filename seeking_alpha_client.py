@@ -246,6 +246,8 @@ class SeekingAlphaClient:
         This is a lightweight call to get only fundamental ratios
         that Seeking Alpha free API doesn't provide
         """
+        import time
+
         url = f"https://query2.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
         params = {
             'modules': 'defaultKeyStatistics,financialData',
@@ -253,6 +255,10 @@ class SeekingAlphaClient:
         }
 
         try:
+            # Add delay to avoid rate limiting (critical!)
+            print("   📊 Fetching PE/Beta from Yahoo Finance (with 3s delay)...")
+            time.sleep(3)
+
             response = requests.get(url, params=params, timeout=10)
             response.raise_for_status()
             data = response.json()
@@ -421,9 +427,9 @@ class SeekingAlphaClient:
         """
         from datetime import timedelta
 
-        # Calculate date range (200 trading days ≈ 280 calendar days)
+        # Calculate date range (252 trading days ≈ 365 calendar days)
         end_date = datetime.now()
-        start_date = end_date - timedelta(days=280)
+        start_date = end_date - timedelta(days=365)
 
         url = f"{self.base_url}/historical_prices"
         params = {
