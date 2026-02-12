@@ -58,11 +58,27 @@ CACHE_DURATION = timedelta(minutes=10)  # Cache for 10 minutes
 # Initialize Finnhub client if available
 FINNHUB_CLIENT = None
 FINNHUB_API_KEY = os.environ.get('FINNHUB_API_KEY')
+
+# Debug logging
+print(f"🔍 DEBUG: FINNHUB_AVAILABLE = {FINNHUB_AVAILABLE}")
+print(f"🔍 DEBUG: FINNHUB_API_KEY present = {bool(FINNHUB_API_KEY)}")
+if FINNHUB_API_KEY:
+    print(f"🔍 DEBUG: FINNHUB_API_KEY length = {len(FINNHUB_API_KEY)}")
+    print(f"🔍 DEBUG: FINNHUB_API_KEY preview = {FINNHUB_API_KEY[:10]}...")
+
 if FINNHUB_AVAILABLE and FINNHUB_API_KEY:
-    FINNHUB_CLIENT = finnhub.Client(api_key=FINNHUB_API_KEY)
-    print("✅ Finnhub client initialized")
+    try:
+        FINNHUB_CLIENT = finnhub.Client(api_key=FINNHUB_API_KEY)
+        print("✅ Finnhub client initialized")
+    except Exception as e:
+        print(f"❌ Failed to initialize Finnhub client: {str(e)}")
 else:
-    print("⚠️  Finnhub not configured. Set FINNHUB_API_KEY in .env file")
+    reasons = []
+    if not FINNHUB_AVAILABLE:
+        reasons.append("finnhub-python not installed")
+    if not FINNHUB_API_KEY:
+        reasons.append("FINNHUB_API_KEY not set")
+    print(f"⚠️  Finnhub not configured. Reason(s): {', '.join(reasons)}")
 
 
 def get_stock_data_from_finnhub(ticker: str) -> tuple:
