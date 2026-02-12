@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📊 Trading Analytics System | Liquid Glass Dashboard</title>
-    <meta name="description" content="Quantitative stock analysis platform: Technical patterns, machine learning predictions, and fundamental analysis. Integrated multi-factor framework for systematic equity selection.">
+    <meta name="description" content="Sistema avanzado de análisis de trading con IA - Dashboard principal con Enhanced Opportunities">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <style>
         
@@ -288,9 +288,6 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            max-width: 100%;
         }
         
         .nav-card::before {
@@ -330,20 +327,12 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
-            max-width: 100%;
         }
-
+        
         .nav-desc {
             color: var(--text-secondary);
             font-size: 0.95rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            hyphens: none;
-            max-width: 100%;
+            line-height: 1.4;
         }
         
         /* === CONTENT SECTIONS === */
@@ -538,174 +527,43 @@
         }
         
         /* === RESPONSIVE DESIGN === */
-        /* === RESPONSIVE DESIGN MEJORADO === */
-
-        /* Tablets (768px - 1024px) */
-        @media (max-width: 1024px) {
-            .glass-container {
-                padding: 1.5rem;
-            }
-
-            .nav-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        /* Mobile Large (481px - 768px) */
         @media (max-width: 768px) {
             .glass-container {
                 padding: 1rem;
             }
-
+            
             .liquid-header {
                 padding: 2rem 1rem;
             }
-
+            
             .liquid-header h1 {
                 font-size: 2.5rem;
-                line-height: 1.2;
             }
-
-            .liquid-header .subtitle {
-                font-size: 0.95rem;
-            }
-
+            
             .stats-liquid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
-
+            
             .stat-glass {
                 padding: 1.5rem;
             }
-
-            .stat-value {
-                font-size: 2rem;
-            }
-
-            /* FIX: Cambiar a flexbox vertical en mobile para evitar conflictos */
+            
             .nav-grid {
-                display: flex !important;
-                flex-direction: column !important;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
-
+            
             .nav-card {
                 padding: 1.5rem;
-                width: 100% !important;
-                max-width: 100% !important;
             }
-
-            .nav-card h3 {
-                font-size: 1.1rem;
-            }
-
+            
             .report-actions {
                 grid-template-columns: 1fr;
             }
-
+            
             .content-liquid {
                 padding: 1.5rem;
-            }
-        }
-
-        /* Mobile Small (max 480px) */
-        @media (max-width: 480px) {
-            .glass-container {
-                padding: 0.75rem;
-            }
-
-            .liquid-header {
-                padding: 1.5rem 0.75rem;
-            }
-
-            .liquid-header h1 {
-                font-size: 2rem;
-            }
-
-            .liquid-header .subtitle {
-                font-size: 0.85rem;
-            }
-
-            .stats-liquid {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 0.75rem;
-            }
-
-            .stat-glass {
-                padding: 1.25rem;
-                width: 100% !important;
-            }
-
-            .stat-value {
-                font-size: 1.75rem;
-            }
-
-            .stat-label {
-                font-size: 0.85rem;
-            }
-
-            /* FIX: Usar flexbox vertical para layout de 1 columna limpio */
-            .nav-grid {
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 0.75rem;
-            }
-
-            .nav-card {
-                padding: 1.25rem;
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-
-            .nav-card h3 {
-                font-size: 1rem;
-            }
-
-            .nav-card p {
-                font-size: 0.85rem;
-            }
-
-            /* FIX: Asegurar word-wrap en mobile */
-            .nav-title,
-            .nav-desc,
-            .section-title {
-                word-wrap: break-word !important;
-                overflow-wrap: break-word !important;
-                word-break: break-word !important;
-                hyphens: auto !important;
-                max-width: 100% !important;
-            }
-
-            .content-liquid {
-                padding: 1rem;
-            }
-
-            .content-liquid h2 {
-                font-size: 1.5rem;
-            }
-
-            /* Make buttons and interactive elements touch-friendly (min 44px) */
-            .nav-card,
-            button,
-            a {
-                min-height: 44px;
-            }
-        }
-
-        /* Ultra Small (max 360px) */
-        @media (max-width: 360px) {
-            .liquid-header h1 {
-                font-size: 1.75rem;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-            }
-
-            .nav-card h3 {
-                font-size: 0.95rem;
             }
         }
         
@@ -733,11 +591,11 @@
         
         <section class="stats-liquid">
             <div class="stat-glass fade-in-up" style="animation-delay: 0.1s">
-                <div class="stat-number">232</div>
+                <div class="stat-number">233</div>
                 <div class="stat-label">Análisis Insider</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.2s">
-                <div class="stat-number">223</div>
+                <div class="stat-number">224</div>
                 <div class="stat-label">Análisis Sectorial</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.3s">
@@ -745,49 +603,19 @@
                 <div class="stat-label">Market Breadth</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.4s">
-                <div class="stat-number">178</div>
+                <div class="stat-number">179</div>
                 <div class="stat-label">Enhanced Opportunities</div>
             </div>
             <div class="stat-glass fade-in-up" style="animation-delay: 0.5s">
-                <div class="stat-number">2026-02-11</div>
+                <div class="stat-number">2026-02-12</div>
                 <div class="stat-label">Última Actualización</div>
             </div>
         </section>
         
         <nav class="navigation-liquid glass-card">
-            <h2 class="section-title">Analysis Modules</h2>
+            <h2 class="section-title">🎯 Módulos de Análisis Avanzado</h2>
             <div class="nav-grid">
-                <a href="super_dashboard.html" class="nav-card" style="grid-column: span 2; background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(79, 70, 229, 0.1));">
-                    <div class="nav-icon">📊</div>
-                    <div class="nav-title">Quantitative Analysis Platform</div>
-                    <div class="nav-desc">Multi-factor equity selection framework: Technical pattern recognition, machine learning momentum models, and fundamental quality metrics with integrated timing convergence signals</div>
-                </a>
-                <a href="sector_rotation_dashboard.html" class="nav-card">
-                    <div class="nav-icon">🔄</div>
-                    <div class="nav-title">Sector Rotation</div>
-                    <div class="nav-desc">Análisis en tiempo real de rotaciones sectoriales con momentum velocity y relative strength vs SPY</div>
-                </a>
-                <a href="backtest_dashboard.html" class="nav-card">
-                    <div class="nav-icon">📉</div>
-                    <div class="nav-title">Backtest Engine</div>
-                    <div class="nav-desc">Historical validation framework with performance metrics, timing impact analysis, and equity curve visualization for systematic strategy evaluation</div>
-                </a>
-                <a href="mean_reversion_dashboard.html" class="nav-card">
-                    <div class="nav-icon">🔄</div>
-                    <div class="nav-title">Mean Reversion</div>
-                    <div class="nav-desc">Oportunidades de compra en dips de calidad: Oversold Bounce y Bull Flag Pullback strategies</div>
-                </a>
-                <a href="mean_reversion_backtest_dashboard.html" class="nav-card">
-                    <div class="nav-icon">📊</div>
-                    <div class="nav-title">Mean Reversion Backtest</div>
-                    <div class="nav-desc">Validación histórica: 85% win rate, +17% avg trade, profit factor 67.91</div>
-                </a>
-                <a href="options_flow_dashboard.html" class="nav-card">
-                    <div class="nav-icon">🐋</div>
-                    <div class="nav-title">Options Flow</div>
-                    <div class="nav-desc">Detecta whale activity y movimientos institucionales en opciones con análisis de sentiment</div>
-                </a>
-                <a href="reports/daily/report_2026-02-11/index.html" class="nav-card">
+                <a href="reports/daily/report_2026-02-12/index.html" class="nav-card">
                     <div class="nav-icon">🏛️</div>
                     <div class="nav-title">Insider Trading</div>
                     <div class="nav-desc">Análisis de transacciones internas con IA para detectar patrones de comportamiento ejecutivo</div>
@@ -821,6 +649,22 @@
             <div class="reports-fluid">
                 
             <div class="report-liquid floating-element" style="animation-delay: 0.0s">
+                <h3 class="report-title">🏛️ 📊 Insider Trading - 86 transacciones - 2026-02-12 08:03</h3>
+                <div class="report-meta">
+                    📅 2026-02-12 • 🕐 08:03:54<br>
+                    Reporte con 86 transacciones detectadas
+                </div>
+                <div class="report-actions">
+                    <a href="reports/daily/report_2026-02-12/index.html" class="btn-liquid btn-primary-liquid">
+                        📊 Ver Análisis
+                    </a>
+                    <a href="reports/daily/report_2026-02-12/data.csv" class="btn-liquid btn-secondary-liquid">
+                        📥 Descargar CSV
+                    </a>
+                </div>
+            </div>
+            
+            <div class="report-liquid floating-element" style="animation-delay: 0.1s">
                 <h3 class="report-title">🏛️ 📊 Insider Trading - 95 transacciones - 2026-02-11 08:05</h3>
                 <div class="report-meta">
                     📅 2026-02-11 • 🕐 08:05:11<br>
@@ -836,7 +680,7 @@
                 </div>
             </div>
             
-            <div class="report-liquid floating-element" style="animation-delay: 0.1s">
+            <div class="report-liquid floating-element" style="animation-delay: 0.2s">
                 <h3 class="report-title">🏛️ 📊 Insider Trading - 92 transacciones - 2026-02-10 08:07</h3>
                 <div class="report-meta">
                     📅 2026-02-10 • 🕐 08:07:51<br>
@@ -852,7 +696,7 @@
                 </div>
             </div>
             
-            <div class="report-liquid floating-element" style="animation-delay: 0.2s">
+            <div class="report-liquid floating-element" style="animation-delay: 0.3s">
                 <h3 class="report-title">🏛️ 📊 Insider Trading - 91 transacciones - 2026-02-09 08:06</h3>
                 <div class="report-meta">
                     📅 2026-02-09 • 🕐 08:06:52<br>
@@ -868,7 +712,7 @@
                 </div>
             </div>
             
-            <div class="report-liquid floating-element" style="animation-delay: 0.3s">
+            <div class="report-liquid floating-element" style="animation-delay: 0.4s">
                 <h3 class="report-title">🏛️ 📊 Insider Trading - 46 transacciones - 2026-02-06 08:01</h3>
                 <div class="report-meta">
                     📅 2026-02-06 • 🕐 08:01:34<br>
@@ -884,7 +728,7 @@
                 </div>
             </div>
             
-            <div class="report-liquid floating-element" style="animation-delay: 0.4s">
+            <div class="report-liquid floating-element" style="animation-delay: 0.5s">
                 <h3 class="report-title">🏛️ 📊 Insider Trading - 58 transacciones - 2026-02-05 08:02</h3>
                 <div class="report-meta">
                     📅 2026-02-05 • 🕐 08:02:36<br>
@@ -900,7 +744,7 @@
                 </div>
             </div>
             
-            <div class="report-liquid floating-element" style="animation-delay: 0.5s">
+            <div class="report-liquid floating-element" style="animation-delay: 0.6s">
                 <h3 class="report-title">🏛️ 📊 Insider Trading - 82 transacciones - 2026-02-04 08:01</h3>
                 <div class="report-meta">
                     📅 2026-02-04 • 🕐 08:01:45<br>
@@ -916,7 +760,7 @@
                 </div>
             </div>
             
-            <div class="report-liquid floating-element" style="animation-delay: 0.6s">
+            <div class="report-liquid floating-element" style="animation-delay: 0.7s">
                 <h3 class="report-title">🏛️ 📊 Insider Trading - 97 transacciones - 2026-02-03 08:00</h3>
                 <div class="report-meta">
                     📅 2026-02-03 • 🕐 08:00:37<br>
@@ -932,28 +776,12 @@
                 </div>
             </div>
             
-            <div class="report-liquid floating-element" style="animation-delay: 0.7s">
-                <h3 class="report-title">🏛️ 📊 Insider Trading - 94 transacciones - 2026-02-02 08:01</h3>
-                <div class="report-meta">
-                    📅 2026-02-02 • 🕐 08:01:53<br>
-                    Reporte con 94 transacciones detectadas
-                </div>
-                <div class="report-actions">
-                    <a href="reports/daily/report_2026-02-02/index.html" class="btn-liquid btn-primary-liquid">
-                        📊 Ver Análisis
-                    </a>
-                    <a href="reports/daily/report_2026-02-02/data.csv" class="btn-liquid btn-secondary-liquid">
-                        📥 Descargar CSV
-                    </a>
-                </div>
-            </div>
-            
             </div>
         </main>
         
         <footer class="footer-liquid">
-            <p>Quantitative Stock Analysis Platform • Systematic Multi-Factor Framework</p>
-            <p>Integrated modules: Quantitative Analysis · Sector Rotation · Backtest Engine · Insider Trading · Market Breadth · Technical Patterns</p>
+            <p>🚀 Trading Analytics System • Powered by AI & Advanced Market Analysis</p>
+            <p>Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner</p>
         </footer>
     </div>
     
@@ -972,10 +800,10 @@
         
         // Analytics
         console.log('🚀 Trading Analytics Dashboard with Enhanced Opportunities Loaded');
-        console.log('📊 Total Reports: 232');
-        console.log('📈 DJ Sectorial: 223');
+        console.log('📊 Total Reports: 233');
+        console.log('📈 DJ Sectorial: 224');
         console.log('📊 Market Breadth: 244');
-        console.log('🎯 Enhanced Opportunities: 178');
+        console.log('🎯 Enhanced Opportunities: 179');
         console.log('🎯 Módulos activos: 5');
         console.log('🌐 Base URL: https://tantancansado.github.io/stock_analyzer_a');
     </script>
