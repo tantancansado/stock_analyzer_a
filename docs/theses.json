@@ -1,16 +1,16 @@
 {
   "INTC": {
     "ticker": "INTC",
-    "generated_at": "2026-02-11T19:14:05.232726",
+    "generated_at": "2026-02-12T19:13:48.486195",
     "overview": {
       "score_5d": 67.1,
       "classification": "\u2b50\u2b50 EXCELENTE",
       "tier": "\u2b50 BUENA",
       "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": 47.735,
-      "price_target": 49.84,
-      "upside_percent": 4.41,
+      "sector_momentum": "improving",
+      "current_price": 46.645,
+      "price_target": 49.24,
+      "upside_percent": 5.56,
       "tier_boost": 3,
       "entry_bonus": 5
     },
@@ -47,7 +47,9 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
@@ -58,7 +60,7 @@
         "Pr\u00f3ximo earnings en 74 d\u00edas"
       ]
     },
-    "thesis_narrative": "INTC representa una oportunidad de **momentum t\u00e9cnico** con score 5D s\u00f3lido de 67.1/100. El patr\u00f3n VCP es de calidad excepcional (89/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. \n\n**Conclusi\u00f3n:** Oportunidad s\u00f3lida que combina m\u00faltiples factores positivos. Considerar para diversificaci\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
+    "thesis_narrative": "INTC representa una oportunidad de **momentum t\u00e9cnico** con score 5D s\u00f3lido de 67.1/100. El patr\u00f3n VCP es de calidad excepcional (89/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad s\u00f3lida que combina m\u00faltiples factores positivos. Considerar para diversificaci\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
     "rating": {
       "technical": 5,
       "fundamental": 2,
@@ -72,26 +74,26 @@
         "tier": "\u2b50 BUENA",
         "vcp_score": 88.575,
         "insiders_score": 90,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
         "next_earnings": "2026-04-23",
         "days_to_earnings": 74.0,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
-        "current_price": 47.735,
-        "price_target": 49.84,
-        "upside_percent": 4.41,
+        "current_price": 46.645,
+        "price_target": 49.24,
+        "upside_percent": 5.56,
         "analyst_target": 47.17125,
-        "analyst_upside": -1.1809992667853764,
+        "analyst_upside": 1.1282023796762797,
         "num_analysts": 40,
         "fundamental_score": 20.0,
         "pe_ratio": null,
         "peg_ratio": null,
-        "fcf_yield": -1.889116130607312,
+        "fcf_yield": -1.9332610023431216,
         "roe": 0.00022,
         "revenue_growth": -0.041,
         "entry_score": 80.0,
@@ -120,16 +122,16 @@
   },
   "NCLH": {
     "ticker": "NCLH",
-    "generated_at": "2026-02-11T19:14:05.234213",
+    "generated_at": "2026-02-12T19:13:48.487688",
     "overview": {
       "score_5d": 62.9,
       "classification": "\u2b50 BUENA",
       "tier": "\u2b50 BUENA",
       "sector": null,
       "sector_momentum": "stable",
-      "current_price": 22.665,
-      "price_target": 26.29,
-      "upside_percent": 16.01,
+      "current_price": 23.235,
+      "price_target": 26.61,
+      "upside_percent": 14.52,
       "tier_boost": 0,
       "entry_bonus": 1
     },
@@ -159,7 +161,7 @@
       "health_rating": "N/A",
       "strengths": [
         "ROE 39.9% - rentabilidad excepcional",
-        "22 analistas con upside medio de +22%"
+        "22 analistas con upside medio de +19%"
       ],
       "concerns": []
     },
@@ -197,16 +199,16 @@
         "sector_momentum": "stable",
         "tier_boost": 0,
         "dj_ticker": null,
-        "current_price": 22.665,
-        "price_target": 26.29,
-        "upside_percent": 16.01,
+        "current_price": 23.235,
+        "price_target": 26.61,
+        "upside_percent": 14.52,
         "analyst_target": 27.65909,
-        "analyst_upside": 22.03437017427752,
+        "analyst_upside": 19.04062836238434,
         "num_analysts": 22,
         "fundamental_score": 20.0,
-        "pe_ratio": 16.305756,
+        "pe_ratio": 16.715828,
         "peg_ratio": null,
-        "fcf_yield": -12.760670194056036,
+        "fcf_yield": -12.447625791276254,
         "roe": 0.39870998,
         "revenue_growth": 0.047,
         "entry_score": 50.0,
@@ -235,22 +237,22 @@
   },
   "BA": {
     "ticker": "BA",
-    "generated_at": "2026-02-11T19:14:05.235681",
+    "generated_at": "2026-02-12T19:13:48.489083",
     "overview": {
       "score_5d": 59.6,
       "classification": "\u2b50 BUENA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Industrials",
       "sector_momentum": "stable",
-      "current_price": 236.31,
-      "price_target": 178.84,
-      "upside_percent": -24.32,
+      "current_price": 240.58,
+      "price_target": 268.44,
+      "upside_percent": 11.58,
       "tier_boost": 0,
       "entry_bonus": 5
     },
     "technical": {
       "vcp_score": 90.20588235294116,
-      "entry_score": 90.0,
+      "entry_score": 80.0,
       "strengths": [
         "Patr\u00f3n VCP de calidad excepcional",
         "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)",
@@ -276,8 +278,7 @@
       "health_rating": "N/A",
       "strengths": [
         "ROE 290.1% - rentabilidad excepcional",
-        "Crecimiento de ingresos 57.1% - muy fuerte",
-        "24 analistas con upside medio de +15%"
+        "Crecimiento de ingresos 57.1% - muy fuerte"
       ],
       "concerns": []
     },
@@ -293,12 +294,12 @@
         "Pr\u00f3ximo earnings en 73 d\u00edas"
       ]
     },
-    "thesis_narrative": "BA representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 59.6/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-24% desde niveles actuales). \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
+    "thesis_narrative": "BA representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 59.6/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
     "rating": {
       "technical": 5,
       "fundamental": 3,
-      "risk_reward": 3,
-      "overall": 3.7
+      "risk_reward": 2,
+      "overall": 3.3
     },
     "raw_data": {
       "5d": {
@@ -307,7 +308,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 90.20588235294116,
         "insiders_score": 70,
-        "sector_score": 60.2,
+        "sector_score": 58.98,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -317,19 +318,19 @@
         "sector_momentum": "stable",
         "tier_boost": 0,
         "dj_ticker": "DJUSIG",
-        "current_price": 236.31,
-        "price_target": 178.84,
-        "upside_percent": -24.32,
+        "current_price": 240.58,
+        "price_target": 268.44,
+        "upside_percent": 11.58,
         "analyst_target": 272.25,
-        "analyst_upside": 15.2088358512124,
+        "analyst_upside": 13.164020284312894,
         "num_analysts": 24,
         "fundamental_score": 40.0,
-        "pe_ratio": 95.672066,
+        "pe_ratio": 97.008064,
         "peg_ratio": null,
-        "fcf_yield": 0.9492935917618708,
+        "fcf_yield": 0.9324448146443056,
         "roe": 2.90084,
         "revenue_growth": 0.571,
-        "entry_score": 90.0,
+        "entry_score": 80.0,
         "entry_bonus": 5,
         "super_score_5d": 59.6
       },
@@ -353,18 +354,133 @@
       }
     }
   },
+  "WRB": {
+    "ticker": "WRB",
+    "generated_at": "2026-02-12T19:13:48.490464",
+    "overview": {
+      "score_5d": 59.4,
+      "classification": "\u2b50 BUENA",
+      "tier": "\u2b50 BUENA",
+      "sector": "Financial Services",
+      "sector_momentum": "improving",
+      "current_price": 71.825,
+      "price_target": 73.67,
+      "upside_percent": 2.57,
+      "tier_boost": 0,
+      "entry_bonus": 3
+    },
+    "technical": {
+      "vcp_score": 71.375,
+      "entry_score": 65.0,
+      "strengths": [
+        "Buen patr\u00f3n VCP",
+        "Buen momento de entrada"
+      ],
+      "concerns": [],
+      "signals": [
+        "\ud83d\udfe2 Setup t\u00e9cnico s\u00f3lido"
+      ],
+      "stage": "Stage 1-2 Transition",
+      "ready_to_buy": false,
+      "breakout_potential": 85.0,
+      "num_contractions": 4
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50\u2b50\u2b50 Buena",
+      "growth_rating": "\u2b50\u2b50 Lento",
+      "health_rating": "N/A",
+      "strengths": [
+        "ROE 19.6% - buena rentabilidad"
+      ],
+      "concerns": []
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Financial Services con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": [
+        "Pr\u00f3ximo earnings en 71 d\u00edas"
+      ]
+    },
+    "thesis_narrative": "WRB representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 59.4/100. Presenta un s\u00f3lido patr\u00f3n VCP (71/100). El momento de entrada es favorable (65/100). El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 4,
+      "fundamental": 3,
+      "risk_reward": 2,
+      "overall": 3.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "WRB",
+        "super_score_4d": 56.4,
+        "tier": "\u2b50 BUENA",
+        "vcp_score": 71.375,
+        "insiders_score": 100,
+        "sector_score": 67.29,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2026-04-20",
+        "days_to_earnings": 71.0,
+        "sector_name": "Financial Services",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSFI",
+        "current_price": 71.825,
+        "price_target": 73.67,
+        "upside_percent": 2.57,
+        "analyst_target": 68.33333,
+        "analyst_upside": -4.861357466063343,
+        "num_analysts": 15,
+        "fundamental_score": 41.67,
+        "pe_ratio": 16.14045,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": 0.19600001,
+        "revenue_growth": 0.015,
+        "entry_score": 65.0,
+        "entry_bonus": 3,
+        "super_score_5d": 59.4
+      },
+      "vcp": {
+        "ticker": "WRB",
+        "precio": 69.1500015258789,
+        "vcp_score": 71.375,
+        "calidad_patron": "Excellent",
+        "num_contracciones": 4,
+        "contracciones": "18.0% \u2192 4.3% \u2192 3.1% \u2192 5.8%",
+        "profundidad_base": 18.00209086616856,
+        "etapa_analisis": "Stage 1-2 Transition",
+        "trend_score": 30.0,
+        "volumen_score": 69.375,
+        "breakout_potential": 85.0,
+        "listo_comprar": false,
+        "sector": "Financial Services",
+        "market_cap": 26232467456,
+        "razon": "VCP 4 contracciones (Excellent) | Base: 18.0% | Stage 1-2 Transition",
+        "fecha_scan": "2025-07-11 10:31:28"
+      }
+    }
+  },
   "BEN": {
     "ticker": "BEN",
-    "generated_at": "2026-02-11T19:14:05.237068",
+    "generated_at": "2026-02-12T19:13:48.491749",
     "overview": {
       "score_5d": 59.4,
       "classification": "\u2b50 BUENA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Financial Services",
       "sector_momentum": "improving",
-      "current_price": 27.62,
-      "price_target": 22.34,
-      "upside_percent": -19.13,
+      "current_price": 27.175,
+      "price_target": 22.17,
+      "upside_percent": -18.41,
       "tier_boost": 0,
       "entry_bonus": 5
     },
@@ -413,7 +529,7 @@
       ],
       "earnings": []
     },
-    "thesis_narrative": "BEN representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 59.4/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-19% desde niveles actuales). El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
+    "thesis_narrative": "BEN representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 59.4/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-18% desde niveles actuales). El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
     "rating": {
       "technical": 5,
       "fundamental": 2,
@@ -427,7 +543,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 89.56521739130434,
         "insiders_score": 70,
-        "sector_score": 62.33,
+        "sector_score": 67.29,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -437,16 +553,16 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSFI",
-        "current_price": 27.62,
-        "price_target": 22.34,
-        "upside_percent": -19.13,
+        "current_price": 27.175,
+        "price_target": 22.17,
+        "upside_percent": -18.41,
         "analyst_target": 27.36364,
-        "analyst_upside": -0.9281679942070964,
+        "analyst_upside": 0.6941674333026615,
         "num_analysts": 11,
         "fundamental_score": 30.0,
-        "pe_ratio": 25.574074,
+        "pe_ratio": 25.162035,
         "peg_ratio": null,
-        "fcf_yield": 2.2799931463415537,
+        "fcf_yield": 2.317329001980962,
         "roe": 0.04464,
         "revenue_growth": 0.034,
         "entry_score": 100.0,
@@ -475,16 +591,16 @@
   },
   "CRM": {
     "ticker": "CRM",
-    "generated_at": "2026-02-11T19:14:05.238398",
+    "generated_at": "2026-02-12T19:13:48.493050",
     "overview": {
       "score_5d": 57.9,
       "classification": "\u2b50 BUENA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": 185.615,
-      "price_target": 281.44,
-      "upside_percent": 51.63,
+      "sector_momentum": "improving",
+      "current_price": 181.4056,
+      "price_target": 279.86,
+      "upside_percent": 54.28,
       "tier_boost": 3,
       "entry_bonus": 0
     },
@@ -509,13 +625,15 @@
       "growth_rating": "\u2b50\u2b50\u2b50 Moderado",
       "health_rating": "N/A",
       "strengths": [
-        "FCF Yield 8.2% - fuerte generaci\u00f3n de caja",
-        "53 analistas con upside medio de +76%"
+        "FCF Yield 8.4% - fuerte generaci\u00f3n de caja",
+        "53 analistas con upside medio de +81%"
       ],
       "concerns": []
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
@@ -526,7 +644,7 @@
         "Pr\u00f3ximo earnings en 17 d\u00edas"
       ]
     },
-    "thesis_narrative": "CRM representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 57.9/100. El precio objetivo sugiere un upside de +52%. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
+    "thesis_narrative": "CRM representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 57.9/100. El precio objetivo sugiere un upside de +54%. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
     "rating": {
       "technical": 2,
       "fundamental": 3,
@@ -540,26 +658,26 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 66.33333333333334,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
         "next_earnings": "2026-02-25",
         "days_to_earnings": 17.0,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
-        "current_price": 185.615,
-        "price_target": 281.44,
-        "upside_percent": 51.63,
+        "current_price": 181.4056,
+        "price_target": 279.86,
+        "upside_percent": 54.28,
         "analyst_target": 327.49323,
-        "analyst_upside": 76.43683430757211,
+        "analyst_upside": 80.5309373029278,
         "num_analysts": 53,
         "fundamental_score": 45.0,
-        "pe_ratio": 24.78171,
+        "pe_ratio": 24.219706,
         "peg_ratio": null,
-        "fcf_yield": 8.21918473448035,
+        "fcf_yield": 8.409906280035486,
         "roe": 0.12184,
         "revenue_growth": 0.086,
         "entry_score": 0.0,
@@ -586,140 +704,27 @@
       }
     }
   },
-  "WRB": {
-    "ticker": "WRB",
-    "generated_at": "2026-02-11T19:14:05.239759",
-    "overview": {
-      "score_5d": 57.4,
-      "classification": "\u2b50 BUENA",
-      "tier": "\u2b50 BUENA",
-      "sector": "Financial Services",
-      "sector_momentum": "improving",
-      "current_price": 71.005,
-      "price_target": 73.22,
-      "upside_percent": 3.12,
-      "tier_boost": 0,
-      "entry_bonus": 1
-    },
-    "technical": {
-      "vcp_score": 71.375,
-      "entry_score": 55.0,
-      "strengths": [
-        "Buen patr\u00f3n VCP"
-      ],
-      "concerns": [],
-      "signals": [
-        "\ud83d\udfe2 Setup t\u00e9cnico s\u00f3lido"
-      ],
-      "stage": "Stage 1-2 Transition",
-      "ready_to_buy": false,
-      "breakout_potential": 85.0,
-      "num_contractions": 4
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50\u2b50\u2b50 Buena",
-      "growth_rating": "\u2b50\u2b50 Lento",
-      "health_rating": "N/A",
-      "strengths": [
-        "ROE 19.6% - buena rentabilidad"
-      ],
-      "concerns": []
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Financial Services con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": [
-        "Pr\u00f3ximo earnings en 71 d\u00edas"
-      ]
-    },
-    "thesis_narrative": "WRB representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 57.4/100. Presenta un s\u00f3lido patr\u00f3n VCP (71/100). El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 4,
-      "fundamental": 3,
-      "risk_reward": 2,
-      "overall": 3.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "WRB",
-        "super_score_4d": 56.4,
-        "tier": "\u2b50 BUENA",
-        "vcp_score": 71.375,
-        "insiders_score": 100,
-        "sector_score": 62.33,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2026-04-20",
-        "days_to_earnings": 71.0,
-        "sector_name": "Financial Services",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSFI",
-        "current_price": 71.005,
-        "price_target": 73.22,
-        "upside_percent": 3.12,
-        "analyst_target": 68.33333,
-        "analyst_upside": -3.762650517569177,
-        "num_analysts": 15,
-        "fundamental_score": 41.67,
-        "pe_ratio": 15.95618,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": 0.19600001,
-        "revenue_growth": 0.015,
-        "entry_score": 55.0,
-        "entry_bonus": 1,
-        "super_score_5d": 57.4
-      },
-      "vcp": {
-        "ticker": "WRB",
-        "precio": 69.1500015258789,
-        "vcp_score": 71.375,
-        "calidad_patron": "Excellent",
-        "num_contracciones": 4,
-        "contracciones": "18.0% \u2192 4.3% \u2192 3.1% \u2192 5.8%",
-        "profundidad_base": 18.00209086616856,
-        "etapa_analisis": "Stage 1-2 Transition",
-        "trend_score": 30.0,
-        "volumen_score": 69.375,
-        "breakout_potential": 85.0,
-        "listo_comprar": false,
-        "sector": "Financial Services",
-        "market_cap": 26232467456,
-        "razon": "VCP 4 contracciones (Excellent) | Base: 18.0% | Stage 1-2 Transition",
-        "fecha_scan": "2025-07-11 10:31:28"
-      }
-    }
-  },
   "CVS": {
     "ticker": "CVS",
-    "generated_at": "2026-02-11T19:14:05.241039",
+    "generated_at": "2026-02-12T19:13:48.494363",
     "overview": {
-      "score_5d": 55.9,
+      "score_5d": 57.9,
       "classification": "\u2b50 BUENA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Healthcare",
       "sector_momentum": "improving",
-      "current_price": 76.37,
-      "price_target": 91.56,
-      "upside_percent": 19.89,
+      "current_price": 77.98,
+      "price_target": 92.11,
+      "upside_percent": 18.12,
       "tier_boost": 0,
-      "entry_bonus": 1
+      "entry_bonus": 3
     },
     "technical": {
       "vcp_score": 74.78571428571429,
-      "entry_score": 55.0,
+      "entry_score": 65.0,
       "strengths": [
         "Buen patr\u00f3n VCP",
+        "Buen momento de entrada",
         "Buen n\u00famero de contracciones (14)"
       ],
       "concerns": [],
@@ -737,8 +742,8 @@
       "growth_rating": "\u2b50\u2b50\u2b50 Moderado",
       "health_rating": "N/A",
       "strengths": [
-        "FCF Yield 6.1% - fuerte generaci\u00f3n de caja",
-        "25 analistas con upside medio de +24%"
+        "FCF Yield 6.0% - fuerte generaci\u00f3n de caja",
+        "25 analistas con upside medio de +22%"
       ],
       "concerns": [
         "ROE 2.3% - rentabilidad baja"
@@ -758,7 +763,7 @@
         "\u26a0\ufe0f Earnings en 2 d\u00edas - evento cercano"
       ]
     },
-    "thesis_narrative": "CVS representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 55.9/100. Presenta un s\u00f3lido patr\u00f3n VCP (75/100). El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "CVS representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 57.9/100. Presenta un s\u00f3lido patr\u00f3n VCP (75/100). El momento de entrada es favorable (65/100). El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 4,
       "fundamental": 2,
@@ -772,7 +777,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 74.78571428571429,
         "insiders_score": 90,
-        "sector_score": 55.8,
+        "sector_score": 55.16,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -782,21 +787,21 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSHC",
-        "current_price": 76.37,
-        "price_target": 91.56,
-        "upside_percent": 19.89,
-        "analyst_target": 94.76,
-        "analyst_upside": 24.08013617912792,
+        "current_price": 77.98,
+        "price_target": 92.11,
+        "upside_percent": 18.12,
+        "analyst_target": 94.84,
+        "analyst_upside": 21.620928443190568,
         "num_analysts": 25,
         "fundamental_score": 25.0,
-        "pe_ratio": 54.942448,
+        "pe_ratio": 56.100723,
         "peg_ratio": null,
-        "fcf_yield": 6.116256314168894,
+        "fcf_yield": 5.9768957151275055,
         "roe": 0.022869999,
         "revenue_growth": 0.084,
-        "entry_score": 55.0,
-        "entry_bonus": 1,
-        "super_score_5d": 55.9
+        "entry_score": 65.0,
+        "entry_bonus": 3,
+        "super_score_5d": 57.9
       },
       "vcp": {
         "ticker": "CVS",
@@ -820,16 +825,16 @@
   },
   "OXY": {
     "ticker": "OXY",
-    "generated_at": "2026-02-11T19:14:05.242339",
+    "generated_at": "2026-02-12T19:13:48.495655",
     "overview": {
       "score_5d": 55.2,
       "classification": "\u2b50 BUENA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Energy",
       "sector_momentum": "improving",
-      "current_price": 47.24,
-      "price_target": 49.21,
-      "upside_percent": 4.18,
+      "current_price": 45.49,
+      "price_target": 48.47,
+      "upside_percent": 6.55,
       "tier_boost": 0,
       "entry_bonus": 1
     },
@@ -858,7 +863,7 @@
       "growth_rating": "N/A",
       "health_rating": "N/A",
       "strengths": [
-        "FCF Yield 6.5% - fuerte generaci\u00f3n de caja"
+        "FCF Yield 6.8% - fuerte generaci\u00f3n de caja"
       ],
       "concerns": [
         "ROE 6.0% - rentabilidad baja",
@@ -893,7 +898,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 88.97619047619048,
         "insiders_score": 70,
-        "sector_score": 44.94,
+        "sector_score": 44.48,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -903,16 +908,16 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSEN",
-        "current_price": 47.24,
-        "price_target": 49.21,
-        "upside_percent": 4.18,
-        "analyst_target": 49.0584,
-        "analyst_upside": 3.849280270956812,
+        "current_price": 45.49,
+        "price_target": 48.47,
+        "upside_percent": 6.55,
+        "analyst_target": 48.4984,
+        "analyst_upside": 6.613321609144851,
         "num_analysts": 25,
         "fundamental_score": 20.0,
-        "pe_ratio": 34.735294,
+        "pe_ratio": 33.448532,
         "peg_ratio": null,
-        "fcf_yield": 6.517055753455714,
+        "fcf_yield": 6.76776665519679,
         "roe": 0.05955,
         "revenue_growth": -0.077,
         "entry_score": 50.0,
@@ -941,16 +946,16 @@
   },
   "CAT": {
     "ticker": "CAT",
-    "generated_at": "2026-02-11T19:14:05.243697",
+    "generated_at": "2026-02-12T19:13:48.496966",
     "overview": {
       "score_5d": 54.6,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Industrials",
       "sector_momentum": "stable",
-      "current_price": 769.235,
-      "price_target": 562.08,
-      "upside_percent": -26.93,
+      "current_price": 760.09,
+      "price_target": 559.07,
+      "upside_percent": -26.45,
       "tier_boost": 0,
       "entry_bonus": 5
     },
@@ -996,7 +1001,7 @@
         "Pr\u00f3ximo earnings en 81 d\u00edas"
       ]
     },
-    "thesis_narrative": "CAT representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 54.6/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-27% desde niveles actuales). \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
+    "thesis_narrative": "CAT representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 54.6/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-26% desde niveles actuales). \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
     "rating": {
       "technical": 5,
       "fundamental": 2,
@@ -1010,7 +1015,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 90.40625,
         "insiders_score": 50,
-        "sector_score": 60.2,
+        "sector_score": 58.98,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -1020,16 +1025,16 @@
         "sector_momentum": "stable",
         "tier_boost": 0,
         "dj_ticker": "DJUSIG",
-        "current_price": 769.235,
-        "price_target": 562.08,
-        "upside_percent": -26.93,
+        "current_price": 760.09,
+        "price_target": 559.07,
+        "upside_percent": -26.45,
         "analyst_target": 692.3204,
-        "analyst_upside": -9.998843006363478,
+        "analyst_upside": -8.915996789853843,
         "num_analysts": 26,
         "fundamental_score": 35.0,
-        "pe_ratio": 40.960327,
+        "pe_ratio": 40.365906,
         "peg_ratio": null,
-        "fcf_yield": 1.5282194638099786,
+        "fcf_yield": 1.5466061025572455,
         "roe": 0.43526,
         "revenue_growth": 0.18,
         "entry_score": 100.0,
@@ -1058,22 +1063,22 @@
   },
   "APTV": {
     "ticker": "APTV",
-    "generated_at": "2026-02-11T19:14:05.244980",
+    "generated_at": "2026-02-12T19:13:48.498225",
     "overview": {
       "score_5d": 54.4,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Consumer Cyclical",
-      "sector_momentum": "improving",
-      "current_price": 83.01,
-      "price_target": 96.34,
-      "upside_percent": 16.06,
+      "sector_momentum": "declining",
+      "current_price": 82.6,
+      "price_target": 96.2,
+      "upside_percent": 16.47,
       "tier_boost": 0,
       "entry_bonus": 5
     },
     "technical": {
       "vcp_score": 89.65789473684211,
-      "entry_score": 90.0,
+      "entry_score": 80.0,
       "strengths": [
         "Patr\u00f3n VCP de calidad excepcional",
         "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)",
@@ -1099,7 +1104,7 @@
       "health_rating": "N/A",
       "strengths": [
         "FCF Yield 7.3% - fuerte generaci\u00f3n de caja",
-        "16 analistas con upside medio de +22%"
+        "16 analistas con upside medio de +23%"
       ],
       "concerns": [
         "ROE 1.9% - rentabilidad baja"
@@ -1107,7 +1112,7 @@
     },
     "catalysts": {
       "sector": [
-        "Sector Consumer Cyclical con momentum mejorando"
+        "\u26a0\ufe0f Sector Consumer Cyclical con momentum declinando"
       ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
@@ -1117,7 +1122,7 @@
         "Pr\u00f3ximo earnings en 81 d\u00edas"
       ]
     },
-    "thesis_narrative": "APTV representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 54.4/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Consumer Cyclical muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
+    "thesis_narrative": "APTV representa una oportunidad de **momentum t\u00e9cnico** con score 5D moderado de 54.4/100. El patr\u00f3n VCP es de calidad excepcional (90/100) y muestra se\u00f1al de compra activada. El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Consumer Cyclical est\u00e1 en decline, lo cual puede ser un viento en contra. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad.",
     "rating": {
       "technical": 5,
       "fundamental": 2,
@@ -1131,29 +1136,29 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 89.65789473684211,
         "insiders_score": 50,
-        "sector_score": 63.52,
+        "sector_score": 64.85,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
         "next_earnings": "2026-04-30",
         "days_to_earnings": 81.0,
         "sector_name": "Consumer Cyclical",
-        "sector_momentum": "improving",
+        "sector_momentum": "declining",
         "tier_boost": 0,
         "dj_ticker": "DJUSGT",
-        "current_price": 83.01,
-        "price_target": 96.34,
-        "upside_percent": 16.06,
+        "current_price": 82.6,
+        "price_target": 96.2,
+        "upside_percent": 16.47,
         "analyst_target": 101.25,
-        "analyst_upside": 21.973256234188643,
+        "analyst_upside": 22.57869249394675,
         "num_analysts": 16,
         "fundamental_score": 25.0,
-        "pe_ratio": 110.68,
+        "pe_ratio": 110.13333,
         "peg_ratio": null,
-        "fcf_yield": 7.2518698234108,
+        "fcf_yield": 7.28786655094177,
         "roe": 0.01948,
         "revenue_growth": 0.05,
-        "entry_score": 90.0,
+        "entry_score": 80.0,
         "entry_bonus": 5,
         "super_score_5d": 54.4
       },
@@ -1177,133 +1182,18 @@
       }
     }
   },
-  "IEX": {
-    "ticker": "IEX",
-    "generated_at": "2026-02-11T19:14:05.246261",
-    "overview": {
-      "score_5d": 54.4,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Industrials",
-      "sector_momentum": "stable",
-      "current_price": 212.04,
-      "price_target": 180.37,
-      "upside_percent": -14.93,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 72.89473684210526,
-      "entry_score": 80.0,
-      "strengths": [
-        "Buen patr\u00f3n VCP",
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)",
-        "Patr\u00f3n maduro (19 contracciones)"
-      ],
-      "concerns": [],
-      "signals": [
-        "\ud83d\udfe2 Setup t\u00e9cnico s\u00f3lido",
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ],
-      "stage": "Stage Unknown",
-      "ready_to_buy": false,
-      "breakout_potential": 100.0,
-      "num_contractions": 19
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50\u2b50 Moderada",
-      "growth_rating": "\u2b50\u2b50 Lento",
-      "health_rating": "N/A",
-      "strengths": [
-        "FCF Yield 3.5% - buena caja"
-      ],
-      "concerns": []
-    },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "Compras de insiders s\u00f3lidas (score 70)"
-      ],
-      "earnings": [
-        "Pr\u00f3ximo earnings en 81 d\u00edas"
-      ]
-    },
-    "thesis_narrative": "IEX representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 54.4/100. Presenta un s\u00f3lido patr\u00f3n VCP (73/100). El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-15% desde niveles actuales). \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 4,
-      "fundamental": 3,
-      "risk_reward": 2,
-      "overall": 3.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "IEX",
-        "super_score_4d": 49.4,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 72.89473684210526,
-        "insiders_score": 70,
-        "sector_score": 60.2,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2026-04-30",
-        "days_to_earnings": 81.0,
-        "sector_name": "Industrials",
-        "sector_momentum": "stable",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSIG",
-        "current_price": 212.04,
-        "price_target": 180.37,
-        "upside_percent": -14.93,
-        "analyst_target": 223.53847,
-        "analyst_upside": 5.422783437087331,
-        "num_analysts": 13,
-        "fundamental_score": 40.0,
-        "pe_ratio": 33.028034,
-        "peg_ratio": null,
-        "fcf_yield": 3.5130792086498817,
-        "roe": 0.1234,
-        "revenue_growth": 0.042,
-        "entry_score": 80.0,
-        "entry_bonus": 5,
-        "super_score_5d": 54.4
-      },
-      "vcp": {
-        "ticker": "IEX",
-        "precio": 185.4199981689453,
-        "vcp_score": 72.89473684210526,
-        "calidad_patron": "Excellent",
-        "num_contracciones": 19,
-        "contracciones": "10.1% \u2192 6.8% \u2192 5.0% \u2192 5.9% \u2192 4.9% \u2192 5.4% \u2192 12.8% \u2192 4.6% \u2192 3.6% \u2192 15.6% \u2192 4.8% \u2192 10.9% \u2192 3.9% \u2192 18.3% \u2192 9.8% \u2192 6.2% \u2192 3.2% \u2192 6.8% \u2192 4.2%",
-        "profundidad_base": 18.277741018419768,
-        "etapa_analisis": "Stage Unknown",
-        "trend_score": 25.0,
-        "volumen_score": 76.97368421052632,
-        "breakout_potential": 100.0,
-        "listo_comprar": false,
-        "sector": "Industrials",
-        "market_cap": 14086488064,
-        "razon": "VCP 19 contracciones (Excellent) | Base: 18.3% | Stage Unknown",
-        "fecha_scan": "2025-07-11 10:31:28"
-      }
-    }
-  },
   "ECL": {
     "ticker": "ECL",
-    "generated_at": "2026-02-11T19:14:05.247605",
+    "generated_at": "2026-02-12T19:13:48.499506",
     "overview": {
       "score_5d": 54.3,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Basic Materials",
       "sector_momentum": "stable",
-      "current_price": 301.36,
-      "price_target": 318.35,
-      "upside_percent": 5.64,
+      "current_price": 304.11,
+      "price_target": 325.19,
+      "upside_percent": 6.93,
       "tier_boost": 3,
       "entry_bonus": 5
     },
@@ -1361,7 +1251,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 79.42857142857143,
         "insiders_score": 50,
-        "sector_score": 77.54,
+        "sector_score": 77.15,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -1371,14 +1261,14 @@
         "sector_momentum": "stable",
         "tier_boost": 3,
         "dj_ticker": "DJUSBS",
-        "current_price": 301.36,
-        "price_target": 318.35,
-        "upside_percent": 5.64,
-        "analyst_target": 305.1905,
-        "analyst_upside": 1.2710711441465294,
+        "current_price": 304.11,
+        "price_target": 325.19,
+        "upside_percent": 6.93,
+        "analyst_target": 315.85715,
+        "analyst_upside": 3.862796356581488,
         "num_analysts": 21,
         "fundamental_score": 43.75,
-        "pe_ratio": 41.3956,
+        "pe_ratio": 41.71605,
         "peg_ratio": null,
         "fcf_yield": null,
         "roe": 0.22516,
@@ -1407,135 +1297,132 @@
       }
     }
   },
-  "MGM": {
-    "ticker": "MGM",
-    "generated_at": "2026-02-11T19:14:05.248878",
+  "IEX": {
+    "ticker": "IEX",
+    "generated_at": "2026-02-12T19:13:48.500819",
     "overview": {
-      "score_5d": 51.9,
+      "score_5d": 52.4,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Consumer Cyclical",
-      "sector_momentum": "improving",
-      "current_price": 36.445,
-      "price_target": 43.97,
-      "upside_percent": 20.66,
+      "sector": "Industrials",
+      "sector_momentum": "stable",
+      "current_price": 205.52,
+      "price_target": 178.31,
+      "upside_percent": -13.24,
       "tier_boost": 0,
       "entry_bonus": 3
     },
     "technical": {
-      "vcp_score": 87.875,
-      "entry_score": 60.0,
+      "vcp_score": 72.89473684210526,
+      "entry_score": 70.0,
       "strengths": [
-        "Patr\u00f3n VCP de calidad excepcional",
+        "Buen patr\u00f3n VCP",
         "Buen momento de entrada",
-        "En Stage 2 (fase de tendencia alcista ideal)",
-        "Patr\u00f3n maduro (20 contracciones)"
+        "Patr\u00f3n maduro (19 contracciones)"
       ],
       "concerns": [],
       "signals": [
-        "\ud83d\udfe2 Setup t\u00e9cnico muy fuerte",
-        "\ud83d\udfe2 Stage 2 confirmado",
-        "\u2705 SE\u00d1AL DE COMPRA activada"
+        "\ud83d\udfe2 Setup t\u00e9cnico s\u00f3lido"
       ],
-      "stage": "Stage 2 Strong",
-      "ready_to_buy": true,
+      "stage": "Stage Unknown",
+      "ready_to_buy": false,
       "breakout_potential": 100.0,
-      "num_contractions": 20
+      "num_contractions": 19
     },
     "fundamental": {
       "valuation_rating": "N/A",
       "profitability_rating": "\u2b50\u2b50\u2b50 Moderada",
-      "growth_rating": "\u2b50\u2b50\u2b50 Moderado",
+      "growth_rating": "\u2b50\u2b50 Lento",
       "health_rating": "N/A",
       "strengths": [
-        "18 analistas con upside medio de +16%"
+        "FCF Yield 3.6% - buena caja"
       ],
       "concerns": []
     },
     "catalysts": {
-      "sector": [
-        "Sector Consumer Cyclical con momentum mejorando"
-      ],
+      "sector": [],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
-      "insiders": [],
+      "insiders": [
+        "Compras de insiders s\u00f3lidas (score 70)"
+      ],
       "earnings": [
-        "Pr\u00f3ximo earnings en 80 d\u00edas"
+        "Pr\u00f3ximo earnings en 81 d\u00edas"
       ]
     },
-    "thesis_narrative": "MGM representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 51.9/100. El patr\u00f3n VCP es de calidad excepcional (88/100) y muestra se\u00f1al de compra activada. El momento de entrada es favorable (60/100). El precio objetivo sugiere un upside de +21%. El sector Consumer Cyclical muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Combinaci\u00f3n interesante de setup t\u00e9cnico y upside fundamental. Adecuada para posiciones swing.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "IEX representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 52.4/100. Presenta un s\u00f3lido patr\u00f3n VCP (73/100). El momento de entrada es favorable (70/100). Los fundamentales sugieren sobrevaloraci\u00f3n (-13% desde niveles actuales). \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 4,
-      "fundamental": 2,
+      "fundamental": 3,
       "risk_reward": 2,
-      "overall": 2.7
+      "overall": 3.0
     },
     "raw_data": {
       "5d": {
-        "ticker": "MGM",
-        "super_score_4d": 48.9,
+        "ticker": "IEX",
+        "super_score_4d": 49.4,
         "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 87.875,
-        "insiders_score": 50,
-        "sector_score": 63.52,
+        "vcp_score": 72.89473684210526,
+        "insiders_score": 70,
+        "sector_score": 58.98,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
-        "next_earnings": "2026-04-29",
-        "days_to_earnings": 80.0,
-        "sector_name": "Consumer Cyclical",
-        "sector_momentum": "improving",
+        "next_earnings": "2026-04-30",
+        "days_to_earnings": 81.0,
+        "sector_name": "Industrials",
+        "sector_momentum": "stable",
         "tier_boost": 0,
-        "dj_ticker": "DJUSGT",
-        "current_price": 36.445,
-        "price_target": 43.97,
-        "upside_percent": 20.66,
-        "analyst_target": 42.38889,
-        "analyst_upside": 16.309205652352876,
-        "num_analysts": 18,
-        "fundamental_score": 25.0,
-        "pe_ratio": 47.95395,
+        "dj_ticker": "DJUSIG",
+        "current_price": 205.52,
+        "price_target": 178.31,
+        "upside_percent": -13.24,
+        "analyst_target": 223.53847,
+        "analyst_upside": 8.767258660957555,
+        "num_analysts": 13,
+        "fundamental_score": 40.0,
+        "pe_ratio": 32.062405,
         "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": 0.1489,
-        "revenue_growth": 0.051,
-        "entry_score": 60.0,
+        "fcf_yield": 3.624529496054173,
+        "roe": 0.1234,
+        "revenue_growth": 0.042,
+        "entry_score": 70.0,
         "entry_bonus": 3,
-        "super_score_5d": 51.9
+        "super_score_5d": 52.4
       },
       "vcp": {
-        "ticker": "MGM",
-        "precio": 38.84000015258789,
-        "vcp_score": 87.875,
+        "ticker": "IEX",
+        "precio": 185.4199981689453,
+        "vcp_score": 72.89473684210526,
         "calidad_patron": "Excellent",
-        "num_contracciones": 20,
-        "contracciones": "24.0% \u2192 14.8% \u2192 5.4% \u2192 7.7% \u2192 4.7% \u2192 16.4% \u2192 7.0% \u2192 5.9% \u2192 5.1% \u2192 12.4% \u2192 10.0% \u2192 4.1% \u2192 3.6% \u2192 27.4% \u2192 24.0% \u2192 15.3% \u2192 6.8% \u2192 9.1% \u2192 12.9% \u2192 4.9%",
-        "profundidad_base": 27.420135545463864,
-        "etapa_analisis": "Stage 2 Strong",
-        "trend_score": 85.0,
-        "volumen_score": 61.875,
+        "num_contracciones": 19,
+        "contracciones": "10.1% \u2192 6.8% \u2192 5.0% \u2192 5.9% \u2192 4.9% \u2192 5.4% \u2192 12.8% \u2192 4.6% \u2192 3.6% \u2192 15.6% \u2192 4.8% \u2192 10.9% \u2192 3.9% \u2192 18.3% \u2192 9.8% \u2192 6.2% \u2192 3.2% \u2192 6.8% \u2192 4.2%",
+        "profundidad_base": 18.277741018419768,
+        "etapa_analisis": "Stage Unknown",
+        "trend_score": 25.0,
+        "volumen_score": 76.97368421052632,
         "breakout_potential": 100.0,
-        "listo_comprar": true,
-        "sector": "Consumer Cyclical",
-        "market_cap": 10892793856,
-        "razon": "VCP 20 contracciones (Excellent) - PATR\u00d3N S\u00d3LIDO | Base: 27.4% | Stage 2 Strong",
+        "listo_comprar": false,
+        "sector": "Industrials",
+        "market_cap": 14086488064,
+        "razon": "VCP 19 contracciones (Excellent) | Base: 18.3% | Stage Unknown",
         "fecha_scan": "2025-07-11 10:31:28"
       }
     }
   },
   "ALLY": {
     "ticker": "ALLY",
-    "generated_at": "2026-02-11T19:14:05.249977",
+    "generated_at": "2026-02-12T19:13:48.501968",
     "overview": {
       "score_5d": 51.3,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Financial Services",
       "sector_momentum": "improving",
-      "current_price": 41.35,
-      "price_target": 49.13,
-      "upside_percent": 18.81,
+      "current_price": 40.605,
+      "price_target": 48.72,
+      "upside_percent": 19.98,
       "tier_boost": 0,
       "entry_bonus": 1
     },
@@ -1555,7 +1442,7 @@
       "health_rating": "N/A",
       "strengths": [
         "Crecimiento de ingresos 12.0% - s\u00f3lido",
-        "17 analistas con upside medio de +28%"
+        "17 analistas con upside medio de +30%"
       ],
       "concerns": [
         "ROE 5.8% - rentabilidad baja"
@@ -1589,7 +1476,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 62.33,
+        "sector_score": 67.29,
         "institutional_score": 61.1368,
         "num_whales": 6,
         "top_whales": "Berkshire Hathaway (Warren Buffett), Berkshire Hathaway (Warren Buffett), Berkshire Hathaway (Warren Buffett)",
@@ -1599,14 +1486,14 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSFI",
-        "current_price": 41.35,
-        "price_target": 49.13,
-        "upside_percent": 18.81,
+        "current_price": 40.605,
+        "price_target": 48.72,
+        "upside_percent": 19.98,
         "analyst_target": 52.76471,
-        "analyst_upside": 27.60510278113664,
+        "analyst_upside": 29.946336658047045,
         "num_analysts": 17,
         "fundamental_score": 37.5,
-        "pe_ratio": 17.447258,
+        "pe_ratio": 17.132912,
         "peg_ratio": null,
         "fcf_yield": null,
         "roe": 0.05796,
@@ -1620,30 +1507,28 @@
   },
   "GPN": {
     "ticker": "GPN",
-    "generated_at": "2026-02-11T19:14:05.251254",
+    "generated_at": "2026-02-12T19:13:48.503222",
     "overview": {
       "score_5d": 50.1,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Industrials",
       "sector_momentum": "stable",
-      "current_price": 72.81,
-      "price_target": 103.34,
-      "upside_percent": 41.93,
+      "current_price": 69.12,
+      "price_target": 101.9,
+      "upside_percent": 47.42,
       "tier_boost": 0,
       "entry_bonus": 0
     },
     "technical": {
       "vcp_score": 92.02380952380952,
-      "entry_score": 10.0,
+      "entry_score": 0.0,
       "strengths": [
         "Patr\u00f3n VCP de calidad excepcional",
         "En Stage 2 (fase de tendencia alcista ideal)",
         "Patr\u00f3n maduro (21 contracciones)"
       ],
-      "concerns": [
-        "Timing de entrada no ideal (lejos de m\u00e1ximos)"
-      ],
+      "concerns": [],
       "signals": [
         "\ud83d\udfe2 Setup t\u00e9cnico muy fuerte",
         "\ud83d\udfe2 Stage 2 confirmado",
@@ -1660,8 +1545,8 @@
       "growth_rating": "\u2b50\u2b50 Lento",
       "health_rating": "N/A",
       "strengths": [
-        "FCF Yield 11.9% - fuerte generaci\u00f3n de caja",
-        "26 analistas con upside medio de +39%"
+        "FCF Yield 12.5% - fuerte generaci\u00f3n de caja",
+        "26 analistas con upside medio de +46%"
       ],
       "concerns": [
         "ROE 7.2% - rentabilidad baja"
@@ -1677,7 +1562,7 @@
         "Pr\u00f3ximo earnings en 10 d\u00edas"
       ]
     },
-    "thesis_narrative": "GPN representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 50.1/100. El patr\u00f3n VCP es de calidad excepcional (92/100) y muestra se\u00f1al de compra activada. El timing de entrada no es ideal actualmente (10/100). El precio objetivo sugiere un upside de +42%. \n\n**Conclusi\u00f3n:** Combinaci\u00f3n interesante de setup t\u00e9cnico y upside fundamental. Adecuada para posiciones swing.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
+    "thesis_narrative": "GPN representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 50.1/100. El patr\u00f3n VCP es de calidad excepcional (92/100) y muestra se\u00f1al de compra activada. El precio objetivo sugiere un upside de +47%. \n\n**Conclusi\u00f3n:** Combinaci\u00f3n interesante de setup t\u00e9cnico y upside fundamental. Adecuada para posiciones swing.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
     "rating": {
       "technical": 3,
       "fundamental": 2,
@@ -1691,7 +1576,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 92.02380952380952,
         "insiders_score": 50,
-        "sector_score": 60.2,
+        "sector_score": 58.98,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -1701,19 +1586,19 @@
         "sector_momentum": "stable",
         "tier_boost": 0,
         "dj_ticker": "DJUSIG",
-        "current_price": 72.81,
-        "price_target": 103.34,
-        "upside_percent": 41.93,
-        "analyst_target": 101.03846,
-        "analyst_upside": 38.77003158906742,
+        "current_price": 69.12,
+        "price_target": 101.9,
+        "upside_percent": 47.42,
+        "analyst_target": 100.84615,
+        "analyst_upside": 45.90010127314812,
         "num_analysts": 26,
         "fundamental_score": 25.0,
-        "pe_ratio": 11.048558,
+        "pe_ratio": 10.488619,
         "peg_ratio": null,
-        "fcf_yield": 11.883544088650131,
+        "fcf_yield": 12.517950304098337,
         "roe": 0.07233,
         "revenue_growth": 0.005,
-        "entry_score": 10.0,
+        "entry_score": 0.0,
         "entry_bonus": 0,
         "super_score_5d": 50.1
       },
@@ -1739,16 +1624,16 @@
   },
   "DASH": {
     "ticker": "DASH",
-    "generated_at": "2026-02-11T19:14:05.252580",
+    "generated_at": "2026-02-12T19:13:48.504522",
     "overview": {
       "score_5d": 48.9,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Consumer Cyclical",
-      "sector_momentum": "improving",
-      "current_price": 177.28,
-      "price_target": 248.68,
-      "upside_percent": 40.28,
+      "sector_momentum": "declining",
+      "current_price": 164.21,
+      "price_target": 240.51,
+      "upside_percent": 46.46,
       "tier_boost": 0,
       "entry_bonus": 0
     },
@@ -1777,13 +1662,13 @@
       "health_rating": "N/A",
       "strengths": [
         "Crecimiento de ingresos 27.3% - muy fuerte",
-        "42 analistas con upside medio de +56%"
+        "42 analistas con upside medio de +68%"
       ],
       "concerns": []
     },
     "catalysts": {
       "sector": [
-        "Sector Consumer Cyclical con momentum mejorando"
+        "\u26a0\ufe0f Sector Consumer Cyclical con momentum declinando"
       ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
@@ -1793,7 +1678,7 @@
         "Pr\u00f3ximo earnings en 10 d\u00edas"
       ]
     },
-    "thesis_narrative": "DASH representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 48.9/100. El patr\u00f3n VCP es de calidad excepcional (88/100) y muestra se\u00f1al de compra activada. El precio objetivo sugiere un upside de +40%. El sector Consumer Cyclical muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Combinaci\u00f3n interesante de setup t\u00e9cnico y upside fundamental. Adecuada para posiciones swing.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
+    "thesis_narrative": "DASH representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 48.9/100. El patr\u00f3n VCP es de calidad excepcional (88/100) y muestra se\u00f1al de compra activada. El precio objetivo sugiere un upside de +46%. El sector Consumer Cyclical est\u00e1 en decline, lo cual puede ser un viento en contra. \n\n**Conclusi\u00f3n:** Combinaci\u00f3n interesante de setup t\u00e9cnico y upside fundamental. Adecuada para posiciones swing.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
     "rating": {
       "technical": 3,
       "fundamental": 3,
@@ -1807,26 +1692,26 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 87.91666666666667,
         "insiders_score": 50,
-        "sector_score": 63.52,
+        "sector_score": 64.85,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
         "next_earnings": "2026-02-18",
         "days_to_earnings": 10.0,
         "sector_name": "Consumer Cyclical",
-        "sector_momentum": "improving",
+        "sector_momentum": "declining",
         "tier_boost": 0,
         "dj_ticker": "DJUSGT",
-        "current_price": 177.28,
-        "price_target": 248.68,
-        "upside_percent": 40.28,
+        "current_price": 164.21,
+        "price_target": 240.51,
+        "upside_percent": 46.46,
         "analyst_target": 275.75952,
-        "analyst_upside": 55.55027075812276,
+        "analyst_upside": 67.93101516351014,
         "num_analysts": 42,
         "fundamental_score": 50.0,
-        "pe_ratio": 89.08543,
+        "pe_ratio": 82.93435,
         "peg_ratio": null,
-        "fcf_yield": -2.376896353755844,
+        "fcf_yield": -2.56608102038362,
         "roe": 0.100430004,
         "revenue_growth": 0.273,
         "entry_score": 0.0,
@@ -1853,18 +1738,136 @@
       }
     }
   },
+  "MGM": {
+    "ticker": "MGM",
+    "generated_at": "2026-02-12T19:13:48.505794",
+    "overview": {
+      "score_5d": 48.9,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Consumer Cyclical",
+      "sector_momentum": "declining",
+      "current_price": 33.99,
+      "price_target": 42.55,
+      "upside_percent": 25.19,
+      "tier_boost": 0,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 87.875,
+      "entry_score": 20.0,
+      "strengths": [
+        "Patr\u00f3n VCP de calidad excepcional",
+        "En Stage 2 (fase de tendencia alcista ideal)",
+        "Patr\u00f3n maduro (20 contracciones)"
+      ],
+      "concerns": [
+        "Timing de entrada no ideal (lejos de m\u00e1ximos)"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Setup t\u00e9cnico muy fuerte",
+        "\ud83d\udfe2 Stage 2 confirmado",
+        "\u2705 SE\u00d1AL DE COMPRA activada"
+      ],
+      "stage": "Stage 2 Strong",
+      "ready_to_buy": true,
+      "breakout_potential": 100.0,
+      "num_contractions": 20
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50\u2b50 Moderada",
+      "growth_rating": "\u2b50\u2b50\u2b50 Moderado",
+      "health_rating": "N/A",
+      "strengths": [
+        "18 analistas con upside medio de +25%"
+      ],
+      "concerns": []
+    },
+    "catalysts": {
+      "sector": [
+        "\u26a0\ufe0f Sector Consumer Cyclical con momentum declinando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [],
+      "earnings": [
+        "Pr\u00f3ximo earnings en 80 d\u00edas"
+      ]
+    },
+    "thesis_narrative": "MGM representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 48.9/100. El patr\u00f3n VCP es de calidad excepcional (88/100) y muestra se\u00f1al de compra activada. El timing de entrada no es ideal actualmente (20/100). El precio objetivo sugiere un upside de +25%. El sector Consumer Cyclical est\u00e1 en decline, lo cual puede ser un viento en contra. \n\n**Conclusi\u00f3n:** Combinaci\u00f3n interesante de setup t\u00e9cnico y upside fundamental. Adecuada para posiciones swing.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 2,
+      "risk_reward": 2,
+      "overall": 2.3
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "MGM",
+        "super_score_4d": 48.9,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 87.875,
+        "insiders_score": 50,
+        "sector_score": 64.85,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2026-04-29",
+        "days_to_earnings": 80.0,
+        "sector_name": "Consumer Cyclical",
+        "sector_momentum": "declining",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSGT",
+        "current_price": 33.99,
+        "price_target": 42.55,
+        "upside_percent": 25.19,
+        "analyst_target": 42.61111,
+        "analyst_upside": 25.363665784054117,
+        "num_analysts": 18,
+        "fundamental_score": 25.0,
+        "pe_ratio": 44.723686,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": 0.1489,
+        "revenue_growth": 0.051,
+        "entry_score": 20.0,
+        "entry_bonus": 0,
+        "super_score_5d": 48.9
+      },
+      "vcp": {
+        "ticker": "MGM",
+        "precio": 38.84000015258789,
+        "vcp_score": 87.875,
+        "calidad_patron": "Excellent",
+        "num_contracciones": 20,
+        "contracciones": "24.0% \u2192 14.8% \u2192 5.4% \u2192 7.7% \u2192 4.7% \u2192 16.4% \u2192 7.0% \u2192 5.9% \u2192 5.1% \u2192 12.4% \u2192 10.0% \u2192 4.1% \u2192 3.6% \u2192 27.4% \u2192 24.0% \u2192 15.3% \u2192 6.8% \u2192 9.1% \u2192 12.9% \u2192 4.9%",
+        "profundidad_base": 27.420135545463864,
+        "etapa_analisis": "Stage 2 Strong",
+        "trend_score": 85.0,
+        "volumen_score": 61.875,
+        "breakout_potential": 100.0,
+        "listo_comprar": true,
+        "sector": "Consumer Cyclical",
+        "market_cap": 10892793856,
+        "razon": "VCP 20 contracciones (Excellent) - PATR\u00d3N S\u00d3LIDO | Base: 27.4% | Stage 2 Strong",
+        "fecha_scan": "2025-07-11 10:31:28"
+      }
+    }
+  },
   "ALIT": {
     "ticker": "ALIT",
-    "generated_at": "2026-02-11T19:14:05.253710",
+    "generated_at": "2026-02-12T19:13:48.506935",
     "overview": {
       "score_5d": 48.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": 1.41,
-      "price_target": 2.98,
-      "upside_percent": 111.58,
+      "sector_momentum": "improving",
+      "current_price": 1.345,
+      "price_target": 2.95,
+      "upside_percent": 119.21,
       "tier_boost": 3,
       "entry_bonus": 0
     },
@@ -1883,7 +1886,7 @@
       "growth_rating": "N/A",
       "health_rating": "N/A",
       "strengths": [
-        "FCF Yield 35.6% - fuerte generaci\u00f3n de caja"
+        "FCF Yield 37.3% - fuerte generaci\u00f3n de caja"
       ],
       "concerns": [
         "ROE -66.9% - rentabilidad baja",
@@ -1891,7 +1894,9 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "\ud83d\udc0b 4 whale investors: Appaloosa Management (David Tepper), Appaloosa Management (David Tepper), Appaloosa Management (David Tepper)"
       ],
@@ -1902,12 +1907,12 @@
         "Pr\u00f3ximo earnings en 11 d\u00edas"
       ]
     },
-    "thesis_narrative": "ALIT representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 48.0/100. El precio objetivo sugiere un upside de +112%. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
+    "thesis_narrative": "ALIT representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 48.0/100. El precio objetivo sugiere un upside de +119%. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
     "rating": {
       "technical": 1,
       "fundamental": 2,
-      "risk_reward": 4,
-      "overall": 2.3
+      "risk_reward": 5,
+      "overall": 2.7
     },
     "raw_data": {
       "5d": {
@@ -1916,26 +1921,26 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 40.078831446,
         "num_whales": 4,
         "top_whales": "Appaloosa Management (David Tepper), Appaloosa Management (David Tepper), Appaloosa Management (David Tepper)",
         "next_earnings": "2026-02-19",
         "days_to_earnings": 11.0,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
-        "current_price": 1.41,
-        "price_target": 2.98,
-        "upside_percent": 111.58,
+        "current_price": 1.345,
+        "price_target": 2.95,
+        "upside_percent": 119.21,
         "analyst_target": 4.41667,
-        "analyst_upside": 213.23900709219865,
+        "analyst_upside": 228.37695167286248,
         "num_analysts": 6,
         "fundamental_score": 20.0,
         "pe_ratio": null,
         "peg_ratio": null,
-        "fcf_yield": 35.57133952433654,
+        "fcf_yield": 37.29040088577313,
         "roe": -0.66856,
         "revenue_growth": -0.04,
         "entry_score": 0.0,
@@ -1947,16 +1952,16 @@
   },
   "PODD": {
     "ticker": "PODD",
-    "generated_at": "2026-02-11T19:14:05.254961",
+    "generated_at": "2026-02-12T19:13:48.508205",
     "overview": {
       "score_5d": 43.6,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Healthcare",
       "sector_momentum": "improving",
-      "current_price": 253.05,
-      "price_target": 224.21,
-      "upside_percent": -11.4,
+      "current_price": 242.16,
+      "price_target": 220.46,
+      "upside_percent": -8.96,
       "tier_boost": 0,
       "entry_bonus": 0
     },
@@ -1985,7 +1990,7 @@
       "strengths": [
         "ROE 19.7% - buena rentabilidad",
         "Crecimiento de ingresos 29.9% - muy fuerte",
-        "25 analistas con upside medio de +46%"
+        "25 analistas con upside medio de +53%"
       ],
       "concerns": []
     },
@@ -2001,7 +2006,7 @@
         "Pr\u00f3ximo earnings en 10 d\u00edas"
       ]
     },
-    "thesis_narrative": "PODD representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 43.6/100. Presenta un s\u00f3lido patr\u00f3n VCP (70/100). El timing de entrada no es ideal actualmente (10/100). Los fundamentales sugieren sobrevaloraci\u00f3n (-11% desde niveles actuales). El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "PODD representa una oportunidad de **setup t\u00e9cnico** con score 5D moderado de 43.6/100. Presenta un s\u00f3lido patr\u00f3n VCP (70/100). El timing de entrada no es ideal actualmente (10/100). Los fundamentales sugieren sobrevaloraci\u00f3n (-9% desde niveles actuales). El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 3,
       "fundamental": 3,
@@ -2015,7 +2020,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 70.16666666666667,
         "insiders_score": 50,
-        "sector_score": 55.8,
+        "sector_score": 55.16,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -2025,16 +2030,16 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSHC",
-        "current_price": 253.05,
-        "price_target": 224.21,
-        "upside_percent": -11.4,
+        "current_price": 242.16,
+        "price_target": 220.46,
+        "upside_percent": -8.96,
         "analyst_target": 369.64,
-        "analyst_upside": 46.07389843904366,
+        "analyst_upside": 52.6428807400066,
         "num_analysts": 25,
         "fundamental_score": 50.0,
-        "pe_ratio": 73.77551,
+        "pe_ratio": 70.39535,
         "peg_ratio": null,
-        "fcf_yield": 1.208889753775493,
+        "fcf_yield": 1.2632539128543825,
         "roe": 0.19679001,
         "revenue_growth": 0.299,
         "entry_score": 10.0,
@@ -2063,16 +2068,16 @@
   },
   "HYMC": {
     "ticker": "HYMC",
-    "generated_at": "2026-02-11T19:14:05.256062",
+    "generated_at": "2026-02-12T19:13:48.509293",
     "overview": {
       "score_5d": 41.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Basic Materials",
       "sector_momentum": "stable",
-      "current_price": 35.208,
-      "price_target": 38.73,
-      "upside_percent": 10.0,
+      "current_price": 34.75,
+      "price_target": 38.23,
+      "upside_percent": 10.01,
       "tier_boost": 3,
       "entry_bonus": 3
     },
@@ -2124,7 +2129,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 77.54,
+        "sector_score": 77.15,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -2134,16 +2139,16 @@
         "sector_momentum": "stable",
         "tier_boost": 3,
         "dj_ticker": "DJUSBS",
-        "current_price": 35.208,
-        "price_target": 38.73,
-        "upside_percent": 10.0,
+        "current_price": 34.75,
+        "price_target": 38.23,
+        "upside_percent": 10.01,
         "analyst_target": null,
         "analyst_upside": null,
         "num_analysts": 0,
         "fundamental_score": 12.5,
         "pe_ratio": null,
         "peg_ratio": null,
-        "fcf_yield": -1.1479837475484045,
+        "fcf_yield": -1.1631140491250835,
         "roe": -3.7460501,
         "revenue_growth": null,
         "entry_score": 60.0,
@@ -2153,18 +2158,399 @@
       "vcp": null
     }
   },
-  "NWFL": {
-    "ticker": "NWFL",
-    "generated_at": "2026-02-11T19:14:05.257177",
+  "ALMS": {
+    "ticker": "ALMS",
+    "generated_at": "2026-02-12T19:13:48.510456",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Healthcare",
+      "sector_momentum": "improving",
+      "current_price": 26.77,
+      "price_target": 33.35,
+      "upside_percent": 24.58,
+      "tier_boost": 0,
+      "entry_bonus": 5
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 90.0,
+      "strengths": [
+        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Timing ideal para entrada"
+      ]
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE -66.9% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Healthcare con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "ALMS representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +25%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 2,
+      "risk_reward": 2,
+      "overall": 2.3
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "ALMS",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 55.16,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2025-11-13",
+        "days_to_earnings": -87.0,
+        "sector_name": "Healthcare",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSHC",
+        "current_price": 26.77,
+        "price_target": 33.35,
+        "upside_percent": 24.58,
+        "analyst_target": 37.25,
+        "analyst_upside": 39.14830033619723,
+        "num_analysts": 8,
+        "fundamental_score": 25.0,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": -5.715024721666985,
+        "roe": -0.66876,
+        "revenue_growth": null,
+        "entry_score": 90.0,
+        "entry_bonus": 5,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "ISBA": {
+    "ticker": "ISBA",
+    "generated_at": "2026-02-12T19:13:48.511572",
     "overview": {
       "score_5d": 40.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Financial Services",
       "sector_momentum": "improving",
-      "current_price": 31.33,
-      "price_target": 33.73,
-      "upside_percent": 7.66,
+      "current_price": 53.175,
+      "price_target": 58.5,
+      "upside_percent": 10.02,
+      "tier_boost": 0,
+      "entry_bonus": 5
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 90.0,
+      "strengths": [
+        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Timing ideal para entrada"
+      ]
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "\u2b50\u2b50\u2b50\u2b50 S\u00f3lido",
+      "health_rating": "N/A",
+      "strengths": [
+        "Crecimiento de ingresos 14.3% - s\u00f3lido"
+      ],
+      "concerns": [
+        "ROE 8.6% - rentabilidad baja"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Financial Services con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "ISBA representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 2,
+      "risk_reward": 2,
+      "overall": 2.3
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "ISBA",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 67.29,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": null,
+        "days_to_earnings": null,
+        "sector_name": "Financial Services",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSFI",
+        "current_price": 53.175,
+        "price_target": 58.5,
+        "upside_percent": 10.02,
+        "analyst_target": 54.0,
+        "analyst_upside": 1.5514809590973178,
+        "num_analysts": 1,
+        "fundamental_score": 37.5,
+        "pe_ratio": 20.771484,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": 0.08563,
+        "revenue_growth": 0.143,
+        "entry_score": 90.0,
+        "entry_bonus": 5,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "CMTV": {
+    "ticker": "CMTV",
+    "generated_at": "2026-02-12T19:13:48.512692",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Financial Services",
+      "sector_momentum": "improving",
+      "current_price": 32.5,
+      "price_target": 37.02,
+      "upside_percent": 13.91,
+      "tier_boost": 0,
+      "entry_bonus": 5
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 90.0,
+      "strengths": [
+        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Timing ideal para entrada"
+      ]
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50\u2b50\u2b50 Buena",
+      "growth_rating": "\u2b50\u2b50\u2b50\u2b50 S\u00f3lido",
+      "health_rating": "N/A",
+      "strengths": [
+        "ROE 16.0% - buena rentabilidad",
+        "Crecimiento de ingresos 14.0% - s\u00f3lido"
+      ],
+      "concerns": []
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Financial Services con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "CMTV representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 4,
+      "risk_reward": 2,
+      "overall": 3.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "CMTV",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 67.29,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": null,
+        "days_to_earnings": null,
+        "sector_name": "Financial Services",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSFI",
+        "current_price": 32.5,
+        "price_target": 37.02,
+        "upside_percent": 13.91,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": 75.0,
+        "pe_ratio": 10.726072,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": 0.16028,
+        "revenue_growth": 0.14,
+        "entry_score": 90.0,
+        "entry_bonus": 5,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "AVO": {
+    "ticker": "AVO",
+    "generated_at": "2026-02-12T19:13:48.513793",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Consumer Defensive",
+      "sector_momentum": "improving",
+      "current_price": 13.885,
+      "price_target": 12.76,
+      "upside_percent": -8.07,
+      "tier_boost": 0,
+      "entry_bonus": 5
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 90.0,
+      "strengths": [
+        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Timing ideal para entrada"
+      ]
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [
+        "FCF Yield 3.5% - buena caja"
+      ],
+      "concerns": [
+        "ROE 6.8% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Consumer Defensive con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": [
+        "Pr\u00f3ximo earnings en 29 d\u00edas"
+      ]
+    },
+    "thesis_narrative": "AVO representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-8% desde niveles actuales). El sector Consumer Defensive muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 2,
+      "risk_reward": 2,
+      "overall": 2.3
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "AVO",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 17.99,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2026-03-09",
+        "days_to_earnings": 29.0,
+        "sector_name": "Consumer Defensive",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSFB",
+        "current_price": 13.885,
+        "price_target": 12.76,
+        "upside_percent": -8.07,
+        "analyst_target": 17.33333,
+        "analyst_upside": 24.8349297803385,
+        "num_analysts": 3,
+        "fundamental_score": 25.0,
+        "pe_ratio": 26.198114,
+        "peg_ratio": null,
+        "fcf_yield": 3.497344815815832,
+        "roe": 0.06767,
+        "revenue_growth": -0.1,
+        "entry_score": 90.0,
+        "entry_bonus": 5,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "NWFL": {
+    "ticker": "NWFL",
+    "generated_at": "2026-02-12T19:13:48.514909",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Financial Services",
+      "sector_momentum": "improving",
+      "current_price": 31.656,
+      "price_target": 33.91,
+      "upside_percent": 7.12,
       "tier_boost": 0,
       "entry_bonus": 5
     },
@@ -2219,7 +2605,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 62.33,
+        "sector_score": 67.29,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -2229,14 +2615,14 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSFI",
-        "current_price": 31.33,
-        "price_target": 33.73,
-        "upside_percent": 7.66,
+        "current_price": 31.656,
+        "price_target": 33.91,
+        "upside_percent": 7.12,
         "analyst_target": 33.0,
-        "analyst_upside": 5.330354293009898,
+        "analyst_upside": 4.245640636846093,
         "num_analysts": 1,
         "fundamental_score": 50.0,
-        "pe_ratio": 10.408638,
+        "pe_ratio": 10.516944,
         "peg_ratio": null,
         "fcf_yield": null,
         "roe": 0.12182,
@@ -2250,16 +2636,16 @@
   },
   "SRZN": {
     "ticker": "SRZN",
-    "generated_at": "2026-02-11T19:14:05.258285",
+    "generated_at": "2026-02-12T19:13:48.516012",
     "overview": {
       "score_5d": 40.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Healthcare",
       "sector_momentum": "improving",
-      "current_price": 24.78,
-      "price_target": 31.96,
-      "upside_percent": 28.99,
+      "current_price": 24.553,
+      "price_target": 31.84,
+      "upside_percent": 29.67,
       "tier_boost": 0,
       "entry_bonus": 5
     },
@@ -2299,7 +2685,7 @@
       ],
       "earnings": []
     },
-    "thesis_narrative": "SRZN representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +29%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "SRZN representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +30%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 3,
       "fundamental": 1,
@@ -2313,7 +2699,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 55.8,
+        "sector_score": 55.16,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -2323,16 +2709,16 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSHC",
-        "current_price": 24.78,
-        "price_target": 31.96,
-        "upside_percent": 28.99,
+        "current_price": 24.553,
+        "price_target": 31.84,
+        "upside_percent": 29.67,
         "analyst_target": 36.66667,
-        "analyst_upside": 47.96880548829703,
+        "analyst_upside": 49.33682238423005,
         "num_analysts": 3,
         "fundamental_score": 16.67,
         "pe_ratio": null,
         "peg_ratio": null,
-        "fcf_yield": -4.180382465853644,
+        "fcf_yield": -4.219031688506552,
         "roe": null,
         "revenue_growth": -0.902,
         "entry_score": 100.0,
@@ -2344,16 +2730,16 @@
   },
   "SPG": {
     "ticker": "SPG",
-    "generated_at": "2026-02-11T19:14:05.259399",
+    "generated_at": "2026-02-12T19:13:48.517115",
     "overview": {
       "score_5d": 40.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Real Estate",
       "sector_momentum": "stable",
-      "current_price": 195.4,
-      "price_target": 208.07,
-      "upside_percent": 6.48,
+      "current_price": 193.41,
+      "price_target": 206.97,
+      "upside_percent": 7.01,
       "tier_boost": 0,
       "entry_bonus": 5
     },
@@ -2405,7 +2791,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 34.41,
+        "sector_score": 30.97,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -2415,14 +2801,14 @@
         "sector_momentum": "stable",
         "tier_boost": 0,
         "dj_ticker": "DJUSRE",
-        "current_price": 195.4,
-        "price_target": 208.07,
-        "upside_percent": 6.48,
+        "current_price": 193.41,
+        "price_target": 206.97,
+        "upside_percent": 7.01,
         "analyst_target": 201.2,
-        "analyst_upside": 2.9682702149437024,
+        "analyst_upside": 4.027713148234313,
         "num_analysts": 20,
         "fundamental_score": 43.75,
-        "pe_ratio": 13.789696,
+        "pe_ratio": 13.639633,
         "peg_ratio": null,
         "fcf_yield": null,
         "roe": 1.04109,
@@ -2434,481 +2820,9 @@
       "vcp": null
     }
   },
-  "ISBA": {
-    "ticker": "ISBA",
-    "generated_at": "2026-02-11T19:14:05.260508",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Financial Services",
-      "sector_momentum": "improving",
-      "current_price": 52.755,
-      "price_target": 58.25,
-      "upside_percent": 10.43,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 80.0,
-      "strengths": [
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": [
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ]
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "\u2b50\u2b50\u2b50\u2b50 S\u00f3lido",
-      "health_rating": "N/A",
-      "strengths": [
-        "Crecimiento de ingresos 14.3% - s\u00f3lido"
-      ],
-      "concerns": [
-        "ROE 8.6% - rentabilidad baja"
-      ]
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Financial Services con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "ISBA representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 3,
-      "fundamental": 2,
-      "risk_reward": 2,
-      "overall": 2.3
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "ISBA",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 62.33,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
-        "sector_name": "Financial Services",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSFI",
-        "current_price": 52.755,
-        "price_target": 58.25,
-        "upside_percent": 10.43,
-        "analyst_target": 54.0,
-        "analyst_upside": 2.359965880011372,
-        "num_analysts": 1,
-        "fundamental_score": 37.5,
-        "pe_ratio": 20.607422,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": 0.08563,
-        "revenue_growth": 0.143,
-        "entry_score": 80.0,
-        "entry_bonus": 5,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
-  "CBKM": {
-    "ticker": "CBKM",
-    "generated_at": "2026-02-11T19:14:05.261600",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Financial Services",
-      "sector_momentum": "improving",
-      "current_price": 26.4,
-      "price_target": 31.47,
-      "upside_percent": 19.2,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 100.0,
-      "strengths": [
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": [
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ]
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50\u2b50 Moderada",
-      "growth_rating": "\u2b50\u2b50\u2b50\u2b50 S\u00f3lido",
-      "health_rating": "N/A",
-      "strengths": [
-        "Crecimiento de ingresos 16.9% - s\u00f3lido"
-      ],
-      "concerns": []
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Financial Services con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "CBKM representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 3,
-      "fundamental": 4,
-      "risk_reward": 2,
-      "overall": 3.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "CBKM",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 62.33,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
-        "sector_name": "Financial Services",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSFI",
-        "current_price": 26.4,
-        "price_target": 31.47,
-        "upside_percent": 19.2,
-        "analyst_target": null,
-        "analyst_upside": null,
-        "num_analysts": 0,
-        "fundamental_score": 62.5,
-        "pe_ratio": 8.712872,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": 0.122480005,
-        "revenue_growth": 0.169,
-        "entry_score": 100.0,
-        "entry_bonus": 5,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
-  "AVO": {
-    "ticker": "AVO",
-    "generated_at": "2026-02-11T19:14:05.262732",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Consumer Defensive",
-      "sector_momentum": "improving",
-      "current_price": 13.64,
-      "price_target": 12.68,
-      "upside_percent": -7.01,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 90.0,
-      "strengths": [
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": [
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ]
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [
-        "FCF Yield 3.6% - buena caja"
-      ],
-      "concerns": [
-        "ROE 6.8% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Consumer Defensive con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": [
-        "Pr\u00f3ximo earnings en 29 d\u00edas"
-      ]
-    },
-    "thesis_narrative": "AVO representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. Los fundamentales sugieren sobrevaloraci\u00f3n (-7% desde niveles actuales). El sector Consumer Defensive muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 3,
-      "fundamental": 2,
-      "risk_reward": 2,
-      "overall": 2.3
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "AVO",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 22.03,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2026-03-09",
-        "days_to_earnings": 29.0,
-        "sector_name": "Consumer Defensive",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSFB",
-        "current_price": 13.64,
-        "price_target": 12.68,
-        "upside_percent": -7.01,
-        "analyst_target": 17.33333,
-        "analyst_upside": 27.077199413489737,
-        "num_analysts": 3,
-        "fundamental_score": 25.0,
-        "pe_ratio": 25.735851,
-        "peg_ratio": null,
-        "fcf_yield": 3.560163787404902,
-        "roe": 0.06767,
-        "revenue_growth": -0.1,
-        "entry_score": 90.0,
-        "entry_bonus": 5,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
-  "CMTV": {
-    "ticker": "CMTV",
-    "generated_at": "2026-02-11T19:14:05.263827",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Financial Services",
-      "sector_momentum": "improving",
-      "current_price": 32.47,
-      "price_target": 36.98,
-      "upside_percent": 13.89,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 90.0,
-      "strengths": [
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": [
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ]
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50\u2b50\u2b50 Buena",
-      "growth_rating": "\u2b50\u2b50\u2b50\u2b50 S\u00f3lido",
-      "health_rating": "N/A",
-      "strengths": [
-        "ROE 16.0% - buena rentabilidad",
-        "Crecimiento de ingresos 14.0% - s\u00f3lido"
-      ],
-      "concerns": []
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Financial Services con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "CMTV representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 3,
-      "fundamental": 4,
-      "risk_reward": 2,
-      "overall": 3.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "CMTV",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 62.33,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
-        "sector_name": "Financial Services",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSFI",
-        "current_price": 32.47,
-        "price_target": 36.98,
-        "upside_percent": 13.89,
-        "analyst_target": null,
-        "analyst_upside": null,
-        "num_analysts": 0,
-        "fundamental_score": 75.0,
-        "pe_ratio": 10.716172,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": 0.16028,
-        "revenue_growth": 0.14,
-        "entry_score": 90.0,
-        "entry_bonus": 5,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
-  "BUKS": {
-    "ticker": "BUKS",
-    "generated_at": "2026-02-11T19:14:05.264912",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Industrials",
-      "sector_momentum": "stable",
-      "current_price": 2.98,
-      "price_target": 4.24,
-      "upside_percent": 42.43,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 90.0,
-      "strengths": [
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": [
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ]
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50\u2b50\u2b50\u2b50 Excelente",
-      "growth_rating": "\u2b50\u2b50\u2b50 Moderado",
-      "health_rating": "N/A",
-      "strengths": [
-        "ROE 25.4% - rentabilidad excepcional",
-        "FCF Yield 8.2% - fuerte generaci\u00f3n de caja"
-      ],
-      "concerns": []
-    },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "BUKS representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +42%. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
-    "rating": {
-      "technical": 3,
-      "fundamental": 3,
-      "risk_reward": 3,
-      "overall": 3.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "BUKS",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 60.2,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
-        "sector_name": "Industrials",
-        "sector_momentum": "stable",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSIG",
-        "current_price": 2.98,
-        "price_target": 4.24,
-        "upside_percent": 42.43,
-        "analyst_target": null,
-        "analyst_upside": null,
-        "num_analysts": 0,
-        "fundamental_score": 55.0,
-        "pe_ratio": 11.92,
-        "peg_ratio": null,
-        "fcf_yield": 8.249039267368996,
-        "roe": 0.25355,
-        "revenue_growth": 0.089,
-        "entry_score": 90.0,
-        "entry_bonus": 5,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
   "CCFN": {
     "ticker": "CCFN",
-    "generated_at": "2026-02-11T19:14:05.265994",
+    "generated_at": "2026-02-12T19:13:48.518212",
     "overview": {
       "score_5d": 40.0,
       "classification": "MODERADA",
@@ -2970,7 +2884,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 62.33,
+        "sector_score": 67.29,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -3001,16 +2915,16 @@
   },
   "CR": {
     "ticker": "CR",
-    "generated_at": "2026-02-11T19:14:05.267140",
+    "generated_at": "2026-02-12T19:13:48.519338",
     "overview": {
       "score_5d": 40.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Industrials",
       "sector_momentum": "stable",
-      "current_price": 198.805,
-      "price_target": 209.29,
-      "upside_percent": 5.27,
+      "current_price": 200.99,
+      "price_target": 210.38,
+      "upside_percent": 4.67,
       "tier_boost": 0,
       "entry_bonus": 5
     },
@@ -3061,7 +2975,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 60.2,
+        "sector_score": 58.98,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -3071,16 +2985,16 @@
         "sector_momentum": "stable",
         "tier_boost": 0,
         "dj_ticker": "DJUSIG",
-        "current_price": 198.805,
-        "price_target": 209.29,
-        "upside_percent": 5.27,
+        "current_price": 200.99,
+        "price_target": 210.38,
+        "upside_percent": 4.67,
         "analyst_target": 218.77779,
-        "analyst_upside": 10.046422373682764,
+        "analyst_upside": 8.850087069008406,
         "num_analysts": 9,
         "fundamental_score": 40.0,
-        "pe_ratio": 35.124557,
+        "pe_ratio": 35.5106,
         "peg_ratio": null,
-        "fcf_yield": -6.564204805557987,
+        "fcf_yield": -6.492843878905026,
         "roe": 0.17908001,
         "revenue_growth": 0.068,
         "entry_score": 80.0,
@@ -3090,298 +3004,18 @@
       "vcp": null
     }
   },
-  "SLGL": {
-    "ticker": "SLGL",
-    "generated_at": "2026-02-11T19:14:05.268263",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Healthcare",
-      "sector_momentum": "improving",
-      "current_price": 66.1,
-      "price_target": 91.35,
-      "upside_percent": 38.21,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 80.0,
-      "strengths": [
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": [
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ]
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE -29.6% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Healthcare con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "SLGL representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +38%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
-    "rating": {
-      "technical": 3,
-      "fundamental": 2,
-      "risk_reward": 2,
-      "overall": 2.3
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "SLGL",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 55.8,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2025-11-20",
-        "days_to_earnings": -80.0,
-        "sector_name": "Healthcare",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSHC",
-        "current_price": 66.1,
-        "price_target": 91.35,
-        "upside_percent": 38.21,
-        "analyst_target": 110.0,
-        "analyst_upside": 66.41452344931922,
-        "num_analysts": 1,
-        "fundamental_score": 25.0,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": -0.29591,
-        "revenue_growth": -0.925,
-        "entry_score": 80.0,
-        "entry_bonus": 5,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
-  "ALMS": {
-    "ticker": "ALMS",
-    "generated_at": "2026-02-11T19:14:05.269354",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Healthcare",
-      "sector_momentum": "improving",
-      "current_price": 25.67,
-      "price_target": 32.74,
-      "upside_percent": 27.56,
-      "tier_boost": 0,
-      "entry_bonus": 5
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 90.0,
-      "strengths": [
-        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": [
-        "\ud83d\udfe2 Timing ideal para entrada"
-      ]
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE -66.9% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Healthcare con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "ALMS representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +28%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 3,
-      "fundamental": 2,
-      "risk_reward": 2,
-      "overall": 2.3
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "ALMS",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 55.8,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2025-11-13",
-        "days_to_earnings": -87.0,
-        "sector_name": "Healthcare",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSHC",
-        "current_price": 25.67,
-        "price_target": 32.74,
-        "upside_percent": 27.56,
-        "analyst_target": 37.25,
-        "analyst_upside": 45.11102454226723,
-        "num_analysts": 8,
-        "fundamental_score": 25.0,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": -5.959922434969775,
-        "roe": -0.66876,
-        "revenue_growth": null,
-        "entry_score": 90.0,
-        "entry_bonus": 5,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
-  "ABT": {
-    "ticker": "ABT",
-    "generated_at": "2026-02-11T19:14:05.270472",
-    "overview": {
-      "score_5d": 40.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Healthcare",
-      "sector_momentum": "improving",
-      "current_price": 112.91,
-      "price_target": 128.79,
-      "upside_percent": 14.07,
-      "tier_boost": 0,
-      "entry_bonus": 0
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 10.0,
-      "strengths": [],
-      "concerns": [
-        "Patr\u00f3n VCP moderado",
-        "Timing de entrada no ideal (lejos de m\u00e1ximos)"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50\u2b50 Moderada",
-      "growth_rating": "\u2b50\u2b50 Lento",
-      "health_rating": "N/A",
-      "strengths": [
-        "25 analistas con upside medio de +18%"
-      ],
-      "concerns": []
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Healthcare con momentum mejorando"
-      ],
-      "institutional": [
-        "\ud83d\udc0b 3 whale investors: Bridgewater Associates (Ray Dalio), BlackRock, BlackRock"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 90)"
-      ],
-      "earnings": [
-        "Pr\u00f3ximo earnings en 66 d\u00edas"
-      ]
-    },
-    "thesis_narrative": "ABT representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada no es ideal actualmente (10/100). El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 1,
-      "fundamental": 2,
-      "risk_reward": 2,
-      "overall": 1.7
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "ABT",
-        "super_score_4d": 40.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 90,
-        "sector_score": 55.8,
-        "institutional_score": 30.016092209,
-        "num_whales": 3,
-        "top_whales": "Bridgewater Associates (Ray Dalio), BlackRock, BlackRock",
-        "next_earnings": "2026-04-15",
-        "days_to_earnings": 66.0,
-        "sector_name": "Healthcare",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSHC",
-        "current_price": 112.91,
-        "price_target": 128.79,
-        "upside_percent": 14.07,
-        "analyst_target": 133.3892,
-        "analyst_upside": 18.13763174209546,
-        "num_analysts": 25,
-        "fundamental_score": 33.33,
-        "pe_ratio": 30.352152,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": 0.13158,
-        "revenue_growth": 0.044,
-        "entry_score": 10.0,
-        "entry_bonus": 0,
-        "super_score_5d": 40.0
-      },
-      "vcp": null
-    }
-  },
   "AVBC": {
     "ticker": "AVBC",
-    "generated_at": "2026-02-11T19:14:05.271560",
+    "generated_at": "2026-02-12T19:13:48.520463",
     "overview": {
       "score_5d": 40.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Financial Services",
       "sector_momentum": "improving",
-      "current_price": 18.95,
-      "price_target": 21.43,
-      "upside_percent": 13.06,
+      "current_price": 19.075,
+      "price_target": 21.49,
+      "upside_percent": 12.66,
       "tier_boost": 0,
       "entry_bonus": 5
     },
@@ -3436,7 +3070,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 62.33,
+        "sector_score": 67.29,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -3446,11 +3080,11 @@
         "sector_momentum": "improving",
         "tier_boost": 0,
         "dj_ticker": "DJUSFI",
-        "current_price": 18.95,
-        "price_target": 21.43,
-        "upside_percent": 13.06,
+        "current_price": 19.075,
+        "price_target": 21.49,
+        "upside_percent": 12.66,
         "analyst_target": 22.0,
-        "analyst_upside": 16.094986807387855,
+        "analyst_upside": 15.334207077326356,
         "num_analysts": 1,
         "fundamental_score": 37.5,
         "pe_ratio": null,
@@ -3465,18 +3099,479 @@
       "vcp": null
     }
   },
-  "SPRU": {
-    "ticker": "SPRU",
-    "generated_at": "2026-02-11T19:14:05.272635",
+  "ABT": {
+    "ticker": "ABT",
+    "generated_at": "2026-02-12T19:13:48.521565",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Healthcare",
+      "sector_momentum": "improving",
+      "current_price": 112.42,
+      "price_target": 128.52,
+      "upside_percent": 14.33,
+      "tier_boost": 0,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 10.0,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado",
+        "Timing de entrada no ideal (lejos de m\u00e1ximos)"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50\u2b50 Moderada",
+      "growth_rating": "\u2b50\u2b50 Lento",
+      "health_rating": "N/A",
+      "strengths": [
+        "25 analistas con upside medio de +19%"
+      ],
+      "concerns": []
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Healthcare con momentum mejorando"
+      ],
+      "institutional": [
+        "\ud83d\udc0b 3 whale investors: Bridgewater Associates (Ray Dalio), BlackRock, BlackRock"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 90)"
+      ],
+      "earnings": [
+        "Pr\u00f3ximo earnings en 66 d\u00edas"
+      ]
+    },
+    "thesis_narrative": "ABT representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada no es ideal actualmente (10/100). El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 1,
+      "fundamental": 2,
+      "risk_reward": 2,
+      "overall": 1.7
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "ABT",
+        "super_score_4d": 40.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 90,
+        "sector_score": 55.16,
+        "institutional_score": 30.016092209,
+        "num_whales": 3,
+        "top_whales": "Bridgewater Associates (Ray Dalio), BlackRock, BlackRock",
+        "next_earnings": "2026-04-15",
+        "days_to_earnings": 66.0,
+        "sector_name": "Healthcare",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSHC",
+        "current_price": 112.42,
+        "price_target": 128.52,
+        "upside_percent": 14.33,
+        "analyst_target": 133.3892,
+        "analyst_upside": 18.652552926525523,
+        "num_analysts": 25,
+        "fundamental_score": 33.33,
+        "pe_ratio": 30.301886,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": 0.13158,
+        "revenue_growth": 0.044,
+        "entry_score": 10.0,
+        "entry_bonus": 0,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "BUKS": {
+    "ticker": "BUKS",
+    "generated_at": "2026-02-12T19:13:48.522710",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Industrials",
+      "sector_momentum": "stable",
+      "current_price": 3.08,
+      "price_target": 4.3,
+      "upside_percent": 39.47,
+      "tier_boost": 0,
+      "entry_bonus": 5
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 100.0,
+      "strengths": [
+        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Timing ideal para entrada"
+      ]
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50\u2b50\u2b50\u2b50 Excelente",
+      "growth_rating": "\u2b50\u2b50\u2b50 Moderado",
+      "health_rating": "N/A",
+      "strengths": [
+        "ROE 25.4% - rentabilidad excepcional",
+        "FCF Yield 8.0% - fuerte generaci\u00f3n de caja"
+      ],
+      "concerns": []
+    },
+    "catalysts": {
+      "sector": [],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "BUKS representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (100/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +39%. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 3,
+      "risk_reward": 2,
+      "overall": 2.7
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "BUKS",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 58.98,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": null,
+        "days_to_earnings": null,
+        "sector_name": "Industrials",
+        "sector_momentum": "stable",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSIG",
+        "current_price": 3.08,
+        "price_target": 4.3,
+        "upside_percent": 39.47,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": 55.0,
+        "pe_ratio": 12.32,
+        "peg_ratio": null,
+        "fcf_yield": 7.981213377574038,
+        "roe": 0.25355,
+        "revenue_growth": 0.089,
+        "entry_score": 100.0,
+        "entry_bonus": 5,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "SLGL": {
+    "ticker": "SLGL",
+    "generated_at": "2026-02-12T19:13:48.523870",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Healthcare",
+      "sector_momentum": "improving",
+      "current_price": 66.39,
+      "price_target": 91.52,
+      "upside_percent": 37.84,
+      "tier_boost": 0,
+      "entry_bonus": 5
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 80.0,
+      "strengths": [
+        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Timing ideal para entrada"
+      ]
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE -29.6% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Healthcare con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "SLGL representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (80/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El precio objetivo sugiere un upside de +38%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 2,
+      "risk_reward": 2,
+      "overall": 2.3
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "SLGL",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 55.16,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2025-11-20",
+        "days_to_earnings": -80.0,
+        "sector_name": "Healthcare",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSHC",
+        "current_price": 66.39,
+        "price_target": 91.52,
+        "upside_percent": 37.84,
+        "analyst_target": 110.0,
+        "analyst_upside": 65.68760355475223,
+        "num_analysts": 1,
+        "fundamental_score": 25.0,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": -0.29591,
+        "revenue_growth": -0.925,
+        "entry_score": 80.0,
+        "entry_bonus": 5,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "CBKM": {
+    "ticker": "CBKM",
+    "generated_at": "2026-02-12T19:13:48.525005",
+    "overview": {
+      "score_5d": 40.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Financial Services",
+      "sector_momentum": "improving",
+      "current_price": 26.01,
+      "price_target": 31.0,
+      "upside_percent": 19.18,
+      "tier_boost": 0,
+      "entry_bonus": 5
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 90.0,
+      "strengths": [
+        "Momento de entrada \u00f3ptimo (cerca de 52w high, encima de SMAs)"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": [
+        "\ud83d\udfe2 Timing ideal para entrada"
+      ]
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50\u2b50 Moderada",
+      "growth_rating": "\u2b50\u2b50\u2b50\u2b50 S\u00f3lido",
+      "health_rating": "N/A",
+      "strengths": [
+        "Crecimiento de ingresos 16.9% - s\u00f3lido"
+      ],
+      "concerns": []
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Financial Services con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "CBKM representa una oportunidad de **oportunidad mixta** con score 5D moderado de 40.0/100. El timing de entrada es \u00f3ptimo (90/100) - el precio est\u00e1 cerca de m\u00e1ximos de 52 semanas, por encima de medias m\u00f3viles clave, y muestra fuerte momentum. El sector Financial Services muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 3,
+      "fundamental": 4,
+      "risk_reward": 2,
+      "overall": 3.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "CBKM",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 67.29,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": null,
+        "days_to_earnings": null,
+        "sector_name": "Financial Services",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSFI",
+        "current_price": 26.01,
+        "price_target": 31.0,
+        "upside_percent": 19.18,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": 62.5,
+        "pe_ratio": 8.584159,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": 0.122480005,
+        "revenue_growth": 0.169,
+        "entry_score": 90.0,
+        "entry_bonus": 5,
+        "super_score_5d": 40.0
+      },
+      "vcp": null
+    }
+  },
+  "SMRT": {
+    "ticker": "SMRT",
+    "generated_at": "2026-02-12T19:13:48.526133",
     "overview": {
       "score_5d": 39.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": 4.375,
-      "price_target": 4.81,
-      "upside_percent": 9.94,
+      "sector_momentum": "improving",
+      "current_price": 1.635,
+      "price_target": 1.76,
+      "upside_percent": 7.8,
+      "tier_boost": 3,
+      "entry_bonus": 1
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 45.0,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE -25.5% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "SMRT representa una oportunidad de **oportunidad mixta** con score 5D moderado de 39.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 2,
+      "risk_reward": 2,
+      "overall": 2.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "SMRT",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 73.5,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": null,
+        "days_to_earnings": null,
+        "sector_name": "Technology",
+        "sector_momentum": "improving",
+        "tier_boost": 3,
+        "dj_ticker": "DJUSTC",
+        "current_price": 1.635,
+        "price_target": 1.76,
+        "upside_percent": 7.8,
+        "analyst_target": 1.725,
+        "analyst_upside": 5.504587155963314,
+        "num_analysts": 2,
+        "fundamental_score": 20.0,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": -5.091271322339338,
+        "roe": -0.25479,
+        "revenue_growth": -0.106,
+        "entry_score": 45.0,
+        "entry_bonus": 1,
+        "super_score_5d": 39.0
+      },
+      "vcp": null
+    }
+  },
+  "SPRU": {
+    "ticker": "SPRU",
+    "generated_at": "2026-02-12T19:13:48.527282",
+    "overview": {
+      "score_5d": 39.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Technology",
+      "sector_momentum": "improving",
+      "current_price": 4.11,
+      "price_target": 4.52,
+      "upside_percent": 9.98,
       "tier_boost": 3,
       "entry_bonus": 1
     },
@@ -3502,7 +3597,9 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
@@ -3511,7 +3608,7 @@
       ],
       "earnings": []
     },
-    "thesis_narrative": "SPRU representa una oportunidad de **oportunidad mixta** con score 5D moderado de 39.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "SPRU representa una oportunidad de **oportunidad mixta** con score 5D moderado de 39.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 2,
       "fundamental": 2,
@@ -3525,26 +3622,26 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
         "next_earnings": "2025-11-11",
         "days_to_earnings": -89.0,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
-        "current_price": 4.375,
-        "price_target": 4.81,
-        "upside_percent": 9.94,
+        "current_price": 4.11,
+        "price_target": 4.52,
+        "upside_percent": 9.98,
         "analyst_target": null,
         "analyst_upside": null,
         "num_analysts": 0,
         "fundamental_score": 20.0,
         "pe_ratio": null,
         "peg_ratio": null,
-        "fcf_yield": -16.428418379126292,
+        "fcf_yield": -17.48767228746936,
         "roe": -0.17415,
         "revenue_growth": 0.437,
         "entry_score": 45.0,
@@ -3554,192 +3651,15 @@
       "vcp": null
     }
   },
-  "SMRT": {
-    "ticker": "SMRT",
-    "generated_at": "2026-02-11T19:14:05.273712",
-    "overview": {
-      "score_5d": 39.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": 1.735,
-      "price_target": 1.82,
-      "upside_percent": 4.76,
-      "tier_boost": 3,
-      "entry_bonus": 1
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 45.0,
-      "strengths": [],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE -25.5% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "SMRT representa una oportunidad de **oportunidad mixta** con score 5D moderado de 39.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 2,
-      "risk_reward": 2,
-      "overall": 2.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "SMRT",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 72.4,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
-        "sector_name": "Technology",
-        "sector_momentum": "stable",
-        "tier_boost": 3,
-        "dj_ticker": "DJUSTC",
-        "current_price": 1.735,
-        "price_target": 1.82,
-        "upside_percent": 4.76,
-        "analyst_target": 1.725,
-        "analyst_upside": -0.5763688760806907,
-        "num_analysts": 2,
-        "fundamental_score": 20.0,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": -4.7978259303483926,
-        "roe": -0.25479,
-        "revenue_growth": -0.106,
-        "entry_score": 45.0,
-        "entry_bonus": 1,
-        "super_score_5d": 39.0
-      },
-      "vcp": null
-    }
-  },
-  "WYY": {
-    "ticker": "WYY",
-    "generated_at": "2026-02-11T19:14:05.274794",
-    "overview": {
-      "score_5d": 39.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": 4.9912,
-      "price_target": 7.41,
-      "upside_percent": 48.49,
-      "tier_boost": 3,
-      "entry_bonus": 1
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 40.0,
-      "strengths": [],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "\u2b50\u2b50 Lento",
-      "health_rating": "N/A",
-      "strengths": [
-        "FCF Yield 17.2% - fuerte generaci\u00f3n de caja"
-      ],
-      "concerns": [
-        "ROE -17.4% - rentabilidad baja"
-      ]
-    },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "WYY representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 39.0/100. El precio objetivo sugiere un upside de +48%. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 2,
-      "risk_reward": 3,
-      "overall": 2.3
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "WYY",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 72.4,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2025-11-13",
-        "days_to_earnings": -87.0,
-        "sector_name": "Technology",
-        "sector_momentum": "stable",
-        "tier_boost": 3,
-        "dj_ticker": "DJUSTC",
-        "current_price": 4.9912,
-        "price_target": 7.41,
-        "upside_percent": 48.49,
-        "analyst_target": 9.33333,
-        "analyst_upside": 86.99571245391891,
-        "num_analysts": 3,
-        "fundamental_score": 30.0,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": 17.17386869153699,
-        "roe": -0.17366,
-        "revenue_growth": 0.043,
-        "entry_score": 40.0,
-        "entry_bonus": 1,
-        "super_score_5d": 39.0
-      },
-      "vcp": null
-    }
-  },
-  "PSQH": {
-    "ticker": "PSQH",
-    "generated_at": "2026-02-11T19:14:05.275883",
+  "GLOO": {
+    "ticker": "GLOO",
+    "generated_at": "2026-02-12T19:13:48.528499",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
+      "sector_momentum": "improving",
       "current_price": null,
       "price_target": null,
       "upside_percent": null,
@@ -3767,7 +3687,9 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
@@ -3776,7 +3698,7 @@
       ],
       "earnings": []
     },
-    "thesis_narrative": "PSQH representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "GLOO representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 2,
       "fundamental": 3,
@@ -3785,19 +3707,19 @@
     },
     "raw_data": {
       "5d": {
-        "ticker": "PSQH",
+        "ticker": "GLOO",
         "super_score_4d": 35.0,
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
+        "next_earnings": "2025-12-17",
+        "days_to_earnings": -53.0,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
         "current_price": null,
@@ -3819,25 +3741,27 @@
       "vcp": null
     }
   },
-  "Q": {
-    "ticker": "Q",
-    "generated_at": "2026-02-11T19:14:05.276975",
+  "WBI": {
+    "ticker": "WBI",
+    "generated_at": "2026-02-12T19:13:48.529631",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": null,
-      "price_target": null,
-      "upside_percent": null,
-      "tier_boost": 3,
-      "entry_bonus": 0
+      "sector": "Energy",
+      "sector_momentum": "improving",
+      "current_price": 24.26,
+      "price_target": 27.57,
+      "upside_percent": 13.63,
+      "tier_boost": 0,
+      "entry_bonus": 3
     },
     "technical": {
       "vcp_score": 0.0,
-      "entry_score": null,
-      "strengths": [],
+      "entry_score": 60.0,
+      "strengths": [
+        "Buen momento de entrada"
+      ],
       "concerns": [
         "Patr\u00f3n VCP moderado"
       ],
@@ -3846,16 +3770,19 @@
     "fundamental": {
       "valuation_rating": "N/A",
       "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
+      "growth_rating": "\u2b50\u2b50\u2b50\u2b50\u2b50 Fuerte",
       "health_rating": "N/A",
-      "strengths": [],
+      "strengths": [
+        "Crecimiento de ingresos 37.2% - muy fuerte"
+      ],
       "concerns": [
-        "ROE nan% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
+        "ROE nan% - rentabilidad baja"
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "Sector Energy con momentum mejorando"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
@@ -3863,10 +3790,100 @@
         "\u2705 Compras de insiders muy fuertes (score 100)"
       ],
       "earnings": [
-        "Pr\u00f3ximo earnings en 18 d\u00edas"
+        "Pr\u00f3ximo earnings en 36 d\u00edas"
       ]
     },
-    "thesis_narrative": "Q representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "WBI representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El momento de entrada es favorable (60/100). El sector Energy muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 3,
+      "risk_reward": 2,
+      "overall": 2.3
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "WBI",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 44.48,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2026-03-16",
+        "days_to_earnings": 36.0,
+        "sector_name": "Energy",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSEN",
+        "current_price": 24.26,
+        "price_target": 27.57,
+        "upside_percent": 13.63,
+        "analyst_target": 28.44444,
+        "analyst_upside": 17.248309975267915,
+        "num_analysts": 9,
+        "fundamental_score": 58.33,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": null,
+        "revenue_growth": 0.372,
+        "entry_score": 60.0,
+        "entry_bonus": 3,
+        "super_score_5d": 38.0
+      },
+      "vcp": null
+    }
+  },
+  "SVCO": {
+    "ticker": "SVCO",
+    "generated_at": "2026-02-12T19:13:48.530781",
+    "overview": {
+      "score_5d": 38.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Technology",
+      "sector_momentum": "improving",
+      "current_price": null,
+      "price_target": null,
+      "upside_percent": null,
+      "tier_boost": 3,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": null,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE nan% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "SVCO representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 2,
       "fundamental": 3,
@@ -3875,19 +3892,19 @@
     },
     "raw_data": {
       "5d": {
-        "ticker": "Q",
+        "ticker": "SVCO",
         "super_score_4d": 35.0,
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
-        "next_earnings": "2026-02-26",
-        "days_to_earnings": 18.0,
+        "next_earnings": "2025-11-12",
+        "days_to_earnings": -88.0,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
         "current_price": null,
@@ -3909,24 +3926,24 @@
       "vcp": null
     }
   },
-  "YYAI": {
-    "ticker": "YYAI",
-    "generated_at": "2026-02-11T19:14:05.278063",
+  "AISP": {
+    "ticker": "AISP",
+    "generated_at": "2026-02-12T19:13:48.531892",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": 1.065,
-      "price_target": 1.17,
-      "upside_percent": 9.86,
+      "sector_momentum": "improving",
+      "current_price": null,
+      "price_target": null,
+      "upside_percent": null,
       "tier_boost": 3,
       "entry_bonus": 0
     },
     "technical": {
       "vcp_score": 0.0,
-      "entry_score": 0.0,
+      "entry_score": null,
       "strengths": [],
       "concerns": [
         "Patr\u00f3n VCP moderado"
@@ -3945,7 +3962,9 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
@@ -3954,43 +3973,589 @@
       ],
       "earnings": []
     },
-    "thesis_narrative": "YYAI representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "AISP representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
-      "technical": 1,
-      "fundamental": 2,
-      "risk_reward": 2,
-      "overall": 1.7
+      "technical": 2,
+      "fundamental": 3,
+      "risk_reward": 1,
+      "overall": 2.0
     },
     "raw_data": {
       "5d": {
-        "ticker": "YYAI",
+        "ticker": "AISP",
         "super_score_4d": 35.0,
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2025-11-17",
+        "days_to_earnings": -83.0,
+        "sector_name": "Technology",
+        "sector_momentum": "improving",
+        "tier_boost": 3,
+        "dj_ticker": "DJUSTC",
+        "current_price": null,
+        "price_target": null,
+        "upside_percent": null,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": null,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": null,
+        "revenue_growth": null,
+        "entry_score": null,
+        "entry_bonus": 0,
+        "super_score_5d": 38.0
+      },
+      "vcp": null
+    }
+  },
+  "RPD": {
+    "ticker": "RPD",
+    "generated_at": "2026-02-12T19:13:48.533033",
+    "overview": {
+      "score_5d": 38.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Technology",
+      "sector_momentum": "improving",
+      "current_price": null,
+      "price_target": null,
+      "upside_percent": null,
+      "tier_boost": 3,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": null,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE nan% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": [
+        "\u26a0\ufe0f Earnings en 2 d\u00edas - evento cercano"
+      ]
+    },
+    "thesis_narrative": "RPD representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 3,
+      "risk_reward": 1,
+      "overall": 2.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "RPD",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 73.5,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2026-02-10",
+        "days_to_earnings": 2.0,
+        "sector_name": "Technology",
+        "sector_momentum": "improving",
+        "tier_boost": 3,
+        "dj_ticker": "DJUSTC",
+        "current_price": null,
+        "price_target": null,
+        "upside_percent": null,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": null,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": null,
+        "revenue_growth": null,
+        "entry_score": null,
+        "entry_bonus": 0,
+        "super_score_5d": 38.0
+      },
+      "vcp": null
+    }
+  },
+  "GRND": {
+    "ticker": "GRND",
+    "generated_at": "2026-02-12T19:13:48.534136",
+    "overview": {
+      "score_5d": 38.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Technology",
+      "sector_momentum": "improving",
+      "current_price": null,
+      "price_target": null,
+      "upside_percent": null,
+      "tier_boost": 3,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": null,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE nan% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "GRND representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 3,
+      "risk_reward": 1,
+      "overall": 2.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "GRND",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
         "next_earnings": null,
         "days_to_earnings": null,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
-        "current_price": 1.065,
-        "price_target": 1.17,
-        "upside_percent": 9.86,
+        "current_price": null,
+        "price_target": null,
+        "upside_percent": null,
         "analyst_target": null,
         "analyst_upside": null,
         "num_analysts": 0,
-        "fundamental_score": 33.33,
-        "pe_ratio": 0.22327045,
+        "fundamental_score": null,
+        "pe_ratio": null,
         "peg_ratio": null,
         "fcf_yield": null,
         "roe": null,
-        "revenue_growth": -0.083,
-        "entry_score": 0.0,
+        "revenue_growth": null,
+        "entry_score": null,
+        "entry_bonus": 0,
+        "super_score_5d": 38.0
+      },
+      "vcp": null
+    }
+  },
+  "AUID": {
+    "ticker": "AUID",
+    "generated_at": "2026-02-12T19:13:48.535228",
+    "overview": {
+      "score_5d": 38.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Technology",
+      "sector_momentum": "improving",
+      "current_price": null,
+      "price_target": null,
+      "upside_percent": null,
+      "tier_boost": 3,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": null,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE nan% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "AUID representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 3,
+      "risk_reward": 1,
+      "overall": 2.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "AUID",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 73.5,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2025-11-12",
+        "days_to_earnings": -88.0,
+        "sector_name": "Technology",
+        "sector_momentum": "improving",
+        "tier_boost": 3,
+        "dj_ticker": "DJUSTC",
+        "current_price": null,
+        "price_target": null,
+        "upside_percent": null,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": null,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": null,
+        "revenue_growth": null,
+        "entry_score": null,
+        "entry_bonus": 0,
+        "super_score_5d": 38.0
+      },
+      "vcp": null
+    }
+  },
+  "FIS": {
+    "ticker": "FIS",
+    "generated_at": "2026-02-12T19:13:48.536348",
+    "overview": {
+      "score_5d": 38.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Technology",
+      "sector_momentum": "improving",
+      "current_price": null,
+      "price_target": null,
+      "upside_percent": null,
+      "tier_boost": 3,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": null,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE nan% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
+      "institutional": [
+        "\ud83d\udc0b 1 whale investors: Tiger Global Management"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 90)"
+      ],
+      "earnings": [
+        "\u26a0\ufe0f Earnings en 2 d\u00edas - evento cercano"
+      ]
+    },
+    "thesis_narrative": "FIS representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 3,
+      "risk_reward": 1,
+      "overall": 2.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "FIS",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 90,
+        "sector_score": 73.5,
+        "institutional_score": 10.000249894,
+        "num_whales": 1,
+        "top_whales": "Tiger Global Management",
+        "next_earnings": "2026-02-10",
+        "days_to_earnings": 2.0,
+        "sector_name": "Technology",
+        "sector_momentum": "improving",
+        "tier_boost": 3,
+        "dj_ticker": "DJUSTC",
+        "current_price": null,
+        "price_target": null,
+        "upside_percent": null,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": null,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": null,
+        "revenue_growth": null,
+        "entry_score": null,
+        "entry_bonus": 0,
+        "super_score_5d": 38.0
+      },
+      "vcp": null
+    }
+  },
+  "GLSI": {
+    "ticker": "GLSI",
+    "generated_at": "2026-02-12T19:13:48.537452",
+    "overview": {
+      "score_5d": 38.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Healthcare",
+      "sector_momentum": "improving",
+      "current_price": 26.36,
+      "price_target": 38.25,
+      "upside_percent": 45.11,
+      "tier_boost": 0,
+      "entry_bonus": 3
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": 70.0,
+      "strengths": [
+        "Buen momento de entrada"
+      ],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE -543.4% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "Sector Healthcare con momentum mejorando"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "GLSI representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 38.0/100. El momento de entrada es favorable (70/100). El precio objetivo sugiere un upside de +45%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 1,
+      "risk_reward": 3,
+      "overall": 2.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "GLSI",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 55.16,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": "2025-11-18",
+        "days_to_earnings": -82.0,
+        "sector_name": "Healthcare",
+        "sector_momentum": "improving",
+        "tier_boost": 0,
+        "dj_ticker": "DJUSHC",
+        "current_price": 26.36,
+        "price_target": 38.25,
+        "upside_percent": 45.11,
+        "analyst_target": 47.5,
+        "analyst_upside": 80.19726858877088,
+        "num_analysts": 2,
+        "fundamental_score": 16.67,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": -0.3716338857219914,
+        "roe": -5.43434,
+        "revenue_growth": null,
+        "entry_score": 70.0,
+        "entry_bonus": 3,
+        "super_score_5d": 38.0
+      },
+      "vcp": null
+    }
+  },
+  "MYSZ": {
+    "ticker": "MYSZ",
+    "generated_at": "2026-02-12T19:13:48.538560",
+    "overview": {
+      "score_5d": 38.0,
+      "classification": "MODERADA",
+      "tier": "\ud83d\udd35 MODERADA",
+      "sector": "Technology",
+      "sector_momentum": "improving",
+      "current_price": null,
+      "price_target": null,
+      "upside_percent": null,
+      "tier_boost": 3,
+      "entry_bonus": 0
+    },
+    "technical": {
+      "vcp_score": 0.0,
+      "entry_score": null,
+      "strengths": [],
+      "concerns": [
+        "Patr\u00f3n VCP moderado"
+      ],
+      "signals": []
+    },
+    "fundamental": {
+      "valuation_rating": "N/A",
+      "profitability_rating": "\u2b50\u2b50 Baja",
+      "growth_rating": "N/A",
+      "health_rating": "N/A",
+      "strengths": [],
+      "concerns": [
+        "ROE nan% - rentabilidad baja",
+        "Ingresos en contracci\u00f3n"
+      ]
+    },
+    "catalysts": {
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
+      "institutional": [
+        "Sin posiciones de whale investors identificadas"
+      ],
+      "insiders": [
+        "\u2705 Compras de insiders muy fuertes (score 100)"
+      ],
+      "earnings": []
+    },
+    "thesis_narrative": "MYSZ representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "rating": {
+      "technical": 2,
+      "fundamental": 3,
+      "risk_reward": 1,
+      "overall": 2.0
+    },
+    "raw_data": {
+      "5d": {
+        "ticker": "MYSZ",
+        "super_score_4d": 35.0,
+        "tier": "\ud83d\udd35 MODERADA",
+        "vcp_score": 0.0,
+        "insiders_score": 100,
+        "sector_score": 73.5,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": null,
+        "days_to_earnings": null,
+        "sector_name": "Technology",
+        "sector_momentum": "improving",
+        "tier_boost": 3,
+        "dj_ticker": "DJUSTC",
+        "current_price": null,
+        "price_target": null,
+        "upside_percent": null,
+        "analyst_target": null,
+        "analyst_upside": null,
+        "num_analysts": 0,
+        "fundamental_score": null,
+        "pe_ratio": null,
+        "peg_ratio": null,
+        "fcf_yield": null,
+        "roe": null,
+        "revenue_growth": null,
+        "entry_score": null,
         "entry_bonus": 0,
         "super_score_5d": 38.0
       },
@@ -3999,7 +4564,7 @@
   },
   "TOFB": {
     "ticker": "TOFB",
-    "generated_at": "2026-02-11T19:14:05.279156",
+    "generated_at": "2026-02-12T19:13:48.539667",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
@@ -4062,7 +4627,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 22.03,
+        "sector_score": 17.99,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -4091,202 +4656,15 @@
       "vcp": null
     }
   },
-  "WBI": {
-    "ticker": "WBI",
-    "generated_at": "2026-02-11T19:14:05.280254",
-    "overview": {
-      "score_5d": 38.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Energy",
-      "sector_momentum": "improving",
-      "current_price": 25.07,
-      "price_target": 28.01,
-      "upside_percent": 11.74,
-      "tier_boost": 0,
-      "entry_bonus": 3
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 70.0,
-      "strengths": [
-        "Buen momento de entrada"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "\u2b50\u2b50\u2b50\u2b50\u2b50 Fuerte",
-      "health_rating": "N/A",
-      "strengths": [
-        "Crecimiento de ingresos 37.2% - muy fuerte"
-      ],
-      "concerns": [
-        "ROE nan% - rentabilidad baja"
-      ]
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Energy con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": [
-        "Pr\u00f3ximo earnings en 36 d\u00edas"
-      ]
-    },
-    "thesis_narrative": "WBI representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El momento de entrada es favorable (70/100). El sector Energy muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 3,
-      "risk_reward": 2,
-      "overall": 2.3
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "WBI",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 44.94,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2026-03-16",
-        "days_to_earnings": 36.0,
-        "sector_name": "Energy",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSEN",
-        "current_price": 25.07,
-        "price_target": 28.01,
-        "upside_percent": 11.74,
-        "analyst_target": 28.44444,
-        "analyst_upside": 13.460071798962916,
-        "num_analysts": 9,
-        "fundamental_score": 58.33,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": null,
-        "revenue_growth": 0.372,
-        "entry_score": 70.0,
-        "entry_bonus": 3,
-        "super_score_5d": 38.0
-      },
-      "vcp": null
-    }
-  },
-  "GLSI": {
-    "ticker": "GLSI",
-    "generated_at": "2026-02-11T19:14:05.281390",
-    "overview": {
-      "score_5d": 38.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Healthcare",
-      "sector_momentum": "improving",
-      "current_price": 27.03,
-      "price_target": 38.62,
-      "upside_percent": 42.86,
-      "tier_boost": 0,
-      "entry_bonus": 3
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 70.0,
-      "strengths": [
-        "Buen momento de entrada"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE -543.4% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [
-        "Sector Healthcare con momentum mejorando"
-      ],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "GLSI representa una oportunidad de **value con catalizador t\u00e9cnico** con score 5D moderado de 38.0/100. El momento de entrada es favorable (70/100). El precio objetivo sugiere un upside de +43%. El sector Healthcare muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores value con tolerancia a volatilidad t\u00e9cnica.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 1,
-      "risk_reward": 3,
-      "overall": 2.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "GLSI",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 55.8,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2025-11-18",
-        "days_to_earnings": -82.0,
-        "sector_name": "Healthcare",
-        "sector_momentum": "improving",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSHC",
-        "current_price": 27.03,
-        "price_target": 38.62,
-        "upside_percent": 42.86,
-        "analyst_target": 47.5,
-        "analyst_upside": 75.7306696263411,
-        "num_analysts": 2,
-        "fundamental_score": 16.67,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": -0.3624221080914615,
-        "roe": -5.43434,
-        "revenue_growth": null,
-        "entry_score": 70.0,
-        "entry_bonus": 3,
-        "super_score_5d": 38.0
-      },
-      "vcp": null
-    }
-  },
-  "FIS": {
-    "ticker": "FIS",
-    "generated_at": "2026-02-11T19:14:05.282531",
+  "BLND": {
+    "ticker": "BLND",
+    "generated_at": "2026-02-12T19:13:48.540785",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
+      "sector_momentum": "improving",
       "current_price": null,
       "price_target": null,
       "upside_percent": null,
@@ -4314,18 +4692,18 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
-        "\ud83d\udc0b 1 whale investors: Tiger Global Management"
+        "Sin posiciones de whale investors identificadas"
       ],
       "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 90)"
+        "\u2705 Compras de insiders muy fuertes (score 100)"
       ],
-      "earnings": [
-        "\u26a0\ufe0f Earnings en 2 d\u00edas - evento cercano"
-      ]
+      "earnings": []
     },
-    "thesis_narrative": "FIS representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "BLND representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 2,
       "fundamental": 3,
@@ -4334,19 +4712,19 @@
     },
     "raw_data": {
       "5d": {
-        "ticker": "FIS",
+        "ticker": "BLND",
         "super_score_4d": 35.0,
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
-        "insiders_score": 90,
-        "sector_score": 72.4,
-        "institutional_score": 10.000249894,
-        "num_whales": 1,
-        "top_whales": "Tiger Global Management",
-        "next_earnings": "2026-02-10",
-        "days_to_earnings": 2.0,
+        "insiders_score": 100,
+        "sector_score": 73.5,
+        "institutional_score": 0.0,
+        "num_whales": 0,
+        "top_whales": null,
+        "next_earnings": null,
+        "days_to_earnings": null,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
         "current_price": null,
@@ -4368,107 +4746,15 @@
       "vcp": null
     }
   },
-  "WERN": {
-    "ticker": "WERN",
-    "generated_at": "2026-02-11T19:14:05.283642",
-    "overview": {
-      "score_5d": 38.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Industrials",
-      "sector_momentum": "stable",
-      "current_price": 34.45,
-      "price_target": 36.28,
-      "upside_percent": 5.32,
-      "tier_boost": 0,
-      "entry_bonus": 3
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": 60.0,
-      "strengths": [
-        "Buen momento de entrada"
-      ],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE -1.6% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": [
-        "Pr\u00f3ximo earnings en 79 d\u00edas"
-      ]
-    },
-    "thesis_narrative": "WERN representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El momento de entrada es favorable (60/100). \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 1,
-      "risk_reward": 2,
-      "overall": 1.7
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "WERN",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 60.2,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2026-04-28",
-        "days_to_earnings": 79.0,
-        "sector_name": "Industrials",
-        "sector_momentum": "stable",
-        "tier_boost": 0,
-        "dj_ticker": "DJUSIG",
-        "current_price": 34.45,
-        "price_target": 36.28,
-        "upside_percent": 5.32,
-        "analyst_target": 34.66667,
-        "analyst_upside": 0.6289404934687992,
-        "num_analysts": 15,
-        "fundamental_score": 12.5,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": -0.01594,
-        "revenue_growth": -0.023,
-        "entry_score": 60.0,
-        "entry_bonus": 3,
-        "super_score_5d": 38.0
-      },
-      "vcp": null
-    }
-  },
-  "AUID": {
-    "ticker": "AUID",
-    "generated_at": "2026-02-11T19:14:05.284750",
+  "SCKT": {
+    "ticker": "SCKT",
+    "generated_at": "2026-02-12T19:13:48.541903",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
+      "sector_momentum": "improving",
       "current_price": null,
       "price_target": null,
       "upside_percent": null,
@@ -4496,7 +4782,9 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
@@ -4505,7 +4793,7 @@
       ],
       "earnings": []
     },
-    "thesis_narrative": "AUID representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "SCKT representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 2,
       "fundamental": 3,
@@ -4514,109 +4802,19 @@
     },
     "raw_data": {
       "5d": {
-        "ticker": "AUID",
+        "ticker": "SCKT",
         "super_score_4d": 35.0,
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
-        "next_earnings": "2025-11-12",
-        "days_to_earnings": -88.0,
+        "next_earnings": null,
+        "days_to_earnings": null,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
-        "tier_boost": 3,
-        "dj_ticker": "DJUSTC",
-        "current_price": null,
-        "price_target": null,
-        "upside_percent": null,
-        "analyst_target": null,
-        "analyst_upside": null,
-        "num_analysts": 0,
-        "fundamental_score": null,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": null,
-        "revenue_growth": null,
-        "entry_score": null,
-        "entry_bonus": 0,
-        "super_score_5d": 38.0
-      },
-      "vcp": null
-    }
-  },
-  "ADTN": {
-    "ticker": "ADTN",
-    "generated_at": "2026-02-11T19:14:05.285835",
-    "overview": {
-      "score_5d": 38.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": null,
-      "price_target": null,
-      "upside_percent": null,
-      "tier_boost": 3,
-      "entry_bonus": 0
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": null,
-      "strengths": [],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE nan% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": [
-        "Pr\u00f3ximo earnings en 17 d\u00edas"
-      ]
-    },
-    "thesis_narrative": "ADTN representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 3,
-      "risk_reward": 1,
-      "overall": 2.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "ADTN",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 72.4,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": "2026-02-25",
-        "days_to_earnings": 17.0,
-        "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
         "current_price": null,
@@ -4640,7 +4838,7 @@
   },
   "THM": {
     "ticker": "THM",
-    "generated_at": "2026-02-11T19:14:05.286947",
+    "generated_at": "2026-02-12T19:13:48.543042",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
@@ -4697,7 +4895,7 @@
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 77.54,
+        "sector_score": 77.15,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
@@ -4726,15 +4924,15 @@
       "vcp": null
     }
   },
-  "BLND": {
-    "ticker": "BLND",
-    "generated_at": "2026-02-11T19:14:05.288080",
+  "MSTR": {
+    "ticker": "MSTR",
+    "generated_at": "2026-02-12T19:13:48.544253",
     "overview": {
       "score_5d": 38.0,
       "classification": "MODERADA",
       "tier": "\ud83d\udd35 MODERADA",
       "sector": "Technology",
-      "sector_momentum": "stable",
+      "sector_momentum": "improving",
       "current_price": null,
       "price_target": null,
       "upside_percent": null,
@@ -4762,104 +4960,20 @@
       ]
     },
     "catalysts": {
-      "sector": [],
+      "sector": [
+        "\u2705 Sector Technology con momentum mejorando (score 74, boost +3)"
+      ],
       "institutional": [
         "Sin posiciones de whale investors identificadas"
       ],
       "insiders": [
         "\u2705 Compras de insiders muy fuertes (score 100)"
       ],
-      "earnings": []
-    },
-    "thesis_narrative": "BLND representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 3,
-      "risk_reward": 1,
-      "overall": 2.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "BLND",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 72.4,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
-        "sector_name": "Technology",
-        "sector_momentum": "stable",
-        "tier_boost": 3,
-        "dj_ticker": "DJUSTC",
-        "current_price": null,
-        "price_target": null,
-        "upside_percent": null,
-        "analyst_target": null,
-        "analyst_upside": null,
-        "num_analysts": 0,
-        "fundamental_score": null,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": null,
-        "revenue_growth": null,
-        "entry_score": null,
-        "entry_bonus": 0,
-        "super_score_5d": 38.0
-      },
-      "vcp": null
-    }
-  },
-  "MYSZ": {
-    "ticker": "MYSZ",
-    "generated_at": "2026-02-11T19:14:05.289170",
-    "overview": {
-      "score_5d": 38.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": null,
-      "price_target": null,
-      "upside_percent": null,
-      "tier_boost": 3,
-      "entry_bonus": 0
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": null,
-      "strengths": [],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE nan% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
+      "earnings": [
+        "Pr\u00f3ximo earnings en 81 d\u00edas"
       ]
     },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "MYSZ representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
+    "thesis_narrative": "MSTR representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. El sector Technology muestra momentum mejorando, proporcionando vientos de cola. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
     "rating": {
       "technical": 2,
       "fundamental": 3,
@@ -4868,107 +4982,19 @@
     },
     "raw_data": {
       "5d": {
-        "ticker": "MYSZ",
+        "ticker": "MSTR",
         "super_score_4d": 35.0,
         "tier": "\ud83d\udd35 MODERADA",
         "vcp_score": 0.0,
         "insiders_score": 100,
-        "sector_score": 72.4,
+        "sector_score": 73.5,
         "institutional_score": 0.0,
         "num_whales": 0,
         "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
+        "next_earnings": "2026-04-30",
+        "days_to_earnings": 81.0,
         "sector_name": "Technology",
-        "sector_momentum": "stable",
-        "tier_boost": 3,
-        "dj_ticker": "DJUSTC",
-        "current_price": null,
-        "price_target": null,
-        "upside_percent": null,
-        "analyst_target": null,
-        "analyst_upside": null,
-        "num_analysts": 0,
-        "fundamental_score": null,
-        "pe_ratio": null,
-        "peg_ratio": null,
-        "fcf_yield": null,
-        "roe": null,
-        "revenue_growth": null,
-        "entry_score": null,
-        "entry_bonus": 0,
-        "super_score_5d": 38.0
-      },
-      "vcp": null
-    }
-  },
-  "SCKT": {
-    "ticker": "SCKT",
-    "generated_at": "2026-02-11T19:14:05.290270",
-    "overview": {
-      "score_5d": 38.0,
-      "classification": "MODERADA",
-      "tier": "\ud83d\udd35 MODERADA",
-      "sector": "Technology",
-      "sector_momentum": "stable",
-      "current_price": null,
-      "price_target": null,
-      "upside_percent": null,
-      "tier_boost": 3,
-      "entry_bonus": 0
-    },
-    "technical": {
-      "vcp_score": 0.0,
-      "entry_score": null,
-      "strengths": [],
-      "concerns": [
-        "Patr\u00f3n VCP moderado"
-      ],
-      "signals": []
-    },
-    "fundamental": {
-      "valuation_rating": "N/A",
-      "profitability_rating": "\u2b50\u2b50 Baja",
-      "growth_rating": "N/A",
-      "health_rating": "N/A",
-      "strengths": [],
-      "concerns": [
-        "ROE nan% - rentabilidad baja",
-        "Ingresos en contracci\u00f3n"
-      ]
-    },
-    "catalysts": {
-      "sector": [],
-      "institutional": [
-        "Sin posiciones de whale investors identificadas"
-      ],
-      "insiders": [
-        "\u2705 Compras de insiders muy fuertes (score 100)"
-      ],
-      "earnings": []
-    },
-    "thesis_narrative": "SCKT representa una oportunidad de **oportunidad mixta** con score 5D moderado de 38.0/100. \n\n**Conclusi\u00f3n:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posici\u00f3n.\n\n**Mejor para:** Inversores h\u00edbridos que buscan balance t\u00e9cnico-fundamental.",
-    "rating": {
-      "technical": 2,
-      "fundamental": 3,
-      "risk_reward": 1,
-      "overall": 2.0
-    },
-    "raw_data": {
-      "5d": {
-        "ticker": "SCKT",
-        "super_score_4d": 35.0,
-        "tier": "\ud83d\udd35 MODERADA",
-        "vcp_score": 0.0,
-        "insiders_score": 100,
-        "sector_score": 72.4,
-        "institutional_score": 0.0,
-        "num_whales": 0,
-        "top_whales": null,
-        "next_earnings": null,
-        "days_to_earnings": null,
-        "sector_name": "Technology",
-        "sector_momentum": "stable",
+        "sector_momentum": "improving",
         "tier_boost": 3,
         "dj_ticker": "DJUSTC",
         "current_price": null,
