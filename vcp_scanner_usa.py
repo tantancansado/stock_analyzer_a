@@ -1879,19 +1879,13 @@ if __name__ == "__main__":
             html_path = output_dir / f"vcp_scanner_{timestamp}.html"
             scanner_enhanced.generate_html(results, str(html_path))
 
-            # Create/update symlinks for latest files
+            # Copy latest files (use copies instead of symlinks for GitHub Pages compatibility)
             latest_csv = output_dir / "latest.csv"
             latest_html = output_dir / "latest.html"
 
-            # Remove old symlinks if they exist
-            if latest_csv.exists() or latest_csv.is_symlink():
-                latest_csv.unlink()
-            if latest_html.exists() or latest_html.is_symlink():
-                latest_html.unlink()
-
-            # Create new symlinks (relative paths for portability)
-            latest_csv.symlink_to(f"vcp_calibrated_results_{timestamp}.csv")
-            latest_html.symlink_to(f"vcp_scanner_{timestamp}.html")
+            import shutil
+            shutil.copy(str(csv_path), str(latest_csv))
+            shutil.copy(str(html_path), str(latest_html))
 
             # Also update docs/vcp_scanner.html as main entry point
             import shutil
