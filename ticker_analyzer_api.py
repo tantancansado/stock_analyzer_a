@@ -303,8 +303,8 @@ class TickerAnalyzer:
             ad_result = self._check_ad_filter_cached(ticker, hist)
             float_result = self._check_float_filter_cached(ticker, info)
 
-            # Run web validation (reuses stock_info)
-            validation_result = self._run_validation(ticker, stock_info)
+            # Run web validation (reuses stock_info + VCP analysis)
+            validation_result = self._run_validation(ticker, stock_info, vcp_analysis)
 
             # Calculate final score
             final_score = self._calculate_final_score(
@@ -642,11 +642,12 @@ class TickerAnalyzer:
             'reasons': reasons
         }
 
-    def _run_validation(self, ticker: str, stock_info: dict) -> dict:
+    def _run_validation(self, ticker: str, stock_info: dict, vcp_analysis: dict = None) -> dict:
         """
         Run validation checks using already-fetched data
 
         NO API CALLS - Uses stock_info data we already have
+        Now considers VCP quality when evaluating ATH distance
         """
         try:
             # Calculate validation metrics from stock_info (no API calls!)
@@ -654,33 +655,54 @@ class TickerAnalyzer:
             year_high = stock_info.get('52_week_high', 0)
             pe_ratio = stock_info.get('pe_ratio')
 
+            # Get VCP score if available
+            vcp_score = vcp_analysis.get('score', 0) if vcp_analysis else 0
+            vcp_pattern = vcp_analysis.get('pattern_detected', False) if vcp_analysis else False
+
             # Calculate distance from 52-week high
             price_vs_ath = None
             if current_price and year_high:
                 price_vs_ath = ((current_price - year_high) / year_high * 100)
 
-            # Determine validation status based on ATH distance
+            # Determine validation status based on ATH distance AND VCP quality
             reasons = []
             score = 70  # Start neutral-positive
             status = 'UNKNOWN'
 
             if price_vs_ath is not None:
+                # CORRECTED LOGIC: Near ATH + Strong VCP = GOOD (breakout setup)
                 if price_vs_ath > -5:
-                    status = 'AVOID'
-                    score = 30
-                    reasons.append(f"Near ATH ({price_vs_ath:+.1f}% from high) - poor entry point")
+                    if vcp_score >= 70 and vcp_pattern:
+                        # Strong VCP breaking out to new highs = EXCELLENT
+                        status = 'BUY'
+                        score = 90
+                        reasons.append(f"VCP breakout near ATH ({price_vs_ath:+.1f}%) - strong momentum")
+                    else:
+                        # Near ATH without VCP = risky
+                        status = 'AVOID'
+                        score = 30
+                        reasons.append(f"Near ATH ({price_vs_ath:+.1f}%) without valid VCP - poor risk/reward")
                 elif price_vs_ath > -15:
-                    status = 'HOLD'
-                    score = 50
-                    reasons.append(f"Close to ATH ({price_vs_ath:+.1f}% from high) - wait for pullback")
+                    if vcp_score >= 60:
+                        # Good VCP in tight consolidation
+                        status = 'BUY'
+                        score = 80
+                        reasons.append(f"VCP setup close to ATH ({price_vs_ath:+.1f}%) - ready to break")
+                    else:
+                        # Close to ATH without strong pattern
+                        status = 'HOLD'
+                        score = 50
+                        reasons.append(f"Close to ATH ({price_vs_ath:+.1f}%) - wait for better setup")
                 elif price_vs_ath < -50:
-                    status = 'BUY'
-                    score -= 15
+                    # Very far from ATH - may be broken
+                    status = 'HOLD'
+                    score = 45
                     reasons.append(f"Far from ATH ({price_vs_ath:+.1f}%) - verify not broken")
                 else:
+                    # Good pullback range (-15% to -50%)
                     status = 'BUY'
-                    score += 15
-                    reasons.append(f"Good pullback ({price_vs_ath:+.1f}% from high) - valid VCP setup")
+                    score = 75
+                    reasons.append(f"Good pullback ({price_vs_ath:+.1f}% from high) - valid entry zone")
 
             # Check valuation if available
             if pe_ratio:
@@ -738,10 +760,16 @@ class TickerAnalyzer:
                                     ma, ad, float_filter, market_regime, validation, final_score) -> dict:
         """Generate comprehensive investment thesis"""
 
-        # Determine recommendation
-        if final_score >= 70 and validation['status'] == 'BUY':
+        # Determine recommendation (IMPROVED: More aggressive with high scores)
+        if final_score >= 80 and validation['status'] == 'BUY':
+            recommendation = 'BUY'
+            confidence = 'VERY HIGH'
+        elif final_score >= 70 and validation['status'] == 'BUY':
             recommendation = 'BUY'
             confidence = 'HIGH'
+        elif final_score >= 65 and validation['status'] == 'BUY':
+            recommendation = 'BUY'
+            confidence = 'MEDIUM-HIGH'
         elif final_score >= 60 and validation['status'] in ['BUY', 'HOLD']:
             recommendation = 'HOLD'
             confidence = 'MEDIUM'
