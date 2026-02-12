@@ -33,6 +33,14 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+# Try to import finnhub (optional, fallback to yfinance if not available)
+try:
+    import finnhub
+    FINNHUB_AVAILABLE = True
+except ImportError:
+    FINNHUB_AVAILABLE = False
+    print("⚠️  Finnhub not installed. Using yfinance only.")
+
 # Import our analysis modules
 from moving_average_filter import MovingAverageFilter
 from accumulation_distribution_filter import AccumulationDistributionFilter
@@ -43,33 +51,87 @@ from opportunity_validator import OpportunityValidator
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend
 
-# Global cache for yfinance data (in-memory)
+# Global cache for stock data (in-memory)
 DATA_CACHE = {}
 CACHE_DURATION = timedelta(minutes=10)  # Cache for 10 minutes
 
+# Initialize Finnhub client if available
+FINNHUB_CLIENT = None
+FINNHUB_API_KEY = os.environ.get('FINNHUB_API_KEY')
+if FINNHUB_AVAILABLE and FINNHUB_API_KEY:
+    FINNHUB_CLIENT = finnhub.Client(api_key=FINNHUB_API_KEY)
+    print("✅ Finnhub client initialized")
+else:
+    print("⚠️  Finnhub not configured. Set FINNHUB_API_KEY in .env file")
 
-def get_cached_stock_data(ticker: str, max_retries: int = 3):
+
+def get_stock_data_from_finnhub(ticker: str) -> tuple:
     """
-    Get stock data with caching and retry logic
+    Fetch stock data from Finnhub API
 
     Returns:
-        tuple: (stock_object, info_dict, history_dataframe)
+        tuple: (info_dict, history_dataframe, source='finnhub')
     """
-    cache_key = f"{ticker}_data"
+    if not FINNHUB_CLIENT:
+        raise ValueError("Finnhub client not initialized")
 
-    # Check cache
-    if cache_key in DATA_CACHE:
-        cached_data, timestamp = DATA_CACHE[cache_key]
-        if datetime.now() - timestamp < CACHE_DURATION:
-            print(f"✓ Using cached data for {ticker}")
-            return cached_data
-        else:
-            print(f"⚠️  Cache expired for {ticker}, fetching fresh data")
+    print(f"📡 Fetching {ticker} from Finnhub...")
 
-    # Fetch with retry logic
+    # Get company profile
+    profile = FINNHUB_CLIENT.company_profile2(symbol=ticker)
+
+    # Get quote (current price)
+    quote = FINNHUB_CLIENT.quote(ticker)
+
+    # Get historical data (1 year of daily candles)
+    end_date = int(datetime.now().timestamp())
+    start_date = int((datetime.now() - timedelta(days=365)).timestamp())
+    candles = FINNHUB_CLIENT.stock_candles(ticker, 'D', start_date, end_date)
+
+    # Convert to pandas DataFrame (similar format to yfinance)
+    if candles['s'] == 'ok':
+        hist = pd.DataFrame({
+            'Close': candles['c'],
+            'High': candles['h'],
+            'Low': candles['l'],
+            'Open': candles['o'],
+            'Volume': candles['v']
+        }, index=pd.to_datetime(candles['t'], unit='s'))
+    else:
+        raise ValueError(f"No historical data from Finnhub for {ticker}")
+
+    # Build info dict (similar format to yfinance)
+    info = {
+        'longName': profile.get('name', ticker),
+        'symbol': ticker,
+        'sector': profile.get('finnhubIndustry', 'N/A'),
+        'industry': profile.get('finnhubIndustry', 'N/A'),
+        'currentPrice': quote.get('c'),
+        'previousClose': quote.get('pc'),
+        'marketCap': profile.get('marketCapitalization', 0) * 1_000_000,  # Finnhub returns in millions
+        'sharesOutstanding': profile.get('shareOutstanding', 0) * 1_000_000,
+        'country': profile.get('country', 'US'),
+        'currency': profile.get('currency', 'USD'),
+        'exchange': profile.get('exchange', 'NASDAQ'),
+        'website': profile.get('weburl', ''),
+        'logo': profile.get('logo', ''),
+        'longBusinessSummary': f"{profile.get('name', ticker)} - {profile.get('finnhubIndustry', 'N/A')}",
+    }
+
+    print(f"✅ Successfully fetched {ticker} from Finnhub")
+    return (None, info, hist, 'finnhub')
+
+
+def get_stock_data_from_yfinance(ticker: str, max_retries: int = 3) -> tuple:
+    """
+    Fetch stock data from yfinance (with retry logic)
+
+    Returns:
+        tuple: (stock_object, info_dict, history_dataframe, source='yfinance')
+    """
     for attempt in range(max_retries):
         try:
-            print(f"📡 Fetching data for {ticker} (attempt {attempt + 1}/{max_retries})")
+            print(f"📡 Fetching {ticker} from yfinance (attempt {attempt + 1}/{max_retries})")
 
             # Add delay to avoid rate limiting
             if attempt > 0:
@@ -80,26 +142,72 @@ def get_cached_stock_data(ticker: str, max_retries: int = 3):
             # Fetch all data in ONE go
             stock = yf.Ticker(ticker)
             info = stock.info
-            hist = stock.history(period='1y')  # Get 1 year of data
+            hist = stock.history(period='1y')
 
             # Validate data
             if not info or hist.empty:
                 raise ValueError(f"No data available for {ticker}")
 
-            # Cache the data
-            data = (stock, info, hist)
-            DATA_CACHE[cache_key] = (data, datetime.now())
-
-            print(f"✅ Successfully fetched data for {ticker}")
-            return data
+            print(f"✅ Successfully fetched {ticker} from yfinance")
+            return (stock, info, hist, 'yfinance')
 
         except Exception as e:
             if attempt < max_retries - 1:
                 print(f"❌ Error fetching {ticker}: {str(e)}, retrying...")
                 continue
             else:
-                print(f"❌ Failed to fetch {ticker} after {max_retries} attempts")
+                print(f"❌ Failed to fetch {ticker} from yfinance after {max_retries} attempts")
                 raise
+
+
+def get_cached_stock_data(ticker: str, max_retries: int = 3):
+    """
+    Get stock data with caching and hybrid provider fallback
+
+    Tries providers in order:
+    1. Finnhub (if configured) - 60 calls/minute, reliable
+    2. yfinance (fallback) - free but rate limited
+
+    Returns:
+        tuple: (stock_object_or_None, info_dict, history_dataframe, source)
+    """
+    cache_key = f"{ticker}_data"
+
+    # Check cache first
+    if cache_key in DATA_CACHE:
+        cached_data, timestamp = DATA_CACHE[cache_key]
+        if datetime.now() - timestamp < CACHE_DURATION:
+            print(f"✓ Using cached data for {ticker} (source: {cached_data[3]})")
+            return cached_data
+        else:
+            print(f"⚠️  Cache expired for {ticker}, fetching fresh data")
+
+    # Try providers in order of preference
+    errors = []
+
+    # 1. Try Finnhub first (if configured)
+    if FINNHUB_CLIENT:
+        try:
+            data = get_stock_data_from_finnhub(ticker)
+            DATA_CACHE[cache_key] = (data, datetime.now())
+            return data
+        except Exception as e:
+            error_msg = f"Finnhub failed: {str(e)}"
+            print(f"⚠️  {error_msg}")
+            errors.append(error_msg)
+
+    # 2. Fallback to yfinance
+    try:
+        data = get_stock_data_from_yfinance(ticker, max_retries)
+        DATA_CACHE[cache_key] = (data, datetime.now())
+        return data
+    except Exception as e:
+        error_msg = f"yfinance failed: {str(e)}"
+        print(f"❌ {error_msg}")
+        errors.append(error_msg)
+
+    # All providers failed
+    raise ValueError(f"Failed to fetch {ticker} from all providers. Errors: {'; '.join(errors)}")
 
 
 class TickerAnalyzer:
@@ -126,11 +234,12 @@ class TickerAnalyzer:
         ticker = ticker.upper()
 
         try:
-            # ✨ GET ALL DATA ONCE (with caching + retry)
-            stock, info, hist = get_cached_stock_data(ticker)
+            # ✨ GET ALL DATA ONCE (with caching + retry + hybrid providers)
+            stock, info, hist, source = get_cached_stock_data(ticker)
 
             # Extract stock info (no extra API calls)
             stock_info = self._extract_stock_info(info, hist)
+            stock_info['data_source'] = source  # Track which provider was used
 
             # Run market regime check (cached separately)
             market_regime = self.market_detector.detect_regime(save_report=False)
