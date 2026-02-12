@@ -734,10 +734,20 @@ class SuperDashboardGenerator:
             vcp_score = opp.get('vcp_score', 0)
             ml_score = opp.get('ml_score', 0)
             fundamental_score = opp.get('fundamental_score', 0)
-            insiders_score = opp.get('insiders_score', 0)
 
-            # Sector (prefer sector_name, fallback to sector)
-            sector = opp.get('sector_name', opp.get('sector', 'N/A'))
+            # Insider score - handle NaN
+            insiders_score = opp.get('insiders_score', 0)
+            if pd.isna(insiders_score):
+                insiders_score = 0
+
+            # Sector (prefer sector_name, fallback to sector) - handle NaN
+            sector_name = opp.get('sector_name')
+            sector_fallback = opp.get('sector', 'N/A')
+
+            if pd.isna(sector_name):
+                sector = sector_fallback if not pd.isna(sector_fallback) else 'N/A'
+            else:
+                sector = sector_name
 
             rows.append(f"""
             <tr>
