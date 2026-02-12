@@ -332,58 +332,67 @@ class SeekingAlphaClient:
 
     def _get_chart_data(self, ticker: str) -> Dict[str, list]:
         """
-        Get historical chart data from Seeking Alpha
+        Get historical price data from Seeking Alpha historical_prices endpoint
 
-        Tries to fetch OHLCV data from SA chart endpoint
+        Fetches 200+ days of OHLCV data for technical analysis
         """
-        # Try common SA chart endpoints
-        endpoints = [
-            f"{self.base_url}/symbols/{ticker.lower()}/chart",
-            f"{self.base_url}/chart/stock/{ticker.lower()}"
-        ]
+        from datetime import timedelta
 
-        for url in endpoints:
-            try:
-                response = requests.get(url, headers=self.headers, timeout=10)
-                response.raise_for_status()
-                data = response.json()
+        # Calculate date range (200 trading days ≈ 280 calendar days)
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=280)
 
-                # Parse chart data (format may vary)
-                if 'data' in data and isinstance(data['data'], list) and len(data['data']) > 0:
-                    chart_points = data['data']
+        url = f"{self.base_url}/historical_prices"
+        params = {
+            'filter[ticker][slug]': ticker.lower(),
+            'filter[as_of_date][gte]': start_date.strftime('%Y-%m-%d'),
+            'filter[as_of_date][lte]': end_date.strftime('%Y-%m-%d'),
+            'sort': 'as_of_date'
+        }
 
-                    dates = []
-                    opens = []
-                    highs = []
-                    lows = []
-                    closes = []
-                    volumes = []
+        try:
+            response = requests.get(url, headers=self.headers, params=params, timeout=15)
+            response.raise_for_status()
+            data = response.json()
 
-                    for point in chart_points:
-                        if isinstance(point, dict):
-                            dates.append(point.get('date', ''))
-                            closes.append(float(point.get('close', 0)))
-                            opens.append(float(point.get('open', closes[-1])))
-                            highs.append(float(point.get('high', closes[-1])))
-                            lows.append(float(point.get('low', closes[-1])))
-                            volumes.append(int(point.get('volume', 0)))
+            # Parse historical prices
+            if 'data' in data and isinstance(data['data'], list) and len(data['data']) > 0:
+                prices = data['data']
 
-                    if len(dates) > 0:
-                        print(f"   ✅ Chart data fetched: {len(dates)} data points")
-                        return {
-                            "dates": dates,
-                            "open": opens,
-                            "high": highs,
-                            "low": lows,
-                            "close": closes,
-                            "volume": volumes
-                        }
+                dates = []
+                opens = []
+                highs = []
+                lows = []
+                closes = []
+                volumes = []
 
-            except Exception:
-                continue  # Try next endpoint
+                for price_point in prices:
+                    if price_point.get('type') == 'historical_price':
+                        attrs = price_point.get('attributes', {})
 
-        # If all endpoints fail, return minimal data
-        print(f"   ⚠️  Chart data not available - using minimal data")
+                        dates.append(attrs.get('as_of_date', ''))
+                        opens.append(float(attrs.get('open', 0)))
+                        highs.append(float(attrs.get('high', 0)))
+                        lows.append(float(attrs.get('low', 0)))
+                        closes.append(float(attrs.get('close', 0)))
+                        volumes.append(int(attrs.get('volume', 0)))
+
+                if len(dates) > 0:
+                    print(f"   ✅ Historical data fetched: {len(dates)} days from Seeking Alpha")
+                    return {
+                        "dates": dates,
+                        "open": opens,
+                        "high": highs,
+                        "low": lows,
+                        "close": closes,
+                        "volume": volumes
+                    }
+
+        except Exception as e:
+            print(f"   ⚠️  Historical prices failed: {str(e)}")
+
+        # Fallback: return minimal data
+        print(f"   ⚠️  No historical data available")
         today = datetime.now().strftime('%Y-%m-%d')
         return {
             "dates": [today],
