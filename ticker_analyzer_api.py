@@ -23,10 +23,11 @@ from flask_cors import CORS
 import yfinance as yf
 import pandas as pd
 import numpy as np
-from datetime import datetime
+from datetime import datetime, timedelta
 import traceback
 import sys
 import os
+import time
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -41,6 +42,64 @@ from opportunity_validator import OpportunityValidator
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend
+
+# Global cache for yfinance data (in-memory)
+DATA_CACHE = {}
+CACHE_DURATION = timedelta(minutes=10)  # Cache for 10 minutes
+
+
+def get_cached_stock_data(ticker: str, max_retries: int = 3):
+    """
+    Get stock data with caching and retry logic
+
+    Returns:
+        tuple: (stock_object, info_dict, history_dataframe)
+    """
+    cache_key = f"{ticker}_data"
+
+    # Check cache
+    if cache_key in DATA_CACHE:
+        cached_data, timestamp = DATA_CACHE[cache_key]
+        if datetime.now() - timestamp < CACHE_DURATION:
+            print(f"✓ Using cached data for {ticker}")
+            return cached_data
+        else:
+            print(f"⚠️  Cache expired for {ticker}, fetching fresh data")
+
+    # Fetch with retry logic
+    for attempt in range(max_retries):
+        try:
+            print(f"📡 Fetching data for {ticker} (attempt {attempt + 1}/{max_retries})")
+
+            # Add delay to avoid rate limiting
+            if attempt > 0:
+                delay = 2 ** attempt  # Exponential backoff: 2s, 4s, 8s
+                print(f"⏳ Waiting {delay}s before retry...")
+                time.sleep(delay)
+
+            # Fetch all data in ONE go
+            stock = yf.Ticker(ticker)
+            info = stock.info
+            hist = stock.history(period='1y')  # Get 1 year of data
+
+            # Validate data
+            if not info or hist.empty:
+                raise ValueError(f"No data available for {ticker}")
+
+            # Cache the data
+            data = (stock, info, hist)
+            DATA_CACHE[cache_key] = (data, datetime.now())
+
+            print(f"✅ Successfully fetched data for {ticker}")
+            return data
+
+        except Exception as e:
+            if attempt < max_retries - 1:
+                print(f"❌ Error fetching {ticker}: {str(e)}, retrying...")
+                continue
+            else:
+                print(f"❌ Failed to fetch {ticker} after {max_retries} attempts")
+                raise
 
 
 class TickerAnalyzer:
@@ -67,27 +126,30 @@ class TickerAnalyzer:
         ticker = ticker.upper()
 
         try:
-            # Get basic stock info
-            stock_info = self._get_stock_info(ticker)
+            # ✨ GET ALL DATA ONCE (with caching + retry)
+            stock, info, hist = get_cached_stock_data(ticker)
 
-            # Run market regime check
+            # Extract stock info (no extra API calls)
+            stock_info = self._extract_stock_info(info, hist)
+
+            # Run market regime check (cached separately)
             market_regime = self.market_detector.detect_regime(save_report=False)
 
-            # Run VCP analysis (simplified - we don't have full VCP scanner access here)
-            vcp_analysis = self._analyze_vcp_pattern(ticker)
+            # Run VCP analysis (reuses hist data)
+            vcp_analysis = self._analyze_vcp_pattern_cached(hist)
 
-            # Run ML scoring (simplified)
-            ml_score = self._calculate_ml_score(ticker)
+            # Run ML scoring (reuses hist data)
+            ml_score = self._calculate_ml_score_cached(hist)
 
-            # Run fundamental analysis
+            # Run fundamental analysis (reuses info data)
             fundamental_analysis = self._analyze_fundamentals(ticker, stock_info)
 
-            # Run advanced filters
+            # Run advanced filters (these already use their own caching)
             ma_result = self.ma_filter.check_stock(ticker, verbose=True)
             ad_result = self.ad_filter.analyze_stock(ticker, verbose=True)
             float_result = self.float_filter.check_stock(ticker, verbose=True)
 
-            # Run web validation
+            # Run web validation (reuses stock_info)
             validation_result = self._run_validation(ticker, stock_info)
 
             # Calculate final score
@@ -155,7 +217,7 @@ class TickerAnalyzer:
             }
 
     def _get_stock_info(self, ticker: str) -> dict:
-        """Get basic stock information from yfinance"""
+        """Get basic stock information from yfinance (OLD - uses extra API calls)"""
         stock = yf.Ticker(ticker)
         info = stock.info
         hist = stock.history(period='1y')
@@ -182,6 +244,110 @@ class TickerAnalyzer:
             'avg_volume': info.get('averageVolume'),
             'description': info.get('longBusinessSummary', '')[:500]  # First 500 chars
         }
+
+    def _extract_stock_info(self, info: dict, hist: pd.DataFrame) -> dict:
+        """Extract stock info from already-fetched data (OPTIMIZED - no API calls)"""
+        if hist.empty:
+            raise ValueError("No historical data available")
+
+        current_price = info.get('currentPrice') or hist['Close'].iloc[-1]
+
+        return {
+            'company_name': info.get('longName', 'N/A'),
+            'sector': info.get('sector', 'N/A'),
+            'industry': info.get('industry', 'N/A'),
+            'current_price': float(round(current_price, 2)),
+            'market_cap': info.get('marketCap'),
+            'pe_ratio': info.get('trailingPE'),
+            'forward_pe': info.get('forwardPE'),
+            'peg_ratio': info.get('pegRatio'),
+            'price_to_book': info.get('priceToBook'),
+            'dividend_yield': info.get('dividendYield'),
+            'beta': info.get('beta'),
+            'fifty_two_week_high': info.get('fiftyTwoWeekHigh'),
+            'fifty_two_week_low': info.get('fiftyTwoWeekLow'),
+            'avg_volume': info.get('averageVolume'),
+            'description': info.get('longBusinessSummary', '')[:500]
+        }
+
+    def _analyze_vcp_pattern_cached(self, hist: pd.DataFrame) -> dict:
+        """VCP analysis using cached historical data (OPTIMIZED - no API calls)"""
+        try:
+            if hist.empty or len(hist) < 200:
+                return {'score': 50, 'pattern_detected': False, 'reason': 'Insufficient data'}
+
+            # Simple volatility contraction check
+            recent_vol = hist['Close'].tail(20).std()
+            older_vol = hist['Close'].head(20).std()
+            vol_ratio = recent_vol / older_vol if older_vol > 0 else 1.0
+
+            # Check for consolidation
+            recent_high = hist['High'].tail(50).max()
+            recent_low = hist['Low'].tail(50).min()
+            consolidation_range = (recent_high - recent_low) / recent_low * 100
+
+            # Simple scoring
+            score = 50
+            if vol_ratio < 0.7:
+                score += 20
+            if consolidation_range < 30:
+                score += 15
+            if hist['Close'].iloc[-1] > hist['Close'].iloc[-20]:
+                score += 15
+
+            return {
+                'score': int(min(100, score)),
+                'pattern_detected': score >= 70,
+                'vol_ratio': float(round(vol_ratio, 2)),
+                'consolidation_range': float(round(consolidation_range, 1)),
+                'reason': 'VCP-like pattern detected' if score >= 70 else 'No clear VCP pattern'
+            }
+        except Exception as e:
+            return {'score': 50, 'pattern_detected': False, 'reason': f'Error: {str(e)}'}
+
+    def _calculate_ml_score_cached(self, hist: pd.DataFrame) -> dict:
+        """ML scoring using cached historical data (OPTIMIZED - no API calls)"""
+        try:
+            if hist.empty or len(hist) < 50:
+                return {'score': 50, 'reason': 'Insufficient data'}
+
+            close = hist['Close']
+
+            # Price momentum (20-day)
+            momentum_20d = (close.iloc[-1] / close.iloc[-20] - 1) * 100 if len(close) >= 20 else 0
+
+            # Trend strength (50-day MA)
+            ma_50 = close.rolling(50).mean()
+            above_ma_50 = close.iloc[-1] > ma_50.iloc[-1] if len(ma_50) >= 50 else False
+
+            # Volume trend
+            vol = hist['Volume']
+            recent_vol = vol.tail(10).mean()
+            baseline_vol = vol.mean()
+            vol_ratio = recent_vol / baseline_vol if baseline_vol > 0 else 1.0
+
+            # Calculate score
+            score = 50
+            if momentum_20d > 10:
+                score += 20
+            elif momentum_20d > 5:
+                score += 10
+
+            if above_ma_50:
+                score += 15
+
+            if vol_ratio > 1.2:
+                score += 15
+
+            return {
+                'score': int(min(100, max(0, score))),
+                'momentum_20d': float(round(momentum_20d, 1)),
+                'above_ma_50': bool(above_ma_50),
+                'volume_ratio': float(round(vol_ratio, 2)),
+                'reason': 'Strong momentum' if score >= 70 else 'Weak momentum'
+            }
+        except Exception as e:
+            return {'score': 50, 'reason': f'Error: {str(e)}'}
 
     def _analyze_vcp_pattern(self, ticker: str) -> dict:
         """Simplified VCP pattern analysis"""
