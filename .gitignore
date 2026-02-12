@@ -33,10 +33,20 @@ docs/diagnostics/
 
 # Temporary reports
 docs/reports/vcp/vcp_scan_*/
+docs/reports/vcp/vcp_calibrated_results_*.csv
 docs/sector_rotation/scan_*.csv
 
 # Timestamped fundamental scores (temporary analysis)
 docs/fundamental_scores_*.json
+
+# Timestamped super scores (generated each run)
+docs/super_scores_ultimate_*.json
+
+# VCP scanner reports (timestamped)
+docs/reports/vcp/vcp_scanner_*.html
+
+# OS files
+.DS_Store
 
 # Backtest cache with timestamps
 data/backtest_cache/*.csv
