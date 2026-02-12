@@ -34,3 +34,13 @@ docs/diagnostics/
 # Temporary reports
 docs/reports/vcp/vcp_scan_*/
 docs/sector_rotation/scan_*.csv
+
+# Timestamped fundamental scores (temporary analysis)
+docs/fundamental_scores_*.json
+
+# Backtest cache with timestamps
+data/backtest_cache/*.csv
+
+# Untracked sector rotation and backtest results
+docs/sector_rotation/
+docs/optimization/
