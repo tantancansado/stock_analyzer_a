@@ -11,6 +11,12 @@ Ejecuta:
 - Web Validation
 - Investment Thesis Generation
 
+Data Sources (HYBRID):
+1. Pre-populated cache from daily pipeline (docs/ticker_data_cache.json)
+2. Web scraping fallback for tickers not in cache
+
+NO API CALLS - Avoids Yahoo Finance rate limiting!
+
 Usage:
     python3 ticker_analyzer_api.py
 
@@ -20,26 +26,18 @@ API Endpoints:
 """
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import yfinance as yf
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import traceback
 import sys
 import os
-import time
+import json
+from pathlib import Path
 from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-
-# Try to import finnhub (optional, fallback to yfinance if not available)
-try:
-    import finnhub
-    FINNHUB_AVAILABLE = True
-except ImportError:
-    FINNHUB_AVAILABLE = False
-    print("⚠️  Finnhub not installed. Using yfinance only.")
 
 # Import our analysis modules
 from moving_average_filter import MovingAverageFilter
@@ -47,183 +45,141 @@ from accumulation_distribution_filter import AccumulationDistributionFilter
 from float_filter import FloatFilter
 from market_regime_detector import MarketRegimeDetector
 from opportunity_validator import OpportunityValidator
+from yahoo_finance_scraper import YahooFinanceScraper
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend
 
 # Global cache for stock data (in-memory)
-DATA_CACHE = {}
+MEMORY_CACHE = {}
 CACHE_DURATION = timedelta(minutes=10)  # Cache for 10 minutes
 
-# Initialize Finnhub client if available
-FINNHUB_CLIENT = None
-FINNHUB_API_KEY = os.environ.get('FINNHUB_API_KEY')
+# Load ticker data cache from JSON (populated by daily pipeline)
+TICKER_CACHE_PATH = Path('docs/ticker_data_cache.json')
+TICKER_DATA_CACHE = {}
 
-# Debug logging
-print(f"🔍 DEBUG: FINNHUB_AVAILABLE = {FINNHUB_AVAILABLE}")
-print(f"🔍 DEBUG: FINNHUB_API_KEY present = {bool(FINNHUB_API_KEY)}")
-if FINNHUB_API_KEY:
-    print(f"🔍 DEBUG: FINNHUB_API_KEY length = {len(FINNHUB_API_KEY)}")
-    print(f"🔍 DEBUG: FINNHUB_API_KEY preview = {FINNHUB_API_KEY[:10]}...")
+def load_ticker_cache():
+    """Load pre-populated ticker cache from JSON"""
+    global TICKER_DATA_CACHE
 
-if FINNHUB_AVAILABLE and FINNHUB_API_KEY:
-    try:
-        FINNHUB_CLIENT = finnhub.Client(api_key=FINNHUB_API_KEY)
-        print("✅ Finnhub client initialized")
-    except Exception as e:
-        print(f"❌ Failed to initialize Finnhub client: {str(e)}")
-else:
-    reasons = []
-    if not FINNHUB_AVAILABLE:
-        reasons.append("finnhub-python not installed")
-    if not FINNHUB_API_KEY:
-        reasons.append("FINNHUB_API_KEY not set")
-    print(f"⚠️  Finnhub not configured. Reason(s): {', '.join(reasons)}")
-
-
-def get_stock_data_from_finnhub(ticker: str) -> tuple:
-    """
-    Fetch stock data from Finnhub API
-
-    Returns:
-        tuple: (info_dict, history_dataframe, source='finnhub')
-    """
-    if not FINNHUB_CLIENT:
-        raise ValueError("Finnhub client not initialized")
-
-    print(f"📡 Fetching {ticker} from Finnhub...")
-
-    # Get company profile
-    profile = FINNHUB_CLIENT.company_profile2(symbol=ticker)
-
-    # Get quote (current price)
-    quote = FINNHUB_CLIENT.quote(ticker)
-
-    # Get historical data (1 year of daily candles)
-    end_date = int(datetime.now().timestamp())
-    start_date = int((datetime.now() - timedelta(days=365)).timestamp())
-    candles = FINNHUB_CLIENT.stock_candles(ticker, 'D', start_date, end_date)
-
-    # Convert to pandas DataFrame (similar format to yfinance)
-    if candles['s'] == 'ok':
-        hist = pd.DataFrame({
-            'Close': candles['c'],
-            'High': candles['h'],
-            'Low': candles['l'],
-            'Open': candles['o'],
-            'Volume': candles['v']
-        }, index=pd.to_datetime(candles['t'], unit='s'))
-    else:
-        raise ValueError(f"No historical data from Finnhub for {ticker}")
-
-    # Build info dict (similar format to yfinance)
-    info = {
-        'longName': profile.get('name', ticker),
-        'symbol': ticker,
-        'sector': profile.get('finnhubIndustry', 'N/A'),
-        'industry': profile.get('finnhubIndustry', 'N/A'),
-        'currentPrice': quote.get('c'),
-        'previousClose': quote.get('pc'),
-        'marketCap': profile.get('marketCapitalization', 0) * 1_000_000,  # Finnhub returns in millions
-        'sharesOutstanding': profile.get('shareOutstanding', 0) * 1_000_000,
-        'country': profile.get('country', 'US'),
-        'currency': profile.get('currency', 'USD'),
-        'exchange': profile.get('exchange', 'NASDAQ'),
-        'website': profile.get('weburl', ''),
-        'logo': profile.get('logo', ''),
-        'longBusinessSummary': f"{profile.get('name', ticker)} - {profile.get('finnhubIndustry', 'N/A')}",
-    }
-
-    print(f"✅ Successfully fetched {ticker} from Finnhub")
-    return (None, info, hist, 'finnhub')
-
-
-def get_stock_data_from_yfinance(ticker: str, max_retries: int = 3) -> tuple:
-    """
-    Fetch stock data from yfinance (with retry logic)
-
-    Returns:
-        tuple: (stock_object, info_dict, history_dataframe, source='yfinance')
-    """
-    for attempt in range(max_retries):
+    if TICKER_CACHE_PATH.exists():
         try:
-            print(f"📡 Fetching {ticker} from yfinance (attempt {attempt + 1}/{max_retries})")
-
-            # Add delay to avoid rate limiting
-            if attempt > 0:
-                delay = 2 ** attempt  # Exponential backoff: 2s, 4s, 8s
-                print(f"⏳ Waiting {delay}s before retry...")
-                time.sleep(delay)
-
-            # Fetch all data in ONE go
-            stock = yf.Ticker(ticker)
-            info = stock.info
-            hist = stock.history(period='1y')
-
-            # Validate data
-            if not info or hist.empty:
-                raise ValueError(f"No data available for {ticker}")
-
-            print(f"✅ Successfully fetched {ticker} from yfinance")
-            return (stock, info, hist, 'yfinance')
-
+            with open(TICKER_CACHE_PATH, 'r') as f:
+                TICKER_DATA_CACHE = json.load(f)
+            print(f"✅ Loaded ticker cache: {len(TICKER_DATA_CACHE)} tickers")
+            return True
         except Exception as e:
-            if attempt < max_retries - 1:
-                print(f"❌ Error fetching {ticker}: {str(e)}, retrying...")
-                continue
-            else:
-                print(f"❌ Failed to fetch {ticker} from yfinance after {max_retries} attempts")
-                raise
+            print(f"⚠️  Failed to load ticker cache: {str(e)}")
+            return False
+    else:
+        print(f"⚠️  Ticker cache not found at {TICKER_CACHE_PATH}")
+        print(f"   Run 'python3 super_score_integrator.py' to generate cache")
+        return False
+
+# Load cache on startup
+load_ticker_cache()
+
+# Initialize web scraper (fallback for tickers not in cache)
+web_scraper = YahooFinanceScraper()
+print("✅ Yahoo Finance web scraper initialized (fallback mode)")
 
 
-def get_cached_stock_data(ticker: str, max_retries: int = 3):
+def get_stock_data(ticker: str) -> tuple:
     """
-    Get stock data with caching and hybrid provider fallback
+    Get stock data using hybrid cache + web scraping approach
 
-    Tries providers in order:
-    1. Finnhub (if configured) - 60 calls/minute, reliable
-    2. yfinance (fallback) - free but rate limited
+    Strategy:
+    1. Check in-memory cache (10 min TTL)
+    2. Check pre-populated ticker data cache (from daily pipeline)
+    3. Fallback to web scraping (no API calls!)
 
     Returns:
-        tuple: (stock_object_or_None, info_dict, history_dataframe, source)
+        tuple: (info_dict, history_dataframe, source)
+
+    NO API CALLS - Completely avoids rate limiting!
     """
     cache_key = f"{ticker}_data"
 
-    # Check cache first
-    if cache_key in DATA_CACHE:
-        cached_data, timestamp = DATA_CACHE[cache_key]
+    # 1. Check in-memory cache first (fast)
+    if cache_key in MEMORY_CACHE:
+        cached_data, timestamp = MEMORY_CACHE[cache_key]
         if datetime.now() - timestamp < CACHE_DURATION:
-            print(f"✓ Using cached data for {ticker} (source: {cached_data[3]})")
+            print(f"✓ Using in-memory cache for {ticker} (source: {cached_data[2]})")
             return cached_data
-        else:
-            print(f"⚠️  Cache expired for {ticker}, fetching fresh data")
 
-    # Try providers in order of preference
-    errors = []
+    # 2. Check pre-populated ticker cache (from daily pipeline)
+    if ticker in TICKER_DATA_CACHE:
+        print(f"✅ Found {ticker} in pre-populated cache (daily pipeline)")
+        ticker_data = TICKER_DATA_CACHE[ticker]
 
-    # 1. Try Finnhub first (if configured)
-    if FINNHUB_CLIENT:
-        try:
-            data = get_stock_data_from_finnhub(ticker)
-            DATA_CACHE[cache_key] = (data, datetime.now())
-            return data
-        except Exception as e:
-            error_msg = f"Finnhub failed: {str(e)}"
-            print(f"⚠️  {error_msg}")
-            errors.append(error_msg)
+        # Convert to expected format
+        info, hist = _convert_cache_to_standard_format(ticker_data)
+        data = (info, hist, 'pipeline_cache')
 
-    # 2. Fallback to yfinance
-    try:
-        data = get_stock_data_from_yfinance(ticker, max_retries)
-        DATA_CACHE[cache_key] = (data, datetime.now())
+        # Store in memory cache
+        MEMORY_CACHE[cache_key] = (data, datetime.now())
         return data
-    except Exception as e:
-        error_msg = f"yfinance failed: {str(e)}"
-        print(f"❌ {error_msg}")
-        errors.append(error_msg)
 
-    # All providers failed
-    raise ValueError(f"Failed to fetch {ticker} from all providers. Errors: {'; '.join(errors)}")
+    # 3. Fallback to web scraping (no API calls!)
+    print(f"⚠️  {ticker} not in cache, using web scraper fallback...")
+    try:
+        ticker_data = web_scraper.scrape_ticker(ticker)
+
+        # Convert to expected format
+        info, hist = _convert_cache_to_standard_format(ticker_data)
+        data = (info, hist, 'web_scraper')
+
+        # Store in memory cache
+        MEMORY_CACHE[cache_key] = (data, datetime.now())
+        return data
+
+    except Exception as e:
+        raise ValueError(f"Failed to fetch {ticker} from all sources. Error: {str(e)}")
+
+
+def _convert_cache_to_standard_format(ticker_data: dict) -> tuple:
+    """
+    Convert ticker cache format to standard info + hist format
+
+    Args:
+        ticker_data: Dict from cache or web scraper
+
+    Returns:
+        tuple: (info_dict, history_dataframe)
+    """
+    # Build info dict (yfinance-compatible format)
+    info = {
+        'symbol': ticker_data['ticker'],
+        'longName': ticker_data.get('company_name', ticker_data['ticker']),
+        'shortName': ticker_data.get('company_name', ticker_data['ticker']),
+        'sector': ticker_data.get('sector', 'N/A'),
+        'industry': ticker_data.get('industry', 'N/A'),
+        'currentPrice': ticker_data.get('current_price', 0),
+        'previousClose': ticker_data.get('previous_close', 0),
+        'volume': ticker_data.get('volume', 0),
+        'averageVolume': ticker_data.get('avg_volume', 0),
+        'marketCap': ticker_data.get('market_cap', 0),
+        'sharesOutstanding': ticker_data.get('shares_outstanding', 0),
+        'fiftyTwoWeekHigh': ticker_data.get('fifty_two_week_high', 0),
+        'fiftyTwoWeekLow': ticker_data.get('fifty_two_week_low', 0),
+        'longBusinessSummary': f"{ticker_data.get('company_name', ticker_data['ticker'])} - {ticker_data.get('sector', 'N/A')}",
+    }
+
+    # Build history DataFrame
+    historical = ticker_data.get('historical', {})
+    if historical and historical.get('dates'):
+        hist = pd.DataFrame({
+            'Open': historical['open'],
+            'High': historical['high'],
+            'Low': historical['low'],
+            'Close': historical['close'],
+            'Volume': historical['volume']
+        }, index=pd.to_datetime(historical['dates']))
+    else:
+        # Empty DataFrame if no historical data
+        hist = pd.DataFrame(columns=['Open', 'High', 'Low', 'Close', 'Volume'])
+
+    return (info, hist)
 
 
 class TickerAnalyzer:
@@ -250,12 +206,12 @@ class TickerAnalyzer:
         ticker = ticker.upper()
 
         try:
-            # ✨ GET ALL DATA ONCE (with caching + retry + hybrid providers)
-            stock, info, hist, source = get_cached_stock_data(ticker)
+            # ✨ GET ALL DATA ONCE (cache + scraping - NO API CALLS!)
+            info, hist, source = get_stock_data(ticker)
 
             # Extract stock info (no extra API calls)
             stock_info = self._extract_stock_info(info, hist)
-            stock_info['data_source'] = source  # Track which provider was used
+            stock_info['data_source'] = source  # Track which source was used (pipeline_cache or web_scraper)
 
             # Run market regime check (cached separately)
             market_regime = self.market_detector.detect_regime(save_report=False)
@@ -340,35 +296,6 @@ class TickerAnalyzer:
                 'error': str(e),
                 'traceback': traceback.format_exc()
             }
-
-    def _get_stock_info(self, ticker: str) -> dict:
-        """Get basic stock information from yfinance (OLD - uses extra API calls)"""
-        stock = yf.Ticker(ticker)
-        info = stock.info
-        hist = stock.history(period='1y')
-
-        if hist.empty:
-            raise ValueError(f"No data available for {ticker}")
-
-        current_price = info.get('currentPrice') or hist['Close'].iloc[-1]
-
-        return {
-            'company_name': info.get('longName', ticker),
-            'sector': info.get('sector', 'N/A'),
-            'industry': info.get('industry', 'N/A'),
-            'current_price': float(round(current_price, 2)),
-            'market_cap': info.get('marketCap'),
-            'pe_ratio': info.get('trailingPE'),
-            'forward_pe': info.get('forwardPE'),
-            'peg_ratio': info.get('pegRatio'),
-            'price_to_book': info.get('priceToBook'),
-            'dividend_yield': info.get('dividendYield'),
-            'beta': info.get('beta'),
-            'fifty_two_week_high': info.get('fiftyTwoWeekHigh'),
-            'fifty_two_week_low': info.get('fiftyTwoWeekLow'),
-            'avg_volume': info.get('averageVolume'),
-            'description': info.get('longBusinessSummary', '')[:500]  # First 500 chars
-        }
 
     def _extract_stock_info(self, info: dict, hist: pd.DataFrame) -> dict:
         """Extract stock info from already-fetched data (OPTIMIZED - no API calls)"""
@@ -601,95 +528,6 @@ class TickerAnalyzer:
             }
         except Exception as e:
             return {'ticker': ticker, 'passes': False, 'float_category': 'UNKNOWN', 'score': 50, 'reason': f'Error: {str(e)}'}
-
-    def _analyze_vcp_pattern(self, ticker: str) -> dict:
-        """Simplified VCP pattern analysis"""
-        try:
-            stock = yf.Ticker(ticker)
-            hist = stock.history(period='6mo')
-
-            if hist.empty:
-                return {'score': 50, 'pattern_detected': False, 'reason': 'No data'}
-
-            # Simple volatility contraction check
-            recent_vol = hist['Close'].tail(20).std()
-            older_vol = hist['Close'].head(20).std()
-
-            vol_ratio = recent_vol / older_vol if older_vol > 0 else 1.0
-
-            # Check for consolidation
-            recent_high = hist['High'].tail(50).max()
-            recent_low = hist['Low'].tail(50).min()
-            consolidation_range = (recent_high - recent_low) / recent_low * 100
-
-            # Simple scoring
-            score = 50
-            if vol_ratio < 0.7:
-                score += 20  # Volatility contracting
-            if consolidation_range < 30:
-                score += 15  # Tight consolidation
-            if hist['Close'].iloc[-1] > hist['Close'].iloc[-20]:
-                score += 15  # Recent uptrend
-
-            return {
-                'score': int(min(100, score)),
-                'pattern_detected': score >= 70,
-                'vol_ratio': float(round(vol_ratio, 2)),
-                'consolidation_range': float(round(consolidation_range, 1)),
-                'reason': 'VCP-like pattern detected' if score >= 70 else 'No clear VCP pattern'
-            }
-
-        except Exception as e:
-            return {'score': 50, 'pattern_detected': False, 'reason': f'Error: {str(e)}'}
-
-    def _calculate_ml_score(self, ticker: str) -> dict:
-        """Simplified ML scoring based on momentum/trend"""
-        try:
-            stock = yf.Ticker(ticker)
-            hist = stock.history(period='3mo')
-
-            if hist.empty:
-                return {'score': 50, 'reason': 'No data'}
-
-            # Calculate momentum indicators
-            close = hist['Close']
-
-            # Price momentum (20-day)
-            momentum_20d = (close.iloc[-1] / close.iloc[-20] - 1) * 100 if len(close) >= 20 else 0
-
-            # Trend strength (50-day MA)
-            ma_50 = close.rolling(50).mean()
-            above_ma_50 = close.iloc[-1] > ma_50.iloc[-1] if len(ma_50) >= 50 else False
-
-            # Volume trend
-            vol = hist['Volume']
-            recent_vol = vol.tail(10).mean()
-            baseline_vol = vol.mean()
-            vol_ratio = recent_vol / baseline_vol if baseline_vol > 0 else 1.0
-
-            # Calculate score
-            score = 50
-            if momentum_20d > 10:
-                score += 20
-            elif momentum_20d > 5:
-                score += 10
-
-            if above_ma_50:
-                score += 15
-
-            if vol_ratio > 1.2:
-                score += 15
-
-            return {
-                'score': int(min(100, max(0, score))),
-                'momentum_20d': float(round(momentum_20d, 1)),
-                'above_ma_50': bool(above_ma_50),
-                'volume_ratio': float(round(vol_ratio, 2)),
-                'reason': 'Strong momentum' if score >= 70 else 'Weak momentum'
-            }
-
-        except Exception as e:
-            return {'score': 50, 'reason': f'Error: {str(e)}'}
 
     def _analyze_fundamentals(self, ticker: str, stock_info: dict) -> dict:
         """Analyze fundamental metrics"""

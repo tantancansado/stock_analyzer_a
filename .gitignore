@@ -23,6 +23,9 @@ company_names_cache.json
 market_regime_cache.json
 sector_cache.json
 
+# EXCEPTION: Keep ticker data cache (used by ticker analyzer API)
+!docs/ticker_data_cache.json
+
 # VCP calibrated results (temporary analysis files)
 vcp_calibrated_results_*.csv
 
