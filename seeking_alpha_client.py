@@ -171,6 +171,9 @@ class SeekingAlphaClient:
             response.raise_for_status()
             data = response.json()
 
+            # DEBUG: Print quote data to see what fields are available
+            print(f"   🔍 DEBUG - Quote data keys: {list(data[0].keys()) if isinstance(data, list) and len(data) > 0 else list(data.keys()) if isinstance(data, dict) else 'empty'}")
+
             # Extract first result if available
             if isinstance(data, list) and len(data) > 0:
                 return data[0]
