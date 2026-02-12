@@ -1,0 +1,1590 @@
+{
+  "AAPL": {
+    "ticker": "AAPL",
+    "fundamentals": {
+      "pe_ratio": 33.517067,
+      "forward_pe": 28.549736,
+      "beta": 1.107,
+      "float_shares": 14655594816,
+      "shares_outstanding": 14681140000,
+      "market_cap": 3896713936896,
+      "dividend_yield": 0.38,
+      "price_to_book": 44.201397,
+      "profit_margins": 0.27037,
+      "revenue_growth": 0.157
+    },
+    "fetched_at": "2026-02-12T18:01:00.267278"
+  },
+  "MSFT": {
+    "ticker": "MSFT",
+    "fundamentals": {
+      "pe_ratio": 25.077019,
+      "forward_pe": 21.246086,
+      "beta": 1.084,
+      "float_shares": 7414713401,
+      "shares_outstanding": 7425629076,
+      "market_cap": 2976518766592,
+      "dividend_yield": 0.9,
+      "price_to_book": 7.6115174,
+      "profit_margins": 0.39044,
+      "revenue_growth": 0.167
+    },
+    "fetched_at": "2026-02-12T18:01:03.648497"
+  },
+  "GOOGL": {
+    "ticker": "GOOGL",
+    "fundamentals": {
+      "pe_ratio": 28.924215,
+      "forward_pe": 23.44345,
+      "beta": 1.086,
+      "float_shares": 10832742530,
+      "shares_outstanding": 5822000000,
+      "market_cap": 3785877094400,
+      "dividend_yield": 0.27,
+      "price_to_book": 9.110121,
+      "profit_margins": 0.32810003,
+      "revenue_growth": 0.18
+    },
+    "fetched_at": "2026-02-12T18:01:07.061593"
+  },
+  "AMZN": {
+    "ticker": "AMZN",
+    "fundamentals": {
+      "pe_ratio": 27.727654,
+      "forward_pe": 21.316368,
+      "beta": 1.385,
+      "float_shares": 9746556705,
+      "shares_outstanding": 10734920870,
+      "market_cap": 2131203850240,
+      "price_to_book": 5.182739,
+      "profit_margins": 0.108339995,
+      "revenue_growth": 0.136
+    },
+    "fetched_at": "2026-02-12T18:01:10.438379"
+  },
+  "NVDA": {
+    "ticker": "NVDA",
+    "fundamentals": {
+      "pe_ratio": 46.698765,
+      "forward_pe": 24.495026,
+      "beta": 2.314,
+      "float_shares": 23330916000,
+      "shares_outstanding": 24305000000,
+      "market_cap": 4604748627968,
+      "dividend_yield": 0.02,
+      "price_to_book": 38.66108,
+      "profit_margins": 0.53007,
+      "revenue_growth": 0.625
+    },
+    "fetched_at": "2026-02-12T18:01:13.835881"
+  },
+  "META": {
+    "ticker": "META",
+    "fundamentals": {
+      "pe_ratio": 27.819344,
+      "forward_pe": 18.304247,
+      "beta": 1.284,
+      "float_shares": 2182626932,
+      "shares_outstanding": 2187177748,
+      "market_cap": 1651597246464,
+      "dividend_yield": 0.31,
+      "price_to_book": 7.6038527,
+      "profit_margins": 0.30084,
+      "revenue_growth": 0.238
+    },
+    "fetched_at": "2026-02-12T18:01:17.260907"
+  },
+  "TSLA": {
+    "ticker": "TSLA",
+    "fundamentals": {
+      "pe_ratio": 390.0483,
+      "forward_pe": 148.82457,
+      "beta": 1.887,
+      "float_shares": 2812635394,
+      "shares_outstanding": 3752431984,
+      "market_cap": 1566083907584,
+      "price_to_book": 19.059767,
+      "profit_margins": 0.040009998,
+      "revenue_growth": -0.031
+    },
+    "fetched_at": "2026-02-12T18:01:20.803882"
+  },
+  "BRK-B": {
+    "ticker": "BRK-B",
+    "fundamentals": {
+      "pe_ratio": 16.0992,
+      "forward_pe": 20.883898,
+      "beta": 0.702,
+      "float_shares": 1235308,
+      "shares_outstanding": 1372820139,
+      "market_cap": 1085355130880,
+      "price_to_book": 0.0010367332,
+      "profit_margins": 0.18129,
+      "revenue_growth": 0.021
+    },
+    "fetched_at": "2026-02-12T18:01:24.174781"
+  },
+  "UNH": {
+    "ticker": "UNH",
+    "fundamentals": {
+      "pe_ratio": 14.763454,
+      "forward_pe": 14.147214,
+      "beta": 0.415,
+      "float_shares": 902265000,
+      "shares_outstanding": 905838620,
+      "market_cap": 256633765888,
+      "dividend_yield": 3.17,
+      "price_to_book": 2.5758095,
+      "profit_margins": 0.02694,
+      "revenue_growth": 0.123
+    },
+    "fetched_at": "2026-02-12T18:01:27.540555"
+  },
+  "JNJ": {
+    "ticker": "JNJ",
+    "fundamentals": {
+      "pe_ratio": 22.15322,
+      "forward_pe": 19.477041,
+      "beta": 0.347,
+      "float_shares": 2405584788,
+      "shares_outstanding": 2409295102,
+      "market_cap": 588711264256,
+      "dividend_yield": 2.16,
+      "price_to_book": 7.416457,
+      "profit_margins": 0.28456,
+      "revenue_growth": 0.091
+    },
+    "fetched_at": "2026-02-12T18:01:30.914407"
+  },
+  "JPM": {
+    "ticker": "JPM",
+    "fundamentals": {
+      "pe_ratio": 15.040709,
+      "forward_pe": 13.023639,
+      "beta": 1.053,
+      "float_shares": 2681883178,
+      "shares_outstanding": 2696200000,
+      "market_cap": 819713998848,
+      "dividend_yield": 1.93,
+      "price_to_book": 2.3711522,
+      "profit_margins": 0.3391,
+      "revenue_growth": 0.025
+    },
+    "fetched_at": "2026-02-12T18:01:34.286000"
+  },
+  "V": {
+    "ticker": "V",
+    "fundamentals": {
+      "pe_ratio": 30.718721,
+      "forward_pe": 22.472235,
+      "beta": 0.78,
+      "float_shares": 1739773915,
+      "shares_outstanding": 1681093942,
+      "market_cap": 629582069760,
+      "dividend_yield": 0.81,
+      "price_to_book": 16.299292,
+      "profit_margins": 0.50233,
+      "revenue_growth": 0.146
+    },
+    "fetched_at": "2026-02-12T18:01:37.638574"
+  },
+  "PG": {
+    "ticker": "PG",
+    "fundamentals": {
+      "pe_ratio": 24.105186,
+      "forward_pe": 22.189856,
+      "beta": 0.38,
+      "float_shares": 2319817484,
+      "shares_outstanding": 2324000685,
+      "market_cap": 380209922048,
+      "dividend_yield": 2.64,
+      "price_to_book": 7.233806,
+      "profit_margins": 0.19299999,
+      "revenue_growth": 0.015
+    },
+    "fetched_at": "2026-02-12T18:01:41.003955"
+  },
+  "XOM": {
+    "ticker": "XOM",
+    "fundamentals": {
+      "pe_ratio": 22.719404,
+      "forward_pe": 18.21794,
+      "beta": 0.358,
+      "float_shares": 4167340590,
+      "shares_outstanding": 4179000000,
+      "market_cap": 641936916480,
+      "dividend_yield": 2.65,
+      "price_to_book": 2.452432,
+      "profit_margins": 0.089049995,
+      "revenue_growth": -0.013
+    },
+    "fetched_at": "2026-02-12T18:01:44.373475"
+  },
+  "MA": {
+    "ticker": "MA",
+    "fundamentals": {
+      "pe_ratio": 32.27545,
+      "forward_pe": 23.564323,
+      "beta": 0.821,
+      "float_shares": 886114920,
+      "shares_outstanding": 886700000,
+      "market_cap": 475795750912,
+      "dividend_yield": 0.65,
+      "price_to_book": 61.537434,
+      "profit_margins": 0.45646998,
+      "revenue_growth": 0.176
+    },
+    "fetched_at": "2026-02-12T18:01:47.957700"
+  },
+  "HD": {
+    "ticker": "HD",
+    "fundamentals": {
+      "pe_ratio": 26.7314,
+      "forward_pe": 26.03747,
+      "beta": 1.089,
+      "float_shares": 993908712,
+      "shares_outstanding": 995511485,
+      "market_cap": 389857214464,
+      "dividend_yield": 2.35,
+      "price_to_book": 32.160217,
+      "profit_margins": 0.087740004,
+      "revenue_growth": 0.028
+    },
+    "fetched_at": "2026-02-12T18:01:51.338038"
+  },
+  "CVX": {
+    "ticker": "CVX",
+    "fundamentals": {
+      "pe_ratio": 27.630468,
+      "forward_pe": 19.986841,
+      "beta": 0.672,
+      "float_shares": 1846765800,
+      "shares_outstanding": 1980000000,
+      "market_cap": 366261600256,
+      "dividend_yield": 3.83,
+      "price_to_book": 1.9292905,
+      "profit_margins": 0.06611,
+      "revenue_growth": -0.06
+    },
+    "fetched_at": "2026-02-12T18:01:54.745108"
+  },
+  "MRK": {
+    "ticker": "MRK",
+    "fundamentals": {
+      "pe_ratio": 16.633242,
+      "forward_pe": 12.4321995,
+      "beta": 0.296,
+      "float_shares": 2478001659,
+      "shares_outstanding": 2482022536,
+      "market_cap": 302456569856,
+      "dividend_yield": 2.85,
+      "price_to_book": 5.809067,
+      "profit_margins": 0.28078,
+      "revenue_growth": 0.05
+    },
+    "fetched_at": "2026-02-12T18:01:58.113785"
+  },
+  "ABBV": {
+    "ticker": "ABBV",
+    "fundamentals": {
+      "pe_ratio": 95.33899,
+      "forward_pe": 14.072808,
+      "beta": 0.334,
+      "float_shares": 1763920558,
+      "shares_outstanding": 1767384632,
+      "market_cap": 397661536256,
+      "dividend_yield": 3.01,
+      "price_to_book": -150.50168,
+      "profit_margins": 0.0691,
+      "revenue_growth": 0.1
+    },
+    "fetched_at": "2026-02-12T18:02:01.492466"
+  },
+  "PEP": {
+    "ticker": "PEP",
+    "fundamentals": {
+      "pe_ratio": 28.301666,
+      "forward_pe": 18.615496,
+      "beta": 0.416,
+      "float_shares": 1363041100,
+      "shares_outstanding": 1366649053,
+      "market_cap": 232188035072,
+      "dividend_yield": 3.36,
+      "price_to_book": 11.375267,
+      "profit_margins": 0.08773,
+      "revenue_growth": 0.056
+    },
+    "fetched_at": "2026-02-12T18:02:04.891292"
+  },
+  "AVGO": {
+    "ticker": "AVGO",
+    "fundamentals": {
+      "pe_ratio": 70.29411,
+      "forward_pe": 23.199139,
+      "beta": 1.221,
+      "float_shares": 405866610,
+      "shares_outstanding": 4741273799,
+      "market_cap": 1586430214144,
+      "dividend_yield": 0.76,
+      "price_to_book": 5.650023,
+      "profit_margins": 0.36198002,
+      "revenue_growth": 0.164
+    },
+    "fetched_at": "2026-02-12T18:02:08.253920"
+  },
+  "KO": {
+    "ticker": "KO",
+    "fundamentals": {
+      "pe_ratio": 26.360199,
+      "forward_pe": 23.11211,
+      "beta": 0.364,
+      "float_shares": 3873219660,
+      "shares_outstanding": 4301608845,
+      "market_cap": 344709431296,
+      "dividend_yield": 2.6,
+      "price_to_book": 10.716101,
+      "profit_margins": 0.2734,
+      "revenue_growth": 0.024
+    },
+    "fetched_at": "2026-02-12T18:02:11.626439"
+  },
+  "COST": {
+    "ticker": "COST",
+    "fundamentals": {
+      "pe_ratio": 53.44058,
+      "forward_pe": 44.856674,
+      "beta": 1.008,
+      "float_shares": 442635454,
+      "shares_outstanding": 443869411,
+      "market_cap": 443189657600,
+      "dividend_yield": 0.53,
+      "price_to_book": 14.624096,
+      "profit_margins": 0.02961,
+      "revenue_growth": 0.083
+    },
+    "fetched_at": "2026-02-12T18:02:14.984159"
+  },
+  "ADBE": {
+    "ticker": "ADBE",
+    "fundamentals": {
+      "pe_ratio": 15.133014,
+      "forward_pe": 9.574347,
+      "beta": 1.515,
+      "float_shares": 409223345,
+      "shares_outstanding": 410500000,
+      "market_cap": 105725804544,
+      "price_to_book": 8.974524,
+      "profit_margins": 0.29997,
+      "revenue_growth": 0.105
+    },
+    "fetched_at": "2026-02-12T18:02:18.362694"
+  },
+  "WMT": {
+    "ticker": "WMT",
+    "fundamentals": {
+      "pe_ratio": 46.42133,
+      "forward_pe": 44.801727,
+      "beta": 0.671,
+      "float_shares": 4366615375,
+      "shares_outstanding": 7970166964,
+      "market_cap": 1058515582976,
+      "dividend_yield": 0.73,
+      "price_to_book": 11.014186,
+      "profit_margins": 0.03259,
+      "revenue_growth": 0.058
+    },
+    "fetched_at": "2026-02-12T18:02:21.767246"
+  },
+  "MCD": {
+    "ticker": "MCD",
+    "fundamentals": {
+      "pe_ratio": 28.188406,
+      "forward_pe": 23.002106,
+      "beta": 0.528,
+      "float_shares": 711057632,
+      "shares_outstanding": 712154350,
+      "market_cap": 235953291264,
+      "dividend_yield": 2.3,
+      "price_to_book": -108.873886,
+      "profit_margins": 0.3204,
+      "revenue_growth": 0.03
+    },
+    "fetched_at": "2026-02-12T18:02:25.149192"
+  },
+  "CSCO": {
+    "ticker": "CSCO",
+    "fundamentals": {
+      "pe_ratio": 29.142859,
+      "forward_pe": 16.767782,
+      "beta": 0.865,
+      "float_shares": 3944101126,
+      "shares_outstanding": 3951094563,
+      "market_cap": 298228613120,
+      "dividend_yield": 1.92,
+      "price_to_book": 6.380928,
+      "profit_margins": 0.17902,
+      "revenue_growth": 0.075
+    },
+    "fetched_at": "2026-02-12T18:02:28.515097"
+  },
+  "CRM": {
+    "ticker": "CRM",
+    "fundamentals": {
+      "pe_ratio": 24.080107,
+      "forward_pe": 13.743327,
+      "beta": 1.276,
+      "float_shares": 911644780,
+      "shares_outstanding": 937000000,
+      "market_cap": 171702714368,
+      "dividend_yield": 0.9,
+      "price_to_book": 2.8306417,
+      "profit_margins": 0.17913,
+      "revenue_growth": 0.086
+    },
+    "fetched_at": "2026-02-12T18:02:31.915122"
+  },
+  "ACN": {
+    "ticker": "ACN",
+    "fundamentals": {
+      "pe_ratio": 17.829752,
+      "forward_pe": 14.488025,
+      "beta": 1.236,
+      "float_shares": 614193049,
+      "shares_outstanding": 615435159,
+      "market_cap": 133788762112,
+      "dividend_yield": 2.83,
+      "price_to_book": 4.3008657,
+      "profit_margins": 0.107609995,
+      "revenue_growth": 0.06
+    },
+    "fetched_at": "2026-02-12T18:02:35.310718"
+  },
+  "TMO": {
+    "ticker": "TMO",
+    "fundamentals": {
+      "pe_ratio": 27.893078,
+      "forward_pe": 18.402906,
+      "beta": 0.949,
+      "float_shares": 375082560,
+      "shares_outstanding": 375708059,
+      "market_cap": 186223460352,
+      "dividend_yield": 0.33,
+      "price_to_book": 3.4890645,
+      "profit_margins": 0.15045999,
+      "revenue_growth": 0.072
+    },
+    "fetched_at": "2026-02-12T18:02:38.685805"
+  },
+  "ABT": {
+    "ticker": "ABT",
+    "fundamentals": {
+      "pe_ratio": 30.421293,
+      "forward_pe": 18.078588,
+      "beta": 0.751,
+      "float_shares": 1728543048,
+      "shares_outstanding": 1738871947,
+      "market_cap": 196433428480,
+      "dividend_yield": 2.22,
+      "price_to_book": 3.8515851,
+      "profit_margins": 0.14718,
+      "revenue_growth": 0.044
+    },
+    "fetched_at": "2026-02-12T18:02:42.051751"
+  },
+  "LIN": {
+    "ticker": "LIN",
+    "fundamentals": {
+      "pe_ratio": 32.41285,
+      "forward_pe": 24.358297,
+      "beta": 0.847,
+      "float_shares": 464568511,
+      "shares_outstanding": 466948930,
+      "market_cap": 222356914176,
+      "dividend_yield": 1.28,
+      "price_to_book": 5.7810235,
+      "profit_margins": 0.20297001,
+      "revenue_growth": 0.058
+    },
+    "fetched_at": "2026-02-12T18:02:45.491688"
+  },
+  "NFLX": {
+    "ticker": "NFLX",
+    "fundamentals": {
+      "pe_ratio": 29.934784,
+      "forward_pe": 19.829655,
+      "beta": 1.712,
+      "float_shares": 4192944788,
+      "shares_outstanding": 4237323340,
+      "market_cap": 321259503616,
+      "price_to_book": 12.013801,
+      "profit_margins": 0.24304001,
+      "revenue_growth": 0.176
+    },
+    "fetched_at": "2026-02-12T18:02:48.878159"
+  },
+  "DIS": {
+    "ticker": "DIS",
+    "fundamentals": {
+      "pe_ratio": 14.955818,
+      "forward_pe": 13.793263,
+      "beta": 1.419,
+      "float_shares": 1768827141,
+      "shares_outstanding": 1771519851,
+      "market_cap": 180087455744,
+      "dividend_yield": 1.39,
+      "price_to_book": 1.662601,
+      "profit_margins": 0.128,
+      "revenue_growth": 0.052
+    },
+    "fetched_at": "2026-02-12T18:02:52.255310"
+  },
+  "NKE": {
+    "ticker": "NKE",
+    "fundamentals": {
+      "pe_ratio": 36.070175,
+      "forward_pe": 26.654106,
+      "beta": 1.279,
+      "float_shares": 1166275652,
+      "shares_outstanding": 1191495650,
+      "market_cap": 91310047232,
+      "dividend_yield": 2.63,
+      "price_to_book": 6.4803534,
+      "profit_margins": 0.05426,
+      "revenue_growth": 0.006
+    },
+    "fetched_at": "2026-02-12T18:02:55.624538"
+  },
+  "CMCSA": {
+    "ticker": "CMCSA",
+    "fundamentals": {
+      "pe_ratio": 5.978664,
+      "forward_pe": 8.109141,
+      "beta": 0.793,
+      "float_shares": 3560860137,
+      "shares_outstanding": 3588401619,
+      "market_cap": 117424496640,
+      "dividend_yield": 4.06,
+      "price_to_book": 1.1985792,
+      "profit_margins": 0.16166,
+      "revenue_growth": 0.012
+    },
+    "fetched_at": "2026-02-12T18:02:59.000633"
+  },
+  "VZ": {
+    "ticker": "VZ",
+    "fundamentals": {
+      "pe_ratio": 12.326354,
+      "forward_pe": 9.533725,
+      "beta": 0.316,
+      "float_shares": 4211222710,
+      "shares_outstanding": 4217000000,
+      "market_cap": 211039748096,
+      "dividend_yield": 5.78,
+      "price_to_book": 2.0203059,
+      "profit_margins": 0.124280006,
+      "revenue_growth": 0.02
+    },
+    "fetched_at": "2026-02-12T18:03:02.385099"
+  },
+  "INTC": {
+    "ticker": "INTC",
+    "fundamentals": {
+      "forward_pe": 47.51437,
+      "beta": 1.377,
+      "float_shares": 4986558450,
+      "shares_outstanding": 4995000000,
+      "market_cap": 235372806144,
+      "price_to_book": 2.0590804,
+      "profit_margins": -0.00505,
+      "revenue_growth": -0.041
+    },
+    "fetched_at": "2026-02-12T18:03:05.796601"
+  },
+  "AMD": {
+    "ticker": "AMD",
+    "fundamentals": {
+      "pe_ratio": 79.731804,
+      "forward_pe": 19.719343,
+      "beta": 1.949,
+      "float_shares": 1621410975,
+      "shares_outstanding": 1630410843,
+      "market_cap": 339288522752,
+      "price_to_book": 5.3842173,
+      "profit_margins": 0.12515001,
+      "revenue_growth": 0.341
+    },
+    "fetched_at": "2026-02-12T18:03:09.176375"
+  },
+  "TXN": {
+    "ticker": "TXN",
+    "fundamentals": {
+      "pe_ratio": 41.007324,
+      "forward_pe": 28.331442,
+      "beta": 0.995,
+      "float_shares": 905163915,
+      "shares_outstanding": 907550774,
+      "market_cap": 203440685056,
+      "dividend_yield": 2.51,
+      "price_to_book": 12.479099,
+      "profit_margins": 0.28283,
+      "revenue_growth": 0.104
+    },
+    "fetched_at": "2026-02-12T18:03:12.558113"
+  },
+  "QCOM": {
+    "ticker": "QCOM",
+    "fundamentals": {
+      "pe_ratio": 27.741936,
+      "forward_pe": 12.171132,
+      "beta": 1.238,
+      "float_shares": 1064663270,
+      "shares_outstanding": 1067000000,
+      "market_cap": 146963021824,
+      "dividend_yield": 2.52,
+      "price_to_book": 6.4050646,
+      "profit_margins": 0.11958,
+      "revenue_growth": 0.05
+    },
+    "fetched_at": "2026-02-12T18:03:15.950383"
+  },
+  "DHR": {
+    "ticker": "DHR",
+    "fundamentals": {
+      "pe_ratio": 41.669643,
+      "forward_pe": 23.0269,
+      "beta": 0.958,
+      "float_shares": 629522726,
+      "shares_outstanding": 706900000,
+      "market_cap": 148459601920,
+      "dividend_yield": 0.58,
+      "price_to_book": 2.8259728,
+      "profit_margins": 0.1471,
+      "revenue_growth": 0.046
+    },
+    "fetched_at": "2026-02-12T18:03:19.317129"
+  },
+  "PM": {
+    "ticker": "PM",
+    "fundamentals": {
+      "pe_ratio": 26.039944,
+      "forward_pe": 20.598663,
+      "beta": 0.409,
+      "float_shares": 1552678912,
+      "shares_outstanding": 1556679579,
+      "market_cap": 294290259968,
+      "dividend_yield": 3.16,
+      "price_to_book": -29.44704,
+      "profit_margins": 0.27918,
+      "revenue_growth": 0.068
+    },
+    "fetched_at": "2026-02-12T18:03:22.703446"
+  },
+  "NEE": {
+    "ticker": "NEE",
+    "fundamentals": {
+      "pe_ratio": 28.228657,
+      "forward_pe": 21.135216,
+      "beta": 0.761,
+      "float_shares": 2084863780,
+      "shares_outstanding": 2082609684,
+      "market_cap": 192828817408,
+      "dividend_yield": 2.48,
+      "price_to_book": 3.5419455,
+      "profit_margins": 0.24934,
+      "revenue_growth": 0.207
+    },
+    "fetched_at": "2026-02-12T18:03:26.201970"
+  },
+  "UPS": {
+    "ticker": "UPS",
+    "fundamentals": {
+      "pe_ratio": 18.042683,
+      "forward_pe": 14.862401,
+      "beta": 1.087,
+      "float_shares": 738757350,
+      "shares_outstanding": 738990054,
+      "market_cap": 100414922752,
+      "dividend_yield": 5.47,
+      "price_to_book": 6.1926436,
+      "profit_margins": 0.06285,
+      "revenue_growth": -0.032
+    },
+    "fetched_at": "2026-02-12T18:03:29.589622"
+  },
+  "HON": {
+    "ticker": "HON",
+    "fundamentals": {
+      "pe_ratio": 31.692205,
+      "forward_pe": 20.8947,
+      "beta": 0.93,
+      "float_shares": 603332016,
+      "shares_outstanding": 634887208,
+      "market_cap": 161668087808,
+      "dividend_yield": 1.89,
+      "price_to_book": 9.869997,
+      "profit_margins": 0.13725,
+      "revenue_growth": -0.033
+    },
+    "fetched_at": "2026-02-12T18:03:32.946164"
+  },
+  "RTX": {
+    "ticker": "RTX",
+    "fundamentals": {
+      "pe_ratio": 40.159595,
+      "forward_pe": 26.50339,
+      "beta": 0.418,
+      "float_shares": 1248716802,
+      "shares_outstanding": 1342287676,
+      "market_cap": 266833346560,
+      "dividend_yield": 1.38,
+      "price_to_book": 4.0897403,
+      "profit_margins": 0.07598,
+      "revenue_growth": 0.121
+    },
+    "fetched_at": "2026-02-12T18:03:36.325083"
+  },
+  "UNP": {
+    "ticker": "UNP",
+    "fundamentals": {
+      "pe_ratio": 21.83556,
+      "forward_pe": 19.3335,
+      "beta": 0.987,
+      "float_shares": 591985122,
+      "shares_outstanding": 593391460,
+      "market_cap": 155225276416,
+      "dividend_yield": 2.1,
+      "price_to_book": 8.403418,
+      "profit_margins": 0.29123,
+      "revenue_growth": -0.006
+    },
+    "fetched_at": "2026-02-12T18:03:39.726835"
+  },
+  "AMGN": {
+    "ticker": "AMGN",
+    "fundamentals": {
+      "pe_ratio": 25.707453,
+      "forward_pe": 15.835411,
+      "beta": 0.472,
+      "float_shares": 537641720,
+      "shares_outstanding": 539000000,
+      "market_cap": 197036834816,
+      "dividend_yield": 2.64,
+      "price_to_book": 22.75789,
+      "profit_margins": 0.20982,
+      "revenue_growth": 0.086
+    },
+    "fetched_at": "2026-02-12T18:03:43.092851"
+  },
+  "LOW": {
+    "ticker": "LOW",
+    "fundamentals": {
+      "pe_ratio": 23.96399,
+      "forward_pe": 22.367853,
+      "beta": 0.978,
+      "float_shares": 559795897,
+      "shares_outstanding": 560951457,
+      "market_cap": 162387034112,
+      "dividend_yield": 1.67,
+      "price_to_book": -15.642763,
+      "profit_margins": 0.08045,
+      "revenue_growth": 0.032
+    },
+    "fetched_at": "2026-02-12T18:03:46.673741"
+  },
+  "SPGI": {
+    "ticker": "SPGI",
+    "fundamentals": {
+      "pe_ratio": 26.48396,
+      "forward_pe": 17.48863,
+      "beta": 1.201,
+      "float_shares": 298124712,
+      "shares_outstanding": 298800000,
+      "market_cap": 117483372544,
+      "dividend_yield": 0.99,
+      "price_to_book": 3.7115796,
+      "profit_margins": 0.29154,
+      "revenue_growth": 0.09
+    },
+    "fetched_at": "2026-02-12T18:03:50.261724"
+  },
+  "BMY": {
+    "ticker": "BMY",
+    "fundamentals": {
+      "pe_ratio": 17.472544,
+      "forward_pe": 10.044579,
+      "beta": 0.295,
+      "float_shares": 2032475465,
+      "shares_outstanding": 2035753027,
+      "market_cap": 123071455232,
+      "dividend_yield": 4.2,
+      "price_to_book": 6.6346574,
+      "profit_margins": 0.14637,
+      "revenue_growth": 0.013
+    },
+    "fetched_at": "2026-02-12T18:03:53.650944"
+  },
+  "BA": {
+    "ticker": "BA",
+    "fundamentals": {
+      "pe_ratio": 96.86592,
+      "forward_pe": 48.70753,
+      "beta": 1.14,
+      "float_shares": 753524832,
+      "shares_outstanding": 785347096,
+      "market_cap": 188661956608,
+      "price_to_book": 34.599957,
+      "profit_margins": 0.02498,
+      "revenue_growth": 0.571
+    },
+    "fetched_at": "2026-02-12T18:03:57.016884"
+  },
+  "T": {
+    "ticker": "T",
+    "fundamentals": {
+      "pe_ratio": 9.597039,
+      "forward_pe": 11.306649,
+      "beta": 0.608,
+      "float_shares": 6985735977,
+      "shares_outstanding": 7000577201,
+      "market_cap": 206834679808,
+      "dividend_yield": 3.9,
+      "price_to_book": 1.8575703,
+      "profit_margins": 0.17472,
+      "revenue_growth": 0.036
+    },
+    "fetched_at": "2026-02-12T18:04:00.402119"
+  },
+  "GE": {
+    "ticker": "GE",
+    "fundamentals": {
+      "pe_ratio": 39.239452,
+      "forward_pe": 37.19769,
+      "beta": 1.384,
+      "float_shares": 1045163741,
+      "shares_outstanding": 1048813612,
+      "market_cap": 333605961728,
+      "dividend_yield": 0.6,
+      "price_to_book": 17.758997,
+      "profit_margins": 0.18982,
+      "revenue_growth": 0.176
+    },
+    "fetched_at": "2026-02-12T18:04:03.795291"
+  },
+  "IBM": {
+    "ticker": "IBM",
+    "fundamentals": {
+      "pe_ratio": 23.356693,
+      "forward_pe": 19.375433,
+      "beta": 0.691,
+      "float_shares": 934336685,
+      "shares_outstanding": 934735206,
+      "market_cap": 242993758208,
+      "dividend_yield": 2.46,
+      "price_to_book": 7.4568295,
+      "profit_margins": 0.15685001,
+      "revenue_growth": 0.122
+    },
+    "fetched_at": "2026-02-12T18:04:07.166877"
+  },
+  "CAT": {
+    "ticker": "CAT",
+    "fundamentals": {
+      "pe_ratio": 40.776154,
+      "forward_pe": 27.972605,
+      "beta": 1.554,
+      "float_shares": 465119160,
+      "shares_outstanding": 467979596,
+      "market_cap": 359705149440,
+      "dividend_yield": 0.78,
+      "price_to_book": 16.801939,
+      "profit_margins": 0.13144,
+      "revenue_growth": 0.18
+    },
+    "fetched_at": "2026-02-12T18:04:10.565513"
+  },
+  "DE": {
+    "ticker": "DE",
+    "fundamentals": {
+      "pe_ratio": 33.13027,
+      "forward_pe": 27.826532,
+      "beta": 1.004,
+      "float_shares": 269909955,
+      "shares_outstanding": 271074458,
+      "market_cap": 166144245760,
+      "dividend_yield": 1.06,
+      "price_to_book": 6.3854103,
+      "profit_margins": 0.11017,
+      "revenue_growth": 0.126
+    },
+    "fetched_at": "2026-02-12T18:04:13.932494"
+  },
+  "SBUX": {
+    "ticker": "SBUX",
+    "fundamentals": {
+      "pe_ratio": 82.24999,
+      "forward_pe": 33.384182,
+      "beta": 0.937,
+      "float_shares": 1137089758,
+      "shares_outstanding": 1139300000,
+      "market_cap": 112448905216,
+      "dividend_yield": 2.5,
+      "price_to_book": -13.403042,
+      "profit_margins": 0.036310002,
+      "revenue_growth": 0.055
+    },
+    "fetched_at": "2026-02-12T18:04:17.329442"
+  },
+  "INTU": {
+    "ticker": "INTU",
+    "fundamentals": {
+      "pe_ratio": 27.125086,
+      "forward_pe": 14.922879,
+      "beta": 1.234,
+      "float_shares": 272161056,
+      "shares_outstanding": 278274077,
+      "market_cap": 109876133888,
+      "dividend_yield": 1.12,
+      "price_to_book": 5.688773,
+      "profit_margins": 0.21191,
+      "revenue_growth": 0.41
+    },
+    "fetched_at": "2026-02-12T18:04:20.706112"
+  },
+  "GS": {
+    "ticker": "GS",
+    "fundamentals": {
+      "pe_ratio": 17.744783,
+      "forward_pe": 14.000564,
+      "beta": 1.311,
+      "float_shares": 305606777,
+      "shares_outstanding": 299928511,
+      "market_cap": 275515539456,
+      "dividend_yield": 1.91,
+      "price_to_book": 2.5461102,
+      "profit_margins": 0.28917998,
+      "revenue_growth": 0.152
+    },
+    "fetched_at": "2026-02-12T18:04:24.067794"
+  },
+  "AXP": {
+    "ticker": "AXP",
+    "fundamentals": {
+      "pe_ratio": 22.340502,
+      "forward_pe": 17.103697,
+      "beta": 1.128,
+      "float_shares": 533499082,
+      "shares_outstanding": 686614005,
+      "market_cap": 236379504640,
+      "dividend_yield": 0.93,
+      "price_to_book": 7.03234,
+      "profit_margins": 0.16174999,
+      "revenue_growth": 0.106
+    },
+    "fetched_at": "2026-02-12T18:04:27.457746"
+  },
+  "BLK": {
+    "ticker": "BLK",
+    "fundamentals": {
+      "pe_ratio": 28.99646,
+      "forward_pe": 16.513489,
+      "beta": 1.488,
+      "float_shares": 143948310,
+      "shares_outstanding": 155100000,
+      "market_cap": 158808604672,
+      "dividend_yield": 1.92,
+      "price_to_book": 2.859947,
+      "profit_margins": 0.22930999,
+      "revenue_growth": 0.234
+    },
+    "fetched_at": "2026-02-12T18:04:30.850035"
+  },
+  "NOW": {
+    "ticker": "NOW",
+    "fundamentals": {
+      "pe_ratio": 59.592815,
+      "forward_pe": 19.876093,
+      "beta": 0.978,
+      "float_shares": 1043196720,
+      "shares_outstanding": 1046000000,
+      "market_cap": 105007824896,
+      "price_to_book": 8.039421,
+      "profit_margins": 0.13165,
+      "revenue_growth": 0.207
+    },
+    "fetched_at": "2026-02-12T18:04:34.255011"
+  },
+  "AMAT": {
+    "ticker": "AMAT",
+    "fundamentals": {
+      "pe_ratio": 37.90023,
+      "forward_pe": 26.805853,
+      "beta": 1.677,
+      "float_shares": 789406839,
+      "shares_outstanding": 793721461,
+      "market_cap": 260812914688,
+      "dividend_yield": 0.54,
+      "price_to_book": 12.763946,
+      "profit_margins": 0.24669,
+      "revenue_growth": -0.035
+    },
+    "fetched_at": "2026-02-12T18:04:37.621308"
+  },
+  "BKNG": {
+    "ticker": "BKNG",
+    "fundamentals": {
+      "pe_ratio": 27.140663,
+      "forward_pe": 15.572852,
+      "beta": 1.186,
+      "float_shares": 32142593,
+      "shares_outstanding": 32233815,
+      "market_cap": 135040155648,
+      "dividend_yield": 0.89,
+      "price_to_book": -28.42257,
+      "profit_margins": 0.19371,
+      "revenue_growth": 0.127
+    },
+    "fetched_at": "2026-02-12T18:04:40.982823"
+  },
+  "GILD": {
+    "ticker": "GILD",
+    "fundamentals": {
+      "pe_ratio": 22.466812,
+      "forward_pe": 15.813684,
+      "beta": 0.387,
+      "float_shares": 1238269800,
+      "shares_outstanding": 1241000000,
+      "market_cap": 189035315200,
+      "dividend_yield": 2.11,
+      "price_to_book": 8.357566,
+      "profit_margins": 0.28903,
+      "revenue_growth": 0.047
+    },
+    "fetched_at": "2026-02-12T18:04:44.356461"
+  },
+  "MMM": {
+    "ticker": "MMM",
+    "fundamentals": {
+      "pe_ratio": 29.205833,
+      "forward_pe": 18.71549,
+      "beta": 1.166,
+      "float_shares": 525815144,
+      "shares_outstanding": 526700000,
+      "market_cap": 92296273920,
+      "dividend_yield": 1.81,
+      "price_to_book": 19.762604,
+      "profit_margins": 0.13027,
+      "revenue_growth": 0.02
+    },
+    "fetched_at": "2026-02-12T18:04:47.747444"
+  },
+  "LMT": {
+    "ticker": "LMT",
+    "fundamentals": {
+      "pe_ratio": 29.863722,
+      "forward_pe": 20.206665,
+      "beta": 0.23,
+      "float_shares": 195517586,
+      "shares_outstanding": 230080240,
+      "market_cap": 148573585408,
+      "dividend_yield": 2.15,
+      "price_to_book": 21.877066,
+      "profit_margins": 0.06685,
+      "revenue_growth": 0.091
+    },
+    "fetched_at": "2026-02-12T18:04:51.104692"
+  },
+  "CVS": {
+    "ticker": "CVS",
+    "fundamentals": {
+      "pe_ratio": 56.539566,
+      "forward_pe": 9.593891,
+      "beta": 0.501,
+      "float_shares": 1269692085,
+      "shares_outstanding": 1272211063,
+      "market_cap": 99983065088,
+      "dividend_yield": 3.45,
+      "price_to_book": 1.3280498,
+      "profit_margins": 0.00442,
+      "revenue_growth": 0.084
+    },
+    "fetched_at": "2026-02-12T18:04:54.456933"
+  },
+  "ADI": {
+    "ticker": "ADI",
+    "fundamentals": {
+      "pe_ratio": 73.87692,
+      "forward_pe": 29.306835,
+      "beta": 1.031,
+      "float_shares": 487891342,
+      "shares_outstanding": 488628595,
+      "market_cap": 164592336896,
+      "dividend_yield": 1.18,
+      "price_to_book": 4.867362,
+      "profit_margins": 0.20575,
+      "revenue_growth": 0.259
+    },
+    "fetched_at": "2026-02-12T18:04:57.841150"
+  },
+  "MDLZ": {
+    "ticker": "MDLZ",
+    "fundamentals": {
+      "pe_ratio": 32.957672,
+      "forward_pe": 18.32199,
+      "beta": 0.401,
+      "float_shares": 1278243683,
+      "shares_outstanding": 1281845669,
+      "market_cap": 80376430592,
+      "dividend_yield": 3.25,
+      "price_to_book": 3.0896287,
+      "profit_margins": 0.0636,
+      "revenue_growth": 0.093
+    },
+    "fetched_at": "2026-02-12T18:05:01.213218"
+  },
+  "PLD": {
+    "ticker": "PLD",
+    "fundamentals": {
+      "pe_ratio": 39.82558,
+      "forward_pe": 40.716732,
+      "beta": 1.439,
+      "float_shares": 954330627,
+      "shares_outstanding": 928867000,
+      "market_cap": 127254781952,
+      "dividend_yield": 2.89,
+      "price_to_book": 2.4674015,
+      "profit_margins": 0.36205003,
+      "revenue_growth": 0.04
+    },
+    "fetched_at": "2026-02-12T18:05:04.566454"
+  },
+  "MO": {
+    "ticker": "MO",
+    "fundamentals": {
+      "pe_ratio": 16.237865,
+      "forward_pe": 11.517009,
+      "beta": 0.497,
+      "float_shares": 1673796930,
+      "shares_outstanding": 1674318297,
+      "market_cap": 112303136768,
+      "dividend_yield": 6.43,
+      "price_to_book": -32.04023,
+      "profit_margins": 0.34495,
+      "revenue_growth": -0.005
+    },
+    "fetched_at": "2026-02-12T18:05:07.922545"
+  },
+  "SYK": {
+    "ticker": "SYK",
+    "fundamentals": {
+      "pe_ratio": 43.70357,
+      "forward_pe": 21.944462,
+      "beta": 0.869,
+      "float_shares": 345760875,
+      "shares_outstanding": 382423648,
+      "market_cap": 140391546880,
+      "dividend_yield": 0.97,
+      "price_to_book": 6.2631793,
+      "profit_margins": 0.12923999,
+      "revenue_growth": 0.114
+    },
+    "fetched_at": "2026-02-12T18:05:11.316514"
+  },
+  "TJX": {
+    "ticker": "TJX",
+    "fundamentals": {
+      "pe_ratio": 34.31969,
+      "forward_pe": 30.007622,
+      "beta": 0.738,
+      "float_shares": 1107868602,
+      "shares_outstanding": 1110467095,
+      "market_cap": 172644630528,
+      "dividend_yield": 1.13,
+      "price_to_book": 18.405909,
+      "profit_margins": 0.086789995,
+      "revenue_growth": 0.075
+    },
+    "fetched_at": "2026-02-12T18:05:14.890787"
+  },
+  "VRTX": {
+    "ticker": "VRTX",
+    "fundamentals": {
+      "pe_ratio": 32.590958,
+      "forward_pe": 22.977148,
+      "beta": 0.319,
+      "float_shares": 252840964,
+      "shares_outstanding": 253718831,
+      "market_cap": 118739001344,
+      "price_to_book": 6.790878,
+      "profit_margins": 0.31349,
+      "revenue_growth": 0.11
+    },
+    "fetched_at": "2026-02-12T18:05:18.252318"
+  },
+  "ZTS": {
+    "ticker": "ZTS",
+    "fundamentals": {
+      "pe_ratio": 22.153198,
+      "forward_pe": 19.283834,
+      "beta": 0.961,
+      "float_shares": 439825048,
+      "shares_outstanding": 440693214,
+      "market_cap": 58318512128,
+      "dividend_yield": 1.65,
+      "price_to_book": 10.762247,
+      "profit_margins": 0.28211,
+      "revenue_growth": 0.005
+    },
+    "fetched_at": "2026-02-12T18:05:21.616304"
+  },
+  "C": {
+    "ticker": "C",
+    "fundamentals": {
+      "pe_ratio": 15.936962,
+      "forward_pe": 9.244324,
+      "beta": 1.141,
+      "float_shares": 1741977900,
+      "shares_outstanding": 1747500000,
+      "market_cap": 199037960192,
+      "dividend_yield": 2.04,
+      "price_to_book": 1.0111899,
+      "profit_margins": 0.18893999,
+      "revenue_growth": 0.037
+    },
+    "fetched_at": "2026-02-12T18:05:25.006547"
+  },
+  "CB": {
+    "ticker": "CB",
+    "fundamentals": {
+      "pe_ratio": 12.92014,
+      "forward_pe": 11.485043,
+      "beta": 0.488,
+      "float_shares": 357904555,
+      "shares_outstanding": 391101227,
+      "market_cap": 130525077504,
+      "dividend_yield": 1.18,
+      "price_to_book": 1.7586485,
+      "profit_margins": 0.17131001,
+      "revenue_growth": 0.08
+    },
+    "fetched_at": "2026-02-12T18:05:28.366847"
+  },
+  "ADP": {
+    "ticker": "ADP",
+    "fundamentals": {
+      "pe_ratio": 20.153116,
+      "forward_pe": 17.518063,
+      "beta": 0.847,
+      "float_shares": 401742441,
+      "shares_outstanding": 402644364,
+      "market_cap": 84769382400,
+      "dividend_yield": 3.13,
+      "price_to_book": 13.211825,
+      "profit_margins": 0.19964,
+      "revenue_growth": 0.062
+    },
+    "fetched_at": "2026-02-12T18:05:31.739094"
+  },
+  "ISRG": {
+    "ticker": "ISRG",
+    "fundamentals": {
+      "pe_ratio": 60.48796,
+      "forward_pe": 41.73966,
+      "beta": 1.662,
+      "float_shares": 352971045,
+      "shares_outstanding": 355130237,
+      "market_cap": 169485910016,
+      "price_to_book": 9.508108,
+      "profit_margins": 0.28375998,
+      "revenue_growth": 0.188
+    },
+    "fetched_at": "2026-02-12T18:05:35.139478"
+  },
+  "DUK": {
+    "ticker": "DUK",
+    "fundamentals": {
+      "pe_ratio": 20.271791,
+      "forward_pe": 17.883207,
+      "beta": 0.51,
+      "float_shares": 776023880,
+      "shares_outstanding": 777661224,
+      "market_cap": 99474538496,
+      "dividend_yield": 3.4,
+      "price_to_book": 1.9563653,
+      "profit_margins": 0.15411,
+      "revenue_growth": 0.144
+    },
+    "fetched_at": "2026-02-12T18:05:38.524118"
+  },
+  "SCHW": {
+    "ticker": "SCHW",
+    "fundamentals": {
+      "pe_ratio": 20.148388,
+      "forward_pe": 13.67941,
+      "beta": 0.909,
+      "float_shares": 1672417349,
+      "shares_outstanding": 1776936770,
+      "market_cap": 170067902464,
+      "dividend_yield": 1.34,
+      "price_to_book": 3.9274788,
+      "profit_margins": 0.37005,
+      "revenue_growth": 0.189
+    },
+    "fetched_at": "2026-02-12T18:05:41.887061"
+  },
+  "CI": {
+    "ticker": "CI",
+    "fundamentals": {
+      "pe_ratio": 13.136322,
+      "forward_pe": 8.716585,
+      "beta": 0.283,
+      "float_shares": 270058102,
+      "shares_outstanding": 263464000,
+      "market_cap": 77865844736,
+      "dividend_yield": 2.12,
+      "price_to_book": 1.8961984,
+      "profit_margins": 0.02167,
+      "revenue_growth": 0.104
+    },
+    "fetched_at": "2026-02-12T18:05:45.253653"
+  },
+  "SO": {
+    "ticker": "SO",
+    "fundamentals": {
+      "pe_ratio": 23.04127,
+      "forward_pe": 20.318089,
+      "beta": 0.447,
+      "float_shares": 1098759490,
+      "shares_outstanding": 1101104843,
+      "market_cap": 101990834176,
+      "dividend_yield": 3.26,
+      "price_to_book": 2.9138637,
+      "profit_margins": 0.15422,
+      "revenue_growth": 0.075
+    },
+    "fetched_at": "2026-02-12T18:05:48.614028"
+  },
+  "REGN": {
+    "ticker": "REGN",
+    "fundamentals": {
+      "pe_ratio": 18.905647,
+      "forward_pe": 14.889865,
+      "beta": 0.413,
+      "float_shares": 98538616,
+      "shares_outstanding": 103902660,
+      "market_cap": 82826182656,
+      "dividend_yield": 0.48,
+      "price_to_book": 2.5716565,
+      "profit_margins": 0.31409,
+      "revenue_growth": 0.025
+    },
+    "fetched_at": "2026-02-12T18:05:52.007222"
+  },
+  "BDX": {
+    "ticker": "BDX",
+    "fundamentals": {
+      "pe_ratio": 28.980392,
+      "forward_pe": 13.147419,
+      "beta": 0.285,
+      "float_shares": 284012870,
+      "shares_outstanding": 284632937,
+      "market_cap": 64256659456,
+      "dividend_yield": 2.33,
+      "price_to_book": 1.9975448,
+      "profit_margins": 0.08014,
+      "revenue_growth": 0.016
+    },
+    "fetched_at": "2026-02-12T18:05:55.371746"
+  },
+  "PNC": {
+    "ticker": "PNC",
+    "fundamentals": {
+      "pe_ratio": 13.776505,
+      "forward_pe": 11.110836,
+      "beta": 0.968,
+      "float_shares": 387395976,
+      "shares_outstanding": 404313875,
+      "market_cap": 92462546944,
+      "dividend_yield": 2.89,
+      "price_to_book": 1.4736985,
+      "profit_margins": 0.31075,
+      "revenue_growth": 0.096
+    },
+    "fetched_at": "2026-02-12T18:05:58.736305"
+  },
+  "TGT": {
+    "ticker": "TGT",
+    "fundamentals": {
+      "pe_ratio": 13.653334,
+      "forward_pe": 14.681463,
+      "beta": 1.136,
+      "float_shares": 451597425,
+      "shares_outstanding": 452806418,
+      "market_cap": 51183517696,
+      "dividend_yield": 3.98,
+      "price_to_book": 3.290296,
+      "profit_margins": 0.03576,
+      "revenue_growth": -0.016
+    },
+    "fetched_at": "2026-02-12T18:06:02.093882"
+  },
+  "USB": {
+    "ticker": "USB",
+    "fundamentals": {
+      "pe_ratio": 12.442641,
+      "forward_pe": 10.392186,
+      "beta": 1.057,
+      "float_shares": 1550583800,
+      "shares_outstanding": 1555000000,
+      "market_cap": 89389178880,
+      "dividend_yield": 3.46,
+      "price_to_book": 1.5310144,
+      "profit_margins": 0.28724,
+      "revenue_growth": 0.053
+    },
+    "fetched_at": "2026-02-12T18:06:05.450241"
+  },
+  "MMC": {
+    "ticker": "MMC",
+    "fundamentals": {
+      "pe_ratio": 21.932774,
+      "forward_pe": 17.72059,
+      "beta": 0.752,
+      "float_shares": 489042543,
+      "shares_outstanding": 489909683,
+      "market_cap": 89819709440,
+      "dividend_yield": 0.0197,
+      "price_to_book": 5.9080324,
+      "profit_margins": 0.15601,
+      "revenue_growth": 0.115
+    },
+    "fetched_at": "2026-02-12T18:06:08.803351"
+  },
+  "COP": {
+    "ticker": "COP",
+    "fundamentals": {
+      "pe_ratio": 17.258266,
+      "forward_pe": 15.809541,
+      "beta": 0.291,
+      "float_shares": 1222570644,
+      "shares_outstanding": 1225168000,
+      "market_cap": 135422361600,
+      "dividend_yield": 3.02,
+      "price_to_book": 2.0820746,
+      "profit_margins": 0.13252,
+      "revenue_growth": -0.068
+    },
+    "fetched_at": "2026-02-12T18:06:12.174197"
+  },
+  "EOG": {
+    "ticker": "EOG",
+    "fundamentals": {
+      "pe_ratio": 11.470706,
+      "forward_pe": 11.940388,
+      "beta": 0.472,
+      "float_shares": 540775326,
+      "shares_outstanding": 542598457,
+      "market_cap": 63067701248,
+      "dividend_yield": 3.45,
+      "price_to_book": 2.0740488,
+      "profit_margins": 0.24410999,
+      "revenue_growth": -0.024
+    },
+    "fetched_at": "2026-02-12T18:06:15.549922"
+  },
+  "NOC": {
+    "ticker": "NOC",
+    "fundamentals": {
+      "pe_ratio": 23.729603,
+      "forward_pe": 22.95628,
+      "beta": 0.039,
+      "float_shares": 141545529,
+      "shares_outstanding": 141921621,
+      "market_cap": 98383355904,
+      "dividend_yield": 1.36,
+      "price_to_book": 5.8705125,
+      "profit_margins": 0.09968001,
+      "revenue_growth": 0.096
+    },
+    "fetched_at": "2026-02-12T18:06:18.945508"
+  },
+  "ICE": {
+    "ticker": "ICE",
+    "fundamentals": {
+      "pe_ratio": 25.434254,
+      "forward_pe": 17.24322,
+      "beta": 1.033,
+      "float_shares": 563904201,
+      "shares_outstanding": 567896513,
+      "market_cap": 83821944832,
+      "dividend_yield": 1.37,
+      "price_to_book": 2.882775,
+      "profit_margins": 0.33380002,
+      "revenue_growth": 0.078
+    },
+    "fetched_at": "2026-02-12T18:06:22.320471"
+  },
+  "WM": {
+    "ticker": "WM",
+    "fundamentals": {
+      "pe_ratio": 34.38003,
+      "forward_pe": 24.580347,
+      "beta": 0.586,
+      "float_shares": 401976539,
+      "shares_outstanding": 403335781,
+      "market_cap": 93045530624,
+      "dividend_yield": 1.41,
+      "price_to_book": 9.304643,
+      "profit_margins": 0.10744,
+      "revenue_growth": 0.071
+    },
+    "fetched_at": "2026-02-12T18:06:25.697525"
+  },
+  "MCO": {
+    "ticker": "MCO",
+    "fundamentals": {
+      "pe_ratio": 32.528114,
+      "forward_pe": 24.620428,
+      "beta": 1.439,
+      "float_shares": 164749774,
+      "shares_outstanding": 178400000,
+      "market_cap": 72635768832,
+      "dividend_yield": 0.91,
+      "price_to_book": 18.257744,
+      "profit_margins": 0.29916,
+      "revenue_growth": 0.107
+    },
+    "fetched_at": "2026-02-12T18:06:29.245007"
+  },
+  "PGR": {
+    "ticker": "PGR",
+    "fundamentals": {
+      "pe_ratio": 10.702548,
+      "forward_pe": 12.718955,
+      "beta": 0.318,
+      "float_shares": 583896264,
+      "shares_outstanding": 586100000,
+      "market_cap": 120645820416,
+      "dividend_yield": 6.67,
+      "price_to_book": 3.9780042,
+      "profit_margins": 0.12903,
+      "revenue_growth": 0.122
+    },
+    "fetched_at": "2026-02-12T18:06:32.624315"
+  },
+  "MS": {
+    "ticker": "MS",
+    "fundamentals": {
+      "pe_ratio": 16.34525,
+      "forward_pe": 13.584453,
+      "beta": 1.179,
+      "float_shares": 1201576150,
+      "shares_outstanding": 1583000000,
+      "market_cap": 265231876096,
+      "dividend_yield": 2.26,
+      "price_to_book": 2.649683,
+      "profit_margins": 0.23986,
+      "revenue_growth": 0.11
+    },
+    "fetched_at": "2026-02-12T18:06:36.023109"
+  }
+}

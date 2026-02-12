@@ -249,7 +249,22 @@ class SeekingAlphaClient:
         """
         import time
 
-        # Check persistent cache first (fundamentals don't change frequently)
+        # PRIORITY 1: Check S&P 500 fundamentals database (no rate limiting!)
+        sp500_file = Path('docs/sp500_fundamentals.json')
+        if sp500_file.exists():
+            try:
+                with open(sp500_file, 'r') as f:
+                    sp500_data = json.load(f)
+                    if ticker in sp500_data:
+                        ticker_data = sp500_data[ticker]
+                        fundamentals = ticker_data.get('fundamentals', {})
+                        if fundamentals:
+                            print(f"   ✓ Using S&P 500 database (fetched: {ticker_data.get('fetched_at', 'N/A')[:10]})")
+                            return fundamentals
+            except Exception as e:
+                print(f"   ⚠️  Failed to read S&P 500 database: {str(e)}")
+
+        # PRIORITY 2: Check persistent cache (fundamentals don't change frequently)
         cache_file = Path(f'cache/fundamentals/{ticker}.json')
         cache_file.parent.mkdir(parents=True, exist_ok=True)
 
