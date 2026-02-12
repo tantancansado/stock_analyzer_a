@@ -127,10 +127,11 @@ class SeekingAlphaClient:
 
     def _build_ticker_data(self, ticker: str, info_data: Dict, quote_data: Dict) -> Dict[str, Any]:
         """
-        Build ticker data in standard format from SA API responses
+        Build ticker data in standard format from SA API + yfinance
 
-        Note: Seeking Alpha doesn't provide full historical OHLCV data in free API,
-        so we'll include what's available and mark historical as limited.
+        Strategy:
+        1. Get basic info from Seeking Alpha (fast, works with cookies)
+        2. Enrich with yfinance data (fundamentals + historical)
         """
         # Extract data from responses (defensive parsing)
         company_name = ticker  # Default to ticker
@@ -152,51 +153,150 @@ class SeekingAlphaClient:
             current_price = float(quote_data.get('last', 0) or quote_data.get('price', 0))
             market_cap = int(quote_data.get('marketCap', 0) or 0)
 
-        # Build standard format
+        # Enrich with yfinance data (fundamentals + complete data)
+        yf_data = self._get_yfinance_enrichment(ticker)
+
+        # Build standard format (merge SA + yfinance data)
         ticker_data = {
             "ticker": ticker,
-            "company_name": company_name,
-            "sector": sector,
-            "industry": industry,
+            "company_name": yf_data.get('company_name', company_name),
+            "sector": yf_data.get('sector', sector),
+            "industry": yf_data.get('industry', industry),
 
-            "current_price": current_price,
-            "previous_close": float(quote_data.get('prevClose', current_price)),
-            "volume": int(quote_data.get('volume', 0) or 0),
-            "avg_volume": int(quote_data.get('avgVolume', 0) or 0),
+            "current_price": current_price or yf_data.get('current_price', 0),
+            "previous_close": float(quote_data.get('prevClose', current_price) if quote_data else yf_data.get('previous_close', 0)),
+            "volume": int(quote_data.get('volume', 0) if quote_data else yf_data.get('volume', 0)),
+            "avg_volume": int(quote_data.get('avgVolume', 0) if quote_data else yf_data.get('avg_volume', 0)),
 
-            "market_cap": market_cap,
-            "shares_outstanding": 0,  # Not readily available in SA API
+            "market_cap": market_cap or yf_data.get('market_cap', 0),
+            "shares_outstanding": yf_data.get('shares_outstanding', 0),
 
-            "fifty_two_week_high": float(quote_data.get('week52High', 0) or 0),
-            "fifty_two_week_low": float(quote_data.get('week52Low', 0) or 0),
+            "fifty_two_week_high": float(quote_data.get('week52High', 0) if quote_data else yf_data.get('fifty_two_week_high', 0)),
+            "fifty_two_week_low": float(quote_data.get('week52Low', 0) if quote_data else yf_data.get('fifty_two_week_low', 0)),
 
-            # Historical data - Limited (SA API doesn't provide full OHLCV history for free)
-            # We'll need to use yfinance as backup or accept limited data
-            "historical": self._get_limited_historical(ticker, current_price),
+            # P/E ratio and other fundamentals from yfinance
+            "pe_ratio": yf_data.get('pe_ratio'),
+            "forward_pe": yf_data.get('forward_pe'),
+            "peg_ratio": yf_data.get('peg_ratio'),
+            "beta": yf_data.get('beta'),
 
-            # Moving averages - Calculate from limited data or use defaults
-            "sma_10": current_price,
-            "sma_20": current_price,
-            "sma_50": current_price,
-            "sma_150": current_price,
-            "sma_200": current_price,
+            # Historical data from yfinance
+            "historical": yf_data.get('historical', self._get_limited_historical(ticker, current_price)),
+
+            # Moving averages - Calculate from historical data
+            "sma_10": yf_data.get('sma_10', current_price),
+            "sma_20": yf_data.get('sma_20', current_price),
+            "sma_50": yf_data.get('sma_50', current_price),
+            "sma_150": yf_data.get('sma_150', current_price),
+            "sma_200": yf_data.get('sma_200', current_price),
 
             "last_updated": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            "data_source": "seeking_alpha"
+            "data_source": "seeking_alpha+yfinance"
         }
 
         return ticker_data
 
+    def _get_yfinance_enrichment(self, ticker: str) -> Dict[str, Any]:
+        """
+        Enrich ticker data with yfinance (fundamentals + historical)
+
+        This provides the complete data needed for VCP, ML, MA filters, etc.
+        """
+        import yfinance as yf
+        import time
+
+        try:
+            print(f"   📊 Enriching with yfinance data (2s delay to avoid rate limit)...")
+            time.sleep(2)
+
+            stock = yf.Ticker(ticker)
+            info = stock.info
+            hist = stock.history(period='200d')
+
+            enrichment = {}
+
+            # Company info
+            enrichment['company_name'] = info.get('longName', info.get('shortName', ''))
+            enrichment['sector'] = info.get('sector', 'N/A')
+            enrichment['industry'] = info.get('industry', 'N/A')
+
+            # Price data
+            if not hist.empty:
+                enrichment['current_price'] = float(hist['Close'].iloc[-1])
+                enrichment['previous_close'] = float(hist['Close'].iloc[-2] if len(hist) > 1 else hist['Close'].iloc[-1])
+                enrichment['volume'] = int(hist['Volume'].iloc[-1])
+                enrichment['avg_volume'] = int(hist['Volume'].mean())
+
+            # Fundamentals
+            enrichment['market_cap'] = info.get('marketCap', 0)
+            enrichment['shares_outstanding'] = info.get('sharesOutstanding', 0)
+            enrichment['pe_ratio'] = info.get('trailingPE')
+            enrichment['forward_pe'] = info.get('forwardPE')
+            enrichment['peg_ratio'] = info.get('pegRatio')
+            enrichment['beta'] = info.get('beta')
+
+            # 52-week range
+            enrichment['fifty_two_week_high'] = float(info.get('fiftyTwoWeekHigh', 0) or 0)
+            enrichment['fifty_two_week_low'] = float(info.get('fiftyTwoWeekLow', 0) or 0)
+
+            # Historical data
+            if not hist.empty:
+                enrichment['historical'] = {
+                    "dates": hist.index.strftime('%Y-%m-%d').tolist(),
+                    "open": hist['Open'].tolist(),
+                    "high": hist['High'].tolist(),
+                    "low": hist['Low'].tolist(),
+                    "close": hist['Close'].tolist(),
+                    "volume": hist['Volume'].tolist()
+                }
+
+                # Calculate moving averages
+                closes = hist['Close']
+                enrichment['sma_10'] = float(closes.tail(10).mean()) if len(closes) >= 10 else float(closes.mean())
+                enrichment['sma_20'] = float(closes.tail(20).mean()) if len(closes) >= 20 else float(closes.mean())
+                enrichment['sma_50'] = float(closes.tail(50).mean()) if len(closes) >= 50 else float(closes.mean())
+                enrichment['sma_150'] = float(closes.tail(150).mean()) if len(closes) >= 150 else float(closes.mean())
+                enrichment['sma_200'] = float(closes.tail(200).mean()) if len(closes) >= 200 else float(closes.mean())
+
+            print(f"   ✅ yfinance enrichment successful")
+            return enrichment
+
+        except Exception as e:
+            print(f"   ⚠️  yfinance enrichment failed: {str(e)}")
+            return {}
+
     def _get_limited_historical(self, ticker: str, current_price: float) -> Dict[str, list]:
         """
-        Get limited historical data (SA free API doesn't provide full history)
+        Get historical data using yfinance as backup
 
-        For production: Consider using yfinance as backup for historical data
-        or upgrading to SA premium API
+        SA free API doesn't provide historical data, so we use yfinance
+        with a delay to avoid rate limiting
         """
-        # Return minimal historical data (just current)
-        today = datetime.now().strftime('%Y-%m-%d')
+        import yfinance as yf
+        import time
 
+        try:
+            # Add delay to avoid rate limiting (important!)
+            print(f"   📊 Fetching historical data from yfinance (with 2s delay)...")
+            time.sleep(2)
+
+            stock = yf.Ticker(ticker)
+            hist = stock.history(period='200d')
+
+            if not hist.empty:
+                return {
+                    "dates": hist.index.strftime('%Y-%m-%d').tolist(),
+                    "open": hist['Open'].tolist(),
+                    "high": hist['High'].tolist(),
+                    "low": hist['Low'].tolist(),
+                    "close": hist['Close'].tolist(),
+                    "volume": hist['Volume'].tolist()
+                }
+        except Exception as e:
+            print(f"   ⚠️  yfinance historical failed: {str(e)}")
+
+        # Fallback: return minimal data (just current)
+        today = datetime.now().strftime('%Y-%m-%d')
         return {
             "dates": [today],
             "open": [current_price],
