@@ -280,51 +280,152 @@ class SeekingAlphaClient:
                             elif field == 'tev':
                                 tev = int(value)
 
-        # Get historical data from yfinance (SA doesn't provide this)
-        yf_data = self._get_yfinance_enrichment(ticker)
+        # Try to get historical data from Seeking Alpha chart endpoint
+        print(f"   📈 Fetching historical chart data from Seeking Alpha...")
+        historical_data = self._get_chart_data(ticker)
 
-        # Build standard format (prioritize SA data, fallback to yfinance)
+        # Calculate moving averages from historical data if available
+        sma_10, sma_20, sma_50, sma_150, sma_200 = self._calculate_smas(historical_data, current_price)
+
+        # Build standard format (100% Seeking Alpha data - NO yfinance!)
         ticker_data = {
             "ticker": ticker,
             "company_name": company_name,
             "sector": sector,
             "industry": industry,
 
-            "current_price": current_price or yf_data.get('current_price', 0),
-            "previous_close": previous_close or yf_data.get('previous_close', 0),
-            "volume": volume or yf_data.get('volume', 0),
-            "avg_volume": avg_volume or yf_data.get('avg_volume', 0),
+            "current_price": current_price,
+            "previous_close": previous_close,
+            "volume": volume,
+            "avg_volume": avg_volume,
 
-            "market_cap": market_cap or yf_data.get('market_cap', 0),
+            "market_cap": market_cap,
             "total_debt": total_debt,
             "total_cash": total_cash,
             "enterprise_value": tev,
-            "shares_outstanding": yf_data.get('shares_outstanding', 0),
+            "shares_outstanding": 0,  # Not available in SA free API
 
-            "fifty_two_week_high": week_52_high or yf_data.get('fifty_two_week_high', 0),
-            "fifty_two_week_low": week_52_low or yf_data.get('fifty_two_week_low', 0),
+            "fifty_two_week_high": week_52_high,
+            "fifty_two_week_low": week_52_low,
 
-            # Fundamentals from yfinance (SA doesn't provide P/E, beta in free API)
-            "pe_ratio": yf_data.get('pe_ratio'),
-            "forward_pe": yf_data.get('forward_pe'),
-            "peg_ratio": yf_data.get('peg_ratio'),
-            "beta": yf_data.get('beta'),
+            # Fundamentals (limited in SA free API)
+            "pe_ratio": None,  # Not available in SA free API
+            "forward_pe": None,
+            "peg_ratio": None,
+            "beta": None,
 
-            # Historical data from yfinance (required for VCP, ML, MA filters)
-            "historical": yf_data.get('historical', self._get_limited_historical(ticker, current_price)),
+            # Historical data from Seeking Alpha chart endpoint
+            "historical": historical_data,
 
-            # Moving averages from yfinance historical data
-            "sma_10": yf_data.get('sma_10', current_price),
-            "sma_20": yf_data.get('sma_20', current_price),
-            "sma_50": yf_data.get('sma_50', current_price),
-            "sma_150": yf_data.get('sma_150', current_price),
-            "sma_200": yf_data.get('sma_200', current_price),
+            # Moving averages calculated from historical data
+            "sma_10": sma_10,
+            "sma_20": sma_20,
+            "sma_50": sma_50,
+            "sma_150": sma_150,
+            "sma_200": sma_200,
 
             "last_updated": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            "data_source": "seeking_alpha+yfinance"
+            "data_source": "seeking_alpha"
         }
 
         return ticker_data
+
+    def _get_chart_data(self, ticker: str) -> Dict[str, list]:
+        """
+        Get historical chart data from Seeking Alpha
+
+        Tries to fetch OHLCV data from SA chart endpoint
+        """
+        # Try common SA chart endpoints
+        endpoints = [
+            f"{self.base_url}/symbols/{ticker.lower()}/chart",
+            f"{self.base_url}/chart/stock/{ticker.lower()}"
+        ]
+
+        for url in endpoints:
+            try:
+                response = requests.get(url, headers=self.headers, timeout=10)
+                response.raise_for_status()
+                data = response.json()
+
+                # Parse chart data (format may vary)
+                if 'data' in data and isinstance(data['data'], list) and len(data['data']) > 0:
+                    chart_points = data['data']
+
+                    dates = []
+                    opens = []
+                    highs = []
+                    lows = []
+                    closes = []
+                    volumes = []
+
+                    for point in chart_points:
+                        if isinstance(point, dict):
+                            dates.append(point.get('date', ''))
+                            closes.append(float(point.get('close', 0)))
+                            opens.append(float(point.get('open', closes[-1])))
+                            highs.append(float(point.get('high', closes[-1])))
+                            lows.append(float(point.get('low', closes[-1])))
+                            volumes.append(int(point.get('volume', 0)))
+
+                    if len(dates) > 0:
+                        print(f"   ✅ Chart data fetched: {len(dates)} data points")
+                        return {
+                            "dates": dates,
+                            "open": opens,
+                            "high": highs,
+                            "low": lows,
+                            "close": closes,
+                            "volume": volumes
+                        }
+
+            except Exception:
+                continue  # Try next endpoint
+
+        # If all endpoints fail, return minimal data
+        print(f"   ⚠️  Chart data not available - using minimal data")
+        today = datetime.now().strftime('%Y-%m-%d')
+        return {
+            "dates": [today],
+            "open": [0],
+            "high": [0],
+            "low": [0],
+            "close": [0],
+            "volume": [0]
+        }
+
+    def _calculate_smas(self, historical_data: Dict[str, list], current_price: float) -> tuple:
+        """
+        Calculate Simple Moving Averages from historical data
+
+        Returns: (sma_10, sma_20, sma_50, sma_150, sma_200)
+        """
+        closes = historical_data.get('close', [])
+
+        if not closes or len(closes) < 2:
+            # No historical data, use current price as default
+            return (current_price, current_price, current_price, current_price, current_price)
+
+        # Remove zeros and filter valid prices
+        closes = [c for c in closes if c > 0]
+
+        if len(closes) < 2:
+            return (current_price, current_price, current_price, current_price, current_price)
+
+        # Calculate SMAs
+        def calc_sma(prices, period):
+            if len(prices) >= period:
+                return sum(prices[-period:]) / period
+            else:
+                return sum(prices) / len(prices) if prices else current_price
+
+        sma_10 = calc_sma(closes, 10)
+        sma_20 = calc_sma(closes, 20)
+        sma_50 = calc_sma(closes, 50)
+        sma_150 = calc_sma(closes, 150)
+        sma_200 = calc_sma(closes, 200)
+
+        return (sma_10, sma_20, sma_50, sma_150, sma_200)
 
     def _get_yfinance_enrichment(self, ticker: str) -> Dict[str, Any]:
         """
