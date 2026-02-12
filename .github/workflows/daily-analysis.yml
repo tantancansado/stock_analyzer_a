@@ -34,13 +34,8 @@ jobs:
 
       - name: 🎯 Run 5D Super Analyzer
         run: |
-          echo "🎯 [2/10] 5D Super Analyzer..."
+          echo "🎯 [2/13] 5D Super Analyzer..."
           python3 run_super_analyzer_4d.py
-
-      - name: 📈 Generate Super Dashboard
-        run: |
-          echo "📈 [3/10] Super Dashboard..."
-          python3 super_dashboard_generator.py
 
       - name: 📉 Run Backtest Engine
         run: |
@@ -88,15 +83,20 @@ jobs:
 
       - name: 🎯 Run Super Score Integration
         run: |
-          echo "🎯 [12/13] Super Score Integration (VCP + ML + Fundamental)..."
+          echo "🎯 [12/13] Super Score Integration (VCP + ML + Fundamental + Validation)..."
           python3 super_score_integrator.py
+
+      - name: 📈 Generate Super Dashboard
+        run: |
+          echo "📈 [13/13] Generate Super Dashboard with Validation Badges..."
+          python3 super_dashboard_generator.py
 
       - name: 📱 Send Telegram Alerts
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          echo "📱 [13/13] Sending Telegram Alerts..."
+          echo "📱 [14/14] Sending Telegram Alerts..."
           python3 auto_telegram_alerts.py
 
       - name: 💾 Commit and Push All Results

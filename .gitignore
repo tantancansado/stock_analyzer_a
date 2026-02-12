@@ -42,6 +42,10 @@ docs/fundamental_scores_*.json
 # Timestamped super scores (generated each run)
 docs/super_scores_ultimate_*.json
 
+# Validation reports (generated each run)
+docs/validation_report.json
+cache/validation/
+
 # VCP scanner reports (timestamped)
 docs/reports/vcp/vcp_scanner_*.html
 

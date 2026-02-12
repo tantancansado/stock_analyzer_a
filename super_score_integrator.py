@@ -16,6 +16,7 @@ from pathlib import Path
 from datetime import datetime
 import json
 import argparse
+from opportunity_validator import OpportunityValidator
 
 class SuperScoreIntegrator:
     """Integra VCP, ML y Fundamental scores en Super Score Ultimate"""
@@ -82,6 +83,10 @@ class SuperScoreIntegrator:
 
         # 7. Ordenar por super score
         integrated_df = integrated_df.sort_values('super_score_ultimate', ascending=False)
+
+        # 8. Validar oportunidades (web research confirmation)
+        print(f"\n🔍 Validando top opportunities...")
+        integrated_df = self._validate_opportunities(integrated_df)
 
         return integrated_df
 
@@ -215,6 +220,49 @@ class SuperScoreIntegrator:
         # 🔴 FIX LOOK-AHEAD BIAS: Agregar timestamps
         df['score_timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         df['data_as_of_date'] = self.reference_date
+
+        return df
+
+    def _validate_opportunities(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Valida opportunities usando web research (OpportunityValidator)
+
+        Añade columnas de validación:
+        - validation_status: BUY/HOLD/AVOID
+        - validation_score: 0-100
+        - validation_reason: Explanation
+        - price_vs_ath: % desde all-time high
+        """
+        # Rename super_score_ultimate to super_score_5d for validator compatibility
+        df_for_validation = df.copy()
+        if 'super_score_ultimate' in df_for_validation.columns:
+            df_for_validation['super_score_5d'] = df_for_validation['super_score_ultimate']
+
+        # Run validator on top 20 opportunities
+        validator = OpportunityValidator()
+        validated_df = validator.validate_opportunities(
+            df_for_validation,
+            top_n=20,
+            save_report=True
+        )
+
+        # Extract validation columns
+        validation_cols = [
+            'ticker', 'validation_status', 'validation_score',
+            'validation_reason', 'price_vs_ath', 'recent_news_sentiment',
+            'analyst_consensus', 'valuation_concern'
+        ]
+        available_validation_cols = [col for col in validation_cols if col in validated_df.columns]
+
+        # Merge validation results back
+        if available_validation_cols:
+            df = df.merge(
+                validated_df[available_validation_cols],
+                on='ticker',
+                how='left'
+            )
+
+        print(f"✅ Validation completed: {len(validated_df)} opportunities validated")
 
         return df
 

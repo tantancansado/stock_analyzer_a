@@ -749,6 +749,24 @@ class SuperDashboardGenerator:
             else:
                 sector = sector_name
 
+            # Validation status badge
+            validation_status = opp.get('validation_status', '')
+            validation_reason = opp.get('validation_reason', 'Not validated')
+            price_vs_ath = opp.get('price_vs_ath')
+
+            validation_emoji = {
+                'BUY': '✅',
+                'HOLD': '⚠️',
+                'AVOID': '❌'
+            }.get(validation_status, '')
+
+            # Build validation tooltip
+            validation_tooltip = validation_reason
+            if price_vs_ath is not None:
+                validation_tooltip += f" | {price_vs_ath:+.1f}% vs ATH"
+
+            validation_badge = f'<span title="{validation_tooltip}">{validation_emoji}</span>' if validation_emoji else ''
+
             rows.append(f"""
             <tr>
                 <td>{ticker_display}</td>
@@ -759,6 +777,7 @@ class SuperDashboardGenerator:
                 <td><span class="component-score" title="ML Predictive (30%)">{ml_score:.0f}</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">{fundamental_score:.0f}</span></td>
                 <td>{insiders_score:.0f}</td>
+                <td>{validation_badge}</td>
                 <td>{timing_badge} {repeater_badge}</td>
             </tr>
             """)
@@ -776,6 +795,7 @@ class SuperDashboardGenerator:
                         <th>ML</th>
                         <th>Fund</th>
                         <th>Ins</th>
+                        <th title="Validation: ✅ BUY | ⚠️ HOLD | ❌ AVOID">Val</th>
                         <th>⚡</th>
                     </tr>
                 </thead>
