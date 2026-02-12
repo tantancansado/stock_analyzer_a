@@ -95,8 +95,20 @@ class SeekingAlphaClient:
             # 5. Get metrics (fundamentals: market cap, debt, cash, TEV)
             metrics_data = self._get_metrics(ticker)
 
-            # 6. Combine all data into standard format
-            ticker_data = self._build_ticker_data(ticker, info_data, rankings_data, quote_data, metrics_data)
+            # 6. Get dividend history
+            dividend_data = self._get_dividend_history(ticker)
+
+            # 7. Get insider trading data
+            insider_data = self._get_insiders(ticker)
+
+            # 8. Get PE/EPS/Beta from Yahoo Finance (minimal call)
+            yf_fundamentals = self._get_yf_fundamentals(ticker)
+
+            # 9. Combine all data into standard format
+            ticker_data = self._build_ticker_data(
+                ticker, info_data, rankings_data, quote_data,
+                metrics_data, dividend_data, insider_data, yf_fundamentals
+            )
 
             print(f"✅ Successfully fetched {ticker} from Seeking Alpha")
             return ticker_data
@@ -202,13 +214,76 @@ class SeekingAlphaClient:
             print(f"   ⚠️  Metrics endpoint failed: {str(e)}")
             return {}
 
+    def _get_dividend_history(self, ticker: str) -> Dict[str, Any]:
+        """Get dividend history from Seeking Alpha"""
+        url = f"{self.base_url}/symbols/{ticker.lower()}/dividend_history"
+        params = {'years': '1'}
+
+        try:
+            response = requests.get(url, headers=self.headers, params=params, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            print(f"   ⚠️  Dividend history failed: {str(e)}")
+            return {}
+
+    def _get_insiders(self, ticker: str) -> Dict[str, Any]:
+        """Get insider trading data from Seeking Alpha"""
+        url = f"{self.base_url}/symbols/{ticker.upper()}/insiders_sell_buy"
+
+        try:
+            response = requests.get(url, headers=self.headers, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            print(f"   ⚠️  Insiders endpoint failed: {str(e)}")
+            return {}
+
+    def _get_yf_fundamentals(self, ticker: str) -> Dict[str, Any]:
+        """
+        Get PE/EPS/Beta from Yahoo Finance (minimal call)
+
+        This is a lightweight call to get only fundamental ratios
+        that Seeking Alpha free API doesn't provide
+        """
+        url = f"https://query2.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
+        params = {
+            'modules': 'defaultKeyStatistics,financialData',
+            'formatted': 'false'
+        }
+
+        try:
+            response = requests.get(url, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            result = data.get('quoteSummary', {}).get('result', [])
+            if result and len(result) > 0:
+                stats = result[0].get('defaultKeyStatistics', {})
+                financial = result[0].get('financialData', {})
+
+                return {
+                    'pe_ratio': stats.get('trailingPE', {}).get('raw'),
+                    'forward_pe': stats.get('forwardPE', {}).get('raw'),
+                    'peg_ratio': stats.get('pegRatio', {}).get('raw'),
+                    'beta': stats.get('beta', {}).get('raw'),
+                    'eps': financial.get('currentPrice', {}).get('raw')
+                }
+        except Exception as e:
+            print(f"   ⚠️  Yahoo Finance fundamentals failed: {str(e)}")
+
+        return {}
+
     def _build_ticker_data(
         self,
         ticker: str,
         info_data: Dict,
         rankings_data: Dict,
         quote_data: Dict,
-        metrics_data: Dict
+        metrics_data: Dict,
+        dividend_data: Dict,
+        insider_data: Dict,
+        yf_fundamentals: Dict
     ) -> Dict[str, Any]:
         """
         Build ticker data from Seeking Alpha API endpoints
@@ -282,7 +357,13 @@ class SeekingAlphaClient:
         sma_10, sma_20, sma_50, sma_150, sma_200 = self._calculate_smas(historical_data, current_price)
         week_52_high, week_52_low, avg_volume = self._calculate_52w_and_volume(historical_data)
 
-        # Build standard format (100% Seeking Alpha data - NO yfinance!)
+        # Calculate dividend yield from dividend history
+        dividend_yield, annual_dividend = self._calculate_dividend_yield(dividend_data, current_price)
+
+        # Analyze insider trading sentiment
+        insider_sentiment = self._analyze_insider_sentiment(insider_data)
+
+        # Build standard format (Seeking Alpha + minimal Yahoo Finance for PE/EPS/Beta)
         ticker_data = {
             "ticker": ticker,
             "company_name": company_name,
@@ -303,11 +384,18 @@ class SeekingAlphaClient:
             "fifty_two_week_high": week_52_high,
             "fifty_two_week_low": week_52_low,
 
-            # Fundamentals (limited in SA free API)
-            "pe_ratio": None,  # Not available in SA free API
-            "forward_pe": None,
-            "peg_ratio": None,
-            "beta": None,
+            # Fundamentals from Yahoo Finance (minimal call)
+            "pe_ratio": yf_fundamentals.get('pe_ratio'),
+            "forward_pe": yf_fundamentals.get('forward_pe'),
+            "peg_ratio": yf_fundamentals.get('peg_ratio'),
+            "beta": yf_fundamentals.get('beta'),
+
+            # Dividend data from Seeking Alpha
+            "dividend_yield": dividend_yield,
+            "annual_dividend": annual_dividend,
+
+            # Insider trading sentiment
+            "insider_sentiment": insider_sentiment,
 
             # Historical data from Seeking Alpha chart endpoint
             "historical": historical_data,
@@ -320,7 +408,7 @@ class SeekingAlphaClient:
             "sma_200": sma_200,
 
             "last_updated": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            "data_source": "seeking_alpha"
+            "data_source": "seeking_alpha+yfinance"
         }
 
         return ticker_data
@@ -450,6 +538,74 @@ class SeekingAlphaClient:
         avg_volume = int(sum(valid_volumes) / len(valid_volumes)) if valid_volumes else 0
 
         return (week_52_high, week_52_low, avg_volume)
+
+    def _calculate_dividend_yield(self, dividend_data: Dict, current_price: float) -> tuple:
+        """
+        Calculate annual dividend and dividend yield from dividend history
+
+        Returns: (dividend_yield, annual_dividend)
+        """
+        if not dividend_data or 'data' not in dividend_data:
+            return (None, None)
+
+        dividends = dividend_data.get('data', [])
+        if not dividends:
+            return (None, None)
+
+        # Get most recent dividend
+        recent_div = dividends[0].get('attributes', {})
+        amount = float(recent_div.get('amount', 0))
+        freq = recent_div.get('freq', 'QUARTERLY')
+
+        # Calculate annual dividend based on frequency
+        multiplier = {'QUARTERLY': 4, 'MONTHLY': 12, 'ANNUAL': 1, 'SEMI_ANNUAL': 2}.get(freq, 4)
+        annual_dividend = amount * multiplier
+
+        # Calculate yield
+        dividend_yield = (annual_dividend / current_price * 100) if current_price > 0 else None
+
+        return (dividend_yield, annual_dividend)
+
+    def _analyze_insider_sentiment(self, insider_data: Dict) -> str:
+        """
+        Analyze insider trading to determine sentiment
+
+        Returns: 'BULLISH', 'BEARISH', 'NEUTRAL', or 'N/A'
+        """
+        if not insider_data or 'data' not in insider_data:
+            return 'N/A'
+
+        transactions = insider_data.get('data', [])
+        if not transactions:
+            return 'N/A'
+
+        # Count recent buys vs sells
+        buy_count = 0
+        sell_count = 0
+        buy_value = 0
+        sell_value = 0
+
+        for txn in transactions[:10]:  # Look at last 10 transactions
+            attrs = txn.get('attributes', {})
+            txn_type = attrs.get('transactionType', '')
+            value = abs(float(attrs.get('totalValue', 0)))
+
+            if txn_type == 'Buy':
+                buy_count += 1
+                buy_value += value
+            elif txn_type == 'Sell':
+                sell_count += 1
+                sell_value += value
+
+        # Determine sentiment
+        if buy_count == 0 and sell_count == 0:
+            return 'N/A'
+        elif buy_value > sell_value * 1.5:
+            return 'BULLISH'
+        elif sell_value > buy_value * 1.5:
+            return 'BEARISH'
+        else:
+            return 'NEUTRAL'
 
     def _get_yfinance_enrichment(self, ticker: str) -> Dict[str, Any]:
         """
