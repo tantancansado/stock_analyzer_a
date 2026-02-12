@@ -228,8 +228,13 @@ def _convert_cache_to_standard_format(ticker_data: dict) -> tuple:
         'averageVolume': ticker_data.get('avg_volume', 0),
         'marketCap': ticker_data.get('market_cap', 0),
         'sharesOutstanding': ticker_data.get('shares_outstanding', 0),
+        'floatShares': ticker_data.get('float_shares', 0),
         'fiftyTwoWeekHigh': ticker_data.get('fifty_two_week_high', 0),
         'fiftyTwoWeekLow': ticker_data.get('fifty_two_week_low', 0),
+        'trailingPE': ticker_data.get('pe_ratio'),
+        'forwardPE': ticker_data.get('forward_pe'),
+        'pegRatio': ticker_data.get('peg_ratio'),
+        'beta': ticker_data.get('beta'),
         'longBusinessSummary': f"{ticker_data.get('company_name', ticker_data['ticker'])} - {ticker_data.get('sector', 'N/A')}",
     }
 

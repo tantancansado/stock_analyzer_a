@@ -16,8 +16,9 @@ Endpoints disponibles:
 """
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, Any, Optional
+from pathlib import Path
 
 
 class SeekingAlphaClient:
@@ -241,12 +242,28 @@ class SeekingAlphaClient:
 
     def _get_yf_fundamentals(self, ticker: str) -> Dict[str, Any]:
         """
-        Get PE/EPS/Beta from Yahoo Finance (minimal call)
+        Get PE/EPS/Beta from Yahoo Finance with retry logic and persistent cache
 
         This is a lightweight call to get only fundamental ratios
         that Seeking Alpha free API doesn't provide
         """
         import time
+
+        # Check persistent cache first (fundamentals don't change frequently)
+        cache_file = Path(f'cache/fundamentals/{ticker}.json')
+        cache_file.parent.mkdir(parents=True, exist_ok=True)
+
+        if cache_file.exists():
+            try:
+                with open(cache_file, 'r') as f:
+                    cached_data = json.load(f)
+                    # Cache valid for 7 days
+                    cached_time = datetime.fromisoformat(cached_data.get('cached_at', '2000-01-01'))
+                    if datetime.now() - cached_time < timedelta(days=7):
+                        print(f"   ✓ Using cached fundamentals (age: {(datetime.now() - cached_time).days} days)")
+                        return cached_data.get('data', {})
+            except:
+                pass
 
         url = f"https://query2.finance.yahoo.com/v10/finance/quoteSummary/{ticker}"
         params = {
@@ -254,29 +271,57 @@ class SeekingAlphaClient:
             'formatted': 'false'
         }
 
-        try:
-            # Add delay to avoid rate limiting (critical!)
-            print("   📊 Fetching PE/Beta from Yahoo Finance (with 3s delay)...")
-            time.sleep(3)
+        # Retry with exponential backoff (3 attempts)
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                # Increasing delay: 10s, 20s, 30s
+                delay = 10 * (attempt + 1)
+                print(f"   📊 Fetching PE/Beta from Yahoo Finance (attempt {attempt + 1}/{max_retries}, {delay}s delay)...")
+                time.sleep(delay)
 
-            response = requests.get(url, params=params, timeout=10)
-            response.raise_for_status()
-            data = response.json()
+                response = requests.get(url, params=params, timeout=15)
+                response.raise_for_status()
+                data = response.json()
 
-            result = data.get('quoteSummary', {}).get('result', [])
-            if result and len(result) > 0:
-                stats = result[0].get('defaultKeyStatistics', {})
-                financial = result[0].get('financialData', {})
+                result = data.get('quoteSummary', {}).get('result', [])
+                if result and len(result) > 0:
+                    stats = result[0].get('defaultKeyStatistics', {})
+                    financial = result[0].get('financialData', {})
 
-                return {
-                    'pe_ratio': stats.get('trailingPE', {}).get('raw'),
-                    'forward_pe': stats.get('forwardPE', {}).get('raw'),
-                    'peg_ratio': stats.get('pegRatio', {}).get('raw'),
-                    'beta': stats.get('beta', {}).get('raw'),
-                    'eps': financial.get('currentPrice', {}).get('raw')
-                }
-        except Exception as e:
-            print(f"   ⚠️  Yahoo Finance fundamentals failed: {str(e)}")
+                    fundamentals = {
+                        'pe_ratio': stats.get('trailingPE', {}).get('raw'),
+                        'forward_pe': stats.get('forwardPE', {}).get('raw'),
+                        'peg_ratio': stats.get('pegRatio', {}).get('raw'),
+                        'beta': stats.get('beta', {}).get('raw'),
+                        'eps': financial.get('currentPrice', {}).get('raw'),
+                        'float_shares': stats.get('floatShares', {}).get('raw')
+                    }
+
+                    # Save to persistent cache
+                    try:
+                        with open(cache_file, 'w') as f:
+                            json.dump({
+                                'ticker': ticker,
+                                'cached_at': datetime.now().isoformat(),
+                                'data': fundamentals
+                            }, f, indent=2)
+                        print(f"   ✓ Cached fundamentals for future use")
+                    except:
+                        pass
+
+                    return fundamentals
+
+            except requests.exceptions.HTTPError as e:
+                if e.response.status_code == 429:
+                    print(f"   ⚠️  Rate limited (429), retrying with longer delay...")
+                    continue
+                else:
+                    print(f"   ⚠️  Yahoo Finance error: {str(e)}")
+                    break
+            except Exception as e:
+                print(f"   ⚠️  Yahoo Finance fundamentals failed: {str(e)}")
+                break
 
         return {}
 
@@ -386,15 +431,17 @@ class SeekingAlphaClient:
             "total_cash": total_cash,
             "enterprise_value": tev,
             "shares_outstanding": 0,  # Not available in SA free API
+            "float_shares": yf_fundamentals.get('float_shares'),  # From Yahoo Finance
 
             "fifty_two_week_high": week_52_high,
             "fifty_two_week_low": week_52_low,
 
-            # Fundamentals from Yahoo Finance (minimal call)
+            # Fundamentals from Yahoo Finance (minimal call with retry + cache)
             "pe_ratio": yf_fundamentals.get('pe_ratio'),
             "forward_pe": yf_fundamentals.get('forward_pe'),
             "peg_ratio": yf_fundamentals.get('peg_ratio'),
             "beta": yf_fundamentals.get('beta'),
+            "eps": yf_fundamentals.get('eps'),
 
             # Dividend data from Seeking Alpha
             "dividend_yield": dividend_yield,
