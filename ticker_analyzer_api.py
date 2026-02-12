@@ -144,10 +144,10 @@ class TickerAnalyzer:
             # Run fundamental analysis (reuses info data)
             fundamental_analysis = self._analyze_fundamentals(ticker, stock_info)
 
-            # Run advanced filters (these already use their own caching)
-            ma_result = self.ma_filter.check_stock(ticker, verbose=True)
-            ad_result = self.ad_filter.analyze_stock(ticker, verbose=True)
-            float_result = self.float_filter.check_stock(ticker, verbose=True)
+            # Run advanced filters (using cached data - NO API CALLS)
+            ma_result = self._check_ma_filter_cached(ticker, hist)
+            ad_result = self._check_ad_filter_cached(ticker, hist)
+            float_result = self._check_float_filter_cached(ticker, info)
 
             # Run web validation (reuses stock_info)
             validation_result = self._run_validation(ticker, stock_info)
@@ -348,6 +348,134 @@ class TickerAnalyzer:
             }
         except Exception as e:
             return {'score': 50, 'reason': f'Error: {str(e)}'}
+
+    def _check_ma_filter_cached(self, ticker: str, hist: pd.DataFrame) -> dict:
+        """MA Filter using cached data (OPTIMIZED - no API calls)"""
+        try:
+            if hist.empty or len(hist) < 200:
+                return {'ticker': ticker, 'passes': False, 'score': 0, 'reason': 'Insufficient data', 'details': {}}
+
+            current_price = float(hist['Close'].iloc[-1])
+            ma_50 = float(hist['Close'].rolling(50).mean().iloc[-1])
+            ma_150 = float(hist['Close'].rolling(150).mean().iloc[-1])
+            ma_200 = float(hist['Close'].rolling(200).mean().iloc[-1])
+            ma_200_20d_ago = float(hist['Close'].rolling(200).mean().iloc[-20])
+            ma_200_slope = ((ma_200 - ma_200_20d_ago) / ma_200_20d_ago * 100)
+
+            week_52_high = float(hist['High'].max())
+            week_52_low = float(hist['Low'].min())
+
+            criterion_1 = current_price > ma_150 and current_price > ma_200
+            criterion_2 = ma_150 > ma_200
+            criterion_3 = ma_200_slope > 0
+            criterion_4 = ma_50 > ma_150 > ma_200
+            criterion_5 = current_price >= week_52_low * 1.30
+            criterion_6 = current_price >= week_52_high * 0.75
+
+            checks_passed = sum([criterion_1, criterion_2, criterion_3, criterion_4, criterion_5, criterion_6])
+            score = int((checks_passed / 6) * 100)
+            passes = criterion_1 and criterion_2 and criterion_3
+
+            if not passes:
+                reason = "Price below 150/200 MA" if not criterion_1 else "150 MA below 200 MA" if not criterion_2 else "200 MA declining"
+            else:
+                reason = f"Passes Minervini Template ({checks_passed}/6)"
+
+            return {'ticker': ticker, 'passes': bool(passes), 'score': score, 'checks_passed': f"{checks_passed}/6", 'reason': reason}
+        except Exception as e:
+            return {'ticker': ticker, 'passes': False, 'score': 0, 'reason': f'Error: {str(e)}'}
+
+    def _check_ad_filter_cached(self, ticker: str, hist: pd.DataFrame) -> dict:
+        """A/D Filter using cached data (OPTIMIZED - no API calls)"""
+        try:
+            period_days = min(50, len(hist))
+            if period_days < 20:
+                return {'ticker': ticker, 'signal': 'UNKNOWN', 'score': 50, 'reason': 'Insufficient data'}
+
+            df = hist.tail(period_days).copy()
+            df['price_change'] = df['Close'].diff()
+            df['is_up_day'] = df['price_change'] > 0
+            df['is_down_day'] = df['price_change'] < 0
+
+            up_days_volume = df[df['is_up_day']]['Volume'].sum()
+            down_days_volume = df[df['is_down_day']]['Volume'].sum()
+            total_volume = df['Volume'].sum()
+
+            volume_ratio = up_days_volume / down_days_volume if down_days_volume > 0 else 10.0
+            up_volume_pct = (up_days_volume / total_volume * 100) if total_volume > 0 else 50
+
+            # Determine signal
+            score = 50
+            if volume_ratio >= 2.0:
+                score += 30
+                signal = 'STRONG_ACCUMULATION'
+            elif volume_ratio >= 1.5:
+                score += 20
+                signal = 'ACCUMULATION'
+            elif volume_ratio >= 1.0:
+                score += 10
+                signal = 'ACCUMULATION'
+            elif volume_ratio >= 0.7:
+                score -= 10
+                signal = 'NEUTRAL'
+            elif volume_ratio >= 0.5:
+                score -= 20
+                signal = 'DISTRIBUTION'
+            else:
+                score -= 30
+                signal = 'STRONG_DISTRIBUTION'
+
+            if up_volume_pct >= 65:
+                score += 15
+            elif up_volume_pct <= 35:
+                score -= 15
+
+            score = max(0, min(100, score))
+            reason = f"{signal} ({volume_ratio:.1f}x ratio, {up_volume_pct:.0f}% up volume)"
+
+            return {'ticker': ticker, 'signal': signal, 'score': int(score), 'reason': reason}
+        except Exception as e:
+            return {'ticker': ticker, 'signal': 'UNKNOWN', 'score': 50, 'reason': f'Error: {str(e)}'}
+
+    def _check_float_filter_cached(self, ticker: str, info: dict) -> dict:
+        """Float Filter using cached info (OPTIMIZED - no API calls)"""
+        try:
+            shares_outstanding = info.get('sharesOutstanding')
+            float_shares = info.get('floatShares')
+            shares = float_shares if float_shares else shares_outstanding
+
+            if not shares or shares == 0:
+                return {'ticker': ticker, 'passes': False, 'float_category': 'UNKNOWN', 'score': 50, 'reason': 'Float data not available'}
+
+            shares_millions = shares / 1_000_000
+
+            if shares_millions < 10:
+                category, score, passes = 'MICRO_FLOAT', 85, True
+            elif shares_millions < 25:
+                category, score, passes = 'LOW_FLOAT', 100, True
+            elif shares_millions < 50:
+                category, score, passes = 'MEDIUM_FLOAT', 90, True
+            elif shares_millions < 200:
+                category, score, passes = 'HIGH_FLOAT', 60, False
+            else:
+                category, score, passes = 'MEGA_FLOAT', 30, False
+
+            market_cap = info.get('marketCap')
+            market_cap_billions = market_cap / 1_000_000_000 if market_cap else None
+
+            return {
+                'ticker': ticker,
+                'passes': bool(passes),
+                'float_category': category,
+                'shares_outstanding': float(shares),
+                'shares_outstanding_millions': float(round(shares_millions, 1)),
+                'market_cap': float(market_cap) if market_cap else None,
+                'market_cap_billions': float(round(market_cap_billions, 2)) if market_cap_billions else None,
+                'score': int(score),
+                'reason': f"{shares_millions:.1f}M shares - {category.replace('_', ' ').title()}"
+            }
+        except Exception as e:
+            return {'ticker': ticker, 'passes': False, 'float_category': 'UNKNOWN', 'score': 50, 'reason': f'Error: {str(e)}'}
 
     def _analyze_vcp_pattern(self, ticker: str) -> dict:
         """Simplified VCP pattern analysis"""
