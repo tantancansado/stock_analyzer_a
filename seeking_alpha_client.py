@@ -62,13 +62,19 @@ class SeekingAlphaClient:
 
     def get_ticker_data(self, ticker: str) -> Dict[str, Any]:
         """
-        Obtiene datos completos de un ticker desde Seeking Alpha
+        Get comprehensive ticker data from Seeking Alpha
+
+        Uses multiple SA API endpoints:
+        1. tooltips - basic company info
+        2. relative_rankings - sector/industry + SA ID
+        3. real_time_quotes - current price data (using SA ID)
+        4. metrics - fundamentals (market cap, debt, cash, TEV)
 
         Args:
-            ticker: Símbolo del ticker (e.g., 'FISV', 'NVDA')
+            ticker: Stock ticker symbol (e.g., 'AAPL', 'MSFT')
 
         Returns:
-            Dict con datos del ticker en formato compatible con ticker_data_cache.json
+            Dict with ticker data in standard format
         """
         ticker = ticker.upper()
         print(f"🌐 Fetching {ticker} from Seeking Alpha API...")
@@ -77,11 +83,20 @@ class SeekingAlphaClient:
             # 1. Get basic info (tooltips endpoint)
             info_data = self._get_tooltips(ticker)
 
-            # 2. Get real-time quote
-            quote_data = self._get_real_time_quote(ticker)
+            # 2. Get relative rankings (includes SA ID, sector, industry)
+            rankings_data = self._get_relative_rankings(ticker)
 
-            # 3. Combine data into standard format
-            ticker_data = self._build_ticker_data(ticker, info_data, quote_data)
+            # 3. Get SA ID from rankings (needed for real-time quotes)
+            sa_id = rankings_data.get('data', {}).get('id') if rankings_data else None
+
+            # 4. Get real-time quote using SA ID (more reliable than ticker)
+            quote_data = self._get_real_time_quote_by_id(sa_id) if sa_id else {}
+
+            # 5. Get metrics (fundamentals: market cap, debt, cash, TEV)
+            metrics_data = self._get_metrics(ticker)
+
+            # 6. Combine all data into standard format
+            ticker_data = self._build_ticker_data(ticker, info_data, rankings_data, quote_data, metrics_data)
 
             print(f"✅ Successfully fetched {ticker} from Seeking Alpha")
             return ticker_data
@@ -105,7 +120,7 @@ class SeekingAlphaClient:
             return {}
 
     def _get_real_time_quote(self, ticker: str) -> Dict[str, Any]:
-        """Get real-time quote data"""
+        """Get real-time quote data (legacy - prefer _get_real_time_quote_by_id)"""
         # First, get the SA ID from tooltips or use ticker symbol directly
         url = f"{self.finance_api_url}/real_time_quotes"
         params = {'sa_ids': ticker}  # Can also use numeric ID
@@ -125,65 +140,180 @@ class SeekingAlphaClient:
             print(f"   ⚠️  Real-time quote failed: {str(e)}")
             return {}
 
-    def _build_ticker_data(self, ticker: str, info_data: Dict, quote_data: Dict) -> Dict[str, Any]:
+    def _get_relative_rankings(self, ticker: str) -> Dict[str, Any]:
         """
-        Build ticker data in standard format from SA API + yfinance
+        Get relative rankings (sector, industry, SA ID)
+
+        Returns SA ID which is needed for other endpoints
+        """
+        url = f"{self.base_url}/symbols/{ticker.lower()}/relative_rankings"
+
+        try:
+            response = requests.get(url, headers=self.headers, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            print(f"   ⚠️  Relative rankings failed: {str(e)}")
+            return {}
+
+    def _get_real_time_quote_by_id(self, sa_id: str) -> Dict[str, Any]:
+        """
+        Get real-time quote using SA ID (more reliable than ticker)
+
+        Args:
+            sa_id: Seeking Alpha internal ID (e.g., '1719' for UNH)
+        """
+        url = f"{self.finance_api_url}/real_time_quotes"
+        params = {'sa_ids': sa_id}
+
+        try:
+            response = requests.get(url, headers=self.headers, params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            # Extract first result if available
+            if isinstance(data, list) and len(data) > 0:
+                return data[0]
+            elif isinstance(data, dict):
+                return data
+            return {}
+        except Exception as e:
+            print(f"   ⚠️  Real-time quote by ID failed: {str(e)}")
+            return {}
+
+    def _get_metrics(self, ticker: str) -> Dict[str, Any]:
+        """
+        Get fundamental metrics (market cap, debt, cash, TEV, etc.)
+
+        Returns comprehensive fundamental data
+        """
+        url = f"{self.base_url}/metrics"
+        params = {
+            'filter[fields]': 'marketcap,impliedmarketcap,total_cash,total_debt,tev,other_cap_struct',
+            'filter[slugs]': ticker.lower(),
+            'minified': 'false'
+        }
+
+        try:
+            response = requests.get(url, headers=self.headers, params=params, timeout=10)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            print(f"   ⚠️  Metrics endpoint failed: {str(e)}")
+            return {}
+
+    def _build_ticker_data(
+        self,
+        ticker: str,
+        info_data: Dict,
+        rankings_data: Dict,
+        quote_data: Dict,
+        metrics_data: Dict
+    ) -> Dict[str, Any]:
+        """
+        Build ticker data from Seeking Alpha API endpoints
 
         Strategy:
-        1. Get basic info from Seeking Alpha (fast, works with cookies)
-        2. Enrich with yfinance data (fundamentals + historical)
+        1. Use SA data first (tooltips, rankings, quotes, metrics)
+        2. Only use yfinance for historical OHLCV data
         """
-        # Extract data from responses (defensive parsing)
-        company_name = ticker  # Default to ticker
-        sector = "N/A"
-        industry = "N/A"
-        current_price = 0.0
-        market_cap = 0
-
-        # Parse tooltips data
+        # Extract company name from tooltips
+        company_name = ticker
         if info_data and 'data' in info_data:
             data = info_data['data']
             if isinstance(data, list) and len(data) > 0:
                 attributes = data[0].get('attributes', {})
                 company_name = attributes.get('company', ticker)
-                # Sector/Industry might be in different location
 
-        # Parse quote data
+        # Extract sector/industry from rankings
+        sector = "N/A"
+        industry = "N/A"
+        if rankings_data and 'data' in rankings_data:
+            attrs = rankings_data['data'].get('attributes', {})
+            sector_name = attrs.get('sectorName', 'N/A')
+            industry_name = attrs.get('primaryName', 'N/A')
+            sector = sector_name
+            industry = industry_name
+
+        # Extract price data from quote
+        current_price = 0.0
+        previous_close = 0.0
+        volume = 0
+        avg_volume = 0
+        week_52_high = 0.0
+        week_52_low = 0.0
+
         if quote_data:
             current_price = float(quote_data.get('last', 0) or quote_data.get('price', 0))
-            market_cap = int(quote_data.get('marketCap', 0) or 0)
+            previous_close = float(quote_data.get('prevClose', current_price))
+            volume = int(quote_data.get('volume', 0) or 0)
+            avg_volume = int(quote_data.get('avgVolume', 0) or 0)
+            week_52_high = float(quote_data.get('week52High', 0) or 0)
+            week_52_low = float(quote_data.get('week52Low', 0) or 0)
 
-        # Enrich with yfinance data (fundamentals + complete data)
+        # Extract fundamentals from metrics
+        market_cap = 0
+        total_debt = 0
+        total_cash = 0
+        tev = 0  # Total Enterprise Value
+
+        if metrics_data and 'data' in metrics_data:
+            for metric in metrics_data['data']:
+                attrs = metric.get('attributes', {})
+                value = attrs.get('value', 0)
+
+                # Get metric type from relationships
+                relationships = metric.get('relationships', {})
+                metric_type = relationships.get('metric_type', {}).get('data', {}).get('id', '')
+
+                # Map metric types (from included data)
+                if 'included' in metrics_data:
+                    for item in metrics_data['included']:
+                        if item.get('type') == 'metric_type' and item.get('id') == metric_type:
+                            field = item.get('attributes', {}).get('field', '')
+                            if field == 'marketcap':
+                                market_cap = int(value)
+                            elif field == 'total_debt':
+                                total_debt = int(value)
+                            elif field == 'total_cash':
+                                total_cash = int(value)
+                            elif field == 'tev':
+                                tev = int(value)
+
+        # Get historical data from yfinance (SA doesn't provide this)
         yf_data = self._get_yfinance_enrichment(ticker)
 
-        # Build standard format (merge SA + yfinance data)
+        # Build standard format (prioritize SA data, fallback to yfinance)
         ticker_data = {
             "ticker": ticker,
-            "company_name": yf_data.get('company_name', company_name),
-            "sector": yf_data.get('sector', sector),
-            "industry": yf_data.get('industry', industry),
+            "company_name": company_name,
+            "sector": sector,
+            "industry": industry,
 
             "current_price": current_price or yf_data.get('current_price', 0),
-            "previous_close": float(quote_data.get('prevClose', current_price) if quote_data else yf_data.get('previous_close', 0)),
-            "volume": int(quote_data.get('volume', 0) if quote_data else yf_data.get('volume', 0)),
-            "avg_volume": int(quote_data.get('avgVolume', 0) if quote_data else yf_data.get('avg_volume', 0)),
+            "previous_close": previous_close or yf_data.get('previous_close', 0),
+            "volume": volume or yf_data.get('volume', 0),
+            "avg_volume": avg_volume or yf_data.get('avg_volume', 0),
 
             "market_cap": market_cap or yf_data.get('market_cap', 0),
+            "total_debt": total_debt,
+            "total_cash": total_cash,
+            "enterprise_value": tev,
             "shares_outstanding": yf_data.get('shares_outstanding', 0),
 
-            "fifty_two_week_high": float(quote_data.get('week52High', 0) if quote_data else yf_data.get('fifty_two_week_high', 0)),
-            "fifty_two_week_low": float(quote_data.get('week52Low', 0) if quote_data else yf_data.get('fifty_two_week_low', 0)),
+            "fifty_two_week_high": week_52_high or yf_data.get('fifty_two_week_high', 0),
+            "fifty_two_week_low": week_52_low or yf_data.get('fifty_two_week_low', 0),
 
-            # P/E ratio and other fundamentals from yfinance
+            # Fundamentals from yfinance (SA doesn't provide P/E, beta in free API)
             "pe_ratio": yf_data.get('pe_ratio'),
             "forward_pe": yf_data.get('forward_pe'),
             "peg_ratio": yf_data.get('peg_ratio'),
             "beta": yf_data.get('beta'),
 
-            # Historical data from yfinance
+            # Historical data from yfinance (required for VCP, ML, MA filters)
             "historical": yf_data.get('historical', self._get_limited_historical(ticker, current_price)),
 
-            # Moving averages - Calculate from historical data
+            # Moving averages from yfinance historical data
             "sma_10": yf_data.get('sma_10', current_price),
             "sma_20": yf_data.get('sma_20', current_price),
             "sma_50": yf_data.get('sma_50', current_price),
