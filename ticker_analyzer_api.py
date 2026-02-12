@@ -638,29 +638,61 @@ class TickerAnalyzer:
         }
 
     def _run_validation(self, ticker: str, stock_info: dict) -> dict:
-        """Run web validation checks"""
+        """
+        Run validation checks using already-fetched data
+
+        NO API CALLS - Uses stock_info data we already have
+        """
         try:
-            # Create minimal DataFrame for validator
-            df = pd.DataFrame([{
-                'ticker': ticker,
-                'super_score_5d': 70,  # Dummy score
-                'company_name': stock_info.get('company_name', ticker),
-                'sector': stock_info.get('sector', 'N/A')
-            }])
+            # Calculate validation metrics from stock_info (no API calls!)
+            current_price = stock_info.get('current_price', 0)
+            year_high = stock_info.get('52_week_high', 0)
+            pe_ratio = stock_info.get('pe_ratio')
 
-            validated = self.validator.validate_opportunities(df, top_n=1, save_report=False)
+            # Calculate distance from 52-week high
+            price_vs_ath = None
+            if current_price and year_high:
+                price_vs_ath = ((current_price - year_high) / year_high * 100)
 
-            if len(validated) > 0:
-                result = validated.iloc[0]
-                return {
-                    'status': result.get('validation_status', 'UNKNOWN'),
-                    'score': int(result.get('validation_score', 50)),
-                    'reason': result.get('validation_reason', 'N/A'),
-                    'price_vs_ath': result.get('price_vs_ath'),
-                    'analyst_consensus': result.get('analyst_consensus', 'N/A')
-                }
-            else:
-                return {'status': 'UNKNOWN', 'score': 50, 'reason': 'Validation failed'}
+            # Determine validation status based on ATH distance
+            reasons = []
+            score = 70  # Start neutral-positive
+            status = 'UNKNOWN'
+
+            if price_vs_ath is not None:
+                if price_vs_ath > -5:
+                    status = 'AVOID'
+                    score = 30
+                    reasons.append(f"Near ATH ({price_vs_ath:+.1f}% from high) - poor entry point")
+                elif price_vs_ath > -15:
+                    status = 'HOLD'
+                    score = 50
+                    reasons.append(f"Close to ATH ({price_vs_ath:+.1f}% from high) - wait for pullback")
+                elif price_vs_ath < -50:
+                    status = 'BUY'
+                    score -= 15
+                    reasons.append(f"Far from ATH ({price_vs_ath:+.1f}%) - verify not broken")
+                else:
+                    status = 'BUY'
+                    score += 15
+                    reasons.append(f"Good pullback ({price_vs_ath:+.1f}% from high) - valid VCP setup")
+
+            # Check valuation if available
+            if pe_ratio:
+                if pe_ratio > 50:
+                    score -= 20
+                    reasons.append(f"High P/E ({pe_ratio:.1f}) - valuation risk")
+                elif pe_ratio > 35:
+                    score -= 10
+                    reasons.append(f"Elevated P/E ({pe_ratio:.1f}) - watch valuation")
+
+            return {
+                'status': status,
+                'score': max(0, min(100, score)),
+                'reason': ' | '.join(reasons) if reasons else 'No significant concerns detected',
+                'price_vs_ath': round(price_vs_ath, 1) if price_vs_ath else None,
+                'analyst_consensus': 'N/A'
+            }
 
         except Exception as e:
             return {'status': 'ERROR', 'score': 50, 'reason': str(e)}
