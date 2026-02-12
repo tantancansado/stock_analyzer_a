@@ -313,16 +313,19 @@ python3 backtest_engine_v2.py
 # 🚨 Backtest results are INVALID
 ```
 
-### 🚧 Generar Snapshots Semanales (PENDING):
+### ✅ Generar Snapshots Semanales (COMPLETADO):
 
 ```bash
-# TODO: Actualizar historical_scorer.py para usar --as-of-date
 # Fechas clave (3M, 6M, 1Y)
 python3 historical_scorer.py --backtest
 
-# Snapshots semanales
+# Snapshots semanales (COMPLETADO - 54 snapshots generados)
 python3 historical_scorer.py --weekly --weeks 52
+# O usar el script automatizado:
+python3 generate_weekly_snapshots.py
 ```
+
+**Resultado:** 54 snapshots semanales generados en `docs/historical_scores/`
 
 ---
 
@@ -337,24 +340,25 @@ python3 historical_scorer.py --weekly --weeks 52
 - [x] Validar detección de look-ahead bias
 - [x] Documentar fix en `LOOK_AHEAD_BIAS_FIX.md`
 
-### Phase 2: Historical Scoring ✅ 90% COMPLETADO
+### Phase 2: Historical Scoring ✅ 100% COMPLETADO
 
 - [x] Modificar `vcp_scanner_usa.py` para `--as-of-date` ✅
 - [x] Modificar `ml_scoring.py` para cutoff date ✅
 - [x] Modificar `fundamental_scorer.py` para earnings filtering ✅
 - [x] Modificar `super_score_integrator.py` para timestamp consistency ✅
 - [x] Actualizar `historical_scorer.py` para automation ✅
-- [ ] Testear scoring histórico (sample date: 2025-08-15) 🚧
-- [ ] Generar 52 snapshots semanales 🚧
-- [ ] Validar calidad de snapshots 🚧
+- [x] Testear scoring histórico (sample date: 2025-08-15) ✅
+- [x] Generar 54 snapshots semanales ✅
+- [x] Validar calidad de snapshots ✅
 
-### Phase 3: Re-validation 🚧 PENDIENTE
+### Phase 3: Re-validation ✅ 60% COMPLETADO
 
-- [ ] Re-ejecutar Backtest V2 con scores limpios
-- [ ] Comparar V1 (con bias) vs V2 (sin bias)
-- [ ] Re-optimizar thresholds si necesario
-- [ ] Walk-forward validation
-- [ ] Documentar resultados finales
+- [x] Re-ejecutar Backtest V2 con scores limpios ✅
+- [x] Comparar V1 (con bias) vs V2 (sin bias) ✅
+- [x] Documentar resultados comparativos ✅
+- [ ] Walk-forward validation con 54 snapshots 🚧
+- [ ] Re-optimizar thresholds (bajar de 60 a 55) 🚧
+- [ ] Re-generar snapshots CON VCP (opcional) 🚧
 
 ---
 
@@ -369,13 +373,15 @@ python3 historical_scorer.py --weekly --weeks 52
 
 ---
 
-**Actualizado:** 2026-02-11
-**Status:** Phase 1 COMPLETADO ✅ | Phase 2 90% COMPLETADO ✅🚧 | Phase 3 PENDIENTE
-**Completado Hoy:**
+**Actualizado:** 2026-02-12 08:36
+**Status:** Phase 1 ✅ COMPLETADO | Phase 2 ✅ COMPLETADO 100% | Phase 3 ✅ 60% COMPLETADO
+**Completado Esta Sesión:**
 - ✅ VCP Scanner con --as-of-date (Commit: db1edcc)
 - ✅ ML Scoring con --as-of-date (Commit: 0cdbb18)
 - ✅ Fundamental Scorer con --as-of-date (Commit: 06ee709)
 - ✅ Super Score Integrator con --as-of-date (Commit: 9516926)
 - ✅ Historical Scorer automation (Commit: 228bb07)
+- ✅ Backtest V2 con snapshots históricos (Commit: 84987a6)
+- ✅ 54 snapshots semanales generados (Commit: d92e33e)
 
-**Próximo Paso:** Testing con fecha ejemplo (2025-08-15) y generación de snapshots
+**Próximo Paso:** Walk-forward validation con 54 snapshots
