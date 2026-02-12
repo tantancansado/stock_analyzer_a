@@ -171,9 +171,6 @@ class SeekingAlphaClient:
             response.raise_for_status()
             data = response.json()
 
-            # DEBUG: Print quote data to see what fields are available
-            print(f"   🔍 DEBUG - Quote data keys: {list(data[0].keys()) if isinstance(data, list) and len(data) > 0 else list(data.keys()) if isinstance(data, dict) else 'empty'}")
-
             # Extract first result if available
             if isinstance(data, list) and len(data) > 0:
                 return data[0]
@@ -238,21 +235,15 @@ class SeekingAlphaClient:
             sector = sector_name
             industry = industry_name
 
-        # Extract price data from quote
+        # Extract price data from quote (use correct field names!)
         current_price = 0.0
         previous_close = 0.0
         volume = 0
-        avg_volume = 0
-        week_52_high = 0.0
-        week_52_low = 0.0
 
         if quote_data:
-            current_price = float(quote_data.get('last', 0) or quote_data.get('price', 0))
-            previous_close = float(quote_data.get('prevClose', current_price))
+            current_price = float(quote_data.get('last', 0) or 0)
+            previous_close = float(quote_data.get('prev_close', 0) or 0)
             volume = int(quote_data.get('volume', 0) or 0)
-            avg_volume = int(quote_data.get('avgVolume', 0) or 0)
-            week_52_high = float(quote_data.get('week52High', 0) or 0)
-            week_52_low = float(quote_data.get('week52Low', 0) or 0)
 
         # Extract fundamentals from metrics
         market_cap = 0
@@ -287,8 +278,9 @@ class SeekingAlphaClient:
         print(f"   📈 Fetching historical chart data from Seeking Alpha...")
         historical_data = self._get_chart_data(ticker)
 
-        # Calculate moving averages from historical data if available
+        # Calculate metrics from historical data
         sma_10, sma_20, sma_50, sma_150, sma_200 = self._calculate_smas(historical_data, current_price)
+        week_52_high, week_52_low, avg_volume = self._calculate_52w_and_volume(historical_data)
 
         # Build standard format (100% Seeking Alpha data - NO yfinance!)
         ticker_data = {
@@ -438,6 +430,26 @@ class SeekingAlphaClient:
         sma_200 = calc_sma(closes, 200)
 
         return (sma_10, sma_20, sma_50, sma_150, sma_200)
+
+    def _calculate_52w_and_volume(self, historical_data: Dict[str, list]) -> tuple:
+        """
+        Calculate 52-week high/low and average volume from historical data
+
+        Returns: (week_52_high, week_52_low, avg_volume)
+        """
+        highs = historical_data.get('high', [])
+        lows = historical_data.get('low', [])
+        volumes = historical_data.get('volume', [])
+
+        # Calculate 52-week high/low (or max available if less than 52 weeks)
+        week_52_high = max(highs) if highs else 0.0
+        week_52_low = min([l for l in lows if l > 0]) if lows else 0.0
+
+        # Calculate average volume
+        valid_volumes = [v for v in volumes if v > 0]
+        avg_volume = int(sum(valid_volumes) / len(valid_volumes)) if valid_volumes else 0
+
+        return (week_52_high, week_52_low, avg_volume)
 
     def _get_yfinance_enrichment(self, ticker: str) -> Dict[str, Any]:
         """
