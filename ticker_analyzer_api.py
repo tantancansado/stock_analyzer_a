@@ -79,9 +79,18 @@ def load_ticker_cache():
 # Load cache on startup
 load_ticker_cache()
 
-# Initialize web scraper (fallback for tickers not in cache)
-web_scraper = YahooFinanceScraper()
-print("✅ Yahoo Finance web scraper initialized (fallback mode)")
+# Initialize Seeking Alpha client (fallback for tickers not in cache)
+from seeking_alpha_client import SeekingAlphaClient
+
+# Get cookies from environment (optional, for fallback)
+SA_COOKIES = os.environ.get('SEEKING_ALPHA_COOKIES', '')
+sa_client = SeekingAlphaClient(cookies=SA_COOKIES) if SA_COOKIES else None
+
+if sa_client:
+    print("✅ Seeking Alpha client initialized (fallback mode)")
+else:
+    print("⚠️  No Seeking Alpha cookies - fallback disabled")
+    print("   Set SEEKING_ALPHA_COOKIES env var to enable fallback")
 
 
 def get_stock_data(ticker: str) -> tuple:
@@ -120,14 +129,73 @@ def get_stock_data(ticker: str) -> tuple:
         MEMORY_CACHE[cache_key] = (data, datetime.now())
         return data
 
-    # 3. Fallback to web scraping (no API calls!)
-    print(f"⚠️  {ticker} not in cache, using web scraper fallback...")
-    try:
-        ticker_data = web_scraper.scrape_ticker(ticker)
+    # 3. Fallback to Seeking Alpha (if configured with cookies)
+    if sa_client:
+        print(f"⚠️  {ticker} not in cache, fetching from Seeking Alpha...")
+        try:
+            ticker_data = sa_client.get_ticker_data(ticker)
 
-        # Convert to expected format
+            # Convert to expected format
+            info, hist = _convert_cache_to_standard_format(ticker_data)
+            data = (info, hist, 'seeking_alpha')
+
+            # Store in memory cache
+            MEMORY_CACHE[cache_key] = (data, datetime.now())
+            return data
+
+        except Exception as e:
+            print(f"❌ Seeking Alpha failed: {str(e)}")
+            # Fall through to yfinance
+
+    # 4. Last resort: try yfinance with delay (may fail with rate limiting)
+    print(f"⚠️  Trying yfinance as last resort (may be rate limited)...")
+    try:
+        import yfinance as yf
+        import time
+
+        # Add delay to reduce rate limiting risk
+        time.sleep(2)
+
+        stock = yf.Ticker(ticker)
+        info = stock.info
+        hist = stock.history(period='200d')
+
+        if hist.empty:
+            raise ValueError("No historical data available")
+
+        # Build ticker data in cache format
+        ticker_data = {
+            "ticker": ticker,
+            "company_name": info.get('longName', ticker),
+            "sector": info.get('sector', 'N/A'),
+            "industry": info.get('industry', 'N/A'),
+            "current_price": float(info.get('currentPrice', hist['Close'].iloc[-1])),
+            "previous_close": float(info.get('previousClose', hist['Close'].iloc[-2] if len(hist) > 1 else hist['Close'].iloc[-1])),
+            "volume": int(info.get('volume', hist['Volume'].iloc[-1])),
+            "avg_volume": int(info.get('averageVolume', hist['Volume'].mean())),
+            "market_cap": int(info.get('marketCap', 0)),
+            "shares_outstanding": int(info.get('sharesOutstanding', 0)),
+            "fifty_two_week_high": float(info.get('fiftyTwoWeekHigh', hist['High'].max())),
+            "fifty_two_week_low": float(info.get('fiftyTwoWeekLow', hist['Low'].min())),
+            "historical": {
+                "dates": [d.strftime('%Y-%m-%d') for d in hist.index],
+                "open": [float(x) for x in hist['Open'].values],
+                "high": [float(x) for x in hist['High'].values],
+                "low": [float(x) for x in hist['Low'].values],
+                "close": [float(x) for x in hist['Close'].values],
+                "volume": [int(x) for x in hist['Volume'].values]
+            },
+            "sma_10": float(hist['Close'].tail(10).mean()),
+            "sma_20": float(hist['Close'].tail(20).mean()),
+            "sma_50": float(hist['Close'].tail(50).mean()),
+            "sma_150": float(hist['Close'].tail(150).mean()),
+            "sma_200": float(hist['Close'].tail(200).mean()),
+            "last_updated": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "data_source": "yfinance_fallback"
+        }
+
         info, hist = _convert_cache_to_standard_format(ticker_data)
-        data = (info, hist, 'web_scraper')
+        data = (info, hist, 'yfinance_fallback')
 
         # Store in memory cache
         MEMORY_CACHE[cache_key] = (data, datetime.now())
