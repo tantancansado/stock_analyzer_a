@@ -53,7 +53,8 @@ class SuperDashboardGenerator:
         Strategy: Hybrid merge
         1. Load super_scores_ultimate.csv (VCP + ML + Fundamental combined)
         2. Merge with super_opportunities_5d_complete.csv for enrichment
-        3. Use ultimate score as PRIMARY while keeping 5D features
+        3. Merge with super_opportunities_with_prices.csv for entry/exit (if exists)
+        4. Use ultimate score as PRIMARY while keeping 5D features
         """
         ultimate_file = Path("docs/super_scores_ultimate.csv")
         opps_5d_file = Path("docs/super_opportunities_5d_complete.csv")
@@ -81,10 +82,30 @@ class SuperDashboardGenerator:
                 df = ultimate_df.merge(
                     opps_5d[available_enrichment],
                     on='ticker',
-                    how='left'
+                    how='left',
+                    validate='1:1'
                 )
             else:
                 df = ultimate_df.copy()
+
+            # Merge with entry/exit prices if available
+            prices_file = Path("docs/super_opportunities_with_prices.csv")
+            if prices_file.exists():
+                prices_df = pd.read_csv(prices_file)
+                price_cols = [
+                    'ticker', 'entry_price', 'entry_range', 'stop_loss',
+                    'exit_price', 'exit_range', 'risk_reward', 'risk_pct',
+                    'reward_pct', 'entry_timing', 'meets_risk_reward'
+                ]
+                available_price_cols = [col for col in price_cols if col in prices_df.columns]
+
+                df = df.merge(
+                    prices_df[available_price_cols],
+                    on='ticker',
+                    how='left',
+                    validate='1:1'
+                )
+                print(f"✅ Merged entry/exit prices for {df['entry_price'].notna().sum()} opportunities")
 
             # Rename super_score_ultimate to super_score_5d for compatibility
             if 'super_score_ultimate' in df.columns:
