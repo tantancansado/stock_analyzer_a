@@ -46,6 +46,7 @@ from float_filter import FloatFilter
 from market_regime_detector import MarketRegimeDetector
 from opportunity_validator import OpportunityValidator
 from yahoo_finance_scraper import YahooFinanceScraper
+from entry_exit_calculator import EntryExitCalculator
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend
@@ -264,6 +265,7 @@ class TickerAnalyzer:
         self.float_filter = FloatFilter()
         self.market_detector = MarketRegimeDetector()
         self.validator = OpportunityValidator()
+        self.entry_exit_calc = EntryExitCalculator()
 
     def analyze(self, ticker: str) -> dict:
         """
@@ -312,6 +314,16 @@ class TickerAnalyzer:
                 ma_result, ad_result, market_regime
             )
 
+            # Calculate Entry/Exit Prices
+            entry_exit = self.entry_exit_calc.calculate_entry_exit(
+                ticker=ticker,
+                current_price=stock_info.get('current_price', 0),
+                hist=hist,
+                vcp_analysis=vcp_analysis,
+                fundamental_data=fundamental_analysis,
+                validation=validation_result
+            )
+
             # Generate investment thesis
             thesis = self._generate_investment_thesis(
                 ticker, stock_info, vcp_analysis, ml_score,
@@ -332,6 +344,9 @@ class TickerAnalyzer:
                 'final_score': final_score,
                 'recommendation': thesis['recommendation'],
                 'confidence': thesis['confidence'],
+
+                # Entry/Exit Prices (NEW!)
+                'entry_exit': entry_exit,
 
                 # Investment thesis
                 'thesis': thesis,
