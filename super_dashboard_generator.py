@@ -809,6 +809,23 @@ class SuperDashboardGenerator:
             filter_penalty = opp.get('filter_penalty', 0)
             filter_tooltip = f"Penalty: -{filter_penalty:.0f} points"
 
+            # Entry/Exit prices (if available)
+            entry_price = opp.get('entry_price')
+            stop_loss = opp.get('stop_loss')
+            exit_price = opp.get('exit_price')
+            risk_reward = opp.get('risk_reward')
+            entry_timing = opp.get('entry_timing', '')
+
+            # Format entry/exit columns
+            if entry_price and not pd.isna(entry_price):
+                entry_cell = f'<span class="price-cell" title="{entry_timing}">${entry_price:.2f}</span>'
+                stop_cell = f'<span class="price-cell" style="color: var(--danger);">${stop_loss:.2f}</span>' if stop_loss else 'N/A'
+                exit_cell = f'<span class="price-cell" style="color: var(--success);">${exit_price:.2f}</span>' if exit_price else 'N/A'
+                rr_class = 'good-rr' if risk_reward and risk_reward >= 3 else 'poor-rr'
+                rr_cell = f'<span class="{rr_class}">{risk_reward:.1f}:1</span>' if risk_reward else 'N/A'
+            else:
+                entry_cell = stop_cell = exit_cell = rr_cell = '<span style="color: var(--text-muted);">-</span>'
+
             rows.append(f"""
             <tr>
                 <td>{ticker_display}</td>
@@ -818,6 +835,10 @@ class SuperDashboardGenerator:
                 <td><span class="component-score" title="VCP Pattern (40%)">{vcp_score:.0f}</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">{ml_score:.0f}</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">{fundamental_score:.0f}</span></td>
+                <td>{entry_cell}</td>
+                <td>{stop_cell}</td>
+                <td>{exit_cell}</td>
+                <td>{rr_cell}</td>
                 <td><span title="{ma_reason}">{ma_badge}</span></td>
                 <td><span title="{ad_signal}">{ad_emoji}</span></td>
                 <td><span title="{filter_tooltip}">{filters_passed}</span></td>
@@ -836,6 +857,10 @@ class SuperDashboardGenerator:
                 <div><strong>VCP:</strong> Setup técnico (patrón volatilidad)</div>
                 <div><strong>ML:</strong> Predicción momentum/tendencia</div>
                 <div><strong>Fund:</strong> Análisis fundamental (earnings, growth, salud)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>Entry:</strong> Precio óptimo de entrada (VCP pivot + soporte)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>Stop:</strong> Stop loss técnico (máx 8%)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>Target:</strong> Precio objetivo (fair value + resistencia)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>R/R:</strong> Ratio Risk/Reward (mín 3:1 recomendado)</div>
                 <div><strong>MA:</strong> Minervini Trend Template - ✅ Pass | ❌ Fail</div>
                 <div><strong>A/D:</strong> Acumulación/Distribución - 🟢 Strong Acc | 🟡 Acc | ⚪ Neutral | 🟠 Dist | 🔴 Strong Dist</div>
                 <div><strong>Filt:</strong> Filtros pasados (Market + MA + A/D) - X/3</div>
@@ -858,6 +883,10 @@ class SuperDashboardGenerator:
                         <th title="VCP Pattern Score (40%)">VCP</th>
                         <th title="ML Predictive Score (30%)">ML</th>
                         <th title="Fundamental Score (30%)">Fund</th>
+                        <th title="Optimal entry price (VCP pivot + support)" style="background: var(--glass-primary-dim);">Entry</th>
+                        <th title="Stop loss (technical support, max 8%)" style="background: var(--glass-primary-dim);">Stop</th>
+                        <th title="Target exit price (fair value + resistance)" style="background: var(--glass-primary-dim);">Target</th>
+                        <th title="Risk/Reward ratio (min 3:1)" style="background: var(--glass-primary-dim);">R/R</th>
                         <th title="Moving Average Filter (Minervini)">MA</th>
                         <th title="Accumulation/Distribution">A/D</th>
                         <th title="Filters Passed (Market + MA + A/D)">Filt</th>

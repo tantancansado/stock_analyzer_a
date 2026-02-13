@@ -45,9 +45,14 @@ jobs:
           echo "🎯 [3/15] Super Score Integration (VCP + ML + Fundamental + Filters + Validation)..."
           python3 super_score_integrator.py
 
+      - name: 💰 Calculate Entry/Exit Prices [CRITICAL]
+        run: |
+          echo "💰 [4/15] Calculate Entry/Exit Prices..."
+          python3 add_entry_exit_to_opportunities.py
+
       - name: 📈 Generate Super Dashboard [CRITICAL]
         run: |
-          echo "📈 [4/15] Generate Super Dashboard with Advanced Filters..."
+          echo "📈 [5/15] Generate Super Dashboard with Entry/Exit Prices..."
           python3 super_dashboard_generator.py
 
       # ============================================================================
