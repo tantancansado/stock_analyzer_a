@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Stock Opportunities - Visual Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .opportunity-card {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .opportunity-card.expanded {
+            grid-column: 1 / -1;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+            display: none;
+        }
+
+        .thesis-container {
+            display: none;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 16px;
+            color: white;
+        }
+
+        .opportunity-card.expanded .chart-container,
+        .opportunity-card.expanded .thesis-container {
+            display: block;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-buy {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .badge-wait {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .price-label {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-weight: 600;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .opportunity-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .header-stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .thesis-content {
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .thesis-content strong {
+            color: #10b981;
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 4px;
+        }
+
+        .thesis-content ul {
+            margin-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .opportunity-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .badge-breakout {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .badge-pullback {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .badge-momentum {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="glass-card p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                        📊 Top Stock Opportunities
+                    </h1>
+                    <p class="text-white/80">Daily automated analysis • VCP + ML + Fundamentals</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-white/60 text-sm">Last Updated</div>
+                    <div id="lastUpdate" class="text-white font-semibold">Loading...</div>
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">🎯 Opportunities</div>
+                    <div id="totalCount" class="text-white text-2xl font-bold">-</div>
+                </div>
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">⭐ Avg Score</div>
+                    <div id="avgScore" class="text-white text-2xl font-bold">-</div>
+                </div>
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">💎 Avg R/R</div>
+                    <div id="avgRR" class="text-white text-2xl font-bold">-</div>
+                </div>
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">🚀 Buy Now</div>
+                    <div id="buyNowCount" class="text-white text-2xl font-bold">-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Opportunities Grid -->
+        <div id="opportunitiesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
+            <!-- Will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        let opportunitiesData = [];
+        let expandedCard = null;
+        const charts = {};
+        const CHART_SERVER = 'http://localhost:5001';
+
+        // Load CSV data
+        async function loadData() {
+            try {
+                // Try with narratives first, fallback to prices only
+                let csvFile = 'super_opportunities_with_narratives.csv';
+                let response = await fetch(csvFile);
+
+                if (!response.ok) {
+                    csvFile = 'super_opportunities_with_prices.csv';
+                    response = await fetch(csvFile);
+                }
+
+                const csvText = await response.text();
+
+                Papa.parse(csvText, {
+                    header: true,
+                    dynamicTyping: true,
+                    complete: function(results) {
+                        opportunitiesData = results.data
+                            .filter(row => row.ticker && row.entry_price)
+                            .slice(0, 10); // Top 10
+
+                        renderSummary();
+                        renderOpportunities();
+
+                        document.getElementById('loadingState').classList.add('hidden');
+                        document.getElementById('opportunitiesGrid').classList.remove('hidden');
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingState').innerHTML =
+                    '<p class="text-white/60">Error loading data. Make sure CSV file exists.</p>';
+            }
+        }
+
+        // Render summary statistics
+        function renderSummary() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleString();
+
+            document.getElementById('totalCount').textContent = opportunitiesData.length;
+
+            const avgScore = opportunitiesData.reduce((sum, o) => sum + (o.super_score_ultimate || 0), 0) / opportunitiesData.length;
+            document.getElementById('avgScore').textContent = avgScore.toFixed(0);
+
+            const avgRR = opportunitiesData.reduce((sum, o) => sum + (o.risk_reward || 0), 0) / opportunitiesData.length;
+            document.getElementById('avgRR').textContent = avgRR.toFixed(1) + ':1';
+
+            const buyNow = opportunitiesData.filter(o => o.entry_timing?.includes('BUY NOW')).length;
+            document.getElementById('buyNowCount').textContent = buyNow;
+        }
+
+        // Render opportunities
+        function renderOpportunities() {
+            const grid = document.getElementById('opportunitiesGrid');
+            grid.innerHTML = '';
+
+            opportunitiesData.forEach((opp, index) => {
+                const card = createOpportunityCard(opp, index);
+                grid.appendChild(card);
+            });
+        }
+
+        // Create opportunity card
+        function createOpportunityCard(opp, index) {
+            const div = document.createElement('div');
+            div.className = 'glass-card p-6 opportunity-card';
+            div.dataset.index = index;
+
+            const isBuyNow = opp.entry_timing?.includes('BUY NOW');
+            const timingBadge = isBuyNow ?
+                `<span class="badge badge-buy">🚀 ${opp.entry_timing}</span>` :
+                `<span class="badge badge-wait">⏰ ${opp.entry_timing || 'WAIT'}</span>`;
+
+            // Opportunity type badge
+            const oppType = opp.opportunity_type || 'BALANCED_SETUP';
+            let oppBadgeClass = 'badge-momentum';
+            if (oppType.includes('BREAKOUT')) oppBadgeClass = 'badge-breakout';
+            if (oppType.includes('PULLBACK')) oppBadgeClass = 'badge-pullback';
+
+            const oppTypeBadge = `<span class="opportunity-badge ${oppBadgeClass}">${oppType.replace(/_/g, ' ')}</span>`;
+
+            // Investment thesis preview
+            const thesisPreview = opp.investment_thesis ?
+                opp.investment_thesis.substring(0, 150) + '...' :
+                'Click to view detailed analysis';
+
+            div.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-1">${opp.ticker}</h3>
+                        <p class="text-white/60 text-sm">${opp.company_name || opp.sector || ''}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-white/60 text-xs">Score</div>
+                        <div class="text-white text-xl font-bold">${(opp.super_score_ultimate || 0).toFixed(0)}</div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    ${oppTypeBadge}
+                    ${timingBadge}
+                </div>
+
+                <!-- Price Info -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-white/10 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">Current</div>
+                        <div class="price-label text-white text-lg">$${(opp.current_price || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="bg-green-500/20 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">🎯 Entry</div>
+                        <div class="price-label text-green-400 text-lg">$${(opp.entry_price || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="bg-red-500/20 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">🛑 Stop</div>
+                        <div class="price-label text-red-400 text-lg">$${(opp.stop_loss || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="bg-green-500/20 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">🎯 Target</div>
+                        <div class="price-label text-green-400 text-lg">$${(opp.exit_price || 0).toFixed(2)}</div>
+                    </div>
+                </div>
+
+                <!-- Risk/Reward -->
+                <div class="bg-white/10 rounded-lg p-3 mb-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="text-white/60 text-xs">Risk/Reward</div>
+                            <div class="text-white text-xl font-bold">${(opp.risk_reward || 0).toFixed(1)}:1</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-red-400 text-sm">Risk: ${(opp.risk_pct || 0).toFixed(1)}%</div>
+                            <div class="text-green-400 text-sm">Reward: ${(opp.reward_pct || 0).toFixed(1)}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thesis Preview -->
+                <div class="bg-black/20 rounded-lg p-3 mb-4">
+                    <div class="text-white/60 text-xs mb-1">💡 Investment Thesis</div>
+                    <div class="text-white/80 text-sm">${thesisPreview}</div>
+                </div>
+
+                <!-- Expand Button -->
+                <button onclick="toggleCard(${index})" class="w-full bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <span>View Full Analysis & Chart</span>
+                    <span class="expand-icon">▼</span>
+                </button>
+
+                <!-- Expanded Content (hidden by default) -->
+                <div class="chart-container mt-6">
+                    <canvas id="chart-${index}"></canvas>
+                </div>
+
+                <div class="thesis-container">
+                    <h4 class="text-lg font-bold text-white mb-3">📊 Full Investment Thesis</h4>
+                    <div class="thesis-content">${formatThesis(opp.investment_thesis || 'No detailed thesis available')}</div>
+                </div>
+            `;
+
+            return div;
+        }
+
+        // Format thesis with markdown-like styling
+        function formatThesis(thesis) {
+            return thesis
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/- (.*?)\\n/g, '<li>$1</li>')
+                .replace(/\\n/g, '<br>');
+        }
+
+        // Toggle card expansion
+        function toggleCard(index) {
+            const card = document.querySelector(`[data-index="${index}"]`);
+            const wasExpanded = card.classList.contains('expanded');
+
+            // Collapse all cards
+            document.querySelectorAll('.opportunity-card').forEach(c => {
+                c.classList.remove('expanded');
+            });
+
+            // Expand this card if it wasn't expanded
+            if (!wasExpanded) {
+                card.classList.add('expanded');
+                loadChart(opportunitiesData[index], index);
+            }
+        }
+
+        // Load chart for ticker
+        async function loadChart(opp, index) {
+            const chartId = `chart-${index}`;
+
+            // Destroy existing chart if any
+            if (charts[chartId]) {
+                charts[chartId].destroy();
+            }
+
+            try {
+                // Fetch from local server
+                const response = await fetch(`${CHART_SERVER}/api/chart/${opp.ticker}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                const chartData = {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Price',
+                        data: data.prices,
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                };
+
+                const ctx = document.getElementById(chartId).getContext('2d');
+                charts[chartId] = new Chart(ctx, {
+                    type: 'line',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            annotation: {
+                                annotations: {
+                                    entry: {
+                                        type: 'line',
+                                        yMin: opp.entry_price,
+                                        yMax: opp.entry_price,
+                                        borderColor: 'rgb(16, 185, 129)',
+                                        borderWidth: 2,
+                                        borderDash: [5, 5],
+                                        label: {
+                                            display: true,
+                                            content: `Entry: $${opp.entry_price.toFixed(2)}`,
+                                            position: 'end',
+                                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                                            color: 'white'
+                                        }
+                                    },
+                                    stop: {
+                                        type: 'line',
+                                        yMin: opp.stop_loss,
+                                        yMax: opp.stop_loss,
+                                        borderColor: 'rgb(239, 68, 68)',
+                                        borderWidth: 2,
+                                        borderDash: [5, 5],
+                                        label: {
+                                            display: true,
+                                            content: `Stop: $${opp.stop_loss.toFixed(2)}`,
+                                            position: 'start',
+                                            backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                                            color: 'white'
+                                        }
+                                    },
+                                    target: {
+                                        type: 'line',
+                                        yMin: opp.exit_price,
+                                        yMax: opp.exit_price,
+                                        borderColor: 'rgb(34, 197, 94)',
+                                        borderWidth: 2,
+                                        borderDash: [5, 5],
+                                        label: {
+                                            display: true,
+                                            content: `Target: $${opp.exit_price.toFixed(2)}`,
+                                            position: 'end',
+                                            backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                                            color: 'white'
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: 'rgba(255, 255, 255, 0.6)',
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: 'rgba(255, 255, 255, 0.6)',
+                                    callback: function(value) {
+                                        return '$' + value.toFixed(2);
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading chart:', error);
+                document.getElementById(chartId).parentElement.innerHTML =
+                    `<p class="text-white/60 text-center py-8">Unable to load chart data. Make sure chart server is running: python3 chart_data_server.py</p>`;
+            }
+        }
+
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>

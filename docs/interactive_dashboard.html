@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📊 Stock Opportunities - Interactive Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .table-container {
+            max-height: 70vh;
+            overflow-y: auto;
+            border-radius: 12px;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        th:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-excellent {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .badge-good {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .badge-fair {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .price-cell {
+            font-weight: 600;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .rr-good {
+            color: #10b981;
+            font-weight: 700;
+        }
+
+        .rr-fair {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        input, select {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 8px;
+            padding: 10px 16px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .filter-chip.active {
+            background: rgba(59, 130, 246, 0.4);
+            border: 1px solid rgba(59, 130, 246, 0.6);
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .sort-icon {
+            display: inline-block;
+            margin-left: 4px;
+            opacity: 0.5;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="glass-card p-6 mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                📊 Stock Opportunities Dashboard
+            </h1>
+            <p class="text-white/80">Interactive analysis with Entry/Exit prices • VCP + ML + Fundamentals</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div id="statsContainer" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <!-- Filters & Search -->
+        <div class="glass-card p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-white/80 text-sm mb-2">🔍 Search Ticker</label>
+                    <input type="text" id="searchInput" placeholder="e.g., AAPL, MSFT..." class="w-full">
+                </div>
+                <div>
+                    <label class="block text-white/80 text-sm mb-2">📊 Min VCP Score</label>
+                    <input type="number" id="vcpFilter" min="0" max="100" placeholder="0-100" class="w-full">
+                </div>
+                <div>
+                    <label class="block text-white/80 text-sm mb-2">💰 Min Risk/Reward</label>
+                    <input type="number" id="rrFilter" min="0" step="0.5" placeholder="e.g., 3.0" class="w-full">
+                </div>
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="flex flex-wrap gap-2">
+                <div class="filter-chip" data-filter="excellent">⭐ Excellent Only</div>
+                <div class="filter-chip" data-filter="vcp_ready">🎯 VCP Ready</div>
+                <div class="filter-chip" data-filter="good_rr">💎 R/R ≥ 3:1</div>
+                <div class="filter-chip" data-filter="buy_now">🚀 Buy Now</div>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="glass-card p-6">
+            <div id="loadingIndicator" class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div id="tableContainer" class="table-container hidden">
+                <table id="dataTable">
+                    <thead>
+                        <tr id="tableHeader">
+                            <!-- Will be populated by JS -->
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Will be populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="emptyState" class="hidden text-center py-12">
+                <p class="text-white/60 text-lg">No opportunities match your filters</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let originalData = [];
+        let filteredData = [];
+        let sortColumn = null;
+        let sortDirection = 'desc';
+        let activeFilters = new Set();
+
+        // Column definitions with display names and formatters
+        const columns = [
+            { key: 'ticker', name: 'Ticker', width: '80px' },
+            { key: 'current_price', name: 'Price', width: '90px', format: (v) => `$${parseFloat(v).toFixed(2)}` },
+            { key: 'entry_price', name: '🎯 Entry', width: '90px', format: (v) => `$${parseFloat(v).toFixed(2)}`, highlight: true },
+            { key: 'stop_loss', name: '🛑 Stop', width: '90px', format: (v) => `$${parseFloat(v).toFixed(2)}`, color: 'danger' },
+            { key: 'exit_price', name: '🎯 Target', width: '90px', format: (v) => `$${parseFloat(v).toFixed(2)}`, color: 'success' },
+            { key: 'risk_reward', name: 'R/R', width: '70px', format: (v) => `${parseFloat(v).toFixed(1)}:1`, colorize: true },
+            { key: 'risk_pct', name: 'Risk %', width: '70px', format: (v) => `${parseFloat(v).toFixed(1)}%` },
+            { key: 'reward_pct', name: 'Reward %', width: '80px', format: (v) => `${parseFloat(v).toFixed(1)}%` },
+            { key: 'entry_timing', name: '⏰ Timing', width: '200px' },
+            { key: 'vcp_score', name: 'VCP', width: '70px', format: (v) => parseFloat(v).toFixed(0) },
+            { key: 'super_score_ultimate', name: 'Score', width: '70px', format: (v) => parseFloat(v).toFixed(0) },
+            { key: 'quality', name: 'Quality', width: '120px' },
+            { key: 'sector', name: 'Sector', width: '150px' },
+        ];
+
+        // Load CSV data
+        async function loadData() {
+            try {
+                const response = await fetch('super_opportunities_with_prices.csv');
+                const csvText = await response.text();
+
+                Papa.parse(csvText, {
+                    header: true,
+                    dynamicTyping: true,
+                    complete: function(results) {
+                        originalData = results.data.filter(row => row.ticker); // Remove empty rows
+                        filteredData = [...originalData];
+                        renderStats();
+                        renderTable();
+                        document.getElementById('loadingIndicator').classList.add('hidden');
+                        document.getElementById('tableContainer').classList.remove('hidden');
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loadingIndicator').innerHTML =
+                    '<p class="text-white/60">Error loading data. Make sure super_opportunities_with_prices.csv exists.</p>';
+            }
+        }
+
+        // Render statistics
+        function renderStats() {
+            const avgRR = filteredData.reduce((sum, row) => sum + (parseFloat(row.risk_reward) || 0), 0) / filteredData.length;
+            const goodRR = filteredData.filter(row => parseFloat(row.risk_reward) >= 3).length;
+            const excellentCount = filteredData.filter(row => row.quality?.includes('Excellent')).length;
+            const avgScore = filteredData.reduce((sum, row) => sum + (parseFloat(row.super_score_ultimate) || 0), 0) / filteredData.length;
+
+            const stats = [
+                { label: 'Total Opportunities', value: filteredData.length, icon: '📊' },
+                { label: 'Avg Risk/Reward', value: `${avgRR.toFixed(2)}:1`, icon: '💎' },
+                { label: 'R/R ≥ 3:1', value: `${goodRR}/${filteredData.length}`, icon: '✅' },
+                { label: 'Avg Score', value: avgScore.toFixed(0), icon: '⭐' },
+            ];
+
+            document.getElementById('statsContainer').innerHTML = stats.map(stat => `
+                <div class="stat-card p-4 rounded-xl">
+                    <div class="text-white/60 text-sm mb-1">${stat.icon} ${stat.label}</div>
+                    <div class="text-white text-2xl font-bold">${stat.value}</div>
+                </div>
+            `).join('');
+        }
+
+        // Render table
+        function renderTable() {
+            // Render header
+            document.getElementById('tableHeader').innerHTML = columns.map(col => `
+                <th onclick="sortBy('${col.key}')" title="Click to sort">
+                    ${col.name}
+                    <span class="sort-icon">${sortColumn === col.key ? (sortDirection === 'asc' ? '▲' : '▼') : '⬍'}</span>
+                </th>
+            `).join('');
+
+            // Render body
+            if (filteredData.length === 0) {
+                document.getElementById('tableContainer').classList.add('hidden');
+                document.getElementById('emptyState').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('tableContainer').classList.remove('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+
+            document.getElementById('tableBody').innerHTML = filteredData.map(row => {
+                return `<tr>${columns.map(col => {
+                    let value = row[col.key];
+                    let displayValue = value;
+
+                    // Format value
+                    if (col.format && value != null) {
+                        displayValue = col.format(value);
+                    }
+
+                    // Apply styling
+                    let className = 'price-cell';
+                    if (col.colorize && value != null) {
+                        className += parseFloat(value) >= 3 ? ' rr-good' : ' rr-fair';
+                    }
+                    if (col.color === 'success') className += ' text-green-400';
+                    if (col.color === 'danger') className += ' text-red-400';
+
+                    // Quality badge
+                    if (col.key === 'quality') {
+                        const badgeClass = value?.includes('Excellent') ? 'badge-excellent' :
+                                         value?.includes('Good') ? 'badge-good' : 'badge-fair';
+                        displayValue = `<span class="badge ${badgeClass}">${value?.split(' ')[1] || value}</span>`;
+                    }
+
+                    return `<td><span class="${className}">${displayValue || '-'}</span></td>`;
+                }).join('')}</tr>`;
+            }).join('');
+        }
+
+        // Sort function
+        function sortBy(column) {
+            if (sortColumn === column) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = column;
+                sortDirection = 'desc';
+            }
+
+            filteredData.sort((a, b) => {
+                let aVal = a[column];
+                let bVal = b[column];
+
+                // Handle numeric values
+                if (typeof aVal === 'number' && typeof bVal === 'number') {
+                    return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+                }
+
+                // Handle strings
+                aVal = String(aVal || '').toLowerCase();
+                bVal = String(bVal || '').toLowerCase();
+                if (sortDirection === 'asc') {
+                    return aVal.localeCompare(bVal);
+                } else {
+                    return bVal.localeCompare(aVal);
+                }
+            });
+
+            renderTable();
+        }
+
+        // Filter function
+        function applyFilters() {
+            filteredData = originalData.filter(row => {
+                // Search filter
+                const search = document.getElementById('searchInput').value.toLowerCase();
+                if (search && !row.ticker?.toLowerCase().includes(search)) return false;
+
+                // VCP score filter
+                const vcpMin = parseFloat(document.getElementById('vcpFilter').value);
+                if (vcpMin && parseFloat(row.vcp_score) < vcpMin) return false;
+
+                // Risk/Reward filter
+                const rrMin = parseFloat(document.getElementById('rrFilter').value);
+                if (rrMin && parseFloat(row.risk_reward) < rrMin) return false;
+
+                // Quick filters
+                if (activeFilters.has('excellent') && !row.quality?.includes('Excellent')) return false;
+                if (activeFilters.has('vcp_ready') && !row.vcp_ready_to_buy) return false;
+                if (activeFilters.has('good_rr') && parseFloat(row.risk_reward) < 3) return false;
+                if (activeFilters.has('buy_now') && !row.entry_timing?.includes('BUY NOW')) return false;
+
+                return true;
+            });
+
+            renderStats();
+            renderTable();
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+        document.getElementById('vcpFilter').addEventListener('input', applyFilters);
+        document.getElementById('rrFilter').addEventListener('input', applyFilters);
+
+        // Quick filter chips
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                if (activeFilters.has(filter)) {
+                    activeFilters.delete(filter);
+                    this.classList.remove('active');
+                } else {
+                    activeFilters.add(filter);
+                    this.classList.add('active');
+                }
+                applyFilters();
+            });
+        });
+
+        // Load data on page load
+        loadData();
+    </script>
+</body>
+</html>

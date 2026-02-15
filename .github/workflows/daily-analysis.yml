@@ -147,6 +147,9 @@ jobs:
             -m "Complete Market Analysis with Advanced Filters: Market Regime, Sector Rotation, 5D Analyzer, MA Filter, A/D Filter, Backtest, Position Sizing, Mean Reversion, Options Flow, Telegram Alerts" \
             -m "Automated via GitHub Actions" || echo "No changes to commit"
 
+          # Pull first to avoid conflicts (in case another workflow ran)
+          git pull --rebase origin main || echo "⚠️  Pull failed"
+
           git push || echo "⚠️  Push failed - check for conflicts"
 
       # ============================================================================

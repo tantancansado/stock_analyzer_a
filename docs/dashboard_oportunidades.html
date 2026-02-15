@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oportunidades de Inversión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1"></script>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .opportunity-card {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .opportunity-card.expanded {
+            grid-column: 1 / -1;
+        }
+
+        .signal-badge {
+            display: inline-flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 6px 6px 6px 0;
+            animation: fadeIn 0.3s ease-in;
+            min-width: 200px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .signal-badge-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+        }
+
+        .signal-badge-detail {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .signal-insider-strong {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.4));
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.6);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .signal-insider-moderate {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.4);
+        }
+
+        .signal-mean-reversion {
+            background: rgba(59, 130, 246, 0.25);
+            color: #3b82f6;
+            border: 2px solid rgba(59, 130, 246, 0.5);
+        }
+
+        .signal-options-bullish {
+            background: rgba(168, 85, 247, 0.25);
+            color: #a855f7;
+            border: 2px solid rgba(168, 85, 247, 0.5);
+        }
+
+        .signal-options-bearish {
+            background: rgba(239, 68, 68, 0.25);
+            color: #ef4444;
+            border: 2px solid rgba(239, 68, 68, 0.5);
+        }
+
+        .signal-timing {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(5, 150, 105, 0.4));
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.6);
+        }
+
+        .conviction-badge {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .conviction-very-high {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.4), rgba(5, 150, 105, 0.5));
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.8);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .conviction-high {
+            background: rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.6);
+        }
+
+        .conviction-moderate {
+            background: rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+            border: 2px solid rgba(245, 158, 11, 0.6);
+        }
+
+        .conviction-low {
+            background: rgba(107, 114, 128, 0.3);
+            color: #9ca3af;
+            border: 2px solid rgba(107, 114, 128, 0.6);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .signals-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 14px 0;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            display: none;
+            margin-top: 24px;
+        }
+
+        .thesis-container {
+            display: none;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        .opportunity-card.expanded .chart-container,
+        .opportunity-card.expanded .thesis-container {
+            display: block;
+        }
+
+        .thesis-section {
+            margin: 20px 0;
+        }
+
+        .thesis-section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #10b981;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .thesis-list {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0;
+        }
+
+        .thesis-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .thesis-list li:before {
+            content: "▪";
+            position: absolute;
+            left: 0;
+            color: #3b82f6;
+            font-size: 1.2rem;
+        }
+
+        .thesis-data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .price-label {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-weight: 600;
+        }
+
+        .expand-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .opportunity-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .header-stat {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="glass-card p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                        Oportunidades de Inversión
+                    </h1>
+                    <p class="text-white/80">Análisis sistemático • VCP + ML + Fundamentales + Señales Institucionales</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-white/60 text-sm">Última Actualización</div>
+                    <div id="lastUpdate" class="text-white font-semibold">Cargando...</div>
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">Oportunidades Totales</div>
+                    <div id="totalCount" class="text-white text-2xl font-bold">-</div>
+                </div>
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">Alta Convicción</div>
+                    <div id="highConviction" class="text-white text-2xl font-bold">-</div>
+                </div>
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">Señales Insider</div>
+                    <div id="insiderCount" class="text-white text-2xl font-bold">-</div>
+                </div>
+                <div class="header-stat">
+                    <div class="text-white/60 text-xs mb-1">Actividad Opciones</div>
+                    <div id="optionsCount" class="text-white text-2xl font-bold">-</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="loading">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Opportunities Grid -->
+        <div id="opportunitiesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        let opportunitiesData = [];
+        const charts = {};
+        const CHART_SERVER = 'http://localhost:5001';
+
+        // Traducciones de conviction levels
+        const convictionTranslations = {
+            'VERY HIGH': 'MUY ALTA',
+            'HIGH': 'ALTA',
+            'MODERATE': 'MODERADA',
+            'LOW': 'BAJA'
+        };
+
+        // Traducciones de signals
+        const signalTranslations = {
+            'VERY_BULLISH': 'MUY_ALCISTA',
+            'BULLISH': 'ALCISTA',
+            'BEARISH': 'BAJISTA',
+            'STRONG': 'FUERTE',
+            'MODERATE': 'MODERADO',
+            'WEAK': 'DÉBIL'
+        };
+
+        // Load insider details
+        let insiderDetails = {};
+        fetch('recurring_insiders.csv').then(r => r.text()).then(text => {
+            Papa.parse(text, {
+                header: true,
+                complete: function(results) {
+                    results.data.forEach(row => {
+                        if (row.ticker) insiderDetails[row.ticker] = row;
+                    });
+                }
+            }).catch(() => {});
+        });
+
+        // Load data
+        async function loadData() {
+            try {
+                let response = await fetch('super_opportunities_with_narratives.csv');
+                if (!response.ok) response = await fetch('super_opportunities_with_prices.csv');
+
+                const csvText = await response.text();
+
+                Papa.parse(csvText, {
+                    header: true,
+                    dynamicTyping: true,
+                    complete: function(results) {
+                        opportunitiesData = results.data
+                            .filter(row => row.ticker && row.entry_price)
+                            .slice(0, 10);
+
+                        renderSummary();
+                        renderOpportunities();
+
+                        document.getElementById('loadingState').classList.add('hidden');
+                        document.getElementById('opportunitiesGrid').classList.remove('hidden');
+                    }
+                });
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+            }
+        }
+
+        // Render summary
+        function renderSummary() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleString('es-ES');
+
+            document.getElementById('totalCount').textContent = opportunitiesData.length;
+
+            const highConv = opportunitiesData.filter(o => {
+                const conv = o.conviction_level || '';
+                return conv.includes('VERY HIGH') || conv.includes('HIGH');
+            }).length;
+            document.getElementById('highConviction').textContent = highConv;
+
+            const insiders = opportunitiesData.filter(o =>
+                (o.insider_signal || 'NEUTRAL') !== 'NEUTRAL'
+            ).length;
+            document.getElementById('insiderCount').textContent = insiders;
+
+            const options = opportunitiesData.filter(o =>
+                (o.options_signal || 'NONE') !== 'NONE'
+            ).length;
+            document.getElementById('optionsCount').textContent = options;
+        }
+
+        // Render opportunities
+        function renderOpportunities() {
+            const grid = document.getElementById('opportunitiesGrid');
+            grid.innerHTML = '';
+
+            opportunitiesData.forEach((opp, index) => {
+                const card = createOpportunityCard(opp, index);
+                grid.appendChild(card);
+            });
+        }
+
+        // Create card
+        function createOpportunityCard(opp, index) {
+            const div = document.createElement('div');
+            div.className = 'glass-card p-6 opportunity-card';
+            div.dataset.index = index;
+
+            // Conviction traducida
+            const convictionRaw = opp.conviction_level || 'LOW';
+            let convictionText = convictionRaw;
+            Object.keys(convictionTranslations).forEach(key => {
+                if (convictionRaw.includes(key)) {
+                    convictionText = convictionRaw.replace(key, convictionTranslations[key]);
+                }
+            });
+
+            let convClass = 'conviction-low';
+            if (convictionRaw.includes('VERY HIGH')) convClass = 'conviction-very-high';
+            else if (convictionRaw.includes('HIGH')) convClass = 'conviction-high';
+            else if (convictionRaw.includes('MODERATE')) convClass = 'conviction-moderate';
+
+            // Signals HTML
+            let signalsHTML = '';
+
+            // Insider signal con detalles específicos
+            const insiderSignal = opp.insider_signal || 'NEUTRAL';
+            if (insiderSignal !== 'NEUTRAL') {
+                const details = insiderDetails[opp.ticker];
+                if (details) {
+                    const startDate = new Date(details.first_purchase).toLocaleDateString('es-ES', {month: 'short', day: 'numeric'});
+                    const endDate = new Date(details.last_purchase).toLocaleDateString('es-ES', {month: 'short', day: 'numeric'});
+                    const badgeClass = insiderSignal === 'VERY_BULLISH' ? 'signal-insider-strong' : 'signal-insider-moderate';
+
+                    signalsHTML += `
+                        <div class="signal-badge ${badgeClass}">
+                            <div class="signal-badge-title">Compra de Insiders</div>
+                            <div class="signal-badge-detail">
+                                ${details.purchase_count} compras por ${details.unique_insiders} insider(s)<br>
+                                ${startDate} - ${endDate} • Confianza: ${details.confidence_score}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // Mean reversion signal
+            const mrSignal = opp.mean_reversion_signal || 'NONE';
+            if (mrSignal === 'STRONG' || mrSignal === 'MODERATE') {
+                const probText = mrSignal === 'STRONG' ? 'alta' : 'moderada';
+                signalsHTML += `
+                    <div class="signal-badge signal-mean-reversion">
+                        <div class="signal-badge-title">Setup Reversión a la Media</div>
+                        <div class="signal-badge-detail">
+                            Rebote sobrevendido • probabilidad ${probText}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Options flow signal
+            const optSignal = opp.options_signal || 'NONE';
+            if (optSignal !== 'NONE') {
+                const badgeClass = optSignal === 'BULLISH' ? 'signal-options-bullish' : 'signal-options-bearish';
+                const sentimentText = optSignal === 'BULLISH' ? 'alcista' : 'bajista';
+                signalsHTML += `
+                    <div class="signal-badge ${badgeClass}">
+                        <div class="signal-badge-title">Actividad Inusual Opciones</div>
+                        <div class="signal-badge-detail">
+                            Posicionamiento institucional ${sentimentText} detectado
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Entry timing
+            const timing = opp.entry_timing || '';
+            if (timing.includes('BUY NOW')) {
+                signalsHTML += `
+                    <div class="signal-badge signal-timing">
+                        <div class="signal-badge-title">Señal de Entrada Activa</div>
+                        <div class="signal-badge-detail">En punto óptimo de entrada</div>
+                    </div>
+                `;
+            }
+
+            div.innerHTML = `
+                <!-- Header -->
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-1">${opp.ticker}</h3>
+                        <p class="text-white/60 text-sm">${opp.company_name || opp.sector || ''}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-white/60 text-xs">Puntuación</div>
+                        <div class="text-white text-xl font-bold">${(opp.super_score_ultimate || 0).toFixed(0)}</div>
+                    </div>
+                </div>
+
+                <!-- Conviction -->
+                <div class="mb-3">
+                    <span class="conviction-badge ${convClass}">${convictionText}</span>
+                </div>
+
+                <!-- Signals -->
+                <div class="signals-container">
+                    ${signalsHTML || '<div class="text-white/50 text-sm">Sin señales adicionales detectadas</div>'}
+                </div>
+
+                <!-- Price Grid -->
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-white/10 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">Actual</div>
+                        <div class="price-label text-white text-lg">$${(opp.current_price || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="bg-green-500/20 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">Entrada</div>
+                        <div class="price-label text-green-400 text-lg">$${(opp.entry_price || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="bg-red-500/20 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">Stop Loss</div>
+                        <div class="price-label text-red-400 text-lg">$${(opp.stop_loss || 0).toFixed(2)}</div>
+                    </div>
+                    <div class="bg-green-500/20 rounded-lg p-3">
+                        <div class="text-white/60 text-xs mb-1">Objetivo</div>
+                        <div class="price-label text-green-400 text-lg">$${(opp.exit_price || 0).toFixed(2)}</div>
+                    </div>
+                </div>
+
+                <!-- Risk/Reward -->
+                <div class="bg-white/10 rounded-lg p-3 mb-4">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="text-white/60 text-xs">Riesgo/Beneficio</div>
+                            <div class="text-white text-xl font-bold">${(opp.risk_reward || 0).toFixed(1)}:1</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-red-400 text-sm">Riesgo: ${(opp.risk_pct || 0).toFixed(1)}%</div>
+                            <div class="text-green-400 text-sm">Beneficio: ${(opp.reward_pct || 0).toFixed(1)}%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expand Button -->
+                <button onclick="toggleCard(${index})" class="w-full bg-white/10 hover:bg-white/20 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+                    <span>Ver Análisis y Gráfico</span>
+                    <span class="expand-icon">▼</span>
+                </button>
+
+                <!-- Expanded Content -->
+                <div class="chart-container">
+                    <canvas id="chart-${index}"></canvas>
+                </div>
+
+                <div class="thesis-container">
+                    ${translateAndFormatThesis(opp.investment_thesis || 'Análisis no disponible')}
+                </div>
+            `;
+
+            return div;
+        }
+
+        // Translate and format thesis
+        function translateAndFormatThesis(thesis) {
+            // Traducciones básicas
+            const translations = {
+                'Investment Analysis': 'Análisis de Inversión',
+                'Price Action': 'Acción del Precio',
+                'Fundamental Strengths': 'Fortalezas Fundamentales',
+                'Additional Bullish Signals': 'Señales Alcistas Adicionales',
+                'Insider Activity': 'Actividad de Insiders',
+                'Mean Reversion Setup': 'Setup Reversión a la Media',
+                'Institutional Options Activity': 'Actividad Opciones Institucional',
+                'Tailwinds': 'Vientos a Favor',
+                'Key Risks': 'Riesgos Clave',
+                'Price Targets & Risk Management': 'Objetivos de Precio y Gestión de Riesgo',
+                'Entry': 'Entrada',
+                'Target': 'Objetivo',
+                'Stop Loss': 'Stop Loss',
+                'Risk/Reward': 'Riesgo/Beneficio',
+                'upside': 'potencial alcista',
+                'risk': 'riesgo',
+                'purchases': 'compras',
+                'insider(s)': 'insider(s)',
+                'Confidence Score': 'Puntuación Confianza',
+                'Period': 'Período'
+            };
+
+            let translatedThesis = thesis;
+            Object.keys(translations).forEach(key => {
+                translatedThesis = translatedThesis.replace(new RegExp(key, 'g'), translations[key]);
+            });
+
+            // Format
+            let html = '<div style="font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid rgba(255,255,255,0.2);">Análisis de Inversión</div>';
+
+            const sections = translatedThesis.split('##').filter(s => s.trim());
+            sections.forEach(section => {
+                const lines = section.trim().split('\n');
+                const title = lines[0].replace('#', '').trim();
+                const content = lines.slice(1).join('\n').trim();
+
+                if (!title || title.includes('Análisis de Inversión')) return;
+
+                html += '<div class="thesis-section">';
+                html += `<div class="thesis-section-title">${title}</div>`;
+
+                if (content.includes('- ')) {
+                    html += '<ul class="thesis-list">';
+                    const items = content.split('- ').filter(x => x.trim());
+                    items.forEach(item => {
+                        if (item.trim()) {
+                            html += `<li>${item.trim().replace(/\n/g, '<br>')}</li>`;
+                        }
+                    });
+                    html += '</ul>';
+                } else if (content.includes('Entrada:') || content.includes('Objetivo:')) {
+                    const dataLines = content.split('\n').filter(l => l.includes(':'));
+                    dataLines.forEach(line => {
+                        const [label, value] = line.split(':').map(s => s.trim());
+                        if (label && value) {
+                            html += `<div class="thesis-data-row"><span style="color: rgba(255,255,255,0.7);">${label}</span><span style="color: white; font-weight: 600;">${value}</span></div>`;
+                        }
+                    });
+                } else {
+                    html += `<p style="color: rgba(255,255,255,0.8); line-height: 1.7; margin: 12px 0;">${content.replace(/\n/g, '<br>')}</p>`;
+                }
+
+                html += '</div>';
+            });
+
+            return html;
+        }
+
+        // Toggle card
+        function toggleCard(index) {
+            const card = document.querySelector(`[data-index="${index}"]`);
+            const wasExpanded = card.classList.contains('expanded');
+
+            document.querySelectorAll('.opportunity-card').forEach(c => c.classList.remove('expanded'));
+
+            if (!wasExpanded) {
+                card.classList.add('expanded');
+                loadChart(opportunitiesData[index], index);
+            }
+        }
+
+        // Load chart
+        async function loadChart(opp, index) {
+            const chartId = `chart-${index}`;
+            if (charts[chartId]) charts[chartId].destroy();
+
+            try {
+                const response = await fetch(`${CHART_SERVER}/api/chart/${opp.ticker}`);
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+
+                const ctx = document.getElementById(chartId).getContext('2d');
+                charts[chartId] = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Precio',
+                            data: data.prices,
+                            borderColor: 'rgb(59, 130, 246)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            annotation: {
+                                annotations: {
+                                    entry: {
+                                        type: 'line',
+                                        yMin: opp.entry_price,
+                                        yMax: opp.entry_price,
+                                        borderColor: 'rgb(16, 185, 129)',
+                                        borderWidth: 2,
+                                        borderDash: [5, 5],
+                                        label: {
+                                            display: true,
+                                            content: `Entrada: $${opp.entry_price.toFixed(2)}`,
+                                            position: 'end',
+                                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                                            color: 'white'
+                                        }
+                                    },
+                                    stop: {
+                                        type: 'line',
+                                        yMin: opp.stop_loss,
+                                        yMax: opp.stop_loss,
+                                        borderColor: 'rgb(239, 68, 68)',
+                                        borderWidth: 2,
+                                        borderDash: [5, 5],
+                                        label: {
+                                            display: true,
+                                            content: `Stop: $${opp.stop_loss.toFixed(2)}`,
+                                            position: 'start',
+                                            backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                                            color: 'white'
+                                        }
+                                    },
+                                    target: {
+                                        type: 'line',
+                                        yMin: opp.exit_price,
+                                        yMax: opp.exit_price,
+                                        borderColor: 'rgb(34, 197, 94)',
+                                        borderWidth: 2,
+                                        label: {
+                                            display: true,
+                                            content: `Objetivo: $${opp.exit_price.toFixed(2)}`,
+                                            position: 'end',
+                                            backgroundColor: 'rgba(34, 197, 94, 0.8)',
+                                            color: 'white'
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: 'rgba(255, 255, 255, 0.6)' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            },
+                            y: {
+                                ticks: {
+                                    color: 'rgba(255, 255, 255, 0.6)',
+                                    callback: value => '$' + value.toFixed(2)
+                                },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                            }
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error cargando gráfico:', error);
+            }
+        }
+
+        loadData();
+    </script>
+</body>
+</html>

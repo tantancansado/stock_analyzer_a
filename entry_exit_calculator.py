@@ -107,8 +107,13 @@ class EntryExitCalculator:
             return current_price
 
         # Get recent highs for pivot point
-        recent_high = hist['high'].tail(20).max()
-        recent_low = hist['low'].tail(20).min()
+        # Handle both capitalized and lowercase column names
+        high_col = 'high' if 'high' in hist.columns else 'High'
+        low_col = 'low' if 'low' in hist.columns else 'Low'
+        close_col = 'close' if 'close' in hist.columns else 'Close'
+
+        recent_high = hist[high_col].tail(20).max()
+        recent_low = hist[low_col].tail(20).min()
 
         # VCP pivot point (if detected)
         vcp_detected = vcp_analysis.get('pattern_detected', False)
@@ -120,7 +125,7 @@ class EntryExitCalculator:
             # But if we're in a pullback, wait for better entry
             if current_price < pivot_point * 0.95:
                 # Entry at 10-day MA or current price, whichever is lower
-                ma_10 = hist['close'].tail(10).mean()
+                ma_10 = hist[close_col].tail(10).mean()
                 entry = min(ma_10, current_price * 1.02)  # Up to 2% above current
             else:
                 # Entry at pivot breakout
@@ -160,8 +165,11 @@ class EntryExitCalculator:
         if hist.empty:
             return entry_price * 0.92  # Default -8%
 
+        # Handle both capitalized and lowercase column names
+        low_col = 'low' if 'low' in hist.columns else 'Low'
+
         # Technical support (recent 20-day low)
-        recent_low = hist['low'].tail(20).min()
+        recent_low = hist[low_col].tail(20).min()
         technical_stop = recent_low * 0.98  # 2% below recent low
 
         # Minervini stop (-7-8%)

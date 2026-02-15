@@ -61,11 +61,17 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
             hist = ticker_data.get('historical')
             if isinstance(hist, dict):
                 hist = pd.DataFrame(hist)
-                hist.set_index('Date', inplace=True)
+
+            # Normalize column names to lowercase for consistency
+            if not hist.empty:
+                hist.columns = [col.lower() for col in hist.columns]
+                # Set date as index if it exists as column
+                if 'date' in hist.columns:
+                    hist.set_index('date', inplace=True)
 
             current_price = ticker_data.get('current_price', 0)
             if current_price == 0:
-                current_price = hist['Close'].iloc[-1] if not hist.empty else 0
+                current_price = hist['close'].iloc[-1] if not hist.empty else 0
 
             # Prepare VCP analysis from row data
             vcp_analysis = {

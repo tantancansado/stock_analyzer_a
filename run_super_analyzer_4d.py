@@ -272,7 +272,8 @@ def run_4d_analysis():
 
             if opp.get('institutional_details'):
                 inst = opp['institutional_details']
-                print(f"   🐋 Whales: {', '.join(inst['top_whales'])}")
+                if inst.get('top_whales'):
+                    print(f"   🐋 Whales: {', '.join(inst['top_whales'])}")
 
     # DATA QUALITY VALIDATION
     print(f"\n{'='*80}")

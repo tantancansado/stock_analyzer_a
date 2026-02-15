@@ -281,7 +281,7 @@ class SeekingAlphaClient:
                 pass
 
         print("   📊 Fetching PE/Beta from Yahoo Finance (timeseries endpoint - better rate limits)...")
-        time.sleep(2)  # Shorter delay since this endpoint has better limits
+        time.sleep(4)  # Increased delay to avoid rate limiting
 
         # Try timeseries endpoint first (better rate limits)
         fundamentals = self._get_yf_timeseries(ticker)
@@ -729,7 +729,7 @@ class SeekingAlphaClient:
 
         try:
             print(f"   📊 Enriching with yfinance data (2s delay to avoid rate limit)...")
-            time.sleep(2)
+            time.sleep(4)
 
             stock = yf.Ticker(ticker)
             info = stock.info
@@ -800,7 +800,7 @@ class SeekingAlphaClient:
         try:
             # Add delay to avoid rate limiting (important!)
             print(f"   📊 Fetching historical data from yfinance (with 2s delay)...")
-            time.sleep(2)
+            time.sleep(4)
 
             stock = yf.Ticker(ticker)
             hist = stock.history(period='200d')
