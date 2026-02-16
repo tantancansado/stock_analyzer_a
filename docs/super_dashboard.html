@@ -344,44 +344,46 @@
             <h1>🎯 Super Dashboard Ultimate</h1>
             <p style="font-size: 0.9em; color: #cbd5e0; margin-top: 5px;">VCP Pattern + ML Predictions + Fundamental Analysis</p>
             <div class="subtitle">Sistema 5D Integrado - Análisis Completo del Mercado</div>
-
-            <!-- Ticker Analyzer Button -->
-            <a href="ticker_analyzer.html"
-               style="display: inline-block; margin-top: 20px; padding: 15px 40px; background: linear-gradient(135deg, #10b981, #059669); color: white; text-decoration: none; border-radius: 12px; font-size: 1.2em; font-weight: bold; box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3); transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3);"
-               onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 30px rgba(16, 185, 129, 0.4)'"
-               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(16, 185, 129, 0.3)'">
-                🔍 Analyze Any Ticker On-Demand
-            </a>
-
             <div style="margin-top: 10px; font-size: 0.9em;">
-                2026-02-12 11:42:27
+                2026-02-16 07:15:25
             </div>
         </div>
 
         <!-- Quick Stats -->
         <div class="quick-stats">
             <div class="stat-card" style="background: linear-gradient(135deg, #fef3c7, #fbbf24);">
-                <div class="stat-value" style="color: #92400e;">139</div>
+                <div class="stat-value" style="color: #92400e;">0</div>
                 <div class="stat-label" style="color: #92400e;">🎯 VCP Patterns</div>
-                <div style="font-size: 0.8em; color: #92400e; margin-top: 5px;">2026-02-12</div>
+                <div style="font-size: 0.8em; color: #92400e; margin-top: 5px;">N/A</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">139</div>
+                <div class="stat-value">137</div>
                 <div class="stat-label">Total 5D Opps</div>
-                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">⭐ BUENA+: 39</div>
+                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">⭐ BUENA+: 30</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">4</div>
+                <div class="stat-value">0</div>
                 <div class="stat-label">Sector Alerts</div>
             </div>
             <div class="stat-card" style="background: linear-gradient(135deg, #d1fae5, #10b981);">
-                <div class="stat-value" style="color: #065f46;">64%</div>
+                <div class="stat-value" style="color: #065f46;">0%</div>
                 <div class="stat-label" style="color: #065f46;">Win Rate</div>
-                <div style="font-size: 0.8em; color: #065f46; margin-top: 5px;">Avg: 5.5%</div>
+                <div style="font-size: 0.8em; color: #065f46; margin-top: 5px;">Avg: 0.0%</div>
             </div>
         </div>
 
         <!-- AI Insights -->
+        
+        <div class="insights-section">
+            <h2 class="section-title">💡 AI Insights - Oportunidades Integradas</h2>
+            
+            <div class="insight-item insight-CRITICAL">
+                <div class="insight-title">🔁 1 VCP REPEATERS - Stocks con Historial Comprobado</div>
+                <div class="insight-desc">Estos stocks formaron VCP patterns múltiples veces. Mayor probabilidad de éxito.</div>
+                <div class="ticker-list"><span class="ticker-badge">IEX</span></div>
+            </div>
+            
+        </div>
         
 
         <!-- Main Content Grid -->
@@ -398,6 +400,10 @@
                 <div><strong>VCP:</strong> Setup técnico (patrón volatilidad)</div>
                 <div><strong>ML:</strong> Predicción momentum/tendencia</div>
                 <div><strong>Fund:</strong> Análisis fundamental (earnings, growth, salud)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>Entry:</strong> Precio óptimo de entrada (VCP pivot + soporte)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>Stop:</strong> Stop loss técnico (máx 8%)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>Target:</strong> Precio objetivo (fair value + resistencia)</div>
+                <div style="background: var(--glass-primary-dim); padding: 0.25rem 0.5rem; border-radius: 4px;"><strong>R/R:</strong> Ratio Risk/Reward (mín 3:1 recomendado)</div>
                 <div><strong>MA:</strong> Minervini Trend Template - ✅ Pass | ❌ Fail</div>
                 <div><strong>A/D:</strong> Acumulación/Distribución - 🟢 Strong Acc | 🟡 Acc | ⚪ Neutral | 🟠 Dist | 🔴 Strong Dist</div>
                 <div><strong>Filt:</strong> Filtros pasados (Market + MA + A/D) - X/3</div>
@@ -418,6 +424,10 @@
                         <th title="VCP Pattern Score (40%)">VCP</th>
                         <th title="ML Predictive Score (30%)">ML</th>
                         <th title="Fundamental Score (30%)">Fund</th>
+                        <th title="Optimal entry price (VCP pivot + support)" style="background: var(--glass-primary-dim);">Entry</th>
+                        <th title="Stop loss (technical support, max 8%)" style="background: var(--glass-primary-dim);">Stop</th>
+                        <th title="Target exit price (fair value + resistance)" style="background: var(--glass-primary-dim);">Target</th>
+                        <th title="Risk/Reward ratio (min 3:1)" style="background: var(--glass-primary-dim);">R/R</th>
                         <th title="Moving Average Filter (Minervini)">MA</th>
                         <th title="Accumulation/Distribution">A/D</th>
                         <th title="Filters Passed (Market + MA + A/D)">Filt</th>
@@ -436,60 +446,36 @@
                 <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">86</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">61</span></td>
+                <td><span class="price-cell" title="BUY NOW - At target entry price">$193.34</span></td>
+                <td><span class="price-cell" style="color: var(--danger);">$177.88</span></td>
+                <td><span class="price-cell" style="color: var(--success);">$234.10</span></td>
+                <td><span class="poor-rr">2.6:1</span></td>
                 <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
                 <td><span title="NEUTRAL">⚪</span></td>
                 <td><span title="Penalty: -8 points">2/3</span></td>
                 <td>100</td>
-                <td><span title="Near ATH (-3.3% from high) - poor entry point | -3.3% vs ATH">❌</span></td>
+                <td><span title="Near ATH (-2.3% from high) - poor entry point | -2.3% vs ATH">❌</span></td>
                 <td> </td>
             </tr>
             
             <tr>
                 <td><div><strong>FANG</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Diamondback Energy, Inc.</span></div></td>
-                <td><span class="score-badge score-high">70.6</span></td>
+                <td><span class="score-badge score-high">70.7</span></td>
                 <td>⭐⭐⭐ EXCELLENT</td>
                 <td>Energy</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">89</span></td>
+                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">66</span></td>
+                <td><span class="price-cell" title="BUY NOW - At target entry price">$169.09</span></td>
+                <td><span class="price-cell" style="color: var(--danger);">$155.57</span></td>
+                <td><span class="price-cell" style="color: var(--success);">$202.28</span></td>
+                <td><span class="poor-rr">2.5:1</span></td>
                 <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
                 <td><span title="ACCUMULATION">🟡</span></td>
                 <td><span title="Penalty: -0 points">3/3</span></td>
                 <td>0</td>
-                <td><span title="Near ATH (-0.9% from high) - poor entry point | -0.9% vs ATH">❌</span></td>
-                <td> </td>
-            </tr>
-            
-            <tr>
-                <td><div><strong>LMT</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Lockheed Martin Corporati...</span></div></td>
-                <td><span class="score-badge score-high">70.5</span></td>
-                <td>⭐⭐⭐ EXCELLENT</td>
-                <td>Industrials</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">65</span></td>
-                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
-                <td><span title="STRONG_ACCUMULATION">🟢</span></td>
-                <td><span title="Penalty: -0 points">3/3</span></td>
-                <td>0</td>
-                <td><span title="Near ATH (-2.8% from high) - poor entry point | -2.8% vs ATH">❌</span></td>
-                <td> </td>
-            </tr>
-            
-            <tr>
-                <td><div><strong>HSY</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">The Hershey Company</span></div></td>
-                <td><span class="score-badge score-high">70.4</span></td>
-                <td>⭐⭐⭐ EXCELLENT</td>
-                <td>Consumer Defensive</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">88</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">68</span></td>
-                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
-                <td><span title="STRONG_ACCUMULATION">🟢</span></td>
-                <td><span title="Penalty: -0 points">3/3</span></td>
-                <td>100</td>
-                <td><span title="Near ATH (-1.7% from high) - poor entry point | High P/E (53.2) - valuation risk | -1.7% vs ATH">❌</span></td>
-                <td> </td>
+                <td><span title="Near ATH (-0.8% from high) - poor entry point | -0.8% vs ATH">❌</span></td>
+                <td>🔥 🔁</td>
             </tr>
             
             <tr>
@@ -500,12 +486,16 @@
                 <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">64</span></td>
+                <td><span class="price-cell" title="BUY NOW - At target entry price">$232.88</span></td>
+                <td><span class="price-cell" style="color: var(--danger);">$214.25</span></td>
+                <td><span class="price-cell" style="color: var(--success);">$279.75</span></td>
+                <td><span class="poor-rr">2.5:1</span></td>
                 <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
-                <td><span title="STRONG_ACCUMULATION">🟢</span></td>
+                <td><span title="ACCUMULATION">🟡</span></td>
                 <td><span title="Penalty: -0 points">3/3</span></td>
                 <td>0</td>
-                <td><span title="Near ATH (-0.3% from high) - poor entry point | -0.3% vs ATH">❌</span></td>
-                <td> </td>
+                <td><span title="Near ATH (-2.5% from high) - poor entry point | -2.5% vs ATH">❌</span></td>
+                <td>🔥 🔁</td>
             </tr>
             
             <tr>
@@ -516,44 +506,16 @@
                 <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">62</span></td>
-                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
-                <td><span title="ACCUMULATION">🟡</span></td>
-                <td><span title="Penalty: -0 points">3/3</span></td>
-                <td>0</td>
-                <td><span title="Near ATH (-0.8% from high) - poor entry point | -0.8% vs ATH">❌</span></td>
-                <td> </td>
-            </tr>
-            
-            <tr>
-                <td><div><strong>HSIC</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Henry Schein, Inc.</span></div></td>
-                <td><span class="score-badge score-medium">69.3</span></td>
-                <td>⭐⭐⭐ EXCELLENT</td>
-                <td>Healthcare</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">60</span></td>
+                <td><span class="price-cell" title="BUY NOW - At target entry price">$247.53</span></td>
+                <td><span class="price-cell" style="color: var(--danger);">$227.73</span></td>
+                <td><span class="price-cell" style="color: var(--success);">$296.05</span></td>
+                <td><span class="poor-rr">2.5:1</span></td>
                 <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
                 <td><span title="STRONG_ACCUMULATION">🟢</span></td>
                 <td><span title="Penalty: -0 points">3/3</span></td>
                 <td>0</td>
-                <td><span title="Near ATH (-0.2% from high) - poor entry point | -0.2% vs ATH">❌</span></td>
-                <td> </td>
-            </tr>
-            
-            <tr>
-                <td><div><strong>FRT</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Federal Realty Investment...</span></div></td>
-                <td><span class="score-badge score-medium">68.9</span></td>
-                <td>⭐⭐⭐ EXCELLENT</td>
-                <td>Real Estate</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">88</span></td>
-                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">62</span></td>
-                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
-                <td><span title="ACCUMULATION">🟡</span></td>
-                <td><span title="Penalty: -0 points">3/3</span></td>
-                <td>0</td>
-                <td><span title="Near ATH (-4.4% from high) - poor entry point | -4.4% vs ATH">❌</span></td>
-                <td> </td>
+                <td><span title="Near ATH (-1.3% from high) - poor entry point | -1.3% vs ATH">❌</span></td>
+                <td>🔥 🔁</td>
             </tr>
             
             <tr>
@@ -564,28 +526,116 @@
                 <td><span class="component-score" title="VCP Pattern (40%)">89</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
                 <td><span class="component-score" title="Fundamentals (30%)">71</span></td>
+                <td><span class="price-cell" title="BUY NOW - At target entry price">$153.33</span></td>
+                <td><span class="price-cell" style="color: var(--danger);">$141.06</span></td>
+                <td><span class="price-cell" style="color: var(--success);">$184.58</span></td>
+                <td><span class="poor-rr">2.5:1</span></td>
                 <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
                 <td><span title="STRONG_ACCUMULATION">🟢</span></td>
                 <td><span title="Penalty: -3 points">3/3</span></td>
                 <td>0</td>
-                <td><span title="Near ATH (-0.9% from high) - poor entry point | -0.9% vs ATH">❌</span></td>
+                <td><span title="Near ATH (-1.5% from high) - poor entry point | -1.5% vs ATH">❌</span></td>
+                <td>🔥 🔁</td>
+            </tr>
+            
+            <tr>
+                <td><div><strong>SWK</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Stanley Black & Decker, I...</span></div></td>
+                <td><span class="score-badge score-medium">68.6</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
+                <td>Industrials</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">59</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
+                <td><span title="ACCUMULATION">🟡</span></td>
+                <td><span title="Penalty: -0 points">3/3</span></td>
+                <td>0</td>
+                <td><span title="Near ATH (-2.5% from high) - poor entry point | -2.5% vs ATH">❌</span></td>
+                <td>🔥 🔁</td>
+            </tr>
+            
+            <tr>
+                <td><div><strong>XOM</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Exxon Mobil Corporation</span></div></td>
+                <td><span class="score-badge score-medium">68.5</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
+                <td>Energy</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">91</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">67</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
+                <td><span title="STRONG_ACCUMULATION">🟢</span></td>
+                <td><span title="Penalty: -3 points">3/3</span></td>
+                <td>0</td>
+                <td><span title="Close to ATH (-5.4% from high) - wait for pullback | -5.4% vs ATH">⚠️</span></td>
+                <td>🔥 🔁</td>
+            </tr>
+            
+            <tr>
+                <td><div><strong>EIX</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Edison International</span></div></td>
+                <td><span class="score-badge score-medium">68.5</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
+                <td>Utilities</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">68</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
+                <td><span title="STRONG_ACCUMULATION">🟢</span></td>
+                <td><span title="Penalty: -3 points">3/3</span></td>
+                <td>0</td>
+                <td><span title="Near ATH (-0.2% from high) - poor entry point | -0.2% vs ATH">❌</span></td>
+                <td>🔥 🔁</td>
+            </tr>
+            
+            <tr>
+                <td><div><strong>HSY</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">The Hershey Company</span></div></td>
+                <td><span class="score-badge score-medium">68.2</span></td>
+                <td>⭐⭐⭐ EXCELLENT</td>
+                <td>Consumer Defensive</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">82</span></td>
+                <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">68</span></td>
+                <td><span class="price-cell" title="BUY NOW - At target entry price">$228.52</span></td>
+                <td><span class="price-cell" style="color: var(--danger);">$210.24</span></td>
+                <td><span class="price-cell" style="color: var(--success);">$275.30</span></td>
+                <td><span class="poor-rr">2.6:1</span></td>
+                <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
+                <td><span title="STRONG_ACCUMULATION">🟢</span></td>
+                <td><span title="Penalty: -0 points">3/3</span></td>
+                <td>100</td>
+                <td><span title="Close to ATH (-5.2% from high) - wait for pullback | High P/E (51.3) - valuation risk | -5.2% vs ATH">⚠️</span></td>
                 <td> </td>
             </tr>
             
             <tr>
-                <td><div><strong>IBKR</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">Interactive Brokers Group...</span></div></td>
-                <td><span class="score-badge score-medium">68.6</span></td>
+                <td><div><strong>COP</strong><br><span style="font-size: 0.75em; color: var(--text-muted);">ConocoPhillips</span></div></td>
+                <td><span class="score-badge score-medium">68.1</span></td>
                 <td>⭐⭐⭐ EXCELLENT</td>
-                <td>Financial Services</td>
-                <td><span class="component-score" title="VCP Pattern (40%)">91</span></td>
+                <td>Energy</td>
+                <td><span class="component-score" title="VCP Pattern (40%)">90</span></td>
                 <td><span class="component-score" title="ML Predictive (30%)">50</span></td>
-                <td><span class="component-score" title="Fundamentals (30%)">68</span></td>
+                <td><span class="component-score" title="Fundamentals (30%)">67</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
+                <td><span style="color: var(--text-muted);">-</span></td>
                 <td><span title="Passes Minervini Template (6/6 criteria)">✅</span></td>
                 <td><span title="ACCUMULATION">🟡</span></td>
                 <td><span title="Penalty: -3 points">3/3</span></td>
                 <td>0</td>
-                <td><span title="Near ATH (-3.6% from high) - poor entry point | -3.6% vs ATH">❌</span></td>
-                <td> </td>
+                <td><span title="Near ATH (-0.6% from high) - poor entry point | -0.6% vs ATH">❌</span></td>
+                <td>🔥 🔁</td>
             </tr>
             
                 </tbody>
@@ -597,27 +647,7 @@
             <!-- Sector Alerts -->
             <div class="section-card">
                 <h2 class="section-title">🔄 Sector Rotation Alerts</h2>
-                <ul class="alert-list">
-            <li>
-                <strong>⚡ ⚡ Financials emergiendo (RS: 100)</strong><br>
-                <span style="color: #666; font-size: 0.9em;">→ EARLY ENTRY OPPORTUNITY - sector saliendo de debilidad</span>
-            </li>
-            
-            <li>
-                <strong>⚡ ⚡ Healthcare emergiendo (RS: 100)</strong><br>
-                <span style="color: #666; font-size: 0.9em;">→ EARLY ENTRY OPPORTUNITY - sector saliendo de debilidad</span>
-            </li>
-            
-            <li>
-                <strong>🔴 🔴 Energy perdiendo momentum (velocity: -12.43)</strong><br>
-                <span style="color: #666; font-size: 0.9em;">→ CONSIDERAR SALIDA de posiciones en este sector</span>
-            </li>
-            
-            <li>
-                <strong>⚡ ⚡ Real Estate emergiendo (RS: 100)</strong><br>
-                <span style="color: #666; font-size: 0.9em;">→ EARLY ENTRY OPPORTUNITY - sector saliendo de debilidad</span>
-            </li>
-            </ul>
+                <p>No hay alertas activas</p>
             </div>
         </div>
 

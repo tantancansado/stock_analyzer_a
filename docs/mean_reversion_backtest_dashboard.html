@@ -191,18 +191,10 @@
             font-size: 1.8em;
         }
 
-        /* FIX: Table wrapper for horizontal scroll on mobile */
-        .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-            margin-bottom: 20px;
-        }
-
         .trades-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 800px; /* Prevents table from shrinking too much */
+            overflow-x: auto;
         }
 
         .trades-table th {
@@ -308,14 +300,8 @@
                 grid-template-columns: 1fr;
             }
 
-            /* FIX: Better table display on tablets */
-            .trades-section {
-                padding: 20px;
-            }
-
             .trades-table {
                 font-size: 0.85em;
-                min-width: 700px; /* Slightly smaller for tablets */
             }
 
             .trades-table th,
@@ -325,10 +311,6 @@
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-
             .header h1 {
                 font-size: 1.6em;
             }
@@ -339,41 +321,6 @@
 
             .nav-button, button, a {
                 min-height: 44px;
-            }
-
-            /* FIX: Ultra compact table for mobile */
-            .trades-section {
-                padding: 15px;
-                border-radius: 10px;
-            }
-
-            .trades-table {
-                font-size: 0.75em;
-                min-width: 600px; /* Smaller for phones */
-            }
-
-            .trades-table th,
-            .trades-table td {
-                padding: 8px 4px;
-                white-space: nowrap;
-            }
-
-            .ticker-cell {
-                font-size: 1em;
-            }
-
-            /* Show scroll hint */
-            .table-wrapper::after {
-                content: '← Scroll →';
-                display: block;
-                text-align: center;
-                padding: 8px;
-                background: rgba(30, 60, 114, 0.1);
-                border-radius: 5px;
-                margin-top: 10px;
-                font-size: 0.85em;
-                color: #1e3c72;
-                font-weight: 600;
             }
         }
     </style>
@@ -388,40 +335,40 @@
         </div>
 
         <div class="timestamp">
-            📅 Backtest ejecutado: 2026-02-11 13:11:38
+            📅 Backtest ejecutado: 2026-02-16 07:16:21
         </div>
 
         <div class="metrics-grid">
             <div class="metric-card">
-                <div class="metric-value neutral">27</div>
+                <div class="metric-value neutral">31</div>
                 <div class="metric-label">Total Trades</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value positive">85.2%</div>
+                <div class="metric-value positive">77.4%</div>
                 <div class="metric-label">Win Rate</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value positive">+20.58%</div>
+                <div class="metric-value positive">+32.34%</div>
                 <div class="metric-label">Avg Win</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value negative">-1.74%</div>
+                <div class="metric-value negative">-0.35%</div>
                 <div class="metric-label">Avg Loss</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value positive">67.91</div>
+                <div class="metric-value positive">318.10</div>
                 <div class="metric-label">Profit Factor</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value positive">+4889.42%</div>
+                <div class="metric-value positive">+48215.54%</div>
                 <div class="metric-label">Total Return</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value negative">-6.42%</div>
+                <div class="metric-value negative">-0.91%</div>
                 <div class="metric-label">Max Drawdown</div>
             </div>
             <div class="metric-card">
-                <div class="metric-value neutral">1/27</div>
+                <div class="metric-value neutral">0/31</div>
                 <div class="metric-label">Target Hits</div>
             </div>
         </div>
@@ -432,19 +379,19 @@
                 <h3>📉 Oversold Bounce</h3>
                 <div class="strategy-stat">
                     <span class="stat-label">Total Trades</span>
-                    <span class="stat-value">17</span>
+                    <span class="stat-value">27</span>
                 </div>
                 <div class="strategy-stat">
                     <span class="stat-label">Win Rate</span>
-                    <span class="stat-value">94.1%</span>
+                    <span class="stat-value">85.2%</span>
                 </div>
                 <div class="strategy-stat">
                     <span class="stat-label">Avg Profit</span>
-                    <span class="stat-value">+27.23%</span>
+                    <span class="stat-value">+28.71%</span>
                 </div>
                 <div class="strategy-stat">
                     <span class="stat-label">Total Profit</span>
-                    <span class="stat-value">+462.89%</span>
+                    <span class="stat-value">+775.20%</span>
                 </div>
             </div>
 
@@ -452,19 +399,19 @@
                 <h3>📊 Bull Flag Pullback</h3>
                 <div class="strategy-stat">
                     <span class="stat-label">Total Trades</span>
-                    <span class="stat-value">10</span>
+                    <span class="stat-value">4</span>
                 </div>
                 <div class="strategy-stat">
                     <span class="stat-label">Win Rate</span>
-                    <span class="stat-value">70.0%</span>
+                    <span class="stat-value">25.0%</span>
                 </div>
                 <div class="strategy-stat">
                     <span class="stat-label">Avg Profit</span>
-                    <span class="stat-value">+0.35%</span>
+                    <span class="stat-value">-0.37%</span>
                 </div>
                 <div class="strategy-stat">
                     <span class="stat-label">Total Profit</span>
-                    <span class="stat-value">+3.47%</span>
+                    <span class="stat-value">-1.47%</span>
                 </div>
             </div>
 
@@ -479,7 +426,6 @@
 
         <div class="trades-section">
             <h2>🏆 Top 10 Best Trades</h2>
-            <div class="table-wrapper">
             <table class="trades-table">
                 <thead>
                     <tr>
@@ -495,21 +441,21 @@
                 <tbody>
 
                     <tr>
-                        <td class="ticker-cell">SQNS</td>
+                        <td class="ticker-cell">RPD</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$3.50</td>
-                        <td>$6.31</td>
-                        <td class="profit-positive">+80.29%</td>
+                        <td>$7.18</td>
+                        <td>$14.83</td>
+                        <td class="profit-positive">+106.55%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
 
                     <tr>
-                        <td class="ticker-cell">INTZ</td>
+                        <td class="ticker-cell">SQNS</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$1.00</td>
-                        <td>$1.52</td>
-                        <td class="profit-positive">+52.00%</td>
+                        <td>$3.20</td>
+                        <td>$6.31</td>
+                        <td class="profit-positive">+97.19%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
@@ -517,29 +463,29 @@
                     <tr>
                         <td class="ticker-cell">BLND</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$1.98</td>
+                        <td>$1.71</td>
                         <td>$2.84</td>
-                        <td class="profit-positive">+43.43%</td>
+                        <td class="profit-positive">+66.08%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
 
                     <tr>
-                        <td class="ticker-cell">RPD</td>
+                        <td class="ticker-cell">INTZ</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$10.39</td>
-                        <td>$14.83</td>
-                        <td class="profit-positive">+42.73%</td>
+                        <td>$0.94</td>
+                        <td>$1.52</td>
+                        <td class="profit-positive">+61.70%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
 
                     <tr>
-                        <td class="ticker-cell">MYSZ</td>
+                        <td class="ticker-cell">VENU</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$0.64</td>
-                        <td>$0.89</td>
-                        <td class="profit-positive">+39.06%</td>
+                        <td>$5.35</td>
+                        <td>$8.26</td>
+                        <td class="profit-positive">+54.39%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
@@ -547,19 +493,19 @@
                     <tr>
                         <td class="ticker-cell">SPT</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$7.96</td>
+                        <td>$7.15</td>
                         <td>$10.92</td>
-                        <td class="profit-positive">+37.19%</td>
+                        <td class="profit-positive">+52.73%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
 
                     <tr>
-                        <td class="ticker-cell">IT</td>
+                        <td class="ticker-cell">GLGI</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$159.89</td>
-                        <td>$218.44</td>
-                        <td class="profit-positive">+36.62%</td>
+                        <td>$0.33</td>
+                        <td>$0.50</td>
+                        <td class="profit-positive">+51.52%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
@@ -567,36 +513,35 @@
                     <tr>
                         <td class="ticker-cell">PAR</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$23.25</td>
+                        <td>$20.86</td>
                         <td>$31.51</td>
-                        <td class="profit-positive">+35.53%</td>
+                        <td class="profit-positive">+51.05%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
 
                     <tr>
-                        <td class="ticker-cell">SSGC</td>
+                        <td class="ticker-cell">GTLB</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$0.21</td>
-                        <td>$0.25</td>
-                        <td class="profit-positive">+19.05%</td>
+                        <td>$29.55</td>
+                        <td>$41.29</td>
+                        <td class="profit-positive">+39.73%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
 
                     <tr>
-                        <td class="ticker-cell">FIS</td>
+                        <td class="ticker-cell">FWDI</td>
                         <td><span class="badge badge-oversold">Oversold Bounce</span></td>
-                        <td>$50.55</td>
-                        <td>$58.90</td>
-                        <td class="profit-positive">+16.52%</td>
+                        <td>$4.83</td>
+                        <td>$6.21</td>
+                        <td class="profit-positive">+28.57%</td>
                         <td><span class="badge badge-stop">STOP_LOSS</span></td>
                         <td>0</td>
                     </tr>
 
                 </tbody>
             </table>
-            </div>
         </div>
 
         <div style="text-align: center; color: white; opacity: 0.8; padding: 20px 0;">
@@ -607,7 +552,7 @@
 
     <script>
         // Equity Curve Chart
-        const equityCurve = [{"entry_date": "2026-02-10", "cumulative_return": 0.14129999999999998}, {"entry_date": "2026-02-10", "cumulative_return": 0.14129999999999998}, {"entry_date": "2026-02-10", "cumulative_return": 0.14129999999999998}, {"entry_date": "2026-02-10", "cumulative_return": 0.17382704999999987}, {"entry_date": "2026-02-10", "cumulative_return": 0.17382704999999987}, {"entry_date": "2026-02-10", "cumulative_return": 0.17382704999999987}, {"entry_date": "2026-02-10", "cumulative_return": 0.397441103025}, {"entry_date": "2026-02-10", "cumulative_return": 1.1241104765980001}, {"entry_date": "2026-02-10", "cumulative_return": 2.0317428832483255}, {"entry_date": "2026-02-10", "cumulative_return": 2.0317428832483255}, {"entry_date": "2026-02-10", "cumulative_return": 2.0150682973904597}, {"entry_date": "2026-02-10", "cumulative_return": 2.050344596469928}, {"entry_date": "2026-02-10", "cumulative_return": 2.050344596469928}, {"entry_date": "2026-02-10", "cumulative_return": 1.8545124733765586}, {"entry_date": "2026-02-10", "cumulative_return": 2.86872075516725}, {"entry_date": "2026-02-10", "cumulative_return": 4.30749800401395}, {"entry_date": "2026-02-10", "cumulative_return": 4.75651233515353}, {"entry_date": "2026-02-10", "cumulative_return": 7.005006053264498}, {"entry_date": "2026-02-10", "cumulative_return": 10.48158018219727}, {"entry_date": "2026-02-10", "cumulative_return": 10.727285998096292}, {"entry_date": "2026-02-10", "cumulative_return": 20.143123925967807}, {"entry_date": "2026-02-10", "cumulative_return": 23.4308796964558}, {"entry_date": "2026-02-10", "cumulative_return": 27.4668610223103}, {"entry_date": "2026-02-10", "cumulative_return": 32.10411268284465}, {"entry_date": "2026-02-10", "cumulative_return": 44.22683874730237}, {"entry_date": "2026-02-10", "cumulative_return": 48.89424850602397}, {"entry_date": "2026-02-10", "cumulative_return": 48.89424850602397}];
+        const equityCurve = [{"entry_date": "2026-02-13", "cumulative_return": 0.11230000000000007}, {"entry_date": "2026-02-13", "cumulative_return": 0.10607111999999996}, {"entry_date": "2026-02-13", "cumulative_return": 0.10607111999999996}, {"entry_date": "2026-02-13", "cumulative_return": 0.10607111999999996}, {"entry_date": "2026-02-13", "cumulative_return": 0.675918961024}, {"entry_date": "2026-02-13", "cumulative_return": 0.6791032070499456}, {"entry_date": "2026-02-13", "cumulative_return": 0.6791032070499456}, {"entry_date": "2026-02-13", "cumulative_return": 1.346210911210889}, {"entry_date": "2026-02-13", "cumulative_return": 1.6521568140327894}, {"entry_date": "2026-02-13", "cumulative_return": 3.006082867596528}, {"entry_date": "2026-02-13", "cumulative_return": 2.991260360986421}, {"entry_date": "2026-02-13", "cumulative_return": 4.131563446120241}, {"entry_date": "2026-02-13", "cumulative_return": 4.690390705402735}, {"entry_date": "2026-02-13", "cumulative_return": 7.785394210071283}, {"entry_date": "2026-02-13", "cumulative_return": 7.705447122759635}, {"entry_date": "2026-02-13", "cumulative_return": 12.29582939059079}, {"entry_date": "2026-02-13", "cumulative_return": 13.88202183688827}, {"entry_date": "2026-02-13", "cumulative_return": 29.738816104092724}, {"entry_date": "2026-02-13", "cumulative_return": 34.22053549206944}, {"entry_date": "2026-02-13", "cumulative_return": 43.49058043358211}, {"entry_date": "2026-02-13", "cumulative_return": 72.88995598409318}, {"entry_date": "2026-02-13", "cumulative_return": 75.2913795535762}, {"entry_date": "2026-02-13", "cumulative_return": 88.52030476816633}, {"entry_date": "2026-02-13", "cumulative_return": 175.5250889723472}, {"entry_date": "2026-02-13", "cumulative_return": 212.45413758536225}, {"entry_date": "2026-02-13", "cumulative_return": 250.51301031683232}, {"entry_date": "2026-02-13", "cumulative_return": 293.0438603614087}, {"entry_date": "2026-02-13", "cumulative_return": 291.27959719924024}, {"entry_date": "2026-02-13", "cumulative_return": 297.7974322167833}, {"entry_date": "2026-02-13", "cumulative_return": 482.1554478945386}, {"entry_date": "2026-02-13", "cumulative_return": 482.1554478945386}];
 
         const ctx = document.getElementById('equityChart').getContext('2d');
         new Chart(ctx, {
