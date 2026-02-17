@@ -159,33 +159,36 @@ class SuperDashboardGenerator:
         if mask.any() and 'current_price' in df.columns:
             cp = df.loc[mask, 'current_price']
 
-            # Entry = current price
-            df.loc[mask, 'entry_price'] = cp
-
-            # Stop = 8% below entry
-            df.loc[mask, 'stop_loss'] = (cp * 0.92).round(2)
-
-            # Target = analyst_target if available, else price_target, else +15%
+            # Target = best available analyst target
             if 'analyst_target' in df.columns:
-                target = df.loc[mask, 'analyst_target'].fillna(
-                    df.loc[mask, 'price_target'] if 'price_target' in df.columns else cp * 1.15
-                )
+                target = df.loc[mask, 'analyst_target']
+                if 'price_target' in df.columns:
+                    target = target.fillna(df.loc[mask, 'price_target'])
             elif 'price_target' in df.columns:
-                target = df.loc[mask, 'price_target'].fillna(cp * 1.15)
+                target = df.loc[mask, 'price_target']
             else:
-                target = cp * 1.15
+                target = pd.Series(np.nan, index=cp.index)
 
-            df.loc[mask, 'exit_price'] = target.round(2)
+            # Only fill when target is above current price (positive upside)
+            valid = mask & (
+                df['current_price'].notna() &
+                target.reindex(df.index).notna() &
+                (target.reindex(df.index) > df['current_price'] * 1.03)  # at least 3% upside
+            )
 
-            # R/R = (target - entry) / (entry - stop)
-            entry = df.loc[mask, 'entry_price']
-            stop = df.loc[mask, 'stop_loss']
-            risk = entry - stop
-            reward = target - entry
-            df.loc[mask, 'risk_reward'] = (reward / risk.replace(0, np.nan)).round(2)
+            if valid.any():
+                cp_valid = df.loc[valid, 'current_price']
+                tgt_valid = target.reindex(df.index).loc[valid]
 
-            filled = mask.sum()
-            print(f"✅ Calculated entry/exit prices for {filled} opportunities from 5D data")
+                df.loc[valid, 'entry_price'] = cp_valid.round(2)
+                df.loc[valid, 'stop_loss'] = (cp_valid * 0.92).round(2)
+                df.loc[valid, 'exit_price'] = tgt_valid.round(2)
+
+                risk = cp_valid - (cp_valid * 0.92)
+                reward = tgt_valid - cp_valid
+                df.loc[valid, 'risk_reward'] = (reward / risk.replace(0, np.nan)).round(2)
+
+                print(f"✅ Calculated entry/exit prices for {valid.sum()} opportunities (positive upside only)")
 
         return df
 
@@ -929,8 +932,8 @@ class SuperDashboardGenerator:
         """
 
         return legend_html + f"""
-        <div class="opportunities-table-container">
-            <table class="opportunities-table">
+        <div class="opportunities-table-container" style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+            <table class="opportunities-table" style="min-width: 1100px;">
                 <thead>
                     <tr>
                         <th>Ticker / Company</th>
