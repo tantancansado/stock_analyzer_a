@@ -675,6 +675,31 @@ class GitHubPagesTemplates:
                     <div class="nav-title">VCP Scanner</div>
                     <div class="nav-desc">Detector de patrones de volatilidad con análisis técnico avanzado</div>
                 </a>
+                <a href="super_dashboard.html" class="nav-card">
+                    <div class="nav-icon">⭐</div>
+                    <div class="nav-title">Super Dashboard</div>
+                    <div class="nav-desc">Dashboard integrado con oportunidades 5D, sector rotation y timing convergence</div>
+                </a>
+                <a href="sector_rotation_dashboard.html" class="nav-card">
+                    <div class="nav-icon">🔄</div>
+                    <div class="nav-title">Sector Rotation</div>
+                    <div class="nav-desc">Rotación sectorial en tiempo real para detectar flujos de capital entre sectores</div>
+                </a>
+                <a href="mean_reversion_dashboard.html" class="nav-card">
+                    <div class="nav-icon">📉</div>
+                    <div class="nav-title">Mean Reversion</div>
+                    <div class="nav-desc">Oportunidades de reversión a la media con análisis de sobrecompra y sobreventa</div>
+                </a>
+                <a href="options_flow_dashboard.html" class="nav-card">
+                    <div class="nav-icon">🐋</div>
+                    <div class="nav-title">Options Flow</div>
+                    <div class="nav-desc">Actividad de opciones institucional para detectar movimientos de dinero inteligente</div>
+                </a>
+                <a href="recurring_insiders.html" class="nav-card">
+                    <div class="nav-icon">🔁</div>
+                    <div class="nav-title">Recurring Insiders</div>
+                    <div class="nav-desc">Insiders con historial de compras recurrentes y alta tasa de acierto</div>
+                </a>
             </div>
         </nav>
         
@@ -688,7 +713,7 @@ class GitHubPagesTemplates:
         
         <footer class="footer-liquid">
             <p>🚀 Trading Analytics System • Powered by AI & Advanced Market Analysis</p>
-            <p>Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner</p>
+            <p>Sistema completo: Insider Trading • DJ Sectorial • Market Breadth • Enhanced Opportunities • VCP Scanner • Super Dashboard • Sector Rotation • Mean Reversion • Options Flow • Recurring Insiders</p>
         </footer>
     </div>
     

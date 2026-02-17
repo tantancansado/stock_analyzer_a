@@ -229,7 +229,7 @@ class TelegramLegendaryAlerts:
                 'thesis_short': row.get('thesis_short', ''),
                 'institutional_details': {
                     'num_whales': row.get('num_whales', 0),
-                    'top_whales': row.get('top_whales', '').split(', ') if row.get('top_whales') else []
+                    'top_whales': str(row.get('top_whales', '') or '').split(', ') if row.get('top_whales') and not isinstance(row.get('top_whales'), float) else []
                 }
             }
 
