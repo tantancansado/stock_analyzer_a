@@ -37,6 +37,8 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add -A
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update: Daily scan $(date +%Y-%m-%d)" && git push)
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: Daily scan update $(date +%Y-%m-%d)"
+          git pull --rebase origin main || echo "⚠️  Pull failed"
+          git push || echo "⚠️  Push failed"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
