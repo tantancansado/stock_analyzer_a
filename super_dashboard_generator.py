@@ -943,10 +943,10 @@ class SuperDashboardGenerator:
                         <th title="VCP Pattern Score (40%)">VCP</th>
                         <th title="ML Predictive Score (30%)">ML</th>
                         <th title="Fundamental Score (30%)">Fund</th>
-                        <th title="Optimal entry price (VCP pivot + support)" style="background: var(--glass-primary-dim);">Entry</th>
-                        <th title="Stop loss (technical support, max 8%)" style="background: var(--glass-primary-dim);">Stop</th>
-                        <th title="Target exit price (fair value + resistance)" style="background: var(--glass-primary-dim);">Target</th>
-                        <th title="Risk/Reward ratio (min 3:1)" style="background: var(--glass-primary-dim);">R/R</th>
+                        <th title="Optimal entry price (VCP pivot + support)" style="background: #8b9cf4;">Entry</th>
+                        <th title="Stop loss (technical support, max 8%)" style="background: #8b9cf4;">Stop</th>
+                        <th title="Target exit price (fair value + resistance)" style="background: #8b9cf4;">Target</th>
+                        <th title="Risk/Reward ratio (min 3:1)" style="background: #8b9cf4;">R/R</th>
                         <th title="Moving Average Filter (Minervini)">MA</th>
                         <th title="Accumulation/Distribution">A/D</th>
                         <th title="Filters Passed (Market + MA + A/D)">Filt</th>
