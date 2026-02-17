@@ -115,12 +115,17 @@ class SuperDashboardGenerator:
             total_count = len(df)
 
             # Filter score >= 55 (GOOD o mejor)
-            df = df[df['super_score_5d'] >= 55].copy()
+            filtered = df[df['super_score_5d'] >= 55].copy()
 
-            # Add total count as attribute
-            df.attrs['total_count'] = total_count
+            # If ultimate scores are on a different scale (all < 55), fall back to 5D file
+            if len(filtered) == 0 and opps_5d_file.exists():
+                print("⚠️  super_scores_ultimate has no rows >= 55 (different scale). Falling back to 5D file.")
+                df = pd.read_csv(opps_5d_file)
+                total_count = len(df)
+                filtered = df[df['super_score_5d'] >= 55].copy()
 
-            return df
+            filtered.attrs['total_count'] = total_count
+            return filtered
 
         # Fallback to 5D-only if ultimate doesn't exist yet
         elif opps_5d_file.exists():
