@@ -107,7 +107,7 @@ class MasterScanner:
         self.run_command(
             "Super Analyzer 4D",
             "python3 run_super_analyzer_4d.py",
-            timeout=300
+            timeout=900  # Increased: downloads data for ~500 stocks
         )
 
         # 7. Super Opportunities (3D - legacy)
