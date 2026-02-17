@@ -61,7 +61,7 @@ class TelegramLegendaryAlerts:
                 return json.load(f)
         return {}
 
-    def send_message(self, message, parse_mode='HTML'):
+    def send_message(self, message, parse_mode='HTML', disable_notification=False):
         """Envía mensaje por Telegram"""
         url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
 
@@ -69,7 +69,8 @@ class TelegramLegendaryAlerts:
             'chat_id': self.chat_id,
             'text': message,
             'parse_mode': parse_mode,
-            'disable_web_page_preview': False
+            'disable_web_page_preview': False,
+            'disable_notification': disable_notification
         }
 
         try:
