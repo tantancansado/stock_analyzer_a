@@ -107,6 +107,9 @@ class SuperDashboardGenerator:
                 )
                 print(f"✅ Merged entry/exit prices for {df['entry_price'].notna().sum()} opportunities")
 
+            # Fill missing entry/exit prices from 5D data columns
+            df = self._fill_missing_prices(df)
+
             # Rename super_score_ultimate to super_score_5d for compatibility
             if 'super_score_ultimate' in df.columns:
                 df['super_score_5d'] = df['super_score_ultimate']
@@ -123,6 +126,7 @@ class SuperDashboardGenerator:
                 df = pd.read_csv(opps_5d_file)
                 total_count = len(df)
                 filtered = df[df['super_score_5d'] >= 55].copy()
+                filtered = self._fill_missing_prices(filtered)
 
             filtered.attrs['total_count'] = total_count
             return filtered
@@ -132,10 +136,58 @@ class SuperDashboardGenerator:
             df = pd.read_csv(opps_5d_file)
             total_count = len(df)
             df = df[df['super_score_5d'] >= 55].copy()
+            df = self._fill_missing_prices(df)
             df.attrs['total_count'] = total_count
             return df
 
         return None
+
+    def _fill_missing_prices(self, df):
+        """Calculate entry/stop/target from 5D data when prices file data is missing"""
+        import numpy as np
+
+        if 'entry_price' not in df.columns:
+            df['entry_price'] = np.nan
+        if 'stop_loss' not in df.columns:
+            df['stop_loss'] = np.nan
+        if 'exit_price' not in df.columns:
+            df['exit_price'] = np.nan
+        if 'risk_reward' not in df.columns:
+            df['risk_reward'] = np.nan
+
+        mask = df['entry_price'].isna()
+        if mask.any() and 'current_price' in df.columns:
+            cp = df.loc[mask, 'current_price']
+
+            # Entry = current price
+            df.loc[mask, 'entry_price'] = cp
+
+            # Stop = 8% below entry
+            df.loc[mask, 'stop_loss'] = (cp * 0.92).round(2)
+
+            # Target = analyst_target if available, else price_target, else +15%
+            if 'analyst_target' in df.columns:
+                target = df.loc[mask, 'analyst_target'].fillna(
+                    df.loc[mask, 'price_target'] if 'price_target' in df.columns else cp * 1.15
+                )
+            elif 'price_target' in df.columns:
+                target = df.loc[mask, 'price_target'].fillna(cp * 1.15)
+            else:
+                target = cp * 1.15
+
+            df.loc[mask, 'exit_price'] = target.round(2)
+
+            # R/R = (target - entry) / (entry - stop)
+            entry = df.loc[mask, 'entry_price']
+            stop = df.loc[mask, 'stop_loss']
+            risk = entry - stop
+            reward = target - entry
+            df.loc[mask, 'risk_reward'] = (reward / risk.replace(0, np.nan)).round(2)
+
+            filled = mask.sum()
+            print(f"✅ Calculated entry/exit prices for {filled} opportunities from 5D data")
+
+        return df
 
     def _load_backtest_metrics(self):
         """Carga métricas de backtest"""
