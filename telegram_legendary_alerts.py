@@ -61,6 +61,18 @@ class TelegramLegendaryAlerts:
                 return json.load(f)
         return {}
 
+    @staticmethod
+    def _safe_float(val, default=0.0):
+        """Safely convert a value to float, returning default if not possible"""
+        try:
+            if val is None:
+                return default
+            f = float(val)
+            import math
+            return default if math.isnan(f) else f
+        except (ValueError, TypeError):
+            return default
+
     def send_message(self, message, parse_mode='HTML', disable_notification=False):
         """Envía mensaje por Telegram"""
         url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
@@ -89,13 +101,14 @@ class TelegramLegendaryAlerts:
         """
         ticker = opportunity['ticker']
         company = opportunity.get('company_name', ticker)
-        score = opportunity.get('super_score_5d', opportunity.get('super_score_4d', 0))
+        score = self._safe_float(opportunity.get('super_score_5d', opportunity.get('super_score_4d', 0)))
         tier = opportunity['tier']
-        dims = opportunity['dimensions']
+        dims = {k: self._safe_float(v) for k, v in opportunity['dimensions'].items()}
 
         # Emojis según score
         fire = "🔥" * min(5, int(score / 20))
 
+        quality_score = self._safe_float(dims.get('quality', dims.get('fundamental', 50)))
         message = f"""
 🌟 <b>LEGENDARY OPPORTUNITY DETECTED!</b> 🌟
 {fire}
@@ -118,8 +131,8 @@ class TelegramLegendaryAlerts:
 🏛️ <b>Institutional:</b> {dims['institutional']:.0f}/100
    └ {self._get_quality_emoji(dims['institutional'])}
 
-🎯 <b>Quality:</b> {dims.get('quality', dims.get('fundamental', 50)):.0f}/100
-   └ {self._get_quality_emoji(dims.get('quality', dims.get('fundamental', 50)))}
+🎯 <b>Quality:</b> {quality_score:.0f}/100
+   └ {self._get_quality_emoji(quality_score)}
 """
 
         # Timing Convergence
@@ -133,10 +146,10 @@ class TelegramLegendaryAlerts:
             message += f"\n🔁 <b>VCP REPEATER:</b> {count}x histórico (+{bonus} bonus)\n"
 
         # Price Target
-        upside = opportunity.get('upside_percent')
-        if upside and upside > 0:
-            target = opportunity.get('price_target', 0)
-            current = opportunity.get('current_price', 0)
+        upside = self._safe_float(opportunity.get('upside_percent'))
+        if upside > 0:
+            target = self._safe_float(opportunity.get('price_target', 0))
+            current = self._safe_float(opportunity.get('current_price', 0))
             message += f"\n💰 <b>Upside:</b> +{upside:.1f}% (${current:.2f} → ${target:.2f})\n"
 
         # Whales
@@ -305,10 +318,14 @@ class TelegramLegendaryAlerts:
                 badges.append("🔁")
             badge_str = " ".join(badges)
 
+            vcp = self._safe_float(row.get('vcp_score', 0))
+            ins = self._safe_float(row.get('insiders_score', 0))
+            sec = self._safe_float(row.get('sector_score', 0))
+
             message += f"""
 {i}. <b>{ticker}</b> - {company}
-   Score: {score:.1f}/100 {emoji} {badge_str}
-   VCP:{row.get('vcp_score', 0):.0f} | INS:{row.get('insiders_score', 0):.0f} | SEC:{row.get('sector_score', 0):.0f}
+   Score: {self._safe_float(score):.1f}/100 {emoji} {badge_str}
+   VCP:{vcp:.0f} | INS:{ins:.0f} | SEC:{sec:.0f}
 """
 
         message += f"""
@@ -360,7 +377,7 @@ VCP + Insider buying convergencia
 
             message += f"""
 <b>{ticker}</b> - {company}
-Score: {score:.1f}/100
+Score: {self._safe_float(score):.1f}/100
 {reason}
 
 """
@@ -421,7 +438,7 @@ de alta probabilidad de éxito.
             message += f"""
 <b>{ticker}</b> - {company}
 🔁 {count}x VCP históricos (+{bonus} bonus)
-Score actual: {score:.1f}/100
+Score actual: {self._safe_float(score):.1f}/100
 
 """
 
@@ -494,6 +511,10 @@ Detectadas {len(df)} oportunidades de compra en dips:
             # Emoji según estrategia
             emoji = "📉" if strategy == "Oversold Bounce" else "📊"
 
+            current = self._safe_float(current)
+            target = self._safe_float(target)
+            score = self._safe_float(score)
+            rr = self._safe_float(rr)
             upside_pct = ((target - current) / current * 100) if current > 0 else 0
 
             message += f"""
@@ -571,10 +592,10 @@ Detectados {len(df)} flujos inusuales de opciones:
             ticker = row['ticker']
             company = row.get('company_name', ticker)
             sentiment = row['sentiment']
-            score = row['flow_score']
+            score = self._safe_float(row['flow_score'])
             quality = row['quality']
-            premium = row['total_premium']
-            pc_ratio = row['put_call_ratio']
+            premium = self._safe_float(row['total_premium'])
+            pc_ratio = self._safe_float(row['put_call_ratio'])
             exp_date = row.get('expiration_date', 'N/A')
             days_to_exp = row.get('days_to_expiration', 'N/A')
 
@@ -591,7 +612,7 @@ Detectados {len(df)} flujos inusuales de opciones:
 Sentiment: {sentiment}
 Score: {score:.0f}/100 {quality}
 Premium: ${premium/1000:.0f}K
-Put/Call: {pc_ratio if pc_ratio < 100 else '∞':.2f}
+Put/Call: {f'{pc_ratio:.2f}' if pc_ratio < 100 else '∞'}
 📅 Vencimiento: {exp_date} ({days_to_exp} días)
 
 """
@@ -662,12 +683,12 @@ con score predictivo alto (&gt;= 70/100)
         for i, (_, row) in enumerate(top_ml.head(5).iterrows(), 1):
             ticker = row['ticker']
             company = row.get('company_name', ticker)
-            ml_score = row['ml_score']
+            ml_score = self._safe_float(row['ml_score'])
 
             # Componentes del score
-            momentum = row.get('momentum_score', 0)
-            trend = row.get('trend_score', 0)
-            volume = row.get('volume_score', 0)
+            momentum = self._safe_float(row.get('momentum_score', 0))
+            trend = self._safe_float(row.get('trend_score', 0))
+            volume = self._safe_float(row.get('volume_score', 0))
 
             # Emojis según score
             if ml_score >= 80:

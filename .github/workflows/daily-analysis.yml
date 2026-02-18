@@ -2,8 +2,8 @@ name: Daily Market Analysis - Full Pipeline (Robust)
 
 on:
   schedule:
-    # Run Monday-Friday at 6:00 AM UTC (2:00 AM EST)
-    - cron: '0 6 * * 1-5'
+    # Run Monday-Friday at 18:00 UTC (after US market close)
+    - cron: '0 18 * * 1-5'
   workflow_dispatch:  # Manual trigger
 
 jobs:
