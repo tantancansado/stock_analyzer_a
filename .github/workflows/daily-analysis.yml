@@ -1,4 +1,4 @@
-name: Daily Market Analysis - Full Pipeline (Robust)
+name: Daily Market Analysis - Full Pipeline
 
 on:
   schedule:
@@ -9,202 +9,155 @@ on:
 jobs:
   full-pipeline:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
-      - name: 📥 Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🐍 Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.11'
+          cache: 'pip'
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas yfinance requests beautifulsoup4 lxml numpy
+          pip install pandas numpy yfinance requests beautifulsoup4 lxml
+          pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
 
       # ============================================================================
       # CRITICAL STEPS (Must succeed)
       # ============================================================================
 
-      - name: 📈 Run Market Regime Detector [CRITICAL]
-        run: |
-          echo "📈 [1/15] Market Regime Detector..."
-          python3 market_regime_detector.py
+      - name: Run Market Regime Detector [CRITICAL]
+        run: python3 market_regime_detector.py
 
-      - name: 🎯 Run 5D Super Analyzer [CRITICAL]
-        run: |
-          echo "🎯 [2/15] 5D Super Analyzer..."
-          python3 run_super_analyzer_4d.py
+      - name: Run 5D Super Analyzer [CRITICAL]
+        run: python3 run_super_analyzer_4d.py
 
-      - name: 🎯 Run Super Score Integration [CRITICAL]
-        run: |
-          echo "🎯 [3/15] Super Score Integration (VCP + ML + Fundamental + Filters + Validation)..."
-          python3 super_score_integrator.py
+      - name: Run Super Score Integration [CRITICAL]
+        run: python3 super_score_integrator.py
 
-      - name: 💰 Calculate Entry/Exit Prices [CRITICAL]
-        run: |
-          echo "💰 [4/15] Calculate Entry/Exit Prices..."
-          python3 add_entry_exit_to_opportunities.py
+      - name: Calculate Entry/Exit Prices [CRITICAL]
+        run: python3 add_entry_exit_to_opportunities.py
 
-      - name: 📈 Generate Super Dashboard [CRITICAL]
-        run: |
-          echo "📈 [5/15] Generate Super Dashboard with Entry/Exit Prices..."
-          python3 super_dashboard_generator.py
+      - name: Generate Super Dashboard [CRITICAL]
+        run: python3 super_dashboard_generator.py
 
       # ============================================================================
       # OPTIONAL STEPS (Can fail without breaking pipeline)
       # ============================================================================
 
-      - name: 📊 Run Sector Rotation [OPTIONAL]
+      - name: Whale Scan + Institutional Index
         continue-on-error: true
         run: |
-          echo "📊 [5/15] Sector Rotation Scan..."
-          python3 sector_rotation_detector.py || echo "⚠️  Sector rotation detector failed"
-          python3 sector_rotation_dashboard_generator.py || echo "⚠️  Sector dashboard failed"
+          echo "1" | python3 scan_all_whales.py || echo "Whale scan failed"
+          python3 build_institutional_index.py || echo "Institutional index failed"
 
-      - name: 📉 Run Backtest Engine [OPTIONAL]
+      - name: Recurring Insiders
+        continue-on-error: true
+        run: python3 analyze_recurring_insiders.py || echo "Recurring insiders failed"
+
+      - name: Sector Rotation
         continue-on-error: true
         run: |
-          echo "📉 [6/15] Backtest Engine..."
-          python3 backtest_engine.py || echo "⚠️  Backtest engine failed"
-          python3 backtest_dashboard_generator.py || echo "⚠️  Backtest dashboard failed"
+          python3 sector_rotation_detector.py || echo "Sector rotation failed"
+          python3 sector_rotation_dashboard_generator.py || echo "Sector dashboard failed"
 
-      - name: 💰 Run Position Sizing [OPTIONAL]
+      - name: Backtest Engine
         continue-on-error: true
         run: |
-          echo "💰 [7/15] Position Sizing..."
-          python3 position_sizer.py || echo "⚠️  Position sizing failed"
+          python3 backtest_engine.py || echo "Backtest engine failed"
+          python3 backtest_dashboard_generator.py || echo "Backtest dashboard failed"
 
-      - name: 📅 Run Earnings Calendar [OPTIONAL]
+      - name: Backtest Snapshot Analysis
         continue-on-error: true
         run: |
-          echo "📅 [8/15] Earnings Calendar..."
-          python3 earnings_calendar.py || echo "⚠️  Earnings calendar failed (non-critical)"
+          python3 -c "
+          from backtest_system import BacktestSystem
+          bs = BacktestSystem()
+          snap = bs.create_snapshot('docs/super_opportunities_5d_complete.csv')
+          print(f'Snapshot: {len(snap) if snap is not None else 0} opportunities')
+          analyzed = bs.analyze_ready_snapshots()
+          print(f'Analyzed: {len(analyzed)} snapshots')
+          " || echo "Backtest snapshot failed"
 
-      - name: 🔄 Run Mean Reversion Detector [OPTIONAL]
+      - name: Position Sizing
+        continue-on-error: true
+        run: python3 position_sizer.py || echo "Position sizing failed"
+
+      - name: Earnings Calendar
+        continue-on-error: true
+        run: python3 earnings_calendar.py || echo "Earnings calendar failed"
+
+      - name: Mean Reversion
         continue-on-error: true
         run: |
-          echo "🔄 [9/15] Mean Reversion Detector..."
-          python3 mean_reversion_detector.py || echo "⚠️  Mean reversion detector failed"
-          python3 mean_reversion_dashboard_generator.py || echo "⚠️  Mean reversion dashboard failed"
+          python3 mean_reversion_detector.py || echo "Mean reversion detector failed"
+          python3 mean_reversion_dashboard_generator.py || echo "Mean reversion dashboard failed"
+          python3 mean_reversion_backtester.py || echo "Mean reversion backtest failed"
+          python3 mean_reversion_backtest_dashboard_generator.py || echo "MR backtest dashboard failed"
 
-      - name: 🔄 Run Mean Reversion Backtest [OPTIONAL]
+      - name: Options Flow Detector
         continue-on-error: true
         run: |
-          echo "🔄 [10/15] Mean Reversion Backtest..."
-          python3 mean_reversion_backtester.py || echo "⚠️  Mean reversion backtest failed"
-          python3 mean_reversion_backtest_dashboard_generator.py || echo "⚠️  Dashboard failed"
+          python3 options_flow_detector.py || echo "Options flow detector failed"
+          python3 options_flow_dashboard_generator.py || echo "Options flow dashboard failed"
 
-      - name: 🐋 Run Options Flow Detector [OPTIONAL]
+      - name: ML Scoring
+        continue-on-error: true
+        run: python3 ml_scoring.py || echo "ML scoring failed"
+
+      - name: Fundamental Scoring
+        continue-on-error: true
+        run: python3 fundamental_scorer.py --vcp --top 100 || echo "Fundamental scoring failed"
+
+      - name: VCP Scanner S&P500
+        continue-on-error: true
+        run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP Scanner failed"
+
+      - name: Update 5D Data + Investment Theses
         continue-on-error: true
         run: |
-          echo "🐋 [11/15] Options Flow Detector..."
-          python3 options_flow_detector.py || echo "⚠️  Options flow detector failed"
-          python3 options_flow_dashboard_generator.py || echo "⚠️  Options flow dashboard failed"
+          python3 enrich_5d.py || echo "5D enrichment failed"
+          python3 thesis_generator.py 50 || echo "Thesis generation failed"
 
-      - name: 🤖 Run ML Scoring [OPTIONAL]
+      - name: Trading Analysis (Ultra Enhanced)
         continue-on-error: true
-        run: |
-          echo "🤖 [12/15] ML Scoring System..."
-          python3 ml_scoring.py || echo "⚠️  ML scoring failed"
+        run: python3 sistema_principal.py --ultra-enhanced completo || echo "Trading analysis failed"
 
-      - name: 📊 Run Fundamental Scoring [OPTIONAL]
-        continue-on-error: true
-        run: |
-          echo "📊 [13/15] Fundamental Scoring (Earnings, Growth, RS, Health)..."
-          python3 fundamental_scorer.py --vcp --top 100 || echo "⚠️  Fundamental scoring failed"
-
-      - name: 🚀 Run VCP Scanner S&P500 [OPTIONAL]
-        continue-on-error: true
-        run: |
-          echo "🚀 [13b/15] VCP Scanner S&P 500 (parallel)..."
-          python3 vcp_scanner_usa.py --sp500 --parallel || echo "⚠️  VCP Scanner failed"
-
-      - name: 📱 Send Telegram Alerts [OPTIONAL]
+      - name: Send Telegram Alerts
         continue-on-error: true
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          echo "📱 [14/15] Sending Telegram Alerts..."
-          python3 auto_telegram_alerts.py || echo "⚠️  Telegram alerts failed (check secrets)"
+        run: python3 auto_telegram_alerts.py || echo "Telegram alerts failed"
 
       # ============================================================================
       # COMMIT & PUSH (Always runs)
       # ============================================================================
 
-      - name: 💾 Commit and Push All Results
+      - name: Commit and Push All Results
         if: always()
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions Bot"
 
-          # Add all generated files
-          git add docs/ || echo "No docs to add"
-          git add data/backtest_cache/ || echo "No backtest cache updates"
+          git add docs/ data/ || echo "Nothing to add"
+          git add docs/theses.json || echo "No theses"
+          git add data/sector_cache.json || echo "No sector cache"
+          git add data/backtest/ || echo "No backtest data"
+          git add data/institutional/ || echo "No institutional data"
 
-          # Create comprehensive commit
           SCAN_DATE=$(date +%Y-%m-%d)
-          git commit -m "chore: Daily full pipeline update - ${SCAN_DATE}" \
-            -m "Complete Market Analysis with Advanced Filters: Market Regime, Sector Rotation, 5D Analyzer, MA Filter, A/D Filter, Backtest, Position Sizing, Mean Reversion, Options Flow, Telegram Alerts" \
+          git commit -m "chore: Daily full pipeline - ${SCAN_DATE}" \
             -m "Automated via GitHub Actions" || echo "No changes to commit"
 
-          # Pull first to avoid conflicts (in case another workflow ran)
-          git pull --rebase origin main || echo "⚠️  Pull failed"
-
-          git push || echo "⚠️  Push failed - check for conflicts"
-
-      # ============================================================================
-      # SUMMARY (Always runs - shows what succeeded/failed)
-      # ============================================================================
-
-      - name: 📢 Create Pipeline Summary
-        if: always()
-        run: |
-          echo "# 🚀 Daily Pipeline Execution Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Execution Date:** $(date +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
-          echo "**Execution Time:** $(date +%H:%M:%S) UTC" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "## ✅ Critical Components (Must succeed):" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- Market Regime Detector (SPY/QQQ/VIX)" >> $GITHUB_STEP_SUMMARY
-          echo "- 5D Super Analyzer" >> $GITHUB_STEP_SUMMARY
-          echo "- Super Score Integration" >> $GITHUB_STEP_SUMMARY
-          echo "- Super Dashboard Generation" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "## 🔧 Optional Components (Best effort):" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- Sector Rotation Analysis" >> $GITHUB_STEP_SUMMARY
-          echo "- Backtest Engine" >> $GITHUB_STEP_SUMMARY
-          echo "- Position Sizing" >> $GITHUB_STEP_SUMMARY
-          echo "- Earnings Calendar" >> $GITHUB_STEP_SUMMARY
-          echo "- Mean Reversion Detector" >> $GITHUB_STEP_SUMMARY
-          echo "- Mean Reversion Backtest" >> $GITHUB_STEP_SUMMARY
-          echo "- Options Flow Detector" >> $GITHUB_STEP_SUMMARY
-          echo "- ML Scoring System" >> $GITHUB_STEP_SUMMARY
-          echo "- Fundamental Scoring" >> $GITHUB_STEP_SUMMARY
-          echo "- Telegram Alerts" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "## 📊 Generated Dashboards:" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- [🎯 Super Dashboard](https://tantancansado.github.io/stock_analyzer_a/super_dashboard.html)" >> $GITHUB_STEP_SUMMARY
-          echo "- [📊 Sector Rotation](https://tantancansado.github.io/stock_analyzer_a/sector_rotation_dashboard.html)" >> $GITHUB_STEP_SUMMARY
-          echo "- [📉 Backtest](https://tantancansado.github.io/stock_analyzer_a/backtest_dashboard.html)" >> $GITHUB_STEP_SUMMARY
-          echo "- [🔄 Mean Reversion](https://tantancansado.github.io/stock_analyzer_a/mean_reversion_dashboard.html)" >> $GITHUB_STEP_SUMMARY
-          echo "- [🔄 Mean Reversion Backtest](https://tantancansado.github.io/stock_analyzer_a/mean_reversion_backtest_dashboard.html)" >> $GITHUB_STEP_SUMMARY
-          echo "- [🐋 Options Flow](https://tantancansado.github.io/stock_analyzer_a/options_flow_dashboard.html)" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "⚠️  **Note:** Check individual step logs above for any warnings/failures" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "💡 **Tip:** Optional steps that failed won't break the pipeline" >> $GITHUB_STEP_SUMMARY
+          git push || echo "Push failed"
 
 env:
   PYTHONUNBUFFERED: 1
