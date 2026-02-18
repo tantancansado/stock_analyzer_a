@@ -655,20 +655,31 @@ def analyze(ticker):
     if not _validate_ticker(ticker):
         return jsonify({"error": f"Ticker inválido: '{ticker}'"}), 400
 
-    # Cache-first: si el ticker está en los CSVs del pipeline, usamos eso
-    in_cache = (not DF_5D.empty and ticker in DF_5D.index) or \
-               (not DF_ML.empty and ticker in DF_ML.index) or \
-               (ticker in TICKER_CACHE)
+    try:
+        # Cache-first: si el ticker está en los CSVs del pipeline, usamos eso
+        in_cache = (not DF_5D.empty and ticker in DF_5D.index) or \
+                   (not DF_ML.empty and ticker in DF_ML.index) or \
+                   (ticker in TICKER_CACHE)
 
-    if in_cache:
-        result = _analyze_from_cache(ticker)
-    else:
-        # Live: funciona en local, puede fallar en Railway
-        result = _analyze_live(ticker)
-        if not result.get('current_price') and result.get('ml_error'):
-            result['warning'] = 'Ticker no está en el cache del pipeline diario. El análisis live puede ser incompleto en entornos cloud.'
+        if in_cache:
+            result = _analyze_from_cache(ticker)
+        else:
+            # Live: funciona en local, puede fallar en Railway
+            result = _analyze_live(ticker)
+            if not result.get('current_price') and result.get('ml_error'):
+                result['warning'] = 'Ticker no está en el cache del pipeline diario. El análisis live puede ser incompleto en entornos cloud.'
 
-    return jsonify(result)
+        return jsonify(result)
+
+    except Exception as e:
+        import traceback
+        tb = traceback.format_exc()
+        print(f"ERROR en /api/analyze/{ticker}: {e}\n{tb}")
+        return jsonify({
+            "error": str(e),
+            "traceback": tb,
+            "ticker": ticker,
+        }), 500
 
 
 # ─────────────────────────────────────────────────────────────────────────────
