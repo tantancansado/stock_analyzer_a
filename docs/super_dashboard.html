@@ -345,7 +345,7 @@
             <p style="font-size: 0.9em; color: #cbd5e0; margin-top: 5px;">VCP Pattern + ML Predictions + Fundamental Analysis</p>
             <div class="subtitle">Sistema 5D Integrado - Análisis Completo del Mercado</div>
             <div style="margin-top: 10px; font-size: 0.9em;">
-                2026-02-18 18:33:36
+                2026-02-18 18:57:51
             </div>
         </div>
 
@@ -659,6 +659,246 @@
             </ul>
             </div>
         </div>
+
+        <!-- Buscar Ticker -->
+        <div class="section-card" id="buscar-ticker-section">
+            <h2 class="section-title">🔍 Analizar Ticker</h2>
+            <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
+                Introduce cualquier ticker para obtener su puntuación y tesis de inversión completa.
+                <strong>Requiere que <code>ticker_api.py</code> esté corriendo localmente</strong>
+                (<code>python ticker_api.py</code>).
+            </p>
+
+            <!-- Formulario de búsqueda -->
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+                <input
+                    id="tickerInput"
+                    type="text"
+                    placeholder="AAPL, NVDA, MSFT…"
+                    maxlength="10"
+                    style="flex: 1; min-width: 180px; max-width: 280px; padding: 12px 16px; font-size: 1.1em; font-weight: bold; border: 2px solid #667eea; border-radius: 10px; outline: none; text-transform: uppercase; letter-spacing: 1px;"
+                    onkeydown="if(event.key==='Enter') analyzeTickerBtn();"
+                />
+                <button
+                    onclick="analyzeTickerBtn()"
+                    id="analyzeBtn"
+                    style="padding: 12px 28px; background: #667eea; color: white; border: none; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; transition: background 0.2s;"
+                    onmouseover="this.style.background='#5a67d8'"
+                    onmouseout="this.style.background='#667eea'"
+                >
+                    🔍 Analizar
+                </button>
+                <button
+                    onclick="document.getElementById('tickerResult').style.display='none'; document.getElementById('tickerInput').value='';"
+                    style="padding: 12px 16px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 10px; font-size: 0.9em; cursor: pointer;"
+                >
+                    ✕ Limpiar
+                </button>
+            </div>
+
+            <!-- Estado / loading -->
+            <div id="tickerStatus" style="display:none; color:#667eea; font-style:italic; margin-bottom:10px;">
+                ⏳ Analizando… (30-60 segundos)
+            </div>
+            <div id="tickerError" style="display:none; color:#e53e3e; background:#fff5f5; border:1px solid #feb2b2; border-radius:8px; padding:12px; margin-bottom:10px;"></div>
+
+            <!-- Resultado -->
+            <div id="tickerResult" style="display:none;"></div>
+        </div>
+
+        <script>
+        async function analyzeTickerBtn() {
+            const input = document.getElementById('tickerInput');
+            const ticker = input.value.trim().toUpperCase();
+            const statusEl = document.getElementById('tickerStatus');
+            const errorEl  = document.getElementById('tickerError');
+            const resultEl = document.getElementById('tickerResult');
+            const btn      = document.getElementById('analyzeBtn');
+
+            if (!ticker || !/^[A-Z0-9.\-]{1,10}$/.test(ticker)) {
+                errorEl.textContent = '⚠️ Introduce un ticker válido (ej: AAPL, NVDA, BRK.B)';
+                errorEl.style.display = 'block';
+                resultEl.style.display = 'none';
+                return;
+            }
+
+            // Estado loading
+            btn.disabled = true;
+            btn.textContent = '⏳ Analizando…';
+            statusEl.style.display = 'block';
+            errorEl.style.display  = 'none';
+            resultEl.style.display = 'none';
+
+            try {
+                const res = await fetch(`http://localhost:5002/api/analyze/${ticker}`);
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    throw new Error(err.error || `HTTP ${res.status}`);
+                }
+                const d = await res.json();
+                resultEl.innerHTML = buildResultHTML(d);
+                resultEl.style.display = 'block';
+            } catch(e) {
+                let msg = e.message;
+                if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {
+                    msg = '❌ No se puede conectar al servidor. ¿Está corriendo <code>python ticker_api.py</code>?';
+                } else {
+                    msg = `❌ Error: ${msg}`;
+                }
+                errorEl.innerHTML = msg;
+                errorEl.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🔍 Analizar';
+                statusEl.style.display = 'none';
+            }
+        }
+
+        function pct(v) {
+            if (v == null) return 'N/A';
+            const n = parseFloat(v);
+            return isNaN(n) ? 'N/A' : (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+        }
+        function fmt(v, dec=1) {
+            if (v == null) return 'N/A';
+            const n = parseFloat(v);
+            return isNaN(n) ? 'N/A' : n.toFixed(dec);
+        }
+        function price(v) {
+            if (v == null) return 'N/A';
+            const n = parseFloat(v);
+            return isNaN(n) ? 'N/A' : '$' + n.toFixed(2);
+        }
+        function scoreColor(s) {
+            if (s >= 75) return '#10b981';
+            if (s >= 60) return '#f59e0b';
+            if (s >= 40) return '#667eea';
+            return '#e53e3e';
+        }
+        function adIcon(sig) {
+            const m = {
+                'STRONG_ACCUMULATION': '🟢',
+                'ACCUMULATION': '✅',
+                'NEUTRAL': '⚪',
+                'DISTRIBUTION': '🔴',
+                'STRONG_DISTRIBUTION': '🔴🔴',
+            };
+            return m[sig] || '⚪';
+        }
+        function momIcon(m) {
+            return m === 'improving' ? '📈' : m === 'leading' ? '🚀' : m === 'declining' ? '📉' : '➡️';
+        }
+
+        function buildResultHTML(d) {
+            const scoreC = scoreColor(d.final_score);
+            const thesisLines = (d.thesis || '').split('\n').map(l =>
+                `<div style="margin:2px 0;">${l}</div>`
+            ).join('');
+
+            return `
+            <div style="border-top:3px solid ${scoreC}; padding-top:20px; margin-top:10px;">
+
+                <!-- Header: nombre + score -->
+                <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:flex-start; margin-bottom:20px;">
+                    <div style="flex:1; min-width:200px;">
+                        <div style="font-size:1.6em; font-weight:800; color:#2d3748;">${d.ticker}</div>
+                        <div style="color:#718096; font-size:0.9em; margin-top:2px;">${d.company_name}</div>
+                        <div style="margin-top:8px; font-size:0.95em; color:#4a5568;">
+                            Precio: <strong>${price(d.current_price)}</strong>
+                            ${d.price_target ? '&nbsp;→ Objetivo: <strong>' + price(d.price_target) + '</strong> (<span style="color:' + (d.upside_percent >= 0 ? '#10b981' : '#e53e3e') + '">' + pct(d.upside_percent) + '</span>)' : ''}
+                        </div>
+                    </div>
+                    <div style="text-align:center; background:${scoreC}; color:white; border-radius:16px; padding:16px 28px; min-width:140px;">
+                        <div style="font-size:2.2em; font-weight:900; line-height:1;">${d.final_score}</div>
+                        <div style="font-size:0.75em; opacity:0.9; margin-top:4px;">/ 100</div>
+                        <div style="font-size:1em; margin-top:6px;">${d.tier_emoji} ${d.tier_label}</div>
+                    </div>
+                </div>
+
+                <!-- Desglose -->
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom:20px;">
+                    <div style="background:#fef3c7; border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#92400e;">${fmt(d.vcp_score)}</div>
+                        <div style="font-size:0.8em; color:#92400e;">📊 VCP (40%)</div>
+                        <div style="font-size:0.75em; color:#b45309; margin-top:4px;">contribuye ${fmt(d.vcp_contribution)} pts</div>
+                    </div>
+                    <div style="background:#ede9fe; border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#5b21b6;">${fmt(d.ml_score)}</div>
+                        <div style="font-size:0.8em; color:#5b21b6;">🤖 ML (30%)</div>
+                        <div style="font-size:0.75em; color:#7c3aed; margin-top:4px;">contribuye ${fmt(d.ml_contribution)} pts</div>
+                    </div>
+                    <div style="background:#d1fae5; border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#065f46;">${fmt(d.fund_score)}</div>
+                        <div style="font-size:0.8em; color:#065f46;">📈 Fund. (30%)</div>
+                        <div style="font-size:0.75em; color:#047857; margin-top:4px;">contribuye ${fmt(d.fund_contribution)} pts</div>
+                    </div>
+                    ${d.penalty > 0 ? `<div style="background:#fee2e2; border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#991b1b;">-${d.penalty}</div>
+                        <div style="font-size:0.8em; color:#991b1b;">⚠️ Penalización</div>
+                        <div style="font-size:0.75em; color:#b91c1c; margin-top:4px;">filtros técnicos</div>
+                    </div>` : ''}
+                </div>
+
+                <!-- Filtros + detalles en grid -->
+                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:16px; margin-bottom:20px;">
+
+                    <!-- Filtros técnicos -->
+                    <div style="background:#f7fafc; border-radius:10px; padding:16px;">
+                        <div style="font-weight:700; color:#2d3748; margin-bottom:10px;">🛡️ Filtros Técnicos</div>
+                        <table style="width:100%; font-size:0.88em; border-collapse:collapse;">
+                            <tr><td style="padding:4px 0; color:#718096;">Minervini Template</td>
+                                <td style="text-align:right;">${d.ma_passes ? '✅ PASA' : '❌ NO PASA'} (${d.ma_checks})</td></tr>
+                            <tr><td style="padding:4px 0; color:#718096;">Acum./Distribución</td>
+                                <td style="text-align:right;">${adIcon(d.ad_signal)} ${d.ad_signal}</td></tr>
+                            <tr><td style="padding:4px 0; color:#718096;">Sector</td>
+                                <td style="text-align:right;">${d.sector_name} (${fmt(d.sector_score, 0)})</td></tr>
+                            <tr><td style="padding:4px 0; color:#718096;">Sector momentum</td>
+                                <td style="text-align:right;">${momIcon(d.sector_momentum)} ${d.sector_momentum}</td></tr>
+                        </table>
+                    </div>
+
+                    <!-- VCP -->
+                    <div style="background:#f7fafc; border-radius:10px; padding:16px;">
+                        <div style="font-weight:700; color:#2d3748; margin-bottom:10px;">📊 VCP / Técnico</div>
+                        <table style="width:100%; font-size:0.88em; border-collapse:collapse;">
+                            <tr><td style="padding:4px 0; color:#718096;">Estado</td>
+                                <td style="text-align:right;">${d.vcp_ready ? '✅ Listo para compra' : '⏳ En formación'}</td></tr>
+                            <tr><td style="padding:4px 0; color:#718096;">Contracciones</td>
+                                <td style="text-align:right;">${d.vcp_contractions}</td></tr>
+                            ${d.vcp_breakout_potential != null ? `<tr><td style="padding:4px 0; color:#718096;">Potencial BK</td><td style="text-align:right;">${fmt(d.vcp_breakout_potential)}%</td></tr>` : ''}
+                            ${d.vcp_stage ? `<tr><td style="padding:4px 0; color:#718096;">Stage</td><td style="text-align:right;">${d.vcp_stage}</td></tr>` : ''}
+                            ${d.ml_quality ? `<tr><td style="padding:4px 0; color:#718096;">ML Quality</td><td style="text-align:right;">${d.ml_quality}</td></tr>` : ''}
+                            ${d.entry_score != null ? `<tr><td style="padding:4px 0; color:#718096;">Entry score</td><td style="text-align:right;">${fmt(d.entry_score)}/100</td></tr>` : ''}
+                        </table>
+                    </div>
+
+                    <!-- Fundamentales -->
+                    <div style="background:#f7fafc; border-radius:10px; padding:16px;">
+                        <div style="font-weight:700; color:#2d3748; margin-bottom:10px;">📈 Fundamentales</div>
+                        <table style="width:100%; font-size:0.88em; border-collapse:collapse;">
+                            ${d.forward_pe != null ? `<tr><td style="padding:4px 0; color:#718096;">Forward P/E</td><td style="text-align:right;">${fmt(d.forward_pe)}x</td></tr>` : ''}
+                            ${d.peg_ratio != null ? `<tr><td style="padding:4px 0; color:#718096;">PEG Ratio</td><td style="text-align:right;">${fmt(d.peg_ratio, 2)}</td></tr>` : ''}
+                            ${d.roe != null ? `<tr><td style="padding:4px 0; color:#718096;">ROE</td><td style="text-align:right;">${pct(d.roe * 100)}</td></tr>` : ''}
+                            ${d.revenue_growth != null ? `<tr><td style="padding:4px 0; color:#718096;">Revenue Growth</td><td style="text-align:right;">${pct(d.revenue_growth * 100)}</td></tr>` : ''}
+                            ${d.fcf_yield != null ? `<tr><td style="padding:4px 0; color:#718096;">FCF Yield</td><td style="text-align:right;">${fmt(d.fcf_yield)}%</td></tr>` : ''}
+                            ${d.debt_to_equity != null ? `<tr><td style="padding:4px 0; color:#718096;">Deuda/Capital</td><td style="text-align:right;">${fmt(d.debt_to_equity, 2)}</td></tr>` : ''}
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Tesis -->
+                <div style="background:#f0f4ff; border-left:4px solid #667eea; border-radius:0 10px 10px 0; padding:16px; margin-bottom:12px;">
+                    <div style="font-weight:700; color:#434190; margin-bottom:8px;">💡 Tesis de Inversión</div>
+                    <div style="font-size:0.9em; color:#4a5568; line-height:1.6;">${thesisLines}</div>
+                </div>
+
+                <div style="font-size:0.78em; color:#a0aec0; text-align:right;">
+                    Análisis generado: ${d.analysis_time} · Tiempo: ${d.elapsed_seconds}s ·
+                    ⚠️ Solo fines educativos, no es consejo financiero.
+                </div>
+            </div>`;
+        }
+        </script>
 
         <!-- Quick Links -->
         <div class="section-card">
