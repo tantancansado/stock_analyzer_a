@@ -91,7 +91,7 @@ def _validate_ticker(ticker):
 
 
 def _get_tier(score):
-    if score is None:  return "❓", "SIN DATOS"
+    if score is None:  return None, None
     if score >= 80:    return "🔥", "LEGENDARY"
     if score >= 70:    return "💎", "ELITE"
     if score >= 60:    return "✅", "EXCELLENT"

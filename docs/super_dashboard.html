@@ -345,7 +345,7 @@
             <p style="font-size: 0.9em; color: #cbd5e0; margin-top: 5px;">VCP Pattern + ML Predictions + Fundamental Analysis</p>
             <div class="subtitle">Sistema 5D Integrado - Análisis Completo del Mercado</div>
             <div style="margin-top: 10px; font-size: 0.9em;">
-                2026-02-18 19:14:09
+                2026-02-18 20:12:24
             </div>
         </div>
 
@@ -774,21 +774,22 @@
         }
 
         function pct(v) {
-            if (v == null) return 'N/A';
+            if (v == null) return '—';
             const n = parseFloat(v);
-            return isNaN(n) ? 'N/A' : (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+            return isNaN(n) ? '—' : (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
         }
         function fmt(v, dec=1) {
-            if (v == null) return 'N/A';
+            if (v == null) return '—';
             const n = parseFloat(v);
-            return isNaN(n) ? 'N/A' : n.toFixed(dec);
+            return isNaN(n) ? '—' : n.toFixed(dec);
         }
         function price(v) {
-            if (v == null) return 'N/A';
+            if (v == null) return '—';
             const n = parseFloat(v);
-            return isNaN(n) ? 'N/A' : '$' + n.toFixed(2);
+            return isNaN(n) ? '—' : '$' + n.toFixed(2);
         }
         function scoreColor(s) {
+            if (s == null) return '#a0aec0';
             if (s >= 75) return '#10b981';
             if (s >= 60) return '#f59e0b';
             if (s >= 40) return '#667eea';
@@ -802,14 +803,20 @@
                 'DISTRIBUTION': '🔴',
                 'STRONG_DISTRIBUTION': '🔴🔴',
             };
-            return m[sig] || '⚪';
+            return sig ? (m[sig] || '⚪') : '—';
         }
         function momIcon(m) {
             return m === 'improving' ? '📈' : m === 'leading' ? '🚀' : m === 'declining' ? '📉' : '➡️';
         }
+        function maLabel(passes, checks) {
+            if (passes === true)  return '✅ PASA' + (checks ? ' (' + checks + ')' : '');
+            if (passes === false) return '❌ NO PASA' + (checks ? ' (' + checks + ')' : '');
+            return '—';
+        }
 
         function buildResultHTML(d) {
             const scoreC = scoreColor(d.final_score);
+            const hasScore = d.final_score != null;
             const thesisLines = (d.thesis || '').split('\n').map(l =>
                 `<div style="margin:2px 0;">${l}</div>`
             ).join('');
@@ -828,9 +835,9 @@
                         </div>
                     </div>
                     <div style="text-align:center; background:${scoreC}; color:white; border-radius:16px; padding:16px 28px; min-width:140px;">
-                        <div style="font-size:2.2em; font-weight:900; line-height:1;">${d.final_score}</div>
-                        <div style="font-size:0.75em; opacity:0.9; margin-top:4px;">/ 100</div>
-                        <div style="font-size:1em; margin-top:6px;">${d.tier_emoji} ${d.tier_label}</div>
+                        <div style="font-size:2.2em; font-weight:900; line-height:1;">${hasScore ? d.final_score.toFixed(1) : '—'}</div>
+                        <div style="font-size:0.75em; opacity:0.9; margin-top:4px;">${hasScore ? '/ 100' : ''}</div>
+                        <div style="font-size:1em; margin-top:6px;">${d.tier_emoji || ''} ${d.tier_label || ''}</div>
                     </div>
                 </div>
 
@@ -839,17 +846,17 @@
                     <div style="background:#fef3c7; border-radius:10px; padding:14px; text-align:center;">
                         <div style="font-size:1.5em; font-weight:800; color:#92400e;">${fmt(d.vcp_score)}</div>
                         <div style="font-size:0.8em; color:#92400e;">📊 VCP (40%)</div>
-                        <div style="font-size:0.75em; color:#b45309; margin-top:4px;">contribuye ${fmt(d.vcp_contribution)} pts</div>
+                        <div style="font-size:0.75em; color:#b45309; margin-top:4px;">${d.vcp_contribution != null ? 'contribuye ' + fmt(d.vcp_contribution) + ' pts' : 'sin datos VCP'}</div>
                     </div>
                     <div style="background:#ede9fe; border-radius:10px; padding:14px; text-align:center;">
                         <div style="font-size:1.5em; font-weight:800; color:#5b21b6;">${fmt(d.ml_score)}</div>
                         <div style="font-size:0.8em; color:#5b21b6;">🤖 ML (30%)</div>
-                        <div style="font-size:0.75em; color:#7c3aed; margin-top:4px;">contribuye ${fmt(d.ml_contribution)} pts</div>
+                        <div style="font-size:0.75em; color:#7c3aed; margin-top:4px;">${d.ml_contribution != null ? 'contribuye ' + fmt(d.ml_contribution) + ' pts' : 'sin datos ML'}</div>
                     </div>
                     <div style="background:#d1fae5; border-radius:10px; padding:14px; text-align:center;">
                         <div style="font-size:1.5em; font-weight:800; color:#065f46;">${fmt(d.fund_score)}</div>
                         <div style="font-size:0.8em; color:#065f46;">📈 Fund. (30%)</div>
-                        <div style="font-size:0.75em; color:#047857; margin-top:4px;">contribuye ${fmt(d.fund_contribution)} pts</div>
+                        <div style="font-size:0.75em; color:#047857; margin-top:4px;">${d.fund_contribution != null ? 'contribuye ' + fmt(d.fund_contribution) + ' pts' : 'sin datos fund.'}</div>
                     </div>
                     ${d.penalty > 0 ? `<div style="background:#fee2e2; border-radius:10px; padding:14px; text-align:center;">
                         <div style="font-size:1.5em; font-weight:800; color:#991b1b;">-${d.penalty}</div>
@@ -866,11 +873,11 @@
                         <div style="font-weight:700; color:#2d3748; margin-bottom:10px;">🛡️ Filtros Técnicos</div>
                         <table style="width:100%; font-size:0.88em; border-collapse:collapse;">
                             <tr><td style="padding:4px 0; color:#718096;">Minervini Template</td>
-                                <td style="text-align:right;">${d.ma_passes ? '✅ PASA' : '❌ NO PASA'} (${d.ma_checks})</td></tr>
+                                <td style="text-align:right;">${maLabel(d.ma_passes, d.ma_checks)}</td></tr>
                             <tr><td style="padding:4px 0; color:#718096;">Acum./Distribución</td>
-                                <td style="text-align:right;">${adIcon(d.ad_signal)} ${d.ad_signal}</td></tr>
+                                <td style="text-align:right;">${adIcon(d.ad_signal)} ${d.ad_signal || '—'}</td></tr>
                             <tr><td style="padding:4px 0; color:#718096;">Sector</td>
-                                <td style="text-align:right;">${d.sector_name} (${fmt(d.sector_score, 0)})</td></tr>
+                                <td style="text-align:right;">${d.sector_name || '—'} ${d.sector_score != null ? '(' + fmt(d.sector_score, 0) + ')' : ''}</td></tr>
                             <tr><td style="padding:4px 0; color:#718096;">Sector momentum</td>
                                 <td style="text-align:right;">${momIcon(d.sector_momentum)} ${d.sector_momentum}</td></tr>
                         </table>
