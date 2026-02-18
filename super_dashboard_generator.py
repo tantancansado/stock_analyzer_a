@@ -742,9 +742,9 @@ class SuperDashboardGenerator:
         <div class="section-card" id="buscar-ticker-section">
             <h2 class="section-title">🔍 Analizar Ticker</h2>
             <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
-                Introduce cualquier ticker para obtener su puntuación y tesis de inversión completa.
-                <strong>Requiere que <code>ticker_api.py</code> esté corriendo localmente</strong>
-                (<code>python ticker_api.py</code>).
+                Introduce cualquier ticker para obtener su puntuación y tesis de inversión completa
+                (VCP + ML + Fundamentales + filtros Minervini).
+                En local requiere ejecutar <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">python3 ticker_api.py</code> en una terminal.
             </p>
 
             <!-- Formulario de búsqueda -->
@@ -785,6 +785,20 @@ class SuperDashboardGenerator:
         </div>
 
         <script>
+        // ── Configuración de API ─────────────────────────────────────────
+        // Si tienes la API desplegada en Railway/Render, pon la URL aquí:
+        const DEPLOYED_API_URL = '';  // Ej: 'https://ticker-api-xxx.up.railway.app'
+        const LOCAL_API_URL    = 'http://localhost:5002';
+
+        function getApiBase() {{
+            const isLocal = window.location.hostname === 'localhost' ||
+                            window.location.hostname === '127.0.0.1' ||
+                            window.location.protocol === 'file:';
+            if (isLocal) return LOCAL_API_URL;
+            if (DEPLOYED_API_URL) return DEPLOYED_API_URL;
+            return LOCAL_API_URL;  // fallback: localhost funciona en browsers modernos
+        }}
+
         async function analyzeTickerBtn() {{
             const input = document.getElementById('tickerInput');
             const ticker = input.value.trim().toUpperCase();
@@ -800,6 +814,8 @@ class SuperDashboardGenerator:
                 return;
             }}
 
+            const apiBase = getApiBase();
+
             // Estado loading
             btn.disabled = true;
             btn.textContent = '⏳ Analizando…';
@@ -808,7 +824,7 @@ class SuperDashboardGenerator:
             resultEl.style.display = 'none';
 
             try {{
-                const res = await fetch(`http://localhost:5002/api/analyze/${{ticker}}`);
+                const res = await fetch(`${{apiBase}}/api/analyze/${{ticker}}`);
                 if (!res.ok) {{
                     const err = await res.json().catch(() => ({{}}));
                     throw new Error(err.error || `HTTP ${{res.status}}`);
@@ -818,8 +834,11 @@ class SuperDashboardGenerator:
                 resultEl.style.display = 'block';
             }} catch(e) {{
                 let msg = e.message;
-                if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) {{
-                    msg = '❌ No se puede conectar al servidor. ¿Está corriendo <code>python ticker_api.py</code>?';
+                if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('ERR_CONNECTION_REFUSED')) {{
+                    const isRemote = !apiBase.includes('localhost');
+                    msg = isRemote
+                        ? '❌ No se puede conectar a la API desplegada.<br>Verifica que el servidor esté activo o ejecuta <code>python3 ticker_api.py</code> en local.'
+                        : '❌ No se puede conectar al servidor local.<br>Ejecuta: <code>python3 ticker_api.py</code>';
                 }} else {{
                     msg = `❌ Error: ${{msg}}`;
                 }}

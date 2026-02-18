@@ -401,7 +401,9 @@ def analyze(ticker: str):
 
 if __name__ == '__main__':
     import sys
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 5002
+    import os
+    # Railway usa PORT env var; argv[1] como alternativa; default 5002 en local
+    port = int(os.environ.get('PORT', sys.argv[1] if len(sys.argv) > 1 else 5002))
     print(f"\n🚀 Ticker Analyzer API arrancando en http://localhost:{port}")
     print(f"   Endpoint: http://localhost:{port}/api/analyze/AAPL\n")
     app.run(host='0.0.0.0', port=port, debug=False)
