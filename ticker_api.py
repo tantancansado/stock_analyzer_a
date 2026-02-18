@@ -77,7 +77,7 @@ print(f"   Insiders: {len(DF_INSIDERS)} | Mean Rev: {len(DF_REVERSION)} | Option
 def _safe_float(val, default=None):
     try:
         v = float(val)
-        return None if pd.isna(v) else v
+        return default if pd.isna(v) else v
     except (TypeError, ValueError):
         return default
 
