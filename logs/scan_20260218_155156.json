@@ -1,0 +1,45 @@
+{
+  "timestamp": "2026-02-18T15:51:56.414647",
+  "duration_seconds": 588.86999,
+  "results": {
+    "VCP Scanner": {
+      "success": true,
+      "returncode": 0,
+      "output_lines": 91,
+      "duration": "0s"
+    },
+    "Recurring Insiders": {
+      "success": true,
+      "returncode": 0,
+      "output_lines": 32,
+      "duration": "0s"
+    },
+    "Build Institutional Index": {
+      "success": true,
+      "returncode": 0,
+      "output_lines": 113,
+      "duration": "0s"
+    },
+    "Super Analyzer 4D": {
+      "success": true,
+      "returncode": 0,
+      "output_lines": 921,
+      "duration": "0s"
+    },
+    "Super Analyzer": {
+      "success": true,
+      "returncode": 0,
+      "output_lines": 43,
+      "duration": "0s"
+    },
+    "Earnings Calendar": {
+      "success": false,
+      "returncode": 1,
+      "output_lines": 1,
+      "duration": "0s"
+    }
+  },
+  "errors": [
+    "Earnings Calendar"
+  ]
+}
