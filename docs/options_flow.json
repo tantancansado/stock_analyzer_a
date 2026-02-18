@@ -1,25 +1,25 @@
 {
-  "scan_date": "2026-02-18 16:33:53",
+  "scan_date": "2026-02-18 18:49:19",
   "total_flows": 11,
   "sentiment_breakdown": {
-    "bullish": 3,
+    "bullish": 2,
     "bearish": 8,
-    "neutral": 0
+    "neutral": 1
   },
-  "total_premium": 363073104.0,
+  "total_premium": 325008718.0,
   "flows": [
     {
       "ticker": "MSTR",
       "company_name": "Strategy",
-      "current_price": 129.67,
+      "current_price": 127.03,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
-      "unusual_puts": 9,
-      "total_unusual": 9,
+      "unusual_puts": 6,
+      "total_unusual": 6,
       "call_premium": 0,
-      "put_premium": 229343922.0,
-      "total_premium": 229343922.0,
+      "put_premium": 190750125.0,
+      "total_premium": 190750125.0,
       "put_call_ratio": 999,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
@@ -36,7 +36,7 @@
           "last_price": 240.79,
           "premium": 63086979.99999999,
           "itm": true,
-          "implied_volatility": 5.289065888671875
+          "implied_volatility": 4.546879316406249
         },
         {
           "type": "PUT",
@@ -47,7 +47,7 @@
           "last_price": 254.17,
           "premium": 57315335.0,
           "itm": true,
-          "implied_volatility": 5.652346684570313
+          "implied_volatility": 5.642581071777344
         },
         {
           "type": "PUT",
@@ -58,7 +58,7 @@
           "last_price": 170.78,
           "premium": 50038540.0,
           "itm": true,
-          "implied_volatility": 4.429691962890624
+          "implied_volatility": 4.330082712402343
         }
       ],
       "detected_date": "2026-02-18"
@@ -66,7 +66,7 @@
     {
       "ticker": "CRM",
       "company_name": "Salesforce,",
-      "current_price": 185.86,
+      "current_price": 187.42,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
@@ -91,7 +91,7 @@
           "last_price": 76.35,
           "premium": 51612599.99999999,
           "itm": true,
-          "implied_volatility": 1.97265638671875
+          "implied_volatility": 2.0937547656249995
         },
         {
           "type": "PUT",
@@ -102,7 +102,7 @@
           "last_price": 66.15,
           "premium": 39690000.00000001,
           "itm": true,
-          "implied_volatility": 1.787110439453125
+          "implied_volatility": 1.8564460302734376
         },
         {
           "type": "PUT",
@@ -113,7 +113,7 @@
           "last_price": 50.97,
           "premium": 21050610.0,
           "itm": true,
-          "implied_volatility": 1.4834010205078125
+          "implied_volatility": 1.5625021874999998
         }
       ],
       "detected_date": "2026-02-18"
@@ -121,7 +121,7 @@
     {
       "ticker": "BA",
       "company_name": "The Boeing",
-      "current_price": 241.23,
+      "current_price": 240.26,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
@@ -146,7 +146,7 @@
           "last_price": 46.15,
           "premium": 1010685.0,
           "itm": true,
-          "implied_volatility": 1.5644553027343748
+          "implied_volatility": 1.4721706079101562
         }
       ],
       "detected_date": "2026-02-18"
@@ -154,7 +154,7 @@
     {
       "ticker": "CVS",
       "company_name": "CVS Health",
-      "current_price": 77.23,
+      "current_price": 77.38,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 3,
@@ -178,7 +178,7 @@
           "last_price": 24.8,
           "premium": 570400.0,
           "itm": true,
-          "implied_volatility": 1.97265638671875
+          "implied_volatility": 1.671876640625
         },
         {
           "type": "CALL",
@@ -189,7 +189,7 @@
           "last_price": 29.75,
           "premium": 476000.0,
           "itm": true,
-          "implied_volatility": 2.2460981347656244
+          "implied_volatility": 2.7324250439453124
         },
         {
           "type": "CALL",
@@ -200,16 +200,94 @@
           "last_price": 34.02,
           "premium": 408240.00000000006,
           "itm": true,
-          "implied_volatility": 3.71093822265625
+          "implied_volatility": 3.2226581933593748
         }
       ],
       "top_puts": [],
       "detected_date": "2026-02-18"
     },
     {
+      "ticker": "DASH",
+      "company_name": "DoorDash,",
+      "current_price": 173.74,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 1,
+      "unusual_calls": 2,
+      "unusual_puts": 3,
+      "total_unusual": 5,
+      "call_premium": 333790.0,
+      "put_premium": 377201.0,
+      "total_premium": 710991.0,
+      "put_call_ratio": 1.13,
+      "sentiment": "NEUTRAL",
+      "sentiment_emoji": "\ud83d\udfe1",
+      "flow_score": 70,
+      "quality": "\ud83d\udd25\ud83d\udd25 STRONG FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 172.5,
+          "volume": 170.0,
+          "oi": 23,
+          "vol_oi_ratio": 7.391304347826087,
+          "last_price": 10.06,
+          "premium": 171020.0,
+          "itm": true,
+          "implied_volatility": 1.5136743066406249
+        },
+        {
+          "type": "CALL",
+          "strike": 187.5,
+          "volume": 397.0,
+          "oi": 90,
+          "vol_oi_ratio": 4.411111111111111,
+          "last_price": 4.1,
+          "premium": 162769.99999999997,
+          "itm": false,
+          "implied_volatility": 1.435549697265625
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 150.0,
+          "volume": 1693.0,
+          "oi": 405,
+          "vol_oi_ratio": 4.1802469135802465,
+          "last_price": 1.87,
+          "premium": 316591.00000000006,
+          "itm": false,
+          "implied_volatility": 1.5966817041015622
+        },
+        {
+          "type": "PUT",
+          "strike": 148.0,
+          "volume": 340.0,
+          "oi": 30,
+          "vol_oi_ratio": 11.333333333333334,
+          "last_price": 1.41,
+          "premium": 47940.0,
+          "itm": false,
+          "implied_volatility": 1.5507834960937497
+        },
+        {
+          "type": "PUT",
+          "strike": 136.0,
+          "volume": 362.0,
+          "oi": 105,
+          "vol_oi_ratio": 3.447619047619048,
+          "last_price": 0.35,
+          "premium": 12669.999999999998,
+          "itm": false,
+          "implied_volatility": 1.5292992285156248
+        }
+      ],
+      "detected_date": "2026-02-18"
+    },
+    {
       "ticker": "ALLY",
       "company_name": "Ally Financial",
-      "current_price": 42.23,
+      "current_price": 42.37,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 1,
@@ -233,7 +311,7 @@
           "last_price": 9.4,
           "premium": 813100.0,
           "itm": true,
-          "implied_volatility": 1.5000025
+          "implied_volatility": 1.9414065429687501
         }
       ],
       "top_puts": [],
@@ -242,7 +320,7 @@
     {
       "ticker": "ABT",
       "company_name": "Abbott Laboratories",
-      "current_price": 112.58,
+      "current_price": 112.89,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
@@ -267,7 +345,7 @@
           "last_price": 12.63,
           "premium": 9320940.0,
           "itm": true,
-          "implied_volatility": 0.9501958105468749
+          "implied_volatility": 0.789064609375
         },
         {
           "type": "PUT",
@@ -278,7 +356,7 @@
           "last_price": 17.83,
           "premium": 7460071.999999999,
           "itm": true,
-          "implied_volatility": 1.0859420703125
+          "implied_volatility": 0.8457046679687499
         },
         {
           "type": "PUT",
@@ -289,7 +367,7 @@
           "last_price": 22.94,
           "premium": 289044.0,
           "itm": true,
-          "implied_volatility": 1.0859420703125
+          "implied_volatility": 0.79687703125
         }
       ],
       "detected_date": "2026-02-18"
@@ -297,7 +375,7 @@
     {
       "ticker": "ASTS",
       "company_name": "AST SpaceMobile,",
-      "current_price": 86.64,
+      "current_price": 85.13,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
@@ -322,7 +400,7 @@
           "last_price": 18.75,
           "premium": 296250.0,
           "itm": true,
-          "implied_volatility": 2.1855514111328125
+          "implied_volatility": 1.8359383203124997
         }
       ],
       "detected_date": "2026-02-18"
@@ -330,7 +408,7 @@
     {
       "ticker": "PRU",
       "company_name": "Prudential Financial,",
-      "current_price": 104.86,
+      "current_price": 105.34,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
@@ -355,7 +433,7 @@
           "last_price": 17.14,
           "premium": 239960.0,
           "itm": true,
-          "implied_volatility": 0.8085956640624999
+          "implied_volatility": 1.1513714306640623
         }
       ],
       "detected_date": "2026-02-18"
@@ -363,7 +441,7 @@
     {
       "ticker": "MGM",
       "company_name": "MGM Resorts International",
-      "current_price": 36.74,
+      "current_price": 37.12,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
@@ -388,52 +466,7 @@
           "last_price": 3.8,
           "premium": 50540.0,
           "itm": true,
-          "implied_volatility": 1.8984380078125
-        }
-      ],
-      "detected_date": "2026-02-18"
-    },
-    {
-      "ticker": "DASH",
-      "company_name": "DoorDash,",
-      "current_price": 172.3,
-      "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
-      "unusual_calls": 1,
-      "unusual_puts": 1,
-      "total_unusual": 2,
-      "call_premium": 147980.0,
-      "put_premium": 33600.0,
-      "total_premium": 181580.0,
-      "put_call_ratio": 0.23,
-      "sentiment": "BULLISH",
-      "sentiment_emoji": "\ud83d\udfe2",
-      "flow_score": 50,
-      "quality": "\ud83d\udd25 NOTABLE FLOW",
-      "top_calls": [
-        {
-          "type": "CALL",
-          "strike": 172.5,
-          "volume": 151.0,
-          "oi": 23,
-          "vol_oi_ratio": 6.565217391304348,
-          "last_price": 9.8,
-          "premium": 147980.00000000003,
-          "itm": false,
-          "implied_volatility": 1.5568869812011714
-        }
-      ],
-      "top_puts": [
-        {
-          "type": "PUT",
-          "strike": 148.0,
-          "volume": 200.0,
-          "oi": 30,
-          "vol_oi_ratio": 6.666666666666667,
-          "last_price": 1.68,
-          "premium": 33600.0,
-          "itm": false,
-          "implied_volatility": 1.6098652319335938
+          "implied_volatility": 2.0175830810546875
         }
       ],
       "detected_date": "2026-02-18"
@@ -441,7 +474,7 @@
     {
       "ticker": "RPD",
       "company_name": "Rapid7,",
-      "current_price": 7.21,
+      "current_price": 7.14,
       "expiration_date": "2026-02-20",
       "days_to_expiration": 1,
       "unusual_calls": 0,
@@ -466,7 +499,7 @@
           "last_price": 2.87,
           "premium": 259161.0,
           "itm": true,
-          "implied_volatility": 2.468753828125
+          "implied_volatility": 5.1718785351562495
         }
       ],
       "detected_date": "2026-02-18"
