@@ -15,12 +15,16 @@ import numpy as np
 from pathlib import Path
 from datetime import datetime
 import json
+import time
 import argparse
 from opportunity_validator import OpportunityValidator
 from market_regime_detector import MarketRegimeDetector
 from moving_average_filter import MovingAverageFilter
 from accumulation_distribution_filter import AccumulationDistributionFilter
 from float_filter import FloatFilter
+
+# Rate limit delay between yfinance API calls (seconds)
+YFINANCE_RATE_DELAY = 0.5
 
 class SuperScoreIntegrator:
     """Integra VCP, ML y Fundamental scores en Super Score Ultimate"""
@@ -274,6 +278,7 @@ class SuperScoreIntegrator:
         for ticker in df['ticker']:
             result = ma_filter.check_stock(ticker, verbose=False)
             ma_results.append(result)
+            time.sleep(YFINANCE_RATE_DELAY)
 
         ma_df = pd.DataFrame(ma_results)
         df = df.merge(
@@ -300,6 +305,7 @@ class SuperScoreIntegrator:
         for ticker in df['ticker']:
             result = ad_filter.analyze_stock(ticker, period_days=50, verbose=False)
             ad_results.append(result)
+            time.sleep(YFINANCE_RATE_DELAY)
 
         ad_df = pd.DataFrame(ad_results)
         df = df.merge(
@@ -326,6 +332,7 @@ class SuperScoreIntegrator:
         for ticker in df['ticker']:
             result = float_filter.check_stock(ticker, verbose=False)
             float_results.append(result)
+            time.sleep(YFINANCE_RATE_DELAY)
 
         float_df = pd.DataFrame(float_results)
         df = df.merge(
@@ -586,7 +593,8 @@ class SuperScoreIntegrator:
             except Exception as e:
                 print(f"❌ {str(e)[:50]}")
                 failed += 1
-                continue
+
+            time.sleep(YFINANCE_RATE_DELAY)
 
         # Save to JSON
         cache_path = Path('docs/ticker_data_cache.json')

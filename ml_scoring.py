@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import yfinance as yf
 from typing import Dict, List, Optional
 import json
+import time
 import argparse
 
 
@@ -216,6 +217,8 @@ class MLScorer:
 
             if score:
                 results.append(score)
+
+            time.sleep(0.5)
 
         results.sort(key=lambda x: x['ml_score'], reverse=True)
 

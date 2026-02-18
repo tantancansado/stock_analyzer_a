@@ -261,6 +261,9 @@ class MeanReversionDetector:
                 opportunities.append(bull_flag)
                 print(f"   📊 {ticker}: Bull Flag ({bull_flag['reversion_score']:.0f}/100)")
 
+            import time
+            time.sleep(0.5)
+
         # Sort by score
         opportunities.sort(key=lambda x: x['reversion_score'], reverse=True)
 

@@ -16,6 +16,7 @@ import numpy as np
 from datetime import datetime, timedelta
 from pathlib import Path
 import json
+import time
 
 
 class MarketRegimeDetector:
@@ -94,9 +95,11 @@ class MarketRegimeDetector:
 
         # Analyze SPY (S&P 500)
         spy_status = self._analyze_index('SPY', 'S&P 500')
+        time.sleep(1)
 
         # Analyze QQQ (Nasdaq 100)
         qqq_status = self._analyze_index('QQQ', 'Nasdaq 100')
+        time.sleep(1)
 
         # Analyze VIX (volatility)
         vix_level = self._analyze_vix()

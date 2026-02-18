@@ -289,6 +289,9 @@ class OptionsFlowDetector:
                 flows.append(flow)
                 print(f"   🔥 {ticker}: {flow['sentiment']} - ${flow['total_premium']/1000:.0f}K premium ({flow['flow_score']:.0f}/100)")
 
+            import time
+            time.sleep(0.5)
+
         # Sort by flow score
         flows.sort(key=lambda x: x['flow_score'], reverse=True)
 

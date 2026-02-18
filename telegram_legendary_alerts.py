@@ -286,8 +286,8 @@ class TelegramLegendaryAlerts:
         excellent = len(df[(df[score_col] >= 60) & (df[score_col] < 70)])
 
         # Contar features especiales
-        timing_conv = len(df[df.get('timing_convergence', pd.Series([False]*len(df))) == True])
-        repeaters = len(df[df.get('vcp_repeater', pd.Series([False]*len(df))) == True])
+        timing_conv = len(df[df['timing_convergence'] == True]) if 'timing_convergence' in df.columns else 0
+        repeaters = len(df[df['vcp_repeater'] == True]) if 'vcp_repeater' in df.columns else 0
 
         message = f"""
 📊 <b>RESUMEN DIARIO - SISTEMA 5D</b>
@@ -307,14 +307,16 @@ class TelegramLegendaryAlerts:
         for i, (_, row) in enumerate(top10.head(5).iterrows(), 1):
             ticker = row['ticker']
             company = row.get('company_name', ticker)
-            score = row[score_col]
-            emoji = "⭐" * min(4, int(score / 25))
+            if not isinstance(company, str):
+                company = str(ticker)
+            score = self._safe_float(row.get(score_col, 0))
+            emoji = "⭐" * min(4, max(0, int(score / 25)))
 
             # Badges
             badges = []
-            if row.get('timing_convergence'):
+            if 'timing_convergence' in row.index and row.get('timing_convergence'):
                 badges.append("🔥")
-            if row.get('vcp_repeater'):
+            if 'vcp_repeater' in row.index and row.get('vcp_repeater'):
                 badges.append("🔁")
             badge_str = " ".join(badges)
 
@@ -324,7 +326,7 @@ class TelegramLegendaryAlerts:
 
             message += f"""
 {i}. <b>{ticker}</b> - {company}
-   Score: {self._safe_float(score):.1f}/100 {emoji} {badge_str}
+   Score: {score:.1f}/100 {emoji} {badge_str}
    VCP:{vcp:.0f} | INS:{ins:.0f} | SEC:{sec:.0f}
 """
 
@@ -352,7 +354,11 @@ class TelegramLegendaryAlerts:
 
         df = pd.read_csv(csv_path)
 
-        # Filtrar timing convergence
+        # Filtrar timing convergence (check column exists first)
+        if 'timing_convergence' not in df.columns:
+            print("ℹ️  No hay columna timing_convergence en el CSV")
+            return
+
         timing = df[df['timing_convergence'] == True]
 
         if timing.empty:
@@ -372,12 +378,16 @@ VCP + Insider buying convergencia
         for _, row in timing.head(5).iterrows():
             ticker = row['ticker']
             company = row.get('company_name', ticker)
-            score = row.get('super_score_5d', row.get('super_score_4d', 0))
+            if not isinstance(company, str):
+                company = str(ticker)
+            score = self._safe_float(row.get('super_score_5d', row.get('super_score_4d', 0)))
             reason = row.get('timing_reason', 'Timing detected')
+            if not isinstance(reason, str):
+                reason = 'Timing detected'
 
             message += f"""
 <b>{ticker}</b> - {company}
-Score: {self._safe_float(score):.1f}/100
+Score: {score:.1f}/100
 {reason}
 
 """
@@ -409,7 +419,11 @@ de alta probabilidad de éxito.
 
         df = pd.read_csv(csv_path)
 
-        # Filtrar repeaters
+        # Filtrar repeaters (check column exists first)
+        if 'vcp_repeater' not in df.columns:
+            print("ℹ️  No hay columna vcp_repeater en el CSV")
+            return
+
         repeaters = df[df['vcp_repeater'] == True]
 
         if repeaters.empty:
@@ -431,14 +445,16 @@ de alta probabilidad de éxito.
         for _, row in repeaters.head(5).iterrows():
             ticker = row['ticker']
             company = row.get('company_name', ticker)
-            count = row.get('repeat_count', 0)
-            score = row.get('super_score_5d', row.get('super_score_4d', 0))
-            bonus = row.get('repeater_bonus', 0)
+            if not isinstance(company, str):
+                company = str(ticker)
+            count = int(self._safe_float(row.get('repeat_count', 0)))
+            score = self._safe_float(row.get('super_score_5d', row.get('super_score_4d', 0)))
+            bonus = int(self._safe_float(row.get('repeater_bonus', 0)))
 
             message += f"""
 <b>{ticker}</b> - {company}
 🔁 {count}x VCP históricos (+{bonus} bonus)
-Score actual: {self._safe_float(score):.1f}/100
+Score actual: {score:.1f}/100
 
 """
 
