@@ -300,10 +300,35 @@
         </div>
 
         <div class="timestamp">
-            Last updated: 2026-02-18 07:08:19
+            Last updated: 2026-02-18 16:31:41
         </div>
 
         <!-- Alerts Section -->
+        
+        <div class="alerts-section">
+            <h2 style="margin-bottom: 15px;">🚨 Rotation Alerts</h2>
+            
+            <div class="alert-item alert-high">
+                <div class="alert-message">💚 💚 Technology acelerando fuerte (velocity: 5.8)</div>
+                <div class="alert-action">→ CONSIDERAR ENTRADA en tickers de este sector</div>
+            </div>
+            
+            <div class="alert-item alert-medium">
+                <div class="alert-message">🔴 🔴 Energy perdiendo momentum (velocity: -16.53)</div>
+                <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
+            </div>
+            
+            <div class="alert-item alert-medium">
+                <div class="alert-message">🔴 🔴 Materials perdiendo momentum (velocity: -18.79)</div>
+                <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
+            </div>
+            
+            <div class="alert-item alert-medium">
+                <div class="alert-message">🔴 🔴 Consumer Staples perdiendo momentum (velocity: -11.93)</div>
+                <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
+            </div>
+            
+        </div>
         
 
         <!-- Charts Grid -->
@@ -367,11 +392,11 @@
         new Chart(velocityCtx, {
             type: 'bar',
             data: {
-                labels: ['Technology', 'Utilities', 'Financials', 'Healthcare', 'Real Estate', 'Consumer Discretionary', 'Communication Services', 'Industrials', 'Consumer Staples', 'Energy', 'Materials'],
+                labels: ['Technology', 'Communication Services', 'Utilities', 'Consumer Discretionary', 'Financials', 'Healthcare', 'Real Estate', 'Industrials', 'Consumer Staples', 'Energy', 'Materials'],
                 datasets: [{
                     label: 'Momentum Velocity',
-                    data: [2.19, 0.36, -0.1, -0.57, -0.67, -1.74, -1.96, -9.7, -10.62, -13.54, -15.81],
-                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
+                    data: [5.8, -0.04, -0.25, -0.5, -0.85, -2.25, -2.36, -10.32, -11.93, -16.53, -18.79],
+                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
                     borderWidth: 0
                 }]
             },
@@ -435,7 +460,7 @@
         new Chart(quadrantCtx, {
             type: 'scatter',
             data: {
-                datasets: [{'label': 'Neutral', 'data': [{'x': 50.0, 'y': 2.19, 'label': 'Technology'}, {'x': 50.0, 'y': -0.1, 'label': 'Financials'}, {'x': 50.0, 'y': -0.57, 'label': 'Healthcare'}, {'x': 50.0, 'y': -1.74, 'label': 'Consumer Discretionary'}, {'x': 50.0, 'y': -9.7, 'label': 'Industrials'}, {'x': 50.0, 'y': -13.54, 'label': 'Energy'}, {'x': 50.0, 'y': -15.81, 'label': 'Materials'}, {'x': 50.0, 'y': -0.67, 'label': 'Real Estate'}, {'x': 50.0, 'y': 0.36, 'label': 'Utilities'}, {'x': 50.0, 'y': -1.96, 'label': 'Communication Services'}, {'x': 50.0, 'y': -10.62, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
+                datasets: [{'label': 'Neutral', 'data': [{'x': 50.0, 'y': 5.8, 'label': 'Technology'}, {'x': 50.0, 'y': -0.85, 'label': 'Financials'}, {'x': 50.0, 'y': -2.25, 'label': 'Healthcare'}, {'x': 50.0, 'y': -0.5, 'label': 'Consumer Discretionary'}, {'x': 50.0, 'y': -10.32, 'label': 'Industrials'}, {'x': 50.0, 'y': -16.53, 'label': 'Energy'}, {'x': 50.0, 'y': -18.79, 'label': 'Materials'}, {'x': 50.0, 'y': -2.36, 'label': 'Real Estate'}, {'x': 50.0, 'y': -0.25, 'label': 'Utilities'}, {'x': 50.0, 'y': -0.04, 'label': 'Communication Services'}, {'x': 50.0, 'y': -11.93, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
             },
             options: {
                 responsive: true,

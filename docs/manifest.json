@@ -1,7 +1,19 @@
 {
-  "total_reports": 238,
-  "last_update": "2026-02-18T08:10:10.727502",
+  "total_reports": 239,
+  "last_update": "2026-02-18T16:43:41.827326",
   "reports": [
+    {
+      "id": "report_2026-02-18",
+      "title": "📊 Insider Trading - 94 transacciones - 2026-02-18 16:37",
+      "description": "Reporte con 94 transacciones detectadas",
+      "timestamp": "2026-02-18T16:37:13.116860",
+      "date": "2026-02-18",
+      "time": "16:37:13",
+      "html_url": "reports/daily/report_2026-02-18/index.html",
+      "csv_url": "reports/daily/report_2026-02-18/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/daily/report_2026-02-18/index.html",
+      "type": "insider"
+    },
     {
       "id": "report_2026-02-18",
       "title": "📊 Insider Trading - 94 transacciones - 2026-02-18 08:03",
@@ -2857,6 +2869,18 @@
   "dj_reports": [
     {
       "id": "dj_sectorial",
+      "title": "📊 DJ Sectorial - 17 oportunidades - 2026-02-18 16:42",
+      "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
+      "timestamp": "2026-02-18T16:42:52.182874",
+      "date": "2026-02-18",
+      "time": "16:42:52",
+      "html_url": "reports/dj_sectorial/index.html",
+      "csv_url": "reports/dj_sectorial/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/dj_sectorial/index.html",
+      "type": "dj_sectorial"
+    },
+    {
+      "id": "dj_sectorial",
       "title": "📊 DJ Sectorial - 21 oportunidades - 2026-02-18 08:09",
       "description": "Análisis sectorial Dow Jones con 140 sectores analizados",
       "timestamp": "2026-02-18T08:09:19.815602",
@@ -5604,7 +5628,7 @@
       "type": "dj_sectorial"
     }
   ],
-  "total_dj_reports": 229,
+  "total_dj_reports": 230,
   "breadth_reports": [
     {
       "id": "market_breadth",
@@ -8539,6 +8563,18 @@
   "enhanced_reports": [
     {
       "id": "enhanced_opportunities_2026-02-18",
+      "title": "🎯 Enhanced Opportunities - 7 críticas de 140 - Score 58.9 - 2026-02-18 16:43",
+      "description": "Análisis avanzado de oportunidades con correlaciones insider-sector. 7 oportunidades críticas, 0 con actividad insider",
+      "timestamp": "2026-02-18T16:43:41.827326",
+      "date": "2026-02-18",
+      "time": "16:43:41",
+      "html_url": "reports/enhanced_opportunities/enhanced_opportunities_2026-02-18/index.html",
+      "csv_url": "reports/enhanced_opportunities/enhanced_opportunities_2026-02-18/data.csv",
+      "full_url": "https://tantancansado.github.io/stock_analyzer_a/reports/enhanced_opportunities/enhanced_opportunities_2026-02-18/index.html",
+      "type": "enhanced_opportunities"
+    },
+    {
+      "id": "enhanced_opportunities_2026-02-18",
       "title": "🎯 Enhanced Opportunities - 6 críticas de 140 - Score 58.7 - 2026-02-18 08:10",
       "description": "Análisis avanzado de oportunidades con correlaciones insider-sector. 6 oportunidades críticas, 0 con actividad insider",
       "timestamp": "2026-02-18T08:10:10.727502",
@@ -10746,7 +10782,7 @@
       "type": "enhanced_opportunities"
     }
   ],
-  "total_enhanced_reports": 184,
+  "total_enhanced_reports": 185,
   "vcp_reports": [
     {
       "id": "vcp_scan_20250711_103128",
