@@ -118,6 +118,12 @@ jobs:
           echo "📊 [13/15] Fundamental Scoring (Earnings, Growth, RS, Health)..."
           python3 fundamental_scorer.py --vcp --top 100 || echo "⚠️  Fundamental scoring failed"
 
+      - name: 🚀 Run VCP Scanner S&P500 [OPTIONAL]
+        continue-on-error: true
+        run: |
+          echo "🚀 [13b/15] VCP Scanner S&P 500 (parallel)..."
+          python3 vcp_scanner_usa.py --sp500 --parallel || echo "⚠️  VCP Scanner failed"
+
       - name: 📱 Send Telegram Alerts [OPTIONAL]
         continue-on-error: true
         env:

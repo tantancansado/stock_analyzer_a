@@ -71,8 +71,8 @@ class MasterScanner:
         self.log("\n📊 FASE 1: VCP SCANNER")
         self.run_command(
             "VCP Scanner",
-            "python3 vcp_scanner_usa.py --scan",
-            timeout=600
+            "python3 vcp_scanner_usa.py --sp500 --parallel",
+            timeout=1800  # ~15-20 min parallel scan of S&P 500
         )
 
         # 2. Insider Analysis (ya se ejecuta diario con sistema_principal.py)
