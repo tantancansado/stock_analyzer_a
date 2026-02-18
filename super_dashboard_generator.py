@@ -205,35 +205,61 @@ class SuperDashboardGenerator:
 
     def _load_vcp_metadata(self):
         """Carga metadata del último scan VCP"""
-        # Buscar archivos VCP en ubicación estandarizada
-        vcp_files = list(Path("docs/reports/vcp").glob("vcp_calibrated_results_*.csv"))
+        latest_csv_path = Path("docs/reports/vcp/latest.csv")
 
-        # Fallback a root directory para backward compatibility
+        # Buscar archivos timestamped en ubicación estandarizada
+        vcp_files = list(Path("docs/reports/vcp").glob("vcp_calibrated_results_*.csv"))
         if not vcp_files:
             vcp_files = list(Path(".").glob("vcp_calibrated_results_*.csv"))
 
-        if vcp_files:
-            latest_vcp = sorted(vcp_files)[-1]
-            df = pd.read_csv(latest_vcp)
+        # Decidir qué archivo usar: el más reciente por fecha de modificación
+        # (compara timestamped vs latest.csv)
+        use_latest_csv = False
+        chosen_file = None
 
-            # Extraer fecha del nombre del archivo
-            # Formato: vcp_calibrated_results_YYYYMMDD_HHMMSS.csv
-            filename = latest_vcp.stem  # Remove .csv
-            parts = filename.split('_')
-            if len(parts) >= 4:
-                date_str = parts[3]  # YYYYMMDD
-                time_str = parts[4] if len(parts) > 4 else "000000"  # HHMMSS
-                scan_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
-                scan_time = f"{time_str[:2]}:{time_str[2:4]}"
+        if vcp_files:
+            newest_timestamped = sorted(vcp_files)[-1]
+            if latest_csv_path.exists():
+                # Usar latest.csv si es más reciente que el último timestamped
+                if latest_csv_path.stat().st_mtime > newest_timestamped.stat().st_mtime:
+                    use_latest_csv = True
+                    chosen_file = latest_csv_path
+                else:
+                    chosen_file = newest_timestamped
             else:
-                scan_date = "Unknown"
-                scan_time = ""
+                chosen_file = newest_timestamped
+        elif latest_csv_path.exists():
+            use_latest_csv = True
+            chosen_file = latest_csv_path
+
+        if chosen_file:
+            import os
+            from datetime import datetime as dt
+            df = pd.read_csv(chosen_file)
+
+            if use_latest_csv:
+                # Usar fecha de modificación del archivo
+                mtime = chosen_file.stat().st_mtime
+                scan_date = dt.fromtimestamp(mtime).strftime('%Y-%m-%d')
+                scan_time = dt.fromtimestamp(mtime).strftime('%H:%M')
+            else:
+                # Extraer fecha del nombre: vcp_calibrated_results_YYYYMMDD_HHMMSS.csv
+                filename = chosen_file.stem
+                parts = filename.split('_')
+                if len(parts) >= 4:
+                    date_str = parts[3]
+                    time_str = parts[4] if len(parts) > 4 else "000000"
+                    scan_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
+                    scan_time = f"{time_str[:2]}:{time_str[2:4]}"
+                else:
+                    scan_date = "Unknown"
+                    scan_time = ""
 
             return {
                 'pattern_count': len(df),
                 'scan_date': scan_date,
                 'scan_time': scan_time,
-                'filename': latest_vcp.name
+                'filename': chosen_file.name
             }
 
         return None
