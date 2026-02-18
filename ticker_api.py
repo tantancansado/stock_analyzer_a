@@ -14,6 +14,8 @@ API:
     GET /api/tickers            → lista de tickers en cache
 
 Puerto: 5002 (local) | PORT env var (Railway)
+
+PRINCIPIO: null si no hay dato, nunca 50 inventado.
 """
 
 from flask import Flask, jsonify
@@ -34,6 +36,7 @@ CORS(app)
 # ─────────────────────────────────────────────────────────────────────────────
 
 DOCS = Path('docs')
+
 
 def _load_csv(path, index_col='ticker'):
     """Carga un CSV indexado por ticker, silenciosamente si no existe."""
@@ -74,7 +77,8 @@ print(f"   Insiders: {len(DF_INSIDERS)} | Mean Rev: {len(DF_REVERSION)} | Option
 # UTILIDADES
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _safe_float(val, default=None):
+def _sf(val, default=None):
+    """safe_float: convierte a float, devuelve default si NaN/None/error."""
     try:
         v = float(val)
         return default if pd.isna(v) else v
@@ -87,11 +91,12 @@ def _validate_ticker(ticker):
 
 
 def _get_tier(score):
-    if score >= 80: return "🔥", "LEGENDARY"
-    if score >= 70: return "💎", "ELITE"
-    if score >= 60: return "✅", "EXCELLENT"
-    if score >= 50: return "📊", "GOOD"
-    if score >= 40: return "⚡", "AVERAGE"
+    if score is None:  return "❓", "SIN DATOS"
+    if score >= 80:    return "🔥", "LEGENDARY"
+    if score >= 70:    return "💎", "ELITE"
+    if score >= 60:    return "✅", "EXCELLENT"
+    if score >= 50:    return "📊", "GOOD"
+    if score >= 40:    return "⚡", "AVERAGE"
     return "⚠️", "WEAK"
 
 
@@ -102,143 +107,206 @@ def _row(df, ticker):
     return df.loc[ticker]
 
 
+def _calc_base(vcp, ml, fund):
+    """Calcula contribuciones y base score. None donde no hay datos reales."""
+    vcp_c  = round(vcp  * 0.40, 1) if vcp  is not None else None
+    ml_c   = round(ml   * 0.30, 1) if ml   is not None else None
+    fund_c = round(fund * 0.30, 1) if fund is not None else None
+    available = [c for c in [vcp_c, ml_c, fund_c] if c is not None]
+    base = round(sum(available), 1) if available else None
+    return base, vcp_c, ml_c, fund_c
+
+
+def _notna_str(row, key, fallback=''):
+    """Lee un campo string de un pandas Series; devuelve fallback si NaN."""
+    val = row.get(key, fallback)
+    try:
+        if pd.isna(val):
+            return fallback
+    except (TypeError, ValueError):
+        pass
+    return str(val) if val is not None else fallback
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # ANÁLISIS DESDE CACHE (rápido, funciona en Railway)
 # ─────────────────────────────────────────────────────────────────────────────
 
 def _analyze_from_cache(ticker):
-    """Construye la respuesta completa usando los CSVs del pipeline diario."""
-    r5d   = _row(DF_5D, ticker)
-    rml   = _row(DF_ML, ticker)
-    rfund = _row(DF_FUND, ticker)
+    """Construye la respuesta completa usando los CSVs del pipeline diario.
+    Principio: null donde no hay dato, nunca valores inventados."""
+    r5d     = _row(DF_5D, ticker)
+    rml     = _row(DF_ML, ticker)
+    rfund   = _row(DF_FUND, ticker)
     rscores = _row(DF_SCORES, ticker)
     rprice  = _row(DF_PRICES, ticker)
-    tc    = TICKER_CACHE.get(ticker, {})
+    tc      = TICKER_CACHE.get(ticker, {})
 
-    # Scores principales
+    # ── VCP score ──────────────────────────────────────────────────────────
+    vcp_score = _sf(r5d.get('vcp_score') if r5d is not None else None)
+    if vcp_score is None and rscores is not None:
+        vcp_score = _sf(rscores.get('vcp_score'))
+
+    # ── ML score ──────────────────────────────────────────────────────────
+    ml_score = _sf(r5d.get('ml_score') if r5d is not None else None)
+    if ml_score is None and rml is not None:
+        ml_score = _sf(rml.get('ml_score'))
+    if ml_score is None and rscores is not None:
+        ml_score = _sf(rscores.get('ml_score'))
+
+    # ── Fundamental score ─────────────────────────────────────────────────
+    fund_score = _sf(r5d.get('fundamental_score') if r5d is not None else None)
+    if fund_score is None and rfund is not None:
+        fund_score = _sf(rfund.get('fundamental_score'))
+    if fund_score is None and rscores is not None:
+        fund_score = _sf(rscores.get('fundamental_score'))
+
+    # ── Final score (del pipeline — dato genuino) ─────────────────────────
+    final_score = None
     if r5d is not None:
-        vcp_score  = _safe_float(r5d.get('vcp_score'), 50.0)
-        ml_score   = _safe_float(r5d.get('ml_score') or (rml.get('ml_score') if rml is not None else None), 50.0)
-        fund_score = _safe_float(r5d.get('fundamental_score'), 50.0)
-        final_score = _safe_float(r5d.get('super_score_5d') or r5d.get('super_score_ultimate'), 50.0)
-        tier_emoji, tier_label = _get_tier(final_score)
-        insiders_score = _safe_float(r5d.get('insiders_score'), 0.0)
-        inst_score     = _safe_float(r5d.get('institutional_score'), 0.0)
-        num_whales     = _safe_float(r5d.get('num_whales'), 0)
-        top_whales     = str(r5d.get('top_whales', '')) if pd.notna(r5d.get('top_whales', '')) else ''
-        sector_name    = str(r5d.get('sector_name', tc.get('sector', 'Unknown')))
-        sector_score   = _safe_float(r5d.get('sector_score'), 50.0)
-        sector_momentum = str(r5d.get('sector_momentum', 'stable'))
-        tier_boost     = _safe_float(r5d.get('tier_boost'), 0)
-        price_target   = _safe_float(r5d.get('price_target'))
-        upside_pct     = _safe_float(r5d.get('upside_percent'))
-        entry_score    = _safe_float(r5d.get('entry_score'))
-        pe_ratio       = _safe_float(r5d.get('pe_ratio'))
-        peg_ratio      = _safe_float(r5d.get('peg_ratio'))
-        fcf_yield      = _safe_float(r5d.get('fcf_yield'))
-        roe            = _safe_float(r5d.get('roe'))
-        rev_growth     = _safe_float(r5d.get('revenue_growth'))
-        next_earnings  = str(r5d.get('next_earnings', '')) if pd.notna(r5d.get('next_earnings', '')) else None
-        days_to_earn   = _safe_float(r5d.get('days_to_earnings'))
-        current_price  = _safe_float(r5d.get('current_price') or tc.get('current_price'))
-        company_name   = str(r5d.get('company_name', tc.get('company_name', ticker))) if 'company_name' in r5d.index else tc.get('company_name', ticker)
+        _fs = r5d.get('super_score_5d')
+        if _fs is None or (isinstance(_fs, float) and pd.isna(_fs)):
+            _fs = r5d.get('super_score_ultimate')
+        final_score = _sf(_fs)
+    if final_score is None and rscores is not None:
+        final_score = _sf(rscores.get('super_score_ultimate'))
+    # Si tampoco hay CSV score, calcular desde componentes disponibles
+    if final_score is None:
+        available = []
+        if vcp_score is not None:  available.append(vcp_score * 0.40)
+        if ml_score  is not None:  available.append(ml_score  * 0.30)
+        if fund_score is not None: available.append(fund_score * 0.30)
+        final_score = round(sum(available), 1) if available else None
+
+    tier_emoji, tier_label = _get_tier(final_score)
+
+    # ── Campos 5D ─────────────────────────────────────────────────────────
+    if r5d is not None:
+        insiders_score  = _sf(r5d.get('insiders_score'), 0.0)
+        inst_score      = _sf(r5d.get('institutional_score'), 0.0)
+        num_whales      = _sf(r5d.get('num_whales'), 0)
+        top_whales      = _notna_str(r5d, 'top_whales')
+        sector_name     = _notna_str(r5d, 'sector_name', tc.get('sector', 'Unknown'))
+        sector_score    = _sf(r5d.get('sector_score'))
+        sector_momentum = _notna_str(r5d, 'sector_momentum', 'stable')
+        tier_boost      = _sf(r5d.get('tier_boost'), 0)
+        price_target    = _sf(r5d.get('price_target'))
+        upside_pct      = _sf(r5d.get('upside_percent'))
+        entry_score     = _sf(r5d.get('entry_score'))
+        pe_ratio        = _sf(r5d.get('pe_ratio'))
+        peg_ratio       = _sf(r5d.get('peg_ratio'))
+        fcf_yield       = _sf(r5d.get('fcf_yield'))
+        roe             = _sf(r5d.get('roe'))
+        rev_growth      = _sf(r5d.get('revenue_growth'))
+        next_earnings   = _notna_str(r5d, 'next_earnings') or None
+        days_to_earn    = _sf(r5d.get('days_to_earnings'))
+        _cp_r5d = _sf(r5d.get('current_price'))
+        current_price   = _cp_r5d if _cp_r5d is not None else _sf(tc.get('current_price'))
+        company_name    = (_notna_str(r5d, 'company_name')
+                          if 'company_name' in r5d.index
+                          else tc.get('company_name', ticker))
+        if not company_name:
+            company_name = tc.get('company_name', ticker)
     else:
-        # Intentar montar desde otros CSVs
-        vcp_score  = 50.0
-        ml_score   = _safe_float(rml.get('ml_score') if rml is not None else None, 50.0)
-        fund_score = _safe_float(rfund.get('fundamental_score') if rfund is not None else None, 50.0)
-        base = vcp_score * 0.40 + ml_score * 0.30 + fund_score * 0.30
-        final_score = round(base, 1)
-        tier_emoji, tier_label = _get_tier(final_score)
         insiders_score = 0.0; inst_score = 0.0; num_whales = 0; top_whales = ''
-        sector_name = tc.get('sector', 'Unknown'); sector_score = 50.0; sector_momentum = 'stable'
         tier_boost = 0; price_target = None; upside_pct = None; entry_score = None
         pe_ratio = None; peg_ratio = None; fcf_yield = None; roe = None; rev_growth = None
         next_earnings = None; days_to_earn = None
-        current_price = _safe_float(tc.get('current_price'))
-        company_name = tc.get('company_name', ticker)
+        current_price = _sf(tc.get('current_price'))
+        company_name  = tc.get('company_name', ticker)
+        sector_score  = None; sector_momentum = 'stable'
+        sector_name   = tc.get('sector', 'Unknown')
+        if rscores is not None:
+            company_name = _notna_str(rscores, 'company_name', company_name) or company_name
+            sector_name  = _notna_str(rscores, 'sector', sector_name) or sector_name
 
-    # Scores adicionales desde rscores
-    ma_passes = False; ma_score = 0; ma_checks = 'N/A'; ma_reason = ''
-    ad_signal = 'NEUTRAL'; ad_score = 50
+    # ── Filtros técnicos desde super_scores_ultimate ───────────────────────
+    ma_passes = None; ma_score = None; ma_checks = None; ma_reason = ''
+    ad_signal = None; ad_score = None; ad_reason = ''
     if rscores is not None:
-        ma_passes = bool(rscores.get('ma_filter_pass', False))
-        ma_score  = int(_safe_float(rscores.get('ma_filter_score'), 0))
-        ad_signal = str(rscores.get('ad_signal', 'NEUTRAL'))
-        ad_score  = int(_safe_float(rscores.get('ad_score'), 50))
+        _ma_pass = rscores.get('ma_filter_pass')
+        ma_passes = bool(_ma_pass) if _ma_pass is not None and not (isinstance(_ma_pass, float) and pd.isna(_ma_pass)) else None
+        ma_score  = _sf(rscores.get('ma_filter_score'))
+        ma_reason = _notna_str(rscores, 'ma_filter_reason')
+        _ads = rscores.get('ad_signal')
+        ad_signal = str(_ads) if _ads is not None and not (isinstance(_ads, float) and pd.isna(_ads)) else None
+        ad_score  = _sf(rscores.get('ad_score'))
+        ad_reason = _notna_str(rscores, 'ad_reason')
 
-    # ML details
+    # ── ML detalles ────────────────────────────────────────────────────────
     ml_quality = ml_momentum = ml_trend = ml_volume = None
     if rml is not None:
-        ml_quality  = str(rml.get('quality', ''))
-        ml_momentum = _safe_float(rml.get('momentum_score'))
-        ml_trend    = _safe_float(rml.get('trend_score'))
-        ml_volume   = _safe_float(rml.get('volume_score'))
+        ml_quality  = _notna_str(rml, 'quality') or None
+        ml_momentum = _sf(rml.get('momentum_score'))
+        ml_trend    = _sf(rml.get('trend_score'))
+        ml_volume   = _sf(rml.get('volume_score'))
 
-    # Insider recurrente (busca en recurring_insiders.csv)
+    # ── Insiders ───────────────────────────────────────────────────────────
     insider_data = _row(DF_INSIDERS, ticker)
     insider_info = None
     if insider_data is not None:
         insider_info = {
-            "purchase_count": int(_safe_float(insider_data.get('purchase_count'), 0)),
-            "unique_insiders": int(_safe_float(insider_data.get('unique_insiders'), 0)),
-            "days_span": int(_safe_float(insider_data.get('days_span'), 0)),
-            "last_purchase": str(insider_data.get('last_purchase', '')),
-            "confidence_score": _safe_float(insider_data.get('confidence_score'), 0),
+            "purchase_count":   int(_sf(insider_data.get('purchase_count'), 0)),
+            "unique_insiders":  int(_sf(insider_data.get('unique_insiders'), 0)),
+            "days_span":        int(_sf(insider_data.get('days_span'), 0)),
+            "last_purchase":    _notna_str(insider_data, 'last_purchase'),
+            "confidence_score": _sf(insider_data.get('confidence_score')),
         }
 
-    # Mean Reversion (busca en mean_reversion_opportunities.csv)
+    # ── Mean Reversion ─────────────────────────────────────────────────────
     mr_data = _row(DF_REVERSION, ticker)
     mean_reversion = None
     if mr_data is not None:
         mean_reversion = {
-            "strategy": str(mr_data.get('strategy', '')),
-            "quality": str(mr_data.get('quality', '')),
-            "reversion_score": _safe_float(mr_data.get('reversion_score')),
-            "entry_zone": str(mr_data.get('entry_zone', '')),
-            "target": _safe_float(mr_data.get('target')),
-            "stop_loss": _safe_float(mr_data.get('stop_loss')),
-            "rsi": _safe_float(mr_data.get('rsi')),
-            "drawdown_pct": _safe_float(mr_data.get('drawdown_pct')),
+            "strategy":      _notna_str(mr_data, 'strategy'),
+            "quality":       _notna_str(mr_data, 'quality'),
+            "reversion_score": _sf(mr_data.get('reversion_score')),
+            "entry_zone":    _notna_str(mr_data, 'entry_zone'),
+            "target":        _sf(mr_data.get('target')),
+            "stop_loss":     _sf(mr_data.get('stop_loss')),
+            "rsi":           _sf(mr_data.get('rsi')),
+            "drawdown_pct":  _sf(mr_data.get('drawdown_pct')),
         }
 
-    # Options flow (busca en options_flow.csv)
+    # ── Options flow ───────────────────────────────────────────────────────
     opt_data = _row(DF_OPTIONS, ticker)
     options_flow = None
     if opt_data is not None:
         options_flow = {
-            "sentiment": str(opt_data.get('sentiment', '')),
-            "flow_score": _safe_float(opt_data.get('flow_score')),
-            "quality": str(opt_data.get('quality', '')),
-            "put_call_ratio": _safe_float(opt_data.get('put_call_ratio')),
-            "total_premium": _safe_float(opt_data.get('total_premium')),
-            "sentiment_emoji": str(opt_data.get('sentiment_emoji', '')),
-            "unusual_calls": int(_safe_float(opt_data.get('unusual_calls'), 0)),
-            "unusual_puts": int(_safe_float(opt_data.get('unusual_puts'), 0)),
+            "sentiment":       _notna_str(opt_data, 'sentiment'),
+            "flow_score":      _sf(opt_data.get('flow_score')),
+            "quality":         _notna_str(opt_data, 'quality'),
+            "put_call_ratio":  _sf(opt_data.get('put_call_ratio')),
+            "total_premium":   _sf(opt_data.get('total_premium')),
+            "sentiment_emoji": _notna_str(opt_data, 'sentiment_emoji'),
+            "unusual_calls":   int(_sf(opt_data.get('unusual_calls'), 0)),
+            "unusual_puts":    int(_sf(opt_data.get('unusual_puts'), 0)),
         }
 
-    # Entry/exit desde prices CSV
+    # ── Entry/exit ─────────────────────────────────────────────────────────
     entry_price = stop_loss = target_price = risk_reward = None
     if rprice is not None:
-        entry_price  = _safe_float(rprice.get('entry_price'))
-        stop_loss    = _safe_float(rprice.get('stop_loss'))
-        target_price = _safe_float(rprice.get('target_price'))
-        risk_reward  = _safe_float(rprice.get('risk_reward'))
+        entry_price  = _sf(rprice.get('entry_price'))
+        stop_loss    = _sf(rprice.get('stop_loss'))
+        target_price = _sf(rprice.get('target_price'))
+        risk_reward  = _sf(rprice.get('risk_reward'))
 
-    # Tesis
+    # ── Breakdown scores ───────────────────────────────────────────────────
+    base, vcp_c, ml_c, fund_c = _calc_base(vcp_score, ml_score, fund_score)
+    penalty = round(base - final_score, 1) if (base is not None and final_score is not None and base > final_score) else 0
+
+    # ── Thesis ─────────────────────────────────────────────────────────────
     thesis = _build_thesis({
-        'vcp_score': vcp_score, 'insiders_score': insiders_score,
+        'vcp_score': vcp_score or 0, 'insiders_score': insiders_score,
         'institutional_score': inst_score, 'num_whales': int(num_whales or 0),
         'top_whales': top_whales, 'sector_name': sector_name,
-        'sector_momentum': sector_momentum, 'sector_score': sector_score,
-        'fundamental_score': fund_score, 'super_score_5d': final_score,
-        'super_score_ultimate': final_score, 'tier': tier_label,
+        'sector_momentum': sector_momentum, 'sector_score': sector_score or 0,
+        'fundamental_score': fund_score or 0, 'super_score_5d': final_score or 0,
+        'super_score_ultimate': final_score or 0, 'tier': tier_label,
         'price_target': price_target, 'upside_percent': upside_pct,
         'fcf_yield': fcf_yield, 'roe': roe, 'revenue_growth': rev_growth,
         'timing_convergence': False, 'vcp_repeater': False,
     })
-
-    base = round(vcp_score * 0.40 + ml_score * 0.30 + fund_score * 0.30, 1)
 
     return {
         "source": "pipeline_cache",
@@ -250,16 +318,16 @@ def _analyze_from_cache(ticker):
 
         "final_score": final_score,
         "base_score": base,
-        "penalty": round(base - final_score, 1) if base > final_score else 0,
+        "penalty": penalty,
         "tier_emoji": tier_emoji,
         "tier_label": tier_label,
 
-        "vcp_score": round(vcp_score, 1),
-        "ml_score": round(ml_score, 1),
-        "fund_score": round(fund_score, 1),
-        "vcp_contribution": round(vcp_score * 0.40, 1),
-        "ml_contribution": round(ml_score * 0.30, 1),
-        "fund_contribution": round(fund_score * 0.30, 1),
+        "vcp_score": round(vcp_score, 1) if vcp_score is not None else None,
+        "ml_score":  round(ml_score,  1) if ml_score  is not None else None,
+        "fund_score": round(fund_score, 1) if fund_score is not None else None,
+        "vcp_contribution":  vcp_c,
+        "ml_contribution":   ml_c,
+        "fund_contribution": fund_c,
 
         "price_target": price_target,
         "upside_percent": upside_pct,
@@ -287,7 +355,7 @@ def _analyze_from_cache(ticker):
 
         "ad_signal": ad_signal,
         "ad_score": ad_score,
-        "ad_reason": "",
+        "ad_reason": ad_reason,
         "ad_error": None,
 
         "ml_quality": ml_quality,
@@ -326,9 +394,11 @@ def _analyze_from_cache(ticker):
 # ANÁLISIS LIVE (yfinance — funciona en local, puede fallar en Railway)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _safe_float_live(val, default=None):
+def _sfl(val, default=None):
+    """safe_float_live: sin pandas, para valores de yfinance."""
     try:
-        return float(val)
+        v = float(val)
+        return v if v == v else default  # NaN check
     except (TypeError, ValueError):
         return default
 
@@ -338,16 +408,16 @@ def _run_vcp(ticker):
         from vcp_scanner_usa import CalibratedVCPScanner
         result = CalibratedVCPScanner().process_single_ticker(ticker)
         if result is None:
-            return 50.0, {}, "No cumple criterios VCP mínimos"
-        return (_safe_float_live(result.vcp_score, 50.0), {
-            "ready_to_buy": bool(getattr(result, 'ready_to_buy', False)),
-            "contractions": len(getattr(result, 'contractions', []) or []),
-            "breakout_potential": _safe_float_live(getattr(result, 'breakout_potential', None)),
-            "stage": getattr(result, 'stage_analysis', None),
-            "reason": getattr(result, 'reason', None),
+            return None, {}, "No cumple criterios VCP mínimos"
+        return (_sfl(result.vcp_score), {
+            "ready_to_buy":      bool(getattr(result, 'ready_to_buy', False)),
+            "contractions":      len(getattr(result, 'contractions', []) or []),
+            "breakout_potential": _sfl(getattr(result, 'breakout_potential', None)),
+            "stage":             getattr(result, 'stage_analysis', None),
+            "reason":            getattr(result, 'reason', None),
         }, None)
     except Exception as e:
-        return 50.0, {}, str(e)
+        return None, {}, str(e)
 
 
 def _run_ml(ticker):
@@ -355,24 +425,24 @@ def _run_ml(ticker):
         from ml_scoring import MLScorer
         result = MLScorer().score_ticker(ticker)
         if result is None:
-            return 50.0, {}, "Datos insuficientes (< 50 días)"
-        return (_safe_float_live(result.get('ml_score'), 50.0), {
-            "quality": result.get('quality'),
-            "momentum_score": _safe_float_live(result.get('momentum_score')),
-            "trend_score": _safe_float_live(result.get('trend_score')),
-            "volume_score": _safe_float_live(result.get('volume_score')),
+            return None, {}, "Datos insuficientes (< 50 días)"
+        return (_sfl(result.get('ml_score')), {
+            "quality":        result.get('quality'),
+            "momentum_score": _sfl(result.get('momentum_score')),
+            "trend_score":    _sfl(result.get('trend_score')),
+            "volume_score":   _sfl(result.get('volume_score')),
         }, None)
     except Exception as e:
-        return 50.0, {}, str(e)
+        return None, {}, str(e)
 
 
 def _run_fundamentals(ticker):
     try:
         from fundamental_analyzer import FundamentalAnalyzer
         fa = FundamentalAnalyzer()
-        fund_score = _safe_float_live(fa.get_fundamental_score(ticker), 50.0)
-        fund_data  = fa.get_fundamental_data(ticker)
-        entry_score = _safe_float_live(fa.calculate_entry_score(ticker))
+        fund_score  = _sfl(fa.get_fundamental_score(ticker))
+        fund_data   = fa.get_fundamental_data(ticker)
+        entry_score = _sfl(fa.calculate_entry_score(ticker))
         pt = None
         try:
             pt = fa.calculate_custom_price_target(ticker)
@@ -380,26 +450,30 @@ def _run_fundamentals(ticker):
             pass
         details = {}
         if fund_data:
-            val = fund_data.get('valuation', {}); prof = fund_data.get('profitability', {})
-            growth = fund_data.get('growth', {}); cf = fund_data.get('cashflow', {})
+            val_d  = fund_data.get('valuation', {})
+            prof   = fund_data.get('profitability', {})
+            growth = fund_data.get('growth', {})
+            cf     = fund_data.get('cashflow', {})
             health = fund_data.get('financial_health', {})
             details = {
-                "forward_pe": _safe_float_live(val.get('forward_pe')),
-                "peg_ratio": _safe_float_live(val.get('peg_ratio')),
-                "roe": _safe_float_live(prof.get('roe')),
-                "revenue_growth": _safe_float_live(growth.get('revenue_growth')),
-                "fcf_yield": _safe_float_live(cf.get('fcf_yield')),
-                "debt_to_equity": _safe_float_live(health.get('debt_to_equity')),
-                "profit_margin": _safe_float_live(prof.get('profit_margin')),
-                "current_price": _safe_float_live(fund_data.get('current_price')),
+                "forward_pe":      _sfl(val_d.get('forward_pe')),
+                "peg_ratio":       _sfl(val_d.get('peg_ratio')),
+                "roe":             _sfl(prof.get('roe')),
+                "revenue_growth":  _sfl(growth.get('revenue_growth')),
+                "fcf_yield":       _sfl(cf.get('fcf_yield')),
+                "debt_to_equity":  _sfl(health.get('debt_to_equity')),
+                "profit_margin":   _sfl(prof.get('profit_margin')),
+                "current_price":   _sfl(fund_data.get('current_price')),
             }
         pt_det = {}
         if pt:
-            pt_det = {"custom_target": _safe_float_live(pt.get('custom_target')),
-                      "upside_percent": _safe_float_live(pt.get('upside_percent'))}
+            pt_det = {
+                "custom_target":   _sfl(pt.get('custom_target')),
+                "upside_percent":  _sfl(pt.get('upside_percent')),
+            }
         return fund_score, details, entry_score, pt_det, None
     except Exception as e:
-        return 50.0, {}, None, {}, str(e)
+        return None, {}, None, {}, str(e)
 
 
 def _run_ma(ticker):
@@ -407,7 +481,7 @@ def _run_ma(ticker):
         from moving_average_filter import MovingAverageFilter
         return MovingAverageFilter().check_stock(ticker), None
     except Exception as e:
-        return {'passes': False, 'score': 50, 'checks_passed': 'N/A', 'reason': str(e)}, str(e)
+        return {'passes': None, 'score': None, 'checks_passed': None, 'reason': str(e)}, str(e)
 
 
 def _run_ad(ticker):
@@ -415,14 +489,14 @@ def _run_ad(ticker):
         from accumulation_distribution_filter import AccumulationDistributionFilter
         return AccumulationDistributionFilter().analyze_stock(ticker), None
     except Exception as e:
-        return {'signal': 'NEUTRAL', 'score': 50, 'reason': str(e)}, str(e)
+        return {'signal': None, 'score': None, 'reason': str(e)}, str(e)
 
 
 def _run_sector(ticker):
     try:
         from sector_enhancement import SectorEnhancement
         se = SectorEnhancement()
-        sc = _safe_float_live(se.calculate_sector_score(ticker), 50.0)
+        sc  = _sfl(se.calculate_sector_score(ticker))
         mom = se.get_sector_momentum(ticker)
         name = 'Unknown'
         try:
@@ -432,20 +506,30 @@ def _run_sector(ticker):
             pass
         return sc, mom, name, None
     except Exception as e:
-        return 50.0, 'stable', 'Unknown', str(e)
+        return None, None, 'Unknown', str(e)
 
 
-def _calc_score(vcp, ml, fund, ma, ad):
-    base = vcp * 0.40 + ml * 0.30 + fund * 0.30
+def _calc_live_score(vcp, ml, fund, ma, ad):
+    """Calcula base/penalty/final desde scores live. None si no hay datos."""
+    vcp_c  = vcp  * 0.40 if vcp  is not None else None
+    ml_c   = ml   * 0.30 if ml   is not None else None
+    fund_c = fund * 0.30 if fund is not None else None
+    available = [c for c in [vcp_c, ml_c, fund_c] if c is not None]
+    if not available:
+        return None, None, None
+    base = sum(available)
     pen = 0.0
-    if not ma.get('passes', False):
+    ma_passes = ma.get('passes')
+    if ma_passes is False:
         pen += 20
-    elif _safe_float_live(ma.get('score'), 0) < 80:
+    elif ma_passes is True and (_sfl(ma.get('score'), 100) or 100) < 80:
         pen += 5
-    sig = ad.get('signal', 'NEUTRAL')
+    sig = ad.get('signal')
     if sig == 'STRONG_DISTRIBUTION': pen += 15
-    elif sig == 'DISTRIBUTION': pen += 10
-    if _safe_float_live(ad.get('score'), 50) < 50: pen += 5
+    elif sig == 'DISTRIBUTION':      pen += 10
+    ad_sc = _sfl(ad.get('score'))
+    if ad_sc is not None and ad_sc < 50:
+        pen += 5
     return round(base, 1), round(pen, 1), round(max(0, min(100, base - pen)), 1)
 
 
@@ -457,62 +541,70 @@ def _analyze_live(ticker):
     try:
         import yfinance as yf
         info = yf.Ticker(ticker).info
-        company_name = info.get('longName') or info.get('shortName') or ticker
-        current_price = _safe_float_live(info.get('currentPrice') or info.get('regularMarketPrice'))
+        company_name  = info.get('longName') or info.get('shortName') or ticker
+        current_price = _sfl(info.get('currentPrice') or info.get('regularMarketPrice'))
     except Exception:
         pass
 
-    vcp_score, vcp_det, vcp_err = _run_vcp(ticker); time.sleep(0.3)
-    ml_score, ml_det, ml_err   = _run_ml(ticker);   time.sleep(0.3)
+    vcp_score,  vcp_det,  vcp_err  = _run_vcp(ticker);           time.sleep(0.3)
+    ml_score,   ml_det,   ml_err   = _run_ml(ticker);            time.sleep(0.3)
     fund_score, fund_det, entry_score, pt_det, fund_err = _run_fundamentals(ticker)
-    if current_price is None: current_price = fund_det.get('current_price')
+    if current_price is None:
+        current_price = fund_det.get('current_price')
     time.sleep(0.3)
-    ma_result, ma_err = _run_ma(ticker); time.sleep(0.3)
-    ad_result, ad_err = _run_ad(ticker); time.sleep(0.3)
+    ma_result, ma_err = _run_ma(ticker);                          time.sleep(0.3)
+    ad_result, ad_err = _run_ad(ticker);                          time.sleep(0.3)
     sector_score, sector_mom, sector_name, sector_err = _run_sector(ticker)
 
-    base, penalty, final = _calc_score(vcp_score, ml_score, fund_score, ma_result, ad_result)
+    base, penalty, final = _calc_live_score(vcp_score, ml_score, fund_score, ma_result, ad_result)
     tier_emoji, tier_label = _get_tier(final)
+    vcp_c, ml_c, fund_c = (
+        round(vcp_score  * 0.40, 1) if vcp_score  is not None else None,
+        round(ml_score   * 0.30, 1) if ml_score   is not None else None,
+        round(fund_score * 0.30, 1) if fund_score is not None else None,
+    )
 
     # Insiders / mean reversion / options desde cache aunque sea live
     insider_data = _row(DF_INSIDERS, ticker)
     insider_info = None
     if insider_data is not None:
         insider_info = {
-            "purchase_count": int(_safe_float_live(insider_data.get('purchase_count'), 0)),
-            "unique_insiders": int(_safe_float_live(insider_data.get('unique_insiders'), 0)),
-            "days_span": int(_safe_float_live(insider_data.get('days_span'), 0)),
-            "last_purchase": str(insider_data.get('last_purchase', '')),
-            "confidence_score": _safe_float_live(insider_data.get('confidence_score'), 0),
+            "purchase_count":   int(_sf(insider_data.get('purchase_count'), 0)),
+            "unique_insiders":  int(_sf(insider_data.get('unique_insiders'), 0)),
+            "days_span":        int(_sf(insider_data.get('days_span'), 0)),
+            "last_purchase":    _notna_str(insider_data, 'last_purchase'),
+            "confidence_score": _sf(insider_data.get('confidence_score')),
         }
+
     mr_data = _row(DF_REVERSION, ticker)
     mean_reversion = None
     if mr_data is not None:
         mean_reversion = {
-            "strategy": str(mr_data.get('strategy', '')),
-            "quality": str(mr_data.get('quality', '')),
-            "reversion_score": _safe_float_live(mr_data.get('reversion_score')),
-            "entry_zone": str(mr_data.get('entry_zone', '')),
-            "target": _safe_float_live(mr_data.get('target')),
-            "rsi": _safe_float_live(mr_data.get('rsi')),
+            "strategy":        _notna_str(mr_data, 'strategy'),
+            "quality":         _notna_str(mr_data, 'quality'),
+            "reversion_score": _sf(mr_data.get('reversion_score')),
+            "entry_zone":      _notna_str(mr_data, 'entry_zone'),
+            "target":          _sf(mr_data.get('target')),
+            "rsi":             _sf(mr_data.get('rsi')),
         }
+
     opt_data = _row(DF_OPTIONS, ticker)
     options_flow = None
     if opt_data is not None:
         options_flow = {
-            "sentiment": str(opt_data.get('sentiment', '')),
-            "flow_score": _safe_float_live(opt_data.get('flow_score')),
-            "quality": str(opt_data.get('quality', '')),
-            "sentiment_emoji": str(opt_data.get('sentiment_emoji', '')),
-            "unusual_calls": int(_safe_float_live(opt_data.get('unusual_calls'), 0)),
-            "unusual_puts": int(_safe_float_live(opt_data.get('unusual_puts'), 0)),
+            "sentiment":       _notna_str(opt_data, 'sentiment'),
+            "flow_score":      _sf(opt_data.get('flow_score')),
+            "quality":         _notna_str(opt_data, 'quality'),
+            "sentiment_emoji": _notna_str(opt_data, 'sentiment_emoji'),
+            "unusual_calls":   int(_sf(opt_data.get('unusual_calls'), 0)),
+            "unusual_puts":    int(_sf(opt_data.get('unusual_puts'), 0)),
         }
 
     thesis = _build_thesis({
-        'vcp_score': vcp_score, 'insiders_score': 0,
-        'sector_name': sector_name, 'sector_momentum': sector_mom,
-        'sector_score': sector_score, 'fundamental_score': fund_score,
-        'super_score_5d': final, 'tier': tier_label,
+        'vcp_score': vcp_score or 0, 'insiders_score': 0,
+        'sector_name': sector_name, 'sector_momentum': sector_mom or 'stable',
+        'sector_score': sector_score or 0, 'fundamental_score': fund_score or 0,
+        'super_score_5d': final or 0, 'tier': tier_label,
         'price_target': pt_det.get('custom_target'),
         'upside_percent': pt_det.get('upside_percent'),
         'fcf_yield': fund_det.get('fcf_yield'),
@@ -535,12 +627,12 @@ def _analyze_live(ticker):
         "tier_emoji": tier_emoji,
         "tier_label": tier_label,
 
-        "vcp_score": round(vcp_score, 1),
-        "ml_score": round(ml_score, 1),
-        "fund_score": round(fund_score, 1),
-        "vcp_contribution": round(vcp_score * 0.40, 1),
-        "ml_contribution": round(ml_score * 0.30, 1),
-        "fund_contribution": round(fund_score * 0.30, 1),
+        "vcp_score":  round(vcp_score,  1) if vcp_score  is not None else None,
+        "ml_score":   round(ml_score,   1) if ml_score   is not None else None,
+        "fund_score": round(fund_score, 1) if fund_score is not None else None,
+        "vcp_contribution":  vcp_c,
+        "ml_contribution":   ml_c,
+        "fund_contribution": fund_c,
 
         "price_target": pt_det.get('custom_target'),
         "upside_percent": pt_det.get('upside_percent'),
@@ -550,48 +642,48 @@ def _analyze_live(ticker):
         "num_whales": 0, "top_whales": "", "tier_boost": 0,
 
         "sector_name": sector_name,
-        "sector_score": round(sector_score, 1),
+        "sector_score": sector_score,
         "sector_momentum": sector_mom,
         "sector_error": sector_err,
 
-        "ma_passes": bool(ma_result.get('passes', False)),
-        "ma_score": ma_result.get('score', 0),
-        "ma_checks": ma_result.get('checks_passed', 'N/A'),
+        "ma_passes": ma_result.get('passes'),
+        "ma_score":  _sf(ma_result.get('score')),
+        "ma_checks": ma_result.get('checks_passed'),
         "ma_reason": ma_result.get('reason', ''),
-        "ma_error": ma_err,
+        "ma_error":  ma_err,
 
-        "ad_signal": ad_result.get('signal', 'NEUTRAL'),
-        "ad_score": ad_result.get('score', 50),
+        "ad_signal": ad_result.get('signal'),
+        "ad_score":  _sf(ad_result.get('score')),
         "ad_reason": ad_result.get('reason', ''),
-        "ad_error": ad_err,
+        "ad_error":  ad_err,
 
-        "ml_quality": ml_det.get('quality'),
-        "ml_momentum": ml_det.get('momentum_score'),
-        "ml_trend": ml_det.get('trend_score'),
-        "ml_volume": ml_det.get('volume_score'),
-        "ml_error": ml_err,
+        "ml_quality":   ml_det.get('quality'),
+        "ml_momentum":  ml_det.get('momentum_score'),
+        "ml_trend":     ml_det.get('trend_score'),
+        "ml_volume":    ml_det.get('volume_score'),
+        "ml_error":     ml_err,
 
-        "entry_score": entry_score,
-        "forward_pe": fund_det.get('forward_pe'),
-        "peg_ratio": fund_det.get('peg_ratio'),
-        "fcf_yield": fund_det.get('fcf_yield'),
-        "roe": fund_det.get('roe'),
-        "revenue_growth": fund_det.get('revenue_growth'),
-        "debt_to_equity": fund_det.get('debt_to_equity'),
-        "fund_error": fund_err,
+        "entry_score":     entry_score,
+        "forward_pe":      fund_det.get('forward_pe'),
+        "peg_ratio":       fund_det.get('peg_ratio'),
+        "fcf_yield":       fund_det.get('fcf_yield'),
+        "roe":             fund_det.get('roe'),
+        "revenue_growth":  fund_det.get('revenue_growth'),
+        "debt_to_equity":  fund_det.get('debt_to_equity'),
+        "fund_error":      fund_err,
 
         "next_earnings": None, "days_to_earnings": None,
 
         "insider_recurring": insider_info,
-        "mean_reversion": mean_reversion,
-        "options_flow": options_flow,
+        "mean_reversion":    mean_reversion,
+        "options_flow":      options_flow,
 
-        "vcp_ready": vcp_det.get('ready_to_buy', False),
-        "vcp_contractions": vcp_det.get('contractions', 0),
+        "vcp_ready":             vcp_det.get('ready_to_buy', False),
+        "vcp_contractions":      vcp_det.get('contractions', 0),
         "vcp_breakout_potential": vcp_det.get('breakout_potential'),
-        "vcp_stage": vcp_det.get('stage'),
-        "vcp_reason": vcp_det.get('reason'),
-        "vcp_error": vcp_err,
+        "vcp_stage":             vcp_det.get('stage'),
+        "vcp_reason":            vcp_det.get('reason'),
+        "vcp_error":             vcp_err,
 
         "thesis": thesis,
     }
@@ -633,12 +725,13 @@ def health():
         "timestamp": datetime.now().isoformat(),
         "cached_tickers": len(cached),
         "modules": {
-            "5d_scores": not DF_5D.empty,
-            "ml_scores": not DF_ML.empty,
-            "fundamental": not DF_FUND.empty,
-            "insiders": not DF_INSIDERS.empty,
+            "5d_scores":     not DF_5D.empty,
+            "ml_scores":     not DF_ML.empty,
+            "fundamental":   not DF_FUND.empty,
+            "super_scores":  not DF_SCORES.empty,
+            "insiders":      not DF_INSIDERS.empty,
             "mean_reversion": not DF_REVERSION.empty,
-            "options_flow": not DF_OPTIONS.empty,
+            "options_flow":  not DF_OPTIONS.empty,
         }
     })
 
@@ -656,18 +749,22 @@ def analyze(ticker):
         return jsonify({"error": f"Ticker inválido: '{ticker}'"}), 400
 
     try:
-        # Cache-first: si el ticker está en los CSVs del pipeline, usamos eso
-        in_cache = (not DF_5D.empty and ticker in DF_5D.index) or \
-                   (not DF_ML.empty and ticker in DF_ML.index) or \
-                   (ticker in TICKER_CACHE)
+        in_cache = (
+            (not DF_5D.empty     and ticker in DF_5D.index)     or
+            (not DF_ML.empty     and ticker in DF_ML.index)     or
+            (not DF_SCORES.empty and ticker in DF_SCORES.index) or
+            (ticker in TICKER_CACHE)
+        )
 
         if in_cache:
             result = _analyze_from_cache(ticker)
         else:
-            # Live: funciona en local, puede fallar en Railway
             result = _analyze_live(ticker)
             if not result.get('current_price') and result.get('ml_error'):
-                result['warning'] = 'Ticker no está en el cache del pipeline diario. El análisis live puede ser incompleto en entornos cloud.'
+                result['warning'] = (
+                    'Ticker no está en el cache del pipeline diario. '
+                    'El análisis live puede ser incompleto en entornos cloud.'
+                )
 
         return jsonify(result)
 

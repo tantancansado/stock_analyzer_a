@@ -499,7 +499,22 @@ class SuperScoreIntegrator:
 
         return csv_path, json_path
 
-    def export_ticker_data_cache(self, df: pd.DataFrame):
+    def _get_sp500_tickers(self) -> list:
+        """Obtiene la lista completa de tickers del S&P 500 desde Wikipedia"""
+        try:
+            sp500_url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+            tables = pd.read_html(sp500_url)
+            df = tables[0]
+            tickers = df['Symbol'].tolist()
+            # Normalize: replace dots with dashes (e.g. BRK.B → BRK-B)
+            tickers = [t.replace('.', '-') for t in tickers]
+            print(f"✅ S&P 500: {len(tickers)} tickers obtenidos de Wikipedia")
+            return tickers
+        except Exception as e:
+            print(f"⚠️  No se pudo obtener S&P 500 de Wikipedia: {e}")
+            return []
+
+    def export_ticker_data_cache(self, df: pd.DataFrame, include_all_sp500: bool = True):
         """
         Exporta datos RAW de yfinance para cada ticker a un JSON público
 
@@ -511,24 +526,43 @@ class SuperScoreIntegrator:
         - Precio actual y volumen
         - Historical prices (últimos 200 días para filtros)
         - Datos fundamentales
+
+        Args:
+            df: DataFrame con tickers VCP que ya tienen scores completos
+            include_all_sp500: Si True, también cachea todos los tickers del S&P 500
+                               aunque no tengan patrón VCP (para cobertura total desde Railway)
         """
         import yfinance as yf
 
         print("\n" + "="*80)
         print("📦 EXPORTANDO TICKER DATA CACHE")
         print("="*80)
-        print(f"Fetching datos RAW de yfinance para {len(df)} tickers...")
+
+        # Build ordered list: VCP tickers first (have full scores), then extra S&P500
+        vcp_tickers = set(df['ticker'].tolist())
+        all_tickers = df['ticker'].tolist()
+
+        if include_all_sp500:
+            sp500_list = self._get_sp500_tickers()
+            extra_tickers = [t for t in sp500_list if t not in vcp_tickers]
+            all_tickers = all_tickers + extra_tickers
+            print(f"📋 {len(vcp_tickers)} tickers VCP + {len(extra_tickers)} tickers S&P500 adicionales")
+        else:
+            print(f"📋 {len(vcp_tickers)} tickers VCP (solo patrón VCP)")
+
+        print(f"📊 Total a cachear: {len(all_tickers)} tickers")
         print("Esto puede tardar varios minutos...\n")
+
+        # Pre-build scores lookup from df for quick access
+        scores_lookup = df.set_index('ticker').to_dict('index') if not df.empty else {}
 
         ticker_cache = {}
         successful = 0
         failed = 0
 
-        for idx, row in df.iterrows():
-            ticker = row['ticker']
-
+        for idx, ticker in enumerate(all_tickers):
             try:
-                print(f"  [{idx+1}/{len(df)}] Fetching {ticker}...", end=" ")
+                print(f"  [{idx+1}/{len(all_tickers)}] Fetching {ticker}...", end=" ")
 
                 # Fetch ticker data
                 stock = yf.Ticker(ticker)
@@ -542,13 +576,20 @@ class SuperScoreIntegrator:
                     failed += 1
                     continue
 
+                # Get pre-computed scores for VCP tickers
+                row = scores_lookup.get(ticker, {})
+                has_scores = ticker in vcp_tickers
+
                 # Prepare ticker data
                 ticker_data = {
                     # Basic info
                     "ticker": ticker,
-                    "company_name": info.get('longName', info.get('shortName', ticker)),
-                    "sector": info.get('sector', 'N/A'),
-                    "industry": info.get('industry', 'N/A'),
+                    "company_name": info.get('longName', info.get('shortName', row.get('company_name', ticker))),
+                    "sector": info.get('sector', row.get('sector', 'N/A')),
+                    "industry": info.get('industry', row.get('industry', 'N/A')),
+
+                    # Whether this ticker has full pipeline scores
+                    "has_vcp_pattern": has_scores,
 
                     # Current price & volume
                     "current_price": float(info.get('currentPrice', hist['Close'].iloc[-1])),
@@ -603,8 +644,10 @@ class SuperScoreIntegrator:
 
         print(f"\n" + "="*80)
         print(f"✅ Ticker data cache exported: {cache_path}")
-        print(f"   Successful: {successful}/{len(df)}")
-        print(f"   Failed: {failed}/{len(df)}")
+        print(f"   Successful: {successful}/{len(all_tickers)}")
+        print(f"   Failed: {failed}/{len(all_tickers)}")
+        print(f"   VCP tickers: {len(vcp_tickers)}")
+        print(f"   Extra S&P500: {len(all_tickers) - len(vcp_tickers)}")
         print(f"   File size: {cache_path.stat().st_size / 1024:.1f} KB")
         print("="*80)
 
