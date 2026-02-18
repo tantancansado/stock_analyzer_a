@@ -787,7 +787,7 @@ class SuperDashboardGenerator:
         <script>
         // ── Configuración de API ─────────────────────────────────────────
         // Si tienes la API desplegada en Railway/Render, pon la URL aquí:
-        const DEPLOYED_API_URL = '';  // Ej: 'https://ticker-api-xxx.up.railway.app'
+        const DEPLOYED_API_URL = 'https://web-production-26e95.up.railway.app';
         const LOCAL_API_URL    = 'http://localhost:5002';
 
         function getApiBase() {{
