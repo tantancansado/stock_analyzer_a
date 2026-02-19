@@ -697,6 +697,59 @@ class SuperScoreIntegrator:
             df['super_score_ultimate'] + df['insider_bonus']
         ).clip(lower=0, upper=100)
 
+        # 13. HARD FUNDAMENTAL FILTERS (Profitability Gates)
+        print("\n1️⃣3️⃣ HARD FUNDAMENTAL FILTERS — PROFITABILITY GATES")
+        print("-" * 70)
+        print("⚠️  Minervini NEVER buys unprofitable companies")
+
+        df['profitability_penalty'] = 0.0
+
+        # Parse health_details to extract ROE, margins
+        if 'health_details' in df.columns:
+            import ast
+
+            for idx, row in df.iterrows():
+                try:
+                    health = row.get('health_details', '{}')
+                    if isinstance(health, str):
+                        health = ast.literal_eval(health) if health != '{}' else {}
+
+                    roe = health.get('roe_pct', None)
+                    op_margin = health.get('operating_margin_pct', None)
+                    profit_margin = health.get('profit_margin_pct', None)
+
+                    penalty = 0.0
+
+                    # CRITICAL: Negative ROE = destroying shareholder value
+                    if roe is not None and roe < 0:
+                        penalty += 25.0  # Massive penalty
+
+                    # CRITICAL: Negative profit margin = losing money
+                    if profit_margin is not None and profit_margin < 0:
+                        penalty += 20.0
+                    elif op_margin is not None and op_margin < 0:
+                        penalty += 15.0
+
+                    # WARNING: Low but positive profitability
+                    if roe is not None and 0 <= roe < 10:
+                        penalty += 5.0  # Weak profitability
+
+                    df.at[idx, 'profitability_penalty'] = penalty
+
+                except:
+                    pass
+
+            # Apply penalties
+            severe_penalty = int((df['profitability_penalty'] >= 25).sum())
+            moderate_penalty = int((df['profitability_penalty'] >= 10).sum())
+
+            print(f"🔴 Severe penalties (ROE<0 or profit<0): {severe_penalty}/{len(df)}")
+            print(f"🟡 Moderate penalties (weak profitability): {moderate_penalty}/{len(df)}")
+
+        df['super_score_ultimate'] = (
+            df['super_score_ultimate'] - df['profitability_penalty']
+        ).clip(lower=0, upper=100)
+
         # Add filter summary column
         df['filters_passed'] = df.apply(self._count_filters_passed, axis=1)
 
