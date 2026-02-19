@@ -108,17 +108,17 @@ jobs:
           python3 options_flow_detector.py || echo "Options flow detector failed"
           python3 options_flow_dashboard_generator.py || echo "Options flow dashboard failed"
 
-      - name: ML Scoring
+      - name: VCP Scanner S&P500
         continue-on-error: true
-        run: python3 ml_scoring.py || echo "ML scoring failed"
+        run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP Scanner failed"
 
       - name: Fundamental Scoring
         continue-on-error: true
         run: python3 fundamental_scorer.py --vcp --top 100 || echo "Fundamental scoring failed"
 
-      - name: VCP Scanner S&P500
+      - name: ML Scoring
         continue-on-error: true
-        run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP Scanner failed"
+        run: python3 ml_scoring.py || echo "ML scoring failed"
 
       - name: Update 5D Data + Investment Theses
         continue-on-error: true

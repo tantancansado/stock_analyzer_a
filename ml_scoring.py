@@ -288,21 +288,40 @@ class MLScorer:
 
 
 def load_5d_opportunities() -> tuple:
-    """Carga tickers desde oportunidades 5D"""
+    """Carga tickers desde VCP results (latest scan)
+
+    FIXED: Now loads from VCP results instead of old 5D file to ensure
+    ML scores the same universe as VCP/Fundamental
+    """
+    # Try VCP results first (most recent scan)
+    vcp_path = Path("docs/reports/vcp/latest.csv")
+
+    if vcp_path.exists():
+        df = pd.read_csv(vcp_path)
+        tickers = df['ticker'].tolist()
+
+        company_names = {}
+        if 'company_name' in df.columns:
+            company_names = dict(zip(df['ticker'], df['company_name']))
+
+        print(f"✅ Loaded {len(tickers)} tickers from VCP results")
+        return tickers, company_names
+
+    # Fallback to 5D if VCP not available
     csv_path = Path("docs/super_opportunities_5d_complete.csv")
+    if csv_path.exists():
+        print("⚠️  VCP results not found, using 5D file (may be stale)")
+        df = pd.read_csv(csv_path)
+        tickers = df['ticker'].tolist()
 
-    if not csv_path.exists():
-        print("⚠️  No hay oportunidades 5D")
-        return [], {}
+        company_names = {}
+        if 'company_name' in df.columns:
+            company_names = dict(zip(df['ticker'], df['company_name']))
 
-    df = pd.read_csv(csv_path)
-    tickers = df['ticker'].tolist()
+        return tickers, company_names
 
-    company_names = {}
-    if 'company_name' in df.columns:
-        company_names = dict(zip(df['ticker'], df['company_name']))
-
-    return tickers, company_names
+    print("❌ No hay oportunidades (ni VCP ni 5D)")
+    return [], {}
 
 
 def main(as_of_date: Optional[str] = None):
