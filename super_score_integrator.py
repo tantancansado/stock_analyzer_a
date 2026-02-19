@@ -76,9 +76,17 @@ class SuperScoreIntegrator:
         fundamental_df = self._load_fundamental_scores()
         print(f"✅ Fundamental: {len(fundamental_df)} tickers cargados")
 
-        # 4. Merge todos los dataframes
+        # 4. Cargar Options Flow
+        options_df = self._load_options_flow()
+        print(f"✅ Options Flow: {len(options_df)} tickers cargados")
+
+        # 5. Cargar 5D data (insiders/institutional)
+        data_5d = self._load_5d_opportunities()
+        print(f"✅ 5D Data (insiders/institutional): {len(data_5d)} tickers cargados")
+
+        # 6. Merge todos los dataframes
         print(f"\n🔄 Integrando scores...")
-        integrated_df = self._merge_scores(vcp_df, ml_df, fundamental_df)
+        integrated_df = self._merge_scores(vcp_df, ml_df, fundamental_df, options_df, data_5d)
 
         print(f"✅ Integración completada: {len(integrated_df)} tickers con scores completos")
 
@@ -174,11 +182,33 @@ class SuperScoreIntegrator:
 
         return df[available_cols]
 
+    def _load_options_flow(self) -> pd.DataFrame:
+        """Carga datos de options flow"""
+        path = Path('docs/options_flow.csv')
+        if not path.exists():
+            return pd.DataFrame()
+        df = pd.read_csv(path)
+        cols = ['ticker', 'sentiment', 'put_call_ratio', 'flow_score', 'unusual_calls', 'unusual_puts']
+        available = [c for c in cols if c in df.columns]
+        return df[available] if available else pd.DataFrame()
+
+    def _load_5d_opportunities(self) -> pd.DataFrame:
+        """Carga 5D opportunities para datos de insiders/institucionales"""
+        path = Path('docs/super_opportunities_5d_complete_with_earnings.csv')
+        if not path.exists():
+            return pd.DataFrame()
+        df = pd.read_csv(path)
+        cols = ['ticker', 'insiders_score', 'institutional_score', 'num_whales', 'top_whales']
+        available = [c for c in cols if c in df.columns]
+        return df[available] if available else pd.DataFrame()
+
     def _merge_scores(
         self,
         vcp_df: pd.DataFrame,
         ml_df: pd.DataFrame,
-        fundamental_df: pd.DataFrame
+        fundamental_df: pd.DataFrame,
+        options_df: pd.DataFrame,
+        data_5d: pd.DataFrame
     ) -> pd.DataFrame:
         """
         Merge todos los scores en un único dataframe
@@ -203,6 +233,14 @@ class SuperScoreIntegrator:
             result = result.merge(fundamental_df, on='ticker', how='left')
         else:
             result['fundamental_score'] = 50.0  # Default neutral
+
+        # Merge Options Flow
+        if not options_df.empty:
+            result = result.merge(options_df, on='ticker', how='left')
+
+        # Merge 5D data (insiders/institutional)
+        if not data_5d.empty:
+            result = result.merge(data_5d, on='ticker', how='left')
 
         # Fill NaN con valores neutros (50)
         score_cols = ['vcp_score', 'ml_score', 'fundamental_score']
@@ -586,6 +624,77 @@ class SuperScoreIntegrator:
 
         df['super_score_ultimate'] = (
             df['super_score_ultimate'] + df['trend_bonus']
+        ).clip(lower=0, upper=100)
+
+        # 10. OPTIONS FLOW (Institutional options sentiment)
+        print("\n🔟 OPTIONS FLOW")
+        print("-" * 70)
+
+        df['options_bonus'] = 0.0
+        if 'sentiment' in df.columns and 'put_call_ratio' in df.columns:
+            # BEARISH: put_call_ratio > 2 (heavy puts)
+            df.loc[
+                (df['sentiment'] == 'BEARISH') & (df['put_call_ratio'] > 2),
+                'options_bonus'
+            ] = -8.0
+            # BULLISH: put_call_ratio < 0.5 (heavy calls)
+            df.loc[
+                (df['sentiment'] == 'BULLISH') & (df['put_call_ratio'] < 0.5),
+                'options_bonus'
+            ] = 5.0
+
+            bearish_count = int((df['sentiment'] == 'BEARISH').sum())
+            bullish_count = int((df['sentiment'] == 'BULLISH').sum())
+            print(f"🔴 BEARISH options flow: {bearish_count}/{len(df)} (-8 pts penalty)")
+            print(f"🟢 BULLISH options flow: {bullish_count}/{len(df)} (+5 pts bonus)")
+
+        df['super_score_ultimate'] = (
+            df['super_score_ultimate'] + df['options_bonus']
+        ).clip(lower=0, upper=100)
+
+        # 11. INSTITUTIONAL BACKING (Whale holdings)
+        print("\n1️⃣1️⃣ INSTITUTIONAL BACKING")
+        print("-" * 70)
+
+        df['institutional_bonus'] = 0.0
+        if 'num_whales' in df.columns:
+            df['_whales'] = pd.to_numeric(df['num_whales'], errors='coerce').fillna(0)
+            df.loc[df['_whales'] >= 5, 'institutional_bonus'] += 8.0
+            df.loc[(df['_whales'] >= 3) & (df['_whales'] < 5), 'institutional_bonus'] += 5.0
+            df.loc[(df['_whales'] >= 1) & (df['_whales'] < 3), 'institutional_bonus'] += 2.0
+
+            whale_5plus = int((df['_whales'] >= 5).sum())
+            print(f"🐋 5+ whales holding: {whale_5plus}/{len(df)} (+8 pts)")
+            df.drop(columns=['_whales'], inplace=True)
+
+        if 'institutional_score' in df.columns:
+            df['_inst'] = pd.to_numeric(df['institutional_score'], errors='coerce').fillna(0)
+            df.loc[df['_inst'] >= 80, 'institutional_bonus'] += 3.0
+            high_inst = int((df['_inst'] >= 80).sum())
+            print(f"📊 High institutional score (≥80): {high_inst}/{len(df)} (+3 pts)")
+            df.drop(columns=['_inst'], inplace=True)
+
+        df['institutional_bonus'] = df['institutional_bonus'].clip(upper=10)
+        df['super_score_ultimate'] = (
+            df['super_score_ultimate'] + df['institutional_bonus']
+        ).clip(lower=0, upper=100)
+
+        # 12. INSIDER BUYING (Recurring insider purchases)
+        print("\n1️⃣2️⃣ INSIDER BUYING")
+        print("-" * 70)
+
+        df['insider_bonus'] = 0.0
+        if 'insiders_score' in df.columns:
+            df['_ins'] = pd.to_numeric(df['insiders_score'], errors='coerce').fillna(0)
+            df.loc[df['_ins'] >= 70, 'insider_bonus'] += 5.0
+            df.loc[(df['_ins'] >= 50) & (df['_ins'] < 70), 'insider_bonus'] += 3.0
+
+            high_insider = int((df['_ins'] >= 70).sum())
+            print(f"👔 Strong insider buying (score≥70): {high_insider}/{len(df)} (+5 pts)")
+            df.drop(columns=['_ins'], inplace=True)
+
+        df['super_score_ultimate'] = (
+            df['super_score_ultimate'] + df['insider_bonus']
         ).clip(lower=0, upper=100)
 
         # Add filter summary column
