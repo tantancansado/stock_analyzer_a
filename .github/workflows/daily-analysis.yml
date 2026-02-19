@@ -53,6 +53,9 @@ jobs:
       - name: Calculate Entry/Exit Prices [CRITICAL]
         run: python3 add_entry_exit_to_opportunities.py
 
+      - name: Generate Investment Theses [CRITICAL]
+        run: python3 thesis_generator.py 50 || echo "Thesis generation failed"
+
       - name: Generate Super Dashboard [CRITICAL]
         run: python3 super_dashboard_generator.py
 
@@ -126,11 +129,9 @@ jobs:
         continue-on-error: true
         run: python3 ml_scoring.py || echo "ML scoring failed"
 
-      - name: Update 5D Data + Investment Theses
+      - name: Update 5D Data Enrichment
         continue-on-error: true
-        run: |
-          python3 enrich_5d.py || echo "5D enrichment failed"
-          python3 thesis_generator.py 50 || echo "Thesis generation failed"
+        run: python3 enrich_5d.py || echo "5D enrichment failed"
 
       - name: Trading Analysis (Ultra Enhanced)
         continue-on-error: true

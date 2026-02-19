@@ -42,7 +42,7 @@ class ThesisGenerator:
         return True
 
     def generate_thesis(self, ticker):
-        """Genera tesis completa para un ticker"""
+        """Genera tesis completa para un ticker desde CSV 5D"""
         if self.csv_5d is None:
             self.load_data()
 
@@ -60,23 +60,70 @@ class ThesisGenerator:
             if not vcp_match.empty:
                 vcp_row = vcp_match.iloc[0].to_dict()
 
-        # Construir tesis
-        thesis = {
+        return self.generate_thesis_from_row(row_5d, vcp_row)
+
+    def generate_thesis_from_row(self, row_dict, vcp_row=None):
+        """Genera tesis a partir de un dict normalizado (no requiere CSV 5D)"""
+        ticker = row_dict.get('ticker', '')
+        return {
             "ticker": ticker,
             "generated_at": datetime.now().isoformat(),
-            "overview": self._generate_overview(row_5d),
-            "technical": self._analyze_technical(row_5d, vcp_row),
-            "fundamental": self._analyze_fundamental(row_5d),
-            "catalysts": self._analyze_catalysts(row_5d),
-            "thesis_narrative": self._generate_narrative(row_5d, vcp_row),
-            "rating": self._calculate_rating(row_5d, vcp_row),
-            "raw_data": {
-                "5d": row_5d,
-                "vcp": vcp_row
-            }
+            "overview": self._generate_overview(row_dict),
+            "technical": self._analyze_technical(row_dict, vcp_row),
+            "fundamental": self._analyze_fundamental(row_dict),
+            "catalysts": self._analyze_catalysts(row_dict),
+            "thesis_narrative": self._generate_narrative(row_dict, vcp_row),
+            "rating": self._calculate_rating(row_dict, vcp_row),
+            "raw_data": {"5d": row_dict, "vcp": vcp_row}
         }
 
-        return thesis
+    def _normalize_value_row(self, record, fund_row=None):
+        """Convierte un record de value/momentum_opportunities al formato esperado por los métodos de análisis"""
+        import json as _json
+
+        # Parsear JSON blobs de fundamental_scores si están disponibles
+        health, earnings, growth = {}, {}, {}
+        if fund_row is not None:
+            for col, target in [('health_details', health), ('earnings_details', earnings), ('growth_details', growth)]:
+                raw = fund_row.get(col, '')
+                if raw and str(raw) not in ('', 'nan'):
+                    try:
+                        target.update(_json.loads(str(raw)))
+                    except Exception:
+                        pass
+
+        roe_pct = health.get('roe_pct')
+        rev_growth = growth.get('revenue_growth_yoy')
+        profit_margin = earnings.get('profit_margin_pct')
+        value_score = float(record.get('value_score', record.get('momentum_score', 0)) or 0)
+        sector_bonus = float(record.get('sector_bonus', 0) or 0)
+
+        return {
+            'ticker': record.get('ticker', ''),
+            'super_score_5d': value_score,
+            'vcp_score': float(record.get('vcp_score', 0) or 0),
+            'entry_score': None,
+            'fundamental_score': float(record.get('fundamental_score', 50) or 50),
+            'pe_ratio': None,
+            'peg_ratio': None,
+            'fcf_yield': profit_margin,
+            'roe': roe_pct / 100 if roe_pct is not None else None,
+            'revenue_growth': rev_growth / 100 if rev_growth is not None else None,
+            'sector_name': record.get('sector', ''),
+            'sector_momentum': 'improving' if sector_bonus > 0 else '',
+            'sector_score': None,
+            'tier_boost': sector_bonus,
+            'num_whales': int(float(record.get('num_whales') or 0) if str(record.get('num_whales', '')).lower() not in ('nan', 'none', '') else 0),
+            'top_whales': str(record.get('top_whales', '') or ''),
+            'insiders_score': float(record.get('insiders_score') or 0) if str(record.get('insiders_score', '')).lower() not in ('nan', 'none', '') else 0.0,
+            'days_to_earnings': None,
+            'analyst_upside': None,
+            'num_analysts': 0,
+            'price_target': None,
+            'upside_percent': None,
+            'current_price': record.get('current_price'),
+            'entry_bonus': 0,
+        }
 
     def _generate_overview(self, row):
         """Overview/resumen ejecutivo"""
@@ -256,8 +303,8 @@ class ThesisGenerator:
         # Sector
         sector_name = row.get('sector_name', '')
         sector_momentum = row.get('sector_momentum', '')
-        sector_score = row.get('sector_score', 0)
-        tier_boost = row.get('tier_boost', 0)
+        sector_score = row.get('sector_score') or 0
+        tier_boost = row.get('tier_boost', 0) or 0
 
         if sector_name:
             if sector_momentum == 'improving' and tier_boost > 0:
@@ -299,9 +346,9 @@ class ThesisGenerator:
         """Genera la narrativa/tesis escrita"""
         ticker = row['ticker']
         score_5d = row.get('super_score_5d', 0)
-        vcp_score = row.get('vcp_score', 0)
-        entry_score = row.get('entry_score', 0)
-        upside = row.get('upside_percent', 0)
+        vcp_score = row.get('vcp_score') or 0
+        entry_score = row.get('entry_score') or 0
+        upside = row.get('upside_percent') or 0
         sector = row.get('sector_name', 'N/A')
 
         # Determinar tipo de oportunidad
@@ -447,7 +494,45 @@ def main():
         else:
             print(f"❌ {thesis['error']}")
 
-    # Guardar JSON (convertir NaN a null para compatibilidad con JavaScript)
+    # ── Generar tesis para tickers VALUE + MOMENTUM no cubiertos por 5D ────────
+    fund_df = None
+    fund_path = Path("docs/fundamental_scores.csv")
+    if fund_path.exists():
+        fund_df = pd.read_csv(fund_path)
+
+    for opp_csv, score_col, label in [
+        ("docs/value_opportunities.csv", "value_score", "VALUE"),
+        ("docs/momentum_opportunities.csv", "momentum_score", "MOMENTUM"),
+    ]:
+        opp_path = Path(opp_csv)
+        if not opp_path.exists():
+            continue
+        opp_df = pd.read_csv(opp_path)
+        print(f"\n📊 Generando tesis para tickers {label} no cubiertos...")
+        for _, rec in opp_df.iterrows():
+            ticker = str(rec.get('ticker', ''))
+            if not ticker or ticker in theses:
+                continue
+            # fundamental_scores row para datos adicionales
+            fund_row = None
+            if fund_df is not None:
+                match = fund_df[fund_df['ticker'] == ticker]
+                if not match.empty:
+                    fund_row = match.iloc[0].to_dict()
+            # VCP row
+            vcp_row = None
+            if gen.vcp_data is not None:
+                vcp_match = gen.vcp_data[gen.vcp_data['ticker'] == ticker]
+                if not vcp_match.empty:
+                    vcp_row = vcp_match.iloc[0].to_dict()
+
+            row_dict = gen._normalize_value_row(rec.to_dict(), fund_row)
+            thesis = gen.generate_thesis_from_row(row_dict, vcp_row)
+            theses[ticker] = thesis
+            score = row_dict['super_score_5d']
+            print(f"  ✅ [{label}] {ticker} → score {score:.1f}")
+
+    # ── Guardar JSON (convertir NaN a null para compatibilidad con JavaScript) ─
     import numpy as np
     def convert_nan_to_none(obj):
         """Convierte NaN/Inf a None recursivamente para compatibilidad JSON"""

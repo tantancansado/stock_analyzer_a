@@ -42,6 +42,17 @@ class SuperDashboardGenerator:
 
         print(f"✅ Super Dashboard generado: {output_file}")
 
+    def _load_theses(self) -> dict:
+        """Carga tesis de inversión desde docs/theses.json"""
+        theses_path = Path("docs/theses.json")
+        if not theses_path.exists():
+            return {}
+        try:
+            with open(theses_path) as f:
+                return json.load(f)
+        except Exception:
+            return {}
+
     def _load_value_opportunities(self):
         """Carga oportunidades VALUE (Sección A - Principal)"""
         path = Path("docs/value_opportunities.csv")
@@ -50,7 +61,14 @@ class SuperDashboardGenerator:
         try:
             df = pd.read_csv(path)
             df['value_score'] = pd.to_numeric(df.get('value_score', 0), errors='coerce').fillna(0)
-            return df.sort_values('value_score', ascending=False).head(15).to_dict('records')
+            records = df.sort_values('value_score', ascending=False).head(15).to_dict('records')
+            theses = self._load_theses()
+            for r in records:
+                t = theses.get(r.get('ticker', ''), {})
+                r['thesis_narrative'] = t.get('thesis_narrative', '')
+                r['thesis_signals'] = t.get('technical', {}).get('signals', [])
+                r['thesis_catalysts_insiders'] = t.get('catalysts', {}).get('insiders', [])
+            return records
         except Exception:
             return []
 
@@ -62,7 +80,14 @@ class SuperDashboardGenerator:
         try:
             df = pd.read_csv(path)
             df['momentum_score'] = pd.to_numeric(df.get('momentum_score', 0), errors='coerce').fillna(0)
-            return df.sort_values('momentum_score', ascending=False).head(15).to_dict('records')
+            records = df.sort_values('momentum_score', ascending=False).head(15).to_dict('records')
+            theses = self._load_theses()
+            for r in records:
+                t = theses.get(r.get('ticker', ''), {})
+                r['thesis_narrative'] = t.get('thesis_narrative', '')
+                r['thesis_signals'] = t.get('technical', {}).get('signals', [])
+                r['thesis_catalysts_insiders'] = t.get('catalysts', {}).get('insiders', [])
+            return records
         except Exception:
             return []
 
@@ -1087,16 +1112,16 @@ class SuperDashboardGenerator:
                                 <td style="text-align:right; color:${{d.proximity_to_52w_high >= -10 ? '#10b981' : d.proximity_to_52w_high >= -25 ? '#f59e0b' : '#e53e3e'}}">
                                 ${{d.proximity_to_52w_high.toFixed(1)}}%${{d.proximity_to_52w_high >= -5 ? ' 🎯' : d.proximity_to_52w_high >= -15 ? ' 📈' : d.proximity_to_52w_high < -30 ? ' ⚠️' : ''}}</td></tr>` : ''}}
                             ${{d.target_price_analyst != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. Analistas</td>
-                                <td style="text-align:right;"><strong>$${d.target_price_analyst.toFixed(2)}</strong>
+                                <td style="text-align:right;"><strong>${{d.target_price_analyst.toFixed(2)}}</strong>
                                 <span style="color:${{d.analyst_upside_pct >= 15 ? '#10b981' : d.analyst_upside_pct >= 0 ? '#f59e0b' : '#e53e3e'}}">
                                 (${{d.analyst_upside_pct != null ? (d.analyst_upside_pct > 0 ? '+' : '') + d.analyst_upside_pct.toFixed(1) + '%' : ''}})</span>
                                 ${{d.analyst_count ? '<span style="color:#94a3b8;font-size:0.78em;">' + d.analyst_count + ' analistas</span>' : ''}}
                                 ${{d.analyst_recommendation ? '<span style="color:#6366f1;font-size:0.78em;text-transform:capitalize;"> · ' + d.analyst_recommendation.replace('_',' ') + '</span>' : ''}}</td></tr>` : ''}}
                             ${{d.target_price_dcf != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. DCF</td>
-                                <td style="text-align:right; color:#64748b;">$${d.target_price_dcf.toFixed(2)}
+                                <td style="text-align:right; color:#64748b;">${{d.target_price_dcf.toFixed(2)}}
                                 <span style="font-size:0.78em;">(${{d.target_price_dcf_upside_pct != null ? (d.target_price_dcf_upside_pct > 0 ? '+' : '') + d.target_price_dcf_upside_pct.toFixed(1) + '%' : ''}})</span></td></tr>` : ''}}
                             ${{d.target_price_pe != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. P/E justo</td>
-                                <td style="text-align:right; color:#64748b;">$${d.target_price_pe.toFixed(2)}
+                                <td style="text-align:right; color:#64748b;">${{d.target_price_pe.toFixed(2)}}
                                 <span style="font-size:0.78em;">(${{d.target_price_pe_upside_pct != null ? (d.target_price_pe_upside_pct > 0 ? '+' : '') + d.target_price_pe_upside_pct.toFixed(1) + '%' : ''}})</span></td></tr>` : ''}}
                         </table>
                     </div>
@@ -1161,6 +1186,21 @@ class SuperDashboardGenerator:
         pct = min(max(float(score), 0), 100)
         return f'<div style="height:6px;background:#e2e8f0;border-radius:3px;margin-top:4px;"><div style="width:{pct:.0f}%;height:100%;background:{color};border-radius:3px;"></div></div>'
 
+    def _format_thesis_html(self, narrative: str, signals: list, insiders: list) -> str:
+        """Formatea thesis_narrative como HTML (convierte **bold** y \\n)"""
+        import re
+        text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', narrative)
+        text = text.replace('\n\n', '</p><p style="margin:6px 0 0;">').replace('\n', '<br>')
+        signals_html = ''
+        if signals:
+            items = ''.join(f'<span style="margin-right:10px;">{s}</span>' for s in signals[:4])
+            signals_html = f'<div style="margin-top:8px;font-size:0.8em;">{items}</div>'
+        insiders_html = ''
+        if insiders:
+            items = ''.join(f'<span style="margin-right:10px;color:#7c3aed;">{s}</span>' for s in insiders[:2])
+            insiders_html = f'<div style="margin-top:4px;font-size:0.8em;">{items}</div>'
+        return f'<p style="margin:0;">{text}</p>{signals_html}{insiders_html}'
+
     def _value_row_html(self, d: dict) -> str:
         """Genera fila HTML para una oportunidad value"""
         ticker  = d.get('ticker', '')
@@ -1200,20 +1240,40 @@ class SuperDashboardGenerator:
         else:
             target_cell = '<span style="color:#94a3b8;font-size:0.8em;">N/A</span>'
 
-        return f'''<tr style="border-bottom:1px solid #f1f5f9;">
-            <td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>
-            <td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>
-            <td style="padding:10px 8px;">{price_str}</td>
-            <td style="padding:10px 8px;min-width:90px;">
-                <span style="font-weight:700;color:{color};">{score:.1f}</span>
-                {self._score_bar(score, color)}
-            </td>
-            <td style="padding:10px 8px;color:#64748b;font-size:0.82em;">{sector}</td>
-            <td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>
-            <td style="padding:10px 8px;text-align:center;">{options_badge}</td>
-            <td style="padding:10px 8px;text-align:center;color:#8b5cf6;font-size:0.82em;">{sect_b}</td>
-            <td style="padding:10px 8px;text-align:center;color:#f59e0b;font-size:0.82em;">{mr}</td>
-        </tr>'''
+        # Thesis collapsible row
+        thesis_narrative = d.get('thesis_narrative', '')
+        thesis_signals = d.get('thesis_signals', [])
+        thesis_insiders = d.get('thesis_catalysts_insiders', [])
+        thesis_id = f'thesis-v-{ticker}'
+        if thesis_narrative:
+            thesis_html = self._format_thesis_html(thesis_narrative, thesis_signals, thesis_insiders)
+            ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
+                           f'onclick="var r=document.getElementById(\'{thesis_id}\'),'
+                           f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
+                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;">💡</span></td>')
+            thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
+                          f'<td colspan="9" style="padding:12px 20px 14px;border-bottom:2px solid #e0e7ff;">'
+                          f'<div style="border-left:3px solid #667eea;padding-left:12px;'
+                          f'color:#4a5568;font-size:0.85em;line-height:1.6;">'
+                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">💡 Tesis de Inversión</div>'
+                          f'{thesis_html}</div></td></tr>')
+        else:
+            ticker_cell = f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>'
+            thesis_row = ''
+
+        return (f'<tr style="border-bottom:1px solid #f1f5f9;">'
+                f'{ticker_cell}'
+                f'<td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>'
+                f'<td style="padding:10px 8px;">{price_str}</td>'
+                f'<td style="padding:10px 8px;min-width:90px;">'
+                f'<span style="font-weight:700;color:{color};">{score:.1f}</span>'
+                f'{self._score_bar(score, color)}</td>'
+                f'<td style="padding:10px 8px;color:#64748b;font-size:0.82em;">{sector}</td>'
+                f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
+                f'<td style="padding:10px 8px;text-align:center;">{options_badge}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:#8b5cf6;font-size:0.82em;">{sect_b}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:#f59e0b;font-size:0.82em;">{mr}</td>'
+                f'</tr>{thesis_row}')
 
     def _momentum_row_html(self, d: dict) -> str:
         """Genera fila HTML para un setup de momentum"""
@@ -1243,19 +1303,39 @@ class SuperDashboardGenerator:
         else:
             target_cell = '<span style="color:#94a3b8;font-size:0.8em;">N/A</span>'
 
-        return f'''<tr style="border-bottom:1px solid #f1f5f9;">
-            <td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>
-            <td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>
-            <td style="padding:10px 8px;">{price_str}</td>
-            <td style="padding:10px 8px;min-width:90px;">
-                <span style="font-weight:700;color:{color};">{score:.1f}</span>
-                {self._score_bar(score, color)}
-            </td>
-            <td style="padding:10px 8px;text-align:center;color:#6366f1;font-weight:600;">{vcp:.0f}</td>
-            <td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{prox_str}</td>
-            <td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{trend_str}</td>
-            <td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>
-        </tr>'''
+        # Thesis collapsible row
+        thesis_narrative = d.get('thesis_narrative', '')
+        thesis_signals = d.get('thesis_signals', [])
+        thesis_insiders = d.get('thesis_catalysts_insiders', [])
+        thesis_id = f'thesis-m-{ticker}'
+        if thesis_narrative:
+            thesis_html = self._format_thesis_html(thesis_narrative, thesis_signals, thesis_insiders)
+            ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
+                           f'onclick="var r=document.getElementById(\'{thesis_id}\'),'
+                           f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
+                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;">💡</span></td>')
+            thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
+                          f'<td colspan="8" style="padding:12px 20px 14px;border-bottom:2px solid #e0e7ff;">'
+                          f'<div style="border-left:3px solid #667eea;padding-left:12px;'
+                          f'color:#4a5568;font-size:0.85em;line-height:1.6;">'
+                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">💡 Tesis de Inversión</div>'
+                          f'{thesis_html}</div></td></tr>')
+        else:
+            ticker_cell = f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>'
+            thesis_row = ''
+
+        return (f'<tr style="border-bottom:1px solid #f1f5f9;">'
+                f'{ticker_cell}'
+                f'<td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>'
+                f'<td style="padding:10px 8px;">{price_str}</td>'
+                f'<td style="padding:10px 8px;min-width:90px;">'
+                f'<span style="font-weight:700;color:{color};">{score:.1f}</span>'
+                f'{self._score_bar(score, color)}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:#6366f1;font-weight:600;">{vcp:.0f}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{prox_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{trend_str}</td>'
+                f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
+                f'</tr>{thesis_row}')
 
     def _generate_dual_strategy_html(self, value_data: list, momentum_data: list) -> str:
         """Genera HTML para las 2 secciones: Value Opportunities + Momentum Plays"""
