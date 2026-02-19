@@ -223,6 +223,13 @@ class SuperScoreIntegrator:
             'fifty_two_week_high', 'proximity_to_52w_high',
             # Minervini Trend Template
             'trend_template_score', 'trend_template_pass',
+            # Profitability details (CRITICAL for gates)
+            'health_details', 'earnings_details',
+            # Target Prices (analyst + DCF + P/E)
+            'target_price_analyst', 'target_price_analyst_high', 'target_price_analyst_low',
+            'analyst_count', 'analyst_recommendation', 'analyst_upside_pct',
+            'target_price_dcf', 'target_price_dcf_upside_pct',
+            'target_price_pe', 'target_price_pe_upside_pct',
         ]
         available_cols = [col for col in cols if col in df.columns]
 
@@ -296,28 +303,51 @@ class SuperScoreIntegrator:
         data_5d: pd.DataFrame
     ) -> pd.DataFrame:
         """
-        Merge todos los scores en un único dataframe
+        Merge todos los scores en un único dataframe.
 
-        Strategy: Inner join para tener solo tickers con todos los scores
+        Universe = UNION of:
+          - VCP tickers (have technical pattern → qualify for momentum scoring)
+          - Fundamentally-scored tickers (from fundamental_scorer --vcp --5d)
+            This includes high-insider tickers from the 5D scanner that have
+            no VCP pattern but strong fundamental/insider conviction.
+
+        Result: VCP-only tickers get vcp_score; 5D-only tickers get vcp_score=0;
+                all tickers with fundamental_scores qualify for VALUE scoring.
         """
-        # Empezar con VCP (base)
-        if vcp_df.empty:
-            print("❌ No hay datos VCP para integrar")
+        # Build universe: UNION of VCP + all fundamentally-scored tickers
+        if vcp_df.empty and fundamental_df.empty:
+            print("❌ No hay datos VCP ni Fundamental para integrar")
             return pd.DataFrame()
 
-        result = vcp_df.copy()
+        if vcp_df.empty:
+            print("⚠️  No VCP data — using fundamental_scores universe only")
+            all_tickers = fundamental_df[['ticker']].drop_duplicates().copy()
+        elif fundamental_df.empty:
+            print("⚠️  No fundamental data — using VCP universe only")
+            all_tickers = vcp_df[['ticker']].drop_duplicates().copy()
+        else:
+            vcp_tickers = set(vcp_df['ticker'].tolist())
+            fund_tickers = set(fundamental_df['ticker'].tolist())
+            union_tickers = vcp_tickers | fund_tickers
+            fund_only = fund_tickers - vcp_tickers
+            if fund_only:
+                print(f"📊 Universe expansion: +{len(fund_only)} non-VCP tickers from fundamental_scores "
+                      f"(e.g. high-insider 5D tickers)")
+            all_tickers = pd.DataFrame({'ticker': sorted(union_tickers)})
+
+        result = all_tickers.copy()
+
+        # Merge VCP scores (left: 5D-only tickers will have NaN → filled to 0)
+        if not vcp_df.empty:
+            result = result.merge(vcp_df, on='ticker', how='left')
 
         # Merge ML scores
         if not ml_df.empty:
             result = result.merge(ml_df, on='ticker', how='left')
-        else:
-            result['ml_score'] = 50.0  # Default neutral
 
         # Merge Fundamental scores
         if not fundamental_df.empty:
             result = result.merge(fundamental_df, on='ticker', how='left')
-        else:
-            result['fundamental_score'] = 50.0  # Default neutral
 
         # Merge Options Flow
         if not options_df.empty:
@@ -327,11 +357,13 @@ class SuperScoreIntegrator:
         if not data_5d.empty:
             result = result.merge(data_5d, on='ticker', how='left')
 
-        # Fill NaN con valores neutros (50)
-        score_cols = ['vcp_score', 'ml_score', 'fundamental_score']
-        for col in score_cols:
-            if col in result.columns:
-                result[col] = result[col].fillna(50.0)
+        # Fill NaN: vcp_score=0 for non-VCP tickers (won't qualify for momentum)
+        # ml_score and fundamental_score stay NaN (handled in scoring by default detection)
+        if 'vcp_score' in result.columns:
+            result['vcp_score'] = result['vcp_score'].fillna(0.0)
+        if 'ml_score' in result.columns:
+            result['ml_score'] = result['ml_score'].fillna(50.0)  # 50 = default, ignored in value_score
+        # fundamental_score: leave as NaN → abs check will skip it
 
         return result
 
@@ -788,6 +820,7 @@ class SuperScoreIntegrator:
         print("⚠️  Minervini NEVER buys unprofitable companies")
 
         df['profitability_penalty'] = 0.0
+        df['negative_roe'] = False  # Hard reject flag for VALUE strategy
 
         # Parse health_details to extract ROE, margins
         if 'health_details' in df.columns:
@@ -808,6 +841,7 @@ class SuperScoreIntegrator:
                     # CRITICAL: Negative ROE = destroying shareholder value
                     if roe is not None and roe < 0:
                         penalty += 25.0  # Massive penalty
+                        df.at[idx, 'negative_roe'] = True  # Flag for hard reject in VALUE
 
                     # CRITICAL: Negative profit margin = losing money
                     if profit_margin is not None and profit_margin < 0:
@@ -825,9 +859,11 @@ class SuperScoreIntegrator:
                     pass
 
             # Apply penalties
+            negative_roe_count = int(df['negative_roe'].sum())
             severe_penalty = int((df['profitability_penalty'] >= 25).sum())
             moderate_penalty = int((df['profitability_penalty'] >= 10).sum())
 
+            print(f"🚫 HARD REJECT (ROE<0): {negative_roe_count}/{len(df)} — excluded from VALUE")
             print(f"🔴 Severe penalties (ROE<0 or profit<0): {severe_penalty}/{len(df)}")
             print(f"🟡 Moderate penalties (weak profitability): {moderate_penalty}/{len(df)}")
 
@@ -852,12 +888,15 @@ class SuperScoreIntegrator:
 
         df['value_score'] = 0.0
 
-        # Fundamentals (40 pts max)
+        # Fundamentals (40 pts max) — ONLY if not default (50.0 exactly = no real data)
         if 'fundamental_score' in df.columns:
-            df['_fund'] = pd.to_numeric(df['fundamental_score'], errors='coerce').fillna(0)
-            df['value_score'] += (df['_fund'] / 100) * 40  # Scale to 40 pts
+            df['_fund'] = pd.to_numeric(df['fundamental_score'], errors='coerce')
+            valid_fund = df['_fund'].notna() & ((df['_fund'] - 50.0).abs() > 0.1)
+            df.loc[valid_fund, 'value_score'] += (df.loc[valid_fund, '_fund'] / 100) * 40
 
         # Profitability bonus (15 pts max)
+        # health_details has: roe_pct, operating_margin_pct
+        # earnings_details has: profit_margin_pct
         if 'health_details' in df.columns:
             import ast
             for idx, row in df.iterrows():
@@ -866,8 +905,14 @@ class SuperScoreIntegrator:
                     if isinstance(health, str):
                         health = ast.literal_eval(health) if health != '{}' else {}
 
+                    earnings = row.get('earnings_details', '{}')
+                    if isinstance(earnings, str):
+                        earnings = ast.literal_eval(earnings) if earnings != '{}' else {}
+
                     roe = health.get('roe_pct', 0)
-                    profit_margin = health.get('profit_margin_pct', 0)
+                    # profit_margin lives in earnings_details; op_margin in health_details
+                    profit_margin = earnings.get('profit_margin_pct',
+                                    health.get('operating_margin_pct', 0))
 
                     prof_bonus = 0.0
                     if roe >= 20:
@@ -896,10 +941,11 @@ class SuperScoreIntegrator:
         value_options = df.get('options_bonus', pd.Series(0.0, index=df.index)) * 2  # Scale 5→10
         df['value_score'] += value_options.clip(lower=-10, upper=10)
 
-        # ML confirmation (5 pts max)
+        # ML confirmation (5 pts max) — ONLY if not default (50.0 = no real prediction)
         if 'ml_score' in df.columns:
-            df['_ml'] = pd.to_numeric(df['ml_score'], errors='coerce').fillna(0)
-            df['value_score'] += (df['_ml'] / 100) * 5  # Scale to 5 pts
+            df['_ml'] = pd.to_numeric(df['ml_score'], errors='coerce')
+            valid_ml = df['_ml'].notna() & ((df['_ml'] - 50.0).abs() > 0.1)
+            df.loc[valid_ml, 'value_score'] += (df.loc[valid_ml, '_ml'] / 100) * 5
             df.drop(columns=['_ml'], inplace=True, errors='ignore')
 
         # Sector Rotation (10 pts max) - VALUE strategy: buy sectors temporarily down
@@ -928,6 +974,18 @@ class SuperScoreIntegrator:
             df['mr_bonus'] = 0.0
             df.loc[df['ticker'].isin(mean_reversion_tickers), 'mr_bonus'] = 10.0
             df['value_score'] += df['mr_bonus']
+
+        # Apply profitability penalty to value_score (same gates as super_score)
+        if 'profitability_penalty' in df.columns:
+            df['value_score'] = (df['value_score'] - df['profitability_penalty']).clip(lower=0)
+
+        # Hard reject: zero out value_score for negative ROE (excluded from VALUE list)
+        if 'negative_roe' in df.columns:
+            rejected = int(df['negative_roe'].sum())
+            df.loc[df['negative_roe'] == True, 'value_score'] = 0.0
+            if rejected > 0:
+                rejected_tickers = df[df['negative_roe'] == True]['ticker'].tolist()
+                print(f"🚫 Hard rejected from VALUE (ROE<0): {rejected_tickers}")
 
         df['value_score'] = df['value_score'].clip(lower=0, upper=100)
 

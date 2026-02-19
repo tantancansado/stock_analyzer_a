@@ -1086,6 +1086,18 @@ class SuperDashboardGenerator:
                             ${{d.proximity_to_52w_high != null ? `<tr><td style="padding:4px 0; color:#718096;">Dist. Máx. 52s</td>
                                 <td style="text-align:right; color:${{d.proximity_to_52w_high >= -10 ? '#10b981' : d.proximity_to_52w_high >= -25 ? '#f59e0b' : '#e53e3e'}}">
                                 ${{d.proximity_to_52w_high.toFixed(1)}}%${{d.proximity_to_52w_high >= -5 ? ' 🎯' : d.proximity_to_52w_high >= -15 ? ' 📈' : d.proximity_to_52w_high < -30 ? ' ⚠️' : ''}}</td></tr>` : ''}}
+                            ${{d.target_price_analyst != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. Analistas</td>
+                                <td style="text-align:right;"><strong>$${d.target_price_analyst.toFixed(2)}</strong>
+                                <span style="color:${{d.analyst_upside_pct >= 15 ? '#10b981' : d.analyst_upside_pct >= 0 ? '#f59e0b' : '#e53e3e'}}">
+                                (${{d.analyst_upside_pct != null ? (d.analyst_upside_pct > 0 ? '+' : '') + d.analyst_upside_pct.toFixed(1) + '%' : ''}})</span>
+                                ${{d.analyst_count ? '<span style="color:#94a3b8;font-size:0.78em;">' + d.analyst_count + ' analistas</span>' : ''}}
+                                ${{d.analyst_recommendation ? '<span style="color:#6366f1;font-size:0.78em;text-transform:capitalize;"> · ' + d.analyst_recommendation.replace('_',' ') + '</span>' : ''}}</td></tr>` : ''}}
+                            ${{d.target_price_dcf != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. DCF</td>
+                                <td style="text-align:right; color:#64748b;">$${d.target_price_dcf.toFixed(2)}
+                                <span style="font-size:0.78em;">(${{d.target_price_dcf_upside_pct != null ? (d.target_price_dcf_upside_pct > 0 ? '+' : '') + d.target_price_dcf_upside_pct.toFixed(1) + '%' : ''}})</span></td></tr>` : ''}}
+                            ${{d.target_price_pe != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. P/E justo</td>
+                                <td style="text-align:right; color:#64748b;">$${d.target_price_pe.toFixed(2)}
+                                <span style="font-size:0.78em;">(${{d.target_price_pe_upside_pct != null ? (d.target_price_pe_upside_pct > 0 ? '+' : '') + d.target_price_pe_upside_pct.toFixed(1) + '%' : ''}})</span></td></tr>` : ''}}
                         </table>
                     </div>
                 </div>
@@ -1175,6 +1187,19 @@ class SuperDashboardGenerator:
 
         price_str = self._fmt_price(d.get('current_price', ''))
 
+        # Target price: analyst consensus with upside %
+        tp = d.get('target_price_analyst')
+        tp_upside = d.get('analyst_upside_pct')
+        tp_count = d.get('analyst_count')
+        if tp is not None and tp_upside is not None:
+            up_color = '#10b981' if tp_upside >= 10 else ('#f59e0b' if tp_upside >= 0 else '#ef4444')
+            count_str = f' <span style="color:#94a3b8;font-size:0.75em;">({int(tp_count)})</span>' if tp_count else ''
+            target_cell = (f'<span style="font-weight:600;">${tp:.0f}</span>'
+                           f'{count_str}<br>'
+                           f'<span style="color:{up_color};font-size:0.8em;">{tp_upside:+.1f}%</span>')
+        else:
+            target_cell = '<span style="color:#94a3b8;font-size:0.8em;">N/A</span>'
+
         return f'''<tr style="border-bottom:1px solid #f1f5f9;">
             <td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>
             <td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>
@@ -1184,6 +1209,7 @@ class SuperDashboardGenerator:
                 {self._score_bar(score, color)}
             </td>
             <td style="padding:10px 8px;color:#64748b;font-size:0.82em;">{sector}</td>
+            <td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>
             <td style="padding:10px 8px;text-align:center;">{options_badge}</td>
             <td style="padding:10px 8px;text-align:center;color:#8b5cf6;font-size:0.82em;">{sect_b}</td>
             <td style="padding:10px 8px;text-align:center;color:#f59e0b;font-size:0.82em;">{mr}</td>
@@ -1207,6 +1233,16 @@ class SuperDashboardGenerator:
         prox_str  = self._fmt_optional(d.get('proximity_to_52w_high', ''), '{:.1f}%')
         trend_str = self._fmt_optional(d.get('trend_template_score', ''), '{:.0f}/8')
 
+        # Analyst target for momentum too
+        tp = d.get('target_price_analyst')
+        tp_upside = d.get('analyst_upside_pct')
+        if tp is not None and tp_upside is not None:
+            up_color = '#10b981' if tp_upside >= 10 else ('#f59e0b' if tp_upside >= 0 else '#ef4444')
+            target_cell = (f'<span style="font-weight:600;">${tp:.0f}</span><br>'
+                           f'<span style="color:{up_color};font-size:0.8em;">{tp_upside:+.1f}%</span>')
+        else:
+            target_cell = '<span style="color:#94a3b8;font-size:0.8em;">N/A</span>'
+
         return f'''<tr style="border-bottom:1px solid #f1f5f9;">
             <td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>
             <td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>
@@ -1218,6 +1254,7 @@ class SuperDashboardGenerator:
             <td style="padding:10px 8px;text-align:center;color:#6366f1;font-weight:600;">{vcp:.0f}</td>
             <td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{prox_str}</td>
             <td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{trend_str}</td>
+            <td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>
         </tr>'''
 
     def _generate_dual_strategy_html(self, value_data: list, momentum_data: list) -> str:
@@ -1226,12 +1263,12 @@ class SuperDashboardGenerator:
         if value_data:
             value_rows = ''.join(self._value_row_html(d) for d in value_data)
         else:
-            value_rows = '<tr><td colspan="8" style="padding:20px;text-align:center;color:#94a3b8;">No hay oportunidades value en este momento</td></tr>'
+            value_rows = '<tr><td colspan="9" style="padding:20px;text-align:center;color:#94a3b8;">No hay oportunidades value en este momento</td></tr>'
 
         if momentum_data:
             momentum_rows = ''.join(self._momentum_row_html(d) for d in momentum_data)
         else:
-            momentum_rows = '<tr><td colspan="7" style="padding:20px;text-align:center;color:#94a3b8;">No hay setups de momentum en este momento</td></tr>'
+            momentum_rows = '<tr><td colspan="8" style="padding:20px;text-align:center;color:#94a3b8;">No hay setups de momentum en este momento</td></tr>'
 
         return f'''
         <!-- ═══════════════════════════════════════════════════════════ -->
@@ -1257,6 +1294,7 @@ class SuperDashboardGenerator:
                                 <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Precio</th>
                                 <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Score</th>
                                 <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Sector</th>
+                                <th style="padding:8px;text-align:right;color:#475569;font-weight:600;" title="Precio objetivo analistas + upside">Objetivo</th>
                                 <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Opciones</th>
                                 <th style="padding:8px;text-align:center;color:#475569;font-weight:600;" title="Sector rotation bonus">S.Rot</th>
                                 <th style="padding:8px;text-align:center;color:#475569;font-weight:600;" title="Mean reversion signal">M.Rev</th>
@@ -1287,6 +1325,7 @@ class SuperDashboardGenerator:
                                 <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">VCP</th>
                                 <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Dist.Máx</th>
                                 <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Tendencia</th>
+                                <th style="padding:8px;text-align:right;color:#475569;font-weight:600;" title="Precio objetivo analistas + upside">Objetivo</th>
                             </tr>
                         </thead>
                         <tbody>{momentum_rows}</tbody>

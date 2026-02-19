@@ -321,6 +321,33 @@ def _analyze_from_cache(ticker):
             if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
                 trend_template_pass = bool(_raw)
 
+    # ── Target Prices (analyst + DCF + P/E) ───────────────────────────────
+    tp_analyst = tp_analyst_high = tp_analyst_low = None
+    tp_analyst_upside = tp_analyst_count = tp_analyst_rec = None
+    tp_dcf = tp_dcf_upside = tp_pe = tp_pe_upside = None
+    for _src in [rfund, rscores]:
+        if _src is None:
+            continue
+        if tp_analyst is None:      tp_analyst       = _sf(_src.get('target_price_analyst'))
+        if tp_analyst_high is None: tp_analyst_high  = _sf(_src.get('target_price_analyst_high'))
+        if tp_analyst_low is None:  tp_analyst_low   = _sf(_src.get('target_price_analyst_low'))
+        if tp_analyst_upside is None: tp_analyst_upside = _sf(_src.get('analyst_upside_pct'))
+        if tp_analyst_rec is None:
+            _raw = _src.get('analyst_recommendation')
+            if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
+                tp_analyst_rec = str(_raw)
+        if tp_analyst_count is None:
+            _raw = _src.get('analyst_count')
+            if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
+                try:
+                    tp_analyst_count = int(_raw)
+                except (ValueError, TypeError):
+                    pass
+        if tp_dcf is None:          tp_dcf           = _sf(_src.get('target_price_dcf'))
+        if tp_dcf_upside is None:   tp_dcf_upside    = _sf(_src.get('target_price_dcf_upside_pct'))
+        if tp_pe is None:           tp_pe            = _sf(_src.get('target_price_pe'))
+        if tp_pe_upside is None:    tp_pe_upside     = _sf(_src.get('target_price_pe_upside_pct'))
+
     # ── ML detalles ────────────────────────────────────────────────────────
     ml_quality = ml_momentum = ml_trend = ml_volume = None
     if rml is not None:
@@ -469,6 +496,17 @@ def _analyze_from_cache(ticker):
 
         "trend_template_score": int(trend_template_score) if trend_template_score is not None else None,
         "trend_template_pass":  trend_template_pass,
+
+        "target_price_analyst":        round(tp_analyst, 2) if tp_analyst is not None else None,
+        "target_price_analyst_high":   round(tp_analyst_high, 2) if tp_analyst_high is not None else None,
+        "target_price_analyst_low":    round(tp_analyst_low, 2) if tp_analyst_low is not None else None,
+        "analyst_upside_pct":          round(tp_analyst_upside, 1) if tp_analyst_upside is not None else None,
+        "analyst_recommendation":      tp_analyst_rec,
+        "analyst_count":               tp_analyst_count,
+        "target_price_dcf":            round(tp_dcf, 2) if tp_dcf is not None else None,
+        "target_price_dcf_upside_pct": round(tp_dcf_upside, 1) if tp_dcf_upside is not None else None,
+        "target_price_pe":             round(tp_pe, 2) if tp_pe is not None else None,
+        "target_price_pe_upside_pct":  round(tp_pe_upside, 1) if tp_pe_upside is not None else None,
 
         "ml_quality": ml_quality,
         "ml_momentum": ml_momentum,

@@ -741,6 +741,90 @@ Complementa VCP y otras señales para timing óptimo.
         else:
             print("❌ Error enviando alerta")
 
+    def send_value_opportunities_alerts(self):
+        """
+        Alerta matutina con top VALUE opportunities (sistema híbrido principal).
+        Lee de value_opportunities.csv — incluye insiders + institutional + fundamentals.
+        Solo alerta si hay oportunidades con value_score >= 35.
+        """
+        print("💎 Buscando Value Opportunities...")
+
+        import pandas as pd
+
+        csv_path = Path('docs/value_opportunities.csv')
+        if not csv_path.exists():
+            print("⚠️  No hay datos de Value Opportunities")
+            return
+
+        df = pd.read_csv(csv_path)
+        if df.empty or 'value_score' not in df.columns:
+            print("ℹ️  No hay value opportunities disponibles")
+            return
+
+        # Filter: only real opportunities (score >= 35)
+        quality = df[df['value_score'] >= 35].copy()
+        if quality.empty:
+            print("ℹ️  No hay value opportunities con score ≥ 35 hoy")
+            return
+
+        quality = quality.sort_values('value_score', ascending=False)
+        top5 = quality.head(5)
+
+        avg_score = quality['value_score'].mean()
+        high_count = len(quality[quality['value_score'] >= 50])
+
+        message = f"""
+💎 <b>VALUE OPPORTUNITIES — SISTEMA HÍBRIDO</b>
+📅 {datetime.now().strftime('%Y-%m-%d')}
+
+Empresas sólidas con precio circunstancialmente bajo.
+Criterios: Fundamentales + Insiders + Institucionales + Opciones
+
+📊 <b>RESUMEN HOY:</b>
+• Candidatas totales: {len(quality)}
+• Score alto (≥50): {high_count}
+• Score promedio: {avg_score:.1f}/100
+
+🏆 <b>TOP 5 VALUE:</b>
+"""
+
+        for i, (_, row) in enumerate(top5.iterrows(), 1):
+            ticker = row['ticker']
+            company = str(row.get('company_name', ticker))[:25]
+            score = self._safe_float(row.get('value_score', 0))
+            sector = str(row.get('sector', 'N/A'))[:20]
+            sentiment = row.get('sentiment', '')
+
+            # Analyst target
+            tp = row.get('target_price_analyst')
+            tp_upside = row.get('analyst_upside_pct')
+            target_str = ''
+            if tp is not None and not (isinstance(tp, float) and tp != tp):
+                upside_str = f'+{tp_upside:.1f}%' if tp_upside and tp_upside > 0 else (f'{tp_upside:.1f}%' if tp_upside else '')
+                target_str = f'\n   🎯 Obj. analistas: ${tp:.2f} {upside_str}'
+
+            # Options badge
+            opt_str = ' 🟢CALLs' if sentiment == 'BULLISH' else (' 🔴PUTs' if sentiment == 'BEARISH' else '')
+
+            # Score emoji
+            emoji = '⭐⭐⭐' if score >= 60 else ('⭐⭐' if score >= 45 else '⭐')
+
+            message += f"""
+{i}. {emoji} <b>{ticker}</b> — {company}
+   Score: {score:.1f}/100 | {sector}{opt_str}{target_str}
+"""
+
+        message += f"""
+🔗 <a href="https://tantancansado.github.io/stock_analyzer_a/super_dashboard.html">Ver Dashboard Completo</a>
+
+⚠️ <i>Solo fines educativos, no es consejo financiero.</i>
+"""
+
+        if self.send_message(message):
+            print(f"✅ Value opportunities alert enviada ({len(top5)} tickers)")
+        else:
+            print("❌ Error enviando alerta de value opportunities")
+
 
 def main():
     """Main execution"""

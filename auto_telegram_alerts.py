@@ -41,6 +41,11 @@ Ejecutando pipeline automático de alertas 5D...
 """
         alerts.send_message(startup_msg, disable_notification=True)
 
+        # 0. VALUE OPPORTUNITIES (principal — sistema híbrido)
+        print("💎 Enviando Value Opportunities...")
+        alerts.send_value_opportunities_alerts()
+        print()
+
         # 1. Daily Summary (always first)
         print("📊 Enviando resumen diario...")
         alerts.send_daily_summary()

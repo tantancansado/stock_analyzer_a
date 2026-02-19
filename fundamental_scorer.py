@@ -155,6 +155,9 @@ class FundamentalScorer:
                     price_history, info, rs_score.get('rs_line_percentile')
                 ),
 
+                # Target Prices (analyst consensus + fundamental-based)
+                **self._calculate_target_prices(info),
+
                 # Timestamp
                 'analyzed_at': datetime.now().isoformat()
             }
@@ -786,6 +789,16 @@ class FundamentalScorer:
             'proximity_to_52w_high': None,
             'trend_template_score': None,
             'trend_template_pass': None,
+            'target_price_analyst':        None,
+            'target_price_analyst_high':   None,
+            'target_price_analyst_low':    None,
+            'analyst_count':               None,
+            'analyst_recommendation':      None,
+            'analyst_upside_pct':          None,
+            'target_price_dcf':            None,
+            'target_price_dcf_upside_pct': None,
+            'target_price_pe':             None,
+            'target_price_pe_upside_pct':  None,
             'analyzed_at': datetime.now().isoformat()
         }
 
@@ -887,6 +900,108 @@ class FundamentalScorer:
             'proximity_to_52w_high': proximity,
         }
 
+    def _calculate_target_prices(self, info: Dict) -> Dict:
+        """
+        Calcula precios objetivo usando 3 métodos:
+        1. Analyst consensus (targetMeanPrice de yfinance)
+        2. DCF simplificado (FCF per share + growth + discount 10%)
+        3. P/E justo (EPS forward × fair P/E basado en crecimiento)
+
+        Returns flat dict con todos los campos de target price.
+        """
+        result = {
+            'target_price_analyst':        None,
+            'target_price_analyst_high':   None,
+            'target_price_analyst_low':    None,
+            'analyst_count':               None,
+            'analyst_recommendation':      None,
+            'analyst_upside_pct':          None,
+            'target_price_dcf':            None,
+            'target_price_dcf_upside_pct': None,
+            'target_price_pe':             None,
+            'target_price_pe_upside_pct':  None,
+        }
+
+        try:
+            current_price = info.get('currentPrice') or info.get('regularMarketPrice')
+            if not current_price or float(current_price) <= 0:
+                return result
+            current_price = float(current_price)
+
+            def _upside(target):
+                if target and target > 0:
+                    return round((target - current_price) / current_price * 100, 1)
+                return None
+
+            # ── 1. Analyst consensus ──────────────────────────────────────────
+            t_mean = info.get('targetMeanPrice')
+            t_high = info.get('targetHighPrice')
+            t_low  = info.get('targetLowPrice')
+            n_analysts = info.get('numberOfAnalystOpinions')
+            rec = info.get('recommendationKey')
+
+            if t_mean:
+                result['target_price_analyst']      = round(float(t_mean), 2)
+                result['analyst_upside_pct']        = _upside(float(t_mean))
+            if t_high:
+                result['target_price_analyst_high'] = round(float(t_high), 2)
+            if t_low:
+                result['target_price_analyst_low']  = round(float(t_low),  2)
+            if n_analysts:
+                result['analyst_count']             = int(n_analysts)
+            if rec:
+                result['analyst_recommendation']    = str(rec)
+
+            # ── 2. DCF simplificado ───────────────────────────────────────────
+            fcf         = info.get('freeCashflow')
+            shares      = info.get('sharesOutstanding')
+            growth_rate = info.get('earningsGrowth') or info.get('revenueGrowth')
+
+            if fcf and shares and float(shares) > 0:
+                fcf_ps = float(fcf) / float(shares)  # FCF per share
+                g = float(growth_rate) if growth_rate else 0.08  # default 8%
+                g = max(0.03, min(g, 0.30))  # clip 3%-30%
+                discount = 0.10
+                terminal_g = 0.03
+
+                # PV of 5 years FCF
+                pv_fcf = sum(
+                    fcf_ps * (1 + g) ** t / (1 + discount) ** t
+                    for t in range(1, 6)
+                )
+                # Terminal value at year 5
+                fcf_y5 = fcf_ps * (1 + g) ** 5
+                terminal_value = fcf_y5 * (1 + terminal_g) / (discount - terminal_g)
+                pv_terminal = terminal_value / (1 + discount) ** 5
+
+                dcf_price = round(pv_fcf + pv_terminal, 2)
+                if dcf_price > 0:
+                    result['target_price_dcf']            = dcf_price
+                    result['target_price_dcf_upside_pct'] = _upside(dcf_price)
+
+            # ── 3. P/E justo ─────────────────────────────────────────────────
+            eps_fwd = info.get('epsForwardTwelveMonths')
+            eps_ttm = info.get('epsTrailingTwelveMonths')
+            g_eps   = info.get('earningsGrowth')
+
+            eps = float(eps_fwd) if eps_fwd and float(eps_fwd) > 0 else (
+                  float(eps_ttm) if eps_ttm and float(eps_ttm) > 0 else None)
+
+            if eps and eps > 0:
+                g_annual = float(g_eps) if g_eps else 0.10
+                g_annual = max(0.03, min(g_annual, 0.35))
+                # Fair P/E = PEG 1.0 × growth% (e.g. 15% growth → P/E 15), capped 10-30
+                fair_pe = max(10, min(g_annual * 100, 30))
+                pe_target = round(eps * fair_pe, 2)
+                if pe_target > 0:
+                    result['target_price_pe']            = pe_target
+                    result['target_price_pe_upside_pct'] = _upside(pe_target)
+
+        except Exception:
+            pass  # Return partial results on error
+
+        return result
+
     def score_batch(
         self,
         tickers: List[str],
@@ -980,6 +1095,8 @@ def main():
     parser.add_argument('--ticker', type=str, help='Score un ticker específico')
     parser.add_argument('--vcp', action='store_true', help='Score VCP stocks')
     parser.add_argument('--ml', action='store_true', help='Score ML top stocks')
+    parser.add_argument('--5d', dest='five_d', action='store_true',
+                       help='Include top-insider tickers from 5D scanner (insiders_score >= 60)')
     parser.add_argument('--top', type=int, default=50, help='Top N tickers (default: 50)')
     parser.add_argument('--all', action='store_true', help='Score todas las fuentes (VCP + ML)')
     parser.add_argument('--as-of-date', type=str, default=None,
@@ -1023,7 +1140,7 @@ def main():
         for key, value in result['catalyst_details'].items():
             print(f"      • {key}: {value}")
 
-    elif args.vcp or args.ml or args.all:
+    elif args.vcp or args.ml or args.all or args.five_d:
         tickers = []
 
         # Cargar tickers según fuente
@@ -1042,6 +1159,23 @@ def main():
                 ml_tickers = ml_df['ticker'].head(args.top).tolist()
                 tickers.extend(ml_tickers)
                 print(f"🤖 Cargados {len(ml_tickers)} tickers de ML scores")
+
+        if args.five_d or args.all:
+            # Include tickers with significant insider activity (not in VCP universe)
+            d5_path = Path('docs/super_opportunities_5d_complete_with_earnings.csv')
+            if d5_path.exists():
+                d5_df = pd.read_csv(d5_path)
+                if 'insiders_score' in d5_df.columns and 'ticker' in d5_df.columns:
+                    # Only high-insider tickers (recurring/strong insider conviction)
+                    high_insider = d5_df[d5_df['insiders_score'] >= 60]['ticker'].tolist()
+                    before = len(tickers)
+                    tickers.extend(high_insider)
+                    added = len(set(high_insider) - set(tickers[:before]))
+                    print(f"👔 Cargados {len(high_insider)} tickers 5D (insiders≥60), {added} nuevos")
+                else:
+                    print("⚠️  5D data no tiene insiders_score — saltando")
+            else:
+                print("⚠️  No se encontró 5D data — saltando")
 
         # Eliminar duplicados
         tickers = list(dict.fromkeys(tickers))
