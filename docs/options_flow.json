@@ -1,43 +1,55 @@
 {
-  "scan_date": "2026-02-18 18:49:19",
-  "total_flows": 11,
+  "scan_date": "2026-02-19 17:16:30",
+  "total_flows": 16,
   "sentiment_breakdown": {
-    "bullish": 2,
-    "bearish": 8,
-    "neutral": 1
+    "bullish": 5,
+    "bearish": 11,
+    "neutral": 0
   },
-  "total_premium": 325008718.0,
+  "total_premium": 378445001.0,
   "flows": [
     {
       "ticker": "MSTR",
       "company_name": "Strategy",
-      "current_price": 127.03,
+      "current_price": 125.78,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
-      "unusual_calls": 0,
-      "unusual_puts": 6,
-      "total_unusual": 6,
-      "call_premium": 0,
-      "put_premium": 190750125.0,
-      "total_premium": 190750125.0,
-      "put_call_ratio": 999,
+      "days_to_expiration": 0,
+      "unusual_calls": 2,
+      "unusual_puts": 11,
+      "total_unusual": 13,
+      "call_premium": 1170977.0,
+      "put_premium": 202511411.0,
+      "total_premium": 203682388.0,
+      "put_call_ratio": 172.94,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
-      "flow_score": 90,
+      "flow_score": 100,
       "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
-      "top_calls": [],
-      "top_puts": [
+      "top_calls": [
         {
-          "type": "PUT",
-          "strike": 370.0,
-          "volume": 2620.0,
-          "oi": 177,
-          "vol_oi_ratio": 14.80225988700565,
-          "last_price": 240.79,
-          "premium": 63086979.99999999,
+          "type": "CALL",
+          "strike": 124.0,
+          "volume": 2282.0,
+          "oi": 638,
+          "vol_oi_ratio": 3.5768025078369905,
+          "last_price": 3.26,
+          "premium": 743932.0,
           "itm": true,
-          "implied_volatility": 4.546879316406249
+          "implied_volatility": 0.5776409423828125
         },
+        {
+          "type": "CALL",
+          "strike": 123.0,
+          "volume": 1115.0,
+          "oi": 236,
+          "vol_oi_ratio": 4.72457627118644,
+          "last_price": 3.83,
+          "premium": 427045.0,
+          "itm": true,
+          "implied_volatility": 0.5376022802734376
+        }
+      ],
+      "top_puts": [
         {
           "type": "PUT",
           "strike": 380.0,
@@ -47,89 +59,100 @@
           "last_price": 254.17,
           "premium": 57315335.0,
           "itm": true,
-          "implied_volatility": 5.642581071777344
+          "implied_volatility": 7.5292974633789065
+        },
+        {
+          "type": "PUT",
+          "strike": 370.0,
+          "volume": 1790.0,
+          "oi": 177,
+          "vol_oi_ratio": 10.112994350282486,
+          "last_price": 245.67,
+          "premium": 43974930.0,
+          "itm": true,
+          "implied_volatility": 7.554688056640625
         },
         {
           "type": "PUT",
           "strike": 300.0,
-          "volume": 2930.0,
+          "volume": 2040.0,
           "oi": 222,
-          "vol_oi_ratio": 13.198198198198199,
-          "last_price": 170.78,
-          "premium": 50038540.0,
+          "vol_oi_ratio": 9.18918918918919,
+          "last_price": 175.45,
+          "premium": 35791800.0,
           "itm": true,
-          "implied_volatility": 4.330082712402343
+          "implied_volatility": 6.443361320800782
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "CRM",
       "company_name": "Salesforce,",
-      "current_price": 187.42,
+      "current_price": 185.85,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 0,
-      "unusual_puts": 3,
-      "total_unusual": 3,
+      "unusual_puts": 6,
+      "total_unusual": 6,
       "call_premium": 0,
-      "put_premium": 112353210.0,
-      "total_premium": 112353210.0,
+      "put_premium": 143849830.0,
+      "total_premium": 143849830.0,
       "put_call_ratio": 999,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
-      "flow_score": 80,
+      "flow_score": 90,
       "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
       "top_calls": [],
       "top_puts": [
         {
           "type": "PUT",
+          "strike": 230.0,
+          "volume": 9351.0,
+          "oi": 948,
+          "vol_oi_ratio": 9.863924050632912,
+          "last_price": 42.79,
+          "premium": 40012929.0,
+          "itm": true,
+          "implied_volatility": 1.8759771826171874
+        },
+        {
+          "type": "PUT",
           "strike": 260.0,
-          "volume": 6760.0,
-          "oi": 427,
-          "vol_oi_ratio": 15.831381733021077,
-          "last_price": 76.35,
-          "premium": 51612599.99999999,
+          "volume": 4555.0,
+          "oi": 127,
+          "vol_oi_ratio": 35.86614173228347,
+          "last_price": 72.76,
+          "premium": 33142180.000000004,
           "itm": true,
-          "implied_volatility": 2.0937547656249995
+          "implied_volatility": 2.7373078442382814
         },
         {
           "type": "PUT",
-          "strike": 250.0,
-          "volume": 6000.0,
-          "oi": 271,
-          "vol_oi_ratio": 22.14022140221402,
-          "last_price": 66.15,
-          "premium": 39690000.00000001,
+          "strike": 240.0,
+          "volume": 5891.0,
+          "oi": 506,
+          "vol_oi_ratio": 11.642292490118576,
+          "last_price": 52.61,
+          "premium": 30992551.0,
           "itm": true,
-          "implied_volatility": 1.8564460302734376
-        },
-        {
-          "type": "PUT",
-          "strike": 235.0,
-          "volume": 4130.0,
-          "oi": 351,
-          "vol_oi_ratio": 11.766381766381766,
-          "last_price": 50.97,
-          "premium": 21050610.0,
-          "itm": true,
-          "implied_volatility": 1.5625021874999998
+          "implied_volatility": 2.183598291015625
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "BA",
       "company_name": "The Boeing",
-      "current_price": 240.26,
+      "current_price": 235.09,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 0,
-      "unusual_puts": 1,
-      "total_unusual": 1,
+      "unusual_puts": 2,
+      "total_unusual": 2,
       "call_premium": 0,
-      "put_premium": 1010685.0,
-      "total_premium": 1010685.0,
+      "put_premium": 1308735.0,
+      "total_premium": 1308735.0,
       "put_call_ratio": 999,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
@@ -146,17 +169,28 @@
           "last_price": 46.15,
           "premium": 1010685.0,
           "itm": true,
-          "implied_volatility": 1.4721706079101562
+          "implied_volatility": 2.264164495849609
+        },
+        {
+          "type": "PUT",
+          "strike": 260.0,
+          "volume": 150,
+          "oi": 5,
+          "vol_oi_ratio": 30.0,
+          "last_price": 19.87,
+          "premium": 298050.0,
+          "itm": true,
+          "implied_volatility": 1.112797404785156
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "CVS",
       "company_name": "CVS Health",
-      "current_price": 77.38,
+      "current_price": 76.8,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 3,
       "unusual_puts": 0,
       "total_unusual": 3,
@@ -178,7 +212,7 @@
           "last_price": 24.8,
           "premium": 570400.0,
           "itm": true,
-          "implied_volatility": 1.671876640625
+          "implied_volatility": 2.339847900390624
         },
         {
           "type": "CALL",
@@ -189,7 +223,7 @@
           "last_price": 29.75,
           "premium": 476000.0,
           "itm": true,
-          "implied_volatility": 2.7324250439453124
+          "implied_volatility": 3.16406458984375
         },
         {
           "type": "CALL",
@@ -200,96 +234,129 @@
           "last_price": 34.02,
           "premium": 408240.00000000006,
           "itm": true,
-          "implied_volatility": 3.2226581933593748
+          "implied_volatility": 3.8554691113281248
         }
       ],
       "top_puts": [],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
-      "ticker": "DASH",
-      "company_name": "DoorDash,",
-      "current_price": 173.74,
+      "ticker": "KKR",
+      "company_name": "KKR &",
+      "current_price": 99.59,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
+      "unusual_calls": 0,
+      "unusual_puts": 6,
+      "total_unusual": 6,
+      "call_premium": 0,
+      "put_premium": 10536333.0,
+      "total_premium": 10536333.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 70,
+      "quality": "\ud83d\udd25\ud83d\udd25 STRONG FLOW",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 125.0,
+          "volume": 1870.0,
+          "oi": 290,
+          "vol_oi_ratio": 6.448275862068965,
+          "last_price": 21.04,
+          "premium": 3934479.9999999995,
+          "itm": true,
+          "implied_volatility": 1.6015644921874999
+        },
+        {
+          "type": "PUT",
+          "strike": 130.0,
+          "volume": 932.0,
+          "oi": 236,
+          "vol_oi_ratio": 3.9491525423728815,
+          "last_price": 26.03,
+          "premium": 2425996.0000000005,
+          "itm": true,
+          "implied_volatility": 1.9179691601562503
+        },
+        {
+          "type": "PUT",
+          "strike": 124.0,
+          "volume": 880.0,
+          "oi": 228,
+          "vol_oi_ratio": 3.8596491228070176,
+          "last_price": 20.02,
+          "premium": 1761759.9999999998,
+          "itm": true,
+          "implied_volatility": 1.5546897265624997
+        }
+      ],
+      "detected_date": "2026-02-19"
+    },
+    {
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum",
+      "current_price": 51.01,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 0,
       "unusual_calls": 2,
-      "unusual_puts": 3,
-      "total_unusual": 5,
-      "call_premium": 333790.0,
-      "put_premium": 377201.0,
-      "total_premium": 710991.0,
-      "put_call_ratio": 1.13,
-      "sentiment": "NEUTRAL",
-      "sentiment_emoji": "\ud83d\udfe1",
+      "unusual_puts": 1,
+      "total_unusual": 3,
+      "call_premium": 516926.0,
+      "put_premium": 68355.0,
+      "total_premium": 585281.0,
+      "put_call_ratio": 0.13,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
       "flow_score": 70,
       "quality": "\ud83d\udd25\ud83d\udd25 STRONG FLOW",
       "top_calls": [
         {
           "type": "CALL",
-          "strike": 172.5,
-          "volume": 170.0,
-          "oi": 23,
-          "vol_oi_ratio": 7.391304347826087,
-          "last_price": 10.06,
-          "premium": 171020.0,
+          "strike": 51.0,
+          "volume": 4570,
+          "oi": 1027,
+          "vol_oi_ratio": 4.44985394352483,
+          "last_price": 0.59,
+          "premium": 269630.0,
           "itm": true,
-          "implied_volatility": 1.5136743066406249
+          "implied_volatility": 0.39453730468750003
         },
         {
           "type": "CALL",
-          "strike": 187.5,
-          "volume": 397.0,
-          "oi": 90,
-          "vol_oi_ratio": 4.411111111111111,
-          "last_price": 4.1,
-          "premium": 162769.99999999997,
+          "strike": 52.0,
+          "volume": 10752,
+          "oi": 453,
+          "vol_oi_ratio": 23.735099337748345,
+          "last_price": 0.23,
+          "premium": 247296.0,
           "itm": false,
-          "implied_volatility": 1.435549697265625
+          "implied_volatility": 0.4101621484375
         }
       ],
       "top_puts": [
         {
           "type": "PUT",
-          "strike": 150.0,
-          "volume": 1693.0,
-          "oi": 405,
-          "vol_oi_ratio": 4.1802469135802465,
-          "last_price": 1.87,
-          "premium": 316591.00000000006,
+          "strike": 50.0,
+          "volume": 3255,
+          "oi": 246,
+          "vol_oi_ratio": 13.231707317073171,
+          "last_price": 0.21,
+          "premium": 68355.0,
           "itm": false,
-          "implied_volatility": 1.5966817041015622
-        },
-        {
-          "type": "PUT",
-          "strike": 148.0,
-          "volume": 340.0,
-          "oi": 30,
-          "vol_oi_ratio": 11.333333333333334,
-          "last_price": 1.41,
-          "premium": 47940.0,
-          "itm": false,
-          "implied_volatility": 1.5507834960937497
-        },
-        {
-          "type": "PUT",
-          "strike": 136.0,
-          "volume": 362.0,
-          "oi": 105,
-          "vol_oi_ratio": 3.447619047619048,
-          "last_price": 0.35,
-          "premium": 12669.999999999998,
-          "itm": false,
-          "implied_volatility": 1.5292992285156248
+          "implied_volatility": 0.4062559375
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "ALLY",
       "company_name": "Ally Financial",
-      "current_price": 42.37,
+      "current_price": 41.42,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 1,
       "unusual_puts": 0,
       "total_unusual": 1,
@@ -311,24 +378,24 @@
           "last_price": 9.4,
           "premium": 813100.0,
           "itm": true,
-          "implied_volatility": 1.9414065429687501
+          "implied_volatility": 2.2187544531249994
         }
       ],
       "top_puts": [],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "ABT",
       "company_name": "Abbott Laboratories",
-      "current_price": 112.89,
+      "current_price": 112.35,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 0,
       "unusual_puts": 3,
       "total_unusual": 3,
       "call_premium": 0,
-      "put_premium": 17070056.0,
-      "total_premium": 17070056.0,
+      "put_premium": 14682630.0,
+      "total_premium": 14682630.0,
       "put_call_ratio": 999,
       "sentiment": "BEARISH",
       "sentiment_emoji": "\ud83d\udd34",
@@ -339,45 +406,78 @@
         {
           "type": "PUT",
           "strike": 125.0,
-          "volume": 7380.0,
-          "oi": 816,
-          "vol_oi_ratio": 9.044117647058824,
-          "last_price": 12.63,
-          "premium": 9320940.0,
+          "volume": 6060.0,
+          "oi": 807,
+          "vol_oi_ratio": 7.5092936802973975,
+          "last_price": 12.25,
+          "premium": 7423500.0,
           "itm": true,
-          "implied_volatility": 0.789064609375
+          "implied_volatility": 1.2070352148437498
         },
         {
           "type": "PUT",
           "strike": 130.0,
-          "volume": 4184.0,
+          "volume": 3810.0,
           "oi": 598,
-          "vol_oi_ratio": 6.996655518394649,
-          "last_price": 17.83,
-          "premium": 7460071.999999999,
+          "vol_oi_ratio": 6.37123745819398,
+          "last_price": 17.87,
+          "premium": 6808470.0,
           "itm": true,
-          "implied_volatility": 0.8457046679687499
+          "implied_volatility": 1.79296978515625
         },
         {
           "type": "PUT",
           "strike": 135.0,
-          "volume": 126.0,
+          "volume": 210.0,
           "oi": 23,
-          "vol_oi_ratio": 5.478260869565218,
-          "last_price": 22.94,
-          "premium": 289044.0,
+          "vol_oi_ratio": 9.130434782608695,
+          "last_price": 21.46,
+          "premium": 450660.00000000006,
           "itm": true,
-          "implied_volatility": 0.79687703125
+          "implied_volatility": 1.0312548437500002
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
+    },
+    {
+      "ticker": "PRU",
+      "company_name": "Prudential Financial,",
+      "current_price": 103.01,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 0,
+      "unusual_calls": 0,
+      "unusual_puts": 1,
+      "total_unusual": 1,
+      "call_premium": 0,
+      "put_premium": 297984.0,
+      "total_premium": 297984.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 60,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 120.0,
+          "volume": 194.0,
+          "oi": 0,
+          "vol_oi_ratio": 194.0,
+          "last_price": 15.36,
+          "premium": 297983.99999999994,
+          "itm": true,
+          "implied_volatility": 1.8486335693359375
+        }
+      ],
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "ASTS",
       "company_name": "AST SpaceMobile,",
-      "current_price": 85.13,
+      "current_price": 84.84,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 0,
       "unusual_puts": 1,
       "total_unusual": 1,
@@ -395,55 +495,67 @@
           "type": "PUT",
           "strike": 123.0,
           "volume": 158,
-          "oi": 5,
-          "vol_oi_ratio": 31.6,
+          "oi": 0,
+          "vol_oi_ratio": 158,
           "last_price": 18.75,
           "premium": 296250.0,
           "itm": true,
-          "implied_volatility": 1.8359383203124997
+          "implied_volatility": 2.7695343261718754
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
-      "ticker": "PRU",
-      "company_name": "Prudential Financial,",
-      "current_price": 105.34,
+      "ticker": "INTC",
+      "company_name": "Intel",
+      "current_price": 44.39,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
-      "unusual_calls": 0,
+      "days_to_expiration": 0,
+      "unusual_calls": 1,
       "unusual_puts": 1,
-      "total_unusual": 1,
-      "call_premium": 0,
-      "put_premium": 239960.0,
-      "total_premium": 239960.0,
-      "put_call_ratio": 999,
-      "sentiment": "BEARISH",
-      "sentiment_emoji": "\ud83d\udd34",
+      "total_unusual": 2,
+      "call_premium": 309004.0,
+      "put_premium": 71080.0,
+      "total_premium": 380084.0,
+      "put_call_ratio": 0.23,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
       "flow_score": 50,
       "quality": "\ud83d\udd25 NOTABLE FLOW",
-      "top_calls": [],
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 44.5,
+          "volume": 4612,
+          "oi": 666,
+          "vol_oi_ratio": 6.924924924924925,
+          "last_price": 0.67,
+          "premium": 309004.0,
+          "itm": false,
+          "implied_volatility": 0.5742230078125
+        }
+      ],
       "top_puts": [
         {
           "type": "PUT",
-          "strike": 120.0,
-          "volume": 140.0,
-          "oi": 22,
-          "vol_oi_ratio": 6.363636363636363,
-          "last_price": 17.14,
-          "premium": 239960.0,
-          "itm": true,
-          "implied_volatility": 1.1513714306640623
+          "strike": 41.5,
+          "volume": 14216,
+          "oi": 1198,
+          "vol_oi_ratio": 11.86644407345576,
+          "last_price": 0.05,
+          "premium": 71080.0,
+          "itm": false,
+          "implied_volatility": 0.51562984375
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "MGM",
       "company_name": "MGM Resorts International",
-      "current_price": 37.12,
+      "current_price": 36.09,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 0,
       "unusual_puts": 1,
       "total_unusual": 1,
@@ -466,17 +578,106 @@
           "last_price": 3.8,
           "premium": 50540.0,
           "itm": true,
-          "implied_volatility": 2.0175830810546875
+          "implied_volatility": 2.1171922070312497
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
+    },
+    {
+      "ticker": "DASH",
+      "company_name": "DoorDash,",
+      "current_price": 180.41,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 0,
+      "unusual_calls": 1,
+      "unusual_puts": 2,
+      "total_unusual": 3,
+      "call_premium": 55140.0,
+      "put_premium": 119519.0,
+      "total_premium": 174659.0,
+      "put_call_ratio": 2.17,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 50,
+      "quality": "\ud83d\udd25 NOTABLE FLOW",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 207.5,
+          "volume": 5514.0,
+          "oi": 354,
+          "vol_oi_ratio": 15.576271186440678,
+          "last_price": 0.1,
+          "premium": 55140.0,
+          "itm": false,
+          "implied_volatility": 0.867188828125
+        }
+      ],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 182.5,
+          "volume": 211.0,
+          "oi": 59,
+          "vol_oi_ratio": 3.5762711864406778,
+          "last_price": 3.65,
+          "premium": 77015.0,
+          "itm": true,
+          "implied_volatility": 0.6057168334960938
+        },
+        {
+          "type": "PUT",
+          "strike": 165.0,
+          "volume": 3036.0,
+          "oi": 659,
+          "vol_oi_ratio": 4.606980273141123,
+          "last_price": 0.14,
+          "premium": 42504.0,
+          "itm": false,
+          "implied_volatility": 0.6816438085937502
+        }
+      ],
+      "detected_date": "2026-02-19"
+    },
+    {
+      "ticker": "ENPH",
+      "company_name": "Enphase Energy,",
+      "current_price": 44.11,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 0,
+      "unusual_calls": 0,
+      "unusual_puts": 1,
+      "total_unusual": 1,
+      "call_premium": 0,
+      "put_premium": 62784.0,
+      "total_premium": 62784.0,
+      "put_call_ratio": 999,
+      "sentiment": "BEARISH",
+      "sentiment_emoji": "\ud83d\udd34",
+      "flow_score": 40,
+      "quality": "MODERATE",
+      "top_calls": [],
+      "top_puts": [
+        {
+          "type": "PUT",
+          "strike": 44.0,
+          "volume": 1308.0,
+          "oi": 231,
+          "vol_oi_ratio": 5.662337662337662,
+          "last_price": 0.48,
+          "premium": 62784.0,
+          "itm": false,
+          "implied_volatility": 0.5019581054687501
+        }
+      ],
+      "detected_date": "2026-02-19"
     },
     {
       "ticker": "RPD",
       "company_name": "Rapid7,",
-      "current_price": 7.14,
+      "current_price": 7.08,
       "expiration_date": "2026-02-20",
-      "days_to_expiration": 1,
+      "days_to_expiration": 0,
       "unusual_calls": 0,
       "unusual_puts": 1,
       "total_unusual": 1,
@@ -499,10 +700,43 @@
           "last_price": 2.87,
           "premium": 259161.0,
           "itm": true,
-          "implied_volatility": 5.1718785351562495
+          "implied_volatility": 6.109377363281249
         }
       ],
-      "detected_date": "2026-02-18"
+      "detected_date": "2026-02-19"
+    },
+    {
+      "ticker": "USAR",
+      "company_name": "USA Rare Earth,",
+      "current_price": 17.64,
+      "expiration_date": "2026-02-20",
+      "days_to_expiration": 0,
+      "unusual_calls": 1,
+      "unusual_puts": 0,
+      "total_unusual": 1,
+      "call_premium": 10602.0,
+      "put_premium": 0,
+      "total_premium": 10602.0,
+      "put_call_ratio": 0.0,
+      "sentiment": "BULLISH",
+      "sentiment_emoji": "\ud83d\udfe2",
+      "flow_score": 30,
+      "quality": "MODERATE",
+      "top_calls": [
+        {
+          "type": "CALL",
+          "strike": 17.5,
+          "volume": 186,
+          "oi": 54,
+          "vol_oi_ratio": 3.4444444444444446,
+          "last_price": 0.57,
+          "premium": 10602.0,
+          "itm": true,
+          "implied_volatility": 0.92187578125
+        }
+      ],
+      "top_puts": [],
+      "detected_date": "2026-02-19"
     }
   ]
 }
