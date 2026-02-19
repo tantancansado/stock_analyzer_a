@@ -917,6 +917,36 @@ class SuperDashboardGenerator:
             if (passes === false) return '❌ NO PASA' + (checks ? ' (' + checks + ')' : '');
             return '—';
         }}
+        function rsLineLabel(at_high, trend, pct) {{
+            if (at_high === true)             return '🔥 Máximos 52s';
+            if (pct != null && pct >= 75)     return '📈 Zona alta';
+            if (trend === 'up')               return '↗️ Alcista';
+            if (pct != null && pct <= 25)     return '↘️ Zona débil';
+            if (pct == null && trend == null) return '—';
+            return '➡️ Neutral';
+        }}
+        function accelLabel(eps_acc, rev_acc, eps_pct, rev_pct) {{
+            const epsStr = eps_pct != null ? (eps_pct > 0 ? '+' : '') + eps_pct.toFixed(0) + '% EPS' : null;
+            const revStr = rev_pct != null ? (rev_pct > 0 ? '+' : '') + rev_pct.toFixed(0) + '% Rev' : null;
+            if (eps_acc === true && rev_acc === true)
+                return '🚀 Acelerando ' + [epsStr, revStr].filter(Boolean).join(' · ');
+            if (eps_acc === true) return '📈 EPS acelerando' + (epsStr ? ' ' + epsStr : '');
+            if (rev_acc === true) return '📈 Rev acelerando' + (revStr ? ' ' + revStr : '');
+            if (eps_acc === false && rev_acc === false) return '⚠️ Sin aceleración';
+            return '—';
+        }}
+        function groupRankLabel(rank, total, pct, label) {{
+            if (rank == null) return '—';
+            const emoji = pct >= 90 ? '🏆' : pct >= 75 ? '📈' : pct <= 25 ? '↘️' : '➡️';
+            return `${{emoji}} #${{rank}}/${{total}} (${{label}})`;
+        }}
+
+        function trendTemplateLabel(score, pass_) {{
+            if (score == null) return '—';
+            const color = score >= 7 ? '#10b981' : score >= 5 ? '#f59e0b' : '#e53e3e';
+            const emoji = score === 8 ? '⭐' : score >= 7 ? '✅' : score >= 5 ? '⚠️' : '❌';
+            return `<span style="color:${{color}}">${{emoji}} ${{score}}/8 criterios${{pass_ ? ' — Stage 2' : ''}}</span>`;
+        }}
 
         function buildResultHTML(d) {{
             const scoreC = scoreColor(d.final_score);
@@ -980,10 +1010,16 @@ class SuperDashboardGenerator:
                                 <td style="text-align:right;">${{maLabel(d.ma_passes, d.ma_checks)}}</td></tr>
                             <tr><td style="padding:4px 0; color:#718096;">Acum./Distribución</td>
                                 <td style="text-align:right;">${{adIcon(d.ad_signal)}} ${{d.ad_signal || '—'}}</td></tr>
+                            <tr><td style="padding:4px 0; color:#718096;">RS Line (Minervini)</td>
+                                <td style="text-align:right;">${{rsLineLabel(d.rs_line_at_high, d.rs_line_trend, d.rs_line_percentile)}}</td></tr>
                             <tr><td style="padding:4px 0; color:#718096;">Sector</td>
                                 <td style="text-align:right;">${{d.sector_name || '—'}} ${{d.sector_score != null ? '(' + fmt(d.sector_score, 0) + ')' : ''}}</td></tr>
                             <tr><td style="padding:4px 0; color:#718096;">Sector momentum</td>
                                 <td style="text-align:right;">${{momIcon(d.sector_momentum)}} ${{d.sector_momentum}}</td></tr>
+                            <tr><td style="padding:4px 0; color:#718096;">Grupo Industrial</td>
+                                <td style="text-align:right;">${{groupRankLabel(d.industry_group_rank, d.industry_group_total, d.industry_group_percentile, d.industry_group_label)}}</td></tr>
+                            <tr><td style="padding:4px 0; color:#718096;">Trend Template</td>
+                                <td style="text-align:right;">${{trendTemplateLabel(d.trend_template_score, d.trend_template_pass)}}</td></tr>
                         </table>
                     </div>
 
@@ -1012,6 +1048,13 @@ class SuperDashboardGenerator:
                             ${{d.revenue_growth != null ? `<tr><td style="padding:4px 0; color:#718096;">Revenue Growth</td><td style="text-align:right;">${{pct(d.revenue_growth * 100)}}</td></tr>` : ''}}
                             ${{d.fcf_yield != null ? `<tr><td style="padding:4px 0; color:#718096;">FCF Yield</td><td style="text-align:right;">${{fmt(d.fcf_yield)}}%</td></tr>` : ''}}
                             ${{d.debt_to_equity != null ? `<tr><td style="padding:4px 0; color:#718096;">Deuda/Capital</td><td style="text-align:right;">${{fmt(d.debt_to_equity, 2)}}</td></tr>` : ''}}
+                            <tr><td style="padding:4px 0; color:#718096;">Aceleración (CANSLIM A)</td>
+                                <td style="text-align:right;">${{accelLabel(d.eps_accelerating, d.rev_accelerating, d.eps_growth_yoy, d.rev_growth_yoy)}}</td></tr>
+                            ${{d.short_percent_float != null ? `<tr><td style="padding:4px 0; color:#718096;">Short Interest</td>
+                                <td style="text-align:right;">${{d.short_percent_float.toFixed(1)}}% float${{d.short_squeeze_potential ? ' 🔥' : ''}}</td></tr>` : ''}}
+                            ${{d.proximity_to_52w_high != null ? `<tr><td style="padding:4px 0; color:#718096;">Dist. Máx. 52s</td>
+                                <td style="text-align:right; color:${{d.proximity_to_52w_high >= -10 ? '#10b981' : d.proximity_to_52w_high >= -25 ? '#f59e0b' : '#e53e3e'}}">
+                                ${{d.proximity_to_52w_high.toFixed(1)}}%${{d.proximity_to_52w_high >= -5 ? ' 🎯' : d.proximity_to_52w_high >= -15 ? ' 📈' : d.proximity_to_52w_high < -30 ? ' ⚠️' : ''}}</td></tr>` : ''}}
                         </table>
                     </div>
                 </div>
@@ -1097,6 +1140,12 @@ class SuperDashboardGenerator:
             score_class = 'score-high' if score >= 70 else 'score-medium'
             timing_badge = '🔥' if opp.get('timing_convergence', False) else ''
             repeater_badge = '🔁' if opp.get('vcp_repeater', False) else ''
+            rs_at_high = opp.get('rs_line_at_new_high', False)
+            rs_line_badge = '<span title="RS Line en máximos 52 semanas (Minervini)">📡</span>' if rs_at_high is True else ''
+            both_accel = (opp.get('eps_accelerating') is True and opp.get('rev_accelerating') is True)
+            canslim_badge = '<span title="EPS + Revenue acelerando (CANSLIM A)">🚀</span>' if both_accel else ''
+            tt_score = opp.get('trend_template_score')
+            tt_badge = '<span title="Minervini Trend Template 8/8 — Stage 2 perfecto">⭐</span>' if tt_score == 8 else ''
 
             # Company name display
             ticker = opp.get('ticker', 'N/A')
@@ -1196,7 +1245,7 @@ class SuperDashboardGenerator:
                 <td><span title="{filter_tooltip}">{filters_passed}</span></td>
                 <td>{insiders_score:.0f}</td>
                 <td>{validation_badge}</td>
-                <td>{timing_badge} {repeater_badge}</td>
+                <td>{timing_badge} {repeater_badge} {rs_line_badge} {canslim_badge} {tt_badge}</td>
             </tr>
             """)
 
@@ -1218,6 +1267,7 @@ class SuperDashboardGenerator:
                 <div><strong>Filt:</strong> Filtros pasados (Market + MA + A/D) - X/3</div>
                 <div><strong>Ins:</strong> Actividad insider trading</div>
                 <div><strong>Val:</strong> Validación web - ✅ BUY (good entry) | ⚠️ HOLD (wait) | ❌ AVOID (near ATH)</div>
+                <div><strong>Timing:</strong> 🔥 Timing convergencia | 🔁 VCP recurrente | 📡 RS Line en máximos 52s | 🚀 EPS+Rev acelerando (CANSLIM A) | ⭐ Trend Template 8/8</div>
                 <div><strong>Timing:</strong> 🔥 Convergencia temporal | 🔁 VCP recurrente</div>
             </div>
         </div>

@@ -233,6 +233,94 @@ def _analyze_from_cache(ticker):
         ad_score  = _sf(rscores.get('ad_score'))
         ad_reason = _notna_str(rscores, 'ad_reason')
 
+    # ── RS Line (Minervini) ────────────────────────────────────────────────
+    rs_line_score = rs_line_percentile = None
+    rs_line_at_high = None   # bool or None
+    rs_line_trend = None     # str: 'up'/'flat'/'down' or None
+
+    # Try rfund first (fundamental_scores.csv), then rscores (super_scores_ultimate.csv)
+    for _src in [rfund, rscores]:
+        if _src is None:
+            continue
+        if rs_line_score is None:
+            rs_line_score = _sf(_src.get('rs_line_score'))
+        if rs_line_percentile is None:
+            rs_line_percentile = _sf(_src.get('rs_line_percentile'))
+        if rs_line_at_high is None:
+            _raw = _src.get('rs_line_at_new_high')
+            if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
+                rs_line_at_high = bool(_raw)
+        if rs_line_trend is None:
+            _rt = _src.get('rs_line_trend')
+            if _rt is not None and not (isinstance(_rt, float) and pd.isna(_rt)):
+                rs_line_trend = str(_rt)
+
+    # ── CANSLIM "A" — EPS/Revenue Acceleration ────────────────────────────
+    eps_growth_yoy = rev_growth_yoy = None
+    eps_accelerating = rev_accelerating = None
+    eps_accel_quarters = rev_accel_quarters = None
+
+    for _src in [rfund, rscores]:
+        if _src is None:
+            continue
+        if eps_growth_yoy is None:
+            eps_growth_yoy = _sf(_src.get('eps_growth_yoy'))
+        if rev_growth_yoy is None:
+            rev_growth_yoy = _sf(_src.get('rev_growth_yoy'))
+        if eps_accel_quarters is None:
+            eps_accel_quarters = _sf(_src.get('eps_accel_quarters'))
+        if rev_accel_quarters is None:
+            rev_accel_quarters = _sf(_src.get('rev_accel_quarters'))
+        if eps_accelerating is None:
+            _raw = _src.get('eps_accelerating')
+            if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
+                eps_accelerating = bool(_raw)
+        if rev_accelerating is None:
+            _raw = _src.get('rev_accelerating')
+            if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
+                rev_accelerating = bool(_raw)
+
+    # ── Industry Group Ranking ─────────────────────────────────────────────
+    industry_group_rank = industry_group_total = industry_group_percentile = None
+    industry_group_label = None
+    if rscores is not None:
+        industry_group_rank        = _sf(rscores.get('industry_group_rank'))
+        industry_group_total       = _sf(rscores.get('industry_group_total'))
+        industry_group_percentile  = _sf(rscores.get('industry_group_percentile'))
+        _lbl = rscores.get('industry_group_label')
+        if _lbl is not None and not (isinstance(_lbl, float) and pd.isna(_lbl)):
+            industry_group_label = str(_lbl)
+
+    # ── Short Interest + 52w Proximity ────────────────────────────────────
+    short_pct_float = short_ratio = proximity_52w = None
+    short_squeeze = None  # bool
+    for _src in [rfund, rscores]:
+        if _src is None:
+            continue
+        if short_pct_float is None:
+            short_pct_float = _sf(_src.get('short_percent_float'))
+        if short_ratio is None:
+            short_ratio = _sf(_src.get('short_ratio'))
+        if proximity_52w is None:
+            proximity_52w = _sf(_src.get('proximity_to_52w_high'))
+        if short_squeeze is None:
+            _raw = _src.get('short_squeeze_potential')
+            if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
+                short_squeeze = bool(_raw)
+
+    # ── Trend Template ─────────────────────────────────────────────────────
+    trend_template_score = None
+    trend_template_pass  = None  # bool
+    for _src in [rfund, rscores]:
+        if _src is None:
+            continue
+        if trend_template_score is None:
+            trend_template_score = _sf(_src.get('trend_template_score'))
+        if trend_template_pass is None:
+            _raw = _src.get('trend_template_pass')
+            if _raw is not None and not (isinstance(_raw, float) and pd.isna(_raw)):
+                trend_template_pass = bool(_raw)
+
     # ── ML detalles ────────────────────────────────────────────────────────
     ml_quality = ml_momentum = ml_trend = ml_volume = None
     if rml is not None:
@@ -357,6 +445,30 @@ def _analyze_from_cache(ticker):
         "ad_score": ad_score,
         "ad_reason": ad_reason,
         "ad_error": None,
+
+        "rs_line_score":       round(rs_line_score, 1) if rs_line_score is not None else None,
+        "rs_line_percentile":  round(rs_line_percentile, 1) if rs_line_percentile is not None else None,
+        "rs_line_at_high":     rs_line_at_high,
+        "rs_line_trend":       rs_line_trend,
+
+        "eps_growth_yoy":      round(eps_growth_yoy, 1) if eps_growth_yoy is not None else None,
+        "eps_accelerating":    eps_accelerating,
+        "eps_accel_quarters":  int(eps_accel_quarters) if eps_accel_quarters is not None else None,
+        "rev_growth_yoy":      round(rev_growth_yoy, 1) if rev_growth_yoy is not None else None,
+        "rev_accelerating":    rev_accelerating,
+
+        "industry_group_rank":       int(industry_group_rank) if industry_group_rank is not None else None,
+        "industry_group_total":      int(industry_group_total) if industry_group_total is not None else None,
+        "industry_group_percentile": round(industry_group_percentile, 1) if industry_group_percentile is not None else None,
+        "industry_group_label":      industry_group_label,
+
+        "short_percent_float":     round(short_pct_float, 1) if short_pct_float is not None else None,
+        "short_ratio":             round(short_ratio, 1) if short_ratio is not None else None,
+        "short_squeeze_potential": short_squeeze,
+        "proximity_to_52w_high":   round(proximity_52w, 1) if proximity_52w is not None else None,
+
+        "trend_template_score": int(trend_template_score) if trend_template_score is not None else None,
+        "trend_template_pass":  trend_template_pass,
 
         "ml_quality": ml_quality,
         "ml_momentum": ml_momentum,

@@ -158,7 +158,17 @@ class SuperScoreIntegrator:
             'ticker', 'company_name', 'fundamental_score', 'sector', 'industry',
             'earnings_quality_score', 'growth_acceleration_score',
             'relative_strength_score', 'financial_health_score',
-            'catalyst_timing_score', 'current_price', 'market_cap'
+            'catalyst_timing_score', 'current_price', 'market_cap',
+            # RS Line (Minervini)
+            'rs_line_score', 'rs_line_percentile', 'rs_line_at_new_high', 'rs_line_trend',
+            # CANSLIM "A" acceleration
+            'eps_growth_yoy', 'eps_accelerating', 'eps_accel_quarters',
+            'rev_growth_yoy', 'rev_accelerating', 'rev_accel_quarters',
+            # Short Interest + 52w Proximity
+            'short_percent_float', 'short_ratio', 'short_squeeze_potential',
+            'fifty_two_week_high', 'proximity_to_52w_high',
+            # Minervini Trend Template
+            'trend_template_score', 'trend_template_pass',
         ]
         available_cols = [col for col in cols if col in df.columns]
 
@@ -377,6 +387,206 @@ class SuperScoreIntegrator:
         print(f"\n📉 Stocks penalized: {penalized}/{len(df)}")
         print(f"📉 Average penalty: {avg_penalty:.1f} points")
         print(f"📊 Score range after filters: {df['super_score_ultimate'].min():.1f} - {df['super_score_ultimate'].max():.1f}")
+
+        # 5. RS LINE BONUS (Minervini confirmation signal)
+        print("\n5️⃣ RS LINE (Minervini Confirmation)")
+        print("-" * 70)
+
+        # Merge RS Line columns from fundamental_scores.csv if available
+        rs_cols = ['rs_line_score', 'rs_line_at_new_high', 'rs_line_trend', 'rs_line_percentile']
+        fund_path = Path('docs/fundamental_scores.csv')
+        if fund_path.exists():
+            fund_df = pd.read_csv(fund_path)
+            available_rs_cols = [c for c in rs_cols if c in fund_df.columns]
+            if available_rs_cols and 'ticker' in fund_df.columns:
+                df = df.merge(
+                    fund_df[['ticker'] + available_rs_cols],
+                    on='ticker', how='left', suffixes=('', '_fund')
+                )
+                print(f"✅ RS Line data merged for {fund_df['ticker'].isin(df['ticker']).sum()} tickers")
+            else:
+                print("⚠️  fundamental_scores.csv doesn't have RS Line columns yet — run fundamental_scorer.py first")
+                for col in rs_cols:
+                    df[col] = None
+        else:
+            print("⚠️  fundamental_scores.csv not found — skipping RS Line bonus")
+            for col in rs_cols:
+                df[col] = None
+
+        # Apply RS Line bonus (positive signal only — not a penalty)
+        df['rs_line_bonus'] = 0.0
+        if 'rs_line_at_new_high' in df.columns:
+            df.loc[df['rs_line_at_new_high'] == True, 'rs_line_bonus'] += 7.0
+        if 'rs_line_percentile' in df.columns:
+            df.loc[df['rs_line_percentile'] >= 75, 'rs_line_bonus'] += 3.0
+        if 'rs_line_trend' in df.columns:
+            df.loc[df['rs_line_trend'] == 'up', 'rs_line_bonus'] += 2.0
+        df['rs_line_bonus'] = df['rs_line_bonus'].clip(upper=10.0)
+
+        at_high_count = int((df.get('rs_line_at_new_high', pd.Series(dtype=bool)) == True).sum())
+        bonus_count   = int((df['rs_line_bonus'] > 0).sum())
+        print(f"🔥 RS Line at 52w high: {at_high_count}/{len(df)}")
+        print(f"📈 RS Line bonus applied: {bonus_count}/{len(df)}")
+
+        df['super_score_ultimate'] = (df['super_score_ultimate'] + df['rs_line_bonus']).clip(upper=100)
+
+        # 6. CANSLIM "A" BONUS — EPS/Revenue Acceleration
+        print("\n6️⃣ CANSLIM 'A' — EPS/REVENUE ACCELERATION")
+        print("-" * 70)
+
+        # Merge acceleration columns from fundamental_scores.csv if available
+        accel_cols = ['eps_accelerating', 'eps_accel_quarters', 'rev_accelerating', 'rev_accel_quarters']
+        fund_path = Path('docs/fundamental_scores.csv')
+        if fund_path.exists():
+            fund_df = pd.read_csv(fund_path)
+            available_accel = [c for c in accel_cols if c in fund_df.columns]
+            if available_accel and 'ticker' in fund_df.columns:
+                df = df.merge(
+                    fund_df[['ticker'] + available_accel],
+                    on='ticker', how='left', suffixes=('', '_fund2')
+                )
+                print(f"✅ Acceleration data merged for {fund_df['ticker'].isin(df['ticker']).sum()} tickers")
+            else:
+                print("⚠️  fundamental_scores.csv doesn't have acceleration columns yet")
+                for col in accel_cols:
+                    df[col] = None
+        else:
+            print("⚠️  fundamental_scores.csv not found — skipping CANSLIM A bonus")
+            for col in accel_cols:
+                df[col] = None
+
+        df['canslim_a_bonus'] = 0.0
+        if 'eps_accelerating' in df.columns and 'rev_accelerating' in df.columns:
+            both_mask = (df['eps_accelerating'] == True) & (df['rev_accelerating'] == True)
+            either_mask = (df['eps_accelerating'] == True) | (df['rev_accelerating'] == True)
+            df.loc[both_mask, 'canslim_a_bonus'] += 5.0
+            df.loc[either_mask & ~both_mask, 'canslim_a_bonus'] += 2.0
+        if 'eps_accel_quarters' in df.columns:
+            df.loc[df['eps_accel_quarters'] >= 2, 'canslim_a_bonus'] += 3.0
+        df['canslim_a_bonus'] = df['canslim_a_bonus'].clip(upper=8.0)
+
+        both_accel = int(((df.get('eps_accelerating', pd.Series(dtype=bool)) == True) &
+                          (df.get('rev_accelerating', pd.Series(dtype=bool)) == True)).sum())
+        bonus_count = int((df['canslim_a_bonus'] > 0).sum())
+        print(f"🚀 EPS+Revenue both accelerating: {both_accel}/{len(df)}")
+        print(f"📈 CANSLIM A bonus applied: {bonus_count}/{len(df)}")
+
+        df['super_score_ultimate'] = (df['super_score_ultimate'] + df['canslim_a_bonus']).clip(upper=100)
+
+        # 7. INDUSTRY GROUP RANKING (Minervini: 50% del movimiento viene del grupo)
+        print("\n7️⃣ INDUSTRY GROUP RANKING")
+        print("-" * 70)
+
+        try:
+            from industry_group_ranker import compute_industry_rankings, save_industry_rankings
+
+            fund_path_ig = Path('docs/fundamental_scores.csv')
+            if fund_path_ig.exists():
+                ig_df = compute_industry_rankings(str(fund_path_ig))
+                if not ig_df.empty:
+                    save_industry_rankings(ig_df)
+
+                    # Merge rank back to VCP tickers by industry
+                    ig_lookup = ig_df[['industry', 'rank', 'rank_total', 'percentile', 'label', 'avg_rs_percentile']].copy()
+                    ig_lookup = ig_lookup.rename(columns={
+                        'rank':              'industry_group_rank',
+                        'rank_total':        'industry_group_total',
+                        'percentile':        'industry_group_percentile',
+                        'label':             'industry_group_label',
+                        'avg_rs_percentile': 'industry_group_rs',
+                    })
+
+                    # Match on 'industry' column (in df from fundamental_scores merge)
+                    if 'industry' in df.columns:
+                        df = df.merge(ig_lookup, on='industry', how='left')
+                    else:
+                        print("⚠️  Columna 'industry' no encontrada en df — saltando merge")
+
+                    # Apply bonus/penalty
+                    df['industry_bonus'] = 0.0
+                    if 'industry_group_percentile' in df.columns:
+                        df.loc[df['industry_group_percentile'] >= 90, 'industry_bonus'] += 5.0
+                        df.loc[(df['industry_group_percentile'] >= 75) & (df['industry_group_percentile'] < 90), 'industry_bonus'] += 3.0
+                        df.loc[df['industry_group_percentile'] <= 25, 'industry_bonus'] -= 3.0
+                    df['industry_bonus'] = df['industry_bonus'].clip(lower=-3, upper=5)
+                    df['super_score_ultimate'] = (df['super_score_ultimate'] + df['industry_bonus']).clip(lower=0, upper=100)
+
+                    top10_count = int((df.get('industry_group_percentile', pd.Series(dtype=float)) >= 90).sum())
+                    print(f"🏆 En grupos Top 10%: {top10_count}/{len(df)}")
+                else:
+                    print("⚠️  No se pudo calcular rankings de grupos industriales")
+            else:
+                print("⚠️  fundamental_scores.csv no encontrado — saltando Industry Group Ranking")
+        except Exception as e_ig:
+            print(f"⚠️  Industry Group Ranking error: {e_ig}")
+
+        # 8. SHORT INTEREST + 52-WEEK HIGH PROXIMITY
+        print("\n8️⃣ SHORT INTEREST + 52W HIGH PROXIMITY")
+        print("-" * 70)
+
+        # --- Short Interest bonus (squeeze fuel for breakouts) ---
+        df['short_bonus'] = 0.0
+        if 'short_percent_float' in df.columns:
+            df.loc[
+                (df['short_percent_float'] >= 8) & (df['short_percent_float'] < 20),
+                'short_bonus'
+            ] += 3.0
+            df.loc[
+                (df['short_percent_float'] >= 5) & (df['short_percent_float'] < 8),
+                'short_bonus'
+            ] += 1.0
+            # >20% short float: no bonus — market skepticism outweighs squeeze fuel
+        df['short_bonus'] = df['short_bonus'].clip(upper=3.0)
+
+        squeeze_count = int(
+            (df.get('short_squeeze_potential', pd.Series(dtype=bool)) == True).sum()
+        )
+        print(f"🔥 Short squeeze potential (≥8% float): {squeeze_count}/{len(df)}")
+
+        # --- 52-Week High Proximity bonus/penalty (Minervini: buy near highs) ---
+        df['proximity_bonus'] = 0.0
+        if 'proximity_to_52w_high' in df.columns:
+            # proximity_to_52w_high is negative: -5 = 5% below high
+            df.loc[df['proximity_to_52w_high'] >= -5,  'proximity_bonus'] += 5.0
+            df.loc[
+                (df['proximity_to_52w_high'] >= -15) & (df['proximity_to_52w_high'] < -5),
+                'proximity_bonus'
+            ] += 3.0
+            # -15 to -30: neutral (no change)
+            df.loc[df['proximity_to_52w_high'] < -30, 'proximity_bonus'] -= 5.0
+
+        near_high_count = int(
+            (df.get('proximity_to_52w_high', pd.Series(dtype=float)) >= -10).sum()
+        )
+        print(f"📈 Dentro del 10% del máximo 52s: {near_high_count}/{len(df)}")
+
+        df['super_score_ultimate'] = (
+            df['super_score_ultimate'] + df['short_bonus'] + df['proximity_bonus']
+        ).clip(lower=0, upper=100)
+
+        # 9. MINERVINI TREND TEMPLATE (Stage 2 uptrend checklist)
+        print("\n9️⃣ MINERVINI TREND TEMPLATE")
+        print("-" * 70)
+
+        df['trend_bonus'] = 0.0
+        if 'trend_template_score' in df.columns:
+            df['_tt'] = pd.to_numeric(df['trend_template_score'], errors='coerce')
+            df.loc[df['_tt'] >= 8,                          'trend_bonus'] = 10.0
+            df.loc[(df['_tt'] >= 7) & (df['_tt'] < 8),     'trend_bonus'] = 7.0
+            df.loc[(df['_tt'] >= 6) & (df['_tt'] < 7),     'trend_bonus'] = 5.0
+            df.loc[(df['_tt'] >= 5) & (df['_tt'] < 6),     'trend_bonus'] = 3.0
+            df.loc[(df['_tt'] >= 3) & (df['_tt'] < 5),     'trend_bonus'] = 0.0
+            df.loc[df['_tt'] < 3,                           'trend_bonus'] = -5.0
+
+            pass_count = int((df['_tt'] >= 7).sum())
+            avg_tt = df['_tt'].mean()
+            print(f"⭐ Trend Template pass (≥7/8): {pass_count}/{len(df)}")
+            print(f"   Criterios promedio: {avg_tt:.1f}/8")
+            df.drop(columns=['_tt'], inplace=True)
+
+        df['super_score_ultimate'] = (
+            df['super_score_ultimate'] + df['trend_bonus']
+        ).clip(lower=0, upper=100)
 
         # Add filter summary column
         df['filters_passed'] = df.apply(self._count_filters_passed, axis=1)

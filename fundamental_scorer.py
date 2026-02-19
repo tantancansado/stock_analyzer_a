@@ -117,6 +117,20 @@ class FundamentalScorer:
                 'financial_health_score': health_score['score'],
                 'catalyst_timing_score': catalyst_score['score'],
 
+                # RS Line flat columns (Minervini)
+                'rs_line_score':       rs_score.get('rs_line_score'),
+                'rs_line_percentile':  rs_score.get('rs_line_percentile'),
+                'rs_line_at_new_high': rs_score.get('rs_line_at_new_high'),
+                'rs_line_trend':       rs_score.get('rs_line_trend'),
+
+                # CANSLIM "A" flat columns — EPS/Revenue Acceleration
+                'eps_growth_yoy':    earnings_score.get('eps_growth_yoy'),
+                'eps_accelerating':  earnings_score.get('eps_accelerating'),
+                'eps_accel_quarters': earnings_score.get('eps_accel_quarters', 0),
+                'rev_growth_yoy':    growth_score.get('rev_growth_yoy'),
+                'rev_accelerating':  growth_score.get('rev_accelerating'),
+                'rev_accel_quarters': growth_score.get('rev_accel_quarters', 0),
+
                 # Detalles de cada componente
                 'earnings_details': earnings_score['details'],
                 'growth_details': growth_score['details'],
@@ -129,6 +143,17 @@ class FundamentalScorer:
                 'market_cap': info.get('marketCap', 0),
                 'sector': info.get('sector', 'N/A'),
                 'industry': info.get('industry', 'N/A'),
+
+                # Short Interest (combustible para short squeeze)
+                **self._extract_short_interest(info),
+
+                # 52-Week High Proximity (Minervini: comprar cerca de máximos)
+                **self._extract_52w_proximity(info),
+
+                # Minervini Trend Template (8-criteria Stage 2 checklist)
+                **self._calculate_trend_template(
+                    price_history, info, rs_score.get('rs_line_percentile')
+                ),
 
                 # Timestamp
                 'analyzed_at': datetime.now().isoformat()
@@ -241,6 +266,9 @@ class FundamentalScorer:
         """
         score = 50.0
         details = {}
+        eps_growth_yoy = None
+        eps_accelerating = None
+        eps_accel_quarters = 0
 
         try:
             if not quarterly_earnings.empty and 'Earnings' in quarterly_earnings.columns:
@@ -253,7 +281,8 @@ class FundamentalScorer:
 
                     if prev_eps > 0:
                         eps_growth = ((latest_eps - prev_eps) / prev_eps) * 100
-                        details['eps_growth_yoy'] = round(eps_growth, 1)
+                        eps_growth_yoy = round(eps_growth, 1)
+                        details['eps_growth_yoy'] = eps_growth_yoy
 
                         # IBD-style: buscar growth >25%
                         if eps_growth >= 50:
@@ -274,16 +303,35 @@ class FundamentalScorer:
                     elif positive_quarters >= 3:
                         score += 8
 
-                    # 3. Earnings acceleration
-                    if len(earnings) >= 4:
-                        recent_growth = (earnings.iloc[0] - earnings.iloc[1]) / abs(earnings.iloc[1]) if earnings.iloc[1] != 0 else 0
-                        older_growth = (earnings.iloc[2] - earnings.iloc[3]) / abs(earnings.iloc[3]) if earnings.iloc[3] != 0 else 0
-
-                        if recent_growth > older_growth and recent_growth > 0:
-                            score += 10
-                            details['earnings_accelerating'] = True
+                    # 3. Multi-quarter EPS acceleration (CANSLIM "A")
+                    # Calculate QoQ growth rates for last 3 pairs (need ≥4 quarters)
+                    qoq_rates = []
+                    for i in range(min(3, len(earnings) - 1)):
+                        curr = earnings.iloc[i]
+                        prev = earnings.iloc[i + 1]
+                        if prev != 0:
+                            qoq_rates.append((curr - prev) / abs(prev) * 100)
                         else:
-                            details['earnings_accelerating'] = False
+                            qoq_rates.append(None)
+
+                    # Count consecutive accelerating pairs (most recent first)
+                    accel_count = 0
+                    for i in range(len(qoq_rates) - 1):
+                        r0, r1 = qoq_rates[i], qoq_rates[i + 1]
+                        if r0 is not None and r1 is not None and r0 > r1:
+                            accel_count += 1
+                        else:
+                            break  # stop at first non-acceleration
+
+                    eps_accel_quarters = accel_count
+                    eps_accelerating = accel_count >= 1
+                    details['earnings_accelerating'] = eps_accelerating
+                    details['eps_accel_quarters'] = eps_accel_quarters
+
+                    if accel_count >= 2:
+                        score += 20    # 3 consecutive quarters
+                    elif accel_count >= 1:
+                        score += 10   # 2 consecutive quarters
 
             # 4. Profit margin
             profit_margin = info.get('profitMargins')
@@ -299,7 +347,13 @@ class FundamentalScorer:
         except Exception as e:
             print(f"      ⚠️ Earnings quality error: {e}")
 
-        return {'score': round(score, 1), 'details': details}
+        return {
+            'score': round(score, 1),
+            'details': details,
+            'eps_growth_yoy':    eps_growth_yoy,
+            'eps_accelerating':  eps_accelerating,
+            'eps_accel_quarters': eps_accel_quarters,
+        }
 
     def _calculate_growth_acceleration_score(
         self,
@@ -316,6 +370,9 @@ class FundamentalScorer:
         """
         score = 50.0
         details = {}
+        rev_growth_yoy = None
+        rev_accelerating = None
+        rev_accel_quarters = 0
 
         try:
             qf = financials.get('quarterly_financials')
@@ -331,7 +388,8 @@ class FundamentalScorer:
 
                         if prev_rev > 0:
                             rev_growth = ((latest_rev - prev_rev) / prev_rev) * 100
-                            details['revenue_growth_yoy'] = round(rev_growth, 1)
+                            rev_growth_yoy = round(rev_growth, 1)
+                            details['revenue_growth_yoy'] = rev_growth_yoy
 
                             # IBD-style: buscar growth >25%
                             if rev_growth >= 30:
@@ -343,23 +401,46 @@ class FundamentalScorer:
                             elif rev_growth < 0:
                                 score -= 20
 
-                        # Revenue acceleration
-                        if len(revenue) >= 4:
-                            q1_growth = (revenue.iloc[0] - revenue.iloc[1]) / abs(revenue.iloc[1]) if revenue.iloc[1] != 0 else 0
-                            q2_growth = (revenue.iloc[1] - revenue.iloc[2]) / abs(revenue.iloc[2]) if revenue.iloc[2] != 0 else 0
-
-                            if q1_growth > q2_growth and q1_growth > 0:
-                                score += 20
-                                details['revenue_accelerating'] = True
+                        # Multi-quarter revenue acceleration (CANSLIM "A")
+                        qoq_rates = []
+                        for i in range(min(3, len(revenue) - 1)):
+                            curr = revenue.iloc[i]
+                            prev = revenue.iloc[i + 1]
+                            if prev != 0:
+                                qoq_rates.append((curr - prev) / abs(prev) * 100)
                             else:
-                                details['revenue_accelerating'] = False
+                                qoq_rates.append(None)
+
+                        accel_count = 0
+                        for i in range(len(qoq_rates) - 1):
+                            r0, r1 = qoq_rates[i], qoq_rates[i + 1]
+                            if r0 is not None and r1 is not None and r0 > r1:
+                                accel_count += 1
+                            else:
+                                break
+
+                        rev_accel_quarters = accel_count
+                        rev_accelerating = accel_count >= 1
+                        details['revenue_accelerating'] = rev_accelerating
+                        details['rev_accel_quarters'] = rev_accel_quarters
+
+                        if accel_count >= 2:
+                            score += 20
+                        elif accel_count >= 1:
+                            score += 10
 
             score = max(0, min(100, score))
 
         except Exception as e:
             print(f"      ⚠️ Growth acceleration error: {e}")
 
-        return {'score': round(score, 1), 'details': details}
+        return {
+            'score': round(score, 1),
+            'details': details,
+            'rev_growth_yoy':    rev_growth_yoy,
+            'rev_accelerating':  rev_accelerating,
+            'rev_accel_quarters': rev_accel_quarters,
+        }
 
     def _calculate_relative_strength_score(
         self,
@@ -368,14 +449,22 @@ class FundamentalScorer:
     ) -> Dict:
         """
         Relative Strength vs SPY (0-100)
-        Similar a IBD RS Rating
+        Similar a IBD RS Rating + RS Line (Minervini)
         """
         score = 50.0
         details = {}
+        rs_line_score = None
+        rs_line_percentile = None
+        rs_line_at_new_high = None
+        rs_line_trend = None
 
         try:
             if price_history.empty:
-                return {'score': 50.0, 'details': {}}
+                return {
+                    'score': 50.0, 'details': {},
+                    'rs_line_score': None, 'rs_line_percentile': None,
+                    'rs_line_at_new_high': None, 'rs_line_trend': None,
+                }
 
             # Obtener SPY para comparación
             spy = yf.Ticker('SPY')
@@ -426,10 +515,67 @@ class FundamentalScorer:
 
                 score = max(0, min(100, score))
 
+                # ── RS Line (Minervini): stock_price / SPY_price ratio ────────
+                try:
+                    # Align on common dates
+                    stock_close = price_history['Close'].rename('stock')
+                    spy_close   = spy_history['Close'].rename('spy')
+                    aligned     = pd.concat([stock_close, spy_close], axis=1).dropna()
+
+                    if len(aligned) >= 10:
+                        rs_line = aligned['stock'] / aligned['spy']
+
+                        rs_current    = float(rs_line.iloc[-1])
+                        rs_52w_high   = float(rs_line.max())
+                        rs_52w_low    = float(rs_line.min())
+                        rs_range      = rs_52w_high - rs_52w_low
+
+                        rs_line_percentile = round(
+                            (rs_current - rs_52w_low) / rs_range * 100
+                            if rs_range > 0 else 50.0, 1
+                        )
+                        rs_line_at_new_high = bool(rs_current >= rs_52w_high * 0.98)
+
+                        # 50-day slope (use fewer days if series is short)
+                        lookback = min(50, len(rs_line) - 1)
+                        if lookback >= 5:
+                            slope_pct = (rs_line.iloc[-1] - rs_line.iloc[-lookback]) / abs(rs_line.iloc[-lookback]) * 100
+                            rs_line_trend = "up" if slope_pct > 2 else ("down" if slope_pct < -2 else "flat")
+                        else:
+                            rs_line_trend = "flat"
+
+                        # RS Line score 0-100 based on percentile
+                        if   rs_line_percentile >= 90: rs_line_score = 95
+                        elif rs_line_percentile >= 75: rs_line_score = 80
+                        elif rs_line_percentile >= 50: rs_line_score = 60
+                        elif rs_line_percentile >= 25: rs_line_score = 35
+                        else:                           rs_line_score = 15
+                        if rs_line_at_new_high:
+                            rs_line_score = min(100, rs_line_score + 10)
+
+                        # Blend 60% existing RS + 40% RS Line score
+                        score = round(score * 0.60 + rs_line_score * 0.40, 1)
+                        score = max(0, min(100, score))
+
+                        details['rs_line_percentile'] = rs_line_percentile
+                        details['rs_line_at_new_high'] = rs_line_at_new_high
+                        details['rs_line_trend']       = rs_line_trend
+                        details['rs_line_score']       = rs_line_score
+
+                except Exception as e_rs:
+                    print(f"      ⚠️ RS Line calculation error: {e_rs}")
+
         except Exception as e:
             print(f"      ⚠️ Relative strength error: {e}")
 
-        return {'score': round(score, 1), 'details': details}
+        return {
+            'score': round(score, 1),
+            'details': details,
+            'rs_line_score':       rs_line_score,
+            'rs_line_percentile':  rs_line_percentile,
+            'rs_line_at_new_high': rs_line_at_new_high,
+            'rs_line_trend':       rs_line_trend,
+        }
 
     def _calculate_financial_health_score(
         self,
@@ -614,6 +760,16 @@ class FundamentalScorer:
             'relative_strength_score': 0.0,
             'financial_health_score': 0.0,
             'catalyst_timing_score': 0.0,
+            'rs_line_score': None,
+            'rs_line_percentile': None,
+            'rs_line_at_new_high': None,
+            'rs_line_trend': None,
+            'eps_growth_yoy': None,
+            'eps_accelerating': None,
+            'eps_accel_quarters': 0,
+            'rev_growth_yoy': None,
+            'rev_accelerating': None,
+            'rev_accel_quarters': 0,
             'earnings_details': {},
             'growth_details': {},
             'rs_details': {},
@@ -623,7 +779,112 @@ class FundamentalScorer:
             'market_cap': 0,
             'sector': 'N/A',
             'industry': 'N/A',
+            'short_percent_float': None,
+            'short_ratio': None,
+            'short_squeeze_potential': None,
+            'fifty_two_week_high': None,
+            'proximity_to_52w_high': None,
+            'trend_template_score': None,
+            'trend_template_pass': None,
             'analyzed_at': datetime.now().isoformat()
+        }
+
+    def _calculate_trend_template(
+        self,
+        price_history: pd.DataFrame,
+        info: Dict,
+        rs_percentile: Optional[float]
+    ) -> Dict:
+        """
+        Minervini Trend Template — 8 criterios Stage 2 uptrend.
+
+        1. Price > 150MA and 200MA
+        2. 150MA > 200MA
+        3. 200MA trending up ≥ 1 month (20 bars)
+        4. 50MA > 150MA and 200MA
+        5. Price > 50MA
+        6. Price ≥ 30% above 52-week low
+        7. Price within 25% of 52-week high (proximity >= -25%)
+        8. RS Rating ≥ 70
+
+        Returns flat keys: trend_template_score (0-8), trend_template_pass (bool).
+        """
+        empty = {'trend_template_score': None, 'trend_template_pass': None}
+
+        if price_history.empty or len(price_history) < 200:
+            return empty
+
+        try:
+            close = price_history['Close']
+
+            ma50  = float(close.rolling(50).mean().iloc[-1])
+            ma150 = float(close.rolling(150).mean().iloc[-1])
+            ma200 = float(close.rolling(200).mean().iloc[-1])
+
+            # 200MA slope: current vs 20 bars ago
+            if len(close) >= 221:
+                ma200_20d = float(close.rolling(200).mean().iloc[-21])
+                ma200_trending_up = ma200 > ma200_20d
+            else:
+                ma200_trending_up = False
+
+            price = float(close.iloc[-1])
+
+            low52  = info.get('fiftyTwoWeekLow')
+            high52 = info.get('fiftyTwoWeekHigh')
+
+            criteria = [
+                price > ma150 and price > ma200,               # 1
+                ma150 > ma200,                                  # 2
+                ma200_trending_up,                              # 3
+                ma50 > ma150 and ma50 > ma200,                 # 4
+                price > ma50,                                   # 5
+                (low52  is not None and float(low52)  > 0      # 6
+                 and price >= float(low52) * 1.30),
+                (high52 is not None and float(high52) > 0      # 7
+                 and price >= float(high52) * 0.75),
+                rs_percentile is not None and rs_percentile >= 70,  # 8
+            ]
+
+            score = int(sum(criteria))
+            return {
+                'trend_template_score': score,
+                'trend_template_pass':  score >= 7,
+            }
+        except Exception:
+            return empty
+
+    def _extract_short_interest(self, info: Dict) -> Dict:
+        """Extrae datos de short interest de yfinance info."""
+        try:
+            raw = info.get('shortPercentOfFloat')
+            short_pct = round(float(raw) * 100, 1) if raw is not None else None
+            raw_ratio = info.get('shortRatio')
+            short_ratio = round(float(raw_ratio), 1) if raw_ratio is not None else None
+            short_squeeze = short_pct is not None and short_pct >= 8.0
+        except (TypeError, ValueError):
+            short_pct = short_ratio = None
+            short_squeeze = None
+        return {
+            'short_percent_float':     short_pct,
+            'short_ratio':             short_ratio,
+            'short_squeeze_potential': short_squeeze,
+        }
+
+    def _extract_52w_proximity(self, info: Dict) -> Dict:
+        """Calcula proximidad al máximo de 52 semanas (Minervini: comprar cerca de máximos)."""
+        try:
+            high52 = info.get('fiftyTwoWeekHigh')
+            price  = info.get('currentPrice') or info.get('regularMarketPrice')
+            proximity = None
+            if high52 and price and float(high52) > 0:
+                proximity = round((float(price) / float(high52) - 1) * 100, 1)
+                # e.g. -5.0 = 5% below 52w high; -40.0 = 40% below
+        except (TypeError, ValueError):
+            high52 = proximity = None
+        return {
+            'fifty_two_week_high':  float(high52) if high52 else None,
+            'proximity_to_52w_high': proximity,
         }
 
     def score_batch(
