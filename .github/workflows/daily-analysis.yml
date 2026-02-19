@@ -36,6 +36,14 @@ jobs:
       - name: Run Market Regime Detector [CRITICAL]
         run: python3 market_regime_detector.py
 
+      - name: Sector Rotation Scan [pre-integration]
+        continue-on-error: true
+        run: python3 sector_rotation_detector.py || echo "Sector rotation failed"
+
+      - name: Mean Reversion Scan [pre-integration]
+        continue-on-error: true
+        run: python3 mean_reversion_detector.py || echo "Mean reversion failed"
+
       - name: Run 5D Super Analyzer [CRITICAL]
         run: python3 run_super_analyzer_4d.py
 
@@ -62,11 +70,9 @@ jobs:
         continue-on-error: true
         run: python3 analyze_recurring_insiders.py || echo "Recurring insiders failed"
 
-      - name: Sector Rotation
+      - name: Sector Rotation Dashboard
         continue-on-error: true
-        run: |
-          python3 sector_rotation_detector.py || echo "Sector rotation failed"
-          python3 sector_rotation_dashboard_generator.py || echo "Sector dashboard failed"
+        run: python3 sector_rotation_dashboard_generator.py || echo "Sector dashboard failed"
 
       - name: Backtest Engine
         continue-on-error: true

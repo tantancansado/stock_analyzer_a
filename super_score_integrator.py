@@ -1,14 +1,21 @@
 #!/usr/bin/env python3
 """
-SUPER SCORE INTEGRATOR
-Combina todos los sistemas de análisis en un único Super Score Ultimate
+SUPER SCORE INTEGRATOR — Dual Strategy System
+Genera 2 tipos de recomendaciones separadas:
 
-Sistemas integrados:
-1. VCP Scanner (40%) - Patrón técnico, setup quality
-2. ML Predictor (30%) - Momentum, trend, volume predictivo
-3. Fundamental Scorer (30%) - Earnings, growth, RS, health
+SECTION A: VALUE OPPORTUNITIES (Principal)
+- Quality fundamentals (ROE, profitability)
+- Insider conviction (recurring purchases)
+- Sector rotation timing (buy sectors temporarily down)
+- Institutional accumulation (whales + options bullish)
+- Reasonable valuation (PEG <1.5)
+→ Target: Consistent 5-10% gains, high win rate
 
-SUPER SCORE ULTIMATE = Weighted combination de los 3 sistemas
+SECTION B: MOMENTUM PLAYS (Minervini - Backtest)
+- VCP patterns, near 52w highs
+- Trend template, breakouts
+- For backtesting validation
+→ Target: Higher risk/reward
 """
 import pandas as pd
 import numpy as np
@@ -108,7 +115,46 @@ class SuperScoreIntegrator:
         print(f"\n🔍 Validando top opportunities...")
         integrated_df = self._validate_opportunities(integrated_df)
 
-        return integrated_df
+        # 10. Separar en 2 estrategias
+        print("\n" + "="*80)
+        print("🎯 SPLITTING INTO 2 STRATEGIES")
+        print("="*80)
+
+        # VALUE opportunities (Section A - Principal)
+        value_df = integrated_df.copy()
+        value_df['tier'] = value_df['value_score'].apply(self._get_tier_value)
+        value_df['quality'] = value_df['value_score'].apply(self._get_quality)
+        value_df = value_df.sort_values('value_score', ascending=False)
+
+        # Filter: value_score >= 30 (quality threshold - will increase after Sector Rotation + Mean Reversion integration)
+        value_df = value_df[value_df['value_score'] >= 30].copy()
+
+        print(f"\n📊 VALUE OPPORTUNITIES:")
+        print(f"   Threshold: value_score ≥ 50")
+        print(f"   Count: {len(value_df)} opportunities")
+        if len(value_df) > 0:
+            print(f"   Top score: {value_df['value_score'].iloc[0]:.1f}")
+            print(f"   Average: {value_df['value_score'].mean():.1f}")
+
+        # MOMENTUM opportunities (Section B - Minervini)
+        momentum_df = integrated_df.copy()
+        momentum_df['tier'] = momentum_df['momentum_score'].apply(self._get_tier_momentum)
+        momentum_df['quality'] = momentum_df['momentum_score'].apply(self._get_quality)
+        momentum_df = momentum_df.sort_values('momentum_score', ascending=False)
+
+        # Filter: momentum_score >= 60 (VCP quality threshold)
+        momentum_df = momentum_df[momentum_df['momentum_score'] >= 60].copy()
+
+        print(f"\n🚀 MOMENTUM OPPORTUNITIES:")
+        print(f"   Threshold: momentum_score ≥ 60")
+        print(f"   Count: {len(momentum_df)} opportunities")
+        if len(momentum_df) > 0:
+            print(f"   Top score: {momentum_df['momentum_score'].iloc[0]:.1f}")
+            print(f"   Average: {momentum_df['momentum_score'].mean():.1f}")
+
+        print("="*80)
+
+        return value_df, momentum_df
 
     def _load_vcp_scores(self) -> pd.DataFrame:
         """Carga scores del VCP scanner"""
@@ -191,6 +237,45 @@ class SuperScoreIntegrator:
         cols = ['ticker', 'sentiment', 'put_call_ratio', 'flow_score', 'unusual_calls', 'unusual_puts']
         available = [c for c in cols if c in df.columns]
         return df[available] if available else pd.DataFrame()
+
+    def _load_sector_rotation(self) -> dict:
+        """Carga datos de sector rotation (momentum sectorial)"""
+        path = Path('docs/sector_rotation/latest_scan.json')
+        if not path.exists():
+            return {}
+
+        try:
+            with open(path, 'r') as f:
+                data = json.load(f)
+
+            # Convert to dict: sector_name -> sector_data
+            sector_dict = {}
+            for sector_data in data.get('results', []):
+                sector_name = sector_data.get('sector', '')
+                if sector_name:
+                    sector_dict[sector_name] = sector_data
+
+            return sector_dict
+        except Exception as e:
+            print(f"⚠️  Error loading sector rotation: {e}")
+            return {}
+
+    def _load_mean_reversion(self) -> set:
+        """Carga tickers con setup de mean reversion (quality stocks oversold)"""
+        path = Path('docs/mean_reversion_opportunities.csv')
+        if not path.exists():
+            return set()
+
+        try:
+            df = pd.read_csv(path)
+            # Filter for quality setups only (score >= 80)
+            if 'reversion_score' in df.columns and 'ticker' in df.columns:
+                quality_mr = df[df['reversion_score'] >= 80]['ticker'].tolist()
+                return set(quality_mr)
+            return set()
+        except Exception as e:
+            print(f"⚠️  Error loading mean reversion: {e}")
+            return set()
 
     def _load_5d_opportunities(self) -> pd.DataFrame:
         """Carga 5D opportunities para datos de insiders/institucionales"""
@@ -753,7 +838,142 @@ class SuperScoreIntegrator:
         # Add filter summary column
         df['filters_passed'] = df.apply(self._count_filters_passed, axis=1)
 
-        print("\n✅ Advanced filters applied successfully")
+        # ═══════════════════════════════════════════════════════════════════
+        # DUAL STRATEGY SCORING: VALUE vs MOMENTUM
+        # ═══════════════════════════════════════════════════════════════════
+
+        print("\n" + "="*70)
+        print("🎯 CALCULATING DUAL STRATEGY SCORES")
+        print("="*70)
+
+        # SECTION A: VALUE SCORE (Principal strategy)
+        print("\n📊 VALUE SCORE — Quality + Insiders + Institutional")
+        print("-" * 70)
+
+        df['value_score'] = 0.0
+
+        # Fundamentals (40 pts max)
+        if 'fundamental_score' in df.columns:
+            df['_fund'] = pd.to_numeric(df['fundamental_score'], errors='coerce').fillna(0)
+            df['value_score'] += (df['_fund'] / 100) * 40  # Scale to 40 pts
+
+        # Profitability bonus (15 pts max)
+        if 'health_details' in df.columns:
+            import ast
+            for idx, row in df.iterrows():
+                try:
+                    health = row.get('health_details', '{}')
+                    if isinstance(health, str):
+                        health = ast.literal_eval(health) if health != '{}' else {}
+
+                    roe = health.get('roe_pct', 0)
+                    profit_margin = health.get('profit_margin_pct', 0)
+
+                    prof_bonus = 0.0
+                    if roe >= 20:
+                        prof_bonus += 8.0
+                    elif roe >= 15:
+                        prof_bonus += 5.0
+
+                    if profit_margin >= 15:
+                        prof_bonus += 7.0
+                    elif profit_margin >= 10:
+                        prof_bonus += 4.0
+
+                    df.at[idx, 'value_score'] += prof_bonus
+                except:
+                    pass
+
+        # Insider conviction (15 pts max)
+        value_insider_bonus = df.get('insider_bonus', pd.Series(0.0, index=df.index)) * 3  # Scale 5→15
+        df['value_score'] += value_insider_bonus.clip(upper=15)
+
+        # Institutional backing (15 pts max)
+        value_inst_bonus = df.get('institutional_bonus', pd.Series(0.0, index=df.index)) * 1.5  # Scale 10→15
+        df['value_score'] += value_inst_bonus.clip(upper=15)
+
+        # Options flow (10 pts max)
+        value_options = df.get('options_bonus', pd.Series(0.0, index=df.index)) * 2  # Scale 5→10
+        df['value_score'] += value_options.clip(lower=-10, upper=10)
+
+        # ML confirmation (5 pts max)
+        if 'ml_score' in df.columns:
+            df['_ml'] = pd.to_numeric(df['ml_score'], errors='coerce').fillna(0)
+            df['value_score'] += (df['_ml'] / 100) * 5  # Scale to 5 pts
+            df.drop(columns=['_ml'], inplace=True, errors='ignore')
+
+        # Sector Rotation (10 pts max) - VALUE strategy: buy sectors temporarily down
+        sector_rotation = self._load_sector_rotation()
+        if sector_rotation and 'sector' in df.columns:
+            df['sector_bonus'] = 0.0
+            for idx, row in df.iterrows():
+                sector = row.get('sector', '')
+                if sector and sector in sector_rotation:
+                    velocity = sector_rotation[sector].get('velocity', 0)
+                    momentum = sector_rotation[sector].get('momentum_change', 'stable')
+
+                    # VALUE: reward sectors temporarily down (contrarian)
+                    if velocity < -5 and momentum == 'decelerating':
+                        df.at[idx, 'sector_bonus'] = 8.0  # Sector weak, value opportunity
+                    elif -5 <= velocity < 0:
+                        df.at[idx, 'sector_bonus'] = 5.0  # Moderate weakness
+                    elif velocity > 5 and momentum == 'accelerating':
+                        df.at[idx, 'sector_bonus'] = -3.0  # Too hot, not value
+
+            df['value_score'] += df['sector_bonus']
+
+        # Mean Reversion (10 pts max) - VALUE strategy: quality stocks oversold
+        mean_reversion_tickers = self._load_mean_reversion()
+        if mean_reversion_tickers:
+            df['mr_bonus'] = 0.0
+            df.loc[df['ticker'].isin(mean_reversion_tickers), 'mr_bonus'] = 10.0
+            df['value_score'] += df['mr_bonus']
+
+        df['value_score'] = df['value_score'].clip(lower=0, upper=100)
+
+        value_top = int((df['value_score'] >= 60).sum())
+        value_avg = df['value_score'].mean()
+        print(f"✅ Value score ≥60: {value_top}/{len(df)} ({value_top/len(df)*100:.1f}%)")
+        print(f"📊 Average value score: {value_avg:.1f}/100")
+
+        # SECTION B: MOMENTUM SCORE (Minervini/VCP strategy)
+        print("\n🚀 MOMENTUM SCORE — VCP + Breakouts + Trend")
+        print("-" * 70)
+
+        df['momentum_score'] = 0.0
+
+        # VCP pattern (50 pts max - dominates momentum)
+        if 'vcp_score' in df.columns:
+            df['_vcp'] = pd.to_numeric(df['vcp_score'], errors='coerce').fillna(0)
+            df['momentum_score'] += (df['_vcp'] / 100) * 50
+            df.drop(columns=['_vcp'], inplace=True, errors='ignore')
+
+        # Proximity to 52w high (15 pts max)
+        momentum_prox = df.get('proximity_bonus', pd.Series(0.0, index=df.index)) * 3  # Scale 5→15
+        df['momentum_score'] += momentum_prox.clip(lower=-15, upper=15)
+
+        # Trend template (15 pts max)
+        momentum_trend = df.get('trend_bonus', pd.Series(0.0, index=df.index)) * 1.5  # Scale 10→15
+        df['momentum_score'] += momentum_trend.clip(lower=-10, upper=15)
+
+        # Institutional confirmation (10 pts max)
+        momentum_inst = df.get('institutional_bonus', pd.Series(0.0, index=df.index))
+        df['momentum_score'] += momentum_inst.clip(upper=10)
+
+        # Fundamentals filter (10 pts max - quality gate)
+        if 'fundamental_score' in df.columns:
+            df['_fund'] = pd.to_numeric(df['fundamental_score'], errors='coerce').fillna(0)
+            df['momentum_score'] += (df['_fund'] / 100) * 10
+            df.drop(columns=['_fund'], inplace=True, errors='ignore')
+
+        df['momentum_score'] = df['momentum_score'].clip(lower=0, upper=100)
+
+        momentum_top = int((df['momentum_score'] >= 60).sum())
+        momentum_avg = df['momentum_score'].mean()
+        print(f"✅ Momentum score ≥60: {momentum_top}/{len(df)} ({momentum_top/len(df)*100:.1f}%)")
+        print(f"📊 Average momentum score: {momentum_avg:.1f}/100")
+
+        print("\n✅ Advanced filters + dual scoring completed")
         print("="*70)
 
         return df
@@ -835,6 +1055,32 @@ class SuperScoreIntegrator:
         else:
             return "⚠️ WEAK"
 
+    def _get_tier_value(self, score: float) -> str:
+        """Tier for VALUE strategy"""
+        if score >= 80:
+            return "⭐⭐⭐ EXCELLENT"
+        elif score >= 70:
+            return "⭐⭐ STRONG"
+        elif score >= 60:
+            return "⭐ GOOD"
+        elif score >= 50:
+            return "🔵 DECENT"
+        else:
+            return "⚪ WEAK"
+
+    def _get_tier_momentum(self, score: float) -> str:
+        """Tier for MOMENTUM strategy"""
+        if score >= 85:
+            return "🔥 EXPLOSIVE"
+        elif score >= 75:
+            return "⚡ STRONG"
+        elif score >= 65:
+            return "📈 GOOD"
+        elif score >= 60:
+            return "📊 DECENT"
+        else:
+            return "⚪ WEAK"
+
     def _get_quality(self, score: float) -> str:
         """Quality label para dashboards"""
         if score >= 85:
@@ -850,7 +1096,7 @@ class SuperScoreIntegrator:
         else:
             return "🔴 Weak"
 
-    def save_results(self, df: pd.DataFrame, filename: str = 'super_scores_ultimate'):
+    def save_results(self, df: pd.DataFrame, filename: str = 'super_scores_ultimate', score_column: str = 'super_score_ultimate'):
         """Guarda resultados integrados"""
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 
@@ -1090,6 +1336,47 @@ class SuperScoreIntegrator:
             print(f"{i:<5} {ticker:<8} {company:<25} {score:<8.1f} {vcp:<6.0f} {ml:<6.0f} {fund:<6.0f} {tier:<20}")
 
 
+    def print_summary_dual(self, value_df: pd.DataFrame, momentum_df: pd.DataFrame):
+        """Imprime resumen de AMBAS estrategias"""
+        print(f"\n{'='*80}")
+        print(f"📊 DUAL STRATEGY SUMMARY")
+        print(f"{'='*80}")
+
+        # VALUE SECTION
+        if not value_df.empty:
+            print(f"\n🎯 VALUE OPPORTUNITIES (Section A - Principal):")
+            print(f"  Total: {len(value_df)}")
+            print(f"  Average score: {value_df['value_score'].mean():.1f}/100")
+            print(f"  Top score: {value_df['value_score'].max():.1f}")
+
+            print(f"\n  Top 5 VALUE:")
+            for i, (_, row) in enumerate(value_df.head(5).iterrows(), 1):
+                ticker = row['ticker']
+                score = row['value_score']
+                tier = row['tier']
+                print(f"    {i}. {ticker:<6} {score:.1f}/100  {tier}")
+        else:
+            print(f"\n🎯 VALUE OPPORTUNITIES: None found")
+
+        # MOMENTUM SECTION
+        if not momentum_df.empty:
+            print(f"\n🚀 MOMENTUM OPPORTUNITIES (Section B - Minervini):")
+            print(f"  Total: {len(momentum_df)}")
+            print(f"  Average score: {momentum_df['momentum_score'].mean():.1f}/100")
+            print(f"  Top score: {momentum_df['momentum_score'].max():.1f}")
+
+            print(f"\n  Top 5 MOMENTUM:")
+            for i, (_, row) in enumerate(momentum_df.head(5).iterrows(), 1):
+                ticker = row['ticker']
+                score = row['momentum_score']
+                tier = row['tier']
+                print(f"    {i}. {ticker:<6} {score:.1f}/100  {tier}")
+        else:
+            print(f"\n🚀 MOMENTUM OPPORTUNITIES: None found")
+
+        print(f"\n{'='*80}")
+
+
 def main():
     """Main execution"""
     # 🔴 FIX LOOK-AHEAD BIAS: Add argparse for --as-of-date
@@ -1125,10 +1412,10 @@ Note:
     # 🔴 FIX LOOK-AHEAD BIAS: Pass as_of_date to integrator
     integrator = SuperScoreIntegrator(as_of_date=args.as_of_date)
 
-    # Integrar todos los scores
-    integrated_df = integrator.integrate_scores()
+    # Integrar todos los scores → retorna 2 dataframes
+    value_df, momentum_df = integrator.integrate_scores()
 
-    if integrated_df.empty:
+    if value_df.empty and momentum_df.empty:
         print("\n❌ No hay datos suficientes para integrar")
         print("Ejecuta primero:")
         if args.as_of_date:
@@ -1141,14 +1428,33 @@ Note:
             print("  3. python3 fundamental_scorer.py --vcp")
         return
 
-    # Guardar resultados
-    integrator.save_results(integrated_df)
+    # Guardar resultados de VALUE (sección principal)
+    print("\n" + "="*80)
+    print("💾 SAVING VALUE OPPORTUNITIES (Section A)")
+    print("="*80)
+    if not value_df.empty:
+        integrator.save_results(value_df, filename='value_opportunities', score_column='value_score')
+    else:
+        print("⚠️  No value opportunities to save")
 
-    # Exportar ticker data cache para el ticker analyzer web tool
-    integrator.export_ticker_data_cache(integrated_df)
+    # Guardar resultados de MOMENTUM (sección Minervini)
+    print("\n" + "="*80)
+    print("💾 SAVING MOMENTUM OPPORTUNITIES (Section B)")
+    print("="*80)
+    if not momentum_df.empty:
+        integrator.save_results(momentum_df, filename='momentum_opportunities', score_column='momentum_score')
+    else:
+        print("⚠️  No momentum opportunities to save")
 
-    # Mostrar resumen
-    integrator.print_summary(integrated_df)
+    # Exportar ticker data cache (usar value_df como principal)
+    if not value_df.empty:
+        integrator.export_ticker_data_cache(value_df)
+
+    # Mostrar resumen de ambas secciones
+    print("\n" + "="*80)
+    print("📊 SUMMARY")
+    print("="*80)
+    integrator.print_summary_dual(value_df, momentum_df)
 
     print(f"\n{'='*80}")
     print("✅ INTEGRACIÓN COMPLETADA")

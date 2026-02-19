@@ -26,17 +26,45 @@ class SuperDashboardGenerator:
         vcp_metadata = self._load_vcp_metadata()
         vcp_repeaters = self._load_vcp_repeaters()
 
+        # Load dual strategy data (new sections)
+        value_data = self._load_value_opportunities()
+        momentum_data = self._load_momentum_opportunities()
+
         # Generate integrated insights
         insights = self._generate_insights(sector_data, opportunities_data, backtest_data, vcp_repeaters)
 
         # Generate HTML
-        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata)
+        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata, value_data, momentum_data)
 
         # Save
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html)
 
         print(f"✅ Super Dashboard generado: {output_file}")
+
+    def _load_value_opportunities(self):
+        """Carga oportunidades VALUE (Sección A - Principal)"""
+        path = Path("docs/value_opportunities.csv")
+        if not path.exists():
+            return []
+        try:
+            df = pd.read_csv(path)
+            df['value_score'] = pd.to_numeric(df.get('value_score', 0), errors='coerce').fillna(0)
+            return df.sort_values('value_score', ascending=False).head(15).to_dict('records')
+        except Exception:
+            return []
+
+    def _load_momentum_opportunities(self):
+        """Carga oportunidades MOMENTUM (Sección B - Minervini)"""
+        path = Path("docs/momentum_opportunities.csv")
+        if not path.exists():
+            return []
+        try:
+            df = pd.read_csv(path)
+            df['momentum_score'] = pd.to_numeric(df.get('momentum_score', 0), errors='coerce').fillna(0)
+            return df.sort_values('momentum_score', ascending=False).head(15).to_dict('records')
+        except Exception:
+            return []
 
     def _load_sector_rotation(self):
         """Carga datos de sector rotation"""
@@ -346,7 +374,7 @@ class SuperDashboardGenerator:
 
         return insights
 
-    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights, vcp_metadata=None):
+    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights, vcp_metadata=None, value_data=None, momentum_data=None):
         """Genera HTML del super dashboard"""
 
         # Prepare data
@@ -749,6 +777,9 @@ class SuperDashboardGenerator:
         <!-- AI Insights -->
         {self._generate_insights_html(insights)}
 
+        <!-- DUAL STRATEGY SECTIONS -->
+        {self._generate_dual_strategy_html(value_data or [], momentum_data or [])}
+
         <!-- Main Content Grid -->
         <div class="grid-2">
             <!-- Top Opportunities -->
@@ -1098,6 +1129,173 @@ class SuperDashboardGenerator:
 </html>"""
 
         return html
+
+    def _fmt_price(self, price) -> str:
+        """Formatea precio o devuelve '—'"""
+        try:
+            return f'${float(price):.2f}' if price not in ['', None] else '—'
+        except (ValueError, TypeError):
+            return '—'
+
+    def _fmt_optional(self, val, fmt: str) -> str:
+        """Formatea un valor opcional o devuelve '—'"""
+        try:
+            return fmt.format(float(val)) if val not in ['', None] else '—'
+        except (ValueError, TypeError):
+            return '—'
+
+    def _score_bar(self, score: float, color: str) -> str:
+        """Mini barra de progreso para score"""
+        pct = min(max(float(score), 0), 100)
+        return f'<div style="height:6px;background:#e2e8f0;border-radius:3px;margin-top:4px;"><div style="width:{pct:.0f}%;height:100%;background:{color};border-radius:3px;"></div></div>'
+
+    def _value_row_html(self, d: dict) -> str:
+        """Genera fila HTML para una oportunidad value"""
+        ticker  = d.get('ticker', '')
+        company = str(d.get('company_name', ticker))[:22]
+        score   = float(d.get('value_score', 0))
+        sector  = str(d.get('sector', ''))[:18]
+        options = d.get('sentiment', '')
+        mr      = '✓' if float(d.get('mr_bonus', 0) or 0) > 0 else ''
+        sect_b  = '✓' if float(d.get('sector_bonus', 0) or 0) > 0 else ''
+
+        if options == 'BULLISH':
+            options_badge = '<span style="color:#10b981;font-size:0.75em;">▲ CALL</span>'
+        elif options == 'BEARISH':
+            options_badge = '<span style="color:#ef4444;font-size:0.75em;">▼ PUT</span>'
+        else:
+            options_badge = ''
+
+        if score >= 40:
+            color = '#10b981'
+        elif score >= 30:
+            color = '#f59e0b'
+        else:
+            color = '#94a3b8'
+
+        price_str = self._fmt_price(d.get('current_price', ''))
+
+        return f'''<tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>
+            <td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>
+            <td style="padding:10px 8px;">{price_str}</td>
+            <td style="padding:10px 8px;min-width:90px;">
+                <span style="font-weight:700;color:{color};">{score:.1f}</span>
+                {self._score_bar(score, color)}
+            </td>
+            <td style="padding:10px 8px;color:#64748b;font-size:0.82em;">{sector}</td>
+            <td style="padding:10px 8px;text-align:center;">{options_badge}</td>
+            <td style="padding:10px 8px;text-align:center;color:#8b5cf6;font-size:0.82em;">{sect_b}</td>
+            <td style="padding:10px 8px;text-align:center;color:#f59e0b;font-size:0.82em;">{mr}</td>
+        </tr>'''
+
+    def _momentum_row_html(self, d: dict) -> str:
+        """Genera fila HTML para un setup de momentum"""
+        ticker  = d.get('ticker', '')
+        company = str(d.get('company_name', ticker))[:22]
+        score   = float(d.get('momentum_score', 0))
+        vcp     = float(d.get('vcp_score', 0) or 0)
+
+        if score >= 75:
+            color = '#10b981'
+        elif score >= 65:
+            color = '#f59e0b'
+        else:
+            color = '#94a3b8'
+
+        price_str = self._fmt_price(d.get('current_price', ''))
+        prox_str  = self._fmt_optional(d.get('proximity_to_52w_high', ''), '{:.1f}%')
+        trend_str = self._fmt_optional(d.get('trend_template_score', ''), '{:.0f}/8')
+
+        return f'''<tr style="border-bottom:1px solid #f1f5f9;">
+            <td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>
+            <td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>
+            <td style="padding:10px 8px;">{price_str}</td>
+            <td style="padding:10px 8px;min-width:90px;">
+                <span style="font-weight:700;color:{color};">{score:.1f}</span>
+                {self._score_bar(score, color)}
+            </td>
+            <td style="padding:10px 8px;text-align:center;color:#6366f1;font-weight:600;">{vcp:.0f}</td>
+            <td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{prox_str}</td>
+            <td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{trend_str}</td>
+        </tr>'''
+
+    def _generate_dual_strategy_html(self, value_data: list, momentum_data: list) -> str:
+        """Genera HTML para las 2 secciones: Value Opportunities + Momentum Plays"""
+
+        if value_data:
+            value_rows = ''.join(self._value_row_html(d) for d in value_data)
+        else:
+            value_rows = '<tr><td colspan="8" style="padding:20px;text-align:center;color:#94a3b8;">No hay oportunidades value en este momento</td></tr>'
+
+        if momentum_data:
+            momentum_rows = ''.join(self._momentum_row_html(d) for d in momentum_data)
+        else:
+            momentum_rows = '<tr><td colspan="7" style="padding:20px;text-align:center;color:#94a3b8;">No hay setups de momentum en este momento</td></tr>'
+
+        return f'''
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <!-- DUAL STRATEGY SECTION                                       -->
+        <!-- ═══════════════════════════════════════════════════════════ -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+
+            <!-- SECTION A: VALUE OPPORTUNITIES -->
+            <div class="section-card" style="border-top:3px solid #10b981;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                    <div>
+                        <h2 class="section-title" style="margin:0;color:#065f46;">Oportunidades Value</h2>
+                        <p style="margin:4px 0 0;font-size:0.82em;color:#64748b;">Empresas sólidas con precio circunstancialmente bajo · Insiders + Institucionales + Sector</p>
+                    </div>
+                    <span style="background:#d1fae5;color:#065f46;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;">{len(value_data)} candidatas</span>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
+                        <thead>
+                            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Ticker</th>
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Empresa</th>
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Precio</th>
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Score</th>
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Sector</th>
+                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Opciones</th>
+                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;" title="Sector rotation bonus">S.Rot</th>
+                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;" title="Mean reversion signal">M.Rev</th>
+                            </tr>
+                        </thead>
+                        <tbody>{value_rows}</tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SECTION B: MOMENTUM PLAYS -->
+            <div class="section-card" style="border-top:3px solid #6366f1;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                    <div>
+                        <h2 class="section-title" style="margin:0;color:#3730a3;">Momentum Plays</h2>
+                        <p style="margin:4px 0 0;font-size:0.82em;color:#64748b;">Patrones VCP · Breakouts · Tendencias confirmadas (backtest en proceso)</p>
+                    </div>
+                    <span style="background:#e0e7ff;color:#3730a3;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;">{len(momentum_data)} setups</span>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
+                        <thead>
+                            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Ticker</th>
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Empresa</th>
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Precio</th>
+                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Score</th>
+                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">VCP</th>
+                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Dist.Máx</th>
+                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Tendencia</th>
+                            </tr>
+                        </thead>
+                        <tbody>{momentum_rows}</tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        '''
 
     def _generate_insights_html(self, insights):
         """Genera HTML de insights"""
