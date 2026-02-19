@@ -2,8 +2,8 @@ name: Daily Market Analysis - Full Pipeline
 
 on:
   schedule:
-    # Run Monday-Friday at 18:00 UTC (after US market close)
-    - cron: '0 18 * * 1-5'
+    # Run Monday-Friday at 07:00 UTC (08:00-09:00 Spain time, before US market open)
+    - cron: '0 7 * * 1-5'
   workflow_dispatch:  # Manual trigger
 
 jobs:
@@ -158,6 +158,14 @@ jobs:
             -m "Automated via GitHub Actions" || echo "No changes to commit"
 
           git push || echo "Push failed"
+
+      - name: Trigger GitHub Pages Deployment
+        if: always()
+        run: |
+          echo "Triggering Pages deployment..."
+          gh workflow run pages-deploy.yml
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 env:
   PYTHONUNBUFFERED: 1
