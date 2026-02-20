@@ -51,6 +51,11 @@ jobs:
       - name: Run Super Score Integration [CRITICAL]
         run: python3 super_score_integrator.py
 
+      - name: AI Quality Filter [CRITICAL]
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python3 ai_quality_filter.py
+
       - name: Calculate Entry/Exit Prices [CRITICAL]
         run: python3 add_entry_exit_to_opportunities.py
 
