@@ -1248,7 +1248,7 @@ class SuperDashboardGenerator:
         if thesis_narrative:
             thesis_html = self._format_thesis_html(thesis_narrative, thesis_signals, thesis_insiders)
             ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
-                           f'onclick="var r=document.getElementById(\'{thesis_id}\'),'
+                           f'onclick="var r=document.getElementById(\'{thesis_id}\');'
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
                            f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;">💡</span></td>')
             thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
@@ -1311,7 +1311,7 @@ class SuperDashboardGenerator:
         if thesis_narrative:
             thesis_html = self._format_thesis_html(thesis_narrative, thesis_signals, thesis_insiders)
             ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
-                           f'onclick="var r=document.getElementById(\'{thesis_id}\'),'
+                           f'onclick="var r=document.getElementById(\'{thesis_id}\');'
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
                            f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;">💡</span></td>')
             thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
