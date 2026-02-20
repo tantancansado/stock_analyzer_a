@@ -173,25 +173,19 @@ class SuperDashboardGenerator:
             # Filter score >= 55 (GOOD o mejor)
             filtered = df[df['super_score_5d'] >= 55].copy()
 
-            # If ultimate scores are on a different scale (all < 55), fall back to 5D file
-            if len(filtered) == 0 and opps_5d_file.exists():
-                print("⚠️  super_scores_ultimate has no rows >= 55 (different scale). Falling back to 5D file.")
-                df = pd.read_csv(opps_5d_file)
-                total_count = len(df)
-                filtered = df[df['super_score_5d'] >= 55].copy()
-                filtered = self._fill_missing_prices(filtered)
+            if len(filtered) == 0:
+                print("ℹ️  No hay oportunidades con score >= 55 en super_scores_ultimate.")
 
             filtered.attrs['total_count'] = total_count
             return filtered
 
-        # Fallback to 5D-only if ultimate doesn't exist yet
         elif opps_5d_file.exists():
             df = pd.read_csv(opps_5d_file)
             total_count = len(df)
-            df = df[df['super_score_5d'] >= 55].copy()
-            df = self._fill_missing_prices(df)
-            df.attrs['total_count'] = total_count
-            return df
+            filtered = df[df['super_score_5d'] >= 55].copy()
+            filtered = self._fill_missing_prices(filtered)
+            filtered.attrs['total_count'] = total_count
+            return filtered
 
         return None
 
