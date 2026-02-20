@@ -20,12 +20,12 @@ class ThesisGenerator:
         if use_ai:
             try:
                 import os
-                if not os.environ.get('ANTHROPIC_API_KEY'):
-                    print("⚠️ ANTHROPIC_API_KEY not set, using templates")
+                if not os.environ.get('GROQ_API_KEY'):
+                    print("⚠️ GROQ_API_KEY not set, using templates")
                 else:
-                    import anthropic
-                    self.ai_client = anthropic.Anthropic()
-                    print("✅ AI narratives enabled (Claude Haiku)")
+                    from groq import Groq
+                    self.ai_client = Groq()
+                    print("✅ AI narratives enabled (Groq Llama 3.3 70B)")
             except Exception as e:
                 print(f"⚠️ AI not available ({e}), using templates")
 
@@ -511,7 +511,7 @@ class ThesisGenerator:
             return self._narrative_5d(row, vcp_row)
 
     def _narrative_value_ai(self, row):
-        """Narrativa VALUE generada por Claude — análisis real, no template"""
+        """Narrativa VALUE generada por Groq Llama — análisis real, no template"""
         ticker = row['ticker']
 
         # Construir contexto de datos (solo valores reales, None → "no disponible")
@@ -574,10 +574,9 @@ CONTEXTO MERCADO:
 - Flujo opciones: {_fmt(row.get('sentiment'))}
 - Bonus sector rotation: {float(row.get('tier_boost', 0) or 0):.1f}
 - Señal mean reversion: {float(row.get('mr_bonus', 0) or 0) > 0}
-"""
 
-        system_prompt = """Eres un analista de inversión value/GARP profesional (estilo Peter Lynch).
-Escribe una tesis de inversión breve y accionable en español basada EXCLUSIVAMENTE en los datos proporcionados.
+Eres un analista de inversión value/GARP profesional (estilo Peter Lynch).
+Escribe una tesis de inversión breve y accionable en español basada EXCLUSIVAMENTE en los datos anteriores.
 
 REGLAS ESTRICTAS:
 - Usa SOLO los datos proporcionados. NUNCA inventes cifras, ratios, o hechos.
@@ -594,16 +593,17 @@ ESTRUCTURA (usa **negrita** para cada sección):
 3. **Insiders** — Evalúa calidad y recencia de las compras
 4. **Valoración** — Compara precio actual con targets (analistas, DCF, P/E)
 5. **Riesgos** — Al menos 1-2 riesgos concretos
-6. **Conclusión** — Veredicto claro: comprar, esperar, o evitar. Con justificación."""
+6. **Conclusión** — Veredicto claro: comprar, esperar, o evitar. Con justificación.
+"""
 
-        response = self.ai_client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=700,
+        response = self.ai_client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": data_context}],
-            system=system_prompt,
+            max_tokens=800,
+            temperature=0.3,
         )
 
-        return response.content[0].text
+        return response.choices[0].message.content
 
     def _narrative_value(self, row):
         """Narrativa para oportunidades VALUE — foco en fundamentales e insiders (template)"""

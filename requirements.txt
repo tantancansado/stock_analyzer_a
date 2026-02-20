@@ -11,8 +11,8 @@ numpy==1.26.4
 requests==2.32.3
 beautifulsoup4==4.12.3
 
-# AI-powered thesis generation
-anthropic>=0.40.0
+# AI-powered thesis generation (Groq - free tier)
+groq>=0.4.0
 
 # Environment Variables
 python-dotenv==1.0.1
