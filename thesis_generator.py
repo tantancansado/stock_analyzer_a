@@ -13,9 +13,21 @@ from datetime import datetime
 class ThesisGenerator:
     """Genera tesis de inversión narrativas a partir de datos"""
 
-    def __init__(self):
+    def __init__(self, use_ai=False):
         self.csv_5d = None
         self.vcp_data = None
+        self.ai_client = None
+        if use_ai:
+            try:
+                import os
+                if not os.environ.get('ANTHROPIC_API_KEY'):
+                    print("⚠️ ANTHROPIC_API_KEY not set, using templates")
+                else:
+                    import anthropic
+                    self.ai_client = anthropic.Anthropic()
+                    print("✅ AI narratives enabled (Claude Haiku)")
+            except Exception as e:
+                print(f"⚠️ AI not available ({e}), using templates")
 
     def load_data(self):
         """Carga datos del CSV 5D y VCP scan"""
@@ -487,14 +499,114 @@ class ThesisGenerator:
         """Genera la narrativa/tesis escrita — adaptada al tipo de oportunidad"""
         source = row.get('_source', '5d')
         if source == 'value':
+            if self.ai_client:
+                try:
+                    return self._narrative_value_ai(row)
+                except Exception as e:
+                    print(f"  ⚠️ AI fallback para {row.get('ticker', '?')}: {e}")
             return self._narrative_value(row)
         elif source == 'momentum':
             return self._narrative_momentum(row, vcp_row)
         else:
             return self._narrative_5d(row, vcp_row)
 
+    def _narrative_value_ai(self, row):
+        """Narrativa VALUE generada por Claude — análisis real, no template"""
+        ticker = row['ticker']
+
+        # Construir contexto de datos (solo valores reales, None → "no disponible")
+        def _fmt(val, suffix='', prefix=''):
+            if val is None:
+                return 'no disponible'
+            return f'{prefix}{val}{suffix}'
+
+        insider = row.get('insider_detail', {})
+        transactions_str = ''
+        for tx in insider.get('transactions', [])[:5]:
+            qty = tx.get('qty', 0)
+            price = tx.get('price', 0)
+            if qty and price:
+                transactions_str += f"\n  - {tx.get('insider', '?')}: ${qty * price:,.0f} ({tx.get('date', '?')})"
+
+        data_context = f"""TICKER: {ticker}
+EMPRESA: {_fmt(row.get('company_name'))}
+SECTOR: {_fmt(row.get('sector_name'))}
+PRECIO ACTUAL: {_fmt(row.get('current_price'), prefix='$')}
+VALUE SCORE: {_fmt(row.get('value_score'), '/100')}
+
+FUNDAMENTALES:
+- Score fundamental: {_fmt(row.get('fundamental_score'), '/100')} (50.0 = sin datos reales)
+- ROE: {_fmt(row.get('roe_pct'), '%')}
+- Margen operativo: {_fmt(row.get('operating_margin_pct'), '%')}
+- Margen neto: {_fmt(row.get('profit_margin_pct'), '%')}
+- Deuda/Capital: {_fmt(row.get('debt_to_equity'))}
+- Ratio corriente: {_fmt(row.get('current_ratio'))}
+- Crecimiento ingresos YoY: {_fmt(row.get('rev_growth_yoy'), '%')}
+- Crecimiento EPS YoY: {_fmt(row.get('eps_growth_yoy'), '%')}
+- Ingresos acelerando: {row.get('rev_accelerating', False)} ({_fmt(row.get('rev_accel_quarters'))} trimestres)
+- EPS acelerando: {row.get('eps_accelerating', False)} ({_fmt(row.get('eps_accel_quarters'))} trimestres)
+- Salud financiera (sub-score): {_fmt(row.get('financial_health_score'), '/100')}
+- Calidad beneficios (sub-score): {_fmt(row.get('earnings_quality_score'), '/100')}
+- Aceleración crecimiento (sub-score): {_fmt(row.get('growth_acceleration_score'), '/100')}
+
+INSIDERS:
+- Score insiders: {_fmt(row.get('insiders_score'), '/100')}
+- Compras totales: {insider.get('purchases', 0)}
+- Patrón recurrente: {insider.get('recurring', False)} ({insider.get('recurring_count', 0)} compras, {insider.get('unique_insiders', 0)} insiders)
+- Última compra: {insider.get('last_purchase_date', 'no disponible')}
+- Días desde última compra: {_fmt(insider.get('days_since_last'))}
+- Reciente (< 60 días): {insider.get('recent', False)}
+- Transacciones:{transactions_str if transactions_str else ' ninguna registrada'}
+
+VALORACIÓN / TARGETS:
+- Target analistas (consenso): {_fmt(row.get('target_price_analyst'), prefix='$')}
+- Target analistas alto: {_fmt(row.get('target_price_analyst_high'), prefix='$')}
+- Target analistas bajo: {_fmt(row.get('target_price_analyst_low'), prefix='$')}
+- Num. analistas: {_fmt(row.get('analyst_count'))}
+- Recomendación: {_fmt(row.get('analyst_recommendation'))}
+- Upside analistas: {_fmt(row.get('analyst_upside_pct'), '%')}
+- Valor DCF: {_fmt(row.get('target_price_dcf'), prefix='$')}
+- Valor P/E justo: {_fmt(row.get('target_price_pe'), prefix='$')}
+
+CONTEXTO MERCADO:
+- Distancia máx. 52 semanas: {_fmt(row.get('proximity_to_52w_high'), '%')}
+- Short interest: {_fmt(row.get('short_percent_float'), '% del float')}
+- Flujo opciones: {_fmt(row.get('sentiment'))}
+- Bonus sector rotation: {float(row.get('tier_boost', 0) or 0):.1f}
+- Señal mean reversion: {float(row.get('mr_bonus', 0) or 0) > 0}
+"""
+
+        system_prompt = """Eres un analista de inversión value/GARP profesional (estilo Peter Lynch).
+Escribe una tesis de inversión breve y accionable en español basada EXCLUSIVAMENTE en los datos proporcionados.
+
+REGLAS ESTRICTAS:
+- Usa SOLO los datos proporcionados. NUNCA inventes cifras, ratios, o hechos.
+- Si un dato dice "no disponible", menciónalo honestamente como limitación.
+- Si fundamental_score = 50.0, indica que no hay datos fundamentales reales.
+- Conecta las señales entre sí cuando sea posible (ej: insiders comprando + mejora de márgenes).
+- Señala riesgos y preocupaciones, no solo lo positivo.
+- Las compras de insiders > 6 meses son menos relevantes, señálalo.
+- Tono profesional y directo. Sin hipérbole, sin emojis.
+
+ESTRUCTURA (usa **negrita** para cada sección):
+1. **Resumen** — Una frase sobre la empresa y la oportunidad
+2. **Fundamentales** — Analiza ROE, márgenes, crecimiento, salud financiera
+3. **Insiders** — Evalúa calidad y recencia de las compras
+4. **Valoración** — Compara precio actual con targets (analistas, DCF, P/E)
+5. **Riesgos** — Al menos 1-2 riesgos concretos
+6. **Conclusión** — Veredicto claro: comprar, esperar, o evitar. Con justificación."""
+
+        response = self.ai_client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=700,
+            messages=[{"role": "user", "content": data_context}],
+            system=system_prompt,
+        )
+
+        return response.content[0].text
+
     def _narrative_value(self, row):
-        """Narrativa para oportunidades VALUE — foco en fundamentales e insiders"""
+        """Narrativa para oportunidades VALUE — foco en fundamentales e insiders (template)"""
         ticker = row['ticker']
         score = row.get('value_score', row.get('super_score_5d', 0)) or 0
         sector = row.get('sector_name', '')
@@ -832,11 +944,15 @@ class ThesisGenerator:
 def main():
     """Genera tesis para top N oportunidades"""
     import sys
+    import argparse
 
-    # Permitir pasar número como argumento
-    num_stocks = int(sys.argv[1]) if len(sys.argv) > 1 else 50
+    parser = argparse.ArgumentParser(description='Genera tesis de inversión')
+    parser.add_argument('num_stocks', nargs='?', type=int, default=50, help='Top N tickers 5D')
+    parser.add_argument('--ai', action='store_true', help='Usar Claude AI para narrativas VALUE')
+    args = parser.parse_args()
+    num_stocks = args.num_stocks
 
-    gen = ThesisGenerator()
+    gen = ThesisGenerator(use_ai=args.ai)
     gen.load_data()
 
     # Generar tesis para top N

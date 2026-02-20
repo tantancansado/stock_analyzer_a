@@ -28,6 +28,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy yfinance requests beautifulsoup4 lxml
           pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
+          pip install anthropic
 
       # ============================================================================
       # CRITICAL STEPS (Must succeed)
@@ -54,7 +55,9 @@ jobs:
         run: python3 add_entry_exit_to_opportunities.py
 
       - name: Generate Investment Theses [CRITICAL]
-        run: python3 thesis_generator.py 50 || echo "Thesis generation failed"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 thesis_generator.py 50 --ai || echo "Thesis generation failed"
 
       - name: Generate Super Dashboard [CRITICAL]
         run: python3 super_dashboard_generator.py
