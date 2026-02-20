@@ -54,8 +54,19 @@ class SuperDashboardGenerator:
             return {}
 
     def _load_value_opportunities(self):
-        """Carga oportunidades VALUE (Sección A - Principal)"""
-        path = Path("docs/value_opportunities.csv")
+        """
+        Carga oportunidades VALUE (Sección A - Principal)
+        Prioriza el archivo filtrado por IA si existe
+        """
+        # Try AI-filtered version first (high-quality opportunities only)
+        filtered_path = Path("docs/value_opportunities_filtered.csv")
+        if filtered_path.exists():
+            print("📊 Using AI-filtered VALUE opportunities")
+            path = filtered_path
+        else:
+            print("⚠️  Using unfiltered VALUE opportunities (run ai_quality_filter.py)")
+            path = Path("docs/value_opportunities.csv")
+
         if not path.exists():
             return []
         try:

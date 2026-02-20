@@ -991,6 +991,22 @@ class SuperScoreIntegrator:
                 rejected_tickers = df[df['negative_roe'] == True]['ticker'].tolist()
                 print(f"🚫 Hard rejected from VALUE (ROE<0): {rejected_tickers}")
 
+        # VALUATION CHECK: Reject stocks with negative analyst upside (overvalued)
+        if 'analyst_upside_pct' in df.columns:
+            overvalued = df['analyst_upside_pct'].notna() & (df['analyst_upside_pct'] < 0)
+            if overvalued.sum() > 0:
+                overvalued_tickers = df[overvalued]['ticker'].tolist()
+                print(f"🚫 Rejected from VALUE (analyst upside < 0%): {overvalued_tickers}")
+                df.loc[overvalued, 'value_score'] = 0.0
+
+        # COVERAGE CHECK: Penalize stocks without analyst coverage (less confidence)
+        if 'analyst_count' in df.columns:
+            no_coverage = df['analyst_count'].isna() | (df['analyst_count'] == 0)
+            if no_coverage.sum() > 0:
+                df.loc[no_coverage, 'value_score'] = df.loc[no_coverage, 'value_score'] * 0.85  # -15% penalty
+                no_cov_count = int(no_coverage.sum())
+                print(f"⚠️  No analyst coverage ({no_cov_count} tickers): -15% value_score penalty")
+
         df['value_score'] = df['value_score'].clip(lower=0, upper=100)
 
         value_top = int((df['value_score'] >= 60).sum())
