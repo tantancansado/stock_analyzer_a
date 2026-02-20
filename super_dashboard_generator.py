@@ -1641,10 +1641,35 @@ class SuperDashboardGenerator:
         return f'<ul class="alert-list">{"".join(items)}</ul>'
 
 
+def validate_dashboard_js(html_path: str = "docs/super_dashboard.html") -> bool:
+    """Valida sintaxis JavaScript en el dashboard generado"""
+    import re
+    from pathlib import Path
+
+    html = Path(html_path).read_text()
+    errors = []
+
+    # Check for comma instead of semicolon in onclick
+    onclicks = re.findall(r'onclick="([^"]+)"', html)
+    for oc in onclicks:
+        if '),var ' in oc or '),r.' in oc or '),d.' in oc:
+            errors.append(f"onclick uses comma: {oc[:60]}...")
+
+    if errors:
+        print("❌ DASHBOARD VALIDATION FAILED:")
+        for err in errors[:3]:
+            print(f"  {err}")
+        raise ValueError("Dashboard has JavaScript syntax errors")
+
+    print("✅ Dashboard JavaScript validated")
+    return True
+
+
 def main():
     """Main execution"""
     generator = SuperDashboardGenerator()
     generator.generate_dashboard()
+    validate_dashboard_js()
 
 
 if __name__ == "__main__":
