@@ -82,3 +82,17 @@ data/backtest_cache/*.csv
 # Untracked sector rotation and backtest results
 docs/sector_rotation/
 docs/optimization/
+
+# eRecoletas monitor (credenciales sensibles)
+recoletas.py
+recoletas_auto.py
+recoletas_config.json
+recoletas_token.json
+estado_documentos.json
+descargas_recoletas/
+recoletas_monitor.log
+recoletas_monitor_error.log
+recoletas_auto.log
+recoletas_auto_error.log
+test_folders.py
+test_login.py
