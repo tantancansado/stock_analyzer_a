@@ -1233,7 +1233,7 @@ class SuperDashboardGenerator:
         tp_count = d.get('analyst_count')
         if tp is not None and tp_upside is not None:
             up_color = '#10b981' if tp_upside >= 10 else ('#f59e0b' if tp_upside >= 0 else '#ef4444')
-            count_str = f' <span style="color:#94a3b8;font-size:0.75em;">({int(tp_count)})</span>' if tp_count else ''
+            count_str = f' <span style="color:#94a3b8;font-size:0.75em;">({int(tp_count)})</span>' if tp_count and not pd.isna(tp_count) else ''
             target_cell = (f'<span style="font-weight:600;">${tp:.0f}</span>'
                            f'{count_str}<br>'
                            f'<span style="color:{up_color};font-size:0.8em;">{tp_upside:+.1f}%</span>')
