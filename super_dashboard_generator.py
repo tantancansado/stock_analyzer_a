@@ -1203,7 +1203,8 @@ class SuperDashboardGenerator:
         """Genera fila HTML para una oportunidad value"""
         ticker  = d.get('ticker', '')
         company = str(d.get('company_name', ticker))[:22]
-        score   = float(d.get('value_score', 0))
+        score   = float(d.get('value_score', 0) or 0)
+        if pd.isna(score): score = 0
         sector  = str(d.get('sector', ''))[:18]
         options = d.get('sentiment', '')
         mr      = '✓' if float(d.get('mr_bonus', 0) or 0) > 0 else ''
@@ -1277,8 +1278,10 @@ class SuperDashboardGenerator:
         """Genera fila HTML para un setup de momentum"""
         ticker  = d.get('ticker', '')
         company = str(d.get('company_name', ticker))[:22]
-        score   = float(d.get('momentum_score', 0))
+        score   = float(d.get('momentum_score', 0) or 0)
+        if pd.isna(score): score = 0
         vcp     = float(d.get('vcp_score', 0) or 0)
+        if pd.isna(vcp): vcp = 0
 
         if score >= 75:
             color = '#10b981'

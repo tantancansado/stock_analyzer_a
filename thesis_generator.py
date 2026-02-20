@@ -79,17 +79,17 @@ class ThesisGenerator:
 
     def _normalize_value_row(self, record, fund_row=None):
         """Convierte un record de value/momentum_opportunities al formato esperado por los métodos de análisis"""
-        import json as _json
+        import ast
 
-        # Parsear JSON blobs de fundamental_scores si están disponibles
+        # Parsear detail blobs de fundamental_scores (son Python dicts, no JSON)
         health, earnings, growth = {}, {}, {}
         if fund_row is not None:
             for col, target in [('health_details', health), ('earnings_details', earnings), ('growth_details', growth)]:
                 raw = fund_row.get(col, '')
                 if raw and str(raw) not in ('', 'nan'):
                     try:
-                        target.update(_json.loads(str(raw)))
-                    except Exception:
+                        target.update(ast.literal_eval(str(raw)))
+                    except (ValueError, SyntaxError):
                         pass
 
         roe_pct = health.get('roe_pct')
@@ -148,14 +148,14 @@ class ThesisGenerator:
             'upside_percent': None,
             'current_price': record.get('current_price'),
             # Target prices (from fundamental_scores)
-            'target_price_analyst': _safe_float(fund_row.get('target_price_analyst')) or None if fund_row else None,
-            'target_price_analyst_high': _safe_float(fund_row.get('target_price_analyst_high')) or None if fund_row else None,
-            'target_price_analyst_low': _safe_float(fund_row.get('target_price_analyst_low')) or None if fund_row else None,
-            'analyst_count': int(_safe_float(fund_row.get('analyst_count'))) if fund_row and _safe_float(fund_row.get('analyst_count')) else None,
+            'target_price_analyst': _safe_float(fund_row.get('target_price_analyst')) if fund_row and _safe_float(fund_row.get('target_price_analyst')) > 0 else None,
+            'target_price_analyst_high': _safe_float(fund_row.get('target_price_analyst_high')) if fund_row and _safe_float(fund_row.get('target_price_analyst_high')) > 0 else None,
+            'target_price_analyst_low': _safe_float(fund_row.get('target_price_analyst_low')) if fund_row and _safe_float(fund_row.get('target_price_analyst_low')) > 0 else None,
+            'analyst_count': int(_safe_float(fund_row.get('analyst_count'))) if fund_row and _safe_float(fund_row.get('analyst_count')) > 0 else None,
             'analyst_recommendation': fund_row.get('analyst_recommendation') if fund_row else None,
-            'analyst_upside_pct': _safe_float(fund_row.get('analyst_upside_pct')) or None if fund_row else None,
-            'target_price_dcf': _safe_float(fund_row.get('target_price_dcf')) or None if fund_row else None,
-            'target_price_pe': _safe_float(fund_row.get('target_price_pe')) or None if fund_row else None,
+            'analyst_upside_pct': _safe_float(fund_row.get('analyst_upside_pct')) if fund_row and _safe_float(fund_row.get('analyst_upside_pct')) != 0 else None,
+            'target_price_dcf': _safe_float(fund_row.get('target_price_dcf')) if fund_row and _safe_float(fund_row.get('target_price_dcf')) > 0 else None,
+            'target_price_pe': _safe_float(fund_row.get('target_price_pe')) if fund_row and _safe_float(fund_row.get('target_price_pe')) > 0 else None,
             'entry_bonus': 0,
             'sentiment': record.get('sentiment', ''),
             'mr_bonus': _safe_float(record.get('mr_bonus')),
@@ -516,7 +516,7 @@ class ThesisGenerator:
 
         # Fundamentales — datos detallados si disponibles, sub-scores como fallback
         fund_lines = []
-        if fund_score and abs(fund_score - 50.0) > 0.1:
+        if fund_score is not None and abs(fund_score - 50.0) > 0.1:
             fund_lines.append(f"Score fundamental: {fund_score:.0f}/100")
         if roe_pct is not None:
             label = "excelente" if roe_pct > 20 else "buena" if roe_pct > 15 else "moderada" if roe_pct > 10 else "baja"
@@ -631,7 +631,8 @@ class ThesisGenerator:
         if t_analyst and current_price:
             rec_label = str(analyst_rec).replace('_', ' ').title() if analyst_rec and str(analyst_rec) != 'nan' else ''
             n_label = f" ({analyst_count} analistas)" if analyst_count else ""
-            entry_lines.append(f"Consenso analistas{n_label}: ${t_analyst:.2f} ({analyst_upside:+.1f}%){' — ' + rec_label if rec_label else ''}")
+            upside_str = f" ({analyst_upside:+.1f}%)" if analyst_upside is not None else ""
+            entry_lines.append(f"Consenso analistas{n_label}: ${t_analyst:.2f}{upside_str}{' — ' + rec_label if rec_label else ''}")
             if t_analyst_low and t_analyst_high:
                 entry_lines.append(f"  Rango: ${t_analyst_low:.2f} — ${t_analyst_high:.2f}")
 

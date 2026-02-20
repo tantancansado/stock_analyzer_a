@@ -831,10 +831,14 @@ class SuperScoreIntegrator:
                     health = row.get('health_details', '{}')
                     if isinstance(health, str):
                         health = ast.literal_eval(health) if health != '{}' else {}
+                    earnings = row.get('earnings_details', '{}')
+                    if isinstance(earnings, str):
+                        earnings = ast.literal_eval(earnings) if earnings != '{}' else {}
 
                     roe = health.get('roe_pct', None)
                     op_margin = health.get('operating_margin_pct', None)
-                    profit_margin = health.get('profit_margin_pct', None)
+                    # profit_margin_pct is in earnings_details, NOT health_details
+                    profit_margin = earnings.get('profit_margin_pct', None)
 
                     penalty = 0.0
 
@@ -1018,10 +1022,11 @@ class SuperScoreIntegrator:
         momentum_inst = df.get('institutional_bonus', pd.Series(0.0, index=df.index))
         df['momentum_score'] += momentum_inst.clip(upper=10)
 
-        # Fundamentals filter (10 pts max - quality gate)
+        # Fundamentals filter (10 pts max - quality gate, skip default 50.0)
         if 'fundamental_score' in df.columns:
-            df['_fund'] = pd.to_numeric(df['fundamental_score'], errors='coerce').fillna(0)
-            df['momentum_score'] += (df['_fund'] / 100) * 10
+            df['_fund'] = pd.to_numeric(df['fundamental_score'], errors='coerce')
+            valid_fund = df['_fund'].notna() & ((df['_fund'] - 50.0).abs() > 0.1)
+            df.loc[valid_fund, 'momentum_score'] += (df.loc[valid_fund, '_fund'] / 100) * 10
             df.drop(columns=['_fund'], inplace=True, errors='ignore')
 
         df['momentum_score'] = df['momentum_score'].clip(lower=0, upper=100)
