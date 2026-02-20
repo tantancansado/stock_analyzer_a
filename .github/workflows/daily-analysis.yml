@@ -123,7 +123,7 @@ jobs:
 
       - name: Fundamental Scoring
         continue-on-error: true
-        run: python3 fundamental_scorer.py --vcp --5d --top 100 || echo "Fundamental scoring failed"
+        run: python3 fundamental_scorer.py --vcp --5d --value --top 100 || echo "Fundamental scoring failed"
 
       - name: ML Scoring
         continue-on-error: true

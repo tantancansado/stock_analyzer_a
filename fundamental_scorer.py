@@ -1098,7 +1098,9 @@ def main():
     parser.add_argument('--5d', dest='five_d', action='store_true',
                        help='Include top-insider tickers from 5D scanner (insiders_score >= 60)')
     parser.add_argument('--top', type=int, default=50, help='Top N tickers (default: 50)')
-    parser.add_argument('--all', action='store_true', help='Score todas las fuentes (VCP + ML)')
+    parser.add_argument('--value', action='store_true',
+                       help='Score VALUE tickers from value_opportunities.csv (target prices, ROE)')
+    parser.add_argument('--all', action='store_true', help='Score todas las fuentes (VCP + ML + VALUE)')
     parser.add_argument('--as-of-date', type=str, default=None,
                        help='Historical date for scoring (YYYY-MM-DD). Only use earnings/financials reported before this date. '
                             'Prevents look-ahead bias in backtesting.')
@@ -1140,7 +1142,7 @@ def main():
         for key, value in result['catalyst_details'].items():
             print(f"      • {key}: {value}")
 
-    elif args.vcp or args.ml or args.all or args.five_d:
+    elif args.vcp or args.ml or args.all or args.five_d or args.value:
         tickers = []
 
         # Cargar tickers según fuente
@@ -1176,6 +1178,17 @@ def main():
                     print("⚠️  5D data no tiene insiders_score — saltando")
             else:
                 print("⚠️  No se encontró 5D data — saltando")
+
+        if args.value or args.all:
+            # Include VALUE tickers to get target prices, ROE, margins
+            val_path = Path('docs/value_opportunities.csv')
+            if val_path.exists():
+                val_df = pd.read_csv(val_path)
+                val_tickers = val_df['ticker'].tolist()
+                before = len(set(tickers))
+                tickers.extend(val_tickers)
+                added = len(set(tickers)) - before
+                print(f"💎 Cargados {len(val_tickers)} tickers VALUE, {added} nuevos")
 
         # Eliminar duplicados
         tickers = list(dict.fromkeys(tickers))

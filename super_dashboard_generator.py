@@ -40,7 +40,7 @@ class SuperDashboardGenerator:
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html)
 
-        print(f"✅ Super Dashboard generado: {output_file}")
+        print(f"✅ Dashboard generado: {output_file}")
 
     def _load_theses(self) -> dict:
         """Carga tesis de inversión desde docs/theses.json"""
@@ -101,7 +101,7 @@ class SuperDashboardGenerator:
 
     def _load_5d_opportunities(self):
         """
-        Carga oportunidades con Super Score Ultimate (VCP + ML + Fundamental)
+        Carga oportunidades del sistema integrado (VCP + ML + Fundamental)
 
         Strategy: Hybrid merge
         1. Load super_scores_ultimate.csv (VCP + ML + Fundamental combined)
@@ -112,7 +112,7 @@ class SuperDashboardGenerator:
         ultimate_file = Path("docs/super_scores_ultimate.csv")
         opps_5d_file = Path("docs/super_opportunities_5d_complete.csv")
 
-        # Try to load Super Score Ultimate (preferred)
+        # Try to load integrated score data (preferred)
         if ultimate_file.exists():
             ultimate_df = pd.read_csv(ultimate_file)
 
@@ -338,8 +338,8 @@ class SuperDashboardGenerator:
                 top_repeaters = repeater_opps.nlargest(5, 'repeat_count')
                 insights.append({
                     'type': 'VCP_REPEATERS',
-                    'title': f"🔁 {len(repeater_opps)} VCP REPEATERS - Stocks con Historial Comprobado",
-                    'description': f"Estos stocks formaron VCP patterns múltiples veces. Mayor probabilidad de éxito.",
+                    'title': f"{len(repeater_opps)} VCP Recurrentes — Historial comprobado",
+                    'description': f"Estos stocks formaron patrones VCP múltiples veces. Mayor probabilidad de éxito.",
                     'tickers': top_repeaters['ticker'].tolist(),
                     'priority': 'CRITICAL'
                 })
@@ -359,7 +359,7 @@ class SuperDashboardGenerator:
                 if len(sector_opps) > 0:
                     insights.append({
                         'type': 'HIGH_PROBABILITY',
-                        'title': f"🔥 {len(sector_opps)} oportunidades 5D en {sector_name} (LEADING)",
+                        'title': f"{len(sector_opps)} oportunidades 5D en {sector_name} (sector líder)",
                         'description': f"Sector con velocity {sector['velocity']:+.2f} y RS {sector['relative_strength']:.1f}",
                         'tickers': sector_opps['ticker'].tolist()[:5],
                         'priority': 'CRITICAL'
@@ -380,8 +380,8 @@ class SuperDashboardGenerator:
                     if len(sector_opps) > 0:
                         insights.append({
                             'type': 'EARLY_ENTRY',
-                            'title': f"⚡ {len(sector_opps)} setups con timing perfecto en {sector_name} (EMERGING)",
-                            'description': f"Sector saliendo de debilidad + timing convergence",
+                            'title': f"{len(sector_opps)} setups con buen timing en {sector_name} (sector emergente)",
+                            'description': f"Sector saliendo de debilidad con convergencia temporal",
                             'tickers': sector_opps['ticker'].tolist()[:5],
                             'priority': 'HIGH'
                         })
@@ -392,8 +392,8 @@ class SuperDashboardGenerator:
             if win_rate >= 70:
                 insights.append({
                     'type': 'VALIDATION',
-                    'title': f"✅ Estrategia validada: {win_rate:.1f}% win rate",
-                    'description': f"Backtest histórico confirma efectividad del sistema",
+                    'title': f"Estrategia validada: {win_rate:.1f}% win rate",
+                    'description': f"El backtest histórico confirma la efectividad del sistema",
                     'priority': 'INFO'
                 })
 
@@ -430,7 +430,7 @@ class SuperDashboardGenerator:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎯 Super Dashboard Ultimate - VCP + ML + Fundamentals</title>
+    <title>Stock Analyzer — Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {{
@@ -441,7 +441,7 @@ class SuperDashboardGenerator:
 
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             min-height: 100vh;
             padding: 20px;
         }}
@@ -458,9 +458,10 @@ class SuperDashboardGenerator:
         }}
 
         .header h1 {{
-            font-size: 3.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }}
 
         .header .subtitle {{
@@ -766,11 +767,10 @@ class SuperDashboardGenerator:
     <div class="container">
         <div class="header">
             <a href="index.html" style="position: absolute; left: 20px; top: 20px; color: white; text-decoration: none; font-size: 1.2em; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 8px; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
-                🏠 Volver
+                Inicio
             </a>
-            <h1>🎯 Super Dashboard Ultimate</h1>
-            <p style="font-size: 0.9em; color: #cbd5e0; margin-top: 5px;">VCP Pattern + ML Predictions + Fundamental Analysis</p>
-            <div class="subtitle">Sistema 5D Integrado - Análisis Completo del Mercado</div>
+            <h1>Stock Analyzer</h1>
+            <div class="subtitle">Análisis integrado — Value, Momentum, Fundamentales</div>
             <div style="margin-top: 10px; font-size: 0.9em;">
                 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
             </div>
@@ -780,13 +780,13 @@ class SuperDashboardGenerator:
         <div class="quick-stats">
             <div class="stat-card" style="background: linear-gradient(135deg, #fef3c7, #fbbf24);">
                 <div class="stat-value" style="color: #92400e;">{vcp_metadata['pattern_count'] if vcp_metadata else 0}</div>
-                <div class="stat-label" style="color: #92400e;">🎯 VCP Patterns</div>
+                <div class="stat-label" style="color: #92400e;">VCP Patterns</div>
                 <div style="font-size: 0.8em; color: #92400e; margin-top: 5px;">{vcp_metadata['scan_date'] if vcp_metadata else 'N/A'}</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">{total_opportunities}</div>
                 <div class="stat-label">Total 5D Opps</div>
-                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">⭐ BUENA+: {filtered_count}</div>
+                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">Calidad buena+: {filtered_count}</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">{len(sector_alerts)}</div>
@@ -809,20 +809,20 @@ class SuperDashboardGenerator:
         <div class="grid-2">
             <!-- Top Opportunities -->
             <div class="section-card">
-                <h2 class="section-title">🏆 Top 5D Opportunities</h2>
+                <h2 class="section-title">Top Oportunidades 5D</h2>
                 {self._generate_opportunities_table(top_opportunities)}
             </div>
 
             <!-- Sector Alerts -->
             <div class="section-card">
-                <h2 class="section-title">🔄 Sector Rotation Alerts</h2>
+                <h2 class="section-title">Alertas de Rotación Sectorial</h2>
                 {self._generate_alerts_html(sector_alerts)}
             </div>
         </div>
 
         <!-- Buscar Ticker -->
         <div class="section-card" id="buscar-ticker-section">
-            <h2 class="section-title">🔍 Analizar Ticker</h2>
+            <h2 class="section-title">Analizar Ticker</h2>
             <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
                 Introduce cualquier ticker para obtener su puntuación y tesis de inversión completa
                 (VCP + ML + Fundamentales + filtros Minervini).
@@ -1143,23 +1143,23 @@ class SuperDashboardGenerator:
 
         <!-- Quick Links -->
         <div class="section-card">
-            <h2 class="section-title">🔗 Dashboards Especializados</h2>
+            <h2 class="section-title">Dashboards Especializados</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 20px;">
-                <a href="sector_rotation_dashboard.html" style="display: block; padding: 20px; background: #667eea; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
-                    🔄 Sector Rotation
+                <a href="sector_rotation_dashboard.html" style="display: block; padding: 20px; background: #475569; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
+                    Rotación Sectorial
                 </a>
                 <a href="backtest_dashboard.html" style="display: block; padding: 20px; background: #10b981; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
-                    📊 Backtest Performance
+                    Rendimiento Backtest
                 </a>
-                <a href="super_opportunities_4d.html" style="display: block; padding: 20px; background: #f59e0b; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
-                    ⭐ 5D Complete Analysis
+                <a href="super_opportunities_4d.html" style="display: block; padding: 20px; background: #d97706; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
+                    Análisis 5D Completo
                 </a>
             </div>
         </div>
 
         <div class="footer">
-            <p>🚀 Stock Analyzer Ultimate - Super Dashboard (VCP + ML + Fundamental)</p>
-            <p style="font-size: 0.9em; margin-top: 5px;">Made with Claude Code</p>
+            <p>Stock Analyzer — Value + Momentum + Fundamentales</p>
+            <p style="font-size: 0.9em; margin-top: 5px;">Generado automáticamente</p>
         </div>
     </div>
 </body>
@@ -1250,12 +1250,12 @@ class SuperDashboardGenerator:
             ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
                            f'onclick="var r=document.getElementById(\'{thesis_id}\');'
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
-                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;">💡</span></td>')
+                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
             thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
                           f'<td colspan="9" style="padding:12px 20px 14px;border-bottom:2px solid #e0e7ff;">'
                           f'<div style="border-left:3px solid #667eea;padding-left:12px;'
                           f'color:#4a5568;font-size:0.85em;line-height:1.6;">'
-                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">💡 Tesis de Inversión</div>'
+                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">Tesis de Inversión</div>'
                           f'{thesis_html}</div></td></tr>')
         else:
             ticker_cell = f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>'
@@ -1313,12 +1313,12 @@ class SuperDashboardGenerator:
             ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
                            f'onclick="var r=document.getElementById(\'{thesis_id}\');'
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
-                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;">💡</span></td>')
+                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
             thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
                           f'<td colspan="8" style="padding:12px 20px 14px;border-bottom:2px solid #e0e7ff;">'
                           f'<div style="border-left:3px solid #667eea;padding-left:12px;'
                           f'color:#4a5568;font-size:0.85em;line-height:1.6;">'
-                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">💡 Tesis de Inversión</div>'
+                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">Tesis de Inversión</div>'
                           f'{thesis_html}</div></td></tr>')
         else:
             ticker_cell = f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>'
@@ -1441,13 +1441,13 @@ class SuperDashboardGenerator:
 
         return f"""
         <div class="insights-section">
-            <h2 class="section-title">💡 AI Insights - Oportunidades Integradas</h2>
+            <h2 class="section-title">Insights — Oportunidades Integradas</h2>
             {''.join(items)}
         </div>
         """
 
     def _generate_opportunities_table(self, opportunities):
-        """Genera tabla de oportunidades con Super Score Ultimate"""
+        """Genera tabla de oportunidades 5D"""
         if not opportunities:
             return "<p>No hay oportunidades disponibles</p>"
 
@@ -1568,7 +1568,7 @@ class SuperDashboardGenerator:
 
         legend_html = """
         <div style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; backdrop-filter: blur(10px);">
-            <h4 style="color: var(--glass-primary); margin-bottom: 0.75rem;">📖 Guía de Columnas</h4>
+            <h4 style="color: var(--glass-primary); margin-bottom: 0.75rem;">Guía de Columnas</h4>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; font-size: 0.85em;">
                 <div><strong>Score:</strong> Puntuación final con filtros aplicados</div>
                 <div><strong>Tier:</strong> Clasificación por calidad (⭐⭐⭐⭐ ELITE = top)</div>
@@ -1596,7 +1596,7 @@ class SuperDashboardGenerator:
                 <thead>
                     <tr>
                         <th>Ticker / Company</th>
-                        <th title="Super Score Ultimate with Filters Applied">Score</th>
+                        <th title="Puntuación integrada con filtros aplicados">Score</th>
                         <th title="Quality Tier">Tier</th>
                         <th>Sector</th>
                         <th title="VCP Pattern Score (40%)">VCP</th>

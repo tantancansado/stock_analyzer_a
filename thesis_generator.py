@@ -147,6 +147,15 @@ class ThesisGenerator:
             'price_target': None,
             'upside_percent': None,
             'current_price': record.get('current_price'),
+            # Target prices (from fundamental_scores)
+            'target_price_analyst': _safe_float(fund_row.get('target_price_analyst')) or None if fund_row else None,
+            'target_price_analyst_high': _safe_float(fund_row.get('target_price_analyst_high')) or None if fund_row else None,
+            'target_price_analyst_low': _safe_float(fund_row.get('target_price_analyst_low')) or None if fund_row else None,
+            'analyst_count': int(_safe_float(fund_row.get('analyst_count'))) if fund_row and _safe_float(fund_row.get('analyst_count')) else None,
+            'analyst_recommendation': fund_row.get('analyst_recommendation') if fund_row else None,
+            'analyst_upside_pct': _safe_float(fund_row.get('analyst_upside_pct')) or None if fund_row else None,
+            'target_price_dcf': _safe_float(fund_row.get('target_price_dcf')) or None if fund_row else None,
+            'target_price_pe': _safe_float(fund_row.get('target_price_pe')) or None if fund_row else None,
             'entry_bonus': 0,
             'sentiment': record.get('sentiment', ''),
             'mr_bonus': _safe_float(record.get('mr_bonus')),
@@ -165,10 +174,14 @@ class ThesisGenerator:
         }
 
     def _load_insider_detail(self, ticker: str) -> dict:
-        """Carga datos detallados de insiders para un ticker"""
+        """Carga datos detallados de insiders para un ticker, con recencia"""
         import json as _json
+
         detail = {'purchases': 0, 'recurring': False, 'recurring_count': 0,
-                  'unique_insiders': 0, 'transactions': []}
+                  'unique_insiders': 0, 'transactions': [], 'last_purchase_date': None,
+                  'days_since_last': None, 'recent': False}
+
+        today = datetime.now()
 
         # Recurring insiders
         recurring_path = Path("docs/recurring_insiders.csv")
@@ -182,6 +195,9 @@ class ThesisGenerator:
                     detail['recurring_count'] = int(row.get('purchase_count', 0))
                     detail['unique_insiders'] = int(row.get('unique_insiders', 0))
                     detail['confidence_score'] = int(row.get('confidence_score', 0))
+                    last = row.get('last_purchase', '')
+                    if last and str(last) != 'nan':
+                        detail['last_purchase_date'] = str(last)
             except Exception:
                 pass
 
@@ -194,7 +210,23 @@ class ThesisGenerator:
                     data = idx[ticker]
                     detail['purchases'] = data.get('purchases', 0)
                     detail['sales'] = data.get('sales', 0)
-                    detail['transactions'] = data.get('transactions', [])[:5]
+                    # Solo compras (tipo P)
+                    buy_txs = [t for t in data.get('transactions', [])
+                               if 'P' in str(t.get('type', ''))]
+                    detail['transactions'] = buy_txs[:5]
+                    # Fecha más reciente
+                    if buy_txs and buy_txs[0].get('date'):
+                        detail['last_purchase_date'] = buy_txs[0]['date']
+            except Exception:
+                pass
+
+        # Calcular recencia
+        if detail['last_purchase_date']:
+            try:
+                last_dt = datetime.strptime(detail['last_purchase_date'], '%Y-%m-%d')
+                days = (today - last_dt).days
+                detail['days_since_last'] = days
+                detail['recent'] = days <= 60  # < 2 meses = reciente
             except Exception:
                 pass
 
@@ -537,18 +569,34 @@ class ThesisGenerator:
         else:
             parts.append("\n**Fundamentales:** Datos detallados no disponibles.")
 
-        # Insiders
+        # Insiders — con recencia
         insider_lines = []
         recurring = insider_detail.get('recurring', False)
         recurring_count = insider_detail.get('recurring_count', 0)
         unique_ins = insider_detail.get('unique_insiders', 0)
         purchases = insider_detail.get('purchases', 0)
         transactions = insider_detail.get('transactions', [])
+        days_since = insider_detail.get('days_since_last')
+        is_recent = insider_detail.get('recent', False)
 
         if recurring and recurring_count > 0:
             insider_lines.append(f"Compras recurrentes: {recurring_count} compras de {unique_ins} insider(s)")
         if purchases > 0:
             insider_lines.append(f"Total compras registradas: {purchases}")
+
+        # Recencia de última compra
+        if days_since is not None:
+            if days_since <= 30:
+                insider_lines.append(f"Última compra: hace {days_since} días (muy reciente)")
+            elif days_since <= 60:
+                insider_lines.append(f"Última compra: hace {days_since} días (reciente)")
+            elif days_since <= 180:
+                meses = days_since // 30
+                insider_lines.append(f"Última compra: hace {meses} meses (no reciente)")
+            else:
+                meses = days_since // 30
+                insider_lines.append(f"Última compra: hace {meses} meses (antigua — menor relevancia)")
+
         for tx in transactions[:3]:
             role = tx.get('insider', '')
             qty = tx.get('qty', 0)
@@ -558,28 +606,87 @@ class ThesisGenerator:
                 insider_lines.append(f"  → {role}: ${qty * price:,.0f} ({date})")
 
         if insider_lines:
-            parts.append("\n**Actividad de insiders** (score {:.0f}/100):\n{}".format(
-                insiders_score, "\n".join(f"• {l}" for l in insider_lines)))
+            recency_flag = ""
+            if days_since is not None and days_since > 180:
+                recency_flag = " — ⚠️ compras antiguas"
+            parts.append("\n**Actividad de insiders** (score {:.0f}/100{}):\n{}".format(
+                insiders_score, recency_flag, "\n".join(f"• {l}" for l in insider_lines)))
         elif insiders_score >= 60:
             parts.append(f"\n**Actividad de insiders:** Score {insiders_score:.0f}/100 — actividad positiva detectada.")
         else:
             parts.append("\n**Actividad de insiders:** Sin compras significativas recientes.")
 
+        # Puntos de entrada / Valoración
+        entry_lines = []
+        current_price = row.get('current_price')
+
+        # Analyst targets
+        t_analyst = row.get('target_price_analyst')
+        t_analyst_high = row.get('target_price_analyst_high')
+        t_analyst_low = row.get('target_price_analyst_low')
+        analyst_count = row.get('analyst_count')
+        analyst_rec = row.get('analyst_recommendation')
+        analyst_upside = row.get('analyst_upside_pct')
+
+        if t_analyst and current_price:
+            rec_label = str(analyst_rec).replace('_', ' ').title() if analyst_rec and str(analyst_rec) != 'nan' else ''
+            n_label = f" ({analyst_count} analistas)" if analyst_count else ""
+            entry_lines.append(f"Consenso analistas{n_label}: ${t_analyst:.2f} ({analyst_upside:+.1f}%){' — ' + rec_label if rec_label else ''}")
+            if t_analyst_low and t_analyst_high:
+                entry_lines.append(f"  Rango: ${t_analyst_low:.2f} — ${t_analyst_high:.2f}")
+
+        # DCF target
+        t_dcf = row.get('target_price_dcf')
+        if t_dcf and current_price:
+            dcf_upside = (t_dcf / current_price - 1) * 100
+            label = "infravalorada" if dcf_upside > 10 else "cerca de valor justo" if dcf_upside > -10 else "sobrevalorada"
+            entry_lines.append(f"Valor intrínseco (DCF): ${t_dcf:.2f} ({dcf_upside:+.1f}% — {label})")
+
+        # P/E fair value target
+        t_pe = row.get('target_price_pe')
+        if t_pe and current_price:
+            pe_upside = (t_pe / current_price - 1) * 100
+            entry_lines.append(f"Valor por P/E justo: ${t_pe:.2f} ({pe_upside:+.1f}%)")
+
+        # Proximity to 52w high
+        prox = row.get('proximity_to_52w_high')
+        if prox and prox != 0 and current_price:
+            if prox >= -5:
+                entry_lines.append(f"A {abs(prox):.1f}% del máximo 52 semanas — zona de breakout")
+            elif prox >= -15:
+                entry_lines.append(f"A {abs(prox):.1f}% del máximo 52 semanas — cerca de máximos")
+            elif prox < -30:
+                entry_lines.append(f"A {abs(prox):.1f}% del máximo 52 semanas — lejos de máximos, mayor riesgo")
+
+        # Mean reversion signal as potential entry
+        if mr_bonus > 0:
+            entry_lines.append("Señal de mean reversion: precio temporalmente deprimido en empresa de calidad")
+
+        if entry_lines:
+            parts.append("\n**Puntos de entrada / Valoración:**\n" + "\n".join(f"• {l}" for l in entry_lines))
+        elif current_price:
+            parts.append(f"\n**Puntos de entrada:** Precio actual: ${current_price:.2f}. Datos de valoración no disponibles — ejecutar análisis fundamental para obtener targets.")
+        else:
+            parts.append("\n**Puntos de entrada:** Datos de valoración no disponibles.")
+
         # Catalizadores adicionales
         extras = []
         if sentiment == 'BULLISH':
             extras.append("Flujo de opciones alcista (más calls que puts)")
-        if mr_bonus > 0:
-            extras.append("Señal de mean reversion: precio temporalmente deprimido en empresa de calidad")
         if row.get('sector_momentum') == 'improving':
             extras.append(f"Sector {sector} con momentum mejorando")
+        if is_recent and insiders_score >= 60:
+            extras.append("Compras de insiders recientes refuerzan la convicción")
 
         if extras:
             parts.append("\n**Catalizadores:**\n" + "\n".join(f"• {e}" for e in extras))
 
         # Conclusión
-        if score >= 45 and roe_pct and roe_pct > 15 and insiders_score >= 60:
-            parts.append("\n**Conclusión:** Empresa con buenos fundamentales y respaldada por compras de insiders. Candidata sólida para posición value.")
+        has_targets = t_analyst or t_dcf or t_pe
+        if score >= 45 and roe_pct and roe_pct > 15 and insiders_score >= 60 and is_recent:
+            parts.append("\n**Conclusión:** Empresa con buenos fundamentales, respaldada por compras recientes de insiders. Candidata sólida para posición value.")
+        elif score >= 45 and roe_pct and roe_pct > 15 and insiders_score >= 60:
+            parts.append("\n**Conclusión:** Buenos fundamentales con actividad de insiders positiva (aunque no reciente). Candidata para posición value con seguimiento.")
         elif score >= 40:
             parts.append("\n**Conclusión:** Oportunidad interesante que requiere análisis adicional del timing de entrada.")
         else:
