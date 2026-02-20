@@ -95,27 +95,52 @@ class ThesisGenerator:
         roe_pct = health.get('roe_pct')
         rev_growth = growth.get('revenue_growth_yoy')
         profit_margin = earnings.get('profit_margin_pct')
+        op_margin = health.get('operating_margin_pct')
+        debt_eq = health.get('debt_to_equity')
+        current_ratio = health.get('current_ratio')
+
         value_score = float(record.get('value_score', record.get('momentum_score', 0)) or 0)
         sector_bonus = float(record.get('sector_bonus', 0) or 0)
+        source = record.get('_source', 'value')
+
+        def _safe_float(val, default=0):
+            if val is None or str(val).lower() in ('nan', 'none', ''):
+                return default
+            try:
+                return float(val)
+            except (ValueError, TypeError):
+                return default
+
+        # Cargar datos de insiders detallados
+        insider_detail = self._load_insider_detail(record.get('ticker', ''))
 
         return {
             'ticker': record.get('ticker', ''),
+            '_source': source,
             'super_score_5d': value_score,
-            'vcp_score': float(record.get('vcp_score', 0) or 0),
+            'value_score': value_score,
+            'vcp_score': _safe_float(record.get('vcp_score')),
             'entry_score': None,
-            'fundamental_score': float(record.get('fundamental_score', 50) or 50),
+            'fundamental_score': _safe_float(record.get('fundamental_score'), 50),
             'pe_ratio': None,
             'peg_ratio': None,
-            'fcf_yield': profit_margin,
+            'fcf_yield': None,
             'roe': roe_pct / 100 if roe_pct is not None else None,
+            'roe_pct': roe_pct,
             'revenue_growth': rev_growth / 100 if rev_growth is not None else None,
+            'revenue_growth_pct': rev_growth,
+            'profit_margin_pct': profit_margin,
+            'operating_margin_pct': op_margin,
+            'debt_to_equity': debt_eq,
+            'current_ratio': current_ratio,
             'sector_name': record.get('sector', ''),
             'sector_momentum': 'improving' if sector_bonus > 0 else '',
             'sector_score': None,
             'tier_boost': sector_bonus,
-            'num_whales': int(float(record.get('num_whales') or 0) if str(record.get('num_whales', '')).lower() not in ('nan', 'none', '') else 0),
+            'num_whales': int(_safe_float(record.get('num_whales'))),
             'top_whales': str(record.get('top_whales', '') or ''),
-            'insiders_score': float(record.get('insiders_score') or 0) if str(record.get('insiders_score', '')).lower() not in ('nan', 'none', '') else 0.0,
+            'insiders_score': _safe_float(record.get('insiders_score')),
+            'insider_detail': insider_detail,
             'days_to_earnings': None,
             'analyst_upside': None,
             'num_analysts': 0,
@@ -123,32 +148,96 @@ class ThesisGenerator:
             'upside_percent': None,
             'current_price': record.get('current_price'),
             'entry_bonus': 0,
+            'sentiment': record.get('sentiment', ''),
+            'mr_bonus': _safe_float(record.get('mr_bonus')),
+            'eps_growth_yoy': _safe_float(record.get('eps_growth_yoy')) or None,
+            'rev_growth_yoy': _safe_float(record.get('rev_growth_yoy')) or None,
+            'eps_accelerating': record.get('eps_accelerating', False),
+            'rev_accelerating': record.get('rev_accelerating', False),
+            'eps_accel_quarters': _safe_float(record.get('eps_accel_quarters')),
+            'rev_accel_quarters': _safe_float(record.get('rev_accel_quarters')),
+            'financial_health_score': _safe_float(record.get('financial_health_score')),
+            'earnings_quality_score': _safe_float(record.get('earnings_quality_score')),
+            'growth_acceleration_score': _safe_float(record.get('growth_acceleration_score')),
+            'short_percent_float': _safe_float(record.get('short_percent_float')),
+            'proximity_to_52w_high': _safe_float(record.get('proximity_to_52w_high')),
+            'company_name': record.get('company_name', ''),
         }
+
+    def _load_insider_detail(self, ticker: str) -> dict:
+        """Carga datos detallados de insiders para un ticker"""
+        import json as _json
+        detail = {'purchases': 0, 'recurring': False, 'recurring_count': 0,
+                  'unique_insiders': 0, 'transactions': []}
+
+        # Recurring insiders
+        recurring_path = Path("docs/recurring_insiders.csv")
+        if recurring_path.exists():
+            try:
+                rdf = pd.read_csv(recurring_path)
+                match = rdf[rdf['ticker'] == ticker]
+                if not match.empty:
+                    row = match.iloc[0]
+                    detail['recurring'] = True
+                    detail['recurring_count'] = int(row.get('purchase_count', 0))
+                    detail['unique_insiders'] = int(row.get('unique_insiders', 0))
+                    detail['confidence_score'] = int(row.get('confidence_score', 0))
+            except Exception:
+                pass
+
+        # Insider index (transacciones individuales)
+        idx_path = Path("docs/insider_index.json")
+        if idx_path.exists():
+            try:
+                idx = _json.load(open(idx_path))
+                if ticker in idx:
+                    data = idx[ticker]
+                    detail['purchases'] = data.get('purchases', 0)
+                    detail['sales'] = data.get('sales', 0)
+                    detail['transactions'] = data.get('transactions', [])[:5]
+            except Exception:
+                pass
+
+        return detail
 
     def _generate_overview(self, row):
         """Overview/resumen ejecutivo"""
-        score_5d = row.get('super_score_5d', 0)
+        source = row.get('_source', '5d')
+        score = row.get('super_score_5d', 0) or 0
         tier = row.get('tier', 'N/A')
         sector = row.get('sector_name', 'N/A')
         current_price = row.get('current_price')
         target = row.get('price_target')
         upside = row.get('upside_percent')
 
-        # Clasificación por score
-        if score_5d >= 85:
-            classification = "⭐⭐⭐⭐ LEGENDARY"
-        elif score_5d >= 75:
-            classification = "⭐⭐⭐ ÉPICA"
-        elif score_5d >= 65:
-            classification = "⭐⭐ EXCELENTE"
-        elif score_5d >= 55:
-            classification = "⭐ BUENA"
+        # Clasificación profesional por score
+        if source in ('value', 'momentum'):
+            if score >= 50:
+                classification = "Muy atractiva"
+            elif score >= 40:
+                classification = "Atractiva"
+            elif score >= 30:
+                classification = "Moderada"
+            else:
+                classification = "En observación"
+            score_label = "value_score" if source == 'value' else "momentum_score"
         else:
-            classification = "MODERADA"
+            if score >= 80:
+                classification = "Excelente"
+            elif score >= 65:
+                classification = "Muy buena"
+            elif score >= 55:
+                classification = "Buena"
+            else:
+                classification = "Moderada"
+            score_label = "score_5d"
 
         return {
-            "score_5d": score_5d,
+            "score": score,
+            "score_5d": score,
+            "score_label": score_label,
             "classification": classification,
+            "source": source,
             "tier": tier,
             "sector": sector,
             "sector_momentum": row.get('sector_momentum', 'N/A'),
@@ -308,126 +397,293 @@ class ThesisGenerator:
 
         if sector_name:
             if sector_momentum == 'improving' and tier_boost > 0:
-                catalysts['sector'].append(f"✅ Sector {sector_name} con momentum mejorando (score {sector_score:.0f}, boost +{tier_boost})")
+                catalysts['sector'].append(f"Sector {sector_name} con momentum mejorando (score {sector_score:.0f}, bonus +{tier_boost})")
             elif sector_momentum == 'improving':
                 catalysts['sector'].append(f"Sector {sector_name} con momentum mejorando")
             elif sector_momentum == 'declining':
-                catalysts['sector'].append(f"⚠️ Sector {sector_name} con momentum declinando")
+                catalysts['sector'].append(f"Sector {sector_name} con momentum declinando")
 
         # Institucionales
         num_whales = row.get('num_whales', 0)
         top_whales = row.get('top_whales', '')
         if num_whales > 0:
-            catalysts['institutional'].append(f"🐋 {num_whales} whale investors: {top_whales}")
+            catalysts['institutional'].append(f"{num_whales} grandes inversores institucionales: {top_whales}")
         else:
-            catalysts['institutional'].append("Sin posiciones de whale investors identificadas")
+            catalysts['institutional'].append("Sin posiciones institucionales significativas identificadas")
 
-        # Insiders
-        insider_score = row.get('insiders_score', 0)
-        if insider_score >= 80:
-            catalysts['insiders'].append(f"✅ Compras de insiders muy fuertes (score {insider_score:.0f})")
-        elif insider_score >= 60:
-            catalysts['insiders'].append(f"Compras de insiders sólidas (score {insider_score:.0f})")
-        elif insider_score < 30:
-            catalysts['insiders'].append(f"Compras de insiders débiles (score {insider_score:.0f})")
+        # Insiders — detalle real
+        insider_score = row.get('insiders_score', 0) or 0
+        insider_detail = row.get('insider_detail', {})
+        purchases = insider_detail.get('purchases', 0)
+        recurring = insider_detail.get('recurring', False)
+        recurring_count = insider_detail.get('recurring_count', 0)
+        unique_ins = insider_detail.get('unique_insiders', 0)
+        transactions = insider_detail.get('transactions', [])
+
+        if recurring and recurring_count > 0:
+            catalysts['insiders'].append(
+                f"Compras recurrentes: {recurring_count} compras de {unique_ins} insider(s) — patrón consistente de acumulación")
+        if purchases > 0:
+            catalysts['insiders'].append(f"{purchases} compras de insiders registradas")
+            if transactions:
+                for tx in transactions[:3]:
+                    role = tx.get('insider', '')
+                    qty = tx.get('qty', 0)
+                    price = tx.get('price', 0)
+                    date = tx.get('date', '')
+                    if qty and price:
+                        amount = qty * price
+                        catalysts['insiders'].append(f"  → {role}: ${amount:,.0f} el {date}")
+        if not catalysts['insiders']:
+            if insider_score >= 60:
+                catalysts['insiders'].append(f"Actividad de insiders positiva (score {insider_score:.0f}/100)")
+            else:
+                catalysts['insiders'].append("Sin compras significativas de insiders recientes")
 
         # Earnings
         days_to_earnings = row.get('days_to_earnings')
         if days_to_earnings and not pd.isna(days_to_earnings):
             days = int(days_to_earnings)
             if 0 <= days <= 7:
-                catalysts['earnings'].append(f"⚠️ Earnings en {days} días - evento cercano")
+                catalysts['earnings'].append(f"Earnings en {days} días — evento cercano, considerar riesgo")
             elif days > 0:
                 catalysts['earnings'].append(f"Próximo earnings en {days} días")
 
         return catalysts
 
     def _generate_narrative(self, row, vcp_row):
-        """Genera la narrativa/tesis escrita"""
+        """Genera la narrativa/tesis escrita — adaptada al tipo de oportunidad"""
+        source = row.get('_source', '5d')
+        if source == 'value':
+            return self._narrative_value(row)
+        elif source == 'momentum':
+            return self._narrative_momentum(row, vcp_row)
+        else:
+            return self._narrative_5d(row, vcp_row)
+
+    def _narrative_value(self, row):
+        """Narrativa para oportunidades VALUE — foco en fundamentales e insiders"""
         ticker = row['ticker']
-        score_5d = row.get('super_score_5d', 0)
+        score = row.get('value_score', row.get('super_score_5d', 0)) or 0
+        sector = row.get('sector_name', '')
+        roe_pct = row.get('roe_pct')
+        op_margin = row.get('operating_margin_pct')
+        profit_margin = row.get('profit_margin_pct')
+        debt_eq = row.get('debt_to_equity')
+        rev_growth = row.get('revenue_growth_pct')
+        fund_score = row.get('fundamental_score', 0) or 0
+        insiders_score = row.get('insiders_score', 0) or 0
+        insider_detail = row.get('insider_detail', {})
+        sentiment = row.get('sentiment', '')
+        mr_bonus = row.get('mr_bonus', 0) or 0
+
+        parts = []
+
+        # Intro con puntuación value
+        parts.append(f"**{ticker}** — Puntuación value: **{score:.1f}/100** | Sector: {sector}")
+
+        # Fundamentales — datos detallados si disponibles, sub-scores como fallback
+        fund_lines = []
+        if fund_score and abs(fund_score - 50.0) > 0.1:
+            fund_lines.append(f"Score fundamental: {fund_score:.0f}/100")
+        if roe_pct is not None:
+            label = "excelente" if roe_pct > 20 else "buena" if roe_pct > 15 else "moderada" if roe_pct > 10 else "baja"
+            fund_lines.append(f"ROE: {roe_pct:.1f}% ({label})")
+        if op_margin is not None:
+            fund_lines.append(f"Margen operativo: {op_margin:.1f}%")
+        if profit_margin is not None:
+            fund_lines.append(f"Margen neto: {profit_margin:.1f}%")
+        if debt_eq is not None:
+            level = "conservador" if debt_eq < 0.5 else "moderado" if debt_eq < 1.5 else "elevado"
+            fund_lines.append(f"Deuda/Capital: {debt_eq:.2f} ({level})")
+
+        # Growth data (directamente de value CSV si no hay health_details)
+        rev_growth_yoy = row.get('rev_growth_yoy')
+        eps_growth_yoy = row.get('eps_growth_yoy')
+        if rev_growth is not None:
+            fund_lines.append(f"Crecimiento ingresos: {rev_growth:+.1f}%")
+        elif rev_growth_yoy:
+            fund_lines.append(f"Crecimiento ingresos: {rev_growth_yoy:+.1f}%")
+        if eps_growth_yoy:
+            fund_lines.append(f"Crecimiento EPS: {eps_growth_yoy:+.1f}%")
+        if row.get('rev_accelerating'):
+            q = row.get('rev_accel_quarters', 0)
+            fund_lines.append(f"Ingresos acelerando ({int(q)} trimestres consecutivos)" if q else "Ingresos acelerando")
+
+        # Sub-scores del scanner (cuando no hay datos granulares)
+        health_sc = row.get('financial_health_score', 0)
+        earn_sc = row.get('earnings_quality_score', 0)
+        growth_sc = row.get('growth_acceleration_score', 0)
+        if not roe_pct and not op_margin:
+            # No hay datos granulares — mostrar sub-scores
+            if health_sc:
+                label = "excelente" if health_sc >= 80 else "buena" if health_sc >= 60 else "moderada"
+                fund_lines.append(f"Salud financiera: {health_sc:.0f}/100 ({label})")
+            if earn_sc:
+                fund_lines.append(f"Calidad de beneficios: {earn_sc:.0f}/100")
+            if growth_sc:
+                fund_lines.append(f"Aceleración de crecimiento: {growth_sc:.0f}/100")
+
+        # Proximidad a máximos
+        prox = row.get('proximity_to_52w_high')
+        if prox and prox != 0:
+            fund_lines.append(f"Distancia a máx. 52 semanas: {prox:+.1f}%")
+        short_float = row.get('short_percent_float')
+        if short_float and short_float > 5:
+            fund_lines.append(f"Short interest: {short_float:.1f}% del float")
+
+        if fund_lines:
+            parts.append("\n**Fundamentales:**\n" + "\n".join(f"• {l}" for l in fund_lines))
+        else:
+            parts.append("\n**Fundamentales:** Datos detallados no disponibles.")
+
+        # Insiders
+        insider_lines = []
+        recurring = insider_detail.get('recurring', False)
+        recurring_count = insider_detail.get('recurring_count', 0)
+        unique_ins = insider_detail.get('unique_insiders', 0)
+        purchases = insider_detail.get('purchases', 0)
+        transactions = insider_detail.get('transactions', [])
+
+        if recurring and recurring_count > 0:
+            insider_lines.append(f"Compras recurrentes: {recurring_count} compras de {unique_ins} insider(s)")
+        if purchases > 0:
+            insider_lines.append(f"Total compras registradas: {purchases}")
+        for tx in transactions[:3]:
+            role = tx.get('insider', '')
+            qty = tx.get('qty', 0)
+            price = tx.get('price', 0)
+            date = tx.get('date', '')
+            if qty and price:
+                insider_lines.append(f"  → {role}: ${qty * price:,.0f} ({date})")
+
+        if insider_lines:
+            parts.append("\n**Actividad de insiders** (score {:.0f}/100):\n{}".format(
+                insiders_score, "\n".join(f"• {l}" for l in insider_lines)))
+        elif insiders_score >= 60:
+            parts.append(f"\n**Actividad de insiders:** Score {insiders_score:.0f}/100 — actividad positiva detectada.")
+        else:
+            parts.append("\n**Actividad de insiders:** Sin compras significativas recientes.")
+
+        # Catalizadores adicionales
+        extras = []
+        if sentiment == 'BULLISH':
+            extras.append("Flujo de opciones alcista (más calls que puts)")
+        if mr_bonus > 0:
+            extras.append("Señal de mean reversion: precio temporalmente deprimido en empresa de calidad")
+        if row.get('sector_momentum') == 'improving':
+            extras.append(f"Sector {sector} con momentum mejorando")
+
+        if extras:
+            parts.append("\n**Catalizadores:**\n" + "\n".join(f"• {e}" for e in extras))
+
+        # Conclusión
+        if score >= 45 and roe_pct and roe_pct > 15 and insiders_score >= 60:
+            parts.append("\n**Conclusión:** Empresa con buenos fundamentales y respaldada por compras de insiders. Candidata sólida para posición value.")
+        elif score >= 40:
+            parts.append("\n**Conclusión:** Oportunidad interesante que requiere análisis adicional del timing de entrada.")
+        else:
+            parts.append("\n**Conclusión:** En observación. Monitorizar evolución de fundamentales y actividad de insiders.")
+
+        return "\n".join(parts)
+
+    def _narrative_momentum(self, row, vcp_row):
+        """Narrativa para oportunidades MOMENTUM — foco en técnico"""
+        ticker = row['ticker']
+        score = row.get('super_score_5d', 0) or 0
+        vcp_score = row.get('vcp_score') or 0
+        sector = row.get('sector_name', 'N/A')
+
+        parts = []
+        parts.append(f"**{ticker}** — Puntuación momentum: **{score:.1f}/100** | Sector: {sector}")
+
+        # Técnico
+        tech_lines = []
+        if vcp_score >= 85:
+            tech_lines.append(f"Patrón VCP de alta calidad ({vcp_score:.0f}/100)")
+        elif vcp_score >= 70:
+            tech_lines.append(f"Patrón VCP sólido ({vcp_score:.0f}/100)")
+        elif vcp_score > 0:
+            tech_lines.append(f"Patrón VCP moderado ({vcp_score:.0f}/100)")
+
+        if vcp_row:
+            stage = vcp_row.get('etapa_analisis', '')
+            if stage:
+                tech_lines.append(f"Etapa: {stage}")
+            if vcp_row.get('listo_comprar'):
+                tech_lines.append("Señal de compra activada")
+            contracciones = vcp_row.get('num_contracciones', 0)
+            if contracciones:
+                tech_lines.append(f"Contracciones: {contracciones}")
+
+        if tech_lines:
+            parts.append("\n**Análisis técnico:**\n" + "\n".join(f"• {l}" for l in tech_lines))
+
+        # Fundamentales breves
+        roe_pct = row.get('roe_pct')
+        rev_growth = row.get('revenue_growth_pct')
+        fund_lines = []
+        if roe_pct is not None:
+            fund_lines.append(f"ROE: {roe_pct:.1f}%")
+        if rev_growth is not None:
+            fund_lines.append(f"Crecimiento ingresos: {rev_growth:+.1f}%")
+        if fund_lines:
+            parts.append("\n**Fundamentales:** " + " | ".join(fund_lines))
+
+        # Conclusión
+        if vcp_score >= 80:
+            parts.append("\n**Conclusión:** Setup técnico fuerte. Adecuada para operativa de momentum/swing.")
+        else:
+            parts.append("\n**Conclusión:** Setup moderado. Esperar confirmación de breakout antes de entrar.")
+
+        return "\n".join(parts)
+
+    def _narrative_5d(self, row, vcp_row):
+        """Narrativa para oportunidades 5D (original)"""
+        ticker = row['ticker']
+        score_5d = row.get('super_score_5d', 0) or 0
         vcp_score = row.get('vcp_score') or 0
         entry_score = row.get('entry_score') or 0
         upside = row.get('upside_percent') or 0
         sector = row.get('sector_name', 'N/A')
 
-        # Determinar tipo de oportunidad
-        if vcp_score >= 80 and entry_score >= 70:
-            opp_type = "momentum técnico"
-        elif upside and upside > 30:
-            opp_type = "value con catalizador técnico"
-        elif vcp_score >= 70:
-            opp_type = "setup técnico"
-        else:
-            opp_type = "oportunidad mixta"
+        parts = []
+        parts.append(f"**{ticker}** — Score combinado: **{score_5d:.1f}/100** | Sector: {sector}")
 
-        # Intro
-        narrative = f"{ticker} representa una oportunidad de **{opp_type}** "
-
-        if score_5d >= 70:
-            narrative += f"con score 5D excepcional de {score_5d:.1f}/100. "
-        elif score_5d >= 60:
-            narrative += f"con score 5D sólido de {score_5d:.1f}/100. "
-        else:
-            narrative += f"con score 5D moderado de {score_5d:.1f}/100. "
-
-        # Technical highlights
+        # Technical
         if vcp_score >= 85:
-            narrative += f"El patrón VCP es de calidad excepcional ({vcp_score:.0f}/100)"
+            parts.append(f"\nPatrón VCP de alta calidad ({vcp_score:.0f}/100).")
             if vcp_row and vcp_row.get('listo_comprar'):
-                narrative += " y muestra señal de compra activada. "
-            else:
-                narrative += ". "
+                parts[-1] += " Señal de compra activada."
         elif vcp_score >= 70:
-            narrative += f"Presenta un sólido patrón VCP ({vcp_score:.0f}/100). "
+            parts.append(f"\nPatrón VCP sólido ({vcp_score:.0f}/100).")
 
-        # Entry timing
         if entry_score and entry_score >= 80:
-            narrative += f"El timing de entrada es óptimo ({entry_score:.0f}/100) - el precio está cerca de máximos de 52 semanas, por encima de medias móviles clave, y muestra fuerte momentum. "
-        elif entry_score and entry_score >= 60:
-            narrative += f"El momento de entrada es favorable ({entry_score:.0f}/100). "
-        elif entry_score and entry_score < 40:
-            narrative += f"El timing de entrada no es ideal actualmente ({entry_score:.0f}/100). "
+            parts.append(f"Timing de entrada favorable ({entry_score:.0f}/100) — cerca de máximos de 52 semanas.")
 
-        # Fundamental context
+        # Fundamental
         peg = row.get('peg_ratio')
         if peg and peg < 1.5:
-            narrative += f"Desde el punto de vista fundamental, la valoración es atractiva (PEG {peg:.2f}). "
-        elif peg and peg > 2.5:
-            narrative += f"La valoración fundamental es elevada (PEG {peg:.2f}), sugiriendo que el upside viene más del momentum que del value. "
-
+            parts.append(f"Valoración atractiva (PEG {peg:.2f}).")
         if upside and upside > 20:
-            narrative += f"El precio objetivo sugiere un upside de +{upside:.0f}%. "
-        elif upside and upside < 0:
-            narrative += f"Los fundamentales sugieren sobrevaloración ({upside:.0f}% desde niveles actuales). "
+            parts.append(f"Precio objetivo sugiere upside de +{upside:.0f}%.")
 
-        # Sector context
+        # Sector
         if sector and sector != 'N/A':
             momentum = row.get('sector_momentum', '')
             if momentum == 'improving':
-                narrative += f"El sector {sector} muestra momentum mejorando, proporcionando vientos de cola. "
+                parts.append(f"Sector {sector} con momentum mejorando.")
             elif momentum == 'declining':
-                narrative += f"El sector {sector} está en decline, lo cual puede ser un viento en contra. "
+                parts.append(f"Sector {sector} con momentum declinando — viento en contra.")
 
-        # Conclusion
-        if score_5d >= 70 and vcp_score >= 80:
-            narrative += "\n\n**Conclusión:** Setup de alta calidad para traders de momentum. El patrón técnico es fuerte y el timing es favorable."
-        elif vcp_score >= 70 and (upside and upside > 20):
-            narrative += "\n\n**Conclusión:** Combinación interesante de setup técnico y upside fundamental. Adecuada para posiciones swing."
-        elif score_5d >= 65:
-            narrative += "\n\n**Conclusión:** Oportunidad sólida que combina múltiples factores positivos. Considerar para diversificación."
+        if score_5d >= 70:
+            parts.append("\n**Conclusión:** Oportunidad de alta calidad que combina técnico y fundamental.")
+        elif score_5d >= 55:
+            parts.append("\n**Conclusión:** Oportunidad sólida. Considerar para diversificación.")
         else:
-            narrative += "\n\n**Conclusión:** Oportunidad moderada. Requiere seguimiento cercano antes de tomar posición."
+            parts.append("\n**Conclusión:** Oportunidad moderada. Requiere seguimiento.")
 
-        # Best for
-        if vcp_score >= 80 and entry_score >= 70:
-            narrative += "\n\n**Mejor para:** Traders de momentum buscando breakouts de alta probabilidad."
-        elif upside and upside > 30:
-            narrative += "\n\n**Mejor para:** Inversores value con tolerancia a volatilidad técnica."
-        else:
-            narrative += "\n\n**Mejor para:** Inversores híbridos que buscan balance técnico-fundamental."
-
-        return narrative
+        return "\n".join(parts)
 
     def _calculate_rating(self, row, vcp_row):
         """Calcula rating de estrellas para diferentes aspectos"""
@@ -526,7 +782,9 @@ def main():
                 if not vcp_match.empty:
                     vcp_row = vcp_match.iloc[0].to_dict()
 
-            row_dict = gen._normalize_value_row(rec.to_dict(), fund_row)
+            rec_dict = rec.to_dict()
+            rec_dict['_source'] = 'value' if label == 'VALUE' else 'momentum'
+            row_dict = gen._normalize_value_row(rec_dict, fund_row)
             thesis = gen.generate_thesis_from_row(row_dict, vcp_row)
             theses[ticker] = thesis
             score = row_dict['super_score_5d']
