@@ -64,7 +64,9 @@ class SuperDashboardGenerator:
             records = df.sort_values('value_score', ascending=False).head(15).to_dict('records')
             theses = self._load_theses()
             for r in records:
-                t = theses.get(r.get('ticker', ''), {})
+                ticker = r.get('ticker', '')
+                # Buscar tesis VALUE específica primero, luego genérica
+                t = theses.get(f'{ticker}__value', theses.get(ticker, {}))
                 r['thesis_narrative'] = t.get('thesis_narrative', '')
                 r['thesis_signals'] = t.get('technical', {}).get('signals', [])
                 r['thesis_catalysts_insiders'] = t.get('catalysts', {}).get('insiders', [])
@@ -83,7 +85,9 @@ class SuperDashboardGenerator:
             records = df.sort_values('momentum_score', ascending=False).head(15).to_dict('records')
             theses = self._load_theses()
             for r in records:
-                t = theses.get(r.get('ticker', ''), {})
+                ticker = r.get('ticker', '')
+                # Buscar tesis MOMENTUM específica primero, luego genérica
+                t = theses.get(f'{ticker}__momentum', theses.get(ticker, {}))
                 r['thesis_narrative'] = t.get('thesis_narrative', '')
                 r['thesis_signals'] = t.get('technical', {}).get('signals', [])
                 r['thesis_catalysts_insiders'] = t.get('catalysts', {}).get('insiders', [])

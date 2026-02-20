@@ -871,10 +871,11 @@ def main():
         if not opp_path.exists():
             continue
         opp_df = pd.read_csv(opp_path)
-        print(f"\n📊 Generando tesis para tickers {label} no cubiertos...")
+        source_key = 'value' if label == 'VALUE' else 'momentum'
+        print(f"\n📊 Generando tesis {label} para todos los tickers...")
         for _, rec in opp_df.iterrows():
             ticker = str(rec.get('ticker', ''))
-            if not ticker or ticker in theses:
+            if not ticker:
                 continue
             # fundamental_scores row para datos adicionales
             fund_row = None
@@ -890,10 +891,15 @@ def main():
                     vcp_row = vcp_match.iloc[0].to_dict()
 
             rec_dict = rec.to_dict()
-            rec_dict['_source'] = 'value' if label == 'VALUE' else 'momentum'
+            rec_dict['_source'] = source_key
             row_dict = gen._normalize_value_row(rec_dict, fund_row)
             thesis = gen.generate_thesis_from_row(row_dict, vcp_row)
-            theses[ticker] = thesis
+            # Guardar con clave específica por fuente (TICKER__value, TICKER__momentum)
+            # para que cada tabla tenga su propia narrativa adaptada
+            theses[f"{ticker}__{source_key}"] = thesis
+            # Si no existe ya como 5D, guardar también como clave simple
+            if ticker not in theses:
+                theses[ticker] = thesis
             score = row_dict['super_score_5d']
             print(f"  ✅ [{label}] {ticker} → score {score:.1f}")
 
