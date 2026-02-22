@@ -14,17 +14,47 @@ from groq import Groq
 # Groq API (free tier) - must be set in environment
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
 
-def analyze_with_ai(ticker_data: dict) -> dict:
+def analyze_with_ai(ticker_data: dict, strategy: str = "VALUE") -> dict:
     """
     Use Groq AI (llama-3.3-70b) to analyze opportunity quality
     Fallback to rule-based if AI fails
+    Args:
+        ticker_data: Stock data dict
+        strategy: "VALUE" or "MOMENTUM"
     Returns: {verdict: BUY/HOLD/AVOID, confidence: 0-100, reasoning: str}
     """
     try:
         client = Groq(api_key=GROQ_API_KEY)
 
-        # Build concise analysis prompt
-        prompt = f"""Analyze this VALUE stock opportunity as a fundamental analyst.
+        # Build strategy-specific prompt
+        if strategy == "MOMENTUM":
+            prompt = f"""Analyze this MOMENTUM stock (Minervini-style) for safety and quality.
+
+{ticker_data['ticker']} - {ticker_data['sector']} - ${ticker_data['current_price']:.2f}
+
+MOMENTUM METRICS:
+Proximity to 52w high: {ticker_data.get('proximity_to_52w_high', 'N/A')}x
+Earnings accelerating: {ticker_data.get('eps_accelerating', 'N/A')}
+Revenue accelerating: {ticker_data.get('rev_accelerating', 'N/A')}
+Industry strength: {ticker_data.get('industry_group_percentile', 'N/A')}%
+Short %: {ticker_data.get('short_percent_float', 'N/A')}%
+
+FUNDAMENTALS (safety check):
+ROE: {ticker_data.get('roe', 'N/A')}%
+Margin: {ticker_data.get('profit_margin', 'N/A')}%
+Growth: {ticker_data.get('rev_growth', 'N/A')}%
+
+SAFETY CHECKS FOR MOMENTUM:
+1. Not over-extended? (proximity < 1.15 = safe, >1.25 = danger)
+2. Fundamentals positive? (ROE>0, Margin>0 = quality)
+3. Earnings accelerating? (TRUE = sustainable momentum)
+4. Industry strong? (>70% = sector tailwind)
+5. Red flags? (negative ROE, revenue declining, over-extended, weak sector)
+
+Respond ONLY with JSON:
+{{"verdict": "BUY"|"HOLD"|"AVOID", "confidence": 0-100, "reasoning": "brief explanation"}}"""
+        else:  # VALUE
+            prompt = f"""Analyze this VALUE stock opportunity as a fundamental analyst.
 
 {ticker_data['ticker']} - {ticker_data['sector']} - ${ticker_data['current_price']:.2f}
 
@@ -68,12 +98,13 @@ Respond ONLY with JSON:
 
     except Exception as e:
         # Fallback to rule-based
-        return fallback_analysis(ticker_data)
+        return fallback_analysis(ticker_data, strategy)
 
-def fallback_analysis(ticker_data: dict) -> dict:
+def fallback_analysis(ticker_data: dict, strategy: str = "VALUE") -> dict:
     """
     Advanced rule-based quality analysis
     Based on fundamental metrics, valuation, insider buying, institutional ownership
+    Strategy-specific filters for VALUE vs MOMENTUM
     """
     confidence = 50
     strengths = []
@@ -200,6 +231,71 @@ def fallback_analysis(ticker_data: dict) -> dict:
             confidence += 5
             strengths.append(f"institutional interest ({institutional_score:.0f}/100)")
 
+    # ========================================================================
+    # MOMENTUM-SPECIFIC SAFETY FILTERS (Minervini-style risk management)
+    # ========================================================================
+    if strategy == "MOMENTUM":
+        # 9. OVER-EXTENSION CHECK (critical - avoid buying climax tops)
+        proximity = ticker_data.get('proximity_to_52w_high')
+        if pd.notna(proximity):
+            if proximity > 1.25:
+                confidence -= 30
+                concerns.append(f"OVER-EXTENDED ({proximity:.2f}x 52w high)")
+            elif proximity > 1.15:
+                confidence -= 15
+                concerns.append(f"near over-extension ({proximity:.2f}x)")
+            elif proximity > 1.05 and proximity <= 1.15:
+                confidence += 10
+                strengths.append(f"healthy momentum ({proximity:.2f}x)")
+            elif proximity < 0.85:
+                confidence -= 10
+                concerns.append("too far from highs")
+
+        # 10. EARNINGS ACCELERATION (sustainable momentum requires this)
+        eps_accel = ticker_data.get('eps_accelerating')
+        rev_accel = ticker_data.get('rev_accelerating')
+
+        if eps_accel == True and rev_accel == True:
+            confidence += 15
+            strengths.append("earnings+revenue accelerating")
+        elif eps_accel == True:
+            confidence += 10
+            strengths.append("earnings accelerating")
+        elif eps_accel == False and rev_accel == False:
+            confidence -= 20
+            concerns.append("growth decelerating")
+
+        # 11. INDUSTRY GROUP STRENGTH (sector tailwind = safer)
+        industry_pct = ticker_data.get('industry_group_percentile')
+        if pd.notna(industry_pct):
+            if industry_pct >= 80:
+                confidence += 15
+                strengths.append(f"top industry ({industry_pct:.0f}%)")
+            elif industry_pct >= 70:
+                confidence += 10
+                strengths.append(f"strong industry ({industry_pct:.0f}%)")
+            elif industry_pct < 30:
+                confidence -= 15
+                concerns.append(f"weak industry ({industry_pct:.0f}%)")
+
+        # 12. SHORT SQUEEZE RISK (high short % = artificial momentum)
+        short_pct = ticker_data.get('short_percent_float')
+        if pd.notna(short_pct):
+            if short_pct > 20:
+                confidence -= 15
+                concerns.append(f"high short % ({short_pct:.1f}%) - squeeze risk")
+            elif short_pct > 10:
+                confidence -= 5
+                concerns.append(f"elevated short ({short_pct:.1f}%)")
+
+        # 13. FUNDAMENTAL FLOOR (momentum needs profitability)
+        if pd.notna(roe) and roe < 0:
+            confidence -= 25
+            concerns.append("MOMENTUM with negative ROE = risky")
+        if pd.notna(profit_margin) and profit_margin < 0:
+            confidence -= 20
+            concerns.append("MOMENTUM unprofitable")
+
     # VERDICT
     if confidence >= 70:
         verdict = "BUY"
@@ -302,11 +398,17 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
             'debt_to_equity': debt_to_equity,
             'rev_growth': row.get('rev_growth_yoy'),
             'insiders_score': row.get('insiders_score', 0),
-            'institutional_score': row.get('institutional_score', 0)
+            'institutional_score': row.get('institutional_score', 0),
+            # MOMENTUM-specific fields
+            'proximity_to_52w_high': row.get('proximity_to_52w_high'),
+            'eps_accelerating': row.get('eps_accelerating'),
+            'rev_accelerating': row.get('rev_accelerating'),
+            'industry_group_percentile': row.get('industry_group_percentile'),
+            'short_percent_float': row.get('short_percent_float')
         }
 
-        # Analyze with AI
-        analysis = analyze_with_ai(ticker_data)
+        # Analyze with AI (strategy-aware)
+        analysis = analyze_with_ai(ticker_data, strategy=strategy_name)
 
         # Store result
         row_result = row.to_dict()
