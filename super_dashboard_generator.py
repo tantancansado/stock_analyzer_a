@@ -447,6 +447,9 @@ class SuperDashboardGenerator:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Analyzer — Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {{
@@ -456,10 +459,12 @@ class SuperDashboardGenerator:
         }}
 
         body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
+            color: #f1f5f9;
         }}
 
         .container {{
@@ -470,19 +475,27 @@ class SuperDashboardGenerator:
         .header {{
             text-align: center;
             color: white;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            padding: 20px 0;
         }}
 
         .header h1 {{
-            font-size: 2.2em;
-            margin-bottom: 8px;
-            font-weight: 600;
-            letter-spacing: -0.02em;
+            font-size: 2.6em;
+            margin-bottom: 12px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(165, 180, 252, 0.3);
         }}
 
         .header .subtitle {{
-            font-size: 1.3em;
-            opacity: 0.9;
+            font-size: 1.25em;
+            opacity: 0.85;
+            color: #cbd5e1;
+            font-weight: 500;
         }}
 
         .quick-stats {{
@@ -493,66 +506,97 @@ class SuperDashboardGenerator:
         }}
 
         .stat-card {{
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }}
+
+        .stat-card:hover {{
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.12);
         }}
 
         .stat-value {{
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 5px;
+            font-size: 2.8em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
         }}
 
         .stat-label {{
-            color: #666;
+            color: #cbd5e1;
             text-transform: uppercase;
-            font-size: 0.9em;
-            letter-spacing: 1px;
+            font-size: 0.85em;
+            letter-spacing: 1.5px;
+            font-weight: 600;
         }}
 
         .insights-section {{
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
             margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }}
 
         .insight-item {{
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 16px;
+            border-radius: 14px;
             border-left: 5px solid;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }}
+
+        .insight-item:hover {{
+            transform: translateX(4px);
+            background: rgba(255, 255, 255, 0.06);
         }}
 
         .insight-CRITICAL {{
-            background: #fef3c7;
-            border-color: #f59e0b;
+            background: rgba(251, 191, 36, 0.1);
+            border-color: #fbbf24;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.15);
         }}
 
         .insight-HIGH {{
-            background: #dbeafe;
+            background: rgba(59, 130, 246, 0.1);
             border-color: #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
         }}
 
         .insight-INFO {{
-            background: #d1fae5;
+            background: rgba(16, 185, 129, 0.1);
             border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
         }}
 
         .insight-title {{
-            font-size: 1.3em;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 1.35em;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #f1f5f9;
+            letter-spacing: -0.01em;
         }}
 
         .insight-desc {{
-            color: #666;
-            margin-bottom: 10px;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+            line-height: 1.6;
+            font-size: 0.98em;
         }}
 
         .ticker-list {{
@@ -563,12 +607,20 @@ class SuperDashboardGenerator:
         }}
 
         .ticker-badge {{
-            background: #667eea;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
-            padding: 5px 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 0.9em;
+            padding: 6px 14px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 0.88em;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            transition: all 0.2s ease;
+            display: inline-block;
+        }}
+
+        .ticker-badge:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
         }}
 
         .grid-2 {{
@@ -579,16 +631,36 @@ class SuperDashboardGenerator:
         }}
 
         .section-card {{
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }}
+
+        .section-card:hover {{
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
         }}
 
         .section-title {{
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: #333;
+            font-size: 1.9em;
+            margin-bottom: 24px;
+            color: #f1f5f9;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }}
+
+        .section-title::before {{
+            content: '';
+            width: 4px;
+            height: 32px;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            border-radius: 2px;
         }}
 
         .opportunities-table {{
@@ -597,45 +669,73 @@ class SuperDashboardGenerator:
         }}
 
         .opportunities-table th {{
-            background: #667eea;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             color: white;
-            padding: 12px;
+            padding: 16px 14px;
             text-align: left;
             font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }}
+
+        .opportunities-table th:first-child {{
+            border-top-left-radius: 12px;
+        }}
+
+        .opportunities-table th:last-child {{
+            border-top-right-radius: 12px;
         }}
 
         .opportunities-table td {{
-            padding: 12px;
-            border-bottom: 1px solid #e5e7eb;
+            padding: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            font-size: 0.95em;
+        }}
+
+        .opportunities-table tr {{
+            transition: all 0.2s ease;
         }}
 
         .opportunities-table tr:hover {{
-            background: #f9fafb;
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.01);
         }}
 
         .score-badge {{
             display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9em;
             color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }}
+
+        .score-badge:hover {{
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }}
 
         .score-high {{
-            background: #10b981;
+            background: linear-gradient(135deg, #10b981, #059669);
         }}
 
         .score-medium {{
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
         }}
 
         .timing-badge {{
-            background: #f59e0b;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             color: white;
-            padding: 3px 8px;
-            border-radius: 3px;
+            padding: 4px 10px;
+            border-radius: 16px;
             font-size: 0.8em;
-            font-weight: bold;
+            font-weight: 700;
+            box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);
         }}
 
         .alert-list {{
@@ -643,18 +743,65 @@ class SuperDashboardGenerator:
         }}
 
         .alert-list li {{
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            background: #f9fafb;
-            border-left: 4px solid #667eea;
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid #6366f1;
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }}
+
+        .alert-list li:hover {{
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(4px);
         }}
 
         .footer {{
             text-align: center;
-            color: white;
-            margin-top: 50px;
-            opacity: 0.8;
+            color: #cbd5e1;
+            margin-top: 60px;
+            opacity: 0.7;
+            font-size: 0.95em;
+        }}
+
+        /* === ANIMATIONS === */
+        @keyframes fadeInUp {{
+            from {{
+                opacity: 0;
+                transform: translateY(30px);
+            }}
+            to {{
+                opacity: 1;
+                transform: translateY(0);
+            }}
+        }}
+
+        .stat-card, .section-card, .insights-section {{
+            animation: fadeInUp 0.6s ease-out backwards;
+        }}
+
+        .stat-card:nth-child(1) {{ animation-delay: 0.1s; }}
+        .stat-card:nth-child(2) {{ animation-delay: 0.2s; }}
+        .stat-card:nth-child(3) {{ animation-delay: 0.3s; }}
+        .stat-card:nth-child(4) {{ animation-delay: 0.4s; }}
+
+        /* === SCROLLBAR STYLING === */
+        ::-webkit-scrollbar {{
+            width: 10px;
+        }}
+
+        ::-webkit-scrollbar-track {{
+            background: rgba(255, 255, 255, 0.05);
+        }}
+
+        ::-webkit-scrollbar-thumb {{
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+        }}
+
+        ::-webkit-scrollbar-thumb:hover {{
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
         }}
 
         /* === RESPONSIVE DESIGN - MOBILE OPTIMIZED === */
