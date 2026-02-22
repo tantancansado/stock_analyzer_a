@@ -86,8 +86,15 @@ class SuperDashboardGenerator:
             return []
 
     def _load_momentum_opportunities(self):
-        """Carga oportunidades MOMENTUM (Sección B - Minervini)"""
-        path = Path("docs/momentum_opportunities.csv")
+        """Prioriza el archivo filtrado por IA si existe"""
+        filtered_path = Path("docs/momentum_opportunities_filtered.csv")
+        if filtered_path.exists():
+            print("📊 Using AI-filtered MOMENTUM opportunities")
+            path = filtered_path
+        else:
+            print("⚠️  Using unfiltered MOMENTUM opportunities")
+            path = Path("docs/momentum_opportunities.csv")
+
         if not path.exists():
             return []
         try:

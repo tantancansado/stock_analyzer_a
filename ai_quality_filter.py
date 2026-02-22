@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-AI-powered quality filter for VALUE opportunities
+AI-powered quality filter for VALUE + MOMENTUM opportunities
 Uses Groq (free) to analyze fundamentals and reject low-quality opportunities
+BONUS: Insider buying + Institutional ownership increase confidence
 """
 import pandas as pd
 import numpy as np
@@ -72,7 +73,7 @@ Respond ONLY with JSON:
 def fallback_analysis(ticker_data: dict) -> dict:
     """
     Advanced rule-based quality analysis
-    Based on fundamental metrics and valuation
+    Based on fundamental metrics, valuation, insider buying, institutional ownership
     """
     confidence = 50
     strengths = []
@@ -176,6 +177,29 @@ def fallback_analysis(ticker_data: dict) -> dict:
         elif rev_growth < 0:
             confidence -= 5
 
+    # 7. INSIDER BUYING (CRITICAL - recent insider purchases = high confidence)
+    insiders_score = ticker_data.get('insiders_score', 0)
+    if pd.notna(insiders_score):
+        if insiders_score >= 80:
+            confidence += 20
+            strengths.append(f"insider buying STRONG ({insiders_score:.0f}/100)")
+        elif insiders_score >= 60:
+            confidence += 15
+            strengths.append(f"insider buying ({insiders_score:.0f}/100)")
+        elif insiders_score >= 40:
+            confidence += 10
+            strengths.append(f"insider activity ({insiders_score:.0f}/100)")
+
+    # 8. INSTITUTIONAL OWNERSHIP (validation by smart money)
+    institutional_score = ticker_data.get('institutional_score', 0)
+    if pd.notna(institutional_score):
+        if institutional_score >= 80:
+            confidence += 10
+            strengths.append(f"institutional buying ({institutional_score:.0f}/100)")
+        elif institutional_score >= 60:
+            confidence += 5
+            strengths.append(f"institutional interest ({institutional_score:.0f}/100)")
+
     # VERDICT
     if confidence >= 70:
         verdict = "BUY"
@@ -227,20 +251,27 @@ def extract_fundamentals(row):
 
     return roe, profit_margin, debt_to_equity
 
-def main():
-    print("=" * 100)
-    print("AI-POWERED QUALITY FILTER FOR VALUE OPPORTUNITIES (Groq)")
+def filter_opportunities(input_path: Path, strategy_name: str, score_field: str):
+    """
+    Filter opportunities using AI quality analysis
+    Args:
+        input_path: Path to opportunities CSV
+        strategy_name: "VALUE" or "MOMENTUM"
+        score_field: "value_score" or "momentum_score"
+    """
+    print("\n" + "=" * 100)
+    print(f"AI-POWERED QUALITY FILTER FOR {strategy_name} OPPORTUNITIES (Groq)")
     print("=" * 100)
 
-    # Load opportunities
-    value_path = Path('docs/value_opportunities.csv')
-    if not value_path.exists():
-        print("❌ value_opportunities.csv not found")
-        return
+    if not input_path.exists():
+        print(f"❌ {input_path.name} not found - skipping {strategy_name}")
+        return None
 
-    df = pd.read_csv(value_path)
-    print(f"\n📊 Input: {len(df)} VALUE opportunities")
-    print(f"   Average value_score: {df['value_score'].mean():.1f}")
+    df = pd.read_csv(input_path)
+    print(f"\n📊 Input: {len(df)} {strategy_name} opportunities")
+
+    if score_field in df.columns:
+        print(f"   Average {score_field}: {df[score_field].mean():.1f}")
 
     # Analyze each with AI
     results = []
@@ -257,7 +288,7 @@ def main():
         # Extract fundamentals
         roe, profit_margin, debt_to_equity = extract_fundamentals(row)
 
-        # Build data dict for AI
+        # Build data dict for AI (include insider/institutional scores)
         ticker_data = {
             'ticker': ticker,
             'company_name': row['company_name'],
@@ -269,7 +300,9 @@ def main():
             'roe': roe,
             'profit_margin': profit_margin,
             'debt_to_equity': debt_to_equity,
-            'rev_growth': row.get('rev_growth_yoy')
+            'rev_growth': row.get('rev_growth_yoy'),
+            'insiders_score': row.get('insiders_score', 0),
+            'institutional_score': row.get('institutional_score', 0)
         }
 
         # Analyze with AI
@@ -318,12 +351,13 @@ def main():
     print(f"   Rejected: {len(df) - len(df_filtered)} low-quality opportunities")
 
     # Save filtered results
-    output_path = Path('docs/value_opportunities_filtered.csv')
+    output_filename = input_path.stem + '_filtered.csv'
+    output_path = Path('docs') / output_filename
     df_filtered.to_csv(output_path, index=False)
     print(f"\n💾 Saved to: {output_path}")
 
     # Show top 10
-    print(f"\n🎯 TOP 10 QUALITY OPPORTUNITIES:")
+    print(f"\n🎯 TOP 10 QUALITY {strategy_name} OPPORTUNITIES:")
     print("-" * 100)
 
     top10 = df_filtered.head(10)
@@ -333,13 +367,46 @@ def main():
         target = row.get('target_price_analyst')
         upside = row.get('analyst_upside_pct')
         confidence = row['ai_confidence']
+        insiders = row.get('insiders_score', 0)
 
         target_str = f"${target:.2f}" if pd.notna(target) else "N/A"
         upside_str = f"+{upside:.1f}%" if pd.notna(upside) else "N/A"
+        insider_str = f"I:{insiders:.0f}" if pd.notna(insiders) and insiders > 0 else ""
 
-        print(f"  {i:2}. {ticker:<6} ${price:>8.2f} → {target_str:>8} ({upside_str:>8}) | AI conf: {confidence:>3}/100")
+        print(f"  {i:2}. {ticker:<6} ${price:>8.2f} → {target_str:>8} ({upside_str:>8}) | Conf:{confidence:>3} {insider_str}")
 
     print("\n" + "=" * 100)
+
+    return len(df_filtered)
+
+
+def main():
+    print("=" * 100)
+    print("AI-POWERED QUALITY FILTER - DUAL STRATEGY VALIDATION")
+    print("=" * 100)
+
+    total_filtered = 0
+
+    # Filter VALUE opportunities
+    value_path = Path('docs/value_opportunities.csv')
+    value_filtered = filter_opportunities(value_path, "VALUE", "value_score")
+    if value_filtered is not None:
+        total_filtered += value_filtered
+
+    # Filter MOMENTUM opportunities
+    momentum_path = Path('docs/momentum_opportunities.csv')
+    momentum_filtered = filter_opportunities(momentum_path, "MOMENTUM", "momentum_score")
+    if momentum_filtered is not None:
+        total_filtered += momentum_filtered
+
+    print("\n" + "=" * 100)
+    print("FINAL SUMMARY - DUAL STRATEGY FILTER")
+    print("=" * 100)
+    print(f"\n✅ Total high-quality opportunities validated: {total_filtered}")
+    print(f"   VALUE: {value_filtered if value_filtered else 0}")
+    print(f"   MOMENTUM: {momentum_filtered if momentum_filtered else 0}")
+    print("\n💡 Both strategies now have AI validation + insider/institutional bonus")
+    print("=" * 100)
 
 if __name__ == '__main__':
     main()
