@@ -34,22 +34,31 @@ def analyze_with_ai(ticker_data: dict, strategy: str = "VALUE") -> dict:
 
 MOMENTUM METRICS:
 Proximity to 52w high: {ticker_data.get('proximity_to_52w_high', 'N/A')}x
+RS line at new high: {ticker_data.get('rs_line_at_new_high', 'N/A')} (CRITICAL Minervini rule)
 Earnings accelerating: {ticker_data.get('eps_accelerating', 'N/A')}
 Revenue accelerating: {ticker_data.get('rev_accelerating', 'N/A')}
 Industry strength: {ticker_data.get('industry_group_percentile', 'N/A')}%
 Short %: {ticker_data.get('short_percent_float', 'N/A')}%
+
+SMART MONEY VALIDATION:
+Options flow: {ticker_data.get('flow_score', 'N/A')}/100
+Unusual calls: {ticker_data.get('unusual_calls', 'N/A')}
+Whales buying: {ticker_data.get('num_whales', 'N/A')}
+Market regime: {ticker_data.get('market_regime', 'N/A')}
 
 FUNDAMENTALS (safety check):
 ROE: {ticker_data.get('roe', 'N/A')}%
 Margin: {ticker_data.get('profit_margin', 'N/A')}%
 Growth: {ticker_data.get('rev_growth', 'N/A')}%
 
-SAFETY CHECKS FOR MOMENTUM:
-1. Not over-extended? (proximity < 1.15 = safe, >1.25 = danger)
-2. Fundamentals positive? (ROE>0, Margin>0 = quality)
+CRITICAL SAFETY CHECKS:
+1. RS line at new high? (Minervini won't buy without this)
+2. Not over-extended? (proximity < 1.15 = safe, >1.25 = danger)
 3. Earnings accelerating? (TRUE = sustainable momentum)
 4. Industry strong? (>70% = sector tailwind)
-5. Red flags? (negative ROE, revenue declining, over-extended, weak sector)
+5. Smart money buying? (whales, options flow positive)
+6. Market regime? (bear market = higher risk)
+7. Fundamentals positive? (ROE>0, Margin>0)
 
 Respond ONLY with JSON:
 {{"verdict": "BUY"|"HOLD"|"AVOID", "confidence": 0-100, "reasoning": "brief explanation"}}"""
@@ -296,6 +305,55 @@ def fallback_analysis(ticker_data: dict, strategy: str = "VALUE") -> dict:
             confidence -= 20
             concerns.append("MOMENTUM unprofitable")
 
+        # 14. RS LINE AT NEW HIGH (Minervini CRITICAL rule)
+        rs_at_high = ticker_data.get('rs_line_at_new_high')
+        if rs_at_high == True:
+            confidence += 20
+            strengths.append("RS line new high (Minervini ✓)")
+        elif rs_at_high == False:
+            confidence -= 20
+            concerns.append("RS line NOT at new high (Minervini fail)")
+
+        # 15. OPTIONS FLOW (smart money validation)
+        flow_score = ticker_data.get('flow_score')
+        unusual_calls = ticker_data.get('unusual_calls')
+        if pd.notna(flow_score):
+            if flow_score >= 70:
+                confidence += 15
+                strengths.append(f"strong options flow ({flow_score:.0f})")
+            elif flow_score >= 50:
+                confidence += 10
+                strengths.append(f"positive flow ({flow_score:.0f})")
+            elif flow_score < 30:
+                confidence -= 10
+                concerns.append(f"negative flow ({flow_score:.0f})")
+
+        if pd.notna(unusual_calls) and unusual_calls > 0:
+            confidence += 10
+            strengths.append("unusual call activity")
+
+        # 16. WHALE COUNT (institutional validation)
+        num_whales = ticker_data.get('num_whales')
+        if pd.notna(num_whales):
+            if num_whales >= 3:
+                confidence += 15
+                strengths.append(f"{int(num_whales)} whales buying")
+            elif num_whales >= 1:
+                confidence += 10
+                strengths.append(f"{int(num_whales)} whale(s)")
+            elif num_whales == 0:
+                confidence -= 10
+                concerns.append("no whale activity")
+
+        # 17. MARKET REGIME (bearish = more conservative)
+        market_regime = ticker_data.get('market_regime', '').lower()
+        if 'bear' in market_regime or 'correction' in market_regime:
+            confidence -= 15
+            concerns.append(f"bear market ({market_regime})")
+        elif 'bull' in market_regime or 'uptrend' in market_regime:
+            confidence += 5
+            strengths.append(f"bull market")
+
     # VERDICT
     if confidence >= 70:
         verdict = "BUY"
@@ -404,7 +462,13 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
             'eps_accelerating': row.get('eps_accelerating'),
             'rev_accelerating': row.get('rev_accelerating'),
             'industry_group_percentile': row.get('industry_group_percentile'),
-            'short_percent_float': row.get('short_percent_float')
+            'short_percent_float': row.get('short_percent_float'),
+            # CRITICAL Minervini metrics
+            'rs_line_at_new_high': row.get('rs_line_at_new_high'),
+            'flow_score': row.get('flow_score'),
+            'unusual_calls': row.get('unusual_calls'),
+            'num_whales': row.get('num_whales'),
+            'market_regime': row.get('market_regime')
         }
 
         # Analyze with AI (strategy-aware)
