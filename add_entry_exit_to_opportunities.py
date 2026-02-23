@@ -6,21 +6,72 @@ Añade precios de entrada/salida a las oportunidades del super score
 Lee: docs/super_scores_ultimate.csv
 Añade: entry_price, stop_loss, exit_price, risk_reward
 Guarda: docs/super_opportunities_with_prices.csv
+
+Data source: yfinance (no Seeking Alpha cookies needed)
 """
 
 import pandas as pd
+import numpy as np
+import time
 import sys
 from pathlib import Path
 from entry_exit_calculator import EntryExitCalculator
-from seeking_alpha_client import SeekingAlphaClient
+
+# Rate limiting config
+YF_DELAY_BETWEEN_TICKERS = 2.0  # seconds between tickers
+YF_DELAY_ON_ERROR = 10.0        # seconds after a rate limit error
+YF_MAX_RETRIES = 3
+
+
+def fetch_ticker_yfinance(ticker: str, attempt: int = 1) -> dict:
+    """
+    Fetch ticker data from yfinance with retry logic.
+    Returns dict with current_price, hist (DataFrame), 52w high/low.
+    """
+    import yfinance as yf
+
+    try:
+        stock = yf.Ticker(ticker)
+
+        # Get historical data (200+ days for SMA calculations)
+        hist = stock.history(period='1y')
+
+        if hist.empty:
+            print(f"   ⚠️  No historical data from yfinance")
+            return None
+
+        # Get current price from latest close
+        current_price = float(hist['Close'].iloc[-1])
+
+        # 52-week high/low from historical
+        week_52_high = float(hist['High'].max())
+        week_52_low = float(hist['Low'].min())
+
+        return {
+            'current_price': current_price,
+            'hist': hist,
+            '52_week_high': week_52_high,
+            '52_week_low': week_52_low,
+        }
+
+    except Exception as e:
+        error_msg = str(e).lower()
+
+        # Rate limit detection
+        if '429' in str(e) or 'too many requests' in error_msg or 'rate' in error_msg:
+            if attempt < YF_MAX_RETRIES:
+                wait = YF_DELAY_ON_ERROR * attempt
+                print(f"   ⏳ Rate limited, waiting {wait:.0f}s (attempt {attempt}/{YF_MAX_RETRIES})...")
+                time.sleep(wait)
+                return fetch_ticker_yfinance(ticker, attempt + 1)
+
+        print(f"   ⚠️  yfinance error: {str(e)[:80]}")
+        return None
+
 
 def add_entry_exit_prices(input_file: str = None, output_file: str = None):
     """
-    Añade entry/exit prices a todas las oportunidades
-
-    Args:
-        input_file: CSV con oportunidades (default: docs/super_scores_ultimate.csv)
-        output_file: CSV output (default: docs/super_opportunities_with_prices.csv)
+    Añade entry/exit prices a todas las oportunidades usando yfinance
     """
     if not input_file:
         input_file = 'docs/super_scores_ultimate.csv'
@@ -29,7 +80,8 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
 
     print(f"\n{'='*80}")
     print("📊 ADDING ENTRY/EXIT PRICES TO OPPORTUNITIES")
-    print(f"{'='*80}\n")
+    print(f"{'='*80}")
+    print(f"📡 Data source: yfinance (with rate limiting)\n")
 
     # Load opportunities
     if not Path(input_file).exists():
@@ -37,41 +89,36 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
         return
 
     df = pd.read_csv(input_file)
+    total = min(len(df), 50)
     print(f"✅ Loaded {len(df)} opportunities from {input_file}")
+    print(f"📋 Processing top {total}...\n")
 
-    # Initialize calculators
+    # Initialize calculator
     calc = EntryExitCalculator()
-    sa_client = SeekingAlphaClient()
 
-    # Process each opportunity
     results = []
+    failed = []
 
-    for idx, row in df.head(50).iterrows():  # Process top 50
+    for idx, row in df.head(total).iterrows():
         ticker = row['ticker']
-        print(f"\n[{idx+1}/50] Processing {ticker}...")
+        print(f"[{idx+1}/{total}] Processing {ticker}...")
+
+        # Rate limiting between tickers
+        if idx > 0:
+            time.sleep(YF_DELAY_BETWEEN_TICKERS)
 
         try:
-            # Get ticker data
-            ticker_data = sa_client.get_ticker_data(ticker)
-            if not ticker_data or 'historical' not in ticker_data:
-                print(f"   ⚠️  No data for {ticker}")
+            # Fetch from yfinance
+            data = fetch_ticker_yfinance(ticker)
+            if not data:
+                failed.append(ticker)
                 continue
 
-            # Convert hist dict to DataFrame if needed
-            hist = ticker_data.get('historical')
-            if isinstance(hist, dict):
-                hist = pd.DataFrame(hist)
+            hist = data['hist']
+            current_price = data['current_price']
 
-            # Normalize column names to lowercase for consistency
-            if not hist.empty:
-                hist.columns = [col.lower() for col in hist.columns]
-                # Set date as index if it exists as column
-                if 'date' in hist.columns:
-                    hist.set_index('date', inplace=True)
-
-            current_price = ticker_data.get('current_price', 0)
-            if current_price == 0:
-                current_price = hist['close'].iloc[-1] if not hist.empty else 0
+            # Normalize columns to lowercase
+            hist.columns = [col.lower() for col in hist.columns]
 
             # Prepare VCP analysis from row data
             vcp_analysis = {
@@ -85,10 +132,9 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
                 'peg_ratio': row.get('peg_ratio'),
             }
 
-            # Prepare validation
-            # Estimate ATH from 52-week high if available
-            year_high = ticker_data.get('52_week_high') or ticker_data.get('fifty_two_week_high')
-            if year_high:
+            # Price vs ATH
+            year_high = data.get('52_week_high')
+            if year_high and year_high > 0:
                 price_vs_ath = ((current_price - year_high) / year_high) * 100
             else:
                 price_vs_ath = None
@@ -124,11 +170,11 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
             })
 
             results.append(result)
-
-            print(f"   ✅ ${entry_exit['current_price']} → Entry: ${entry_exit['entry_price']} | Stop: ${entry_exit['stop_loss']} | Target: ${entry_exit['exit_price']} (R/R: {entry_exit['risk_reward_ratio']}:1)")
+            print(f"   ✅ ${entry_exit['current_price']:.2f} → Entry: ${entry_exit['entry_price']:.2f} | Stop: ${entry_exit['stop_loss']:.2f} | Target: ${entry_exit['exit_price']:.2f} (R/R: {entry_exit['risk_reward_ratio']:.1f}:1)")
 
         except Exception as e:
             print(f"   ❌ Error: {str(e)}")
+            failed.append(ticker)
             continue
 
     # Create DataFrame and save
@@ -149,10 +195,13 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
         print(f"\n{'='*80}")
         print(f"✅ SAVED {len(result_df)} opportunities with entry/exit prices")
         print(f"📁 Output: {output_file}")
+        if failed:
+            print(f"⚠️  Failed ({len(failed)}): {', '.join(failed)}")
         print(f"{'='*80}\n")
 
         # Show summary
-        print("\n📊 SUMMARY:")
+        print("📊 SUMMARY:")
+        print(f"   Processed: {len(result_df)}/{total}")
         print(f"   Average R/R Ratio: {result_df['risk_reward'].mean():.2f}:1")
         print(f"   Meets Criteria (3:1): {result_df['meets_risk_reward'].sum()}/{len(result_df)}")
         print(f"   Average Risk: {result_df['risk_pct'].mean():.1f}%")
@@ -164,7 +213,9 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
         print(top_10.to_string(index=False))
 
     else:
-        print("\n❌ No opportunities processed successfully")
+        print(f"\n❌ No opportunities processed successfully")
+        if failed:
+            print(f"   Failed tickers: {', '.join(failed)}")
 
 
 if __name__ == "__main__":

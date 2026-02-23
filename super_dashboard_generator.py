@@ -460,11 +460,13 @@ class SuperDashboardGenerator:
 
         body {{
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            background-attachment: fixed;
+            background: #0a0e27;
+            background-image:
+                radial-gradient(at 20% 30%, rgba(120, 119, 198, 0.12) 0px, transparent 50%),
+                radial-gradient(at 80% 70%, rgba(99, 102, 241, 0.12) 0px, transparent 50%);
             min-height: 100vh;
             padding: 20px;
-            color: #f1f5f9;
+            color: #ffffff;
         }}
 
         .container {{
@@ -480,21 +482,17 @@ class SuperDashboardGenerator:
         }}
 
         .header h1 {{
-            font-size: 2.6em;
-            margin-bottom: 12px;
+            font-size: 3em;
+            margin-bottom: 16px;
             font-weight: 800;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 40px rgba(165, 180, 252, 0.3);
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            text-shadow: 0 4px 30px rgba(99, 102, 241, 0.5);
         }}
 
         .header .subtitle {{
-            font-size: 1.25em;
-            opacity: 0.85;
-            color: #cbd5e1;
+            font-size: 1.3em;
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 500;
         }}
 
@@ -506,49 +504,56 @@ class SuperDashboardGenerator:
         }}
 
         .stat-card {{
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.37),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             text-align: center;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }}
 
         .stat-card:hover {{
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-6px);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
         }}
 
         .stat-value {{
-            font-size: 2.8em;
+            font-size: 3em;
             font-weight: 700;
-            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-            letter-spacing: -0.02em;
+            color: #ffffff;
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+            text-shadow: 0 2px 20px rgba(99, 102, 241, 0.5);
         }}
 
         .stat-label {{
-            color: #cbd5e1;
+            color: rgba(255, 255, 255, 0.65);
             text-transform: uppercase;
-            font-size: 0.85em;
-            letter-spacing: 1.5px;
+            font-size: 0.8em;
+            letter-spacing: 2px;
             font-weight: 600;
         }}
 
         .insights-section {{
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 32px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 24px;
+            padding: 36px;
             margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.37),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }}
 
         .insight-item {{
@@ -585,18 +590,18 @@ class SuperDashboardGenerator:
         }}
 
         .insight-title {{
-            font-size: 1.35em;
+            font-size: 1.4em;
             font-weight: 700;
-            margin-bottom: 12px;
-            color: #f1f5f9;
-            letter-spacing: -0.01em;
+            margin-bottom: 14px;
+            color: #ffffff;
+            letter-spacing: -0.02em;
         }}
 
         .insight-desc {{
-            color: #cbd5e1;
-            margin-bottom: 12px;
-            line-height: 1.6;
-            font-size: 0.98em;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 14px;
+            line-height: 1.7;
+            font-size: 1em;
         }}
 
         .ticker-list {{
@@ -631,36 +636,43 @@ class SuperDashboardGenerator:
         }}
 
         .section-card {{
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 32px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 24px;
+            padding: 36px;
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.37),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
         }}
 
         .section-card:hover {{
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.25);
         }}
 
         .section-title {{
-            font-size: 1.9em;
-            margin-bottom: 24px;
-            color: #f1f5f9;
+            font-size: 2em;
+            margin-bottom: 28px;
+            color: #ffffff;
             font-weight: 700;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.03em;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }}
 
         .section-title::before {{
             content: '';
-            width: 4px;
-            height: 32px;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
-            border-radius: 2px;
+            width: 5px;
+            height: 36px;
+            background: linear-gradient(180deg, #6366f1, #8b5cf6);
+            border-radius: 3px;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
         }}
 
         .opportunities-table {{
@@ -668,64 +680,78 @@ class SuperDashboardGenerator:
             border-collapse: collapse;
         }}
 
+        .opportunities-table {{
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            overflow: hidden;
+        }}
+
         .opportunities-table th {{
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            padding: 16px 14px;
+            background: rgba(99, 102, 241, 0.15);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 18px 16px;
             text-align: left;
-            font-weight: 600;
-            font-size: 0.9em;
+            font-weight: 700;
+            font-size: 0.85em;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
         }}
 
         .opportunities-table th:first-child {{
-            border-top-left-radius: 12px;
+            border-top-left-radius: 16px;
         }}
 
         .opportunities-table th:last-child {{
-            border-top-right-radius: 12px;
+            border-top-right-radius: 16px;
         }}
 
         .opportunities-table td {{
-            padding: 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            color: #e2e8f0;
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.9);
             font-size: 0.95em;
+            font-weight: 500;
         }}
 
         .opportunities-table tr {{
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }}
 
         .opportunities-table tr:hover {{
-            background: rgba(255, 255, 255, 0.05);
-            transform: scale(1.01);
+            background: rgba(99, 102, 241, 0.08);
+        }}
+
+        .opportunities-table tbody tr:last-child td {{
+            border-bottom: none;
         }}
 
         .score-badge {{
             display: inline-block;
-            padding: 6px 14px;
-            border-radius: 20px;
+            padding: 8px 16px;
+            border-radius: 12px;
             font-weight: 700;
-            font-size: 0.9em;
-            color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            transition: all 0.2s ease;
+            font-size: 0.95em;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }}
 
         .score-badge:hover {{
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
         }}
 
         .score-high {{
             background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
         }}
 
         .score-medium {{
             background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
         }}
 
         .timing-badge {{
@@ -949,7 +975,7 @@ class SuperDashboardGenerator:
             <div class="stat-card">
                 <div class="stat-value">{total_opportunities}</div>
                 <div class="stat-label">Total 5D Opps</div>
-                <div style="font-size: 0.8em; color: #666; margin-top: 5px;">Calidad buena+: {filtered_count}</div>
+                <div style="font-size: 0.8em; color: rgba(255,255,255,0.5); margin-top: 5px;">Calidad buena+: {filtered_count}</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value">{len(sector_alerts)}</div>
@@ -986,10 +1012,10 @@ class SuperDashboardGenerator:
         <!-- Buscar Ticker -->
         <div class="section-card" id="buscar-ticker-section">
             <h2 class="section-title">Analizar Ticker</h2>
-            <p style="color: #666; margin-bottom: 20px; font-size: 0.95em;">
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px; font-size: 0.95em;">
                 Introduce cualquier ticker para obtener su puntuación y tesis de inversión completa
                 (VCP + ML + Fundamentales + filtros Minervini).
-                En local requiere ejecutar <code style="background:#f1f5f9; padding:2px 6px; border-radius:4px;">python3 ticker_api.py</code> en una terminal.
+                En local requiere ejecutar <code style="background:rgba(255,255,255,0.1); padding:2px 6px; border-radius:4px; color:#a5b4fc;">python3 ticker_api.py</code> en una terminal.
             </p>
 
             <!-- Formulario de búsqueda -->
@@ -999,31 +1025,31 @@ class SuperDashboardGenerator:
                     type="text"
                     placeholder="AAPL, NVDA, MSFT…"
                     maxlength="10"
-                    style="flex: 1; min-width: 180px; max-width: 280px; padding: 12px 16px; font-size: 1.1em; font-weight: bold; border: 2px solid #667eea; border-radius: 10px; outline: none; text-transform: uppercase; letter-spacing: 1px;"
+                    style="flex: 1; min-width: 180px; max-width: 280px; padding: 12px 16px; font-size: 1.1em; font-weight: bold; border: 2px solid rgba(99,102,241,0.5); border-radius: 10px; outline: none; text-transform: uppercase; letter-spacing: 1px; background: rgba(255,255,255,0.05); color: #ffffff;"
                     onkeydown="if(event.key==='Enter') analyzeTickerBtn();"
                 />
                 <button
                     onclick="analyzeTickerBtn()"
                     id="analyzeBtn"
-                    style="padding: 12px 28px; background: #667eea; color: white; border: none; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; transition: background 0.2s;"
-                    onmouseover="this.style.background='#5a67d8'"
-                    onmouseout="this.style.background='#667eea'"
+                    style="padding: 12px 28px; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border: none; border-radius: 10px; font-size: 1em; font-weight: bold; cursor: pointer; transition: all 0.3s;"
+                    onmouseover="this.style.opacity='0.85'"
+                    onmouseout="this.style.opacity='1'"
                 >
                     🔍 Analizar
                 </button>
                 <button
                     onclick="document.getElementById('tickerResult').style.display='none'; document.getElementById('tickerInput').value='';"
-                    style="padding: 12px 16px; background: #e2e8f0; color: #4a5568; border: none; border-radius: 10px; font-size: 0.9em; cursor: pointer;"
+                    style="padding: 12px 16px; background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; font-size: 0.9em; cursor: pointer;"
                 >
                     ✕ Limpiar
                 </button>
             </div>
 
             <!-- Estado / loading -->
-            <div id="tickerStatus" style="display:none; color:#667eea; font-style:italic; margin-bottom:10px;">
+            <div id="tickerStatus" style="display:none; color:#a5b4fc; font-style:italic; margin-bottom:10px;">
                 ⏳ Analizando… (30-60 segundos)
             </div>
-            <div id="tickerError" style="display:none; color:#e53e3e; background:#fff5f5; border:1px solid #feb2b2; border-radius:8px; padding:12px; margin-bottom:10px;"></div>
+            <div id="tickerError" style="display:none; color:#fca5a5; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); border-radius:8px; padding:12px; margin-bottom:10px;"></div>
 
             <!-- Resultado -->
             <div id="tickerResult" style="display:none;"></div>
@@ -1115,7 +1141,7 @@ class SuperDashboardGenerator:
             if (s == null) return '#a0aec0';
             if (s >= 75) return '#10b981';
             if (s >= 60) return '#f59e0b';
-            if (s >= 40) return '#667eea';
+            if (s >= 40) return '#6366f1';
             return '#e53e3e';
         }}
         function adIcon(sig) {{
@@ -1180,9 +1206,9 @@ class SuperDashboardGenerator:
                 <!-- Header: nombre + score -->
                 <div style="display:flex; flex-wrap:wrap; gap:20px; align-items:flex-start; margin-bottom:20px;">
                     <div style="flex:1; min-width:200px;">
-                        <div style="font-size:1.6em; font-weight:800; color:#2d3748;">${{d.ticker}}</div>
-                        <div style="color:#718096; font-size:0.9em; margin-top:2px;">${{d.company_name}}</div>
-                        <div style="margin-top:8px; font-size:0.95em; color:#4a5568;">
+                        <div style="font-size:1.6em; font-weight:800; color:#ffffff;">${{d.ticker}}</div>
+                        <div style="color:rgba(255,255,255,0.6); font-size:0.9em; margin-top:2px;">${{d.company_name}}</div>
+                        <div style="margin-top:8px; font-size:0.95em; color:rgba(255,255,255,0.8);">
                             Precio: <strong>${{price(d.current_price)}}</strong>
                             ${{d.price_target ? '&nbsp;→ Objetivo: <strong>' + price(d.price_target) + '</strong> (<span style="color:' + (d.upside_percent >= 0 ? '#10b981' : '#e53e3e') + '">' + pct(d.upside_percent) + '</span>)' : ''}}
                         </div>
@@ -1196,25 +1222,25 @@ class SuperDashboardGenerator:
 
                 <!-- Desglose -->
                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom:20px;">
-                    <div style="background:#fef3c7; border-radius:10px; padding:14px; text-align:center;">
-                        <div style="font-size:1.5em; font-weight:800; color:#92400e;">${{fmt(d.vcp_score)}}</div>
-                        <div style="font-size:0.8em; color:#92400e;">📊 VCP (40%)</div>
-                        <div style="font-size:0.75em; color:#b45309; margin-top:4px;">${{d.vcp_contribution != null ? 'contribuye ' + fmt(d.vcp_contribution) + ' pts' : 'sin datos VCP'}}</div>
+                    <div style="background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2); border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#fbbf24;">${{fmt(d.vcp_score)}}</div>
+                        <div style="font-size:0.8em; color:#fbbf24;">📊 VCP (40%)</div>
+                        <div style="font-size:0.75em; color:rgba(251,191,36,0.7); margin-top:4px;">${{d.vcp_contribution != null ? 'contribuye ' + fmt(d.vcp_contribution) + ' pts' : 'sin datos VCP'}}</div>
                     </div>
-                    <div style="background:#ede9fe; border-radius:10px; padding:14px; text-align:center;">
-                        <div style="font-size:1.5em; font-weight:800; color:#5b21b6;">${{fmt(d.ml_score)}}</div>
-                        <div style="font-size:0.8em; color:#5b21b6;">🤖 ML (30%)</div>
-                        <div style="font-size:0.75em; color:#7c3aed; margin-top:4px;">${{d.ml_contribution != null ? 'contribuye ' + fmt(d.ml_contribution) + ' pts' : 'sin datos ML'}}</div>
+                    <div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.2); border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#a78bfa;">${{fmt(d.ml_score)}}</div>
+                        <div style="font-size:0.8em; color:#a78bfa;">🤖 ML (30%)</div>
+                        <div style="font-size:0.75em; color:rgba(167,139,250,0.7); margin-top:4px;">${{d.ml_contribution != null ? 'contribuye ' + fmt(d.ml_contribution) + ' pts' : 'sin datos ML'}}</div>
                     </div>
-                    <div style="background:#d1fae5; border-radius:10px; padding:14px; text-align:center;">
-                        <div style="font-size:1.5em; font-weight:800; color:#065f46;">${{fmt(d.fund_score)}}</div>
-                        <div style="font-size:0.8em; color:#065f46;">📈 Fund. (30%)</div>
-                        <div style="font-size:0.75em; color:#047857; margin-top:4px;">${{d.fund_contribution != null ? 'contribuye ' + fmt(d.fund_contribution) + ' pts' : 'sin datos fund.'}}</div>
+                    <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#34d399;">${{fmt(d.fund_score)}}</div>
+                        <div style="font-size:0.8em; color:#34d399;">📈 Fund. (30%)</div>
+                        <div style="font-size:0.75em; color:rgba(52,211,153,0.7); margin-top:4px;">${{d.fund_contribution != null ? 'contribuye ' + fmt(d.fund_contribution) + ' pts' : 'sin datos fund.'}}</div>
                     </div>
-                    ${{d.penalty > 0 ? `<div style="background:#fee2e2; border-radius:10px; padding:14px; text-align:center;">
-                        <div style="font-size:1.5em; font-weight:800; color:#991b1b;">-${{d.penalty}}</div>
-                        <div style="font-size:0.8em; color:#991b1b;">⚠️ Penalización</div>
-                        <div style="font-size:0.75em; color:#b91c1c; margin-top:4px;">filtros técnicos</div>
+                    ${{d.penalty > 0 ? `<div style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); border-radius:10px; padding:14px; text-align:center;">
+                        <div style="font-size:1.5em; font-weight:800; color:#f87171;">-${{d.penalty}}</div>
+                        <div style="font-size:0.8em; color:#f87171;">⚠️ Penalización</div>
+                        <div style="font-size:0.75em; color:rgba(248,113,113,0.7); margin-top:4px;">filtros técnicos</div>
                     </div>` : ''}}
                 </div>
 
@@ -1222,78 +1248,78 @@ class SuperDashboardGenerator:
                 <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:16px; margin-bottom:20px;">
 
                     <!-- Filtros técnicos -->
-                    <div style="background:#f7fafc; border-radius:10px; padding:16px;">
-                        <div style="font-weight:700; color:#2d3748; margin-bottom:10px;">🛡️ Filtros Técnicos</div>
+                    <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:16px;">
+                        <div style="font-weight:700; color:#ffffff; margin-bottom:10px;">🛡️ Filtros Técnicos</div>
                         <table style="width:100%; font-size:0.88em; border-collapse:collapse;">
-                            <tr><td style="padding:4px 0; color:#718096;">Minervini Template</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Minervini Template</td>
                                 <td style="text-align:right;">${{maLabel(d.ma_passes, d.ma_checks)}}</td></tr>
-                            <tr><td style="padding:4px 0; color:#718096;">Acum./Distribución</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Acum./Distribución</td>
                                 <td style="text-align:right;">${{adIcon(d.ad_signal)}} ${{d.ad_signal || '—'}}</td></tr>
-                            <tr><td style="padding:4px 0; color:#718096;">RS Line (Minervini)</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">RS Line (Minervini)</td>
                                 <td style="text-align:right;">${{rsLineLabel(d.rs_line_at_high, d.rs_line_trend, d.rs_line_percentile)}}</td></tr>
-                            <tr><td style="padding:4px 0; color:#718096;">Sector</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Sector</td>
                                 <td style="text-align:right;">${{d.sector_name || '—'}} ${{d.sector_score != null ? '(' + fmt(d.sector_score, 0) + ')' : ''}}</td></tr>
-                            <tr><td style="padding:4px 0; color:#718096;">Sector momentum</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Sector momentum</td>
                                 <td style="text-align:right;">${{momIcon(d.sector_momentum)}} ${{d.sector_momentum}}</td></tr>
-                            <tr><td style="padding:4px 0; color:#718096;">Grupo Industrial</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Grupo Industrial</td>
                                 <td style="text-align:right;">${{groupRankLabel(d.industry_group_rank, d.industry_group_total, d.industry_group_percentile, d.industry_group_label)}}</td></tr>
-                            <tr><td style="padding:4px 0; color:#718096;">Trend Template</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Trend Template</td>
                                 <td style="text-align:right;">${{trendTemplateLabel(d.trend_template_score, d.trend_template_pass)}}</td></tr>
                         </table>
                     </div>
 
                     <!-- VCP -->
-                    <div style="background:#f7fafc; border-radius:10px; padding:16px;">
-                        <div style="font-weight:700; color:#2d3748; margin-bottom:10px;">📊 VCP / Técnico</div>
+                    <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:16px;">
+                        <div style="font-weight:700; color:#ffffff; margin-bottom:10px;">📊 VCP / Técnico</div>
                         <table style="width:100%; font-size:0.88em; border-collapse:collapse;">
-                            <tr><td style="padding:4px 0; color:#718096;">Estado</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Estado</td>
                                 <td style="text-align:right;">${{d.vcp_ready ? '✅ Listo para compra' : '⏳ En formación'}}</td></tr>
-                            <tr><td style="padding:4px 0; color:#718096;">Contracciones</td>
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Contracciones</td>
                                 <td style="text-align:right;">${{d.vcp_contractions}}</td></tr>
-                            ${{d.vcp_breakout_potential != null ? `<tr><td style="padding:4px 0; color:#718096;">Potencial BK</td><td style="text-align:right;">${{fmt(d.vcp_breakout_potential)}}%</td></tr>` : ''}}
-                            ${{d.vcp_stage ? `<tr><td style="padding:4px 0; color:#718096;">Stage</td><td style="text-align:right;">${{d.vcp_stage}}</td></tr>` : ''}}
-                            ${{d.ml_quality ? `<tr><td style="padding:4px 0; color:#718096;">ML Quality</td><td style="text-align:right;">${{d.ml_quality}}</td></tr>` : ''}}
-                            ${{d.entry_score != null ? `<tr><td style="padding:4px 0; color:#718096;">Entry score</td><td style="text-align:right;">${{fmt(d.entry_score)}}/100</td></tr>` : ''}}
+                            ${{d.vcp_breakout_potential != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Potencial BK</td><td style="text-align:right;">${{fmt(d.vcp_breakout_potential)}}%</td></tr>` : ''}}
+                            ${{d.vcp_stage ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Stage</td><td style="text-align:right;">${{d.vcp_stage}}</td></tr>` : ''}}
+                            ${{d.ml_quality ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">ML Quality</td><td style="text-align:right;">${{d.ml_quality}}</td></tr>` : ''}}
+                            ${{d.entry_score != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Entry score</td><td style="text-align:right;">${{fmt(d.entry_score)}}/100</td></tr>` : ''}}
                         </table>
                     </div>
 
                     <!-- Fundamentales -->
-                    <div style="background:#f7fafc; border-radius:10px; padding:16px;">
-                        <div style="font-weight:700; color:#2d3748; margin-bottom:10px;">📈 Fundamentales</div>
+                    <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:16px;">
+                        <div style="font-weight:700; color:#ffffff; margin-bottom:10px;">📈 Fundamentales</div>
                         <table style="width:100%; font-size:0.88em; border-collapse:collapse;">
-                            ${{d.forward_pe != null ? `<tr><td style="padding:4px 0; color:#718096;">Forward P/E</td><td style="text-align:right;">${{fmt(d.forward_pe)}}x</td></tr>` : ''}}
-                            ${{d.peg_ratio != null ? `<tr><td style="padding:4px 0; color:#718096;">PEG Ratio</td><td style="text-align:right;">${{fmt(d.peg_ratio, 2)}}</td></tr>` : ''}}
-                            ${{d.roe != null ? `<tr><td style="padding:4px 0; color:#718096;">ROE</td><td style="text-align:right;">${{pct(d.roe * 100)}}</td></tr>` : ''}}
-                            ${{d.revenue_growth != null ? `<tr><td style="padding:4px 0; color:#718096;">Revenue Growth</td><td style="text-align:right;">${{pct(d.revenue_growth * 100)}}</td></tr>` : ''}}
-                            ${{d.fcf_yield != null ? `<tr><td style="padding:4px 0; color:#718096;">FCF Yield</td><td style="text-align:right;">${{fmt(d.fcf_yield)}}%</td></tr>` : ''}}
-                            ${{d.debt_to_equity != null ? `<tr><td style="padding:4px 0; color:#718096;">Deuda/Capital</td><td style="text-align:right;">${{fmt(d.debt_to_equity, 2)}}</td></tr>` : ''}}
-                            <tr><td style="padding:4px 0; color:#718096;">Aceleración (CANSLIM A)</td>
+                            ${{d.forward_pe != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Forward P/E</td><td style="text-align:right;">${{fmt(d.forward_pe)}}x</td></tr>` : ''}}
+                            ${{d.peg_ratio != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">PEG Ratio</td><td style="text-align:right;">${{fmt(d.peg_ratio, 2)}}</td></tr>` : ''}}
+                            ${{d.roe != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">ROE</td><td style="text-align:right;">${{pct(d.roe * 100)}}</td></tr>` : ''}}
+                            ${{d.revenue_growth != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Revenue Growth</td><td style="text-align:right;">${{pct(d.revenue_growth * 100)}}</td></tr>` : ''}}
+                            ${{d.fcf_yield != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">FCF Yield</td><td style="text-align:right;">${{fmt(d.fcf_yield)}}%</td></tr>` : ''}}
+                            ${{d.debt_to_equity != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Deuda/Capital</td><td style="text-align:right;">${{fmt(d.debt_to_equity, 2)}}</td></tr>` : ''}}
+                            <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Aceleración (CANSLIM A)</td>
                                 <td style="text-align:right;">${{accelLabel(d.eps_accelerating, d.rev_accelerating, d.eps_growth_yoy, d.rev_growth_yoy)}}</td></tr>
-                            ${{d.short_percent_float != null ? `<tr><td style="padding:4px 0; color:#718096;">Short Interest</td>
+                            ${{d.short_percent_float != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Short Interest</td>
                                 <td style="text-align:right;">${{d.short_percent_float.toFixed(1)}}% float${{d.short_squeeze_potential ? ' 🔥' : ''}}</td></tr>` : ''}}
-                            ${{d.proximity_to_52w_high != null ? `<tr><td style="padding:4px 0; color:#718096;">Dist. Máx. 52s</td>
+                            ${{d.proximity_to_52w_high != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Dist. Máx. 52s</td>
                                 <td style="text-align:right; color:${{d.proximity_to_52w_high >= -10 ? '#10b981' : d.proximity_to_52w_high >= -25 ? '#f59e0b' : '#e53e3e'}}">
                                 ${{d.proximity_to_52w_high.toFixed(1)}}%${{d.proximity_to_52w_high >= -5 ? ' 🎯' : d.proximity_to_52w_high >= -15 ? ' 📈' : d.proximity_to_52w_high < -30 ? ' ⚠️' : ''}}</td></tr>` : ''}}
-                            ${{d.target_price_analyst != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. Analistas</td>
+                            ${{d.target_price_analyst != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Obj. Analistas</td>
                                 <td style="text-align:right;"><strong>${{d.target_price_analyst.toFixed(2)}}</strong>
                                 <span style="color:${{d.analyst_upside_pct >= 15 ? '#10b981' : d.analyst_upside_pct >= 0 ? '#f59e0b' : '#e53e3e'}}">
                                 (${{d.analyst_upside_pct != null ? (d.analyst_upside_pct > 0 ? '+' : '') + d.analyst_upside_pct.toFixed(1) + '%' : ''}})</span>
                                 ${{d.analyst_count ? '<span style="color:#94a3b8;font-size:0.78em;">' + d.analyst_count + ' analistas</span>' : ''}}
                                 ${{d.analyst_recommendation ? '<span style="color:#6366f1;font-size:0.78em;text-transform:capitalize;"> · ' + d.analyst_recommendation.replace('_',' ') + '</span>' : ''}}</td></tr>` : ''}}
-                            ${{d.target_price_dcf != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. DCF</td>
-                                <td style="text-align:right; color:#64748b;">${{d.target_price_dcf.toFixed(2)}}
+                            ${{d.target_price_dcf != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Obj. DCF</td>
+                                <td style="text-align:right; color:rgba(255,255,255,0.6);">${{d.target_price_dcf.toFixed(2)}}
                                 <span style="font-size:0.78em;">(${{d.target_price_dcf_upside_pct != null ? (d.target_price_dcf_upside_pct > 0 ? '+' : '') + d.target_price_dcf_upside_pct.toFixed(1) + '%' : ''}})</span></td></tr>` : ''}}
-                            ${{d.target_price_pe != null ? `<tr><td style="padding:4px 0; color:#718096;">Obj. P/E justo</td>
-                                <td style="text-align:right; color:#64748b;">${{d.target_price_pe.toFixed(2)}}
+                            ${{d.target_price_pe != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Obj. P/E justo</td>
+                                <td style="text-align:right; color:rgba(255,255,255,0.6);">${{d.target_price_pe.toFixed(2)}}
                                 <span style="font-size:0.78em;">(${{d.target_price_pe_upside_pct != null ? (d.target_price_pe_upside_pct > 0 ? '+' : '') + d.target_price_pe_upside_pct.toFixed(1) + '%' : ''}})</span></td></tr>` : ''}}
                         </table>
                     </div>
                 </div>
 
                 <!-- Tesis -->
-                <div style="background:#f0f4ff; border-left:4px solid #667eea; border-radius:0 10px 10px 0; padding:16px; margin-bottom:12px;">
-                    <div style="font-weight:700; color:#434190; margin-bottom:8px;">💡 Tesis de Inversión</div>
-                    <div style="font-size:0.9em; color:#4a5568; line-height:1.6;">${{thesisLines}}</div>
+                <div style="background:rgba(99,102,241,0.08); border-left:4px solid #6366f1; border-radius:0 10px 10px 0; padding:16px; margin-bottom:12px;">
+                    <div style="font-weight:700; color:#ffffff; margin-bottom:8px;">💡 Tesis de Inversión</div>
+                    <div style="font-size:0.9em; color:rgba(255,255,255,0.8); line-height:1.6;">${{thesisLines}}</div>
                 </div>
 
                 <div style="font-size:0.78em; color:#a0aec0; text-align:right;">
@@ -1308,13 +1334,13 @@ class SuperDashboardGenerator:
         <div class="section-card">
             <h2 class="section-title">Dashboards Especializados</h2>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 20px;">
-                <a href="sector_rotation_dashboard.html" style="display: block; padding: 20px; background: #475569; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
+                <a href="sector_rotation_dashboard.html" style="display: block; padding: 20px; background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); color: #a5b4fc; text-decoration: none; border-radius: 12px; text-align: center; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.background='rgba(99,102,241,0.25)'" onmouseout="this.style.background='rgba(99,102,241,0.15)'">
                     Rotación Sectorial
                 </a>
-                <a href="backtest_dashboard.html" style="display: block; padding: 20px; background: #10b981; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
+                <a href="backtest_dashboard.html" style="display: block; padding: 20px; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #34d399; text-decoration: none; border-radius: 12px; text-align: center; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.background='rgba(16,185,129,0.25)'" onmouseout="this.style.background='rgba(16,185,129,0.15)'">
                     Rendimiento Backtest
                 </a>
-                <a href="super_opportunities_4d.html" style="display: block; padding: 20px; background: #d97706; color: white; text-decoration: none; border-radius: 10px; text-align: center; font-weight: bold;">
+                <a href="super_opportunities_4d.html" style="display: block; padding: 20px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #fbbf24; text-decoration: none; border-radius: 12px; text-align: center; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.background='rgba(245,158,11,0.25)'" onmouseout="this.style.background='rgba(245,158,11,0.15)'">
                     Análisis 5D Completo
                 </a>
             </div>
@@ -1347,7 +1373,7 @@ class SuperDashboardGenerator:
     def _score_bar(self, score: float, color: str) -> str:
         """Mini barra de progreso para score"""
         pct = min(max(float(score), 0), 100)
-        return f'<div style="height:6px;background:#e2e8f0;border-radius:3px;margin-top:4px;"><div style="width:{pct:.0f}%;height:100%;background:{color};border-radius:3px;"></div></div>'
+        return f'<div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;margin-top:4px;"><div style="width:{pct:.0f}%;height:100%;background:{color};border-radius:3px;"></div></div>'
 
     def _format_thesis_html(self, narrative: str, signals: list, insiders: list) -> str:
         """Formatea thesis_narrative como HTML (convierte **bold** y \\n)"""
@@ -1411,28 +1437,28 @@ class SuperDashboardGenerator:
         thesis_id = f'thesis-v-{ticker}'
         if thesis_narrative:
             thesis_html = self._format_thesis_html(thesis_narrative, thesis_signals, thesis_insiders)
-            ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
+            ticker_cell = (f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;cursor:pointer;font-size:1.05em;" '
                            f'onclick="var r=document.getElementById(\'{thesis_id}\');'
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
-                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
-            thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
-                          f'<td colspan="9" style="padding:12px 20px 14px;border-bottom:2px solid #e0e7ff;">'
-                          f'<div style="border-left:3px solid #667eea;padding-left:12px;'
-                          f'color:#4a5568;font-size:0.85em;line-height:1.6;">'
-                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">Tesis de Inversión</div>'
+                           f'{ticker} <span style="font-size:0.65em;color:#a5b4fc;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
+            thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:rgba(99,102,241,0.08);">'
+                          f'<td colspan="9" style="padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.1);">'
+                          f'<div style="border-left:3px solid #6366f1;padding-left:12px;'
+                          f'color:rgba(255,255,255,0.85);font-size:0.9em;line-height:1.7;">'
+                          f'<div style="font-weight:700;color:#ffffff;margin-bottom:8px;">💡 Tesis de Inversión</div>'
                           f'{thesis_html}</div></td></tr>')
         else:
-            ticker_cell = f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>'
+            ticker_cell = f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;font-size:1.05em;">{ticker}</td>'
             thesis_row = ''
 
-        return (f'<tr style="border-bottom:1px solid #f1f5f9;">'
+        return (f'<tr style="border-bottom:1px solid rgba(255,255,255,0.06);">'
                 f'{ticker_cell}'
-                f'<td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>'
+                f'<td style="padding:10px 8px;color:rgba(255,255,255,0.65);font-size:0.9em;">{company}</td>'
                 f'<td style="padding:10px 8px;">{price_str}</td>'
                 f'<td style="padding:10px 8px;min-width:90px;">'
                 f'<span style="font-weight:700;color:{color};">{score:.1f}</span>'
                 f'{self._score_bar(score, color)}</td>'
-                f'<td style="padding:10px 8px;color:#64748b;font-size:0.82em;">{sector}</td>'
+                f'<td style="padding:10px 8px;color:rgba(255,255,255,0.5);font-size:0.82em;">{sector}</td>'
                 f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
                 f'<td style="padding:10px 8px;text-align:center;">{options_badge}</td>'
                 f'<td style="padding:10px 8px;text-align:center;color:#8b5cf6;font-size:0.82em;">{sect_b}</td>'
@@ -1476,30 +1502,30 @@ class SuperDashboardGenerator:
         thesis_id = f'thesis-m-{ticker}'
         if thesis_narrative:
             thesis_html = self._format_thesis_html(thesis_narrative, thesis_signals, thesis_insiders)
-            ticker_cell = (f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;cursor:pointer;" '
+            ticker_cell = (f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;cursor:pointer;font-size:1.05em;" '
                            f'onclick="var r=document.getElementById(\'{thesis_id}\');'
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
-                           f'{ticker} <span style="font-size:0.65em;color:#667eea;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
-            thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:#f8f9ff;">'
-                          f'<td colspan="8" style="padding:12px 20px 14px;border-bottom:2px solid #e0e7ff;">'
-                          f'<div style="border-left:3px solid #667eea;padding-left:12px;'
-                          f'color:#4a5568;font-size:0.85em;line-height:1.6;">'
-                          f'<div style="font-weight:700;color:#434190;margin-bottom:6px;">Tesis de Inversión</div>'
+                           f'{ticker} <span style="font-size:0.65em;color:#a5b4fc;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
+            thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:rgba(99,102,241,0.08);">'
+                          f'<td colspan="8" style="padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.1);">'
+                          f'<div style="border-left:3px solid #6366f1;padding-left:12px;'
+                          f'color:rgba(255,255,255,0.85);font-size:0.9em;line-height:1.7;">'
+                          f'<div style="font-weight:700;color:#ffffff;margin-bottom:8px;">💡 Tesis de Inversión</div>'
                           f'{thesis_html}</div></td></tr>')
         else:
-            ticker_cell = f'<td style="padding:10px 8px;font-weight:700;color:#1e293b;">{ticker}</td>'
+            ticker_cell = f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;font-size:1.05em;">{ticker}</td>'
             thesis_row = ''
 
-        return (f'<tr style="border-bottom:1px solid #f1f5f9;">'
+        return (f'<tr style="border-bottom:1px solid rgba(255,255,255,0.06);">'
                 f'{ticker_cell}'
-                f'<td style="padding:10px 8px;color:#64748b;font-size:0.85em;">{company}</td>'
+                f'<td style="padding:10px 8px;color:rgba(255,255,255,0.65);font-size:0.9em;">{company}</td>'
                 f'<td style="padding:10px 8px;">{price_str}</td>'
                 f'<td style="padding:10px 8px;min-width:90px;">'
                 f'<span style="font-weight:700;color:{color};">{score:.1f}</span>'
                 f'{self._score_bar(score, color)}</td>'
-                f'<td style="padding:10px 8px;text-align:center;color:#6366f1;font-weight:600;">{vcp:.0f}</td>'
-                f'<td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{prox_str}</td>'
-                f'<td style="padding:10px 8px;text-align:center;color:#64748b;font-size:0.85em;">{trend_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:#a5b4fc;font-weight:600;">{vcp:.0f}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:rgba(255,255,255,0.6);font-size:0.85em;">{prox_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;color:rgba(255,255,255,0.6);font-size:0.85em;">{trend_str}</td>'
                 f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
                 f'</tr>{thesis_row}')
 
@@ -1526,24 +1552,24 @@ class SuperDashboardGenerator:
             <div class="section-card" style="border-top:3px solid #10b981;">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
                     <div>
-                        <h2 class="section-title" style="margin:0;color:#065f46;">Oportunidades Value</h2>
-                        <p style="margin:4px 0 0;font-size:0.82em;color:#64748b;">Empresas sólidas con precio circunstancialmente bajo · Insiders + Institucionales + Sector</p>
+                        <h2 class="section-title" style="margin:0;color:#34d399;">Oportunidades Value</h2>
+                        <p style="margin:4px 0 0;font-size:0.82em;color:rgba(255,255,255,0.5);">Empresas sólidas con precio circunstancialmente bajo · Insiders + Institucionales + Sector</p>
                     </div>
-                    <span style="background:#d1fae5;color:#065f46;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;">{len(value_data)} candidatas</span>
+                    <span style="background:rgba(16,185,129,0.15);color:#34d399;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;border:1px solid rgba(16,185,129,0.3);">{len(value_data)} candidatas</span>
                 </div>
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
                         <thead>
-                            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Ticker</th>
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Empresa</th>
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Precio</th>
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Score</th>
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Sector</th>
-                                <th style="padding:8px;text-align:right;color:#475569;font-weight:600;" title="Precio objetivo analistas + upside">Objetivo</th>
-                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Opciones</th>
-                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;" title="Sector rotation bonus">S.Rot</th>
-                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;" title="Mean reversion signal">M.Rev</th>
+                            <tr style="background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Ticker</th>
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Empresa</th>
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Precio</th>
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Score</th>
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Sector</th>
+                                <th style="padding:8px;text-align:right;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Precio objetivo analistas + upside">Objetivo</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Opciones</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Sector rotation bonus">S.Rot</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Mean reversion signal">M.Rev</th>
                             </tr>
                         </thead>
                         <tbody>{value_rows}</tbody>
@@ -1555,23 +1581,23 @@ class SuperDashboardGenerator:
             <div class="section-card" style="border-top:3px solid #6366f1;">
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
                     <div>
-                        <h2 class="section-title" style="margin:0;color:#3730a3;">Momentum Plays</h2>
-                        <p style="margin:4px 0 0;font-size:0.82em;color:#64748b;">Patrones VCP · Breakouts · Tendencias confirmadas (backtest en proceso)</p>
+                        <h2 class="section-title" style="margin:0;color:#a5b4fc;">Momentum Plays</h2>
+                        <p style="margin:4px 0 0;font-size:0.82em;color:rgba(255,255,255,0.5);">Patrones VCP · Breakouts · Tendencias confirmadas (backtest en proceso)</p>
                     </div>
-                    <span style="background:#e0e7ff;color:#3730a3;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;">{len(momentum_data)} setups</span>
+                    <span style="background:rgba(99,102,241,0.15);color:#a5b4fc;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;border:1px solid rgba(99,102,241,0.3);">{len(momentum_data)} setups</span>
                 </div>
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
                         <thead>
-                            <tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Ticker</th>
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Empresa</th>
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Precio</th>
-                                <th style="padding:8px;text-align:left;color:#475569;font-weight:600;">Score</th>
-                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">VCP</th>
-                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Dist.Máx</th>
-                                <th style="padding:8px;text-align:center;color:#475569;font-weight:600;">Tendencia</th>
-                                <th style="padding:8px;text-align:right;color:#475569;font-weight:600;" title="Precio objetivo analistas + upside">Objetivo</th>
+                            <tr style="background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.1);">
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Ticker</th>
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Empresa</th>
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Precio</th>
+                                <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Score</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">VCP</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Dist.Máx</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Tendencia</th>
+                                <th style="padding:8px;text-align:right;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Precio objetivo analistas + upside">Objetivo</th>
                             </tr>
                         </thead>
                         <tbody>{momentum_rows}</tbody>

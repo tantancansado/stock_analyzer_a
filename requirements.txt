@@ -3,7 +3,7 @@ flask==3.1.2
 flask-cors==6.0.2
 
 # Stock Data & Analysis
-yfinance==0.2.50
+yfinance>=1.2.0
 pandas==2.2.3
 numpy==1.26.4
 
@@ -19,4 +19,3 @@ python-dotenv==1.0.1
 
 # Production WSGI Server
 gunicorn==23.0.0
-requests beautifulsoup4
