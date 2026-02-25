@@ -1,89 +1,90 @@
 industry,sector,num_tickers,avg_rs_percentile,avg_rs_score,avg_fundamental_score,pct_at_new_high,pct_eps_accel,rank,rank_total,percentile,label
-Farm & Heavy Construction Machinery,Industrials,2,78.4,77.0,64.3,50.0,0.0,1,50,100.0,Top 10%
-Banks - Regional,Financial Services,61,74.0,71.6,62.5,23.0,0.0,2,50,98.0,Top 10%
-Engineering & Construction,Industrials,7,72.8,68.4,60.0,71.4,0.0,3,50,96.0,Top 10%
-Building Materials,Basic Materials,2,67.0,70.6,64.4,50.0,0.0,4,50,94.0,Top 10%
-REIT - Healthcare Facilities,Real Estate,4,66.5,65.5,62.4,0.0,0.0,5,50,92.0,Top 10%
-Drug Manufacturers - Specialty & Generic,Healthcare,6,66.1,67.9,57.6,0.0,0.0,6,50,90.0,Top 10%
-Oil & Gas Midstream,Energy,3,61.2,57.7,56.5,33.3,0.0,7,50,88.0,Top 25%
-Oil & Gas Equipment & Services,Energy,4,57.7,61.9,59.9,25.0,0.0,8,50,86.0,Top 25%
-Industrial Distribution,Industrials,2,57.0,55.3,56.7,0.0,0.0,9,50,84.0,Top 25%
-Rental & Leasing Services,Industrials,3,56.8,66.7,56.7,33.3,0.0,10,50,82.0,Top 25%
-Medical Care Facilities,Healthcare,7,56.1,57.9,51.8,14.3,0.0,11,50,80.0,Top 25%
-Specialty Industrial Machinery,Industrials,4,53.2,57.6,49.8,0.0,0.0,12,50,78.0,Top 25%
-Electrical Equipment & Parts,Industrials,3,46.1,55.1,53.9,0.0,0.0,13,50,76.0,Top 25%
-Conglomerates,Industrials,3,39.7,54.9,57.0,0.0,0.0,14,50,74.0,Medio
-Biotechnology,Healthcare,66,38.7,48.4,52.0,6.1,0.0,15,50,72.0,Medio
-Specialty Business Services,Industrials,7,38.1,39.6,53.5,0.0,0.0,16,50,70.0,Medio
-Credit Services,Financial Services,2,35.5,35.3,52.8,0.0,0.0,17,50,68.0,Medio
-Oil & Gas E&P,Energy,10,34.8,48.4,54.4,0.0,0.0,18,50,66.0,Medio
-Medical Devices,Healthcare,11,33.9,44.8,48.7,9.1,0.0,19,50,64.0,Medio
-Diagnostics & Research,Healthcare,4,33.5,49.2,50.5,0.0,0.0,20,50,62.0,Medio
-Insurance - Property & Casualty,Financial Services,3,30.8,44.1,59.5,0.0,0.0,21,50,60.0,Medio
-Packaged Foods,Consumer Defensive,6,29.9,37.0,48.4,16.7,0.0,22,50,58.0,Medio
-REIT - Specialty,Real Estate,5,29.7,48.4,51.7,0.0,0.0,23,50,56.0,Medio
-Shell Companies,Financial Services,2,29.6,34.0,46.4,0.0,0.0,24,50,54.0,Medio
-REIT - Hotel & Motel,Real Estate,2,28.6,44.5,48.0,0.0,0.0,25,50,52.0,Medio
-Electronic Gaming & Multimedia,Communication Services,2,28.0,39.4,59.5,0.0,0.0,26,50,50.0,Medio
-REIT - Diversified,Real Estate,5,26.2,45.9,50.5,0.0,0.0,27,50,48.0,Bajo 50%
-Food Distribution,Consumer Defensive,3,26.0,38.0,45.7,0.0,0.0,28,50,46.0,Bajo 50%
-Restaurants,Consumer Cyclical,2,25.9,44.5,47.5,0.0,0.0,29,50,44.0,Bajo 50%
-Real Estate - Development,Real Estate,2,25.4,54.2,51.8,0.0,0.0,30,50,42.0,Bajo 50%
-Telecom Services,Communication Services,6,24.8,36.9,54.1,0.0,0.0,31,50,40.0,Bajo 50%
-Real Estate Services,Real Estate,3,24.2,36.5,49.9,0.0,0.0,32,50,38.0,Bajo 50%
-Internet Content & Information,Communication Services,3,22.8,32.9,51.1,0.0,0.0,33,50,36.0,Bajo 50%
-REIT - Residential,Real Estate,4,22.1,35.8,52.7,0.0,0.0,34,50,34.0,Bajo 50%
-Mortgage Finance,Financial Services,3,21.2,44.0,52.6,0.0,0.0,35,50,32.0,Bajo 50%
-Asset Management,Financial Services,12,20.8,36.5,53.8,0.0,0.0,36,50,30.0,Bajo 50%
-Entertainment,Communication Services,4,20.7,36.4,48.1,0.0,0.0,37,50,28.0,Bajo 50%
-Medical Instruments & Supplies,Healthcare,6,20.1,27.7,50.2,16.7,0.0,38,50,26.0,Bajo 50%
-Staffing & Employment Services,Industrials,2,19.9,48.7,57.0,0.0,0.0,39,50,24.0,Bottom 25%
-Aerospace & Defense,Industrials,5,15.6,31.0,53.1,0.0,0.0,40,50,22.0,Bottom 25%
-Capital Markets,Financial Services,8,13.7,27.3,51.5,0.0,0.0,41,50,20.0,Bottom 25%
-Health Information Services,Healthcare,3,13.2,25.0,52.8,0.0,0.0,42,50,18.0,Bottom 25%
-Waste Management,Industrials,2,11.4,37.8,48.1,0.0,0.0,43,50,16.0,Bottom 25%
-Insurance Brokers,Financial Services,3,9.3,24.7,51.8,0.0,0.0,44,50,14.0,Bottom 25%
-REIT - Industrial,Real Estate,2,7.0,39.2,48.4,0.0,0.0,45,50,12.0,Bottom 25%
-Farm Products,Consumer Defensive,2,6.1,20.8,44.7,0.0,0.0,46,50,10.0,Bottom 25%
-REIT - Mortgage,Real Estate,6,5.0,27.1,47.6,0.0,0.0,47,50,8.0,Bottom 25%
-Insurance - Life,Financial Services,2,4.8,30.0,49.6,0.0,0.0,48,50,6.0,Bottom 25%
-Software - Application,Technology,5,1.8,20.4,49.0,0.0,0.0,49,50,4.0,Bottom 25%
-Software - Infrastructure,Technology,3,0.2,15.0,52.9,0.0,0.0,50,50,2.0,Bottom 25%
-Airports & Air Services,Industrials,1,16.8,15.0,52.5,0.0,0.0,,50,,Sin datos suficientes
-Apparel Manufacturing,Consumer Cyclical,1,21.2,45.0,42.2,0.0,0.0,,50,,Sin datos suficientes
-Auto & Truck Dealerships,Consumer Cyclical,1,7.7,30.3,48.8,0.0,0.0,,50,,Sin datos suficientes
-Auto Parts,Consumer Cyclical,1,87.4,83.0,52.9,0.0,0.0,,50,,Sin datos suficientes
-Beverages - Non-Alcoholic,Consumer Defensive,1,57.1,63.0,51.9,0.0,0.0,,50,,Sin datos suficientes
-Beverages - Wineries & Distilleries,Consumer Defensive,1,7.0,36.0,45.2,0.0,0.0,,50,,Sin datos suficientes
-Building Products & Equipment,Industrials,1,6.0,15.0,45.5,0.0,0.0,,50,,Sin datos suficientes
-Coking Coal,Basic Materials,1,0.0,24.0,51.8,0.0,0.0,,50,,Sin datos suficientes
-Computer Hardware,Technology,1,10.4,24.0,46.5,0.0,0.0,,50,,Sin datos suficientes
-Confectioners,Consumer Defensive,1,75.2,83.0,56.6,0.0,0.0,,50,,Sin datos suficientes
-Education & Training Services,Consumer Defensive,1,40.7,47.6,53.0,0.0,0.0,,50,,Sin datos suficientes
-Financial Data & Stock Exchanges,Financial Services,1,11.7,24.0,51.5,0.0,0.0,,50,,Sin datos suficientes
-Footwear & Accessories,Consumer Cyclical,1,97.3,84.7,59.7,100.0,0.0,,50,,Sin datos suficientes
-"Furnishings, Fixtures & Appliances",Consumer Cyclical,1,20.0,38.7,50.2,0.0,0.0,,50,,Sin datos suficientes
-Gambling,Consumer Cyclical,1,19.9,42.3,53.2,0.0,0.0,,50,,Sin datos suficientes
-Household & Personal Products,Consumer Defensive,1,0.2,15.0,47.0,0.0,0.0,,50,,Sin datos suficientes
-Information Technology Services,Technology,1,15.0,33.0,50.1,0.0,0.0,,50,,Sin datos suficientes
-Insurance - Diversified,Financial Services,1,22.6,38.7,49.2,0.0,0.0,,50,,Sin datos suficientes
-Insurance - Specialty,Financial Services,1,1.6,15.0,45.8,0.0,0.0,,50,,Sin datos suficientes
-Integrated Freight & Logistics,Industrials,1,6.0,15.0,43.8,0.0,0.0,,50,,Sin datos suficientes
-Medical Distribution,Healthcare,1,0.5,15.0,51.8,0.0,0.0,,50,,Sin datos suficientes
-Metal Fabrication,Industrials,1,100.0,91.0,58.2,100.0,0.0,,50,,Sin datos suficientes
-Oil & Gas Refining & Marketing,Energy,1,29.7,50.3,50.1,0.0,0.0,,50,,Sin datos suficientes
-Paper & Paper Products,Basic Materials,1,6.0,33.0,37.6,0.0,0.0,,50,,Sin datos suficientes
-Pollution & Treatment Controls,Industrials,1,12.6,36.0,58.7,0.0,0.0,,50,,Sin datos suficientes
-REIT - Office,Real Estate,1,11.8,26.7,42.6,0.0,0.0,,50,,Sin datos suficientes
-REIT - Retail,Real Estate,1,25.6,46.7,56.6,0.0,0.0,,50,,Sin datos suficientes
-Railroads,Industrials,1,94.2,76.3,54.8,100.0,0.0,,50,,Sin datos suficientes
-Resorts & Casinos,Consumer Cyclical,1,8.4,24.0,41.5,0.0,0.0,,50,,Sin datos suficientes
-Security & Protection Services,Industrials,1,23.6,24.0,56.5,0.0,0.0,,50,,Sin datos suficientes
-Semiconductors,Technology,1,17.8,36.0,42.7,0.0,0.0,,50,,Sin datos suficientes
-Specialty Chemicals,Basic Materials,1,53.2,71.4,53.5,0.0,0.0,,50,,Sin datos suficientes
-Tobacco,Consumer Defensive,1,68.6,72.3,71.2,0.0,0.0,,50,,Sin datos suficientes
-Tools & Accessories,Industrials,1,6.6,24.0,42.8,0.0,0.0,,50,,Sin datos suficientes
-Uranium,Energy,1,59.7,75.0,52.5,0.0,0.0,,50,,Sin datos suficientes
-Utilities - Regulated Gas,Utilities,1,7.7,36.0,49.5,0.0,0.0,,50,,Sin datos suficientes
-Utilities - Regulated Water,Utilities,1,14.0,38.7,58.5,0.0,0.0,,50,,Sin datos suficientes
-Utilities - Renewable,Utilities,1,8.4,15.0,44.2,0.0,0.0,,50,,Sin datos suficientes
+Confectioners,Consumer Defensive,2,81.8,81.6,60.4,50.0,0.0,1,54,100.0,Top 10%
+Farm & Heavy Construction Machinery,Industrials,2,72.4,71.2,63.2,0.0,0.0,2,54,98.1,Top 10%
+Engineering & Construction,Industrials,7,68.9,67.2,60.0,57.1,0.0,3,54,96.3,Top 10%
+Banks - Regional,Financial Services,65,66.0,64.6,61.1,9.2,0.0,4,54,94.4,Top 10%
+Drug Manufacturers - Specialty & Generic,Healthcare,6,64.0,65.8,57.3,0.0,0.0,5,54,92.6,Top 10%
+Oil & Gas Midstream,Energy,3,63.1,66.0,58.2,33.3,0.0,6,54,90.7,Top 10%
+Building Materials,Basic Materials,2,60.4,67.1,63.6,50.0,0.0,7,54,88.9,Top 25%
+REIT - Healthcare Facilities,Real Estate,5,59.7,63.5,60.9,20.0,0.0,8,54,87.0,Top 25%
+REIT - Retail,Real Estate,3,53.1,58.7,58.3,0.0,0.0,9,54,85.2,Top 25%
+Specialty Industrial Machinery,Industrials,5,53.1,62.3,50.2,0.0,0.0,10,54,83.3,Top 25%
+Industrial Distribution,Industrials,2,51.6,53.5,56.4,0.0,0.0,11,54,81.5,Top 25%
+Oil & Gas Equipment & Services,Energy,5,50.6,60.2,59.6,20.0,0.0,12,54,79.6,Top 25%
+Medical Care Facilities,Healthcare,8,50.5,52.0,52.1,25.0,0.0,13,54,77.8,Top 25%
+Shell Companies,Financial Services,2,43.8,40.0,47.6,50.0,0.0,14,54,75.9,Top 25%
+Rental & Leasing Services,Industrials,3,42.5,63.3,56.0,0.0,0.0,15,54,74.1,Medio
+Electrical Equipment & Parts,Industrials,4,41.5,49.5,53.0,0.0,0.0,16,54,72.2,Medio
+Conglomerates,Industrials,3,39.0,52.9,56.4,0.0,0.0,17,54,70.4,Medio
+Biotechnology,Healthcare,74,37.3,47.1,51.8,6.8,0.0,18,54,68.5,Medio
+REIT - Specialty,Real Estate,5,34.2,50.0,52.0,0.0,0.0,19,54,66.7,Medio
+Diagnostics & Research,Healthcare,4,32.7,46.8,50.0,0.0,0.0,20,54,64.8,Medio
+Specialty Business Services,Industrials,8,32.5,36.6,51.9,0.0,0.0,21,54,63.0,Medio
+Oil & Gas E&P,Energy,11,32.1,46.0,53.7,0.0,0.0,22,54,61.1,Medio
+Electronic Gaming & Multimedia,Communication Services,2,32.1,43.2,60.2,0.0,0.0,23,54,59.3,Medio
+Packaged Foods,Consumer Defensive,6,30.0,36.6,48.3,16.7,0.0,24,54,57.4,Medio
+Medical Devices,Healthcare,15,29.5,41.2,48.4,6.7,0.0,25,54,55.6,Medio
+Credit Services,Financial Services,3,29.1,45.6,56.6,0.0,0.0,26,54,53.7,Medio
+REIT - Hotel & Motel,Real Estate,2,28.0,44.5,48.0,0.0,0.0,27,54,51.9,Medio
+Restaurants,Consumer Cyclical,2,27.9,41.4,46.9,0.0,0.0,28,54,50.0,Medio
+REIT - Diversified,Real Estate,5,27.5,45.1,50.3,0.0,0.0,29,54,48.1,Bajo 50%
+Telecom Services,Communication Services,6,26.5,36.9,54.1,0.0,0.0,30,54,46.3,Bajo 50%
+Food Distribution,Consumer Defensive,3,26.0,38.0,45.7,0.0,0.0,31,54,44.4,Bajo 50%
+Real Estate - Development,Real Estate,2,25.8,51.0,51.4,0.0,0.0,32,54,42.6,Bajo 50%
+Asset Management,Financial Services,14,25.5,38.2,54.3,0.0,0.0,33,54,40.7,Bajo 50%
+REIT - Residential,Real Estate,4,21.9,37.8,53.1,0.0,0.0,34,54,38.9,Bajo 50%
+Mortgage Finance,Financial Services,3,21.2,44.0,52.6,0.0,0.0,35,54,37.0,Bajo 50%
+Internet Content & Information,Communication Services,3,20.8,32.9,51.1,0.0,0.0,36,54,35.2,Bajo 50%
+Insurance - Property & Casualty,Financial Services,4,20.5,41.4,55.8,0.0,0.0,37,54,33.3,Bajo 50%
+Staffing & Employment Services,Industrials,2,20.0,48.7,57.0,0.0,0.0,38,54,31.5,Bajo 50%
+Medical Instruments & Supplies,Healthcare,6,19.9,27.7,50.0,16.7,0.0,39,54,29.6,Bajo 50%
+Insurance - Diversified,Financial Services,2,17.2,38.7,53.1,0.0,0.0,40,54,27.8,Bajo 50%
+Real Estate Services,Real Estate,3,16.9,31.6,48.9,0.0,0.0,41,54,25.9,Bajo 50%
+Capital Markets,Financial Services,8,14.6,28.4,51.6,0.0,0.0,42,54,24.1,Bottom 25%
+Entertainment,Communication Services,5,14.1,30.4,47.1,0.0,0.0,43,54,22.2,Bottom 25%
+Aerospace & Defense,Industrials,5,14.1,34.6,53.8,0.0,0.0,44,54,20.4,Bottom 25%
+Waste Management,Industrials,2,12.8,36.0,47.8,0.0,0.0,45,54,18.5,Bottom 25%
+Insurance Brokers,Financial Services,3,8.9,22.0,51.4,0.0,0.0,46,54,16.7,Bottom 25%
+REIT - Industrial,Real Estate,2,7.4,38.7,48.2,0.0,0.0,47,54,14.8,Bottom 25%
+Insurance - Life,Financial Services,2,7.2,25.5,50.8,0.0,0.0,48,54,13.0,Bottom 25%
+Health Information Services,Healthcare,4,7.0,20.2,50.3,0.0,0.0,49,54,11.1,Bottom 25%
+Farm Products,Consumer Defensive,2,6.2,20.8,44.7,0.0,0.0,50,54,9.3,Bottom 25%
+REIT - Mortgage,Real Estate,7,4.7,27.4,47.1,0.0,0.0,51,54,7.4,Bottom 25%
+Beverages - Wineries & Distilleries,Consumer Defensive,2,3.0,30.0,42.8,0.0,0.0,52,54,5.6,Bottom 25%
+Software - Application,Technology,5,0.7,20.4,49.0,0.0,0.0,53,54,3.7,Bottom 25%
+Software - Infrastructure,Technology,3,0.0,15.0,52.9,0.0,0.0,54,54,1.9,Bottom 25%
+Airports & Air Services,Industrials,1,15.3,15.0,53.0,0.0,0.0,,54,,Sin datos suficientes
+Apparel Manufacturing,Consumer Cyclical,1,20.3,45.0,43.2,0.0,0.0,,54,,Sin datos suficientes
+Auto & Truck Dealerships,Consumer Cyclical,1,4.0,26.7,48.1,0.0,0.0,,54,,Sin datos suficientes
+Auto Parts,Consumer Cyclical,1,88.6,83.0,52.9,0.0,0.0,,54,,Sin datos suficientes
+Beverages - Non-Alcoholic,Consumer Defensive,1,57.8,63.0,51.9,0.0,0.0,,54,,Sin datos suficientes
+Building Products & Equipment,Industrials,1,4.5,15.0,45.5,0.0,0.0,,54,,Sin datos suficientes
+Coking Coal,Basic Materials,1,0.0,24.0,51.8,0.0,0.0,,54,,Sin datos suficientes
+Computer Hardware,Technology,1,8.7,24.0,46.5,0.0,0.0,,54,,Sin datos suficientes
+Education & Training Services,Consumer Defensive,1,50.4,71.4,57.8,0.0,0.0,,54,,Sin datos suficientes
+Financial Data & Stock Exchanges,Financial Services,1,8.1,15.0,50.2,0.0,0.0,,54,,Sin datos suficientes
+Footwear & Accessories,Consumer Cyclical,1,93.9,79.1,58.6,0.0,0.0,,54,,Sin datos suficientes
+"Furnishings, Fixtures & Appliances",Consumer Cyclical,1,19.5,38.7,50.2,0.0,0.0,,54,,Sin datos suficientes
+Gambling,Consumer Cyclical,1,15.6,38.7,52.5,0.0,0.0,,54,,Sin datos suficientes
+Household & Personal Products,Consumer Defensive,1,0.0,15.0,47.0,0.0,0.0,,54,,Sin datos suficientes
+Information Technology Services,Technology,1,15.4,33.0,50.1,0.0,0.0,,54,,Sin datos suficientes
+Insurance - Specialty,Financial Services,1,0.6,15.0,45.8,0.0,0.0,,54,,Sin datos suficientes
+Integrated Freight & Logistics,Industrials,1,6.1,15.0,43.8,0.0,0.0,,54,,Sin datos suficientes
+Medical Distribution,Healthcare,1,1.3,15.0,51.8,0.0,0.0,,54,,Sin datos suficientes
+Metal Fabrication,Industrials,1,100.0,91.0,58.2,100.0,0.0,,54,,Sin datos suficientes
+Oil & Gas Refining & Marketing,Energy,1,31.8,50.3,50.1,0.0,0.0,,54,,Sin datos suficientes
+Paper & Paper Products,Basic Materials,1,5.1,33.0,38.6,0.0,0.0,,54,,Sin datos suficientes
+Pollution & Treatment Controls,Industrials,1,12.3,36.0,58.7,0.0,0.0,,54,,Sin datos suficientes
+REIT - Office,Real Estate,1,12.7,26.7,42.6,0.0,0.0,,54,,Sin datos suficientes
+Railroads,Industrials,1,98.3,76.3,54.8,100.0,0.0,,54,,Sin datos suficientes
+Resorts & Casinos,Consumer Cyclical,1,3.0,24.0,41.5,0.0,0.0,,54,,Sin datos suficientes
+Security & Protection Services,Industrials,1,22.2,24.0,56.5,0.0,0.0,,54,,Sin datos suficientes
+Semiconductors,Technology,1,19.8,36.0,42.7,0.0,0.0,,54,,Sin datos suficientes
+Specialty Chemicals,Basic Materials,1,57.7,71.4,53.5,0.0,0.0,,54,,Sin datos suficientes
+Thermal Coal,Energy,1,55.5,57.6,61.8,0.0,0.0,,54,,Sin datos suficientes
+Tobacco,Consumer Defensive,1,70.0,75.0,71.8,0.0,0.0,,54,,Sin datos suficientes
+Tools & Accessories,Industrials,1,4.3,24.0,42.8,0.0,0.0,,54,,Sin datos suficientes
+Uranium,Energy,1,62.3,71.4,51.8,0.0,0.0,,54,,Sin datos suficientes
+Utilities - Regulated Gas,Utilities,1,9.8,36.0,49.5,0.0,0.0,,54,,Sin datos suficientes
+Utilities - Regulated Water,Utilities,1,18.6,38.7,58.5,0.0,0.0,,54,,Sin datos suficientes
+Utilities - Renewable,Utilities,1,9.1,24.0,46.0,0.0,0.0,,54,,Sin datos suficientes

@@ -300,7 +300,7 @@
         </div>
 
         <div class="timestamp">
-            Last updated: 2026-02-24 08:25:12
+            Last updated: 2026-02-25 08:23:21
         </div>
 
         <!-- Alerts Section -->
@@ -309,32 +309,32 @@
             <h2 style="margin-bottom: 15px;">🚨 Rotation Alerts</h2>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Healthcare perdiendo momentum (velocity: -3.23)</div>
-                <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
-            </div>
-            
-            <div class="alert-item alert-medium">
-                <div class="alert-message">⚡ ⚡ Consumer Discretionary emergiendo (RS: 63.3)</div>
+                <div class="alert-message">⚡ ⚡ Consumer Discretionary emergiendo (RS: 82.1)</div>
                 <div class="alert-action">→ EARLY ENTRY OPPORTUNITY - sector saliendo de debilidad</div>
             </div>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Energy perdiendo momentum (velocity: -17.63)</div>
+                <div class="alert-message">🔴 🔴 Energy perdiendo momentum (velocity: -18.07)</div>
                 <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
             </div>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Materials perdiendo momentum (velocity: -18.83)</div>
+                <div class="alert-message">🔴 🔴 Materials perdiendo momentum (velocity: -18.02)</div>
                 <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
             </div>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Real Estate perdiendo momentum (velocity: -5.42)</div>
+                <div class="alert-message">🔴 🔴 Real Estate perdiendo momentum (velocity: -6.28)</div>
                 <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
             </div>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Consumer Staples perdiendo momentum (velocity: -12.89)</div>
+                <div class="alert-message">🔴 🔴 Utilities perdiendo momentum (velocity: -3.7)</div>
+                <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
+            </div>
+            
+            <div class="alert-item alert-medium">
+                <div class="alert-message">🔴 🔴 Consumer Staples perdiendo momentum (velocity: -11.83)</div>
                 <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
             </div>
             
@@ -387,15 +387,15 @@
                 <div class="sector-metrics">
                     <div class="metric">
                         <div class="metric-label">Velocity</div>
-                        <div class="metric-value positive">+1.57</div>
+                        <div class="metric-value positive">+1.33</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Rel Strength</div>
-                        <div class="metric-value">63.3</div>
+                        <div class="metric-value">82.1</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">30D Return</div>
-                        <div class="metric-value negative">-7.57%</div>
+                        <div class="metric-value negative">-6.25%</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Momentum</div>
@@ -414,35 +414,7 @@
         <div class="chart-container" style="margin-bottom: 30px;">
             <h2 style="margin-bottom: 20px;">⚠️ Weakening Sectors</h2>
             <div class="sectors-grid">
-                
-            <div class="sector-card">
-                <div class="sector-header">
-                    <div class="sector-name">Financials</div>
-                    <div class="sector-status status-WEAKENING">WEAKENING</div>
-                </div>
-                <div class="sector-metrics">
-                    <div class="metric">
-                        <div class="metric-label">Velocity</div>
-                        <div class="metric-value negative">-0.42</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Rel Strength</div>
-                        <div class="metric-value">31.3</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">30D Return</div>
-                        <div class="metric-value negative">-8.97%</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Momentum</div>
-                        <div class="metric-value">stable</div>
-                    </div>
-                </div>
-                <div class="sector-signal signal-REDUCE">
-                    REDUCE
-                </div>
-            </div>
-            
+                <p style='text-align: center; color: #666;'>No sectors in this category</p>
             </div>
         </div>
 
@@ -458,11 +430,11 @@
         new Chart(velocityCtx, {
             type: 'bar',
             data: {
-                labels: ['Technology', 'Consumer Discretionary', 'Communication Services', 'Financials', 'Utilities', 'Healthcare', 'Real Estate', 'Industrials', 'Consumer Staples', 'Energy', 'Materials'],
+                labels: ['Technology', 'Financials', 'Consumer Discretionary', 'Communication Services', 'Healthcare', 'Utilities', 'Real Estate', 'Industrials', 'Consumer Staples', 'Materials', 'Energy'],
                 datasets: [{
                     label: 'Momentum Velocity',
-                    data: [3.35, 1.57, -0.16, -0.42, -2.7, -3.23, -5.42, -11.76, -12.89, -17.63, -18.83],
-                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
+                    data: [3.46, 1.97, 1.33, -0.97, -1.6, -3.7, -6.28, -10.82, -11.83, -18.02, -18.07],
+                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
                     borderWidth: 0
                 }]
             },
@@ -494,7 +466,7 @@
                 labels: ['Healthcare', 'Industrials', 'Energy', 'Materials', 'Real Estate', 'Utilities', 'Communication Services', 'Consumer Staples', 'Consumer Discretionary', 'Financials', 'Technology'],
                 datasets: [{
                     label: 'Relative Strength',
-                    data: [100, 100, 100, 100, 100, 100, 100, 100, 63.3, 31.3, 11.3],
+                    data: [100, 100, 100, 100, 100, 100, 100, 100, 82.1, 42.0, 37.3],
                     backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
                     borderWidth: 0
                 }]
@@ -526,7 +498,7 @@
         new Chart(quadrantCtx, {
             type: 'scatter',
             data: {
-                datasets: [{'label': 'Improving', 'data': [{'x': 63.3, 'y': 1.57, 'label': 'Consumer Discretionary'}], 'backgroundColor': 'rgba(59, 130, 246, 0.8)'}, {'label': 'Weakening', 'data': [{'x': 31.3, 'y': -0.42, 'label': 'Financials'}], 'backgroundColor': 'rgba(245, 158, 11, 0.8)'}, {'label': 'Neutral', 'data': [{'x': 11.3, 'y': 3.35, 'label': 'Technology'}, {'x': 100, 'y': -3.23, 'label': 'Healthcare'}, {'x': 100, 'y': -11.76, 'label': 'Industrials'}, {'x': 100, 'y': -17.63, 'label': 'Energy'}, {'x': 100, 'y': -18.83, 'label': 'Materials'}, {'x': 100, 'y': -5.42, 'label': 'Real Estate'}, {'x': 100, 'y': -2.7, 'label': 'Utilities'}, {'x': 100, 'y': -0.16, 'label': 'Communication Services'}, {'x': 100, 'y': -12.89, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
+                datasets: [{'label': 'Improving', 'data': [{'x': 82.1, 'y': 1.33, 'label': 'Consumer Discretionary'}], 'backgroundColor': 'rgba(59, 130, 246, 0.8)'}, {'label': 'Neutral', 'data': [{'x': 37.3, 'y': 3.46, 'label': 'Technology'}, {'x': 42.0, 'y': 1.97, 'label': 'Financials'}, {'x': 100, 'y': -1.6, 'label': 'Healthcare'}, {'x': 100, 'y': -10.82, 'label': 'Industrials'}, {'x': 100, 'y': -18.07, 'label': 'Energy'}, {'x': 100, 'y': -18.02, 'label': 'Materials'}, {'x': 100, 'y': -6.28, 'label': 'Real Estate'}, {'x': 100, 'y': -3.7, 'label': 'Utilities'}, {'x': 100, 'y': -0.97, 'label': 'Communication Services'}, {'x': 100, 'y': -11.83, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
             },
             options: {
                 responsive: true,
