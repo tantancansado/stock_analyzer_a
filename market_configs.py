@@ -8,9 +8,12 @@ Definiciones de mercados internacionales para expansión futura
 SP500_URL = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
 NASDAQ100_URL = "https://en.wikipedia.org/wiki/Nasdaq-100"
 
-# European Markets (futuro)
+# ═══════════════════════════════════════════════════════════════
+# EUROPEAN MARKETS
+# ═══════════════════════════════════════════════════════════════
+
 DAX40_SYMBOLS = [
-    # Germany DAX 40 - Top 40 German companies
+    # Germany DAX 40 - Top 40 German companies (XETRA)
     "SAP.DE",       # SAP SE
     "SIE.DE",       # Siemens AG
     "AIR.DE",       # Airbus SE
@@ -54,7 +57,7 @@ DAX40_SYMBOLS = [
 ]
 
 FTSE100_SYMBOLS = [
-    # UK FTSE 100 - Top 100 UK companies
+    # UK FTSE 100 - Top 40 most liquid UK companies (LSE)
     "SHEL.L",       # Shell plc
     "AZN.L",        # AstraZeneca
     "HSBA.L",       # HSBC Holdings
@@ -65,11 +68,40 @@ FTSE100_SYMBOLS = [
     "RIO.L",        # Rio Tinto
     "VOD.L",        # Vodafone
     "NG.L",         # National Grid
-    # ... (top 10 para empezar, se pueden agregar los 90 restantes)
+    "LSEG.L",       # London Stock Exchange Group
+    "REL.L",        # RELX plc
+    "CPG.L",        # Compass Group
+    "AAL.L",        # Anglo American
+    "EXPN.L",       # Experian
+    "CRH.L",        # CRH plc
+    "ABF.L",        # Associated British Foods
+    "ANTO.L",       # Antofagasta
+    "AHT.L",        # Ashtead Group
+    "BATS.L",       # British American Tobacco
+    "GLEN.L",       # Glencore
+    "PRU.L",        # Prudential plc
+    "SSE.L",        # SSE plc
+    "SVT.L",        # Severn Trent
+    "TSCO.L",       # Tesco
+    "BA.L",         # BAE Systems
+    "RR.L",         # Rolls-Royce
+    "LLOY.L",       # Lloyds Banking Group
+    "BARC.L",       # Barclays
+    "NWG.L",        # NatWest Group
+    "STAN.L",       # Standard Chartered
+    "LAND.L",       # British Land
+    "SGE.L",        # Sage Group
+    "IMB.L",        # Imperial Brands
+    "WPP.L",        # WPP plc
+    "BT-A.L",       # BT Group
+    "MNDI.L",       # Mondi
+    "PSON.L",       # Pearson
+    "INF.L",        # Informa
+    "WTB.L",        # Whitbread
 ]
 
 CAC40_SYMBOLS = [
-    # France CAC 40 - Top 40 French companies
+    # France CAC 40 - Full 40 French companies (Euronext Paris)
     "MC.PA",        # LVMH
     "OR.PA",        # L'Oréal
     "SAN.PA",       # Sanofi
@@ -80,7 +112,132 @@ CAC40_SYMBOLS = [
     "CS.PA",        # AXA
     "SU.PA",        # Schneider Electric
     "BNP.PA",       # BNP Paribas
-    # ... (top 10 para empezar)
+    "AI.PA",        # Air Liquide
+    "KER.PA",       # Kering
+    "RI.PA",        # Pernod Ricard
+    "DG.PA",        # Vinci
+    "DSY.PA",       # Dassault Systemes
+    "EL.PA",        # EssilorLuxottica
+    "HO.PA",        # Thales
+    "SGO.PA",       # Saint-Gobain
+    "VIV.PA",       # Vivendi
+    "STM.PA",       # STMicroelectronics (listed Paris)
+    "GLE.PA",       # Societe Generale
+    "CA.PA",        # Carrefour
+    "CAP.PA",       # Capgemini
+    "EN.PA",        # Bouygues
+    "VIE.PA",       # Veolia Environnement
+    "ACA.PA",       # Credit Agricole
+    "ML.PA",        # Michelin
+    "RNO.PA",       # Renault
+    "PUB.PA",       # Publicis Groupe
+    "ORA.PA",       # Orange
+    "LR.PA",        # Legrand
+    "URW.PA",       # Unibail-Rodamco-Westfield
+    "ENGI.PA",      # Engie
+    "ERF.PA",       # Eurofins Scientific
+    "RMS.PA",       # Hermes International
+    "TEP.PA",       # Teleperformance
+    "ALO.PA",       # Alstom
+    "ATO.PA",       # Atos
+    "WLN.PA",       # Worldline
+    "MT.PA",        # ArcelorMittal
+]
+
+IBEX35_SYMBOLS = [
+    # Spain IBEX 35 - Top 35 Spanish companies (BME)
+    "SAN.MC",       # Banco Santander
+    "BBVA.MC",      # BBVA
+    "IBE.MC",       # Iberdrola
+    "ITX.MC",       # Inditex (Zara)
+    "TEF.MC",       # Telefonica
+    "REP.MC",       # Repsol
+    "FER.MC",       # Ferrovial
+    "AMS.MC",       # Amadeus IT
+    "CABK.MC",      # CaixaBank
+    "ENG.MC",       # Enagas
+    "ACS.MC",       # ACS Actividades
+    "NTGY.MC",      # Naturgy Energy
+    "MAP.MC",       # Mapfre
+    "IAG.MC",       # IAG (Iberia/BA parent)
+    "GRF.MC",       # Grifols
+    "REE.MC",       # Red Electrica
+    "MRL.MC",       # Merlin Properties
+    "CLNX.MC",      # Cellnex Telecom
+    "FDR.MC",       # Fluidra
+    "SAB.MC",       # Banco Sabadell
+]
+
+AEX25_SYMBOLS = [
+    # Netherlands AEX 25 - Top 25 Dutch companies (Euronext Amsterdam)
+    "ASML.AS",      # ASML Holding
+    "UNA.AS",       # Unilever (Amsterdam listing)
+    "INGA.AS",      # ING Group
+    "PHIA.AS",      # Philips
+    "AD.AS",        # Ahold Delhaize
+    "HEIA.AS",      # Heineken
+    "WKL.AS",       # Wolters Kluwer
+    "DSM.AS",       # DSM-Firmenich
+    "AKZA.AS",      # Akzo Nobel
+    "ASR.AS",       # ASR Nederland
+    "NN.AS",        # NN Group
+    "AGN.AS",       # Aegon
+    "KPN.AS",       # KPN
+    "RAND.AS",      # Randstad
+    "URW.AS",       # Unibail-Rodamco (Amsterdam)
+    "PRX.AS",       # Prosus
+    "IMCD.AS",      # IMCD
+    "ABN.AS",       # ABN AMRO
+    "BESI.AS",      # BE Semiconductor
+    "LIGHT.AS",     # Signify
+]
+
+SMI20_SYMBOLS = [
+    # Switzerland SMI 20 - Top 20 Swiss companies (SIX)
+    "NESN.SW",      # Nestle
+    "NOVN.SW",      # Novartis
+    "ROG.SW",       # Roche
+    "UBSG.SW",      # UBS Group
+    "CSGN.SW",      # Credit Suisse (now UBS)
+    "ZURN.SW",      # Zurich Insurance
+    "ABBN.SW",      # ABB
+    "SREN.SW",      # Swiss Re
+    "GIVN.SW",      # Givaudan
+    "LONN.SW",      # Lonza Group
+    "SIKA.SW",      # Sika AG
+    "GEBN.SW",      # Geberit
+    "SCMN.SW",      # Swisscom
+    "SLHN.SW",      # Swiss Life
+    "PGHN.SW",      # Partners Group
+    "BALN.SW",      # Baloise Holding
+    "HOLN.SW",      # Holcim
+    "SCHP.SW",      # Schindler
+    "LOGN.SW",      # Logitech
+    "ALC.SW",       # Alcon
+]
+
+FTSEMIB_SYMBOLS = [
+    # Italy FTSE MIB - Top 20 Italian companies (Borsa Italiana)
+    "ISP.MI",       # Intesa Sanpaolo
+    "UCG.MI",       # UniCredit
+    "ENI.MI",       # Eni
+    "ENEL.MI",      # Enel
+    "STM.MI",       # STMicroelectronics (Milan listing)
+    "G.MI",         # Assicurazioni Generali
+    "RACE.MI",      # Ferrari
+    "TIT.MI",       # Telecom Italia
+    "LDO.MI",       # Leonardo
+    "BMED.MI",      # Banca Mediolanum
+    "FBK.MI",       # FinecoBank
+    "PST.MI",       # Poste Italiane
+    "CPR.MI",       # Campari
+    "TEN.MI",       # Tenaris
+    "PRY.MI",       # Prysmian
+    "MONC.MI",      # Moncler
+    "STLAM.MI",     # Stellantis (Milan listing)
+    "BAMI.MI",      # Banco BPM
+    "A2A.MI",       # A2A
+    "SRG.MI",       # Snam
 ]
 
 # Asian Markets (futuro)
@@ -96,8 +253,46 @@ NIKKEI225_SYMBOLS = [
     "6501.T",       # Hitachi Ltd
     "6954.T",       # Fanuc Corp
     "7974.T",       # Nintendo Co Ltd
-    # ... (top 10 para empezar)
 ]
+
+
+def get_all_european_symbols():
+    """Retorna todos los simbolos europeos combinados (sin duplicados)"""
+    all_symbols = (
+        DAX40_SYMBOLS +
+        FTSE100_SYMBOLS +
+        CAC40_SYMBOLS +
+        IBEX35_SYMBOLS +
+        AEX25_SYMBOLS +
+        SMI20_SYMBOLS +
+        FTSEMIB_SYMBOLS
+    )
+    # Remove duplicates (e.g. STM listed in both Paris and Milan)
+    seen = set()
+    unique = []
+    for s in all_symbols:
+        if s not in seen:
+            seen.add(s)
+            unique.append(s)
+    return unique
+
+
+def get_european_market_for_ticker(ticker: str) -> str:
+    """Retorna el mercado europeo al que pertenece un ticker"""
+    suffix_map = {
+        '.DE': 'DAX40',
+        '.L': 'FTSE100',
+        '.PA': 'CAC40',
+        '.MC': 'IBEX35',
+        '.AS': 'AEX25',
+        '.SW': 'SMI20',
+        '.MI': 'FTSEMIB',
+    }
+    for suffix, market in suffix_map.items():
+        if ticker.endswith(suffix):
+            return market
+    return 'OTHER'
+
 
 # Market Metadata
 MARKETS = {
@@ -118,7 +313,7 @@ MARKETS = {
             "timezone": "America/New_York",
             "exchange": "NASDAQ",
             "source": NASDAQ100_URL,
-            "active": False,  # Para futuro
+            "active": False,
         },
     },
     "Germany": {
@@ -129,7 +324,7 @@ MARKETS = {
             "timezone": "Europe/Berlin",
             "exchange": "XETRA",
             "symbols": DAX40_SYMBOLS,
-            "active": False,  # Para futuro
+            "active": True,
         },
     },
     "UK": {
@@ -139,8 +334,8 @@ MARKETS = {
             "currency": "GBP",
             "timezone": "Europe/London",
             "exchange": "LSE",
-            "symbols": FTSE100_SYMBOLS[:10],  # Top 10 inicial
-            "active": False,  # Para futuro
+            "symbols": FTSE100_SYMBOLS,
+            "active": True,
         },
     },
     "France": {
@@ -150,8 +345,52 @@ MARKETS = {
             "currency": "EUR",
             "timezone": "Europe/Paris",
             "exchange": "Euronext Paris",
-            "symbols": CAC40_SYMBOLS[:10],  # Top 10 inicial
-            "active": False,  # Para futuro
+            "symbols": CAC40_SYMBOLS,
+            "active": True,
+        },
+    },
+    "Spain": {
+        "ibex35": {
+            "name": "IBEX 35",
+            "size": 35,
+            "currency": "EUR",
+            "timezone": "Europe/Madrid",
+            "exchange": "BME",
+            "symbols": IBEX35_SYMBOLS,
+            "active": True,
+        },
+    },
+    "Netherlands": {
+        "aex25": {
+            "name": "AEX 25",
+            "size": 25,
+            "currency": "EUR",
+            "timezone": "Europe/Amsterdam",
+            "exchange": "Euronext Amsterdam",
+            "symbols": AEX25_SYMBOLS,
+            "active": True,
+        },
+    },
+    "Switzerland": {
+        "smi20": {
+            "name": "SMI 20",
+            "size": 20,
+            "currency": "CHF",
+            "timezone": "Europe/Zurich",
+            "exchange": "SIX",
+            "symbols": SMI20_SYMBOLS,
+            "active": True,
+        },
+    },
+    "Italy": {
+        "ftsemib": {
+            "name": "FTSE MIB",
+            "size": 40,
+            "currency": "EUR",
+            "timezone": "Europe/Rome",
+            "exchange": "Borsa Italiana",
+            "symbols": FTSEMIB_SYMBOLS,
+            "active": True,
         },
     },
     "Japan": {
@@ -161,8 +400,8 @@ MARKETS = {
             "currency": "JPY",
             "timezone": "Asia/Tokyo",
             "exchange": "TSE",
-            "symbols": NIKKEI225_SYMBOLS[:10],  # Top 10 inicial
-            "active": False,  # Para futuro
+            "symbols": NIKKEI225_SYMBOLS[:10],
+            "active": False,
         },
     },
 }
@@ -207,18 +446,20 @@ def get_market_symbols(market_id: str):
 
 if __name__ == "__main__":
     # Test
-    print("🌍 MERCADOS CONFIGURADOS:")
+    print("MERCADOS CONFIGURADOS:")
     print("=" * 60)
 
     for region, markets in MARKETS.items():
         print(f"\n{region}:")
         for market_id, config in markets.items():
-            status = "✅ ACTIVO" if config.get("active") else "⏸️  FUTURO"
+            status = "ACTIVO" if config.get("active") else "FUTURO"
             print(f"  {status} {config['name']} ({config['size']} stocks)")
             print(f"           Exchange: {config['exchange']} | Currency: {config['currency']}")
 
-    print("\n\n🎯 MERCADOS ACTIVOS:")
+    print("\n\nMERCADOS ACTIVOS:")
     print("=" * 60)
     active = get_active_markets()
     for market_id, config in active.items():
         print(f"  {market_id}: {config['name']}")
+
+    print(f"\nTotal European symbols: {len(get_all_european_symbols())}")

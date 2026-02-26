@@ -29,13 +29,14 @@ class SuperDashboardGenerator:
         # Load dual strategy data (new sections)
         value_data = self._load_value_opportunities()
         momentum_data = self._load_momentum_opportunities()
+        eu_value_data = self._load_eu_value_opportunities()
         tracker_data = self._load_tracker_summary()
 
         # Generate integrated insights
         insights = self._generate_insights(sector_data, opportunities_data, backtest_data, vcp_repeaters)
 
         # Generate HTML
-        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata, value_data, momentum_data, tracker_data)
+        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata, value_data, momentum_data, tracker_data, eu_value_data)
 
         # Save
         with open(output_file, 'w', encoding='utf-8') as f:
@@ -122,6 +123,24 @@ class SuperDashboardGenerator:
                 r['thesis_signals'] = t.get('technical', {}).get('signals', [])
                 r['thesis_catalysts_insiders'] = t.get('catalysts', {}).get('insiders', [])
             return records
+        except Exception:
+            return []
+
+    def _load_eu_value_opportunities(self):
+        """Carga oportunidades VALUE europeas"""
+        filtered_path = Path("docs/european_value_opportunities_filtered.csv")
+        if filtered_path.exists():
+            print("📊 Using AI-filtered EUROPEAN VALUE opportunities")
+            path = filtered_path
+        else:
+            path = Path("docs/european_value_opportunities.csv")
+
+        if not path.exists():
+            return []
+        try:
+            df = pd.read_csv(path)
+            df['value_score'] = pd.to_numeric(df.get('value_score', 0), errors='coerce').fillna(0)
+            return df.sort_values('value_score', ascending=False).head(15).to_dict('records')
         except Exception:
             return []
 
@@ -427,7 +446,7 @@ class SuperDashboardGenerator:
 
         return insights
 
-    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights, vcp_metadata=None, value_data=None, momentum_data=None, tracker_data=None):
+    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights, vcp_metadata=None, value_data=None, momentum_data=None, tracker_data=None, eu_value_data=None):
         """Genera HTML del super dashboard"""
 
         # Prepare data
@@ -1005,6 +1024,9 @@ class SuperDashboardGenerator:
 
         <!-- DUAL STRATEGY SECTIONS -->
         {self._generate_dual_strategy_html(value_data or [], momentum_data or [])}
+
+        <!-- EUROPEAN VALUE SECTION -->
+        {self._generate_eu_value_html(eu_value_data or [])}
 
         <!-- PORTFOLIO TRACKER -->
         {self._generate_tracker_html(tracker_data or {})}
@@ -1678,6 +1700,181 @@ class SuperDashboardGenerator:
 
         </div>
         '''
+
+    def _generate_eu_value_html(self, eu_data: list) -> str:
+        """Genera HTML para la seccion European VALUE"""
+        if not eu_data:
+            return ''
+
+        # Sector concentration analysis
+        sector_warning_html = ''
+        from collections import Counter
+        sectors = [d.get('sector', 'N/A') for d in eu_data if d.get('sector')]
+        sector_counts = Counter(sectors)
+        concentrated = [(s, c) for s, c in sector_counts.most_common() if c >= 3]
+        if concentrated:
+            pills = ' '.join(
+                f'<span style="background:rgba(59,130,246,0.15);color:#60a5fa;padding:2px 8px;border-radius:10px;font-size:0.78em;margin-right:4px;">{s}: {c}</span>'
+                for s, c in concentrated
+            )
+            sector_warning_html = (
+                f'<div style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:0.82em;">'
+                f'<span style="color:#60a5fa;font-weight:600;">Concentracion sectorial:</span> {pills}'
+                f' <span style="color:rgba(255,255,255,0.5);">Diversifica entre mercados</span></div>'
+            )
+
+        # Market breakdown
+        market_counts = Counter(d.get('market', '?') for d in eu_data)
+        market_pills = ' '.join(
+            f'<span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);padding:2px 6px;border-radius:8px;font-size:0.72em;">{m}:{c}</span>'
+            for m, c in market_counts.most_common()
+        )
+
+        # EU market regime
+        eu_regime_html = ''
+        try:
+            regime_path = Path("docs/european_market_regime.json")
+            if regime_path.exists():
+                import json
+                with open(regime_path) as f:
+                    eu_regime = json.load(f)
+                regime = eu_regime.get('regime', 'UNKNOWN')
+                regime_color = '#10b981' if 'UPTREND' in regime else ('#f59e0b' if 'PRESSURE' in regime else '#ef4444')
+                eu_regime_html = f'<span style="color:{regime_color};font-size:0.78em;margin-left:8px;">STOXX50: {regime}</span>'
+        except:
+            pass
+
+        rows = ''.join(self._eu_value_row_html(d) for d in eu_data)
+
+        return f'''
+        <div class="section-card" style="border-top:3px solid #3b82f6;margin-bottom:20px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <div>
+                    <h2 class="section-title" style="margin:0;color:#60a5fa;">European Value</h2>
+                    <p style="margin:4px 0 0;font-size:0.82em;color:rgba(255,255,255,0.5);">Blue chips europeos con fundamentales solidos · DAX, FTSE, CAC, IBEX, AEX, SMI, MIB{eu_regime_html}</p>
+                </div>
+                <div style="text-align:right;">
+                    <span style="background:rgba(59,130,246,0.15);color:#60a5fa;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;border:1px solid rgba(59,130,246,0.3);">{len(eu_data)} candidatas</span>
+                    <div style="margin-top:4px;">{market_pills}</div>
+                </div>
+            </div>
+            {sector_warning_html}
+            <div style="overflow-x:auto;">
+                <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
+                    <thead>
+                        <tr style="background:rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.1);">
+                            <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Ticker</th>
+                            <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Empresa</th>
+                            <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Mercado</th>
+                            <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Precio</th>
+                            <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Score</th>
+                            <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Sector</th>
+                            <th style="padding:8px;text-align:right;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Precio objetivo analistas + upside">Objetivo</th>
+                            <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="FCF Yield">FCF%</th>
+                            <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Dividend yield + buyback">Div/BB</th>
+                            <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Risk/Reward ratio">R:R</th>
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>
+            </div>
+        </div>
+        '''
+
+    def _eu_value_row_html(self, d: dict) -> str:
+        """Genera fila HTML para una oportunidad value europea"""
+        ticker  = d.get('ticker', '')
+        company = str(d.get('company_name', ticker))[:22]
+        score   = float(d.get('value_score', 0) or 0)
+        if pd.isna(score): score = 0
+        sector  = str(d.get('sector', ''))[:18]
+        market  = str(d.get('market', ''))
+
+        # Currency symbol based on market
+        suffix = ticker.split('.')[-1] if '.' in ticker else ''
+        currency = {'DE': 'EUR', 'PA': 'EUR', 'MC': 'EUR', 'AS': 'EUR', 'MI': 'EUR',
+                     'L': 'GBP', 'SW': 'CHF'}.get(suffix, 'EUR')
+        curr_sym = {'EUR': '\u20ac', 'GBP': '\u00a3', 'CHF': 'CHF '}.get(currency, '')
+
+        # Price
+        price = d.get('current_price', 0)
+        if price and not pd.isna(price):
+            price_str = f'<span style="font-weight:600;">{curr_sym}{float(price):,.2f}</span>'
+        else:
+            price_str = '-'
+
+        # Score color
+        if score >= 40:
+            color = '#10b981'
+        elif score >= 30:
+            color = '#60a5fa'
+        else:
+            color = '#94a3b8'
+
+        # FCF Yield
+        fcf = d.get('fcf_yield_pct')
+        if fcf is not None and not pd.isna(fcf):
+            fcf_val = float(fcf)
+            fcf_color = '#10b981' if fcf_val >= 5 else ('#f59e0b' if fcf_val >= 3 else ('#ef4444' if fcf_val < 0 else 'rgba(255,255,255,0.5)'))
+            fcf_str = f'<span style="color:{fcf_color};font-weight:600;">{fcf_val:.1f}%</span>'
+        else:
+            fcf_str = '<span style="color:#94a3b8;">-</span>'
+
+        # Dividend + Buyback
+        div_yield = d.get('dividend_yield_pct')
+        buyback = d.get('buyback_active')
+        div_parts = []
+        if div_yield is not None and not pd.isna(div_yield) and float(div_yield) > 0:
+            div_parts.append(f'{float(div_yield):.1f}%')
+        if buyback == True:
+            div_parts.append('BB')
+        div_str = f'<span style="color:#8b5cf6;font-size:0.82em;">{"+".join(div_parts)}</span>' if div_parts else '<span style="color:#94a3b8;">-</span>'
+
+        # Risk/Reward
+        rr = d.get('risk_reward_ratio')
+        if rr is not None and not pd.isna(rr):
+            rr_val = float(rr)
+            rr_color = '#10b981' if rr_val >= 2.0 else ('#f59e0b' if rr_val >= 1.0 else '#ef4444')
+            rr_str = f'<span style="color:{rr_color};font-weight:600;">{rr_val:.1f}</span>'
+        else:
+            rr_str = '<span style="color:#94a3b8;">-</span>'
+
+        # Target price
+        tp = d.get('target_price_analyst')
+        tp_upside = d.get('analyst_upside_pct')
+        tp_count = d.get('analyst_count')
+        if tp is not None and tp_upside is not None and not pd.isna(tp) and not pd.isna(tp_upside):
+            up_color = '#10b981' if tp_upside >= 10 else ('#f59e0b' if tp_upside >= 0 else '#ef4444')
+            count_str = f' <span style="color:#94a3b8;font-size:0.75em;">({int(tp_count)})</span>' if tp_count and not pd.isna(tp_count) else ''
+            target_cell = (f'<span style="font-weight:600;">{curr_sym}{tp:.0f}</span>'
+                           f'{count_str}<br>'
+                           f'<span style="color:{up_color};font-size:0.8em;">{tp_upside:+.1f}%</span>')
+        else:
+            target_cell = '<span style="color:#94a3b8;font-size:0.8em;">N/A</span>'
+
+        # Market badge color
+        market_colors = {
+            'DAX40': '#fbbf24', 'FTSE100': '#ef4444', 'CAC40': '#3b82f6',
+            'IBEX35': '#f97316', 'AEX25': '#f43f5e', 'SMI20': '#ef4444',
+            'FTSEMIB': '#22c55e'
+        }
+        m_color = market_colors.get(market, '#94a3b8')
+        market_badge = f'<span style="color:{m_color};font-size:0.78em;font-weight:600;">{market}</span>'
+
+        return (f'<tr style="border-bottom:1px solid rgba(255,255,255,0.06);">'
+                f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;font-size:1.05em;">{ticker}</td>'
+                f'<td style="padding:10px 8px;color:rgba(255,255,255,0.65);font-size:0.9em;">{company}</td>'
+                f'<td style="padding:10px 8px;">{market_badge}</td>'
+                f'<td style="padding:10px 8px;">{price_str}</td>'
+                f'<td style="padding:10px 8px;min-width:80px;">'
+                f'<span style="font-weight:700;color:{color};">{score:.1f}</span>'
+                f'{self._score_bar(min(score / 82 * 100, 100), color)}</td>'
+                f'<td style="padding:10px 8px;color:rgba(255,255,255,0.5);font-size:0.82em;">{sector}</td>'
+                f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
+                f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{fcf_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{div_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{rr_str}</td>'
+                f'</tr>')
 
     def _generate_tracker_html(self, tracker: dict) -> str:
         """Genera HTML del Portfolio Tracker - performance real de las recomendaciones"""

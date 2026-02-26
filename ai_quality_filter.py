@@ -547,6 +547,23 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description='AI Quality Filter')
+    parser.add_argument('--european', action='store_true',
+                        help='Filter European VALUE opportunities only')
+    args = parser.parse_args()
+
+    if args.european:
+        print("=" * 100)
+        print("AI-POWERED QUALITY FILTER - EUROPEAN VALUE")
+        print("=" * 100)
+
+        eu_path = Path('docs/european_value_opportunities.csv')
+        eu_filtered = filter_opportunities(eu_path, "VALUE", "value_score")
+
+        print(f"\n✅ European VALUE filtered: {eu_filtered if eu_filtered else 0}")
+        return
+
     print("=" * 100)
     print("AI-POWERED QUALITY FILTER - DUAL STRATEGY VALIDATION")
     print("=" * 100)
