@@ -519,8 +519,11 @@ class SuperScoreIntegrator:
         # Market regime penalty (global)
         df['filter_penalty'] += market_penalty
 
-        # MA filter penalty
-        df.loc[df['ma_filter_pass'] == False, 'filter_penalty'] += 20
+        # MA filter penalty (skip if failed due to rate limiting - not a real failure)
+        rate_limited = df['ma_filter_reason'].str.contains(
+            'Too Many Requests|rate limit|Rate limit|429', case=False, na=False
+        )
+        df.loc[(df['ma_filter_pass'] == False) & (~rate_limited), 'filter_penalty'] += 20
         df.loc[(df['ma_filter_pass'] == True) & (df['ma_filter_score'] < 80), 'filter_penalty'] += 5
 
         # A/D filter penalty
@@ -979,6 +982,62 @@ class SuperScoreIntegrator:
             df.loc[df['ticker'].isin(mean_reversion_tickers), 'mr_bonus'] = 10.0
             df['value_score'] += df['mr_bonus']
 
+        # FCF Yield bonus (8 pts max) — cash generation is king for value
+        if 'fcf_yield_pct' in df.columns:
+            df['_fcf'] = pd.to_numeric(df['fcf_yield_pct'], errors='coerce')
+            df['fcf_bonus'] = 0.0
+            df.loc[df['_fcf'] >= 8, 'fcf_bonus'] = 8.0   # Very high FCF yield
+            df.loc[(df['_fcf'] >= 5) & (df['_fcf'] < 8), 'fcf_bonus'] = 6.0
+            df.loc[(df['_fcf'] >= 3) & (df['_fcf'] < 5), 'fcf_bonus'] = 3.0
+            df.loc[df['_fcf'] < 0, 'fcf_bonus'] = -5.0   # Negative FCF = cash burn
+            df['value_score'] += df['fcf_bonus']
+            df.drop(columns=['_fcf'], inplace=True, errors='ignore')
+            print(f"   💰 FCF Yield bonus applied ({(df['fcf_bonus'] > 0).sum()} tickers)")
+
+        # Dividend Quality bonus (5 pts max) — sustainable dividend = safety
+        if 'dividend_yield_pct' in df.columns:
+            df['_div'] = pd.to_numeric(df['dividend_yield_pct'], errors='coerce').fillna(0)
+            df['_payout'] = pd.to_numeric(df.get('payout_ratio_pct', pd.Series(0, index=df.index)), errors='coerce').fillna(0)
+            df['dividend_bonus'] = 0.0
+            # Healthy dividend: yield 1-6% AND payout < 75%
+            healthy_div = (df['_div'] > 1.0) & (df['_div'] <= 6.0) & ((df['_payout'] < 75) | (df['_payout'] == 0))
+            df.loc[healthy_div & (df['_div'] >= 3.0), 'dividend_bonus'] = 5.0
+            df.loc[healthy_div & (df['_div'] >= 1.5) & (df['_div'] < 3.0), 'dividend_bonus'] = 3.0
+            # Dangerously high yield (>8%) = likely distressed
+            df.loc[df['_div'] > 8.0, 'dividend_bonus'] = -3.0
+            # Unsustainable payout (>90%)
+            df.loc[(df['_payout'] > 90) & (df['_payout'] > 0), 'dividend_bonus'] = df.loc[(df['_payout'] > 90) & (df['_payout'] > 0), 'dividend_bonus'] - 2.0
+            df['value_score'] += df['dividend_bonus']
+            df.drop(columns=['_div', '_payout'], inplace=True, errors='ignore')
+            print(f"   📈 Dividend bonus applied ({(df['dividend_bonus'] > 0).sum()} tickers)")
+
+        # Buyback bonus (3 pts max) — company buying back shares = confidence
+        if 'buyback_active' in df.columns:
+            df['buyback_bonus'] = 0.0
+            df.loc[df['buyback_active'] == True, 'buyback_bonus'] = 3.0
+            df['value_score'] += df['buyback_bonus']
+            print(f"   🔄 Buyback bonus applied ({(df['buyback_bonus'] > 0).sum()} tickers)")
+
+        # Analyst Revision Momentum (5 pts max) — estimates rising = positive signal
+        if 'analyst_revision_momentum' in df.columns:
+            df['_rev'] = pd.to_numeric(df['analyst_revision_momentum'], errors='coerce')
+            df['revision_bonus'] = 0.0
+            df.loc[df['_rev'] > 15, 'revision_bonus'] = 5.0     # Strong upgrades
+            df.loc[(df['_rev'] > 5) & (df['_rev'] <= 15), 'revision_bonus'] = 3.0
+            df.loc[(df['_rev'] > 0) & (df['_rev'] <= 5), 'revision_bonus'] = 1.0
+            df.loc[df['_rev'] < -10, 'revision_bonus'] = -3.0   # Downgrades
+            df['value_score'] += df['revision_bonus']
+            df.drop(columns=['_rev'], inplace=True, errors='ignore')
+            print(f"   📊 Revision momentum applied ({(df['revision_bonus'] > 0).sum()} tickers)")
+
+        # Earnings timing warning — penalize if reporting within 7 days (risky entry)
+        if 'earnings_warning' in df.columns:
+            earnings_risk = df['earnings_warning'] == True
+            if earnings_risk.sum() > 0:
+                df.loc[earnings_risk, 'value_score'] -= 5.0
+                warned = df[earnings_risk]['ticker'].tolist()
+                print(f"   ⚠️ Earnings warning penalty (-5pts): {warned}")
+
         # Apply profitability penalty to value_score (same gates as super_score)
         if 'profitability_penalty' in df.columns:
             df['value_score'] = (df['value_score'] - df['profitability_penalty']).clip(lower=0)
@@ -998,6 +1057,21 @@ class SuperScoreIntegrator:
                 overvalued_tickers = df[overvalued]['ticker'].tolist()
                 print(f"🚫 Rejected from VALUE (analyst upside < 0%): {overvalued_tickers}")
                 df.loc[overvalued, 'value_score'] = 0.0
+
+        # RISK/REWARD CHECK: Calculate R:R ratio and penalize poor risk/reward
+        if 'analyst_upside_pct' in df.columns and 'current_price' in df.columns:
+            stop_loss_pct = 8.0  # Standard 8% stop loss (Minervini/Lynch)
+            df['_upside'] = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
+            df['risk_reward_ratio'] = (df['_upside'] / stop_loss_pct).round(2)
+            # Bonus for R:R >= 3 (+3pts), >= 2 (+1pt), penalty < 1 (-3pts)
+            df['rr_bonus'] = 0.0
+            df.loc[df['risk_reward_ratio'] >= 3.0, 'rr_bonus'] = 3.0
+            df.loc[(df['risk_reward_ratio'] >= 2.0) & (df['risk_reward_ratio'] < 3.0), 'rr_bonus'] = 1.0
+            df.loc[(df['risk_reward_ratio'] < 1.0) & df['risk_reward_ratio'].notna(), 'rr_bonus'] = -3.0
+            df['value_score'] += df['rr_bonus']
+            good_rr = int((df['risk_reward_ratio'] >= 2.0).sum())
+            print(f"   📐 Risk/Reward applied ({good_rr} tickers with R:R ≥ 2:1)")
+            df.drop(columns=['_upside'], inplace=True, errors='ignore')
 
         # COVERAGE CHECK: Penalize stocks without analyst coverage (less confidence)
         if 'analyst_count' in df.columns:

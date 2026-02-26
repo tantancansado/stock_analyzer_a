@@ -67,6 +67,10 @@ jobs:
       - name: Generate Super Dashboard [CRITICAL]
         run: python3 super_dashboard_generator.py
 
+      - name: Portfolio Tracker (record signals + update performance)
+        continue-on-error: true
+        run: python3 portfolio_tracker.py --all
+
       # ============================================================================
       # OPTIONAL STEPS (Can fail without breaking pipeline)
       # ============================================================================

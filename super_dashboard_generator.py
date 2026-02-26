@@ -29,18 +29,30 @@ class SuperDashboardGenerator:
         # Load dual strategy data (new sections)
         value_data = self._load_value_opportunities()
         momentum_data = self._load_momentum_opportunities()
+        tracker_data = self._load_tracker_summary()
 
         # Generate integrated insights
         insights = self._generate_insights(sector_data, opportunities_data, backtest_data, vcp_repeaters)
 
         # Generate HTML
-        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata, value_data, momentum_data)
+        html = self._generate_html(sector_data, opportunities_data, backtest_data, insights, vcp_metadata, value_data, momentum_data, tracker_data)
 
         # Save
         with open(output_file, 'w', encoding='utf-8') as f:
             f.write(html)
 
         print(f"✅ Dashboard generado: {output_file}")
+
+    def _load_tracker_summary(self) -> dict:
+        """Load portfolio tracker summary"""
+        path = Path('docs/portfolio_tracker/summary.json')
+        if path.exists():
+            try:
+                with open(path) as f:
+                    return json.load(f)
+            except Exception:
+                pass
+        return {}
 
     def _load_theses(self) -> dict:
         """Carga tesis de inversión desde docs/theses.json"""
@@ -415,7 +427,7 @@ class SuperDashboardGenerator:
 
         return insights
 
-    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights, vcp_metadata=None, value_data=None, momentum_data=None):
+    def _generate_html(self, sector_data, opportunities_data, backtest_data, insights, vcp_metadata=None, value_data=None, momentum_data=None, tracker_data=None):
         """Genera HTML del super dashboard"""
 
         # Prepare data
@@ -994,6 +1006,9 @@ class SuperDashboardGenerator:
         <!-- DUAL STRATEGY SECTIONS -->
         {self._generate_dual_strategy_html(value_data or [], momentum_data or [])}
 
+        <!-- PORTFOLIO TRACKER -->
+        {self._generate_tracker_html(tracker_data or {})}
+
         <!-- Main Content Grid -->
         <div class="grid-2">
             <!-- Top Opportunities -->
@@ -1291,7 +1306,13 @@ class SuperDashboardGenerator:
                             ${{d.peg_ratio != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">PEG Ratio</td><td style="text-align:right;">${{fmt(d.peg_ratio, 2)}}</td></tr>` : ''}}
                             ${{d.roe != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">ROE</td><td style="text-align:right;">${{pct(d.roe * 100)}}</td></tr>` : ''}}
                             ${{d.revenue_growth != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Revenue Growth</td><td style="text-align:right;">${{pct(d.revenue_growth * 100)}}</td></tr>` : ''}}
-                            ${{d.fcf_yield != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">FCF Yield</td><td style="text-align:right;">${{fmt(d.fcf_yield)}}%</td></tr>` : ''}}
+                            ${{d.fcf_yield != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">FCF Yield</td><td style="text-align:right;"><span style="color:${{d.fcf_yield >= 5 ? '#10b981' : d.fcf_yield >= 3 ? '#f59e0b' : d.fcf_yield < 0 ? '#ef4444' : 'rgba(255,255,255,0.8)'}};font-weight:600;">${{fmt(d.fcf_yield)}}%</span></td></tr>` : ''}}
+                            ${{d.dividend_yield != null && d.dividend_yield > 0 ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Dividendo</td><td style="text-align:right;"><span style="color:#8b5cf6;">${{fmt(d.dividend_yield)}}%</span>${{d.payout_ratio != null ? ' <span style="font-size:0.78em;color:rgba(255,255,255,0.4);">payout ' + fmt(d.payout_ratio) + '%</span>' : ''}}</td></tr>` : ''}}
+                            ${{d.buyback_active ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Recompra acciones</td><td style="text-align:right;"><span style="color:#10b981;">Activa</span>${{d.shares_change != null ? ' <span style="font-size:0.78em;color:rgba(255,255,255,0.4);">' + fmt(d.shares_change) + '%</span>' : ''}}</td></tr>` : ''}}
+                            ${{d.interest_coverage != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Cobertura Intereses</td><td style="text-align:right;"><span style="color:${{d.interest_coverage >= 5 ? '#10b981' : d.interest_coverage >= 2 ? '#f59e0b' : '#ef4444'}};">${{fmt(d.interest_coverage)}}x</span></td></tr>` : ''}}
+                            ${{d.risk_reward != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Risk/Reward</td><td style="text-align:right;"><span style="color:${{d.risk_reward >= 2 ? '#10b981' : d.risk_reward >= 1 ? '#f59e0b' : '#ef4444'}};font-weight:600;">${{fmt(d.risk_reward)}}:1</span></td></tr>` : ''}}
+                            ${{d.days_to_earnings != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Earnings</td><td style="text-align:right;"><span style="color:${{d.days_to_earnings <= 7 ? '#ef4444' : d.days_to_earnings <= 21 ? '#f59e0b' : 'rgba(255,255,255,0.6)'}};${{d.days_to_earnings <= 7 ? 'font-weight:700;' : ''}}">${{d.days_to_earnings}}d${{d.days_to_earnings <= 7 ? ' ⚠️' : d.days_to_earnings <= 21 ? ' 🎯' : ''}}</span></td></tr>` : ''}}
+                            ${{d.analyst_revision != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Revision Momentum</td><td style="text-align:right;"><span style="color:${{d.analyst_revision > 5 ? '#10b981' : d.analyst_revision < -5 ? '#ef4444' : 'rgba(255,255,255,0.6)'}};">${{d.analyst_revision > 0 ? '+' : ''}}${{fmt(d.analyst_revision)}}%</span></td></tr>` : ''}}
                             ${{d.debt_to_equity != null ? `<tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Deuda/Capital</td><td style="text-align:right;">${{fmt(d.debt_to_equity, 2)}}</td></tr>` : ''}}
                             <tr><td style="padding:4px 0; color:rgba(255,255,255,0.5);">Aceleración (CANSLIM A)</td>
                                 <td style="text-align:right;">${{accelLabel(d.eps_accelerating, d.rev_accelerating, d.eps_growth_yoy, d.rev_growth_yoy)}}</td></tr>
@@ -1397,16 +1418,47 @@ class SuperDashboardGenerator:
         score   = float(d.get('value_score', 0) or 0)
         if pd.isna(score): score = 0
         sector  = str(d.get('sector', ''))[:18]
-        options = d.get('sentiment', '')
-        mr      = '✓' if float(d.get('mr_bonus', 0) or 0) > 0 else ''
-        sect_b  = '✓' if float(d.get('sector_bonus', 0) or 0) > 0 else ''
-
-        if options == 'BULLISH':
-            options_badge = '<span style="color:#10b981;font-size:0.75em;">▲ CALL</span>'
-        elif options == 'BEARISH':
-            options_badge = '<span style="color:#ef4444;font-size:0.75em;">▼ PUT</span>'
+        # FCF Yield
+        fcf = d.get('fcf_yield_pct')
+        if fcf is not None and not pd.isna(fcf):
+            fcf_val = float(fcf)
+            fcf_color = '#10b981' if fcf_val >= 5 else ('#f59e0b' if fcf_val >= 3 else ('#ef4444' if fcf_val < 0 else 'rgba(255,255,255,0.5)'))
+            fcf_str = f'<span style="color:{fcf_color};font-weight:600;">{fcf_val:.1f}%</span>'
         else:
-            options_badge = ''
+            fcf_str = '<span style="color:#94a3b8;">-</span>'
+
+        # Risk/Reward
+        rr = d.get('risk_reward_ratio')
+        if rr is not None and not pd.isna(rr):
+            rr_val = float(rr)
+            rr_color = '#10b981' if rr_val >= 2.0 else ('#f59e0b' if rr_val >= 1.0 else '#ef4444')
+            rr_str = f'<span style="color:{rr_color};font-weight:600;">{rr_val:.1f}</span>'
+        else:
+            rr_str = '<span style="color:#94a3b8;">-</span>'
+
+        # Dividend + Buyback
+        div_yield = d.get('dividend_yield_pct')
+        buyback = d.get('buyback_active')
+        div_parts = []
+        if div_yield is not None and not pd.isna(div_yield) and float(div_yield) > 0:
+            div_parts.append(f'{float(div_yield):.1f}%')
+        if buyback == True:
+            div_parts.append('BB')
+        div_str = f'<span style="color:#8b5cf6;font-size:0.82em;">{"+".join(div_parts)}</span>' if div_parts else '<span style="color:#94a3b8;">-</span>'
+
+        # Earnings date
+        days_earn = d.get('days_to_earnings')
+        earn_warning = d.get('earnings_warning', False)
+        if days_earn is not None and not pd.isna(days_earn):
+            days_val = int(days_earn)
+            if earn_warning:
+                earn_str = f'<span style="color:#ef4444;font-weight:700;" title="Earnings en {days_val}d - RIESGO">{days_val}d !</span>'
+            elif days_val <= 21:
+                earn_str = f'<span style="color:#f59e0b;" title="Earnings como catalizador">{days_val}d</span>'
+            else:
+                earn_str = f'<span style="color:rgba(255,255,255,0.5);">{days_val}d</span>'
+        else:
+            earn_str = '<span style="color:#94a3b8;">-</span>'
 
         if score >= 40:
             color = '#10b981'
@@ -1460,9 +1512,10 @@ class SuperDashboardGenerator:
                 f'{self._score_bar(score, color)}</td>'
                 f'<td style="padding:10px 8px;color:rgba(255,255,255,0.5);font-size:0.82em;">{sector}</td>'
                 f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
-                f'<td style="padding:10px 8px;text-align:center;">{options_badge}</td>'
-                f'<td style="padding:10px 8px;text-align:center;color:#8b5cf6;font-size:0.82em;">{sect_b}</td>'
-                f'<td style="padding:10px 8px;text-align:center;color:#f59e0b;font-size:0.82em;">{mr}</td>'
+                f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{fcf_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{rr_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{div_str}</td>'
+                f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{earn_str}</td>'
                 f'</tr>{thesis_row}')
 
     def _momentum_row_html(self, d: dict) -> str:
@@ -1532,15 +1585,31 @@ class SuperDashboardGenerator:
     def _generate_dual_strategy_html(self, value_data: list, momentum_data: list) -> str:
         """Genera HTML para las 2 secciones: Value Opportunities + Momentum Plays"""
 
+        # Sector concentration analysis
+        sector_warning_html = ''
         if value_data:
+            from collections import Counter
+            sectors = [d.get('sector', 'N/A') for d in value_data if d.get('sector')]
+            sector_counts = Counter(sectors)
+            concentrated = [(s, c) for s, c in sector_counts.most_common() if c >= 3]
+            if concentrated:
+                pills = ' '.join(
+                    f'<span style="background:rgba(245,158,11,0.15);color:#f59e0b;padding:2px 8px;border-radius:10px;font-size:0.78em;margin-right:4px;">{s}: {c}</span>'
+                    for s, c in concentrated
+                )
+                sector_warning_html = (
+                    f'<div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:0.82em;">'
+                    f'<span style="color:#f59e0b;font-weight:600;">Concentracion sectorial:</span> {pills}'
+                    f' <span style="color:rgba(255,255,255,0.5);">Diversifica para reducir riesgo</span></div>'
+                )
             value_rows = ''.join(self._value_row_html(d) for d in value_data)
         else:
-            value_rows = '<tr><td colspan="9" style="padding:20px;text-align:center;color:#94a3b8;">No hay oportunidades value en este momento</td></tr>'
+            value_rows = '<tr><td colspan="10" style="padding:20px;text-align:center;color:#94a3b8;">No hay oportunidades value en este momento</td></tr>'
 
         if momentum_data:
             momentum_rows = ''.join(self._momentum_row_html(d) for d in momentum_data)
         else:
-            momentum_rows = '<tr><td colspan="8" style="padding:20px;text-align:center;color:#94a3b8;">No hay setups de momentum en este momento</td></tr>'
+            momentum_rows = '<tr><td colspan="8" style="padding:20px;text-align:center;color:#94a3b8;">No hay setups de momentum (mercado en correccion o sin patrones VCP)</td></tr>'
 
         return f'''
         <!-- ═══════════════════════════════════════════════════════════ -->
@@ -1557,6 +1626,7 @@ class SuperDashboardGenerator:
                     </div>
                     <span style="background:rgba(16,185,129,0.15);color:#34d399;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;border:1px solid rgba(16,185,129,0.3);">{len(value_data)} candidatas</span>
                 </div>
+                {sector_warning_html}
                 <div style="overflow-x:auto;">
                     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
                         <thead>
@@ -1567,9 +1637,10 @@ class SuperDashboardGenerator:
                                 <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Score</th>
                                 <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Sector</th>
                                 <th style="padding:8px;text-align:right;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Precio objetivo analistas + upside">Objetivo</th>
-                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Opciones</th>
-                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Sector rotation bonus">S.Rot</th>
-                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Mean reversion signal">M.Rev</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="FCF Yield = Free Cash Flow / Market Cap">FCF%</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Risk/Reward ratio (upside / 8% stop)">R:R</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Dividend yield + buyback">Div/BB</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Dias hasta earnings">Earn</th>
                             </tr>
                         </thead>
                         <tbody>{value_rows}</tbody>
@@ -1605,6 +1676,93 @@ class SuperDashboardGenerator:
                 </div>
             </div>
 
+        </div>
+        '''
+
+    def _generate_tracker_html(self, tracker: dict) -> str:
+        """Genera HTML del Portfolio Tracker - performance real de las recomendaciones"""
+        if not tracker or tracker.get('total_signals', 0) == 0:
+            return ''
+
+        overall = tracker.get('overall', {})
+        value_s = tracker.get('value_strategy', {})
+
+        def stat_card(label, period_data, period_name):
+            if not period_data or period_data.get('count', 0) == 0:
+                return ''
+            wr = period_data.get('win_rate')
+            avg = period_data.get('avg_return')
+            n = period_data.get('count', 0)
+            if wr is None:
+                return ''
+            wr_color = '#10b981' if wr >= 60 else ('#f59e0b' if wr >= 45 else '#ef4444')
+            avg_color = '#10b981' if avg and avg > 0 else '#ef4444'
+            return (
+                f'<div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:12px;text-align:center;">'
+                f'<div style="font-size:0.75em;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">{label} ({period_name})</div>'
+                f'<div style="font-size:1.5em;font-weight:800;color:{wr_color};">{wr:.0f}%</div>'
+                f'<div style="font-size:0.78em;color:rgba(255,255,255,0.5);">win rate</div>'
+                f'<div style="font-size:0.9em;font-weight:600;color:{avg_color};margin-top:4px;">{avg:+.1f}% avg</div>'
+                f'<div style="font-size:0.72em;color:rgba(255,255,255,0.4);">n={n}</div>'
+                f'</div>'
+            )
+
+        cards = []
+        for period in ['7d', '14d', '30d']:
+            card = stat_card('Overall', overall.get(period, {}), period)
+            if card:
+                cards.append(card)
+
+        # Score correlation insight
+        corr = tracker.get('score_correlation')
+        corr_html = ''
+        if corr is not None:
+            if corr > 0.1:
+                corr_html = f'<span style="color:#10b981;">Score correlacion: {corr:.2f} — Scores altos predicen mejores retornos</span>'
+            elif corr < -0.1:
+                corr_html = f'<span style="color:#ef4444;">Score correlacion: {corr:.2f} — Scores altos NO predicen mejores retornos</span>'
+
+        # Top/worst performers
+        top = tracker.get('top_performers', [])
+        worst = tracker.get('worst_performers', [])
+        perf_rows = ''
+        for t in (top[:3] + worst[:2]):
+            ret = t.get('return_14d', 0) or 0
+            ret_color = '#10b981' if ret > 0 else '#ef4444'
+            sig_date = str(t.get('signal_date', ''))[:10]
+            perf_rows += (
+                f'<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:0.82em;">'
+                f'<span style="color:#ffffff;font-weight:600;">{t["ticker"]}</span>'
+                f'<span style="color:rgba(255,255,255,0.4);">{sig_date}</span>'
+                f'<span style="color:{ret_color};font-weight:600;">{ret:+.1f}%</span>'
+                f'</div>'
+            )
+
+        dd = tracker.get('avg_max_drawdown')
+        dd_html = f'<div style="font-size:0.78em;color:rgba(255,255,255,0.5);margin-top:8px;">Avg Max Drawdown: <span style="color:#ef4444;">{dd:.1f}%</span></div>' if dd is not None else ''
+
+        return f'''
+        <div class="section-card" style="border-top:3px solid #8b5cf6;margin-bottom:20px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                <div>
+                    <h2 class="section-title" style="margin:0;color:#c4b5fd;">Portfolio Tracker</h2>
+                    <p style="margin:4px 0 0;font-size:0.82em;color:rgba(255,255,255,0.5);">Rendimiento real de las recomendaciones · {tracker.get('total_signals', 0)} senales rastreadas</p>
+                </div>
+                <span style="background:rgba(139,92,246,0.15);color:#c4b5fd;padding:4px 10px;border-radius:20px;font-size:0.82em;font-weight:600;border:1px solid rgba(139,92,246,0.3);">{tracker.get('date_range', '')}</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));gap:12px;margin-bottom:12px;">
+                {"".join(cards)}
+            </div>
+            {f'<div style="margin-bottom:8px;font-size:0.82em;">{corr_html}</div>' if corr_html else ''}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div>
+                    <div style="font-size:0.78em;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:6px;">Top/Worst Performers (14d)</div>
+                    {perf_rows}
+                </div>
+                <div>
+                    {dd_html}
+                </div>
+            </div>
         </div>
         '''
 

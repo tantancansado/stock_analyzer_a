@@ -520,6 +520,13 @@ def _analyze_from_cache(ticker):
         "fcf_yield": fcf_yield,
         "roe": roe,
         "revenue_growth": rev_growth,
+        "dividend_yield": _sf(r5d.get('dividend_yield_pct')) if r5d is not None else None,
+        "payout_ratio": _sf(r5d.get('payout_ratio_pct')) if r5d is not None else None,
+        "buyback_active": bool(r5d.get('buyback_active')) if r5d is not None and pd.notna(r5d.get('buyback_active')) else None,
+        "shares_change": _sf(r5d.get('shares_change_pct')) if r5d is not None else None,
+        "interest_coverage": _sf(r5d.get('interest_coverage')) if r5d is not None else None,
+        "risk_reward": _sf(r5d.get('risk_reward')) if r5d is not None else None,
+        "analyst_revision": _sf(r5d.get('analyst_revision_momentum')) if r5d is not None else None,
         "fund_error": None,
 
         "next_earnings": next_earnings,

@@ -158,6 +158,9 @@ class FundamentalScorer:
                 # Target Prices (analyst consensus + fundamental-based)
                 **self._calculate_target_prices(info),
 
+                # Value Quality Metrics (FCF, dividends, buybacks, revisions, earnings cal)
+                **self._calculate_value_quality_metrics(stock, info),
+
                 # Timestamp
                 'analyzed_at': datetime.now().isoformat()
             }
@@ -799,6 +802,21 @@ class FundamentalScorer:
             'target_price_dcf_upside_pct': None,
             'target_price_pe':             None,
             'target_price_pe_upside_pct':  None,
+            # Value Quality Metrics
+            'fcf_yield_pct': None,
+            'fcf_per_share': None,
+            'dividend_yield_pct': None,
+            'payout_ratio_pct': None,
+            'dividend_rate': None,
+            'five_yr_avg_dividend_yield_pct': None,
+            'buyback_active': None,
+            'shares_change_pct': None,
+            'interest_coverage': None,
+            'analyst_revision_momentum': None,
+            'days_to_earnings': None,
+            'earnings_date': None,
+            'earnings_warning': False,
+            'earnings_catalyst': False,
             'analyzed_at': datetime.now().isoformat()
         }
 
@@ -899,6 +917,178 @@ class FundamentalScorer:
             'fifty_two_week_high':  float(high52) if high52 else None,
             'proximity_to_52w_high': proximity,
         }
+
+    def _calculate_value_quality_metrics(self, stock, info: Dict) -> Dict:
+        """
+        Métricas de calidad VALUE (Lynch/Buffett style):
+        - FCF Yield (Free Cash Flow / Market Cap)
+        - Dividend Quality (yield, payout ratio, growth)
+        - Buyback Detection (shares outstanding change)
+        - Interest Coverage (can the company pay its debt?)
+        - Analyst Revision Momentum (are estimates rising?)
+        - Earnings Calendar (days to next earnings)
+        """
+        result = {
+            # FCF
+            'fcf_yield_pct': None,
+            'fcf_per_share': None,
+            # Dividends
+            'dividend_yield_pct': None,
+            'payout_ratio_pct': None,
+            'dividend_rate': None,
+            'five_yr_avg_dividend_yield_pct': None,
+            # Buybacks
+            'buyback_active': None,
+            'shares_change_pct': None,
+            # Debt quality
+            'interest_coverage': None,
+            # Analyst revisions
+            'analyst_revision_momentum': None,  # positive = upgrades
+            # Earnings calendar
+            'days_to_earnings': None,
+            'earnings_date': None,
+            'earnings_warning': False,    # <7 days = danger
+            'earnings_catalyst': False,   # 7-21 days = catalyst
+        }
+
+        try:
+            current_price = info.get('currentPrice') or info.get('regularMarketPrice')
+            if not current_price or float(current_price) <= 0:
+                return result
+            current_price = float(current_price)
+            market_cap = info.get('marketCap')
+
+            # ── FCF YIELD ──────────────────────────────────────────────
+            fcf = info.get('freeCashflow')
+            shares = info.get('sharesOutstanding')
+            if fcf and market_cap and market_cap > 0:
+                result['fcf_yield_pct'] = round((float(fcf) / float(market_cap)) * 100, 2)
+            if fcf and shares and float(shares) > 0:
+                result['fcf_per_share'] = round(float(fcf) / float(shares), 2)
+
+            # ── DIVIDEND QUALITY ───────────────────────────────────────
+            div_yield = info.get('dividendYield')
+            if div_yield and div_yield > 0:
+                # yfinance dividendYield is already % (0.38 = 0.38%), not decimal
+                result['dividend_yield_pct'] = round(float(div_yield), 2)
+            div_rate = info.get('dividendRate')
+            if div_rate:
+                result['dividend_rate'] = round(float(div_rate), 2)
+            payout = info.get('payoutRatio')
+            if payout and payout > 0:
+                result['payout_ratio_pct'] = round(float(payout) * 100, 1)
+            five_yr = info.get('fiveYearAvgDividendYield')
+            if five_yr and five_yr > 0:
+                result['five_yr_avg_dividend_yield_pct'] = round(float(five_yr), 2)
+
+            # ── BUYBACK DETECTION ──────────────────────────────────────
+            # Compare current shares vs implied from historical market cap
+            try:
+                cashflow = stock.quarterly_cashflow
+                if cashflow is not None and not cashflow.empty:
+                    # Look for "Repurchase Of Capital Stock" in cashflow
+                    buyback_row = None
+                    for label in ['Repurchase Of Capital Stock', 'RepurchaseOfCapitalStock',
+                                  'Common Stock Repurchased']:
+                        if label in cashflow.index:
+                            buyback_row = cashflow.loc[label]
+                            break
+                    if buyback_row is not None:
+                        # Sum last 4 quarters of buybacks (negative = buying back)
+                        recent_buybacks = buyback_row.head(4).sum()
+                        if recent_buybacks < 0 and market_cap and market_cap > 0:
+                            buyback_pct = abs(float(recent_buybacks)) / float(market_cap) * 100
+                            result['buyback_active'] = True
+                            result['shares_change_pct'] = round(-buyback_pct, 2)
+                        else:
+                            result['buyback_active'] = False
+                            if recent_buybacks > 0 and market_cap and market_cap > 0:
+                                result['shares_change_pct'] = round(float(recent_buybacks) / float(market_cap) * 100, 2)
+                    else:
+                        result['buyback_active'] = False
+            except Exception:
+                pass
+
+            # ── INTEREST COVERAGE ──────────────────────────────────────
+            try:
+                financials = stock.quarterly_financials
+                if financials is not None and not financials.empty:
+                    ebit_val = None
+                    for label in ['EBIT', 'Operating Income', 'Total Operating Income As Reported']:
+                        if label in financials.index:
+                            ebit_val = financials.loc[label].head(4).sum()
+                            break
+                    # Interest from income statement
+                    interest_val = None
+                    for label in ['Interest Expense', 'InterestExpense']:
+                        if label in financials.index:
+                            val = financials.loc[label].head(4).sum()
+                            interest_val = abs(float(val)) if val else None
+                            break
+                    # Fallback: estimate from total debt × ~5% rate
+                    if not interest_val:
+                        total_debt = info.get('totalDebt')
+                        if total_debt and total_debt > 0:
+                            interest_val = float(total_debt) * 0.05  # estimate 5% rate
+                    if ebit_val and interest_val and interest_val > 0:
+                        result['interest_coverage'] = round(float(ebit_val) / float(interest_val), 1)
+            except Exception:
+                pass
+
+            # ── ANALYST REVISION MOMENTUM ──────────────────────────────
+            try:
+                rec_mean = info.get('recommendationMean')  # 1=Strong Buy, 5=Sell
+                num_analysts = info.get('numberOfAnalystOpinions', 0)
+                earnings_growth = info.get('earningsGrowth')  # YoY earnings growth estimate
+                eps_current = info.get('epsCurrentYear')
+                eps_next = info.get('epsNextYear')
+
+                # Method 1: next year vs current year EPS estimates
+                if eps_current and eps_next and abs(eps_current) > 0:
+                    implied_growth = ((eps_next - eps_current) / abs(eps_current)) * 100
+                # Method 2: use earningsGrowth from yfinance
+                elif earnings_growth:
+                    implied_growth = float(earnings_growth) * 100
+                else:
+                    implied_growth = None
+
+                if implied_growth is not None:
+                    # Weight by analyst conviction: strong buy = full weight
+                    if rec_mean and num_analysts and num_analysts >= 3:
+                        if rec_mean < 2.0:      # Strong Buy consensus
+                            weight = 1.0
+                        elif rec_mean < 2.5:    # Buy consensus
+                            weight = 0.7
+                        elif rec_mean < 3.5:    # Hold
+                            weight = 0.4
+                        else:                   # Sell
+                            weight = 0.2
+                        result['analyst_revision_momentum'] = round(implied_growth * weight, 1)
+                    else:
+                        result['analyst_revision_momentum'] = round(implied_growth * 0.5, 1)
+            except Exception:
+                pass
+
+            # ── EARNINGS CALENDAR ──────────────────────────────────────
+            try:
+                earnings_dates = stock.earnings_dates
+                if earnings_dates is not None and not earnings_dates.empty:
+                    today = pd.Timestamp.now(tz=earnings_dates.index.tz) if earnings_dates.index.tz else pd.Timestamp.now()
+                    future = earnings_dates[earnings_dates.index > today]
+                    if not future.empty:
+                        next_date = future.index[0]
+                        days_until = (next_date - today).days
+                        result['days_to_earnings'] = int(days_until)
+                        result['earnings_date'] = next_date.strftime('%Y-%m-%d')
+                        result['earnings_warning'] = days_until <= 7
+                        result['earnings_catalyst'] = 7 < days_until <= 21
+            except Exception:
+                pass
+
+        except Exception as e:
+            print(f"      ⚠️ Value quality metrics error: {e}")
+
+        return result
 
     def _calculate_target_prices(self, info: Dict) -> Dict:
         """
