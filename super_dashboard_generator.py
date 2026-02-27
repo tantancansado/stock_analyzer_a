@@ -127,7 +127,7 @@ class SuperDashboardGenerator:
             return []
 
     def _load_eu_value_opportunities(self):
-        """Carga oportunidades VALUE europeas"""
+        """Carga oportunidades VALUE europeas con tesis"""
         filtered_path = Path("docs/european_value_opportunities_filtered.csv")
         if filtered_path.exists():
             print("📊 Using AI-filtered EUROPEAN VALUE opportunities")
@@ -140,7 +140,15 @@ class SuperDashboardGenerator:
         try:
             df = pd.read_csv(path)
             df['value_score'] = pd.to_numeric(df.get('value_score', 0), errors='coerce').fillna(0)
-            return df.sort_values('value_score', ascending=False).head(15).to_dict('records')
+            records = df.sort_values('value_score', ascending=False).head(15).to_dict('records')
+            theses = self._load_theses()
+            for r in records:
+                ticker = r.get('ticker', '')
+                t = theses.get(f'{ticker}__value', theses.get(ticker, {}))
+                r['thesis_narrative'] = t.get('thesis_narrative', '')
+                r['thesis_signals'] = t.get('technical', {}).get('signals', [])
+                r['thesis_catalysts_insiders'] = t.get('catalysts', {}).get('insiders', [])
+            return records
         except Exception:
             return []
 
@@ -1861,8 +1869,29 @@ class SuperDashboardGenerator:
         m_color = market_colors.get(market, '#94a3b8')
         market_badge = f'<span style="color:{m_color};font-size:0.78em;font-weight:600;">{market}</span>'
 
+        # Thesis collapsible row
+        thesis_narrative = d.get('thesis_narrative', '')
+        thesis_signals = d.get('thesis_signals', [])
+        thesis_insiders = d.get('thesis_catalysts_insiders', [])
+        thesis_id = f'thesis-eu-{ticker.replace(".", "-")}'
+        if thesis_narrative:
+            thesis_html = self._format_thesis_html(thesis_narrative, thesis_signals, thesis_insiders)
+            ticker_cell = (f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;cursor:pointer;font-size:1.05em;" '
+                           f'onclick="var r=document.getElementById(\'{thesis_id}\');'
+                           f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
+                           f'{ticker} <span style="font-size:0.65em;color:#60a5fa;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
+            thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:rgba(59,130,246,0.08);">'
+                          f'<td colspan="10" style="padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.1);">'
+                          f'<div style="border-left:3px solid #3b82f6;padding-left:12px;'
+                          f'color:rgba(255,255,255,0.85);font-size:0.9em;line-height:1.7;">'
+                          f'<div style="font-weight:700;color:#ffffff;margin-bottom:8px;">Tesis de Inversion</div>'
+                          f'{thesis_html}</div></td></tr>')
+        else:
+            ticker_cell = f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;font-size:1.05em;">{ticker}</td>'
+            thesis_row = ''
+
         return (f'<tr style="border-bottom:1px solid rgba(255,255,255,0.06);">'
-                f'<td style="padding:10px 8px;font-weight:800;color:#ffffff;font-size:1.05em;">{ticker}</td>'
+                f'{ticker_cell}'
                 f'<td style="padding:10px 8px;color:rgba(255,255,255,0.65);font-size:0.9em;">{company}</td>'
                 f'<td style="padding:10px 8px;">{market_badge}</td>'
                 f'<td style="padding:10px 8px;">{price_str}</td>'
@@ -1874,7 +1903,7 @@ class SuperDashboardGenerator:
                 f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{fcf_str}</td>'
                 f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{div_str}</td>'
                 f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{rr_str}</td>'
-                f'</tr>')
+                f'</tr>{thesis_row}')
 
     def _generate_tracker_html(self, tracker: dict) -> str:
         """Genera HTML del Portfolio Tracker - performance real de las recomendaciones"""

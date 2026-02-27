@@ -979,16 +979,25 @@ def main():
     fund_path = Path("docs/fundamental_scores.csv")
     if fund_path.exists():
         fund_df = pd.read_csv(fund_path)
+    # Merge European fundamental scores if available
+    eu_fund_path = Path("docs/european_fundamental_scores.csv")
+    if eu_fund_path.exists():
+        eu_fund_df = pd.read_csv(eu_fund_path)
+        if fund_df is not None:
+            fund_df = pd.concat([fund_df, eu_fund_df], ignore_index=True)
+        else:
+            fund_df = eu_fund_df
 
     for opp_csv, score_col, label in [
         ("docs/value_opportunities.csv", "value_score", "VALUE"),
         ("docs/momentum_opportunities.csv", "momentum_score", "MOMENTUM"),
+        ("docs/european_value_opportunities_filtered.csv", "value_score", "EU_VALUE"),
     ]:
         opp_path = Path(opp_csv)
         if not opp_path.exists():
             continue
         opp_df = pd.read_csv(opp_path)
-        source_key = 'value' if label == 'VALUE' else 'momentum'
+        source_key = 'momentum' if label == 'MOMENTUM' else 'value'
         print(f"\n📊 Generando tesis {label} para todos los tickers...")
         for _, rec in opp_df.iterrows():
             ticker = str(rec.get('ticker', ''))
