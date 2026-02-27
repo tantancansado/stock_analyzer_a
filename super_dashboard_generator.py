@@ -69,13 +69,16 @@ class SuperDashboardGenerator:
     def _load_value_opportunities(self):
         """
         Carga oportunidades VALUE (Sección A - Principal)
-        Prioriza el archivo filtrado por IA si existe
+        Prioriza: conviction > AI-filtered > unfiltered
         """
-        # Try AI-filtered version first (high-quality opportunities only)
-        filtered_path = Path("docs/value_opportunities_filtered.csv")
-        if filtered_path.exists():
+        # Try conviction-filtered first (highest quality)
+        conviction_path = Path("docs/value_conviction.csv")
+        if conviction_path.exists() and conviction_path.stat().st_size > 50:
+            print("📊 Using CONVICTION-filtered VALUE opportunities")
+            path = conviction_path
+        elif Path("docs/value_opportunities_filtered.csv").exists():
             print("📊 Using AI-filtered VALUE opportunities")
-            path = filtered_path
+            path = Path("docs/value_opportunities_filtered.csv")
         else:
             print("⚠️  Using unfiltered VALUE opportunities (run ai_quality_filter.py)")
             path = Path("docs/value_opportunities.csv")
@@ -128,10 +131,13 @@ class SuperDashboardGenerator:
 
     def _load_eu_value_opportunities(self):
         """Carga oportunidades VALUE europeas con tesis"""
-        filtered_path = Path("docs/european_value_opportunities_filtered.csv")
-        if filtered_path.exists():
+        conviction_path = Path("docs/european_value_conviction.csv")
+        if conviction_path.exists() and conviction_path.stat().st_size > 50:
+            print("📊 Using CONVICTION-filtered EUROPEAN VALUE opportunities")
+            path = conviction_path
+        elif Path("docs/european_value_opportunities_filtered.csv").exists():
             print("📊 Using AI-filtered EUROPEAN VALUE opportunities")
-            path = filtered_path
+            path = Path("docs/european_value_opportunities_filtered.csv")
         else:
             path = Path("docs/european_value_opportunities.csv")
 

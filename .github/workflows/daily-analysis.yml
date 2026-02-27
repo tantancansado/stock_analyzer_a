@@ -69,6 +69,10 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 ai_quality_filter.py --european || echo "European AI filter failed"
 
+      - name: Conviction Filter (final quality gate)
+        continue-on-error: true
+        run: python3 conviction_filter.py || echo "Conviction filter failed"
+
       - name: Generate Investment Theses [CRITICAL]
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
