@@ -1773,8 +1773,9 @@ class SuperDashboardGenerator:
 
         # Market breakdown
         market_counts = Counter(d.get('market', '?') for d in eu_data)
+        pill_flags = {'DAX40': '🇩🇪', 'FTSE100': '🇬🇧', 'CAC40': '🇫🇷', 'IBEX35': '🇪🇸', 'AEX25': '🇳🇱', 'SMI20': '🇨🇭', 'FTSEMIB': '🇮🇹'}
         market_pills = ' '.join(
-            f'<span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);padding:2px 6px;border-radius:8px;font-size:0.72em;">{m}:{c}</span>'
+            f'<span style="background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);padding:2px 6px;border-radius:8px;font-size:0.72em;">{pill_flags.get(m, "")} {m}:{c}</span>'
             for m, c in market_counts.most_common()
         )
 
@@ -1912,14 +1913,20 @@ class SuperDashboardGenerator:
         else:
             target_cell = '<span style="color:#94a3b8;font-size:0.8em;">N/A</span>'
 
-        # Market badge color
+        # Market badge with country
+        market_countries = {
+            'DAX40': '🇩🇪', 'FTSE100': '🇬🇧', 'CAC40': '🇫🇷',
+            'IBEX35': '🇪🇸', 'AEX25': '🇳🇱', 'SMI20': '🇨🇭',
+            'FTSEMIB': '🇮🇹'
+        }
         market_colors = {
             'DAX40': '#fbbf24', 'FTSE100': '#ef4444', 'CAC40': '#3b82f6',
             'IBEX35': '#f97316', 'AEX25': '#f43f5e', 'SMI20': '#ef4444',
             'FTSEMIB': '#22c55e'
         }
         m_color = market_colors.get(market, '#94a3b8')
-        market_badge = f'<span style="color:{m_color};font-size:0.78em;font-weight:600;">{market}</span>'
+        m_flag = market_countries.get(market, '')
+        market_badge = f'<span style="color:{m_color};font-size:0.78em;font-weight:600;">{m_flag} {market}</span>'
 
         # Thesis collapsible row
         thesis_narrative = d.get('thesis_narrative', '')

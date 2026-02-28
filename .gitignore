@@ -1,107 +1,75 @@
-config.py
-amplitud_de_mercado.py
-amplitud_mercado_20251126_204803.png
-amplitud_mercado_simple.py
-breadth_raw_data.json
-breadth_scanner.py
-CAPTURA_TEST_20251126_204657.png
-sector_breadth_values.json
+# ─── Python ───
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
 
-# Telegram config (contiene credenciales sensibles)
+# ─── IDE / OS ───
+.DS_Store
+*.log
+.env
+
+# ─── Credentials / Sensitive ───
 config/telegram_config.json
+recoletas_config.json
+recoletas_token.json
+estado_documentos.json
 
-# Cache directories (analysis results, temporary data)
+# ─── Cache directories ───
 data/cache/
 data/backtest_cache/
 data/earnings_cache/
 data/sector_rotation_cache/
-docs/historical_scores/
-
-# Cache JSON files
-*_cache.json
-company_names_cache.json
-market_regime_cache.json
-sector_cache.json
-
-# EXCEPTION: Keep ticker data cache (used by ticker analyzer API)
-!docs/ticker_data_cache.json
-
-# VCP calibrated results (temporary analysis files)
-vcp_calibrated_results_*.csv
-
-# Backtest results (too large for git)
-docs/backtest/
-docs/optimization/
-docs/diagnostics/
-
-# Temporary reports
-docs/reports/vcp/vcp_scan_*/
-docs/reports/vcp/vcp_calibrated_results_*.csv
-docs/sector_rotation/scan_*.csv
-
-# Timestamped fundamental scores (temporary analysis)
-docs/fundamental_scores_*.json
-
-# Timestamped super scores (generated each run)
-docs/super_scores_ultimate_*.json
-
-# Validation reports (generated each run)
-docs/validation_report.json
 cache/validation/
-
-# Advanced filter caches
 cache/market_regime/
 cache/ma_filter/
 cache/ad_filter/
 cache/float_filter/
+
+# ─── Cache JSON files ───
+*_cache.json
+!docs/ticker_data_cache.json
+
+# ─── Temporary / generated data ───
+vcp_calibrated_results_*.csv
+market_indicators_*.csv
+market_indicators_*.json
+trading_scan_results_*.json
+
+# ─── Historical data (too large for git) ───
+docs/historical_scores/
+docs/backtest/
+docs/optimization/
+docs/diagnostics/
+docs/reports/vcp/vcp_scan_*/
+docs/reports/vcp/vcp_calibrated_results_*.csv
+docs/sector_rotation/scan_*.csv
+
+# ─── Timestamped pipeline outputs ───
+docs/fundamental_scores_*.json
+docs/super_scores_ultimate_*.json
+docs/validation_report.json
 docs/market_regime.json
 
-# Flask / Railway / Backend
-.env
-*.pyc
-__pycache__/
-*.log
-/tmp/
-flask_server.log
-flask_server.pid
-
-# Python virtual environments
-venv/
-env/
-.venv/
-
-# VCP scanner reports (timestamped)
+# ─── VCP scanner reports (timestamped) ───
 docs/reports/vcp/vcp_scanner_*.html
 
-# OS files
-.DS_Store
+# ─── Flask / Railway ───
+flask_server.log
+flask_server.pid
+/tmp/
 
-# Backtest cache with timestamps
-data/backtest_cache/*.csv
-
-# Untracked sector rotation and backtest results
-docs/sector_rotation/
-docs/optimization/
-
-# eRecoletas monitor (credenciales sensibles)
+# ─── eRecoletas (legacy) ───
 recoletas.py
 recoletas_auto.py
-recoletas_config.json
-recoletas_token.json
-estado_documentos.json
-descargas_recoletas/
-recoletas_monitor.log
-recoletas_monitor_error.log
-recoletas_auto.log
-recoletas_auto_error.log
-test_folders.py
-test_login.py
 setup_recoletas.py
-.gitignore
-RECOLETAS_README.md
-.gitignore
+descargas_recoletas/
+recoletas_monitor*.log
+recoletas_auto*.log
 com.recoletas.monitor.plist
 instalar_monitor.sh
-.gitignore
 instalar_recoletas_auto.sh
 refresh_local.sh
+RECOLETAS_README.md
