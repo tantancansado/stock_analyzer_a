@@ -32,6 +32,11 @@ class SuperDashboardGenerator:
         eu_value_data = self._load_eu_value_opportunities()
         tracker_data = self._load_tracker_summary()
 
+        # Deduplicate: remove EU tickers that also appear in US VALUE
+        if value_data and eu_value_data:
+            us_tickers = {d['ticker'] for d in value_data}
+            eu_value_data = [d for d in eu_value_data if d['ticker'] not in us_tickers]
+
         # Generate integrated insights
         insights = self._generate_insights(sector_data, opportunities_data, backtest_data, vcp_repeaters)
 
@@ -71,20 +76,29 @@ class SuperDashboardGenerator:
         Carga oportunidades VALUE (Sección A - Principal)
         Prioriza: conviction > AI-filtered > unfiltered
         """
-        # Try conviction-filtered first (highest quality)
-        conviction_path = Path("docs/value_conviction.csv")
-        if conviction_path.exists() and conviction_path.stat().st_size > 50:
-            print("📊 Using CONVICTION-filtered VALUE opportunities")
-            path = conviction_path
-        elif Path("docs/value_opportunities_filtered.csv").exists():
-            print("📊 Using AI-filtered VALUE opportunities")
-            path = Path("docs/value_opportunities_filtered.csv")
-        else:
-            print("⚠️  Using unfiltered VALUE opportunities (run ai_quality_filter.py)")
-            path = Path("docs/value_opportunities.csv")
-
-        if not path.exists():
+        # Try conviction-filtered first (highest quality), then AI-filtered, then unfiltered
+        # Each must have actual data rows (not just header)
+        candidates = [
+            ("docs/value_conviction.csv", "CONVICTION-filtered"),
+            ("docs/value_opportunities_filtered.csv", "AI-filtered"),
+            ("docs/value_opportunities.csv", "unfiltered"),
+        ]
+        path = None
+        for csv_path, label in candidates:
+            p = Path(csv_path)
+            if p.exists():
+                try:
+                    test_df = pd.read_csv(p)
+                    if len(test_df) > 0:
+                        print(f"📊 Using {label} VALUE opportunities ({len(test_df)} tickers)")
+                        path = p
+                        break
+                except Exception:
+                    continue
+        if path is None:
+            print("⚠️  No VALUE opportunities found")
             return []
+
         try:
             df = pd.read_csv(path)
             df['value_score'] = pd.to_numeric(df.get('value_score', 0), errors='coerce').fillna(0)
@@ -131,17 +145,24 @@ class SuperDashboardGenerator:
 
     def _load_eu_value_opportunities(self):
         """Carga oportunidades VALUE europeas con tesis"""
-        conviction_path = Path("docs/european_value_conviction.csv")
-        if conviction_path.exists() and conviction_path.stat().st_size > 50:
-            print("📊 Using CONVICTION-filtered EUROPEAN VALUE opportunities")
-            path = conviction_path
-        elif Path("docs/european_value_opportunities_filtered.csv").exists():
-            print("📊 Using AI-filtered EUROPEAN VALUE opportunities")
-            path = Path("docs/european_value_opportunities_filtered.csv")
-        else:
-            path = Path("docs/european_value_opportunities.csv")
-
-        if not path.exists():
+        candidates = [
+            ("docs/european_value_conviction.csv", "CONVICTION-filtered EU"),
+            ("docs/european_value_opportunities_filtered.csv", "AI-filtered EU"),
+            ("docs/european_value_opportunities.csv", "unfiltered EU"),
+        ]
+        path = None
+        for csv_path, label in candidates:
+            p = Path(csv_path)
+            if p.exists():
+                try:
+                    test_df = pd.read_csv(p)
+                    if len(test_df) > 0:
+                        print(f"📊 Using {label} VALUE opportunities ({len(test_df)} tickers)")
+                        path = p
+                        break
+                except Exception:
+                    continue
+        if path is None:
             return []
         try:
             df = pd.read_csv(path)
@@ -1496,6 +1517,17 @@ class SuperDashboardGenerator:
         else:
             earn_str = '<span style="color:#94a3b8;">-</span>'
 
+        # Conviction grade badge
+        grade = d.get('conviction_grade', '')
+        conv_score = d.get('conviction_score')
+        if grade and grade != '' and not (isinstance(grade, float) and pd.isna(grade)):
+            grade_colors = {'A': '#10b981', 'B': '#3b82f6', 'C': '#f59e0b', 'D': '#ef4444'}
+            gc = grade_colors.get(str(grade), '#94a3b8')
+            conv_title = f'Conviction {conv_score}/100' if conv_score and not pd.isna(conv_score) else ''
+            grade_str = f'<span style="background:{gc}22;color:{gc};padding:2px 6px;border-radius:4px;font-weight:700;font-size:0.85em;border:1px solid {gc}44;" title="{conv_title}">{grade}</span>'
+        else:
+            grade_str = '<span style="color:#94a3b8;">-</span>'
+
         if score >= 40:
             color = '#10b981'
         elif score >= 30:
@@ -1530,7 +1562,7 @@ class SuperDashboardGenerator:
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
                            f'{ticker} <span style="font-size:0.65em;color:#a5b4fc;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
             thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:rgba(99,102,241,0.08);">'
-                          f'<td colspan="9" style="padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.1);">'
+                          f'<td colspan="11" style="padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.1);">'
                           f'<div style="border-left:3px solid #6366f1;padding-left:12px;'
                           f'color:rgba(255,255,255,0.85);font-size:0.9em;line-height:1.7;">'
                           f'<div style="font-weight:700;color:#ffffff;margin-bottom:8px;">💡 Tesis de Inversión</div>'
@@ -1546,6 +1578,7 @@ class SuperDashboardGenerator:
                 f'<td style="padding:10px 8px;min-width:90px;">'
                 f'<span style="font-weight:700;color:{color};">{score:.1f}</span>'
                 f'{self._score_bar(score, color)}</td>'
+                f'<td style="padding:10px 8px;text-align:center;">{grade_str}</td>'
                 f'<td style="padding:10px 8px;color:rgba(255,255,255,0.5);font-size:0.82em;">{sector}</td>'
                 f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
                 f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{fcf_str}</td>'
@@ -1671,6 +1704,7 @@ class SuperDashboardGenerator:
                                 <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Empresa</th>
                                 <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Precio</th>
                                 <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Score</th>
+                                <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Conviction Grade (A=best)">Grade</th>
                                 <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Sector</th>
                                 <th style="padding:8px;text-align:right;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Precio objetivo analistas + upside">Objetivo</th>
                                 <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="FCF Yield = Free Cash Flow / Market Cap">FCF%</th>
@@ -1782,6 +1816,7 @@ class SuperDashboardGenerator:
                             <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Mercado</th>
                             <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Precio</th>
                             <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Score</th>
+                            <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Conviction Grade (A=best)">Grade</th>
                             <th style="padding:8px;text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;">Sector</th>
                             <th style="padding:8px;text-align:right;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="Precio objetivo analistas + upside">Objetivo</th>
                             <th style="padding:8px;text-align:center;color:rgba(255,255,255,0.6);font-weight:600;font-size:0.85em;text-transform:uppercase;letter-spacing:0.5px;" title="FCF Yield">FCF%</th>
@@ -1816,6 +1851,17 @@ class SuperDashboardGenerator:
             price_str = f'<span style="font-weight:600;">{curr_sym}{float(price):,.2f}</span>'
         else:
             price_str = '-'
+
+        # Conviction grade badge
+        grade = d.get('conviction_grade', '')
+        conv_score = d.get('conviction_score')
+        if grade and grade != '' and not (isinstance(grade, float) and pd.isna(grade)):
+            grade_colors = {'A': '#10b981', 'B': '#3b82f6', 'C': '#f59e0b', 'D': '#ef4444'}
+            gc = grade_colors.get(str(grade), '#94a3b8')
+            conv_title = f'Conviction {conv_score}/100' if conv_score and not pd.isna(conv_score) else ''
+            grade_str = f'<span style="background:{gc}22;color:{gc};padding:2px 6px;border-radius:4px;font-weight:700;font-size:0.85em;border:1px solid {gc}44;" title="{conv_title}">{grade}</span>'
+        else:
+            grade_str = '<span style="color:#94a3b8;">-</span>'
 
         # Score color
         if score >= 40:
@@ -1887,7 +1933,7 @@ class SuperDashboardGenerator:
                            f'r.style.display=r.style.display===\'none\'?\'table-row\':\'none\'">'
                            f'{ticker} <span style="font-size:0.65em;color:#60a5fa;vertical-align:middle;" title="Ver tesis">&#9432;</span></td>')
             thesis_row = (f'<tr id="{thesis_id}" style="display:none;background:rgba(59,130,246,0.08);">'
-                          f'<td colspan="10" style="padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.1);">'
+                          f'<td colspan="11" style="padding:12px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.1);">'
                           f'<div style="border-left:3px solid #3b82f6;padding-left:12px;'
                           f'color:rgba(255,255,255,0.85);font-size:0.9em;line-height:1.7;">'
                           f'<div style="font-weight:700;color:#ffffff;margin-bottom:8px;">Tesis de Inversion</div>'
@@ -1904,6 +1950,7 @@ class SuperDashboardGenerator:
                 f'<td style="padding:10px 8px;min-width:80px;">'
                 f'<span style="font-weight:700;color:{color};">{score:.1f}</span>'
                 f'{self._score_bar(min(score / 82 * 100, 100), color)}</td>'
+                f'<td style="padding:10px 8px;text-align:center;">{grade_str}</td>'
                 f'<td style="padding:10px 8px;color:rgba(255,255,255,0.5);font-size:0.82em;">{sector}</td>'
                 f'<td style="padding:10px 8px;text-align:right;font-size:0.82em;">{target_cell}</td>'
                 f'<td style="padding:10px 8px;text-align:center;font-size:0.82em;">{fcf_str}</td>'

@@ -126,7 +126,42 @@ class PortfolioTracker:
                     mom_recorded += 1
                 print(f"  Recorded {mom_recorded} MOMENTUM signals")
 
-        total = signals_recorded + mom_recorded
+        # Record EUROPEAN VALUE opportunities
+        eu_recorded = 0
+        eu_path = Path('docs/european_value_opportunities_filtered.csv')
+        if eu_path.exists():
+            edf = pd.read_csv(eu_path)
+            if not edf.empty:
+                for _, row in edf.iterrows():
+                    price = row.get('current_price', 0)
+                    if not price or pd.isna(price) or float(price) <= 0:
+                        continue
+                    rec = {
+                        'ticker': row['ticker'],
+                        'strategy': 'EU_VALUE',
+                        'signal_date': today,
+                        'signal_price': float(price),
+                        'value_score': row.get('value_score'),
+                        'momentum_score': None,
+                        'fcf_yield_pct': row.get('fcf_yield_pct'),
+                        'risk_reward_ratio': row.get('risk_reward_ratio'),
+                        'analyst_upside_pct': row.get('analyst_upside_pct'),
+                        'sector': row.get('sector', 'N/A'),
+                        'market_regime': row.get('market_regime', 'N/A'),
+                        'return_7d': None, 'return_14d': None, 'return_30d': None,
+                        'price_7d': None, 'price_14d': None, 'price_30d': None,
+                        'win_7d': None, 'win_14d': None, 'win_30d': None,
+                        'max_drawdown_30d': None,
+                        'status': 'ACTIVE'
+                    }
+                    self.recommendations = pd.concat(
+                        [self.recommendations, pd.DataFrame([rec])],
+                        ignore_index=True
+                    )
+                    eu_recorded += 1
+                print(f"  Recorded {eu_recorded} EU_VALUE signals")
+
+        total = signals_recorded + mom_recorded + eu_recorded
         print(f"  Total new signals recorded: {total}")
         self._save_recommendations()
 

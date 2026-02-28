@@ -61,7 +61,9 @@ def _load_json(path):
 # CSVs del pipeline diario
 DF_5D        = _load_csv(DOCS / 'super_opportunities_5d_complete_with_earnings.csv')
 DF_ML        = _load_csv(DOCS / 'ml_scores.csv')
-DF_FUND      = _load_csv(DOCS / 'fundamental_scores.csv')
+DF_FUND_US   = _load_csv(DOCS / 'fundamental_scores.csv')
+DF_FUND_EU   = _load_csv(DOCS / 'european_fundamental_scores.csv')
+DF_FUND      = pd.concat([DF_FUND_US, DF_FUND_EU]) if not DF_FUND_EU.empty else DF_FUND_US
 DF_SCORES    = _load_csv(DOCS / 'super_scores_ultimate.csv')
 DF_INSIDERS  = _load_csv(DOCS / 'recurring_insiders.csv')
 DF_REVERSION = _load_csv(DOCS / 'mean_reversion_opportunities.csv')
@@ -69,7 +71,7 @@ DF_OPTIONS   = _load_csv(DOCS / 'options_flow.csv')
 DF_PRICES    = _load_csv(DOCS / 'super_opportunities_with_prices.csv')
 TICKER_CACHE = _load_json(DOCS / 'ticker_data_cache.json')
 
-print(f"✅ Cache cargado: {len(DF_5D)} tickers 5D | {len(DF_ML)} ML | {len(DF_FUND)} fund | {len(TICKER_CACHE)} ticker_cache")
+print(f"✅ Cache cargado: {len(DF_5D)} tickers 5D | {len(DF_ML)} ML | {len(DF_FUND)} fund (US:{len(DF_FUND_US)}+EU:{len(DF_FUND_EU)}) | {len(TICKER_CACHE)} ticker_cache")
 print(f"   Insiders: {len(DF_INSIDERS)} | Mean Rev: {len(DF_REVERSION)} | Options: {len(DF_OPTIONS)}")
 
 

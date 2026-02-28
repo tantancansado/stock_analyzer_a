@@ -230,6 +230,14 @@ class SuperScoreIntegrator:
             'analyst_count', 'analyst_recommendation', 'analyst_upside_pct',
             'target_price_dcf', 'target_price_dcf_upside_pct',
             'target_price_pe', 'target_price_pe_upside_pct',
+            # Value Quality Metrics (FCF, dividends, buyback, earnings timing)
+            'fcf_yield_pct', 'fcf_per_share',
+            'dividend_yield_pct', 'payout_ratio_pct', 'five_yr_avg_dividend_yield_pct',
+            'buyback_active', 'shares_change_pct',
+            'interest_coverage',
+            'analyst_revision_momentum',
+            'days_to_earnings', 'earnings_date', 'earnings_warning', 'earnings_catalyst',
+            'risk_reward_ratio',
         ]
         available_cols = [col for col in cols if col in df.columns]
 

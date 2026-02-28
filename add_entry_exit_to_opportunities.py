@@ -218,12 +218,92 @@ def add_entry_exit_prices(input_file: str = None, output_file: str = None):
             print(f"   Failed tickers: {', '.join(failed)}")
 
 
+def _enrich_csv_with_entry_exit(input_file: str):
+    """
+    Enrich a CSV in-place with entry/exit columns.
+    Reads the file, adds entry/exit data, writes back to same file.
+    Only updates rows where entry/exit was successfully calculated.
+    Preserves ALL original rows (doesn't drop any).
+    """
+    p = Path(input_file)
+    if not p.exists():
+        return
+    df = pd.read_csv(input_file)
+    if df.empty:
+        print(f"  {input_file} is empty, skipping")
+        return
+
+    print(f"\n📊 Enriching {input_file} with entry/exit ({len(df)} tickers)")
+    calc = EntryExitCalculator()
+
+    for idx, row in df.head(50).iterrows():
+        ticker = row['ticker']
+        if idx > 0:
+            time.sleep(YF_DELAY_BETWEEN_TICKERS)
+        try:
+            data = fetch_ticker_yfinance(ticker)
+            if not data:
+                continue
+            hist = data['hist']
+            hist.columns = [col.lower() for col in hist.columns]
+            current_price = data['current_price']
+
+            vcp_analysis = {'score': row.get('vcp_score', 0), 'pattern_detected': False}
+            fundamental_data = {'pe_ratio': row.get('pe_ratio'), 'peg_ratio': row.get('peg_ratio')}
+            year_high = data.get('52_week_high')
+            price_vs_ath = ((current_price - year_high) / year_high * 100) if year_high and year_high > 0 else None
+
+            entry_exit = calc.calculate_entry_exit(
+                ticker=ticker, current_price=current_price, hist=hist,
+                vcp_analysis=vcp_analysis, fundamental_data=fundamental_data,
+                validation={'price_vs_ath': price_vs_ath}
+            )
+
+            df.at[idx, 'entry_price'] = entry_exit['entry_price']
+            df.at[idx, 'stop_loss'] = entry_exit['stop_loss']
+            df.at[idx, 'exit_price'] = entry_exit['exit_price']
+            df.at[idx, 'risk_pct'] = entry_exit['risk_pct']
+            df.at[idx, 'reward_pct'] = entry_exit['reward_pct']
+            df.at[idx, 'entry_timing'] = entry_exit['entry_timing']
+            print(f"  [{idx+1}] {ticker}: Entry ${entry_exit['entry_price']:.2f} → Target ${entry_exit['exit_price']:.2f}")
+
+        except Exception as e:
+            print(f"  [{idx+1}] {ticker}: Error {str(e)[:60]}")
+            continue
+
+    # Save back — ALL rows preserved, entry/exit columns added where available
+    df.to_csv(input_file, index=False)
+    print(f"  Saved {input_file}")
+
+
+def add_entry_exit_all():
+    """Run entry/exit for all opportunity types: momentum, US VALUE, EU VALUE"""
+    # 1. Momentum (original behavior — separate output file)
+    add_entry_exit_prices()
+
+    # 2. US VALUE — enrich in-place (preserves all rows)
+    for vf in ['docs/value_opportunities_filtered.csv', 'docs/value_opportunities.csv']:
+        if Path(vf).exists() and pd.read_csv(vf).shape[0] > 0:
+            _enrich_csv_with_entry_exit(vf)
+            break
+
+    # 3. EU VALUE — enrich in-place (preserves all rows)
+    for ef in ['docs/european_value_opportunities_filtered.csv', 'docs/european_value_opportunities.csv']:
+        if Path(ef).exists() and pd.read_csv(ef).shape[0] > 0:
+            _enrich_csv_with_entry_exit(ef)
+            break
+
+
 if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description='Add entry/exit prices to opportunities')
     parser.add_argument('--input', type=str, help='Input CSV file')
     parser.add_argument('--output', type=str, help='Output CSV file')
+    parser.add_argument('--all', action='store_true', help='Process all opportunity types (momentum + VALUE + EU)')
     args = parser.parse_args()
 
-    add_entry_exit_prices(args.input, args.output)
+    if args.all:
+        add_entry_exit_all()
+    else:
+        add_entry_exit_prices(args.input, args.output)

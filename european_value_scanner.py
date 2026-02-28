@@ -370,8 +370,17 @@ def run_european_scanner(max_tickers: int = None, skip_scoring: bool = False):
     # 2. Score fundamentals (or load existing)
     scores_path = Path('docs/european_fundamental_scores.csv')
 
-    if skip_scoring and scores_path.exists():
-        print(f"\nCargando scores existentes de {scores_path}")
+    # Auto-skip if CSV is fresh (<24h old)
+    auto_skip = False
+    if scores_path.exists() and not skip_scoring:
+        import os
+        file_age_hours = (time.time() - os.path.getmtime(scores_path)) / 3600
+        if file_age_hours < 24:
+            auto_skip = True
+            print(f"\nCSV reciente ({file_age_hours:.1f}h) — reutilizando scores existentes")
+
+    if (skip_scoring or auto_skip) and scores_path.exists():
+        print(f"Cargando scores existentes de {scores_path}")
         df = pd.read_csv(scores_path)
     else:
         df = score_european_tickers(max_tickers=max_tickers)

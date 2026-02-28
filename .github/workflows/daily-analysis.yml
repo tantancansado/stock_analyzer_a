@@ -48,6 +48,9 @@ jobs:
       - name: Run 5D Super Analyzer [CRITICAL]
         run: python3 run_super_analyzer_4d.py
 
+      - name: Fundamental Scoring [CRITICAL - before integrator]
+        run: python3 fundamental_scorer.py --vcp --5d --value --top 100
+
       - name: Run Super Score Integration [CRITICAL]
         run: python3 super_score_integrator.py
 
@@ -55,9 +58,6 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 ai_quality_filter.py
-
-      - name: Calculate Entry/Exit Prices [CRITICAL]
-        run: python3 add_entry_exit_to_opportunities.py
 
       - name: European Value Scanner
         continue-on-error: true
@@ -68,6 +68,10 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 ai_quality_filter.py --european || echo "European AI filter failed"
+
+      - name: Calculate Entry/Exit Prices (all strategies)
+        continue-on-error: true
+        run: python3 add_entry_exit_to_opportunities.py --all
 
       - name: Conviction Filter (final quality gate)
         continue-on-error: true
@@ -146,10 +150,6 @@ jobs:
       - name: VCP Scanner S&P500
         continue-on-error: true
         run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP Scanner failed"
-
-      - name: Fundamental Scoring
-        continue-on-error: true
-        run: python3 fundamental_scorer.py --vcp --5d --value --top 100 || echo "Fundamental scoring failed"
 
       - name: ML Scoring
         continue-on-error: true

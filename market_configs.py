@@ -33,7 +33,7 @@ DAX40_SYMBOLS = [
     "MRK.DE",       # Merck KGaA
     "MUV2.DE",      # Munich Re
     "RWE.DE",       # RWE AG
-    "DPW.DE",       # Deutsche Post AG
+    "ENR.DE",       # Siemens Energy AG
     "ADS.DE",       # Adidas AG
     "BEI.DE",       # Beiersdorf AG
     "CON.DE",       # Continental AG
@@ -49,7 +49,7 @@ DAX40_SYMBOLS = [
     "PUM.DE",       # Puma SE
     "QIA.DE",       # Qiagen NV
     "RHM.DE",       # Rheinmetall AG
-    "SAZ.DE",       # Sartorius AG
+    "SRT3.DE",      # Sartorius AG (preferred)
     "SHL.DE",       # Siemens Healthineers AG
     "SY1.DE",       # Symrise AG
     "VNA.DE",       # Vonovia SE
@@ -121,7 +121,7 @@ CAC40_SYMBOLS = [
     "HO.PA",        # Thales
     "SGO.PA",       # Saint-Gobain
     "VIV.PA",       # Vivendi
-    "STM.PA",       # STMicroelectronics (listed Paris)
+    "MT.PA",        # ArcelorMittal SA
     "GLE.PA",       # Societe Generale
     "CA.PA",        # Carrefour
     "CAP.PA",       # Capgemini
@@ -141,7 +141,7 @@ CAC40_SYMBOLS = [
     "ALO.PA",       # Alstom
     "ATO.PA",       # Atos
     "WLN.PA",       # Worldline
-    "MT.PA",        # ArcelorMittal
+    "STM.PA",       # STMicroelectronics NV
 ]
 
 IBEX35_SYMBOLS = [
@@ -161,7 +161,7 @@ IBEX35_SYMBOLS = [
     "MAP.MC",       # Mapfre
     "IAG.MC",       # IAG (Iberia/BA parent)
     "GRF.MC",       # Grifols
-    "REE.MC",       # Red Electrica
+    "RED.MC",       # Redeia Corporacion SA (ex Red Electrica)
     "MRL.MC",       # Merlin Properties
     "CLNX.MC",      # Cellnex Telecom
     "FDR.MC",       # Fluidra
@@ -177,14 +177,14 @@ AEX25_SYMBOLS = [
     "AD.AS",        # Ahold Delhaize
     "HEIA.AS",      # Heineken
     "WKL.AS",       # Wolters Kluwer
-    "DSM.AS",       # DSM-Firmenich
+    "RAND.AS",      # Randstad NV
     "AKZA.AS",      # Akzo Nobel
-    "ASR.AS",       # ASR Nederland
+    "ASRNL.AS",     # ASR Nederland NV
     "NN.AS",        # NN Group
     "AGN.AS",       # Aegon
     "KPN.AS",       # KPN
-    "RAND.AS",      # Randstad
-    "URW.AS",       # Unibail-Rodamco (Amsterdam)
+    "DSM.AS",       # DSM-Firmenich AG
+    "ASM.AS",       # ASM International NV
     "PRX.AS",       # Prosus
     "IMCD.AS",      # IMCD
     "ABN.AS",       # ABN AMRO
@@ -198,7 +198,7 @@ SMI20_SYMBOLS = [
     "NOVN.SW",      # Novartis
     "ROG.SW",       # Roche
     "UBSG.SW",      # UBS Group
-    "CSGN.SW",      # Credit Suisse (now UBS)
+    "BAER.SW",      # Julius Baer Group AG
     "ZURN.SW",      # Zurich Insurance
     "ABBN.SW",      # ABB
     "SREN.SW",      # Swiss Re
@@ -209,7 +209,7 @@ SMI20_SYMBOLS = [
     "SCMN.SW",      # Swisscom
     "SLHN.SW",      # Swiss Life
     "PGHN.SW",      # Partners Group
-    "BALN.SW",      # Baloise Holding
+    "SGSN.SW",      # SGS SA
     "HOLN.SW",      # Holcim
     "SCHP.SW",      # Schindler
     "LOGN.SW",      # Logitech
