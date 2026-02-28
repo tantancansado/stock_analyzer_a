@@ -33,7 +33,7 @@ class PortfolioTracker:
         if RECOMMENDATIONS_FILE.exists():
             return pd.read_csv(RECOMMENDATIONS_FILE, parse_dates=['signal_date'])
         return pd.DataFrame(columns=[
-            'ticker', 'strategy', 'signal_date', 'signal_price',
+            'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
             'analyst_upside_pct', 'sector', 'market_regime',
             'return_7d', 'return_14d', 'return_30d',
@@ -68,6 +68,7 @@ class PortfolioTracker:
                         continue
                     rec = {
                         'ticker': row['ticker'],
+                        'company_name': str(row.get('company_name') or row['ticker']),
                         'strategy': 'VALUE',
                         'signal_date': today,
                         'signal_price': float(price),
@@ -103,6 +104,7 @@ class PortfolioTracker:
                         continue
                     rec = {
                         'ticker': row['ticker'],
+                        'company_name': str(row.get('company_name') or row['ticker']),
                         'strategy': 'MOMENTUM',
                         'signal_date': today,
                         'signal_price': float(price),
@@ -138,6 +140,7 @@ class PortfolioTracker:
                         continue
                     rec = {
                         'ticker': row['ticker'],
+                        'company_name': str(row.get('company_name') or row['ticker']),
                         'strategy': 'EU_VALUE',
                         'signal_date': today,
                         'signal_price': float(price),
@@ -299,14 +302,35 @@ class PortfolioTracker:
             if len(valid) >= 5:
                 score_corr = round(valid['value_score'].corr(valid['return_14d']), 3)
 
+        # Ensure company_name column exists (backfill from ticker for old rows)
+        if 'company_name' not in df.columns:
+            df['company_name'] = df['ticker']
+        else:
+            df['company_name'] = df['company_name'].fillna(df['ticker'])
+
         # Top/Bottom performers
+        perf_cols = ['ticker', 'company_name', 'strategy', 'signal_date', 'signal_price', 'return_14d']
         if df['return_14d'].notna().sum() > 0:
             sorted_df = df[df['return_14d'].notna()].sort_values('return_14d', ascending=False)
-            top5 = sorted_df.head(5)[['ticker', 'strategy', 'signal_date', 'signal_price', 'return_14d']].to_dict('records')
-            bottom5 = sorted_df.tail(5)[['ticker', 'strategy', 'signal_date', 'signal_price', 'return_14d']].to_dict('records')
+            top5 = sorted_df.head(5)[perf_cols].to_dict('records')
+            bottom5 = sorted_df.tail(5)[perf_cols].to_dict('records')
         else:
             top5 = []
             bottom5 = []
+
+        # Recent active signals (last 20, most recent first) — shown while waiting for returns
+        active_df = df[df['status'] == 'ACTIVE'].sort_values('signal_date', ascending=False)
+        signal_cols = ['ticker', 'company_name', 'strategy', 'signal_date', 'signal_price', 'sector', 'value_score']
+        recent_signals = active_df.head(20)[
+            [c for c in signal_cols if c in active_df.columns]
+        ].to_dict('records')
+        # Add days_active and first_result_date for UI display
+        today_ts = pd.Timestamp.now().normalize()
+        for s in recent_signals:
+            sig_dt = pd.Timestamp(s['signal_date'])
+            s['days_active'] = int((today_ts - sig_dt).days)
+            s['first_result_date'] = (sig_dt + pd.Timedelta(days=7)).strftime('%Y-%m-%d')
+            s['signal_date'] = sig_dt.strftime('%Y-%m-%d')
 
         summary = {
             'total_signals': total,
@@ -339,6 +363,7 @@ class PortfolioTracker:
             'score_correlation': score_corr,
             'top_performers': top5,
             'worst_performers': bottom5,
+            'recent_signals': recent_signals,
 
             'avg_max_drawdown': round(df['max_drawdown_30d'].mean(), 2) if df['max_drawdown_30d'].notna().sum() > 0 else None,
 

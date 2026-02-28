@@ -59,6 +59,10 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 ai_quality_filter.py
 
+      - name: European Insider Scanner
+        continue-on-error: true
+        run: python3 european_insider_scanner.py || echo "European insider scanner failed"
+
       - name: European Value Scanner
         continue-on-error: true
         run: python3 european_value_scanner.py || echo "European scanner failed"
@@ -169,6 +173,64 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 auto_telegram_alerts.py || echo "Telegram alerts failed"
+
+      # ============================================================================
+      # CSV HISTORICAL ARCHIVE (Always runs)
+      # ============================================================================
+
+      - name: Archive daily CSV snapshot
+        if: always()
+        run: |
+          SCAN_DATE=$(date +%Y-%m-%d)
+          ARCHIVE_DIR="docs/history/${SCAN_DATE}"
+          mkdir -p "${ARCHIVE_DIR}"
+
+          # Archive key CSVs
+          for f in \
+            docs/value_opportunities.csv \
+            docs/value_conviction.csv \
+            docs/european_value_opportunities.csv \
+            docs/european_value_conviction.csv \
+            docs/mean_reversion_opportunities.csv \
+            docs/recurring_insiders.csv \
+            docs/eu_recurring_insiders.csv \
+            docs/momentum_opportunities.csv \
+            docs/fundamental_scores.csv \
+            docs/options_flow.csv; do
+            [ -f "$f" ] && cp "$f" "${ARCHIVE_DIR}/" && echo "Archived: $f"
+          done
+
+          # Prune archive: keep only last 45 days
+          python3 -c "
+          import os, shutil
+          from datetime import datetime, timedelta
+          history_dir = 'docs/history'
+          if not os.path.isdir(history_dir): exit()
+          cutoff = (datetime.now() - timedelta(days=45)).strftime('%Y-%m-%d')
+          for d in sorted(os.listdir(history_dir)):
+              if d < cutoff and os.path.isdir(os.path.join(history_dir, d)):
+                  shutil.rmtree(os.path.join(history_dir, d))
+                  print(f'Pruned old snapshot: {d}')
+          " || echo "Prune step skipped"
+
+          # Regenerate history index.json
+          python3 -c "
+          import os, json
+          from datetime import datetime
+          history_dir = 'docs/history'
+          snapshots = []
+          if os.path.isdir(history_dir):
+              for d in sorted(os.listdir(history_dir), reverse=True):
+                  full = os.path.join(history_dir, d)
+                  if os.path.isdir(full):
+                      files = [f for f in os.listdir(full) if f.endswith('.csv')]
+                      if files:
+                          snapshots.append({'date': d, 'files': sorted(files)})
+          index = {'updated': datetime.now().strftime('%Y-%m-%d'), 'snapshots': snapshots}
+          with open('docs/history/index.json', 'w') as fh:
+              json.dump(index, fh, indent=2)
+          print(f'History index: {len(snapshots)} snapshots')
+          " || echo "History index failed"
 
       # ============================================================================
       # COMMIT & PUSH (Always runs)

@@ -9,16 +9,28 @@ Ejecutar:
     python3 ticker_api.py
 
 API:
-    GET /api/analyze/<ticker>   → análisis completo en JSON
-    GET /api/health             → estado del servidor
-    GET /api/tickers            → lista de tickers en cache
+    GET /api/analyze/<ticker>           → análisis completo en JSON
+    GET /api/health                     → estado del servidor
+    GET /api/tickers                    → lista de tickers en cache
+    GET /api/value-opportunities        → VALUE picks (US)
+    GET /api/eu-value-opportunities     → VALUE picks (EU)
+    GET /api/momentum-opportunities     → Momentum picks
+    GET /api/sector-rotation            → Sector rotation data
+    GET /api/options-flow               → Options flow data
+    GET /api/mean-reversion             → Mean reversion opportunities
+    GET /api/recurring-insiders         → Recurring insider buys
+    GET /api/portfolio-tracker          → Portfolio tracker summary
+    GET /api/market-regime              → US + EU market regime
+    GET /api/backtest                   → Latest backtest results
+    GET /api/theses/<ticker>            → Investment thesis for ticker
+    GET /api/search?q=<query>          → Autocomplete: ticker/empresa
 
 Puerto: 5002 (local) | PORT env var (Railway)
 
 PRINCIPIO: null si no hay dato, nunca 50 inventado.
 """
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pandas as pd
 import json
@@ -65,11 +77,19 @@ DF_FUND_US   = _load_csv(DOCS / 'fundamental_scores.csv')
 DF_FUND_EU   = _load_csv(DOCS / 'european_fundamental_scores.csv')
 DF_FUND      = pd.concat([DF_FUND_US, DF_FUND_EU]) if not DF_FUND_EU.empty else DF_FUND_US
 DF_SCORES    = _load_csv(DOCS / 'super_scores_ultimate.csv')
-DF_INSIDERS  = _load_csv(DOCS / 'recurring_insiders.csv')
-DF_REVERSION = _load_csv(DOCS / 'mean_reversion_opportunities.csv')
-DF_OPTIONS   = _load_csv(DOCS / 'options_flow.csv')
-DF_PRICES    = _load_csv(DOCS / 'super_opportunities_with_prices.csv')
-TICKER_CACHE = _load_json(DOCS / 'ticker_data_cache.json')
+_df_ins_us   = _load_csv(DOCS / 'recurring_insiders.csv')
+_df_ins_eu   = _load_csv(DOCS / 'eu_recurring_insiders.csv')
+# Add market column to US insiders if not present
+if not _df_ins_us.empty and 'market' not in _df_ins_us.columns:
+    _df_ins_us['market'] = 'US'
+# Merge US + EU into one DataFrame
+DF_INSIDERS  = pd.concat([_df_ins_us, _df_ins_eu], ignore_index=True) if not _df_ins_eu.empty else _df_ins_us
+DF_REVERSION  = _load_csv(DOCS / 'mean_reversion_opportunities.csv')
+DF_OPTIONS    = _load_csv(DOCS / 'options_flow.csv')
+DF_PRICES     = _load_csv(DOCS / 'super_opportunities_with_prices.csv')
+DF_POSITIONS  = _load_csv(DOCS / 'position_sizing.csv')
+DF_INDUSTRIES = _load_csv(DOCS / 'industry_group_rankings.csv')
+TICKER_CACHE  = _load_json(DOCS / 'ticker_data_cache.json')
 
 print(f"✅ Cache cargado: {len(DF_5D)} tickers 5D | {len(DF_ML)} ML | {len(DF_FUND)} fund (US:{len(DF_FUND_US)}+EU:{len(DF_FUND_EU)}) | {len(TICKER_CACHE)} ticker_cache")
 print(f"   Insiders: {len(DF_INSIDERS)} | Mean Rev: {len(DF_REVERSION)} | Options: {len(DF_OPTIONS)}")
@@ -133,6 +153,37 @@ def _notna_str(row, key, fallback=''):
 # ─────────────────────────────────────────────────────────────────────────────
 # ANÁLISIS DESDE CACHE (rápido, funciona en Railway)
 # ─────────────────────────────────────────────────────────────────────────────
+
+def _parse_health_earnings(rfund):
+    """Parse health_details and earnings_details JSON strings from fundamental_scores row."""
+    result = {
+        "current_ratio": None, "operating_margin_pct": None,
+        "debt_to_equity_fund": None, "profit_margin_pct": None,
+        "fcf_per_share": None,
+    }
+    if rfund is None:
+        return result
+    try:
+        hd = rfund.get('health_details')
+        if hd is not None and not (isinstance(hd, float) and pd.isna(hd)):
+            hd_str = str(hd).replace("'", '"')
+            hd_dict = json.loads(hd_str)
+            result["current_ratio"]        = _sf(hd_dict.get('current_ratio'))
+            result["operating_margin_pct"] = _sf(hd_dict.get('operating_margin_pct'))
+            result["debt_to_equity_fund"]  = _sf(hd_dict.get('debt_to_equity'))
+    except Exception:
+        pass
+    try:
+        ed = rfund.get('earnings_details')
+        if ed is not None and not (isinstance(ed, float) and pd.isna(ed)):
+            ed_str = str(ed).replace("'", '"')
+            ed_dict = json.loads(ed_str)
+            result["profit_margin_pct"] = _sf(ed_dict.get('profit_margin_pct'))
+    except Exception:
+        pass
+    result["fcf_per_share"] = _sf(rfund.get('fcf_per_share'))
+    return result
+
 
 def _analyze_from_cache(ticker):
     """Construye la respuesta completa usando los CSVs del pipeline diario.
@@ -526,13 +577,18 @@ def _analyze_from_cache(ticker):
         "payout_ratio": _sf(r5d.get('payout_ratio_pct')) if r5d is not None else None,
         "buyback_active": bool(r5d.get('buyback_active')) if r5d is not None and pd.notna(r5d.get('buyback_active')) else None,
         "shares_change": _sf(r5d.get('shares_change_pct')) if r5d is not None else None,
-        "interest_coverage": _sf(r5d.get('interest_coverage')) if r5d is not None else None,
+        "interest_coverage": _sf(r5d.get('interest_coverage')) if r5d is not None else _sf(rfund.get('interest_coverage')) if rfund is not None else None,
         "risk_reward": _sf(r5d.get('risk_reward')) if r5d is not None else None,
         "analyst_revision": _sf(r5d.get('analyst_revision_momentum')) if r5d is not None else None,
         "fund_error": None,
 
+        # ── Health & earnings details from fundamental_scores.csv ──────────
+        **_parse_health_earnings(rfund),
+
         "next_earnings": next_earnings,
         "days_to_earnings": days_to_earn,
+        "earnings_warning": bool(rfund.get('earnings_warning')) if rfund is not None and pd.notna(rfund.get('earnings_warning')) else None,
+        "earnings_catalyst": bool(rfund.get('earnings_catalyst')) if rfund is not None and pd.notna(rfund.get('earnings_catalyst')) else None,
 
         "insider_recurring": insider_info,
         "mean_reversion": mean_reversion,
@@ -936,6 +992,257 @@ def analyze(ticker):
             "traceback": tb,
             "ticker": ticker,
         }), 500
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DASHBOARD DATA ENDPOINTS (for React frontend)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _csv_to_json_response(csv_candidates):
+    """Smart fallback: try CSV files in order, return first with data."""
+    for csv_path, label in csv_candidates:
+        p = Path(csv_path)
+        if p.exists():
+            try:
+                df = pd.read_csv(p)
+                if len(df) > 0:
+                    # Use pandas to_json to safely convert NaN → null (valid JSON)
+                    # df.to_dict() with Python's json module would emit NaN literals (invalid JSON)
+                    records = json.loads(df.to_json(orient='records'))
+                    return jsonify({
+                        "data": records,
+                        "count": len(df),
+                        "source": label,
+                    })
+            except Exception:
+                continue
+    return jsonify({"data": [], "count": 0, "source": "none"})
+
+
+@app.route('/api/value-opportunities')
+def value_opportunities():
+    return _csv_to_json_response([
+        (DOCS / 'value_conviction.csv', 'conviction'),
+        (DOCS / 'value_opportunities_filtered.csv', 'ai_filtered'),
+        (DOCS / 'value_opportunities.csv', 'unfiltered'),
+    ])
+
+
+@app.route('/api/eu-value-opportunities')
+def eu_value_opportunities():
+    return _csv_to_json_response([
+        (DOCS / 'european_value_conviction.csv', 'conviction'),
+        (DOCS / 'european_value_opportunities_filtered.csv', 'ai_filtered'),
+        (DOCS / 'european_value_opportunities.csv', 'unfiltered'),
+    ])
+
+
+@app.route('/api/momentum-opportunities')
+def momentum_opportunities():
+    return _csv_to_json_response([
+        (DOCS / 'momentum_opportunities_filtered.csv', 'ai_filtered'),
+        (DOCS / 'momentum_opportunities.csv', 'unfiltered'),
+    ])
+
+
+@app.route('/api/sector-rotation')
+def sector_rotation():
+    data = _load_json(DOCS / 'sector_rotation' / 'latest_scan.json')
+    return jsonify(data if data else {"results": [], "alerts": [], "opportunities": []})
+
+
+@app.route('/api/options-flow')
+def options_flow():
+    data = _load_json(DOCS / 'options_flow.json')
+    if data:
+        return jsonify(data)
+    # Fallback to CSV
+    return _csv_to_json_response([
+        (DOCS / 'options_flow.csv', 'csv'),
+    ])
+
+
+@app.route('/api/mean-reversion')
+def mean_reversion():
+    data = _load_json(DOCS / 'mean_reversion_opportunities.json')
+    if data:
+        return jsonify(data)
+    return _csv_to_json_response([
+        (DOCS / 'mean_reversion_opportunities.csv', 'csv'),
+    ])
+
+
+@app.route('/api/recurring-insiders')
+def recurring_insiders():
+    # Returns merged US + EU insider data (EU from european_insider_scanner.py)
+    if not DF_INSIDERS.empty:
+        return jsonify({'data': DF_INSIDERS.where(DF_INSIDERS.notna(), None).to_dict(orient='records')})
+    return jsonify({'data': []})
+
+
+@app.route('/api/position-sizing')
+def position_sizing():
+    if not DF_POSITIONS.empty:
+        return jsonify({'data': DF_POSITIONS.where(DF_POSITIONS.notna(), None).to_dict(orient='records'), 'count': len(DF_POSITIONS)})
+    return jsonify({'data': [], 'count': 0})
+
+
+@app.route('/api/industry-groups')
+def industry_groups():
+    if not DF_INDUSTRIES.empty:
+        records = DF_INDUSTRIES.where(DF_INDUSTRIES.notna(), None).to_dict(orient='records')
+        return jsonify({'data': records, 'count': len(records)})
+    return jsonify({'data': [], 'count': 0})
+
+
+@app.route('/api/portfolio-tracker/signals')
+def portfolio_signals():
+    """Individual signal rows for the portfolio tracker."""
+    csv_path = DOCS / 'portfolio_tracker' / 'recommendations.csv'
+    if csv_path.exists():
+        df = _load_csv(csv_path)
+        if not df.empty:
+            return jsonify({'data': df.where(df.notna(), None).to_dict(orient='records'), 'count': len(df)})
+    return jsonify({'data': [], 'count': 0})
+
+
+@app.route('/api/download/<dataset>')
+def download_csv(dataset: str):
+    """Serve a CSV file for download by dataset name."""
+    ALLOWED: dict[str, str] = {
+        'value-us':         'value_opportunities.csv',
+        'value-eu':         'european_value_opportunities.csv',
+        'value-us-full':    'value_conviction.csv',
+        'value-eu-full':    'european_value_conviction.csv',
+        'mean-reversion':   'mean_reversion_opportunities.csv',
+        'insiders':         'recurring_insiders.csv',
+        'insiders-eu':      'eu_recurring_insiders.csv',
+        'options-flow':     'options_flow.csv',
+        'momentum':         'momentum_opportunities.csv',
+        'fundamental':      'fundamental_scores.csv',
+        'fundamental-eu':   'european_fundamental_scores.csv',
+    }
+    filename = ALLOWED.get(dataset)
+    if not filename:
+        return jsonify({'error': 'Dataset not found'}), 404
+    filepath = DOCS / filename
+    if not filepath.exists():
+        return jsonify({'error': 'File not available yet'}), 404
+    from flask import send_file
+    return send_file(str(filepath), mimetype='text/csv',
+                     as_attachment=True, download_name=filename)
+
+
+@app.route('/api/portfolio-tracker')
+def portfolio_tracker():
+    data = _load_json(DOCS / 'portfolio_tracker' / 'summary.json')
+    return jsonify(data if data else {"error": "No portfolio data available"})
+
+
+@app.route('/api/market-regime')
+def market_regime():
+    us = _load_json(DOCS / 'market_regime.json')
+    eu = _load_json(DOCS / 'european_market_regime.json')
+    return jsonify({"us": us, "eu": eu})
+
+
+@app.route('/api/backtest')
+def backtest():
+    # Try mean reversion backtest first (most recent)
+    data = _load_json(DOCS / 'backtest' / 'mean_reversion_backtest_latest.json')
+    if data:
+        return jsonify({"type": "mean_reversion", **data})
+    # Try general backtest
+    import glob as glob_mod
+    pattern = str(DOCS / 'backtest' / 'historical_backtest_results_*.json')
+    files = sorted(glob_mod.glob(pattern), reverse=True)
+    if files:
+        data = _load_json(files[0])
+        if data:
+            return jsonify({"type": "general", **data})
+    return jsonify({"error": "No backtest data available"})
+
+
+@app.route('/api/theses/<ticker>')
+def theses(ticker):
+    ticker = ticker.upper().strip()
+    data = _load_json(DOCS / 'theses.json')
+    if not data:
+        data = _load_json(DOCS / 'investment_theses.json')
+    if not data:
+        return jsonify({"ticker": ticker, "thesis": None})
+    # Try ticker__value, then ticker__momentum, then plain ticker
+    thesis = data.get(f'{ticker}__value') or data.get(f'{ticker}__momentum') or data.get(ticker)
+    return jsonify({"ticker": ticker, "thesis": thesis})
+
+
+@app.route('/api/search')
+def search_tickers():
+    """Autocomplete: busca tickers por nombre de empresa o símbolo."""
+    q = request.args.get('q', '').strip().lower()
+    if not q or len(q) < 2:
+        return jsonify({"results": []})
+
+    results = []
+    seen = set()
+
+    def add(ticker, company_name, sector=''):
+        if ticker not in seen and len(results) < 20:
+            results.append({
+                "ticker": ticker,
+                "company_name": company_name or ticker,
+                "sector": sector or '',
+            })
+            seen.add(ticker)
+
+    def matches(ticker, company_name):
+        return q in ticker.lower() or q in (company_name or '').lower()
+
+    # 1. Pipeline tickers (DF_5D — más completo)
+    if not DF_5D.empty:
+        for t in DF_5D.index:
+            company = _notna_str(DF_5D.loc[t], 'company_name')
+            if matches(t, company):
+                add(t, company, _notna_str(DF_5D.loc[t], 'sector', ''))
+
+    # 2. Fundamental scores (incluye EU)
+    if not DF_FUND.empty:
+        for t in DF_FUND.index:
+            if t in seen:
+                continue
+            company = _notna_str(DF_FUND.loc[t], 'company_name')
+            if matches(t, company):
+                sector = _notna_str(DF_FUND.loc[t], 'sector_name', '') or _notna_str(DF_FUND.loc[t], 'sector', '')
+                add(t, company, sector)
+
+    # 3. Super scores (cobertura amplia)
+    if not DF_SCORES.empty:
+        for t in DF_SCORES.index:
+            if t in seen:
+                continue
+            company = _notna_str(DF_SCORES.loc[t], 'company_name')
+            if matches(t, company):
+                add(t, company, _notna_str(DF_SCORES.loc[t], 'sector', ''))
+
+    # 4. Ticker cache (JSON — complementa los CSVs)
+    for t, data in TICKER_CACHE.items():
+        if t in seen:
+            continue
+        company = (data.get('company_name') or '').strip()
+        if matches(t, company):
+            add(t, company, data.get('sector', '') or '')
+
+    # Ordenar: coincidencia exacta > empieza por ticker > empieza por empresa > contiene
+    def sort_key(r):
+        t = r['ticker'].lower()
+        c = r['company_name'].lower()
+        if t == q:           return 0
+        if t.startswith(q):  return 1
+        if c.startswith(q):  return 2
+        return 3
+
+    results.sort(key=sort_key)
+    return jsonify({"results": results[:10]})
 
 
 # ─────────────────────────────────────────────────────────────────────────────

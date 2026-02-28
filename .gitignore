@@ -56,6 +56,10 @@ docs/market_regime.json
 # ─── VCP scanner reports (timestamped) ───
 docs/reports/vcp/vcp_scanner_*.html
 
+# ─── Frontend (React + Vite) ───
+frontend/node_modules/
+frontend/dist/
+
 # ─── Flask / Railway ───
 flask_server.log
 flask_server.pid
