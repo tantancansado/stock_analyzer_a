@@ -1084,15 +1084,18 @@ def recurring_insiders():
 @app.route('/api/position-sizing')
 def position_sizing():
     if not DF_POSITIONS.empty:
+        import json as _json
         df = DF_POSITIONS.reset_index() if DF_POSITIONS.index.name == 'ticker' else DF_POSITIONS
-        return jsonify({'data': df.where(df.notna(), None).to_dict(orient='records'), 'count': len(df)})
+        records = _json.loads(df.to_json(orient='records'))
+        return jsonify({'data': records, 'count': len(df)})
     return jsonify({'data': [], 'count': 0})
 
 
 @app.route('/api/industry-groups')
 def industry_groups():
     if not DF_INDUSTRIES.empty:
-        records = DF_INDUSTRIES.where(DF_INDUSTRIES.notna(), None).to_dict(orient='records')
+        import json as _json
+        records = _json.loads(DF_INDUSTRIES.to_json(orient='records'))
         return jsonify({'data': records, 'count': len(records)})
     return jsonify({'data': [], 'count': 0})
 
