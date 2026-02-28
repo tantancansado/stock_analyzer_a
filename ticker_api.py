@@ -54,9 +54,10 @@ def _load_csv(path, index_col='ticker'):
     """Carga un CSV indexado por ticker, silenciosamente si no existe."""
     try:
         df = pd.read_csv(path)
-        if index_col in df.columns:
+        if index_col and index_col in df.columns:
             df[index_col] = df[index_col].str.upper().str.strip()
             return df.set_index(index_col)
+        return df  # CSV sin columna ticker (ej. industry_group_rankings): devolver sin index
     except Exception:
         pass
     return pd.DataFrame()
@@ -1083,7 +1084,8 @@ def recurring_insiders():
 @app.route('/api/position-sizing')
 def position_sizing():
     if not DF_POSITIONS.empty:
-        return jsonify({'data': DF_POSITIONS.where(DF_POSITIONS.notna(), None).to_dict(orient='records'), 'count': len(DF_POSITIONS)})
+        df = DF_POSITIONS.reset_index() if DF_POSITIONS.index.name == 'ticker' else DF_POSITIONS
+        return jsonify({'data': df.where(df.notna(), None).to_dict(orient='records'), 'count': len(df)})
     return jsonify({'data': [], 'count': 0})
 
 
