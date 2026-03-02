@@ -1075,10 +1075,18 @@ def mean_reversion():
 
 @app.route('/api/recurring-insiders')
 def recurring_insiders():
-    # Returns merged US + EU insider data (EU from european_insider_scanner.py)
-    if not DF_INSIDERS.empty:
-        return jsonify({'data': DF_INSIDERS.where(DF_INSIDERS.notna(), None).to_dict(orient='records')})
-    return jsonify({'data': []})
+    # Returns merged US + EU insider data.
+    # Use source DataFrames (not DF_INSIDERS which loses ticker via ignore_index concat)
+    import json as _json
+    dfs = []
+    for src in [_df_ins_us, _df_ins_eu]:
+        if not src.empty:
+            dfs.append(src.reset_index() if src.index.name == 'ticker' else src)
+    if dfs:
+        combined = pd.concat(dfs, ignore_index=True)
+        records = _json.loads(combined.to_json(orient='records'))
+        return jsonify({'data': records, 'count': len(records)})
+    return jsonify({'data': [], 'count': 0})
 
 
 @app.route('/api/position-sizing')
@@ -1107,7 +1115,10 @@ def portfolio_signals():
     if csv_path.exists():
         df = _load_csv(csv_path)
         if not df.empty:
-            return jsonify({'data': df.where(df.notna(), None).to_dict(orient='records'), 'count': len(df)})
+            import json as _json
+            df2 = df.reset_index() if df.index.name == 'ticker' else df
+            records = _json.loads(df2.to_json(orient='records'))
+            return jsonify({'data': records, 'count': len(records)})
     return jsonify({'data': [], 'count': 0})
 
 
