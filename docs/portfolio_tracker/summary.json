@@ -1,8 +1,8 @@
 {
-  "total_signals": 74,
-  "unique_tickers": 50,
-  "date_range": "2026-02-26 to 2026-02-27",
-  "active_signals": 74,
+  "total_signals": 161,
+  "unique_tickers": 104,
+  "date_range": "2026-02-26 to 2026-03-02",
+  "active_signals": 161,
   "completed_signals": 0,
   "overall": {
     "7d": {
@@ -31,7 +31,7 @@
     }
   },
   "value_strategy": {
-    "count": 74,
+    "count": 111,
     "7d": {
       "count": 0,
       "win_rate": null,
@@ -67,6 +67,228 @@
   "score_correlation": null,
   "top_performers": [],
   "worst_performers": [],
+  "recent_signals": [
+    {
+      "ticker": "GABC",
+      "company_name": "German American Bancorp, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 41.34,
+      "sector": "Financial Services",
+      "value_score": 53.24,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "RRBI",
+      "company_name": "Red River Bancshares, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 88.7,
+      "sector": "Financial Services",
+      "value_score": 57.12,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "FRST",
+      "company_name": "Primis Financial Corp.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 13.21,
+      "sector": "Financial Services",
+      "value_score": 53.84,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "SHBI",
+      "company_name": "Shore Bancshares, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 18.58,
+      "sector": "Financial Services",
+      "value_score": 50.92,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "BFC",
+      "company_name": "Bank First Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 134.67,
+      "sector": "Financial Services",
+      "value_score": 49.84,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "NBTB",
+      "company_name": "NBT Bancorp Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 42.72,
+      "sector": "Financial Services",
+      "value_score": 50.48,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "PRIM",
+      "company_name": "Primoris Services Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 150.72,
+      "sector": "Industrials",
+      "value_score": 47.72,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "RSG",
+      "company_name": "Republic Services, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 229.0,
+      "sector": "Industrials",
+      "value_score": 47.4,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "MSGM",
+      "company_name": "Motorsport Games Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 3.9,
+      "sector": "Communication Services",
+      "value_score": 46.07,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "CHUC",
+      "company_name": "Charlie's Holdings, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 0.286,
+      "sector": "Consumer Defensive",
+      "value_score": 32.334,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "LLOY.L",
+      "company_name": "LLOYDS BANKING GROUP PLC ORD 10",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 104.9,
+      "sector": "Financial Services",
+      "value_score": 59.5,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "LOGN.SW",
+      "company_name": "LOGITECH N",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 71.1,
+      "sector": "Technology",
+      "value_score": 61.0,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "UCG.MI",
+      "company_name": "UNICREDIT",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 73.76,
+      "sector": "Financial Services",
+      "value_score": 49.8,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "ASML.AS",
+      "company_name": "ASML HOLDING",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 1232.4,
+      "sector": "Technology",
+      "value_score": 51.1,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "NWG.L",
+      "company_name": "NATWEST GROUP PLC ORD 107.69P",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 627.8,
+      "sector": "Financial Services",
+      "value_score": 56.6,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "BBVA.MC",
+      "company_name": "BANCO BILBAO VIZCAYA ARGENTARIA",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 20.1,
+      "sector": "Financial Services",
+      "value_score": 45.8,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "AZN.L",
+      "company_name": "ASTRAZENECA PLC ORD SHS $0.25",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 15110.0,
+      "sector": "Healthcare",
+      "value_score": 46.6,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "MUV2.DE",
+      "company_name": "MUENCHENER RUECKVERS.-GES. AG N",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 548.6,
+      "sector": "Financial Services",
+      "value_score": 56.8,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 2778.0,
+      "sector": "Industrials",
+      "value_score": 69.7,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    },
+    {
+      "ticker": "STRW",
+      "company_name": "Strawberry Fields REIT, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-02",
+      "signal_price": 12.8,
+      "sector": "Real Estate",
+      "value_score": 54.52,
+      "days_active": 0,
+      "first_result_date": "2026-03-09"
+    }
+  ],
   "avg_max_drawdown": null,
-  "generated_at": "2026-02-27T08:17:35.608115"
+  "generated_at": "2026-03-02T08:35:16.484777"
 }
