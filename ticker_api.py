@@ -34,6 +34,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import pandas as pd
 import json
+import jwt as pyjwt
 import time
 import re
 import os
@@ -42,6 +43,29 @@ from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JWT AUTH (Supabase)
+# ─────────────────────────────────────────────────────────────────────────────
+
+SUPABASE_JWT_SECRET = os.environ.get('SUPABASE_JWT_SECRET', '')
+
+@app.before_request
+def _check_auth():
+    """Verify Supabase JWT on all API endpoints.
+    Falls back to open access when SUPABASE_JWT_SECRET is not set (local dev).
+    """
+    if not SUPABASE_JWT_SECRET:
+        return  # Auth not configured — allow all (local dev mode)
+    if request.path in ('/', '/api/health') or request.method == 'OPTIONS':
+        return  # Public endpoints
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').strip()
+    if not token:
+        return jsonify({'error': 'Unauthorized'}), 401
+    try:
+        pyjwt.decode(token, SUPABASE_JWT_SECRET, algorithms=['HS256'], audience='authenticated')
+    except Exception:
+        return jsonify({'error': 'Invalid token'}), 401
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CARGA DE CACHE AL ARRANCAR

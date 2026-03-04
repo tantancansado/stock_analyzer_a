@@ -1,10 +1,20 @@
 import axios from 'axios'
+import { supabase } from '@/lib/supabase'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
 const api = axios.create({
   baseURL: API_BASE,
   timeout: 60000,
+})
+
+// Attach Supabase JWT to every request
+api.interceptors.request.use(async (config) => {
+  const { data: { session } } = await supabase.auth.getSession()
+  if (session?.access_token) {
+    config.headers.Authorization = `Bearer ${session.access_token}`
+  }
+  return config
 })
 
 export interface ValueOpportunity {

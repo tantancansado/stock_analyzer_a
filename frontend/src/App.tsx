@@ -3,12 +3,15 @@ import { Routes, Route, NavLink, Navigate } from 'react-router-dom'
 import {
   Gem, Globe, TrendingUp, Users, Activity,
   ArrowLeftRight, PieChart, BarChart2, FlaskConical, Search, LayoutDashboard, X, Database,
-  Ruler, Layers, Star,
+  Ruler, Layers, Star, LogOut,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { ThemeProvider } from './context/ThemeContext'
+import { useAuth } from './context/AuthContext'
 import { cn } from '@/lib/utils'
 import TopBar from './components/TopBar'
+import ProtectedRoute from './components/ProtectedRoute'
+import Login from './pages/Login'
 import ValueUS from './pages/ValueUS'
 import ValueEU from './pages/ValueEU'
 import Momentum from './pages/Momentum'
@@ -52,7 +55,7 @@ const NAV: NavItem[] = [
   { path: '/datos',           icon: Database,       label: 'Datos & Historial',  color: '#64748b' },
 ]
 
-function SidebarContent({ onClose }: { onClose: () => void }) {
+function SidebarContent({ onClose, onSignOut }: { onClose: () => void; onSignOut: () => void }) {
   return (
     <>
       {/* Header */}
@@ -104,13 +107,26 @@ function SidebarContent({ onClose }: { onClose: () => void }) {
           )
         )}
       </nav>
+
+      {/* Logout */}
+      <div className="px-2 py-3 border-t border-border/40 flex-shrink-0">
+        <button
+          onClick={onSignOut}
+          className="flex w-full items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all"
+        >
+          <LogOut size={15} strokeWidth={1.65} />
+          Cerrar sesión
+        </button>
+      </div>
     </>
   )
 }
 
 export default function App() {
+  const { signOut } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const close = () => setSidebarOpen(false)
+  const handleSignOut = () => { close(); signOut() }
 
   return (
     <ThemeProvider>
@@ -137,7 +153,7 @@ export default function App() {
         'max-md:-translate-x-full',
         sidebarOpen && 'max-md:translate-x-0',
       )}>
-        <SidebarContent onClose={close} />
+        <SidebarContent onClose={close} onSignOut={handleSignOut} />
       </aside>
 
       {/* Main */}
@@ -145,22 +161,28 @@ export default function App() {
         <TopBar onMenuClick={() => setSidebarOpen(o => !o)} />
         <main className="flex-1 p-5 md:p-8 overflow-x-hidden min-w-0">
           <Routes>
-            <Route path="/"               element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard"      element={<Dashboard />} />
-            <Route path="/value"          element={<ValueUS />} />
-            <Route path="/value-eu"       element={<ValueEU />} />
-            <Route path="/momentum"       element={<Momentum />} />
-            <Route path="/insiders"       element={<Insiders />} />
-            <Route path="/options"        element={<OptionsFlow />} />
-            <Route path="/mean-reversion" element={<MeanReversion />} />
-            <Route path="/sectors"        element={<SectorRotation />} />
-            <Route path="/portfolio"      element={<Portfolio />} />
-            <Route path="/backtest"       element={<Backtest />} />
-            <Route path="/industry-groups" element={<IndustryGroups />} />
-            <Route path="/position-sizing" element={<PositionSizing />} />
-            <Route path="/watchlist"      element={<Watchlist />} />
-            <Route path="/search"         element={<TickerSearch />} />
-            <Route path="/datos"          element={<Datos />} />
+            {/* Public route */}
+            <Route path="/login" element={<Login />} />
+
+            {/* All other routes require authentication */}
+            <Route element={<ProtectedRoute />}>
+              <Route path="/"               element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard"      element={<Dashboard />} />
+              <Route path="/value"          element={<ValueUS />} />
+              <Route path="/value-eu"       element={<ValueEU />} />
+              <Route path="/momentum"       element={<Momentum />} />
+              <Route path="/insiders"       element={<Insiders />} />
+              <Route path="/options"        element={<OptionsFlow />} />
+              <Route path="/mean-reversion" element={<MeanReversion />} />
+              <Route path="/sectors"        element={<SectorRotation />} />
+              <Route path="/portfolio"      element={<Portfolio />} />
+              <Route path="/backtest"       element={<Backtest />} />
+              <Route path="/industry-groups" element={<IndustryGroups />} />
+              <Route path="/position-sizing" element={<PositionSizing />} />
+              <Route path="/watchlist"      element={<Watchlist />} />
+              <Route path="/search"         element={<TickerSearch />} />
+              <Route path="/datos"          element={<Datos />} />
+            </Route>
           </Routes>
         </main>
       </div>
