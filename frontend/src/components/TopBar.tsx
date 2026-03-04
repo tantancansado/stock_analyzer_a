@@ -1,0 +1,79 @@
+import { useLocation } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Clock, Sun, Moon, Menu } from 'lucide-react'
+import { useTheme } from '../context/ThemeContext'
+import { Button } from '@/components/ui/button'
+
+const ROUTE_TITLES: Record<string, string> = {
+  '/value':          'VALUE US — Oportunidades Fundamentales',
+  '/value-eu':       'VALUE EU — Mercados Europeos',
+  '/momentum':       'Momentum — Setups Minervini',
+  '/insiders':       'Insiders — Compras Recurrentes',
+  '/options':        'Options Flow — Flujo Institucional',
+  '/mean-reversion': 'Mean Reversion — Oversold Bounces',
+  '/sectors':        'Rotación Sectorial — Liderazgo Relativo',
+  '/portfolio':      'Portfolio Tracker — Rendimiento',
+  '/backtest':       'Backtest — Resultados Históricos',
+  '/search':         'Análisis de Ticker',
+}
+
+interface Props {
+  readonly onMenuClick: () => void
+}
+
+export default function TopBar({ onMenuClick }: Readonly<Props>) {
+  const location = useLocation()
+  const [time, setTime]   = useState(new Date())
+  const { theme, toggle } = useTheme()
+
+  useEffect(() => {
+    const t = setInterval(() => setTime(new Date()), 30_000)
+    return () => clearInterval(t)
+  }, [])
+
+  const title   = ROUTE_TITLES[location.pathname] || 'Stock Analyzer'
+  const dateStr = time.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
+  const timeStr = time.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
+
+  return (
+    <header className="sticky top-0 z-50 flex h-[50px] items-center justify-between gap-3 px-6 bg-background/80 backdrop-blur-2xl border-b border-border/60 flex-shrink-0 transition-colors">
+      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden flex-shrink-0 h-8 w-8"
+          onClick={onMenuClick}
+          aria-label="Toggle navigation"
+        >
+          <Menu size={18} strokeWidth={1.75} />
+        </Button>
+        <span className="text-xs font-medium text-muted-foreground tracking-wide truncate">
+          {title}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-3.5 flex-shrink-0">
+        <span className="hidden sm:flex items-center gap-1.5 text-[0.67rem] text-muted-foreground">
+          <span className="api-dot" />{' '}Pipeline activo
+        </span>
+        <span className="hidden md:flex items-center gap-1.5 text-[0.67rem] text-muted-foreground tabular-nums">
+          <Clock size={11} strokeWidth={1.5} />
+          {dateStr} · {timeStr}
+        </span>
+        <Button
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 transition-all hover:rotate-[14deg] hover:scale-110 border-border/60"
+          onClick={toggle}
+          aria-label={theme === 'dark' ? 'Activar modo claro' : 'Activar modo oscuro'}
+          title={theme === 'dark' ? 'Modo claro' : 'Modo oscuro'}
+        >
+          {theme === 'dark'
+            ? <Sun  size={14} strokeWidth={1.75} />
+            : <Moon size={14} strokeWidth={1.75} />
+          }
+        </Button>
+      </div>
+    </header>
+  )
+}
