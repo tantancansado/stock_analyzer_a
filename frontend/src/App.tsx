@@ -123,7 +123,7 @@ function SidebarContent({ onClose, onSignOut }: { onClose: () => void; onSignOut
 }
 
 export default function App() {
-  const { signOut } = useAuth()
+  const { user, signOut } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const close = () => setSidebarOpen(false)
   const handleSignOut = () => { close(); signOut() }
@@ -137,28 +137,32 @@ export default function App() {
         <div className="orb orb-3" />
       </div>
 
-      {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden animate-fade-in"
-          onClick={close}
-        />
+      {user && (
+        <>
+          {/* Mobile overlay */}
+          {sidebarOpen && (
+            <div
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden animate-fade-in"
+              onClick={close}
+            />
+          )}
+
+          {/* Sidebar */}
+          <aside className={cn(
+            'fixed inset-y-0 left-0 z-50 flex flex-col w-56',
+            'border-r border-border/60 bg-card/90 backdrop-blur-2xl',
+            'transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
+            'max-md:-translate-x-full',
+            sidebarOpen && 'max-md:translate-x-0',
+          )}>
+            <SidebarContent onClose={close} onSignOut={handleSignOut} />
+          </aside>
+        </>
       )}
 
-      {/* Sidebar */}
-      <aside className={cn(
-        'fixed inset-y-0 left-0 z-50 flex flex-col w-56',
-        'border-r border-border/60 bg-card/90 backdrop-blur-2xl',
-        'transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
-        'max-md:-translate-x-full',
-        sidebarOpen && 'max-md:translate-x-0',
-      )}>
-        <SidebarContent onClose={close} onSignOut={handleSignOut} />
-      </aside>
-
       {/* Main */}
-      <div className="md:ml-56 flex flex-col min-h-screen min-w-0 relative z-10">
-        <TopBar onMenuClick={() => setSidebarOpen(o => !o)} />
+      <div className={cn('flex flex-col min-h-screen min-w-0 relative z-10', user && 'md:ml-56')}>
+        {user && <TopBar onMenuClick={() => setSidebarOpen(o => !o)} />}
         <main className="flex-1 p-5 md:p-8 overflow-x-hidden min-w-0">
           <Routes>
             {/* Public route */}
