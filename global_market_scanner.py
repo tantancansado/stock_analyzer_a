@@ -16,8 +16,10 @@ from pathlib import Path
 from datetime import datetime
 import time
 import json
+import os
 
 DOCS = Path("docs")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 OUTPUT_FILE = DOCS / "global_value_opportunities.csv"
 RATE_DELAY = 0.8  # seconds between yfinance calls
 
@@ -193,21 +195,50 @@ def _score_ticker(ticker: str, market: str):
     if analyst_upside is not None and analyst_upside < -5:
         pass  # still score, just low points
 
-    # FCF yield
+    # FCF yield — not meaningful for banks/insurance (capital flows = core business)
     fcf_yield = None
-    if free_cashflow and market_cap and market_cap > 0:
-        fcf_yield = (free_cashflow / market_cap) * 100
+    if sector != "Financial Services":
+        if free_cashflow and market_cap and market_cap > 0:
+            fcf_yield = (free_cashflow / market_cap) * 100
 
-    # Dividend yield as percentage
+    # Dividend yield as percentage — with sanity check
     div_yield_pct = None
     if dividend_yield:
-        # yfinance sometimes returns decimal (0.03 = 3%), sometimes percentage
-        div_yield_pct = dividend_yield * 100 if dividend_yield < 1 else dividend_yield
+        raw = dividend_yield * 100 if dividend_yield < 1 else dividend_yield
+        if raw > 15:
+            # yfinance bug: sometimes returns per-share amount not yield
+            # Try recalculating from trailingAnnualDividendRate / price
+            trailing_div = info.get("trailingAnnualDividendRate")
+            if trailing_div and price and price > 0:
+                recalc = (trailing_div / price) * 100
+                div_yield_pct = round(recalc, 2) if 0 < recalc <= 15 else None
+            # If still bad, discard — better no data than wrong data
+        else:
+            div_yield_pct = round(raw, 2)
 
     # Risk/reward ratio
     rr_ratio = None
     if analyst_upside is not None:
         rr_ratio = round(analyst_upside / 8, 2)  # 8% standard stop loss
+
+    # ── Automatic risk flags ──────────────────────────────────────────────
+    risk_flags = []
+    if sector == "Financial Services":
+        risk_flags.append("FCF no comparable (sector financiero)")
+        state_bank_keywords = ["Construction Bank", "ICBC", "Bank of China",
+                               "Agricultural Bank", "PetroChina", "CNOOC"]
+        if any(k in name for k in state_bank_keywords):
+            risk_flags.append("Empresa estatal — riesgo de gobierno corporativo")
+        if "Insurance" in name or "Ping An" in name or "AIA" in name:
+            risk_flags.append("Aseguradora — posible exposición inmobiliaria")
+    if market == "HongKong" and sector == "Financial Services":
+        risk_flags.append("Banco/aseguradora HK — exposición sector inmuebles chino")
+    if revenue_growth is not None and revenue_growth < -0.05:
+        risk_flags.append("Ingresos en declive YoY")
+    if analyst_count < 5:
+        risk_flags.append("Cobertura analistas baja (<5)")
+    if debt_to_equity is not None and debt_to_equity / 100 > 2.0:
+        risk_flags.append("Deuda elevada (D/E >2x)")
 
     # ── VALUE SCORE (0–100) ──────────────────────────────────────────────
     score = 0.0
@@ -361,8 +392,69 @@ def _score_ticker(ticker: str, market: str):
         "profit_margin_pct": round(profit_margin * 100, 1) if profit_margin else None,
         "revenue_growth_pct": round(revenue_growth * 100, 1) if revenue_growth else None,
         "pct_from_52w_high": pct_from_52w_high,
+        "risk_flags": " | ".join(risk_flags) if risk_flags else "",
+        "ai_verdict": "",   # filled by _ai_verify_stock()
+        "ai_notes": "",     # filled by _ai_verify_stock()
         "scan_date": datetime.now().strftime("%Y-%m-%d"),
     }
+
+
+def _ai_verify_stock(result: dict, groq_client) -> dict:
+    """
+    Use Groq AI to verify data quality and flag investment risks.
+    Adds ai_verdict (CLEAN / SUSPECT / RISKY) and ai_notes to the result dict.
+    """
+    try:
+        prompt = f"""You are a financial data analyst. Verify this stock's metrics for data quality and flag investment risks.
+
+Ticker: {result['ticker']} — {result['company_name']}
+Sector: {result['sector']} | Market: {result['market']} (CAPE {result.get('market_cape','?')})
+
+Reported metrics:
+- ROE: {result.get('roe_pct')}%
+- Forward P/E: {result.get('pe_forward')}x | Trailing P/E: {result.get('pe_trailing')}x
+- Profit Margin: {result.get('profit_margin_pct')}%
+- Revenue Growth YoY: {result.get('revenue_growth_pct')}%
+- FCF Yield: {result.get('fcf_yield_pct')}%
+- Dividend Yield: {result.get('dividend_yield_pct')}%
+- Analyst Upside: {result.get('analyst_upside_pct')}% ({result.get('analyst_count')} analysts)
+- Already flagged: {result.get('risk_flags', 'none')}
+
+Check:
+1. Are any metrics anomalous or likely wrong for this company type? (e.g. FCF yield >50% for insurer, dividend >15%, P/E <0)
+2. Are there known structural risks: regulatory, geopolitical, real estate, cyclical, governance?
+3. Is the analyst upside credible given the fundamentals?
+
+Respond ONLY with valid JSON, no extra text:
+{{"ai_verdict": "CLEAN|SUSPECT|RISKY", "ai_notes": "one sentence max", "extra_flags": ["optional extra risk flags"]}}"""
+
+        response = groq_client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.1,
+            max_tokens=200,
+        )
+        raw = response.choices[0].message.content.strip()
+        # Extract JSON even if wrapped in ```
+        if "```" in raw:
+            raw = raw.split("```")[1].lstrip("json").strip()
+        data = json.loads(raw)
+
+        result["ai_verdict"] = data.get("ai_verdict", "CLEAN")
+        result["ai_notes"] = data.get("ai_notes", "")
+        # Merge extra flags into existing risk_flags
+        extra = data.get("extra_flags", [])
+        if extra:
+            existing = result.get("risk_flags", "")
+            merged = " | ".join(filter(None, [existing] + extra))
+            result["risk_flags"] = merged
+
+    except Exception as e:
+        print(f"    ⚠️  AI verify failed for {result['ticker']}: {e}")
+        result["ai_verdict"] = ""
+        result["ai_notes"] = ""
+
+    return result
 
 
 def run_scanner(markets: list = None):
@@ -408,6 +500,23 @@ def run_scanner(markets: list = None):
     if not all_results:
         print("\n❌ No opportunities found")
         return
+
+    # ── AI verification pass ──────────────────────────────────────────────
+    if GROQ_API_KEY:
+        print(f"\n🤖 Running AI verification on {len(all_results)} stocks...")
+        try:
+            from groq import Groq
+            groq_client = Groq(api_key=GROQ_API_KEY)
+            for i, result in enumerate(all_results):
+                all_results[i] = _ai_verify_stock(result, groq_client)
+                verdict = all_results[i].get("ai_verdict", "")
+                icon = "✅" if verdict == "CLEAN" else "⚠️" if verdict == "SUSPECT" else "🚫" if verdict == "RISKY" else "⬜"
+                print(f"  {icon} {result['ticker']:<15} {verdict or 'no response':<8}  {all_results[i].get('ai_notes','')[:60]}")
+                time.sleep(0.5)  # Groq free tier: ~30 req/min
+        except Exception as e:
+            print(f"  Groq not available: {e}")
+    else:
+        print("\n⚠️  GROQ_API_KEY not set — skipping AI verification")
 
     df = pd.DataFrame(all_results)
     df = df.sort_values("value_score", ascending=False)

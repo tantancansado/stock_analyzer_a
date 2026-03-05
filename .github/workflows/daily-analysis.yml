@@ -69,6 +69,8 @@ jobs:
 
       - name: Global Market Scanner (BR/KR/JP/HK)
         continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 global_market_scanner.py || echo "Global market scanner failed"
 
       - name: AI Filter European Value

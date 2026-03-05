@@ -22,6 +22,9 @@ type GlobalOpportunity = ValueOpportunity & {
   profit_margin_pct?: number
   revenue_growth_pct?: number
   pct_from_52w_high?: number
+  risk_flags?: string
+  ai_verdict?: string
+  ai_notes?: string
 }
 
 const MARKET_META: Record<string, { flag: string; cape: number; label: string; color: string }> = {
@@ -75,6 +78,7 @@ export default function GlobalValue() {
   const [filterGrade, setFilterGrade] = useState<string>('ALL')
   const [minFcf, setMinFcf] = useState<string>('')
   const [minRr, setMinRr] = useState<string>('')
+  const [hideRisky, setHideRisky] = useState<boolean>(true)
 
   if (loading) return <Loading />
   if (error) return <ErrorState message={error} />
@@ -87,6 +91,7 @@ export default function GlobalValue() {
     if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
     if (minFcf !== '' && (r.fcf_yield_pct == null || r.fcf_yield_pct < Number(minFcf))) return false
     if (minRr !== '' && (r.risk_reward_ratio == null || r.risk_reward_ratio < Number(minRr))) return false
+    if (hideRisky && r.ai_verdict === 'RISKY') return false
     return true
   })
 
@@ -199,6 +204,12 @@ export default function GlobalValue() {
           onChange={e => setMinRr(e.target.value)}
           className="w-20 text-xs px-2 py-1 rounded-md border border-border bg-background text-foreground"
         />
+        <button
+          onClick={() => setHideRisky(h => !h)}
+          className={`text-xs px-3 py-1 rounded-full border transition-colors ${hideRisky ? 'bg-red-500/20 text-red-400 border-red-500/40' : 'border-border text-muted-foreground hover:border-red-500/40'}`}
+        >
+          {hideRisky ? '🚫 Ocultar RISKY' : 'Mostrar todos'}
+        </button>
         <span className="text-xs text-muted-foreground ml-auto">{filtered.length} resultados</span>
       </div>
 
@@ -248,6 +259,8 @@ export default function GlobalValue() {
                         <div className="flex items-center gap-1.5">
                           {meta && <span title={meta.label}>{meta.flag}</span>}
                           <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
+                          {row.ai_verdict === 'RISKY' && <span title={row.ai_notes} className="text-red-400 text-xs">🚫</span>}
+                          {row.ai_verdict === 'SUSPECT' && <span title={row.ai_notes} className="text-amber-400 text-xs">⚠️</span>}
                         </div>
                       </TableCell>
                       <TableCell className="max-w-[160px]">
@@ -324,6 +337,29 @@ export default function GlobalValue() {
                               </div>
                             ))}
                           </div>
+                          {/* Risk flags + AI verdict */}
+                          {(expandedRow.risk_flags || expandedRow.ai_verdict) && (
+                            <div className="border-t border-border/40 pt-4 mt-4">
+                              <div className="flex items-center gap-3 mb-2 flex-wrap">
+                                <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Análisis IA</span>
+                                {expandedRow.ai_verdict && (
+                                  <span className={`text-xs font-bold px-2 py-0.5 rounded ${expandedRow.ai_verdict === 'CLEAN' ? 'bg-emerald-500/20 text-emerald-400' : expandedRow.ai_verdict === 'SUSPECT' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
+                                    {expandedRow.ai_verdict === 'CLEAN' ? '✅ CLEAN' : expandedRow.ai_verdict === 'SUSPECT' ? '⚠️ SUSPECT' : '🚫 RISKY'}
+                                  </span>
+                                )}
+                                {expandedRow.ai_notes && (
+                                  <span className="text-xs text-muted-foreground italic">{expandedRow.ai_notes}</span>
+                                )}
+                              </div>
+                              {expandedRow.risk_flags && (
+                                <div className="flex flex-wrap gap-1.5">
+                                  {expandedRow.risk_flags.split(' | ').filter(Boolean).map((f, i) => (
+                                    <span key={i} className="text-[0.65rem] px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400">{f}</span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
                           <ConvictionPanel row={expandedRow} />
                           {thesisText && thesisText !== 'Sin tesis disponible' && thesisText !== 'Error cargando tesis' && thesisText !== 'Cargando tesis...' ? (
                             <div className="mt-4">
