@@ -142,7 +142,7 @@ def _market_cape_bonus(market: str) -> float:
     return 0.0  # market is expensive (e.g. Korea slightly above hist)
 
 
-def _score_ticker(ticker: str, market: str) -> dict | None:
+def _score_ticker(ticker: str, market: str):
     """Fetch yfinance data and compute VALUE score for a single ticker."""
     try:
         t = yf.Ticker(ticker)
