@@ -14,6 +14,7 @@ API:
     GET /api/tickers                    → lista de tickers en cache
     GET /api/value-opportunities        → VALUE picks (US)
     GET /api/eu-value-opportunities     → VALUE picks (EU)
+    GET /api/global-value               → VALUE picks (Global: BR/KR/JP/HK)
     GET /api/momentum-opportunities     → Momentum picks
     GET /api/sector-rotation            → Sector rotation data
     GET /api/options-flow               → Options flow data
@@ -1070,6 +1071,13 @@ def eu_value_opportunities():
     ])
 
 
+@app.route('/api/global-value')
+def global_value_opportunities():
+    return _csv_to_json_response([
+        (DOCS / 'global_value_opportunities.csv', 'global_scanner'),
+    ])
+
+
 @app.route('/api/momentum-opportunities')
 def momentum_opportunities():
     return _csv_to_json_response([
@@ -1160,6 +1168,7 @@ def download_csv(dataset: str):
     ALLOWED: dict[str, str] = {
         'value-us':         'value_opportunities.csv',
         'value-eu':         'european_value_opportunities.csv',
+        'value-global':     'global_value_opportunities.csv',
         'value-us-full':    'value_conviction.csv',
         'value-eu-full':    'european_value_conviction.csv',
         'mean-reversion':   'mean_reversion_opportunities.csv',

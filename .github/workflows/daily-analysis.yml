@@ -67,6 +67,10 @@ jobs:
         continue-on-error: true
         run: python3 european_value_scanner.py || echo "European scanner failed"
 
+      - name: Global Market Scanner (BR/KR/JP/HK)
+        continue-on-error: true
+        run: python3 global_market_scanner.py || echo "Global market scanner failed"
+
       - name: AI Filter European Value
         continue-on-error: true
         env:
@@ -191,6 +195,7 @@ jobs:
             docs/value_conviction.csv \
             docs/european_value_opportunities.csv \
             docs/european_value_conviction.csv \
+            docs/global_value_opportunities.csv \
             docs/mean_reversion_opportunities.csv \
             docs/recurring_insiders.csv \
             docs/eu_recurring_insiders.csv \

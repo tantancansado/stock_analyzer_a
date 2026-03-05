@@ -27,6 +27,7 @@ import Dashboard from './pages/Dashboard'
 import PositionSizing from './pages/PositionSizing'
 import IndustryGroups from './pages/IndustryGroups'
 import Watchlist from './pages/Watchlist'
+import GlobalValue from './pages/GlobalValue'
 
 type NavSection  = { section: string }
 type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string }
@@ -37,6 +38,7 @@ const NAV: NavItem[] = [
   { section: 'Estrategias' },
   { path: '/value',          icon: Gem,            label: 'VALUE US',           color: '#10b981' },
   { path: '/value-eu',       icon: Globe,           label: 'VALUE EU',           color: '#3b82f6' },
+  { path: '/value-global',   icon: Globe,           label: 'VALUE Global',       color: '#a855f7' },
   { path: '/momentum',       icon: TrendingUp,      label: 'Momentum',           color: '#f97316' },
   { section: 'Señales' },
   { path: '/insiders',       icon: Users,           label: 'Insiders',           color: '#8b5cf6' },
@@ -174,6 +176,7 @@ export default function App() {
               <Route path="/dashboard"      element={<Dashboard />} />
               <Route path="/value"          element={<ValueUS />} />
               <Route path="/value-eu"       element={<ValueEU />} />
+              <Route path="/value-global"   element={<GlobalValue />} />
               <Route path="/momentum"       element={<Momentum />} />
               <Route path="/insiders"       element={<Insiders />} />
               <Route path="/options"        element={<OptionsFlow />} />

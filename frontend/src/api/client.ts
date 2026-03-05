@@ -150,6 +150,9 @@ export const fetchValueOpportunities = () =>
 export const fetchEUValueOpportunities = () =>
   api.get<{ data: ValueOpportunity[]; count: number; source: string }>('/api/eu-value-opportunities')
 
+export const fetchGlobalValueOpportunities = () =>
+  api.get<{ data: ValueOpportunity[]; count: number; source: string }>('/api/global-value')
+
 export const fetchMomentumOpportunities = () =>
   api.get<{ data: MomentumOpportunity[]; count: number; source: string }>('/api/momentum-opportunities')
 
@@ -193,6 +196,7 @@ export const searchTickers = (q: string) =>
 const CSV_FILES: Record<string, string> = {
   'value-us':       'value_opportunities.csv',
   'value-eu':       'european_value_opportunities.csv',
+  'value-global':   'global_value_opportunities.csv',
   'value-us-full':  'value_conviction.csv',
   'value-eu-full':  'european_value_conviction.csv',
   'mean-reversion': 'mean_reversion_opportunities.csv',

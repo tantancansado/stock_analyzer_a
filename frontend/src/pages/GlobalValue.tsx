@@ -1,0 +1,339 @@
+import React, { useState } from 'react'
+import { fetchGlobalValueOpportunities, fetchThesis, type ValueOpportunity } from '../api/client'
+import { useApi } from '../hooks/useApi'
+import Loading, { ErrorState } from '../components/Loading'
+import ScoreBar from '../components/ScoreBar'
+import GradeBadge from '../components/GradeBadge'
+import { Badge } from '@/components/ui/badge'
+import { Card } from '@/components/ui/card'
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
+import ThesisBody from '../components/ThesisBody'
+import CsvDownload from '../components/CsvDownload'
+import WatchlistButton from '../components/WatchlistButton'
+import InfoTooltip from '../components/InfoTooltip'
+
+// Extend ValueOpportunity with global-specific fields
+type GlobalOpportunity = ValueOpportunity & {
+  currency?: string
+  market_flag?: string
+  market_cape?: number
+  roe_pct?: number
+  pe_forward?: number
+  profit_margin_pct?: number
+  revenue_growth_pct?: number
+}
+
+const MARKET_META: Record<string, { flag: string; cape: number; label: string; color: string }> = {
+  Brazil:   { flag: '🇧🇷', cape: 9.0,  label: 'Brasil',      color: '#22c55e' },
+  Korea:    { flag: '🇰🇷', cape: 21.2, label: 'Corea',       color: '#3b82f6' },
+  Japan:    { flag: '🇯🇵', cape: 29.4, label: 'Japón',       color: '#f97316' },
+  HongKong: { flag: '🇭🇰', cape: 10.7, label: 'Hong Kong',   color: '#a855f7' },
+}
+
+const CURRENCY_SYMBOLS: Record<string, string> = {
+  BRL: 'R$', KRW: '₩', JPY: '¥', HKD: 'HK$', USD: '$', EUR: '€',
+}
+
+type SortKey = keyof GlobalOpportunity
+type SortDir = 'asc' | 'desc'
+
+function ConvictionPanel({ row }: { row: GlobalOpportunity }) {
+  const reasons = row.conviction_reasons
+    ? row.conviction_reasons.split(' | ').filter(Boolean)
+    : []
+  if (!reasons.length && row.conviction_score == null) return null
+  return (
+    <div className="border-t border-border/40 pt-4 mt-4">
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Conviction Filter</span>
+        {row.conviction_grade && row.conviction_score != null && (
+          <span className={`text-xs font-bold px-2 py-0.5 rounded ${row.conviction_grade === 'A' ? 'bg-emerald-500/20 text-emerald-400' : row.conviction_grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-amber-500/20 text-amber-400'}`}>
+            {row.conviction_grade} — {row.conviction_score.toFixed(0)}pts
+          </span>
+        )}
+      </div>
+      {reasons.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {reasons.map((r, i) => (
+            <span key={i} className="text-[0.65rem] px-2 py-0.5 rounded-full bg-white/5 border border-border/50 text-muted-foreground">{r}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+export default function GlobalValue() {
+  const { data, loading, error } = useApi(() => fetchGlobalValueOpportunities(), [])
+  const [sortKey, setSortKey] = useState<SortKey>('value_score')
+  const [sortDir, setSortDir] = useState<SortDir>('desc')
+  const [expandedTicker, setExpandedTicker] = useState<string | null>(null)
+  const [expandedRow, setExpandedRow] = useState<GlobalOpportunity | null>(null)
+  const [thesisText, setThesisText] = useState<string>('')
+  const [filterMarket, setFilterMarket] = useState<string>('ALL')
+  const [filterGrade, setFilterGrade] = useState<string>('ALL')
+  const [minFcf, setMinFcf] = useState<string>('')
+  const [minRr, setMinRr] = useState<string>('')
+
+  if (loading) return <Loading />
+  if (error) return <ErrorState message={error} />
+
+  const rows = (data?.data ?? []) as GlobalOpportunity[]
+  const source = data?.source ?? ''
+
+  const filtered = rows.filter(r => {
+    if (filterMarket !== 'ALL' && r.market !== filterMarket) return false
+    if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
+    if (minFcf !== '' && (r.fcf_yield_pct == null || r.fcf_yield_pct < Number(minFcf))) return false
+    if (minRr !== '' && (r.risk_reward_ratio == null || r.risk_reward_ratio < Number(minRr))) return false
+    return true
+  })
+
+  const sorted = [...filtered].sort((a, b) => {
+    const av = a[sortKey] ?? 0; const bv = b[sortKey] ?? 0
+    if (av < bv) return sortDir === 'asc' ? -1 : 1
+    if (av > bv) return sortDir === 'asc' ? 1 : -1
+    return 0
+  })
+  const top = sorted.slice(0, 25)
+
+  const onSort = (key: SortKey) => {
+    if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
+    else { setSortKey(key); setSortDir('desc') }
+  }
+
+  const toggleThesis = async (ticker: string, row: GlobalOpportunity) => {
+    if (expandedTicker === ticker) { setExpandedTicker(null); setExpandedRow(null); return }
+    setExpandedTicker(ticker)
+    setExpandedRow(row)
+    setThesisText('Cargando tesis...')
+    try {
+      const res = await fetchThesis(ticker)
+      const t = res.data.thesis
+      const text = !t ? 'Sin tesis disponible'
+        : typeof t === 'string' ? t
+        : (t as Record<string, string>).thesis_narrative || (t as Record<string, string>).overview || JSON.stringify(t)
+      setThesisText(text)
+    } catch { setThesisText('Error cargando tesis') }
+  }
+
+  const Th = ({ k, label, tooltip }: { k: SortKey; label: string; tooltip?: string }) => (
+    <TableHead
+      className="cursor-pointer select-none whitespace-nowrap text-[0.68rem] font-semibold uppercase tracking-wider"
+      onClick={() => onSort(k)}
+    >
+      <span className="flex items-center gap-1">
+        {label}
+        {tooltip && <InfoTooltip text={tooltip} />}
+        {sortKey === k && <span className="text-primary">{sortDir === 'desc' ? ' ↓' : ' ↑'}</span>}
+      </span>
+    </TableHead>
+  )
+
+  // Market summary cards
+  const marketSummary = Object.entries(MARKET_META).map(([key, meta]) => {
+    const mRows = rows.filter(r => r.market === key)
+    return { key, meta, count: mRows.length, avgScore: mRows.length ? mRows.reduce((s, r) => s + (r.value_score || 0), 0) / mRows.length : 0 }
+  })
+
+  const formatPrice = (row: GlobalOpportunity) => {
+    const sym = CURRENCY_SYMBOLS[row.currency ?? ''] ?? ''
+    return `${sym}${(row.current_price ?? 0).toLocaleString()}`
+  }
+
+  return (
+    <>
+      <div className="mb-6 animate-fade-in-up flex items-start justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-2xl font-extrabold tracking-tight mb-1 flex items-center gap-2">
+            <span className="gradient-title">VALUE Global</span>
+            {source && <Badge variant="outline" className="text-[0.6rem]">{source}</Badge>}
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Acciones VALUE en mercados globales undervalued — Brasil, Corea, Japón, Hong Kong
+          </p>
+        </div>
+        <CsvDownload dataset="value-global" />
+      </div>
+
+      {/* Market CAPE context cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+        {marketSummary.map(({ key, meta, count, avgScore }) => {
+          const isActive = filterMarket === key
+          return (
+            <button
+              key={key}
+              onClick={() => setFilterMarket(isActive ? 'ALL' : key)}
+              className={`glass p-4 rounded-xl text-left transition-all hover:scale-[1.02] ${isActive ? 'ring-2' : ''}`}
+              style={{ '--tw-ring-color': meta.color } as React.CSSProperties}
+            >
+              <div className="text-2xl mb-1">{meta.flag}</div>
+              <div className="text-sm font-bold">{meta.label}</div>
+              <div className="text-[0.65rem] text-muted-foreground mt-1">
+                CAPE <span className="font-mono font-bold" style={{ color: meta.color }}>{meta.cape}</span>
+                {count > 0 && <span className="ml-2">{count} picks · avg {avgScore.toFixed(0)}pts</span>}
+                {count === 0 && <span className="ml-2 opacity-50">sin datos aún</span>}
+              </div>
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2 mb-4 items-center">
+        {(['ALL', 'A', 'B', 'C'] as string[]).map(g => (
+          <button key={g} onClick={() => setFilterGrade(g)}
+            className={`text-xs px-3 py-1 rounded-full border transition-colors ${filterGrade === g ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:border-primary/50'}`}>
+            {g === 'ALL' ? 'Todos' : `Grado ${g}`}
+          </button>
+        ))}
+        <span className="text-muted-foreground text-xs mx-1">|</span>
+        <input
+          type="number" placeholder="FCF% ≥" value={minFcf}
+          onChange={e => setMinFcf(e.target.value)}
+          className="w-20 text-xs px-2 py-1 rounded-md border border-border bg-background text-foreground"
+        />
+        <input
+          type="number" placeholder="R:R ≥" value={minRr}
+          onChange={e => setMinRr(e.target.value)}
+          className="w-20 text-xs px-2 py-1 rounded-md border border-border bg-background text-foreground"
+        />
+        <span className="text-xs text-muted-foreground ml-auto">{filtered.length} resultados</span>
+      </div>
+
+      {rows.length === 0 ? (
+        <Card className="glass">
+          <div className="py-16 text-center">
+            <div className="text-4xl mb-4 opacity-20">🌍</div>
+            <p className="font-medium text-muted-foreground">
+              Sin datos globales aún — el pipeline ejecutará el scanner en la próxima ejecución diaria
+            </p>
+            <p className="text-xs text-muted-foreground mt-2 opacity-60">
+              También puedes ejecutar <code className="font-mono bg-white/5 px-1 rounded">python3 global_market_scanner.py</code> manualmente
+            </p>
+          </div>
+        </Card>
+      ) : (
+        <Card className="glass overflow-hidden animate-fade-in-up">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border/50 hover:bg-transparent">
+                <Th k="ticker" label="Ticker" />
+                <Th k="company_name" label="Empresa" />
+                <Th k="current_price" label="Precio" />
+                <Th k="value_score" label="Score" tooltip="VALUE score (0-100). Incluye bonus por mercado undervalued." />
+                <TableHead className="text-[0.68rem] font-semibold uppercase tracking-wider">Grade</TableHead>
+                <Th k="sector" label="Sector" />
+                <Th k="analyst_upside_pct" label="Potencial" tooltip="Upside implícito según precio objetivo consenso analistas" />
+                <Th k="fcf_yield_pct" label="FCF%" tooltip="Free Cash Flow Yield = FCF / Market Cap" />
+                <Th k="risk_reward_ratio" label="R:R" tooltip="Risk/Reward = upside / 8% stop loss" />
+                <Th k="pe_forward" label="P/E fwd" />
+                <Th k="roe_pct" label="ROE%" />
+                <TableHead className="w-8" />
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {top.map((row, idx) => {
+                const isExpanded = expandedTicker === row.ticker
+                const meta = MARKET_META[row.market ?? '']
+                return (
+                  <React.Fragment key={row.ticker}>
+                    <TableRow
+                      className={`border-border/30 cursor-pointer transition-colors hover:bg-white/3 stagger-${Math.min(idx + 1, 10)} ${isExpanded ? 'bg-white/5' : ''}`}
+                      onClick={() => toggleThesis(row.ticker, row)}
+                    >
+                      <TableCell>
+                        <div className="flex items-center gap-1.5">
+                          {meta && <span title={meta.label}>{meta.flag}</span>}
+                          <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="max-w-[160px]">
+                        <div className="truncate text-sm font-medium">{row.company_name}</div>
+                        {row.market && <div className="text-[0.6rem] text-muted-foreground">{meta?.label} · {row.currency}</div>}
+                      </TableCell>
+                      <TableCell className="font-mono text-sm tabular-nums">
+                        {formatPrice(row)}
+                      </TableCell>
+                      <TableCell>
+                        <ScoreBar score={row.value_score} max={100} />
+                      </TableCell>
+                      <TableCell>
+                        <GradeBadge grade={row.conviction_grade ?? ''} />
+                      </TableCell>
+                      <TableCell className="text-[0.75rem] text-muted-foreground max-w-[110px]">
+                        <span className="truncate block">{row.sector ?? '—'}</span>
+                      </TableCell>
+                      <TableCell>
+                        {row.analyst_upside_pct != null ? (
+                          <span className={`font-semibold text-sm tabular-nums ${row.analyst_upside_pct >= 20 ? 'text-emerald-400' : row.analyst_upside_pct >= 0 ? 'text-foreground' : 'text-red-400'}`}>
+                            {row.analyst_upside_pct >= 0 ? '+' : ''}{row.analyst_upside_pct.toFixed(1)}%
+                          </span>
+                        ) : '—'}
+                      </TableCell>
+                      <TableCell>
+                        {row.fcf_yield_pct != null ? (
+                          <span className={`font-semibold text-sm tabular-nums ${row.fcf_yield_pct >= 5 ? 'text-emerald-400' : row.fcf_yield_pct >= 0 ? 'text-muted-foreground' : 'text-red-400'}`}>
+                            {row.fcf_yield_pct.toFixed(1)}%
+                          </span>
+                        ) : '—'}
+                      </TableCell>
+                      <TableCell>
+                        {row.risk_reward_ratio != null ? (
+                          <span className={`font-semibold text-sm tabular-nums ${row.risk_reward_ratio >= 3 ? 'text-emerald-400' : row.risk_reward_ratio >= 2 ? 'text-foreground' : 'text-muted-foreground'}`}>
+                            {row.risk_reward_ratio.toFixed(1)}x
+                          </span>
+                        ) : '—'}
+                      </TableCell>
+                      <TableCell className="font-mono text-sm tabular-nums text-muted-foreground">
+                        {(row as GlobalOpportunity).pe_forward != null ? `${(row as GlobalOpportunity).pe_forward}x` : '—'}
+                      </TableCell>
+                      <TableCell className="font-mono text-sm tabular-nums">
+                        {(row as GlobalOpportunity).roe_pct != null ? (
+                          <span className={`${((row as GlobalOpportunity).roe_pct ?? 0) >= 15 ? 'text-emerald-400' : 'text-muted-foreground'}`}>
+                            {(row as GlobalOpportunity).roe_pct}%
+                          </span>
+                        ) : '—'}
+                      </TableCell>
+                      <TableCell onClick={e => e.stopPropagation()}>
+                        <WatchlistButton ticker={row.ticker} />
+                      </TableCell>
+                    </TableRow>
+                    {isExpanded && expandedRow && (
+                      <TableRow className="border-border/20 hover:bg-transparent">
+                        <TableCell colSpan={12} className="bg-white/2 px-6 pb-5">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 mb-4">
+                            {[
+                              { label: 'Margen Neto', val: expandedRow.profit_margin_pct != null ? `${(expandedRow as GlobalOpportunity).profit_margin_pct}%` : '—', color: ((expandedRow as GlobalOpportunity).profit_margin_pct ?? 0) >= 10 ? 'text-emerald-400' : '' },
+                              { label: 'Crec. Ingresos', val: expandedRow.revenue_growth_pct != null ? `+${(expandedRow as GlobalOpportunity).revenue_growth_pct}%` : '—', color: ((expandedRow as GlobalOpportunity).revenue_growth_pct ?? 0) >= 5 ? 'text-emerald-400' : '' },
+                              { label: 'Dividendo', val: expandedRow.dividend_yield_pct != null ? `${expandedRow.dividend_yield_pct}%` : '—', color: '' },
+                              { label: 'Analistas', val: expandedRow.analyst_count != null ? String(expandedRow.analyst_count) : '—', color: '' },
+                            ].map(({ label, val, color }) => (
+                              <div key={label} className="glass rounded-lg p-3">
+                                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
+                                <div className={`text-lg font-extrabold tabular-nums ${color}`}>{val}</div>
+                              </div>
+                            ))}
+                          </div>
+                          <ConvictionPanel row={expandedRow} />
+                          {thesisText && thesisText !== 'Sin tesis disponible' && thesisText !== 'Error cargando tesis' && thesisText !== 'Cargando tesis...' ? (
+                            <div className="mt-4">
+                              <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Tesis de Inversión</div>
+                              <ThesisBody text={thesisText} />
+                            </div>
+                          ) : thesisText ? (
+                            <p className="text-xs text-muted-foreground mt-3 italic">{thesisText}</p>
+                          ) : null}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </React.Fragment>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </Card>
+      )}
+    </>
+  )
+}
