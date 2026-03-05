@@ -21,6 +21,7 @@ type GlobalOpportunity = ValueOpportunity & {
   pe_forward?: number
   profit_margin_pct?: number
   revenue_growth_pct?: number
+  pct_from_52w_high?: number
 }
 
 const MARKET_META: Record<string, { flag: string; cape: number; label: string; color: string }> = {
@@ -229,6 +230,7 @@ export default function GlobalValue() {
                 <Th k="risk_reward_ratio" label="R:R" tooltip="Risk/Reward = upside / 8% stop loss" />
                 <Th k="pe_forward" label="P/E fwd" />
                 <Th k="roe_pct" label="ROE%" />
+                <Th k="pct_from_52w_high" label="vs Max" tooltip="Distancia al máximo de 52 semanas. Negativo = caído del máximo → posible oportunidad de entrada." />
                 <TableHead className="w-8" />
               </TableRow>
             </TableHeader>
@@ -295,13 +297,20 @@ export default function GlobalValue() {
                           </span>
                         ) : '—'}
                       </TableCell>
+                      <TableCell className="font-mono text-sm tabular-nums">
+                        {row.pct_from_52w_high != null ? (
+                          <span className={`${row.pct_from_52w_high <= -30 ? 'text-emerald-400' : row.pct_from_52w_high <= -15 ? 'text-amber-400' : 'text-muted-foreground'}`}>
+                            {row.pct_from_52w_high.toFixed(1)}%
+                          </span>
+                        ) : '—'}
+                      </TableCell>
                       <TableCell onClick={e => e.stopPropagation()}>
                         <WatchlistButton ticker={row.ticker} />
                       </TableCell>
                     </TableRow>
                     {isExpanded && expandedRow && (
                       <TableRow className="border-border/20 hover:bg-transparent">
-                        <TableCell colSpan={12} className="bg-white/2 px-6 pb-5">
+                        <TableCell colSpan={13} className="bg-white/2 px-6 pb-5">
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 mb-4">
                             {[
                               { label: 'Margen Neto', val: expandedRow.profit_margin_pct != null ? `${(expandedRow as GlobalOpportunity).profit_margin_pct}%` : '—', color: ((expandedRow as GlobalOpportunity).profit_margin_pct ?? 0) >= 10 ? 'text-emerald-400' : '' },

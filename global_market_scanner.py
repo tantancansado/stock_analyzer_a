@@ -156,6 +156,9 @@ def _score_ticker(ticker: str, market: str):
     if not price or price <= 0:
         return None
 
+    high_52w = info.get("fiftyTwoWeekHigh")
+    pct_from_52w_high = round((price - high_52w) / high_52w * 100, 1) if high_52w and high_52w > 0 else None
+
     name = info.get("longName") or info.get("shortName") or ticker
     sector = info.get("sector") or "Unknown"
     currency = info.get("currency") or MARKET_CAPE.get(market, {}).get("currency", "USD")
@@ -357,6 +360,7 @@ def _score_ticker(ticker: str, market: str):
         "pe_trailing": round(pe_trailing, 1) if pe_trailing else None,
         "profit_margin_pct": round(profit_margin * 100, 1) if profit_margin else None,
         "revenue_growth_pct": round(revenue_growth * 100, 1) if revenue_growth else None,
+        "pct_from_52w_high": pct_from_52w_high,
         "scan_date": datetime.now().strftime("%Y-%m-%d"),
     }
 

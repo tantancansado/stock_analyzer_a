@@ -179,7 +179,7 @@ const GLOBAL_NUMERIC = new Set([
   'current_price','value_score','conviction_score','conviction_positives','conviction_red_flags',
   'market_cape','target_price_analyst','analyst_upside_pct','analyst_count',
   'fcf_yield_pct','risk_reward_ratio','dividend_yield_pct','roe_pct',
-  'pe_forward','pe_trailing','profit_margin_pct','revenue_growth_pct',
+  'pe_forward','pe_trailing','profit_margin_pct','revenue_growth_pct','pct_from_52w_high',
 ])
 
 export const fetchGlobalValueOpportunities = async (): Promise<{
