@@ -300,7 +300,7 @@
         </div>
 
         <div class="timestamp">
-            Last updated: 2026-03-04 08:24:41
+            Last updated: 2026-03-05 08:41:15
         </div>
 
         <!-- Alerts Section -->
@@ -309,22 +309,17 @@
             <h2 style="margin-bottom: 15px;">🚨 Rotation Alerts</h2>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">⚡ ⚡ Consumer Discretionary emergiendo (RS: 57.1)</div>
-                <div class="alert-action">→ EARLY ENTRY OPPORTUNITY - sector saliendo de debilidad</div>
-            </div>
-            
-            <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Energy perdiendo momentum (velocity: -25.99)</div>
+                <div class="alert-message">🔴 🔴 Energy perdiendo momentum (velocity: -26.58)</div>
                 <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
             </div>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Real Estate perdiendo momentum (velocity: -8.33)</div>
+                <div class="alert-message">🔴 🔴 Real Estate perdiendo momentum (velocity: -8.39)</div>
                 <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
             </div>
             
             <div class="alert-item alert-medium">
-                <div class="alert-message">🔴 🔴 Utilities perdiendo momentum (velocity: -6.62)</div>
+                <div class="alert-message">🔴 🔴 Utilities perdiendo momentum (velocity: -9.2)</div>
                 <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
             </div>
             
@@ -371,41 +366,13 @@
                 
             <div class="sector-card">
                 <div class="sector-header">
-                    <div class="sector-name">Consumer Discretionary</div>
-                    <div class="sector-status status-IMPROVING">IMPROVING</div>
-                </div>
-                <div class="sector-metrics">
-                    <div class="metric">
-                        <div class="metric-label">Velocity</div>
-                        <div class="metric-value positive">+4.06</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Rel Strength</div>
-                        <div class="metric-value">57.1</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">30D Return</div>
-                        <div class="metric-value negative">-4.00%</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Momentum</div>
-                        <div class="metric-value">accelerating</div>
-                    </div>
-                </div>
-                <div class="sector-signal signal-ACCUMULATE">
-                    ACCUMULATE
-                </div>
-            </div>
-            
-            <div class="sector-card">
-                <div class="sector-header">
                     <div class="sector-name">Communication Services</div>
                     <div class="sector-status status-IMPROVING">IMPROVING</div>
                 </div>
                 <div class="sector-metrics">
                     <div class="metric">
                         <div class="metric-label">Velocity</div>
-                        <div class="metric-value positive">+1.33</div>
+                        <div class="metric-value positive">+0.89</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Rel Strength</div>
@@ -413,7 +380,7 @@
                     </div>
                     <div class="metric">
                         <div class="metric-label">30D Return</div>
-                        <div class="metric-value positive">+3.96%</div>
+                        <div class="metric-value positive">+3.63%</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Momentum</div>
@@ -432,7 +399,35 @@
         <div class="chart-container" style="margin-bottom: 30px;">
             <h2 style="margin-bottom: 20px;">⚠️ Weakening Sectors</h2>
             <div class="sectors-grid">
-                <p style='text-align: center; color: #666;'>No sectors in this category</p>
+                
+            <div class="sector-card">
+                <div class="sector-header">
+                    <div class="sector-name">Healthcare</div>
+                    <div class="sector-status status-WEAKENING">WEAKENING</div>
+                </div>
+                <div class="sector-metrics">
+                    <div class="metric">
+                        <div class="metric-label">Velocity</div>
+                        <div class="metric-value negative">-1.93</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Rel Strength</div>
+                        <div class="metric-value">31.6</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">30D Return</div>
+                        <div class="metric-value negative">-0.76%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Momentum</div>
+                        <div class="metric-value">stable</div>
+                    </div>
+                </div>
+                <div class="sector-signal signal-REDUCE">
+                    REDUCE
+                </div>
+            </div>
+            
             </div>
         </div>
 
@@ -448,10 +443,10 @@
         new Chart(velocityCtx, {
             type: 'bar',
             data: {
-                labels: ['Consumer Discretionary', 'Financials', 'Communication Services', 'Technology', 'Healthcare', 'Utilities', 'Real Estate', 'Consumer Staples', 'Industrials', 'Materials', 'Energy'],
+                labels: ['Financials', 'Consumer Discretionary', 'Technology', 'Communication Services', 'Healthcare', 'Real Estate', 'Utilities', 'Consumer Staples', 'Industrials', 'Materials', 'Energy'],
                 datasets: [{
                     label: 'Momentum Velocity',
-                    data: [4.06, 3.15, 1.33, 0.29, -2.86, -6.62, -8.33, -12.03, -13.69, -17.62, -25.99],
+                    data: [4.52, 4.42, 2.88, 0.89, -1.93, -8.39, -9.2, -12.11, -13.5, -16.75, -26.58],
                     backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
                     borderWidth: 0
                 }]
@@ -481,11 +476,11 @@
         new Chart(rsCtx, {
             type: 'bar',
             data: {
-                labels: ['Industrials', 'Energy', 'Materials', 'Real Estate', 'Utilities', 'Communication Services', 'Consumer Staples', 'Healthcare', 'Consumer Discretionary', 'Financials', 'Technology'],
+                labels: ['Industrials', 'Energy', 'Materials', 'Real Estate', 'Utilities', 'Communication Services', 'Consumer Staples', 'Consumer Discretionary', 'Technology', 'Healthcare', 'Financials'],
                 datasets: [{
                     label: 'Relative Strength',
-                    data: [100, 100, 100, 100, 100, 100, 100, 84.0, 57.1, 26.3, 12.3],
-                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
+                    data: [100, 100, 100, 100, 100, 100, 100, 48.1, 46.5, 31.6, 4.5],
+                    backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
                     borderWidth: 0
                 }]
             },
@@ -516,7 +511,7 @@
         new Chart(quadrantCtx, {
             type: 'scatter',
             data: {
-                datasets: [{'label': 'Improving', 'data': [{'x': 57.1, 'y': 4.06, 'label': 'Consumer Discretionary'}, {'x': 100, 'y': 1.33, 'label': 'Communication Services'}], 'backgroundColor': 'rgba(59, 130, 246, 0.8)'}, {'label': 'Neutral', 'data': [{'x': 12.3, 'y': 0.29, 'label': 'Technology'}, {'x': 26.3, 'y': 3.15, 'label': 'Financials'}, {'x': 84.0, 'y': -2.86, 'label': 'Healthcare'}, {'x': 100, 'y': -13.69, 'label': 'Industrials'}, {'x': 100, 'y': -25.99, 'label': 'Energy'}, {'x': 100, 'y': -17.62, 'label': 'Materials'}, {'x': 100, 'y': -8.33, 'label': 'Real Estate'}, {'x': 100, 'y': -6.62, 'label': 'Utilities'}, {'x': 100, 'y': -12.03, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
+                datasets: [{'label': 'Improving', 'data': [{'x': 100, 'y': 0.89, 'label': 'Communication Services'}], 'backgroundColor': 'rgba(59, 130, 246, 0.8)'}, {'label': 'Weakening', 'data': [{'x': 31.6, 'y': -1.93, 'label': 'Healthcare'}], 'backgroundColor': 'rgba(245, 158, 11, 0.8)'}, {'label': 'Neutral', 'data': [{'x': 46.5, 'y': 2.88, 'label': 'Technology'}, {'x': 4.5, 'y': 4.52, 'label': 'Financials'}, {'x': 48.1, 'y': 4.42, 'label': 'Consumer Discretionary'}, {'x': 100, 'y': -13.5, 'label': 'Industrials'}, {'x': 100, 'y': -26.58, 'label': 'Energy'}, {'x': 100, 'y': -16.75, 'label': 'Materials'}, {'x': 100, 'y': -8.39, 'label': 'Real Estate'}, {'x': 100, 'y': -9.2, 'label': 'Utilities'}, {'x': 100, 'y': -12.11, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
             },
             options: {
                 responsive: true,
