@@ -3,9 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths:
-      - 'docs/**'
-      - 'docs/*'
   workflow_dispatch:
 
 permissions:
@@ -14,8 +11,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: "pages-deploy-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   deploy:
