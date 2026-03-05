@@ -16,6 +16,7 @@ export default defineConfig({
       },
     },
   },
+  base: '/stock_analyzer_a/app/',
   build: {
     outDir: '../docs/app',
     emptyOutDir: true,
