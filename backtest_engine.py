@@ -520,21 +520,29 @@ def main():
 
     engine = BacktestEngine(initial_capital=100000, position_size=0.10)
 
-    # Try new Super Score Ultimate first, fallback to 5D
+    # Prioritize value_opportunities.csv (current daily VALUE system)
+    value_path = Path("docs/value_opportunities.csv")
     ultimate_path = Path("docs/super_scores_ultimate.csv")
     opps_5d_path = Path("docs/super_opportunities_5d_complete.csv")
 
-    if ultimate_path.exists():
-        print(f"🎯 Usando Super Score Ultimate (nuevo sistema VCP+ML+Fund)")
-        csv_path = str(ultimate_path)
-        lookback_days = 180
-    elif opps_5d_path.exists():
-        print(f"📊 Usando 5D Opportunities (sistema legacy)")
+    csv_path = None
+    lookback_days = 180
+    if value_path.exists():
+        print("🎯 Usando Value Opportunities (sistema VALUE diario)")
+        csv_path = str(value_path)
+    elif ultimate_path.exists():
+        import pandas as _pd
+        _df = _pd.read_csv(ultimate_path)
+        if "super_score_ultimate" in _df.columns and _df["super_score_ultimate"].max() >= 55:
+            print("🎯 Usando Super Score Ultimate (nuevo sistema VCP+ML+Fund)")
+            csv_path = str(ultimate_path)
+        else:
+            print("⚠️  super_scores_ultimate.csv scores demasiado bajos")
+    if csv_path is None and opps_5d_path.exists():
+        print("📊 Usando 5D Opportunities (sistema legacy)")
         csv_path = str(opps_5d_path)
-        lookback_days = 180
-        print("   ⚠️  Nota: Sistema legacy usa escala de scoring diferente")
-    else:
-        print("\n❌ No se encontró archivo CSV de oportunidades")
+    if csv_path is None:
+        print("\n❌ No se encontró archivo CSV de oportunidades válido")
         print("   Ejecuta primero: python3 super_score_integrator.py")
         sys.exit(1)
 

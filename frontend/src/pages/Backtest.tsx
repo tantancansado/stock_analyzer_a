@@ -35,12 +35,12 @@ export default function Backtest() {
 
   const totalTrades = metrics.total_trades as number ?? metrics.total_signals as number ?? null
   const winRate = metrics.win_rate as number ?? null
-  const avgReturn = metrics.avg_return as number ?? metrics.average_return as number ?? null
-  const totalReturn = metrics.total_return as number ?? null
+  const avgReturn = metrics.avg_return as number ?? metrics.average_return as number ?? metrics.avg_trade as number ?? null
+  const totalReturn = metrics.total_return as number ?? metrics.total_return_pct as number ?? null
   const maxDrawdown = metrics.max_drawdown as number ?? null
   const profitFactor = metrics.profit_factor as number ?? null
 
-  const strategies = (bt.strategies || bt.strategy_results) as Record<string, Record<string, unknown>> ?? null
+  const strategies = (bt.strategies || bt.strategy_results || metrics.strategies) as Record<string, Record<string, unknown>> ?? null
 
   const statCards = [
     totalTrades != null && { label: 'Total Trades', value: String(totalTrades), sub: 'operaciones ejecutadas', color: '' },
@@ -96,9 +96,11 @@ export default function Backtest() {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <span className={`font-semibold ${(s.avg_return as number) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {s.avg_return != null ? `${Number(s.avg_return).toFixed(2)}%` : '—'}
+                    {(() => { const v = s.avg_return ?? s.avg_profit; return (
+                    <span className={`font-semibold ${(v as number) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {v != null ? `${Number(v).toFixed(2)}%` : '—'}
                     </span>
+                    ); })()}
                   </TableCell>
                 </TableRow>
               ))}
