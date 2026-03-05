@@ -143,10 +143,15 @@ def calculate_conviction_score(row) -> dict:
             red_flags.append("FCF negativo (quema caja)")
 
     # ─── 4. DCF Valuation cross-check (max 15pts) ───
+    # Skip DCF for London-listed stocks (.L suffix) — prices in pence, DCF in GBP → false negative
     max_score += 15
     price = _sf(row.get('current_price'))
     dcf = _sf(row.get('target_price_dcf'))
-    if price and dcf and price > 0:
+    ticker_str = str(row.get('ticker', ''))
+    is_london = ticker_str.upper().endswith('.L')
+    if is_london:
+        score += 5  # Neutral — don't penalise, don't reward (data units mismatch)
+    elif price and dcf and price > 0:
         dcf_upside = (dcf - price) / price * 100
         if dcf_upside >= 50:
             score += 15
@@ -263,6 +268,33 @@ def calculate_conviction_score(row) -> dict:
         elif margin < 0:
             score -= 5
             red_flags.append("Margen negativo")
+
+    # ─── 11. "Fallen Angel" bonus ───────────────────────────────────────────────
+    # Empresa de calidad que ha caído mucho sin motivo fundamental = oportunidad
+    # Principio Lynch: comprar empresas sólidas en caídas de mercado, no de negocio
+    max_score += 12
+    proximity = _sf(row.get('proximity_to_52w_high'))  # negativo, ej: -32.3
+    fundamentals_intact = (roe is not None and roe >= 15) and (fcf is not None and fcf >= 3)
+    if proximity is not None and proximity <= -20:
+        if fundamentals_intact:
+            if proximity <= -35:
+                score += 12
+                reasons.append(f"Fallen Angel: -{abs(proximity):.0f}% desde max · fundamentos intactos")
+            elif proximity <= -25:
+                score += 9
+                reasons.append(f"Gran caída: -{abs(proximity):.0f}% con ROE/FCF sólidos")
+            else:
+                score += 6
+                reasons.append(f"Caída -{abs(proximity):.0f}% · oportunidad de entrada")
+        else:
+            # Caída grande SIN fundamentales — sí es una red flag
+            if proximity <= -40:
+                score -= 3
+                red_flags.append(f"Caída -{abs(proximity):.0f}% sin fundamentos sólidos")
+    elif proximity is not None and -10 <= proximity <= -5:
+        # Cerca de máximos con buenos fundamentales: momentum confirmado
+        if fundamentals_intact:
+            score += 3
 
     # ─── Normalize to 0-100 ───
     conviction_score = max(0, min(100, (score / max_score) * 100)) if max_score > 0 else 0
