@@ -23,6 +23,7 @@ type GlobalOpportunity = ValueOpportunity & {
   revenue_growth_pct?: number
   pct_from_52w_high?: number
   risk_flags?: string
+  nasdaq_adr?: string
   ai_verdict?: string
   ai_notes?: string
 }
@@ -337,6 +338,16 @@ export default function GlobalValue() {
                               </div>
                             ))}
                           </div>
+                          {/* US ADR alternative */}
+                          {expandedRow.nasdaq_adr && (
+                            <div className="flex items-center gap-2 mt-3 mb-1">
+                              <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">También en US</span>
+                              <span className="font-mono text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded">
+                                {expandedRow.nasdaq_adr}
+                              </span>
+                              <span className="text-[0.65rem] text-muted-foreground">NYSE/NASDAQ/OTC · cotiza en USD · horario europeo</span>
+                            </div>
+                          )}
                           {/* Risk flags + AI verdict */}
                           {(expandedRow.risk_flags || expandedRow.ai_verdict) && (
                             <div className="border-t border-border/40 pt-4 mt-4">

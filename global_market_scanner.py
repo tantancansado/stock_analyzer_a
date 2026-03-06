@@ -23,6 +23,40 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 OUTPUT_FILE = DOCS / "global_value_opportunities.csv"
 RATE_DELAY = 0.8  # seconds between yfinance calls
 
+# US-listed equivalents (NYSE/NASDAQ or OTC) for native tickers
+ADR_MAP = {
+    # Hong Kong
+    "9999.HK": "NTES",    # NetEase → NASDAQ
+    "9988.HK": "BABA",    # Alibaba → NYSE
+    "9618.HK": "JD",      # JD.com → NASDAQ
+    "0700.HK": "TCEHY",   # Tencent → OTC
+    "1211.HK": "BYDDF",   # BYD → OTC
+    "0005.HK": "HSBC",    # HSBC → NYSE
+    "2318.HK": "PNGAY",   # Ping An → OTC
+    # Japan
+    "7203.T":  "TM",      # Toyota → NYSE
+    "6758.T":  "SONY",    # Sony → NYSE
+    "8306.T":  "MUFG",    # MUFG → NYSE
+    "8316.T":  "SMFG",    # SMFG → NYSE
+    "9984.T":  "SFTBY",   # SoftBank → OTC
+    "7974.T":  "NTDOY",   # Nintendo → OTC
+    "4568.T":  "DSNKY",   # Daiichi Sankyo → OTC
+    "6098.T":  "RCRUY",   # Recruit → OTC
+    "8766.T":  "TKOMY",   # Tokio Marine → OTC
+    # Brazil
+    "VALE3.SA": "VALE",   # Vale → NYSE
+    "ITUB4.SA": "ITUB",   # Itaú → NYSE
+    "BBDC4.SA": "BBD",    # Bradesco → NYSE
+    "PETR4.SA": "PBR",    # Petrobras → NYSE
+    "WEGE3.SA": "WEGZY",  # WEG → OTC
+    "ABEV3.SA": "ABEV",   # Ambev → NYSE
+    "RDOR3.SA": "RDORY",  # Rede D'Or → OTC
+    # Korea (mostly OTC Pink Sheets)
+    "005930.KS": "SSNLF", # Samsung → OTC
+    "005380.KS": "HYMTF", # Hyundai Motor → OTC
+    "000660.KS": "HXSCL", # SK Hynix → OTC
+}
+
 # CAPE context per market (Dec 2025 data from Siblis Research)
 MARKET_CAPE = {
     "Brazil":    {"cape": 9.0,  "hist_avg": 13.6, "flag": "🇧🇷", "currency": "BRL", "currency_symbol": "R$"},
@@ -393,6 +427,7 @@ def _score_ticker(ticker: str, market: str):
         "revenue_growth_pct": round(revenue_growth * 100, 1) if revenue_growth else None,
         "pct_from_52w_high": pct_from_52w_high,
         "risk_flags": " | ".join(risk_flags) if risk_flags else "",
+        "nasdaq_adr": ADR_MAP.get(ticker, ""),
         "ai_verdict": "",   # filled by _ai_verify_stock()
         "ai_notes": "",     # filled by _ai_verify_stock()
         "scan_date": datetime.now().strftime("%Y-%m-%d"),
