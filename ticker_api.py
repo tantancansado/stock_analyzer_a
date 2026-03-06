@@ -1244,6 +1244,40 @@ def macro_radar_history():
     return jsonify({'history': sorted(points, key=lambda x: x['date'])})
 
 
+@app.route('/api/earnings-calendar')
+def earnings_calendar():
+    """Return upcoming earnings from fundamental_scores.csv sorted by date."""
+    from datetime import datetime as dt2
+    df = _load_csv(DOCS / 'fundamental_scores.csv')
+    if df is None:
+        return jsonify({'earnings': []}), 200
+
+    df = df.reset_index()
+    rows = []
+    today_str = dt2.now().strftime('%Y-%m-%d')
+    for _, row in df.iterrows():
+        edate = str(row.get('earnings_date', '') or '')
+        if not edate or edate in ('nan', 'NaT', 'None', ''):
+            continue
+        # Only future earnings
+        if edate < today_str:
+            continue
+        rows.append({
+            'ticker': str(row.get('ticker', '')),
+            'company': str(row.get('company_name', '')),
+            'sector': str(row.get('sector', '')),
+            'earnings_date': edate,
+            'days_to_earnings': _sf(row.get('days_to_earnings')),
+            'earnings_warning': bool(row.get('earnings_warning', False)),
+            'earnings_catalyst': bool(row.get('earnings_catalyst', False)),
+            'fundamental_score': _sf(row.get('fundamental_score')),
+            'current_price': _sf(row.get('current_price')),
+            'analyst_upside_pct': _sf(row.get('analyst_upside_pct')),
+        })
+    rows.sort(key=lambda x: x['earnings_date'])
+    return jsonify({'earnings': rows, 'total': len(rows), 'as_of': today_str})
+
+
 @app.route('/api/backtest')
 def backtest():
     # Try mean reversion backtest first (most recent)

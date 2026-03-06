@@ -236,6 +236,22 @@ export const fetchMacroRadar = () =>
 export const fetchMacroRadarHistory = () =>
   api.get<{ history: Array<{ date: string; composite_score: number; composite_pct: number; regime: string; regime_color: string }> }>('/api/macro-radar/history')
 
+export interface EarningsEntry {
+  ticker: string
+  company: string
+  sector: string
+  earnings_date: string
+  days_to_earnings: number | null
+  earnings_warning: boolean
+  earnings_catalyst: boolean
+  fundamental_score: number | null
+  current_price: number | null
+  analyst_upside_pct: number | null
+}
+
+export const fetchEarningsCalendar = () =>
+  api.get<{ earnings: EarningsEntry[]; total: number; as_of: string }>('/api/earnings-calendar')
+
 export const fetchBacktest = () =>
   api.get('/api/backtest')
 
