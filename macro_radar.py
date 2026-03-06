@@ -104,14 +104,45 @@ SIGNALS = {
         'direction': 'normal',         # SPY above 200d MA = good
         'description': 'SPY vs 200d MA + momentum. Proxy for broad market health',
     },
+    # ── Smart Money / Hidden Signals ──────────────────────────────────────
+    'skew': {
+        'label': 'SKEW Index (Tail Risk)',
+        'ticker': '^SKEW',
+        'direction': 'inverse',        # high SKEW = institutions buying crash insurance = bad
+        'description': 'CBOE SKEW: when VIX is calm but SKEW >130 = institutions buying deep OTM puts. Retail never checks this.',
+    },
+    'vvix': {
+        'label': 'VVIX (Vol of Vol)',
+        'ticker': '^VVIX',
+        'direction': 'inverse',        # high VVIX = uncertainty about uncertainty = bad
+        'description': 'Volatility of VIX. Rising VVIX while VIX is moderate = smart money buying vol insurance. Precedes VIX spikes.',
+    },
+    'regional_banks': {
+        'label': 'Bancos Regionales (KRE)',
+        'tickers': ['KRE', 'SPY'],
+        'direction': 'normal',         # KRE outperforming = credit system healthy
+        'description': 'KRE vs SPY. Regional banks lead credit stress. SVB was -40% before collapse. Underperformance = systemic risk brewing.',
+    },
+    'small_cap': {
+        'label': 'Small Cap vs Large (IWM)',
+        'tickers': ['IWM', 'SPY'],
+        'direction': 'normal',         # IWM outperforming = broad liquidity = good
+        'description': 'IWM/SPY ratio. Small caps access credit differently. Divergence = liquidity concentrating = late cycle signal.',
+    },
+    'real_yields': {
+        'label': 'Yields Reales (TIP/TLT)',
+        'tickers': ['TIP', 'TLT'],
+        'direction': 'normal',         # TIP outperforming TLT = real yields falling = good for risk
+        'description': 'TIP vs TLT proxy for real yield direction. Rising real yields crush growth stocks. Perfect 2022 crash signal.',
+    },
 }
 
 REGIME_LABELS = {
-    (2, 20):  ('CALM',   '#10b981', 'Mercado en calma. Condiciones favorables para operar.'),
-    (0, 2):   ('WATCH',  '#84cc16', 'Precaución. Señales mixtas, mantener vigilancia.'),
-    (-4, 0):  ('STRESS', '#f59e0b', 'Estrés moderado. Reducir exposición, gestionar riesgo.'),
-    (-8, -4): ('ALERT',  '#f97316', 'Alerta elevada. Riesgo sistémico aumentando.'),
-    (-20, -8):('CRISIS', '#ef4444', 'Crisis potencial. Capital preservation mode.'),
+    (3, 30):   ('CALM',   '#10b981', 'Mercado en calma. Condiciones favorables para operar.'),
+    (0, 3):    ('WATCH',  '#84cc16', 'Precaución. Señales mixtas, mantener vigilancia.'),
+    (-6, 0):   ('STRESS', '#f59e0b', 'Estrés moderado. Reducir exposición, gestionar riesgo.'),
+    (-12, -6): ('ALERT',  '#f97316', 'Alerta elevada. Riesgo sistémico aumentando.'),
+    (-30, -12):('CRISIS', '#ef4444', 'Crisis potencial. Capital preservation mode.'),
 }
 
 
@@ -292,6 +323,53 @@ def _score_ratio(df_num: pd.DataFrame, df_den: pd.DataFrame, signal_key: str) ->
             score = 2
         label = 'superando' if pct > 60 else 'rezagado' if pct < 40 else 'en línea'
         interp = f"Defensa (ITA) {label} vs SPY (p{pct:.0f})"
+    elif signal_key == 'regional_banks':
+        # KRE/SPY: underperforming = credit stress brewing = bad
+        if pct < 20 and mom_20d < -3:
+            score = -2
+        elif pct < 30:
+            score = -1
+        elif pct < 45:
+            score = -0.5
+        elif pct > 60:
+            score = 1
+        else:
+            score = 0
+        trend = 'rezagado' if pct < 35 else 'en línea' if pct < 60 else 'superando'
+        interp = f"KRE/SPY {trend} (p{pct:.0f}, {mom_20d:+.1f}% 20d)"
+
+    elif signal_key == 'small_cap':
+        # IWM/SPY: underperforming = liquidity concentrating = late cycle = bad
+        if pct < 20 and mom_20d < -3:
+            score = -2
+        elif pct < 30:
+            score = -1
+        elif pct < 45:
+            score = -0.5
+        elif pct > 65:
+            score = 1.5
+        elif pct > 50:
+            score = 0.5
+        else:
+            score = 0
+        trend = 'rezagado (liquidez concentrada)' if pct < 35 else 'en línea' if pct < 60 else 'superando (risk-on)'
+        interp = f"IWM/SPY {trend} (p{pct:.0f})"
+
+    elif signal_key == 'real_yields':
+        # TIP/TLT: falling ratio = rising real yields = bad for risk assets
+        if pct < 15 and mom_20d < -3:
+            score = -2
+        elif pct < 25:
+            score = -1
+        elif pct < 40:
+            score = -0.5
+        elif pct > 65:
+            score = 1
+        else:
+            score = 0
+        trend = 'yields reales subiendo (presión growth)' if pct < 35 else 'neutrales' if pct < 60 else 'yields reales bajando (favorable)'
+        interp = f"TIP/TLT en p{pct:.0f} ({trend})"
+
     else:
         score = 0
         interp = 'Ratio'
@@ -448,6 +526,72 @@ def _score_breadth(df_spy: pd.DataFrame) -> dict:
         'score': max(-2, min(2, score)),
         'change_20d': round(change_20d, 1),
         'interpretation': f"SPY {pct_from_200:+.1f}% vs MA200 ({label})",
+    }
+
+
+def _score_skew(df: pd.DataFrame) -> dict:
+    """CBOE SKEW: >130 = institutions buying deep OTM puts = tail risk = bad."""
+    close = df['Close'].dropna()
+    current = float(close.iloc[-1])
+    pct = _percentile(close, current)
+    change_5d = float((close.iloc[-1] / close.iloc[-6] - 1) * 100) if len(close) > 5 else 0
+
+    # Level-based: SKEW above 130 means institutional crash insurance demand
+    if current > 145:
+        score = -2
+        label = 'crash insurance extremo'
+    elif current > 135:
+        score = -1.5
+        label = 'alta demanda put OTM'
+    elif current > 125:
+        score = -0.5
+        label = 'precaución institucional'
+    elif current > 115:
+        score = 0.5
+        label = 'rango normal'
+    else:
+        score = 1
+        label = 'baja demanda tail risk'
+
+    return {
+        'current': round(current, 2),
+        'percentile': round(pct, 1),
+        'score': max(-2, min(2, score)),
+        'change_5d': round(change_5d, 1),
+        'interpretation': f"SKEW {current:.0f} ({label})",
+    }
+
+
+def _score_vvix(df: pd.DataFrame) -> dict:
+    """VVIX: volatility of VIX. High percentile = smart money buying vol insurance = bad."""
+    close = df['Close'].dropna()
+    current = float(close.iloc[-1])
+    pct = _percentile(close, current)
+    change_5d = float((close.iloc[-1] / close.iloc[-6] - 1) * 100) if len(close) > 5 else 0
+
+    # Percentile-based: high VVIX precedes VIX spikes
+    if pct > 85:
+        score = -2
+        label = 'extrema incertidumbre sobre vol'
+    elif pct > 70:
+        score = -1
+        label = 'incertidumbre elevada'
+    elif pct > 55:
+        score = -0.5
+        label = 'precaución'
+    elif pct > 35:
+        score = 0.5
+        label = 'rango normal'
+    else:
+        score = 1
+        label = 'baja incertidumbre'
+
+    return {
+        'current': round(current, 2),
+        'percentile': round(pct, 1),
+        'score': max(-2, min(2, score)),
+        'change_5d': round(change_5d, 1),
+        'interpretation': f"VVIX {current:.1f} (p{pct:.0f}, {label})",
     }
 
 
@@ -609,6 +753,57 @@ def run_macro_radar() -> dict:
         errors.append('breadth')
         results['breadth'] = {'current': None, 'score': 0, 'interpretation': 'Sin datos'}
 
+    # ── 11. SKEW Index (Tail Risk) ────────────────────────────────────────
+    print("Fetching SKEW Index (^SKEW)...")
+    df_skew = _fetch('^SKEW')
+    if df_skew is not None:
+        results['skew'] = _score_skew(df_skew)
+        print(f"  SKEW: {results['skew']['current']} → score {results['skew']['score']:+.1f}")
+    else:
+        errors.append('skew')
+        results['skew'] = {'current': None, 'score': 0, 'interpretation': 'Sin datos'}
+
+    # ── 12. VVIX (Vol of Vol) ─────────────────────────────────────────────
+    print("Fetching VVIX (^VVIX)...")
+    df_vvix = _fetch('^VVIX')
+    if df_vvix is not None:
+        results['vvix'] = _score_vvix(df_vvix)
+        print(f"  VVIX: {results['vvix']['current']} → score {results['vvix']['score']:+.1f}")
+    else:
+        errors.append('vvix')
+        results['vvix'] = {'current': None, 'score': 0, 'interpretation': 'Sin datos'}
+
+    # ── 13. Regional Banks (KRE/SPY) ─────────────────────────────────────
+    print("Fetching Regional Banks (KRE, SPY)...")
+    df_kre = _fetch('KRE')
+    if df_kre is not None and df_spy is not None:
+        results['regional_banks'] = _score_ratio(df_kre, df_spy, 'regional_banks')
+        print(f"  Regional Banks: ratio {results['regional_banks']['current']} → score {results['regional_banks']['score']:+.1f}")
+    else:
+        errors.append('regional_banks')
+        results['regional_banks'] = {'current': None, 'score': 0, 'interpretation': 'Sin datos'}
+
+    # ── 14. Small Cap vs Large (IWM/SPY) ──────────────────────────────────
+    print("Fetching Small Cap (IWM, SPY)...")
+    df_iwm = _fetch('IWM')
+    if df_iwm is not None and df_spy is not None:
+        results['small_cap'] = _score_ratio(df_iwm, df_spy, 'small_cap')
+        print(f"  Small Cap: ratio {results['small_cap']['current']} → score {results['small_cap']['score']:+.1f}")
+    else:
+        errors.append('small_cap')
+        results['small_cap'] = {'current': None, 'score': 0, 'interpretation': 'Sin datos'}
+
+    # ── 15. Real Yields (TIP/TLT) ─────────────────────────────────────────
+    print("Fetching Real Yields (TIP, TLT)...")
+    df_tip = _fetch('TIP')
+    df_tlt = _fetch('TLT')
+    if df_tip is not None and df_tlt is not None:
+        results['real_yields'] = _score_ratio(df_tip, df_tlt, 'real_yields')
+        print(f"  Real Yields: ratio {results['real_yields']['current']} → score {results['real_yields']['score']:+.1f}")
+    else:
+        errors.append('real_yields')
+        results['real_yields'] = {'current': None, 'score': 0, 'interpretation': 'Sin datos'}
+
     # ── Composite score ────────────────────────────────────────────────────
     scores = [results[k]['score'] for k in results if results[k]['score'] is not None]
     composite = sum(scores)
@@ -648,8 +843,11 @@ def run_macro_radar() -> dict:
         'signals': enriched,
         'errors': errors,
         'ai_narrative': ai_narrative,
-        'signal_order': ['vix', 'yield_curve', 'credit', 'copper_gold', 'gold_spy',
-                         'oil', 'defense', 'dollar', 'yen', 'breadth'],
+        'signal_order': [
+            'vix', 'yield_curve', 'credit', 'copper_gold', 'gold_spy',
+            'oil', 'defense', 'dollar', 'yen', 'breadth',
+            'skew', 'vvix', 'regional_banks', 'small_cap', 'real_yields',
+        ],
     }
 
     # ── Detect regime change (compare to yesterday's saved JSON) ─────────────

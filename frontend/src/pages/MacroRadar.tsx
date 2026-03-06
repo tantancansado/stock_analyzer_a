@@ -29,16 +29,21 @@ interface MacroData {
 }
 
 const SIGNAL_ICONS: Record<string, string> = {
-  vix:         '⚡',
-  yield_curve: '📈',
-  credit:      '💳',
-  copper_gold: '🔩',
-  gold_spy:    '🥇',
-  oil:         '🛢',
-  defense:     '🛡',
-  dollar:      '💵',
-  yen:         '🇯🇵',
-  breadth:     '📊',
+  vix:            '⚡',
+  yield_curve:    '📈',
+  credit:         '💳',
+  copper_gold:    '🔩',
+  gold_spy:       '🥇',
+  oil:            '🛢',
+  defense:        '🛡',
+  dollar:         '💵',
+  yen:            '🇯🇵',
+  breadth:        '📊',
+  skew:           '🎯',
+  vvix:           '🌀',
+  regional_banks: '🏦',
+  small_cap:      '🔬',
+  real_yields:    '📉',
 }
 
 function scoreToColor(score: number): string {
@@ -79,7 +84,7 @@ function regimeBadgeVariant(name: string): string {
 function ScoreGauge({ score, max }: { score: number; max: number }) {
   // score range: -max to +max → normalize to 0-100
   const pct = ((score + max) / (2 * max)) * 100
-  const color = score >= 4 ? '#10b981' : score >= 0 ? '#84cc16' : score >= -4 ? '#f59e0b' : score >= -8 ? '#f97316' : '#ef4444'
+  const color = score >= 6 ? '#10b981' : score >= 0 ? '#84cc16' : score >= -6 ? '#f59e0b' : score >= -12 ? '#f97316' : '#ef4444'
   return (
     <div className="relative w-full">
       <div className="flex justify-between text-[0.65rem] text-muted-foreground mb-1">
@@ -324,14 +329,29 @@ export default function MacroRadar() {
       </Card>
 
       {/* Signal grid */}
-      <div>
-        <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
-          Señales ({orderedSignals.length})
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
-          {orderedSignals.map(key => (
-            <SignalCard key={key} id={key} signal={signals[key]} />
-          ))}
+      <div className="space-y-4">
+        <div>
+          <h2 className="text-sm font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+            Señales clásicas
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {orderedSignals.filter(k => !['skew','vvix','regional_banks','small_cap','real_yields'].includes(k)).map(key => (
+              <SignalCard key={key} id={key} signal={signals[key]} />
+            ))}
+          </div>
+        </div>
+        <div>
+          <h2 className="text-sm font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
+            Smart Money — señales que el retail ignora
+          </h2>
+          <p className="text-xs text-muted-foreground/60 mb-3">
+            SKEW, VVIX, bancos regionales, small caps y yields reales — indicadores de posicionamiento institucional
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {orderedSignals.filter(k => ['skew','vvix','regional_banks','small_cap','real_yields'].includes(k)).map(key => (
+              <SignalCard key={key} id={key} signal={signals[key]} />
+            ))}
+          </div>
         </div>
       </div>
 
