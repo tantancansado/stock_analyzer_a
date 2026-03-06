@@ -1,0 +1,127 @@
+{
+  "timestamp": "2026-03-06T21:20:37.206632",
+  "date": "2026-03-06",
+  "regime": {
+    "name": "ALERT",
+    "color": "#f97316",
+    "description": "Alerta elevada. Riesgo sist\u00e9mico aumentando."
+  },
+  "composite_score": -7.0,
+  "composite_pct": 32.5,
+  "max_score": 20,
+  "signals": {
+    "vix": {
+      "current": 26.4,
+      "percentile": 93.1,
+      "score": -1.5,
+      "change_5d": 32.9,
+      "interpretation": "VIX 26.4 (alto)",
+      "label": "Volatilidad (VIX)",
+      "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
+    },
+    "yield_curve": {
+      "current": 56.3,
+      "percentile": 84.4,
+      "score": 0.5,
+      "interpretation": "Spread 2s10s: 56bps (normal)",
+      "label": "Curva Tipos (2s10s)",
+      "description": "87.5% recession accuracy since 1968. Inversion = -2"
+    },
+    "credit": {
+      "current": 0.7241,
+      "percentile": 37.7,
+      "score": 0,
+      "change_5d": 0.3,
+      "change_20d": -0.5,
+      "interpretation": "HYG/LQD ratio en p38 (spreads neutros)",
+      "label": "Cr\u00e9dito HY/IG",
+      "description": "HY spread >400bps = systemic stress. Ratio compression = risk-off"
+    },
+    "copper_gold": {
+      "current": 0.0123,
+      "percentile": 1.4,
+      "score": -2,
+      "change_5d": -0.8,
+      "change_20d": -6.2,
+      "interpretation": "Cobre/Oro en p1, estable (-0.8% 5d)",
+      "label": "Cobre/Oro (Dr. Copper)",
+      "description": "Falling = recession pessimism. Most underappreciated indicator"
+    },
+    "gold_spy": {
+      "current": 0.7028,
+      "percentile": 97.8,
+      "score": -2,
+      "change_5d": -0.3,
+      "change_20d": 7.8,
+      "interpretation": "Oro superando mercado vs SPY (p98)",
+      "label": "Oro vs Mercado",
+      "description": "Gold outperformance signals safe-haven rotation"
+    },
+    "oil": {
+      "current": 91.18,
+      "percentile": 99.6,
+      "score": -2,
+      "change_5d": 36.0,
+      "change_20d": 44.1,
+      "interpretation": "Petroleo $91.2 (spike geopolitico)",
+      "label": "Petr\u00f3leo (Geopol\u00edtico)",
+      "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
+    },
+    "defense": {
+      "current": 0.3585,
+      "percentile": 98.6,
+      "score": -2,
+      "change_5d": 0.9,
+      "change_20d": 7.4,
+      "interpretation": "Defensa (ITA) superando vs SPY (p99)",
+      "label": "Defensa vs Mercado",
+      "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
+    },
+    "dollar": {
+      "current": 98.96,
+      "percentile": 54.2,
+      "score": 1,
+      "change_5d": 1.39,
+      "change_20d": 1.17,
+      "interpretation": "DXY 99.0 (rango neutro)",
+      "label": "D\u00f3lar (DXY)",
+      "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
+    },
+    "yen": {
+      "current": 157.91,
+      "percentile": 96.5,
+      "score": 1,
+      "change_5d": 1.32,
+      "change_20d": 0.72,
+      "interpretation": "USD/JPY 157.9 (yen debil (risk-on))",
+      "label": "Yen (Safe Haven)",
+      "description": "USDJPY falling = yen strengthening = risk-off / fear"
+    },
+    "breadth": {
+      "current": 673.85,
+      "ma50": 688.08,
+      "ma200": 654.14,
+      "pct_from_200": 3.0,
+      "pct_from_50": -2.1,
+      "score": 0,
+      "change_20d": -0.6,
+      "interpretation": "SPY +3.0% vs MA200 (en zona de soporte)",
+      "label": "Amplitud Mercado",
+      "description": "SPY vs 200d MA + momentum. Proxy for broad market health"
+    }
+  },
+  "errors": [],
+  "ai_narrative": null,
+  "signal_order": [
+    "vix",
+    "yield_curve",
+    "credit",
+    "copper_gold",
+    "gold_spy",
+    "oil",
+    "defense",
+    "dollar",
+    "yen",
+    "breadth"
+  ]
+}

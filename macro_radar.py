@@ -29,6 +29,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 import yfinance as yf
+from typing import Optional
 
 # ── Groq AI analysis ──────────────────────────────────────────────────────────
 try:
@@ -114,14 +115,18 @@ REGIME_LABELS = {
 }
 
 
-def _fetch(ticker: str, period_days: int = 400) -> pd.DataFrame | None:
-    """Fetch historical data for a ticker with retry."""
+def _fetch(ticker: str, period_days: int = 400) -> Optional[pd.DataFrame]:
+    """Fetch historical data for a ticker with retry. Normalizes multi-level columns."""
     start = (datetime.now() - timedelta(days=period_days)).strftime('%Y-%m-%d')
     for attempt in range(3):
         try:
             df = yf.download(ticker, start=start, progress=False, auto_adjust=True)
-            if df is not None and len(df) > 20:
-                return df
+            if df is None or len(df) < 20:
+                continue
+            # Flatten multi-level columns (yfinance >=0.2.x returns MultiIndex)
+            if isinstance(df.columns, pd.MultiIndex):
+                df.columns = [col[0] for col in df.columns]
+            return df
         except Exception as e:
             print(f"  Attempt {attempt+1} failed for {ticker}: {e}")
             time.sleep(2 ** attempt)
@@ -175,7 +180,9 @@ def _score_yield_curve(df10: pd.DataFrame, df2: pd.DataFrame) -> dict:
     c2 = df2['Close'].dropna()
 
     # Align by date
-    aligned = pd.concat([c10.rename('t10'), c2.rename('t2')], axis=1).dropna()
+    c10.name = 't10'
+    c2.name = 't2'
+    aligned = pd.concat([c10, c2], axis=1).dropna()
     if len(aligned) < 10:
         return {'current': 0, 'percentile': 50, 'score': 0, 'interpretation': 'Sin datos'}
 
@@ -212,7 +219,9 @@ def _score_ratio(df_num: pd.DataFrame, df_den: pd.DataFrame, signal_key: str) ->
     c_num = df_num['Close'].dropna()
     c_den = df_den['Close'].dropna()
 
-    aligned = pd.concat([c_num.rename('num'), c_den.rename('den')], axis=1).dropna()
+    c_num.name = 'num'
+    c_den.name = 'den'
+    aligned = pd.concat([c_num, c_den], axis=1).dropna()
     if len(aligned) < 20:
         return {'current': 0, 'percentile': 50, 'score': 0, 'interpretation': 'Sin datos'}
 
@@ -450,7 +459,7 @@ def _get_regime(composite: float) -> dict:
     return {'name': 'WATCH', 'color': '#84cc16', 'description': 'Señales mixtas, mantener vigilancia.'}
 
 
-def _groq_analysis(signals: dict, composite: float, regime: str) -> str | None:
+def _groq_analysis(signals: dict, composite: float, regime: str) -> Optional[str]:
     """Ask Groq AI for a narrative analysis of the current signals."""
     if not _groq:
         return None
