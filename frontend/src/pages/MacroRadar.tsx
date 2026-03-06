@@ -1,4 +1,4 @@
-import { fetchMacroRadar } from '../api/client'
+import { fetchMacroRadar, fetchMacroRadarHistory } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
@@ -159,8 +159,92 @@ function SignalCard({ id, signal }: { id: string; signal: SignalData }) {
   )
 }
 
+interface HistoryPoint {
+  date: string
+  composite_score: number
+  regime: string
+  regime_color: string
+}
+
+const REGIME_COLORS: Record<string, string> = {
+  CALM: '#10b981', WATCH: '#84cc16', STRESS: '#f59e0b', ALERT: '#f97316', CRISIS: '#ef4444',
+}
+
+function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: number }) {
+  if (points.length < 2) {
+    return (
+      <div className="flex items-center justify-center h-24 text-xs text-muted-foreground/60">
+        Historial en construcción — disponible tras varios días de pipeline
+      </div>
+    )
+  }
+
+  const W = 600, H = 100, PAD = { t: 8, b: 20, l: 28, r: 8 }
+  const innerW = W - PAD.l - PAD.r
+  const innerH = H - PAD.t - PAD.b
+
+  const xScale = (i: number) => PAD.l + (i / (points.length - 1)) * innerW
+  const yScale = (v: number) => PAD.t + ((maxScore - v) / (2 * maxScore)) * innerH
+
+  const y0 = yScale(0)
+
+  // Build polyline path
+  const pts = points.map((p, i) => `${xScale(i)},${yScale(p.composite_score)}`).join(' ')
+
+  // X-axis date labels: show first, middle, last
+  const labelIdxs = [0, Math.floor(points.length / 2), points.length - 1]
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 100 }}>
+      {/* Zero line */}
+      <line x1={PAD.l} y1={y0} x2={W - PAD.r} y2={y0} stroke="currentColor" strokeOpacity="0.15" strokeDasharray="3,3" />
+
+      {/* Danger zone shading (below 0) */}
+      <rect x={PAD.l} y={y0} width={innerW} height={innerH - (y0 - PAD.t)} fill="#ef4444" fillOpacity="0.04" />
+
+      {/* Area fill */}
+      <polyline
+        points={[
+          `${xScale(0)},${y0}`,
+          ...points.map((p, i) => `${xScale(i)},${yScale(p.composite_score)}`),
+          `${xScale(points.length - 1)},${y0}`,
+        ].join(' ')}
+        fill={points[points.length - 1].composite_score >= 0 ? '#10b981' : '#f97316'}
+        fillOpacity="0.08"
+      />
+
+      {/* Line */}
+      <polyline points={pts} fill="none" stroke={REGIME_COLORS[points[points.length - 1].regime] ?? '#6366f1'} strokeWidth="1.5" strokeLinejoin="round" />
+
+      {/* Dots (colored by regime) */}
+      {points.map((p, i) => (
+        <circle
+          key={i}
+          cx={xScale(i)}
+          cy={yScale(p.composite_score)}
+          r={points.length > 20 ? 1.5 : 2.5}
+          fill={REGIME_COLORS[p.regime] ?? '#94a3b8'}
+        />
+      ))}
+
+      {/* X-axis labels */}
+      {labelIdxs.map(i => (
+        <text key={i} x={xScale(i)} y={H - 4} textAnchor="middle" fontSize="7" fill="currentColor" fillOpacity="0.4">
+          {points[i].date.slice(5)}
+        </text>
+      ))}
+
+      {/* Y-axis labels */}
+      <text x={PAD.l - 2} y={PAD.t + 4} textAnchor="end" fontSize="7" fill="currentColor" fillOpacity="0.4">+{maxScore}</text>
+      <text x={PAD.l - 2} y={y0 + 3} textAnchor="end" fontSize="7" fill="currentColor" fillOpacity="0.4">0</text>
+      <text x={PAD.l - 2} y={H - PAD.b + 2} textAnchor="end" fontSize="7" fill="currentColor" fillOpacity="0.4">-{maxScore}</text>
+    </svg>
+  )
+}
+
 export default function MacroRadar() {
   const { data, loading, error } = useApi<MacroData>(() => fetchMacroRadar(), [])
+  const { data: historyData } = useApi(() => fetchMacroRadarHistory(), [])
 
   if (loading) return <Loading />
   if (error) return <ErrorState message={error} />
@@ -223,6 +307,19 @@ export default function MacroRadar() {
               ))}
             </div>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* History chart */}
+      <Card className="glass border border-border/40">
+        <CardContent className="p-4">
+          <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+            Evolución del régimen (últimos {historyData?.history?.length ?? 0} días)
+          </p>
+          <HistoryChart
+            points={historyData?.history ?? []}
+            maxScore={max_score}
+          />
         </CardContent>
       </Card>
 

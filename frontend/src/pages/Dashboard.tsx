@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import {
   fetchMarketRegime, fetchValueOpportunities, fetchEUValueOpportunities,
   fetchPortfolioTracker, fetchRecurringInsiders, fetchOptionsFlow, fetchMeanReversion,
+  fetchMacroRadar,
   type ValueOpportunity, type InsiderData, type PortfolioSummary,
 } from '../api/client'
 import { useApi } from '../hooks/useApi'
@@ -10,7 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import GradeBadge from '../components/GradeBadge'
 import InfoTooltip from '../components/InfoTooltip'
-import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar } from 'lucide-react'
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -311,6 +312,97 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
   )
 }
 
+interface MacroSignal { score: number; label: string; interpretation: string }
+interface MacroData {
+  regime: { name: string; color: string; description: string }
+  composite_score: number
+  max_score: number
+  signals: Record<string, MacroSignal>
+  signal_order: string[]
+}
+
+const MACRO_REGIME_BG: Record<string, string> = {
+  CALM:   'bg-emerald-500/10 border-emerald-500/25',
+  WATCH:  'bg-lime-500/10 border-lime-500/25',
+  STRESS: 'bg-yellow-500/10 border-yellow-500/25',
+  ALERT:  'bg-orange-500/10 border-orange-500/25',
+  CRISIS: 'bg-red-500/10 border-red-500/25',
+}
+const MACRO_REGIME_TEXT: Record<string, string> = {
+  CALM: 'text-emerald-400', WATCH: 'text-lime-400', STRESS: 'text-yellow-400',
+  ALERT: 'text-orange-400', CRISIS: 'text-red-400',
+}
+
+function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) {
+  const macro = data as MacroData | null
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2 px-1">
+        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+          <Radar size={11} /> Macro Radar
+        </span>
+        <Link to="/macro-radar" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
+          Ver detalle <ChevronRight size={11} />
+        </Link>
+      </div>
+      <Card className={`glass border ${macro ? (MACRO_REGIME_BG[macro.regime?.name] ?? 'border-border/40') : 'border-border/40'} p-4`}>
+        {loading ? (
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-2 w-full" />
+            <Skeleton className="h-3 w-2/3" />
+          </div>
+        ) : !macro ? (
+          <p className="text-sm text-muted-foreground text-center py-2">Sin datos</p>
+        ) : (
+          <>
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: macro.regime?.color }} />
+                <span className={`text-base font-extrabold ${MACRO_REGIME_TEXT[macro.regime?.name] ?? 'text-foreground'}`}>
+                  {macro.regime?.name}
+                </span>
+              </div>
+              <span className="text-[0.65rem] text-muted-foreground tabular-nums">
+                {macro.composite_score > 0 ? '+' : ''}{macro.composite_score.toFixed(1)} / {macro.max_score}
+              </span>
+            </div>
+
+            {/* Composite gauge */}
+            <div className="h-1.5 w-full rounded-full bg-muted/30 overflow-hidden mb-2">
+              <div
+                className="h-full rounded-full transition-all duration-700"
+                style={{
+                  width: `${((macro.composite_score + macro.max_score) / (2 * macro.max_score)) * 100}%`,
+                  backgroundColor: macro.regime?.color,
+                }}
+              />
+            </div>
+
+            {/* Worst 3 signals */}
+            <div className="space-y-1">
+              {(macro.signal_order ?? Object.keys(macro.signals))
+                .map(k => ({ k, s: macro.signals[k] }))
+                .filter(x => x.s)
+                .sort((a, b) => (a.s.score ?? 0) - (b.s.score ?? 0))
+                .slice(0, 3)
+                .map(({ k, s }) => (
+                  <div key={k} className="flex items-center justify-between">
+                    <span className="text-[0.62rem] text-muted-foreground truncate">{s.label}</span>
+                    <span className={`text-[0.62rem] font-bold tabular-nums shrink-0 ml-2 ${s.score < -1 ? 'text-red-400' : s.score < 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
+                      {s.score > 0 ? '+' : ''}{s.score.toFixed(1)}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          </>
+        )}
+      </Card>
+    </div>
+  )
+}
+
 function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean }) {
   const rows = (data as { data?: Array<{ quality: string; reversion_score: number }> } | null)?.data ?? []
   const high = rows.filter(r => (r.quality ?? '').toUpperCase() === 'HIGH').length
@@ -362,6 +454,7 @@ export default function Dashboard() {
   const { data: insiders, loading: loadingInsiders } = useApi(() => fetchRecurringInsiders(), [])
   const { data: optionsRaw, loading: loadingOptions } = useApi(() => fetchOptionsFlow(), [])
   const { data: mrRaw, loading: loadingMR } = useApi(() => fetchMeanReversion(), [])
+  const { data: macroRaw, loading: loadingMacro } = useApi(() => fetchMacroRadar(), [])
 
   const pf = (portfolio as PortfolioSummary) ?? {}
   const overall = pf.overall as Record<string, { count: number; win_rate: number; avg_return: number }> | undefined
@@ -458,8 +551,9 @@ export default function Dashboard() {
         <TopPicksTable title="Top VALUE EU" rows={topEU} to="/value-eu" loading={loadingEU} />
       </div>
 
-      {/* Signals Radar: Insiders + Options + Mean Reversion */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      {/* Signals Radar: Macro + Insiders + Options + Mean Reversion */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <MacroRadarMini data={macroRaw} loading={loadingMacro} />
         <InsidersMini data={insiders?.data} loading={loadingInsiders} />
         <OptionsFlowMini data={optionsRaw} loading={loadingOptions} />
         <MeanReversionMini data={mrRaw} loading={loadingMR} />

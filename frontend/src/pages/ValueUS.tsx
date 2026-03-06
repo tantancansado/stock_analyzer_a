@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, type ValueOpportunity } from '../api/client'
+import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, type ValueOpportunity } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
@@ -54,6 +54,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
 export default function ValueUS() {
   const { data, loading, error } = useApi(() => fetchValueOpportunities(), [])
   const { data: regime } = useApi(() => fetchMarketRegime(), [])
+  const { data: macroRaw } = useApi(() => fetchMacroRadar(), [])
   const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedTicker, setExpandedTicker] = useState<string | null>(null)
@@ -181,6 +182,32 @@ export default function ValueUS() {
           <CsvDownload dataset="value-us-full" label="CSV Full" />
         </div>
       </div>
+
+      {/* Macro Risk Overlay */}
+      {(() => {
+        const macro = macroRaw as { regime?: { name: string; color: string; description: string }; composite_score?: number; max_score?: number } | null
+        const rname = macro?.regime?.name
+        if (!rname || !['STRESS', 'ALERT', 'CRISIS'].includes(rname)) return null
+        const cfg = {
+          STRESS: { bg: 'border-yellow-500/30 bg-yellow-500/8', text: 'text-yellow-400', msg: 'Estrés moderado detectado. Reduce tamaño de posición y prioriza picks con mayor margen de seguridad.' },
+          ALERT:  { bg: 'border-orange-500/30 bg-orange-500/8', text: 'text-orange-400', msg: 'Alerta macro elevada. Considera posiciones más pequeñas, stop loss más ajustados y diversificación.' },
+          CRISIS: { bg: 'border-red-500/40 bg-red-500/10',     text: 'text-red-400',    msg: 'Régimen de crisis potencial. Capital preservation mode — evitar nuevas entradas agresivas.' },
+        }[rname]!
+        return (
+          <div className={`mb-5 flex items-start gap-3 px-4 py-3 rounded-lg border ${cfg.bg}`}>
+            <span className={`text-lg shrink-0`}>⚠️</span>
+            <div>
+              <span className={`text-xs font-bold uppercase tracking-wider ${cfg.text}`}>
+                Macro Radar: {rname} ({macro.composite_score?.toFixed(1)}/{macro.max_score})
+              </span>
+              <p className="text-xs text-muted-foreground mt-0.5">{cfg.msg}</p>
+            </div>
+            <a href="/macro-radar" className={`ml-auto shrink-0 text-[0.65rem] font-semibold ${cfg.text} hover:underline`}>
+              Ver detalle →
+            </a>
+          </div>
+        )
+      })()}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {[

@@ -1211,6 +1211,39 @@ def macro_radar():
     return jsonify(data)
 
 
+@app.route('/api/macro-radar/history')
+def macro_radar_history():
+    """Return 60-day time series of composite_score + regime for charting."""
+    import glob as glob_mod
+    history_dir = DOCS / 'history'
+    pattern = str(history_dir / '*' / 'macro_radar.json')
+    files = sorted(glob_mod.glob(pattern))  # sorted by date (dirname)
+    points = []
+    for fpath in files[-60:]:  # last 60 days max
+        d = _load_json(fpath)
+        if d and 'composite_score' in d:
+            points.append({
+                'date': d.get('date', ''),
+                'composite_score': d.get('composite_score'),
+                'composite_pct': d.get('composite_pct'),
+                'regime': d.get('regime', {}).get('name', ''),
+                'regime_color': d.get('regime', {}).get('color', ''),
+            })
+    # Also include today's (not yet in history)
+    today = _load_json(DOCS / 'macro_radar.json')
+    if today and 'composite_score' in today:
+        today_date = today.get('date', '')
+        if not any(p['date'] == today_date for p in points):
+            points.append({
+                'date': today_date,
+                'composite_score': today.get('composite_score'),
+                'composite_pct': today.get('composite_pct'),
+                'regime': today.get('regime', {}).get('name', ''),
+                'regime_color': today.get('regime', {}).get('color', ''),
+            })
+    return jsonify({'history': sorted(points, key=lambda x: x['date'])})
+
+
 @app.route('/api/backtest')
 def backtest():
     # Try mean reversion backtest first (most recent)

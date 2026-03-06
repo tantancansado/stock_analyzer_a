@@ -652,14 +652,103 @@ def run_macro_radar() -> dict:
                          'oil', 'defense', 'dollar', 'yen', 'breadth'],
     }
 
-    # Save
+    # ── Detect regime change (compare to yesterday's saved JSON) ─────────────
     out_path = DOCS / 'macro_radar.json'
+    previous_regime = None
+    if out_path.exists():
+        try:
+            with open(out_path) as f:
+                prev = json.load(f)
+            previous_regime = prev.get('regime', {}).get('name')
+        except Exception:
+            pass
+
+    # Save
     with open(out_path, 'w') as f:
         json.dump(output, f, indent=2, default=str)
 
     print(f"\nSaved to {out_path}")
     print(f"Regime: {regime['name']} | Composite: {composite:.1f}/{max_possible} | Errors: {errors or 'none'}")
+
+    # ── Telegram alert on regime change ───────────────────────────────────
+    _send_telegram_regime_alert(regime['name'], previous_regime, composite, max_possible, ai_narrative, enriched)
+
     return output
+
+
+def _send_telegram_regime_alert(
+    current_regime: str,
+    previous_regime: Optional[str],
+    composite: float,
+    max_possible: int,
+    ai_narrative: Optional[str],
+    signals: dict,
+) -> None:
+    """Send Telegram message if regime changed or is ALERT/CRISIS."""
+    bot_token = os.environ.get('TELEGRAM_BOT_TOKEN', '')
+    chat_id   = os.environ.get('TELEGRAM_CHAT_ID', '')
+    if not bot_token or not chat_id:
+        print("  Telegram: no credentials configured, skipping")
+        return
+
+    regime_changed = previous_regime and previous_regime != current_regime
+    is_danger = current_regime in ('ALERT', 'CRISIS')
+
+    # Only alert on regime change or daily summary for danger zones
+    if not regime_changed and not is_danger:
+        print(f"  Telegram: regime stable ({current_regime}), skipping")
+        return
+
+    REGIME_EMOJI = {
+        'CALM':   '🟢',
+        'WATCH':  '🟡',
+        'STRESS': '🟠',
+        'ALERT':  '🔴',
+        'CRISIS': '🚨',
+    }
+    emoji = REGIME_EMOJI.get(current_regime, '⚪')
+
+    if regime_changed:
+        arrow = '→'
+        header = f"{REGIME_EMOJI.get(previous_regime,'⚪')} <b>{previous_regime}</b> {arrow} {emoji} <b>{current_regime}</b>"
+        title = "🔔 <b>Macro Radar: Cambio de Régimen</b>"
+    else:
+        header = f"{emoji} <b>Régimen: {current_regime}</b>"
+        title = f"{'🚨' if current_regime == 'CRISIS' else '🔴'} <b>Macro Radar: {current_regime}</b>"
+
+    # Top worst signals
+    sorted_sigs = sorted(signals.items(), key=lambda x: x[1].get('score', 0))
+    worst = [(k, v) for k, v in sorted_sigs if v.get('score', 0) < 0][:3]
+    worst_lines = '\n'.join(
+        f"  • {v.get('label', k)}: <b>{v.get('score', 0):+.1f}</b> — {v.get('interpretation','')}"
+        for k, v in worst
+    ) or '  Sin señales negativas'
+
+    text = f"""{title}
+
+{header}
+Puntuación: <b>{composite:.1f}/{max_possible}</b>
+
+<b>Señales de alerta:</b>
+{worst_lines}"""
+
+    if ai_narrative:
+        text += f"\n\n<i>{ai_narrative[:300]}</i>"
+
+    try:
+        import urllib.request
+        url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+        payload = json.dumps({
+            'chat_id': chat_id,
+            'text': text,
+            'parse_mode': 'HTML',
+            'disable_web_page_preview': True,
+        }).encode('utf-8')
+        req = urllib.request.Request(url, data=payload, headers={'Content-Type': 'application/json'})
+        urllib.request.urlopen(req, timeout=10)
+        print(f"  Telegram: alert sent ({current_regime}{f' ← {previous_regime}' if regime_changed else ''})")
+    except Exception as e:
+        print(f"  Telegram: send failed: {e}")
 
 
 if __name__ == '__main__':
