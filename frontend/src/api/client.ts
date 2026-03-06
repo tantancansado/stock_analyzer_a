@@ -230,6 +230,9 @@ export const fetchPortfolioTracker = () =>
 export const fetchMarketRegime = () =>
   api.get<MarketRegime>('/api/market-regime')
 
+export const fetchMacroRadar = () =>
+  api.get('/api/macro-radar')
+
 export const fetchBacktest = () =>
   api.get('/api/backtest')
 

@@ -1203,6 +1203,14 @@ def market_regime():
     return jsonify({"us": us, "eu": eu})
 
 
+@app.route('/api/macro-radar')
+def macro_radar():
+    data = _load_json(DOCS / 'macro_radar.json')
+    if not data:
+        return jsonify({"error": "No macro radar data available"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/backtest')
 def backtest():
     # Try mean reversion backtest first (most recent)

@@ -73,6 +73,12 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 global_market_scanner.py || echo "Global market scanner failed"
 
+      - name: Macro Radar (Early Warning System)
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python3 macro_radar.py || echo "Macro radar failed"
+
       - name: AI Filter European Value
         continue-on-error: true
         env:
@@ -203,7 +209,8 @@ jobs:
             docs/eu_recurring_insiders.csv \
             docs/momentum_opportunities.csv \
             docs/fundamental_scores.csv \
-            docs/options_flow.csv; do
+            docs/options_flow.csv \
+            docs/macro_radar.json; do
             [ -f "$f" ] && cp "$f" "${ARCHIVE_DIR}/" && echo "Archived: $f"
           done
 
