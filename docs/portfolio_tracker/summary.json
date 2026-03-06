@@ -1,8 +1,8 @@
 {
-  "total_signals": 422,
-  "unique_tickers": 113,
-  "date_range": "2026-02-26 to 2026-03-05",
-  "active_signals": 422,
+  "total_signals": 508,
+  "unique_tickers": 115,
+  "date_range": "2026-02-26 to 2026-03-06",
+  "active_signals": 508,
   "completed_signals": 0,
   "overall": {
     "7d": {
@@ -31,7 +31,7 @@
     }
   },
   "value_strategy": {
-    "count": 222,
+    "count": 259,
     "7d": {
       "count": 0,
       "win_rate": null,
@@ -72,223 +72,223 @@
       "ticker": "AGN.AS",
       "company_name": "AEGON",
       "strategy": "EU_VALUE",
-      "signal_date": "2026-03-05",
+      "signal_date": "2026-03-06",
       "signal_price": 6.51,
       "sector": "Financial Services",
       "value_score": 26.2,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "EXP",
-      "company_name": "Eagle Materials Inc",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 211.45,
-      "sector": "Basic Materials",
-      "value_score": 55.28,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "THFF",
-      "company_name": "First Financial Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 64.45,
-      "sector": "Financial Services",
-      "value_score": 59.32,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "LYFT",
-      "company_name": "Lyft, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 13.84,
-      "sector": "Technology",
-      "value_score": 53.68000000000001,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 445.5,
-      "sector": "Financial Services",
-      "value_score": 54.6,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "TBBK",
-      "company_name": "The Bancorp, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 55.3,
-      "sector": "Financial Services",
-      "value_score": 55.0,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "TPC",
-      "company_name": "Tutor Perini Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 73.71,
-      "sector": "Industrials",
-      "value_score": 53.12,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "SHBI",
-      "company_name": "Shore Bancshares, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 18.48,
-      "sector": "Financial Services",
-      "value_score": 50.92,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
       "ticker": "SUNS",
       "company_name": "Sunrise Realty Trust, Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 9.45,
+      "signal_date": "2026-03-06",
+      "signal_price": 9.65,
       "sector": "Real Estate",
       "value_score": 50.8,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
-      "ticker": "CNS",
-      "company_name": "Cohen & Steers Inc",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 66.92,
+      "signal_date": "2026-03-06",
+      "signal_price": 451.11,
       "sector": "Financial Services",
-      "value_score": 53.0,
+      "value_score": 55.24,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
       "ticker": "FRST",
       "company_name": "Primis Financial Corp.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 13.43,
+      "signal_date": "2026-03-06",
+      "signal_price": 13.14,
       "sector": "Financial Services",
-      "value_score": 51.64,
+      "value_score": 53.44,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
-      "ticker": "CCFN",
-      "company_name": "Muncy Columbia Financial Corpor",
+      "ticker": "SHBI",
+      "company_name": "Shore Bancshares, Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 61.85,
+      "signal_date": "2026-03-06",
+      "signal_price": 18.07,
       "sector": "Financial Services",
-      "value_score": 49.436,
+      "value_score": 52.12,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
-      "ticker": "BFC",
-      "company_name": "Bank First Corporation",
+      "ticker": "PKBK",
+      "company_name": "Parke Bancorp, Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 139.14,
+      "signal_date": "2026-03-06",
+      "signal_price": 27.51,
       "sector": "Financial Services",
-      "value_score": 50.2,
+      "value_score": 52.054,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
-      "ticker": "PRIM",
-      "company_name": "Primoris Services Corporation",
+      "ticker": "IT",
+      "company_name": "Gartner, Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 144.61,
-      "sector": "Industrials",
-      "value_score": 48.92,
+      "signal_date": "2026-03-06",
+      "signal_price": 170.98,
+      "sector": "Technology",
+      "value_score": 52.52,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
-      "ticker": "TCBI",
-      "company_name": "Texas Capital Bancshares, Inc.",
+      "ticker": "FUNC",
+      "company_name": "First",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 96.08,
+      "signal_date": "2026-03-06",
+      "signal_price": 36.0,
       "sector": "Financial Services",
-      "value_score": 48.64,
+      "value_score": 52.8,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
-    },
-    {
-      "ticker": "WMG",
-      "company_name": "Warner Music Group Corp.",
-      "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 28.29,
-      "sector": "Communication Services",
-      "value_score": 47.64,
-      "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
       "ticker": "AMRZ",
       "company_name": "Amrize Ltd",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 62.73,
+      "signal_date": "2026-03-06",
+      "signal_price": 61.51,
       "sector": "Basic Materials",
-      "value_score": 48.16,
+      "value_score": 50.92,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
-      "ticker": "RSG",
-      "company_name": "Republic Services, Inc.",
+      "ticker": "NBTB",
+      "company_name": "NBT Bancorp Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 231.57,
+      "signal_date": "2026-03-06",
+      "signal_price": 42.43,
+      "sector": "Financial Services",
+      "value_score": 51.12,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "BFC",
+      "company_name": "Bank First Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 136.57,
+      "sector": "Financial Services",
+      "value_score": 49.92,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "FULT",
+      "company_name": "Fulton Financial Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 20.68,
+      "sector": "Financial Services",
+      "value_score": 60.6,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "PRIM",
+      "company_name": "Primoris Services Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 137.91,
       "sector": "Industrials",
-      "value_score": 47.4,
+      "value_score": 48.28,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
     },
     {
-      "ticker": "MSGM",
-      "company_name": "Motorsport Games Inc.",
+      "ticker": "TCBI",
+      "company_name": "Texas Capital Bancshares, Inc.",
       "strategy": "VALUE",
-      "signal_date": "2026-03-05",
-      "signal_price": 4.05,
-      "sector": "Communication Services",
-      "value_score": 42.364,
+      "signal_date": "2026-03-06",
+      "signal_price": 95.18,
+      "sector": "Financial Services",
+      "value_score": 48.64,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "LTC",
+      "company_name": "LTC Properties, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 38.16,
+      "sector": "Real Estate",
+      "value_score": 47.120000000000005,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "UTI",
+      "company_name": "Universal Technical Institute I",
+      "strategy": "VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 35.07,
+      "sector": "Consumer Defensive",
+      "value_score": 37.2,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
     },
     {
       "ticker": "LOGN.SW",
       "company_name": "LOGITECH N",
       "strategy": "EU_VALUE",
-      "signal_date": "2026-03-05",
+      "signal_date": "2026-03-06",
       "signal_price": 71.1,
       "sector": "Technology",
       "value_score": 61.0,
       "days_active": 0,
-      "first_result_date": "2026-03-12"
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "UCG.MI",
+      "company_name": "UNICREDIT",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 73.76,
+      "sector": "Financial Services",
+      "value_score": 49.8,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "LLOY.L",
+      "company_name": "LLOYDS BANKING GROUP PLC ORD 10",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 104.9,
+      "sector": "Financial Services",
+      "value_score": 59.5,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
+    },
+    {
+      "ticker": "NWG.L",
+      "company_name": "NATWEST GROUP PLC ORD 107.69P",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-03-06",
+      "signal_price": 627.8,
+      "sector": "Financial Services",
+      "value_score": 56.6,
+      "days_active": 0,
+      "first_result_date": "2026-03-13"
     }
   ],
   "avg_max_drawdown": null,
-  "generated_at": "2026-03-05T08:40:08.621761"
+  "generated_at": "2026-03-06T08:31:05.222112"
 }
