@@ -71,7 +71,7 @@ function StatCard({
     </Card>
   )
   return (
-    <Card className="glass p-5">
+    <Card className="glass glow-border p-5">
       <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
       <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
       {sub && <div className="text-[0.66rem] text-muted-foreground">{sub}</div>}
