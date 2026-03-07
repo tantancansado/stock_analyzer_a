@@ -205,6 +205,23 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 portfolio_builder.py || echo "Smart portfolio builder failed"
 
+      # Restore root redirect (super_dashboard_generator.py overwrites docs/index.html)
+      - name: Restore root redirect to /app/
+        if: always()
+        run: |
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="es">
+          <head>
+            <meta charset="UTF-8" />
+            <meta http-equiv="refresh" content="0; url=app/" />
+            <title>Stock Analyzer</title>
+            <script>globalThis.location.replace('app/');</script>
+          </head>
+          <body></body>
+          </html>
+          EOF
+
       # ============================================================================
       # CSV HISTORICAL ARCHIVE (Always runs)
       # ============================================================================

@@ -56,17 +56,31 @@ def _load_macro_regime() -> dict:
 
 
 def _load_value_df() -> pd.DataFrame:
-    for fname in ('value_conviction.csv', 'value_opportunities_filtered.csv', 'value_opportunities.csv'):
+    """Load value opportunities — prefer the largest quality pool, enrich with conviction cols."""
+    sources = []
+    for fname in ('value_opportunities_filtered.csv', 'value_conviction.csv', 'value_opportunities.csv'):
         p = DOCS / fname
         if p.exists():
             try:
                 df = pd.read_csv(p)
                 if 'value_score' in df.columns and 'ticker' in df.columns:
-                    print(f"  Loaded {fname}: {len(df)} rows")
-                    return df
+                    sources.append((fname, df))
             except Exception:
                 pass
-    return pd.DataFrame()
+
+    if not sources:
+        return pd.DataFrame()
+
+    base_name, base_df = sources[0]
+    # Enrich base with conviction_grade/score columns from conviction file if missing
+    for fname, df in sources[1:]:
+        extra_cols = [c for c in ('conviction_grade', 'conviction_score', 'conviction_reasons')
+                      if c in df.columns and c not in base_df.columns]
+        if extra_cols:
+            base_df = base_df.merge(df[['ticker'] + extra_cols], on='ticker', how='left')
+
+    print(f"  Loaded {base_name}: {len(base_df)} rows")
+    return base_df
 
 
 def _load_trap_tickers() -> set:
