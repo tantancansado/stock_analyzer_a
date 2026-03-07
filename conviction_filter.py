@@ -98,6 +98,28 @@ def calculate_conviction_score(row) -> dict:
     op_margin = health['op_margin']
     profit_margin = health['profit_margin']
 
+    # ─── HARD DISQUALIFIERS (Lynch/Graham value principles) ───────────────────
+    # Rule 1: D/E > 5x → reject. High leverage inflates ROE and amplifies downside.
+    if debt_eq is not None and debt_eq > 5:
+        return {
+            'conviction_score': 0.0,
+            'conviction_grade': 'D',
+            'conviction_reasons': f'HARD REJECT: Deuda {debt_eq:.1f}x D/E (>5x — apalancamiento excesivo)',
+            'conviction_positives': 0,
+            'conviction_red_flags': 1,
+        }
+
+    # Rule 2: Operating margin negative → reject. Core business is losing money.
+    if op_margin is not None and op_margin < 0:
+        return {
+            'conviction_score': 0.0,
+            'conviction_grade': 'D',
+            'conviction_reasons': f'HARD REJECT: Margen operativo {op_margin:.1f}% (negativo — operacion pierde dinero)',
+            'conviction_positives': 0,
+            'conviction_red_flags': 1,
+        }
+    # ──────────────────────────────────────────────────────────────────────────
+
     # ─── 1. ROE (max 15pts) ───
     max_score += 15
     if roe is not None:
