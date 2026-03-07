@@ -1,4 +1,5 @@
-import { fetchMacroRadar, fetchMacroRadarHistory } from '../api/client'
+import { fetchMacroRadar, fetchMacroRadarHistory, fetchEconomicCalendar } from '../api/client'
+import type { EconEvent } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
@@ -250,6 +251,7 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
 export default function MacroRadar() {
   const { data, loading, error } = useApi<MacroData>(() => fetchMacroRadar(), [])
   const { data: historyData } = useApi(() => fetchMacroRadarHistory(), [])
+  const { data: econData } = useApi(() => fetchEconomicCalendar(), [])
 
   if (loading) return <Loading />
   if (error) return <ErrorState message={error} />
@@ -327,6 +329,43 @@ export default function MacroRadar() {
           />
         </CardContent>
       </Card>
+
+      {/* Upcoming macro events */}
+      {econData && econData.events.length > 0 && (
+        <Card className="glass border border-border/40">
+          <CardContent className="p-4">
+            <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">
+              Próximos eventos macroeconómicos
+            </p>
+            <div className="space-y-2">
+              {econData.events.slice(0, 6).map((ev: EconEvent) => {
+                const daysUntil = Math.ceil((new Date(ev.date).getTime() - Date.now()) / 86400000)
+                const typeConfig: Record<string, { color: string; bg: string; label: string }> = {
+                  FED:      { color: 'text-red-400',     bg: 'bg-red-500/10 border-red-500/20',     label: 'FED' },
+                  CPI:      { color: 'text-orange-400',  bg: 'bg-orange-500/10 border-orange-500/20', label: 'CPI' },
+                  PCE:      { color: 'text-yellow-400',  bg: 'bg-yellow-500/10 border-yellow-500/20', label: 'PCE' },
+                  JOBS:     { color: 'text-blue-400',    bg: 'bg-blue-500/10 border-blue-500/20',   label: 'NFP' },
+                  EARNINGS: { color: 'text-purple-400',  bg: 'bg-purple-500/10 border-purple-500/20', label: 'EARN' },
+                }
+                const cfg = typeConfig[ev.type] ?? { color: 'text-muted-foreground', bg: 'bg-muted/10 border-border/20', label: ev.type }
+                const urgency = daysUntil <= 3 ? 'text-red-400 font-bold' : daysUntil <= 7 ? 'text-orange-400 font-semibold' : 'text-muted-foreground'
+                return (
+                  <div key={ev.date + ev.event} className="flex items-center gap-3">
+                    <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border ${cfg.bg} ${cfg.color} min-w-[36px] text-center`}>
+                      {cfg.label}
+                    </span>
+                    <span className="text-xs text-foreground/80 flex-1">{ev.event}</span>
+                    <span className="text-[0.65rem] text-muted-foreground/60">{ev.date.slice(5)}</span>
+                    <span className={`text-[0.65rem] min-w-[32px] text-right ${urgency}`}>
+                      {daysUntil <= 0 ? 'Hoy' : `${daysUntil}d`}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Signal grid */}
       <div className="space-y-4">

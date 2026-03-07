@@ -42,6 +42,7 @@ export interface ValueOpportunity {
   stop_loss?: number
   target_price?: number
   thesis?: string
+  proximity_to_52w_high?: number
 }
 
 export interface MomentumOpportunity {
@@ -251,6 +252,54 @@ export interface EarningsEntry {
 
 export const fetchEarningsCalendar = () =>
   api.get<{ earnings: EarningsEntry[]; total: number; as_of: string }>('/api/earnings-calendar')
+
+export interface EconEvent {
+  date: string
+  event: string
+  type: 'FED' | 'CPI' | 'PCE' | 'JOBS' | 'EARNINGS'
+  impact: 'HIGH' | 'MEDIUM'
+  description: string
+}
+
+export const fetchEconomicCalendar = () =>
+  api.get<{ events: EconEvent[]; total: number }>('/api/economic-calendar')
+
+export interface DividendTrapEntry {
+  ticker: string
+  company: string
+  sector: string
+  current_price: number | null
+  dividend_yield: number | null
+  payout_ratio: number | null
+  fcf_yield: number | null
+  fundamental_score: number | null
+  trap_score: number
+  risk_level: 'HIGH' | 'MEDIUM' | 'LOW'
+  reasons: string[]
+}
+
+export interface DividendTrapsData {
+  date: string
+  total_scanned: number
+  traps_high: number
+  traps_medium: number
+  safe_count: number
+  traps: DividendTrapEntry[]
+  safe_dividends: DividendTrapEntry[]
+}
+
+export const fetchDividendTraps = () =>
+  api.get<DividendTrapsData>('/api/dividend-traps')
+
+export interface CorrelationData {
+  tickers: string[]
+  matrix: Record<string, number>[]
+  days: number
+  as_of: string
+}
+
+export const fetchCorrelationMatrix = () =>
+  api.get<CorrelationData>('/api/correlation-matrix')
 
 export const fetchBacktest = () =>
   api.get('/api/backtest')

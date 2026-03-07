@@ -1148,6 +1148,61 @@ def industry_groups():
     return jsonify({'data': [], 'count': 0})
 
 
+@app.route('/api/correlation-matrix')
+def correlation_matrix():
+    """Compute 60-day return correlation matrix for top VALUE picks."""
+    import yfinance as yf2
+    import pandas as pd2
+    from datetime import datetime as dt2, timedelta as td2
+
+    # Load top value picks (conviction + unfiltered fallback)
+    tickers = []
+    for fname in ('value_conviction.csv', 'value_opportunities.csv'):
+        p = DOCS / fname
+        if p.exists():
+            try:
+                df = pd2.read_csv(p)
+                if 'ticker' in df.columns and 'value_score' in df.columns:
+                    top = df.nlargest(15, 'value_score')['ticker'].tolist()
+                    tickers = [str(t) for t in top if str(t).strip()]
+                    break
+            except Exception:
+                pass
+
+    if len(tickers) < 3:
+        return jsonify({'error': 'Not enough tickers for correlation', 'matrix': [], 'tickers': []}), 200
+
+    tickers = tickers[:15]
+    start = (dt2.now() - td2(days=90)).strftime('%Y-%m-%d')
+    try:
+        raw = yf2.download(tickers, start=start, progress=False, auto_adjust=True)
+        # Flatten MultiIndex if needed
+        if isinstance(raw.columns, pd2.MultiIndex):
+            close = raw['Close'] if 'Close' in raw.columns.get_level_values(0) else raw.iloc[:, 0]
+        else:
+            close = raw[['Close']] if 'Close' in raw.columns else raw
+
+        # Daily returns
+        returns = close.pct_change().dropna()
+        # Drop columns with too many NaN
+        valid = [c for c in returns.columns if returns[c].notna().sum() >= 30]
+        returns = returns[valid]
+
+        corr = returns.corr().round(3)
+        matrix = []
+        for row_t in corr.index:
+            matrix.append({col_t: corr.at[row_t, col_t] for col_t in corr.columns})
+
+        return jsonify({
+            'tickers': list(corr.index),
+            'matrix': matrix,
+            'days': len(returns),
+            'as_of': dt2.now().strftime('%Y-%m-%d'),
+        })
+    except Exception as e:
+        return jsonify({'error': str(e), 'matrix': [], 'tickers': []}), 200
+
+
 @app.route('/api/portfolio-tracker/signals')
 def portfolio_signals():
     """Individual signal rows for the portfolio tracker."""
@@ -1242,6 +1297,27 @@ def macro_radar_history():
                 'regime_color': today.get('regime', {}).get('color', ''),
             })
     return jsonify({'history': sorted(points, key=lambda x: x['date'])})
+
+
+@app.route('/api/economic-calendar')
+def economic_calendar_api():
+    """Return upcoming macro events (Fed, CPI, NFP) from economic_calendar.json."""
+    from datetime import datetime as dt2
+    data = _load_json(DOCS / 'economic_calendar.json')
+    if not data:
+        return jsonify({'events': []}), 200
+    today = dt2.now().strftime('%Y-%m-%d')
+    upcoming = [e for e in data.get('events', []) if e.get('date', '') >= today]
+    return jsonify({'events': upcoming, 'total': len(upcoming)})
+
+
+@app.route('/api/dividend-traps')
+def dividend_traps():
+    """Return dividend trap analysis from dividend_traps.json."""
+    data = _load_json(DOCS / 'dividend_traps.json')
+    if not data:
+        return jsonify({"error": "No dividend trap data. Run dividend_trap_scanner.py"}), 404
+    return jsonify(data)
 
 
 @app.route('/api/earnings-calendar')

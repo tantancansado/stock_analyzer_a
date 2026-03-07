@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import api, { fetchPortfolioTracker, type PortfolioSummary } from '../api/client'
+import api, { fetchPortfolioTracker, fetchCorrelationMatrix, type PortfolioSummary, type CorrelationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
@@ -70,6 +70,7 @@ function retColor(v?: number) {
 
 export default function Portfolio() {
   const { data, loading, error } = useApi(() => fetchPortfolioTracker(), [])
+  const { data: corrData } = useApi<CorrelationData>(() => fetchCorrelationMatrix(), [])
   const { data: signalsData } = useApi<SignalsResponse>(
     () => api.get<SignalsResponse>('/api/portfolio-tracker/signals'),
     []
@@ -433,6 +434,61 @@ export default function Portfolio() {
           </div>
         )
       })()}
+
+      {/* Correlation Matrix */}
+      {corrData && corrData.tickers.length >= 3 && (
+        <div className="mt-6">
+          <h2 className="text-sm font-semibold text-muted-foreground mb-1 uppercase tracking-wider">
+            Correlación entre picks VALUE (últimos {corrData.days}d)
+          </h2>
+          <p className="text-xs text-muted-foreground/60 mb-3">
+            Riesgo de concentración oculto — correlación &gt;0.7 significa que los picks se mueven juntos
+          </p>
+          <Card className="glass border border-border/40 overflow-x-auto">
+            <CardContent className="p-3">
+              <table className="text-[0.62rem] border-collapse w-full">
+                <thead>
+                  <tr>
+                    <th className="text-muted-foreground/60 font-normal p-1 text-left w-12"></th>
+                    {corrData.tickers.map(t => (
+                      <th key={t} className="text-muted-foreground font-mono font-semibold p-1 text-center whitespace-nowrap">{t}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {corrData.tickers.map((rowT, ri) => (
+                    <tr key={rowT}>
+                      <td className="text-muted-foreground font-mono font-semibold p-1 whitespace-nowrap">{rowT}</td>
+                      {corrData.tickers.map((colT) => {
+                        const val = corrData.matrix[ri]?.[colT]
+                        const isDiag = rowT === colT
+                        const absVal = Math.abs(val ?? 0)
+                        const bg = isDiag ? 'bg-muted/20' :
+                          absVal >= 0.8 ? 'bg-red-500/25' :
+                          absVal >= 0.6 ? 'bg-orange-500/15' :
+                          absVal >= 0.4 ? 'bg-yellow-500/10' : ''
+                        const textColor = isDiag ? 'text-muted-foreground/40' :
+                          absVal >= 0.8 ? 'text-red-400 font-bold' :
+                          absVal >= 0.6 ? 'text-orange-400' : 'text-foreground/60'
+                        return (
+                          <td key={colT} className={`p-1 text-center rounded ${bg} ${textColor}`}>
+                            {val != null ? val.toFixed(2) : '—'}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="flex gap-4 mt-3 text-[0.6rem] text-muted-foreground/60">
+                <span><span className="text-red-400 font-bold">■</span> &gt;0.8 — Muy correlados (riesgo alto)</span>
+                <span><span className="text-orange-400">■</span> 0.6–0.8 — Correlados (vigilar)</span>
+                <span><span className="text-yellow-400">■</span> 0.4–0.6 — Correlación moderada</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </>
   )
 }

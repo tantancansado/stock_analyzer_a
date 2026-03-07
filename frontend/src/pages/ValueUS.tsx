@@ -385,7 +385,16 @@ export default function ValueUS() {
             {top.map(d => (
               <React.Fragment key={d.ticker}>
                 <TableRow className="cursor-pointer" onClick={() => toggleThesis(d.ticker, d)}>
-                  <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</TableCell>
+                  <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                    <div className="flex items-center gap-1.5">
+                      {d.ticker}
+                      {d.proximity_to_52w_high != null && d.proximity_to_52w_high > -5 && (
+                        <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25" title={`${d.proximity_to_52w_high.toFixed(1)}% vs 52w high`}>
+                          52w
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell className="max-w-[160px] truncate text-muted-foreground text-[0.76rem]">{d.company_name}</TableCell>
                   <TableCell className="tabular-nums">${d.current_price?.toFixed(2)}</TableCell>
                   <TableCell><ScoreBar score={d.value_score} /></TableCell>
