@@ -616,6 +616,12 @@ def _analyze_from_cache(ticker):
         "analyst_revision": _sf(r5d.get('analyst_revision_momentum')) if r5d is not None else None,
         "fund_error": None,
 
+        # ── Piotroski F-Score + Magic Formula (from fundamental_scores.csv) ───
+        "piotroski_score": _sf(rfund.get('piotroski_score')) if rfund is not None else None,
+        "piotroski_label": rfund.get('piotroski_label') if rfund is not None else None,
+        "ebit_ev_yield":   _sf(rfund.get('ebit_ev_yield')) if rfund is not None else None,
+        "roic_greenblatt": _sf(rfund.get('roic_greenblatt')) if rfund is not None else None,
+
         # ── Health & earnings details from fundamental_scores.csv ──────────
         **_parse_health_earnings(rfund),
 

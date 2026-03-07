@@ -161,6 +161,12 @@ class FundamentalScorer:
                 # Value Quality Metrics (FCF, dividends, buybacks, revisions, earnings cal)
                 **self._calculate_value_quality_metrics(stock, info),
 
+                # Piotroski F-Score (Proven: +13.4% annual alpha)
+                **self._calculate_piotroski_fscore(stock, info),
+
+                # Magic Formula (Greenblatt) + PEG (Lynch)
+                **self._calculate_magic_formula_metrics(stock, info),
+
                 # Timestamp
                 'analyzed_at': datetime.now().isoformat()
             }
@@ -817,6 +823,13 @@ class FundamentalScorer:
             'earnings_date': None,
             'earnings_warning': False,
             'earnings_catalyst': False,
+            # Piotroski F-Score
+            'piotroski_score': None,
+            'piotroski_label': None,
+            # Magic Formula (Greenblatt) + PEG (Lynch)
+            'ebit_ev_yield': None,
+            'roic_greenblatt': None,
+            'peg_ratio': None,
             'analyzed_at': datetime.now().isoformat()
         }
 
@@ -917,6 +930,173 @@ class FundamentalScorer:
             'fifty_two_week_high':  float(high52) if high52 else None,
             'proximity_to_52w_high': proximity,
         }
+
+    def _calculate_piotroski_fscore(self, stock, info: Dict) -> Dict:
+        """
+        Piotroski F-Score (0-9): Proven academic quality filter.
+        Backtested outperformance: +13.4% annually vs market (20-year study).
+
+        9 binary criteria across 3 groups:
+          Profitability  (4 pts): ROA>0, CFO>0, ΔROA+, Accruals OK
+          Leverage       (3 pts): ΔDebt↓, ΔLiquidity↑, No dilution
+          Efficiency     (2 pts): ΔGross Margin+, ΔAsset Turnover+
+
+        Score 8-9 = STRONG (buy signal for value stocks)
+        Score 0-2 = WEAK   (value trap — avoid)
+        """
+        result = {
+            'piotroski_score': None,
+            'piotroski_label': None,
+        }
+        try:
+            fin = stock.financials        # Annual: rows=metrics, cols=years desc
+            bs  = stock.balance_sheet
+            cf  = stock.cashflow
+
+            if fin is None or fin.empty or bs is None or bs.empty or cf is None or cf.empty:
+                return result
+            if fin.shape[1] < 2 or bs.shape[1] < 2:
+                return result
+
+            def _val(df, keys, col=0):
+                for k in keys:
+                    if k in df.index:
+                        v = df.loc[k].iloc[col]
+                        return float(v) if v is not None and not pd.isna(v) else None
+                return None
+
+            # ── Raw values (Y1=current, Y2=prior) ─────────────────────
+            ni_y1  = _val(fin, ['Net Income', 'NetIncome'])
+            ni_y2  = _val(fin, ['Net Income', 'NetIncome'], 1)
+            ta_y1  = _val(bs,  ['Total Assets', 'TotalAssets'])
+            ta_y2  = _val(bs,  ['Total Assets', 'TotalAssets'], 1)
+            cfo_y1 = _val(cf,  ['Operating Cash Flow', 'Total Cash From Operating Activities',
+                                 'Cash From Operations', 'Net Cash Provided By Operating Activities'])
+            lt_y1  = _val(bs,  ['Long Term Debt', 'LongTermDebt', 'Long-Term Debt'], 0) or 0.0
+            lt_y2  = _val(bs,  ['Long Term Debt', 'LongTermDebt', 'Long-Term Debt'], 1) or 0.0
+            ca_y1  = _val(bs,  ['Current Assets', 'Total Current Assets'])
+            ca_y2  = _val(bs,  ['Current Assets', 'Total Current Assets'], 1)
+            cl_y1  = _val(bs,  ['Current Liabilities', 'Total Current Liabilities'])
+            cl_y2  = _val(bs,  ['Current Liabilities', 'Total Current Liabilities'], 1)
+            sh_y1  = _val(bs,  ['Ordinary Shares Number', 'Common Stock', 'Share Issued'])
+            sh_y2  = _val(bs,  ['Ordinary Shares Number', 'Common Stock', 'Share Issued'], 1)
+            rev_y1 = _val(fin, ['Total Revenue', 'Revenue', 'TotalRevenue'])
+            rev_y2 = _val(fin, ['Total Revenue', 'Revenue', 'TotalRevenue'], 1)
+            gp_y1  = _val(fin, ['Gross Profit', 'GrossProfit'])
+            gp_y2  = _val(fin, ['Gross Profit', 'GrossProfit'], 1)
+
+            if not ta_y1 or not ta_y2:
+                return result
+
+            roa_y1 = ni_y1 / ta_y1 if ni_y1 is not None else None
+            roa_y2 = ni_y2 / ta_y2 if ni_y2 is not None else None
+
+            score = 0
+
+            # ── GROUP 1: Profitability ──────────────────────────────────
+            if roa_y1 is not None and roa_y1 > 0:                score += 1  # F1: ROA > 0
+            if cfo_y1 is not None and cfo_y1 > 0:                score += 1  # F2: CFO > 0
+            if roa_y1 is not None and roa_y2 is not None and roa_y1 > roa_y2: score += 1  # F3: ΔROA+
+            # F4: Accruals — cash earnings > accounting earnings
+            if cfo_y1 is not None and roa_y1 is not None and (cfo_y1 / ta_y1) > roa_y1:
+                score += 1
+
+            # ── GROUP 2: Leverage / Liquidity ──────────────────────────
+            # F5: Long-term debt ratio decreasing
+            lr_y1 = lt_y1 / ta_y1
+            lr_y2 = lt_y2 / ta_y2
+            if lr_y1 < lr_y2:                                     score += 1
+            # F6: Current ratio improving
+            cr_y1 = (ca_y1 / cl_y1) if ca_y1 and cl_y1 and cl_y1 > 0 else None
+            cr_y2 = (ca_y2 / cl_y2) if ca_y2 and cl_y2 and cl_y2 > 0 else None
+            if cr_y1 is not None and cr_y2 is not None and cr_y1 > cr_y2: score += 1  # F6
+            # F7: No new share issuance (tolerance 1%)
+            if sh_y1 is None or sh_y2 is None or sh_y1 <= sh_y2 * 1.01: score += 1
+
+            # ── GROUP 3: Operating Efficiency ──────────────────────────
+            # F8: Gross margin improving
+            gm_y1 = gp_y1 / rev_y1 if gp_y1 and rev_y1 and rev_y1 > 0 else None
+            gm_y2 = gp_y2 / rev_y2 if gp_y2 and rev_y2 and rev_y2 > 0 else None
+            if gm_y1 is not None and gm_y2 is not None and gm_y1 > gm_y2: score += 1
+            # F9: Asset turnover improving
+            at_y1 = rev_y1 / ta_y1 if rev_y1 else None
+            at_y2 = rev_y2 / ta_y2 if rev_y2 else None
+            if at_y1 is not None and at_y2 is not None and at_y1 > at_y2: score += 1
+
+            result['piotroski_score'] = score
+            result['piotroski_label'] = 'STRONG' if score >= 8 else ('WEAK' if score <= 2 else 'NEUTRAL')
+
+        except Exception:
+            pass
+        return result
+
+    def _calculate_magic_formula_metrics(self, stock, info: Dict) -> Dict:
+        """
+        Greenblatt Magic Formula raw metrics + PEG ratio (Lynch):
+          - ebit_ev_yield   = EBIT / Enterprise Value × 100 (earnings yield %)
+          - roic_greenblatt = EBIT / (Net PP&E + Working Capital) × 100
+          - peg_ratio       = Forward P/E / EPS Growth %
+
+        Universe ranking into magic_formula_rank is done in super_score_integrator.py.
+        """
+        result = {
+            'ebit_ev_yield':   None,
+            'roic_greenblatt': None,
+            'peg_ratio':       None,
+        }
+        try:
+            fin = stock.financials
+            bs  = stock.balance_sheet
+
+            def _val(df, keys, col=0):
+                for k in keys:
+                    if k in df.index:
+                        v = df.loc[k].iloc[col]
+                        return float(v) if v is not None and not pd.isna(v) else None
+                return None
+
+            # ── EBIT (from annual income statement) ────────────────────
+            ebit = None
+            if fin is not None and not fin.empty:
+                ebit = _val(fin, ['EBIT', 'Operating Income', 'Total Operating Income As Reported',
+                                   'Normalized EBITDA'])  # last resort
+
+            ev = info.get('enterpriseValue')
+
+            # ── Earnings Yield (EBIT / EV) ─────────────────────────────
+            if ebit and ev and float(ev) > 0:
+                result['ebit_ev_yield'] = round((ebit / float(ev)) * 100, 2)
+
+            # ── ROIC = EBIT / (Net PP&E + max(Working Capital, 0)) ─────
+            if ebit and bs is not None and not bs.empty:
+                net_ppe = _val(bs, ['Net PPE', 'Net Plant Property Equipment And Equipment',
+                                    'Property Plant Equipment Net', 'Net Property Plant And Equipment'])
+                ca = _val(bs, ['Current Assets', 'Total Current Assets'])
+                cl = _val(bs, ['Current Liabilities', 'Total Current Liabilities'])
+                if net_ppe is not None and ca is not None and cl is not None:
+                    wc = ca - cl
+                    invested_capital = (net_ppe or 0) + max(wc, 0)
+                    if invested_capital > 0:
+                        result['roic_greenblatt'] = round((ebit / invested_capital) * 100, 1)
+
+            # ── PEG Ratio (Lynch: P/E ÷ Growth %) ─────────────────────
+            pe = info.get('forwardPE') or info.get('trailingPE')
+            growth_pct = None
+            eg = info.get('earningsGrowth')
+            if eg and not pd.isna(eg):
+                growth_pct = float(eg) * 100
+            else:
+                eps_c = info.get('epsCurrentYear')
+                eps_f = info.get('forwardEps')
+                if eps_c and eps_f and abs(float(eps_c)) > 0:
+                    growth_pct = ((float(eps_f) - float(eps_c)) / abs(float(eps_c))) * 100
+
+            if pe and growth_pct and float(growth_pct) > 0 and float(pe) > 0:
+                result['peg_ratio'] = round(float(pe) / float(growth_pct), 2)
+
+        except Exception:
+            pass
+        return result
 
     def _calculate_value_quality_metrics(self, stock, info: Dict) -> Dict:
         """

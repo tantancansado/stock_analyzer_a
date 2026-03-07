@@ -238,6 +238,10 @@ class SuperScoreIntegrator:
             'analyst_revision_momentum',
             'days_to_earnings', 'earnings_date', 'earnings_warning', 'earnings_catalyst',
             'risk_reward_ratio',
+            # Piotroski F-Score (proven +13.4% annual alpha filter)
+            'piotroski_score', 'piotroski_label',
+            # Magic Formula (Greenblatt: EBIT/EV + ROIC) + PEG (Lynch)
+            'ebit_ev_yield', 'roic_greenblatt', 'peg_ratio',
         ]
         available_cols = [col for col in cols if col in df.columns]
 
@@ -1080,6 +1084,48 @@ class SuperScoreIntegrator:
             good_rr = int((df['risk_reward_ratio'] >= 2.0).sum())
             print(f"   📐 Risk/Reward applied ({good_rr} tickers with R:R ≥ 2:1)")
             df.drop(columns=['_upside'], inplace=True, errors='ignore')
+
+        # ── PIOTROSKI F-SCORE (Proven +13.4% annual alpha) ─────────────────────────
+        # Strong (8-9): buy signal — company improving on all fronts
+        # Weak  (0-2): value trap warning — avoid even if cheap
+        if 'piotroski_score' in df.columns:
+            df['_fscore'] = pd.to_numeric(df['piotroski_score'], errors='coerce')
+            df['piotroski_bonus'] = 0.0
+            df.loc[df['_fscore'] >= 8, 'piotroski_bonus'] = 10.0   # STRONG: all 9 criteria green
+            df.loc[df['_fscore'] == 7, 'piotroski_bonus'] = 5.0    # Near-strong
+            df.loc[df['_fscore'] == 6, 'piotroski_bonus'] = 2.0    # Neutral-high
+            df.loc[df['_fscore'] <= 2, 'piotroski_bonus'] = -8.0   # WEAK: value trap
+            df['value_score'] += df['piotroski_bonus']
+            strong_f = int((df['_fscore'] >= 8).sum())
+            weak_f   = int((df['_fscore'] <= 2).sum())
+            print(f"   📊 Piotroski F-Score: {strong_f} STRONG (≥8) · {weak_f} WEAK (≤2)")
+            df.drop(columns=['_fscore'], inplace=True, errors='ignore')
+
+        # ── MAGIC FORMULA RANK (Greenblatt: EBIT/EV + ROIC) ────────────────────────
+        # Rank all stocks by earnings yield + capital efficiency combined
+        # Top 20% = +5pts (universe best), bottom 20% = -3pts
+        if 'ebit_ev_yield' in df.columns and 'roic_greenblatt' in df.columns:
+            _ev = pd.to_numeric(df['ebit_ev_yield'], errors='coerce')
+            _roic = pd.to_numeric(df['roic_greenblatt'], errors='coerce')
+            has_both = _ev.notna() & _roic.notna()
+            if has_both.sum() >= 5:
+                # Rank each metric (1=best), combine, lower combined rank = better
+                ev_rank   = _ev.rank(ascending=False, na_option='bottom')
+                roic_rank = _roic.rank(ascending=False, na_option='bottom')
+                combined  = ev_rank + roic_rank
+                mf_rank   = combined.rank(ascending=True, method='min').astype('Int64')
+                df['magic_formula_rank'] = mf_rank.where(has_both, other=pd.NA)
+                n = has_both.sum()
+                top20_pct  = int(n * 0.20)
+                bot20_pct  = int(n * 0.20)
+                top20_mask = has_both & (mf_rank <= top20_pct)
+                bot20_mask = has_both & (mf_rank > n - bot20_pct)
+                df['mf_bonus'] = 0.0
+                df.loc[top20_mask, 'mf_bonus'] = 5.0
+                df.loc[bot20_mask, 'mf_bonus'] = -3.0
+                df['value_score'] += df['mf_bonus']
+                print(f"   🧮 Magic Formula Rank computed for {n} tickers · top20%: +5pts")
+                df.drop(columns=['mf_bonus'], inplace=True, errors='ignore')
 
         # COVERAGE CHECK: Penalize stocks without analyst coverage (less confidence)
         if 'analyst_count' in df.columns:

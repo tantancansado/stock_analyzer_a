@@ -147,6 +147,23 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
           {/* Metrics strip */}
           <div className="flex gap-2 px-5 py-3 overflow-x-auto border-b border-border/30 flex-shrink-0 scrollbar-hide">
             <Chip label="Score" value={row.value_score.toFixed(0)} color="text-primary" />
+            {row.piotroski_score != null && (
+              <Chip
+                label="F-Score"
+                value={`${row.piotroski_score}/9`}
+                color={row.piotroski_score >= 8 ? 'text-emerald-400' : row.piotroski_score <= 2 ? 'text-red-400' : 'text-amber-400'}
+              />
+            )}
+            {row.magic_formula_rank != null && (
+              <Chip label="MF Rank" value={`#${row.magic_formula_rank}`} color="text-purple-400" />
+            )}
+            {row.peg_ratio != null && (
+              <Chip
+                label="PEG"
+                value={row.peg_ratio.toFixed(2)}
+                color={row.peg_ratio < 1 ? 'text-emerald-400' : row.peg_ratio < 2 ? 'text-amber-400' : 'text-red-400'}
+              />
+            )}
             {rr != null && (
               <Chip
                 label="R:R"
@@ -159,6 +176,13 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                 label="FCF%"
                 value={`${fcf.toFixed(1)}%`}
                 color={fcf >= 5 ? 'text-emerald-400' : fcf >= 3 ? 'text-amber-400' : fcf < 0 ? 'text-red-400' : ''}
+              />
+            )}
+            {row.roic_greenblatt != null && (
+              <Chip
+                label="ROIC"
+                value={`${row.roic_greenblatt.toFixed(0)}%`}
+                color={row.roic_greenblatt >= 20 ? 'text-emerald-400' : row.roic_greenblatt >= 10 ? 'text-amber-400' : ''}
               />
             )}
             {row.dividend_yield_pct != null && row.dividend_yield_pct > 0 && (

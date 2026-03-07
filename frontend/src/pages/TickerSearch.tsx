@@ -262,6 +262,8 @@ export default function TickerSearch() {
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Fundamentales</h4>
                 <Row label="ROE"         value={sf('roe') != null ? `${(sf('roe')! * 100).toFixed(1)}%` : null} cls={sf('roe') != null ? (sf('roe')! > 0 ? 'text-emerald-400' : 'text-red-400') : ''} />
+                <Row label="ROIC"        value={sf('roic_greenblatt') != null ? `${sf('roic_greenblatt')!.toFixed(1)}%` : null} cls={sf('roic_greenblatt') != null && sf('roic_greenblatt')! >= 20 ? 'text-emerald-400' : sf('roic_greenblatt') != null && sf('roic_greenblatt')! >= 10 ? 'text-amber-400' : ''} />
+                <Row label="EBIT/EV"     value={sf('ebit_ev_yield') != null ? `${sf('ebit_ev_yield')!.toFixed(1)}%` : null} cls={sf('ebit_ev_yield') != null && sf('ebit_ev_yield')! >= 8 ? 'text-emerald-400' : ''} />
                 <Row label="FCF Yield"   value={fmtPct(sf('fcf_yield'))} cls={sf('fcf_yield') != null && sf('fcf_yield')! >= 5 ? 'text-emerald-400' : ''} />
                 <Row label="Forward P/E" value={sf('forward_pe')?.toFixed(1) ?? null} />
                 <Row label="PEG"         value={sf('peg_ratio')?.toFixed(2) ?? null} cls={sf('peg_ratio') != null && sf('peg_ratio')! <= 1 ? 'text-emerald-400' : ''} />
@@ -297,6 +299,15 @@ export default function TickerSearch() {
 
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Salud Financiera</h4>
+                {/* Piotroski F-Score — proven +13.4% annual alpha */}
+                {sf('piotroski_score') != null && (
+                  <div className="flex items-center justify-between py-1.5 border-b border-border/20">
+                    <span className="text-xs text-muted-foreground">Piotroski F-Score</span>
+                    <span className={`text-xs font-bold tabular-nums ${sf('piotroski_score')! >= 8 ? 'text-emerald-400' : sf('piotroski_score')! <= 2 ? 'text-red-400' : 'text-amber-400'}`}>
+                      {sf('piotroski_score')}/9 — {ss('piotroski_label')}
+                    </span>
+                  </div>
+                )}
                 <Row label="Current Ratio"     value={sf('current_ratio')?.toFixed(2) ?? null} cls={sf('current_ratio') != null && sf('current_ratio')! >= 1.5 ? 'text-emerald-400' : sf('current_ratio') != null && sf('current_ratio')! < 1 ? 'text-red-400' : ''} />
                 <Row label="Debt/Equity"       value={sf('debt_to_equity_fund')?.toFixed(2) ?? sf('debt_to_equity')?.toFixed(2) ?? null} cls={sf('debt_to_equity_fund') != null && sf('debt_to_equity_fund')! > 2 ? 'text-red-400' : ''} />
                 <Row label="Operating Margin"  value={fmtPct(sf('operating_margin_pct'))} cls={sf('operating_margin_pct') != null && sf('operating_margin_pct')! >= 20 ? 'text-emerald-400' : ''} />

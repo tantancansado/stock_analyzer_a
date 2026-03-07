@@ -43,6 +43,14 @@ export interface ValueOpportunity {
   target_price?: number
   thesis?: string
   proximity_to_52w_high?: number
+  // Piotroski F-Score (Proven: +13.4% annual alpha)
+  piotroski_score?: number
+  piotroski_label?: string
+  // Magic Formula (Greenblatt) + PEG (Lynch)
+  ebit_ev_yield?: number
+  roic_greenblatt?: number
+  magic_formula_rank?: number
+  peg_ratio?: number
 }
 
 export interface MomentumOpportunity {
