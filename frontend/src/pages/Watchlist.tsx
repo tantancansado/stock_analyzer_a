@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Star, Trash2, StickyNote, ChevronRight } from 'lucide-react'
 import { useWatchlist, type WatchlistEntry } from '../hooks/useWatchlist'
+import { fetchValueOpportunities, fetchEUValueOpportunities } from '../api/client'
 import GradeBadge from '../components/GradeBadge'
+import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 
@@ -51,10 +53,25 @@ function NoteEditor({ entry, onSave }: { entry: WatchlistEntry; onSave: (note: s
   )
 }
 
+type LiveEntry = { value_score: number; conviction_grade?: string }
+
 export default function Watchlist() {
   const { entries, remove, updateNote } = useWatchlist()
   const [sortKey, setSortKey] = useState<keyof WatchlistEntry>('added_at')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+  const [liveMap, setLiveMap] = useState<Record<string, LiveEntry>>({})
+
+  useEffect(() => {
+    Promise.all([fetchValueOpportunities(), fetchEUValueOpportunities()])
+      .then(([us, eu]) => {
+        const map: Record<string, LiveEntry> = {}
+        for (const item of [...(us.data.data ?? []), ...(eu.data.data ?? [])]) {
+          map[item.ticker] = { value_score: item.value_score, conviction_grade: item.conviction_grade }
+        }
+        setLiveMap(map)
+      })
+      .catch(() => {})
+  }, [])
 
   const onSort = (key: keyof WatchlistEntry) => {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
@@ -124,7 +141,8 @@ export default function Watchlist() {
                 <TableHead className={thCls('company_name')} onClick={() => onSort('company_name')}>Empresa</TableHead>
                 <TableHead className={thCls('sector')} onClick={() => onSort('sector')}>Sector</TableHead>
                 <TableHead className={thCls('current_price')} onClick={() => onSort('current_price')}>Precio</TableHead>
-                <TableHead className={thCls('value_score')} onClick={() => onSort('value_score')}>Score</TableHead>
+                <TableHead className={thCls('value_score')} onClick={() => onSort('value_score')}>Score añadido</TableHead>
+                <TableHead>Hoy</TableHead>
                 <TableHead>Grade</TableHead>
                 <TableHead className={thCls('analyst_upside_pct')} onClick={() => onSort('analyst_upside_pct')}>Upside</TableHead>
                 <TableHead className={thCls('fcf_yield_pct')} onClick={() => onSort('fcf_yield_pct')}>FCF%</TableHead>
@@ -146,11 +164,23 @@ export default function Watchlist() {
                   <TableCell className="tabular-nums text-[0.8rem]">
                     {e.current_price != null ? `$${e.current_price.toFixed(2)}` : '—'}
                   </TableCell>
-                  <TableCell className="tabular-nums text-[0.8rem] text-primary font-semibold">
+                  <TableCell className="tabular-nums text-[0.8rem] text-muted-foreground font-semibold">
                     {e.value_score != null ? fmt(e.value_score, 0) : '—'}
                   </TableCell>
                   <TableCell>
-                    <GradeBadge grade={e.conviction_grade} />
+                    {liveMap[e.ticker] ? (
+                      <div className="flex items-center gap-1">
+                        <Badge variant="green" className="text-[0.6rem] px-1.5 py-0.5">EN VALUE</Badge>
+                        <span className="text-[0.75rem] font-semibold text-emerald-400 tabular-nums">
+                          {liveMap[e.ticker].value_score.toFixed(0)}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-[0.7rem] text-muted-foreground/40">—</span>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <GradeBadge grade={liveMap[e.ticker]?.conviction_grade ?? e.conviction_grade} />
                   </TableCell>
                   <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${e.analyst_upside_pct != null && e.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                     {e.analyst_upside_pct != null ? `${e.analyst_upside_pct >= 0 ? '+' : ''}${e.analyst_upside_pct.toFixed(1)}%` : '—'}

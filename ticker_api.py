@@ -1311,6 +1311,34 @@ def economic_calendar_api():
     return jsonify({'events': upcoming, 'total': len(upcoming)})
 
 
+@app.route('/api/score-history/<ticker>', methods=['GET'])
+def score_history(ticker):
+    """Return VALUE score history for a ticker across all daily snapshots."""
+    ticker = ticker.upper().strip()
+    history_dir = DOCS / 'history'
+    results = []
+    if history_dir.exists():
+        for date_dir in sorted(history_dir.iterdir()):
+            if not date_dir.is_dir():
+                continue
+            csv_path = date_dir / 'value_opportunities.csv'
+            if not csv_path.exists():
+                continue
+            try:
+                df_h = pd.read_csv(csv_path, usecols=lambda c: c in {'ticker', 'value_score', 'conviction_grade'})
+                row = df_h[df_h['ticker'] == ticker]
+                if not row.empty:
+                    r = row.iloc[0]
+                    results.append({
+                        'date': date_dir.name,
+                        'score': round(float(r['value_score']), 1),
+                        'grade': str(r.get('conviction_grade', '') or '') or None,
+                    })
+            except Exception:
+                pass
+    return jsonify({'ticker': ticker, 'history': results, 'points': len(results)})
+
+
 @app.route('/api/dividend-traps')
 def dividend_traps():
     """Return dividend trap analysis from dividend_traps.json."""

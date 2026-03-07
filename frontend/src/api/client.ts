@@ -398,4 +398,8 @@ export const getCsvUrl = (dataset: string): string => {
   return `/api/download/${dataset}`
 }
 
+export interface ScoreHistoryPoint { date: string; score: number; grade: string | null }
+export const fetchScoreHistory = (ticker: string) =>
+  api.get<{ ticker: string; history: ScoreHistoryPoint[]; points: number }>(`/api/score-history/${ticker}`)
+
 export default api

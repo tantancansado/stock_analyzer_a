@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { analyzeTicker, searchTickers } from '../api/client'
-import type { SearchResult } from '../api/client'
+import { analyzeTicker, searchTickers, fetchScoreHistory } from '../api/client'
+import type { SearchResult, ScoreHistoryPoint } from '../api/client'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import { Search, AlertCircle } from 'lucide-react'
@@ -18,6 +18,7 @@ export default function TickerSearch() {
   const [suggestions, setSuggestions] = useState<SearchResult[]>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
+  const [scoreHistory, setScoreHistory] = useState<ScoreHistoryPoint[]>([])
   const wrapRef = useRef<HTMLDivElement>(null)
 
   // Debounced autocomplete
@@ -60,9 +61,11 @@ export default function TickerSearch() {
     setLoading(true)
     setError(null)
     setResult(null)
+    setScoreHistory([])
     try {
       const res = await analyzeTicker(t)
       setResult(res.data as Record<string, unknown>)
+      fetchScoreHistory(t).then(r => setScoreHistory(r.data.history)).catch(() => {})
     } catch (e) {
       setError((e as Error).message || 'Error de conexion')
     } finally {
@@ -333,6 +336,45 @@ export default function TickerSearch() {
                 <p className="text-sm text-muted-foreground leading-relaxed">{ss('thesis')}</p>
               </div>
             )}
+
+            {scoreHistory.length >= 2 && (() => {
+              const W = 300, H = 48
+              const scores = scoreHistory.map(p => p.score)
+              const min = Math.min(...scores), max = Math.max(...scores)
+              const range = max - min || 10
+              const xs = scoreHistory.map((_, i) => (i / (scoreHistory.length - 1)) * W)
+              const ys = scoreHistory.map(p => H - ((p.score - min) / range) * (H - 10) - 5)
+              const path = xs.map((x, i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${ys[i].toFixed(1)}`).join(' ')
+              const area = path + ` L${W},${H} L0,${H} Z`
+              const last = scoreHistory[scoreHistory.length - 1]
+              const trend = last.score - scoreHistory[0].score
+              const color = trend >= 0 ? '#10b981' : '#ef4444'
+              return (
+                <div className="mt-6 pt-5 border-t border-border/50">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Historial VALUE Score</h4>
+                    <span className={`text-xs font-semibold tabular-nums ${trend >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {trend >= 0 ? '+' : ''}{trend.toFixed(1)} pts · {scoreHistory.length} sesiones
+                    </span>
+                  </div>
+                  <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-12" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor={color} stopOpacity="0.25" />
+                        <stop offset="100%" stopColor={color} stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path d={area} fill="url(#sparkGrad)" />
+                    <path d={path} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+                    <circle cx={xs.at(-1)!.toFixed(1)} cy={ys.at(-1)!.toFixed(1)} r="3" fill={color} />
+                  </svg>
+                  <div className="flex justify-between text-[0.6rem] text-muted-foreground/50 mt-1 tabular-nums">
+                    <span>{scoreHistory[0].date.slice(5)} · {scoreHistory[0].score.toFixed(0)}</span>
+                    <span>{last.date.slice(5)} · {last.score.toFixed(0)}</span>
+                  </div>
+                </div>
+              )
+            })()}
           </CardContent>
         </Card>
       )}

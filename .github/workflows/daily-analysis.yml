@@ -195,6 +195,13 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 new_value_alerts.py || echo "New value alerts failed"
 
+      - name: Daily Briefing (compact summary)
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 telegram_briefing.py || echo "Daily briefing failed"
+
       - name: Dividend Trap Scanner
         continue-on-error: true
         run: python3 dividend_trap_scanner.py || echo "Dividend trap scanner failed"
