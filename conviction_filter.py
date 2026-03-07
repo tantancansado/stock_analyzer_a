@@ -171,6 +171,19 @@ def calculate_conviction_score(row) -> dict:
     dcf = _sf(row.get('target_price_dcf'))
     ticker_str = str(row.get('ticker', ''))
     is_london = ticker_str.upper().endswith('.L')
+
+    # Quality compounders (MSFT, SPGI, etc.) trade at justified high multiples that a
+    # simple DCF undervalues. When 15+ analysts with strong_buy agree on >30% upside,
+    # their models are more reliable than ours — reduce the DCF penalty accordingly.
+    analyst_count_dcf = _sf(row.get('analyst_count'), 0)
+    analyst_rec_dcf = str(row.get('analyst_recommendation', '')).lower()
+    analyst_upside_dcf = _sf(row.get('analyst_upside_pct'), 0)
+    strong_consensus = (
+        analyst_count_dcf >= 15
+        and analyst_rec_dcf in ('strong_buy', 'strongbuy', 'buy')
+        and analyst_upside_dcf >= 30
+    )
+
     if is_london:
         score += 5  # Neutral — don't penalise, don't reward (data units mismatch)
     elif price and dcf and price > 0:
@@ -184,10 +197,12 @@ def calculate_conviction_score(row) -> dict:
         elif dcf_upside >= 0:
             score += 5
         elif dcf_upside < -20:
-            score -= 10
+            penalty = 3 if strong_consensus else 10
+            score -= penalty
             red_flags.append(f"DCF dice SOBREVALORADA ({dcf_upside:.0f}%)")
         elif dcf_upside < 0:
-            score -= 3
+            penalty = 1 if strong_consensus else 3
+            score -= penalty
             red_flags.append(f"DCF ligeramente por debajo ({dcf_upside:.0f}%)")
 
     # ─── 5. Analyst consensus (max 12pts) ───
