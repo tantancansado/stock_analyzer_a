@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import { Clock, Sun, Moon, Menu } from 'lucide-react'
+import { Clock, Sun, Moon, Menu, Search } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { Button } from '@/components/ui/button'
 
@@ -19,9 +19,10 @@ const ROUTE_TITLES: Record<string, string> = {
 
 interface Props {
   readonly onMenuClick: () => void
+  readonly onOpenCmd: () => void
 }
 
-export default function TopBar({ onMenuClick }: Readonly<Props>) {
+export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
   const location = useLocation()
   const [time, setTime]   = useState(new Date())
   const { theme, toggle } = useTheme()
@@ -53,6 +54,17 @@ export default function TopBar({ onMenuClick }: Readonly<Props>) {
       </div>
 
       <div className="flex items-center gap-3.5 flex-shrink-0">
+        {/* ⌘K trigger */}
+        <button
+          type="button"
+          onClick={onOpenCmd}
+          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/50 bg-card/60 hover:bg-card/90 hover:border-border transition-all text-muted-foreground/60 hover:text-muted-foreground text-xs"
+          aria-label="Abrir paleta de comandos"
+        >
+          <Search size={11} strokeWidth={1.75} />
+          <span className="text-[0.65rem]">Buscar…</span>
+          <kbd className="ml-1 text-[0.55rem] font-mono opacity-60">⌘K</kbd>
+        </button>
         <span className="hidden sm:flex items-center gap-1.5 text-[0.67rem] text-muted-foreground">
           <span className="api-dot" />{' '}Pipeline activo
         </span>

@@ -51,6 +51,9 @@ export interface ValueOpportunity {
   roic_greenblatt?: number
   magic_formula_rank?: number
   peg_ratio?: number
+  // Hedge Fund 13F consensus
+  hedge_fund_count?: number
+  hedge_fund_names?: string
 }
 
 export interface MomentumOpportunity {
@@ -356,6 +359,26 @@ export const fetchBacktest = () =>
 export const fetchThesis = (ticker: string) =>
   api.get<{ ticker: string; thesis: string | null }>(`/api/theses/${ticker}`)
 
+export interface HedgeFundConsensusItem {
+  ticker: string
+  company_name: string
+  funds_count: number
+  funds_list: string
+  total_value_m: number
+  avg_portfolio_pct: number
+  latest_date: string
+}
+
+export interface HedgeFundData {
+  generated_at: string
+  funds_scraped: string[]
+  holdings_count: number
+  top_consensus: HedgeFundConsensusItem[]
+}
+
+export const fetchHedgeFunds = () =>
+  api.get<HedgeFundData>('/api/hedge-funds')
+
 export const analyzeTicker = (ticker: string) =>
   api.get(`/api/analyze/${ticker}`)
 
@@ -411,3 +434,49 @@ export const fetchScoreHistory = (ticker: string) =>
   api.get<{ ticker: string; history: ScoreHistoryPoint[]; points: number }>(`/api/score-history/${ticker}`)
 
 export default api
+
+export interface FactorDetail {
+  status: string
+  score: number
+  interpretation?: string
+  academic_edge?: string
+  opportunities?: number
+  grade_a?: number
+  grade_b?: number
+  avg_upside_pct?: number
+  avg_fcf_yield?: number
+  avg_piotroski?: number
+  pct_strong?: number
+  pct_weak?: number
+  avg_roic_pct?: number
+  market_regime?: string
+  avg_score?: number
+  active_signals?: number
+  cluster_buying?: number
+  high_confidence?: number
+  total_positions?: number
+  consensus_2plus?: number
+  consensus_3plus?: number
+  funds_tracked?: number
+  as_of?: string
+  error?: string
+}
+
+export interface FactorStatusData {
+  generated_at: string
+  factors: {
+    value?: FactorDetail
+    quality?: FactorDetail
+    momentum?: FactorDetail
+    insider?: FactorDetail
+    smart_money?: FactorDetail
+  }
+  combined_score: number
+  factor_alignment: string
+  recommendation: string
+  value_momentum_correlation?: string
+  value_momentum_note?: string
+}
+
+export const fetchFactorStatus = () =>
+  api.get<FactorStatusData>('/api/factor-status')

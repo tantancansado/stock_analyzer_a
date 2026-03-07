@@ -111,6 +111,10 @@ jobs:
       # OPTIONAL STEPS (Can fail without breaking pipeline)
       # ============================================================================
 
+      - name: Hedge Fund 13F Tracker (SEC EDGAR)
+        continue-on-error: true
+        run: python3 hedge_fund_tracker.py || echo "Hedge fund tracker failed"
+
       - name: Whale Scan + Institutional Index
         continue-on-error: true
         run: |

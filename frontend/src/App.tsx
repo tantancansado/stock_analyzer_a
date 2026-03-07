@@ -1,16 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Routes, Route, NavLink, Navigate } from 'react-router-dom'
-import {
-  Gem, Globe, TrendingUp, Users, Activity,
-  ArrowLeftRight, PieChart, BarChart2, FlaskConical, Search, LayoutDashboard, X, Database,
-  Ruler, Layers, Star, LogOut, Radar, CalendarDays, AlertTriangle, Sparkles,
-} from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { LayoutDashboard, X, LogOut } from 'lucide-react'
 import { ThemeProvider } from './context/ThemeContext'
 import { useAuth } from './context/AuthContext'
 import { cn } from '@/lib/utils'
+import { NAV } from '@/lib/nav'
 import TopBar from './components/TopBar'
 import ProtectedRoute from './components/ProtectedRoute'
+import CommandPalette from './components/CommandPalette'
+import ScrollToTop from './components/ScrollToTop'
 import Login from './pages/Login'
 import ValueUS from './pages/ValueUS'
 import ValueEU from './pages/ValueEU'
@@ -32,40 +30,10 @@ import MacroRadar from './pages/MacroRadar'
 import EarningsCalendar from './pages/EarningsCalendar'
 import DividendTraps from './pages/DividendTraps'
 import SmartPortfolio from './pages/SmartPortfolio'
+import HedgeFunds from './pages/HedgeFunds'
+import FactorStatus from './pages/FactorStatus'
 
-type NavSection  = { section: string }
-type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string }
-type NavItem = NavSection | NavLinkItem
-
-const NAV: NavItem[] = [
-  { path: '/dashboard', icon: LayoutDashboard, label: 'Dashboard',          color: '#6366f1' },
-  { section: 'Estrategias' },
-  { path: '/value',          icon: Gem,            label: 'VALUE US',           color: '#10b981' },
-  { path: '/value-eu',       icon: Globe,           label: 'VALUE EU',           color: '#3b82f6' },
-  { path: '/value-global',   icon: Globe,           label: 'VALUE Global',       color: '#a855f7' },
-  { path: '/momentum',       icon: TrendingUp,      label: 'Momentum',           color: '#f97316' },
-  { path: '/macro-radar',    icon: Radar,          label: 'Macro Radar',        color: '#e11d48' },
-  { path: '/earnings',       icon: CalendarDays,   label: 'Earnings Calendar',  color: '#f59e0b' },
-  { path: '/dividend-traps', icon: AlertTriangle,  label: 'Dividend Traps',     color: '#ef4444' },
-  { path: '/smart-portfolio', icon: Sparkles,      label: 'Smart Portfolio',    color: '#a855f7' },
-  { section: 'Señales' },
-  { path: '/insiders',       icon: Users,           label: 'Insiders',           color: '#8b5cf6' },
-  { path: '/options',        icon: Activity,        label: 'Options Flow',       color: '#ec4899' },
-  { path: '/mean-reversion', icon: ArrowLeftRight,  label: 'Mean Reversion',     color: '#14b8a6' },
-  { path: '/sectors',        icon: PieChart,        label: 'Rotación Sectorial', color: '#6366f1' },
-  { section: 'Rendimiento' },
-  { path: '/portfolio',      icon: BarChart2,       label: 'Portfolio Tracker',  color: '#22c55e' },
-  { path: '/backtest',       icon: FlaskConical,    label: 'Backtest',           color: '#a78bfa' },
-  { section: 'Análisis' },
-  { path: '/industry-groups', icon: Layers,         label: 'Industry Groups',    color: '#0ea5e9' },
-  { path: '/position-sizing', icon: Ruler,          label: 'Position Sizing',    color: '#f59e0b' },
-  { section: 'Herramientas' },
-  { path: '/watchlist',       icon: Star,           label: 'Watchlist',          color: '#f59e0b' },
-  { path: '/search',          icon: Search,         label: 'Buscar Ticker',      color: '#94a3b8' },
-  { path: '/datos',           icon: Database,       label: 'Datos & Historial',  color: '#64748b' },
-]
-
-function SidebarContent({ onClose, onSignOut }: { onClose: () => void; onSignOut: () => void }) {
+function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; onSignOut: () => void }>) {
   return (
     <>
       {/* Header */}
@@ -90,9 +58,9 @@ function SidebarContent({ onClose, onSignOut }: { onClose: () => void; onSignOut
 
       {/* Nav */}
       <nav className="flex-1 px-2 py-3 overflow-y-auto">
-        {NAV.map((item, i) =>
+        {NAV.map((item) =>
           'section' in item ? (
-            <div key={i} className="px-3 pt-5 pb-1.5 text-[0.55rem] font-bold uppercase tracking-[0.14em] text-muted-foreground/50">
+            <div key={`section-${item.section}`} className="px-3 pt-5 pb-1.5 text-[0.55rem] font-bold uppercase tracking-[0.14em] text-muted-foreground/50">
               {item.section}
             </div>
           ) : (
@@ -112,7 +80,10 @@ function SidebarContent({ onClose, onSignOut }: { onClose: () => void; onSignOut
               <span className="nav-icon">
                 <item.icon size={15} strokeWidth={1.65} />
               </span>
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {'tag' in item && item.tag && (
+                <span className="text-sm leading-none opacity-75">{item.tag}</span>
+              )}
             </NavLink>
           )
         )}
@@ -135,8 +106,36 @@ function SidebarContent({ onClose, onSignOut }: { onClose: () => void; onSignOut
 export default function App() {
   const { user, signOut } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [cmdOpen, setCmdOpen]         = useState(false)
   const close = () => setSidebarOpen(false)
   const handleSignOut = () => { close(); signOut() }
+
+  // ⌘K / Ctrl+K global shortcut
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        if (user) setCmdOpen(o => !o)
+      }
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [user])
+
+  // Cursor spotlight on .glass cards
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => {
+      const el = (e.target as Element).closest<HTMLElement>('.glass')
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
+      el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
+    }
+    document.addEventListener('mousemove', handleMove, { passive: true })
+    return () => document.removeEventListener('mousemove', handleMove)
+  }, [])
+
+  const openCmd = useCallback(() => setCmdOpen(true), [])
 
   return (
     <ThemeProvider>
@@ -156,8 +155,10 @@ export default function App() {
         <>
           {/* Mobile overlay */}
           {sidebarOpen && (
-            <div
-              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden animate-fade-in"
+            <button
+              type="button"
+              aria-label="Cerrar menú"
+              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden animate-fade-in w-full cursor-default"
               onClick={close}
             />
           )}
@@ -172,12 +173,16 @@ export default function App() {
           )}>
             <SidebarContent onClose={close} onSignOut={handleSignOut} />
           </aside>
+
+          {/* Command Palette */}
+          <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
         </>
       )}
 
       {/* Main */}
       <div className={cn('flex flex-col min-h-screen min-w-0 relative z-10', user && 'md:ml-56')}>
-        {user && <TopBar onMenuClick={() => setSidebarOpen(o => !o)} />}
+        {user && <TopBar onMenuClick={() => setSidebarOpen(o => !o)} onOpenCmd={openCmd} />}
+        <ScrollToTop />
         <main className="flex-1 p-5 md:p-8 overflow-x-hidden min-w-0">
           <Routes>
             {/* Public route */}
@@ -205,6 +210,8 @@ export default function App() {
               <Route path="/earnings"       element={<EarningsCalendar />} />
               <Route path="/dividend-traps"   element={<DividendTraps />} />
               <Route path="/smart-portfolio" element={<SmartPortfolio />} />
+              <Route path="/hedge-funds" element={<HedgeFunds />} />
+              <Route path="/factor-status" element={<FactorStatus />} />
               <Route path="/datos"           element={<Datos />} />
             </Route>
           </Routes>

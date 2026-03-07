@@ -1127,6 +1127,47 @@ class SuperScoreIntegrator:
                 print(f"   🧮 Magic Formula Rank computed for {n} tickers · top20%: +5pts")
                 df.drop(columns=['mf_bonus'], inplace=True, errors='ignore')
 
+        # ── HEDGE FUND CONSENSUS (Smart Money Confirmation) ─────────────────────────
+        # Cross-reference value picks with 13F holdings from top value funds.
+        # Buffett, Ackman, Klarman, Tepper — these investors do the deepest due diligence.
+        # 2+ funds holding = convergence signal: +8pts
+        # 1 fund holding  = smart money awareness: +4pts
+        hf_path = Path('docs/hedge_fund_summary.json')
+        if hf_path.exists():
+            try:
+                import json as _json2
+                with open(hf_path) as _hf:
+                    hf_data = _json2.load(_hf)
+                hf_index = {}
+                for row in hf_data.get('top_consensus', []):
+                    t = str(row.get('ticker', '')).upper().strip()
+                    if t:
+                        hf_index[t] = int(row.get('funds_count', 0))
+
+                # Build lookup: ticker → {count, funds_list}
+                hf_funds_map = {}
+                for row in hf_data.get('top_consensus', []):
+                    t = str(row.get('ticker', '')).upper().strip()
+                    if t:
+                        hf_index[t]    = int(row.get('funds_count', 0))
+                        hf_funds_map[t] = row.get('funds_list', '')
+
+                df['_hf_count'] = df['ticker'].str.upper().str.strip().map(hf_index).fillna(0)
+                df['hedge_fund_count'] = df['_hf_count'].astype(int)  # keep in output
+                df['hedge_fund_names'] = df['ticker'].str.upper().str.strip().map(hf_funds_map).fillna('')
+
+                df['hf_bonus'] = 0.0
+                df.loc[df['_hf_count'] >= 2, 'hf_bonus'] = 8.0
+                df.loc[(df['_hf_count'] == 1), 'hf_bonus'] = 4.0
+                df['value_score'] += df['hf_bonus']
+
+                hf_hits = int((df['_hf_count'] >= 1).sum())
+                multi   = int((df['_hf_count'] >= 2).sum())
+                print(f"   🐋 Hedge Fund consensus: {hf_hits} matches ({multi} held by 2+ funds)")
+                df.drop(columns=['_hf_count', 'hf_bonus'], inplace=True, errors='ignore')
+            except Exception as _e:
+                print(f"   ⚠️  Hedge fund signal skipped: {_e}")
+
         # COVERAGE CHECK: Penalize stocks without analyst coverage (less confidence)
         if 'analyst_count' in df.columns:
             no_coverage = df['analyst_count'].isna() | (df['analyst_count'] == 0)

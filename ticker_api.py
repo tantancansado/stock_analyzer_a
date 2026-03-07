@@ -1209,6 +1209,15 @@ def correlation_matrix():
         return jsonify({'error': str(e), 'matrix': [], 'tickers': []}), 200
 
 
+@app.route('/api/hedge-funds')
+def hedge_funds():
+    """13F consensus picks from top value/quality funds (Buffett, Ackman, Klarman…)."""
+    data = _load_json(DOCS / 'hedge_fund_summary.json')
+    if data:
+        return jsonify(data)
+    return jsonify({'top_consensus': [], 'funds_scraped': [], 'holdings_count': 0})
+
+
 @app.route('/api/portfolio-tracker/signals')
 def portfolio_signals():
     """Individual signal rows for the portfolio tracker."""
@@ -1262,6 +1271,267 @@ def market_regime():
     us = _load_json(DOCS / 'market_regime.json')
     eu = _load_json(DOCS / 'european_market_regime.json')
     return jsonify({"us": us, "eu": eu})
+
+
+@app.route('/api/factor-status')
+def factor_status():
+    """
+    Factor Status Dashboard — aggregates factor performance from daily CSVs.
+    Returns current state of VALUE, QUALITY, MOMENTUM, INSIDER, SMART MONEY factors.
+    Based on Fama-French + AQR framework + Piotroski + Greenblatt.
+    """
+    import json as _json
+    from datetime import datetime as _dt
+    import numpy as _np
+
+    result = {
+        'generated_at': _dt.utcnow().isoformat() + 'Z',
+        'factors': {},
+        'combined_score': 0,
+        'factor_alignment': '',
+        'recommendation': '',
+    }
+
+    scores = []
+
+    # ── FACTOR 1: VALUE ──────────────────────────────────────────────────────
+    try:
+        vdf = _load_csv(DOCS / 'value_opportunities.csv')
+        if not vdf.empty:
+            n = len(vdf)
+            avg_score = float(vdf['value_score'].mean()) if 'value_score' in vdf.columns else 0
+            avg_fcf   = float(vdf['fcf_yield_pct'].dropna().mean()) if 'fcf_yield_pct' in vdf.columns else None
+            avg_upside= float(vdf['analyst_upside_pct'].dropna().mean()) if 'analyst_upside_pct' in vdf.columns else None
+            grade_a   = int((vdf['conviction_grade'] == 'A').sum()) if 'conviction_grade' in vdf.columns else 0
+            grade_b   = int((vdf['conviction_grade'] == 'B').sum()) if 'conviction_grade' in vdf.columns else 0
+
+            # Signal: more grade-A picks + good upside = value is finding opportunities
+            val_signal = (grade_a * 10 + grade_b * 5) / max(n, 1) * 100
+            val_score  = min(100, val_signal + (avg_upside or 0) * 0.5)
+
+            if avg_upside is not None and avg_upside >= 25 and grade_a >= 3:
+                status = 'ATTRACTIVE'
+            elif avg_upside is not None and avg_upside >= 15:
+                status = 'NEUTRAL'
+            else:
+                status = 'EXPENSIVE'
+
+            result['factors']['value'] = {
+                'status': status,
+                'score': round(val_score),
+                'opportunities': n,
+                'grade_a': grade_a,
+                'grade_b': grade_b,
+                'avg_upside_pct': round(avg_upside, 1) if avg_upside is not None else None,
+                'avg_fcf_yield': round(avg_fcf, 1) if avg_fcf is not None else None,
+                'interpretation': (
+                    'El universo VALUE presenta múltiples picks de alta convicción con upside atractivo.'
+                    if status == 'ATTRACTIVE' else
+                    'Oportunidades VALUE moderadas. Ser selectivo.' if status == 'NEUTRAL' else
+                    'Mercado caro según analistas. Pocos picks con margen de seguridad.'
+                ),
+                'academic_edge': '+4–6% anual sobre el mercado (Fama-French, décadas de datos)',
+            }
+            scores.append(val_score)
+    except Exception as e:
+        result['factors']['value'] = {'status': 'N/A', 'score': 0, 'error': str(e)}
+
+    # ── FACTOR 2: QUALITY (Piotroski F-Score) ──────────────────────────────
+    try:
+        fdf = _load_csv(DOCS / 'fundamental_scores.csv')
+        if not fdf.empty and 'piotroski_score' in fdf.columns:
+            ps = fdf['piotroski_score'].dropna()
+            if len(ps) > 0:
+                avg_f    = float(ps.mean())
+                pct_strong = float((ps >= 8).sum() / len(ps) * 100)
+                pct_weak   = float((ps <= 2).sum() / len(ps) * 100)
+                avg_roic = float(fdf['roic_greenblatt'].dropna().mean()) if 'roic_greenblatt' in fdf.columns else None
+
+                qual_score = min(100, avg_f / 9 * 60 + pct_strong * 0.8 - pct_weak * 1.2)
+
+                if avg_f >= 7 and pct_strong >= 20:
+                    status = 'STRONG'
+                elif avg_f >= 5:
+                    status = 'MIXED'
+                else:
+                    status = 'WEAK'
+
+                result['factors']['quality'] = {
+                    'status': status,
+                    'score': round(qual_score),
+                    'avg_piotroski': round(avg_f, 1),
+                    'pct_strong': round(pct_strong, 1),
+                    'pct_weak': round(pct_weak, 1),
+                    'avg_roic_pct': round(avg_roic, 1) if avg_roic is not None else None,
+                    'interpretation': (
+                        f'Universo de alta calidad: {pct_strong:.0f}% de empresas con F-Score ≥8. Señal de compra.'
+                        if status == 'STRONG' else
+                        f'Calidad mixta en el universo. F-Score medio {avg_f:.1f}/9. Ser selectivo.'
+                        if status == 'MIXED' else
+                        f'Alto % de value traps ({pct_weak:.0f}% con F≤2). Máxima cautela.'
+                    ),
+                    'academic_edge': '+13.4% anual F≥8 vs mercado (Equities Lab, 20 años)',
+                }
+                scores.append(qual_score)
+    except Exception as e:
+        result['factors']['quality'] = {'status': 'N/A', 'score': 0, 'error': str(e)}
+
+    # ── FACTOR 3: MOMENTUM ──────────────────────────────────────────────────
+    try:
+        mdf = _load_csv(DOCS / 'momentum_opportunities.csv')
+        regime_us = _load_json(DOCS / 'market_regime.json') or {}
+        n_mom = len(mdf) if not mdf.empty else 0
+        regime_name = regime_us.get('market_regime', regime_us.get('regime', 'UNKNOWN'))
+        avg_mom = float(mdf['momentum_score'].mean()) if not mdf.empty and 'momentum_score' in mdf.columns else 0
+
+        if n_mom >= 10 and 'UP' in str(regime_name).upper():
+            status = 'BULL'
+            mom_score = min(100, 50 + n_mom * 2 + avg_mom * 0.3)
+        elif n_mom >= 3:
+            status = 'MIXED'
+            mom_score = min(80, 30 + n_mom * 3)
+        else:
+            status = 'BEAR'
+            mom_score = max(0, n_mom * 5)
+
+        result['factors']['momentum'] = {
+            'status': status,
+            'score': round(mom_score),
+            'opportunities': n_mom,
+            'avg_score': round(avg_mom, 1),
+            'market_regime': regime_name,
+            'interpretation': (
+                f'Momentum fuerte: {n_mom} setups VCP activos. Régimen {regime_name}.'
+                if status == 'BULL' else
+                f'Momentum mixto: {n_mom} setups. Mercado en transición.'
+                if status == 'MIXED' else
+                f'Sin setups momentum válidos. Mercado sin tendencia o en corrección.'
+            ),
+            'academic_edge': '+4–8% anual (presente en 40+ mercados, Jegadeesh & Titman)',
+        }
+        scores.append(mom_score)
+    except Exception as e:
+        result['factors']['momentum'] = {'status': 'N/A', 'score': 0, 'error': str(e)}
+
+    # ── FACTOR 4: INSIDER / SMART MONEY ────────────────────────────────────
+    try:
+        idf = _load_csv(DOCS / 'recurring_insiders.csv')
+        n_ins = len(idf) if not idf.empty else 0
+        cluster = 0
+        if not idf.empty and 'unique_insiders' in idf.columns:
+            cluster = int((idf['unique_insiders'] >= 2).sum())
+        high_conf = 0
+        if not idf.empty and 'confidence_score' in idf.columns:
+            high_conf = int((idf['confidence_score'] >= 70).sum())
+
+        if n_ins >= 5 and cluster >= 2:
+            status = 'BULLISH'
+            ins_score = min(100, 50 + n_ins * 3 + cluster * 5)
+        elif n_ins >= 2:
+            status = 'NEUTRAL'
+            ins_score = min(70, 30 + n_ins * 5)
+        else:
+            status = 'QUIET'
+            ins_score = 20
+
+        result['factors']['insider'] = {
+            'status': status,
+            'score': round(ins_score),
+            'active_signals': n_ins,
+            'cluster_buying': cluster,
+            'high_confidence': high_conf,
+            'interpretation': (
+                f'Señal de insiders potente: {cluster} cluster buys (múltiples directivos). Alta información material.'
+                if status == 'BULLISH' else
+                f'{n_ins} insiders activos. Señal moderada — monitorear si escala.'
+                if status == 'NEUTRAL' else
+                'Sin actividad insider significativa. Esperar señales antes de actuar.'
+            ),
+            'academic_edge': '+6–10.2% anual con cluster buying (Lakonishok & Lee, revisión 2022)',
+        }
+        scores.append(ins_score)
+    except Exception as e:
+        result['factors']['insider'] = {'status': 'N/A', 'score': 0, 'error': str(e)}
+
+    # ── FACTOR 5: SMART MONEY (Hedge Fund 13F) ──────────────────────────────
+    try:
+        hf_data = _load_json(DOCS / 'hedge_fund_summary.json') or {}
+        consensus = hf_data.get('top_consensus', [])
+        n_hf    = len(consensus)
+        multi   = sum(1 for r in consensus if r.get('funds_count', 0) >= 2)
+        top3    = sum(1 for r in consensus if r.get('funds_count', 0) >= 3)
+        funds_n = len(hf_data.get('funds_scraped', []))
+
+        if multi >= 10:
+            status = 'STRONG'
+            sm_score = min(100, 50 + multi * 2 + top3 * 3)
+        elif multi >= 4:
+            status = 'MODERATE'
+            sm_score = min(70, 30 + multi * 4)
+        else:
+            status = 'SPARSE'
+            sm_score = 20
+
+        result['factors']['smart_money'] = {
+            'status': status,
+            'score': round(sm_score),
+            'total_positions': n_hf,
+            'consensus_2plus': multi,
+            'consensus_3plus': top3,
+            'funds_tracked': funds_n,
+            'as_of': hf_data.get('generated_at', ''),
+            'interpretation': (
+                f'Alto consenso entre mega-gestores: {multi} tickers con 2+ fondos coincidiendo.'
+                if status == 'STRONG' else
+                f'Consenso moderado: {multi} tickers compartidos entre varios fondos.'
+                if status == 'MODERATE' else
+                'Posiciones de hedge funds dispersas. Sin fuerte convergencia de ideas.'
+            ),
+            'academic_edge': 'Fondos 13F con alpha histórico positivo neto de fees (AQR, 2021)',
+        }
+        scores.append(sm_score)
+    except Exception as e:
+        result['factors']['smart_money'] = {'status': 'N/A', 'score': 0, 'error': str(e)}
+
+    # ── COMBINED SCORE + RECOMMENDATION ─────────────────────────────────────
+    if scores:
+        combined = round(sum(scores) / len(scores))
+        result['combined_score'] = combined
+
+        green  = sum(1 for f in result['factors'].values() if f.get('status') in ('ATTRACTIVE', 'STRONG', 'BULL', 'BULLISH'))
+        yellow = sum(1 for f in result['factors'].values() if f.get('status') in ('NEUTRAL', 'MIXED', 'MODERATE'))
+        red    = sum(1 for f in result['factors'].values() if f.get('status') in ('EXPENSIVE', 'WEAK', 'BEAR', 'QUIET', 'SPARSE'))
+
+        if green >= 4:
+            result['factor_alignment'] = 'FULL_ALIGNMENT'
+            result['recommendation'] = f'Alineación de factores excepcional ({green}/5 verdes). Condiciones ideales para entradas VALUE concentradas. Size up.'
+        elif green >= 3:
+            result['factor_alignment'] = 'GOOD'
+            result['recommendation'] = f'{green}/5 factores favorables. Entorno constructivo — construir posiciones gradualmente.'
+        elif green >= 2:
+            result['factor_alignment'] = 'MIXED'
+            result['recommendation'] = f'Señales mixtas ({green} verde, {yellow} neutro, {red} rojo). Entradas selectivas con position sizing conservador.'
+        elif red >= 3:
+            result['factor_alignment'] = 'HOSTILE'
+            result['recommendation'] = f'{red}/5 factores adversos. Capital preservation mode — reducir exposición y esperar mejor setup.'
+        else:
+            result['factor_alignment'] = 'CAUTIOUS'
+            result['recommendation'] = 'Entorno incierto. Mantener posiciones existentes pero no escalar.'
+
+        # AQR insight: Value-Momentum correlation
+        v_score = result['factors'].get('value', {}).get('score', 50)
+        m_score = result['factors'].get('momentum', {}).get('score', 50)
+        if abs(v_score - m_score) <= 20:
+            result['value_momentum_correlation'] = 'LOW'
+            result['value_momentum_note'] = 'Value y Momentum alineados — combinación óptima según AQR (máximo Sharpe ratio histórico).'
+        elif v_score > m_score + 20:
+            result['value_momentum_correlation'] = 'DIVERGENT_VALUE_LEADS'
+            result['value_momentum_note'] = 'Value supera a Momentum — típico en mercados de recuperación. Históricamente precede rebote del factor Momentum.'
+        else:
+            result['value_momentum_correlation'] = 'DIVERGENT_MOMENTUM_LEADS'
+            result['value_momentum_note'] = 'Momentum supera a Value — mercado en tendencia. Añadir filtro momentum a picks VALUE.'
+
+    return jsonify(result)
 
 
 @app.route('/api/macro-radar')

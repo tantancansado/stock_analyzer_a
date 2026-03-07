@@ -201,6 +201,10 @@ class PortfolioTracker:
                 if hist.empty:
                     continue
 
+                # yfinance returns tz-aware index; strip tz to allow naive comparisons
+                if hist.index.tz is not None:
+                    hist.index = hist.index.tz_localize(None)
+
                 for idx, rec in ticker_recs.iterrows():
                     signal_date = pd.Timestamp(rec['signal_date'])
                     signal_price = float(rec['signal_price'])

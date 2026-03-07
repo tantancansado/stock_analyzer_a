@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
-import { X, TrendingUp, AlertTriangle } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { X, TrendingUp, AlertTriangle, Copy, Check, ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import GradeBadge from './GradeBadge'
 import ThesisBody from './ThesisBody'
+import TickerLogo from './TickerLogo'
 import type { ValueOpportunity } from '../api/client'
 
 // ── Conviction panel ──────────────────────────────────────────────────────────
@@ -64,6 +65,14 @@ interface Props {
 }
 
 export default function ThesisModal({ row, thesisText, onClose, currency = '$' }: Props) {
+  const [copied, setCopied] = useState(false)
+
+  const copyTicker = () => {
+    navigator.clipboard.writeText(row.ticker).catch(() => {})
+    setCopied(true)
+    setTimeout(() => setCopied(false), 1800)
+  }
+
   // ESC key
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -108,6 +117,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
           <div className="flex items-start justify-between gap-4 px-5 pt-3 pb-4 border-b border-border/50 flex-shrink-0">
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap mb-1">
+                <TickerLogo ticker={row.ticker} size="md" />
                 <span className="font-mono font-extrabold text-primary text-xl tracking-tight">{row.ticker}</span>
                 <GradeBadge grade={row.conviction_grade} score={row.conviction_score} />
                 {row.earnings_warning && (
@@ -122,9 +132,9 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
               <p className="text-sm text-muted-foreground truncate">{row.company_name}</p>
               {row.sector && <p className="text-[0.7rem] text-muted-foreground/50 mt-0.5">{row.sector}</p>}
             </div>
-            <div className="flex items-start gap-3 shrink-0">
+            <div className="flex items-start gap-2 shrink-0">
               {price != null && (
-                <div className="text-right">
+                <div className="text-right mr-1">
                   <div className="text-xl font-extrabold tabular-nums">{currency}{price.toFixed(2)}</div>
                   {upside != null && (
                     <div className={`text-xs font-semibold tabular-nums flex items-center gap-1 justify-end ${upside >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -134,6 +144,27 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   )}
                 </div>
               )}
+              {/* Copy ticker */}
+              <button
+                type="button"
+                onClick={copyTicker}
+                className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors flex-shrink-0"
+                aria-label="Copiar ticker"
+                title="Copiar ticker"
+              >
+                {copied ? <Check size={14} strokeWidth={2} className="text-emerald-400" /> : <Copy size={14} strokeWidth={1.75} />}
+              </button>
+              {/* TradingView */}
+              <a
+                href={`https://www.tradingview.com/chart/?symbol=${row.ticker}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors flex-shrink-0"
+                aria-label="Ver en TradingView"
+                title="Ver en TradingView"
+              >
+                <ExternalLink size={14} strokeWidth={1.75} />
+              </a>
               <button
                 onClick={onClose}
                 className="p-1.5 rounded-lg text-muted-foreground hover:bg-muted/40 hover:text-foreground transition-colors flex-shrink-0"
@@ -190,6 +221,13 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             )}
             {row.buyback_active && (
               <Chip label="Buyback" value="Activo" color="text-emerald-400" />
+            )}
+            {(row.hedge_fund_count ?? 0) >= 1 && (
+              <Chip
+                label="Smart Money"
+                value={`${row.hedge_fund_count} fondo${(row.hedge_fund_count ?? 0) > 1 ? 's' : ''}`}
+                color={(row.hedge_fund_count ?? 0) >= 2 ? 'text-amber-400' : 'text-muted-foreground'}
+              />
             )}
             {earn != null && (
               <Chip

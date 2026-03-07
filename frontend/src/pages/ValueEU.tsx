@@ -11,6 +11,7 @@ import CsvDownload from '../components/CsvDownload'
 import WatchlistButton from '../components/WatchlistButton'
 import InfoTooltip from '../components/InfoTooltip'
 import ThesisModal from '../components/ThesisModal'
+import TickerLogo from '../components/TickerLogo'
 
 const MARKET_FLAGS: Record<string, string> = {
   DAX40: '🇩🇪', FTSE100: '🇬🇧', CAC40: '🇫🇷',
@@ -305,13 +306,24 @@ export default function ValueEU() {
               return (
                 <TableRow key={d.ticker} className="cursor-pointer" onClick={() => toggleThesis(d.ticker, d)}>
                     <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
-                      <div className="flex items-center gap-1.5">
-                        {d.ticker}
-                        {d.proximity_to_52w_high != null && d.proximity_to_52w_high > -5 && (
-                          <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25" title={`${d.proximity_to_52w_high.toFixed(1)}% vs 52w high`}>
-                            52w
-                          </span>
-                        )}
+                      <div className="flex items-center gap-2">
+                        <TickerLogo ticker={d.ticker} size="sm" />
+                        <div className="flex items-center gap-1.5">
+                          {d.ticker}
+                          {d.proximity_to_52w_high != null && d.proximity_to_52w_high > -5 && (
+                            <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25" title={`${d.proximity_to_52w_high.toFixed(1)}% vs 52w high`}>
+                              52w
+                            </span>
+                          )}
+                          {(d.hedge_fund_count ?? 0) >= 1 && (
+                            <span
+                              className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ${(d.hedge_fund_count ?? 0) >= 2 ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' : 'bg-muted/20 text-muted-foreground border-border/30'}`}
+                              title={d.hedge_fund_names || `${d.hedge_fund_count} hedge fund(s)`}
+                            >
+                              HF{(d.hedge_fund_count ?? 0) >= 2 ? `×${d.hedge_fund_count}` : ''}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell max-w-[150px] truncate text-muted-foreground text-[0.76rem]">{d.company_name}</TableCell>

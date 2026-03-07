@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import InfoTooltip from '../components/InfoTooltip'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
+import TickerLogo from '../components/TickerLogo'
 
 type SortKey = keyof MomentumOpportunity
 type SortDir = 'asc' | 'desc'
@@ -111,8 +112,13 @@ export default function Momentum() {
           <TableBody>
             {sorted.slice(0, 20).map(d => (
               <TableRow key={d.ticker}>
-                <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</TableCell>
-                <TableCell className="max-w-[150px] truncate text-muted-foreground text-[0.76rem]">{d.company_name}</TableCell>
+                <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                  <div className="flex items-center gap-2">
+                    <TickerLogo ticker={d.ticker} size="sm" />
+                    {d.ticker}
+                  </div>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell max-w-[150px] truncate text-muted-foreground text-[0.76rem]">{d.company_name}</TableCell>
                 <TableCell className="tabular-nums">${d.current_price?.toFixed(2)}</TableCell>
                 <TableCell><ScoreBar score={d.momentum_score} /></TableCell>
                 <TableCell><ScoreBar score={d.vcp_score} /></TableCell>

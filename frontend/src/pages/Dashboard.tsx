@@ -11,6 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import GradeBadge from '../components/GradeBadge'
 import InfoTooltip from '../components/InfoTooltip'
+import TickerLogo from '../components/TickerLogo'
 import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar } from 'lucide-react'
 
 // ── helpers ─────────────────────────────────────────────────────────────────
@@ -166,7 +167,8 @@ function TopPicksTable({
           <div className="divide-y divide-border/30">
             {rows.map((r) => (
               <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
-                <div className="w-[4.5rem] shrink-0">
+                <TickerLogo ticker={r.ticker} size="md" className="flex-shrink-0" />
+                <div className="w-[4rem] shrink-0">
                   <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{r.ticker}</div>
                   {r.conviction_grade && (
                     <GradeBadge grade={r.conviction_grade} score={r.conviction_score} />
