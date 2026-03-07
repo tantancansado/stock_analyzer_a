@@ -301,6 +301,47 @@ export interface CorrelationData {
 export const fetchCorrelationMatrix = () =>
   api.get<CorrelationData>('/api/correlation-matrix')
 
+export interface SmartPortfolioPick {
+  ticker: string
+  company: string
+  sector: string
+  current_price: number | null
+  value_score: number
+  conviction_grade: string
+  conviction_score: number | null
+  analyst_upside_pct: number | null
+  target_price_analyst: number | null
+  fcf_yield_pct: number | null
+  risk_reward_ratio: number | null
+  dividend_yield_pct: number | null
+  buyback_active: boolean
+  days_to_earnings: number | null
+  earnings_date: string | null
+  earnings_catalyst: boolean
+  stop_loss: number | null
+  entry_price: number | null
+  allocation_pct: number
+  rank_score: number
+}
+
+export interface SmartPortfolioData {
+  date: string
+  timestamp: string
+  regime: { name: string; color: string; description: string }
+  regime_name: string
+  picks: SmartPortfolioPick[]
+  cash_pct: number
+  total_picks: number
+  invested_pct: number
+  portfolio_thesis: string | null
+  risk_notes: string[]
+  params: { n_picks: number; min_score: number; cash_pct: number; require_rr: number }
+  trap_tickers_excluded: string[]
+}
+
+export const fetchSmartPortfolio = () =>
+  api.get<SmartPortfolioData>('/api/smart-portfolio')
+
 export const fetchBacktest = () =>
   api.get('/api/backtest')
 

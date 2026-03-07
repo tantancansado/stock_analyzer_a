@@ -1,0 +1,60 @@
+{
+  "date": "2026-03-07",
+  "timestamp": "2026-03-07T10:27:04.880871",
+  "regime": {
+    "name": "ALERT",
+    "color": "#f97316",
+    "description": "Alerta elevada. Riesgo sist\u00e9mico aumentando."
+  },
+  "regime_name": "ALERT",
+  "picks": [
+    {
+      "ticker": "EXEL",
+      "company": "Exelixis, Inc.",
+      "sector": "Healthcare",
+      "current_price": 41.28,
+      "value_score": 73.1,
+      "conviction_grade": "B",
+      "conviction_score": 68.8,
+      "analyst_upside_pct": 13.5,
+      "target_price_analyst": 46.83,
+      "fcf_yield_pct": 5.7,
+      "risk_reward_ratio": 1.69,
+      "dividend_yield_pct": null,
+      "buyback_active": true,
+      "days_to_earnings": 67.0,
+      "earnings_date": "2026-05-12",
+      "earnings_catalyst": false,
+      "stop_loss": 38.92,
+      "entry_price": 40.5,
+      "allocation_pct": 70.0,
+      "rank_score": 74.17
+    }
+  ],
+  "cash_pct": 30,
+  "total_picks": 1,
+  "invested_pct": 70.0,
+  "portfolio_thesis": null,
+  "risk_notes": [
+    "R\u00e9gimen ALERT: 30% en cash como colch\u00f3n de seguridad",
+    "R:R medio de la cartera: 1.7x | FCF yield medio: 5.7%"
+  ],
+  "params": {
+    "n_picks": 4,
+    "min_score": 70,
+    "cash_pct": 30,
+    "require_rr": 2.5
+  },
+  "trap_tickers_excluded": [
+    "NOG",
+    "MRP",
+    "MSBI",
+    "OXM",
+    "MERC",
+    "NFJ",
+    "LFT",
+    "CRWS",
+    "NAD",
+    "STRW"
+  ]
+}

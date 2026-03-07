@@ -1354,6 +1354,15 @@ def earnings_calendar():
     return jsonify({'earnings': rows, 'total': len(rows), 'as_of': today_str})
 
 
+@app.route('/api/smart-portfolio', methods=['GET'])
+def smart_portfolio():
+    """Return AI-built smart portfolio from smart_portfolio.json."""
+    data = _load_json(DOCS / 'smart_portfolio.json')
+    if not data:
+        return jsonify({"error": "No portfolio data. Run portfolio_builder.py"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/backtest')
 def backtest():
     # Try mean reversion backtest first (most recent)

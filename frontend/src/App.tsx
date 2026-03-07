@@ -3,7 +3,7 @@ import { Routes, Route, NavLink, Navigate } from 'react-router-dom'
 import {
   Gem, Globe, TrendingUp, Users, Activity,
   ArrowLeftRight, PieChart, BarChart2, FlaskConical, Search, LayoutDashboard, X, Database,
-  Ruler, Layers, Star, LogOut, Radar, CalendarDays, AlertTriangle,
+  Ruler, Layers, Star, LogOut, Radar, CalendarDays, AlertTriangle, Sparkles,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { ThemeProvider } from './context/ThemeContext'
@@ -31,6 +31,7 @@ import GlobalValue from './pages/GlobalValue'
 import MacroRadar from './pages/MacroRadar'
 import EarningsCalendar from './pages/EarningsCalendar'
 import DividendTraps from './pages/DividendTraps'
+import SmartPortfolio from './pages/SmartPortfolio'
 
 type NavSection  = { section: string }
 type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string }
@@ -46,6 +47,7 @@ const NAV: NavItem[] = [
   { path: '/macro-radar',    icon: Radar,          label: 'Macro Radar',        color: '#e11d48' },
   { path: '/earnings',       icon: CalendarDays,   label: 'Earnings Calendar',  color: '#f59e0b' },
   { path: '/dividend-traps', icon: AlertTriangle,  label: 'Dividend Traps',     color: '#ef4444' },
+  { path: '/smart-portfolio', icon: Sparkles,      label: 'Smart Portfolio',    color: '#a855f7' },
   { section: 'Señales' },
   { path: '/insiders',       icon: Users,           label: 'Insiders',           color: '#8b5cf6' },
   { path: '/options',        icon: Activity,        label: 'Options Flow',       color: '#ec4899' },
@@ -196,8 +198,9 @@ export default function App() {
               <Route path="/search"         element={<TickerSearch />} />
               <Route path="/macro-radar"    element={<MacroRadar />} />
               <Route path="/earnings"       element={<EarningsCalendar />} />
-              <Route path="/dividend-traps" element={<DividendTraps />} />
-              <Route path="/datos"          element={<Datos />} />
+              <Route path="/dividend-traps"   element={<DividendTraps />} />
+              <Route path="/smart-portfolio" element={<SmartPortfolio />} />
+              <Route path="/datos"           element={<Datos />} />
             </Route>
           </Routes>
         </main>
