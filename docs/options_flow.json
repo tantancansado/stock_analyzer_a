@@ -1,12 +1,12 @@
 {
-  "scan_date": "2026-03-07 11:31:37",
-  "total_flows": 17,
+  "scan_date": "2026-03-07 23:04:39",
+  "total_flows": 16,
   "sentiment_breakdown": {
     "bullish": 8,
     "bearish": 6,
-    "neutral": 3
+    "neutral": 2
   },
-  "total_premium": 26885430.0,
+  "total_premium": 25764251.0,
   "flows": [
     {
       "ticker": "INTC",
@@ -228,84 +228,6 @@
         }
       ],
       "top_puts": [],
-      "detected_date": "2026-03-07"
-    },
-    {
-      "ticker": "ASTS",
-      "company_name": "AST SpaceMobile,",
-      "current_price": 89.47,
-      "expiration_date": "2026-03-13",
-      "days_to_expiration": 5,
-      "unusual_calls": 3,
-      "unusual_puts": 2,
-      "total_unusual": 5,
-      "call_premium": 602938.0,
-      "put_premium": 518241.0,
-      "total_premium": 1121179.0,
-      "put_call_ratio": 0.86,
-      "sentiment": "NEUTRAL",
-      "sentiment_emoji": "\ud83d\udfe1",
-      "flow_score": 80,
-      "quality": "\ud83d\udd25\ud83d\udd25\ud83d\udd25 WHALE ACTIVITY",
-      "top_calls": [
-        {
-          "type": "CALL",
-          "strike": 97.0,
-          "volume": 1270,
-          "oi": 128,
-          "vol_oi_ratio": 9.921875,
-          "last_price": 3.1,
-          "premium": 393700.0,
-          "itm": false,
-          "implied_volatility": 1.193363408203125
-        },
-        {
-          "type": "CALL",
-          "strike": 98.0,
-          "volume": 650,
-          "oi": 180,
-          "vol_oi_ratio": 3.611111111111111,
-          "last_price": 2.71,
-          "premium": 176150.0,
-          "itm": false,
-          "implied_volatility": 1.1784709045410153
-        },
-        {
-          "type": "CALL",
-          "strike": 113.0,
-          "volume": 517,
-          "oi": 125,
-          "vol_oi_ratio": 4.136,
-          "last_price": 0.64,
-          "premium": 33088.0,
-          "itm": false,
-          "implied_volatility": 1.2168007910156249
-        }
-      ],
-      "top_puts": [
-        {
-          "type": "PUT",
-          "strike": 94.0,
-          "volume": 619.0,
-          "oi": 193,
-          "vol_oi_ratio": 3.2072538860103625,
-          "last_price": 8.01,
-          "premium": 495818.99999999994,
-          "itm": true,
-          "implied_volatility": 1.126957490234375
-        },
-        {
-          "type": "PUT",
-          "strike": 74.0,
-          "volume": 222.0,
-          "oi": 46,
-          "vol_oi_ratio": 4.826086956521739,
-          "last_price": 1.01,
-          "premium": 22422.0,
-          "itm": false,
-          "implied_volatility": 1.2441444042968748
-        }
-      ],
       "detected_date": "2026-03-07"
     },
     {
