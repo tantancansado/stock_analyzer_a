@@ -133,21 +133,21 @@ export default function Watchlist() {
           </CardContent>
         </Card>
       ) : (
-        <Card className="glass overflow-hidden animate-fade-in-up">
+        <Card className="glass animate-fade-in-up">
           <Table>
             <TableHeader>
               <TableRow className="border-border/50 hover:bg-transparent">
                 <TableHead className={thCls('ticker')} onClick={() => onSort('ticker')}>Ticker</TableHead>
-                <TableHead className={thCls('company_name')} onClick={() => onSort('company_name')}>Empresa</TableHead>
-                <TableHead className={thCls('sector')} onClick={() => onSort('sector')}>Sector</TableHead>
-                <TableHead className={thCls('current_price')} onClick={() => onSort('current_price')}>Precio</TableHead>
-                <TableHead className={thCls('value_score')} onClick={() => onSort('value_score')}>Score añadido</TableHead>
+                <TableHead className={`hidden sm:table-cell ${thCls('company_name')}`} onClick={() => onSort('company_name')}>Empresa</TableHead>
+                <TableHead className={`hidden md:table-cell ${thCls('sector')}`} onClick={() => onSort('sector')}>Sector</TableHead>
+                <TableHead className={`hidden sm:table-cell ${thCls('current_price')}`} onClick={() => onSort('current_price')}>Precio</TableHead>
+                <TableHead className={`hidden md:table-cell ${thCls('value_score')}`} onClick={() => onSort('value_score')}>Score</TableHead>
                 <TableHead>Hoy</TableHead>
                 <TableHead>Grade</TableHead>
-                <TableHead className={thCls('analyst_upside_pct')} onClick={() => onSort('analyst_upside_pct')}>Upside</TableHead>
-                <TableHead className={thCls('fcf_yield_pct')} onClick={() => onSort('fcf_yield_pct')}>FCF%</TableHead>
-                <TableHead className={thCls('added_at')} onClick={() => onSort('added_at')}>Añadido</TableHead>
-                <TableHead>Nota</TableHead>
+                <TableHead className={`hidden sm:table-cell ${thCls('analyst_upside_pct')}`} onClick={() => onSort('analyst_upside_pct')}>Upside</TableHead>
+                <TableHead className={`hidden sm:table-cell ${thCls('fcf_yield_pct')}`} onClick={() => onSort('fcf_yield_pct')}>FCF%</TableHead>
+                <TableHead className={`hidden md:table-cell ${thCls('added_at')}`} onClick={() => onSort('added_at')}>Añadido</TableHead>
+                <TableHead className="hidden sm:table-cell">Nota</TableHead>
                 <TableHead></TableHead>
               </TableRow>
             </TableHeader>
@@ -157,14 +157,14 @@ export default function Watchlist() {
                   <TableCell className="font-mono font-bold text-amber-400 text-[0.8rem] tracking-wide">
                     <Link to={`/search?q=${e.ticker}`} className="hover:underline">{e.ticker}</Link>
                   </TableCell>
-                  <TableCell className="text-[0.76rem] text-muted-foreground max-w-[140px] truncate">
+                  <TableCell className="hidden sm:table-cell text-[0.76rem] text-muted-foreground max-w-[140px] truncate">
                     {e.company_name || '—'}
                   </TableCell>
-                  <TableCell className="text-[0.75rem] text-muted-foreground">{e.sector || '—'}</TableCell>
-                  <TableCell className="tabular-nums text-[0.8rem]">
+                  <TableCell className="hidden md:table-cell text-[0.75rem] text-muted-foreground">{e.sector || '—'}</TableCell>
+                  <TableCell className="hidden sm:table-cell tabular-nums text-[0.8rem]">
                     {e.current_price != null ? `$${e.current_price.toFixed(2)}` : '—'}
                   </TableCell>
-                  <TableCell className="tabular-nums text-[0.8rem] text-muted-foreground font-semibold">
+                  <TableCell className="hidden md:table-cell tabular-nums text-[0.8rem] text-muted-foreground font-semibold">
                     {e.value_score != null ? fmt(e.value_score, 0) : '—'}
                   </TableCell>
                   <TableCell>
@@ -182,16 +182,16 @@ export default function Watchlist() {
                   <TableCell>
                     <GradeBadge grade={liveMap[e.ticker]?.conviction_grade ?? e.conviction_grade} />
                   </TableCell>
-                  <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${e.analyst_upside_pct != null && e.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  <TableCell className={`hidden sm:table-cell tabular-nums text-[0.8rem] font-semibold ${e.analyst_upside_pct != null && e.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                     {e.analyst_upside_pct != null ? `${e.analyst_upside_pct >= 0 ? '+' : ''}${e.analyst_upside_pct.toFixed(1)}%` : '—'}
                   </TableCell>
-                  <TableCell className={`tabular-nums text-[0.8rem] ${e.fcf_yield_pct != null && e.fcf_yield_pct >= 5 ? 'text-emerald-400' : ''}`}>
+                  <TableCell className={`hidden sm:table-cell tabular-nums text-[0.8rem] ${e.fcf_yield_pct != null && e.fcf_yield_pct >= 5 ? 'text-emerald-400' : ''}`}>
                     {e.fcf_yield_pct != null ? `${e.fcf_yield_pct.toFixed(1)}%` : '—'}
                   </TableCell>
-                  <TableCell className="text-[0.72rem] text-muted-foreground tabular-nums">
+                  <TableCell className="hidden md:table-cell text-[0.72rem] text-muted-foreground tabular-nums">
                     {new Date(e.added_at).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' })}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="hidden sm:table-cell">
                     <NoteEditor entry={e} onSave={note => updateNote(e.ticker, note)} />
                   </TableCell>
                   <TableCell>

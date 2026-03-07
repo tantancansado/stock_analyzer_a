@@ -412,3 +412,44 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE / iOS FIXES
+════════════════════════════════════════════════════════════════════ */
+
+/* Smooth touch scrolling in table containers (iOS Safari) */
+.overflow-auto,
+[class*="overflow-x-auto"],
+[class*="overflow-y-auto"] {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent tap highlight on interactive table rows */
+tr[class*="cursor-pointer"] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Safe area insets for iPhone notch/home bar */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Slightly larger tap targets for mobile buttons */
+@media (max-width: 640px) {
+  .nav-link {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
+  }
+
+  /* Ensure stat card numbers don't overflow on small screens */
+  .text-3xl.tabular-nums {
+    font-size: 1.5rem;
+  }
+
+  /* Better filter bar scrolling on mobile */
+  .glass .flex.flex-wrap {
+    gap: 0.5rem;
+  }
+}

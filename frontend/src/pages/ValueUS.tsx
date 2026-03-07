@@ -327,13 +327,13 @@ export default function ValueUS() {
         </div>
       </Card>
 
-      <Card className="glass overflow-hidden animate-fade-in-up">
+      <Card className="glass animate-fade-in-up">
         <Table>
           <TableHeader>
             <TableRow className="border-border/50 hover:bg-transparent">
               <TableHead className={thCls('ticker')} onClick={() => onSort('ticker')}>Ticker</TableHead>
-              <TableHead className={thCls('company_name')} onClick={() => onSort('company_name')}>Empresa</TableHead>
-              <TableHead className={thCls('current_price')} onClick={() => onSort('current_price')}>Precio</TableHead>
+              <TableHead className={`hidden sm:table-cell ${thCls('company_name')}`} onClick={() => onSort('company_name')}>Empresa</TableHead>
+              <TableHead className={`hidden sm:table-cell ${thCls('current_price')}`} onClick={() => onSort('current_price')}>Precio</TableHead>
               <TableHead className={thCls('value_score')} onClick={() => onSort('value_score')}>
                 Score
                 <InfoTooltip
@@ -354,12 +354,12 @@ export default function ValueUS() {
                   }
                 />
               </TableHead>
-              <TableHead className={thCls('sector')} onClick={() => onSort('sector')}>Sector</TableHead>
+              <TableHead className={`hidden md:table-cell ${thCls('sector')}`} onClick={() => onSort('sector')}>Sector</TableHead>
               <TableHead className={thCls('analyst_upside_pct')} onClick={() => onSort('analyst_upside_pct')}>
                 Objetivo
                 <InfoTooltip text="Upside según precio objetivo de analistas = (precio objetivo − precio actual) / precio actual. Negativo = analistas ven el valor sobrevalorado." />
               </TableHead>
-              <TableHead className={thCls('fcf_yield_pct')} onClick={() => onSort('fcf_yield_pct')}>
+              <TableHead className={`hidden sm:table-cell ${thCls('fcf_yield_pct')}`} onClick={() => onSort('fcf_yield_pct')}>
                 FCF%
                 <InfoTooltip text="FCF Yield = Free Cash Flow / Market Cap. ≥5% excelente (verde), 3-5% bueno (ámbar), <0% negativo (rojo). Indica cuánto cash genera la empresa respecto a su valor de mercado." />
               </TableHead>
@@ -367,7 +367,7 @@ export default function ValueUS() {
                 R:R
                 <InfoTooltip text="Risk:Reward = upside analista / 8% stop loss estándar. ≥3 excelente (verde), ≥2 bueno, <1 desfavorable (rojo). Mide si el potencial de ganancia justifica el riesgo." />
               </TableHead>
-              <TableHead>
+              <TableHead className="hidden sm:table-cell">
                 Div/BB
                 <InfoTooltip text="Dividend yield del ticker. 'BB' indica que la empresa está recomprando acciones propias activamente (buyback), lo que también retorna capital al accionista." />
               </TableHead>
@@ -395,11 +395,11 @@ export default function ValueUS() {
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="max-w-[160px] truncate text-muted-foreground text-[0.76rem]">{d.company_name}</TableCell>
-                  <TableCell className="tabular-nums">${d.current_price?.toFixed(2)}</TableCell>
+                  <TableCell className="hidden sm:table-cell max-w-[160px] truncate text-muted-foreground text-[0.76rem]">{d.company_name}</TableCell>
+                  <TableCell className="hidden sm:table-cell tabular-nums">${d.current_price?.toFixed(2)}</TableCell>
                   <TableCell><ScoreBar score={d.value_score} /></TableCell>
                   <TableCell><GradeBadge grade={d.conviction_grade} score={d.conviction_score} /></TableCell>
-                  <TableCell className="max-w-[120px] truncate text-muted-foreground text-[0.76rem]">{d.sector}</TableCell>
+                  <TableCell className="hidden md:table-cell max-w-[120px] truncate text-muted-foreground text-[0.76rem]">{d.sector}</TableCell>
                   <TableCell className="tabular-nums">
                     {d.target_price_analyst ? `$${d.target_price_analyst.toFixed(0)}` : '—'}
                     {d.analyst_upside_pct != null && (
@@ -408,9 +408,9 @@ export default function ValueUS() {
                       </span>
                     )}
                   </TableCell>
-                  <TableCell>{fmtFcf(d.fcf_yield_pct)}</TableCell>
+                  <TableCell className="hidden sm:table-cell">{fmtFcf(d.fcf_yield_pct)}</TableCell>
                   <TableCell>{fmtRR(d.risk_reward_ratio)}</TableCell>
-                  <TableCell>{fmtDivBB(d)}</TableCell>
+                  <TableCell className="hidden sm:table-cell">{fmtDivBB(d)}</TableCell>
                   <TableCell>{fmtEarn(d)}</TableCell>
                   <TableCell>
                     <WatchlistButton ticker={d.ticker} company_name={d.company_name} sector={d.sector} current_price={d.current_price} value_score={d.value_score} conviction_grade={d.conviction_grade} analyst_upside_pct={d.analyst_upside_pct} fcf_yield_pct={d.fcf_yield_pct} />

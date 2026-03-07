@@ -124,17 +124,17 @@ export default function Insiders() {
         </div>
       </div>
 
-      <Card className="glass overflow-hidden animate-fade-in-up">
+      <Card className="glass animate-fade-in-up">
         <Table>
           <TableHeader>
             <TableRow className="border-border/50 hover:bg-transparent">
               <TableHead className={thCls('ticker')} onClick={() => onSort('ticker')}>Ticker / Empresa</TableHead>
-              <TableHead>Mercado</TableHead>
+              <TableHead className="hidden sm:table-cell">Mercado</TableHead>
               <TableHead className={thCls('purchase_count')} onClick={() => onSort('purchase_count')}>Compras</TableHead>
-              <TableHead className={thCls('unique_insiders')} onClick={() => onSort('unique_insiders')}>Directivos</TableHead>
-              <TableHead className={thCls('total_qty')} onClick={() => onSort('total_qty')}>Acciones</TableHead>
-              <TableHead className={thCls('first_purchase')} onClick={() => onSort('first_purchase')}>Desde</TableHead>
-              <TableHead className={thCls('last_purchase')} onClick={() => onSort('last_purchase')}>Última Compra</TableHead>
+              <TableHead className={thCls('unique_insiders')} onClick={() => onSort('unique_insiders')}>Direct.</TableHead>
+              <TableHead className={`hidden md:table-cell ${thCls('total_qty')}`} onClick={() => onSort('total_qty')}>Acciones</TableHead>
+              <TableHead className={`hidden md:table-cell ${thCls('first_purchase')}`} onClick={() => onSort('first_purchase')}>Desde</TableHead>
+              <TableHead className={`hidden sm:table-cell ${thCls('last_purchase')}`} onClick={() => onSort('last_purchase')}>Última Compra</TableHead>
               <TableHead className={thCls('confidence_score')} onClick={() => onSort('confidence_score')}>Confianza</TableHead>
             </TableRow>
           </TableHeader>
@@ -156,16 +156,16 @@ export default function Insiders() {
                         <div className="text-[0.65rem] text-muted-foreground truncate max-w-[180px]">{company}</div>
                       )}
                     </TableCell>
-                    <TableCell><Badge variant={marketVariant(d.market)}>{d.market ?? 'US'}</Badge></TableCell>
+                    <TableCell className="hidden sm:table-cell"><Badge variant={marketVariant(d.market)}>{d.market ?? 'US'}</Badge></TableCell>
                     <TableCell className="font-bold tabular-nums">{d.purchase_count}</TableCell>
                     <TableCell>
                       <span className={d.unique_insiders >= 3 ? 'text-emerald-400 font-bold' : d.unique_insiders >= 2 ? 'text-amber-400 font-semibold' : ''}>
                         {d.unique_insiders}
                       </span>
                     </TableCell>
-                    <TableCell className="tabular-nums text-muted-foreground">{fmtQty(d.total_qty)}</TableCell>
-                    <TableCell className="text-muted-foreground text-[0.75rem]">{d.first_purchase || '—'}</TableCell>
-                    <TableCell className="text-muted-foreground text-[0.75rem]">{d.last_purchase}</TableCell>
+                    <TableCell className="hidden md:table-cell tabular-nums text-muted-foreground">{fmtQty(d.total_qty)}</TableCell>
+                    <TableCell className="hidden md:table-cell text-muted-foreground text-[0.75rem]">{d.first_purchase || '—'}</TableCell>
+                    <TableCell className="hidden sm:table-cell text-muted-foreground text-[0.75rem]">{d.last_purchase}</TableCell>
                     <TableCell>
                       {isEu && d.confidence_label
                         ? <Badge variant={confVariant(d.confidence_score, maxScore)}>{d.confidence_label}</Badge>

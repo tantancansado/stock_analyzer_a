@@ -207,7 +207,7 @@ export default function Portfolio() {
       {/* Top / Worst performers */}
       <div className="grid grid-cols-2 gap-4 mb-5">
         {pf.top_performers && pf.top_performers.length > 0 && (
-          <Card className="glass overflow-hidden">
+          <Card className="glass">
             <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
               <h3 className="text-sm font-semibold text-emerald-400">Top Performers</h3>
               <Badge variant="green" className="text-[0.6rem]">{pf.top_performers.length}</Badge>
@@ -241,7 +241,7 @@ export default function Portfolio() {
         )}
 
         {pf.worst_performers && pf.worst_performers.length > 0 && (
-          <Card className="glass overflow-hidden">
+          <Card className="glass">
             <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
               <h3 className="text-sm font-semibold text-red-400">Worst Performers</h3>
               <Badge variant="red" className="text-[0.6rem]">{pf.worst_performers.length}</Badge>
@@ -277,7 +277,7 @@ export default function Portfolio() {
 
       {/* Active Signals Table — always visible */}
       {recentSignals && recentSignals.length > 0 && (
-        <Card className="glass overflow-hidden animate-fade-in-up">
+        <Card className="glass animate-fade-in-up">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
             <h3 className="text-sm font-semibold">Señales Activas</h3>
             <Badge variant="gray" className="text-[0.6rem]">{activeCount}</Badge>
@@ -375,7 +375,7 @@ export default function Portfolio() {
               </div>
               <span className="text-xs text-muted-foreground ml-auto">{sigFiltered.length} señales</span>
             </div>
-            <Card className="glass overflow-hidden animate-fade-in-up">
+            <Card className="glass animate-fade-in-up">
               <Table>
                 <TableHeader>
                   <TableRow className="border-border/50 hover:bg-transparent">
