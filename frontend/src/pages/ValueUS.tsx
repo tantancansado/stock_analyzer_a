@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, type ValueOpportunity } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
@@ -7,49 +7,13 @@ import GradeBadge from '../components/GradeBadge'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import ThesisBody from '../components/ThesisBody'
 import CsvDownload from '../components/CsvDownload'
 import WatchlistButton from '../components/WatchlistButton'
 import InfoTooltip from '../components/InfoTooltip'
+import ThesisModal from '../components/ThesisModal'
 
 type SortKey = keyof ValueOpportunity
 type SortDir = 'asc' | 'desc'
-
-function ConvictionPanel({ row }: { row: ValueOpportunity }) {
-  const reasons = row.conviction_reasons
-    ? row.conviction_reasons.split(' | ').filter(Boolean)
-    : []
-  const pos = row.conviction_positives ?? 0
-  const flags = row.conviction_red_flags ?? 0
-  const score = row.conviction_score
-  const grade = row.conviction_grade
-
-  if (!reasons.length && score == null) return null
-
-  return (
-    <div className="border-t border-border/40 pt-4 mt-4">
-      <div className="flex items-center gap-3 mb-3">
-        <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Conviction Filter</span>
-        {grade && score != null && (
-          <span className={`text-xs font-bold px-2 py-0.5 rounded ${grade === 'A' ? 'bg-emerald-500/20 text-emerald-400' : grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-amber-500/20 text-amber-400'}`}>
-            {grade} — {score.toFixed(0)}pts
-          </span>
-        )}
-        {pos > 0 && <span className="text-[0.7rem] text-emerald-400">+{pos} positivos</span>}
-        {flags > 0 && <span className="text-[0.7rem] text-red-400">{flags} alertas</span>}
-      </div>
-      {reasons.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {reasons.map((r, i) => (
-            <span key={i} className="text-[0.65rem] px-2 py-0.5 rounded-full bg-white/5 border border-border/50 text-muted-foreground">
-              {r}
-            </span>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
 
 export default function ValueUS() {
   const { data, loading, error } = useApi(() => fetchValueOpportunities(), [])
@@ -57,7 +21,6 @@ export default function ValueUS() {
   const { data: macroRaw } = useApi(() => fetchMacroRadar(), [])
   const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
-  const [expandedTicker, setExpandedTicker] = useState<string | null>(null)
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
   const [thesisText, setThesisText] = useState<string>('')
 
@@ -102,8 +65,6 @@ export default function ValueUS() {
   }
 
   const toggleThesis = async (ticker: string, row: ValueOpportunity) => {
-    if (expandedTicker === ticker) { setExpandedTicker(null); setExpandedRow(null); return }
-    setExpandedTicker(ticker)
     setExpandedRow(row)
     setThesisText('Cargando tesis...')
     try {
@@ -383,8 +344,7 @@ export default function ValueUS() {
           </TableHeader>
           <TableBody>
             {top.map(d => (
-              <React.Fragment key={d.ticker}>
-                <TableRow className="cursor-pointer" onClick={() => toggleThesis(d.ticker, d)}>
+              <TableRow key={d.ticker} className="cursor-pointer" onClick={() => toggleThesis(d.ticker, d)}>
                   <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
                     <div className="flex items-center gap-1.5">
                       {d.ticker}
@@ -415,18 +375,7 @@ export default function ValueUS() {
                   <TableCell>
                     <WatchlistButton ticker={d.ticker} company_name={d.company_name} sector={d.sector} current_price={d.current_price} value_score={d.value_score} conviction_grade={d.conviction_grade} analyst_upside_pct={d.analyst_upside_pct} fcf_yield_pct={d.fcf_yield_pct} />
                   </TableCell>
-                </TableRow>
-                {expandedTicker === d.ticker && (
-                  <tr className="thesis-row">
-                    <td colSpan={12}>
-                      <div className="thesis-text">
-                        <ThesisBody text={thesisText} />
-                        {expandedRow && <ConvictionPanel row={expandedRow} />}
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </React.Fragment>
+              </TableRow>
             ))}
           </TableBody>
         </Table>
@@ -439,6 +388,14 @@ export default function ValueUS() {
           </CardContent>
         )}
       </Card>
+
+      {expandedRow && (
+        <ThesisModal
+          row={expandedRow}
+          thesisText={thesisText}
+          onClose={() => setExpandedRow(null)}
+        />
+      )}
     </>
   )
 }

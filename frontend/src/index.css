@@ -316,21 +316,29 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   THESIS ROW
+   THESIS MODAL
 ════════════════════════════════════════════════════════════════════ */
 
-.thesis-row td {
-  background: linear-gradient(90deg, hsl(var(--primary) / 0.05), transparent) !important;
-  border-left: 2px solid hsl(var(--primary)) !important;
+@keyframes modalEnterMobile {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
-.thesis-text {
-  padding: 12px 8px;
-  font-size: 0.79rem;
-  color: hsl(var(--foreground) / 0.75);
-  line-height: 1.78;
-  white-space: normal;
-  max-width: 960px;
+@keyframes modalEnterDesktop {
+  from { transform: scale(0.96) translateY(12px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);    opacity: 1; }
 }
+
+.modal-enter {
+  animation: modalEnterMobile 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@media (min-width: 640px) {
+  .modal-enter {
+    animation: modalEnterDesktop 0.26s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
 
 /* ═══════════════════════════════════════════════════════════════════
