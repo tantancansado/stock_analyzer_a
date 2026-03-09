@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import api, { fetchPortfolioTracker, fetchCorrelationMatrix, type PortfolioSummary, type CorrelationData } from '../api/client'
+import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsight, type PortfolioSummary, type CorrelationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -71,6 +72,7 @@ function retColor(v?: number) {
 export default function Portfolio() {
   const { data, loading, error } = useApi(() => fetchPortfolioTracker(), [])
   const { data: corrData } = useApi<CorrelationData>(() => fetchCorrelationMatrix(), [])
+  const { data: insightRaw } = useApi(() => fetchPortfolioInsight(), [])
   const { data: signalsData } = useApi<SignalsResponse>(
     () => api.get<SignalsResponse>('/api/portfolio-tracker/signals'),
     []
@@ -130,6 +132,10 @@ export default function Portfolio() {
           {pf.date_range && <span className="ml-1 opacity-60">({pf.date_range})</span>}
         </p>
       </div>
+
+      {insightRaw?.narrative && (
+        <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Rendimiento" className="mb-5" />
+      )}
 
       {/* Win Rate Cards — shown once returns exist */}
       {hasReturns && (

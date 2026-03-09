@@ -1,6 +1,7 @@
 import { fetchSmartPortfolio } from '../api/client'
 import type { SmartPortfolioPick } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Sparkles, ShieldAlert, TrendingUp, Wallet, AlertCircle, CheckCircle2 } from 'lucide-react'
@@ -145,6 +146,10 @@ export default function SmartPortfolio() {
         </div>
         <span className="text-xs text-muted-foreground self-start">{data.date}</span>
       </div>
+
+      {data.portfolio_thesis && (
+        <AiNarrativeCard narrative={data.portfolio_thesis} label="Tesis del Portfolio Algorítmico" className="mb-5" />
+      )}
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

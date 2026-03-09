@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { analyzeTicker, searchTickers, fetchScoreHistory } from '../api/client'
+import { analyzeTicker, analyzeTickerAI, searchTickers, fetchScoreHistory } from '../api/client'
 import type { SearchResult, ScoreHistoryPoint } from '../api/client'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import { Search, AlertCircle } from 'lucide-react'
@@ -19,6 +20,7 @@ export default function TickerSearch() {
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [activeIdx, setActiveIdx] = useState(-1)
   const [scoreHistory, setScoreHistory] = useState<ScoreHistoryPoint[]>([])
+  const [aiNarrative, setAiNarrative] = useState<string | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
 
   // Debounced autocomplete
@@ -62,10 +64,12 @@ export default function TickerSearch() {
     setError(null)
     setResult(null)
     setScoreHistory([])
+    setAiNarrative(null)
     try {
       const res = await analyzeTicker(t)
       setResult(res.data as Record<string, unknown>)
       fetchScoreHistory(t).then(r => setScoreHistory(r.data.history)).catch(() => {})
+      analyzeTickerAI(t).then(r => setAiNarrative(r.data.narrative)).catch(() => {})
     } catch (e) {
       setError((e as Error).message || 'Error de conexion')
     } finally {
@@ -340,6 +344,12 @@ export default function TickerSearch() {
                 )}
               </div>
             </div>
+
+            {aiNarrative && (
+              <div className="mt-6">
+                <AiNarrativeCard narrative={aiNarrative} label="Evaluación de Convicción IA" />
+              </div>
+            )}
 
             {ss('thesis') && (
               <div className="mt-6 pt-5 border-t border-border/50">

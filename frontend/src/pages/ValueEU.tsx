@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { fetchEUValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, type ValueOpportunity } from '../api/client'
+import { fetchEUValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchValueEUInsight, type ValueOpportunity } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import GradeBadge from '../components/GradeBadge'
@@ -26,6 +27,7 @@ export default function ValueEU() {
   const { data, loading, error } = useApi(() => fetchEUValueOpportunities(), [])
   const { data: regime } = useApi(() => fetchMarketRegime(), [])
   const { data: macroRaw } = useApi(() => fetchMacroRadar(), [])
+  const { data: insightRaw } = useApi(() => fetchValueEUInsight(), [])
   const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
@@ -160,6 +162,10 @@ export default function ValueEU() {
           </div>
         )
       })()}
+
+      {insightRaw?.narrative && (
+        <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis VALUE Europa" className="mb-5" />
+      )}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {[

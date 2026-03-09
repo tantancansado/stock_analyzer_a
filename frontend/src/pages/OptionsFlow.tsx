@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { fetchOptionsFlow, downloadCsv } from '../api/client'
+import { fetchOptionsFlow, fetchOptionsFlowInsight, downloadCsv } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import { Badge } from '@/components/ui/badge'
@@ -24,6 +25,7 @@ interface FlowItem {
 
 export default function OptionsFlow() {
   const { data, loading, error } = useApi(() => fetchOptionsFlow(), [])
+  const { data: insightRaw } = useApi(() => fetchOptionsFlowInsight(), [])
   const [sortKey, setSortKey] = useState<string>('flow_score')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
 
@@ -80,6 +82,10 @@ export default function OptionsFlow() {
           className="text-xs px-3 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary transition-colors mt-1 shrink-0"
         >↓ CSV</button>
       </div>
+
+      {insightRaw?.narrative && (
+        <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Flujo Institucional" className="mb-5" />
+      )}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {[

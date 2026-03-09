@@ -257,6 +257,18 @@ export const fetchInsidersInsight = () =>
 export const fetchIndustryGroupsInsight = () =>
   api.get<{ narrative: string | null; date: string | null; macro_regime?: string; top_sectors?: unknown[]; bottom_sectors?: unknown[] }>('/api/industry-groups-insight')
 
+export const fetchOptionsFlowInsight = () =>
+  api.get<{ narrative: string | null; date: string | null; total_flows?: number; sentiment_breakdown?: Record<string, number> }>('/api/options-flow-insight')
+
+export const fetchValueEUInsight = () =>
+  api.get<{ narrative: string | null; date: string | null; macro_regime?: string; picks_count?: number }>('/api/value-eu-insight')
+
+export const fetchPortfolioInsight = () =>
+  api.get<{ narrative: string | null; date: string | null; total_signals?: number; win_rate_7d?: number }>('/api/portfolio-insight')
+
+export const analyzeTickerAI = (ticker: string) =>
+  api.get<{ ticker: string; narrative: string | null; date?: string; error?: string }>(`/api/analyze-ai/${ticker}`)
+
 export interface EarningsEntry {
   ticker: string
   company: string

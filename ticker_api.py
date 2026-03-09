@@ -1558,6 +1558,177 @@ def industry_groups_insight():
     return jsonify(data)
 
 
+@app.route('/api/options-flow-insight')
+def options_flow_insight():
+    data = _load_json(DOCS / 'options_flow_insight.json')
+    if not data:
+        return jsonify({'narrative': None, 'date': None}), 200
+    return jsonify(data)
+
+
+@app.route('/api/value-eu-insight')
+def value_eu_insight():
+    data = _load_json(DOCS / 'value_eu_insight.json')
+    if not data:
+        return jsonify({'narrative': None, 'date': None}), 200
+    return jsonify(data)
+
+
+@app.route('/api/portfolio-insight')
+def portfolio_insight():
+    data = _load_json(DOCS / 'portfolio_tracker' / 'portfolio_insight.json')
+    if not data:
+        return jsonify({'narrative': None, 'date': None}), 200
+    return jsonify(data)
+
+
+@app.route('/api/analyze-ai/<ticker>')
+def analyze_ticker_ai(ticker):
+    """On-demand AI analysis combining all available data for a ticker."""
+    import os as _os
+    ticker = ticker.upper().strip()
+
+    # Gather data from CSVs
+    ticker_data = {}
+
+    # Value opportunities (US + EU)
+    for csv_name in ('value_opportunities.csv', 'value_conviction.csv',
+                     'european_value_opportunities.csv', 'european_value_conviction.csv'):
+        try:
+            df = pd.read_csv(DOCS / csv_name)
+            if 'ticker' in df.columns:
+                row = df[df['ticker'].str.upper() == ticker]
+                if not row.empty:
+                    r = row.iloc[0]
+                    ticker_data.update({
+                        'value_score': _sf(r.get('value_score')),
+                        'conviction_grade': _notna_str(r, 'conviction_grade'),
+                        'sector': _notna_str(r, 'sector'),
+                        'analyst_upside_pct': _sf(r.get('analyst_upside_pct')),
+                        'fcf_yield_pct': _sf(r.get('fcf_yield_pct')),
+                        'risk_reward_ratio': _sf(r.get('risk_reward_ratio')),
+                        'dividend_yield_pct': _sf(r.get('dividend_yield_pct')),
+                        'piotroski_score': _sf(r.get('piotroski_score')),
+                        'peg_ratio': _sf(r.get('peg_ratio')),
+                        'days_to_earnings': _sf(r.get('days_to_earnings')),
+                        'earnings_warning': bool(r.get('earnings_warning', False)),
+                        'market': _notna_str(r, 'market', 'US'),
+                    })
+                    break
+        except Exception:
+            pass
+
+    # Fundamental scores
+    try:
+        rfund = _row(DF_FUND, ticker)
+        if rfund is not None:
+            ticker_data.update({
+                'roe_pct': _sf(rfund.get('roe_pct')),
+                'profit_margin_pct': _sf(rfund.get('profit_margin_pct')),
+                'revenue_growth_pct': _sf(rfund.get('revenue_growth_pct')),
+                'current_ratio': _sf(rfund.get('current_ratio')),
+                'interest_coverage': _sf(rfund.get('interest_coverage')),
+            })
+    except Exception:
+        pass
+
+    # Insider activity
+    try:
+        rins = _row(DF_INSIDERS, ticker)
+        if rins is not None:
+            ticker_data['insider_purchases'] = _sf(rins.get('purchase_count'))
+            ticker_data['insider_insiders'] = _sf(rins.get('unique_insiders'))
+    except Exception:
+        pass
+
+    # Existing thesis
+    thesis_text = ''
+    try:
+        theses = _load_json(DOCS / 'theses.json')
+        if isinstance(theses, dict):
+            t = theses.get(ticker, {})
+            thesis_text = t.get('thesis_narrative', '') or t.get('overview', '') if isinstance(t, dict) else str(t)
+            if len(thesis_text) > 400:
+                thesis_text = thesis_text[:400] + '...'
+    except Exception:
+        pass
+
+    # Macro regime
+    macro_regime = 'DESCONOCIDO'
+    try:
+        mr = _load_json(DOCS / 'macro_radar.json')
+        macro_regime = mr.get('regime', {}).get('name', 'DESCONOCIDO')
+    except Exception:
+        pass
+
+    if not ticker_data and not thesis_text:
+        return jsonify({'ticker': ticker, 'narrative': None, 'error': 'No data found for ticker'}), 200
+
+    # Build prompt
+    lines = [f"Ticker: {ticker}"]
+    if ticker_data.get('sector'):
+        lines.append(f"Sector: {ticker_data['sector']}")
+    if ticker_data.get('value_score') is not None:
+        lines.append(f"Value Score: {ticker_data['value_score']:.0f}/100 | Grade: {ticker_data.get('conviction_grade', '?')}")
+    if ticker_data.get('analyst_upside_pct') is not None:
+        lines.append(f"Upside analistas: {ticker_data['analyst_upside_pct']:+.1f}%")
+    if ticker_data.get('fcf_yield_pct') is not None:
+        lines.append(f"FCF Yield: {ticker_data['fcf_yield_pct']:.1f}%")
+    if ticker_data.get('risk_reward_ratio') is not None:
+        lines.append(f"R:R ratio: {ticker_data['risk_reward_ratio']:.1f}x")
+    if ticker_data.get('piotroski_score') is not None:
+        lines.append(f"Piotroski F-Score: {ticker_data['piotroski_score']:.0f}/9")
+    if ticker_data.get('peg_ratio') is not None:
+        lines.append(f"PEG ratio: {ticker_data['peg_ratio']:.2f}")
+    if ticker_data.get('roe_pct') is not None:
+        lines.append(f"ROE: {ticker_data['roe_pct']:.1f}%")
+    if ticker_data.get('profit_margin_pct') is not None:
+        lines.append(f"Margen neto: {ticker_data['profit_margin_pct']:.1f}%")
+    if ticker_data.get('revenue_growth_pct') is not None:
+        lines.append(f"Crecimiento revenue: {ticker_data['revenue_growth_pct']:+.1f}%")
+    if ticker_data.get('insider_purchases'):
+        lines.append(f"Compras insider: {ticker_data['insider_purchases']:.0f} operaciones por {ticker_data.get('insider_insiders', 1):.0f} directivo(s)")
+    if ticker_data.get('days_to_earnings') is not None:
+        warn = " ⚠ RIESGO EARNINGS" if ticker_data.get('earnings_warning') else ''
+        lines.append(f"Próximos earnings: {ticker_data['days_to_earnings']:.0f} días{warn}")
+
+    metrics_block = '\n'.join(lines)
+    thesis_block = f"\nTesis existente (extracto):\n{thesis_text}" if thesis_text else ""
+
+    prompt = f"""Eres un analista value/GARP al estilo Lynch-Graham. Genera una evaluación de convicción concisa en español (4-5 frases, máx 160 palabras) para el siguiente ticker.
+
+Régimen macro: {macro_regime}
+
+Datos fundamentales:
+{metrics_block}{thesis_block}
+
+Tu evaluación debe:
+1) Resumir qué hace atractivo (o no) a este ticker en el entorno actual
+2) Identificar el factor de convicción más importante (FCF, insiders, valoración, crecimiento...)
+3) Señalar el principal riesgo o punto a vigilar
+4) Dar una conclusión de posicionamiento concreta (entrar, esperar, evitar, reducir)
+
+Tono: analítico, honesto, estilo nota de investigación. Sin emojis. Sin repetir los números exactos del prompt."""
+
+    groq_key = _os.environ.get('GROQ_API_KEY', '')
+    if not groq_key:
+        return jsonify({'ticker': ticker, 'narrative': None, 'error': 'GROQ_API_KEY not configured'}), 200
+
+    try:
+        from groq import Groq as _Groq
+        client = _Groq(api_key=groq_key)
+        resp = client.chat.completions.create(
+            model='llama-3.3-70b-versatile',
+            messages=[{'role': 'user', 'content': prompt}],
+            max_tokens=250,
+            temperature=0.25,
+        )
+        narrative = resp.choices[0].message.content.strip()
+        return jsonify({'ticker': ticker, 'narrative': narrative, 'date': pd.Timestamp.now().strftime('%Y-%m-%d')})
+    except Exception as e:
+        return jsonify({'ticker': ticker, 'narrative': None, 'error': str(e)}), 200
+
+
 @app.route('/api/macro-radar')
 def macro_radar():
     data = _load_json(DOCS / 'macro_radar.json')
