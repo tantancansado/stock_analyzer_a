@@ -1,15 +1,16 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, Trash2, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X } from 'lucide-react'
+import { Plus, Trash2, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2 } from 'lucide-react'
 import axios from 'axios'
+import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
-const STORAGE_KEY = 'sa-personal-portfolio-v1'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface Position {
-  id: string
+  id: string          // uuid from Supabase
   ticker: string
   shares: number
   avg_price: number
@@ -70,25 +71,16 @@ const CONVICTION_DOT: Record<string, string> = {
   BAJA:  'bg-red-400',
 }
 
-function fmt(n: number | undefined | null, decimals = 2, prefix = '') {
-  if (n == null) return '—'
-  return `${prefix}${n.toFixed(decimals)}`
-}
-
-function uid() {
-  return Math.random().toString(36).slice(2, 9)
-}
-
 // ── Add Position Form ─────────────────────────────────────────────────────────
 
-function AddForm({ onAdd }: { onAdd: (p: Position) => void }) {
+function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promise<void>; saving: boolean }) {
   const [ticker, setTicker]     = useState('')
   const [shares, setShares]     = useState('')
   const [price, setPrice]       = useState('')
   const [currency, setCurrency] = useState<'USD' | 'EUR'>('USD')
   const [error, setError]       = useState('')
 
-  const submit = () => {
+  const submit = async () => {
     const t = ticker.trim().toUpperCase()
     const s = parseFloat(shares)
     const p = parseFloat(price)
@@ -96,7 +88,7 @@ function AddForm({ onAdd }: { onAdd: (p: Position) => void }) {
     if (!s || s <= 0) return setError('Acciones inválidas')
     if (!p || p <= 0) return setError('Precio inválido')
     setError('')
-    onAdd({ id: uid(), ticker: t, shares: s, avg_price: p, currency })
+    await onAdd({ ticker: t, shares: s, avg_price: p, currency })
     setTicker(''); setShares(''); setPrice('')
   }
 
@@ -155,9 +147,10 @@ function AddForm({ onAdd }: { onAdd: (p: Position) => void }) {
         </div>
         <button
           onClick={submit}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+          disabled={saving}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
         >
-          <Plus size={13} strokeWidth={2.5} />
+          {saving ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} strokeWidth={2.5} />}
           Añadir
         </button>
       </div>
@@ -166,24 +159,22 @@ function AddForm({ onAdd }: { onAdd: (p: Position) => void }) {
   )
 }
 
-// ── Position Card (with analysis) ─────────────────────────────────────────────
+// ── Position Card ─────────────────────────────────────────────────────────────
 
-function PositionCard({
-  result, pos, onRemove
-}: {
+function PositionCard({ result, pos, onRemove }: {
   result?: PositionResult
   pos: Position
   onRemove: () => void
 }) {
-  const ticker  = pos.ticker
-  const cur     = result?.current_price ?? pos.avg_price
-  const pl      = result?.pl_pct ?? 0
-  const curSym  = pos.currency === 'EUR' ? '€' : '$'
-  const action  = result?.action ?? 'MANTENER'
+  const ticker = pos.ticker
+  const cur    = result?.current_price ?? pos.avg_price
+  const pl     = result?.pl_pct ?? 0
+  const sym    = pos.currency === 'EUR' ? '€' : '$'
+  const action = result?.action ?? 'MANTENER'
 
   return (
     <div className="glass rounded-2xl overflow-hidden">
-      {/* Header row */}
+      {/* Header */}
       <div className="flex items-center gap-3 px-5 py-4 border-b border-border/30">
         <TickerLogo ticker={ticker} size="sm" />
         <div className="flex-1 min-w-0">
@@ -200,27 +191,25 @@ function PositionCard({
           </div>
           <div className="flex items-center gap-3 mt-0.5 flex-wrap">
             <span className="text-xs text-muted-foreground">
-              {pos.shares} acc · coste {curSym}{pos.avg_price.toFixed(2)}
+              {pos.shares} acc · coste {sym}{pos.avg_price.toFixed(2)}
             </span>
             <span className={`text-xs font-bold flex items-center gap-0.5 ${pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {pl >= 0 ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
               {pl >= 0 ? '+' : ''}{pl.toFixed(2)}%
-              {result && ` (${result.pl_abs >= 0 ? '+' : ''}${curSym}${result.pl_abs.toFixed(0)})`}
+              {result && ` (${result.pl_abs >= 0 ? '+' : ''}${sym}${result.pl_abs.toFixed(0)})`}
             </span>
           </div>
         </div>
 
-        {/* Right side */}
         <div className="flex items-start gap-3 shrink-0">
           <div className="text-right">
-            <div className="font-extrabold text-lg tabular-nums text-foreground">{curSym}{cur.toFixed(2)}</div>
+            <div className="font-extrabold text-lg tabular-nums text-foreground">{sym}{cur.toFixed(2)}</div>
             {result && (
               <div className="text-[0.62rem] text-muted-foreground tabular-nums">
-                {curSym}{result.market_value.toFixed(0)} · {result.portfolio_pct.toFixed(1)}%
+                {sym}{result.market_value.toFixed(0)} · {result.portfolio_pct.toFixed(1)}%
               </div>
             )}
           </div>
-          {/* Action badge */}
           {result && (
             <span className={`text-[0.65rem] font-bold px-2.5 py-1 rounded-full border uppercase tracking-wide ${ACTION_STYLES[action]}`}>
               {action}
@@ -229,7 +218,6 @@ function PositionCard({
           <button
             onClick={onRemove}
             className="p-1.5 rounded-lg text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-colors"
-            title="Eliminar posición"
           >
             <X size={13} />
           </button>
@@ -248,7 +236,7 @@ function PositionCard({
             </strong></span>
           )}
           {result.analyst_target != null && (
-            <span>Target <strong className="text-foreground">{curSym}{result.analyst_target.toFixed(2)}</strong>
+            <span>Target analistas <strong className="text-foreground">{sym}{result.analyst_target.toFixed(2)}</strong>
               {result.analyst_upside != null && (
                 <span className={result.analyst_upside >= 0 ? ' text-emerald-400' : ' text-red-400'}>
                   {' '}({result.analyst_upside >= 0 ? '+' : ''}{result.analyst_upside.toFixed(1)}%)
@@ -257,13 +245,13 @@ function PositionCard({
             </span>
           )}
           {result.target_price != null && result.target_price !== result.analyst_target && (
-            <span>IA objetivo <strong className="text-primary">{curSym}{result.target_price.toFixed(2)}</strong></span>
+            <span>IA objetivo <strong className="text-primary">{sym}{result.target_price.toFixed(2)}</strong></span>
           )}
           {result.stop_loss != null && (
-            <span>Stop <strong className="text-red-400">{curSym}{result.stop_loss.toFixed(2)}</strong></span>
+            <span>Stop <strong className="text-red-400">{sym}{result.stop_loss.toFixed(2)}</strong></span>
           )}
           {result.fifty_two_week_high != null && (
-            <span>52w <strong className="text-foreground">{curSym}{result.fifty_two_week_low?.toFixed(0)}–{result.fifty_two_week_high.toFixed(0)}</strong></span>
+            <span>52w <strong className="text-foreground">{sym}{result.fifty_two_week_low?.toFixed(0)}–{result.fifty_two_week_high.toFixed(0)}</strong></span>
           )}
           <span className="ml-auto shrink-0">
             Peso actual <strong className="text-foreground">{result.portfolio_pct.toFixed(1)}%</strong>
@@ -302,58 +290,95 @@ function PositionCard({
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function PersonalPortfolio() {
-  const [positions, setPositions] = useState<Position[]>(() => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') } catch { return [] }
-  })
-  const [result, setResult]     = useState<AnalysisResult | null>(null)
-  const [loading, setLoading]   = useState(false)
-  const [error, setError]       = useState('')
-  const [analyzed, setAnalyzed] = useState(false)
+  const { user } = useAuth()
+  const [positions, setPositions] = useState<Position[]>([])
+  const [loadingDb, setLoadingDb] = useState(true)
+  const [saving, setSaving]       = useState(false)
+  const [result, setResult]       = useState<AnalysisResult | null>(null)
+  const [analyzing, setAnalyzing] = useState(false)
+  const [error, setError]         = useState('')
+  const [analyzed, setAnalyzed]   = useState(false)
 
-  // Persist positions
+  // Load positions from Supabase on mount
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(positions))
-  }, [positions])
+    if (!user) return
+    setLoadingDb(true)
+    supabase
+      .from('personal_portfolio_positions')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: true })
+      .then(({ data, error: err }) => {
+        if (!err && data) {
+          setPositions(data.map(r => ({
+            id: r.id,
+            ticker: r.ticker,
+            shares: r.shares,
+            avg_price: r.avg_price,
+            currency: r.currency,
+          })))
+        }
+        setLoadingDb(false)
+      })
+  }, [user])
+
+  // Auto-analyze once positions are loaded
+  useEffect(() => {
+    if (!loadingDb && positions.length > 0 && !analyzed) {
+      analyze()
+    }
+  }, [loadingDb]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const analyze = useCallback(async () => {
     if (!positions.length) return
-    setLoading(true); setError('')
+    setAnalyzing(true); setError('')
     try {
       const resp = await axios.post(`${API_BASE}/api/analyze-personal-portfolio`, { positions })
       setResult(resp.data)
       setAnalyzed(true)
-    } catch (e: unknown) {
-      const msg = (e as { response?: { data?: { error?: string } } })?.response?.data?.error
-      setError(msg || 'Error al analizar. Inténtalo de nuevo.')
+    } catch {
+      setError('Error al analizar. Asegúrate de que el backend está corriendo.')
     } finally {
-      setLoading(false)
+      setAnalyzing(false)
     }
   }, [positions])
 
-  // Auto-analyze on first mount if positions exist
-  useEffect(() => {
-    if (positions.length > 0 && !analyzed) {
-      analyze()
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const addPosition = (p: Position) => {
-    setPositions(prev => {
-      const exists = prev.find(x => x.ticker === p.ticker)
-      if (exists) {
-        // Update existing
-        return prev.map(x => x.ticker === p.ticker ? { ...x, shares: x.shares + p.shares, avg_price: ((x.shares * x.avg_price) + (p.shares * p.avg_price)) / (x.shares + p.shares) } : x)
+  const addPosition = async (p: Omit<Position, 'id'>) => {
+    if (!user) return
+    // If ticker already exists, update shares/avg_price
+    const existing = positions.find(x => x.ticker === p.ticker)
+    if (existing) {
+      const newShares = existing.shares + p.shares
+      const newAvg    = (existing.shares * existing.avg_price + p.shares * p.avg_price) / newShares
+      setSaving(true)
+      const { error: err } = await supabase
+        .from('personal_portfolio_positions')
+        .update({ shares: newShares, avg_price: newAvg })
+        .eq('id', existing.id)
+      setSaving(false)
+      if (!err) {
+        setPositions(prev => prev.map(x => x.id === existing.id ? { ...x, shares: newShares, avg_price: newAvg } : x))
+        setResult(null); setAnalyzed(false)
       }
-      return [...prev, p]
-    })
-    setAnalyzed(false)
-    setResult(null)
+      return
+    }
+    setSaving(true)
+    const { data, error: err } = await supabase
+      .from('personal_portfolio_positions')
+      .insert({ user_id: user.id, ticker: p.ticker, shares: p.shares, avg_price: p.avg_price, currency: p.currency })
+      .select()
+      .single()
+    setSaving(false)
+    if (!err && data) {
+      setPositions(prev => [...prev, { id: data.id, ticker: data.ticker, shares: data.shares, avg_price: data.avg_price, currency: data.currency }])
+      setResult(null); setAnalyzed(false)
+    }
   }
 
-  const removePosition = (id: string) => {
+  const removePosition = async (id: string) => {
+    await supabase.from('personal_portfolio_positions').delete().eq('id', id)
     setPositions(prev => prev.filter(p => p.id !== id))
-    setResult(null)
-    setAnalyzed(false)
+    setResult(null); setAnalyzed(false)
   }
 
   const totalCost  = positions.reduce((s, p) => s + p.shares * p.avg_price, 0)
@@ -361,27 +386,38 @@ export default function PersonalPortfolio() {
   const totalPL    = totalValue - totalCost
   const totalPLPct = totalCost > 0 ? (totalPL / totalCost * 100) : 0
 
+  if (loadingDb) {
+    return (
+      <div className="flex items-center justify-center py-24 gap-3 text-muted-foreground">
+        <Loader2 size={18} className="animate-spin" />
+        <span className="text-sm">Cargando cartera...</span>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      {/* Page header */}
+      {/* Header */}
       <div>
         <h1 className="text-2xl font-extrabold text-foreground flex items-center gap-2">
           <Wallet size={22} className="text-primary" />
           Mi Cartera Personal
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Añade tus posiciones y obtén un análisis IA actualizado en cada visita.
+          Tus posiciones se guardan en la nube. El análisis IA se actualiza en cada visita.
         </p>
       </div>
 
-      {/* Summary bar (only when we have results) */}
+      {/* Summary (after analysis) */}
       {result && (
         <div className="glass rounded-2xl p-5 space-y-3">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div className="flex gap-6 flex-wrap">
               <div>
                 <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Valor total</div>
-                <div className="text-2xl font-extrabold tabular-nums text-foreground">${result.total_value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+                <div className="text-2xl font-extrabold tabular-nums text-foreground">
+                  ${result.total_value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                </div>
               </div>
               <div>
                 <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">P&L total</div>
@@ -398,15 +434,14 @@ export default function PersonalPortfolio() {
             </div>
             <button
               onClick={analyze}
-              disabled={loading}
+              disabled={analyzing}
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/25 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors disabled:opacity-50"
             >
-              <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
-              {loading ? 'Analizando...' : 'Re-analizar'}
+              <RefreshCw size={13} className={analyzing ? 'animate-spin' : ''} />
+              {analyzing ? 'Analizando...' : 'Re-analizar'}
             </button>
           </div>
 
-          {/* AI portfolio summary */}
           {result.portfolio_analysis?.summary && (
             <div className="pt-3 border-t border-border/30 space-y-2">
               <p className="text-sm text-foreground/80 leading-relaxed">{result.portfolio_analysis.summary}</p>
@@ -425,7 +460,7 @@ export default function PersonalPortfolio() {
       )}
 
       {/* Add form */}
-      <AddForm onAdd={addPosition} />
+      <AddForm onAdd={addPosition} saving={saving} />
 
       {/* Error */}
       {error && (
@@ -435,10 +470,31 @@ export default function PersonalPortfolio() {
         </div>
       )}
 
-      {/* Loading skeleton */}
-      {loading && (
+      {/* Empty state */}
+      {positions.length === 0 && (
+        <div className="glass rounded-2xl p-12 text-center">
+          <Wallet size={40} className="mx-auto text-muted-foreground/30 mb-4" />
+          <p className="text-foreground font-semibold mb-1">Sin posiciones todavía</p>
+          <p className="text-sm text-muted-foreground">Añade tus posiciones arriba y el análisis IA se generará automáticamente.</p>
+        </div>
+      )}
+
+      {/* Positions */}
+      {positions.length > 0 && (
         <div className="space-y-4">
-          {positions.map(p => (
+          {/* Analyze button (before first analysis) */}
+          {!analyzed && !analyzing && (
+            <button
+              onClick={analyze}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+            >
+              <RefreshCw size={14} />
+              Analizar cartera con IA
+            </button>
+          )}
+
+          {/* Loading skeleton */}
+          {analyzing && positions.map(p => (
             <div key={p.id} className="glass rounded-2xl p-5 animate-pulse">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-muted/40" />
@@ -449,34 +505,8 @@ export default function PersonalPortfolio() {
               </div>
             </div>
           ))}
-        </div>
-      )}
 
-      {/* Empty state */}
-      {!loading && positions.length === 0 && (
-        <div className="glass rounded-2xl p-12 text-center">
-          <Wallet size={40} className="mx-auto text-muted-foreground/30 mb-4" />
-          <p className="text-foreground font-semibold mb-1">Sin posiciones todavía</p>
-          <p className="text-sm text-muted-foreground">Añade tus posiciones arriba y el análisis IA se generará automáticamente.</p>
-        </div>
-      )}
-
-      {/* Position cards */}
-      {!loading && positions.length > 0 && (
-        <div className="space-y-4">
-          {/* Analyze button (before first analysis) */}
-          {!analyzed && !loading && (
-            <button
-              onClick={analyze}
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
-            >
-              <RefreshCw size={14} />
-              Analizar cartera con IA
-            </button>
-          )}
-
-          {positions.map(pos => (
+          {!analyzing && positions.map(pos => (
             <PositionCard
               key={pos.id}
               pos={pos}
