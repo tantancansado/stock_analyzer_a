@@ -184,6 +184,30 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             </div>
           </div>
 
+          {/* Entry/exit — always visible, above chips */}
+          {(row.entry_price != null || row.stop_loss != null || row.target_price != null) && (
+            <div className="flex gap-2 px-5 py-3 border-b border-border/30 flex-shrink-0">
+              {row.entry_price != null && (
+                <div className="flex-1 px-3 py-2 rounded-xl bg-primary/8 border border-primary/20">
+                  <div className="text-[0.52rem] font-bold uppercase tracking-widest text-primary/50 mb-0.5">Entrada</div>
+                  <div className="font-extrabold text-base tabular-nums text-primary leading-none">{currency}{row.entry_price.toFixed(2)}</div>
+                </div>
+              )}
+              {row.stop_loss != null && (
+                <div className="flex-1 px-3 py-2 rounded-xl bg-red-500/8 border border-red-500/20">
+                  <div className="text-[0.52rem] font-bold uppercase tracking-widest text-red-400/50 mb-0.5">Stop Loss</div>
+                  <div className="font-extrabold text-base tabular-nums text-red-400 leading-none">{currency}{row.stop_loss.toFixed(2)}</div>
+                </div>
+              )}
+              {row.target_price != null && (
+                <div className="flex-1 px-3 py-2 rounded-xl bg-emerald-500/8 border border-emerald-500/20">
+                  <div className="text-[0.52rem] font-bold uppercase tracking-widest text-emerald-400/50 mb-0.5">Objetivo</div>
+                  <div className="font-extrabold text-base tabular-nums text-emerald-400 leading-none">{currency}{row.target_price.toFixed(2)}</div>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Metrics strip */}
           <div className="flex gap-2 px-5 py-3 overflow-x-auto border-b border-border/30 flex-shrink-0 scrollbar-hide bg-muted/10">
             <Chip label="Score" value={row.value_score.toFixed(0)} color="text-primary" />
@@ -255,30 +279,6 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
 
           {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto px-5 py-4 min-h-0">
-            {/* Entry/exit prices */}
-            {(row.entry_price != null || row.stop_loss != null || row.target_price != null) && (
-              <div className="flex gap-3 mb-5 flex-wrap">
-                {row.entry_price != null && (
-                  <div className="flex-1 min-w-[80px] px-3 py-2.5 rounded-lg bg-primary/8 border border-primary/20">
-                    <div className="text-[0.58rem] font-bold uppercase tracking-widest text-primary/60 mb-1">Entrada</div>
-                    <div className="font-bold text-sm tabular-nums text-primary">{currency}{row.entry_price.toFixed(2)}</div>
-                  </div>
-                )}
-                {row.stop_loss != null && (
-                  <div className="flex-1 min-w-[80px] px-3 py-2.5 rounded-lg bg-red-500/8 border border-red-500/20">
-                    <div className="text-[0.58rem] font-bold uppercase tracking-widest text-red-400/60 mb-1">Stop Loss</div>
-                    <div className="font-bold text-sm tabular-nums text-red-400">{currency}{row.stop_loss.toFixed(2)}</div>
-                  </div>
-                )}
-                {row.target_price != null && (
-                  <div className="flex-1 min-w-[80px] px-3 py-2.5 rounded-lg bg-emerald-500/8 border border-emerald-500/20">
-                    <div className="text-[0.58rem] font-bold uppercase tracking-widest text-emerald-400/60 mb-1">Objetivo</div>
-                    <div className="font-bold text-sm tabular-nums text-emerald-400">{currency}{row.target_price.toFixed(2)}</div>
-                  </div>
-                )}
-              </div>
-            )}
-
             {/* Thesis */}
             <ThesisBody text={thesisText} />
 
