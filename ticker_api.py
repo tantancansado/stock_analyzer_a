@@ -1963,6 +1963,194 @@ def search_tickers():
 
 # ─────────────────────────────────────────────────────────────────────────────
 
+@app.route('/api/analyze-personal-portfolio', methods=['POST'])
+def analyze_personal_portfolio():
+    """Analyze user's personal portfolio positions with yfinance + AI."""
+    import os as _os, json as _json, re as _re
+
+    data = request.get_json(force=True) or {}
+    positions = data.get('positions', [])
+    if not positions:
+        return jsonify({'error': 'No positions provided'}), 400
+
+    groq_key = _os.environ.get('GROQ_API_KEY', '')
+    if not groq_key:
+        return jsonify({'error': 'GROQ_API_KEY not configured'}), 500
+
+    import yfinance as _yf
+
+    enriched = []
+    for pos in positions:
+        ticker  = str(pos.get('ticker', '')).upper().strip()
+        shares  = float(pos.get('shares', 0) or 0)
+        avg_p   = float(pos.get('avg_price', 0) or 0)
+        currency = pos.get('currency', 'USD')
+        if not ticker or shares <= 0:
+            continue
+        try:
+            info = _yf.Ticker(ticker).info
+        except Exception:
+            info = {}
+        cur_price = (info.get('currentPrice') or info.get('regularMarketPrice')
+                     or info.get('previousClose') or avg_p or 0)
+        mkt_val  = shares * cur_price
+        cost     = shares * avg_p
+        pl_pct   = ((cur_price - avg_p) / avg_p * 100) if avg_p else 0
+        fcf_yield = None
+        try:
+            fcf = info.get('freeCashflow')
+            mc  = info.get('marketCap')
+            if fcf and mc and mc > 0:
+                fcf_yield = fcf / mc * 100
+        except Exception:
+            pass
+        enriched.append({
+            'ticker': ticker, 'shares': shares, 'avg_price': avg_p,
+            'current_price': cur_price, 'currency': currency,
+            'market_value': mkt_val, 'cost_basis': cost, 'pl_pct': pl_pct,
+            'pl_abs': mkt_val - cost,
+            'company_name': info.get('shortName', ticker),
+            'sector': info.get('sector', ''),
+            'forward_pe': info.get('forwardPE'),
+            'trailing_pe': info.get('trailingPE'),
+            'analyst_target': info.get('targetMeanPrice'),
+            'analyst_upside': (
+                (info.get('targetMeanPrice') - cur_price) / cur_price * 100
+                if info.get('targetMeanPrice') and cur_price else None
+            ),
+            'fcf_yield': fcf_yield,
+            'dividend_yield': info.get('dividendYield'),
+            'revenue_growth': info.get('revenueGrowth'),
+            'roe': info.get('returnOnEquity'),
+            'debt_to_equity': info.get('debtToEquity'),
+            'fifty_two_week_high': info.get('fiftyTwoWeekHigh'),
+            'fifty_two_week_low': info.get('fiftyTwoWeekLow'),
+        })
+
+    if not enriched:
+        return jsonify({'error': 'No valid positions fetched'}), 400
+
+    total_value = sum(p['market_value'] for p in enriched) or 1
+    for p in enriched:
+        p['portfolio_pct'] = p['market_value'] / total_value * 100
+
+    macro_regime = 'DESCONOCIDO'
+    try:
+        mr = _load_json(DOCS / 'macro_radar.json')
+        macro_regime = mr.get('regime', {}).get('name', 'DESCONOCIDO')
+    except Exception:
+        pass
+
+    lines = []
+    for p in enriched:
+        l = (f"- {p['ticker']} ({p.get('company_name','')}): "
+             f"{p['portfolio_pct']:.1f}% cartera | precio actual {p['currency']}{p['current_price']:.2f} "
+             f"| P&L: {p['pl_pct']:+.1f}%")
+        if p.get('forward_pe'):   l += f" | PE fwd: {p['forward_pe']:.1f}x"
+        if p.get('analyst_target'): l += f" | target analistas: {p['currency']}{p['analyst_target']:.2f} ({p.get('analyst_upside',0):+.1f}%)"
+        if p.get('fcf_yield'):    l += f" | FCF yield: {p['fcf_yield']:.1f}%"
+        if p.get('sector'):       l += f" | Sector: {p['sector']}"
+        lines.append(l)
+
+    tickers_list = ', '.join(p['ticker'] for p in enriched)
+    prompt = f"""Eres un analista value/GARP al estilo Lynch-Graham. El usuario tiene esta cartera personal ({len(enriched)} posiciones, valor total ~${total_value:,.0f}):
+
+{chr(10).join(lines)}
+
+Régimen macro actual: {macro_regime}
+
+Analiza la cartera y devuelve ÚNICAMENTE un JSON válido con esta estructura exacta (sin texto extra, sin markdown):
+{{
+  "portfolio_analysis": {{
+    "summary": "evaluación global en 2-3 frases",
+    "concentration_warning": "aviso si hay concentración excesiva en sector/posición, o null",
+    "overall_recommendation": "qué hacer con la cartera en conjunto en 1-2 frases"
+  }},
+  "positions": [
+    {{
+      "ticker": "XXX",
+      "action": "MANTENER",
+      "conviction": "ALTA",
+      "target_price": 123.45,
+      "stop_loss": 90.00,
+      "recommended_weight_pct": 15.0,
+      "analysis": "2-3 frases sobre esta posición: tesis vigente o rota, valoración actual",
+      "key_risk": "principal riesgo en 1 frase"
+    }}
+  ]
+}}
+
+Valores posibles para action: MANTENER, AÑADIR, REDUCIR, VENDER
+Valores posibles para conviction: ALTA, MEDIA, BAJA
+Cubre estos tickers en orden: {tickers_list}
+Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sumar ~100%."""
+
+    try:
+        from groq import Groq as _Groq
+        client = _Groq(api_key=groq_key)
+        resp = client.chat.completions.create(
+            model='llama-3.3-70b-versatile',
+            messages=[{'role': 'user', 'content': prompt}],
+            max_tokens=1500,
+            temperature=0.25,
+        )
+        ai_text = resp.choices[0].message.content.strip()
+        m = _re.search(r'```(?:json)?\s*([\s\S]+?)\s*```', ai_text)
+        if m:
+            ai_text = m.group(1)
+        ai_result = _json.loads(ai_text)
+    except Exception:
+        ai_result = None
+
+    result_positions = []
+    for p in enriched:
+        row = {
+            'ticker': p['ticker'],
+            'company_name': p.get('company_name', p['ticker']),
+            'sector': p.get('sector', ''),
+            'shares': p['shares'],
+            'avg_price': round(p['avg_price'], 4),
+            'current_price': round(p['current_price'], 4),
+            'currency': p['currency'],
+            'market_value': round(p['market_value'], 2),
+            'pl_pct': round(p['pl_pct'], 2),
+            'pl_abs': round(p['pl_abs'], 2),
+            'portfolio_pct': round(p['portfolio_pct'], 2),
+            'forward_pe': p.get('forward_pe'),
+            'analyst_target': p.get('analyst_target'),
+            'analyst_upside': p.get('analyst_upside'),
+            'fcf_yield': p.get('fcf_yield'),
+            'fifty_two_week_high': p.get('fifty_two_week_high'),
+            'fifty_two_week_low': p.get('fifty_two_week_low'),
+            'action': 'MANTENER', 'conviction': 'MEDIA',
+            'target_price': p.get('analyst_target'),
+            'stop_loss': None, 'recommended_weight_pct': round(p['portfolio_pct'], 1),
+            'analysis': '', 'key_risk': '',
+        }
+        if ai_result and 'positions' in ai_result:
+            for ap in ai_result['positions']:
+                if str(ap.get('ticker', '')).upper() == p['ticker']:
+                    row.update({
+                        'action': ap.get('action', 'MANTENER'),
+                        'conviction': ap.get('conviction', 'MEDIA'),
+                        'target_price': ap.get('target_price') or p.get('analyst_target'),
+                        'stop_loss': ap.get('stop_loss'),
+                        'recommended_weight_pct': ap.get('recommended_weight_pct', row['recommended_weight_pct']),
+                        'analysis': ap.get('analysis', ''),
+                        'key_risk': ap.get('key_risk', ''),
+                    })
+                    break
+        result_positions.append(row)
+
+    return jsonify({
+        'total_value': round(total_value, 2),
+        'portfolio_analysis': ai_result.get('portfolio_analysis', {}) if ai_result else {},
+        'positions': result_positions,
+    })
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+
 if __name__ == '__main__':
     import sys
     port = int(os.environ.get('PORT', sys.argv[1] if len(sys.argv) > 1 else 5002))

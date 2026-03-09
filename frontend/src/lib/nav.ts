@@ -2,7 +2,7 @@ import {
   Globe, TrendingUp, Users, Activity,
   ArrowLeftRight, PieChart, BarChart2, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Layers, Star, Radar, CalendarDays, AlertTriangle, Sparkles, Building2, Zap,
-  DollarSign, Euro,
+  DollarSign, Euro, Wallet,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -29,6 +29,7 @@ export const NAV: NavItem[] = [
   { path: '/mean-reversion', icon: ArrowLeftRight,  label: 'Mean Reversion',      color: '#14b8a6', keywords: ['mean reversion', 'rebote', 'soporte', 'oversold'] },
   { path: '/sectors',        icon: PieChart,        label: 'Rotación Sectorial',  color: '#6366f1', keywords: ['sector', 'rotacion', 'sectorial'] },
   { section: 'Rendimiento' },
+  { path: '/my-portfolio',   icon: Wallet,          label: 'Mi Cartera',          color: '#10b981', keywords: ['mi cartera', 'personal', 'posiciones', 'mis acciones'] },
   { path: '/portfolio',      icon: BarChart2,       label: 'Portfolio Tracker',   color: '#22c55e', keywords: ['portfolio', 'cartera', 'rendimiento', 'tracker'] },
   { path: '/backtest',       icon: FlaskConical,    label: 'Backtest',            color: '#a78bfa', keywords: ['backtest', 'historico', 'simulacion'] },
   { section: 'Análisis' },
