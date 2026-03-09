@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { fetchEUValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchValueEUInsight, type ValueOpportunity } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
@@ -156,9 +157,9 @@ export default function ValueEU() {
               </span>
               <p className="text-xs text-muted-foreground mt-0.5">{cfg.msg}</p>
             </div>
-            <a href="/macro-radar" className={`ml-auto shrink-0 text-[0.65rem] font-semibold ${cfg.text} hover:underline`}>
+            <Link to="/macro-radar" className={`ml-auto shrink-0 text-[0.65rem] font-semibold ${cfg.text} hover:underline`}>
               Ver detalle →
-            </a>
+            </Link>
           </div>
         )
       })()}

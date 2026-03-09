@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, type ValueOpportunity } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
@@ -164,9 +165,9 @@ export default function ValueUS() {
               </span>
               <p className="text-xs text-muted-foreground mt-0.5">{cfg.msg}</p>
             </div>
-            <a href="/macro-radar" className={`ml-auto shrink-0 text-[0.65rem] font-semibold ${cfg.text} hover:underline`}>
+            <Link to="/macro-radar" className={`ml-auto shrink-0 text-[0.65rem] font-semibold ${cfg.text} hover:underline`}>
               Ver detalle →
-            </a>
+            </Link>
           </div>
         )
       })()}
