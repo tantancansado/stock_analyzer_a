@@ -100,6 +100,12 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 thesis_generator.py 50 --ai || echo "Thesis generation failed"
 
+      - name: Generate AI Insights (briefing, insiders, industry)
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python3 generate_insights.py || echo "AI insights generation failed"
+
       - name: Generate Super Dashboard [CRITICAL]
         run: python3 super_dashboard_generator.py
 
