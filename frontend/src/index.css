@@ -215,6 +215,17 @@ button:active:not(:disabled) { transform: scale(0.97); }
 :root:not(.dark) .orb-2 { opacity: 0.16; }
 :root:not(.dark) .orb-3 { opacity: 0.10; }
 
+/* Light mode glow-border — no rainbow, simple indigo ring via box-shadow */
+:root:not(.dark) .glow-border {
+  animation: none;
+  box-shadow:
+    0 0 0 1.5px hsl(239 84% 60% / 0.22),
+    0 8px 32px hsl(228 35% 55% / 0.10),
+    0 2px 10px hsl(228 35% 55% / 0.06);
+}
+:root:not(.dark) .glow-border::before { background: none; }
+:root:not(.dark) .glow-border::after  { background: transparent; inset: 0; }
+
 /* Light mode score bar mask */
 :root:not(.dark) .score-mask { background: hsl(228 20% 88%); }
 
