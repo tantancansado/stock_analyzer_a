@@ -145,104 +145,213 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   CARDS — clean elevated design, no glassmorphism
+   LIQUID GLASS — real frosted glass with backdrop-filter
+   Requires vibrant orbs behind to have something to blur through.
 ════════════════════════════════════════════════════════════════════ */
 
-/* Dark mode: dark card with depth shadow */
 .glass {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border) / 0.55);
+  /* Very transparent — orbs show through as blurred color */
+  background: hsl(var(--card) / 0.20);
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.06);
+
+  /* Subtle border — specular insets simulate glass edge refraction */
+  border: 1px solid hsl(0 0% 100% / 0.10);
   box-shadow:
-    0 0 0 1px hsl(0 0% 0% / 0.07),
-    0 2px 6px  hsl(0 0% 0% / 0.24),
-    0 8px 24px hsl(0 0% 0% / 0.18);
+    0 8px 32px hsl(0 0% 0% / 0.35),
+    0 2px 8px  hsl(0 0% 0% / 0.20),
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.44),  /* top bright edge  */
+    inset 0 -1px   0 hsl(0 0% 0%   / 0.08),  /* bottom dark edge */
+    inset  1.5px 0 0 hsl(0 0% 100% / 0.15),  /* left bright edge */
+    inset -1px   0 0 hsl(0 0% 0%   / 0.05);  /* right dark edge  */
+
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.2s ease,
-              border-color 0.2s ease;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.22s ease;
 }
 
-/* Hover lift — only on non-table cards */
+/* Hover: stronger lift + brighter speculars */
 .glass:not(:has(table)):hover {
-  transform: translateY(-2px);
-  border-color: hsl(var(--border) / 0.85);
+  transform: translateY(-3px);
   box-shadow:
-    0 0 0 1px hsl(0 0% 0% / 0.09),
-    0 4px 12px hsl(0 0% 0% / 0.30),
-    0 18px 44px hsl(0 0% 0% / 0.22);
+    0 20px 52px hsl(0 0% 0% / 0.40),
+    0  6px 18px hsl(0 0% 0% / 0.26),
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.55),
+    inset 0 -1px   0 hsl(0 0% 0%   / 0.08),
+    inset  1.5px 0 0 hsl(0 0% 100% / 0.20),
+    inset -1px   0 0 hsl(0 0% 0%   / 0.05);
 }
 
-/* ── LIGHT MODE — white elevated cards ──────────────────────────────── */
+/* Iridescent gradient border — simulates prismatic glass edge */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    hsl(0 0% 100% / 0.52) 0%,
+    hsl(239 84% 75% / 0.30) 28%,
+    transparent 52%,
+    hsl(160 84% 55% / 0.22) 76%,
+    hsl(0 0% 100% / 0.44) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
 
+/* Cursor spotlight — follows mouse on hover */
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    280px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+    hsl(0 0% 100% / 0.07) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── LIGHT MODE — frosted white glass ───────────────────────────────── */
+
+/* More opaque white + blur reveals pastel orbs underneath */
 .glass:not(.dark *) {
-  background: hsl(0 0% 100%);
-  border-color: hsl(220 13% 90%);
+  background: hsl(0 0% 100% / 0.56);
+  border-color: hsl(0 0% 100% / 0.72);
+  backdrop-filter: blur(24px) saturate(165%) brightness(1.05);
+  -webkit-backdrop-filter: blur(24px) saturate(165%) brightness(1.05);
   box-shadow:
-    0 0 0 1px hsl(220 13% 89%),
-    0 1px 3px hsl(222 47% 8% / 0.06),
-    0 6px 18px hsl(222 47% 8% / 0.07),
-    0 20px 48px hsl(222 47% 8% / 0.04);
+    0 4px 20px hsl(222 30% 15% / 0.10),
+    0 1px 4px  hsl(222 30% 15% / 0.06),
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.90),
+    inset 0 -1px   0 hsl(220 30% 60% / 0.06);
 }
 :root:not(.dark) .glass:not(:has(table)):hover {
   transform: translateY(-2px);
   box-shadow:
-    0 0 0 1px hsl(220 13% 86%),
-    0 2px 6px hsl(222 47% 8% / 0.08),
-    0 12px 32px hsl(222 47% 8% / 0.10),
-    0 28px 60px hsl(222 47% 8% / 0.06);
+    0 8px 32px hsl(222 30% 15% / 0.13),
+    0 2px 8px  hsl(222 30% 15% / 0.07),
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.96),
+    inset 0 -1px   0 hsl(220 30% 60% / 0.06);
 }
 
-/* Dot grid background texture */
-:root:not(.dark) body {
-  background-image: radial-gradient(hsl(220 13% 86% / 0.7) 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Softer iridescent border in light mode */
+:root:not(.dark) .glass::before {
+  background: linear-gradient(
+    135deg,
+    hsl(0 0% 100% / 0.80) 0%,
+    hsl(239 84% 75% / 0.25) 28%,
+    transparent 52%,
+    hsl(160 84% 55% / 0.18) 76%,
+    hsl(0 0% 100% / 0.75) 100%
+  );
 }
+
+/* Light orbs — enough to show through frosted white glass */
+:root:not(.dark) .orb-1 { opacity: 0.30; }
+:root:not(.dark) .orb-2 { opacity: 0.22; }
+:root:not(.dark) .orb-3 { opacity: 0.14; }
 
 /* Score bar mask */
-:root:not(.dark) .score-mask { background: hsl(220 13% 90%); }
+:root:not(.dark) .score-mask { background: hsl(220 13% 86%); }
 
-/* Sidebar */
+/* Sidebar — frosted glass panel */
 :root:not(.dark) aside {
-  background: hsl(220 17% 97%) !important;
-  border-right: 1px solid hsl(220 13% 88%) !important;
-  box-shadow: 2px 0 10px hsl(222 47% 8% / 0.05) !important;
-}
-/* Sidebar active item pill */
-:root:not(.dark) .nav-link-active {
-  background: hsl(239 84% 57% / 0.08);
-  border-radius: 0.5rem;
+  background: hsl(220 28% 96% / 0.72) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  border-right: 1px solid hsl(0 0% 100% / 0.65) !important;
+  box-shadow: 2px 0 12px hsl(222 30% 15% / 0.06) !important;
 }
 
 /* Topbar */
 :root:not(.dark) header {
-  background: hsl(0 0% 100% / 0.95) !important;
-  border-bottom: 1px solid hsl(220 13% 88%) !important;
-  box-shadow: 0 1px 6px hsl(222 47% 8% / 0.06) !important;
+  background: hsl(0 0% 100% / 0.72) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  border-bottom: 1px solid hsl(220 13% 86%) !important;
+  box-shadow: 0 1px 8px hsl(222 30% 15% / 0.06) !important;
 }
 
-/* Table: subtle striping + hover */
-:root:not(.dark) .glass table tbody tr:nth-child(even) { background: hsl(220 17% 98.5%); }
-:root:not(.dark) .glass table tbody tr:hover { background: hsl(239 84% 57% / 0.05) !important; }
+/* Table rows */
+:root:not(.dark) .glass table tbody tr:nth-child(even) { background: hsl(0 0% 100% / 0.30); }
+:root:not(.dark) .glass table tbody tr:hover { background: hsl(239 84% 57% / 0.06) !important; }
 :root:not(.dark) .glass table thead th {
-  background: hsl(220 13% 97%) !important;
-  border-bottom: 1px solid hsl(220 13% 87%) !important;
+  background: hsl(0 0% 100% / 0.75) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid hsl(220 13% 86%) !important;
 }
 
-/* Glow-border: clean indigo ring instead of animation */
+/* Glow-border in light mode */
 :root:not(.dark) .glow-border {
   animation: none;
-  box-shadow: 0 0 0 1.5px hsl(239 84% 57% / 0.18), 0 6px 18px hsl(222 47% 8% / 0.07);
+  box-shadow: 0 0 0 1.5px hsl(239 84% 57% / 0.22), 0 6px 20px hsl(222 30% 15% / 0.08);
 }
-:root:not(.dark) .glow-border::before,
-:root:not(.dark) .glow-border::after { display: none; }
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   ORBS — hidden (were only for glassmorphism; now removed)
+   BACKGROUND ORBS — vivid color blobs that glass blurs through
+   These need to be bright enough to actually show through cards.
 ════════════════════════════════════════════════════════════════════ */
 
-.bg-orbs, .orb, .orb-1, .orb-2, .orb-3, .orb-4, .orb-5 { display: none; }
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+/* Indigo — main brand hue, anchors top-left corner */
+.orb-1 {
+  width: 1100px; height: 1100px;
+  background: radial-gradient(circle, hsl(239 84% 65%), hsl(250 80% 52%) 50%, transparent 70%);
+  opacity: 0.42;
+  top: -440px; left: -340px;
+  animation: floatOrb 16s ease-in-out infinite;
+}
+/* Emerald/teal — warmth in bottom-right */
+.orb-2 {
+  width: 720px; height: 720px;
+  background: radial-gradient(circle, hsl(162 84% 42%), hsl(185 84% 44%) 50%, transparent 70%);
+  opacity: 0.30;
+  bottom: -260px; right: -220px;
+  animation: floatOrb 20s ease-in-out infinite;
+  animation-delay: -8s;
+}
+/* Violet/rose — mid-screen accent */
+.orb-3 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, hsl(280 80% 62%), hsl(300 75% 55%) 50%, transparent 70%);
+  opacity: 0.18;
+  top: 30%; right: 15%;
+  animation: floatOrb 24s ease-in-out infinite;
+  animation-delay: -14s;
+}
+.orb-4, .orb-5 { display: none; }
+
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0, 0)     scale(1);    }
+  25%       { transform: translate(30px, -24px) scale(1.04); }
+  50%       { transform: translate(-18px, 18px) scale(0.96); }
+  75%       { transform: translate(12px, 8px)   scale(1.02); }
+}
 
 
 /* ═══════════════════════════════════════════════════════════════════
