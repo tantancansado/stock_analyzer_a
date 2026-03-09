@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, Trash2, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2 } from 'lucide-react'
+import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2 } from 'lucide-react'
 import axios from 'axios'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
