@@ -92,12 +92,16 @@ export default function ThesisBody({ text }: { text: string }) {
   const paragraphs = processed.split('\n\n').map(p => p.trim()).filter(Boolean)
 
   return (
-    <div className="text-sm leading-relaxed text-muted-foreground py-1 space-y-3">
+    <div className="text-sm leading-relaxed text-muted-foreground py-1 space-y-2.5">
       {paragraphs.map((para, pi) => {
-        // First paragraph = intro summary line — slightly muted, no bullets expected
         const isIntro = pi === 0
         return (
-          <div key={pi} className={isIntro ? '' : 'border-l-2 border-border/40 pl-3'}>
+          <div
+            key={pi}
+            className={isIntro
+              ? 'text-foreground/70 font-medium'
+              : 'rounded-lg bg-muted/25 border border-border/25 px-3 py-2.5'}
+          >
             <Para text={para} />
           </div>
         )
