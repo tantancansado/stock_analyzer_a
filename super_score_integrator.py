@@ -1692,7 +1692,10 @@ Note:
     if not momentum_df.empty:
         integrator.save_results(momentum_df, filename='momentum_opportunities', score_column='momentum_score')
     else:
-        print("⚠️  No momentum opportunities to save")
+        # Always overwrite so stale data from previous runs isn't shown
+        import pandas as _pd
+        _pd.DataFrame().to_csv('docs/momentum_opportunities.csv', index=False)
+        print("⚠️  No momentum opportunities — cleared stale file")
 
     # Exportar ticker data cache (usar value_df como principal)
     if not value_df.empty:
