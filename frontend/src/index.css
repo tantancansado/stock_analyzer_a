@@ -13,27 +13,27 @@
 ════════════════════════════════════════════════════════════════════ */
 
 :root {
-  /* Light mode — soft indigo-tinted, Apple-inspired */
-  --background:    228 30% 94%;
+  /* Light mode — clean elevated cards, not glassmorphism */
+  --background:    220 18% 95%;
   --foreground:    222 47% 8%;
-  --card:          220 25% 99%;
+  --card:          0 0% 100%;
   --card-foreground: 222 47% 8%;
-  --popover:       220 25% 99%;
+  --popover:       0 0% 100%;
   --popover-foreground: 222 47% 8%;
-  --primary:       239 84% 60%;
+  --primary:       239 84% 57%;
   --primary-foreground: 0 0% 100%;
-  --secondary:     228 20% 88%;
+  --secondary:     220 13% 92%;
   --secondary-foreground: 222 47% 12%;
-  --muted:         228 20% 90%;
-  --muted-foreground: 220 14% 38%;
-  --accent:        228 20% 88%;
+  --muted:         220 13% 92%;
+  --muted-foreground: 220 10% 36%;
+  --accent:        220 13% 92%;
   --accent-foreground: 222 47% 12%;
-  --destructive:   0 84% 58%;
+  --destructive:   0 84% 55%;
   --destructive-foreground: 0 0% 100%;
-  --border:        228 18% 82%;
-  --input:         228 18% 84%;
-  --ring:          239 84% 60%;
-  --radius:        0.625rem;
+  --border:        220 13% 88%;
+  --input:         220 13% 89%;
+  --ring:          239 84% 57%;
+  --radius:        0.75rem;
 
   /* Brand extras */
   --indigo:   239 84% 60%;
@@ -130,11 +130,17 @@ button:active:not(:disabled) { transform: scale(0.97); }
 ════════════════════════════════════════════════════════════════════ */
 
 .gradient-title {
-  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(160 84% 50%) 100%);
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(160 84% 40%) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+}
+/* Light mode: deeper gradient for contrast on light background */
+:root:not(.dark) .gradient-title {
+  background: linear-gradient(135deg, hsl(239 84% 52%) 0%, hsl(160 84% 30%) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 
@@ -199,55 +205,94 @@ button:active:not(:disabled) { transform: scale(0.97); }
 }
 .glass:hover::after { opacity: 1; }
 
-/* Light mode glass */
+/* ── LIGHT MODE — elevation-based cards, no glassmorphism ───────────── */
+
+/* Disable glass/blur in light mode → solid white elevated cards */
 .glass:not(.dark *) {
-  background: hsl(220 25% 99% / 0.82);
-  border-color: hsl(228 25% 84%);
+  background: hsl(0 0% 100%);
+  border-color: hsl(220 13% 90%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   box-shadow:
-    0 8px 32px hsl(228 35% 55% / 0.10),
-    0 2px 10px hsl(228 35% 55% / 0.06),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.95),
-    inset 0 -1px   0 hsl(228 30% 60% / 0.06);
+    0 0 0 1px hsl(220 13% 89%),
+    0 1px 3px hsl(222 47% 8% / 0.06),
+    0 6px 18px hsl(222 47% 8% / 0.07),
+    0 20px 48px hsl(222 47% 8% / 0.04);
+}
+/* Hover: stronger elevation */
+:root:not(.dark) .glass:not(:has(table)):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px hsl(220 13% 86%),
+    0 2px 6px hsl(222 47% 8% / 0.08),
+    0 12px 32px hsl(222 47% 8% / 0.10),
+    0 28px 60px hsl(222 47% 8% / 0.06);
+}
+/* Disable specular shimmer + spotlight on white cards */
+:root:not(.dark) .glass::before { background: none !important; }
+:root:not(.dark) .glass::after  { display: none; }
+
+/* Background: subtle dot grid gives texture without orbs */
+:root:not(.dark) body {
+  background-image: radial-gradient(hsl(220 13% 86% / 0.7) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-/* Light mode orbs — more visible so glass has something to blur through */
-:root:not(.dark) .orb-1 { opacity: 0.22; }
-:root:not(.dark) .orb-2 { opacity: 0.16; }
-:root:not(.dark) .orb-3 { opacity: 0.10; }
+/* Hide orbs — no glass blur, no point */
+:root:not(.dark) .orb-1,
+:root:not(.dark) .orb-2,
+:root:not(.dark) .orb-3 { opacity: 0 !important; animation: none; }
 
-/* Light mode glow-border — no rainbow, simple indigo ring via box-shadow */
+/* Glow-border in light mode — clean indigo ring */
 :root:not(.dark) .glow-border {
   animation: none;
   box-shadow:
-    0 0 0 1.5px hsl(239 84% 60% / 0.22),
-    0 8px 32px hsl(228 35% 55% / 0.10),
-    0 2px 10px hsl(228 35% 55% / 0.06);
+    0 0 0 1.5px hsl(239 84% 57% / 0.20),
+    0 0 0 1px hsl(220 13% 89%),
+    0 6px 18px hsl(222 47% 8% / 0.07),
+    0 2px 6px hsl(222 47% 8% / 0.05);
 }
 :root:not(.dark) .glow-border::before { background: none; }
-:root:not(.dark) .glow-border::after  { background: transparent; inset: 0; }
+:root:not(.dark) .glow-border::after  { display: none; }
 
-/* Light mode score bar mask */
-:root:not(.dark) .score-mask { background: hsl(228 20% 88%); }
+/* Score bar mask */
+:root:not(.dark) .score-mask { background: hsl(220 13% 90%); }
 
-/* Light mode sidebar — visually distinct from main content */
+/* Sidebar — slightly tinted, strong shadow separation */
 :root:not(.dark) aside {
-  background: hsl(228 28% 90% / 0.95) !important;
-  border-right-color: hsl(228 20% 81%) !important;
+  background: hsl(220 17% 97%) !important;
+  border-right: 1px solid hsl(220 13% 88%) !important;
+  box-shadow: 2px 0 10px hsl(222 47% 8% / 0.05) !important;
+}
+/* Sidebar active item — more vivid in light mode */
+:root:not(.dark) .nav-link-active {
+  background: hsl(239 84% 57% / 0.08);
+  border-radius: 0.5rem;
 }
 
-/* Light mode topbar */
+/* Topbar */
 :root:not(.dark) header {
-  background: hsl(228 28% 91% / 0.88) !important;
-  border-bottom-color: hsl(228 20% 83%) !important;
+  background: hsl(0 0% 100% / 0.95) !important;
+  border-bottom: 1px solid hsl(220 13% 88%) !important;
+  box-shadow: 0 1px 6px hsl(222 47% 8% / 0.06) !important;
 }
 
-/* Light mode — emerald + primary number glow (subtle) */
-:root:not(.dark) .text-emerald-400.tabular-nums {
-  text-shadow: 0 0 14px hsl(160 84% 34% / 0.18);
+/* Table: subtle striping + stronger hover */
+:root:not(.dark) .glass table tbody tr:nth-child(even) {
+  background: hsl(220 17% 98.5%);
 }
-:root:not(.dark) .text-primary.tabular-nums {
-  text-shadow: 0 0 14px hsl(239 84% 60% / 0.15);
+:root:not(.dark) .glass table tbody tr:hover {
+  background: hsl(239 84% 57% / 0.05) !important;
 }
+/* Light mode sticky table header */
+:root:not(.dark) .glass table thead th {
+  background: hsl(220 13% 97%) !important;
+  border-bottom: 1px solid hsl(220 13% 87%) !important;
+}
+
+/* Remove number glow — not needed without dark bg */
+:root:not(.dark) .text-emerald-400.tabular-nums { text-shadow: none; }
+:root:not(.dark) .text-primary.tabular-nums { text-shadow: none; }
 
 
 /* ═══════════════════════════════════════════════════════════════════
