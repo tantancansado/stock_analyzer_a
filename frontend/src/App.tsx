@@ -122,18 +122,6 @@ export default function App() {
     return () => document.removeEventListener('keydown', handler)
   }, [user])
 
-  // Cursor spotlight on .glass cards
-  useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
-      const el = (e.target as Element).closest<HTMLElement>('.glass')
-      if (!el) return
-      const rect = el.getBoundingClientRect()
-      el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
-      el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
-    }
-    document.addEventListener('mousemove', handleMove, { passive: true })
-    return () => document.removeEventListener('mousemove', handleMove)
-  }, [])
 
   const openCmd = useCallback(() => setCmdOpen(true), [])
 
@@ -166,7 +154,7 @@ export default function App() {
           {/* Sidebar */}
           <aside className={cn(
             'fixed inset-y-0 left-0 z-50 flex flex-col w-56',
-            'border-r border-border/60 bg-card/90 backdrop-blur-2xl',
+            'border-r border-border/60 bg-card',
             'transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
             'max-md:-translate-x-full',
             sidebarOpen && 'max-md:translate-x-0',

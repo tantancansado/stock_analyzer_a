@@ -145,81 +145,45 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   LIQUID GLASS — Apple material
+   CARDS — clean elevated design, no glassmorphism
 ════════════════════════════════════════════════════════════════════ */
 
+/* Dark mode: dark card with depth shadow */
 .glass {
-  background: hsl(var(--card) / 0.55);
-  backdrop-filter: blur(48px) saturate(155%) brightness(1.04);
-  -webkit-backdrop-filter: blur(48px) saturate(155%) brightness(1.04);
-  border: 1px solid hsl(var(--border) / 0.6);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border) / 0.55);
   box-shadow:
-    0 12px 40px hsl(var(--background) / 0.5),
-    0  4px 12px hsl(var(--background) / 0.25),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.18),
-    inset 0 -1px   0 hsl(0 0% 0%   / 0.10),
-    inset  1.5px 0 0 hsl(0 0% 100% / 0.10),
-    inset -1px   0 0 hsl(0 0% 0%   / 0.05);
+    0 0 0 1px hsl(0 0% 0% / 0.07),
+    0 2px 6px  hsl(0 0% 0% / 0.24),
+    0 8px 24px hsl(0 0% 0% / 0.18);
   position: relative;
   overflow: hidden;
-  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.22s ease;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
 }
 
 /* Hover lift — only on non-table cards */
 .glass:not(:has(table)):hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
+  border-color: hsl(var(--border) / 0.85);
   box-shadow:
-    0 22px 55px hsl(var(--background) / 0.65),
-    0  8px 20px hsl(var(--background) / 0.35),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.22),
-    inset 0 -1px   0 hsl(0 0% 0%   / 0.10),
-    inset  1.5px 0 0 hsl(0 0% 100% / 0.12),
-    inset -1px   0 0 hsl(0 0% 0%   / 0.05);
+    0 0 0 1px hsl(0 0% 0% / 0.09),
+    0 4px 12px hsl(0 0% 0% / 0.30),
+    0 18px 44px hsl(0 0% 0% / 0.22);
 }
 
-/* Specular glare + indigo cursor spotlight */
-.glass::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(340px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), hsl(239 84% 67% / 0.09) 0%, transparent 70%),
-    linear-gradient(148deg, hsl(0 0% 100% / 0.10) 0%, hsl(0 0% 100% / 0.03) 38%, transparent 60%);
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-}
+/* ── LIGHT MODE — white elevated cards ──────────────────────────────── */
 
-/* Subtle indigo edge tint on hover — replaces rainbow prism */
-.glass::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(ellipse at 30% 0%, hsl(239 84% 67% / 0.06) 0%, transparent 60%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.35s ease;
-  z-index: 0;
-}
-.glass:hover::after { opacity: 1; }
-
-/* ── LIGHT MODE — elevation-based cards, no glassmorphism ───────────── */
-
-/* Disable glass/blur in light mode → solid white elevated cards */
 .glass:not(.dark *) {
   background: hsl(0 0% 100%);
   border-color: hsl(220 13% 90%);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
   box-shadow:
     0 0 0 1px hsl(220 13% 89%),
     0 1px 3px hsl(222 47% 8% / 0.06),
     0 6px 18px hsl(222 47% 8% / 0.07),
     0 20px 48px hsl(222 47% 8% / 0.04);
 }
-/* Hover: stronger elevation */
 :root:not(.dark) .glass:not(:has(table)):hover {
   transform: translateY(-2px);
   box-shadow:
@@ -228,43 +192,23 @@ button:active:not(:disabled) { transform: scale(0.97); }
     0 12px 32px hsl(222 47% 8% / 0.10),
     0 28px 60px hsl(222 47% 8% / 0.06);
 }
-/* Disable specular shimmer + spotlight on white cards */
-:root:not(.dark) .glass::before { background: none !important; }
-:root:not(.dark) .glass::after  { display: none; }
 
-/* Background: subtle dot grid gives texture without orbs */
+/* Dot grid background texture */
 :root:not(.dark) body {
   background-image: radial-gradient(hsl(220 13% 86% / 0.7) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* Hide orbs — no glass blur, no point */
-:root:not(.dark) .orb-1,
-:root:not(.dark) .orb-2,
-:root:not(.dark) .orb-3 { opacity: 0 !important; animation: none; }
-
-/* Glow-border in light mode — clean indigo ring */
-:root:not(.dark) .glow-border {
-  animation: none;
-  box-shadow:
-    0 0 0 1.5px hsl(239 84% 57% / 0.20),
-    0 0 0 1px hsl(220 13% 89%),
-    0 6px 18px hsl(222 47% 8% / 0.07),
-    0 2px 6px hsl(222 47% 8% / 0.05);
-}
-:root:not(.dark) .glow-border::before { background: none; }
-:root:not(.dark) .glow-border::after  { display: none; }
-
 /* Score bar mask */
 :root:not(.dark) .score-mask { background: hsl(220 13% 90%); }
 
-/* Sidebar — slightly tinted, strong shadow separation */
+/* Sidebar */
 :root:not(.dark) aside {
   background: hsl(220 17% 97%) !important;
   border-right: 1px solid hsl(220 13% 88%) !important;
   box-shadow: 2px 0 10px hsl(222 47% 8% / 0.05) !important;
 }
-/* Sidebar active item — more vivid in light mode */
+/* Sidebar active item pill */
 :root:not(.dark) .nav-link-active {
   background: hsl(239 84% 57% / 0.08);
   border-radius: 0.5rem;
@@ -277,78 +221,28 @@ button:active:not(:disabled) { transform: scale(0.97); }
   box-shadow: 0 1px 6px hsl(222 47% 8% / 0.06) !important;
 }
 
-/* Table: subtle striping + stronger hover */
-:root:not(.dark) .glass table tbody tr:nth-child(even) {
-  background: hsl(220 17% 98.5%);
-}
-:root:not(.dark) .glass table tbody tr:hover {
-  background: hsl(239 84% 57% / 0.05) !important;
-}
-/* Light mode sticky table header */
+/* Table: subtle striping + hover */
+:root:not(.dark) .glass table tbody tr:nth-child(even) { background: hsl(220 17% 98.5%); }
+:root:not(.dark) .glass table tbody tr:hover { background: hsl(239 84% 57% / 0.05) !important; }
 :root:not(.dark) .glass table thead th {
   background: hsl(220 13% 97%) !important;
   border-bottom: 1px solid hsl(220 13% 87%) !important;
 }
 
-/* Remove number glow — not needed without dark bg */
-:root:not(.dark) .text-emerald-400.tabular-nums { text-shadow: none; }
-:root:not(.dark) .text-primary.tabular-nums { text-shadow: none; }
+/* Glow-border: clean indigo ring instead of animation */
+:root:not(.dark) .glow-border {
+  animation: none;
+  box-shadow: 0 0 0 1.5px hsl(239 84% 57% / 0.18), 0 6px 18px hsl(222 47% 8% / 0.07);
+}
+:root:not(.dark) .glow-border::before,
+:root:not(.dark) .glow-border::after { display: none; }
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   ANIMATED BACKGROUND ORBS — give glass something to blur through
+   ORBS — hidden (were only for glassmorphism; now removed)
 ════════════════════════════════════════════════════════════════════ */
 
-.bg-orbs {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-}
-
-/* Indigo — primary brand hue, top-left anchor */
-.orb-1 {
-  width: 900px; height: 900px;
-  background: radial-gradient(circle, hsl(239 84% 67%), hsl(250 80% 55%));
-  opacity: 0.11;
-  top: -350px; left: -260px;
-  animation: floatOrb 16s ease-in-out infinite;
-}
-/* Emerald — secondary brand hue, bottom-right anchor */
-.orb-2 {
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, hsl(160 84% 39%), hsl(168 70% 45%));
-  opacity: 0.08;
-  bottom: -200px; right: -180px;
-  animation: floatOrb 20s ease-in-out infinite;
-  animation-delay: -8s;
-}
-/* Indigo mid — adds centre depth, same hue family */
-.orb-3 {
-  width: 420px; height: 420px;
-  background: radial-gradient(circle, hsl(245 75% 62%), hsl(235 80% 55%));
-  opacity: 0.05;
-  top: 40%; right: 22%;
-  animation: floatOrb 24s ease-in-out infinite;
-  animation-delay: -14s;
-}
-/* Invisible placeholders — kept so App.tsx JSX requires no change */
-.orb-4 { display: none; }
-.orb-5 { display: none; }
-
-@keyframes floatOrb {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25%       { transform: translate(30px, -24px) scale(1.04); }
-  50%       { transform: translate(-18px, 18px) scale(0.96); }
-  75%       { transform: translate(12px, 8px) scale(1.02); }
-}
+.bg-orbs, .orb, .orb-1, .orb-2, .orb-3, .orb-4, .orb-5 { display: none; }
 
 
 /* ═══════════════════════════════════════════════════════════════════
