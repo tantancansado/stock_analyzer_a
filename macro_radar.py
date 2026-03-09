@@ -643,6 +643,285 @@ Responde en español, tono profesional, máximo 120 palabras."""
         return None
 
 
+# ── Historical episode fingerprints ───────────────────────────────────────────
+# Each episode is defined by approximate percentile values of key signals at peak stress.
+# Used to compute pattern similarity with the current macro environment.
+_HISTORICAL_EPISODES = [
+    {
+        'id': 'ukraine_war_2022',
+        'name': 'Guerra Ucrania',
+        'date': 'Feb 2022',
+        'duration_days': 20,
+        'fingerprint': {
+            'vix': 70, 'copper_gold': 55, 'gold_spy': 90,
+            'oil': 99, 'defense': 99, 'credit': 45,
+            'regional_banks': 50, 'small_cap': 40, 'real_yields': 70,
+        },
+        'outcome': {
+            'spy_30d': -8, 'spy_90d': -15, 'spy_180d': -20,
+            'description': 'Inicio del mercado bajista 2022. SPY -20% en 6 meses.',
+        },
+        'key_difference': 'Geopolítica + inflación estructural. No fue shock temporal — dio paso al ciclo bajista completo.',
+    },
+    {
+        'id': 'bear_market_2022',
+        'name': 'Mercado Bajista 2022',
+        'date': 'Ene-Dic 2022',
+        'duration_days': 280,
+        'fingerprint': {
+            'vix': 65, 'copper_gold': 30, 'gold_spy': 60,
+            'oil': 85, 'defense': 80, 'credit': 25,
+            'regional_banks': 40, 'small_cap': 30, 'real_yields': 15,
+        },
+        'outcome': {
+            'spy_30d': -8, 'spy_90d': -18, 'spy_180d': -22,
+            'description': 'SPY -22% en el año. NASDAQ -33%. Peor año desde 2008.',
+        },
+        'key_difference': 'Impulsado por yields reales al alza. Las growth stocks sufrieron más.',
+    },
+    {
+        'id': 'svb_crisis_2023',
+        'name': 'Crisis SVB',
+        'date': 'Mar 2023',
+        'duration_days': 14,
+        'fingerprint': {
+            'vix': 75, 'copper_gold': 40, 'gold_spy': 75,
+            'oil': 40, 'defense': 45, 'credit': 20,
+            'regional_banks': 5, 'small_cap': 35, 'real_yields': 50,
+        },
+        'outcome': {
+            'spy_30d': 5, 'spy_90d': 12, 'spy_180d': 20,
+            'description': 'Susto contenido. FED intervino. SPY +12% en 3 meses.',
+        },
+        'key_difference': 'Riesgo sistémico pero localizado. Bancos regionales fue la señal clave (KRE -40%).',
+    },
+    {
+        'id': 'covid_crash_2020',
+        'name': 'COVID Crash',
+        'date': 'Feb-Mar 2020',
+        'duration_days': 33,
+        'fingerprint': {
+            'vix': 98, 'copper_gold': 20, 'gold_spy': 85,
+            'oil': 5, 'defense': 50, 'credit': 5,
+            'regional_banks': 10, 'small_cap': 15, 'real_yields': 30,
+        },
+        'outcome': {
+            'spy_30d': -34, 'spy_90d': 22, 'spy_180d': 38,
+            'description': 'SPY -34% en 33 días. Rebote en V completo en 5 meses.',
+        },
+        'key_difference': 'Shock exógeno puro. Sin precedentes. La velocidad del rebote también fue única.',
+    },
+    {
+        'id': 'gfc_2008',
+        'name': 'Crisis Financiera Global',
+        'date': 'Sep-Nov 2008',
+        'duration_days': 150,
+        'fingerprint': {
+            'vix': 100, 'copper_gold': 5, 'gold_spy': 70,
+            'oil': 15, 'defense': 60, 'credit': 2,
+            'regional_banks': 5, 'small_cap': 10, 'real_yields': 20,
+        },
+        'outcome': {
+            'spy_30d': -30, 'spy_90d': -40, 'spy_180d': -45,
+            'description': 'SPY -55% desde máximos. Recuperación tardó 5 años.',
+        },
+        'key_difference': 'Colapso crediticio sistémico. Crédito HY y bancos regionales en colapso total.',
+    },
+    {
+        'id': 'china_slowdown_2015',
+        'name': 'Desaceleración China',
+        'date': 'Ago 2015',
+        'duration_days': 45,
+        'fingerprint': {
+            'vix': 80, 'copper_gold': 12, 'gold_spy': 55,
+            'oil': 10, 'defense': 50, 'credit': 35,
+            'regional_banks': 45, 'small_cap': 30, 'real_yields': 45,
+        },
+        'outcome': {
+            'spy_30d': -11, 'spy_90d': -5, 'spy_180d': 8,
+            'description': 'Corrección -14%. Recuperación completa en 6 meses.',
+        },
+        'key_difference': 'Cobre/Oro muy bajo = preocupación recesión global. Corrección sin crisis bancaria.',
+    },
+]
+
+_MATCH_KEYS = ['vix', 'copper_gold', 'gold_spy', 'oil', 'defense', 'credit', 'regional_banks', 'small_cap', 'real_yields']
+
+
+def _compute_historical_analogs(signals: dict) -> list:
+    """Compare current signal percentiles to historical episodes via mean absolute deviation."""
+    # Build current percentile vector
+    current_vec: dict[str, float] = {}
+    for k in _MATCH_KEYS:
+        sig = signals.get(k, {})
+        pct = sig.get('percentile')
+        if pct is None:
+            pct = 50.0
+        current_vec[k] = float(pct)
+
+    results = []
+    for ep in _HISTORICAL_EPISODES:
+        fp = ep['fingerprint']
+        diffs = [abs(current_vec.get(k, 50) - fp.get(k, 50)) for k in _MATCH_KEYS]
+        mad = sum(diffs) / len(diffs)
+        similarity = max(0.0, 100.0 - mad)
+
+        # Top 3 matching/diverging signals for context
+        signal_deltas = sorted(
+            [(k, abs(current_vec.get(k, 50) - fp.get(k, 50))) for k in _MATCH_KEYS],
+            key=lambda x: x[1],
+        )
+        closest = [k for k, _ in signal_deltas[:3]]    # signals most similar
+        diverging = [k for k, _ in signal_deltas[-2:]]  # signals most different
+
+        results.append({
+            'id': ep['id'],
+            'name': ep['name'],
+            'date': ep['date'],
+            'duration_days': ep['duration_days'],
+            'similarity': round(similarity, 1),
+            'outcome': ep['outcome'],
+            'key_difference': ep['key_difference'],
+            'closest_signals': closest,
+            'diverging_signals': diverging,
+        })
+
+    results.sort(key=lambda x: x['similarity'], reverse=True)
+    return results[:3]
+
+
+def _identify_systemic_risks(signals: dict) -> list:
+    """Rules engine: map current signal state to named systemic risks."""
+    risks = []
+
+    def pct(key: str) -> float:
+        return float(signals.get(key, {}).get('percentile') or 50)
+
+    def chg20(key: str) -> float:
+        return float(signals.get(key, {}).get('change_20d') or 0)
+
+    def chg5(key: str) -> float:
+        return float(signals.get(key, {}).get('change_5d') or 0)
+
+    def val(key: str, field: str = 'current') -> float:
+        return float(signals.get(key, {}).get(field) or 0)
+
+    # Geopolitical escalation
+    if pct('defense') > 85 and chg20('oil') > 15:
+        risks.append({
+            'id': 'geopolitical',
+            'name': 'Escalada Geopolítica',
+            'severity': 'HIGH',
+            'color': '#ef4444',
+            'description': f"Defensa (ITA) en p{pct('defense'):.0f} + petróleo +{chg20('oil'):.0f}% (20d). Institucionales rotando a sectores de guerra.",
+            'implication': 'Reducir cíclicos. Energía y defensa como cobertura parcial.',
+        })
+
+    # Recession signal from Dr. Copper
+    if pct('copper_gold') < 15:
+        risks.append({
+            'id': 'recession_signal',
+            'name': 'Señal de Recesión (Dr. Copper)',
+            'severity': 'HIGH',
+            'color': '#f97316',
+            'description': f"Cobre/Oro en p{pct('copper_gold'):.0f} — el mercado descuenta contracción económica global.",
+            'implication': 'Sobreponderar defensivos: consumer staples, healthcare, utilities.',
+        })
+
+    # Volatility regime change
+    if pct('vvix') > 85 and val('skew', 'current') > 130:
+        risks.append({
+            'id': 'vol_regime',
+            'name': 'Cambio de Régimen de Volatilidad',
+            'severity': 'HIGH',
+            'color': '#f97316',
+            'description': f"VVIX p{pct('vvix'):.0f} + SKEW {val('skew','current'):.0f} — institucionales comprando seguro tail risk masivamente.",
+            'implication': 'Reducir apalancamiento. Puts como cobertura eficiente vs caro en vol alta.',
+        })
+
+    # Safe haven rotation
+    if pct('gold_spy') > 85:
+        risks.append({
+            'id': 'safe_haven_rotation',
+            'name': 'Rotación a Activos Refugio',
+            'severity': 'MEDIUM',
+            'color': '#f59e0b',
+            'description': f"Oro supera al mercado en p{pct('gold_spy'):.0f} — capital saliendo de renta variable hacia activos seguros.",
+            'implication': 'El smart money está reduciendo riesgo. Señal de cautela para nuevas entradas.',
+        })
+
+    # Banking system stress
+    if pct('regional_banks') < 20 and chg20('regional_banks') < -8:
+        risks.append({
+            'id': 'banking_stress',
+            'name': 'Estrés Sistema Bancario',
+            'severity': 'HIGH',
+            'color': '#ef4444',
+            'description': f"KRE/SPY en p{pct('regional_banks'):.0f}, -{abs(chg20('regional_banks')):.1f}% (20d). Patrón precursor de SVB 2023.",
+            'implication': 'Vigilar spreads de crédito. Evitar financieras regionales.',
+        })
+
+    # Yield curve inversion
+    yc_spread = val('yield_curve', 'current')
+    if yc_spread < 0:
+        risks.append({
+            'id': 'yield_inversion',
+            'name': 'Inversión Curva de Tipos',
+            'severity': 'HIGH',
+            'color': '#f97316',
+            'description': f"2s10s en {yc_spread:.0f}bps — señal con 87.5% precisión histórica. Recesión típicamente en 12-18 meses.",
+            'implication': 'Escalar hacia defensivos gradualmente. No actuar de golpe — el lag puede ser largo.',
+        })
+
+    # Dollar squeeze
+    if pct('dollar') > 88 and chg5('dollar') > 1.5:
+        risks.append({
+            'id': 'dollar_squeeze',
+            'name': 'Dollar Squeeze',
+            'severity': 'HIGH',
+            'color': '#ef4444',
+            'description': f"DXY en p{pct('dollar'):.0f} subiendo rápido (+{chg5('dollar'):.1f}% 5d) — estrés en emergentes y carry trades.",
+            'implication': 'Salir de posiciones en mercados emergentes. Riesgo de crisis EM.',
+        })
+
+    # VIX spike
+    vix_val = val('vix', 'current')
+    if vix_val > 30 and chg5('vix') > 25:
+        severity = 'CRITICAL' if vix_val > 40 else 'HIGH'
+        color = '#ef4444'
+        risks.append({
+            'id': 'vix_spike',
+            'name': 'Spike de Volatilidad' + (' Extremo' if vix_val > 40 else ''),
+            'severity': severity,
+            'color': color,
+            'description': f"VIX {vix_val:.0f} (+{chg5('vix'):.0f}% en 5d) — máximo miedo de corto plazo.",
+            'implication': 'Momento de máximo miedo = posible punto de entrada value si los fundamentales no han cambiado.',
+        })
+
+    # Credit stress
+    if pct('credit') < 20:
+        risks.append({
+            'id': 'credit_stress',
+            'name': 'Estrés de Crédito HY',
+            'severity': 'HIGH',
+            'color': '#ef4444',
+            'description': f"HYG/LQD en p{pct('credit'):.0f} — spreads de alto rendimiento ampliándose. Señal precursora de recesión.",
+            'implication': 'Evitar high yield. Crédito investment grade o cash.',
+        })
+
+    if not risks:
+        risks.append({
+            'id': 'none',
+            'name': 'Sin riesgos sistémicos activos',
+            'severity': 'LOW',
+            'color': '#10b981',
+            'description': 'Condiciones de mercado dentro de parámetros normales en todos los indicadores sistémicos.',
+            'implication': 'Condiciones favorables para mantener exposición normal al mercado.',
+        })
+
+    return risks
+
+
 def run_macro_radar() -> dict:
     """Main function: fetch all signals, score, and output JSON."""
     print("=== MACRO RADAR — Early Warning System ===")
@@ -832,6 +1111,17 @@ def run_macro_radar() -> dict:
             'description': sig_def.get('description', ''),
         }
 
+    # ── Historical analogs + systemic risks ───────────────────────────────
+    print("Computing historical analogs...")
+    historical_analogs = _compute_historical_analogs(enriched)
+    for a in historical_analogs[:2]:
+        print(f"  Analog: {a['name']} ({a['similarity']:.0f}% similar)")
+
+    print("Identifying systemic risks...")
+    systemic_risks = _identify_systemic_risks(enriched)
+    for r in systemic_risks:
+        print(f"  Risk: {r['name']} [{r['severity']}]")
+
     # ── Build output ──────────────────────────────────────────────────────
     output = {
         'timestamp': datetime.now().isoformat(),
@@ -843,6 +1133,8 @@ def run_macro_radar() -> dict:
         'signals': enriched,
         'errors': errors,
         'ai_narrative': ai_narrative,
+        'historical_analogs': historical_analogs,
+        'systemic_risks': systemic_risks,
         'signal_order': [
             'vix', 'yield_curve', 'credit', 'copper_gold', 'gold_spy',
             'oil', 'defense', 'dollar', 'yen', 'breadth',

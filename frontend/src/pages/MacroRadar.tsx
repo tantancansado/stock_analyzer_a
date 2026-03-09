@@ -16,6 +16,27 @@ interface SignalData {
   interpretation: string
 }
 
+interface HistoricalAnalog {
+  id: string
+  name: string
+  date: string
+  duration_days: number
+  similarity: number
+  outcome: { spy_30d: number; spy_90d: number; spy_180d: number; description: string }
+  key_difference: string
+  closest_signals: string[]
+  diverging_signals: string[]
+}
+
+interface SystemicRisk {
+  id: string
+  name: string
+  severity: 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW'
+  color: string
+  description: string
+  implication: string
+}
+
 interface MacroData {
   timestamp: string
   date: string
@@ -27,6 +48,8 @@ interface MacroData {
   signal_order: string[]
   ai_narrative?: string | null
   errors?: string[]
+  historical_analogs?: HistoricalAnalog[]
+  systemic_risks?: SystemicRisk[]
 }
 
 const SIGNAL_ICONS: Record<string, string> = {
@@ -248,6 +271,146 @@ function HistoryChart({ points, maxScore }: { points: HistoryPoint[]; maxScore: 
   )
 }
 
+const SEVERITY_CONFIG: Record<string, { bg: string; text: string; label: string }> = {
+  CRITICAL: { bg: 'bg-red-500/15 border-red-500/30',    text: 'text-red-400',    label: 'CRÍTICO' },
+  HIGH:     { bg: 'bg-orange-500/15 border-orange-500/30', text: 'text-orange-400', label: 'ALTO' },
+  MEDIUM:   { bg: 'bg-yellow-500/15 border-yellow-500/30', text: 'text-yellow-400', label: 'MEDIO' },
+  LOW:      { bg: 'bg-emerald-500/15 border-emerald-500/30', text: 'text-emerald-400', label: 'BAJO' },
+}
+
+function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
+  const hasRealRisks = risks.some(r => r.id !== 'none')
+  return (
+    <Card className="glass border border-border/50">
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="text-base">⚠️</span>
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            Riesgos Sistémicos Activos
+          </p>
+          {hasRealRisks && (
+            <span className="ml-auto text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">
+              {risks.filter(r => r.id !== 'none').length} detectados
+            </span>
+          )}
+        </div>
+        <div className="space-y-3">
+          {risks.map(risk => {
+            const cfg = SEVERITY_CONFIG[risk.severity] ?? SEVERITY_CONFIG.MEDIUM
+            return (
+              <div key={risk.id} className={`rounded-lg border p-3 ${cfg.bg}`}>
+                <div className="flex items-start justify-between gap-2 mb-1.5">
+                  <span className={`text-sm font-bold ${cfg.text}`}>{risk.name}</span>
+                  <span className={`text-[0.58rem] font-bold px-1.5 py-0.5 rounded border ${cfg.bg} ${cfg.text} shrink-0`}>
+                    {cfg.label}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground leading-snug mb-2">{risk.description}</p>
+                <div className="flex items-start gap-1.5">
+                  <span className="text-[0.65rem] text-muted-foreground/50 shrink-0 mt-px">→</span>
+                  <p className="text-[0.7rem] text-foreground/70 leading-snug italic">{risk.implication}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function ReturnBadge({ value }: { value: number }) {
+  const color = value > 0 ? 'text-emerald-400' : value < -15 ? 'text-red-400' : 'text-orange-400'
+  return (
+    <span className={`text-xs font-bold ${color}`}>
+      {value > 0 ? '+' : ''}{value}%
+    </span>
+  )
+}
+
+function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
+  return (
+    <Card className="glass border border-border/50">
+      <CardContent className="p-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-base">🕰️</span>
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            Analogías Históricas
+          </p>
+        </div>
+        <p className="text-[0.65rem] text-muted-foreground/60 mb-4">
+          Episodios cuyo patrón de señales macro más se parece al entorno actual
+        </p>
+        <div className="space-y-4">
+          {analogs.map((analog, idx) => (
+            <div key={analog.id} className="border border-border/30 rounded-lg p-3 bg-muted/5">
+              {/* Header */}
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[0.6rem] text-muted-foreground/50 font-bold">#{idx + 1}</span>
+                    <span className="text-sm font-bold text-foreground">{analog.name}</span>
+                    <span className="text-[0.65rem] text-muted-foreground/60">{analog.date}</span>
+                  </div>
+                </div>
+                {/* Similarity meter */}
+                <div className="text-right shrink-0">
+                  <div
+                    className="text-xs font-bold"
+                    style={{ color: analog.similarity > 75 ? '#f97316' : analog.similarity > 60 ? '#f59e0b' : '#94a3b8' }}
+                  >
+                    {analog.similarity.toFixed(0)}%
+                  </div>
+                  <div className="text-[0.55rem] text-muted-foreground/50">similitud</div>
+                </div>
+              </div>
+
+              {/* Similarity bar */}
+              <div className="h-1 w-full rounded-full bg-muted/30 mb-3 overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all duration-700"
+                  style={{
+                    width: `${analog.similarity}%`,
+                    backgroundColor: analog.similarity > 75 ? '#f97316' : analog.similarity > 60 ? '#f59e0b' : '#94a3b8',
+                  }}
+                />
+              </div>
+
+              {/* Outcome returns */}
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                {[
+                  { label: 'SPY 30d', value: analog.outcome.spy_30d },
+                  { label: 'SPY 90d', value: analog.outcome.spy_90d },
+                  { label: 'SPY 180d', value: analog.outcome.spy_180d },
+                ].map(o => (
+                  <div key={o.label} className="text-center p-1.5 rounded bg-muted/10 border border-border/20">
+                    <ReturnBadge value={o.value} />
+                    <div className="text-[0.55rem] text-muted-foreground/50 mt-0.5">{o.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Description */}
+              <p className="text-[0.68rem] text-muted-foreground/80 leading-snug mb-1.5">
+                {analog.outcome.description}
+              </p>
+
+              {/* Key difference */}
+              <div className="flex items-start gap-1.5">
+                <span className="text-[0.65rem] text-blue-400/60 shrink-0 mt-px font-bold">≠</span>
+                <p className="text-[0.65rem] text-muted-foreground/60 leading-snug italic">{analog.key_difference}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-[0.6rem] text-muted-foreground/40 mt-3">
+          * Similitud calculada sobre 9 señales clave. Los retornos son históricos, no predicciones.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
 export default function MacroRadar() {
   const { data, loading, error } = useApi<MacroData>(() => fetchMacroRadar(), [])
   const { data: historyData } = useApi(() => fetchMacroRadarHistory(), [])
@@ -257,7 +420,7 @@ export default function MacroRadar() {
   if (error) return <ErrorState message={error} />
   if (!data || !data.regime) return <ErrorState message="Sin datos de radar macro" />
 
-  const { regime, composite_score, max_score, signals, signal_order, ai_narrative, date, errors } = data
+  const { regime, composite_score, max_score, signals, signal_order, ai_narrative, date, errors, historical_analogs, systemic_risks } = data
 
   const orderedSignals = (signal_order || Object.keys(signals)).filter(k => signals[k])
 
@@ -329,6 +492,16 @@ export default function MacroRadar() {
           />
         </CardContent>
       </Card>
+
+      {/* Systemic risks */}
+      {systemic_risks && systemic_risks.length > 0 && (
+        <SystemicRisksPanel risks={systemic_risks} />
+      )}
+
+      {/* Historical analogs */}
+      {historical_analogs && historical_analogs.length > 0 && (
+        <HistoricalAnalogsPanel analogs={historical_analogs} />
+      )}
 
       {/* Upcoming macro events */}
       {econData && econData.events.length > 0 && (
