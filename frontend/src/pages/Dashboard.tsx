@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom'
 import {
   fetchMarketRegime, fetchValueOpportunities, fetchEUValueOpportunities,
   fetchPortfolioTracker, fetchRecurringInsiders, fetchOptionsFlow, fetchMeanReversion,
-  fetchMacroRadar,
+  fetchMacroRadar, fetchDailyBriefing,
   type ValueOpportunity, type InsiderData, type PortfolioSummary,
 } from '../api/client'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import { useApi } from '../hooks/useApi'
 import { useCountUp } from '../hooks/useCountUp'
 import { Card, CardContent } from '@/components/ui/card'
@@ -457,6 +458,7 @@ export default function Dashboard() {
   const { data: optionsRaw, loading: loadingOptions } = useApi(() => fetchOptionsFlow(), [])
   const { data: mrRaw, loading: loadingMR } = useApi(() => fetchMeanReversion(), [])
   const { data: macroRaw, loading: loadingMacro } = useApi(() => fetchMacroRadar(), [])
+  const { data: briefingRaw } = useApi(() => fetchDailyBriefing(), [])
 
   const pf = (portfolio as PortfolioSummary) ?? {}
   const overall = pf.overall as Record<string, { count: number; win_rate: number; avg_return: number }> | undefined
@@ -515,6 +517,16 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Daily AI Briefing */}
+      {briefingRaw?.narrative && (
+        <div className="mb-5 animate-fade-in-up">
+          <AiNarrativeCard
+            narrative={briefingRaw.narrative}
+            label={`Briefing del día · ${briefingRaw.date ?? ''} · Régimen ${briefingRaw.macro_regime ?? ''}`}
+          />
         </div>
       )}
 

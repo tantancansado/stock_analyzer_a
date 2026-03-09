@@ -248,6 +248,15 @@ export const fetchMacroRadar = () =>
 export const fetchMacroRadarHistory = () =>
   api.get<{ history: Array<{ date: string; composite_score: number; composite_pct: number; regime: string; regime_color: string }> }>('/api/macro-radar/history')
 
+export const fetchDailyBriefing = () =>
+  api.get<{ narrative: string | null; date: string | null; macro_regime?: string; picks_count?: number; top_picks?: unknown[] }>('/api/daily-briefing')
+
+export const fetchInsidersInsight = () =>
+  api.get<{ narrative: string | null; date: string | null; total_tickers?: number }>('/api/insiders-insight')
+
+export const fetchIndustryGroupsInsight = () =>
+  api.get<{ narrative: string | null; date: string | null; macro_regime?: string; top_sectors?: unknown[]; bottom_sectors?: unknown[] }>('/api/industry-groups-insight')
+
 export interface EarningsEntry {
   ticker: string
   company: string

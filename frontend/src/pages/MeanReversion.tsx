@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { fetchMeanReversion } from '../api/client'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
@@ -86,6 +87,10 @@ export default function MeanReversion() {
         </div>
         <CsvDownload dataset="mean-reversion" label="CSV" className="mt-1 shrink-0" />
       </div>
+
+      {(raw?.ai_narrative as string | null | undefined) && (
+        <AiNarrativeCard narrative={raw.ai_narrative as string} label="Análisis del Batch Actual" className="mb-5" />
+      )}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {[

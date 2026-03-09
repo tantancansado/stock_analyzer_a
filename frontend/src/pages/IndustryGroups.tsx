@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import api from '../api/client'
+import api, { fetchIndustryGroupsInsight } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
@@ -58,6 +59,7 @@ export default function IndustryGroups() {
     () => api.get<ApiResponse>('/api/industry-groups'),
     []
   )
+  const { data: insightRaw } = useApi(() => fetchIndustryGroupsInsight(), [])
   const [sortKey, setSortKey] = useState<SortKey>('rank')
   const [sortDir, setSortDir] = useState<SortDir>('asc')
   const [filterSector, setFilterSector] = useState('ALL')
@@ -111,6 +113,10 @@ export default function IndustryGroups() {
           Grupos industriales rankeados por Relative Strength, fundamentales y % en nuevos máximos
         </p>
       </div>
+
+      {insightRaw?.narrative && (
+        <AiNarrativeCard narrative={insightRaw.narrative} label="Rotación Sectorial" className="mb-5" />
+      )}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Card className="glass p-5 stagger-1">

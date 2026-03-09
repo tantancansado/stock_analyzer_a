@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { fetchRecurringInsiders, downloadCsv, type InsiderData } from '../api/client'
+import { fetchRecurringInsiders, fetchInsidersInsight, downloadCsv, type InsiderData } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -28,6 +29,7 @@ function fmtQty(v?: number) {
 
 export default function Insiders() {
   const { data, loading, error } = useApi(() => fetchRecurringInsiders(), [])
+  const { data: insightRaw } = useApi(() => fetchInsidersInsight(), [])
   const [sortKey, setSortKey] = useState<SortKey>('confidence_score')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
   const [filterMarket, setFilterMarket] = useState<'ALL' | 'US' | 'EU'>('ALL')
@@ -81,6 +83,10 @@ export default function Insiders() {
         <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Recurring Insiders</h2>
         <p className="text-sm text-muted-foreground">Insiders comprando repetidamente sus propias acciones — señal de convicción directiva</p>
       </div>
+
+      {insightRaw?.narrative && (
+        <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Patrones Insider" className="mb-5" />
+      )}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {[

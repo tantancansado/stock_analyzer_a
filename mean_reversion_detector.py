@@ -318,6 +318,40 @@ class MeanReversionDetector:
                     json_safe[k] = v
             json_safe_results.append(json_safe)
 
+        # ── AI narrative ──────────────────────────────────────────────────
+        ai_narrative = None
+        try:
+            import os
+            from groq import Groq as _Groq
+            _key = os.environ.get('GROQ_API_KEY', '')
+            if _key and self.results:
+                _client = _Groq(api_key=_key)
+                _top = self.results[:5]
+                _top_text = '\n'.join([
+                    f"- {r['ticker']} ({r['strategy']}) score={r.get('reversion_score', 0):.0f}"
+                    f" RSI={r.get('rsi', '?')} drawdown={r.get('drawdown_pct', 0):.0f}%"
+                    f" R:R={r.get('risk_reward', 0):.1f}"
+                    for r in _top
+                ])
+                _prompt = f"""Eres un analista de mean reversion y value. Analiza este batch de {len(self.results)} setups de reversión a la media y genera un insight en español (3-4 frases, máx 110 palabras).
+
+Distribución: {len([r for r in self.results if r['strategy']=='Oversold Bounce'])} oversold bounce, {len([r for r in self.results if r['strategy']=='Bull Flag Pullback'])} bull flag pullback
+Top 5 setups:
+{_top_text}
+
+Analiza: 1) Calidad general del batch actual, 2) Si hay concentración sectorial, 3) Cómo filtrar los mejores en este entorno.
+Tono: técnico, directo. Sin emojis."""
+                _resp = _client.chat.completions.create(
+                    model='llama-3.3-70b-versatile',
+                    messages=[{'role': 'user', 'content': _prompt}],
+                    max_tokens=180,
+                    temperature=0.25,
+                )
+                ai_narrative = _resp.choices[0].message.content.strip()
+                print(f"  MR AI: {ai_narrative[:80]}...")
+        except Exception as _e:
+            print(f"  MR Groq skipped: {_e}")
+
         results_dict = {
             'scan_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'total_opportunities': len(self.results),
@@ -325,6 +359,7 @@ class MeanReversionDetector:
                 'oversold_bounce': len([r for r in self.results if r['strategy'] == 'Oversold Bounce']),
                 'bull_flag_pullback': len([r for r in self.results if r['strategy'] == 'Bull Flag Pullback'])
             },
+            'ai_narrative': ai_narrative,
             'opportunities': json_safe_results
         }
 

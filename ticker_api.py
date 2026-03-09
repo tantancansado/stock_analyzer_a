@@ -1534,6 +1534,30 @@ def factor_status():
     return jsonify(result)
 
 
+@app.route('/api/daily-briefing')
+def daily_briefing():
+    data = _load_json(DOCS / 'daily_briefing.json')
+    if not data:
+        return jsonify({'narrative': None, 'date': None}), 200
+    return jsonify(data)
+
+
+@app.route('/api/insiders-insight')
+def insiders_insight():
+    data = _load_json(DOCS / 'recurring_insiders_insight.json')
+    if not data:
+        return jsonify({'narrative': None, 'date': None}), 200
+    return jsonify(data)
+
+
+@app.route('/api/industry-groups-insight')
+def industry_groups_insight():
+    data = _load_json(DOCS / 'industry_groups_insight.json')
+    if not data:
+        return jsonify({'narrative': None, 'date': None}), 200
+    return jsonify(data)
+
+
 @app.route('/api/macro-radar')
 def macro_radar():
     data = _load_json(DOCS / 'macro_radar.json')
