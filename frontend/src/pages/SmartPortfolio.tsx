@@ -2,6 +2,7 @@ import { fetchSmartPortfolio } from '../api/client'
 import type { SmartPortfolioPick } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
+import TickerLogo from '../components/TickerLogo'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Sparkles, ShieldAlert, TrendingUp, Wallet, AlertCircle, CheckCircle2 } from 'lucide-react'
@@ -47,6 +48,7 @@ function PickRow({ pick, rank }: { pick: SmartPortfolioPick; rank: number }) {
       {/* Rank + Ticker */}
       <div className="flex items-center gap-2 min-w-[100px]">
         <span className="text-[0.6rem] text-muted-foreground/50 font-bold w-4">#{rank}</span>
+        <TickerLogo ticker={pick.ticker} size="xs" />
         <div>
           <div className="font-mono font-bold text-sm text-primary leading-tight">{pick.ticker}</div>
           <div className="text-[0.6rem] text-muted-foreground/60 truncate max-w-[80px]">{pick.sector}</div>

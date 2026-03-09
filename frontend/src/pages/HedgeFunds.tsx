@@ -4,6 +4,7 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Building2, TrendingUp, DollarSign, Users2, Info } from 'lucide-react'
+import TickerLogo from '../components/TickerLogo'
 
 const FUND_COLORS: Record<string, string> = {
   'Berkshire Hathaway (Buffett)': '#f59e0b',
@@ -45,6 +46,7 @@ function HoldingRow({ row, rank }: { row: HedgeFundConsensusItem; rank: number }
       {/* Rank + Ticker */}
       <div className="flex items-center gap-2 min-w-[130px]">
         <span className="text-[0.6rem] text-muted-foreground/40 font-bold w-4 tabular-nums">#{rank}</span>
+        <TickerLogo ticker={row.ticker || ''} size="xs" />
         <div>
           <div className="font-mono font-bold text-sm text-primary leading-tight">{row.ticker || '—'}</div>
           <div className="text-[0.65rem] text-muted-foreground truncate max-w-[160px]">{row.company_name}</div>

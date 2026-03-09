@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { fetchOptionsFlow, fetchOptionsFlowInsight, downloadCsv } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
+import TickerLogo from '../components/TickerLogo'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import { Badge } from '@/components/ui/badge'
@@ -119,7 +120,12 @@ export default function OptionsFlow() {
           <TableBody>
             {sorted.slice(0, 30).map(d => (
               <TableRow key={d.ticker}>
-                <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-1.5">
+                    <TickerLogo ticker={d.ticker} size="xs" />
+                    <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</span>
+                  </div>
+                </TableCell>
                 <TableCell><Badge variant={sentVariant(d.sentiment)}>{d.sentiment_emoji || ''} {d.sentiment}</Badge></TableCell>
                 <TableCell><ScoreBar score={d.flow_score} /></TableCell>
                 <TableCell className="text-muted-foreground">{d.quality || '—'}</TableCell>

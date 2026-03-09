@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { fetchRecurringInsiders, fetchInsidersInsight, downloadCsv, type InsiderData } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
+import TickerLogo from '../components/TickerLogo'
 import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -157,10 +158,15 @@ export default function Insiders() {
                     onClick={() => setExpanded(expanded === d.ticker ? null : d.ticker)}
                   >
                     <TableCell>
-                      <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
-                      {company !== d.ticker && (
-                        <div className="text-[0.65rem] text-muted-foreground truncate max-w-[180px]">{company}</div>
-                      )}
+                      <div className="flex items-center gap-1.5">
+                        <TickerLogo ticker={d.ticker} size="xs" />
+                        <div>
+                          <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
+                          {company !== d.ticker && (
+                            <div className="text-[0.65rem] text-muted-foreground truncate max-w-[180px]">{company}</div>
+                          )}
+                        </div>
+                      </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell"><Badge variant={marketVariant(d.market)}>{d.market ?? 'US'}</Badge></TableCell>
                     <TableCell className="font-bold tabular-nums">{d.purchase_count}</TableCell>

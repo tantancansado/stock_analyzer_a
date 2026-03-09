@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { AlertTriangle, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react'
+import TickerLogo from '../components/TickerLogo'
 
 type Tab = 'traps' | 'safe'
 
@@ -35,9 +36,12 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
       <CardContent className="p-4">
         <div className="flex items-start gap-3 flex-wrap">
           {/* Ticker */}
-          <div className="min-w-[72px]">
-            <div className="font-mono font-bold text-sm text-primary">{entry.ticker}</div>
-            <div className="text-[0.62rem] text-muted-foreground truncate max-w-[80px]">{entry.sector}</div>
+          <div className="flex items-center gap-1.5 min-w-[72px]">
+            <TickerLogo ticker={entry.ticker} size="xs" />
+            <div>
+              <div className="font-mono font-bold text-sm text-primary">{entry.ticker}</div>
+              <div className="text-[0.62rem] text-muted-foreground truncate max-w-[80px]">{entry.sector}</div>
+            </div>
           </div>
 
           {/* Company */}

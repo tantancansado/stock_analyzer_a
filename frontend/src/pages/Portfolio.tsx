@@ -2,6 +2,7 @@ import { useState } from 'react'
 import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsight, type PortfolioSummary, type CorrelationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
+import TickerLogo from '../components/TickerLogo'
 import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -230,7 +231,10 @@ export default function Portfolio() {
                 {(pf.top_performers as Performer[]).map((p, i) => (
                   <TableRow key={`top_${typeof p.ticker === 'string' ? p.ticker : ''}_${i}`}>
                     <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
-                      <div>{typeof p.ticker === 'string' ? p.ticker : ''}</div>
+                      <div className="flex items-center gap-1.5">
+                        <TickerLogo ticker={typeof p.ticker === 'string' ? p.ticker : ''} size="xs" />
+                        <span>{typeof p.ticker === 'string' ? p.ticker : ''}</span>
+                      </div>
                       <Badge variant={stratVariant(p.strategy)} className="text-[0.55rem] px-1 py-0 mt-0.5">
                         {stratLabel(p.strategy)}
                       </Badge>
@@ -264,7 +268,10 @@ export default function Portfolio() {
                 {(pf.worst_performers as Performer[]).map((p, i) => (
                   <TableRow key={`worst_${typeof p.ticker === 'string' ? p.ticker : ''}_${i}`}>
                     <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
-                      <div>{typeof p.ticker === 'string' ? p.ticker : ''}</div>
+                      <div className="flex items-center gap-1.5">
+                        <TickerLogo ticker={typeof p.ticker === 'string' ? p.ticker : ''} size="xs" />
+                        <span>{typeof p.ticker === 'string' ? p.ticker : ''}</span>
+                      </div>
                       <Badge variant={stratVariant(p.strategy)} className="text-[0.55rem] px-1 py-0 mt-0.5">
                         {stratLabel(p.strategy)}
                       </Badge>
@@ -306,7 +313,10 @@ export default function Portfolio() {
               {recentSignals.map((s, i) => (
                 <TableRow key={`sig_${String(s.ticker)}_${i}`}>
                   <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
-                    {String(s.ticker ?? '')}
+                    <div className="flex items-center gap-1.5">
+                      <TickerLogo ticker={String(s.ticker || '')} size="xs" />
+                      <span>{String(s.ticker || '')}</span>
+                    </div>
                   </TableCell>
                   <TableCell className="text-[0.75rem] text-muted-foreground max-w-[120px] truncate">
                     {String(s.company_name ?? s.ticker ?? '')}
@@ -401,7 +411,12 @@ export default function Portfolio() {
                 <TableBody>
                   {sigSorted.map((s, i) => (
                     <TableRow key={`${s.ticker}_${i}`}>
-                      <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{s.ticker}</TableCell>
+                      <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                        <div className="flex items-center gap-1.5">
+                          <TickerLogo ticker={s.ticker} size="xs" />
+                          <span>{s.ticker}</span>
+                        </div>
+                      </TableCell>
                       <TableCell>
                         <Badge variant={stratVariant(s.strategy)} className="text-[0.6rem]">
                           {stratLabel(s.strategy)}

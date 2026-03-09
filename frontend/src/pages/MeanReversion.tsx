@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { fetchMeanReversion } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
+import TickerLogo from '../components/TickerLogo'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
@@ -134,10 +135,15 @@ export default function MeanReversion() {
                   onClick={() => setExpanded(expanded === d.ticker ? null : d.ticker)}
                 >
                   <TableCell>
-                    <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
-                    {d.company_name && d.company_name !== d.ticker && (
-                      <div className="text-[0.65rem] text-muted-foreground truncate max-w-[100px]">{d.company_name}</div>
-                    )}
+                    <div className="flex items-center gap-1.5">
+                      <TickerLogo ticker={d.ticker} size="xs" />
+                      <div>
+                        <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
+                        {d.company_name && d.company_name !== d.ticker && (
+                          <div className="text-[0.65rem] text-muted-foreground truncate max-w-[100px]">{d.company_name}</div>
+                        )}
+                      </div>
+                    </div>
                   </TableCell>
                   <TableCell><Badge variant="blue">{d.strategy}</Badge></TableCell>
                   <TableCell><Badge variant={qualVariant(d.quality)}>{d.quality}</Badge></TableCell>

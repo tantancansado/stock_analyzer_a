@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Calendar, AlertTriangle, Zap, TrendingUp } from 'lucide-react'
+import TickerLogo from '../components/TickerLogo'
 
 type FilterMode = 'all' | 'warning' | 'catalyst'
 
@@ -182,7 +183,8 @@ export default function EarningsCalendar() {
                   <CardContent className="p-3">
                     <div className="flex items-center gap-3 flex-wrap">
                       {/* Ticker + company */}
-                      <div className="min-w-[80px]">
+                      <div className="flex items-center gap-1.5 min-w-[80px]">
+                        <TickerLogo ticker={entry.ticker} size="xs" />
                         <span className="font-mono font-bold text-sm text-primary">{entry.ticker}</span>
                       </div>
                       <div className="flex-1 min-w-0">
