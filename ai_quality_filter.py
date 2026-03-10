@@ -425,7 +425,11 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
         print(f"⚠️  {input_path.name} is empty - skipping {strategy_name} (0 setups)")
         return None
 
-    df = pd.read_csv(input_path)
+    try:
+        df = pd.read_csv(input_path)
+    except Exception as e:
+        print(f"⚠️  {input_path.name} unreadable ({e}) - skipping {strategy_name} (0 setups)")
+        return None
     if df.empty:
         print(f"⚠️  {input_path.name} has no rows - skipping {strategy_name} (0 setups)")
         return None
