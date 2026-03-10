@@ -421,7 +421,14 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
         print(f"❌ {input_path.name} not found - skipping {strategy_name}")
         return None
 
+    if input_path.stat().st_size == 0:
+        print(f"⚠️  {input_path.name} is empty - skipping {strategy_name} (0 setups)")
+        return None
+
     df = pd.read_csv(input_path)
+    if df.empty:
+        print(f"⚠️  {input_path.name} has no rows - skipping {strategy_name} (0 setups)")
+        return None
     print(f"\n📊 Input: {len(df)} {strategy_name} opportunities")
 
     if score_field in df.columns:
