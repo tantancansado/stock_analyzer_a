@@ -6,6 +6,7 @@ import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Calendar, AlertTriangle, Zap, TrendingUp } from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
+import OwnedBadge from '../components/OwnedBadge'
 
 type FilterMode = 'all' | 'warning' | 'catalyst'
 
@@ -186,6 +187,7 @@ export default function EarningsCalendar() {
                       <div className="flex items-center gap-1.5 min-w-[80px]">
                         <TickerLogo ticker={entry.ticker} size="xs" />
                         <span className="font-mono font-bold text-sm text-primary">{entry.ticker}</span>
+                        <OwnedBadge ticker={entry.ticker} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="text-xs text-foreground/80 truncate">{entry.company}</span>

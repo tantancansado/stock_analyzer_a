@@ -3,6 +3,7 @@ import { fetchRecurringInsiders, fetchInsidersInsight, downloadCsv, type Insider
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import TickerLogo from '../components/TickerLogo'
+import OwnedBadge from '../components/OwnedBadge'
 import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
@@ -161,7 +162,7 @@ export default function Insiders() {
                       <div className="flex items-center gap-1.5">
                         <TickerLogo ticker={d.ticker} size="xs" />
                         <div>
-                          <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
+                          <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide flex items-center gap-1.5">{d.ticker}<OwnedBadge ticker={d.ticker} /></div>
                           {company !== d.ticker && (
                             <div className="text-[0.65rem] text-muted-foreground truncate max-w-[180px]">{company}</div>
                           )}

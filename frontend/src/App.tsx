@@ -3,6 +3,7 @@ import { Routes, Route, NavLink, Navigate } from 'react-router-dom'
 import { LayoutDashboard, X, LogOut } from 'lucide-react'
 import { ThemeProvider } from './context/ThemeContext'
 import { useAuth } from './context/AuthContext'
+import { PersonalPortfolioProvider } from './context/PersonalPortfolioContext'
 import { cn } from '@/lib/utils'
 import { NAV } from '@/lib/nav'
 import TopBar from './components/TopBar'
@@ -141,6 +142,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
+    <PersonalPortfolioProvider>
       {/* Aurora top line */}
       <div className="aurora-line" aria-hidden="true" />
 
@@ -220,6 +222,7 @@ export default function App() {
           </Routes>
         </main>
       </div>
+    </PersonalPortfolioProvider>
     </ThemeProvider>
   )
 }

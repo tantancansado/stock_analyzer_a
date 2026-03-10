@@ -11,6 +11,7 @@ import ThesisBody from '../components/ThesisBody'
 import CsvDownload from '../components/CsvDownload'
 import WatchlistButton from '../components/WatchlistButton'
 import InfoTooltip from '../components/InfoTooltip'
+import OwnedBadge from '../components/OwnedBadge'
 
 // Extend ValueOpportunity with global-specific fields
 type GlobalOpportunity = ValueOpportunity & {
@@ -260,6 +261,7 @@ export default function GlobalValue() {
                         <div className="flex items-center gap-1.5">
                           {meta && <span title={meta.label}>{meta.flag}</span>}
                           <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
+                          <OwnedBadge ticker={row.ticker} />
                           {row.ai_verdict === 'RISKY' && <span title={row.ai_notes} className="text-red-400 text-xs">🚫</span>}
                           {row.ai_verdict === 'SUSPECT' && <span title={row.ai_notes} className="text-amber-400 text-xs">⚠️</span>}
                         </div>

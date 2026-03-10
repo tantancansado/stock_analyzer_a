@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { fetchMeanReversion } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import TickerLogo from '../components/TickerLogo'
+import OwnedBadge from '../components/OwnedBadge'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
@@ -138,7 +139,7 @@ export default function MeanReversion() {
                     <div className="flex items-center gap-1.5">
                       <TickerLogo ticker={d.ticker} size="xs" />
                       <div>
-                        <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
+                        <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide flex items-center gap-1.5">{d.ticker}<OwnedBadge ticker={d.ticker} /></div>
                         {d.company_name && d.company_name !== d.ticker && (
                           <div className="text-[0.65rem] text-muted-foreground truncate max-w-[100px]">{d.company_name}</div>
                         )}

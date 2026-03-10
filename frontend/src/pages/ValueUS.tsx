@@ -13,6 +13,7 @@ import WatchlistButton from '../components/WatchlistButton'
 import InfoTooltip from '../components/InfoTooltip'
 import ThesisModal from '../components/ThesisModal'
 import TickerLogo from '../components/TickerLogo'
+import OwnedBadge from '../components/OwnedBadge'
 
 type SortKey = keyof ValueOpportunity
 type SortDir = 'asc' | 'desc'
@@ -352,6 +353,7 @@ export default function ValueUS() {
                       <TickerLogo ticker={d.ticker} size="sm" />
                       <div className="flex items-center gap-1.5">
                         {d.ticker}
+                        <OwnedBadge ticker={d.ticker} />
                         {d.proximity_to_52w_high != null && d.proximity_to_52w_high > -5 && (
                           <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25" title={`${d.proximity_to_52w_high.toFixed(1)}% vs 52w high`}>
                             52w
