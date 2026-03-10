@@ -113,6 +113,14 @@ jobs:
         continue-on-error: true
         run: python3 portfolio_tracker.py --all
 
+      - name: Check Price Alerts (send emails via Resend)
+        continue-on-error: true
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: python3 check_alerts.py || echo "Alert checker failed"
+
       # ============================================================================
       # OPTIONAL STEPS (Can fail without breaking pipeline)
       # ============================================================================

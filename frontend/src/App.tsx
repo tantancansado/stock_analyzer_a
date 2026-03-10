@@ -34,6 +34,8 @@ import SmartPortfolio from './pages/SmartPortfolio'
 import HedgeFunds from './pages/HedgeFunds'
 import FactorStatus from './pages/FactorStatus'
 import PersonalPortfolio from './pages/PersonalPortfolio'
+import Comparador from './pages/Comparador'
+import Alerts from './pages/Alerts'
 
 function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; onSignOut: () => void }>) {
   return (
@@ -217,6 +219,8 @@ export default function App() {
               <Route path="/hedge-funds" element={<HedgeFunds />} />
               <Route path="/factor-status" element={<FactorStatus />} />
               <Route path="/my-portfolio"  element={<PersonalPortfolio />} />
+              <Route path="/compare"       element={<Comparador />} />
+              <Route path="/alerts"        element={<Alerts />} />
               <Route path="/datos"           element={<Datos />} />
             </Route>
           </Routes>

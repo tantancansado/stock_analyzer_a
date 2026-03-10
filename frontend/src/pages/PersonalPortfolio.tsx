@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2 } from 'lucide-react'
+import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp } from 'lucide-react'
 import axios from 'axios'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
@@ -10,11 +10,18 @@ const API_BASE = import.meta.env.VITE_API_URL || ''
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface Position {
-  id: string          // uuid from Supabase
+  id: string
   ticker: string
   shares: number
   avg_price: number
   currency: 'USD' | 'EUR'
+}
+
+interface JournalEntry {
+  id: string
+  ticker: string
+  note: string
+  created_at: string
 }
 
 interface PositionResult {
@@ -33,6 +40,7 @@ interface PositionResult {
   analyst_target?: number
   analyst_upside?: number
   fcf_yield?: number
+  dividend_yield?: number
   fifty_two_week_high?: number
   fifty_two_week_low?: number
   action: 'MANTENER' | 'AÑADIR' | 'REDUCIR' | 'VENDER'
@@ -69,6 +77,128 @@ const CONVICTION_DOT: Record<string, string> = {
   ALTA:  'bg-emerald-400',
   MEDIA: 'bg-amber-400',
   BAJA:  'bg-red-400',
+}
+
+// ── Journal Section ───────────────────────────────────────────────────────────
+
+function JournalSection({ ticker, userId }: { ticker: string; userId: string }) {
+  const [open,    setOpen]    = useState(false)
+  const [notes,   setNotes]   = useState<JournalEntry[]>([])
+  const [loaded,  setLoaded]  = useState(false)
+  const [text,    setText]    = useState('')
+  const [saving,  setSaving]  = useState(false)
+  const [count,   setCount]   = useState<number | null>(null)
+
+  // Load count eagerly so badge shows up even when collapsed
+  useEffect(() => {
+    supabase
+      .from('trade_journal')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .eq('ticker', ticker)
+      .then(({ count: c }) => setCount(c ?? 0))
+  }, [ticker, userId])
+
+  const load = useCallback(async () => {
+    const { data } = await supabase
+      .from('trade_journal')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('ticker', ticker)
+      .order('created_at', { ascending: false })
+    setNotes((data ?? []) as JournalEntry[])
+    setCount((data ?? []).length)
+    setLoaded(true)
+  }, [ticker, userId])
+
+  const toggle = () => {
+    if (!open && !loaded) load()
+    setOpen(o => !o)
+  }
+
+  const addNote = async () => {
+    const t = text.trim()
+    if (!t) return
+    setSaving(true)
+    const { data } = await supabase
+      .from('trade_journal')
+      .insert({ user_id: userId, ticker, note: t })
+      .select()
+      .single()
+    if (data) {
+      setNotes(prev => [data as JournalEntry, ...prev])
+      setCount(c => (c ?? 0) + 1)
+    }
+    setText('')
+    setSaving(false)
+  }
+
+  const deleteNote = async (id: string) => {
+    await supabase.from('trade_journal').delete().eq('id', id)
+    setNotes(prev => prev.filter(n => n.id !== id))
+    setCount(c => Math.max(0, (c ?? 1) - 1))
+  }
+
+  return (
+    <div className="border-t border-border/20">
+      <button
+        onClick={toggle}
+        className="w-full flex items-center gap-2 px-5 py-2.5 text-[0.72rem] text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <BookOpen size={12} />
+        <span className="font-semibold">Notas del journal</span>
+        {count !== null && count > 0 && (
+          <span className="px-1.5 py-0.5 rounded-full bg-primary/15 text-primary text-[0.6rem] font-bold">{count}</span>
+        )}
+        <span className="ml-auto">{open ? <ChevronUp size={12} /> : <ChevronDown size={12} />}</span>
+      </button>
+
+      {open && (
+        <div className="px-5 pb-4 space-y-3">
+          {/* Add note */}
+          <div className="flex gap-2 items-start">
+            <textarea
+              value={text}
+              onChange={e => setText(e.target.value)}
+              placeholder="Añade una nota: razón de compra, tesis, eventos..."
+              rows={2}
+              className="flex-1 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 resize-none"
+            />
+            <button
+              onClick={addNote}
+              disabled={saving || !text.trim()}
+              className="p-2.5 rounded-lg bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-colors disabled:opacity-40"
+              title="Guardar nota"
+            >
+              {saving ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />}
+            </button>
+          </div>
+
+          {/* Notes list */}
+          {!loaded && <div className="flex justify-center py-2"><Loader2 size={14} className="animate-spin text-muted-foreground" /></div>}
+          {loaded && notes.length === 0 && (
+            <p className="text-[0.72rem] text-muted-foreground/50 text-center py-1">Sin notas todavía</p>
+          )}
+          {notes.map(n => (
+            <div key={n.id} className="group flex gap-2 items-start p-3 rounded-lg bg-muted/15 border border-border/20">
+              <div className="flex-1 min-w-0">
+                <p className="text-[0.78rem] text-foreground/80 leading-relaxed whitespace-pre-wrap">{n.note}</p>
+                <p className="text-[0.62rem] text-muted-foreground/50 mt-1">
+                  {new Date(n.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                </p>
+              </div>
+              <button
+                onClick={() => deleteNote(n.id)}
+                className="p-1 rounded text-muted-foreground/30 hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100"
+              >
+                <Trash2 size={11} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 // ── Add Position Form ─────────────────────────────────────────────────────────
@@ -161,9 +291,10 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
 
 // ── Position Card ─────────────────────────────────────────────────────────────
 
-function PositionCard({ result, pos, onRemove }: {
+function PositionCard({ result, pos, userId, onRemove }: {
   result?: PositionResult
   pos: Position
+  userId: string
   onRemove: () => void
 }) {
   const ticker = pos.ticker
@@ -235,6 +366,9 @@ function PositionCard({ result, pos, onRemove }: {
               {result.fcf_yield.toFixed(1)}%
             </strong></span>
           )}
+          {result.dividend_yield != null && result.dividend_yield > 0 && (
+            <span>Div yield <strong className="text-emerald-400">{result.dividend_yield.toFixed(2)}%</strong></span>
+          )}
           {result.analyst_target != null && (
             <span>Target analistas <strong className="text-foreground">{sym}{result.analyst_target.toFixed(2)}</strong>
               {result.analyst_upside != null && (
@@ -283,6 +417,9 @@ function PositionCard({ result, pos, onRemove }: {
           )}
         </div>
       )}
+
+      {/* Journal */}
+      <JournalSection ticker={ticker} userId={userId} />
     </div>
   )
 }
@@ -345,7 +482,6 @@ export default function PersonalPortfolio() {
 
   const addPosition = async (p: Omit<Position, 'id'>) => {
     if (!user) return
-    // If ticker already exists, update shares/avg_price
     const existing = positions.find(x => x.ticker === p.ticker)
     if (existing) {
       const newShares = existing.shares + p.shares
@@ -386,6 +522,16 @@ export default function PersonalPortfolio() {
   const totalPL    = totalValue - totalCost
   const totalPLPct = totalCost > 0 ? (totalPL / totalCost * 100) : 0
 
+  // Dividend projection from analysis results
+  const annualDividends = result?.positions.reduce((sum, p) => {
+    if (p.dividend_yield && p.dividend_yield > 0 && p.market_value) {
+      return sum + (p.market_value * p.dividend_yield / 100)
+    }
+    return sum
+  }, 0) ?? 0
+
+  const dividendPositions = result?.positions.filter(p => p.dividend_yield && p.dividend_yield > 0) ?? []
+
   if (loadingDb) {
     return (
       <div className="flex items-center justify-center py-24 gap-3 text-muted-foreground">
@@ -410,7 +556,7 @@ export default function PersonalPortfolio() {
 
       {/* Summary (after analysis) */}
       {result && (
-        <div className="glass rounded-2xl p-5 space-y-3">
+        <div className="glass rounded-2xl p-5 space-y-4">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div className="flex gap-6 flex-wrap">
               <div>
@@ -431,6 +577,14 @@ export default function PersonalPortfolio() {
                 <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Posiciones</div>
                 <div className="text-2xl font-extrabold text-foreground">{positions.length}</div>
               </div>
+              {annualDividends > 0 && (
+                <div>
+                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Dividendos / año</div>
+                  <div className="text-2xl font-extrabold tabular-nums text-emerald-400">
+                    ~${annualDividends.toFixed(0)}
+                  </div>
+                </div>
+              )}
             </div>
             <button
               onClick={analyze}
@@ -454,6 +608,26 @@ export default function PersonalPortfolio() {
                   <p className="text-[0.75rem] text-amber-300/80">{result.portfolio_analysis.concentration_warning}</p>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* Dividend breakdown */}
+          {dividendPositions.length > 0 && (
+            <div className="pt-3 border-t border-border/30">
+              <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+                Proyección dividendos anuales
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {dividendPositions.map(p => (
+                  <div key={p.ticker} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/8 border border-emerald-500/15 text-[0.72rem]">
+                    <span className="font-mono font-bold text-emerald-400">{p.ticker}</span>
+                    <span className="text-muted-foreground">{p.dividend_yield?.toFixed(2)}%</span>
+                    <span className="text-emerald-400 font-semibold">
+                      ~${((p.market_value * (p.dividend_yield ?? 0)) / 100).toFixed(0)}/año
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -482,7 +656,6 @@ export default function PersonalPortfolio() {
       {/* Positions */}
       {positions.length > 0 && (
         <div className="space-y-4">
-          {/* Analyze button (before first analysis) */}
           {!analyzed && !analyzing && (
             <button
               onClick={analyze}
@@ -493,7 +666,6 @@ export default function PersonalPortfolio() {
             </button>
           )}
 
-          {/* Loading skeleton */}
           {analyzing && positions.map(p => (
             <div key={p.id} className="glass rounded-2xl p-5 animate-pulse">
               <div className="flex items-center gap-3">
@@ -510,6 +682,7 @@ export default function PersonalPortfolio() {
             <PositionCard
               key={pos.id}
               pos={pos}
+              userId={user!.id}
               result={result?.positions.find(r => r.ticker === pos.ticker)}
               onRemove={() => removePosition(pos.id)}
             />
