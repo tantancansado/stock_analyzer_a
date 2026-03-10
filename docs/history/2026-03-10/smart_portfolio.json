@@ -1,0 +1,61 @@
+{
+  "date": "2026-03-07",
+  "timestamp": "2026-03-07T23:13:05.750494",
+  "regime": {
+    "name": "ALERT",
+    "color": "#f97316",
+    "description": "Alerta elevada. Riesgo sist\u00e9mico aumentando."
+  },
+  "regime_name": "ALERT",
+  "picks": [
+    {
+      "ticker": "LIFE",
+      "company": "Ethos Technologies Inc.",
+      "sector": "Financial Services",
+      "current_price": 13.16,
+      "value_score": 73.4,
+      "conviction_grade": "B",
+      "conviction_score": 71.4,
+      "analyst_upside_pct": 53.9,
+      "target_price_analyst": 20.25,
+      "fcf_yield_pct": 6.17,
+      "risk_reward_ratio": 6.74,
+      "dividend_yield_pct": null,
+      "buyback_active": false,
+      "days_to_earnings": null,
+      "earnings_date": "nan",
+      "earnings_catalyst": false,
+      "stop_loss": 11.87,
+      "entry_price": 12.9,
+      "allocation_pct": 70.0,
+      "rank_score": 97.67
+    }
+  ],
+  "cash_pct": 30,
+  "total_picks": 1,
+  "invested_pct": 70.0,
+  "portfolio_thesis": "En el r\u00e9gimen de mercado ALERT, nuestra cartera se enfoca en conservar capital y aprovechar oportunidades de crecimiento a largo plazo. \n\nLa selecci\u00f3n de LIFE se debe a su s\u00f3lida calidad financiera y potencial de crecimiento. La diversificaci\u00f3n se logra mediante la asignaci\u00f3n de un 30% de la cartera a efectivo, lo que reduce el riesgo.\n\nEl principal riesgo es la volatilidad del mercado, pero el colch\u00f3n de efectivo del 30% mitiga este riesgo. \n\nNuestra estrategia se resume en: \"Protegiendo el capital y aprovechando oportunidades de crecimiento selectivo en un entorno de mercado incierto\".",
+  "risk_notes": [
+    "R\u00e9gimen ALERT: 30% en cash como colch\u00f3n de seguridad",
+    "2 tickers excluidos por ser trampas de dividendo de alto riesgo",
+    "R:R medio de la cartera: 6.7x | FCF yield medio: 6.2%"
+  ],
+  "params": {
+    "n_picks": 4,
+    "min_score": 70,
+    "cash_pct": 30,
+    "require_rr": 2.5
+  },
+  "trap_tickers_excluded": [
+    "OXM",
+    "CLPR",
+    "NMCO",
+    "UMH",
+    "ABR",
+    "NLCP",
+    "DHC",
+    "JACK",
+    "SUNS",
+    "MSBI"
+  ]
+}
