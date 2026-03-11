@@ -251,11 +251,11 @@ export default function Backtest() {
       {/* Main tabs */}
       <div className="flex gap-2 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit">
         <button onClick={() => setTab('value')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'value' ? 'bg-primary/20 border border-primary/40 text-primary shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'value' ? 'bg-background text-primary border border-primary/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
           📊 Value ({signals.length})
         </button>
         <button onClick={() => setTab('mr')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'mr' ? 'bg-teal-500/20 border border-teal-500/40 text-teal-400 shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'mr' ? 'bg-background text-teal-400 border border-teal-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
           <ArrowLeftRight size={14} /> Mean Reversion ({mrSetups.length})
         </button>
       </div>
