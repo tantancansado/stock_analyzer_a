@@ -225,15 +225,15 @@ export default function Backtest() {
               sub="con resultado disponible"
             />
             <StatCard
-              label="Win Rate 7d"
+              label={isLiveTracker ? 'Win Rate 7d' : 'Win Rate'}
               value={`${overall.win_rate.toFixed(1)}%`}
               sub={overall.win_rate >= 50 ? 'sobre el 50%' : 'entorno bajista'}
               color={overall.win_rate >= 50 ? 'text-emerald-400' : 'text-red-400'}
             />
             <StatCard
-              label="Retorno medio 7d"
+              label={isLiveTracker ? 'Retorno medio 7d' : 'P&L medio por trade'}
               value={pct(overall.avg_return, 2)}
-              sub={`mediana ${pct(overall.median_return, 2)}`}
+              sub={isLiveTracker ? `mediana ${pct(overall.median_return, 2)}` : `mediana ${pct(overall.median_return, 2)} · holding variable`}
               color={overall.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}
             />
             <StatCard
@@ -401,7 +401,7 @@ export default function Backtest() {
               <span className="flex-1 min-w-0 hidden sm:block">Empresa</span>
               <span className="w-28 shrink-0 hidden md:block">Estrategia</span>
               <span className="w-14 text-right shrink-0">Score</span>
-              <span className="w-16 text-right shrink-0">Ret 7d</span>
+              <span className="w-16 text-right shrink-0">{isLiveTracker ? 'Ret 7d' : 'P&L'}</span>
               <span className="w-12 text-center shrink-0 hidden sm:block">Res.</span>
               <span className="w-20 shrink-0 hidden lg:block ml-2">Fecha</span>
             </div>
