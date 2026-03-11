@@ -164,8 +164,14 @@ export default function Backtest() {
   const [sort,     setSort]     = useState<'date' | 'ret' | 'score'>('ret')
 
   useEffect(() => {
-    const sigUrl = `${CSV_BASE}/portfolio_tracker/recommendations.csv`
-    const mrUrl  = `${CSV_BASE}/mean_reversion_opportunities.csv`
+    const sigUrl    = `${CSV_BASE}/portfolio_tracker/recommendations.csv`
+    const mrUrl     = `${CSV_BASE}/mean_reversion_opportunities.csv`
+    const usUrl     = `${CSV_BASE}/value_opportunities_filtered.csv`
+    const euUrl     = `${CSV_BASE}/european_value_opportunities_filtered.csv`
+
+    const parseTickers = (text: string) =>
+      text.trim().split('\n').slice(1).map(l => l.split(',')[0].trim()).filter(Boolean)
+
     Promise.all([
       fetchCSV(sigUrl).catch(() =>
         fetch(`${API_BASE}/api/portfolio-tracker/signals`)
@@ -177,8 +183,12 @@ export default function Backtest() {
           )
       ),
       fetchCSV(mrUrl).catch(() => ''),
-    ]).then(([sigText, mrText]) => {
-      setSignals(parseSignalsCSV(sigText))
+      fetchCSV(usUrl).catch(() => ''),
+      fetchCSV(euUrl).catch(() => ''),
+    ]).then(([sigText, mrText, usText, euText]) => {
+      const allowed = new Set([...parseTickers(usText), ...parseTickers(euText)])
+      const all = parseSignalsCSV(sigText)
+      setSignals(allowed.size > 0 ? all.filter(s => allowed.has(s.ticker)) : all)
       if (mrText) setMrSetups(parseMRCSV(mrText))
       setLoading(false)
     }).catch(e => { setError(String(e)); setLoading(false) })
