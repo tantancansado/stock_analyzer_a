@@ -6,49 +6,56 @@ import Loading, { ErrorState } from '../components/Loading'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
-interface PeriodStats {
-  count: number
-  win_rate: number | null
-  avg_return: number | null
-  median_return: number | null
-  best: number | null
-  worst: number | null
-}
-
 interface Trade {
   ticker: string
   company_name?: string
   strategy: string
-  signal_date: string
+  signal_date?: string
   signal_price?: number
   value_score?: number
   sector?: string
   return_7d: number
   win_7d: boolean
-  max_drawdown_30d?: number
 }
 
-interface BacktestData {
-  type: string
-  date_range?: { from: string; to: string }
-  total_signals?: number
-  market_context?: string
-  periods?: {
-    '7d': {
-      overall: PeriodStats
-      by_strategy: Record<string, PeriodStats>
-      by_score: Record<string, PeriodStats>
-    }
+// ── Client-side stats from trades array ───────────────────────────────────────
+
+function calcStats(trades: Trade[]) {
+  if (!trades.length) return null
+  const rets  = trades.map(t => t.return_7d).sort((a, b) => a - b)
+  const wins  = trades.filter(t => t.win_7d).length
+  const mid   = Math.floor(rets.length / 2)
+  const median = rets.length % 2 === 0 ? (rets[mid - 1] + rets[mid]) / 2 : rets[mid]
+  return {
+    count:         trades.length,
+    win_rate:      Math.round((wins / trades.length) * 1000) / 10,
+    avg_return:    Math.round(rets.reduce((a, b) => a + b, 0) / rets.length * 100) / 100,
+    median_return: Math.round(median * 100) / 100,
+    best:          rets[rets.length - 1],
+    worst:         rets[0],
   }
-  top_performers_7d?: Trade[]
-  worst_performers_7d?: Trade[]
-  trades?: Trade[]
-  error?: string
+}
+
+function groupBy<T>(arr: T[], key: (item: T) => string): Record<string, T[]> {
+  const out: Record<string, T[]> = {}
+  for (const item of arr) {
+    const k = key(item)
+    ;(out[k] ??= []).push(item)
+  }
+  return out
+}
+
+function scoreBucket(score?: number): string {
+  if (score == null) return 'Sin score'
+  if (score >= 70)  return '≥70'
+  if (score >= 60)  return '60-69'
+  if (score >= 50)  return '50-59'
+  return '<50'
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-function pct(v: number | null, decimals = 1) {
+function pct(v: number | null | undefined, decimals = 1) {
   if (v == null) return '—'
   return `${v >= 0 ? '+' : ''}${v.toFixed(decimals)}%`
 }
@@ -63,8 +70,8 @@ function StatCard({ label, value, sub, color = '' }: { label: string; value: str
   )
 }
 
-function WinBar({ winRate }: { winRate: number | null }) {
-  if (winRate == null) return <span className="text-muted-foreground">—</span>
+function WinBar({ winRate }: { winRate: number | null | undefined }) {
+  if (winRate == null) return <span className="text-muted-foreground text-sm">—</span>
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 rounded-full bg-muted/40 overflow-hidden">
@@ -73,7 +80,7 @@ function WinBar({ winRate }: { winRate: number | null }) {
           style={{ width: `${Math.min(winRate, 100)}%` }}
         />
       </div>
-      <span className={`text-[0.75rem] font-bold tabular-nums w-10 text-right ${winRate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
+      <span className={`text-[0.75rem] font-bold tabular-nums w-12 text-right ${winRate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
         {winRate.toFixed(1)}%
       </span>
     </div>
@@ -81,18 +88,21 @@ function WinBar({ winRate }: { winRate: number | null }) {
 }
 
 const STRATEGY_LABELS: Record<string, string> = {
-  VALUE:      'Value US 🇺🇸',
-  EU_VALUE:   'Value EU 🇪🇺',
-  GLOBAL_VALUE: 'Value Global 🌍',
-  MOMENTUM:   'Momentum',
-  MEAN_REVERSION: 'Mean Reversion',
+  VALUE:           'Value US 🇺🇸',
+  EU_VALUE:        'Value EU 🇪🇺',
+  GLOBAL_VALUE:    'Value Global 🌍',
+  MOMENTUM:        'Momentum',
+  MEAN_REVERSION:  'Mean Reversion',
+  'Oversold Bounce': 'Oversold Bounce',
 }
 
+const SCORE_ORDER = ['≥70', '60-69', '50-59', '<50', 'Sin score']
 const SCORE_COLORS: Record<string, string> = {
-  '≥70':   'text-emerald-400',
-  '60-69': 'text-blue-400',
-  '50-59': 'text-amber-400',
-  '<50':   'text-red-400',
+  '≥70':     'text-emerald-400',
+  '60-69':   'text-blue-400',
+  '50-59':   'text-amber-400',
+  '<50':     'text-red-400',
+  'Sin score': 'text-muted-foreground',
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────────
@@ -105,8 +115,8 @@ export default function Backtest() {
   if (loading) return <Loading />
   if (error)   return <ErrorState message={error} />
 
-  const bt = data as BacktestData | null
-  if (!bt || bt.error) {
+  const raw = data as unknown as Record<string, unknown> | null
+  if (!raw || raw.error) {
     return (
       <div className="space-y-4">
         <h1 className="text-2xl font-extrabold text-foreground flex items-center gap-2">
@@ -114,49 +124,49 @@ export default function Backtest() {
         </h1>
         <div className="glass rounded-2xl p-12 text-center">
           <FlaskConical size={40} className="mx-auto text-muted-foreground/20 mb-4" />
-          <p className="text-muted-foreground">{bt?.error ?? 'Sin datos'}</p>
+          <p className="text-muted-foreground">{(raw?.error as string) ?? 'Sin datos'}</p>
         </div>
       </div>
     )
   }
 
-  // Support both legacy format (bt.metrics) and new live-tracker format (bt.periods)
-  const isLiveTracker = bt.type === 'live_tracker'
-  const btAny = bt as unknown as Record<string, unknown>
-  const legacyMetrics = btAny.metrics as Record<string, unknown> | undefined
+  // ── Normalize trades from either API format ──────────────────────────────────
+  const isLiveTracker = raw.type === 'live_tracker'
+  const rawTrades = (raw.trades as Record<string, unknown>[] | undefined) ?? []
 
-  const p7 = bt.periods?.['7d']
-  const overall: PeriodStats | undefined = p7?.overall ?? (legacyMetrics ? {
-    count:          legacyMetrics.total_trades as number ?? 0,
-    win_rate:       legacyMetrics.win_rate as number ?? null,
-    avg_return:     legacyMetrics.avg_trade as number ?? null,
-    median_return:  null,
-    best:           (legacyMetrics.best_trade as Record<string,unknown>)?.profit_loss_pct as number ?? null,
-    worst:          (legacyMetrics.worst_trade as Record<string,unknown>)?.profit_loss_pct as number ?? null,
-  } : undefined)
-
-  const strategies = p7?.by_strategy ?? {}
-  const scoreBuckets = p7?.by_score ?? {}
-
-  // Normalize trades: old format uses profit_loss_pct/win, new format uses return_7d/win_7d
-  const rawTrades = bt.trades ?? []
   const allTrades: Trade[] = rawTrades.map(t => {
-    const legacy = t as unknown as Record<string, unknown>
-    const ret = t.return_7d ?? (legacy.profit_loss_pct as number | undefined)
+    const ret = (t.return_7d as number | undefined) ?? (t.profit_loss_pct as number | undefined) ?? 0
     return {
-      ...t,
-      return_7d: ret ?? 0,
-      win_7d:    t.win_7d ?? (legacy.win as boolean | undefined) ?? (ret == null ? false : ret > 0),
-      signal_date: t.signal_date ?? (legacy.exit_reason as string | undefined) ?? '',
+      ticker:      String(t.ticker ?? ''),
+      company_name: t.company_name as string | undefined,
+      strategy:    String(t.strategy ?? 'Unknown'),
+      signal_date: (t.signal_date ?? t.backtest_date ?? '') as string,
+      signal_price: t.signal_price as number | undefined,
+      value_score:  t.value_score as number | undefined,
+      sector:       t.sector as string | undefined,
+      return_7d:   ret,
+      win_7d:      (t.win_7d as boolean | undefined) ?? (t.win as boolean | undefined) ?? (ret > 0),
     }
-  })
+  }).sort((a, b) => b.return_7d - a.return_7d)
 
+  // ── Compute everything client-side ──────────────────────────────────────────
+  const overall   = calcStats(allTrades)
+  const byStrat   = groupBy(allTrades, t => t.strategy)
+  const byScore   = groupBy(allTrades, t => scoreBucket(t.value_score))
+  const topTrades = allTrades.slice(0, 10)
+  const worseTrades = allTrades.slice(-10).reverse()
+
+  const stratKeys  = Object.keys(byStrat).sort()
   const filteredTrades = tradeFilter === 'ALL' ? allTrades : allTrades.filter(t => t.strategy === tradeFilter)
-  const strategyKeys = Object.keys(strategies)
+
+  // Meta
+  const marketContext = raw.market_context as string | undefined
+  const dateFrom = (raw.date_range as Record<string,string> | undefined)?.from ?? (raw.backtest_date as string | undefined)?.slice(0,10) ?? ''
+  const dateTo   = (raw.date_range as Record<string,string> | undefined)?.to ?? ''
 
   const tabs = [
     { id: 'overview',   label: 'Resumen' },
-    { id: 'strategies', label: 'Por Estrategia' },
+    { id: 'strategies', label: `Estrategias (${stratKeys.length})` },
     { id: 'scores',     label: 'Por Score' },
     { id: 'trades',     label: `Señales (${allTrades.length})` },
   ] as const
@@ -167,33 +177,29 @@ export default function Backtest() {
       <div>
         <h1 className="text-2xl font-extrabold text-foreground flex items-center gap-2">
           <FlaskConical size={22} className="text-primary" />
-          Backtest — Live Tracker
+          Backtest {isLiveTracker ? '— Live Tracker' : '— Histórico'}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          {isLiveTracker
-            ? `Rendimiento real de señales generadas · ${bt.date_range?.from} → ${bt.date_range?.to} · ${bt.total_signals} señales`
-            : `Backtest histórico · ${(btAny.backtest_date as string ?? '').slice(0,10)} · ${overall?.count ?? 0} trades`
-          }
+          {dateFrom}{dateTo && dateTo !== dateFrom ? ` → ${dateTo}` : ''} · {allTrades.length} señales registradas
         </p>
       </div>
 
-      {/* Market context warning */}
-      {bt.market_context && (
+      {/* Market context */}
+      {marketContext && (
         <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-500/8 border border-amber-500/20">
           <Info size={15} className="text-amber-400 mt-0.5 shrink-0" />
           <div>
-            <p className="text-sm font-semibold text-amber-400">Contexto de mercado: {bt.market_context}</p>
+            <p className="text-sm font-semibold text-amber-400">Régimen de mercado: {marketContext}</p>
             <p className="text-xs text-muted-foreground mt-0.5">
-              El sistema empezó a registrar señales el {bt.date_range?.from} en régimen de CORRECTION.
-              Los resultados negativos reflejan el entorno, no los parámetros del sistema.
-              Resultados a 14d y 30d disponibles cuando las señales maduren.
+              Las señales se registraron durante una CORRECTION — los retornos negativos reflejan el entorno.
+              Los resultados a 14d y 30d estarán disponibles conforme maduren las señales.
             </p>
           </div>
         </div>
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit">
+      <div className="flex gap-1 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit flex-wrap">
         {tabs.map(t => (
           <button
             key={t.id}
@@ -214,43 +220,43 @@ export default function Backtest() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <StatCard
-              label="Señales con resultado"
+              label="Señales"
               value={String(overall.count)}
-              sub={`de ${bt.total_signals} totales`}
+              sub="con resultado disponible"
             />
             <StatCard
               label="Win Rate 7d"
-              value={overall.win_rate != null ? `${overall.win_rate.toFixed(1)}%` : '—'}
-              sub={overall.win_rate != null && overall.win_rate >= 50 ? 'positivo' : 'entorno bajista'}
-              color={overall.win_rate != null && overall.win_rate >= 50 ? 'text-emerald-400' : 'text-red-400'}
+              value={`${overall.win_rate.toFixed(1)}%`}
+              sub={overall.win_rate >= 50 ? 'sobre el 50%' : 'entorno bajista'}
+              color={overall.win_rate >= 50 ? 'text-emerald-400' : 'text-red-400'}
             />
             <StatCard
               label="Retorno medio 7d"
               value={pct(overall.avg_return, 2)}
               sub={`mediana ${pct(overall.median_return, 2)}`}
-              color={(overall.avg_return ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}
+              color={overall.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}
             />
             <StatCard
               label="Mejor / Peor"
-              value={`${pct(overall.best, 1)} / ${pct(overall.worst, 1)}`}
+              value={`${pct(overall.best)} / ${pct(overall.worst)}`}
               sub="rango de retornos"
             />
           </div>
 
-          {/* Top + Worst performers */}
+          {/* Top + Worst */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="glass rounded-2xl overflow-hidden">
               <div className="px-5 py-3 border-b border-border/30 flex items-center gap-2">
                 <TrendingUp size={14} className="text-emerald-400" />
-                <span className="text-sm font-semibold">Top 7d</span>
+                <span className="text-sm font-semibold">Mejores 7d</span>
               </div>
-              <div className="divide-y divide-border/20">
-                {(bt.top_performers_7d ?? []).slice(0, 8).map((t, i) => (
+              <div className="divide-y divide-border/15">
+                {topTrades.map((t, i) => (
                   <div key={i} className="flex items-center gap-3 px-5 py-2.5">
-                    <span className="font-mono font-bold text-primary text-sm w-20 truncate">{t.ticker}</span>
-                    <span className="text-[0.7rem] text-muted-foreground flex-1 truncate">{t.company_name}</span>
-                    <span className="text-[0.65rem] text-muted-foreground/60">{STRATEGY_LABELS[t.strategy] ?? t.strategy}</span>
-                    <span className="text-sm font-bold text-emerald-400 tabular-nums w-16 text-right">{pct(t.return_7d)}</span>
+                    <span className="font-mono font-bold text-primary text-sm w-16 shrink-0">{t.ticker}</span>
+                    <span className="text-[0.7rem] text-muted-foreground flex-1 truncate">{t.company_name ?? t.sector ?? '—'}</span>
+                    <span className="text-[0.62rem] text-muted-foreground/50 shrink-0">{STRATEGY_LABELS[t.strategy] ?? t.strategy}</span>
+                    <span className="text-sm font-bold text-emerald-400 tabular-nums w-14 text-right shrink-0">{pct(t.return_7d)}</span>
                   </div>
                 ))}
               </div>
@@ -260,13 +266,13 @@ export default function Backtest() {
                 <TrendingDown size={14} className="text-red-400" />
                 <span className="text-sm font-semibold">Peores 7d</span>
               </div>
-              <div className="divide-y divide-border/20">
-                {(bt.worst_performers_7d ?? []).slice(0, 8).map((t, i) => (
+              <div className="divide-y divide-border/15">
+                {worseTrades.map((t, i) => (
                   <div key={i} className="flex items-center gap-3 px-5 py-2.5">
-                    <span className="font-mono font-bold text-primary text-sm w-20 truncate">{t.ticker}</span>
-                    <span className="text-[0.7rem] text-muted-foreground flex-1 truncate">{t.company_name}</span>
-                    <span className="text-[0.65rem] text-muted-foreground/60">{STRATEGY_LABELS[t.strategy] ?? t.strategy}</span>
-                    <span className="text-sm font-bold text-red-400 tabular-nums w-16 text-right">{pct(t.return_7d)}</span>
+                    <span className="font-mono font-bold text-primary text-sm w-16 shrink-0">{t.ticker}</span>
+                    <span className="text-[0.7rem] text-muted-foreground flex-1 truncate">{t.company_name ?? t.sector ?? '—'}</span>
+                    <span className="text-[0.62rem] text-muted-foreground/50 shrink-0">{STRATEGY_LABELS[t.strategy] ?? t.strategy}</span>
+                    <span className="text-sm font-bold text-red-400 tabular-nums w-14 text-right shrink-0">{pct(t.return_7d)}</span>
                   </div>
                 ))}
               </div>
@@ -278,50 +284,43 @@ export default function Backtest() {
       {/* ── STRATEGIES ── */}
       {activeTab === 'strategies' && (
         <div className="space-y-3">
-          {strategyKeys.length === 0 ? (
-            <p className="text-muted-foreground text-sm">Sin datos por estrategia todavía.</p>
-          ) : (
-            strategyKeys.map(s => {
-              const st = strategies[s]
-              return (
-                <div key={s} className="glass rounded-2xl p-5">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-bold text-foreground">{STRATEGY_LABELS[s] ?? s}</h3>
-                    <span className="text-xs text-muted-foreground">{st.count} señales con resultado</span>
+          {stratKeys.map(s => {
+            const st = calcStats(byStrat[s])!
+            return (
+              <div key={s} className="glass rounded-2xl p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-bold text-foreground">{STRATEGY_LABELS[s] ?? s}</h3>
+                  <span className="text-xs text-muted-foreground">{st.count} señales</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div>
+                    <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1.5">Win Rate</div>
+                    <WinBar winRate={st.win_rate} />
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div>
-                      <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Win Rate</div>
-                      <WinBar winRate={st.win_rate} />
+                  <div>
+                    <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Retorno medio</div>
+                    <div className={`text-xl font-extrabold tabular-nums ${st.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {pct(st.avg_return, 2)}
                     </div>
-                    <div>
-                      <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Retorno medio</div>
-                      <div className={`text-xl font-extrabold tabular-nums ${(st.avg_return ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {pct(st.avg_return, 2)}
-                      </div>
+                  </div>
+                  <div>
+                    <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Mediana</div>
+                    <div className={`text-xl font-extrabold tabular-nums ${st.median_return >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {pct(st.median_return, 2)}
                     </div>
-                    <div>
-                      <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Mediana</div>
-                      <div className={`text-xl font-extrabold tabular-nums ${(st.median_return ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                        {pct(st.median_return, 2)}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Mejor / Peor</div>
-                      <div className="text-sm font-semibold">
-                        <span className="text-emerald-400">{pct(st.best)}</span>
-                        <span className="text-muted-foreground"> / </span>
-                        <span className="text-red-400">{pct(st.worst)}</span>
-                      </div>
+                  </div>
+                  <div>
+                    <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Mejor / Peor</div>
+                    <div className="text-sm font-semibold">
+                      <span className="text-emerald-400">{pct(st.best)}</span>
+                      <span className="text-muted-foreground"> / </span>
+                      <span className="text-red-400">{pct(st.worst)}</span>
                     </div>
                   </div>
                 </div>
-              )
-            })
-          )}
-          <p className="text-[0.7rem] text-muted-foreground/50 px-1">
-            Momentum y Mean Reversion aparecerán aquí cuando el pipeline genere señales en régimen favorable.
-          </p>
+              </div>
+            )
+          })}
         </div>
       )}
 
@@ -331,55 +330,50 @@ export default function Backtest() {
           <div className="glass rounded-2xl p-4 border border-primary/20 bg-primary/5">
             <p className="text-xs text-primary font-semibold mb-1">¿El score predice los retornos?</p>
             <p className="text-[0.72rem] text-muted-foreground">
-              Aquí puedes ver si las señales con score alto realmente rinden mejor. Si el sistema funciona,
-              el bucket ≥70 debería tener mayor win rate y mayor retorno medio.
+              Si el sistema funciona, el bucket ≥70 debería tener mayor win rate y mayor retorno que el &lt;50.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {Object.entries(scoreBuckets).map(([bucket, st]) => (
-              <div key={bucket} className="glass rounded-2xl p-5">
-                <div className="flex items-center justify-between mb-3">
-                  <span className={`text-lg font-extrabold ${SCORE_COLORS[bucket] ?? 'text-foreground'}`}>
-                    Score {bucket}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{st.count} señales</span>
-                </div>
-                {st.count === 0 ? (
-                  <p className="text-xs text-muted-foreground">Sin señales en este rango</p>
-                ) : (
-                  <div className="space-y-2">
+            {SCORE_ORDER.filter(b => byScore[b]?.length).map(bucket => {
+              const st = calcStats(byScore[bucket])!
+              return (
+                <div key={bucket} className="glass rounded-2xl p-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className={`text-lg font-extrabold ${SCORE_COLORS[bucket]}`}>Score {bucket}</span>
+                    <span className="text-xs text-muted-foreground">{st.count} señales</span>
+                  </div>
+                  <div className="space-y-3">
                     <div>
                       <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-1">Win Rate</div>
                       <WinBar winRate={st.win_rate} />
                     </div>
-                    <div className="flex gap-6 mt-2">
+                    <div className="flex gap-6">
                       <div>
                         <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-0.5">Avg retorno</div>
-                        <div className={`text-xl font-extrabold tabular-nums ${(st.avg_return ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        <div className={`text-xl font-extrabold tabular-nums ${st.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                           {pct(st.avg_return, 2)}
                         </div>
                       </div>
                       <div>
                         <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground mb-0.5">Mediana</div>
-                        <div className={`text-xl font-extrabold tabular-nums ${(st.median_return ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        <div className={`text-xl font-extrabold tabular-nums ${st.median_return >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                           {pct(st.median_return, 2)}
                         </div>
                       </div>
                     </div>
                   </div>
-                )}
-              </div>
-            ))}
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
 
-      {/* ── TRADES TABLE ── */}
+      {/* ── TRADES ── */}
       {activeTab === 'trades' && (
         <div className="space-y-3">
-          {/* Filter */}
           <div className="flex gap-2 flex-wrap">
-            {['ALL', ...strategyKeys].map(s => (
+            {['ALL', ...stratKeys].map(s => (
               <button
                 key={s}
                 onClick={() => setTradeFilter(s)}
@@ -389,41 +383,42 @@ export default function Backtest() {
                     : 'bg-muted/20 border-border/30 text-muted-foreground hover:text-foreground'
                 }`}
               >
-                {s === 'ALL' ? 'Todas' : (STRATEGY_LABELS[s] ?? s)} {s !== 'ALL' && `(${strategies[s]?.count ?? 0})`}
+                {s === 'ALL' ? `Todas (${allTrades.length})` : `${STRATEGY_LABELS[s] ?? s} (${byStrat[s]?.length ?? 0})`}
               </button>
             ))}
           </div>
 
-          <div className="glass rounded-2xl overflow-hidden">
+          <div className="glass rounded-2xl">
             <div className="px-5 py-3 border-b border-border/30 flex items-center justify-between">
               <span className="text-sm font-semibold">Señales registradas</span>
               <span className="text-xs text-muted-foreground">{filteredTrades.length} entradas</span>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm border-collapse">
-                <thead className="bg-background/60 backdrop-blur-sm">
+              <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
+                <thead style={{ background: 'var(--background, #0f1117)' }}>
                   <tr className="border-b border-border/30 text-[0.65rem] uppercase tracking-widest text-muted-foreground">
-                    <th className="px-4 py-2.5 text-left">Ticker</th>
-                    <th className="px-4 py-2.5 text-left hidden sm:table-cell">Empresa</th>
-                    <th className="px-4 py-2.5 text-left hidden md:table-cell">Sector</th>
-                    <th className="px-4 py-2.5 text-left hidden md:table-cell">Estrategia</th>
-                    <th className="px-4 py-2.5 text-right">Score</th>
-                    <th className="px-4 py-2.5 text-right">Ret 7d</th>
-                    <th className="px-4 py-2.5 text-center hidden sm:table-cell">Resultado</th>
-                    <th className="px-4 py-2.5 text-left hidden lg:table-cell">Fecha señal</th>
+                    <th className="px-4 py-2.5 text-left font-semibold">Ticker</th>
+                    <th className="px-4 py-2.5 text-left font-semibold hidden sm:table-cell">Empresa</th>
+                    <th className="px-4 py-2.5 text-left font-semibold hidden md:table-cell">Sector</th>
+                    <th className="px-4 py-2.5 text-left font-semibold hidden md:table-cell">Estrategia</th>
+                    <th className="px-4 py-2.5 text-right font-semibold">Score</th>
+                    <th className="px-4 py-2.5 text-right font-semibold">Ret 7d</th>
+                    <th className="px-4 py-2.5 text-center font-semibold hidden sm:table-cell">Res.</th>
+                    <th className="px-4 py-2.5 text-left font-semibold hidden lg:table-cell">Fecha</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-border/15">
-                  {filteredTrades.slice(0, 200).map((t, i) => (
-                    <tr key={i} className="hover:bg-muted/10 transition-colors">
+                <tbody>
+                  {filteredTrades.slice(0, 300).map((t, i) => (
+                    <tr key={i} className="border-b border-border/10 hover:bg-muted/10 transition-colors last:border-0">
                       <td className="px-4 py-2 font-mono font-bold text-primary text-[0.8rem]">{t.ticker}</td>
-                      <td className="px-4 py-2 text-[0.74rem] text-muted-foreground hidden sm:table-cell max-w-[130px] truncate">{t.company_name}</td>
-                      <td className="px-4 py-2 text-[0.72rem] text-muted-foreground hidden md:table-cell">{t.sector}</td>
+                      <td className="px-4 py-2 text-[0.74rem] text-muted-foreground hidden sm:table-cell max-w-[140px] truncate">{t.company_name ?? '—'}</td>
+                      <td className="px-4 py-2 text-[0.72rem] text-muted-foreground hidden md:table-cell">{t.sector ?? '—'}</td>
                       <td className="px-4 py-2 text-[0.72rem] text-muted-foreground hidden md:table-cell">{STRATEGY_LABELS[t.strategy] ?? t.strategy}</td>
                       <td className="px-4 py-2 text-right tabular-nums text-[0.8rem]">
-                        <span className={t.value_score != null && t.value_score >= 60 ? 'text-emerald-400 font-bold' : 'text-muted-foreground'}>
-                          {t.value_score != null ? t.value_score.toFixed(1) : '—'}
-                        </span>
+                        {t.value_score != null
+                          ? <span className={t.value_score >= 60 ? 'text-emerald-400 font-bold' : 'text-muted-foreground'}>{t.value_score.toFixed(1)}</span>
+                          : <span className="text-muted-foreground/40">—</span>
+                        }
                       </td>
                       <td className="px-4 py-2 text-right">
                         <span className={`font-bold tabular-nums text-[0.8rem] ${t.return_7d >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -435,13 +430,13 @@ export default function Backtest() {
                           {t.win_7d ? 'WIN' : 'LOSS'}
                         </span>
                       </td>
-                      <td className="px-4 py-2 text-[0.72rem] text-muted-foreground/60 hidden lg:table-cell">{t.signal_date}</td>
+                      <td className="px-4 py-2 text-[0.72rem] text-muted-foreground/50 hidden lg:table-cell">{t.signal_date?.slice(0, 10) ?? '—'}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              {filteredTrades.length > 200 && (
-                <p className="text-center text-xs text-muted-foreground py-3">Mostrando 200 de {filteredTrades.length}</p>
+              {filteredTrades.length > 300 && (
+                <p className="text-center text-xs text-muted-foreground py-3">Mostrando 300 de {filteredTrades.length}</p>
               )}
             </div>
           </div>
