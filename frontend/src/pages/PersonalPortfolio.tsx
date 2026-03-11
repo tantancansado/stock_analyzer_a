@@ -4,6 +4,7 @@ import axios from 'axios'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
+import PriceChart from '../components/PriceChart'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
@@ -353,6 +354,11 @@ function PositionCard({ result, pos, userId, onRemove }: {
             <X size={13} />
           </button>
         </div>
+      </div>
+
+      {/* Mini sparkline */}
+      <div className="border-b border-border/20">
+        <PriceChart ticker={ticker} height={52} mini />
       </div>
 
       {/* Metrics strip */}
