@@ -333,8 +333,14 @@ export default function Backtest() {
               Si el sistema funciona, el bucket ≥70 debería tener mayor win rate y mayor retorno que el &lt;50.
             </p>
           </div>
+          {byScore['Sin score']?.length === allTrades.length && (
+            <div className="glass rounded-2xl p-4 border border-amber-500/20 bg-amber-500/5">
+              <p className="text-xs text-amber-400 font-semibold">Sin datos de score en este backtest</p>
+              <p className="text-[0.72rem] text-muted-foreground mt-0.5">El backtest histórico no incluye value_score. Cuando Railway actualice con las 680+ señales del live tracker, este tab mostrará si el score predice los retornos.</p>
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {SCORE_ORDER.filter(b => byScore[b]?.length).map(bucket => {
+            {SCORE_ORDER.filter(b => b !== 'Sin score' && byScore[b]?.length).map(bucket => {
               const st = calcStats(byScore[bucket])!
               return (
                 <div key={bucket} className="glass rounded-2xl p-5">
@@ -388,57 +394,45 @@ export default function Backtest() {
             ))}
           </div>
 
-          <div className="glass rounded-2xl">
-            <div className="px-5 py-3 border-b border-border/30 flex items-center justify-between">
-              <span className="text-sm font-semibold">Señales registradas</span>
-              <span className="text-xs text-muted-foreground">{filteredTrades.length} entradas</span>
+          <div className="glass rounded-2xl overflow-hidden">
+            {/* Header row */}
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">
+              <span className="w-16 shrink-0">Ticker</span>
+              <span className="flex-1 min-w-0 hidden sm:block">Empresa</span>
+              <span className="w-28 shrink-0 hidden md:block">Estrategia</span>
+              <span className="w-14 text-right shrink-0">Score</span>
+              <span className="w-16 text-right shrink-0">Ret 7d</span>
+              <span className="w-12 text-center shrink-0 hidden sm:block">Res.</span>
+              <span className="w-20 shrink-0 hidden lg:block ml-2">Fecha</span>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-[0.65rem] uppercase tracking-widest text-muted-foreground">
-                    <th className="px-4 py-2.5 text-left font-semibold">Ticker</th>
-                    <th className="px-4 py-2.5 text-left font-semibold hidden sm:table-cell">Empresa</th>
-                    <th className="px-4 py-2.5 text-left font-semibold hidden md:table-cell">Sector</th>
-                    <th className="px-4 py-2.5 text-left font-semibold hidden md:table-cell">Estrategia</th>
-                    <th className="px-4 py-2.5 text-right font-semibold">Score</th>
-                    <th className="px-4 py-2.5 text-right font-semibold">Ret 7d</th>
-                    <th className="px-4 py-2.5 text-center font-semibold hidden sm:table-cell">Res.</th>
-                    <th className="px-4 py-2.5 text-left font-semibold hidden lg:table-cell">Fecha</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTrades.slice(0, 300).map((t, i) => (
-                    <tr key={i} className="border-b border-border/10 hover:bg-muted/10 transition-colors last:border-0">
-                      <td className="px-4 py-2 font-mono font-bold text-primary text-[0.8rem]">{t.ticker}</td>
-                      <td className="px-4 py-2 text-[0.74rem] text-muted-foreground hidden sm:table-cell max-w-[140px] truncate">{t.company_name ?? '—'}</td>
-                      <td className="px-4 py-2 text-[0.72rem] text-muted-foreground hidden md:table-cell">{t.sector ?? '—'}</td>
-                      <td className="px-4 py-2 text-[0.72rem] text-muted-foreground hidden md:table-cell">{STRATEGY_LABELS[t.strategy] ?? t.strategy}</td>
-                      <td className="px-4 py-2 text-right tabular-nums text-[0.8rem]">
-                        {t.value_score != null
-                          ? <span className={t.value_score >= 60 ? 'text-emerald-400 font-bold' : 'text-muted-foreground'}>{t.value_score.toFixed(1)}</span>
-                          : <span className="text-muted-foreground/40">—</span>
-                        }
-                      </td>
-                      <td className="px-4 py-2 text-right">
-                        <span className={`font-bold tabular-nums text-[0.8rem] ${t.return_7d >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                          {pct(t.return_7d)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-2 text-center hidden sm:table-cell">
-                        <span className={`text-[0.65rem] font-bold px-1.5 py-0.5 rounded ${t.win_7d ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>
-                          {t.win_7d ? 'WIN' : 'LOSS'}
-                        </span>
-                      </td>
-                      <td className="px-4 py-2 text-[0.72rem] text-muted-foreground/50 hidden lg:table-cell">{t.signal_date?.slice(0, 10) ?? '—'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              {filteredTrades.length > 300 && (
-                <p className="text-center text-xs text-muted-foreground py-3">Mostrando 300 de {filteredTrades.length}</p>
-              )}
+            {/* Data rows */}
+            <div className="divide-y divide-border/10">
+              {filteredTrades.slice(0, 300).map((t, i) => (
+                <div key={i} className="flex items-center gap-2 px-4 py-2 hover:bg-muted/10 transition-colors">
+                  <span className="w-16 shrink-0 font-mono font-bold text-primary text-[0.8rem]">{t.ticker}</span>
+                  <span className="flex-1 min-w-0 hidden sm:block text-[0.74rem] text-muted-foreground truncate">{t.company_name ?? '—'}</span>
+                  <span className="w-28 shrink-0 hidden md:block text-[0.72rem] text-muted-foreground truncate">{STRATEGY_LABELS[t.strategy] ?? t.strategy}</span>
+                  <span className="w-14 text-right shrink-0 tabular-nums text-[0.8rem]">
+                    {t.value_score != null
+                      ? <span className={t.value_score >= 60 ? 'text-emerald-400 font-bold' : 'text-muted-foreground'}>{t.value_score.toFixed(1)}</span>
+                      : <span className="text-muted-foreground/30">—</span>
+                    }
+                  </span>
+                  <span className={`w-16 text-right shrink-0 font-bold tabular-nums text-[0.8rem] ${t.return_7d >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {pct(t.return_7d)}
+                  </span>
+                  <span className="w-12 text-center shrink-0 hidden sm:block">
+                    <span className={`text-[0.62rem] font-bold px-1.5 py-0.5 rounded ${t.win_7d ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>
+                      {t.win_7d ? 'WIN' : 'LOSS'}
+                    </span>
+                  </span>
+                  <span className="w-20 shrink-0 hidden lg:block text-[0.7rem] text-muted-foreground/50 ml-2">{t.signal_date?.slice(0, 10) ?? '—'}</span>
+                </div>
+              ))}
             </div>
+            {filteredTrades.length > 300 && (
+              <p className="text-center text-xs text-muted-foreground py-3 border-t border-border/20">Mostrando 300 de {filteredTrades.length}</p>
+            )}
           </div>
         </div>
       )}
