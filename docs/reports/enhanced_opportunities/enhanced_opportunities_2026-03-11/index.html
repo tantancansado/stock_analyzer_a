@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 Enhanced Trading Opportunities Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c1426 0%, #1a202c 100%);
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #4f9cf9, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .timestamp {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(79, 156, 249, 0.1);
+        }
+        
+        .card h3 {
+            color: #4f9cf9;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #00d4ff;
+        }
+        
+        .opportunities-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .opportunities-table th,
+        .opportunities-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .opportunities-table th {
+            background: rgba(79, 156, 249, 0.2);
+            font-weight: 600;
+            color: #4f9cf9;
+        }
+        
+        .opportunities-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .urgency-crítica {
+            background: linear-gradient(45deg, #ff4757, #ff6b7a);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .urgency-alta {
+            background: linear-gradient(45deg, #ffa726, #ffcc02);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .urgency-media {
+            background: linear-gradient(45deg, #26c6da, #00acc1);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .section {
+            margin: 40px 0;
+        }
+        
+        .section h2 {
+            color: #4f9cf9;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 2px solid #4f9cf9;
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Enhanced Trading Opportunities Dashboard</h1>
+            <div class="timestamp">📅 Generado: 2026-03-11 08:48:44</div>
+        </div>
+        <div class="section">
+            <h2>🎯 Resumen Ejecutivo Mejorado</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>📊 Estado del Mercado</h3>
+                    <div class="stat">
+                        <span>Estado General:</span>
+                        <span class="stat-value">FAVORABLE</span>
+                    </div>
+                    <div class="stat">
+                        <span>Sentimiento:</span>
+                        <span class="stat-value">NEUTRAL</span>
+                    </div>
+                    <div class="stat">
+                        <span>Cobertura Mapeo:</span>
+                        <span class="stat-value">0.0%</span>
+                    </div>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                        Mercado favorable con 15 oportunidades de alta calidad
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📈 Estadísticas Mejoradas</h3>
+                    <div class="stat">
+                        <span>Total Oportunidades:</span>
+                        <span class="stat-value">140</span>
+                    </div>
+                    <div class="stat">
+                        <span>Críticas:</span>
+                        <span class="stat-value">1</span>
+                    </div>
+                    <div class="stat">
+                        <span>Con Insider Activity:</span>
+                        <span class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span>Efectividad Correlación:</span>
+                        <span class="stat-value">0.0%</span>
+                    </div>
+                    <div class="stat">
+                        <span>Score Promedio:</span>
+                        <span class="stat-value">52.8/100</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>🏆 Top Oportunidades Mejoradas</h2>
+            <div class="card">
+                <h3>#1 Dow Jones U.S. Financial Administration Index (DJUSFA)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">85/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$413.69</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">8.1%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+52.9%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-crítica">CRÍTICA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>COMPRA INMEDIATA</strong><br>
+                    OPORTUNIDAD EXCEPCIONAL: Dow Jones U.S. Financial Administration Index a solo 8.1% del mínimo con potencial upside de 52.9%
+                </div>
+            </div>
+            <div class="card">
+                <h3>#2 Dow Jones U.S. Water Index (DJUSWU)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">84/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$2772.20</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">9.3%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+13.1%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-alta">ALTA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>CONSIDERAR COMPRA</strong><br>
+                    OPORTUNIDAD SÓLIDA: Dow Jones U.S. Water Index con score alto y riesgo bajo
+                </div>
+            </div>
+            <div class="card">
+                <h3>#3 Dow Jones U.S. Specialty Retailers Index (DJUSRS)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">84/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$4028.90</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">17.6%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+21.8%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-alta">ALTA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>CONSIDERAR COMPRA</strong><br>
+                    OPORTUNIDAD SÓLIDA: Dow Jones U.S. Specialty Retailers Index con score alto y riesgo bajo
+                </div>
+            </div>
+            <div class="card">
+                <h3>#4 Dow Jones U.S. Media Agencies Index (DJUSAV)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">83/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$315.79</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">19.9%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+73.2%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-alta">ALTA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>CONSIDERAR COMPRA</strong><br>
+                    OPORTUNIDAD SÓLIDA: Dow Jones U.S. Media Agencies Index con score alto y riesgo bajo
+                </div>
+            </div>
+            <div class="card">
+                <h3>#5 Dow Jones U.S. Support Services Index (DJUSIS)</h3>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="stat">
+                            <span>Score Final:</span>
+                            <span class="stat-value">81/100</span>
+                        </div>
+                        <div class="stat">
+                            <span>Precio Actual:</span>
+                            <span class="stat-value">$735.68</span>
+                        </div>
+                        <div class="stat">
+                            <span>Dist. del Mínimo:</span>
+                            <span class="stat-value">1.9%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="stat">
+                            <span>Upside Potencial:</span>
+                            <span class="stat-value" style="color: #4caf50;">+22.8%</span>
+                        </div>
+                        <div class="stat">
+                            <span>Urgencia:</span>
+                            <span class="urgency-alta">ALTA</span>
+                        </div>
+                        <div class="stat">
+                            <span>Insider Activity:</span>
+                            <span class="stat-value">❌ No</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: rgba(79, 156, 249, 0.1); border-radius: 8px;">
+                    <strong>CONSIDERAR COMPRA</strong><br>
+                    OPORTUNIDAD SÓLIDA: Dow Jones U.S. Support Services Index con score alto y riesgo bajo
+                </div>
+            </div></div>
+        <div class="section">
+            <h2>📋 Todas las Oportunidades (Mejoradas)</h2>
+            <div style="overflow-x: auto;">
+                <table class="opportunities-table">
+                    <thead>
+                        <tr>
+                            <th>Sector</th>
+                            <th>Score</th>
+                            <th>Precio</th>
+                            <th>Dist. Min %</th>
+                            <th>RSI</th>
+                            <th>Urgencia</th>
+                            <th>Insider</th>
+                            <th>Empresas</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Financial Administration Index</strong></td>
+                            <td><strong>85</strong></td>
+                            <td>$413.69</td>
+                            <td>8.1%</td>
+                            <td>44.4</td>
+                            <td><span class="urgency-crítica">CRÍTICA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Water Index</strong></td>
+                            <td><strong>84</strong></td>
+                            <td>$2772.20</td>
+                            <td>9.3%</td>
+                            <td>45.5</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Specialty Retailers Index</strong></td>
+                            <td><strong>84</strong></td>
+                            <td>$4028.90</td>
+                            <td>17.6%</td>
+                            <td>25.2</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Media Agencies Index</strong></td>
+                            <td><strong>83</strong></td>
+                            <td>$315.79</td>
+                            <td>19.9%</td>
+                            <td>29.6</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Support Services Index</strong></td>
+                            <td><strong>81</strong></td>
+                            <td>$735.68</td>
+                            <td>1.9%</td>
+                            <td>57.2</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Business Support Services Index</strong></td>
+                            <td><strong>81</strong></td>
+                            <td>$994.38</td>
+                            <td>2.9%</td>
+                            <td>59.2</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Nonlife Insurance Index</strong></td>
+                            <td><strong>80</strong></td>
+                            <td>$1262.65</td>
+                            <td>3.9%</td>
+                            <td>57.6</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Insurance Brokers Index</strong></td>
+                            <td><strong>80</strong></td>
+                            <td>$620.60</td>
+                            <td>3.9%</td>
+                            <td>56.1</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Property & Casualty Insurance Index</strong></td>
+                            <td><strong>79</strong></td>
+                            <td>$1946.25</td>
+                            <td>8.6%</td>
+                            <td>56.3</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Specialty Finance Index</strong></td>
+                            <td><strong>79</strong></td>
+                            <td>$725.36</td>
+                            <td>6.3%</td>
+                            <td>57.6</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Specialized Consumer Services Index</strong></td>
+                            <td><strong>76</strong></td>
+                            <td>$2129.40</td>
+                            <td>0.6%</td>
+                            <td>63.8</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Recreational Products Index</strong></td>
+                            <td><strong>75</strong></td>
+                            <td>$253.93</td>
+                            <td>2.3%</td>
+                            <td>79.2</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Residential REITs Index</strong></td>
+                            <td><strong>75</strong></td>
+                            <td>$214.18</td>
+                            <td>3.7%</td>
+                            <td>62.0</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Insurance Index</strong></td>
+                            <td><strong>75</strong></td>
+                            <td>$1275.85</td>
+                            <td>2.9%</td>
+                            <td>61.6</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Health Care Equipment & Services Index</strong></td>
+                            <td><strong>75</strong></td>
+                            <td>$2130.60</td>
+                            <td>2.3%</td>
+                            <td>72.0</td>
+                            <td><span class="urgency-alta">ALTA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Medical Equipment Index</strong></td>
+                            <td><strong>74</strong></td>
+                            <td>$2713.90</td>
+                            <td>4.8%</td>
+                            <td>72.3</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Gambling Index</strong></td>
+                            <td><strong>74</strong></td>
+                            <td>$474.78</td>
+                            <td>3.9%</td>
+                            <td>63.9</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Software Index</strong></td>
+                            <td><strong>74</strong></td>
+                            <td>$6533.40</td>
+                            <td>13.5%</td>
+                            <td>42.4</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Real Estate Services Index</strong></td>
+                            <td><strong>73</strong></td>
+                            <td>$264.17</td>
+                            <td>6.6%</td>
+                            <td>73.5</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dow Jones U.S. Footwear Index</strong></td>
+                            <td><strong>73</strong></td>
+                            <td>$1265.70</td>
+                            <td>6.7%</td>
+                            <td>88.0</td>
+                            <td><span class="urgency-media">MEDIA</span></td>
+                            <td>❌</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="card" style="text-align: center;">
+                <h3>🎯 Enhanced Trading Opportunities System</h3>
+                <p>Análisis con mapeo robusto de 202 tickers a sectores</p>
+                <p>Timestamp: 2026-03-11 08:48:44</p>
+                <p style="color: #a0aec0; font-size: 0.9rem;">
+                    ⚠️ Este análisis es solo para fines informativos. No constituye asesoramiento financiero.
+                </p>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
