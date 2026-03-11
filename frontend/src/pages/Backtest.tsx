@@ -120,8 +120,21 @@ export default function Backtest() {
     )
   }
 
+  // Support both legacy format (bt.metrics) and new live-tracker format (bt.periods)
+  const isLiveTracker = bt.type === 'live_tracker'
+  const btAny = bt as unknown as Record<string, unknown>
+  const legacyMetrics = btAny.metrics as Record<string, unknown> | undefined
+
   const p7 = bt.periods?.['7d']
-  const overall = p7?.overall
+  const overall: PeriodStats | undefined = p7?.overall ?? (legacyMetrics ? {
+    count:          legacyMetrics.total_trades as number ?? 0,
+    win_rate:       legacyMetrics.win_rate as number ?? null,
+    avg_return:     legacyMetrics.avg_trade as number ?? null,
+    median_return:  null,
+    best:           (legacyMetrics.best_trade as Record<string,unknown>)?.profit_loss_pct as number ?? null,
+    worst:          (legacyMetrics.worst_trade as Record<string,unknown>)?.profit_loss_pct as number ?? null,
+  } : undefined)
+
   const strategies = p7?.by_strategy ?? {}
   const scoreBuckets = p7?.by_score ?? {}
   const allTrades = bt.trades ?? []
@@ -144,7 +157,10 @@ export default function Backtest() {
           Backtest — Live Tracker
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Rendimiento real de señales generadas · {bt.date_range?.from} → {bt.date_range?.to} · {bt.total_signals} señales
+          {isLiveTracker
+            ? `Rendimiento real de señales generadas · ${bt.date_range?.from} → ${bt.date_range?.to} · ${bt.total_signals} señales`
+            : `Backtest histórico · ${(btAny.backtest_date as string ?? '').slice(0,10)} · ${overall?.count ?? 0} trades`
+          }
         </p>
       </div>
 
