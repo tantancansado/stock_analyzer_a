@@ -118,6 +118,12 @@
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid hsl(var(--border) / 0.5);
 }
+/* Dark mode: fully opaque header so no tbody rows bleed through */
+.dark .glass table thead th {
+  background: hsl(222 47% 6%);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 
 /* Smooth link transitions */
 a { transition: color 0.15s ease, opacity 0.15s ease; }

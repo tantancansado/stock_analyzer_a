@@ -394,9 +394,9 @@ export default function Backtest() {
               <span className="text-xs text-muted-foreground">{filteredTrades.length} entradas</span>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm" style={{ borderCollapse: 'collapse' }}>
-                <thead style={{ background: 'var(--background, #0f1117)' }}>
-                  <tr className="border-b border-border/30 text-[0.65rem] uppercase tracking-widest text-muted-foreground">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-[0.65rem] uppercase tracking-widest text-muted-foreground">
                     <th className="px-4 py-2.5 text-left font-semibold">Ticker</th>
                     <th className="px-4 py-2.5 text-left font-semibold hidden sm:table-cell">Empresa</th>
                     <th className="px-4 py-2.5 text-left font-semibold hidden md:table-cell">Sector</th>
