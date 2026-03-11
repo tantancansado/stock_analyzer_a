@@ -454,6 +454,10 @@ export interface ScoreHistoryPoint { date: string; score: number; grade: string 
 export const fetchScoreHistory = (ticker: string) =>
   api.get<{ ticker: string; history: ScoreHistoryPoint[]; points: number }>(`/api/score-history/${ticker}`)
 
+export interface PricePoint { date: string; close: number }
+export const fetchPriceHistory = (ticker: string) =>
+  api.get<{ ticker: string; prices: PricePoint[] }>(`/api/price-history/${ticker}`)
+
 export default api
 
 export interface FactorDetail {

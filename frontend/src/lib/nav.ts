@@ -2,7 +2,7 @@ import {
   Globe, TrendingUp, Users, Activity,
   ArrowLeftRight, PieChart, BarChart2, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Layers, Star, Radar, CalendarDays, AlertTriangle, Sparkles, Building2, Zap,
-  DollarSign, Euro, Wallet, GitCompare, Bell,
+  DollarSign, Euro, Wallet, GitCompare, Bell, SlidersHorizontal, CalendarCheck,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -16,8 +16,10 @@ export const NAV: NavItem[] = [
   { path: '/value',          icon: DollarSign,      label: 'Value',               color: '#10b981', tag: '🇺🇸', keywords: ['value', 'fundamental', 'us', 'acciones'] },
   { path: '/value-eu',       icon: Euro,            label: 'Value',               color: '#3b82f6', tag: '🇪🇺', keywords: ['value', 'europa', 'europeo'] },
   { path: '/value-global',   icon: Globe,           label: 'Value',               color: '#a855f7', tag: '🌍', keywords: ['value', 'global', 'mundial'] },
+  { path: '/screener',       icon: SlidersHorizontal, label: 'Screener',          color: '#8b5cf6', keywords: ['screener', 'filtro', 'filtrar', 'buscar acciones', 'fcf', 'pe', 'roe'] },
   { path: '/momentum',       icon: TrendingUp,      label: 'Momentum',            color: '#f97316', keywords: ['momentum', 'tendencia', 'minervini', 'vcp'] },
   { path: '/macro-radar',    icon: Radar,           label: 'Macro Radar',         color: '#e11d48', keywords: ['macro', 'radar', 'economía'] },
+  { path: '/macro-calendar', icon: CalendarCheck,   label: 'Calendario Macro',    color: '#f59e0b', keywords: ['calendario', 'macro', 'fed', 'cpi', 'nfp', 'tipos'] },
   { path: '/earnings',       icon: CalendarDays,    label: 'Earnings Calendar',   color: '#f59e0b', keywords: ['earnings', 'resultados', 'calendario', 'earnings date'] },
   { path: '/dividend-traps', icon: AlertTriangle,   label: 'Dividend Traps',      color: '#ef4444', keywords: ['dividendo', 'trampa', 'yield trap'] },
   { path: '/smart-portfolio', icon: Sparkles,       label: 'Smart Portfolio',     color: '#a855f7', keywords: ['portfolio', 'cartera', 'smart', 'builder'] },

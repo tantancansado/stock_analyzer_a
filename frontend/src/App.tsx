@@ -36,6 +36,8 @@ import FactorStatus from './pages/FactorStatus'
 import PersonalPortfolio from './pages/PersonalPortfolio'
 import Comparador from './pages/Comparador'
 import Alerts from './pages/Alerts'
+import Screener from './pages/Screener'
+import MacroCalendar from './pages/MacroCalendar'
 
 function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; onSignOut: () => void }>) {
   return (
@@ -219,8 +221,10 @@ export default function App() {
               <Route path="/hedge-funds" element={<HedgeFunds />} />
               <Route path="/factor-status" element={<FactorStatus />} />
               <Route path="/my-portfolio"  element={<PersonalPortfolio />} />
-              <Route path="/compare"       element={<Comparador />} />
-              <Route path="/alerts"        element={<Alerts />} />
+              <Route path="/compare"        element={<Comparador />} />
+              <Route path="/alerts"         element={<Alerts />} />
+              <Route path="/screener"       element={<Screener />} />
+              <Route path="/macro-calendar" element={<MacroCalendar />} />
               <Route path="/datos"           element={<Datos />} />
             </Route>
           </Routes>

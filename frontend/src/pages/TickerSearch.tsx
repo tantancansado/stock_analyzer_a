@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { analyzeTicker, analyzeTickerAI, searchTickers, fetchScoreHistory } from '../api/client'
 import type { SearchResult, ScoreHistoryPoint } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
+import PriceChart from '../components/PriceChart'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import { Search, AlertCircle } from 'lucide-react'
@@ -12,7 +14,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 export default function TickerSearch() {
-  const [ticker, setTicker] = useState('')
+  const [searchParams] = useSearchParams()
+  const [ticker, setTicker] = useState(() => searchParams.get('q') ?? '')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [result, setResult] = useState<Record<string, unknown> | null>(null)
@@ -22,6 +25,12 @@ export default function TickerSearch() {
   const [scoreHistory, setScoreHistory] = useState<ScoreHistoryPoint[]>([])
   const [aiNarrative, setAiNarrative] = useState<string | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
+
+  // Auto-search if ?q= param on mount
+  useEffect(() => {
+    const q = searchParams.get('q')
+    if (q) doSearch(q)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Debounced autocomplete
   useEffect(() => {
@@ -227,6 +236,13 @@ export default function TickerSearch() {
                 )}
               </div>
             </div>
+
+            {/* Price chart */}
+            {ss('ticker') && (
+              <div className="mb-6 rounded-xl overflow-hidden border border-border/20 bg-muted/5">
+                <PriceChart ticker={ss('ticker')!} height={180} />
+              </div>
+            )}
 
             {/* Score mini-grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">

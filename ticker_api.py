@@ -2151,6 +2151,25 @@ Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sum
 
 # ─────────────────────────────────────────────────────────────────────────────
 
+@app.route('/api/price-history/<ticker>')
+def price_history(ticker: str):
+    """Return 6-month weekly closing prices for mini charts / sparklines."""
+    ticker = ticker.upper().strip()
+    try:
+        hist = yf.Ticker(ticker).history(period='6mo', interval='1wk')
+        if hist.empty:
+            return jsonify({'ticker': ticker, 'prices': []})
+        prices = [
+            {'date': str(idx.date()), 'close': round(float(row['Close']), 2)}
+            for idx, row in hist.iterrows()
+        ]
+        return jsonify({'ticker': ticker, 'prices': prices})
+    except Exception as e:
+        return jsonify({'ticker': ticker, 'prices': [], 'error': str(e)})
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+
 if __name__ == '__main__':
     import sys
     port = int(os.environ.get('PORT', sys.argv[1] if len(sys.argv) > 1 else 5002))
