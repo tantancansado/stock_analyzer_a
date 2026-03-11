@@ -41,14 +41,26 @@ interface MRSetup {
 
 // ── CSV parsers ────────────────────────────────────────────────────────────────
 
+function splitCSV(line: string): string[] {
+  const result: string[] = []
+  let cur = '', inQ = false
+  for (const ch of line) {
+    if (ch === '"') { inQ = !inQ }
+    else if (ch === ',' && !inQ) { result.push(cur); cur = '' }
+    else { cur += ch }
+  }
+  result.push(cur)
+  return result
+}
+
 function parseSignalsCSV(text: string): Signal[] {
   const lines = text.trim().split('\n')
   if (lines.length < 2) return []
-  const headers = lines[0].split(',').map(h => h.trim())
+  const headers = splitCSV(lines[0]).map(h => h.trim())
   const idx = (name: string) => headers.indexOf(name)
   const rows = lines.slice(1).map(line => {
-    const cols = line.split(',')
-    const get  = (name: string) => cols[idx(name)]?.trim().replace(/^"|"$/g, '') ?? ''
+    const cols = splitCSV(line)
+    const get  = (name: string) => cols[idx(name)]?.trim() ?? ''
     const num  = (name: string) => { const v = parseFloat(get(name)); return isNaN(v) ? null : v }
     return {
       ticker: get('ticker'), company_name: get('company_name'),
@@ -70,11 +82,11 @@ function parseSignalsCSV(text: string): Signal[] {
 function parseMRCSV(text: string): MRSetup[] {
   const lines = text.trim().split('\n')
   if (lines.length < 2) return []
-  const headers = lines[0].split(',').map(h => h.trim())
+  const headers = splitCSV(lines[0]).map(h => h.trim())
   const idx = (name: string) => headers.indexOf(name)
   return lines.slice(1).map(line => {
-    const cols = line.split(',')
-    const get  = (name: string) => cols[idx(name)]?.trim().replace(/^"|"$/g, '') ?? ''
+    const cols = splitCSV(line)
+    const get  = (name: string) => cols[idx(name)]?.trim() ?? ''
     const num  = (name: string) => { const v = parseFloat(get(name)); return isNaN(v) ? null : v }
     return {
       ticker: get('ticker'), company_name: get('company_name'),
