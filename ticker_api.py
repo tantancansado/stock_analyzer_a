@@ -1864,19 +1864,93 @@ def smart_portfolio():
 
 @app.route('/api/backtest')
 def backtest():
-    # Try mean reversion backtest first (most recent)
-    data = _load_json(DOCS / 'backtest' / 'mean_reversion_backtest_latest.json')
-    if data:
-        return jsonify({"type": "mean_reversion", **data})
-    # Try general backtest
-    import glob as glob_mod
-    pattern = str(DOCS / 'backtest' / 'historical_backtest_results_*.json')
-    files = sorted(glob_mod.glob(pattern), reverse=True)
-    if files:
-        data = _load_json(files[0])
-        if data:
-            return jsonify({"type": "general", **data})
-    return jsonify({"error": "No backtest data available"})
+    """Build live backtest stats from portfolio tracker recommendations.csv."""
+    import csv as _csv, statistics as _stats
+
+    csv_path = DOCS / 'portfolio_tracker' / 'recommendations.csv'
+    if not csv_path.exists():
+        return jsonify({"error": "No backtest data available"})
+
+    rows = []
+    with open(csv_path, newline='', encoding='utf-8') as f:
+        for r in _csv.DictReader(f):
+            rows.append(r)
+
+    if not rows:
+        return jsonify({"error": "No backtest data available"})
+
+    def _f(v):
+        try: return float(v) if v not in ('', None) else None
+        except: return None
+
+    def _stats_for(returns):
+        if not returns:
+            return {"count": 0, "win_rate": None, "avg_return": None,
+                    "median_return": None, "best": None, "worst": None}
+        wins = [x for x in returns if x > 0]
+        return {
+            "count": len(returns),
+            "win_rate": round(len(wins) / len(returns) * 100, 1),
+            "avg_return": round(sum(returns) / len(returns), 2),
+            "median_return": round(_stats.median(returns), 2),
+            "best": round(max(returns), 2),
+            "worst": round(min(returns), 2),
+        }
+
+    # Collect per-strategy returns and per-score-bucket returns
+    strat_7d: dict[str, list[float]] = {}
+    score_buckets_7d: dict[str, list[float]] = {"≥70": [], "60-69": [], "50-59": [], "<50": []}
+    trades_7d = []
+
+    for r in rows:
+        ret7  = _f(r.get('return_7d'))
+        score = _f(r.get('value_score'))
+        strat = r.get('strategy', 'VALUE')
+        if ret7 is None:
+            continue
+        strat_7d.setdefault(strat, []).append(ret7)
+        if score is not None:
+            if score >= 70:   score_buckets_7d["≥70"].append(ret7)
+            elif score >= 60: score_buckets_7d["60-69"].append(ret7)
+            elif score >= 50: score_buckets_7d["50-59"].append(ret7)
+            else:             score_buckets_7d["<50"].append(ret7)
+        trades_7d.append({
+            "ticker":          r.get('ticker'),
+            "company_name":    r.get('company_name'),
+            "strategy":        strat,
+            "signal_date":     r.get('signal_date'),
+            "signal_price":    _f(r.get('signal_price')),
+            "value_score":     score,
+            "sector":          r.get('sector'),
+            "return_7d":       ret7,
+            "win_7d":          ret7 > 0,
+            "max_drawdown_30d": _f(r.get('max_drawdown_30d')),
+        })
+
+    all_7d = [t["return_7d"] for t in trades_7d]
+    trades_7d_sorted = sorted(trades_7d, key=lambda x: x["return_7d"], reverse=True)
+
+    # Date range
+    dates = sorted(set(r.get('signal_date','') for r in rows if r.get('signal_date')))
+    market_regime = rows[0].get('market_regime', '') if rows else ''
+
+    result = {
+        "type": "live_tracker",
+        "date_range": {"from": dates[0] if dates else None, "to": dates[-1] if dates else None},
+        "total_signals": len(rows),
+        "market_context": market_regime,
+        "periods": {
+            "7d": {
+                "overall": _stats_for(all_7d),
+                "by_strategy": {s: _stats_for(rets) for s, rets in strat_7d.items()},
+                "by_score": {bucket: _stats_for(rets) for bucket, rets in score_buckets_7d.items()},
+            }
+        },
+        "top_performers_7d": trades_7d_sorted[:10],
+        "worst_performers_7d": trades_7d_sorted[-10:][::-1],
+        "trades": trades_7d_sorted,
+    }
+    return jsonify(result)
 
 
 @app.route('/api/theses/<ticker>')
