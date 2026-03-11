@@ -122,10 +122,34 @@ export default function Backtest() {
   const [sort,    setSort]    = useState<'date' | 'ret' | 'score'>('ret')
 
   useEffect(() => {
-    fetch(`${CSV_BASE}/portfolio_tracker/recommendations.csv`)
-      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.text() })
+    const csvUrl = `${CSV_BASE}/portfolio_tracker/recommendations.csv`
+    fetch(csvUrl)
+      .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status} — ${csvUrl}`); return r.text() })
       .then(text => { setSignals(parseCSV(text)); setLoading(false) })
-      .catch(e => { setError(String(e)); setLoading(false) })
+      .catch(() => {
+        // Fallback: Railway API signals endpoint
+        const apiBase = import.meta.env.VITE_API_URL || ''
+        fetch(`${apiBase}/api/portfolio-tracker/signals`)
+          .then(r => r.json())
+          .then((json: { data?: Record<string,unknown>[] }) => {
+            const rows = json.data ?? []
+            const mapped: Signal[] = rows.map(r => ({
+              ticker:       String(r.ticker ?? ''),
+              company_name: String(r.company_name ?? ''),
+              strategy:     String(r.strategy ?? ''),
+              signal_date:  String(r.signal_date ?? ''),
+              signal_price: Number(r.signal_price) || 0,
+              value_score:  r.value_score != null ? Number(r.value_score) : null,
+              sector:       String(r.sector ?? ''),
+              return_7d:    r.return_7d != null ? Number(r.return_7d) : null,
+              return_14d:   r.return_14d != null ? Number(r.return_14d) : null,
+              return_30d:   r.return_30d != null ? Number(r.return_30d) : null,
+            })).filter(s => s.ticker)
+            setSignals(mapped)
+            setLoading(false)
+          })
+          .catch(e2 => { setError(String(e2)); setLoading(false) })
+      })
   }, [])
 
   if (loading) return <Loading />
