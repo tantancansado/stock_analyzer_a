@@ -137,7 +137,20 @@ export default function Backtest() {
 
   const strategies = p7?.by_strategy ?? {}
   const scoreBuckets = p7?.by_score ?? {}
-  const allTrades = bt.trades ?? []
+
+  // Normalize trades: old format uses profit_loss_pct/win, new format uses return_7d/win_7d
+  const rawTrades = bt.trades ?? []
+  const allTrades: Trade[] = rawTrades.map(t => {
+    const legacy = t as unknown as Record<string, unknown>
+    const ret = t.return_7d ?? (legacy.profit_loss_pct as number | undefined)
+    return {
+      ...t,
+      return_7d: ret ?? 0,
+      win_7d:    t.win_7d ?? (legacy.win as boolean | undefined) ?? (ret == null ? false : ret > 0),
+      signal_date: t.signal_date ?? (legacy.exit_reason as string | undefined) ?? '',
+    }
+  })
+
   const filteredTrades = tradeFilter === 'ALL' ? allTrades : allTrades.filter(t => t.strategy === tradeFilter)
   const strategyKeys = Object.keys(strategies)
 
@@ -387,8 +400,8 @@ export default function Backtest() {
               <span className="text-xs text-muted-foreground">{filteredTrades.length} entradas</span>
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
+              <table className="w-full text-sm border-collapse">
+                <thead className="bg-background/60 backdrop-blur-sm">
                   <tr className="border-b border-border/30 text-[0.65rem] uppercase tracking-widest text-muted-foreground">
                     <th className="px-4 py-2.5 text-left">Ticker</th>
                     <th className="px-4 py-2.5 text-left hidden sm:table-cell">Empresa</th>
