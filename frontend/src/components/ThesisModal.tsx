@@ -4,7 +4,65 @@ import { Badge } from '@/components/ui/badge'
 import GradeBadge from './GradeBadge'
 import ThesisBody from './ThesisBody'
 import TickerLogo from './TickerLogo'
-import type { ValueOpportunity } from '../api/client'
+import type { ValueOpportunity, TechnicalSignal } from '../api/client'
+import { useTechnicalSignals } from '../hooks/useTechnicalSignals'
+
+// ── Technical signals panel ───────────────────────────────────────────────────
+
+function TechnicalPanel({ ticker }: { ticker: string }) {
+  const { signals, summary, loading } = useTechnicalSignals(ticker)
+
+  if (loading) return (
+    <div className="mt-5 pt-5 border-t border-border/40">
+      <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Señales Técnicas</span>
+      <p className="text-xs text-muted-foreground/50 mt-1">Cargando...</p>
+    </div>
+  )
+
+  if (!summary && signals.length === 0) return null
+
+  const bullish = signals.filter((s: TechnicalSignal) => s.direction === 'BULLISH')
+  const bearish = signals.filter((s: TechnicalSignal) => s.direction === 'BEARISH')
+  const top = [...signals]
+    .sort((a: TechnicalSignal, b: TechnicalSignal) => a.days_ago - b.days_ago || b.strength - a.strength)
+    .slice(0, 5)
+
+  const biasColor = summary?.bias === 'BULLISH' ? 'text-emerald-400' : summary?.bias === 'BEARISH' ? 'text-red-400' : 'text-muted-foreground'
+  const biasBg = summary?.bias === 'BULLISH' ? 'bg-emerald-500/15 border-emerald-500/30' : summary?.bias === 'BEARISH' ? 'bg-red-500/15 border-red-500/30' : 'bg-muted/30 border-border/30'
+  const biasLabel = summary?.bias === 'BULLISH' ? 'ALCISTA' : summary?.bias === 'BEARISH' ? 'BAJISTA' : 'NEUTRO'
+
+  return (
+    <div className="mt-5 pt-5 border-t border-border/40">
+      <div className="flex items-center gap-2.5 mb-3 flex-wrap">
+        <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Señales Técnicas</span>
+        {summary && (
+          <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${biasBg} ${biasColor}`}>
+            {biasLabel}
+          </span>
+        )}
+        <span className="text-[0.7rem] text-emerald-400">+{bullish.length} alcistas</span>
+        <span className="text-[0.7rem] text-red-400">−{bearish.length} bajistas</span>
+      </div>
+      <div className="space-y-1.5">
+        {top.map((s: TechnicalSignal, i: number) => (
+          <div key={i} className="flex items-start gap-2">
+            <span className={`shrink-0 text-[0.6rem] font-bold px-1.5 py-0.5 rounded border mt-0.5 ${
+              s.direction === 'BULLISH' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' :
+              s.direction === 'BEARISH' ? 'bg-red-500/10 text-red-400 border-red-500/25' :
+              'bg-muted/20 text-muted-foreground border-border/20'
+            }`}>
+              {s.direction === 'BULLISH' ? '▲' : s.direction === 'BEARISH' ? '▼' : '—'} {s.timeframe === 'WEEKLY' ? 'W' : 'D'}
+            </span>
+            <div className="flex-1 min-w-0">
+              <span className="text-xs font-medium text-foreground">{s.signal_name}</span>
+              <span className="text-[0.65rem] text-muted-foreground ml-1.5">{s.days_ago === 0 ? 'hoy' : s.days_ago === 1 ? 'ayer' : `${s.days_ago}d`}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 // ── Conviction panel ──────────────────────────────────────────────────────────
 
@@ -281,6 +339,9 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
           <div className="flex-1 overflow-y-auto px-5 py-4 min-h-0">
             {/* Thesis */}
             <ThesisBody text={thesisText} />
+
+            {/* Technical signals */}
+            <TechnicalPanel ticker={row.ticker} />
 
             {/* Conviction */}
             <ConvictionPanel row={row} />
