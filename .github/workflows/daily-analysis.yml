@@ -113,6 +113,10 @@ jobs:
         continue-on-error: true
         run: python3 portfolio_tracker.py --all
 
+      - name: Technical Signal Analyzer (portfolio + value opportunities)
+        continue-on-error: true
+        run: python3 technical_signal_analyzer.py || echo "Technical signal analyzer failed"
+
       - name: Check Price Alerts (send emails via Resend)
         continue-on-error: true
         env:

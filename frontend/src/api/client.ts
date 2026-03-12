@@ -505,3 +505,68 @@ export interface FactorStatusData {
 
 export const fetchFactorStatus = () =>
   api.get<FactorStatusData>('/api/factor-status')
+
+export interface TechnicalSignal {
+  ticker: string
+  company_name: string
+  source: string
+  signal_name: string
+  direction: 'BULLISH' | 'BEARISH' | 'NEUTRAL'
+  timeframe: 'DAILY' | 'WEEKLY'
+  triggered_date: string
+  days_ago: number
+  description: string
+  strength: number
+}
+
+export interface TechnicalSummary {
+  ticker: string
+  company_name: string
+  source: string
+  sector: string
+  bullish_count: number
+  bearish_count: number
+  net_signals: number
+  net_score: number
+  bias: 'BULLISH' | 'BEARISH' | 'NEUTRAL'
+  top_bullish_signal: string
+  top_bearish_signal: string
+  most_recent_signal: string
+  generated_at: string
+}
+
+const TECH_SUMMARY_NUMERIC = new Set(['bullish_count','bearish_count','net_signals','net_score'])
+
+export const fetchTechnicalSignals = async (): Promise<{ signals: TechnicalSignal[]; summary: TechnicalSummary[] }> => {
+  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+  const base = csvBase || ''
+
+  const [resSig, resSum] = await Promise.all([
+    fetch(`${base}/technical_signals.csv`),
+    fetch(`${base}/technical_signals_summary.csv`)
+  ])
+
+  if (!resSig.ok || !resSum.ok) throw new Error('Technical signals CSV not available yet')
+
+  const [textSig, textSum] = await Promise.all([resSig.text(), resSum.text()])
+
+  const signals = parseCsvRows(textSig).map(row => {
+    const obj: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(row)) {
+      if (k === 'days_ago' || k === 'strength') obj[k] = v === '' ? 0 : Number(v)
+      else obj[k] = v === '' ? '' : v
+    }
+    return obj as unknown as TechnicalSignal
+  })
+
+  const summary = parseCsvRows(textSum).map(row => {
+    const obj: Record<string, unknown> = {}
+    for (const [k, v] of Object.entries(row)) {
+      if (TECH_SUMMARY_NUMERIC.has(k)) obj[k] = v === '' ? 0 : Number(v)
+      else obj[k] = v === '' ? '' : v
+    }
+    return obj as unknown as TechnicalSummary
+  })
+
+  return { signals, summary }
+}

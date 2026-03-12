@@ -38,6 +38,7 @@ import Comparador from './pages/Comparador'
 import Alerts from './pages/Alerts'
 import Screener from './pages/Screener'
 import MacroCalendar from './pages/MacroCalendar'
+import TechnicalSignals from './pages/TechnicalSignals'
 
 function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; onSignOut: () => void }>) {
   return (
@@ -225,6 +226,7 @@ export default function App() {
               <Route path="/alerts"         element={<Alerts />} />
               <Route path="/screener"       element={<Screener />} />
               <Route path="/macro-calendar" element={<MacroCalendar />} />
+              <Route path="/technical"      element={<TechnicalSignals />} />
               <Route path="/datos"           element={<Datos />} />
             </Route>
           </Routes>

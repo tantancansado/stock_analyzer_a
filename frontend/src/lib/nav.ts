@@ -2,7 +2,7 @@ import {
   Globe, TrendingUp, Users, Activity,
   ArrowLeftRight, PieChart, BarChart2, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Layers, Star, Radar, CalendarDays, AlertTriangle, Sparkles, Building2, Zap,
-  DollarSign, Euro, Wallet, GitCompare, Bell, SlidersHorizontal, CalendarCheck,
+  DollarSign, Euro, Wallet, GitCompare, Bell, SlidersHorizontal, CalendarCheck, CandlestickChart,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -26,6 +26,7 @@ export const NAV: NavItem[] = [
   { path: '/hedge-funds',     icon: Building2,      label: 'Hedge Funds 13F',     color: '#f59e0b', keywords: ['hedge fund', '13f', 'buffett', 'ackman', 'klarman', 'sec', 'whales'] },
   { path: '/factor-status',   icon: Zap,            label: 'Factor Status',       color: '#6366f1', keywords: ['factor', 'value momentum quality insider smart money fama french aqr'] },
   { section: 'Señales' },
+  { path: '/technical',      icon: CandlestickChart, label: 'Señales Técnicas',   color: '#f97316', keywords: ['tecnico', 'señales', 'rsi', 'macd', 'bollinger', 'velas', 'candlestick', 'golden cross', 'hammer'] },
   { path: '/insiders',       icon: Users,           label: 'Insiders',            color: '#8b5cf6', keywords: ['insiders', 'directivos', 'compras'] },
   { path: '/options',        icon: Activity,        label: 'Options Flow',        color: '#ec4899', keywords: ['options', 'opciones', 'flujo', 'institucional'] },
   { path: '/mean-reversion', icon: ArrowLeftRight,  label: 'Mean Reversion',      color: '#14b8a6', keywords: ['mean reversion', 'rebote', 'soporte', 'oversold'] },
