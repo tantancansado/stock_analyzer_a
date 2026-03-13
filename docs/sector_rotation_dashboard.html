@@ -300,10 +300,30 @@
         </div>
 
         <div class="timestamp">
-            Last updated: 2026-03-12 08:39:17
+            Last updated: 2026-03-13 08:44:16
         </div>
 
         <!-- Alerts Section -->
+        
+        <div class="alerts-section">
+            <h2 style="margin-bottom: 15px;">🚨 Rotation Alerts</h2>
+            
+            <div class="alert-item alert-high">
+                <div class="alert-message">💚 💚 Financials acelerando fuerte (velocity: 6.45)</div>
+                <div class="alert-action">→ CONSIDERAR ENTRADA en tickers de este sector</div>
+            </div>
+            
+            <div class="alert-item alert-medium">
+                <div class="alert-message">🔴 🔴 Utilities perdiendo momentum (velocity: -10.82)</div>
+                <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
+            </div>
+            
+            <div class="alert-item alert-medium">
+                <div class="alert-message">🔴 🔴 Consumer Staples perdiendo momentum (velocity: -14.2)</div>
+                <div class="alert-action">→ CONSIDERAR SALIDA de posiciones en este sector</div>
+            </div>
+            
+        </div>
         
 
         <!-- Charts Grid -->
@@ -344,7 +364,7 @@
                 <div class="sector-metrics">
                     <div class="metric">
                         <div class="metric-label">Velocity</div>
-                        <div class="metric-value positive">+4.82</div>
+                        <div class="metric-value positive">+6.45</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Rel Strength</div>
@@ -352,11 +372,11 @@
                     </div>
                     <div class="metric">
                         <div class="metric-label">30D Return</div>
-                        <div class="metric-value negative">-6.32%</div>
+                        <div class="metric-value negative">-8.81%</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Momentum</div>
-                        <div class="metric-value">stable</div>
+                        <div class="metric-value">accelerating</div>
                     </div>
                 </div>
                 <div class="sector-signal signal-BUY">
@@ -372,7 +392,7 @@
                 <div class="sector-metrics">
                     <div class="metric">
                         <div class="metric-label">Velocity</div>
-                        <div class="metric-value positive">+3.32</div>
+                        <div class="metric-value positive">+4.54</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Rel Strength</div>
@@ -380,39 +400,11 @@
                     </div>
                     <div class="metric">
                         <div class="metric-label">30D Return</div>
-                        <div class="metric-value negative">-5.90%</div>
+                        <div class="metric-value negative">-6.15%</div>
                     </div>
                     <div class="metric">
                         <div class="metric-label">Momentum</div>
                         <div class="metric-value">accelerating</div>
-                    </div>
-                </div>
-                <div class="sector-signal signal-BUY">
-                    BUY
-                </div>
-            </div>
-            
-            <div class="sector-card">
-                <div class="sector-header">
-                    <div class="sector-name">Consumer Discretionary</div>
-                    <div class="sector-status status-LEADING">LEADING</div>
-                </div>
-                <div class="sector-metrics">
-                    <div class="metric">
-                        <div class="metric-label">Velocity</div>
-                        <div class="metric-value positive">+3.07</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Rel Strength</div>
-                        <div class="metric-value">100.0</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">30D Return</div>
-                        <div class="metric-value negative">-6.27%</div>
-                    </div>
-                    <div class="metric">
-                        <div class="metric-label">Momentum</div>
-                        <div class="metric-value">stable</div>
                     </div>
                 </div>
                 <div class="sector-signal signal-BUY">
@@ -427,7 +419,35 @@
         <div class="chart-container" style="margin-bottom: 30px;">
             <h2 style="margin-bottom: 20px;">⚡ Emerging Sectors</h2>
             <div class="sectors-grid">
-                <p style='text-align: center; color: #666;'>No sectors in this category</p>
+                
+            <div class="sector-card">
+                <div class="sector-header">
+                    <div class="sector-name">Consumer Discretionary</div>
+                    <div class="sector-status status-IMPROVING">IMPROVING</div>
+                </div>
+                <div class="sector-metrics">
+                    <div class="metric">
+                        <div class="metric-label">Velocity</div>
+                        <div class="metric-value positive">+2.78</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Rel Strength</div>
+                        <div class="metric-value">100.0</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">30D Return</div>
+                        <div class="metric-value negative">-7.98%</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Momentum</div>
+                        <div class="metric-value">stable</div>
+                    </div>
+                </div>
+                <div class="sector-signal signal-ACCUMULATE">
+                    ACCUMULATE
+                </div>
+            </div>
+            
             </div>
         </div>
 
@@ -454,7 +474,7 @@
                 labels: ['Financials', 'Technology', 'Consumer Discretionary', 'Communication Services', 'Healthcare', 'Real Estate', 'Utilities', 'Industrials', 'Consumer Staples', 'Materials', 'Energy'],
                 datasets: [{
                     label: 'Momentum Velocity',
-                    data: [4.82, 3.32, 3.07, 0.99, -1.0, -7.18, -9.86, -12.13, -12.87, -14.93, -24.19],
+                    data: [6.45, 4.54, 2.78, 0.2, -2.72, -7.36, -10.82, -12.36, -14.2, -15.62, -25.07],
                     backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
                     borderWidth: 0
                 }]
@@ -484,10 +504,10 @@
         new Chart(rsCtx, {
             type: 'bar',
             data: {
-                labels: ['Technology', 'Financials', 'Healthcare', 'Consumer Discretionary', 'Industrials', 'Energy', 'Materials', 'Real Estate', 'Utilities', 'Communication Services', 'Consumer Staples'],
+                labels: ['Technology', 'Financials', 'Healthcare', 'Consumer Discretionary', 'Communication Services', 'Industrials', 'Energy', 'Materials', 'Real Estate', 'Utilities', 'Consumer Staples'],
                 datasets: [{
                     label: 'Relative Strength',
-                    data: [100, 100, 100, 100, 0, 0, 0, 0, 0, 0, 0],
+                    data: [100, 100, 100, 100, 40.4, 0, 0, 0, 0, 0, 0],
                     backgroundColor: ['rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(16, 185, 129, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)', 'rgba(239, 68, 68, 0.8)'],
                     borderWidth: 0
                 }]
@@ -519,7 +539,7 @@
         new Chart(quadrantCtx, {
             type: 'scatter',
             data: {
-                datasets: [{'label': 'Leading', 'data': [{'x': 100, 'y': 3.32, 'label': 'Technology'}, {'x': 100, 'y': 4.82, 'label': 'Financials'}, {'x': 100, 'y': 3.07, 'label': 'Consumer Discretionary'}], 'backgroundColor': 'rgba(16, 185, 129, 0.8)'}, {'label': 'Lagging', 'data': [{'x': 0, 'y': -12.13, 'label': 'Industrials'}, {'x': 0, 'y': -24.19, 'label': 'Energy'}, {'x': 0, 'y': -14.93, 'label': 'Materials'}, {'x': 0, 'y': -7.18, 'label': 'Real Estate'}, {'x': 0, 'y': -9.86, 'label': 'Utilities'}, {'x': 0, 'y': -12.87, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(239, 68, 68, 0.8)'}, {'label': 'Neutral', 'data': [{'x': 100, 'y': -1.0, 'label': 'Healthcare'}, {'x': 0, 'y': 0.99, 'label': 'Communication Services'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
+                datasets: [{'label': 'Leading', 'data': [{'x': 100, 'y': 4.54, 'label': 'Technology'}, {'x': 100, 'y': 6.45, 'label': 'Financials'}], 'backgroundColor': 'rgba(16, 185, 129, 0.8)'}, {'label': 'Improving', 'data': [{'x': 100, 'y': 2.78, 'label': 'Consumer Discretionary'}], 'backgroundColor': 'rgba(59, 130, 246, 0.8)'}, {'label': 'Lagging', 'data': [{'x': 0, 'y': -12.36, 'label': 'Industrials'}, {'x': 0, 'y': -25.07, 'label': 'Energy'}, {'x': 0, 'y': -15.62, 'label': 'Materials'}, {'x': 0, 'y': -7.36, 'label': 'Real Estate'}, {'x': 0, 'y': -10.82, 'label': 'Utilities'}, {'x': 0, 'y': -14.2, 'label': 'Consumer Staples'}], 'backgroundColor': 'rgba(239, 68, 68, 0.8)'}, {'label': 'Neutral', 'data': [{'x': 100, 'y': -2.72, 'label': 'Healthcare'}, {'x': 40.4, 'y': 0.2, 'label': 'Communication Services'}], 'backgroundColor': 'rgba(107, 114, 128, 0.8)'}]
             },
             options: {
                 responsive: true,

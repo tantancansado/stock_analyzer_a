@@ -1,43 +1,43 @@
 {
-  "date": "2026-03-12",
-  "timestamp": "2026-03-12T08:35:45.441911",
+  "date": "2026-03-13",
+  "timestamp": "2026-03-13T08:35:49.972145",
   "narrative": null,
-  "macro_regime": "STRESS",
+  "macro_regime": "ALERT",
   "picks_count": 8,
   "top_picks": [
     {
       "ticker": "EXEL",
       "sector": "Healthcare",
       "value_score": 80.32,
-      "analyst_upside_pct": 12.2,
+      "analyst_upside_pct": 13.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "INDV",
+      "sector": "Healthcare",
+      "value_score": 76.32,
+      "analyst_upside_pct": 51.8,
       "conviction_grade": null
     },
     {
       "ticker": "LIFE",
       "sector": "Financial Services",
       "value_score": 72.6,
-      "analyst_upside_pct": 60.6,
+      "analyst_upside_pct": 62.0,
       "conviction_grade": null
     },
     {
       "ticker": "MSFT",
       "sector": "Technology",
       "value_score": 72.32,
-      "analyst_upside_pct": 46.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "FTAI",
-      "sector": "Industrials",
-      "value_score": 66.72,
-      "analyst_upside_pct": 28.6,
+      "analyst_upside_pct": 48.0,
       "conviction_grade": null
     },
     {
       "ticker": "SPGI",
       "sector": "Financial Services",
       "value_score": 66.6,
-      "analyst_upside_pct": 25.4,
+      "analyst_upside_pct": 28.2,
       "conviction_grade": null
     }
   ]
