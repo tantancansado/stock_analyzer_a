@@ -2165,7 +2165,7 @@ Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sum
         resp = client.chat.completions.create(
             model='llama-3.3-70b-versatile',
             messages=[{'role': 'user', 'content': prompt}],
-            max_tokens=1500,
+            max_tokens=4096,
             temperature=0.25,
         )
         ai_text = resp.choices[0].message.content.strip()
@@ -2194,6 +2194,7 @@ Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sum
             'analyst_target': p.get('analyst_target'),
             'analyst_upside': p.get('analyst_upside'),
             'fcf_yield': p.get('fcf_yield'),
+            'dividend_yield': p.get('dividend_yield'),
             'fifty_two_week_high': p.get('fifty_two_week_high'),
             'fifty_two_week_low': p.get('fifty_two_week_low'),
             'action': 'MANTENER', 'conviction': 'MEDIA',
