@@ -13,7 +13,7 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
   const { signals, summary, loading } = useTechnicalSignals(ticker)
 
   if (loading) return (
-    <div className="mt-5 pt-5 border-t border-border/40">
+    <div className="px-5 py-3 border-t border-border/30 bg-muted/5 flex-shrink-0">
       <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Señales Técnicas</span>
       <p className="text-xs text-muted-foreground/50 mt-1">Cargando...</p>
     </div>
@@ -32,8 +32,8 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
   const biasLabel = summary?.bias === 'BULLISH' ? 'ALCISTA' : summary?.bias === 'BEARISH' ? 'BAJISTA' : 'NEUTRO'
 
   return (
-    <div className="mt-5 pt-5 border-t border-border/40">
-      <div className="flex items-center gap-2.5 mb-3 flex-wrap">
+    <div className="px-5 py-3 border-t border-border/30 bg-muted/5 flex-shrink-0">
+      <div className="flex items-center gap-2.5 mb-2 flex-wrap">
         <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Señales Técnicas</span>
         {summary && (
           <span className={`text-xs font-bold px-2 py-0.5 rounded-full border ${biasBg} ${biasColor}`}>
@@ -335,13 +335,13 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             )}
           </div>
 
+          {/* Technical signals — visible before scrolling */}
+          <TechnicalPanel ticker={row.ticker} />
+
           {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto px-5 py-4 min-h-0">
             {/* Thesis */}
             <ThesisBody text={thesisText} />
-
-            {/* Technical signals */}
-            <TechnicalPanel ticker={row.ticker} />
 
             {/* Conviction */}
             <ConvictionPanel row={row} />

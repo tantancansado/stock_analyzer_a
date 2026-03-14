@@ -539,15 +539,19 @@ const TECH_SUMMARY_NUMERIC = new Set(['bullish_count','bearish_count','net_signa
 
 export const fetchTechnicalSignals = async (): Promise<{ signals: TechnicalSignal[]; summary: TechnicalSummary[] }> => {
   const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
-  const base = csvBase || ''
 
+  // Development: use local API endpoint
+  if (!csvBase) {
+    const res = await api.get<{ signals: TechnicalSignal[]; summary: TechnicalSummary[] }>('/api/technical-signals')
+    return res.data
+  }
+
+  // Production: read CSVs directly from GitHub Pages
   const [resSig, resSum] = await Promise.all([
-    fetch(`${base}/technical_signals.csv`),
-    fetch(`${base}/technical_signals_summary.csv`)
+    fetch(`${csvBase}/technical_signals.csv`),
+    fetch(`${csvBase}/technical_signals_summary.csv`)
   ])
-
   if (!resSig.ok || !resSum.ok) throw new Error('Technical signals CSV not available yet')
-
   const [textSig, textSum] = await Promise.all([resSig.text(), resSum.text()])
 
   const signals = parseCsvRows(textSig).map(row => {
@@ -558,7 +562,6 @@ export const fetchTechnicalSignals = async (): Promise<{ signals: TechnicalSigna
     }
     return obj as unknown as TechnicalSignal
   })
-
   const summary = parseCsvRows(textSum).map(row => {
     const obj: Record<string, unknown> = {}
     for (const [k, v] of Object.entries(row)) {
@@ -567,6 +570,5 @@ export const fetchTechnicalSignals = async (): Promise<{ signals: TechnicalSigna
     }
     return obj as unknown as TechnicalSummary
   })
-
   return { signals, summary }
 }

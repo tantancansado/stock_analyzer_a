@@ -2,6 +2,24 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { fetchEUValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchValueEUInsight, type ValueOpportunity } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
+import type { TechnicalSummary } from '../api/client'
+
+function TechBiasCell({ t }: { t?: TechnicalSummary }) {
+  if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
+  const cls = t.bias === 'BULLISH'
+    ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+    : t.bias === 'BEARISH'
+    ? 'bg-red-500/15 text-red-400 border-red-500/30'
+    : 'bg-muted/20 text-muted-foreground border-border/20'
+  const icon = t.bias === 'BULLISH' ? '▲' : t.bias === 'BEARISH' ? '▼' : '—'
+  return (
+    <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full border ${cls}`}
+      title={`+${t.bullish_count} alcistas / -${t.bearish_count} bajistas`}>
+      {icon}
+    </span>
+  )
+}
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
@@ -30,6 +48,7 @@ export default function ValueEU() {
   const { data: regime } = useApi(() => fetchMarketRegime(), [])
   const { data: macroRaw } = useApi(() => fetchMacroRadar(), [])
   const { data: insightRaw } = useApi(() => fetchValueEUInsight(), [])
+  const techMap = useTechnicalSummaryMap()
   const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
@@ -303,6 +322,10 @@ export default function ValueEU() {
                 Div/BB
                 <InfoTooltip text="Dividend yield del ticker. 'BB' indica que la empresa está recomprando acciones propias activamente (buyback), lo que también retorna capital al accionista." align="right" />
               </TableHead>
+              <TableHead className="hidden sm:table-cell">
+                Téc
+                <InfoTooltip text="Sesgo técnico detectado automáticamente: indicadores de tendencia, RSI, MACD, Bollinger y velas. ▲ Alcista · ▼ Bajista · — Neutro." align="right" />
+              </TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -355,6 +378,9 @@ export default function ValueEU() {
                       {d.dividend_yield_pct != null && d.dividend_yield_pct > 0
                         ? <span className="text-emerald-400">{d.dividend_yield_pct.toFixed(1)}%{d.buyback_active ? '+BB' : ''}</span>
                         : <span className="text-muted-foreground">—</span>}
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
+                      <TechBiasCell t={techMap[d.ticker]} />
                     </TableCell>
                     <TableCell>
                       <WatchlistButton ticker={d.ticker} company_name={d.company_name} sector={d.sector} current_price={d.current_price} value_score={d.value_score} conviction_grade={d.conviction_grade} analyst_upside_pct={d.analyst_upside_pct} fcf_yield_pct={d.fcf_yield_pct} />

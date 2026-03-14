@@ -1,6 +1,24 @@
 import React, { useState } from 'react'
 import { fetchGlobalValueOpportunities, fetchThesis, type ValueOpportunity } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
+import type { TechnicalSummary } from '../api/client'
+
+function TechBiasCell({ t }: { t?: TechnicalSummary }) {
+  if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
+  const cls = t.bias === 'BULLISH'
+    ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+    : t.bias === 'BEARISH'
+    ? 'bg-red-500/15 text-red-400 border-red-500/30'
+    : 'bg-muted/20 text-muted-foreground border-border/20'
+  const icon = t.bias === 'BULLISH' ? '▲' : t.bias === 'BEARISH' ? '▼' : '—'
+  return (
+    <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full border ${cls}`}
+      title={`+${t.bullish_count} alcistas / -${t.bearish_count} bajistas`}>
+      {icon}
+    </span>
+  )
+}
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import GradeBadge from '../components/GradeBadge'
@@ -71,6 +89,7 @@ function ConvictionPanel({ row }: { row: GlobalOpportunity }) {
 
 export default function GlobalValue() {
   const { data, loading, error } = useApi(() => fetchGlobalValueOpportunities(), [])
+  const techMap = useTechnicalSummaryMap()
   const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedTicker, setExpandedTicker] = useState<string | null>(null)
@@ -244,6 +263,7 @@ export default function GlobalValue() {
                 <Th k="pe_forward" label="P/E fwd" />
                 <Th k="roe_pct" label="ROE%" />
                 <Th k="pct_from_52w_high" label="vs Max" tooltip="Distancia al máximo de 52 semanas. Negativo = caído del máximo → posible oportunidad de entrada." />
+                <TableHead className="text-[0.68rem] font-semibold uppercase tracking-wider">Téc</TableHead>
                 <TableHead className="w-8" />
               </TableRow>
             </TableHeader>
@@ -320,13 +340,16 @@ export default function GlobalValue() {
                           </span>
                         ) : '—'}
                       </TableCell>
+                      <TableCell>
+                        <TechBiasCell t={techMap[row.ticker]} />
+                      </TableCell>
                       <TableCell onClick={e => e.stopPropagation()}>
                         <WatchlistButton ticker={row.ticker} />
                       </TableCell>
                     </TableRow>
                     {isExpanded && expandedRow && (
                       <TableRow className="border-border/20 hover:bg-transparent">
-                        <TableCell colSpan={13} className="bg-white/2 px-6 pb-5">
+                        <TableCell colSpan={14} className="bg-white/2 px-6 pb-5">
                           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 mb-4">
                             {[
                               { label: 'Margen Neto', val: expandedRow.profit_margin_pct != null ? `${(expandedRow as GlobalOpportunity).profit_margin_pct}%` : '—', color: ((expandedRow as GlobalOpportunity).profit_margin_pct ?? 0) >= 10 ? 'text-emerald-400' : '' },

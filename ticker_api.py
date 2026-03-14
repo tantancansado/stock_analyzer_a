@@ -2225,9 +2225,28 @@ Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sum
 
 # ─────────────────────────────────────────────────────────────────────────────
 
+@app.route('/api/technical-signals')
+def technical_signals():
+    """Return technical signals summary + detail from docs/ CSVs."""
+    try:
+        summary_path = DOCS / 'technical_signals_summary.csv'
+        signals_path = DOCS / 'technical_signals.csv'
+        if not summary_path.exists() or not signals_path.exists():
+            return jsonify({'error': 'Technical signals not generated yet'}), 404
+        summary_df = pd.read_csv(str(summary_path))
+        signals_df = pd.read_csv(str(signals_path))
+        return jsonify({
+            'summary': summary_df.to_dict(orient='records'),
+            'signals': signals_df.to_dict(orient='records'),
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/api/price-history/<ticker>')
 def price_history(ticker: str):
     """Return 6-month weekly closing prices for mini charts / sparklines."""
+    import yfinance as yf
     ticker = ticker.upper().strip()
     try:
         hist = yf.Ticker(ticker).history(period='6mo', interval='1wk')
