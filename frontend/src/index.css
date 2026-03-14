@@ -744,6 +744,177 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   CYBERTRUCK SKIN — angular, metallic, electric cyan
+   Layered over liquid glass: sharper corners, cold steel palette,
+   silver metallic borders, electric accent, scanline texture.
+════════════════════════════════════════════════════════════════════ */
+
+/* ── Override dark mode tokens ─────────────────────────────────── */
+.dark {
+  /* Electric cyan replaces warm indigo as the brand primary */
+  --primary:             194 100% 48%;
+  --primary-foreground:  210 40% 5%;
+  --ring:                194 100% 48%;
+
+  /* Cold steel darkness — shift hue from warm navy to steel-blue */
+  --background:          212 28% 3%;
+  --foreground:          210 22% 92%;
+  --card:                212 24% 5%;
+  --card-foreground:     210 22% 92%;
+  --popover:             212 24% 5%;
+  --popover-foreground:  210 22% 92%;
+
+  /* Steel borders */
+  --border:              210 14% 20%;
+  --input:               210 14% 18%;
+
+  /* Cold muted tones */
+  --muted:               212 22% 9%;
+  --muted-foreground:    210 16% 55%;
+  --secondary:           212 22% 9%;
+  --accent:              212 22% 9%;
+
+  /* Sharper corners — signature angular Cybertruck silhouette */
+  --radius: 0.25rem;
+}
+
+/* ── Cold steel orbs ────────────────────────────────────────────── */
+.dark .orb-1 {
+  background: radial-gradient(circle, hsl(194 100% 40%), hsl(210 80% 26%) 50%, transparent 70%);
+  opacity: 0.38;
+}
+.dark .orb-2 {
+  background: radial-gradient(circle, hsl(210 60% 26%), hsl(220 50% 18%) 50%, transparent 70%);
+  opacity: 0.28;
+}
+.dark .orb-3 {
+  background: radial-gradient(circle, hsl(194 80% 33%), hsl(205 65% 25%) 50%, transparent 70%);
+  opacity: 0.20;
+}
+
+/* ── Metallic glass panels ──────────────────────────────────────── */
+.dark .glass {
+  background: hsl(212 26% 5% / 0.38);
+  border-color: hsl(210 20% 32% / 0.28);
+  box-shadow:
+    0 8px 32px hsl(0 0% 0% / 0.60),
+    0 2px 8px  hsl(0 0% 0% / 0.40),
+    inset 0  1.5px 0 hsl(0 0% 88% / 0.16),   /* steel top edge */
+    inset 0 -1px   0 hsl(0 0% 0%   / 0.14),
+    inset  1.5px 0 0 hsl(0 0% 78% / 0.09),
+    inset -1px   0 0 hsl(0 0% 0%   / 0.07);
+}
+
+/* Silver + electric blue metallic border — no rainbow */
+.dark .glass::before {
+  background: linear-gradient(
+    135deg,
+    hsl(0 0% 82% / 0.48) 0%,
+    hsl(194 100% 65% / 0.30) 22%,
+    hsl(0 0% 55% / 0.08) 48%,
+    hsl(194 80% 55% / 0.22) 76%,
+    hsl(0 0% 86% / 0.42) 100%
+  );
+}
+
+/* Cursor spotlight + scanline texture overlay */
+.dark .glass::after {
+  background:
+    radial-gradient(
+      280px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+      hsl(194 100% 80% / 0.07) 0%,
+      transparent 70%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      hsl(0 0% 100% / 0.010) 3px,
+      hsl(0 0% 100% / 0.010) 4px
+    );
+}
+
+/* Hover — subtle electric glow lift */
+.dark .glass:not(:has(table)):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 52px hsl(0 0% 0% / 0.65),
+    0  6px 18px hsl(0 0% 0% / 0.45),
+    0  0   22px hsl(194 100% 48% / 0.08),
+    inset 0  1.5px 0 hsl(0 0% 90% / 0.24),
+    inset 0 -1px   0 hsl(0 0% 0%   / 0.14),
+    inset  1.5px 0 0 hsl(0 0% 80% / 0.14),
+    inset -1px   0 0 hsl(0 0% 0%   / 0.07);
+}
+
+/* ── Electric aurora — cyan/steel instead of rainbow ────────────── */
+.dark .aurora-line {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(194 100% 48% / 0.0) 5%,
+    hsl(210 80% 62% / 0.75) 22%,
+    hsl(194 100% 56% / 1.0) 50%,
+    hsl(210 80% 62% / 0.75) 78%,
+    hsl(194 100% 48% / 0.0) 95%,
+    transparent 100%
+  );
+}
+
+/* ── Gradient title — steel chrome ──────────────────────────────── */
+.dark .gradient-title {
+  background: linear-gradient(135deg, hsl(194 100% 56%) 0%, hsl(0 0% 82%) 55%, hsl(194 80% 50%) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Table row hover — electric cyan sweep ──────────────────────── */
+.dark tr[class*="cursor-pointer"]:hover {
+  background: linear-gradient(
+    90deg,
+    hsl(194 100% 48% / 0.08) 0%,
+    hsl(194 100% 48% / 0.03) 40%,
+    transparent 100%
+  ) !important;
+}
+.dark tr[class*="cursor-pointer"]:hover td:first-child {
+  border-left: 2px solid hsl(194 100% 48% / 0.55);
+}
+
+/* ── Rotating glow border — electric + steel ────────────────────── */
+.dark .glow-border::before {
+  background: conic-gradient(
+    from var(--glow-angle),
+    transparent          0%,
+    hsl(194 100% 48% / 0.65) 18%,
+    hsl(0   0% 80%  / 0.38) 36%,
+    hsl(210 60% 55% / 0.50) 54%,
+    hsl(194 80% 60% / 0.32) 72%,
+    transparent          90%
+  );
+}
+
+/* ── Scrollbar — electric cyan accent ───────────────────────────── */
+.dark ::-webkit-scrollbar-thumb         { background: hsl(210 28% 20%); }
+.dark ::-webkit-scrollbar-thumb:hover   { background: hsl(194 100% 48% / 0.45); }
+
+/* ── Sticky table headers — steel dark ──────────────────────────── */
+.dark .glass table thead th {
+  background: hsl(212 26% 4%);
+}
+
+/* ── Text selection — electric tint ─────────────────────────────── */
+.dark ::selection {
+  background: hsl(194 100% 48% / 0.20);
+}
+
+/* ── Focus ring — electric cyan ─────────────────────────────────── */
+.dark :focus-visible {
+  outline-color: hsl(194 100% 48% / 0.7);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    MOBILE / iOS FIXES
 ════════════════════════════════════════════════════════════════════ */
 
