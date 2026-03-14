@@ -915,6 +915,207 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+   CYBERTRUCK — PHASE 2: Animations, Electric FX, Glitch
+   Entrance animation, scan sweep, logo pulse, glitch title,
+   shimmer chrome, aurora flow, electric nav, HUD glow.
+════════════════════════════════════════════════════════════════════ */
+
+/* CSS Houdini property — lets the browser interpolate --scan-pos */
+@property --scan-pos {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: -2%;
+}
+
+/* ── Keyframes ────────────────────────────────────────────────── */
+
+/* Angular panel entrance — Cybertruck reveal */
+@keyframes cyberFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) skewX(-0.8deg);
+    filter: brightness(1.5);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) skewX(0);
+    filter: brightness(1);
+  }
+}
+
+/* Scan beam travels top → bottom across glass panels */
+@keyframes cyberScan {
+  from { --scan-pos: -2%; }
+  to   { --scan-pos: 102%; }
+}
+
+/* Logo electric glow pulse */
+@keyframes logoPulse {
+  0%, 100% {
+    box-shadow:
+      0 0  6px hsl(194 100% 48% / 0.35),
+      0 0  0   hsl(194 100% 48% / 0);
+  }
+  50% {
+    box-shadow:
+      0 0 20px hsl(194 100% 48% / 0.80),
+      0 0  0 6px hsl(194 100% 48% / 0.07);
+  }
+}
+
+/* Chrome shimmer sweep across gradient text */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Sidebar "Stock Analyzer" — periodic glitch burst */
+@keyframes cyberGlitch {
+  0%,  87%, 100% { text-shadow: none; transform: translate(0); }
+  89% {
+    text-shadow:
+      -1.5px 0 hsl(0   100% 62% / 0.9),
+       1.5px 0 hsl(194 100% 62% / 0.9);
+    transform: translate(1.5px, 0);
+  }
+  90% {
+    text-shadow:
+       1.5px 0 hsl(0   100% 62% / 0.9),
+      -1.5px 0 hsl(194 100% 62% / 0.9);
+    transform: translate(-1.5px, 0);
+  }
+  91% { text-shadow: none; transform: translate(0, -1px); }
+  92% {
+    text-shadow: -2px 0 hsl(194 100% 68% / 0.7);
+    transform: translate(2px, 1px);
+  }
+  93% {
+    text-shadow:  2px 0 hsl(0 100% 65% / 0.6);
+    transform: translate(-1px, -1px);
+  }
+  94% { text-shadow: none; transform: translate(0); }
+}
+
+/* Aurora line — electric flow */
+@keyframes auroraFlow {
+  from { background-position: 0% center; }
+  to   { background-position: 200% center; }
+}
+
+/* API dot flicker */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  45%, 55% { opacity: 0.25; }
+}
+
+/* ── Glass cards: entrance + scan beam ───────────────────────── */
+.dark .glass {
+  animation:
+    cyberFadeIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both,
+    cyberScan   8s linear 0.6s infinite;
+}
+
+/* Scan beam + cursor spotlight + static scanlines */
+.dark .glass::after {
+  background:
+    /* Electric scan beam */
+    linear-gradient(
+      180deg,
+      transparent                       calc(var(--scan-pos) - 0.8px),
+      hsl(194 100% 72% / 0.18)         var(--scan-pos),
+      transparent                       calc(var(--scan-pos) + 0.8px)
+    ),
+    /* Cursor spotlight */
+    radial-gradient(
+      280px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+      hsl(194 100% 80% / 0.07) 0%, transparent 70%
+    ),
+    /* Static horizontal scanlines */
+    repeating-linear-gradient(
+      0deg,
+      transparent, transparent 3px,
+      hsl(0 0% 100% / 0.010) 3px, hsl(0 0% 100% / 0.010) 4px
+    );
+}
+
+/* ── Sidebar logo — cold steel + electric pulse ──────────────── */
+.dark .sidebar-logo-icon {
+  background: linear-gradient(135deg, hsl(194 100% 30%), hsl(210 80% 20%));
+  animation: logoPulse 2.8s ease-in-out infinite;
+}
+
+/* ── "Stock Analyzer" title — periodic glitch ───────────────── */
+.dark aside h1 {
+  animation: cyberGlitch 8s ease-in-out infinite;
+}
+
+/* ── Gradient titles — chrome shimmer sweep ──────────────────── */
+.dark .gradient-title {
+  background: linear-gradient(
+    90deg,
+    hsl(194 100% 58%)  0%,
+    hsl(0   0%  88%)  18%,
+    hsl(194 100% 70%) 36%,
+    hsl(0   0%  94%)  54%,
+    hsl(194  80% 54%) 72%,
+    hsl(0   0%  88%)  88%,
+    hsl(194 100% 58%) 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* ── Aurora top line — electric flow ─────────────────────────── */
+.dark .aurora-line {
+  background: linear-gradient(
+    90deg,
+    transparent               0%,
+    hsl(210 80% 62% / 0.5)  10%,
+    hsl(194 100% 56% / 0.85) 28%,
+    hsl(194 100% 74% / 1.0)  50%,
+    hsl(194 100% 56% / 0.85) 72%,
+    hsl(210 80% 62% / 0.5)  90%,
+    transparent              100%
+  );
+  background-size: 200% 100%;
+  animation: auroraFlow 3s linear infinite;
+}
+
+/* ── Active nav link — electric left stripe + icon glow ─────── */
+.dark .nav-link-active {
+  box-shadow:
+    inset 3px 0 0 hsl(194 100% 48% / 0.95),
+    inset 0 0 24px hsl(194 100% 48% / 0.04);
+}
+.dark .nav-link-active .nav-icon {
+  color: hsl(194 100% 58%);
+  filter: drop-shadow(0 0 7px hsl(194 100% 52% / 0.95));
+}
+.dark .nav-link:not(.nav-link-active):hover .nav-icon {
+  filter: drop-shadow(0 0 5px hsl(194 100% 52% / 0.55));
+  transition: filter 0.2s ease;
+}
+
+/* ── API dot — electric cyan flicker ─────────────────────────── */
+.dark .api-dot {
+  background: hsl(194 100% 52%);
+  box-shadow: 0 0 8px hsl(194 100% 52% / 0.9);
+  animation: blink 2.2s ease-in-out infinite;
+}
+
+/* ── Score bars — electric glow edge ─────────────────────────── */
+.dark [class*="bg-primary"][style*="width"] {
+  box-shadow: 0 0 8px hsl(194 100% 48% / 0.45);
+}
+
+/* ── Number / ticker highlights — cyan instead of indigo ─────── */
+.dark .text-primary { color: hsl(194 100% 56%); }
+.dark .border-primary { border-color: hsl(194 100% 48% / 0.6); }
+
+/* ═══════════════════════════════════════════════════════════════════
    MOBILE / iOS FIXES
 ════════════════════════════════════════════════════════════════════ */
 
