@@ -1380,11 +1380,15 @@ def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
 
 
 def _save_output(results: dict, errors: list):
+    # Merge con datos existentes — los nuevos sobreescriben los viejos por ticker,
+    # pero los tickers que no estaban en este run se conservan intactos.
+    existing = _load_existing_output()
+    merged = {**existing, **results}   # results gana (más recientes)
     output = {
         'generated_at': datetime.now(timezone.utc).isoformat(),
-        'total':        len(results),
+        'total':        len(merged),
         'errors':       errors,
-        'data':         results,
+        'data':         merged,
     }
     OUTPUT_FILE.parent.mkdir(exist_ok=True)
     OUTPUT_FILE.write_text(json.dumps(output, indent=2, ensure_ascii=False))
