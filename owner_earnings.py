@@ -196,8 +196,18 @@ def calculate(
         cfo    = _metric(metrics, "cash_from_operations", yr)
         rev    = _metric(metrics, "total_revenue", yr)
 
-        interest_tikr  = _metric(metrics, "interest_expense", yr)
-        tax_tikr       = _metric(metrics, "income_tax_expense", yr)
+        # Interest: net interest = interest_expense + interest_income (igual que plantilla)
+        # Si interest_expense es bruto (ID 82, WCN-style), sumamos interest_income (ID 65)
+        # Si interest_expense es ya neto (ID 32, standard), interest_income ya está incluido → no sumar
+        int_exp = _metric(metrics, "interest_expense", yr)
+        int_inc = _metric(metrics, "interest_income", yr)
+        if int_exp is not None and int_inc is not None:
+            # int_exp es negativo (gasto), int_inc es positivo → neto = int_exp + int_inc
+            interest_tikr = int_exp + int_inc
+        else:
+            interest_tikr = int_exp
+        # Tax: accrual income_tax_expense (igual que plantilla — NO usar cash_taxes_paid)
+        tax_tikr = _metric(metrics, "income_tax_expense", yr)
         wc_change_tikr = _metric(metrics, "wc_change", yr)
 
         if shares is None or shares == 0:
@@ -208,12 +218,28 @@ def calculate(
         if not has_full and not has_cfo:
             continue
 
-        # CapEx mant = min(|CapEx|, D&A) — solo con datos TIKR /tf
+        # D&A: preferir dna_cf (D&A del CF statement, sin amortización de intangibles)
+        # La plantilla usa esta línea para limitar CapEx mant
+        # Fallback: EBITDA − EBIT (incluye amortización de intangibles)
+        dna_cf = _metric(metrics, "dna_cf", yr)
         if has_full:
-            dna = ebitda - ebit
-            capex_maint = _capex_maintenance(ebitda, ebit, capex)
+            dna_ebitda = ebitda - ebit   # incluye amortización de intangibles
+            dna = dna_cf if dna_cf is not None else dna_ebitda
         else:
-            dna = None
+            dna = dna_cf
+
+        # CapEx mantenimiento — igual que plantilla:
+        #   1. maintenance_capex de TIKR si disponible (TIKR Pro lo calcula directamente)
+        #   2. min(|CapEx neto|, D&A_cf) donde CapEx neto = |CapEx| − Sale PP&E
+        #   3. min(|CapEx|, D&A) — sin descontar venta de activos (fallback)
+        maint_tikr = _metric(metrics, "maintenance_capex", yr)
+        if maint_tikr is not None:
+            capex_maint = abs(maint_tikr)
+        elif dna is not None and capex is not None:
+            sale_ppe = _metric(metrics, "sale_ppe", yr) or 0.0
+            capex_net = abs(capex) - abs(sale_ppe)
+            capex_maint = min(capex_net, dna) if capex_net > 0 else min(abs(capex), dna)
+        else:
             capex_maint = abs(capex) if capex is not None else 0
 
         # Componentes template — solo si TIKR /tf los tiene (sin estimación)

@@ -753,32 +753,53 @@ def fetch_sigdevs(
 
 # ── Phase 3e: /tf — Historical financial statements (Income Stmt / CF / BS) ──
 
-# dataitemid → friendly name (verified against MSFT + UNH /tf responses)
+# dataitemid → friendly name (verified against MSFT + UNH + WCN /tf responses)
 # Nota: algunos IDs son template-específicos (ej: 28 standard vs 29 insurance)
+# Prioridad de IDs alternativos: el primero en el dict con datos reales gana (ver _process_item)
 TF_ITEMS_OF_INTEREST = {
+    # ── Income Statement ──────────────────────────────────────────────────────
     28:    'total_revenue',        # Total Revenues — template estándar (MSFT, NKE, VRSK…)
     29:    'total_revenue',        # Total Revenues — template aseguradoras/servicios (UNH, CB…)
+    112:   'total_revenue',        # Revenues — ID alternativo algunas empresas (WCN-style)
     10:    'gross_profit',         # Gross Profit
     4051:  'ebitda',               # EBITDA
     21:    'ebit',                 # Operating Income / EBIT
-    32:    'interest_expense',     # Net Interest Expense (más común, tras EBIT en IS)
+    82:    'interest_expense',     # Interest Expense (bruto) — ID WCN/waste management style
+    32:    'interest_expense',     # Net Interest Expense — template estándar (ya incluye interest income)
     11:    'interest_expense',     # Interest Expense — ID alternativo
     36:    'interest_expense',     # Interest on Debt — algunas plantillas tech/software
-    14:    'income_tax_expense',   # Income Tax Expense (Benefit)
+    65:    'interest_income',      # Interest And Investment Income (para calcular net interest = 82+65)
+    75:    'income_tax_expense',   # Income Tax Expense — ID WCN/waste management style
+    14:    'income_tax_expense',   # Income Tax Expense (Benefit) — template estándar
     19:    'income_tax_expense',   # Income Tax — ID alternativo algunos templates
+    4376:  'effective_tax_rate',   # Effective Tax Rate % — fallback cuando no hay tax expense
     15:    'net_income',           # Net Income
     142:   'eps_diluted',          # Diluted EPS Excl Extra Items
+    # ── Cash Flow Statement ───────────────────────────────────────────────────
     2006:  'cash_from_operations', # Cash from Operations
+    2010:  'wc_change',            # Memo: Change in Net Working Capital (más fiable)
     2023:  'wc_change',            # Changes in Working Capital (CF statement)
     2046:  'wc_change',            # Working Capital Change — ID alternativo
     2021:  'capex',                # Capital Expenditure (negative)
+    2042:  'sale_ppe',             # Sale of Property, Plant & Equipment (para CapEx neto)
+    3028:  'cash_interest_paid',   # Cash Interest Paid — pago real de caja
+    3053:  'cash_taxes_paid',      # Cash Taxes Paid — impuestos reales pagados
+    22985: 'maintenance_capex',    # Maintenance CapEx — TIKR lo calcula directamente
+    2160:  'total_dna',            # Total D&A (depreciation + amortization of intangibles)
+    41:    'dna_cf',               # D&A del CF statement (sin amortización de intangibles)
+    # ── Balance Sheet ─────────────────────────────────────────────────────────
     1096:  'cash',                 # Cash And Equivalents
     4173:  'total_debt',           # Total Debt
     1006:  'total_equity',         # Total Common Equity
+    1049:  'long_term_debt',       # Long-Term Debt (para ROIC más preciso)
+    1046:  'short_term_debt',      # Short-term Borrowings
+    1297:  'current_ltd',          # Current Portion of Long-Term Debt
+    # ── Ratios ────────────────────────────────────────────────────────────────
     4128:  'roe_pct',              # Return on Equity %
     4094:  'net_margin_pct',       # Net Income Margin %
     4047:  'ebitda_margin_pct',    # EBITDA Margin %
     4193:  'net_debt_ebitda',      # Net Debt / EBITDA
+    # ── Per share / shares ───────────────────────────────────────────────────
     342:   'shares_diluted',       # Weighted Average Diluted Shares
     2164:  'buybacks',             # Repurchase of Common Stock (negative = buyback)
 }
@@ -1187,7 +1208,7 @@ def _tf_is_fresh(existing: dict, ticker: str, max_age_days: int = 7) -> bool:
         return False
 
 
-def run(tickers: list, dry_run: bool = False) -> dict:
+def run(tickers: list, dry_run: bool = False, force: bool = False) -> dict:
     # Shufflear orden: evita patrón fijo detectable por TIKR
     tickers = list(tickers)
     random.shuffle(tickers)
@@ -1282,7 +1303,7 @@ def run(tickers: list, dry_run: bool = False) -> dict:
         # Financials históricos (/tf — cid+tid)
         # Reusar si el run anterior tiene datos < 7 días (datos anuales no cambian a diario)
         tid = ids.get('tid', '')
-        if _tf_is_fresh(existing, ticker):
+        if not force and _tf_is_fresh(existing, ticker):
             financials_history = existing[ticker]['financials_history']
             n_fin = len(financials_history.get('metrics', {}))
             print(f" {n_fin}fin(cached)", end='', flush=True)
@@ -1377,14 +1398,18 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='TIKR Pro Scraper')
     parser.add_argument('--test',    type=str, help='Test un ticker (ej: MSFT)')
+    parser.add_argument('--ticker',  type=str, help='Alias de --test')
     parser.add_argument('--tickers', type=str, help='Lista separada por comas (ej: MSFT,NKE,V)')
     parser.add_argument('--run',     action='store_true', help='Run universo curado')
     parser.add_argument('--tier',    type=int, choices=[1, 2, 3])
     parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--force',   action='store_true', help='Re-fetch /tf aunque esté en caché (para actualizar campos)')
     args = parser.parse_args()
 
     if args.test:
         run_tickers = [args.test.upper()]
+    elif args.ticker:
+        run_tickers = [args.ticker.upper()]
     elif args.tickers:
         run_tickers = [t.strip().upper() for t in args.tickers.split(',') if t.strip()]
     elif args.run:
@@ -1393,4 +1418,4 @@ if __name__ == '__main__':
         parser.print_help()
         sys.exit(1)
 
-    run(run_tickers, dry_run=args.dry_run)
+    run(run_tickers, dry_run=args.dry_run, force=args.force)
