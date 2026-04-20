@@ -37,30 +37,36 @@ TODAY = date.today().isoformat()
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
+# Pure I/O helpers live in cerebro_lib.io; re-imported here so the existing
+# scan_* functions below can keep using the short names unchanged.
+from cerebro_lib.io import load_csv as _load_csv_raw, load_json, save_json, sf  # noqa: E402
 
-def load_csv(path: Path) -> pd.DataFrame:
-    try:
-        return pd.read_csv(path)
-    except Exception:
-        return pd.DataFrame()
 
-def load_json(path: Path) -> dict:
-    try:
-        with open(path) as f:
-            return json.load(f)
-    except Exception:
-        return {}
+# Per-run CSV cache: scan functions call load_csv 60+ times but most paths
+# repeat (value_opportunities.csv loaded 18x etc). Cache the underlying DataFrame
+# and hand out .copy() to each caller so downstream mutations don't interfere.
+_CSV_CACHE: dict = {}
 
-def save_json(path: Path, data: dict):
-    with open(path, "w") as f:
-        json.dump(data, f, indent=2, default=str)
 
-def sf(v):
-    try:
-        x = float(v)
-        return None if (x != x) else x  # NaN check
-    except Exception:
-        return None
+def load_csv(path):
+    key = str(path)
+    if key not in _CSV_CACHE:
+        _CSV_CACHE[key] = _load_csv_raw(path)
+    return _CSV_CACHE[key].copy()
+
+
+def _reset_csv_cache() -> None:
+    """Clear the per-run cache — used by tests and when rerunning main()."""
+    _CSV_CACHE.clear()
+from cerebro_lib.scoring import (  # noqa: E402
+    compute_convergence_score,
+    score_value_trap,
+    score_smart_money,
+    score_insider_cluster,
+    score_dividend_safety,
+    classify_piotroski_trend,
+    classify_piotroski_signal,
+)
 
 def ai(prompt: str, max_tokens: int = 300):
     if not groq_client:
@@ -233,12 +239,7 @@ def scan_convergence() -> dict:
         # Streak: how many consecutive days in convergence
         streak = (prev_streaks.get(ticker, 0) + 1) if prev_date != TODAY else prev_streaks.get(ticker, 1)
 
-        score = len(strategies) * 20
-        if "VALUE" in strategies and m.get("value_score"):
-            score += min(20, (m["value_score"] or 0) / 5)
-        if "INSIDERS" in strategies: score += 10
-        if streak >= 3: score += 10  # persistence bonus
-        score = min(100, int(score))
+        score = compute_convergence_score(strategies, m.get("value_score"), streak)
 
         convergences.append(dict(
             ticker=ticker, company_name=m.get("company_name",""), sector=m.get("sector",""),
@@ -280,7 +281,17 @@ def generate_alerts(convergence: dict) -> dict:
 
     value_df  = pd.concat([load_csv(DOCS/"value_opportunities.csv"), load_csv(DOCS/"european_value_opportunities.csv")], ignore_index=True)
     mr_df     = load_csv(DOCS/"mean_reversion_opportunities.csv")
-    insiders  = load_csv(DOCS/"recurring_insiders.csv")
+    insiders  = pd.concat(
+        [load_csv(DOCS/"recurring_insiders.csv"), load_csv(DOCS/"eu_recurring_insiders.csv")],
+        ignore_index=True,
+    )
+    # If a ticker appears in both US and EU lists, keep the one with the most purchases
+    if not insiders.empty and "ticker" in insiders.columns and "purchase_count" in insiders.columns:
+        insiders = (
+            insiders.assign(ticker=insiders["ticker"].str.upper())
+            .sort_values("purchase_count", ascending=False)
+            .drop_duplicates(subset="ticker", keep="first")
+        )
     prev_conv = load_json(DOCS/"cerebro_convergence.json")
 
     # ── MR zone entries ────────────────────────────────────────────────────────
@@ -933,43 +944,18 @@ def scan_value_traps() -> dict:
         op_mar = sf(row.get("operating_margin_pct"))
         company= str(row.get("company_name", t))
 
-        trap_score = 0
-        flags = []
-
-        # Piotroski weak (deteriorating quality)
-        if piotr is not None:
-            if piotr <= 2:
-                trap_score += 4; flags.append(f"Piotroski muy débil ({piotr:.0f}/9) — calidad financiera en deterioro")
-            elif piotr <= 4:
-                trap_score += 2; flags.append(f"Piotroski débil ({piotr:.0f}/9)")
-
-        # Negative FCF (burning cash despite "cheap" valuation)
-        if fcf is not None and fcf < 0:
-            trap_score += 3; flags.append(f"FCF negativo ({fcf:.1f}%) — quema caja pese a valuación barata")
-
-        # Near-default fundamental score (missing/unreliable data)
-        if fund_s is not None and 48 <= fund_s <= 53:
-            trap_score += 2; flags.append("Fundamental score cerca de default (50) — datos poco fiables")
-
-        # No analyst coverage with high score (unverified thesis)
-        if (an_cnt is None or an_cnt < 2) and vscore > 65:
-            trap_score += 2; flags.append("Sin cobertura de analistas — tesis sin verificar externamente")
-
-        # Analysts recommend hold/sell despite high score
-        if an_rec in ("hold", "sell") and vscore > 65:
-            trap_score += 2; flags.append(f"Analistas recomiendan '{an_rec}' pese a score alto")
-
-        # High debt + low/negative margins (structural weakness)
-        if debt is not None and op_mar is not None:
-            if debt > 2.0 and op_mar < 5:
-                trap_score += 2; flags.append(f"Deuda alta ({debt:.1f}x) + margen operativo bajo ({op_mar:.1f}%)")
+        trap_score, flags = score_value_trap(
+            piotroski=piotr, fcf_yield_pct=fcf, fundamental_score=fund_s,
+            analyst_count=an_cnt, analyst_recommendation=an_rec,
+            value_score=vscore, debt_to_equity=debt, operating_margin_pct=op_mar,
+        )
 
         if trap_score < 3 or not flags:
             continue
 
         level = "HIGH" if trap_score >= 6 else "MEDIUM"
         traps.append(dict(
-            ticker=ticker if (ticker := t) else t,
+            ticker=t,
             company_name=company,
             severity=level,
             trap_score=trap_score,
@@ -1047,7 +1033,10 @@ def scan_smart_money() -> dict:
         meta = value_map.get(ticker, {})
         n_funds   = len(hf["funds"]) if hf["funds"] else hf["count"]
         n_ins     = int(ins["unique_insiders"] or 1)
-        conv_score = min(100, n_funds * 15 + n_ins * 10 + (meta.get("value_score") or 0) * 0.3)
+        conv_score = score_smart_money(
+            n_hedge_funds=n_funds, n_insiders=n_ins,
+            value_score=meta.get("value_score"),
+        )
         results.append(dict(
             ticker=ticker,
             company_name=meta.get("company_name", ticker),
@@ -1057,7 +1046,7 @@ def scan_smart_money() -> dict:
             hedge_funds=list(hf["funds"])[:5],
             n_insiders=n_ins,
             insider_purchases=int(ins["purchase_count"] or 1),
-            convergence_score=round(conv_score),
+            convergence_score=conv_score,
             in_value=ticker in value_map,
         ))
 
@@ -1120,7 +1109,7 @@ def scan_insider_clusters() -> dict:
             continue
         total_purchases = sum(t["purchase_count"] for t in tickers)
         total_insiders  = sum(t["unique_insiders"] for t in tickers)
-        cluster_score   = min(100, len(tickers) * 20 + total_purchases * 2)
+        cluster_score   = score_insider_cluster(ticker_count=len(tickers), total_purchases=total_purchases)
         clusters.append(dict(
             sector=sector,
             ticker_count=len(tickers),
@@ -1174,28 +1163,10 @@ def scan_dividend_safety() -> dict:
         int_cov = sf(row.get("interest_coverage"))
         vscore  = sf(row.get("value_score")) or 0
 
-        risk_flags = []
-        safety_score = 100  # start safe, subtract for risks
-
-        if payout is not None:
-            if payout > 90:
-                risk_flags.append(f"Payout {payout:.0f}% — insostenible"); safety_score -= 40
-            elif payout > 75:
-                risk_flags.append(f"Payout {payout:.0f}% — zona de riesgo"); safety_score -= 20
-            elif payout < 50:
-                safety_score += 10  # bonus for conservative payout
-
-        if fcf is not None:
-            if fcf < 0:
-                risk_flags.append("FCF negativo — dividendo no cubierto por caja"); safety_score -= 35
-            elif fcf < div_yield:
-                risk_flags.append(f"FCF ({fcf:.1f}%) < dividendo ({div_yield:.1f}%) — cobertura ajustada"); safety_score -= 15
-
-        if int_cov is not None and int_cov < 2:
-            risk_flags.append(f"Interest coverage {int_cov:.1f}x — deuda consume caja"); safety_score -= 15
-
-        safety_score = max(0, min(100, safety_score))
-        rating = "AT_RISK" if safety_score < 40 else "WATCH" if safety_score < 65 else "SAFE"
+        safety_score, rating, risk_flags = score_dividend_safety(
+            dividend_yield_pct=div_yield, payout_ratio_pct=payout,
+            fcf_yield_pct=fcf, interest_coverage=int_cov,
+        )
 
         dividends.append(dict(
             ticker=t,
@@ -1272,16 +1243,8 @@ def scan_piotroski_momentum() -> dict:
         company = str(row.get("company_name", t))
         prev_p  = prev_scores.get(t)
 
-        trend = "STABLE"
-        delta = 0
-        if prev_p is not None:
-            delta = curr_p - prev_p
-            if delta >= 2: trend = "IMPROVING"
-            elif delta >= 1: trend = "SLIGHT_UP"
-            elif delta <= -2: trend = "DETERIORATING"
-            elif delta <= -1: trend = "SLIGHT_DOWN"
-
-        signal = "STRONG" if curr_p >= 7 else "WEAK" if curr_p <= 3 else "NEUTRAL"
+        trend, delta = classify_piotroski_trend(curr_p, prev_p)
+        signal = classify_piotroski_signal(curr_p)
 
         if signal == "NEUTRAL" and trend == "STABLE":
             continue  # skip unremarkable
@@ -1613,16 +1576,7 @@ def scan_short_squeeze() -> dict:
 # 15. QUALITY DECAY EARLY WARNING — deterioro silencioso antes del Piotroski
 # ══════════════════════════════════════════════════════════════════════════════
 
-def _parse_health(row) -> dict:
-    """Extract roe_pct / operating_margin_pct from health_details JSON column if present."""
-    raw = row.get("health_details")
-    if not raw:
-        return {}
-    try:
-        d = json.loads(raw) if isinstance(raw, str) else raw
-        return d if isinstance(d, dict) else {}
-    except Exception:
-        return {}
+from cerebro_lib.io import parse_health_details as _parse_health  # noqa: E402
 
 
 def scan_quality_decay() -> dict:
@@ -3775,6 +3729,7 @@ def scan_daily_plan(exit_sigs: dict, value_traps: dict, smart_money: dict, squee
 # ══════════════════════════════════════════════════════════════════════════════
 
 def main():
+    _reset_csv_cache()
     print("=" * 60)
     print(f"CEREBRO  ·  {TODAY}")
     print("=" * 60)
