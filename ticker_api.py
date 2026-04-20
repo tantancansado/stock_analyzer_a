@@ -1399,104 +1399,17 @@ def market_regime():
     return jsonify({"us": us, "eu": eu})
 
 
-@app.route('/api/cerebro/insights')
-def cerebro_insights():
-    return jsonify(_load_json(DOCS / 'cerebro_insights.json'))
-
-@app.route('/api/cerebro/convergence')
-def cerebro_convergence():
-    return jsonify(_load_json(DOCS / 'cerebro_convergence.json'))
-
-@app.route('/api/cerebro/alerts')
-def cerebro_alerts():
-    return jsonify(_load_json(DOCS / 'cerebro_alerts.json'))
-
-@app.route('/api/cerebro/calibration')
-def cerebro_calibration():
-    return jsonify(_load_json(DOCS / 'cerebro_calibration.json'))
-
-@app.route('/api/cerebro/entry-signals')
-def cerebro_entry_signals():
-    return jsonify(_load_json(DOCS / 'cerebro_entry_signals.json'))
-
-@app.route('/api/cerebro/exit-signals')
-def cerebro_exit_signals():
-    return jsonify(_load_json(DOCS / 'cerebro_exit_signals.json'))
-
-@app.route('/api/cerebro/value-traps')
-def cerebro_value_traps():
-    return jsonify(_load_json(DOCS / 'cerebro_value_traps.json'))
-
-@app.route('/api/cerebro/smart-money')
-def cerebro_smart_money():
-    return jsonify(_load_json(DOCS / 'cerebro_smart_money.json'))
-
-@app.route('/api/cerebro/insider-clusters')
-def cerebro_insider_clusters():
-    return jsonify(_load_json(DOCS / 'cerebro_insider_clusters.json'))
-
-@app.route('/api/cerebro/dividend-safety')
-def cerebro_dividend_safety():
-    return jsonify(_load_json(DOCS / 'cerebro_dividend_safety.json'))
-
-@app.route('/api/cerebro/piotroski')
-def cerebro_piotroski():
-    return jsonify(_load_json(DOCS / 'cerebro_piotroski.json'))
-
-@app.route('/api/cerebro/stress-test')
-def cerebro_stress_test():
-    return jsonify(_load_json(DOCS / 'cerebro_stress_test.json'))
-
-@app.route('/api/cerebro/briefing')
-def cerebro_briefing():
-    return jsonify(_load_json(DOCS / 'cerebro_briefing.json'))
-
-@app.route('/api/cerebro/short-squeeze')
-def cerebro_short_squeeze():
-    return jsonify(_load_json(DOCS / 'cerebro_short_squeeze.json'))
-
-@app.route('/api/cerebro/quality-decay')
-def cerebro_quality_decay():
-    return jsonify(_load_json(DOCS / 'cerebro_quality_decay.json'))
-
-@app.route('/api/cerebro/sector-rv')
-def cerebro_sector_rv():
-    return jsonify(_load_json(DOCS / 'cerebro_sector_rv.json'))
-
-@app.route('/api/cerebro/daily-plan')
-def cerebro_daily_plan():
-    return jsonify(_load_json(DOCS / 'cerebro_daily_plan.json'))
-
-@app.route('/api/cerebro/earnings-revisions')
-def cerebro_earnings_revisions():
-    return jsonify(_load_json(DOCS / 'cerebro_earnings_revisions.json'))
-
-@app.route('/api/cerebro/regime-transition')
-def cerebro_regime_transition():
-    return jsonify(_load_json(DOCS / 'cerebro_regime_transition.json'))
-
-@app.route('/api/cerebro/thesis-drift')
-def cerebro_thesis_drift():
-    return jsonify(_load_json(DOCS / 'cerebro_thesis_drift.json'))
-
-@app.route('/api/cerebro/correlation-breakdown')
-def cerebro_correlation_breakdown():
-    return jsonify(_load_json(DOCS / 'cerebro_correlation_breakdown.json'))
-
-@app.route('/api/cerebro/competitor-displacement')
-def cerebro_competitor_displacement():
-    return jsonify(_load_json(DOCS / 'cerebro_competitor_displacement.json'))
-
-@app.route('/api/cerebro/options-quality')
-def cerebro_options_quality():
-    return jsonify(_load_json(DOCS / 'cerebro_options_quality.json'))
+# Cerebro endpoints registered via blueprint — see ticker_api_blueprints/cerebro.py
+from ticker_api_blueprints.cerebro import cerebro_bp, register_cerebro_routes
+register_cerebro_routes(DOCS)
+app.register_blueprint(cerebro_bp)
 
 
 # ── Chart analysis endpoints ───────────────────────────────────────────────────
 
-@app.route('/api/technical-signals')
-def technical_signals_endpoint():
-    """Stage 2 MA + ATR + Volume signals from technical_filter.py."""
+@app.route('/api/technical-signals/raw')
+def technical_signals_raw():
+    """Legacy JSON format from technical_filter.py (MA + ATR + Volume)."""
     return jsonify(_load_json(DOCS / 'technical_signals.json'))
 
 
@@ -1851,52 +1764,10 @@ def factor_status():
     return jsonify(result)
 
 
-@app.route('/api/daily-briefing')
-def daily_briefing():
-    data = _load_json(DOCS / 'daily_briefing.json')
-    if not data:
-        return jsonify({'narrative': None, 'date': None}), 200
-    return jsonify(data)
-
-
-@app.route('/api/insiders-insight')
-def insiders_insight():
-    data = _load_json(DOCS / 'recurring_insiders_insight.json')
-    if not data:
-        return jsonify({'narrative': None, 'date': None}), 200
-    return jsonify(data)
-
-
-@app.route('/api/industry-groups-insight')
-def industry_groups_insight():
-    data = _load_json(DOCS / 'industry_groups_insight.json')
-    if not data:
-        return jsonify({'narrative': None, 'date': None}), 200
-    return jsonify(data)
-
-
-@app.route('/api/options-flow-insight')
-def options_flow_insight():
-    data = _load_json(DOCS / 'options_flow_insight.json')
-    if not data:
-        return jsonify({'narrative': None, 'date': None}), 200
-    return jsonify(data)
-
-
-@app.route('/api/value-eu-insight')
-def value_eu_insight():
-    data = _load_json(DOCS / 'value_eu_insight.json')
-    if not data:
-        return jsonify({'narrative': None, 'date': None}), 200
-    return jsonify(data)
-
-
-@app.route('/api/portfolio-insight')
-def portfolio_insight():
-    data = _load_json(DOCS / 'portfolio_tracker' / 'portfolio_insight.json')
-    if not data:
-        return jsonify({'narrative': None, 'date': None}), 200
-    return jsonify(data)
+# AI narrative insights endpoints — see ticker_api_blueprints/insights.py
+from ticker_api_blueprints.insights import insights_bp, register_insight_routes
+register_insight_routes(DOCS)
+app.register_blueprint(insights_bp)
 
 
 @app.route('/api/analyze-ai/<ticker>')
