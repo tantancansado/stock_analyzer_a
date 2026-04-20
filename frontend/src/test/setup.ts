@@ -16,3 +16,18 @@ const makeStorage = () => {
 
 Object.defineProperty(globalThis, 'localStorage', { value: makeStorage(), writable: true })
 Object.defineProperty(globalThis, 'sessionStorage', { value: makeStorage(), writable: true })
+
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+Object.defineProperty(globalThis, 'ResizeObserver', { value: ResizeObserverMock, writable: true })
+
+if (!Element.prototype.scrollIntoView) {
+  Object.defineProperty(Element.prototype, 'scrollIntoView', {
+    value: () => {},
+    writable: true,
+  })
+}

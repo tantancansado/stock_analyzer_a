@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react'
 import { Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom'
 import { LayoutDashboard, X, LogOut, ChevronDown } from 'lucide-react'
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ThemeProvider } from './context/ThemeContext'
 import { useAuth } from './context/AuthContext'
 import { PersonalPortfolioProvider } from './context/PersonalPortfolioContext'
@@ -45,7 +46,7 @@ function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: ()
       onClick={onClose}
       style={{ '--nav-color': item.color } as React.CSSProperties}
       className={({ isActive }) => cn(
-        'nav-link flex items-center gap-2.5 px-3 py-[7px] rounded-lg text-sm font-medium transition-all mb-0.5 relative',
+        'nav-link flex items-center gap-2.5 px-3 py-2 lg:py-[9px] rounded-lg text-[0.98rem] lg:text-[1.04rem] font-medium transition-all mb-0.5 relative',
         'text-muted-foreground',
         isActive
           ? 'nav-link-active bg-[color-mix(in_srgb,var(--nav-color)_12%,transparent)] text-foreground'
@@ -53,7 +54,7 @@ function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: ()
       )}
     >
       <span className="nav-icon shrink-0"><item.icon size={15} strokeWidth={1.65} /></span>
-      <span className="flex-1 truncate">{item.label}</span>
+      <span className="nav-label flex-1 truncate">{item.label}</span>
     </NavLink>
   )
 }
@@ -70,7 +71,7 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
             <LayoutDashboard size={14} color="white" strokeWidth={2} />
           </div>
           <div className="min-w-0">
-            <h1 className="text-sm font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
+            <h1 className="text-[1rem] lg:text-[1.05rem] font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
           </div>
         </div>
         <button
@@ -92,7 +93,7 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
         <div className="mt-3">
           <button
             onClick={() => setMoreOpen(v => !v)}
-            className="flex w-full items-center gap-2 px-3 py-1.5 rounded-lg text-[0.62rem] font-semibold uppercase tracking-widest text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors"
+            className="flex w-full items-center gap-2 px-3 py-1.5 rounded-lg text-[0.72rem] lg:text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground/35 hover:text-muted-foreground/70 transition-colors"
           >
             <span className="flex-1 text-left">Más</span>
             <ChevronDown size={11} strokeWidth={1.75} className={cn('transition-transform duration-200', moreOpen ? 'rotate-180' : '')} />
@@ -110,7 +111,7 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
       <div className="px-2 py-2 border-t border-border/30 flex-shrink-0">
         <button
           onClick={onSignOut}
-          className="flex w-full items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all"
+          className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-lg text-[0.98rem] font-medium text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all"
         >
           <LogOut size={15} strokeWidth={1.65} />
           Cerrar sesión
@@ -123,6 +124,7 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
 export default function App() {
   const { user, signOut } = useAuth()
   const location = useLocation()
+  const reduceMotion = useReducedMotion()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [cmdOpen, setCmdOpen]           = useState(false)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
@@ -162,6 +164,7 @@ export default function App() {
   }, [])
 
   const openCmd = useCallback(() => setCmdOpen(true), [])
+  const pageKey = `${location.pathname}${location.search}`
 
   return (
     <ThemeProvider>
@@ -182,14 +185,20 @@ export default function App() {
       {user && (
         <>
           {/* Mobile overlay */}
-          {sidebarOpen && (
-            <button
-              type="button"
-              aria-label="Cerrar menú"
-              className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden animate-fade-in w-full cursor-default"
-              onClick={close}
-            />
-          )}
+          <AnimatePresence>
+            {sidebarOpen && (
+              <motion.button
+                type="button"
+                aria-label="Cerrar menú"
+                className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden w-full cursor-default"
+                onClick={close}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+              />
+            )}
+          </AnimatePresence>
 
           {/* Sidebar */}
           <aside className={cn(
@@ -197,7 +206,7 @@ export default function App() {
             'border-r border-white/10 bg-card/20 backdrop-blur-2xl',
             'transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]',
             'max-md:-translate-x-full',
-            sidebarOpen && 'max-md:translate-x-0',
+            sidebarOpen && 'max-md:translate-x-0 max-md:shadow-2xl',
           )}>
             <SidebarContent onClose={close} onSignOut={handleSignOut} />
           </aside>
@@ -217,43 +226,53 @@ export default function App() {
         <main className="flex-1 p-5 md:p-8 min-w-0" style={{ overflowX: 'clip' }}>
           <ErrorBoundary resetKey={location.pathname}>
           <Suspense fallback={<Loading />}>
-          <Routes>
-            {/* Public route */}
-            <Route path="/login" element={<Login />} />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={pageKey}
+              initial={reduceMotion ? false : { opacity: 0, y: 12, filter: 'blur(6px)' }}
+              animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: 'blur(4px)' }}
+              transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Routes location={location}>
+                {/* Public route */}
+                <Route path="/login" element={<Login />} />
 
-            {/* All other routes require authentication */}
-            <Route element={<ProtectedRoute />}>
-              <Route path="/"               element={<Navigate to="/dashboard" replace />} />
-              <Route path="/dashboard"      element={<Dashboard />} />
-              <Route path="/value"          element={<Value />} />
-              <Route path="/value-eu"       element={<Navigate to="/value?region=eu" replace />} />
-              <Route path="/value-global"   element={<Navigate to="/value?region=global" replace />} />
-              <Route path="/entry-setups"   element={<EntrySetups />} />
-              <Route path="/momentum"       element={<Navigate to="/entry-setups?tab=momentum" replace />} />
-              <Route path="/insiders"       element={<Insiders />} />
-              <Route path="/options"        element={<OptionsFlow />} />
-              <Route path="/mean-reversion" element={<Navigate to="/entry-setups?tab=mean-reversion" replace />} />
-              <Route path="/sectors"        element={<SectorRotation />} />
-              <Route path="/portfolio"      element={<Navigate to="/my-portfolio?tab=signals" replace />} />
-              <Route path="/calibration"   element={<Calibration />} />
-              <Route path="/backtest"       element={<Backtest />} />
-              <Route path="/position-sizing" element={<PositionSizing />} />
-              <Route path="/watchlist"      element={<Watchlist />} />
-              <Route path="/search"         element={<TickerSearch />} />
-              <Route path="/macro-radar"       element={<Macro />} />
-              <Route path="/macro-countries"  element={<Navigate to="/macro-radar?tab=countries" replace />} />
-              <Route path="/earnings"       element={<Calendar />} />
-              <Route path="/catalysts"      element={<Navigate to="/earnings?tab=catalysts" replace />} />
-              <Route path="/dividend-traps"   element={<DividendTraps />} />
-              <Route path="/my-portfolio"  element={<MyPortfolio />} />
-              <Route path="/compare"        element={<Comparador />} />
-              <Route path="/cerebro"        element={<Cerebro />} />
-              <Route path="/alerts"         element={<Alerts />} />
-              <Route path="/bounce"         element={<BounceTrader />} />
-              <Route path="/owner-earnings" element={<OwnerEarnings />} />
-              <Route path="/datos"           element={<Datos />} />
-            </Route>
-          </Routes>
+                {/* All other routes require authentication */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/"               element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/dashboard"      element={<Dashboard />} />
+                  <Route path="/value"          element={<Value />} />
+                  <Route path="/value-eu"       element={<Navigate to="/value?region=eu" replace />} />
+                  <Route path="/value-global"   element={<Navigate to="/value?region=global" replace />} />
+                  <Route path="/entry-setups"   element={<EntrySetups />} />
+                  <Route path="/momentum"       element={<Navigate to="/entry-setups?tab=momentum" replace />} />
+                  <Route path="/insiders"       element={<Insiders />} />
+                  <Route path="/options"        element={<OptionsFlow />} />
+                  <Route path="/mean-reversion" element={<Navigate to="/entry-setups?tab=mean-reversion" replace />} />
+                  <Route path="/sectors"        element={<SectorRotation />} />
+                  <Route path="/portfolio"      element={<Navigate to="/my-portfolio?tab=signals" replace />} />
+                  <Route path="/calibration"   element={<Calibration />} />
+                  <Route path="/backtest"       element={<Backtest />} />
+                  <Route path="/position-sizing" element={<PositionSizing />} />
+                  <Route path="/watchlist"      element={<Watchlist />} />
+                  <Route path="/search"         element={<TickerSearch />} />
+                  <Route path="/macro-radar"       element={<Macro />} />
+                  <Route path="/macro-countries"  element={<Navigate to="/macro-radar?tab=countries" replace />} />
+                  <Route path="/earnings"       element={<Calendar />} />
+                  <Route path="/catalysts"      element={<Navigate to="/earnings?tab=catalysts" replace />} />
+                  <Route path="/dividend-traps"   element={<DividendTraps />} />
+                  <Route path="/my-portfolio"  element={<MyPortfolio />} />
+                  <Route path="/compare"        element={<Comparador />} />
+                  <Route path="/cerebro"        element={<Cerebro />} />
+                  <Route path="/alerts"         element={<Alerts />} />
+                  <Route path="/bounce"         element={<BounceTrader />} />
+                  <Route path="/owner-earnings" element={<OwnerEarnings />} />
+                  <Route path="/datos"           element={<Datos />} />
+                </Route>
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
           </Suspense>
           </ErrorBoundary>
         </main>

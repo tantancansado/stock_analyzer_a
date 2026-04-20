@@ -83,9 +83,9 @@ function StatCard({
   )
   return (
     <Card className="glass glow-border p-5">
-      <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+      <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
       <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
-      {sub && <div className="text-[0.66rem] text-muted-foreground">{sub}</div>}
+      {sub && <div className="text-[0.78rem] text-muted-foreground">{sub}</div>}
     </Card>
   )
 }
@@ -105,7 +105,7 @@ function RegimeCard({ label, data, loading }: { label: string; data: Record<stri
 
   return (
     <Card className={`glass p-5 border ${s.bg}`}>
-      <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+      <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
       <div className={`flex items-center gap-2 ${s.text} mb-2`}>
         {s.icon}
         <span className="text-xl font-extrabold tracking-tight">{s.label}</span>
@@ -123,7 +123,7 @@ function RegimeCard({ label, data, loading }: { label: string; data: Record<stri
           side="bottom"
         />
       </div>
-      <div className="text-[0.66rem] text-muted-foreground space-y-0.5">
+      <div className="text-[0.78rem] text-muted-foreground space-y-0.5">
         {spy != null && <div>Precio: <span className="text-foreground">${Number(spy).toFixed(2)}</span></div>}
         {vs200 != null && (
           <div>vs 200MA: <span className={Number(vs200) >= 0 ? 'text-emerald-400' : 'text-red-400'}>{pct(Number(vs200))}</span></div>
@@ -143,7 +143,7 @@ function upsideColor(upside: number) {
 }
 
 function UpsideCell({ upside }: { upside: number }) {
-  return <div className={`text-[0.65rem] tabular-nums ${upsideColor(upside)}`}>{pct(upside)}</div>
+  return <div className={`text-[0.74rem] tabular-nums ${upsideColor(upside)}`}>{pct(upside)}</div>
 }
 
 function TopPicksTable({
@@ -154,8 +154,8 @@ function TopPicksTable({
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">{title}</span>
-        <Link to={to} className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
+        <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">{title}</span>
+        <Link to={to} className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={11} />
         </Link>
       </div>
@@ -179,21 +179,21 @@ function TopPicksTable({
               <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
                 <TickerLogo ticker={r.ticker} size="md" className="flex-shrink-0" />
                 <div className="w-[4rem] shrink-0">
-                  <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{r.ticker}</div>
+                  <div className="font-mono font-bold text-primary text-[0.92rem] tracking-wide">{r.ticker}</div>
                   {r.conviction_grade && (
                     <GradeBadge grade={r.conviction_grade} score={r.conviction_score} />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[0.72rem] text-muted-foreground truncate">{r.company_name || r.sector || ''}</div>
+                  <div className="text-[0.82rem] text-muted-foreground truncate">{r.company_name || r.sector || ''}</div>
                   {r.sector && r.company_name && (
-                    <div className="text-[0.6rem] text-muted-foreground/50 truncate">{r.sector}</div>
+                    <div className="text-[0.72rem] text-muted-foreground/50 truncate">{r.sector}</div>
                   )}
                 </div>
                 <div className="shrink-0 text-right">
-                  <div className="text-[0.75rem] font-bold text-foreground tabular-nums">
+                  <div className="text-[0.84rem] font-bold text-foreground tabular-nums">
                     {fmt(r.value_score, 0)}
-                    <span className="text-muted-foreground/50 font-normal text-[0.6rem]">pts</span>
+                    <span className="text-muted-foreground/50 font-normal text-[0.7rem]">pts</span>
                   </div>
                   {r.analyst_upside_pct != null && (
                     <UpsideCell upside={r.analyst_upside_pct} />
@@ -218,8 +218,8 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Top Insiders</span>
-        <Link to="/insiders" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
+        <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">Top Insiders</span>
+        <Link to="/insiders" className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={11} />
         </Link>
       </div>
@@ -245,15 +245,15 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
               return (
                 <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
                   <div className="w-[3.5rem] shrink-0">
-                    <div className="font-mono font-bold text-primary text-[0.8rem]">{r.ticker}</div>
-                    <div className="text-[0.58rem] text-muted-foreground/50">{isEU ? 'EU' : 'US'}</div>
+                    <div className="font-mono font-bold text-primary text-[0.92rem]">{r.ticker}</div>
+                    <div className="text-[0.68rem] text-muted-foreground/50">{isEU ? 'EU' : 'US'}</div>
                   </div>
-                  <div className="flex-1 min-w-0 text-[0.72rem] text-muted-foreground truncate">
+                  <div className="flex-1 min-w-0 text-[0.82rem] text-muted-foreground truncate">
                     {String(name ?? r.ticker)}
                   </div>
                   <div className="shrink-0 text-right">
-                    <div className="text-[0.72rem] text-foreground">{r.purchase_count}×</div>
-                    <div className="text-[0.6rem] text-muted-foreground/60">{r.unique_insiders} dir.</div>
+                    <div className="text-[0.82rem] text-foreground">{r.purchase_count}×</div>
+                    <div className="text-[0.72rem] text-muted-foreground/60">{r.unique_insiders} dir.</div>
                   </div>
                 </div>
               )
@@ -274,8 +274,8 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Options Flow</span>
-        <Link to="/options" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
+        <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">Options Flow</span>
+        <Link to="/options" className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={11} />
         </Link>
       </div>
@@ -292,17 +292,17 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
           <>
             <div className="flex items-center gap-4 mb-3">
               <div>
-                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Bullish</div>
+                <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">Bullish</div>
                 <div className="text-2xl font-extrabold text-emerald-400 tabular-nums">{bullish}</div>
               </div>
               <div className="h-10 w-px bg-border/50" />
               <div>
-                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Bearish</div>
+                <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">Bearish</div>
                 <div className="text-2xl font-extrabold text-red-400 tabular-nums">{bearish}</div>
               </div>
               <div className="h-10 w-px bg-border/50" />
               <div>
-                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Total</div>
+                <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">Total</div>
                 <div className="text-2xl font-extrabold tabular-nums">{total}</div>
               </div>
             </div>
@@ -314,7 +314,7 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
                 />
               </div>
             )}
-            <div className="text-[0.6rem] text-muted-foreground mt-1.5 text-right">
+            <div className="text-[0.72rem] text-muted-foreground mt-1.5 text-right">
               {total > 0 ? `${Math.round((bullish / total) * 100)}% alcista` : ''}
             </div>
           </>
@@ -738,10 +738,10 @@ function LivePriceItem({ id, price }: { id: string; price: { label: string; kind
 
   return (
     <div className="flex items-center gap-1.5 px-2.5 border-r border-border/20 last:border-0">
-      <span className="text-[0.62rem] text-muted-foreground/60 hidden sm:inline">{price.label}</span>
-      <span className={`font-mono font-bold text-[0.75rem] tabular-nums ${chgColor}`}>{fmtVal()}</span>
+      <span className="text-[0.72rem] text-muted-foreground/60 hidden sm:inline">{price.label}</span>
+      <span className={`font-mono font-bold text-[0.86rem] tabular-nums ${chgColor}`}>{fmtVal()}</span>
       {price.change_pct != null && (
-        <span className={`text-[0.6rem] tabular-nums ${chgColor}`}>
+        <span className={`text-[0.72rem] tabular-nums ${chgColor}`}>
           {chg >= 0 ? '+' : ''}{chg.toFixed(2)}%
         </span>
       )}
@@ -765,7 +765,7 @@ function LivePricesBar() {
       {/* Status pill */}
       <div className="flex items-center gap-1.5 px-3 py-2 border-r border-border/20 shrink-0">
         <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground/30'}`} />
-        <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/60">
+        <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/60">
           {isOpen ? 'Live' : 'Closed'}
         </span>
       </div>
@@ -778,7 +778,7 @@ function LivePricesBar() {
       })}
 
       {/* Freshness */}
-      <div className={`ml-auto px-3 text-[0.58rem] tabular-nums shrink-0 ${freshness}`}>
+      <div className={`ml-auto px-3 text-[0.68rem] tabular-nums shrink-0 ${freshness}`}>
         {secsAgo < 5 ? 'ahora' : `${secsAgo}s`}
       </div>
     </div>
@@ -809,29 +809,29 @@ function ActionRow({ action, idx }: { action: DailyPlanAction; idx: number }) {
   const badgeStyle = ACCION_STYLES[accionKey] ?? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
   return (
     <div className="flex items-start gap-3 py-2.5 border-b border-border/15 last:border-0">
-      <div className="shrink-0 w-5 h-5 rounded-full bg-muted/20 flex items-center justify-center text-[0.6rem] font-bold text-muted-foreground mt-0.5">
+      <div className="shrink-0 w-5 h-5 rounded-full bg-muted/20 flex items-center justify-center text-[0.68rem] font-bold text-muted-foreground mt-0.5">
         {idx + 1}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1 flex-wrap">
-          <span className={`text-[0.62rem] font-bold px-1.5 py-0.5 rounded border ${badgeStyle}`}>
+          <span className={`text-[0.7rem] font-bold px-1.5 py-0.5 rounded border ${badgeStyle}`}>
             {action.accion}
           </span>
-          <span className="font-mono font-bold text-primary text-[0.82rem] tracking-wide">{action.instrumento}</span>
+          <span className="font-mono font-bold text-primary text-[0.94rem] tracking-wide">{action.instrumento}</span>
           {action.size_hint && (
-            <span className="text-[0.58rem] px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30">
+            <span className="text-[0.68rem] px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30">
               {action.size_hint}
             </span>
           )}
         </div>
-        <div className="text-[0.72rem] text-foreground/80 mb-0.5">{action.razon}</div>
+        <div className="text-[0.84rem] text-foreground/80 mb-0.5">{action.razon}</div>
         {action.catalizador && (
-          <div className="text-[0.65rem] text-muted-foreground/70">
+          <div className="text-[0.76rem] text-muted-foreground/70">
             <span className="text-muted-foreground/50">Catalizador:</span> {action.catalizador}
           </div>
         )}
         {action.invalidacion && (
-          <div className="text-[0.62rem] text-muted-foreground/50 mt-0.5">
+          <div className="text-[0.72rem] text-muted-foreground/50 mt-0.5">
             <span className="text-red-400/50">Invalida si:</span> {action.invalidacion}
           </div>
         )}
@@ -844,26 +844,26 @@ function MacroPlayRow({ play }: { play: MacroPlay }) {
   return (
     <div className="flex items-start gap-3 py-2 border-b border-border/10 last:border-0">
       <div className="shrink-0 mt-0.5">
-        <div className="font-mono font-bold text-[0.78rem] text-primary">{play.instrument}</div>
+        <div className="font-mono font-bold text-[0.9rem] text-primary">{play.instrument}</div>
         {play.direction && (
-          <div className="text-[0.6rem] text-muted-foreground/60">{play.direction}</div>
+          <div className="text-[0.72rem] text-muted-foreground/60">{play.direction}</div>
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-[0.7rem] text-foreground/80">{play.thesis}</div>
-        <div className="text-[0.62rem] text-muted-foreground/50 mt-0.5">{play.timeframe} · {play.risk}</div>
+        <div className="text-[0.82rem] text-foreground/80">{play.thesis}</div>
+        <div className="text-[0.72rem] text-muted-foreground/50 mt-0.5">{play.timeframe} · {play.risk}</div>
         {play.eu_alternative && (
           <div className="mt-1 flex items-center gap-1">
-            <span className="text-[0.55rem] font-bold uppercase tracking-wide text-blue-400/70 border border-blue-400/30 px-1 py-px rounded">EU</span>
+            <span className="text-[0.64rem] font-bold uppercase tracking-wide text-blue-400/70 border border-blue-400/30 px-1 py-px rounded">EU</span>
             {play.eu_alternative.ticker ? (
-              <span className="text-[0.62rem] font-mono text-blue-300/80">{play.eu_alternative.ticker}</span>
+              <span className="text-[0.72rem] font-mono text-blue-300/80">{play.eu_alternative.ticker}</span>
             ) : null}
-            <span className="text-[0.58rem] text-muted-foreground/40 truncate">{play.eu_alternative.available}</span>
+            <span className="text-[0.68rem] text-muted-foreground/40 truncate">{play.eu_alternative.available}</span>
           </div>
         )}
       </div>
       <div className="shrink-0 text-right">
-        <div className="text-[0.72rem] font-bold tabular-nums text-foreground">{play.score}</div>
+        <div className="text-[0.82rem] font-bold tabular-nums text-foreground">{play.score}</div>
         <div className="w-10 h-1 rounded-full bg-muted/20 mt-1 overflow-hidden">
           <div
             className={`h-full rounded-full ${play.score >= 80 ? 'bg-emerald-500' : play.score >= 65 ? 'bg-amber-500' : 'bg-blue-500'}`}
@@ -906,21 +906,21 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
         <div className="flex items-center gap-2.5">
           <Target size={16} className={ss.text} />
-          <span className="text-[0.7rem] font-bold uppercase tracking-widest text-muted-foreground">
+          <span className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
             Plan del Día — Cerebro IA
           </span>
-          <span className="text-[0.6rem] text-muted-foreground/50">{data.generated_at}</span>
+          <span className="text-[0.72rem] text-muted-foreground/50">{data.generated_at}</span>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {data.ai_powered && (
-            <span className="flex items-center gap-1 text-[0.58rem] font-bold px-1.5 py-0.5 rounded border bg-purple-500/15 text-purple-300 border-purple-500/30">
+            <span className="flex items-center gap-1 text-[0.66rem] font-bold px-1.5 py-0.5 rounded border bg-purple-500/15 text-purple-300 border-purple-500/30">
               <Sparkles size={9} /> AI
             </span>
           )}
-          <span className="text-[0.6rem] px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30 tabular-nums">
+          <span className="text-[0.7rem] px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30 tabular-nums">
             Confianza {data.confianza}%
           </span>
-          <span className={`text-[0.7rem] font-extrabold px-2.5 py-1 rounded border ${ss.badge}`}>
+          <span className={`text-[0.8rem] font-extrabold px-2.5 py-1 rounded border ${ss.badge}`}>
             {data.sesgo}
           </span>
         </div>
@@ -928,12 +928,12 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
       {/* Situacion */}
       {data.situacion && (
-        <div className={`text-[0.85rem] font-semibold mb-1 ${ss.text}`}>{data.situacion}</div>
+        <div className={`text-[0.98rem] font-semibold mb-1 ${ss.text}`}>{data.situacion}</div>
       )}
 
       {/* Narrativa */}
       {data.narrativa && (
-        <div className="text-[0.72rem] text-muted-foreground/80 mb-4 leading-relaxed">{data.narrativa}</div>
+        <div className="text-[0.84rem] text-muted-foreground/80 mb-4 leading-relaxed">{data.narrativa}</div>
       )}
 
       <div className="h-px bg-border/20 mb-4" />
@@ -941,7 +941,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Acciones Inmediatas */}
       {(data.acciones_inmediatas?.length ?? 0) > 0 && (
         <div className="mb-4">
-          <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+          <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
             Acciones Inmediatas
           </div>
           <div>
@@ -957,7 +957,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
         <div className="mb-4">
           <button
             onClick={() => setShowMacroPlays(prev => !prev)}
-            className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 hover:text-foreground transition-colors w-full text-left"
+            className="flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2 hover:text-foreground transition-colors w-full text-left"
           >
             Macro Plays ({data.macro_plays.length})
             {showMacroPlays ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
@@ -981,11 +981,11 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       <div className="flex gap-4 mb-4 flex-wrap">
         {(data.value_en_entorno?.length ?? 0) > 0 && (
           <div className="flex-1 min-w-0">
-            <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+            <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
               VALUE en este entorno
             </div>
             {data.value_en_entorno_razon && (
-              <div className="text-[0.62rem] text-muted-foreground/60 mb-2">{data.value_en_entorno_razon}</div>
+              <div className="text-[0.74rem] text-muted-foreground/60 mb-2">{data.value_en_entorno_razon}</div>
             )}
             <div className="flex flex-wrap gap-1.5">
               {data.value_en_entorno.map(v => (
@@ -994,13 +994,13 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
                   to={`/search?q=${v.ticker}`}
                   className="flex items-center gap-1.5 px-2 py-1 rounded border border-border/30 bg-muted/10 hover:bg-muted/20 transition-colors"
                 >
-                  <span className="font-mono font-bold text-primary text-[0.78rem]">{v.ticker}</span>
+                  <span className="font-mono font-bold text-primary text-[0.9rem]">{v.ticker}</span>
                   {v.grade && (
-                    <span className="text-[0.55rem] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+                    <span className="text-[0.64rem] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
                       {v.grade}
                     </span>
                   )}
-                  <span className="text-[0.62rem] text-muted-foreground/60">{v.score}pts</span>
+                  <span className="text-[0.72rem] text-muted-foreground/60">{v.score}pts</span>
                 </Link>
               ))}
             </div>
@@ -1009,7 +1009,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
         {(data.evitar?.length ?? 0) > 0 && (
           <div className="shrink-0">
-            <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+            <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
               Evitar
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -1017,7 +1017,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
                 <span
                   key={e.ticker}
                   title={e.razon}
-                  className="font-mono font-bold text-[0.75rem] px-2 py-0.5 rounded border bg-red-500/10 text-red-400 border-red-500/25 cursor-help"
+                  className="font-mono font-bold text-[0.86rem] px-2 py-0.5 rounded border bg-red-500/10 text-red-400 border-red-500/25 cursor-help"
                 >
                   {e.ticker}
                 </span>
@@ -1030,12 +1030,12 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Agenda */}
       {(data.agenda_semana?.length ?? 0) > 0 && (
         <div className="mb-3">
-          <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+          <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
             Agenda
           </div>
           <div className="flex flex-wrap gap-2">
             {data.agenda_semana.slice(0, 4).map((ev, i) => (
-              <div key={i} className={`flex items-center gap-1.5 px-2 py-1 rounded border text-[0.65rem] ${
+              <div key={i} className={`flex items-center gap-1.5 px-2 py-1 rounded border text-[0.76rem] ${
                 ev.impacto === 'ALTO'
                   ? 'border-red-500/25 bg-red-500/8 text-red-300'
                   : ev.impacto === 'MEDIO'
@@ -1044,7 +1044,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
               }`}>
                 <span className="font-mono text-muted-foreground/60">{ev.fecha}</span>
                 <span className="font-semibold">{ev.evento}</span>
-                <span className="text-[0.55rem] font-bold opacity-70">[{ev.impacto}]</span>
+                <span className="text-[0.64rem] font-bold opacity-70">[{ev.impacto}]</span>
               </div>
             ))}
           </div>
@@ -1054,7 +1054,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Frase del día */}
       {data.frase_del_dia && (
         <div className="pt-2 border-t border-border/15">
-          <p className="text-[0.68rem] italic text-muted-foreground/60">{data.frase_del_dia}</p>
+          <p className="text-[0.8rem] italic text-muted-foreground/60">{data.frase_del_dia}</p>
         </div>
       )}
     </Card>
@@ -1292,7 +1292,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="mb-7 animate-fade-in-up">
         <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Dashboard</h2>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-[1rem] text-muted-foreground">
           Resumen ejecutivo · Actualización diaria automática
         </p>
       </div>
@@ -1321,19 +1321,19 @@ export default function Dashboard() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-[0.72rem] font-bold uppercase tracking-widest text-foreground/80">Cerebro IA</span>
+                  <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-foreground/80">Cerebro IA</span>
                   {!loadingEntry && !loadingConv && (entryCount > 0 || convCount > 0) && (
-                    <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">
+                    <span className="text-[0.7rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">
                       {entryCount > 0 ? `${entryCount} señales` : `${convCount} convergencias`}
                     </span>
                   )}
                   {!loadingAlerts && alertCount > 0 && (
-                    <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-red-500/15 text-red-400 font-bold">
+                    <span className="text-[0.7rem] px-1.5 py-0.5 rounded-full bg-red-500/15 text-red-400 font-bold">
                       {alertCount} alertas
                     </span>
                   )}
                 </div>
-                <p className="text-[0.7rem] text-muted-foreground/60">
+                <p className="text-[0.82rem] text-muted-foreground/60">
                   Agente IA que analiza convergencia de señales y genera alertas automáticas
                 </p>
               </div>
@@ -1349,10 +1349,10 @@ export default function Dashboard() {
           <div className="flex items-start gap-3 px-4 py-3 rounded-lg border border-amber-500/30 bg-amber-500/8">
             <AlertTriangle size={15} className="text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Earnings próximos</span>
+              <span className="text-[0.82rem] font-bold text-amber-400 uppercase tracking-[0.14em]">Earnings próximos</span>
               <div className="flex flex-wrap gap-1.5 mt-1.5">
                 {earningsWarnings.map(r => (
-                  <span key={r.ticker} className="text-[0.7rem] font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/15">
+                  <span key={r.ticker} className="text-[0.8rem] font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/15">
                     {r.ticker}
                     {r.days_to_earnings != null && r.days_to_earnings <= 7 && (
                       <span className="ml-1 font-normal text-amber-400/70">{r.days_to_earnings}d</span>
@@ -1372,8 +1372,8 @@ export default function Dashboard() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={14} className="text-primary" />
-                <span className="text-[0.62rem] font-bold uppercase tracking-widest text-primary/70">Acciones pendientes · Mi Cartera</span>
-                <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
+                <span className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-primary/70">Acciones pendientes · Mi Cartera</span>
+                <span className="text-[0.7rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
               </div>
               <div className="space-y-1.5">
                 {actionItems.slice(0, 8).map((item, i) => (
@@ -1383,7 +1383,7 @@ export default function Dashboard() {
                     className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/10 border border-border/20 hover:bg-muted/20 hover:border-border/40 transition-colors group"
                   >
                     <span className={item.color}>{item.icon}</span>
-                    <span className="text-[0.75rem] text-foreground/80 flex-1">{item.text}</span>
+                    <span className="text-[0.86rem] text-foreground/80 flex-1">{item.text}</span>
                     <ChevronRight size={11} className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors" />
                   </Link>
                 ))}
@@ -1398,14 +1398,14 @@ export default function Dashboard() {
         <div className="mb-4 animate-fade-in-up">
           <Link to="/portfolio" className="flex items-center gap-4 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <div className="flex items-center gap-2 min-w-0 flex-1">
-              <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 shrink-0">Win Rate 7d</span>
+              <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Win Rate 7d</span>
               <span className={`text-xl font-extrabold tabular-nums ${winRateColor()}`}>
                 {winRate7d.win_rate.toFixed(1)}%
               </span>
               {winRateIsConviction && (
-                <span className="text-[0.55rem] font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">≥55pts</span>
+                <span className="text-[0.64rem] font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">≥55pts</span>
               )}
-              <span className="text-[0.68rem] text-muted-foreground/50 hidden sm:inline">
+              <span className="text-[0.78rem] text-muted-foreground/50 hidden sm:inline">
                 · avg <span className={winRate7d.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{winRate7d.avg_return >= 0 ? '+' : ''}{winRate7d.avg_return.toFixed(1)}%</span>
                 {' '}· {winRate7d.count} señales
               </span>
@@ -1420,7 +1420,7 @@ export default function Dashboard() {
         <div className="mb-4 animate-fade-in-up">
           <Link to="/my-portfolio" className="flex items-center gap-3 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <Wallet size={14} strokeWidth={1.75} className="text-muted-foreground/50 shrink-0" />
-            <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 shrink-0">Mi Cartera</span>
+            <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Mi Cartera</span>
             {loadingLivePrices ? (
               <span className="text-xs text-muted-foreground/40">cargando…</span>
             ) : (() => {
@@ -1440,7 +1440,7 @@ export default function Dashboard() {
                   <span className={`text-xs font-semibold tabular-nums hidden sm:inline ${pos ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
                     {pos ? '+' : ''}${pl.toFixed(0)}
                   </span>
-                  <span className="text-[0.68rem] text-muted-foreground/40 hidden md:inline">
+                  <span className="text-[0.78rem] text-muted-foreground/40 hidden md:inline">
                     {myPositions.length} posiciones · ${totalValue.toFixed(0)}
                   </span>
                 </div>
@@ -1454,7 +1454,7 @@ export default function Dashboard() {
       {/* Toggle: Ver datos de mercado */}
       <button
         onClick={() => setShowDetails(d => !d)}
-        className="w-full flex items-center justify-center gap-2 mb-5 py-2.5 rounded-lg border border-border/25 bg-muted/8 text-muted-foreground/50 hover:text-muted-foreground hover:border-border/50 hover:bg-muted/15 transition-colors text-[0.68rem] font-bold uppercase tracking-widest"
+        className="w-full flex items-center justify-center gap-2 mb-5 py-2.5 rounded-lg border border-border/25 bg-muted/8 text-muted-foreground/50 hover:text-muted-foreground hover:border-border/50 hover:bg-muted/15 transition-colors text-[0.76rem] font-bold uppercase tracking-[0.16em]"
       >
         <ChevronDown size={12} className={`collapse-chevron ${showDetails ? 'open' : ''}`} />
         {showDetails ? 'Ocultar datos' : 'Ver datos de mercado'}
@@ -1521,8 +1521,8 @@ export default function Dashboard() {
                 <div className="h-0.5 bg-gradient-to-r from-emerald-500/60 via-emerald-400/80 to-emerald-500/20" />
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-[0.58rem] font-bold tracking-[0.18em] text-emerald-400/60 uppercase">Setup del día</span>
-                    <span className="inline-flex items-center gap-1 text-[0.58rem] font-bold text-emerald-400/80 tracking-wide">
+                    <span className="text-[0.68rem] font-bold tracking-[0.18em] text-emerald-400/60 uppercase">Setup del día</span>
+                    <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold text-emerald-400/80 tracking-wide">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       LISTO
                     </span>
@@ -1530,30 +1530,30 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
                       <div className="text-3xl font-black tracking-tight text-foreground group-hover:text-emerald-400 transition-colors">{bestPick.ticker}</div>
-                      <div className="text-xs text-muted-foreground/70 mt-0.5 truncate">{bestPick.company_name}</div>
+                      <div className="text-[0.9rem] text-muted-foreground/70 mt-0.5 truncate">{bestPick.company_name}</div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
                         {bestPick.analyst_upside_pct != null && (
                           <div>
-                            <div className="text-[0.58rem] text-muted-foreground/40 uppercase tracking-wider">Upside</div>
+                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">Upside</div>
                             <div className="text-sm font-bold text-emerald-400">+{bestPick.analyst_upside_pct.toFixed(0)}%</div>
                           </div>
                         )}
                         {bestPick.fcf_yield_pct != null && (
                           <div>
-                            <div className="text-[0.58rem] text-muted-foreground/40 uppercase tracking-wider">FCF Yield</div>
+                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">FCF Yield</div>
                             <div className="text-sm font-semibold text-foreground/80">{bestPick.fcf_yield_pct.toFixed(1)}%</div>
                           </div>
                         )}
                         {bestPick.risk_reward_ratio != null && (
                           <div>
-                            <div className="text-[0.58rem] text-muted-foreground/40 uppercase tracking-wider">R:R</div>
+                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">R:R</div>
                             <div className="text-sm font-semibold text-foreground/80">{bestPick.risk_reward_ratio.toFixed(1)}x</div>
                           </div>
                         )}
                         {bestPick.sector && (
                           <div>
-                            <div className="text-[0.58rem] text-muted-foreground/40 uppercase tracking-wider">Sector</div>
-                            <div className="text-xs text-muted-foreground/70 truncate max-w-[100px]">{bestPick.sector}</div>
+                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">Sector</div>
+                            <div className="text-[0.8rem] text-muted-foreground/70 truncate max-w-[100px]">{bestPick.sector}</div>
                           </div>
                         )}
                       </div>

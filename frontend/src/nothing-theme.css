@@ -1,65 +1,390 @@
 /* ═══════════════════════════════════════════════════════════════════
-   HYBRID THEME — Liquid Glass × Nothing Phone  (optional, toggleable)
-   Enable:  document.body.setAttribute('data-nothing-theme', 'true')
-   Disable: document.body.removeAttribute('data-nothing-theme')
+   NOTHING PHONE AESTHETIC — dot-matrix · pure black · monospace
+   Applied on top of noir-theme.css when data-theme="noir"
+
+   Design language: Nothing OS
+   - Pure black #000 / Off-white #F5F5F5 / Accent white
+   - NDot / NType82 Mono → fallback: Space Mono / DM Mono
+   - No blur, no gradients, no glass — crisp 1px borders only
+   - Dot-matrix grid background (22px pitch, low opacity)
+   - VT323 for large display numbers (dot-matrix feel)
+   - Monospace everywhere for data/tickers
 ════════════════════════════════════════════════════════════════════ */
 
-/* ── Typography: Space Mono for data, VT323 for display numbers ─── */
+/* ── Google Fonts: Space Mono + VT323 ────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=VT323&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap');
 
-body[data-nothing-theme] code,
-body[data-nothing-theme] pre,
-body[data-nothing-theme] kbd,
-body[data-nothing-theme] [class*="font-mono"],
-body[data-nothing-theme] [class*="tabular"],
-body[data-nothing-theme] .score-bar span {
+/* ── Nothing tokens — override noir tokens ───────────────────────── */
+[data-theme="noir"] {
+  /* Deeper blacks */
+  --background:        0 0% 0%;          /* #000000 pure black */
+  --foreground:        0 0% 92%;         /* #EBEBEB off-white */
+  --card:              0 0% 4%;          /* #0A0A0A surface */
+  --card-foreground:   0 0% 92%;
+  --popover:           0 0% 5%;
+  --popover-foreground:0 0% 92%;
+
+  /* Nothing accent: white as primary (no color accent) */
+  --primary:           0 0% 90%;         /* near-white */
+  --primary-foreground:0 0% 0%;          /* black text on white btn */
+  --ring:              0 0% 70%;
+
+  /* Surfaces */
+  --secondary:         0 0% 7%;
+  --secondary-foreground: 0 0% 70%;
+  --muted:             0 0% 7%;
+  --muted-foreground:  0 0% 42%;         /* #6B6B6B */
+  --accent:            0 0% 10%;
+  --accent-foreground: 0 0% 90%;
+
+  /* Borders: 1px crisp, no blur */
+  --border:            0 0% 14%;         /* #242424 */
+  --input:             0 0% 8%;
+
+  /* Nothing red as destructive/signal accent */
+  --destructive:       0 100% 50%;       /* #FF0000 */
+  --destructive-foreground: 0 0% 100%;
+
+  /* Sharp corners — Nothing OS style */
+  --radius: 0.125rem;                    /* 2px — almost square */
+  --topbar-height: 50px;
+}
+
+/* ── Fonts: monospace everywhere for data ────────────────────────── */
+[data-theme="noir"] {
+  font-family: 'DM Mono', 'Space Mono', 'JetBrains Mono', monospace;
+  letter-spacing: 0.01em;
+}
+
+/* Tickers + data cells: Space Mono */
+[data-theme="noir"] td,
+[data-theme="noir"] th,
+[data-theme="noir"] code,
+[data-theme="noir"] pre,
+[data-theme="noir"] kbd,
+[data-theme="noir"] [class*="font-mono"],
+[data-theme="noir"] [class*="tabular"] {
   font-family: 'Space Mono', monospace !important;
 }
 
-/* Ticker column — always monospaced */
-body[data-nothing-theme] td:first-child,
-body[data-nothing-theme] th:first-child {
-  font-family: 'Space Mono', monospace !important;
-  letter-spacing: 0.05em;
-}
-
-/* VT323 dot-matrix for big display numbers (prices, scores, headlines) */
-body[data-nothing-theme] [class*="text-4xl"],
-body[data-nothing-theme] [class*="text-3xl"],
-body[data-nothing-theme] [class*="text-2xl"],
-body[data-nothing-theme] [class*="text-xl"][class*="font-bold"],
-body[data-nothing-theme] [class*="text-lg"][class*="font-bold"] {
+/* Large display numbers: VT323 dot-matrix feel */
+[data-theme="noir"] [class*="text-4xl"],
+[data-theme="noir"] [class*="text-3xl"],
+[data-theme="noir"] [class*="text-2xl"][class*="font-bold"],
+[data-theme="noir"] [class*="text-xl"][class*="font-bold"] {
   font-family: 'VT323', monospace !important;
   letter-spacing: 0.06em;
-  line-height: 1.1;
+  line-height: 1.05;
 }
 
-/* Table headers: VT323 + uppercase */
-body[data-nothing-theme] .glass table thead th,
-body[data-nothing-theme] .dark .glass table thead th {
-  font-family: 'VT323', monospace !important;
-  font-size: 0.82rem !important;
+/* Table headers: Space Mono + uppercase + wide tracking */
+[data-theme="noir"] .glass table thead th {
+  font-family: 'Space Mono', monospace !important;
+  font-size: 0.62rem !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
   font-weight: 400 !important;
+  color: hsl(0 0% 40%) !important;
 }
 
-/* Sidebar app name + section labels */
-body[data-nothing-theme] aside [class*="font-bold"],
-body[data-nothing-theme] aside [class*="font-semibold"] {
+/* Nav labels + sidebar sections */
+[data-theme="noir"] aside,
+[data-theme="noir"] aside * {
+  font-family: 'DM Mono', 'Space Mono', monospace !important;
+}
+
+[data-theme="noir"] aside h1 {
   font-family: 'VT323', monospace !important;
-  letter-spacing: 0.08em;
+  font-size: 1.15rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  animation: none !important;
 }
 
-/* ── Dot-matrix grid overlay ────────────────────────────────────── */
-/* Sits at z-index 0, below all content, above the background.
-   Low opacity so it plays nicely with the glass panels. */
-body[data-nothing-theme]::before {
+/* ── Dot-matrix background grid ──────────────────────────────────── */
+/* Sits below all content — the Nothing Phone LED matrix pattern */
+[data-theme="noir"] body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(circle, rgba(255,255,255,0.09) 1.1px, transparent 1.1px);
+    radial-gradient(circle, hsl(0 0% 100% / 0.055) 1px, transparent 1px);
   background-size: 22px 22px;
+}
+
+/* Remove Cybertruck power grid */
+[data-theme="noir"] body::after {
+  display: none !important;
+}
+
+/* ── Glass → flat cards with single 1px border ───────────────────── */
+[data-theme="noir"] .glass {
+  background: hsl(0 0% 4%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 1px solid hsl(0 0% 14%) !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  animation: none !important;
+  transition: border-color 0.12s ease !important;
+}
+
+[data-theme="noir"] .glass:not(:has(table)):hover {
+  transform: none !important;
+  border-color: hsl(0 0% 22%) !important;
+  box-shadow: none !important;
+}
+
+/* Remove all pseudo-elements (iridescent border, spotlight, scanline) */
+[data-theme="noir"] .glass::before,
+[data-theme="noir"] .glass::after {
+  display: none !important;
+}
+
+/* ── Sticky table headers ─────────────────────────────────────────── */
+[data-theme="noir"] .glass table thead th {
+  background: hsl(0 0% 2%) !important;
+  border-bottom: 1px solid hsl(0 0% 14%) !important;
+  backdrop-filter: none !important;
+}
+
+/* ── No orbs, no aurora ───────────────────────────────────────────── */
+[data-theme="noir"] .bg-orbs,
+[data-theme="noir"] .aurora-line {
+  display: none !important;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────── */
+[data-theme="noir"] aside {
+  background: hsl(0 0% 2%) !important;
+  border-right: 1px solid hsl(0 0% 12%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Nav section labels */
+[data-theme="noir"] aside nav > div[class*="tracking"] {
+  color: hsl(0 0% 30%) !important;
+  text-shadow: none !important;
+  letter-spacing: 0.18em;
+}
+
+/* ── Active nav — white left bar, no glow ───────────────────────── */
+[data-theme="noir"] .nav-link-active {
+  background: hsl(0 0% 8%) !important;
+  box-shadow: inset 2px 0 0 hsl(0 0% 88%) !important;
+  color: hsl(0 0% 92%) !important;
+}
+[data-theme="noir"] .nav-link-active .nav-icon {
+  color: hsl(0 0% 90%) !important;
+  filter: none !important;
+}
+[data-theme="noir"] .nav-link-active::before {
+  background: hsl(0 0% 88%) !important;
+  box-shadow: none !important;
+}
+[data-theme="noir"] .nav-link:not(.nav-link-active):hover .nav-icon {
+  filter: none !important;
+}
+
+/* ── TopBar ───────────────────────────────────────────────────────── */
+[data-theme="noir"] header {
+  background: hsl(0 0% 0% / 0.97) !important;
+  border-bottom: 1px solid hsl(0 0% 12%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Sidebar logo — white on black ──────────────────────────────── */
+[data-theme="noir"] .sidebar-logo-icon {
+  background: hsl(0 0% 92%) !important;
+  box-shadow: none !important;
+  animation: none !important;
+  border-radius: 2px !important;
+}
+[data-theme="noir"] .sidebar-logo-icon * {
+  color: hsl(0 0% 0%) !important;
+}
+
+/* ── Table rows — clean alternating, no sweep ───────────────────── */
+[data-theme="noir"] .glass table tbody tr:nth-child(even) {
+  background: hsl(0 0% 3% / 0.6) !important;
+}
+[data-theme="noir"] tr[class*="cursor-pointer"]:hover {
+  background: hsl(0 0% 8%) !important;
+}
+[data-theme="noir"] tr[class*="cursor-pointer"]:hover td:first-child {
+  border-left: 2px solid hsl(0 0% 55%) !important;
+}
+
+/* ── Gradient title — white/grey only ───────────────────────────── */
+[data-theme="noir"] .gradient-title {
+  background: linear-gradient(135deg, #fff 0%, #888 60%, #fff 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: none !important;
+}
+
+/* ── No button glow ──────────────────────────────────────────────── */
+[data-theme="noir"] button:not([disabled]):hover {
+  box-shadow: none !important;
+}
+
+/* ── Primary text = near-white (not cyan) ────────────────────────── */
+[data-theme="noir"] .text-primary,
+[data-theme="noir"] [class*="text-primary"] {
+  color: hsl(0 0% 88%) !important;
+  text-shadow: none !important;
+}
+[data-theme="noir"] .border-primary {
+  border-color: hsl(0 0% 30%) !important;
+}
+
+/* Emerald positives — slightly muted in Nothing mode */
+[data-theme="noir"] .glass .text-emerald-400,
+[data-theme="noir"] .glass [class*="text-emerald"] {
+  text-shadow: none !important;
+}
+[data-theme="noir"] .glass .text-red-400,
+[data-theme="noir"] .glass [class*="text-red-4"] {
+  text-shadow: none !important;
+}
+
+/* ── Score bar mask ──────────────────────────────────────────────── */
+[data-theme="noir"] .score-mask {
+  background: hsl(0 0% 12%) !important;
+}
+
+/* Remove score bar glow */
+[data-theme="noir"] .glass [style*="width"] {
+  box-shadow: none !important;
+}
+[data-theme="noir"] [class*="bg-primary"][style*="width"] {
+  box-shadow: none !important;
+}
+
+/* ── Scrollbar — minimal white/grey ─────────────────────────────── */
+[data-theme="noir"] ::-webkit-scrollbar-thumb {
+  background: hsl(0 0% 16%) !important;
+}
+[data-theme="noir"] ::-webkit-scrollbar-thumb:hover {
+  background: hsl(0 0% 32%) !important;
+}
+
+/* ── Text selection — white tint ────────────────────────────────── */
+[data-theme="noir"] ::selection {
+  background: hsl(0 0% 100% / 0.18) !important;
+  color: #fff !important;
+}
+
+/* ── Focus ring — white ──────────────────────────────────────────── */
+[data-theme="noir"] :focus-visible {
+  outline-color: hsl(0 0% 60% / 0.7) !important;
+  box-shadow: 0 0 0 3px hsl(0 0% 100% / 0.08) !important;
+}
+
+/* ── Filter buttons — crisp border ──────────────────────────────── */
+[data-theme="noir"] .filter-btn {
+  border-radius: 2px !important;
+  font-family: 'Space Mono', monospace !important;
+  font-size: 0.66rem !important;
+  letter-spacing: 0.06em !important;
+}
+[data-theme="noir"] .filter-btn.active {
+  border-color: hsl(0 0% 70%) !important;
+  background: hsl(0 0% 10%) !important;
+  color: hsl(0 0% 90%) !important;
+}
+
+/* ── Input fields ────────────────────────────────────────────────── */
+[data-theme="noir"] input[type="text"],
+[data-theme="noir"] input[type="search"],
+[data-theme="noir"] input[type="number"],
+[data-theme="noir"] select {
+  background: hsl(0 0% 5%) !important;
+  border-color: hsl(0 0% 16%) !important;
+  border-radius: 2px !important;
+  font-family: 'Space Mono', monospace !important;
+}
+
+/* ── API dot — white pulse (no cyan) ────────────────────────────── */
+[data-theme="noir"] .api-dot {
+  background: hsl(0 0% 75%) !important;
+  box-shadow: none !important;
+  animation: nothingBlink 3s ease-in-out infinite !important;
+}
+@keyframes nothingBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+/* ── Grade badges — monochrome in Nothing mode ───────────────────── */
+[data-theme="noir"] .grade-A {
+  background: hsl(0 0% 8%) !important;
+  color: hsl(0 0% 80%) !important;
+  border-color: hsl(0 0% 25%) !important;
+  box-shadow: none !important;
+}
+[data-theme="noir"] .grade-B { background: hsl(0 0% 7%) !important; color: hsl(0 0% 72%) !important; border-color: hsl(0 0% 22%) !important; }
+[data-theme="noir"] .grade-C { background: hsl(0 0% 7%) !important; color: hsl(0 0% 60%) !important; border-color: hsl(0 0% 18%) !important; }
+[data-theme="noir"] .grade-D { background: hsl(0 0% 6%) !important; color: hsl(0 84% 60%) !important; border-color: hsl(0 50% 20%) !important; }
+
+/* ── Cards: square corners everywhere ───────────────────────────── */
+[data-theme="noir"] [class*="rounded"],
+[data-theme="noir"] [class*="rounded-lg"],
+[data-theme="noir"] [class*="rounded-xl"],
+[data-theme="noir"] [class*="rounded-2xl"],
+[data-theme="noir"] [class*="rounded-full"]:not(.api-dot):not([class*="w-2"]):not([class*="w-3"]) {
+  border-radius: 2px !important;
+}
+
+/* Keep pills/dots round */
+[data-theme="noir"] [class*="rounded-full"][class*="w-2"],
+[data-theme="noir"] [class*="rounded-full"][class*="w-3"],
+[data-theme="noir"] .api-dot {
+  border-radius: 50% !important;
+}
+
+/* ── Glow border — flat in Nothing mode ─────────────────────────── */
+[data-theme="noir"] .glow-border::before {
+  background: hsl(0 0% 22%) !important;
+}
+[data-theme="noir"] .glow-border::after {
+  background: hsl(0 0% 4%) !important;
+}
+
+/* ── Page tab indicator ──────────────────────────────────────────── */
+[data-theme="noir"] .page-tab-indicator {
+  box-shadow: none !important;
+  background: hsl(0 0% 10%) !important;
+  border: 1px solid hsl(0 0% 22%) !important;
+}
+
+/* ── Section divider — minimal ───────────────────────────────────── */
+[data-theme="noir"] .section-divider {
+  background: hsl(0 0% 14%) !important;
+}
+
+/* ── Row entrance — no skew, just fade ───────────────────────────── */
+[data-theme="noir"] tbody tr {
+  animation: nothingRowIn 0.18s ease both !important;
+}
+@keyframes nothingRowIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Smooth transitions when activating/deactivating ─────────────── */
+[data-theme="noir"] *,
+[data-theme="noir"] *::before,
+[data-theme="noir"] *::after {
+  transition-property: background-color, border-color, color, opacity;
+  transition-duration: 120ms;
+  transition-timing-function: ease;
 }

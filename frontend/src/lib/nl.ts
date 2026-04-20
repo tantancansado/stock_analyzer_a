@@ -194,7 +194,7 @@ export function nlAlert(opts: {
   details?: string
 }): string {
   const t = opts.type?.toLowerCase() ?? ''
-  const ticker = opts.ticker.toUpperCase()
+  const ticker = opts.ticker?.toUpperCase() ?? ''
 
   if (t.includes('exit') || t.includes('salida'))  return `${ticker}: señal de salida activa. ${opts.details ?? 'Revisar posición.'}`
   if (t.includes('trap') || t.includes('trampa'))  return `${ticker}: posible trampa — dividendo o valoración engañosa. Precaución.`
