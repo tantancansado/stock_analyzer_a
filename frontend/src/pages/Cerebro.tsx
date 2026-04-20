@@ -428,7 +428,8 @@ export default function Cerebro() {
                     <div className="space-y-1.5">
                       {briefingData.sections.top_entries.map(([ticker, score]) => (
                         <div key={ticker} className="flex items-center gap-2">
-                          <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline w-14">{ticker}</Link>
+                          <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
+                          <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline w-12">{ticker}</Link>
                           <div className="flex-1 h-1.5 rounded-full bg-muted/20 overflow-hidden">
                             <div className="h-full rounded-full bg-emerald-500" style={{ width: `${score}%` }} />
                           </div>
@@ -450,9 +451,10 @@ export default function Cerebro() {
                     </div>
                     <div className="space-y-1.5">
                       {briefingData.sections.smart_money.map(([ticker, nHF]) => (
-                        <div key={ticker} className="flex items-center justify-between">
+                        <div key={ticker} className="flex items-center gap-2">
+                          <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
-                          <span className="text-[0.65rem] text-purple-400">{nHF} HF</span>
+                          <span className="ml-auto text-[0.65rem] text-purple-400">{nHF} HF</span>
                         </div>
                       ))}
                     </div>
@@ -471,14 +473,16 @@ export default function Cerebro() {
                     <div className="space-y-1.5">
                       {briefingData.sections.exit_warnings.map(([ticker, reason]) => (
                         <div key={`exit-${ticker}`} className="flex items-start gap-2">
-                          <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-red-400 text-[0.8rem] hover:underline w-14 shrink-0">{ticker}</Link>
+                          <TickerLogo ticker={ticker} size="xs" className="shrink-0 mt-0.5" />
+                          <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-red-400 text-[0.8rem] hover:underline w-12 shrink-0">{ticker}</Link>
                           <span className="text-[0.65rem] text-muted-foreground leading-tight">{reason}</span>
                         </div>
                       ))}
                       {briefingData.sections.traps_warning.map(([ticker, score]) => (
-                        <div key={`trap-${ticker}`} className="flex items-center justify-between">
+                        <div key={`trap-${ticker}`} className="flex items-center gap-2">
+                          <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-amber-400 text-[0.8rem] hover:underline">{ticker}</Link>
-                          <span className="text-[0.65rem] text-amber-400">trampa {score}/10</span>
+                          <span className="ml-auto text-[0.65rem] text-amber-400">trampa {score}/10</span>
                         </div>
                       ))}
                     </div>
@@ -496,9 +500,10 @@ export default function Cerebro() {
                     </div>
                     <div className="space-y-1.5">
                       {briefingData.sections.top_convergences.map(([ticker, score]) => (
-                        <div key={ticker} className="flex items-center justify-between">
+                        <div key={ticker} className="flex items-center gap-2">
+                          <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
-                          <span className="text-[0.65rem] text-cyan-400">conv {score}</span>
+                          <span className="ml-auto text-[0.65rem] text-cyan-400">conv {score}</span>
                         </div>
                       ))}
                     </div>
@@ -516,9 +521,10 @@ export default function Cerebro() {
                     </div>
                     <div className="space-y-1.5">
                       {briefingData.sections.high_alerts.map(([ticker, type]) => (
-                        <div key={`alert-${ticker}-${type}`} className="flex items-center justify-between">
+                        <div key={`alert-${ticker}-${type}`} className="flex items-center gap-2">
+                          <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
-                          <span className="text-[0.65rem] text-amber-400">{type}</span>
+                          <span className="ml-auto text-[0.65rem] text-amber-400">{type}</span>
                         </div>
                       ))}
                     </div>
@@ -901,6 +907,7 @@ export default function Cerebro() {
             <div className="space-y-2 mt-2">
               {(exitData?.exits ?? []).slice(0, 6).map(e => (
                 <div key={e.ticker} className={`flex items-start gap-3 p-3 rounded-xl border ${e.severity === 'HIGH' ? 'border-red-500/25 bg-red-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
+                  <TickerLogo ticker={e.ticker} size="sm" className="shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
                       <Link to={`/search?q=${e.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{e.ticker}</Link>
@@ -927,6 +934,7 @@ export default function Cerebro() {
               {(trapsData?.traps ?? []).slice(0, 6).map(t => (
                 <div key={t.ticker} className={`p-3 rounded-xl border ${t.severity === 'HIGH' ? 'border-red-500/25 bg-red-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
                   <div className="flex items-center gap-2 mb-1">
+                    <TickerLogo ticker={t.ticker} size="sm" className="shrink-0" />
                     <Link to={`/search?q=${t.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{t.ticker}</Link>
                     <span className="text-[0.65rem] text-muted-foreground">{t.company_name}</span>
                     <span className="ml-auto text-[0.65rem] text-amber-400">trampa {t.trap_score}/10</span>
@@ -1006,6 +1014,7 @@ export default function Cerebro() {
                 const ratingBadge = d.rating === 'AT_RISK' ? 'bg-red-500/15 text-red-400 border-red-500/30' : d.rating === 'WATCH' ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
                 return (
                   <div key={d.ticker} className={`flex items-start gap-3 p-3 rounded-xl border ${ratingStyle}`}>
+                    <TickerLogo ticker={d.ticker} size="sm" className="shrink-0 mt-0.5" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <Link to={`/search?q=${d.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{d.ticker}</Link>
@@ -1037,6 +1046,7 @@ export default function Cerebro() {
                 const trendIcon = c.trend === 'IMPROVING' || c.trend === 'SLIGHT_UP' ? <TrendingUp size={11} /> : c.trend === 'DETERIORATING' || c.trend === 'SLIGHT_DOWN' ? <TrendingDown size={11} /> : <Minus size={11} />
                 return (
                   <div key={c.ticker} className="flex items-center gap-3 p-3 rounded-xl border border-border/30 bg-muted/5">
+                    <TickerLogo ticker={c.ticker} size="sm" className="shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <Link to={`/search?q=${c.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{c.ticker}</Link>
@@ -1110,6 +1120,7 @@ export default function Cerebro() {
               {((squeezeData as { setups?: ShortSqueezeSetup[] } | null)?.setups ?? []).slice(0, 8).map((s: ShortSqueezeSetup) => (
                 <div key={s.ticker} className={`p-3 rounded-xl border ${s.severity === 'HIGH' ? 'border-cyan-500/30 bg-cyan-500/5' : 'border-border/30 bg-muted/5'}`}>
                   <div className="flex items-center gap-2 mb-1">
+                    <TickerLogo ticker={s.ticker} size="sm" className="shrink-0" />
                     <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{s.ticker}</Link>
                     <span className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ${s.severity === 'HIGH' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' : 'bg-muted/20 text-muted-foreground border-border/30'}`}>{s.severity}</span>
                     <span className="text-[0.65rem] text-muted-foreground ml-auto">squeeze {s.squeeze_score}/10</span>
@@ -1142,6 +1153,7 @@ export default function Cerebro() {
               {((decayData as { decays?: QualityDecay[] } | null)?.decays ?? []).slice(0, 8).map((d: QualityDecay) => (
                 <div key={d.ticker} className={`p-3 rounded-xl border ${d.severity === 'HIGH' ? 'border-orange-500/25 bg-orange-500/5' : 'border-amber-500/15 bg-amber-500/5'}`}>
                   <div className="flex items-center gap-2 mb-1">
+                    <TickerLogo ticker={d.ticker} size="sm" className="shrink-0" />
                     <Link to={`/search?q=${d.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{d.ticker}</Link>
                     <span className="text-[0.65rem] text-muted-foreground">{d.company_name}</span>
                     <span className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ml-auto ${d.severity === 'HIGH' ? 'bg-orange-500/20 text-orange-400 border-orange-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/25'}`}>{d.severity}</span>

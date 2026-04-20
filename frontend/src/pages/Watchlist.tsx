@@ -7,6 +7,7 @@ import { useApi } from '../hooks/useApi'
 import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import CerebroBadges from '../components/CerebroBadges'
 import GradeBadge from '../components/GradeBadge'
+import TickerLogo from '../components/TickerLogo'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -239,9 +240,12 @@ export default function Watchlist() {
                 onClick={() => setFocusedIdx(i)}
               >
                 <div className="flex items-center justify-between">
-                  <div>
-                    <span className="font-mono font-bold text-sm text-primary">{e.ticker}</span>
-                    <div className="text-[0.65rem] text-muted-foreground truncate max-w-[150px]">{e.company_name}</div>
+                  <div className="flex items-center gap-2.5">
+                    <TickerLogo ticker={e.ticker} size="sm" className="shrink-0" />
+                    <div>
+                      <span className="font-mono font-bold text-sm text-primary">{e.ticker}</span>
+                      <div className="text-[0.65rem] text-muted-foreground truncate max-w-[150px]">{e.company_name}</div>
+                    </div>
                   </div>
                   <div className="text-right">
                     {e.value_score != null && <div className="text-sm font-bold">{e.value_score.toFixed(0)}pts</div>}
@@ -290,7 +294,10 @@ export default function Watchlist() {
                       className={`cursor-pointer transition-colors ${i === focusedIdx ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
                     >
                       <TableCell className="font-mono font-bold text-amber-400 text-[0.8rem] tracking-wide">
-                        <Link to={`/search?q=${e.ticker}`} className="hover:underline" onClick={ev => ev.stopPropagation()}>{e.ticker}</Link>
+                        <div className="flex items-center gap-2">
+                          <TickerLogo ticker={e.ticker} size="xs" className="shrink-0" />
+                          <Link to={`/search?q=${e.ticker}`} className="hover:underline" onClick={ev => ev.stopPropagation()}>{e.ticker}</Link>
+                        </div>
                         <CerebroBadges
                           trapInfo={cerebro.trapMap[e.ticker]}
                           smInfo={cerebro.smMap[e.ticker]}

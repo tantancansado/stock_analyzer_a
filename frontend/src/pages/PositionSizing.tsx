@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import InfoTooltip from '../components/InfoTooltip'
+import TickerLogo from '../components/TickerLogo'
 
 interface PositionRow {
   ticker: string
@@ -151,11 +152,14 @@ export default function PositionSizing() {
                   onClick={() => setFocusedIdx(i)}
                 >
                   <div className="flex items-center justify-between">
-                    <div>
-                      <span className="font-mono font-bold text-base text-primary">{r.ticker}</span>
-                      {r.current_price != null && (
-                        <div className="text-[0.65rem] text-muted-foreground">${r.current_price.toFixed(2)}</div>
-                      )}
+                    <div className="flex items-center gap-2.5">
+                      <TickerLogo ticker={r.ticker} size="sm" className="shrink-0" />
+                      <div>
+                        <span className="font-mono font-bold text-base text-primary">{r.ticker}</span>
+                        {r.current_price != null && (
+                          <div className="text-[0.65rem] text-muted-foreground">${r.current_price.toFixed(2)}</div>
+                        )}
+                      </div>
                     </div>
                     <div className="text-right">
                       <div className="text-lg font-bold text-foreground">{posSize.toFixed(1)}%</div>
@@ -249,7 +253,12 @@ export default function PositionSizing() {
                         onClick={() => setFocusedIdx(i)}
                         className={`cursor-pointer transition-colors ${i === focusedIdx ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
                       >
-                        <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{r.ticker}</TableCell>
+                        <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                          <div className="flex items-center gap-2">
+                            <TickerLogo ticker={r.ticker} size="xs" className="shrink-0" />
+                            {r.ticker}
+                          </div>
+                        </TableCell>
                         <TableCell className="tabular-nums text-[0.8rem]">
                           {r.current_price != null ? `$${r.current_price.toFixed(2)}` : '—'}
                         </TableCell>

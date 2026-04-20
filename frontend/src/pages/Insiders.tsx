@@ -144,7 +144,7 @@ export default function Insiders() {
                       <TableRow key={d.ticker}>
                         <TableCell>
                           <div className="flex items-center gap-1.5">
-                            <TickerLogo ticker={d.ticker} size="xs" />
+                            <TickerLogo ticker={d.ticker} size="sm" />
                             <div>
                               <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
                               {company !== d.ticker && (
@@ -228,7 +228,7 @@ export default function Insiders() {
                   <ScoreRing score={normConf} size="sm" />
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <TickerLogo ticker={d.ticker} size="xs" />
+                      <TickerLogo ticker={d.ticker} size="sm" />
                       <span className="font-mono font-bold text-sm">{d.ticker}</span>
                       <OwnedBadge ticker={d.ticker} />
                     </div>
@@ -294,7 +294,7 @@ export default function Insiders() {
                       >
                         <TableCell>
                           <div className="flex items-center gap-1.5">
-                            <TickerLogo ticker={d.ticker} size="xs" />
+                            <TickerLogo ticker={d.ticker} size="sm" />
                             <div>
                               <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide flex items-center gap-1.5">{d.ticker}<OwnedBadge ticker={d.ticker} /></div>
                               {company !== d.ticker && (

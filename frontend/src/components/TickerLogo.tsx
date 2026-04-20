@@ -4,11 +4,11 @@ import { getLogoUrl, getClearbitUrl } from '@/lib/logos'
 
 export type LogoSize = 'xs' | 'sm' | 'md' | 'lg'
 
-const SIZE: Record<LogoSize, { px: number; text: string; rounded: string }> = {
-  xs: { px: 18, text: 'text-[0.42rem]', rounded: 'rounded' },
-  sm: { px: 22, text: 'text-[0.5rem]',  rounded: 'rounded-md' },
-  md: { px: 32, text: 'text-[0.6rem]',  rounded: 'rounded-lg' },
-  lg: { px: 44, text: 'text-[0.72rem]', rounded: 'rounded-xl' },
+const SIZE: Record<LogoSize, { px: number; text: string; rounded: string; pad: string }> = {
+  xs: { px: 20, text: 'text-[0.48rem]', rounded: 'rounded',    pad: 'p-[1px]' },
+  sm: { px: 26, text: 'text-[0.55rem]', rounded: 'rounded-md', pad: 'p-[1.5px]' },
+  md: { px: 34, text: 'text-[0.62rem]', rounded: 'rounded-lg', pad: 'p-[2px]' },
+  lg: { px: 46, text: 'text-[0.75rem]', rounded: 'rounded-xl', pad: 'p-[3px]' },
 }
 
 const PALETTE = [
@@ -37,7 +37,7 @@ interface Props {
 
 export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
   const [stage, setStage] = useState<Stage>('parqet')
-  const { px, text, rounded } = SIZE[size]
+  const { px, text, rounded, pad } = SIZE[size]
 
   const safe = ticker ?? ''
   const initials = safe.replaceAll(/\.[A-Z]{1,3}$/g, '').replaceAll(/[^A-Z0-9]/g, '').slice(0, 2)
@@ -85,7 +85,7 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
         width={px}
         height={px}
         onError={handleError}
-        className="w-full h-full object-contain p-[2px]"
+        className={cn('w-full h-full object-contain', pad)}
         loading="lazy"
         decoding="async"
       />

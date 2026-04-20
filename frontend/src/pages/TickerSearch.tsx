@@ -6,6 +6,7 @@ import AiNarrativeCard from '../components/AiNarrativeCard'
 import PriceChart from '../components/PriceChart'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
+import TickerLogo from '../components/TickerLogo'
 import { Search, AlertCircle } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -237,7 +238,8 @@ export default function TickerSearch() {
                   onMouseDown={() => selectSuggestion(s)}
                   onMouseEnter={() => setActiveIdx(i)}
                 >
-                  <span className="font-mono font-bold text-primary text-sm w-20 shrink-0">{s.ticker}</span>
+                  <TickerLogo ticker={s.ticker} size="sm" className="shrink-0" />
+                  <span className="font-mono font-bold text-primary text-sm w-16 shrink-0">{s.ticker}</span>
                   <span className="text-sm text-muted-foreground truncate flex-1">{s.company_name}</span>
                   {s.sector && KNOWN_SECTORS.has(s.sector) && <Badge variant="blue" className="text-[0.6rem] shrink-0">{s.sector}</Badge>}
                 </li>
@@ -256,12 +258,13 @@ export default function TickerSearch() {
                 {recents.map((t, idx) => (
                   <span
                     key={t}
-                    className="inline-flex items-center gap-1 pl-3 pr-1 py-1 rounded-full border border-border/40 bg-muted/20 text-sm font-mono font-semibold text-primary hover:bg-muted/40 hover:border-border/60 transition-colors animate-fade-in-up active:scale-[0.98]"
+                    className="inline-flex items-center gap-1.5 pl-1.5 pr-1 py-1 rounded-full border border-border/40 bg-muted/20 text-sm font-mono font-semibold text-primary hover:bg-muted/40 hover:border-border/60 transition-colors animate-fade-in-up active:scale-[0.98]"
                     style={{ animationDelay: `${(idx + 2) * 40}ms` }}
                   >
+                    <TickerLogo ticker={t} size="xs" className="shrink-0" />
                     <button
                       type="button"
-                      className="hover:text-foreground transition-colors"
+                      className="hover:text-foreground transition-colors pr-1"
                       onClick={() => { setTicker(t); doSearch(t) }}
                     >
                       {t}
@@ -314,14 +317,17 @@ export default function TickerSearch() {
           <CardContent className="p-6">
             {/* Header */}
             <div className="flex items-start justify-between mb-6 gap-4">
-              <div>
-                <h3 className="text-xl font-extrabold tracking-tight flex items-baseline gap-2 flex-wrap">
-                  <span className="font-mono text-primary text-2xl">{ss('ticker')}</span>
-                  <span className="text-muted-foreground font-normal text-base">{ss('company_name')}</span>
-                </h3>
-                <div className="flex gap-2 mt-2 flex-wrap">
-                  {ss('source') && <Badge variant="gray">{ss('source')}</Badge>}
-                  {ss('sector_name') && <Badge variant="blue">{ss('sector_name')}</Badge>}
+              <div className="flex items-center gap-3 min-w-0">
+                <TickerLogo ticker={ss('ticker') ?? ''} size="lg" className="shrink-0" />
+                <div className="min-w-0">
+                  <h3 className="text-xl font-extrabold tracking-tight flex items-baseline gap-2 flex-wrap">
+                    <span className="font-mono text-primary text-2xl">{ss('ticker')}</span>
+                    <span className="text-muted-foreground font-normal text-base">{ss('company_name')}</span>
+                  </h3>
+                  <div className="flex gap-2 mt-2 flex-wrap">
+                    {ss('source') && <Badge variant="gray">{ss('source')}</Badge>}
+                    {ss('sector_name') && <Badge variant="blue">{ss('sector_name')}</Badge>}
+                  </div>
                 </div>
               </div>
               <div className="text-right shrink-0">
