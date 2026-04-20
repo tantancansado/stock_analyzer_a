@@ -40,6 +40,7 @@ TODAY = date.today().isoformat()
 # Pure I/O helpers live in cerebro_lib.io; re-imported here so the existing
 # scan_* functions below can keep using the short names unchanged.
 from cerebro_lib.io import load_csv as _load_csv_raw, load_json, save_json, sf  # noqa: E402
+from cerebro_lib.patterns import compute_stats, tier_column  # noqa: E402
 
 
 # Per-run CSV cache: scan functions call load_csv 60+ times but most paths
@@ -66,6 +67,9 @@ from cerebro_lib.scoring import (  # noqa: E402
     score_dividend_safety,
     classify_piotroski_trend,
     classify_piotroski_signal,
+    score_quality_decay,
+    score_short_squeeze,
+    score_exit_signal,
 )
 
 def ai(prompt: str, max_tokens: int = 300):
@@ -100,23 +104,12 @@ def mine_patterns() -> dict:
     print(f"  {len(done)} signals · baseline WR {base_wr:.1f}%")
 
     def stats(sub: pd.DataFrame, label: str):
-        if len(sub) < 3:
-            return None
-        wr  = float(sub["win_7d"].mean()) * 100 if "win_7d" in sub.columns else 0.0
-        ret = float(sub["return_7d"].mean())
-        ret14 = float(sub["return_14d"].mean()) if "return_14d" in sub.columns and sub["return_14d"].notna().any() else None
-        return dict(label=label, win_rate_7d=round(wr,1), avg_return_7d=round(ret,2),
-                    avg_return_14d=round(ret14,2) if ret14 else None,
-                    n=len(sub), vs_baseline_wr=round(wr-base_wr,1), vs_baseline_ret=round(ret-base_ret,2))
+        return compute_stats(sub, label, base_wr, base_ret)
 
-    def tier_col(col, ranges):
-        out = []
-        for lo, hi in ranges:
-            s = stats(done[(done[col] >= lo) & (done[col] < hi)], f"{lo}–{hi}")
-            if s: out.append(s)
-        return out
-
-    score_tiers = tier_col("value_score", [(90,101),(80,90),(70,80),(60,70),(50,60)]) if "value_score" in done.columns else []
+    score_tiers = (
+        tier_column(done, "value_score", [(90,101),(80,90),(70,80),(60,70),(50,60)], base_wr, base_ret)
+        if "value_score" in done.columns else []
+    )
 
     regimes = []
     if "market_regime" in done.columns:
@@ -853,34 +846,18 @@ def scan_exit_signals() -> dict:
             seen[t] = {"entry_score": vs, "signal_date": str(row.get("signal_date",""))}
 
     for ticker, meta in seen.items():
-        reasons  = []
-        severity = "LOW"
         curr     = current.get(ticker, {})
         curr_score = curr.get("value_score")
         entry_score = meta["entry_score"]
 
-        # 1. Ticker no longer in VALUE list
-        if ticker not in current:
-            reasons.append("Ya no aparece en VALUE — tesis posiblemente rota")
-            severity = "HIGH"
-
-        # 2. Score dropped significantly
-        elif curr_score is not None and entry_score and (entry_score - curr_score) >= 15:
-            drop = entry_score - curr_score
-            reasons.append(f"Score cayó {drop:.0f}pts ({entry_score:.0f} → {curr_score:.0f})")
-            severity = "HIGH" if drop >= 25 else "MEDIUM"
-
-        # 3. Earnings warning
-        if curr.get("earnings_warning") and curr.get("days_to_earnings") is not None:
-            dte = curr["days_to_earnings"]
-            if dte <= 7:
-                reasons.append(f"Earnings en {int(dte)}d — alta incertidumbre, considera reducir")
-                if severity == "LOW": severity = "MEDIUM"
-
-        # 4. Insider buying stopped (was bought before, no longer active)
-        if ticker not in insider_active and entry_score and entry_score > 65:
-            reasons.append("Sin insider buying activo — señal de convicción perdida")
-            if severity == "LOW": severity = "LOW"
+        severity, reasons = score_exit_signal(
+            ticker_in_value=ticker in current,
+            entry_score=entry_score,
+            current_score=curr_score,
+            earnings_warning=bool(curr.get("earnings_warning")),
+            days_to_earnings=curr.get("days_to_earnings"),
+            insider_active=ticker in insider_active,
+        )
 
         if reasons:
             exits.append(dict(
@@ -1512,34 +1489,13 @@ def scan_short_squeeze() -> dict:
         if short_pct is None or short_pct < 10:
             continue  # not enough short interest to matter
 
-        squeeze_score = 0
-        flags = []
-
-        # Short interest level
-        if short_pct >= 25:
-            squeeze_score += 40; flags.append(f"Short muy alto ({short_pct:.1f}% del float)")
-        elif short_pct >= 15:
-            squeeze_score += 25; flags.append(f"Short elevado ({short_pct:.1f}% del float)")
-        else:
-            squeeze_score += 10; flags.append(f"Short moderado ({short_pct:.1f}% del float)")
-
-        # Insider buying (contradicts short thesis)
-        if t in insider_tickers:
-            squeeze_score += 20; flags.append("Insiders comprando — contradice tesis bajista")
-
-        # Strong Piotroski (fundamentals improving)
-        if piotr is not None and piotr >= 6:
-            squeeze_score += 15; flags.append(f"Piotroski {piotr:.0f}/9 — calidad mejorando")
-
-        # Hedge fund presence (institutional conviction)
-        if t in hf_tickers:
-            squeeze_score += 15; flags.append("Hedge funds con posición larga")
-
-        # Value score contribution
-        if vscore >= 70:
-            squeeze_score += 10
-        elif vscore >= 55:
-            squeeze_score += 6
+        squeeze_score, flags = score_short_squeeze(
+            short_pct_float=short_pct,
+            insider_buying=t in insider_tickers,
+            piotroski=piotr,
+            hedge_fund_present=t in hf_tickers,
+            value_score=vscore,
+        )
 
         if squeeze_score < 25 or len(flags) < 2:
             continue  # need at least 2 convergent signals
@@ -1659,38 +1615,12 @@ def scan_quality_decay() -> dict:
         vscore      = sf(row.get("value_score")) or 0
         company     = str(row.get("company_name", t))
 
-        decay_score = 0
-        flags: list[str] = []
-
-        if curr_piotr is not None and prev["piotr"] is not None:
-            drop = prev["piotr"] - curr_piotr
-            if drop >= 2:
-                decay_score += 4; flags.append(f"Piotroski cayó {drop:.0f}pts ({prev['piotr']:.0f} → {curr_piotr:.0f}/9)")
-            elif drop >= 1:
-                decay_score += 2; flags.append(f"Piotroski bajó {drop:.0f}pt ({prev['piotr']:.0f} → {curr_piotr:.0f}/9)")
-
-        if curr_fcf is not None and prev["fcf"] is not None:
-            drop = prev["fcf"] - curr_fcf
-            if drop >= 3:
-                decay_score += 3; flags.append(f"FCF yield cayó {drop:.1f}pp ({prev['fcf']:.1f}% → {curr_fcf:.1f}%)")
-            elif drop >= 1.5:
-                decay_score += 1; flags.append(f"FCF yield cayó {drop:.1f}pp ({prev['fcf']:.1f}% → {curr_fcf:.1f}%)")
-
-        if curr_health is not None and prev["health"] is not None:
-            drop = prev["health"] - curr_health
-            if drop >= 10:
-                decay_score += 3; flags.append(f"Salud financiera cayó {drop:.0f}pts ({prev['health']:.0f} → {curr_health:.0f}/100)")
-            elif drop >= 5:
-                decay_score += 1; flags.append(f"Salud financiera cayó {drop:.0f}pts ({prev['health']:.0f} → {curr_health:.0f}/100)")
-
-        if curr_margin is not None and prev["margin"] is not None:
-            drop = prev["margin"] - curr_margin
-            if drop >= 5:
-                decay_score += 3; flags.append(f"Margen op. cayó {drop:.1f}pp ({prev['margin']:.1f}% → {curr_margin:.1f}%)")
-
-        # Multiple concurrent deterioration signals → systemic
-        if len(flags) >= 3:
-            decay_score += 2; flags.append("Deterioro sistémico: múltiples métricas en caída simultánea")
+        decay_score, flags = score_quality_decay(
+            curr_piotroski=curr_piotr, prev_piotroski=prev["piotr"],
+            curr_fcf_yield_pct=curr_fcf, prev_fcf_yield_pct=prev["fcf"],
+            curr_health_score=curr_health, prev_health_score=prev["health"],
+            curr_op_margin_pct=curr_margin, prev_op_margin_pct=prev["margin"],
+        )
 
         if decay_score < 3 or not flags:
             continue

@@ -102,6 +102,184 @@ def classify_piotroski_trend(
     return "STABLE", delta
 
 
+def score_exit_signal(
+    *,
+    ticker_in_value: bool,
+    entry_score: float,
+    current_score: float | None,
+    earnings_warning: bool,
+    days_to_earnings: float | None,
+    insider_active: bool,
+) -> tuple[str, list[str]]:
+    """Return (severity, reasons) for whether to exit a position.
+
+    Severity: LOW | MEDIUM | HIGH.  Empty reasons → no exit signal.
+
+    Rules (preserved from cerebro.py scan_exit_signals):
+      ticker no longer in VALUE        → HIGH + reason
+      score dropped ≥25pts             → HIGH + drop reason
+      score dropped ≥15pts             → MEDIUM + drop reason
+      earnings in ≤7d                  → upgrade LOW→MEDIUM + reason
+      no insider activity & entry>65   → LOW + reason (was a tautology bug)
+    """
+    reasons: list[str] = []
+    severity = "LOW"
+
+    if not ticker_in_value:
+        reasons.append("Ya no aparece en VALUE — tesis posiblemente rota")
+        severity = "HIGH"
+    elif current_score is not None and entry_score and (entry_score - current_score) >= 15:
+        drop = entry_score - current_score
+        reasons.append(f"Score cayó {drop:.0f}pts ({entry_score:.0f} → {current_score:.0f})")
+        severity = "HIGH" if drop >= 25 else "MEDIUM"
+
+    if earnings_warning and days_to_earnings is not None and days_to_earnings <= 7:
+        reasons.append(
+            f"Earnings en {int(days_to_earnings)}d — alta incertidumbre, considera reducir"
+        )
+        if severity == "LOW":
+            severity = "MEDIUM"
+
+    if (not insider_active) and entry_score and entry_score > 65:
+        reasons.append("Sin insider buying activo — señal de convicción perdida")
+        # severity stays LOW (this was a no-op in original code)
+
+    return severity, reasons
+
+
+def score_short_squeeze(
+    *,
+    short_pct_float: float,
+    insider_buying: bool,
+    piotroski: float | None,
+    hedge_fund_present: bool,
+    value_score: float,
+) -> tuple[int, list[str]]:
+    """Return (squeeze_score, flags). Caller filters short_pct < 10 upstream.
+
+    Rules (preserved from cerebro.py scan_short_squeeze):
+      short >= 25%  → +40 "muy alto"
+      short >= 15%  → +25 "elevado"
+      short < 15%   → +10 "moderado"   (assumes caller already >= 10%)
+      insider buying → +20
+      Piotroski >= 6 → +15
+      hedge fund present → +15
+      value_score >= 70 → +10
+      value_score >= 55 → +6
+    """
+    score = 0
+    flags: list[str] = []
+
+    if short_pct_float >= 25:
+        score += 40
+        flags.append(f"Short muy alto ({short_pct_float:.1f}% del float)")
+    elif short_pct_float >= 15:
+        score += 25
+        flags.append(f"Short elevado ({short_pct_float:.1f}% del float)")
+    else:
+        score += 10
+        flags.append(f"Short moderado ({short_pct_float:.1f}% del float)")
+
+    if insider_buying:
+        score += 20
+        flags.append("Insiders comprando — contradice tesis bajista")
+
+    if piotroski is not None and piotroski >= 6:
+        score += 15
+        flags.append(f"Piotroski {piotroski:.0f}/9 — calidad mejorando")
+
+    if hedge_fund_present:
+        score += 15
+        flags.append("Hedge funds con posición larga")
+
+    if value_score >= 70:
+        score += 10
+    elif value_score >= 55:
+        score += 6
+
+    return score, flags
+
+
+def score_quality_decay(
+    *,
+    curr_piotroski: float | None,
+    prev_piotroski: float | None,
+    curr_fcf_yield_pct: float | None,
+    prev_fcf_yield_pct: float | None,
+    curr_health_score: float | None,
+    prev_health_score: float | None,
+    curr_op_margin_pct: float | None,
+    prev_op_margin_pct: float | None,
+) -> tuple[int, list[str]]:
+    """Return (decay_score, flags) for quality deterioration vs a past snapshot.
+
+    Rules (preserved from cerebro.py scan_quality_decay):
+      Piotroski drop ≥2   → +4
+      Piotroski drop ≥1   → +2
+      FCF yield drop ≥3pp → +3
+      FCF yield drop ≥1.5 → +1
+      Health drop ≥10pts  → +3
+      Health drop ≥5pts   → +1
+      Margin drop ≥5pp    → +3
+      ≥3 flags            → +2 (systemic)
+    """
+    score = 0
+    flags: list[str] = []
+
+    if curr_piotroski is not None and prev_piotroski is not None:
+        drop = prev_piotroski - curr_piotroski
+        if drop >= 2:
+            score += 4
+            flags.append(
+                f"Piotroski cayó {drop:.0f}pts ({prev_piotroski:.0f} → {curr_piotroski:.0f}/9)"
+            )
+        elif drop >= 1:
+            score += 2
+            flags.append(
+                f"Piotroski bajó {drop:.0f}pt ({prev_piotroski:.0f} → {curr_piotroski:.0f}/9)"
+            )
+
+    if curr_fcf_yield_pct is not None and prev_fcf_yield_pct is not None:
+        drop = prev_fcf_yield_pct - curr_fcf_yield_pct
+        if drop >= 3:
+            score += 3
+            flags.append(
+                f"FCF yield cayó {drop:.1f}pp ({prev_fcf_yield_pct:.1f}% → {curr_fcf_yield_pct:.1f}%)"
+            )
+        elif drop >= 1.5:
+            score += 1
+            flags.append(
+                f"FCF yield cayó {drop:.1f}pp ({prev_fcf_yield_pct:.1f}% → {curr_fcf_yield_pct:.1f}%)"
+            )
+
+    if curr_health_score is not None and prev_health_score is not None:
+        drop = prev_health_score - curr_health_score
+        if drop >= 10:
+            score += 3
+            flags.append(
+                f"Salud financiera cayó {drop:.0f}pts ({prev_health_score:.0f} → {curr_health_score:.0f}/100)"
+            )
+        elif drop >= 5:
+            score += 1
+            flags.append(
+                f"Salud financiera cayó {drop:.0f}pts ({prev_health_score:.0f} → {curr_health_score:.0f}/100)"
+            )
+
+    if curr_op_margin_pct is not None and prev_op_margin_pct is not None:
+        drop = prev_op_margin_pct - curr_op_margin_pct
+        if drop >= 5:
+            score += 3
+            flags.append(
+                f"Margen op. cayó {drop:.1f}pp ({prev_op_margin_pct:.1f}% → {curr_op_margin_pct:.1f}%)"
+            )
+
+    if len(flags) >= 3:
+        score += 2
+        flags.append("Deterioro sistémico: múltiples métricas en caída simultánea")
+
+    return score, flags
+
+
 def classify_piotroski_signal(current: float) -> str:
     """STRONG if >=7, WEAK if <=3, else NEUTRAL."""
     if current >= 7:
