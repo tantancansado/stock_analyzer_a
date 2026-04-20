@@ -47,7 +47,7 @@ describe('useSortedData', () => {
       { ticker: 'NVDA', score: 10 },
     ]
 
-    const { result } = renderHook(() => useSortedData(data, 'score'))
+    const { result } = renderHook(() => useSortedData<Row, keyof Row>(data, 'score'))
 
     act(() => {
       result.current.onSort('ticker')
@@ -78,7 +78,7 @@ describe('useSortedData', () => {
     ]
 
     function Harness() {
-      const { SortIcon, onSort } = useSortedData(data, 'score')
+      const { SortIcon, onSort } = useSortedData<Row, keyof Row>(data, 'score')
       return (
         <div>
           <button onClick={() => onSort('score')}>

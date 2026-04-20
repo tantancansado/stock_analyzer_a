@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
-function Boom({ message = 'Kaboom' }: { message?: string }) {
+function Boom({ message = 'Kaboom' }: { message?: string }): null {
   throw new Error(message)
 }
 

@@ -2,7 +2,7 @@ import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import type { ComponentProps, ReactNode } from 'react'
+import type { ComponentProps } from 'react'
 import PageTabs from '@/components/PageTabs'
 
 vi.mock('motion/react', async () => {
