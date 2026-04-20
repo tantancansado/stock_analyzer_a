@@ -68,8 +68,8 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
       {/* Header */}
       <div className="px-4 py-4 border-b border-border/40 relative flex-shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="sidebar-logo-icon w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-primary">
-            <LlamaLogo size={26} title="Stock Analyzer" />
+          <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 shadow-md shadow-primary/10">
+            <LlamaLogo size={36} title="Stock Analyzer" />
           </div>
           <div className="min-w-0">
             <h1 className="text-[1rem] lg:text-[1.05rem] font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
