@@ -12,8 +12,8 @@ interface OwnedPosition {
 
 interface PersonalPortfolioCtx {
   positions: OwnedPosition[]
-  isOwned: (ticker: string) => boolean
-  getPosition: (ticker: string) => OwnedPosition | undefined
+  isOwned: (ticker: string | undefined) => boolean
+  getPosition: (ticker: string | undefined) => OwnedPosition | undefined
   loading: boolean
 }
 
@@ -45,8 +45,14 @@ export function PersonalPortfolioProvider({ children }: { children: ReactNode })
     return () => { cancelled = true }
   }, [user])
 
-  const isOwned     = useCallback((ticker: string) => positions.some(p => p.ticker === ticker.toUpperCase()), [positions])
-  const getPosition = useCallback((ticker: string) => positions.find(p => p.ticker === ticker.toUpperCase()), [positions])
+  const isOwned     = useCallback((ticker: string | undefined) => {
+    const t = ticker?.toUpperCase()
+    return t ? positions.some(p => p.ticker === t) : false
+  }, [positions])
+  const getPosition = useCallback((ticker: string | undefined) => {
+    const t = ticker?.toUpperCase()
+    return t ? positions.find(p => p.ticker === t) : undefined
+  }, [positions])
 
   const value = useMemo(() => ({ positions, isOwned, getPosition, loading }), [positions, isOwned, getPosition, loading])
 

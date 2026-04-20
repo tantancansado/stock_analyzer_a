@@ -71,7 +71,7 @@ function WatchlistAlerts({ alerts, watchlistTickers, loading }: Readonly<{
   loading: boolean
 }>) {
   const filtered = (alerts ?? [])
-    .filter(a => watchlistTickers.has(a.ticker.toUpperCase()))
+    .filter(a => a.ticker ? watchlistTickers.has(a.ticker.toUpperCase()) : false)
     .sort((a, b) => {
       const sev = { HIGH: 0, MEDIUM: 1, LOW: 2 }
       return (sev[a.severity] ?? 2) - (sev[b.severity] ?? 2)
@@ -119,7 +119,7 @@ export default function Watchlist() {
   const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
   const { data: cerebroAlertsRaw, loading: loadingAlerts } = useApi(() => fetchCerebroAlerts(), [])
   const cerebro = useCerebroSignals()
-  const watchlistTickers = new Set(entries.map(e => e.ticker.toUpperCase()))
+  const watchlistTickers = new Set(entries.map(e => e.ticker?.toUpperCase() ?? '').filter(Boolean))
 
   useEffect(() => {
     let cancelled = false

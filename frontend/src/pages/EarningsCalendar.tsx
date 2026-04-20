@@ -65,17 +65,17 @@ export default function EarningsCalendar() {
   const deferredSearch = useDeferredValue(search)
   const { positions: myPositions } = usePersonalPortfolio()
 
-  const myTickers = useMemo(() => new Set(myPositions.map(p => p.ticker.toUpperCase())), [myPositions])
+  const myTickers = useMemo(() => new Set(myPositions.map(p => p.ticker?.toUpperCase() ?? '').filter(Boolean)), [myPositions])
 
   const filtered = useMemo(() => {
     if (!data?.earnings) return []
     let rows = data.earnings
     if (filter === 'warning')   rows = rows.filter(r => r.earnings_warning)
     if (filter === 'catalyst')  rows = rows.filter(r => r.earnings_catalyst)
-    if (filter === 'portfolio') rows = rows.filter(r => myTickers.has(r.ticker.toUpperCase()))
+    if (filter === 'portfolio') rows = rows.filter(r => r.ticker ? myTickers.has(r.ticker.toUpperCase()) : false)
     if (deferredSearch.trim()) {
       const q = deferredSearch.trim().toUpperCase()
-      rows = rows.filter(r => r.ticker.includes(q) || r.company.toUpperCase().includes(q) || r.sector.toUpperCase().includes(q))
+      rows = rows.filter(r => (r.ticker ?? '').includes(q) || (r.company ?? '').toUpperCase().includes(q) || (r.sector ?? '').toUpperCase().includes(q))
     }
     return rows
   }, [data, filter, deferredSearch, myTickers])
@@ -86,7 +86,7 @@ export default function EarningsCalendar() {
   const myEarnings = useMemo(() => {
     if (!data?.earnings || myTickers.size === 0) return []
     return data.earnings
-      .filter(e => myTickers.has(e.ticker.toUpperCase()))
+      .filter(e => e.ticker ? myTickers.has(e.ticker.toUpperCase()) : false)
       .sort((a, b) => (a.days_to_earnings ?? 999) - (b.days_to_earnings ?? 999))
   }, [data, myTickers])
 

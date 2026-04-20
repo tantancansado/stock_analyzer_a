@@ -531,7 +531,7 @@ function WatchlistAlertsMini({ alerts, watchlistTickers, loading }: {
   loading: boolean
 }) {
   const filtered = (alerts ?? [])
-    .filter(a => watchlistTickers.has(a.ticker.toUpperCase()))
+    .filter(a => a.ticker ? watchlistTickers.has(a.ticker.toUpperCase()) : false)
     .sort((a, b) => {
       const sev = { HIGH: 0, MEDIUM: 1, LOW: 2 }
       return (sev[a.severity] ?? 2) - (sev[b.severity] ?? 2)
@@ -1187,8 +1187,8 @@ export default function Dashboard() {
 
   const { positions: myPositions } = usePersonalPortfolio()
   const { entries: watchlistEntries } = useWatchlist()
-  const watchlistTickers = new Set(watchlistEntries.map(e => e.ticker.toUpperCase()))
-  const myTickers = new Set(myPositions.map(p => p.ticker.toUpperCase()))
+  const watchlistTickers = new Set(watchlistEntries.map(e => e.ticker?.toUpperCase() ?? '').filter(Boolean))
+  const myTickers = new Set(myPositions.map(p => p.ticker?.toUpperCase() ?? '').filter(Boolean))
 
   // Portfolio P&L widget — fetched once per session
   const [livePrices, setLivePrices] = useState<Record<string, number>>({})
@@ -1426,7 +1426,7 @@ export default function Dashboard() {
             ) : (() => {
               const totalCost  = myPositions.reduce((s, p) => s + p.shares * p.avg_price, 0)
               const totalValue = myPositions.reduce((s, p) => {
-                const price = livePrices[p.ticker.toUpperCase()] ?? p.avg_price
+                const price = livePrices[p.ticker?.toUpperCase() ?? ''] ?? p.avg_price
                 return s + p.shares * price
               }, 0)
               const pl    = totalValue - totalCost

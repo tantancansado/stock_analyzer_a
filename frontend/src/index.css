@@ -5,8 +5,9 @@
    FONTS
 ════════════════════════════════════════════════════════════════════ */
 @theme {
-  --font-sans: 'Oxanium', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'Share Tech Mono', 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  --font-sans:    'Rajdhani', 'Oxanium', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Oxanium', 'Rajdhani', sans-serif;
+  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', 'Menlo', monospace;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -139,6 +140,44 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid hsl(var(--border) / 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CYBERTRUCK TYPOGRAPHY — angular, industrial, geometric
+   Applied only in .dark (NOT [data-theme="noir"], which overrides)
+════════════════════════════════════════════════════════════════════ */
+.dark:not([data-theme="noir"]) h1,
+.dark:not([data-theme="noir"]) h2,
+.dark:not([data-theme="noir"]) h3,
+.dark:not([data-theme="noir"]) [class*="text-4xl"],
+.dark:not([data-theme="noir"]) [class*="text-3xl"],
+.dark:not([data-theme="noir"]) [class*="text-2xl"] {
+  font-family: var(--font-display, 'Oxanium', sans-serif);
+  letter-spacing: 0.02em;
+  font-weight: 600;
+}
+
+.dark:not([data-theme="noir"]) aside h1,
+.dark:not([data-theme="noir"]) .gradient-title {
+  font-family: 'Oxanium', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.dark:not([data-theme="noir"]) .glass table thead th {
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.dark:not([data-theme="noir"]) [class*="font-mono"],
+.dark:not([data-theme="noir"]) code,
+.dark:not([data-theme="noir"]) kbd,
+.dark:not([data-theme="noir"]) pre {
+  font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  letter-spacing: 0;
 }
 /* Dark mode: fully opaque header so no tbody rows bleed through */
 .dark .glass table thead th {

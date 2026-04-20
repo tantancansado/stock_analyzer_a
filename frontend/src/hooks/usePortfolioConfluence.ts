@@ -58,7 +58,8 @@ function applyBounce(map: ConfluenceMap, raw: unknown): void {
     if (rsi >= 30 || rsi === 0 || conf < 40 || price < 1) continue
     if (dp === 'DISTRIBUTION' && conf < 60) continue
     if (rr !== 0 && rr < 1) continue
-    const t = (o.ticker as string).toUpperCase()
+    const t = (o.ticker as string | undefined)?.toUpperCase()
+    if (!t) continue
     ensure(map, t); map[t].bounce = true
   }
 }
@@ -71,7 +72,8 @@ function applyFlow(map: ConfluenceMap, raw: unknown): void {
     const prem   = Number(r.total_premium ?? 0)
     if (prem < 25_000) continue
     if (sig !== 'BULLISH' && interp !== 'PUT_COVERING') continue
-    const t = (r.ticker as string).toUpperCase()
+    const t = (r.ticker as string | undefined)?.toUpperCase()
+    if (!t) continue
     ensure(map, t)
     map[t].flow = interp === 'PUT_COVERING' ? 'PUT_COVERING' : 'BULLISH'
   }
