@@ -7,19 +7,19 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-export type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string; keywords?: string[] }
+export type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string; logo?: string; keywords?: string[] }
 
 // Primary nav — always visible in sidebar
 export const NAV_PRIMARY: NavLinkItem[] = [
-  { path: '/dashboard',      icon: LayoutDashboard, label: 'Dashboard',      color: '#6366f1', keywords: ['inicio', 'home', 'resumen'] },
-  { path: '/cerebro',        icon: Brain,           label: 'Cerebro',        color: '#8b5cf6', keywords: ['cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'alertas', 'entrada'] },
-  { path: '/value',          icon: DollarSign,      label: 'Value',          color: '#10b981', keywords: ['value', 'fundamental', 'us', 'eu', 'europa', 'global', 'acciones'] },
-  { path: '/macro-radar',    icon: Radar,           label: 'Macro',          color: '#e11d48', keywords: ['macro', 'radar', 'economía', 'países', 'pib', 'global', 'country'] },
-  { path: '/insiders',       icon: Users,           label: 'Insiders',       color: '#8b5cf6', keywords: ['insiders', 'directivos', 'compras'] },
-  { path: '/bounce',         icon: Crosshair,       label: 'Rebotes técnicos', color: '#f97316', keywords: ['bounce', 'rebote', 'corto plazo', 'oversold', 'rsi extremo'] },
-  { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: '#10b981', keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
-  { path: '/owner-earnings', icon: Calculator,      label: 'Owner Earnings', color: '#06b6d4', keywords: ['owner earnings', 'valoracion', 'compra', 'buffett', 'fcf', 'precio objetivo', 'dcf'] },
-  { path: '/search',         icon: Search,          label: 'Buscar',         color: '#94a3b8', keywords: ['buscar', 'ticker', 'search', 'analisis'] },
+  { path: '/dashboard',      icon: LayoutDashboard, label: 'Dashboard',      color: '#6366f1', logo: 'llama-charts.png',        keywords: ['inicio', 'home', 'resumen'] },
+  { path: '/cerebro',        icon: Brain,           label: 'Cerebro',        color: '#8b5cf6', logo: 'llama-magnify.png',       keywords: ['cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'alertas', 'entrada'] },
+  { path: '/value',          icon: DollarSign,      label: 'Value',          color: '#10b981', logo: 'llama-glasses-arrow.png', keywords: ['value', 'fundamental', 'us', 'eu', 'europa', 'global', 'acciones'] },
+  { path: '/macro-radar',    icon: Radar,           label: 'Macro',          color: '#e11d48', logo: 'llama-network.png',       keywords: ['macro', 'radar', 'economía', 'países', 'pib', 'global', 'country'] },
+  { path: '/insiders',       icon: Users,           label: 'Insiders',       color: '#8b5cf6', logo: 'llama-bags.png',          keywords: ['insiders', 'directivos', 'compras'] },
+  { path: '/bounce',         icon: Crosshair,       label: 'Rebotes técnicos', color: '#f97316', logo: 'llama-shield.png',      keywords: ['bounce', 'rebote', 'corto plazo', 'oversold', 'rsi extremo'] },
+  { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: '#10b981', logo: 'llama-safe.png',          keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
+  { path: '/owner-earnings', icon: Calculator,      label: 'Owner Earnings', color: '#06b6d4', logo: 'llama-plant.png',         keywords: ['owner earnings', 'valoracion', 'compra', 'buffett', 'fcf', 'precio objetivo', 'dcf'] },
+  { path: '/search',         icon: Search,          label: 'Buscar',         color: '#94a3b8', logo: 'llama-hands-growth.png',  keywords: ['buscar', 'ticker', 'search', 'analisis'] },
 ]
 
 // Secondary nav — shown in collapsible "Más" section

@@ -7,7 +7,7 @@ interface Props {
 export default function LlamaLogo({ size = 28, className = '', title = 'Stock Analyzer' }: Readonly<Props>) {
   return (
     <img
-      src="/app/llama.png"
+      src={`${import.meta.env.BASE_URL}llama.png`}
       width={size}
       height={size}
       alt={title}

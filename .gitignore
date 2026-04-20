@@ -91,5 +91,9 @@ RECOLETAS_README.md
 # Screenshots / test images
 *.png
 
+# Keep app logos (served by GitHub Pages)
+!frontend/public/llama*.png
+!docs/app/llama*.png
+
 # Sector rotation scans (keep only latest)
 docs/sector_rotation/scan_*.json

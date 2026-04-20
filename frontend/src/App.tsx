@@ -54,7 +54,11 @@ function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: ()
           : 'hover:bg-[color-mix(in_srgb,var(--nav-color)_8%,transparent)] hover:text-foreground'
       )}
     >
-      <span className="nav-icon shrink-0"><item.icon size={15} strokeWidth={1.65} /></span>
+      <span className="nav-icon shrink-0 flex items-center justify-center w-[18px] h-[18px]">
+        {item.logo
+          ? <img src={`${import.meta.env.BASE_URL}${item.logo}`} alt="" width={18} height={18} className="rounded-full object-contain" />
+          : <item.icon size={15} strokeWidth={1.65} />}
+      </span>
       <span className="nav-label flex-1 truncate">{item.label}</span>
     </NavLink>
   )
