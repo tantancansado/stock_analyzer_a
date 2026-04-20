@@ -22,8 +22,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (theme === 'light') root.classList.remove('dark')
     else root.classList.add('dark')
     // noir attribute — activates noir-theme.css overrides
-    if (theme === 'noir') root.setAttribute('data-theme', 'noir')
-    else root.removeAttribute('data-theme')
+    if (theme === 'noir') {
+      root.setAttribute('data-theme', 'noir')
+      import('../nothing-theme.css')
+    } else {
+      root.removeAttribute('data-theme')
+    }
     try { localStorage.setItem('sa-theme', theme) } catch { /* ignore */ }
   }, [theme])
 

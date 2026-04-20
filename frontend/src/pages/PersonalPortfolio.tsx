@@ -646,7 +646,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   const underweight = result && result.portfolio_pct < (result.optimal_size_pct ?? 0) * 0.5 && (result.optimal_size_pct ?? 0) > 0
 
   return (
-    <div className={`glass rounded-2xl overflow-clip transition-all border ${
+    <div className={`glass rounded-2xl overflow-clip transition-all border h-full flex flex-col ${
       exit?.severity === 'HIGH' ? 'border-red-500/40' :
       trap ? 'border-amber-500/30' :
       action === 'AÑADIR' ? 'border-emerald-500/25' :
@@ -865,8 +865,15 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 
       {/* ── SIZING ROW (compact, no scroll) ── */}
       {result?.volatility_pct != null && (
-        <div className="flex items-center gap-3 px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/4 border border-primary/10">
-          <span className="text-[0.55rem] font-bold uppercase tracking-widest text-primary/50 shrink-0">Sizing</span>
+        <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/4 border border-primary/10">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[0.55rem] font-bold uppercase tracking-widest text-primary/50">Sizing</span>
+            {(overweight || underweight) && (
+              <span className={`text-[0.6rem] font-bold uppercase tracking-wide ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
+                {overweight ? '↑ SOBRE' : '↓ INFRA'}
+              </span>
+            )}
+          </div>
           <div className="flex gap-4 flex-wrap">
             <MetricChip label="Vol" value={`${result.volatility_pct.toFixed(1)}%`} valueClass={(result.volatility_pct) > 15 ? 'text-red-400' : 'text-amber-400'} />
             <MetricChip label="Kelly" value={`${result.kelly_pct?.toFixed(1)}%`} />
@@ -875,11 +882,6 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
               <MetricChip label="Stop ATR" value={`${sym}${result.stop_loss_atr.toFixed(2)}`} valueClass="text-red-400" />
             )}
           </div>
-          {(overweight || underweight) && (
-            <span className={`ml-auto text-[0.6rem] font-bold uppercase tracking-wide ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
-              {overweight ? '↑ SOBRE' : '↓ INFRA'}
-            </span>
-          )}
         </div>
       )}
 
@@ -1271,7 +1273,7 @@ export default function PersonalPortfolio() {
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {positions.map((pos, index) => (
-                    <div key={pos.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 80}ms` }}>
+                    <div key={pos.id} className="animate-fade-in-up h-full" style={{ animationDelay: `${index * 80}ms` }}>
                       <PositionCard
                         pos={pos}
                         userId={user!.id}

@@ -19,6 +19,7 @@ estado_documentos.json
 
 # ─── Cache directories ───
 data/cache/
+data/cache/yf/
 data/backtest_cache/
 data/earnings_cache/
 data/sector_rotation_cache/
@@ -59,6 +60,15 @@ docs/reports/vcp/vcp_scanner_*.html
 # ─── Frontend (React + Vite) ───
 frontend/node_modules/
 frontend/dist/
+frontend/coverage/
+
+# ─── Backup files (never commit) ───
+*.backup_*
+*.bak
+
+# ─── VCP local cache (never commit) ───
+vcp_cache.db
+vcp_cache.db-*
 
 # ─── Flask / Railway ───
 flask_server.log

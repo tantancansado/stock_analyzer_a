@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react'
 import { Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, X, LogOut, ChevronDown } from 'lucide-react'
+import { X, LogOut, ChevronDown } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ThemeProvider } from './context/ThemeContext'
 import { useAuth } from './context/AuthContext'
@@ -15,6 +15,7 @@ import ShortcutsModal from './components/ShortcutsModal'
 import ErrorBoundary from './components/ErrorBoundary'
 import ScrollToTop from './components/ScrollToTop'
 import Loading from './components/Loading'
+import LlamaLogo from './components/LlamaLogo'
 import Login from './pages/Login'
 
 const Dashboard        = lazy(() => import('./pages/Dashboard'))
@@ -67,8 +68,8 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
       {/* Header */}
       <div className="px-4 py-4 border-b border-border/40 relative flex-shrink-0">
         <div className="flex items-center gap-2.5">
-          <div className="sidebar-logo-icon w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0">
-            <LayoutDashboard size={14} color="white" strokeWidth={2} />
+          <div className="sidebar-logo-icon w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-primary">
+            <LlamaLogo size={26} title="Stock Analyzer" />
           </div>
           <div className="min-w-0">
             <h1 className="text-[1rem] lg:text-[1.05rem] font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
