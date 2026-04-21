@@ -5,6 +5,8 @@ import PaginationBar from '../components/PaginationBar'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
+import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { useApi } from '../hooks/useApi'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import Loading, { ErrorState } from '../components/Loading'
@@ -56,6 +58,7 @@ const MR_PAGE_SIZE = 30
 export default function MeanReversion() {
   const { data, loading, error } = useApi(() => fetchMeanReversion(), [])
   const { positions: myPositions } = usePersonalPortfolio()
+  const verdicts = useEntryVerdicts()
   const [sortKey, setSortKey] = useState<string>('reversion_score')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
   const [expanded, setExpanded] = useState<string | null>(null)
@@ -363,9 +366,10 @@ export default function MeanReversion() {
           >
             <div className="flex items-center justify-between">
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="font-mono font-bold text-sm">{d.ticker}</span>
                   <Badge variant={qualVariant(d.quality)}>{d.quality}</Badge>
+                  <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                 </div>
                 <span className="text-[0.65rem] text-muted-foreground">{d.company_name}</span>
               </div>
@@ -436,10 +440,11 @@ export default function MeanReversion() {
                       <div className="flex items-center gap-1.5">
                         <TickerLogo ticker={d.ticker} size="xs" />
                         <div>
-                          <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide flex items-center gap-1.5">
+                          <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide flex items-center gap-1.5 flex-wrap">
                             {d.ticker}
                             <OwnedBadge ticker={d.ticker} />
                             {d.ticker === bestTicker && <Badge variant="green" className="text-[0.5rem] px-1 py-0 leading-4">BEST</Badge>}
+                            <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                           </div>
                           {d.company_name && d.company_name !== d.ticker && (
                             <div className="text-[0.65rem] text-muted-foreground truncate max-w-[110px]">{d.company_name}</div>

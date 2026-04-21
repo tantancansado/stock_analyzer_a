@@ -62,6 +62,8 @@ import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import CerebroBadges from '../components/CerebroBadges'
 import OeAiBadge from '../components/OeAiBadge'
 import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
+import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 
 const MARKET_FLAGS: Record<string, string> = {
   DAX40: '🇩🇪', FTSE100: '🇬🇧', CAC40: '🇫🇷',
@@ -80,6 +82,7 @@ export default function ValueEU() {
   const techMap = useTechnicalSummaryMap()
   const cerebro = useCerebroSignals()
   const chartSignals = useChartSignals()
+  const verdicts = useEntryVerdicts()
   const [sortKey, setSortKey] = useState<SortKey>('value_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
@@ -613,6 +616,7 @@ export default function ValueEU() {
                             downgradeDays14d={d.downgrade_days_14d}
                             compact
                           />
+                          <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                           {(d.hedge_fund_count ?? 0) >= 1 && (
                             <span
                               className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ${(d.hedge_fund_count ?? 0) >= 2 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-muted/20 text-muted-foreground border-border/30'}`}

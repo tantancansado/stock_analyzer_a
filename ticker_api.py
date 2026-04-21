@@ -2018,6 +2018,42 @@ def analyst_revisions_ticker(ticker):
     })
 
 
+@app.route('/api/entry-verdicts')
+def entry_verdicts():
+    """Entry verdict (ENTRY/WAIT/AVOID) for every ticker in active opportunity lists."""
+    df = _load_csv(DOCS / 'entry_verdicts.csv')
+    if df is None:
+        return jsonify({"verdicts": [], "as_of": None, "total": 0}), 200
+    df = df.reset_index() if 'ticker' not in df.columns else df
+    rows = df.where(pd.notna(df), None).to_dict(orient='records')
+    for r in rows:
+        for k, v in list(r.items()):
+            if isinstance(v, float) and pd.isna(v):
+                r[k] = None
+    src = DOCS / 'entry_verdicts.csv'
+    as_of = None
+    if src.exists():
+        try:
+            as_of = datetime.fromtimestamp(src.stat().st_mtime).isoformat()
+        except Exception:
+            as_of = None
+    return jsonify({"verdicts": rows, "as_of": as_of, "total": len(rows)})
+
+
+@app.route('/api/entry-verdicts/<ticker>')
+def entry_verdict_ticker(ticker):
+    """Entry verdict for a single ticker."""
+    ticker_u = ticker.upper()
+    df = _load_csv(DOCS / 'entry_verdicts.csv')
+    if df is None:
+        return jsonify({"ticker": ticker_u, "verdict": None}), 200
+    df = df.reset_index() if 'ticker' not in df.columns else df
+    match = df[df['ticker'] == ticker_u]
+    if match.empty:
+        return jsonify({"ticker": ticker_u, "verdict": None}), 200
+    row = match.iloc[0].where(pd.notna(match.iloc[0]), None).to_dict()
+    return jsonify({"ticker": ticker_u, **row})
+
 
 @app.route('/api/macro-countries')
 def macro_countries():

@@ -1006,6 +1006,26 @@ export interface AnalystRevisionHistory {
 export const fetchAnalystRevisionsTicker = (ticker: string) =>
   apiClient.get<{ ticker: string; history: AnalystRevisionHistory[]; latest: AnalystRevision | null }>(`/api/analyst-revisions/${ticker}`)
 
+// ── Entry Verdicts ───────────────────────────────────────────────────────
+export type EntryVerdictKind = 'ENTRY' | 'WAIT' | 'AVOID' | 'NEUTRAL'
+
+export interface EntryVerdict {
+  ticker: string
+  origin: string | null
+  verdict: EntryVerdictKind
+  confidence: number | null
+  reasons: string | null
+  blockers: string | null
+  trigger: string | null
+  source: 'rules' | 'ai' | null
+}
+
+export const fetchEntryVerdicts = () =>
+  apiClient.get<{ verdicts: EntryVerdict[]; total: number; as_of: string | null }>('/api/entry-verdicts')
+
+export const fetchEntryVerdictTicker = (ticker: string) =>
+  apiClient.get<EntryVerdict & { ticker: string }>(`/api/entry-verdicts/${ticker}`)
+
 export type EarningsThesisVerdict = 'HOLD' | 'REDUCE' | 'EXIT_BEFORE' | 'ADD_AFTER' | 'HOLD_THROUGH'
 
 export interface EarningsThesis {

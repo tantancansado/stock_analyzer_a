@@ -4,6 +4,8 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import TickerLogo from '../components/TickerLogo'
+import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import { useEntryVerdict } from '../hooks/useEntryVerdicts'
 import { AlertTriangle, TrendingDown, Zap, Star, Target } from 'lucide-react'
 import { nlBounceSetup, nlBounceConfidence } from '@/lib/nl'
 
@@ -79,6 +81,7 @@ function confidenceBar(score?: number) {
 function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean }) {
   const tc = tierColor(s.rsi_tier)
   const conf = confidenceBar(s.bounce_confidence)
+  const verdict = useEntryVerdict(s.ticker)
   const bounceUsd = s.bounce_usd ?? (s.bounce_target ? s.bounce_target - s.current_price : null)
   const bouncePct = s.bounce_pct ?? (bounceUsd != null ? (bounceUsd / s.current_price * 100) : null)
   const stopPct   = s.stop_pct ?? ((s.stop_loss / s.current_price - 1) * 100)
@@ -100,9 +103,12 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
             <div className="text-[0.65rem] text-muted-foreground/60 truncate">{s.company_name}</div>
           </div>
         </div>
-        <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[0.65rem] font-bold shrink-0 ${tc.bg}`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${tc.dot}`} />
-          <span className={tc.text}>RSI {s.rsi?.toFixed(1)} · {s.rsi_tier ?? 'MEDIO'}</span>
+        <div className="flex items-center gap-1.5 shrink-0">
+          {verdict && <EntryVerdictBadge verdict={verdict} compact />}
+          <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[0.65rem] font-bold ${tc.bg}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${tc.dot}`} />
+            <span className={tc.text}>RSI {s.rsi?.toFixed(1)} · {s.rsi_tier ?? 'MEDIO'}</span>
+          </div>
         </div>
       </div>
 

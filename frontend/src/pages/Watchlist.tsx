@@ -8,6 +8,8 @@ import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import CerebroBadges from '../components/CerebroBadges'
 import GradeBadge from '../components/GradeBadge'
 import TickerLogo from '../components/TickerLogo'
+import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -113,6 +115,7 @@ function WatchlistAlerts({ alerts, watchlistTickers, loading }: Readonly<{
 
 export default function Watchlist() {
   const { entries, remove, updateNote } = useWatchlist()
+  const verdicts = useEntryVerdicts()
   const [sortKey, setSortKey] = useState<keyof WatchlistEntry>('added_at')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
   const [liveMap, setLiveMap] = useState<Record<string, LiveEntry>>({})
@@ -243,7 +246,10 @@ export default function Watchlist() {
                   <div className="flex items-center gap-2.5">
                     <TickerLogo ticker={e.ticker} size="sm" className="shrink-0" />
                     <div>
-                      <span className="font-mono font-bold text-sm text-primary">{e.ticker}</span>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-mono font-bold text-sm text-primary">{e.ticker}</span>
+                        <EntryVerdictBadge verdict={verdicts[e.ticker?.toUpperCase() ?? '']} compact />
+                      </div>
                       <div className="text-[0.65rem] text-muted-foreground truncate max-w-[150px]">{e.company_name}</div>
                     </div>
                   </div>
@@ -294,9 +300,10 @@ export default function Watchlist() {
                       className={`cursor-pointer transition-colors ${i === focusedIdx ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
                     >
                       <TableCell className="font-mono font-bold text-amber-400 text-[0.8rem] tracking-wide">
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                           <TickerLogo ticker={e.ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${e.ticker}`} className="hover:underline" onClick={ev => ev.stopPropagation()}>{e.ticker}</Link>
+                          <EntryVerdictBadge verdict={verdicts[e.ticker?.toUpperCase() ?? '']} compact />
                         </div>
                         <CerebroBadges
                           trapInfo={cerebro.trapMap[e.ticker]}

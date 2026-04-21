@@ -20,6 +20,8 @@ import GradeBadge from '../components/GradeBadge'
 import ScoreRing from '../components/ScoreRing'
 import InfoTooltip from '../components/InfoTooltip'
 import TickerLogo from '../components/TickerLogo'
+import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { LogoChartPeak } from '../components/BrandLogos'
 import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar, Wallet, Zap, Crosshair, BarChart3, Brain, Target, ChevronDown, ChevronUp, Sparkles } from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
@@ -152,6 +154,7 @@ function TopPicksTable({
 }: {
   title: string; rows: ValueOpportunity[]; to: string; loading: boolean
 }) {
+  const verdicts = useEntryVerdicts()
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
@@ -181,9 +184,12 @@ function TopPicksTable({
                 <TickerLogo ticker={r.ticker} size="md" className="flex-shrink-0" />
                 <div className="w-[4rem] shrink-0">
                   <div className="font-mono font-bold text-primary text-[0.92rem] tracking-wide">{r.ticker}</div>
-                  {r.conviction_grade && (
-                    <GradeBadge grade={r.conviction_grade} score={r.conviction_score} />
-                  )}
+                  <div className="flex items-center gap-1 mt-0.5">
+                    {r.conviction_grade && (
+                      <GradeBadge grade={r.conviction_grade} score={r.conviction_score} />
+                    )}
+                    <EntryVerdictBadge verdict={verdicts[r.ticker?.toUpperCase() ?? '']} compact />
+                  </div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="text-[0.82rem] text-muted-foreground truncate">{r.company_name || r.sector || ''}</div>

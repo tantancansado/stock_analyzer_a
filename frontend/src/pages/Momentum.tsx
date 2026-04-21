@@ -10,6 +10,8 @@ import InfoTooltip from '../components/InfoTooltip'
 import { Card } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import TickerLogo from '../components/TickerLogo'
+import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import EmptyState from '../components/EmptyState'
 
 type SortKey = keyof MomentumOpportunity
@@ -17,6 +19,7 @@ type SortDir = 'asc' | 'desc'
 
 export default function Momentum() {
   const { data, loading, error } = useApi(() => fetchMomentumOpportunities(), [])
+  const verdicts = useEntryVerdicts()
   const [sortKey, setSortKey] = useState<SortKey>('momentum_score')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [focusedIdx, setFocusedIdx] = useState(-1)
@@ -128,9 +131,10 @@ export default function Momentum() {
               <div className="flex items-center gap-3">
                 <ScoreRing score={d.momentum_score ?? 0} size="sm" />
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <TickerLogo ticker={d.ticker} size="sm" />
                     <span className="font-mono font-bold text-sm">{d.ticker}</span>
+                    <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                   </div>
                   <span className="text-[0.65rem] text-muted-foreground block truncate max-w-[140px]">{d.company_name}</span>
                 </div>
@@ -222,9 +226,10 @@ export default function Momentum() {
                   className={`cursor-pointer transition-colors ${focusedIdx === i ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
                 >
                   <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <TickerLogo ticker={d.ticker} size="sm" />
                       {d.ticker}
+                      <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                     </div>
                   </TableCell>
                   {!compact && (
