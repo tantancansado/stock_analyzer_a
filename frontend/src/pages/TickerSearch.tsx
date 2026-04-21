@@ -200,7 +200,7 @@ export default function TickerSearch() {
       </div>
 
       {/* Search box with autocomplete */}
-      <div className="relative mb-6 animate-fade-in-up" style={{ animationDelay: '60ms' }} ref={wrapRef}>
+      <div className="relative z-50 mb-6 animate-fade-in-up" style={{ animationDelay: '60ms' }} ref={wrapRef}>
         <div className="flex flex-col sm:flex-row gap-2">
           <Input
             className="flex-1"
@@ -227,7 +227,7 @@ export default function TickerSearch() {
           }).slice(0, 6)
           const KNOWN_SECTORS = new Set(['Technology','Financial Services','Healthcare','Energy','Consumer Cyclical','Consumer Defensive','Industrials','Real Estate','Basic Materials','Communication Services','Utilities'])
           return (
-            <ul className="absolute top-full left-0 right-0 mt-1 z-50 bg-background border border-border rounded-lg shadow-xl" style={{ overflow: 'clip' }}>
+            <ul className="absolute top-full left-0 right-0 mt-1 z-[60] bg-background border border-border rounded-lg shadow-xl backdrop-blur-xl" style={{ overflow: 'clip', backgroundColor: 'hsl(var(--background))' }}>
               {deduped.map((s, i) => (
                 <li
                   key={s.ticker}
