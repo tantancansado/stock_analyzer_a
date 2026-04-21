@@ -1072,6 +1072,31 @@ def analyze(ticker):
                     'El análisis live puede ser incompleto en entornos cloud.'
                 )
 
+        result = _merge_analysis_with_search_enrichment(result, ticker)
+        thesis_text = str(result.get('thesis') or '').strip()
+        if (not thesis_text) or thesis_text.startswith('(Error generando tesis'):
+            result['thesis'] = _build_thesis({
+                'vcp_score': _sf(result.get('vcp_score'), 0) or 0,
+                'insiders_score': _sf(result.get('insiders_score'), 0) or 0,
+                'institutional_score': _sf(result.get('institutional_score'), 0) or 0,
+                'num_whales': _safe_int(result.get('num_whales'), 0) or 0,
+                'top_whales': result.get('top_whales') or '',
+                'sector_name': result.get('sector_name') or 'Unknown',
+                'sector_momentum': result.get('sector_momentum') or 'stable',
+                'sector_score': _sf(result.get('sector_score'), 0) or 0,
+                'fundamental_score': _sf(result.get('fund_score'), 0) or 0,
+                'super_score_5d': _sf(result.get('final_score'), 0) or 0,
+                'super_score_ultimate': _sf(result.get('final_score'), 0) or 0,
+                'tier': result.get('tier_label') or 'NEUTRAL',
+                'price_target': result.get('price_target') or result.get('target_price_analyst'),
+                'upside_percent': result.get('upside_percent') or result.get('analyst_upside_pct'),
+                'fcf_yield': result.get('fcf_yield'),
+                'roe': result.get('roe'),
+                'revenue_growth': result.get('revenue_growth'),
+                'timing_convergence': False,
+                'vcp_repeater': False,
+            })
+
         return jsonify(result)
 
     except Exception as e:
@@ -2161,6 +2186,50 @@ def dividend_calendar():
 
 _PORTFOLIO_EARNINGS_CACHE: dict = {}
 _PORTFOLIO_EARNINGS_TTL_S = 6 * 3600
+_EARNINGS_SIGNAL_CACHE: dict = {}
+_EARNINGS_SIGNAL_TTL_S = 12 * 3600
+_SEARCH_ENRICH_CACHE: dict = {}
+_SEARCH_ENRICH_TTL_S = 6 * 3600
+
+
+def _clamp(value: float | None, low: float, high: float) -> float | None:
+    if value is None:
+        return None
+    return max(low, min(high, value))
+
+
+def _truthy(value) -> bool:
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() in {'1', 'true', 'yes', 'y', 'si'}
+
+
+def _safe_int(val, default=None):
+    try:
+        if val is None:
+            return default
+        if isinstance(val, float) and pd.isna(val):
+            return default
+        return int(float(val))
+    except (TypeError, ValueError):
+        return default
+
+
+def _first_value(*values):
+    for value in values:
+        if value is None:
+            continue
+        if isinstance(value, str) and not value.strip():
+            continue
+        return value
+    return None
+
+
+def _pct_from_ratio(val):
+    num = _sf(val)
+    if num is None:
+        return None
+    return round(num * 100.0, 1)
 
 
 def _extract_jwt_sub(token: str) -> str | None:
@@ -2242,6 +2311,600 @@ def _live_fetch_earnings_for_tickers(tickers: list[str]) -> list[dict]:
     return out
 
 
+def _load_earnings_theses_index() -> dict[str, dict]:
+    data = _load_json(DOCS / 'earnings_theses.json')
+    if not isinstance(data, dict):
+        return {}
+    theses = data.get('theses') or {}
+    return theses if isinstance(theses, dict) else {}
+
+
+def _earnings_history_stats(tk) -> tuple[float | None, float | None, int]:
+    try:
+        hist = tk.earnings_history
+    except Exception:
+        hist = None
+    if hist is None or getattr(hist, 'empty', True):
+        return None, None, 0
+
+    try:
+        df = hist.sort_index(ascending=False).head(4)
+    except Exception:
+        df = hist.head(4)
+
+    beats = 0
+    total = 0
+    surprises: list[float] = []
+    for _, row in df.iterrows():
+        est = _sf(row.get('epsEstimate'))
+        act = _sf(row.get('epsActual'))
+        sur = _sf(row.get('surprisePercent'))
+        if est is not None and act is not None:
+            beats += 1 if act >= est else 0
+            total += 1
+        if sur is not None:
+            surprises.append(sur)
+
+    beat_rate = round(beats / total, 3) if total > 0 else None
+    avg_surprise = round(sum(surprises) / len(surprises), 2) if surprises else None
+    return beat_rate, avg_surprise, total
+
+
+def _earnings_estimate_avg(frame, label: str = '0q') -> float | None:
+    if frame is None or getattr(frame, 'empty', True):
+        return None
+    try:
+        if label in frame.index:
+            row = frame.loc[label]
+            if hasattr(row, 'iloc'):
+                return _sf(row.get('avg') if hasattr(row, 'get') else row.iloc[0])
+    except Exception:
+        return None
+    return None
+
+
+def _score_contribution(delta: float, description: str, out: list[dict]) -> None:
+    if abs(delta) < 1:
+        return
+    out.append({
+        'impact': round(delta, 1),
+        'signal': description,
+    })
+
+
+def _build_earnings_expectation_snapshot(ticker: str, base_row: dict | None = None, thesis: dict | None = None) -> dict:
+    cache_key = ticker.upper().strip()
+    now_ts = time.time()
+    cache_entry = _EARNINGS_SIGNAL_CACHE.get(cache_key)
+    if cache_entry and (now_ts - cache_entry['ts'] < _EARNINGS_SIGNAL_TTL_S):
+        return dict(cache_entry['data'])
+
+    import yfinance as _yf
+
+    tk = _yf.Ticker(cache_key)
+    try:
+        info = tk.info or {}
+    except Exception:
+        info = {}
+
+    base_row = base_row or {}
+    thesis = thesis or {}
+
+    consensus_eps = _sf(thesis.get('expected_eps')) or _sf(info.get('epsForward') or info.get('forwardEps'))
+    consensus_revenue_millions = _sf(thesis.get('expected_revenue_millions'))
+    implied_move_pct = _sf(thesis.get('implied_move_pct'))
+
+    try:
+        eps_est = _earnings_estimate_avg(getattr(tk, 'earnings_estimate', None))
+        if eps_est is not None:
+            consensus_eps = eps_est
+    except Exception:
+        pass
+
+    try:
+        rev_est = _earnings_estimate_avg(getattr(tk, 'revenue_estimate', None))
+        if rev_est is not None:
+            consensus_revenue_millions = round(rev_est / 1_000_000.0, 1)
+    except Exception:
+        pass
+
+    beat_rate, avg_surprise_pct, history_quarters = _earnings_history_stats(tk)
+    if beat_rate is None:
+        beat_rate = _sf(thesis.get('beat_rate_last_4q'))
+
+    analyst_count = _sf(base_row.get('analyst_count')) or _sf(info.get('numberOfAnalystOpinions'))
+    analyst_revision_momentum = _sf(base_row.get('analyst_revision_momentum'))
+    earnings_quality_score = _sf(base_row.get('earnings_quality_score'))
+    eps_growth_yoy = _sf(base_row.get('eps_growth_yoy'))
+    analyst_recommendation = str(base_row.get('analyst_recommendation') or info.get('recommendationKey') or '').strip().lower() or None
+    eps_accelerating = _truthy(base_row.get('eps_accelerating'))
+
+    raw_probability = 50.0
+    drivers: list[dict] = []
+    signal_count = 0
+
+    if beat_rate is not None:
+        signal_count += 1
+        delta = (beat_rate - 0.5) * 26.0
+        raw_probability += delta
+        _score_contribution(delta, f"Historial beat 4Q: {beat_rate * 100:.0f}%", drivers)
+
+    if avg_surprise_pct is not None:
+        signal_count += 1
+        delta = _clamp(avg_surprise_pct * 1.15, -10.0, 10.0) or 0.0
+        raw_probability += delta
+        _score_contribution(delta, f"Surprise medio 4Q: {avg_surprise_pct:+.1f}%", drivers)
+
+    if analyst_revision_momentum is not None:
+        signal_count += 1
+        delta = _clamp(analyst_revision_momentum / 4.0, -10.0, 10.0) or 0.0
+        raw_probability += delta
+        _score_contribution(delta, f"Revisiones analistas: {analyst_revision_momentum:+.1f}", drivers)
+
+    if earnings_quality_score is not None:
+        signal_count += 1
+        delta = _clamp((earnings_quality_score - 50.0) * 0.16, -8.0, 8.0) or 0.0
+        raw_probability += delta
+        _score_contribution(delta, f"Calidad earnings: {earnings_quality_score:.0f}/100", drivers)
+
+    if eps_growth_yoy is not None:
+        signal_count += 1
+        delta = _clamp(eps_growth_yoy / 10.0, -7.0, 7.0) or 0.0
+        raw_probability += delta
+        _score_contribution(delta, f"Crecimiento EPS YoY: {eps_growth_yoy:+.1f}%", drivers)
+
+    if eps_accelerating:
+        signal_count += 1
+        raw_probability += 4.0
+        _score_contribution(4.0, "EPS acelerando", drivers)
+
+    if analyst_recommendation:
+        signal_count += 1
+        rec_map = {
+            'strong_buy': 6.0,
+            'buy': 3.0,
+            'hold': -1.0,
+            'underperform': -4.0,
+            'sell': -6.0,
+        }
+        rec_weight = 1.0 if (analyst_count or 0) >= 8 else 0.6
+        delta = rec_map.get(analyst_recommendation, 0.0) * rec_weight
+        raw_probability += delta
+        _score_contribution(delta, f"Consenso analistas: {analyst_recommendation}", drivers)
+
+    confidence = 20
+    if consensus_eps is not None:
+        confidence += 20
+    if consensus_revenue_millions is not None:
+        confidence += 10
+    if history_quarters >= 3:
+        confidence += 20
+    if analyst_revision_momentum is not None:
+        confidence += 12
+    if analyst_count is not None:
+        confidence += 8 if analyst_count >= 5 else 4
+    if earnings_quality_score is not None:
+        confidence += 10
+    if eps_growth_yoy is not None:
+        confidence += 5
+    if analyst_recommendation:
+        confidence += 5
+    confidence = int(_clamp(float(confidence), 20.0, 95.0) or 20.0)
+
+    shrink = 0.35 + (confidence / 100.0) * 0.65
+    beat_probability = 50.0 + (raw_probability - 50.0) * shrink
+    beat_probability = int(round(_clamp(beat_probability, 18.0, 82.0) or 50.0))
+
+    drivers.sort(key=lambda item: abs(item['impact']), reverse=True)
+
+    result = {
+        'consensus_eps': consensus_eps,
+        'consensus_revenue_millions': consensus_revenue_millions,
+        'beat_rate_last_4q': beat_rate,
+        'avg_surprise_pct_last_4q': avg_surprise_pct,
+        'history_quarters': history_quarters or None,
+        'beat_probability': beat_probability,
+        'beat_confidence': confidence,
+        'beat_drivers': [item['signal'] for item in drivers[:3]],
+        'analyst_count': int(analyst_count) if analyst_count is not None else None,
+        'analyst_recommendation': analyst_recommendation,
+        'analyst_revision_momentum': analyst_revision_momentum,
+        'earnings_quality_score': earnings_quality_score,
+        'eps_growth_yoy': eps_growth_yoy,
+        'eps_accelerating': eps_accelerating or None,
+        'implied_move_pct': implied_move_pct,
+    }
+    _EARNINGS_SIGNAL_CACHE[cache_key] = {'ts': now_ts, 'data': result}
+    return dict(result)
+
+
+def _load_tikr_earnings_index() -> dict[str, dict]:
+    data = _load_json(DOCS / 'tikr_earnings_data.json')
+    if not isinstance(data, dict):
+        return {}
+    rows = data.get('data') or {}
+    return rows if isinstance(rows, dict) else {}
+
+
+def _get_next_earnings_from_calendar(tk):
+    from datetime import date as _date
+
+    today = datetime.now().date()
+    try:
+        cal = tk.calendar
+    except Exception:
+        cal = None
+
+    if isinstance(cal, dict):
+        raw = cal.get('Earnings Date')
+        if isinstance(raw, (list, tuple)):
+            dates = []
+            for item in raw:
+                try:
+                    d = item.date() if hasattr(item, 'date') else item
+                    if isinstance(d, _date) and d >= today:
+                        dates.append(d)
+                except Exception:
+                    continue
+            if dates:
+                return min(dates)
+        elif raw is not None:
+            try:
+                d = raw.date() if hasattr(raw, 'date') else raw
+                if isinstance(d, _date) and d >= today:
+                    return d
+            except Exception:
+                pass
+
+    try:
+        edf = tk.earnings_dates
+        if edf is not None and not edf.empty:
+            idx = edf.index
+            for val in idx:
+                try:
+                    d = val.date() if hasattr(val, 'date') else val
+                    if isinstance(d, _date) and d >= today:
+                        return d
+                except Exception:
+                    continue
+    except Exception:
+        pass
+    return None
+
+
+def _compute_fund_score_from_snapshot(snapshot: dict) -> float | None:
+    sub_scores: list[float] = []
+
+    forward_pe = _sf(snapshot.get('forward_pe'))
+    if forward_pe is not None:
+        if forward_pe <= 12:
+            sub_scores.append(85.0)
+        elif forward_pe <= 18:
+            sub_scores.append(72.0)
+        elif forward_pe <= 25:
+            sub_scores.append(55.0)
+        elif forward_pe <= 35:
+            sub_scores.append(40.0)
+        else:
+            sub_scores.append(25.0)
+
+    peg_ratio = _sf(snapshot.get('peg_ratio'))
+    if peg_ratio is not None:
+        if peg_ratio <= 1:
+            sub_scores.append(82.0)
+        elif peg_ratio <= 1.5:
+            sub_scores.append(68.0)
+        elif peg_ratio <= 2:
+            sub_scores.append(52.0)
+        else:
+            sub_scores.append(35.0)
+
+    fcf_yield = _sf(snapshot.get('fcf_yield'))
+    if fcf_yield is not None:
+        if fcf_yield >= 8:
+            sub_scores.append(86.0)
+        elif fcf_yield >= 5:
+            sub_scores.append(72.0)
+        elif fcf_yield >= 2:
+            sub_scores.append(55.0)
+        elif fcf_yield > 0:
+            sub_scores.append(42.0)
+        else:
+            sub_scores.append(20.0)
+
+    roe = _sf(snapshot.get('roe'))
+    if roe is not None:
+        if roe >= 0.20:
+            sub_scores.append(84.0)
+        elif roe >= 0.15:
+            sub_scores.append(72.0)
+        elif roe >= 0.08:
+            sub_scores.append(58.0)
+        elif roe > 0:
+            sub_scores.append(45.0)
+        else:
+            sub_scores.append(20.0)
+
+    revenue_growth = _sf(snapshot.get('revenue_growth'))
+    if revenue_growth is not None:
+        if revenue_growth >= 0.15:
+            sub_scores.append(82.0)
+        elif revenue_growth >= 0.08:
+            sub_scores.append(70.0)
+        elif revenue_growth >= 0.03:
+            sub_scores.append(58.0)
+        elif revenue_growth >= 0:
+            sub_scores.append(45.0)
+        else:
+            sub_scores.append(25.0)
+
+    debt = _sf(snapshot.get('debt_to_equity')) or _sf(snapshot.get('debt_to_equity_fund'))
+    if debt is not None:
+        if debt <= 0.5:
+            sub_scores.append(80.0)
+        elif debt <= 1.0:
+            sub_scores.append(65.0)
+        elif debt <= 2.0:
+            sub_scores.append(48.0)
+        else:
+            sub_scores.append(28.0)
+
+    current_ratio = _sf(snapshot.get('current_ratio'))
+    if current_ratio is not None:
+        if current_ratio >= 1.5:
+            sub_scores.append(76.0)
+        elif current_ratio >= 1.1:
+            sub_scores.append(60.0)
+        else:
+            sub_scores.append(35.0)
+
+    if not sub_scores:
+        return None
+    return round(sum(sub_scores) / len(sub_scores), 1)
+
+
+def _build_search_live_snapshot(ticker: str) -> dict:
+    cache_key = ticker.upper().strip()
+    now_ts = time.time()
+    cache_entry = _SEARCH_ENRICH_CACHE.get(cache_key)
+    if cache_entry and (now_ts - cache_entry['ts'] < _SEARCH_ENRICH_TTL_S):
+        return dict(cache_entry['data'])
+
+    import yfinance as _yf
+
+    snapshot = {'ticker': cache_key}
+    try:
+        tk = _yf.Ticker(cache_key)
+    except Exception:
+        _SEARCH_ENRICH_CACHE[cache_key] = {'ts': now_ts, 'data': snapshot}
+        return snapshot
+
+    info = {}
+    try:
+        info = tk.info or {}
+    except Exception:
+        info = {}
+
+    fast_info = {}
+    try:
+        fast_info = dict(getattr(tk, 'fast_info', {}) or {})
+    except Exception:
+        fast_info = {}
+
+    current_price = _first_value(
+        _sf(info.get('currentPrice')),
+        _sf(info.get('regularMarketPrice')),
+        _sf(fast_info.get('lastPrice')),
+        _sf(info.get('previousClose')),
+        _sf(fast_info.get('previousClose')),
+    )
+    target_price = _sf(info.get('targetMeanPrice'))
+    if current_price is not None and target_price is not None and current_price > 0:
+        analyst_upside_pct = round((target_price - current_price) / current_price * 100.0, 1)
+    else:
+        analyst_upside_pct = None
+
+    next_earnings = _get_next_earnings_from_calendar(tk)
+    days_to_earnings = (next_earnings - datetime.now().date()).days if next_earnings else None
+
+    snapshot.update({
+        'company_name': _first_value(info.get('longName'), info.get('shortName'), cache_key),
+        'current_price': current_price,
+        'sector_name': _first_value(info.get('sector'), info.get('industry')),
+        'target_price_analyst': target_price,
+        'target_price_analyst_high': _sf(info.get('targetHighPrice')),
+        'target_price_analyst_low': _sf(info.get('targetLowPrice')),
+        'analyst_upside_pct': analyst_upside_pct,
+        'analyst_recommendation': _first_value(info.get('recommendationKey')),
+        'analyst_count': _safe_int(info.get('numberOfAnalystOpinions')),
+        'forward_pe': _sf(info.get('forwardPE')),
+        'peg_ratio': _sf(info.get('pegRatio')),
+        'roe': _sf(info.get('returnOnEquity')),
+        'roic_greenblatt': None,
+        'ebit_ev_yield': None,
+        'revenue_growth': _sf(info.get('revenueGrowth')),
+        'rev_growth_yoy': _pct_from_ratio(_first_value(info.get('revenueGrowth'), info.get('revenueQuarterlyGrowth'))),
+        'eps_growth_yoy': _pct_from_ratio(_first_value(info.get('earningsQuarterlyGrowth'), info.get('earningsGrowth'))),
+        'eps_accelerating': None,
+        'profit_margin_pct': _pct_from_ratio(info.get('profitMargins')),
+        'operating_margin_pct': _pct_from_ratio(info.get('operatingMargins')),
+        'current_ratio': _sf(info.get('currentRatio')),
+        'debt_to_equity': _sf(info.get('debtToEquity')),
+        'interest_coverage': None,
+        'dividend_yield': _pct_from_ratio(info.get('dividendYield')),
+        'payout_ratio': _pct_from_ratio(info.get('payoutRatio')),
+        'fcf_per_share': None,
+        'fcf_yield': None,
+        'next_earnings': next_earnings.isoformat() if next_earnings else None,
+        'days_to_earnings': days_to_earnings,
+        'earnings_warning': bool(days_to_earnings is not None and days_to_earnings <= 7),
+        'earnings_catalyst': bool(days_to_earnings is not None and 7 < days_to_earnings <= 21),
+        'proximity_to_52w_high': None,
+        'trend_template_score': None,
+    })
+
+    high_52 = _sf(_first_value(info.get('fiftyTwoWeekHigh'), fast_info.get('yearHigh')))
+    if current_price is not None and high_52 is not None and high_52 > 0:
+        snapshot['proximity_to_52w_high'] = round((current_price / high_52 - 1.0) * 100.0, 1)
+
+    shares_outstanding = _sf(info.get('sharesOutstanding'))
+    free_cash_flow = _sf(info.get('freeCashflow'))
+    if shares_outstanding and shares_outstanding > 0 and free_cash_flow is not None:
+        fcf_per_share = free_cash_flow / shares_outstanding
+        snapshot['fcf_per_share'] = round(fcf_per_share, 2)
+        if current_price and current_price > 0:
+            snapshot['fcf_yield'] = round(fcf_per_share / current_price * 100.0, 1)
+
+    try:
+        eps_est = _earnings_estimate_avg(getattr(tk, 'earnings_estimate', None))
+        if eps_est is not None:
+            snapshot['consensus_eps'] = round(eps_est, 2)
+    except Exception:
+        pass
+
+    try:
+        rev_est = _earnings_estimate_avg(getattr(tk, 'revenue_estimate', None))
+        if rev_est is not None:
+            snapshot['consensus_revenue_millions'] = round(rev_est / 1_000_000.0, 1)
+    except Exception:
+        pass
+
+    try:
+        snapshot.update(_build_earnings_expectation_snapshot(cache_key, snapshot, None))
+    except Exception:
+        pass
+
+    _SEARCH_ENRICH_CACHE[cache_key] = {'ts': now_ts, 'data': snapshot}
+    return dict(snapshot)
+
+
+def _build_tikr_search_snapshot(ticker: str) -> dict:
+    row = _load_tikr_earnings_index().get(ticker.upper().strip())
+    if not isinstance(row, dict):
+        return {}
+
+    price = row.get('price') or {}
+    ntm = row.get('ntm') or {}
+    multiples = row.get('multiples') or {}
+    analyst_estimates = row.get('analyst_estimates') or {}
+    forward = analyst_estimates.get('forward') or {}
+    recent = analyst_estimates.get('recent') or {}
+    current_year = str(analyst_estimates.get('current_year') or '')
+    current_forward = forward.get(current_year) if current_year in forward else None
+    revision_flag = analyst_estimates.get('revision_flag')
+    earnings_summary = row.get('earnings_summary') or {}
+
+    latest_recent_year = None
+    if recent:
+        try:
+            latest_recent_year = str(max(int(k) for k in recent.keys()))
+        except Exception:
+            latest_recent_year = sorted(recent.keys())[-1]
+
+    prev_recent = recent.get(latest_recent_year) if latest_recent_year else None
+    eps_growth_yoy = None
+    rev_growth_yoy = None
+    if isinstance(current_forward, dict) and isinstance(prev_recent, dict):
+        prev_eps = _sf(prev_recent.get('eps_norm') or prev_recent.get('eps_gaap'))
+        next_eps = _sf(current_forward.get('eps_norm') or current_forward.get('eps_gaap'))
+        prev_rev = _sf(prev_recent.get('revenue'))
+        next_rev = _sf(current_forward.get('revenue'))
+        if prev_eps not in (None, 0) and next_eps is not None:
+            eps_growth_yoy = round((next_eps - prev_eps) / abs(prev_eps) * 100.0, 1)
+        if prev_rev not in (None, 0) and next_rev is not None:
+            rev_growth_yoy = round((next_rev - prev_rev) / abs(prev_rev) * 100.0, 1)
+
+    out = {
+        'company_name': row.get('company_name'),
+        'current_price': _sf(price.get('c')) or _sf(multiples.get('price')),
+        'forward_pe': _sf(multiples.get('ntm_pe')),
+        'fcf_yield': _sf(multiples.get('ntm_fcf_yield_pct')),
+        'consensus_eps': _sf(ntm.get('ntm_eps_consensus')) or _sf(ntm.get('ntm_eps')),
+        'consensus_revenue_millions': _sf(current_forward.get('revenue')) if isinstance(current_forward, dict) else None,
+        'analyst_count': _safe_int(current_forward.get('n_analysts')) if isinstance(current_forward, dict) else None,
+        'analyst_revision': None,
+        'tikr_latest_earnings_date': earnings_summary.get('latest_earnings_date'),
+        'tikr_latest_earnings_headline': earnings_summary.get('latest_earnings_headline'),
+        'eps_growth_yoy': eps_growth_yoy,
+        'rev_growth_yoy': rev_growth_yoy,
+    }
+
+    if isinstance(current_forward, dict) and current_forward.get('revenue') is not None:
+        out['consensus_revenue_millions'] = round(float(current_forward['revenue']), 1)
+
+    if revision_flag:
+        rev = str(revision_flag).strip().lower()
+        out['analyst_revision'] = 10.0 if rev in {'positive', 'up', 'raising'} else -10.0 if rev in {'negative', 'down', 'cut'} else 0.0
+
+    return out
+
+
+def _merge_analysis_with_search_enrichment(result: dict, ticker: str) -> dict:
+    merged = dict(result)
+    live_snapshot = _build_search_live_snapshot(ticker)
+    tikr_snapshot = _build_tikr_search_snapshot(ticker)
+
+    fields = [
+        'company_name', 'current_price', 'sector_name',
+        'target_price_analyst', 'target_price_analyst_high', 'target_price_analyst_low',
+        'analyst_upside_pct', 'analyst_recommendation', 'analyst_count',
+        'forward_pe', 'peg_ratio', 'roe', 'roic_greenblatt', 'ebit_ev_yield',
+        'revenue_growth', 'rev_growth_yoy', 'eps_growth_yoy', 'eps_accelerating',
+        'profit_margin_pct', 'operating_margin_pct', 'current_ratio', 'debt_to_equity',
+        'interest_coverage', 'dividend_yield', 'payout_ratio', 'fcf_per_share', 'fcf_yield',
+        'next_earnings', 'days_to_earnings', 'earnings_warning', 'earnings_catalyst',
+        'proximity_to_52w_high', 'trend_template_score', 'consensus_eps',
+        'consensus_revenue_millions', 'beat_rate_last_4q', 'beat_probability',
+        'beat_confidence', 'beat_drivers', 'implied_move_pct', 'analyst_revision',
+        'tikr_latest_earnings_headline',
+    ]
+    for field in fields:
+        current = merged.get(field)
+        if current is None or current == '' or current == []:
+            merged[field] = _first_value(tikr_snapshot.get(field), live_snapshot.get(field))
+
+    if merged.get('fund_score') is None:
+        fallback_score = _compute_fund_score_from_snapshot({
+            **live_snapshot,
+            **tikr_snapshot,
+            **merged,
+        })
+        if fallback_score is not None:
+            merged['fund_score'] = fallback_score
+            merged['fund_error'] = None
+
+    if merged.get('current_price') is None:
+        merged['current_price'] = _first_value(live_snapshot.get('current_price'), tikr_snapshot.get('current_price'))
+
+    final_score = _sf(merged.get('final_score'))
+    vcp_score = _sf(merged.get('vcp_score'))
+    ml_score = _sf(merged.get('ml_score'))
+    fund_score = _sf(merged.get('fund_score'))
+    if final_score is None or (final_score == 0 and fund_score is not None and (vcp_score is not None or ml_score is not None)):
+        available = []
+        if vcp_score is not None:
+            available.append(vcp_score * 0.40)
+        if ml_score is not None:
+            available.append(ml_score * 0.30)
+        if fund_score is not None:
+            available.append(fund_score * 0.30)
+        if available:
+            merged['base_score'] = round(sum(available), 1)
+            penalty = _sf(merged.get('penalty'), 0.0) or 0.0
+            if len(available) < 2:
+                penalty = min(penalty, 5.0)
+            merged['penalty'] = round(penalty, 1)
+            merged['final_score'] = round(max(0.0, min(100.0, merged['base_score'] - merged['penalty'])), 1)
+            tier_emoji, tier_label = _get_tier(merged['final_score'])
+            merged['tier_emoji'] = tier_emoji
+            merged['tier_label'] = tier_label
+
+    if merged.get('source') == 'live_yfinance' and (tikr_snapshot or live_snapshot):
+        merged['source_detail'] = 'live_enriched'
+
+    return merged
+
+
 @app.route('/api/earnings-calendar')
 def earnings_calendar():
     """Return upcoming earnings from fundamental_scores.csv, augmented with live fetch
@@ -2251,6 +2914,7 @@ def earnings_calendar():
     today_str = dt2.now().strftime('%Y-%m-%d')
     rows: list[dict] = []
     curated_tickers: set[str] = set()
+    thesis_index = _load_earnings_theses_index()
     if df is not None:
         df = df.reset_index()
         for _, row in df.iterrows():
@@ -2273,6 +2937,12 @@ def earnings_calendar():
                 'fundamental_score': _sf(row.get('fundamental_score')),
                 'current_price': _sf(row.get('current_price')),
                 'analyst_upside_pct': _sf(row.get('analyst_upside_pct')),
+                'analyst_count': _sf(row.get('analyst_count')),
+                'analyst_recommendation': str(row.get('analyst_recommendation') or '').strip().lower() or None,
+                'analyst_revision_momentum': _sf(row.get('analyst_revision_momentum')),
+                'earnings_quality_score': _sf(row.get('earnings_quality_score')),
+                'eps_growth_yoy': _sf(row.get('eps_growth_yoy')),
+                'eps_accelerating': _truthy(row.get('eps_accelerating')),
                 'portfolio_only_fetch': False,
             })
 
@@ -2300,6 +2970,14 @@ def earnings_calendar():
     portfolio_set = {t.upper() for t in portfolio_tickers}
     for r in rows:
         r['is_portfolio'] = r['ticker'].upper() in portfolio_set
+        days_to = _sf(r.get('days_to_earnings'))
+        should_enrich = bool(r['is_portfolio'] or r.get('portfolio_only_fetch') or (days_to is not None and days_to <= 21))
+        if should_enrich:
+            thesis = thesis_index.get(r['ticker']) or thesis_index.get(r['ticker'].upper())
+            try:
+                r.update(_build_earnings_expectation_snapshot(r['ticker'], r, thesis))
+            except Exception:
+                pass
 
     rows.sort(key=lambda x: x['earnings_date'])
     return jsonify({'earnings': rows, 'total': len(rows), 'as_of': today_str})

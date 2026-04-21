@@ -945,6 +945,21 @@ export interface EarningsEntry {
   fundamental_score: number | null
   current_price: number | null
   analyst_upside_pct: number | null
+  analyst_count?: number | null
+  analyst_recommendation?: string | null
+  analyst_revision_momentum?: number | null
+  earnings_quality_score?: number | null
+  eps_growth_yoy?: number | null
+  eps_accelerating?: boolean | null
+  consensus_eps?: number | null
+  consensus_revenue_millions?: number | null
+  beat_rate_last_4q?: number | null
+  avg_surprise_pct_last_4q?: number | null
+  history_quarters?: number | null
+  beat_probability?: number | null
+  beat_confidence?: number | null
+  beat_drivers?: string[]
+  implied_move_pct?: number | null
   is_portfolio?: boolean
   portfolio_only_fetch?: boolean
 }

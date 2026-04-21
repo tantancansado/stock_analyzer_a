@@ -40,6 +40,29 @@ function urgencyBg(days: number | null, warning: boolean): string {
   return 'bg-card/50 border-border/40'
 }
 
+function beatTone(probability: number | null | undefined): string {
+  if (probability == null) return 'text-muted-foreground border-border/40 bg-background/40'
+  if (probability >= 62) return 'text-emerald-300 border-emerald-500/25 bg-emerald-500/10'
+  if (probability >= 50) return 'text-amber-300 border-amber-500/25 bg-amber-500/10'
+  return 'text-red-300 border-red-500/25 bg-red-500/10'
+}
+
+function confidenceLabel(confidence: number | null | undefined): string {
+  if (confidence == null) return 'baja'
+  if (confidence >= 70) return 'alta'
+  if (confidence >= 50) return 'media'
+  return 'baja'
+}
+
+function formatRevenueShort(revenueMillions: number | null | undefined): string {
+  if (revenueMillions == null) return '—'
+  if (Math.abs(revenueMillions) >= 1000) {
+    const billions = revenueMillions / 1000
+    return `${billions >= 10 ? billions.toFixed(0) : billions.toFixed(1)}B`
+  }
+  return `${revenueMillions >= 100 ? revenueMillions.toFixed(0) : revenueMillions.toFixed(1)}M`
+}
+
 // Group entries by date
 function groupByDate(entries: EarningsEntry[]): Record<string, EarningsEntry[]> {
   const groups: Record<string, EarningsEntry[]> = {}
@@ -192,6 +215,27 @@ export default function EarningsCalendar() {
                         </span>
                       )}
                     </div>
+                    {(entry.beat_probability != null || entry.consensus_eps != null || entry.consensus_revenue_millions != null) && (
+                      <div className="flex flex-wrap items-center gap-1.5 mt-1 text-[0.58rem]">
+                        {entry.beat_probability != null && (
+                          <span
+                            className={`inline-flex items-center px-1.5 py-0.5 rounded border font-semibold ${beatTone(entry.beat_probability)}`}
+                            title={(entry.beat_drivers ?? []).join(' · ') || 'Probabilidad estimada, no certeza'}
+                          >
+                            Beat {entry.beat_probability}%
+                          </span>
+                        )}
+                        {entry.consensus_eps != null && (
+                          <span className="text-muted-foreground">EPS {entry.consensus_eps.toFixed(2)}</span>
+                        )}
+                        {entry.consensus_revenue_millions != null && (
+                          <span className="text-muted-foreground">Rev {formatRevenueShort(entry.consensus_revenue_millions)}</span>
+                        )}
+                        {entry.beat_confidence != null && (
+                          <span className="text-muted-foreground">Conf. {confidenceLabel(entry.beat_confidence)}</span>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <button
                     onClick={() => setThesisTicker(entry.ticker)}
@@ -280,6 +324,14 @@ export default function EarningsCalendar() {
 
                       {/* Badges */}
                       <div className="flex items-center gap-1.5">
+                        {entry.beat_probability != null && (
+                          <span
+                            className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold border ${beatTone(entry.beat_probability)}`}
+                            title={(entry.beat_drivers ?? []).join(' · ') || 'Probabilidad estimada de batir expectativas'}
+                          >
+                            Beat {entry.beat_probability}%
+                          </span>
+                        )}
                         {entry.earnings_warning && (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
                             <AlertTriangle size={9} /> Alerta
@@ -304,6 +356,21 @@ export default function EarningsCalendar() {
                           <span className={`text-[0.62rem] font-medium ${entry.analyst_upside_pct >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                             <TrendingUp size={9} className="inline mr-0.5" />
                             {entry.analyst_upside_pct >= 0 ? '+' : ''}{entry.analyst_upside_pct.toFixed(0)}%
+                          </span>
+                        )}
+                        {entry.consensus_eps != null && (
+                          <span className="text-[0.62rem] text-muted-foreground/70">
+                            EPS <span className="text-foreground/70 font-medium">{entry.consensus_eps.toFixed(2)}</span>
+                          </span>
+                        )}
+                        {entry.consensus_revenue_millions != null && (
+                          <span className="text-[0.62rem] text-muted-foreground/70">
+                            Rev <span className="text-foreground/70 font-medium">{formatRevenueShort(entry.consensus_revenue_millions)}</span>
+                          </span>
+                        )}
+                        {entry.beat_confidence != null && (
+                          <span className="text-[0.62rem] text-muted-foreground/70">
+                            Conf <span className="text-foreground/70 font-medium">{confidenceLabel(entry.beat_confidence)}</span>
                           </span>
                         )}
                         {isPortfolioRow(entry) && (
@@ -339,6 +406,10 @@ export default function EarningsCalendar() {
           <div className="flex items-center gap-1.5">
             <Zap size={10} className="text-emerald-400" />
             <span>Catalizador — earnings puede impulsar precio</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <div className="w-2 h-2 rounded-full bg-emerald-300" />
+            <span>Beat % = probabilidad estimada, no garantía</span>
           </div>
         </CardContent>
       </Card>

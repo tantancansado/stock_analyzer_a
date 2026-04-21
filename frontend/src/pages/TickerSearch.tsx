@@ -326,6 +326,7 @@ export default function TickerSearch() {
                   </h3>
                   <div className="flex gap-2 mt-2 flex-wrap">
                     {ss('source') && <Badge variant="gray">{ss('source')}</Badge>}
+                    {ss('source_detail') && <Badge variant="gray">{ss('source_detail')}</Badge>}
                     {ss('sector_name') && <Badge variant="blue">{ss('sector_name')}</Badge>}
                   </div>
                 </div>
@@ -487,6 +488,10 @@ export default function TickerSearch() {
                   </div>
                   <div className="p-3 space-y-2">
                     <div className="grid grid-cols-3 gap-1.5">
+                      <Metric label="Beat %" value={sf('beat_probability') != null ? `${sf('beat_probability')!.toFixed(0)}%` : null}
+                        quality={sf('beat_probability') != null ? (sf('beat_probability')! >= 60 ? 'good' : sf('beat_probability')! < 45 ? 'bad' : 'warn') : 'neutral'} />
+                      <Metric label="EPS Cons." value={sf('consensus_eps')?.toFixed(2) ?? null} />
+                      <Metric label="Rev Cons." value={sf('consensus_revenue_millions') != null ? `${sf('consensus_revenue_millions')!.toFixed(0)}M` : null} />
                       <Metric label="EPS Growth" value={fmtPct(sf('eps_growth_yoy'))}
                         quality={sf('eps_growth_yoy') != null ? (sf('eps_growth_yoy')! > 0 ? 'good' : 'bad') : 'neutral'} />
                       <Metric label="EPS Accel." value={r?.eps_accelerating != null ? (r.eps_accelerating ? 'Sí' : 'No') : null}
@@ -498,6 +503,9 @@ export default function TickerSearch() {
                       <Metric label="Next Earnings" value={ss('next_earnings')} />
                       <Metric label="Days" value={sf('days_to_earnings')?.toFixed(0) ?? null}
                         quality={sf('days_to_earnings') != null ? (sf('days_to_earnings')! <= 7 ? 'bad' : sf('days_to_earnings')! <= 21 ? 'warn' : 'good') : 'neutral'} />
+                      <Metric label="Implied Move" value={sf('implied_move_pct') != null ? `±${sf('implied_move_pct')!.toFixed(1)}%` : null} />
+                      <Metric label="Confianza" value={sf('beat_confidence') != null ? `${sf('beat_confidence')!.toFixed(0)}/100` : null}
+                        quality={sf('beat_confidence') != null ? (sf('beat_confidence')! >= 70 ? 'good' : sf('beat_confidence')! >= 50 ? 'warn' : 'neutral') : 'neutral'} />
                     </div>
                     {/* Warning/Catalyst badges */}
                     {(Boolean(r?.earnings_warning) || Boolean(r?.earnings_catalyst)) && (
@@ -509,6 +517,20 @@ export default function TickerSearch() {
                           <span className="text-[0.65rem] px-2 py-0.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400">🚀 Catalyst</span>
                         )}
                       </div>
+                    )}
+                    {Array.isArray(r?.beat_drivers) && r.beat_drivers.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {(r.beat_drivers as string[]).slice(0, 3).map(driver => (
+                          <span key={driver} className="text-[0.62rem] px-2 py-0.5 rounded-lg border border-amber-500/20 bg-amber-500/8 text-amber-300">
+                            {driver}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    {ss('tikr_latest_earnings_headline') && (
+                      <p className="text-[0.68rem] text-muted-foreground/70 leading-relaxed">
+                        {ss('tikr_latest_earnings_headline')}
+                      </p>
                     )}
                   </div>
                 </div>

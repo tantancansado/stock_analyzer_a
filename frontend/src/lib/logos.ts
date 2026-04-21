@@ -201,10 +201,20 @@ const TICKER_DOMAIN: Record<string, string> = {
   'SHEL.L':  'shell.com',
   'BP.L':    'bp.com',
   'HSBA.L':  'hsbc.com',
+  'BA.L':    'baesystems.com',
   'BARC.L':  'barclays.com',
+  'BATS.L':  'bat.com',
+  'EXPN.L':  'experianplc.com',
   'LLOY.L':  'lloydsbankinggroup.com',
+  'IMB.L':   'imperialbrandsplc.com',
+  'LAND.L':  'landsec.com',
+  'MNDI.L':  'mondigroup.com',
   'RBS.L':   'natwest.com',
   'NWG.L':   'natwest.com',
+  'RR.L':    'rolls-royce.com',
+  'SGE.L':   'sage.com',
+  'SSE.L':   'sse.com',
+  'STAN.L':  'sc.com',
   'AZN.L':   'astrazeneca.com',
   'GSK.L':   'gsk.com',
   'ULVR.L':  'unilever.com',
@@ -227,6 +237,8 @@ const TICKER_DOMAIN: Record<string, string> = {
   'MBG.DE':  'mercedes-benz.com',
   'BAS.DE':  'basf.com',
   'BAYN.DE': 'bayer.com',
+  'CBK.DE':  'commerzbank.com',
+  'FRE.DE':  'fresenius.com',
   'SIE.DE':  'siemens.com',
   'SAP.DE':  'sap.com',
   'DTE.DE':  'telekom.de',
@@ -311,7 +323,18 @@ const TICKER_DOMAIN: Record<string, string> = {
   BP:   'bp.com',
   HSBA: 'hsbc.com',
   BARC: 'barclays.com',
+  BATS: 'bat.com',
+  EXPN: 'experianplc.com',
+  CBK:  'commerzbank.com',
+  FRE:  'fresenius.com',
+  IMB:  'imperialbrandsplc.com',
+  LAND: 'landsec.com',
   LLOY: 'lloydsbankinggroup.com',
+  MNDI: 'mondigroup.com',
+  RR:   'rolls-royce.com',
+  SGE:  'sage.com',
+  SSE:  'sse.com',
+  STAN: 'sc.com',
   AZN:  'astrazeneca.com',
   GSK:  'gsk.com',
   ULVR: 'unilever.com',
@@ -339,4 +362,8 @@ export function getClearbitUrl(ticker: string): string | null {
   const stripped = ticker.replace(/\.[A-Z]{1,3}$/, '')
   const base = TICKER_DOMAIN[stripped] ?? TICKER_DOMAIN[stripped.replaceAll('-', '')]
   return base ? `https://logo.clearbit.com/${base}?size=64` : null
+}
+
+export function hasClearbitLogo(ticker: string): boolean {
+  return getClearbitUrl(ticker) != null
 }

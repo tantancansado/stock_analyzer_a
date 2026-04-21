@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { getLogoUrl, getClearbitUrl } from '@/lib/logos'
+import { getLogoUrl, getClearbitUrl, hasClearbitLogo } from '@/lib/logos'
 
 export type LogoSize = 'xs' | 'sm' | 'md' | 'lg'
 
@@ -36,10 +36,10 @@ interface Props {
 }
 
 export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
-  const [stage, setStage] = useState<Stage>('parqet')
-  const { px, text, rounded, pad } = SIZE[size]
-
   const safe = ticker ?? ''
+  const prefersClearbit = hasClearbitLogo(safe)
+  const [stage, setStage] = useState<Stage>(prefersClearbit ? 'clearbit' : 'parqet')
+  const { px, text, rounded, pad } = SIZE[size]
   const initials = safe.replaceAll(/\.[A-Z]{1,3}$/g, '').replaceAll(/[^A-Z0-9]/g, '').slice(0, 2)
 
   const base = cn(
@@ -65,12 +65,46 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
   const src = stage === 'parqet' ? getLogoUrl(safe) : (getClearbitUrl(safe) ?? '')
 
   const handleError = () => {
-    if (stage === 'parqet') {
-      const fallback = getClearbitUrl(safe)
-      setStage(fallback ? 'clearbit' : 'initials')
-    } else {
-      setStage('initials')
+    if (stage === 'clearbit') {
+      setStage('parqet')
+      return
     }
+    if (stage === 'parqet') {
+      setStage('initials')
+      return
+    }
+  }
+
+  const handleLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget
+    if (img.naturalWidth <= 1 || img.naturalHeight <= 1) {
+      if (stage === 'clearbit') {
+        setStage('parqet')
+      } else if (stage === 'parqet') {
+        setStage('initials')
+      }
+      return
+    }
+    if (stage === 'parqet' && prefersClearbit && src === getLogoUrl(safe)) {
+      const fallback = getClearbitUrl(safe)
+      if (!fallback) {
+        setStage('initials')
+      }
+    }
+  }
+
+  if ((stage === 'clearbit' && !getClearbitUrl(safe)) || (stage === 'parqet' && !safe)) {
+    return (
+      <span
+        className={cn(base, paletteColor(safe))}
+        style={{ width: px, height: px }}
+        aria-hidden="true"
+      >
+        <span className={cn('font-mono font-bold leading-none select-none', text)}>
+          {initials}
+        </span>
+      </span>
+    )
   }
 
   return (
@@ -85,9 +119,11 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
         width={px}
         height={px}
         onError={handleError}
+        onLoad={handleLoad}
         className={cn('w-full h-full object-contain', pad)}
         loading="lazy"
         decoding="async"
+        referrerPolicy="no-referrer"
       />
     </span>
   )
