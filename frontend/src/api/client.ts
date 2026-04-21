@@ -96,6 +96,12 @@ export interface ValueOpportunity {
   // Owner Earnings AI validator (owner_earnings_validator.py)
   oe_ai_adjustment?: number | null
   oe_ai_verdict?: string | null
+  // Analyst revisions (analyst_revisions_tracker.py)
+  target_change_7d_pct?: number | null
+  target_change_30d_pct?: number | null
+  upgrade_days_14d?: number | null
+  downgrade_days_14d?: number | null
+  target_revision_bonus?: number | null
 }
 
 export interface MomentumOpportunity {
@@ -256,6 +262,7 @@ const VALUE_NUMERIC = new Set([
   'fifty_two_week_high','trend_template_score','target_price_dcf','target_price_dcf_upside_pct',
   'target_price_pe','target_price_pe_upside_pct','fcf_per_share','short_percent_float',
   'short_ratio','market_cape','pct_from_52w_high','oe_ai_adjustment',
+  'target_change_7d_pct','target_change_30d_pct','upgrade_days_14d','downgrade_days_14d','target_revision_bonus',
 ])
 
 const VALUE_BOOLEAN = new Set([
@@ -966,6 +973,38 @@ export interface EarningsEntry {
 
 export const fetchEarningsCalendar = () =>
   apiClient.get<{ earnings: EarningsEntry[]; total: number; as_of: string }>('/api/earnings-calendar')
+
+export interface AnalystRevision {
+  ticker: string
+  target_mean: number | null
+  reco_mean: number | null
+  analyst_count: number | null
+  snapshots: number | null
+  target_change_1d_pct: number | null
+  target_change_7d_pct: number | null
+  target_change_30d_pct: number | null
+  reco_change_1d: number | null
+  reco_change_7d: number | null
+  reco_change_30d: number | null
+  analyst_count_change_1d: number | null
+  analyst_count_change_7d: number | null
+  analyst_count_change_30d: number | null
+  upgrade_days_14d: number | null
+  downgrade_days_14d: number | null
+}
+
+export const fetchAnalystRevisions = () =>
+  apiClient.get<{ revisions: AnalystRevision[]; total: number; as_of: string | null }>('/api/analyst-revisions')
+
+export interface AnalystRevisionHistory {
+  date: string
+  target_mean: number | null
+  reco_mean: number | null
+  analyst_count: number | null
+}
+
+export const fetchAnalystRevisionsTicker = (ticker: string) =>
+  apiClient.get<{ ticker: string; history: AnalystRevisionHistory[]; latest: AnalystRevision | null }>(`/api/analyst-revisions/${ticker}`)
 
 export type EarningsThesisVerdict = 'HOLD' | 'REDUCE' | 'EXIT_BEFORE' | 'ADD_AFTER' | 'HOLD_THROUGH'
 

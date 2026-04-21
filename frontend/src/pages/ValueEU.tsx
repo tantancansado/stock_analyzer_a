@@ -60,6 +60,7 @@ import OwnedBadge from '../components/OwnedBadge'
 import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import CerebroBadges from '../components/CerebroBadges'
 import OeAiBadge from '../components/OeAiBadge'
+import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
 
 const MARKET_FLAGS: Record<string, string> = {
   DAX40: '🇩🇪', FTSE100: '🇬🇧', CAC40: '🇫🇷',
@@ -604,6 +605,12 @@ export default function ValueEU() {
                               TECHO
                             </span>
                           )}
+                          <AnalystRevisionBadge
+                            targetChange7dPct={d.target_change_7d_pct}
+                            upgradeDays14d={d.upgrade_days_14d}
+                            downgradeDays14d={d.downgrade_days_14d}
+                            compact
+                          />
                           {(d.hedge_fund_count ?? 0) >= 1 && (
                             <span
                               className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ${(d.hedge_fund_count ?? 0) >= 2 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-muted/20 text-muted-foreground border-border/30'}`}

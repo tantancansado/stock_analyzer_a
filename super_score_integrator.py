@@ -1042,6 +1042,30 @@ class SuperScoreIntegrator:
             df.drop(columns=['_rev'], inplace=True, errors='ignore')
             print(f"   📊 Revision momentum applied ({(df['revision_bonus'] > 0).sum()} tickers)")
 
+        # Target-price revision catalyst — analysts raising targets in last 7d = active upgrade cycle
+        try:
+            revisions_csv = Path('docs/analyst_revisions.csv')
+            if revisions_csv.exists():
+                rev_df = pd.read_csv(revisions_csv)
+                merge_cols = ['ticker', 'target_change_7d_pct', 'target_change_30d_pct', 'upgrade_days_14d', 'downgrade_days_14d']
+                rev_df = rev_df[[c for c in merge_cols if c in rev_df.columns]].copy()
+                df = df.merge(rev_df, on='ticker', how='left', suffixes=('', '_dup'))
+                df.drop(columns=[c for c in df.columns if c.endswith('_dup')], inplace=True, errors='ignore')
+                if 'target_change_7d_pct' in df.columns:
+                    df['_tc'] = pd.to_numeric(df['target_change_7d_pct'], errors='coerce')
+                    df['target_revision_bonus'] = 0.0
+                    df.loc[df['_tc'] >= 3.0, 'target_revision_bonus'] = 3.0
+                    df.loc[(df['_tc'] >= 1.0) & (df['_tc'] < 3.0), 'target_revision_bonus'] = 1.5
+                    df.loc[df['_tc'] <= -3.0, 'target_revision_bonus'] = -3.0
+                    df.loc[(df['_tc'] <= -1.0) & (df['_tc'] > -3.0), 'target_revision_bonus'] = -1.5
+                    df['value_score'] += df['target_revision_bonus']
+                    df.drop(columns=['_tc'], inplace=True, errors='ignore')
+                    bumped = int((df['target_revision_bonus'] > 0).sum())
+                    cut = int((df['target_revision_bonus'] < 0).sum())
+                    print(f"   🎯 Target revision bonus applied ({bumped} upgrades, {cut} downgrades)")
+        except Exception as exc:
+            print(f"   ⚠ Target revision merge skipped: {exc}")
+
         # Earnings timing warning — penalize if reporting within 7 days (risky entry)
         if 'earnings_warning' in df.columns:
             earnings_risk = df['earnings_warning'] == True

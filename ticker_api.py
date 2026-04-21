@@ -1975,6 +1975,50 @@ def macro_stress_market(market):
     })
 
 
+@app.route('/api/analyst-revisions')
+def analyst_revisions():
+    """Latest analyst revision deltas for all tracked tickers."""
+    df = _load_csv(DOCS / 'analyst_revisions.csv')
+    if df is None:
+        return jsonify({"revisions": [], "as_of": None}), 200
+    df = df.reset_index() if 'ticker' not in df.columns else df
+    rows = df.replace({pd.NA: None}).where(pd.notna(df), None).to_dict(orient='records')
+    for r in rows:
+        for k, v in list(r.items()):
+            if isinstance(v, float) and pd.isna(v):
+                r[k] = None
+    history_file = DOCS / 'analyst_revisions_history.json'
+    as_of = None
+    if history_file.exists():
+        try:
+            as_of = datetime.fromtimestamp(history_file.stat().st_mtime).isoformat()
+        except Exception:
+            as_of = None
+    return jsonify({"revisions": rows, "as_of": as_of, "total": len(rows)})
+
+
+@app.route('/api/analyst-revisions/<ticker>')
+def analyst_revisions_ticker(ticker):
+    """Full history + latest deltas for one ticker."""
+    ticker_u = ticker.upper()
+    history_file = DOCS / 'analyst_revisions_history.json'
+    history = _load_json(history_file) or {}
+    snaps = history.get(ticker_u, [])
+    df = _load_csv(DOCS / 'analyst_revisions.csv')
+    latest = None
+    if df is not None:
+        df = df.reset_index() if 'ticker' not in df.columns else df
+        match = df[df['ticker'] == ticker_u]
+        if not match.empty:
+            latest = match.iloc[0].where(pd.notna(match.iloc[0]), None).to_dict()
+    return jsonify({
+        "ticker": ticker_u,
+        "history": snaps,
+        "latest": latest,
+    })
+
+
+
 @app.route('/api/macro-countries')
 def macro_countries():
     data = _load_json(DOCS / 'macro_country_analysis.json')

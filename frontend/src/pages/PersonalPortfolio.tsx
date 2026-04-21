@@ -2,7 +2,8 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
-import { apiClient, fetchMacroStress, type MacroStressMarket } from '@/api/client'
+import { apiClient, fetchMacroStress, fetchAnalystRevisions, type MacroStressMarket, type AnalystRevision } from '@/api/client'
+import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
 import PriceChart from '../components/PriceChart'
@@ -956,6 +957,7 @@ export default function PersonalPortfolio() {
   const cerebro    = useCerebroSignals()
   const confluence = usePortfolioConfluence()
   const { data: macroStressData } = useApi(() => fetchMacroStress(), [])
+  const { data: revisionsData }   = useApi(() => fetchAnalystRevisions(), [])
   const [positions, setPositions] = useState<Position[]>([])
   const [loadingDb, setLoadingDb] = useState(true)
   const [saving, setSaving]       = useState(false)
@@ -1242,6 +1244,82 @@ export default function PersonalPortfolio() {
               </div>
             </div>
           )}
+
+          {/* Analyst revisions — target price changes over time */}
+          {(() => {
+            const revisions = revisionsData?.revisions ?? []
+            if (revisions.length === 0 || result.positions.length === 0) return null
+            const byTicker = new Map<string, AnalystRevision>()
+            for (const r of revisions) byTicker.set(r.ticker.toUpperCase(), r)
+            const portfolioRevs = result.positions
+              .map(p => ({ pos: p, rev: byTicker.get(p.ticker.toUpperCase()) }))
+              .filter((x): x is { pos: typeof x.pos; rev: AnalystRevision } => x.rev != null)
+              .sort((a, b) => {
+                const ac = a.rev.target_change_7d_pct ?? a.rev.target_change_30d_pct ?? 0
+                const bc = b.rev.target_change_7d_pct ?? b.rev.target_change_30d_pct ?? 0
+                return Math.abs(bc) - Math.abs(ac)
+              })
+            if (portfolioRevs.length === 0) return null
+            const hasHistory = portfolioRevs.some(x => (x.rev.snapshots ?? 0) > 1)
+            return (
+              <div className="pt-3 border-t border-border/30">
+                <div className="flex items-baseline justify-between mb-2">
+                  <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground/50">
+                    Revisiones de analistas
+                  </div>
+                  {!hasHistory && (
+                    <div className="text-[0.58rem] text-muted-foreground/50 italic">
+                      Empezando a trackear — los deltas se poblarán en días
+                    </div>
+                  )}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {portfolioRevs.map(({ pos, rev }) => {
+                    const target = rev.target_mean
+                    const currentPrice = pos.current_price
+                    const upsidePct = target != null && currentPrice ? ((target - currentPrice) / currentPrice) * 100 : null
+                    return (
+                      <div key={pos.ticker} className="p-2.5 rounded-lg bg-muted/10 border border-border/20 space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="font-mono font-bold text-[0.72rem] text-foreground">{pos.ticker}</span>
+                          <AnalystRevisionBadge
+                            targetChange7dPct={rev.target_change_7d_pct}
+                            upgradeDays14d={rev.upgrade_days_14d}
+                            downgradeDays14d={rev.downgrade_days_14d}
+                          />
+                        </div>
+                        <div className="flex items-center justify-between text-[0.62rem]">
+                          <span className="text-muted-foreground/70">Target medio</span>
+                          <span className="font-semibold text-foreground tabular-nums">
+                            {target != null ? `$${target.toFixed(0)}` : '—'}
+                            {upsidePct != null && (
+                              <span className={`ml-1 ${upsidePct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                {upsidePct > 0 ? '+' : ''}{upsidePct.toFixed(0)}%
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                        {rev.target_change_30d_pct != null && (
+                          <div className="flex items-center justify-between text-[0.58rem] text-muted-foreground/60">
+                            <span>30d</span>
+                            <span className={rev.target_change_30d_pct > 0 ? 'text-emerald-400/80' : rev.target_change_30d_pct < 0 ? 'text-red-400/80' : ''}>
+                              {rev.target_change_30d_pct > 0 ? '+' : ''}{rev.target_change_30d_pct.toFixed(1)}%
+                            </span>
+                          </div>
+                        )}
+                        {rev.analyst_count != null && (
+                          <div className="flex items-center justify-between text-[0.58rem] text-muted-foreground/60">
+                            <span>Cobertura</span>
+                            <span>{rev.analyst_count} analistas</span>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })()}
 
           {/* Dividend breakdown */}
           {dividendPositions.length > 0 && (
