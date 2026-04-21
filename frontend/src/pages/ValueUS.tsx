@@ -223,15 +223,23 @@ export default function ValueUS() {
     currentThesisTicker.current = ticker
     setExpandedRow(row)
     setThesisText('Cargando tesis...')
+    const fallback = () => {
+      const parts: string[] = []
+      if (row.ai_reasoning) parts.push(row.ai_reasoning)
+      if (row.conviction_reasons) parts.push(row.conviction_reasons.split(' | ').slice(0, 3).map(r => `• ${r}`).join('\n'))
+      return parts.length > 0
+        ? `${parts.join('\n\n')}\n\n_Tesis narrativa no generada (solo top-50 por super_score_5d). Mostrando razonamiento IA + conviction._`
+        : 'Sin tesis disponible'
+    }
     try {
       const res = await fetchThesis(ticker)
-      if (currentThesisTicker.current !== ticker) return // stale response
+      if (currentThesisTicker.current !== ticker) return
       const t = res.data.thesis
-      const text = !t ? 'Sin tesis disponible'
+      const text = !t ? fallback()
         : typeof t === 'string' ? t
         : (t as Record<string, string>).thesis_narrative || (t as Record<string, string>).overview || JSON.stringify(t)
       setThesisText(text)
-    } catch { if (currentThesisTicker.current === ticker) setThesisText('Error cargando tesis') }
+    } catch { if (currentThesisTicker.current === ticker) setThesisText(fallback()) }
   }, [])
 
   if (loading) return <Loading />
@@ -672,7 +680,10 @@ export default function ValueUS() {
                         const reason = d.ai_reasoning
                           ?? (d.conviction_reasons ? d.conviction_reasons.split(' | ')[0] : null)
                         return reason ? (
-                          <span className="text-[0.62rem] text-muted-foreground/50 font-normal font-sans leading-tight max-w-[200px] truncate hidden lg:block">
+                          <span
+                            className="text-[0.68rem] text-muted-foreground/80 font-normal font-sans leading-snug max-w-[360px] line-clamp-2 hidden lg:block"
+                            title={reason}
+                          >
                             {reason}
                           </span>
                         ) : null
