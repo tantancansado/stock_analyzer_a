@@ -16,6 +16,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 import ScrollToTop from './components/ScrollToTop'
 import Loading from './components/Loading'
 import LlamaLogo from './components/LlamaLogo'
+import PageLlama from './components/PageLlama'
 import Login from './pages/Login'
 
 const Dashboard        = lazy(() => import('./pages/Dashboard'))
@@ -54,11 +55,7 @@ function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: ()
           : 'hover:bg-[color-mix(in_srgb,var(--nav-color)_8%,transparent)] hover:text-foreground'
       )}
     >
-      <span className="nav-icon shrink-0 flex items-center justify-center w-[18px] h-[18px]">
-        {item.logo
-          ? <img src={`${import.meta.env.BASE_URL}${item.logo}`} alt="" width={18} height={18} className="rounded-full object-contain" />
-          : <item.icon size={15} strokeWidth={1.65} />}
-      </span>
+      <span className="nav-icon shrink-0"><item.icon size={15} strokeWidth={1.65} /></span>
       <span className="nav-label flex-1 truncate">{item.label}</span>
     </NavLink>
   )
@@ -227,6 +224,7 @@ export default function App() {
       {/* Main */}
       <div className={cn('flex flex-col min-h-screen min-w-0 relative z-10', user && 'md:ml-56')}>
         {user && <TopBar onMenuClick={() => setSidebarOpen(o => !o)} onOpenCmd={openCmd} />}
+        {user && <PageLlama />}
         <ScrollToTop />
         <main className="flex-1 p-5 md:p-8 min-w-0" style={{ overflowX: 'clip' }}>
           <ErrorBoundary resetKey={location.pathname}>

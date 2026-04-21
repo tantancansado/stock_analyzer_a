@@ -10,6 +10,7 @@ import type { LucideIcon } from 'lucide-react'
 export type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string; logo?: string; keywords?: string[] }
 
 // Primary nav — always visible in sidebar
+// `logo`: thematic llama shown subtly in page headers (not sidebar)
 export const NAV_PRIMARY: NavLinkItem[] = [
   { path: '/dashboard',      icon: LayoutDashboard, label: 'Dashboard',      color: '#6366f1', logo: 'llama-charts.png',        keywords: ['inicio', 'home', 'resumen'] },
   { path: '/cerebro',        icon: Brain,           label: 'Cerebro',        color: '#8b5cf6', logo: 'llama-magnify.png',       keywords: ['cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'alertas', 'entrada'] },
