@@ -1,4 +1,4 @@
-"""CFTC Commitments of Traders (COT) collector — public CSV, fragile parser."""
+"""CFTC Commitments of Traders collector with historical net positioning."""
 from __future__ import annotations
 
 import io
@@ -12,12 +12,11 @@ log = logging.getLogger(__name__)
 
 COT_URL = "https://www.cftc.gov/dea/newcot/deacot.txt"
 
-# Keyword matching on the "Market_and_Exchange_Names" field. Keep loose.
 CONTRACT_ALIASES = {
-    "crude_oil_wti": ["CRUDE OIL, LIGHT SWEET-NYMEX", "WTI-PHYSICAL", "CRUDE OIL, LIGHT SWEET"],
-    "natgas": ["NAT GAS NYME", "NATURAL GAS - NYMEX"],
-    "gold": ["GOLD - COMMODITY EXCHANGE"],
-    "copper": ["COPPER-GRADE #1"],
+    "crude_oil_wti": ["CRUDE OIL, LIGHT SWEET", "WTI-PHYSICAL", "CRUDE OIL, LIGHT SWEET-NYMEX"],
+    "natgas": ["NATURAL GAS", "NAT GAS NYME"],
+    "gold": ["GOLD - COMMODITY EXCHANGE", "GOLD"],
+    "copper": ["COPPER-GRADE #1", "COPPER"],
 }
 
 
@@ -25,20 +24,21 @@ def _parse_cot() -> Optional[pd.DataFrame]:
     try:
         resp = requests.get(COT_URL, timeout=20)
         resp.raise_for_status()
+        return pd.read_csv(io.StringIO(resp.text), engine="python", on_bad_lines="skip")
     except Exception as e:
-        log.warning("CFTC fetch failed: %s", e)
+        log.warning("CFTC fetch/parse failed: %s", e)
         return None
 
-    try:
-        df = pd.read_csv(io.StringIO(resp.text), engine="python", on_bad_lines="skip")
-    except Exception as e:
-        log.warning("CFTC parse failed: %s", e)
-        return None
-    return df
+
+def _find_col(columns: list[str], tokens: list[str]) -> Optional[str]:
+    for col in columns:
+        lc = col.lower()
+        if all(tok in lc for tok in tokens):
+            return col
+    return None
 
 
 def fetch(contract: str) -> Optional[dict]:
-    """Return positioning snapshot for one contract, or None on any failure."""
     aliases = CONTRACT_ALIASES.get(contract)
     if not aliases:
         log.warning("Unknown COT contract alias: %s", contract)
@@ -48,48 +48,65 @@ def fetch(contract: str) -> Optional[dict]:
     if df is None or df.empty:
         return None
 
-    name_col = next((c for c in df.columns if "Market" in c and "Name" in c), None)
-    if not name_col:
-        log.warning("COT: no market-name column found")
+    cols = list(df.columns)
+    name_col = _find_col(cols, ["market", "exchange", "names"]) or _find_col(cols, ["market", "name"])
+    date_col = _find_col(cols, ["as_of_date"]) or _find_col(cols, ["report_date"])
+    long_col = (
+        _find_col(cols, ["noncomm", "positions", "long"]) or
+        _find_col(cols, ["noncommercial", "positions", "long"]) or
+        _find_col(cols, ["managed", "money", "long"])
+    )
+    short_col = (
+        _find_col(cols, ["noncomm", "positions", "short"]) or
+        _find_col(cols, ["noncommercial", "positions", "short"]) or
+        _find_col(cols, ["managed", "money", "short"])
+    )
+    oi_col = _find_col(cols, ["open", "interest"])
+
+    if not name_col or not date_col or not long_col or not short_col:
+        log.warning("COT parser could not find key columns")
         return None
 
-    mask = df[name_col].astype(str).str.upper().apply(
-        lambda s: any(a.upper() in s for a in aliases)
-    )
-    sub = df[mask]
+    mask = df[name_col].astype(str).str.upper().apply(lambda s: any(alias.upper() in s for alias in aliases))
+    sub = df.loc[mask, [name_col, date_col, long_col, short_col] + ([oi_col] if oi_col else [])].copy()
     if sub.empty:
         log.warning("COT: no rows for contract=%s", contract)
         return None
 
-    row = sub.iloc[0]
-
-    def _num(col_contains: list[str]) -> Optional[float]:
-        for col in df.columns:
-            if all(tok in col for tok in col_contains):
-                try:
-                    return float(row[col])
-                except (TypeError, ValueError):
-                    return None
+    sub["date"] = pd.to_datetime(sub[date_col], errors="coerce")
+    sub["long"] = pd.to_numeric(sub[long_col], errors="coerce")
+    sub["short"] = pd.to_numeric(sub[short_col], errors="coerce")
+    sub["open_interest"] = pd.to_numeric(sub[oi_col], errors="coerce") if oi_col else None
+    sub = sub.dropna(subset=["date", "long", "short"]).sort_values("date")
+    if sub.empty:
         return None
 
-    nc_long = _num(["NonComm", "Positions", "Long"]) or _num(["Noncommercial", "Long"])
-    nc_short = _num(["NonComm", "Positions", "Short"]) or _num(["Noncommercial", "Short"])
-    oi = _num(["Open", "Interest"])
+    sub["net"] = sub["long"] - sub["short"]
+    if oi_col:
+        sub["net_pct_oi"] = (sub["net"] / sub["open_interest"]) * 100.0
+    else:
+        sub["net_pct_oi"] = None
 
-    if nc_long is None or nc_short is None:
-        log.warning("COT: could not locate non-commercial position columns")
-        return None
+    hist = sub.set_index("date")["net_pct_oi"].dropna()
+    latest = sub.iloc[-1]
 
-    net = int(nc_long - nc_short)
-    pct_oi = round((net / oi) * 100.0, 2) if oi else None
+    percentile = None
+    zscore = None
+    if not hist.empty:
+        tail = hist.tail(min(len(hist), 156))
+        percentile = float((tail <= hist.iloc[-1]).mean() * 100.0)
+        std = tail.std()
+        if std and std == std:
+          zscore = float((hist.iloc[-1] - tail.mean()) / std)
 
     return {
         "contract": contract,
-        "non_commercial_long": int(nc_long),
-        "non_commercial_short": int(nc_short),
-        "non_commercial_net": net,
-        "open_interest": int(oi) if oi else None,
-        "net_pct_of_open_interest": pct_oi,
-        "weekly_change": None,
-        "percentile_3y": None,
+        "non_commercial_long": int(latest["long"]),
+        "non_commercial_short": int(latest["short"]),
+        "non_commercial_net": int(latest["net"]),
+        "open_interest": int(latest["open_interest"]) if oi_col and pd.notna(latest["open_interest"]) else None,
+        "net_pct_of_open_interest": round(float(latest["net_pct_oi"]), 2) if pd.notna(latest["net_pct_oi"]) else None,
+        "percentile_3y": round(percentile, 1) if percentile is not None else None,
+        "zscore_3y": round(zscore, 2) if zscore is not None else None,
+        "history": hist,
     }

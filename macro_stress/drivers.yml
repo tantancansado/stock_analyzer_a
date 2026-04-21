@@ -1,31 +1,65 @@
 markets:
   crude_oil:
-    name: "Crude Oil (WTI)"
-    category: energy
+    label: "Petróleo (WTI)"
+    category: "energy"
     primary_ticker: "CL=F"
+    history_start: "2000-01-01"
+    analogy_k: 5
+    analogy_min_signals: 3
+    score_bands:
+      green_max: 30
+      amber_max: 60
     equity_exposure:
-      long_benefits: [XOM, CVX, COP, OXY, EOG, SLB, XLE]
-      short_benefits: [JBLU, DAL, UAL, AAL, LUV]
+      beneficiaries: [USO, XLE, XOM, CVX, COP, OXY, EOG, SLB]
+      losers: [DAL, UAL, AAL, LUV, JBLU, FDX, UPS]
+    historical_events:
+      - date: "1990-10-15"
+        name: "Iraq sanctions escalation"
+        note: "Shock geopolítico de oferta durante la Guerra del Golfo."
+      - date: "2008-07-10"
+        name: "Pre-GFC demand crack"
+        note: "Pico del crudo antes del colapso de demanda de la GFC."
+      - date: "2022-02-28"
+        name: "Ukraine invasion week"
+        note: "Dislocación extrema tras la invasión de Ucrania."
     signals:
       inventory:
-        weight: 0.25
-        collector: eia_inventories
-        series: "PET.WCESTUS1.W"
-        direction: contrarian
+        label: "Inventarios comerciales USA"
+        type: "inventory"
+        source: "eia"
+        endpoint: "PET.WCESTUS1.W"
+        lookback_periods: 260
+        direction: "low_is_stress"
+        weight: 0.30
       curve_shape:
-        weight: 0.20
-        collector: futures_curves
-        ticker_chain: ["CL=F", "CL1!", "CL2!"]
-      geopolitical:
+        label: "Backwardation de la curva"
+        type: "curve_shape"
+        source: "futures_curves"
+        symbols: ["CL=F", "BZ=F"]
+        lookback_periods: 252
+        direction: "high_is_stress"
         weight: 0.25
-        collector: gdelt_events
-        regions: [hormuz, suez, red_sea]
-        keywords: [tanker, refinery, attack, sanctions, embargo]
+      geopolitical:
+        label: "Tensión geopolítica"
+        type: "geopolitical"
+        source: "gdelt"
+        regions: ["hormuz", "suez", "red_sea"]
+        event_types: ["tanker", "refinery", "attack", "sanctions", "embargo"]
+        direction: "high_is_stress"
+        weight: 0.20
       positioning:
+        label: "CFTC positioning"
+        type: "positioning"
+        source: "cftc_cot"
+        report: "crude_oil_wti"
+        lookback_periods: 156
+        direction: "extreme_is_stress"
         weight: 0.15
-        collector: cftc_cot
-        contract: "crude_oil_wti"
-      refinery_utilization:
-        weight: 0.15
-        collector: eia_inventories
-        series: "PET.WPULEUS3.W"
+      refinery:
+        label: "Refinery utilization"
+        type: "refinery"
+        source: "eia"
+        endpoint: "PET.WPULEUS3.W"
+        lookback_periods: 260
+        direction: "low_is_stress"
+        weight: 0.10

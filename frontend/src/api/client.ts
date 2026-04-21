@@ -648,6 +648,7 @@ export interface CerebroBriefing {
     traps_warning: [string, number][]
     exit_warnings: [string, string][]
     smart_money: [string, number][]
+    macro_stress: Array<{ market: string; score: number; regime: string; exposed: string[] }>
   }
 }
 export const fetchCerebroBriefing = () => apiClient.get<CerebroBriefing>('/api/cerebro/briefing')
@@ -809,20 +810,66 @@ export const fetchMacroCountries = () =>
 export const fetchMacroRadarHistory = () =>
   apiClient.get<{ history: Array<{ date: string; composite_score: number; composite_pct: number; regime: string; regime_color: string }> }>('/api/macro-radar/history')
 
-export interface MacroStressMarket {
+export interface MacroStressSignal {
+  label: string
+  weight: number
+  direction?: string
+  value: number | null
+  percentile: number | null
+  z: number | null
+  score: number | null
+  contribution: number | null
+  history_ready: boolean
+  meta?: Record<string, unknown>
+}
+
+export interface MacroStressAnalogue {
+  date: string
   name: string
+  event?: string | null
+  score: number
+  similarity: number
+  shared_signals: string[]
+  forward_30d_return: number | null
+  forward_60d_return: number | null
+  forward_90d_return: number | null
+}
+
+export interface MacroStressChartPoint {
+  date: string
+  price: number
+  stress_score: number | null
+}
+
+export interface MacroStressMarket {
+  market_id: string
+  label: string
   category?: string
   primary_ticker?: string
   stress_score: number | null
-  band: string
+  band: 'green' | 'amber' | 'red' | 'unknown' | string
+  regime: string
   signals_used?: number
-  signals: Record<string, { score: number | null; weight: number; context?: unknown }>
-  equity_exposure?: { long_benefits?: string[]; short_benefits?: string[] }
-  analogues?: { analogues: unknown[]; note?: string }
+  coverage_pct?: number
+  narrative?: string
+  history_ready?: boolean
+  history_note?: string
+  top_contributors?: Array<{ key: string; label: string; score: number | null; contribution: number | null }>
+  signals: Record<string, MacroStressSignal>
+  chart_series?: MacroStressChartPoint[]
+  equity_exposure?: { beneficiaries?: string[]; losers?: string[] }
+  historical_analogues?: MacroStressAnalogue[]
 }
 
 export interface MacroStressResponse {
   generated_at: string
+  framework?: string
+  summary?: {
+    markets_total: number
+    markets_red: number
+    top_market?: string | null
+    top_stress_score?: number | null
+  }
   markets: Record<string, MacroStressMarket>
 }
 

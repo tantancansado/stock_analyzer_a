@@ -1,239 +1,374 @@
-import { AlertTriangle, ArrowUpRight, Gauge, Sparkles } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { AlertTriangle, Flame, Radar, ShieldAlert, Siren, Waves } from 'lucide-react'
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Line,
+  ReferenceDot,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 import { Card, CardContent } from '@/components/ui/card'
-import { fetchMacroStress, type MacroStressMarket, type MacroStressResponse } from '../api/client'
+import {
+  fetchMacroStress,
+  type MacroStressAnalogue,
+  type MacroStressMarket,
+  type MacroStressResponse,
+  type MacroStressSignal,
+} from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 
-const BAND_STYLES: Record<string, { badge: string; bar: string; copy: string }> = {
-  CALM: {
-    badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-    bar: 'from-emerald-500 to-teal-400',
-    copy: 'Normalidad operativa',
+const BAND_THEME: Record<string, { tile: string; ring: string; glow: string; label: string }> = {
+  green: {
+    tile: 'border-emerald-500/25 bg-[linear-gradient(140deg,rgba(16,185,129,0.14),rgba(6,78,59,0.08))]',
+    ring: 'bg-emerald-400',
+    glow: 'shadow-[0_0_0_1px_rgba(16,185,129,0.25),0_18px_40px_rgba(16,185,129,0.08)]',
+    label: 'Verde',
   },
-  WATCH: {
-    badge: 'bg-lime-500/15 text-lime-300 border-lime-500/30',
-    bar: 'from-lime-500 to-emerald-400',
-    copy: 'Vigilancia activa',
+  amber: {
+    tile: 'border-amber-500/25 bg-[linear-gradient(140deg,rgba(245,158,11,0.16),rgba(120,53,15,0.1))]',
+    ring: 'bg-amber-400',
+    glow: 'shadow-[0_0_0_1px_rgba(245,158,11,0.25),0_18px_40px_rgba(245,158,11,0.08)]',
+    label: 'Ámbar',
   },
-  STRESS: {
-    badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-    bar: 'from-amber-500 to-orange-400',
-    copy: 'Estrés creciente',
+  red: {
+    tile: 'border-red-500/25 bg-[linear-gradient(140deg,rgba(239,68,68,0.18),rgba(127,29,29,0.12))]',
+    ring: 'bg-red-400',
+    glow: 'shadow-[0_0_0_1px_rgba(239,68,68,0.25),0_18px_40px_rgba(239,68,68,0.10)]',
+    label: 'Rojo',
   },
-  ALERT: {
-    badge: 'bg-orange-500/15 text-orange-300 border-orange-500/30',
-    bar: 'from-orange-500 to-red-400',
-    copy: 'Dislocación relevante',
-  },
-  CRISIS: {
-    badge: 'bg-red-500/15 text-red-300 border-red-500/30',
-    bar: 'from-red-500 to-fuchsia-500',
-    copy: 'Riesgo sistémico alto',
+  unknown: {
+    tile: 'border-white/10 bg-white/[0.03]',
+    ring: 'bg-slate-400',
+    glow: 'shadow-[0_0_0_1px_rgba(255,255,255,0.08)]',
+    label: 'Parcial',
   },
 }
 
-function bandStyle(band?: string) {
-  return BAND_STYLES[(band || '').toUpperCase()] ?? {
-    badge: 'bg-muted/20 text-muted-foreground border-border/30',
-    bar: 'from-slate-500 to-slate-400',
-    copy: 'Lectura parcial',
+function fmt(value: number | null | undefined, digits = 0) {
+  return value == null ? 'N/A' : value.toFixed(digits)
+}
+
+function retTone(value: number | null) {
+  if (value == null) return 'text-muted-foreground/55'
+  if (value > 0) return 'text-emerald-300'
+  if (value < 0) return 'text-red-300'
+  return 'text-muted-foreground'
+}
+
+function bandTheme(band?: string) {
+  return BAND_THEME[band || 'unknown'] ?? BAND_THEME.unknown
+}
+
+function scoreBarClass(score: number | null | undefined) {
+  if (score == null) return 'from-slate-500 to-slate-400'
+  if (score < 30) return 'from-emerald-500 to-lime-400'
+  if (score < 60) return 'from-amber-500 to-orange-400'
+  return 'from-red-500 to-fuchsia-500'
+}
+
+function SignalCard({ signal }: { signal: MacroStressSignal }) {
+  const width = signal.score == null ? 0 : Math.max(0, Math.min(100, signal.score))
+  return (
+    <div className="rounded-2xl border border-white/10 bg-black/10 p-3">
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/60">
+            {signal.label}
+          </div>
+          <div className="mt-1 text-sm font-semibold text-foreground/85">
+            {signal.value != null ? `${fmt(signal.value, Math.abs(signal.value) >= 10 ? 1 : 2)}` : 'Sin dato'}
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-base font-black text-foreground">{fmt(signal.score, 1)}</div>
+          <div className="text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground/50">
+            {Math.round(signal.weight * 100)}%
+          </div>
+        </div>
+      </div>
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-white/8">
+        <div className={`h-full rounded-full bg-gradient-to-r ${scoreBarClass(signal.score)}`} style={{ width: `${width}%` }} />
+      </div>
+      <div className="mt-2 flex flex-wrap gap-2 text-[0.68rem] text-muted-foreground/60">
+        {signal.percentile != null && <span>pct {fmt(signal.percentile, 0)}</span>}
+        {signal.z != null && <span>z {fmt(signal.z, 2)}</span>}
+        {signal.contribution != null && <span>+{fmt(signal.contribution, 1)} pts</span>}
+      </div>
+    </div>
+  )
+}
+
+function HeatTile({
+  marketId,
+  market,
+  active,
+  onClick,
+}: {
+  marketId: string
+  market: MacroStressMarket
+  active: boolean
+  onClick: () => void
+}) {
+  const theme = bandTheme(market.band)
+  const score = market.stress_score ?? 0
+  return (
+    <button
+      onClick={onClick}
+      className={`relative rounded-[24px] border p-4 text-left transition-all duration-300 ${theme.tile} ${theme.glow} ${
+        active ? 'scale-[1.01] border-white/30' : 'hover:-translate-y-0.5 hover:border-white/20'
+      }`}
+    >
+      <div className="absolute right-3 top-3 flex items-center gap-1.5 rounded-full border border-white/10 bg-black/20 px-2 py-1 text-[0.58rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
+        <span className={`h-1.5 w-1.5 rounded-full ${theme.ring}`} />
+        {theme.label}
+      </div>
+      <div className="pr-14">
+        <div className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-primary/70">{market.category ?? 'macro'}</div>
+        <h3 className="mt-2 text-xl font-black tracking-tight text-foreground">{market.label}</h3>
+        <p className="mt-1 text-sm text-muted-foreground/70">{market.regime} · {market.primary_ticker} · {marketId}</p>
+      </div>
+      <div className="mt-6 flex items-end justify-between gap-3">
+        <div>
+          <div className="text-[0.58rem] uppercase tracking-[0.18em] text-muted-foreground/55">Stress score</div>
+          <div className="mt-1 text-4xl font-black tabular-nums text-foreground">{fmt(market.stress_score, 0)}</div>
+        </div>
+        <div className="min-w-[92px]">
+          <div className="mb-1 flex items-center justify-between text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground/55">
+            <span>Coverage</span>
+            <span>{fmt(market.coverage_pct, 0)}%</span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-white/10">
+            <div className={`h-full rounded-full bg-gradient-to-r ${scoreBarClass(score)}`} style={{ width: `${Math.max(6, score)}%` }} />
+          </div>
+        </div>
+      </div>
+    </button>
+  )
+}
+
+function PriceStressChart({
+  market,
+  analogues,
+}: {
+  market: MacroStressMarket
+  analogues: MacroStressAnalogue[]
+}) {
+  const data = market.chart_series ?? []
+  if (!data.length) {
+    return (
+      <div className="rounded-2xl border border-white/10 bg-black/10 p-6 text-sm text-muted-foreground/60">
+        Sin serie histórica suficiente para dibujar el drill-down.
+      </div>
+    )
   }
-}
 
-function formatScore(score: number | null | undefined) {
-  return score == null ? 'N/A' : score.toFixed(1)
-}
+  const analoguePriceMap = new Map<string, number>()
+  for (const point of data) {
+    analoguePriceMap.set(point.date, point.price)
+  }
 
-function ScoreBar({ score, band }: { score: number | null | undefined; band: string }) {
-  const pct = score == null ? 0 : Math.max(0, Math.min(100, score))
-  const style = bandStyle(band)
   return (
-    <div className="space-y-1.5">
-      <div className="flex items-center justify-between text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground/60">
-        <span>Stress Score</span>
-        <span className="font-bold text-foreground/80">{formatScore(score)} / 100</span>
+    <div className="rounded-[26px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-4">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div>
+          <div className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">Drill-down</div>
+          <div className="mt-1 text-lg font-black tracking-tight text-foreground">Precio y stress histórico</div>
+        </div>
+        <div className="text-right text-[0.68rem] text-muted-foreground/60">
+          <div>{market.primary_ticker}</div>
+          <div>{data.length} puntos</div>
+        </div>
       </div>
-      <div className="h-2 rounded-full bg-white/8 overflow-hidden">
-        <div
-          className={`h-full rounded-full bg-gradient-to-r ${style.bar} transition-all duration-700`}
-          style={{ width: `${pct}%` }}
-        />
+
+      <div style={{ height: 320 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 12, right: 8, bottom: 0, left: 0 }}>
+            <defs>
+              <linearGradient id="macro-price-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#f97316" stopOpacity={0.24} />
+                <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+            <XAxis
+              dataKey="date"
+              tick={{ fontSize: 10, fill: '#94a3b8' }}
+              tickFormatter={(value) => String(value).slice(2, 7)}
+              axisLine={false}
+              tickLine={false}
+              minTickGap={28}
+            />
+            <YAxis
+              yAxisId="price"
+              orientation="left"
+              tick={{ fontSize: 10, fill: '#f8fafc' }}
+              axisLine={false}
+              tickLine={false}
+              width={54}
+            />
+            <YAxis
+              yAxisId="stress"
+              orientation="right"
+              domain={[0, 100]}
+              tick={{ fontSize: 10, fill: '#94a3b8' }}
+              axisLine={false}
+              tickLine={false}
+              width={38}
+            />
+            <Tooltip
+              contentStyle={{
+                background: 'rgba(15,17,23,0.96)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '14px',
+                fontSize: '12px',
+              }}
+            />
+            <Area
+              yAxisId="price"
+              type="monotone"
+              dataKey="price"
+              stroke="#fb923c"
+              fill="url(#macro-price-fill)"
+              strokeWidth={2.2}
+              dot={false}
+              activeDot={{ r: 3, fill: '#fb923c' }}
+            />
+            <Line
+              yAxisId="stress"
+              type="monotone"
+              dataKey="stress_score"
+              stroke="#38bdf8"
+              strokeWidth={2}
+              dot={false}
+              connectNulls
+            />
+            {analogues.map((item, idx) => {
+              const price = analoguePriceMap.get(item.date)
+              if (price == null) return null
+              return (
+                <ReferenceDot
+                  key={`${item.date}-${idx}`}
+                  yAxisId="price"
+                  x={item.date}
+                  y={price}
+                  r={5}
+                  fill={item.forward_30d_return != null && item.forward_30d_return < 0 ? '#ef4444' : '#facc15'}
+                  stroke="rgba(15,17,23,0.9)"
+                />
+              )
+            })}
+          </AreaChart>
+        </ResponsiveContainer>
       </div>
     </div>
   )
 }
 
-function ExposureChip({ label, tone }: { label: string; tone: 'long' | 'short' }) {
-  const cls = tone === 'long'
-    ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20'
-    : 'bg-red-500/10 text-red-300 border-red-500/20'
+function AnalogueCard({ item, index }: { item: MacroStressAnalogue; index: number }) {
   return (
-    <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-[0.66rem] font-semibold ${cls}`}>
-      {label}
-    </span>
-  )
-}
-
-function SignalTile({ name, signal }: { name: string; signal: MacroStressMarket['signals'][string] }) {
-  const score = signal?.score
-  const tone = score == null
-    ? 'text-muted-foreground/55 border-border/20 bg-muted/10'
-    : score >= 70
-      ? 'text-red-300 border-red-500/25 bg-red-500/10'
-      : score >= 45
-        ? 'text-amber-300 border-amber-500/25 bg-amber-500/10'
-        : 'text-emerald-300 border-emerald-500/20 bg-emerald-500/10'
-  return (
-    <div className={`rounded-xl border p-3 ${tone}`}>
-      <div className="flex items-center justify-between gap-2">
-        <span className="text-[0.62rem] uppercase tracking-[0.16em]">{name.replaceAll('_', ' ')}</span>
-        <span className="font-mono text-sm font-bold">{formatScore(score)}</span>
+    <div className="rounded-2xl border border-white/10 bg-black/10 p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <div className="text-[0.6rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/45">Análogo #{index + 1}</div>
+          <div className="mt-1 text-sm font-bold text-foreground">{item.name}</div>
+          <div className="text-[0.72rem] text-muted-foreground/60">{item.date}</div>
+        </div>
+        <div className="rounded-full border border-cyan-400/20 bg-cyan-400/8 px-2.5 py-1 text-[0.68rem] font-bold text-cyan-300">
+          {fmt(item.similarity, 0)}% sim
+        </div>
       </div>
-      <div className="mt-1 text-[0.72rem] text-foreground/70">
-        peso {signal?.weight != null ? `${Math.round(signal.weight * 100)}%` : 'N/A'}
+      {item.event && (
+        <p className="mt-2 text-[0.72rem] leading-relaxed text-foreground/70">{item.event}</p>
+      )}
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        {[
+          ['30d', item.forward_30d_return],
+          ['60d', item.forward_60d_return],
+          ['90d', item.forward_90d_return],
+        ].map(([label, value]) => (
+          <div key={label} className="rounded-xl border border-white/8 bg-white/[0.03] px-2.5 py-2 text-center">
+            <div className="text-[0.58rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50">{label}</div>
+            <div className={`mt-1 text-sm font-black ${retTone(value as number | null)}`}>
+              {value == null ? 'N/A' : `${(value as number) > 0 ? '+' : ''}${value}%`}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-3 text-[0.68rem] text-muted-foreground/55">
+        Señales compartidas: {item.shared_signals.join(', ')}
       </div>
     </div>
   )
 }
 
-function MarketCard({ marketId, market }: { marketId: string; market: MacroStressMarket }) {
-  const style = bandStyle(market.band)
-  const longs = market.equity_exposure?.long_benefits ?? []
-  const shorts = market.equity_exposure?.short_benefits ?? []
-  const analogues = market.analogues?.analogues ?? []
+function ExposurePanel({ market }: { market: MacroStressMarket }) {
+  const beneficiaries = market.equity_exposure?.beneficiaries ?? []
+  const losers = market.equity_exposure?.losers ?? []
+  const isRed = (market.stress_score ?? 0) >= 60
 
   return (
-    <Card className="glass border-white/10 overflow-hidden">
-      <CardContent className="p-0">
-        <div className="relative px-5 py-5 border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_42%),linear-gradient(135deg,rgba(255,255,255,0.03),transparent)]">
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div className="min-w-0">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[0.62rem] uppercase tracking-[0.22em] text-primary/70 font-bold">
-                  {market.category ?? 'macro'}
-                </span>
-                <span className={`inline-flex items-center rounded-full border px-2.5 py-1 text-[0.68rem] font-bold ${style.badge}`}>
-                  {market.band}
-                </span>
-              </div>
-              <h3 className="text-2xl font-black tracking-tight text-foreground">{market.name}</h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                {style.copy} {market.primary_ticker ? `· driver principal ${market.primary_ticker}` : ''}
-              </p>
-            </div>
-            <div className="w-full max-w-sm space-y-3">
-              <ScoreBar score={market.stress_score} band={market.band} />
-              <div className="grid grid-cols-2 gap-2">
-                <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                  <div className="text-[0.58rem] uppercase tracking-[0.16em] text-muted-foreground/60">Market ID</div>
-                  <div className="mt-1 font-mono text-sm font-bold text-foreground/80">{marketId}</div>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5">
-                  <div className="text-[0.58rem] uppercase tracking-[0.16em] text-muted-foreground/60">Signals used</div>
-                  <div className="mt-1 text-sm font-bold text-foreground/80">{market.signals_used ?? 0}</div>
-                </div>
-              </div>
-            </div>
+    <div className={`rounded-[26px] border p-4 ${isRed ? 'border-red-500/20 bg-red-500/[0.06]' : 'border-white/10 bg-white/[0.03]'}`}>
+      <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+        <ShieldAlert size={13} className={isRed ? 'text-red-300' : 'text-cyan-300'} />
+        Equity Exposure Map
+      </div>
+      <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <div>
+          <div className="mb-2 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-emerald-300/80">Beneficiarios</div>
+          <div className="flex flex-wrap gap-2">
+            {beneficiaries.map((ticker) => (
+              <span key={ticker} className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[0.68rem] font-semibold text-emerald-300">
+                {ticker}
+              </span>
+            ))}
           </div>
         </div>
-
-        <div className="grid gap-5 p-5 xl:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-4">
-            <div>
-              <div className="mb-3 flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
-                <Gauge size={13} className="text-primary" />
-                Signal Breakdown
-              </div>
-              <div className="grid gap-2 md:grid-cols-2">
-                {Object.entries(market.signals || {}).map(([name, signal]) => (
-                  <SignalTile key={name} name={name} signal={signal} />
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <div className="mb-3 flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
-                <ArrowUpRight size={13} className="text-cyan-300" />
-                Equity Map
-              </div>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <div className="mb-2 text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground/55">Long benefits</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {longs.length > 0 ? longs.map(ticker => <ExposureChip key={ticker} label={ticker} tone="long" />) : (
-                      <span className="text-sm text-muted-foreground/50">No definido</span>
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <div className="mb-2 text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground/55">Short / losers</div>
-                  <div className="flex flex-wrap gap-1.5">
-                    {shorts.length > 0 ? shorts.map(ticker => <ExposureChip key={ticker} label={ticker} tone="short" />) : (
-                      <span className="text-sm text-muted-foreground/50">No definido</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-primary/8 to-transparent p-4">
-              <div className="mb-3 flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
-                <Sparkles size={13} className="text-primary" />
-                Historical Analogues
-              </div>
-              {analogues.length > 0 ? (
-                <div className="space-y-3">
-                  {analogues.slice(0, 3).map((item, idx) => (
-                    <div key={idx} className="rounded-xl border border-white/10 bg-black/10 px-3 py-3">
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="font-semibold text-foreground/85">{String((item as { name?: string }).name ?? `Analog ${idx + 1}`)}</div>
-                        <div className="text-xs font-bold text-primary">
-                          {typeof (item as { similarity?: number }).similarity === 'number'
-                            ? `${Math.round(((item as { similarity: number }).similarity) * 100)}% sim`
-                            : 'sim N/A'}
-                        </div>
-                      </div>
-                      {typeof (item as { date?: string }).date === 'string' && (
-                        <div className="mt-1 text-[0.7rem] text-muted-foreground/65">
-                          {(item as { date: string }).date}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground/60">
-                  Aún no hay histórico suficiente para analogías robustas. El framework ya deja preparado el replay futuro.
-                </p>
-              )}
-              {market.analogues?.note && (
-                <p className="mt-3 text-[0.72rem] text-muted-foreground/55">{market.analogues.note}</p>
-              )}
-            </div>
-
-            <div className="rounded-2xl border border-amber-500/20 bg-amber-500/8 p-4">
-              <div className="mb-2 flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-amber-300/90">
-                <AlertTriangle size={13} />
-                Reading Guide
-              </div>
-              <p className="text-sm leading-relaxed text-foreground/78">
-                Este radar no intenta predecir el precio diario del activo. Sirve para detectar dislocaciones macro antes de que
-                se filtren a equities sensibles: energía, transporte, industriales o consumidores de input cost.
-              </p>
-            </div>
+        <div>
+          <div className="mb-2 text-[0.62rem] font-bold uppercase tracking-[0.16em] text-red-300/80">Perdedores</div>
+          <div className="flex flex-wrap gap-2">
+            {losers.map((ticker) => (
+              <span key={ticker} className="rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-[0.68rem] font-semibold text-red-300">
+                {ticker}
+              </span>
+            ))}
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+      <p className="mt-4 text-[0.72rem] leading-relaxed text-muted-foreground/65">
+        {isRed
+          ? 'Mercado en rojo: estas equities son las primeras candidatas a revisar en cartera y watchlist.'
+          : 'Mapa curado para traducir el stress de commodity a nombres operables en equity.'}
+      </p>
+    </div>
   )
 }
 
 export default function MacroStress() {
   const { data, loading, error } = useApi<MacroStressResponse>(() => fetchMacroStress(), [])
+  const [selectedId, setSelectedId] = useState<string>('')
+  const [sortBy, setSortBy] = useState<'stress' | 'name'>('stress')
+
+  const markets = useMemo(() => {
+    if (!data?.markets) return []
+    const entries = Object.entries(data.markets)
+    entries.sort((a, b) => {
+      if (sortBy === 'name') return a[1].label.localeCompare(b[1].label)
+      return (b[1].stress_score ?? -1) - (a[1].stress_score ?? -1)
+    })
+    return entries
+  }, [data, sortBy])
+
+  useEffect(() => {
+    if (!selectedId && markets.length > 0) {
+      setSelectedId(markets[0][0])
+    }
+  }, [markets, selectedId])
 
   if (loading) return <Loading />
   if (error) {
@@ -242,45 +377,169 @@ export default function MacroStress() {
       : error
     return <ErrorState message={friendly} />
   }
-  if (!data?.markets || Object.keys(data.markets).length === 0) {
+  if (!markets.length) {
     return <ErrorState message="No hay mercados configurados todavía." />
   }
 
-  const markets = Object.entries(data.markets)
-    .sort((a, b) => (b[1].stress_score ?? -1) - (a[1].stress_score ?? -1))
+  const selected = data!.markets[selectedId] ?? markets[0][1]
+  const selectedAnalogues = selected.historical_analogues ?? []
+  const redCount = Object.values(data!.markets).filter((market) => (market.stress_score ?? 0) >= 60).length
+  const topScore = data?.summary?.top_stress_score ?? markets[0][1].stress_score
 
   return (
     <div className="space-y-5">
       <StaleDataBanner module="macro_stress" />
 
-      <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.01)),radial-gradient(circle_at_top_right,rgba(255,115,0,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(14,165,233,0.14),transparent_26%)] px-5 py-6">
+      <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(6,182,212,0.14),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] px-5 py-6">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <div className="mb-2 text-[0.68rem] font-bold uppercase tracking-[0.24em] text-primary/75">Commodity dislocations</div>
-            <h2 className="text-3xl font-black tracking-tight text-foreground">Macro Stress Radar</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Marco declarativo para vigilar shocks macro con lectura operativa en equities. La idea es detectar tensión real
-              en inventarios, curva, geopolítica y positioning antes de que el mercado lo cuente del todo.
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/15 px-3 py-1 text-[0.62rem] font-bold uppercase tracking-[0.2em] text-primary/80">
+              <Radar size={12} />
+              Macro Stress Framework
+            </div>
+            <h2 className="text-3xl font-black tracking-tight text-foreground">Heatmap de dislocaciones macro</h2>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/72">
+              El score no intenta adivinar el próximo tick. Compacta inventarios, curva, geopolítica y positioning para detectar
+              cuándo un mercado commodity entra en régimen operativo peligroso.
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-2 sm:w-auto">
-            <div className="rounded-2xl border border-white/10 bg-black/10 px-3 py-3">
-              <div className="text-[0.58rem] uppercase tracking-[0.16em] text-muted-foreground/60">Markets</div>
-              <div className="mt-1 text-2xl font-black text-foreground">{markets.length}</div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3">
+              <div className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">Mercados</div>
+              <div className="mt-1 text-3xl font-black text-foreground">{data?.summary?.markets_total ?? markets.length}</div>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-black/10 px-3 py-3">
-              <div className="text-[0.58rem] uppercase tracking-[0.16em] text-muted-foreground/60">Updated</div>
-              <div className="mt-1 text-sm font-bold text-foreground/85">{String(data.generated_at).slice(0, 10)}</div>
+            <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3">
+              <div className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-red-200/70">En rojo</div>
+              <div className="mt-1 text-3xl font-black text-red-300">{redCount}</div>
+            </div>
+            <div className="rounded-2xl border border-cyan-400/20 bg-cyan-400/10 px-4 py-3">
+              <div className="text-[0.58rem] font-bold uppercase tracking-[0.18em] text-cyan-200/70">Pico actual</div>
+              <div className="mt-1 text-3xl font-black text-cyan-200">{fmt(topScore, 0)}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid gap-5">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+          <Flame size={13} className="text-orange-300" />
+          Heatmap Grid
+        </div>
+        <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+          {([
+            ['stress', 'Por score'],
+            ['name', 'Por nombre'],
+          ] as const).map(([value, label]) => (
+            <button
+              key={value}
+              onClick={() => setSortBy(value)}
+              className={`rounded-full px-3 py-1.5 text-[0.68rem] font-semibold transition-colors ${
+                sortBy === value ? 'bg-white/10 text-foreground' : 'text-muted-foreground/55 hover:text-foreground'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
         {markets.map(([marketId, market]) => (
-          <MarketCard key={marketId} marketId={marketId} market={market} />
+          <HeatTile
+            key={marketId}
+            marketId={marketId}
+            market={market}
+            active={selectedId === marketId}
+            onClick={() => setSelectedId(marketId)}
+          />
         ))}
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-[1.15fr_0.85fr]">
+        <div className="space-y-5">
+          <PriceStressChart market={selected} analogues={selectedAnalogues} />
+
+          <Card className="glass overflow-hidden border-white/10">
+            <CardContent className="p-0">
+              <div className="border-b border-white/10 px-5 py-4">
+                <div className="flex flex-wrap items-center gap-3">
+                  <div>
+                    <div className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">Mercado activo</div>
+                    <h3 className="mt-1 text-xl font-black tracking-tight text-foreground">{selected.label}</h3>
+                  </div>
+                  <div className="ml-auto flex flex-wrap items-center gap-2">
+                    <span className={`rounded-full border px-2.5 py-1 text-[0.68rem] font-bold ${
+                      selected.band === 'red'
+                        ? 'border-red-500/30 bg-red-500/12 text-red-300'
+                        : selected.band === 'amber'
+                        ? 'border-amber-500/30 bg-amber-500/12 text-amber-300'
+                        : 'border-emerald-500/30 bg-emerald-500/12 text-emerald-300'
+                    }`}>
+                      {selected.regime}
+                    </span>
+                    <span className="rounded-full border border-white/10 bg-black/15 px-2.5 py-1 text-[0.68rem] font-semibold text-muted-foreground/70">
+                      {fmt(selected.coverage_pct, 0)}% coverage
+                    </span>
+                  </div>
+                </div>
+                {selected.narrative && (
+                  <p className="mt-3 text-sm leading-relaxed text-foreground/72">{selected.narrative}</p>
+                )}
+              </div>
+              <div className="grid gap-3 p-5 md:grid-cols-2">
+                {Object.entries(selected.signals || {}).map(([key, signal]) => (
+                  <SignalCard key={key} signal={signal} />
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-5">
+          <ExposurePanel market={selected} />
+
+          <Card className="glass overflow-hidden border-white/10">
+            <CardContent className="p-0">
+              <div className="border-b border-white/10 px-5 py-4">
+                <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
+                  <Waves size={13} className="text-cyan-300" />
+                  Historical Analogues
+                </div>
+                <p className="mt-2 text-sm text-foreground/70">
+                  No te doy una “probabilidad” fabricada. Te enseño episodios históricos parecidos y qué pasó después.
+                </p>
+              </div>
+              <div className="space-y-3 p-5">
+                {selectedAnalogues.length > 0 ? selectedAnalogues.map((item, index) => (
+                  <AnalogueCard key={`${item.date}-${index}`} item={item} index={index} />
+                )) : (
+                  <div className="rounded-2xl border border-white/10 bg-black/10 p-4 text-sm text-muted-foreground/60">
+                    {selected.history_note ?? 'Todavía no hay análogos suficientes para este mercado.'}
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="rounded-[26px] border border-amber-500/20 bg-amber-500/[0.08] p-4">
+            <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-amber-300/85">
+              <Siren size={13} />
+              Reading Guide
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-foreground/76">
+              Verde significa normalidad operativa. Ámbar pide vigilancia. Rojo no equivale a “sube seguro” o “cae seguro”:
+              significa que la commodity se ha vuelto lo bastante tensa como para contaminar rápidamente a las equities expuestas.
+            </p>
+            {selected.history_note && (
+              <div className="mt-3 flex items-start gap-2 rounded-2xl border border-white/10 bg-black/10 px-3 py-3 text-[0.72rem] text-muted-foreground/65">
+                <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-300" />
+                <span>{selected.history_note}</span>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )

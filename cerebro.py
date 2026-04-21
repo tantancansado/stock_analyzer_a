@@ -1375,6 +1375,21 @@ def generate_personal_briefing(entry_sigs: dict, convergence: dict, alerts: dict
     traps_high = [t for t in value_traps.get("traps",[]) if t["severity"] == "HIGH"][:3]
     exits_high = [e for e in exit_sigs.get("exits",[]) if e["severity"] == "HIGH"][:3]
     smart_top  = smart_money.get("signals",[])[:3]
+    macro_stress_json = load_json(DOCS / "macro_stress.json")
+    stressed_markets = []
+    for market_id, market in (macro_stress_json.get("markets") or {}).items():
+        score = sf(market.get("stress_score"))
+        if score is None or score < 70:
+            continue
+        exposure = market.get("equity_exposure") or {}
+        beneficiaries = exposure.get("beneficiaries") or []
+        stressed_markets.append({
+            "market": str(market.get("label") or market_id),
+            "score": round(score, 1),
+            "regime": str(market.get("regime") or market.get("band") or "STRESS"),
+            "exposed": beneficiaries[:4],
+        })
+    stressed_markets = sorted(stressed_markets, key=lambda item: -item["score"])[:3]
 
     sections = {
         "regime": us_regime,
@@ -1386,6 +1401,7 @@ def generate_personal_briefing(entry_sigs: dict, convergence: dict, alerts: dict
         "traps_warning":    [(t["ticker"], t["trap_score"]) for t in traps_high],
         "exit_warnings":    [(e["ticker"], "; ".join(e["reasons"][:1])) for e in exits_high],
         "smart_money":      [(s["ticker"], s["n_hedge_funds"]) for s in smart_top],
+        "macro_stress":     stressed_markets,
     }
 
     # Build narrative prompt
@@ -1404,6 +1420,8 @@ TRAMPAS DETECTADAS: {', '.join(t[0] for t in sections['traps_warning']) or 'ning
 SEÑALES DE SALIDA: {', '.join(f"{t[0]}: {t[1]}" for t in sections['exit_warnings']) or 'ninguna'}
 
 SMART MONEY: {', '.join(f"{t[0]}({t[1]} HF)" for t in sections['smart_money']) or 'ningún cruce HF+insiders'}
+
+MACRO STRESS: {', '.join(f"{m['market']}({m['score']})" for m in stressed_markets) or 'sin mercados en rojo'}
 
 Redacta un briefing matutino en español (máx 5 frases) como si fuera un analista de confianza:
 qué hacer hoy, qué vigilar, qué evitar. Sé directo y conciso."""

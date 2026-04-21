@@ -462,6 +462,38 @@ export default function Cerebro() {
                 </Card>
               )}
 
+              {/* Macro stress */}
+              {briefingData.sections.macro_stress.length > 0 && (
+                <Card className="glass border-orange-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Activity size={13} className="text-orange-300" />
+                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Macro Stress</span>
+                    </div>
+                    <div className="space-y-2">
+                      {briefingData.sections.macro_stress.map((item) => (
+                        <div key={item.market} className="rounded-lg border border-orange-500/15 bg-orange-500/8 px-3 py-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[0.8rem] font-bold text-foreground">{item.market}</span>
+                            <span className="ml-auto text-[0.65rem] font-bold text-orange-300">{item.score.toFixed(0)}</span>
+                          </div>
+                          <div className="mt-0.5 text-[0.65rem] text-muted-foreground">{item.regime}</div>
+                          {item.exposed.length > 0 && (
+                            <div className="mt-2 flex flex-wrap gap-1">
+                              {item.exposed.map((ticker) => (
+                                <span key={ticker} className="rounded-full border border-orange-500/20 bg-black/10 px-1.5 py-0.5 text-[0.58rem] font-bold text-orange-200">
+                                  {ticker}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Exits + traps */}
               {(briefingData.sections.exit_warnings.length > 0 || briefingData.sections.traps_warning.length > 0) && (
                 <Card className="glass border-red-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '180ms' }}>

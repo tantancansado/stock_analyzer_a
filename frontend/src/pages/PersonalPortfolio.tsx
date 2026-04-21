@@ -1,13 +1,14 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
-import { apiClient } from '@/api/client'
+import { apiClient, fetchMacroStress, type MacroStressMarket } from '@/api/client'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
 import PriceChart from '../components/PriceChart'
 import { useCerebroSignals, type CerebroMaps } from '../hooks/useCerebroSignals'
 import { usePortfolioConfluence, type ConfluenceSignals } from '../hooks/usePortfolioConfluence'
+import { useApi } from '../hooks/useApi'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -83,6 +84,14 @@ interface AnalysisResult {
   risk_metrics?: RiskMetrics
   portfolio_analysis: PortfolioAnalysis
   positions: PositionResult[]
+}
+
+interface MacroExposureWarning {
+  marketId: string
+  marketLabel: string
+  score: number
+  regime: string
+  side: 'beneficiary' | 'loser'
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -617,7 +626,7 @@ function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: s
   )
 }
 
-function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence }: {
+function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings }: {
   result?: PositionResult
   pos: Position
   userId: string
@@ -625,6 +634,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   onEdit: (id: string, shares: number, avgPrice: number) => void
   cerebro: CerebroMaps
   confluence: ConfluenceSignals | null
+  macroWarnings: MacroExposureWarning[]
 }) {
   const [expanded, setExpanded] = useState(false)
   const [editing, setEditing]   = useState(false)
@@ -832,6 +842,24 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         </div>
       )}
 
+      {macroWarnings.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 px-4 mb-3">
+          {macroWarnings.map((warning) => (
+            <span
+              key={`${warning.marketId}-${warning.side}`}
+              className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${
+                warning.side === 'beneficiary'
+                  ? 'bg-orange-500/15 text-orange-300 border-orange-500/30'
+                  : 'bg-rose-500/15 text-rose-300 border-rose-500/30'
+              }`}
+            >
+              <AlertTriangle size={9} />
+              {warning.marketLabel} {warning.side === 'beneficiary' ? '↑' : '↓'} · {warning.score.toFixed(0)}
+            </span>
+          ))}
+        </div>
+      )}
+
       {/* ── CHART ── */}
       <div className="mx-3 rounded-xl overflow-hidden border border-border/20 mb-3">
         <PriceChart ticker={ticker} height={58} mini />
@@ -927,6 +955,7 @@ export default function PersonalPortfolio() {
   const { user } = useAuth()
   const cerebro    = useCerebroSignals()
   const confluence = usePortfolioConfluence()
+  const { data: macroStressData } = useApi(() => fetchMacroStress(), [])
   const [positions, setPositions] = useState<Position[]>([])
   const [loadingDb, setLoadingDb] = useState(true)
   const [saving, setSaving]       = useState(false)
@@ -1039,6 +1068,39 @@ export default function PersonalPortfolio() {
   }, 0) ?? 0
 
   const dividendPositions = result?.positions.filter(p => p.dividend_yield && p.dividend_yield > 0) ?? []
+  const macroWarningsByTicker = useMemo<Record<string, MacroExposureWarning[]>>(() => {
+    const out: Record<string, MacroExposureWarning[]> = {}
+    const marketEntries = Object.entries(macroStressData?.markets ?? {})
+    if (!marketEntries.length || !positions.length) return out
+
+    const tickersInPortfolio = new Set(positions.map((pos) => pos.ticker.toUpperCase()))
+    for (const [marketId, market] of marketEntries) {
+      const score = market.stress_score ?? 0
+      if (score < 70) continue
+
+      const pushWarning = (ticker: string, side: 'beneficiary' | 'loser', marketData: MacroStressMarket) => {
+        const clean = ticker.toUpperCase()
+        if (!tickersInPortfolio.has(clean)) return
+        if (!out[clean]) out[clean] = []
+        out[clean].push({
+          marketId,
+          marketLabel: marketData.label,
+          score,
+          regime: marketData.regime,
+          side,
+        })
+      }
+
+      for (const ticker of market.equity_exposure?.beneficiaries ?? []) pushWarning(ticker, 'beneficiary', market)
+      for (const ticker of market.equity_exposure?.losers ?? []) pushWarning(ticker, 'loser', market)
+    }
+    return out
+  }, [macroStressData, positions])
+
+  const macroWarningEntries = useMemo(
+    () => Object.entries(macroWarningsByTicker).sort((a, b) => a[0].localeCompare(b[0])),
+    [macroWarningsByTicker],
+  )
 
   if (loadingDb) {
     return (
@@ -1257,6 +1319,22 @@ export default function PersonalPortfolio() {
             ).length
             return (
               <>
+                {macroWarningEntries.length > 0 && (
+                  <div className="flex items-start gap-3 rounded-xl border border-orange-500/25 bg-orange-500/8 p-4">
+                    <AlertTriangle size={16} className="mt-0.5 shrink-0 text-orange-300" />
+                    <div>
+                      <p className="text-sm font-bold text-orange-300">
+                        Macro Stress detecta exposición en {macroWarningEntries.length} posición{macroWarningEntries.length > 1 ? 'es' : ''}
+                      </p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">
+                        {macroWarningEntries
+                          .map(([ticker, warnings]) => `${ticker} → ${warnings.map(w => `${w.marketLabel} ${w.score.toFixed(0)}`).join(', ')}`)
+                          .join(' · ')}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {posWithAlerts.length > 0 && (
                   <div className={`flex items-start gap-3 p-4 rounded-xl border ${criticalCount > 0 ? 'border-red-500/30 bg-red-500/8' : 'border-amber-500/25 bg-amber-500/6'}`}>
                     <Brain size={16} className={criticalCount > 0 ? 'text-red-400 mt-0.5 shrink-0' : 'text-amber-400 mt-0.5 shrink-0'} />
@@ -1282,6 +1360,7 @@ export default function PersonalPortfolio() {
                         onEdit={updatePosition}
                         cerebro={cerebro}
                         confluence={confluence[pos.ticker] ?? null}
+                        macroWarnings={macroWarningsByTicker[pos.ticker] ?? []}
                       />
                     </div>
                   ))}
