@@ -41,6 +41,7 @@ const BounceTrader     = lazy(() => import('./pages/BounceTrader'))
 const Calibration      = lazy(() => import('./pages/Calibration'))
 const OwnerEarnings    = lazy(() => import('./pages/OwnerEarnings'))
 const Manual           = lazy(() => import('./pages/Manual'))
+const LogoPreview      = lazy(() => import('./pages/LogoPreview'))
 
 function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: () => void }) {
   return (
@@ -274,6 +275,7 @@ export default function App() {
                   <Route path="/owner-earnings" element={<OwnerEarnings />} />
                   <Route path="/datos"           element={<Datos />} />
                   <Route path="/manual"          element={<Manual />} />
+                  <Route path="/logo-preview"    element={<LogoPreview />} />
                 </Route>
               </Routes>
             </motion.div>
