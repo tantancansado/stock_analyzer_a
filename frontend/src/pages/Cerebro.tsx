@@ -323,6 +323,18 @@ export default function Cerebro() {
   const signals       = convergence?.convergences ?? []
   const alerts        = alertsData?.alerts ?? []
   const entrySignals  = entryData?.signals ?? []
+  const briefingSections = {
+    regime: briefingData?.sections?.regime ?? '',
+    strong_buy_count: briefingData?.sections?.strong_buy_count ?? 0,
+    buy_count: briefingData?.sections?.buy_count ?? 0,
+    top_entries: briefingData?.sections?.top_entries ?? [],
+    top_convergences: briefingData?.sections?.top_convergences ?? [],
+    high_alerts: briefingData?.sections?.high_alerts ?? [],
+    traps_warning: briefingData?.sections?.traps_warning ?? [],
+    exit_warnings: briefingData?.sections?.exit_warnings ?? [],
+    smart_money: briefingData?.sections?.smart_money ?? [],
+    macro_stress: briefingData?.sections?.macro_stress ?? [],
+  }
 
   // Mean reversion bounces
   const mrRawObj = mrRaw as Record<string, unknown> | null
@@ -415,18 +427,18 @@ export default function Cerebro() {
           {briefingData?.sections && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {/* Top entries */}
-              {briefingData.sections.top_entries.length > 0 && (
+              {briefingSections.top_entries.length > 0 && (
                 <Card className="glass border-emerald-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '60ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Zap size={13} className="text-emerald-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Entradas hoy</span>
                       <span className="ml-auto text-[0.6rem] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/30 font-bold">
-                        {briefingData.sections.strong_buy_count} SB · {briefingData.sections.buy_count} BUY
+                        {briefingSections.strong_buy_count} SB · {briefingSections.buy_count} BUY
                       </span>
                     </div>
                     <div className="space-y-1.5">
-                      {briefingData.sections.top_entries.map(([ticker, score]) => (
+                      {briefingSections.top_entries.map(([ticker, score]) => (
                         <div key={ticker} className="flex items-center gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline w-12">{ticker}</Link>
@@ -442,7 +454,7 @@ export default function Cerebro() {
               )}
 
               {/* Smart money */}
-              {briefingData.sections.smart_money.length > 0 && (
+              {briefingSections.smart_money.length > 0 && (
                 <Card className="glass border-purple-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '120ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
@@ -450,7 +462,7 @@ export default function Cerebro() {
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Smart Money</span>
                     </div>
                     <div className="space-y-1.5">
-                      {briefingData.sections.smart_money.map(([ticker, nHF]) => (
+                      {briefingSections.smart_money.map(([ticker, nHF]) => (
                         <div key={ticker} className="flex items-center gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
@@ -463,7 +475,7 @@ export default function Cerebro() {
               )}
 
               {/* Macro stress */}
-              {briefingData.sections.macro_stress.length > 0 && (
+              {briefingSections.macro_stress.length > 0 && (
                 <Card className="glass border-orange-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
@@ -471,7 +483,7 @@ export default function Cerebro() {
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Macro Stress</span>
                     </div>
                     <div className="space-y-2">
-                      {briefingData.sections.macro_stress.map((item) => (
+                      {briefingSections.macro_stress.map((item) => (
                         <div key={item.market} className="rounded-lg border border-orange-500/15 bg-orange-500/8 px-3 py-2">
                           <div className="flex items-center gap-2">
                             <span className="text-[0.8rem] font-bold text-foreground">{item.market}</span>
@@ -495,7 +507,7 @@ export default function Cerebro() {
               )}
 
               {/* Exits + traps */}
-              {(briefingData.sections.exit_warnings.length > 0 || briefingData.sections.traps_warning.length > 0) && (
+              {(briefingSections.exit_warnings.length > 0 || briefingSections.traps_warning.length > 0) && (
                 <Card className="glass border-red-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '180ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
@@ -503,14 +515,14 @@ export default function Cerebro() {
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Vigilar / Salir</span>
                     </div>
                     <div className="space-y-1.5">
-                      {briefingData.sections.exit_warnings.map(([ticker, reason]) => (
+                      {briefingSections.exit_warnings.map(([ticker, reason]) => (
                         <div key={`exit-${ticker}`} className="flex items-start gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0 mt-0.5" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-red-400 text-[0.8rem] hover:underline w-12 shrink-0">{ticker}</Link>
                           <span className="text-[0.65rem] text-muted-foreground leading-tight">{reason}</span>
                         </div>
                       ))}
-                      {briefingData.sections.traps_warning.map(([ticker, score]) => (
+                      {briefingSections.traps_warning.map(([ticker, score]) => (
                         <div key={`trap-${ticker}`} className="flex items-center gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-amber-400 text-[0.8rem] hover:underline">{ticker}</Link>
@@ -523,7 +535,7 @@ export default function Cerebro() {
               )}
 
               {/* Convergences */}
-              {briefingData.sections.top_convergences.length > 0 && (
+              {briefingSections.top_convergences.length > 0 && (
                 <Card className="glass border-cyan-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '240ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
@@ -531,7 +543,7 @@ export default function Cerebro() {
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Convergencias</span>
                     </div>
                     <div className="space-y-1.5">
-                      {briefingData.sections.top_convergences.map(([ticker, score]) => (
+                      {briefingSections.top_convergences.map(([ticker, score]) => (
                         <div key={ticker} className="flex items-center gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
@@ -544,7 +556,7 @@ export default function Cerebro() {
               )}
 
               {/* Alerts */}
-              {briefingData.sections.high_alerts.length > 0 && (
+              {briefingSections.high_alerts.length > 0 && (
                 <Card className="glass border-amber-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
@@ -552,7 +564,7 @@ export default function Cerebro() {
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Alertas HIGH</span>
                     </div>
                     <div className="space-y-1.5">
-                      {briefingData.sections.high_alerts.map(([ticker, type]) => (
+                      {briefingSections.high_alerts.map(([ticker, type]) => (
                         <div key={`alert-${ticker}-${type}`} className="flex items-center gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
