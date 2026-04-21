@@ -1,25 +1,51 @@
 import { useLocation } from 'react-router-dom'
-import { NAV_PRIMARY, NAV_SECONDARY } from '@/lib/nav'
+import {
+  LogoOrbit,
+  LogoBrainPulse,
+  LogoCandleBull,
+  LogoRadar,
+  LogoInsiders,
+  LogoBounce,
+  LogoVault,
+  LogoSeed,
+  LogoSonar,
+  LogoChartPeak,
+} from './BrandLogos'
 
-const ALL = [...NAV_PRIMARY, ...NAV_SECONDARY]
+type LogoComp = React.ComponentType<{ size?: number; className?: string }>
 
-function matchLogo(pathname: string): string | undefined {
-  const hit = ALL.find(item => item.logo && (pathname === item.path || pathname.startsWith(`${item.path}/`)))
-  return hit?.logo
+// Pathname prefix → animated logo. First match wins.
+const ROUTE_LOGOS: ReadonlyArray<readonly [string, LogoComp]> = [
+  ['/dashboard',      LogoChartPeak],
+  ['/cerebro',        LogoBrainPulse],
+  ['/value',          LogoCandleBull],
+  ['/macro',          LogoRadar],
+  ['/insiders',       LogoInsiders],
+  ['/bounce',         LogoBounce],
+  ['/my-portfolio',   LogoVault],
+  ['/owner-earnings', LogoSeed],
+  ['/search',         LogoSonar],
+]
+
+function pickLogo(pathname: string): LogoComp | null {
+  for (const [prefix, Comp] of ROUTE_LOGOS) {
+    if (pathname === prefix || pathname.startsWith(`${prefix}/`) || pathname.startsWith(`${prefix}-`)) {
+      return Comp
+    }
+  }
+  return null
 }
 
 export default function PageLlama() {
   const { pathname } = useLocation()
-  const logo = matchLogo(pathname)
-  if (!logo) return null
+  const Comp = pickLogo(pathname) ?? LogoOrbit
 
   return (
-    <img
-      src={`${import.meta.env.BASE_URL}${logo}`}
-      alt=""
+    <div
       aria-hidden="true"
-      className="pointer-events-none fixed top-16 right-4 md:right-6 w-9 h-9 md:w-11 md:h-11 rounded-full opacity-20 hover:opacity-60 transition-opacity duration-300 z-20 select-none"
-      draggable={false}
-    />
+      className="pointer-events-none fixed top-16 right-4 md:right-6 w-9 h-9 md:w-11 md:h-11 opacity-25 hover:opacity-70 transition-opacity duration-300 z-20 select-none"
+    >
+      <Comp size={44} className="w-full h-full" />
+    </div>
   )
 }
