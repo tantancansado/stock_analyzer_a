@@ -130,7 +130,13 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
       )
     }
 
-    // Pipeline ran but this module didn't update → amber warning
+    // If today's pipeline hasn't run yet (still overnight / in-progress),
+    // don't raise an amber flag per-module — the whole pipeline is simply
+    // one cycle behind. The global "pipelineRanRecently" check above
+    // already covered the "really stale" case.
+    if (!pipelineRanToday) return null
+
+    // Pipeline ran today but this module didn't update → amber warning
     const moduleDate = mod?.date ?? null
     const daysOld = moduleDate ? Math.floor(daysSince(moduleDate)) : null
     return (
@@ -144,9 +150,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
             )}
           </div>
           <div className="text-[0.7rem] text-muted-foreground/60">
-            {pipelineRanToday
-              ? 'El pipeline corrió hoy pero este módulo no generó datos nuevos — puede haber fallado o no tener datos disponibles.'
-              : `Pipeline ejecutado: ${formatDate(health.generated_at)}`}
+            El pipeline corrió hoy pero este módulo no generó datos nuevos — puede haber fallado o no tener datos disponibles.
           </div>
         </div>
         <a href={ACTIONS_URL} target="_blank" rel="noopener noreferrer"
