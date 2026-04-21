@@ -310,6 +310,11 @@ export const fetchGlobalValueOpportunities = async (): Promise<{
   }
 }
 
+const MOMENTUM_NUMERIC = new Set([
+  'current_price','momentum_score','vcp_score','proximity_to_52w_high',
+  'trend_template_score','target_price_analyst','analyst_upside_pct',
+])
+
 export const fetchMomentumOpportunities = async (): Promise<{
   data: { data: MomentumOpportunity[]; count: number; source: string }
 }> => {
@@ -320,7 +325,18 @@ export const fetchMomentumOpportunities = async (): Promise<{
         const text = await res.text()
         const rows = parseCsvRows(text)
         if (rows.length > 0) {
-          const data = rows.map(r => ({ ...r } as unknown as MomentumOpportunity))
+          const data = rows.map(r => {
+            const obj: Record<string, unknown> = {}
+            for (const [k, v] of Object.entries(r)) {
+              if (MOMENTUM_NUMERIC.has(k)) {
+                const n = v === '' ? null : Number(v)
+                obj[k] = (n !== null && Number.isNaN(n)) ? null : n
+              } else {
+                obj[k] = v === '' ? undefined : v
+              }
+            }
+            return obj as unknown as MomentumOpportunity
+          })
           return { data: { data, count: data.length, source: 'github-pages' } }
         }
       }

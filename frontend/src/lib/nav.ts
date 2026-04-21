@@ -3,7 +3,7 @@ import {
   PieChart, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Star, Radar, CalendarDays, AlertTriangle,
   DollarSign, Wallet, Bell, Brain,
-  Crosshair, Calculator, Shuffle,
+  Crosshair, Calculator, Shuffle, BookOpen,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -36,6 +36,7 @@ export const NAV_SECONDARY: NavLinkItem[] = [
   { path: '/backtest',        icon: FlaskConical,  label: 'Backtest',        color: '#6366f1', keywords: ['backtest', 'historico', 'simulacion'] },
   { path: '/compare',         icon: Shuffle,       label: 'Comparar tickers', color: '#0ea5e9', keywords: ['comparar', 'comparador', 'compare'] },
   { path: '/datos',           icon: Database,      label: 'Exportar datos',   color: '#64748b', keywords: ['datos', 'historial', 'csv', 'descarga', 'exportar'] },
+  { path: '/manual',          icon: BookOpen,      label: 'Manual',           color: '#94a3b8', keywords: ['manual', 'ayuda', 'help', 'guia', 'documentacion', 'como funciona'] },
 ]
 
 // All items flat (for command palette)
