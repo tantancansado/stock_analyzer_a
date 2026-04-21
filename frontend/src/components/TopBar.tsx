@@ -114,19 +114,20 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
         <button
           type="button"
           onClick={onOpenCmd}
-          className="topbar-action hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-primary/25 bg-primary/5 hover:bg-primary/10 hover:border-primary/40 transition-all text-muted-foreground/60 hover:text-foreground text-[0.82rem] lg:text-[0.9rem]"
+          className="topbar-action hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 hover:border-border transition-colors text-muted-foreground/70 hover:text-foreground text-[0.78rem]"
           aria-label="Buscar"
         >
-          <Search size={12} strokeWidth={1.75} className="text-primary/60" />
-          <span className="text-[0.8rem] lg:text-[0.88rem]">Buscar... ⌘K</span>
+          <Search size={12} strokeWidth={1.75} className="text-muted-foreground/60" />
+          <span>Buscar</span>
+          <kbd className="hidden lg:inline-flex items-center font-mono text-[0.62rem] px-1 py-0 rounded border border-border/50 bg-muted/20 text-muted-foreground/70 ml-1">⌘K</kbd>
         </button>
         <button
           type="button"
           onClick={onOpenCmd}
-          className="topbar-action sm:hidden flex items-center justify-center w-8 h-8 rounded-lg border border-primary/25 bg-primary/5 hover:bg-primary/10 transition-all"
+          className="topbar-action sm:hidden flex items-center justify-center w-8 h-8 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 transition-colors"
           aria-label="Buscar"
         >
-          <Search size={14} strokeWidth={1.75} className="text-primary/60" />
+          <Search size={14} strokeWidth={1.75} className="text-muted-foreground/70" />
         </button>
 
         {/* Real pipeline freshness indicator */}
