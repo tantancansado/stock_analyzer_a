@@ -93,6 +93,9 @@ export interface ValueOpportunity {
   ai_reasoning?: string | null
   ai_verdict?: string | null
   ai_confidence?: number | null
+  // Owner Earnings AI validator (owner_earnings_validator.py)
+  oe_ai_adjustment?: number | null
+  oe_ai_verdict?: string | null
 }
 
 export interface MomentumOpportunity {
@@ -252,7 +255,7 @@ const VALUE_NUMERIC = new Set([
   'rs_line_percentile','eps_growth_yoy','eps_accel_quarters','rev_growth_yoy','rev_accel_quarters',
   'fifty_two_week_high','trend_template_score','target_price_dcf','target_price_dcf_upside_pct',
   'target_price_pe','target_price_pe_upside_pct','fcf_per_share','short_percent_float',
-  'short_ratio','market_cape','pct_from_52w_high',
+  'short_ratio','market_cape','pct_from_52w_high','oe_ai_adjustment',
 ])
 
 const VALUE_BOOLEAN = new Set([
@@ -806,6 +809,26 @@ export const fetchMacroCountries = () =>
 export const fetchMacroRadarHistory = () =>
   apiClient.get<{ history: Array<{ date: string; composite_score: number; composite_pct: number; regime: string; regime_color: string }> }>('/api/macro-radar/history')
 
+export interface MacroStressMarket {
+  name: string
+  category?: string
+  primary_ticker?: string
+  stress_score: number | null
+  band: string
+  signals_used?: number
+  signals: Record<string, { score: number | null; weight: number; context?: unknown }>
+  equity_exposure?: { long_benefits?: string[]; short_benefits?: string[] }
+  analogues?: { analogues: unknown[]; note?: string }
+}
+
+export interface MacroStressResponse {
+  generated_at: string
+  markets: Record<string, MacroStressMarket>
+}
+
+export const fetchMacroStress = () =>
+  apiClient.get<MacroStressResponse>('/api/macro-stress')
+
 export interface PipelineStatus {
   last_run: string    // ISO UTC e.g. "2026-04-03T07:45:00Z"
   run_date: string    // YYYY-MM-DD
@@ -875,10 +898,64 @@ export interface EarningsEntry {
   fundamental_score: number | null
   current_price: number | null
   analyst_upside_pct: number | null
+  is_portfolio?: boolean
+  portfolio_only_fetch?: boolean
 }
 
 export const fetchEarningsCalendar = () =>
   apiClient.get<{ earnings: EarningsEntry[]; total: number; as_of: string }>('/api/earnings-calendar')
+
+export type EarningsThesisVerdict = 'HOLD' | 'REDUCE' | 'EXIT_BEFORE' | 'ADD_AFTER' | 'HOLD_THROUGH'
+
+export interface EarningsThesis {
+  ticker: string
+  company_name?: string | null
+  sector?: string | null
+  earnings_date: string
+  days_to_earnings: number
+  current_price: number | null
+  fifty_two_week_high?: number | null
+  fifty_two_week_low?: number | null
+  avg_price?: number | null
+  shares?: number | null
+  unrealized_pct?: number | null
+  verdict: EarningsThesisVerdict
+  implied_move_pct: number | null
+  expected_eps: number | null
+  expected_revenue_millions: number | null
+  beat_rate_last_4q: number | null
+  key_risks: string[]
+  key_catalysts: string[]
+  thesis_summary: string
+  confidence: number
+  earnings_history?: Array<{
+    period: string
+    eps_estimate: number | null
+    eps_actual: number | null
+    surprise_pct: number | null
+    beat: boolean | null
+  }>
+}
+
+export const fetchEarningsThesis = async (ticker: string): Promise<EarningsThesis | null> => {
+  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+  if (csvBase) {
+    try {
+      const res = await fetch(`${csvBase}/earnings_theses.json`, { cache: 'no-store' })
+      if (res.ok) {
+        const data = await res.json() as { theses?: Record<string, EarningsThesis> }
+        const t = data?.theses?.[ticker.toUpperCase()] ?? null
+        if (t) return t
+      }
+    } catch { /* fall through to API */ }
+  }
+  try {
+    const res = await apiClient.get<{ ticker: string; thesis: EarningsThesis }>(`/api/earnings-thesis/${ticker.toUpperCase()}`)
+    return res.data?.thesis ?? null
+  } catch {
+    return null
+  }
+}
 
 export interface EconEvent {
   date: string

@@ -59,6 +59,7 @@ import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
 import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import CerebroBadges from '../components/CerebroBadges'
+import OeAiBadge from '../components/OeAiBadge'
 
 const MARKET_FLAGS: Record<string, string> = {
   DAX40: '🇩🇪', FTSE100: '🇬🇧', CAC40: '🇫🇷',
@@ -539,6 +540,10 @@ export default function ValueEU() {
                 <InfoTooltip text="Risk:Reward = upside analista / 8% stop loss estándar. ≥3 excelente (verde), ≥2 bueno, <1 desfavorable (rojo). Mide si el potencial de ganancia justifica el riesgo." />
               </TableHead>
               <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
+                OE AI
+                <InfoTooltip text="Validación IA del modelo Owner Earnings (FCF-based). Evalúa calidad del dato subyacente y corrección de la tesis. Verde=RELIABLE/BUY · Rojo=RELIABLE/AVOID · Gris=UNRELIABLE (dato no fiable). Ajusta ±8pts el value_score (−10 si UNRELIABLE)." align="right" />
+              </TableHead>
+              <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                 Div/BB
                 <InfoTooltip text="Dividend yield del ticker. 'BB' indica que la empresa está recomprando acciones propias activamente (buyback), lo que también retorna capital al accionista." align="right" />
               </TableHead>
@@ -637,6 +642,9 @@ export default function ValueEU() {
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">{fmtFcf(d.fcf_yield_pct)}</TableCell>
                     <TableCell className={compact ? 'hidden' : ''}>{fmtRR(d.risk_reward_ratio)}</TableCell>
+                    <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
+                      <OeAiBadge verdict={d.oe_ai_verdict} adjustment={d.oe_ai_adjustment} />
+                    </TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                       {d.dividend_yield_pct != null && d.dividend_yield_pct > 0
                         ? <span className="text-emerald-400">{d.dividend_yield_pct.toFixed(1)}%{d.buyback_active ? '+BB' : ''}</span>

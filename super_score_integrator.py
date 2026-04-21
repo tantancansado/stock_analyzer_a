@@ -1244,6 +1244,33 @@ class SuperScoreIntegrator:
 
         df['value_score'] = df['value_score'].clip(lower=0, upper=100)
 
+        # ── Owner Earnings AI Validator adjustment (±8 matrix, -10 UNRELIABLE) ─
+        oe_ai_path = Path("docs/owner_earnings_ai_validated.json")
+        if oe_ai_path.exists():
+            try:
+                oe_raw = json.loads(oe_ai_path.read_text())
+                oe_map = oe_raw.get("results") or {}
+                if oe_map:
+                    def _oe_verdict(r: dict) -> tuple[int, str]:
+                        adj = int(r.get("score_adjustment", 0) or 0)
+                        verdict = r.get("oe_ai_verdict")
+                        if not verdict:
+                            dq = str(r.get("data_quality", "")).upper()
+                            tv = str(r.get("thesis_verdict", "")).upper()
+                            sign = f"+{adj}" if adj > 0 else f"{adj}"
+                            verdict = f"{dq}/{tv} ({sign})"
+                        return adj, verdict
+
+                    adj_series = df["ticker"].str.upper().map(lambda t: _oe_verdict(oe_map[t])[0] if t in oe_map else 0)
+                    verdict_series = df["ticker"].str.upper().map(lambda t: _oe_verdict(oe_map[t])[1] if t in oe_map else "")
+                    df["oe_ai_adjustment"] = adj_series.fillna(0).astype(int)
+                    df["oe_ai_verdict"] = verdict_series.fillna("")
+                    df["value_score"] = (df["value_score"] + df["oe_ai_adjustment"]).clip(lower=0, upper=100)
+                    touched = int((df["oe_ai_adjustment"] != 0).sum())
+                    print(f"🤖 Owner Earnings AI: {touched}/{len(df)} ajustes aplicados (±8 matrix, -10 UNRELIABLE)")
+            except Exception as e:
+                print(f"⚠️  Owner Earnings AI load failed (skipping): {e}")
+
         # ── Cerebro IA adjustment (Phase 2) ───────────────────────────────────
         cerebro_csv = Path("docs/cerebro_ticker_signals.csv")
         if cerebro_csv.exists():

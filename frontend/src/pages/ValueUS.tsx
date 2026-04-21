@@ -22,6 +22,7 @@ import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
 import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import { useChartSignals } from '../hooks/useChartSignals'
 import CerebroBadges from '../components/CerebroBadges'
+import OeAiBadge from '../components/OeAiBadge'
 import type { TechnicalSummary } from '../api/client'
 import PageHeader from '../components/PageHeader'
 
@@ -588,6 +589,10 @@ export default function ValueUS() {
                 <InfoTooltip text="Risk:Reward = upside analista / 8% stop loss estándar. ≥3 excelente (verde), ≥2 bueno, <1 desfavorable (rojo). Mide si el potencial de ganancia justifica el riesgo." />
               </TableHead>
               <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
+                OE AI
+                <InfoTooltip text="Validación IA del modelo Owner Earnings (FCF-based). Evalúa calidad del dato subyacente y corrección de la tesis. Verde=RELIABLE/BUY · Rojo=RELIABLE/AVOID · Gris=UNRELIABLE (dato no fiable). Ajusta ±8pts el value_score (−10 si UNRELIABLE)." align="right" />
+              </TableHead>
+              <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                 Div/BB
                 <InfoTooltip text="Dividend yield del ticker. 'BB' indica que la empresa está recomprando acciones propias activamente (buyback), lo que también retorna capital al accionista." />
               </TableHead>
@@ -701,6 +706,9 @@ export default function ValueUS() {
                   </TableCell>
                   <TableCell className="hidden sm:table-cell">{fmtFcf(d.fcf_yield_pct)}</TableCell>
                   <TableCell className={compact ? 'hidden' : ''}>{fmtRR(d.risk_reward_ratio)}</TableCell>
+                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
+                    <OeAiBadge verdict={d.oe_ai_verdict} adjustment={d.oe_ai_adjustment} />
+                  </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>{fmtDivBB(d)}</TableCell>
                   <TableCell>{fmtEarn(d)}</TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>

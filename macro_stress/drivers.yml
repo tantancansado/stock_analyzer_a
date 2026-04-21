@@ -1,0 +1,31 @@
+markets:
+  crude_oil:
+    name: "Crude Oil (WTI)"
+    category: energy
+    primary_ticker: "CL=F"
+    equity_exposure:
+      long_benefits: [XOM, CVX, COP, OXY, EOG, SLB, XLE]
+      short_benefits: [JBLU, DAL, UAL, AAL, LUV]
+    signals:
+      inventory:
+        weight: 0.25
+        collector: eia_inventories
+        series: "PET.WCESTUS1.W"
+        direction: contrarian
+      curve_shape:
+        weight: 0.20
+        collector: futures_curves
+        ticker_chain: ["CL=F", "CL1!", "CL2!"]
+      geopolitical:
+        weight: 0.25
+        collector: gdelt_events
+        regions: [hormuz, suez, red_sea]
+        keywords: [tanker, refinery, attack, sanctions, embargo]
+      positioning:
+        weight: 0.15
+        collector: cftc_cot
+        contract: "crude_oil_wti"
+      refinery_utilization:
+        weight: 0.15
+        collector: eia_inventories
+        series: "PET.WPULEUS3.W"

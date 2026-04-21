@@ -25,3 +25,6 @@ gunicorn==23.0.0
 PyJWT[crypto]>=2.8.0
 cryptography>=42.0.0
 # es256-support
+
+# Macro Stress Radar — declarative driver configs
+pyyaml>=6.0

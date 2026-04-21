@@ -1925,6 +1925,29 @@ def macro_radar():
     return jsonify(data)
 
 
+@app.route('/api/macro-stress')
+def macro_stress():
+    data = _load_json(DOCS / 'macro_stress.json')
+    if not data:
+        return jsonify({"error": "No macro stress data available"}), 404
+    return jsonify(data)
+
+
+@app.route('/api/macro-stress/<market>')
+def macro_stress_market(market):
+    data = _load_json(DOCS / 'macro_stress.json')
+    if not data:
+        return jsonify({"error": "No macro stress data available"}), 404
+    entry = (data.get('markets') or {}).get(market)
+    if not entry:
+        return jsonify({"error": f"Unknown market: {market}"}), 404
+    return jsonify({
+        "generated_at": data.get("generated_at"),
+        "market_id": market,
+        **entry,
+    })
+
+
 @app.route('/api/macro-countries')
 def macro_countries():
     data = _load_json(DOCS / 'macro_country_analysis.json')
@@ -2134,38 +2157,175 @@ def dividend_calendar():
     return jsonify(result_data)
 
 
+_PORTFOLIO_EARNINGS_CACHE: dict = {}
+_PORTFOLIO_EARNINGS_TTL_S = 6 * 3600
+
+
+def _extract_jwt_sub(token: str) -> str | None:
+    try:
+        payload = pyjwt.decode(token, options={"verify_signature": False, "verify_aud": False})
+        sub = payload.get('sub')
+        return str(sub) if sub else None
+    except Exception:
+        return None
+
+
+def _fetch_portfolio_tickers(user_id: str) -> list[str]:
+    supabase_url = (os.environ.get('SUPABASE_URL') or SUPABASE_URL or '').rstrip('/')
+    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
+    if not supabase_url or not service_key or not user_id:
+        return []
+    import requests as _rq
+    url = f"{supabase_url}/rest/v1/personal_portfolio_positions?select=ticker&user_id=eq.{user_id}"
+    try:
+        r = _rq.get(url, headers={
+            'apikey': service_key,
+            'Authorization': f'Bearer {service_key}',
+            'Content-Type': 'application/json',
+        }, timeout=8)
+        if r.status_code != 200:
+            return []
+        rows = r.json()
+        seen: set[str] = set()
+        out: list[str] = []
+        for row in rows:
+            t = (row.get('ticker') or '').strip().upper()
+            if t and t not in seen:
+                seen.add(t)
+                out.append(t)
+        return out
+    except Exception:
+        return []
+
+
+def _live_fetch_earnings_for_tickers(tickers: list[str]) -> list[dict]:
+    if not tickers:
+        return []
+    from datetime import datetime as _dt, date as _date
+    import yfinance as _yf
+    today = _dt.now().date()
+    out: list[dict] = []
+    for t in tickers:
+        try:
+            cal = _yf.Ticker(t).calendar
+            edate = None
+            if isinstance(cal, dict):
+                raw = cal.get('Earnings Date')
+                if isinstance(raw, list) and raw:
+                    futures = [d for d in raw if isinstance(d, _date) and d >= today]
+                    edate = min(futures) if futures else None
+            if not edate:
+                continue
+            info = {}
+            try:
+                info = _yf.Ticker(t).info or {}
+            except Exception:
+                info = {}
+            days = (edate - today).days
+            out.append({
+                'ticker': t,
+                'company': str(info.get('longName') or info.get('shortName') or t),
+                'sector': str(info.get('sector') or ''),
+                'earnings_date': edate.strftime('%Y-%m-%d'),
+                'days_to_earnings': float(days),
+                'earnings_warning': bool(days <= 7),
+                'earnings_catalyst': False,
+                'fundamental_score': None,
+                'current_price': _sf(info.get('currentPrice') or info.get('previousClose')),
+                'analyst_upside_pct': None,
+                'portfolio_only_fetch': True,
+            })
+        except Exception:
+            continue
+    return out
+
+
 @app.route('/api/earnings-calendar')
 def earnings_calendar():
-    """Return upcoming earnings from fundamental_scores.csv sorted by date."""
+    """Return upcoming earnings from fundamental_scores.csv, augmented with live fetch
+    for portfolio tickers missing from the curated universe."""
     from datetime import datetime as dt2
     df = _load_csv(DOCS / 'fundamental_scores.csv')
-    if df is None:
-        return jsonify({'earnings': []}), 200
-
-    df = df.reset_index()
-    rows = []
     today_str = dt2.now().strftime('%Y-%m-%d')
-    for _, row in df.iterrows():
-        edate = str(row.get('earnings_date', '') or '')
-        if not edate or edate in ('nan', 'NaT', 'None', ''):
-            continue
-        # Only future earnings
-        if edate < today_str:
-            continue
-        rows.append({
-            'ticker': str(row.get('ticker', '')),
-            'company': str(row.get('company_name', '')),
-            'sector': str(row.get('sector', '')),
-            'earnings_date': edate,
-            'days_to_earnings': _sf(row.get('days_to_earnings')),
-            'earnings_warning': bool(row.get('earnings_warning', False)),
-            'earnings_catalyst': bool(row.get('earnings_catalyst', False)),
-            'fundamental_score': _sf(row.get('fundamental_score')),
-            'current_price': _sf(row.get('current_price')),
-            'analyst_upside_pct': _sf(row.get('analyst_upside_pct')),
-        })
+    rows: list[dict] = []
+    curated_tickers: set[str] = set()
+    if df is not None:
+        df = df.reset_index()
+        for _, row in df.iterrows():
+            edate = str(row.get('earnings_date', '') or '')
+            t = str(row.get('ticker', '')).upper()
+            if t:
+                curated_tickers.add(t)
+            if not edate or edate in ('nan', 'NaT', 'None', ''):
+                continue
+            if edate < today_str:
+                continue
+            rows.append({
+                'ticker': t,
+                'company': str(row.get('company_name', '')),
+                'sector': str(row.get('sector', '')),
+                'earnings_date': edate,
+                'days_to_earnings': _sf(row.get('days_to_earnings')),
+                'earnings_warning': bool(row.get('earnings_warning', False)),
+                'earnings_catalyst': bool(row.get('earnings_catalyst', False)),
+                'fundamental_score': _sf(row.get('fundamental_score')),
+                'current_price': _sf(row.get('current_price')),
+                'analyst_upside_pct': _sf(row.get('analyst_upside_pct')),
+                'portfolio_only_fetch': False,
+            })
+
+    user_id: str | None = None
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').strip()
+    if token:
+        user_id = _extract_jwt_sub(token)
+
+    portfolio_tickers: list[str] = []
+    live_rows: list[dict] = []
+    if user_id:
+        portfolio_tickers = _fetch_portfolio_tickers(user_id)
+        missing = [t for t in portfolio_tickers if t not in curated_tickers]
+        if missing:
+            cache_entry = _PORTFOLIO_EARNINGS_CACHE.get(user_id)
+            now_ts = time.time()
+            if cache_entry and (now_ts - cache_entry['ts'] < _PORTFOLIO_EARNINGS_TTL_S) and set(cache_entry['tickers']) == set(missing):
+                live_rows = cache_entry['rows']
+            else:
+                live_rows = _live_fetch_earnings_for_tickers(missing)
+                _PORTFOLIO_EARNINGS_CACHE[user_id] = {'ts': now_ts, 'tickers': missing, 'rows': live_rows}
+
+    rows.extend(live_rows)
+
+    portfolio_set = {t.upper() for t in portfolio_tickers}
+    for r in rows:
+        r['is_portfolio'] = r['ticker'].upper() in portfolio_set
+
     rows.sort(key=lambda x: x['earnings_date'])
     return jsonify({'earnings': rows, 'total': len(rows), 'as_of': today_str})
+
+
+@app.route('/api/earnings-theses')
+def earnings_theses_all():
+    data = _load_json(DOCS / 'earnings_theses.json')
+    if not data:
+        return jsonify({'generated_at': None, 'theses': {}, 'total': 0})
+    return jsonify(data)
+
+
+@app.route('/api/earnings-thesis/<ticker>')
+def earnings_thesis_one(ticker):
+    ticker = ticker.upper().strip()
+    data = _load_json(DOCS / 'earnings_theses.json')
+    if not data:
+        return jsonify({'error': 'not_found', 'ticker': ticker}), 404
+    theses = data.get('theses') or {}
+    thesis = theses.get(ticker) or theses.get(ticker.upper())
+    if not thesis:
+        return jsonify({'error': 'not_found', 'ticker': ticker}), 404
+    return jsonify({
+        'ticker': ticker,
+        'generated_at': data.get('generated_at'),
+        'thesis': thesis,
+    })
 
 
 @app.route('/api/smart-portfolio', methods=['GET'])

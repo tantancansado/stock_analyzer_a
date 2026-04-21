@@ -4,10 +4,11 @@ import type { EarningsEntry } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
-import { Calendar, AlertTriangle, Zap, TrendingUp, Wallet } from 'lucide-react'
+import { Calendar, AlertTriangle, Zap, TrendingUp, Wallet, Bot } from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
+import EarningsThesisModal from '../components/EarningsThesisModal'
 
 type FilterMode = 'all' | 'warning' | 'catalyst' | 'portfolio'
 
@@ -62,32 +63,40 @@ export default function EarningsCalendar() {
   const { data, loading, error } = useApi(() => fetchEarningsCalendar(), [])
   const [filter, setFilter] = useState<FilterMode>('all')
   const [search, setSearch] = useState('')
+  const [thesisTicker, setThesisTicker] = useState<string | null>(null)
   const deferredSearch = useDeferredValue(search)
   const { positions: myPositions } = usePersonalPortfolio()
 
   const myTickers = useMemo(() => new Set(myPositions.map(p => p.ticker?.toUpperCase() ?? '').filter(Boolean)), [myPositions])
+
+  const isPortfolioRow = (r: EarningsEntry): boolean => {
+    if (r.is_portfolio === true) return true
+    return r.ticker ? myTickers.has(r.ticker.toUpperCase()) : false
+  }
 
   const filtered = useMemo(() => {
     if (!data?.earnings) return []
     let rows = data.earnings
     if (filter === 'warning')   rows = rows.filter(r => r.earnings_warning)
     if (filter === 'catalyst')  rows = rows.filter(r => r.earnings_catalyst)
-    if (filter === 'portfolio') rows = rows.filter(r => r.ticker ? myTickers.has(r.ticker.toUpperCase()) : false)
+    if (filter === 'portfolio') rows = rows.filter(isPortfolioRow)
     if (deferredSearch.trim()) {
       const q = deferredSearch.trim().toUpperCase()
       rows = rows.filter(r => (r.ticker ?? '').includes(q) || (r.company ?? '').toUpperCase().includes(q) || (r.sector ?? '').toUpperCase().includes(q))
     }
     return rows
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, filter, deferredSearch, myTickers])
 
   const grouped = useMemo(() => groupByDate(filtered), [filtered])
   const sortedDates = Object.keys(grouped).sort()
 
   const myEarnings = useMemo(() => {
-    if (!data?.earnings || myTickers.size === 0) return []
+    if (!data?.earnings) return []
     return data.earnings
-      .filter(e => e.ticker ? myTickers.has(e.ticker.toUpperCase()) : false)
+      .filter(isPortfolioRow)
       .sort((a, b) => (a.days_to_earnings ?? 999) - (b.days_to_earnings ?? 999))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, myTickers])
 
   const warningCount = data?.earnings.filter(e => e.earnings_warning).length ?? 0
@@ -177,8 +186,20 @@ export default function EarningsCalendar() {
                           <Zap size={8} /> Catalizador
                         </span>
                       )}
+                      {entry.portfolio_only_fetch && (
+                        <span className="text-[0.58rem] font-semibold text-cyan-400 flex items-center gap-0.5" title="Fecha obtenida en vivo (fuera del universo curado)">
+                          🔄 Live
+                        </span>
+                      )}
                     </div>
                   </div>
+                  <button
+                    onClick={() => setThesisTicker(entry.ticker)}
+                    className="shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[0.6rem] font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
+                    title="Ver tesis IA de earnings"
+                  >
+                    <Bot size={10} /> Tesis IA
+                  </button>
                   <div className={`text-lg font-bold tabular-nums shrink-0 ${urgencyColor(entry.days_to_earnings, entry.earnings_warning)}`}>
                     {daysLabel(entry.days_to_earnings)}
                   </div>
@@ -269,6 +290,11 @@ export default function EarningsCalendar() {
                             <Zap size={9} /> Catalizador
                           </span>
                         )}
+                        {entry.portfolio_only_fetch && (
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/20" title="Fecha obtenida en vivo (fuera del universo curado)">
+                            🔄 Live
+                          </span>
+                        )}
                         {entry.fundamental_score != null && (
                           <span className="text-[0.62rem] text-muted-foreground/60 ml-1">
                             Fund: <span className="text-foreground/70 font-medium">{entry.fundamental_score.toFixed(0)}</span>
@@ -279,6 +305,15 @@ export default function EarningsCalendar() {
                             <TrendingUp size={9} className="inline mr-0.5" />
                             {entry.analyst_upside_pct >= 0 ? '+' : ''}{entry.analyst_upside_pct.toFixed(0)}%
                           </span>
+                        )}
+                        {isPortfolioRow(entry) && (
+                          <button
+                            onClick={() => setThesisTicker(entry.ticker)}
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.6rem] font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
+                            title="Ver tesis IA de earnings"
+                          >
+                            <Bot size={9} /> Tesis IA
+                          </button>
                         )}
                       </div>
                     </div>
@@ -307,6 +342,10 @@ export default function EarningsCalendar() {
           </div>
         </CardContent>
       </Card>
+
+      {thesisTicker && (
+        <EarningsThesisModal ticker={thesisTicker} onClose={() => setThesisTicker(null)} />
+      )}
     </div>
   )
 }

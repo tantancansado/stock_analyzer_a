@@ -78,7 +78,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy yfinance requests beautifulsoup4 lxml
           pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
-          pip install groq
+          pip install groq pyyaml
 
       # ── CRITICAL: estos dos deben pasar o el job falla ─────────────────────
       - name: Market Regime Detector
@@ -124,6 +124,12 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 macro_radar.py || echo "Macro radar failed"
 
+      - name: Macro Stress Radar (commodity dislocations)
+        continue-on-error: true
+        env:
+          EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
+        run: python3 -m macro_stress.macro_stress_radar || echo "Macro stress radar failed"
+
       - name: AI Filter European Value
         continue-on-error: true
         env:
@@ -157,6 +163,16 @@ jobs:
       - name: Owner Earnings Batch (pre-compute for GitHub Pages)
         continue-on-error: true
         run: python3 owner_earnings.py || echo "Owner earnings batch failed"
+
+      - name: Owner Earnings AI Validator
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python3 owner_earnings_validator.py || echo "Owner earnings AI validator failed"
+
+      - name: Apply Owner Earnings AI Adjustment
+        continue-on-error: true
+        run: python3 apply_oe_ai_adjustment.py || echo "Owner earnings AI patch failed"
 
       - name: Technical Signal Analyzer
         continue-on-error: true
@@ -236,7 +252,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas numpy yfinance requests beautifulsoup4 lxml
           pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
-          pip install groq
+          pip install groq pyyaml
 
       - name: Check Price Alerts (send emails via Resend)
         continue-on-error: true
@@ -261,6 +277,15 @@ jobs:
       - name: Earnings Calendar
         continue-on-error: true
         run: python3 earnings_calendar.py || echo "Earnings calendar failed"
+
+      - name: Earnings Thesis Generator
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
+        run: python3 earnings_thesis_generator.py || echo "Earnings thesis generation failed"
 
       - name: Mean Reversion
         continue-on-error: true
@@ -340,7 +365,11 @@ jobs:
             docs/fundamental_scores.csv \
             docs/options_flow.csv \
             docs/macro_radar.json \
+            docs/macro_stress.json \
             docs/dividend_traps.json \
+            docs/earnings_theses.json \
+            docs/owner_earnings_ai_validated.json \
+            docs/owner_earnings_ai_validated.csv \
             docs/cerebro_insights.json \
             docs/cerebro_convergence.json \
             docs/cerebro_alerts.json \
@@ -427,9 +456,11 @@ jobs:
             'cerebro':        ('docs/cerebro_briefing.json',                     'generated_at'),
             'mean_reversion': ('docs/mean_reversion_opportunities.json',         'generated_at'),
             'macro':          ('docs/macro_radar.json',                          'date'),
+            'macro_stress':   ('docs/macro_stress.json',                         'generated_at'),
             'insiders':       ('docs/recurring_insiders.csv',                    None),
             'portfolio':      ('docs/portfolio_tracker/recommendations.csv',     None),
             'earnings':       ('docs/earnings_calendar.json',                    'generated_at'),
+            'earnings_theses':('docs/earnings_theses.json',                      'generated_at'),
             'catalysts':      ('docs/catalysts.json',                            'generated_at'),
             'options_flow':   ('docs/options_flow.csv',                          None),
             'bounce':         ('docs/bounce_setups.json',                        'generated_at'),
