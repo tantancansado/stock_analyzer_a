@@ -80,47 +80,7 @@ export function LogoChartPeak({ size = 36, className = '', title = 'Stock Analyz
   )
 }
 
-// ── 3. SA MONOGRAM ──────────────────────────────────────────────────────────
-// Monograma "SA" geométrico con reveal. Corporativo y afilado.
-export function LogoMonogram({ size = 36, className = '', title = 'Stock Analyzer' }: Readonly<LogoProps>) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 64 64" className={className} aria-label={title} role="img">
-      <defs>
-        <linearGradient id="monoGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="hsl(194 100% 48%)" />
-          <stop offset="100%" stopColor="hsl(210 100% 60%)" />
-        </linearGradient>
-        <style>{`
-          @keyframes monoSweep { 0% { transform: translateX(-70%); } 100% { transform: translateX(70%); } }
-          @keyframes monoS { 0%,100% { stroke-dashoffset: 0; } 50% { stroke-dashoffset: 2; } }
-          .mn-sweep { animation: monoSweep 3s ease-in-out infinite; }
-        `}</style>
-        <clipPath id="monoClip">
-          <rect x="4" y="4" width="56" height="56" rx="8" />
-        </clipPath>
-      </defs>
-      {/* Background */}
-      <rect x="4" y="4" width="56" height="56" rx="8" fill="url(#monoGrad)" opacity="0.12" />
-      <rect x="4" y="4" width="56" height="56" rx="8" fill="none" stroke="url(#monoGrad)" strokeWidth="1.5" />
-      {/* Sweep highlight */}
-      <g clipPath="url(#monoClip)">
-        <rect className="mn-sweep" x="-24" y="-8" width="20" height="80" fill="hsl(194 100% 65%)" opacity="0.18" transform="skewX(-18)" />
-      </g>
-      {/* S */}
-      <path
-        d="M 26 20 Q 18 20 18 24 Q 18 28 23 29 L 29 31 Q 34 32 34 36 Q 34 40 26 40"
-        fill="none" stroke="url(#monoGrad)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-      />
-      {/* A */}
-      <path
-        d="M 36 44 L 42 22 L 48 44 M 38.5 36 L 45.5 36"
-        fill="none" stroke="url(#monoGrad)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-// ── 4. ORBIT ────────────────────────────────────────────────────────────────
+// ── 3. ORBIT ────────────────────────────────────────────────────────────────
 // Núcleo pulsante + 2 órbitas + satélites que giran. "Radar de señales".
 export function LogoOrbit({ size = 36, className = '', title = 'Stock Analyzer' }: Readonly<LogoProps>) {
   return (

@@ -1,35 +1,23 @@
 import { useState } from 'react'
-import { LogoCandleBull, LogoChartPeak, LogoMonogram, LogoOrbit } from '../components/BrandLogos'
-import LlamaLogo from '../components/LlamaLogo'
+import { LogoCandleBull, LogoChartPeak, LogoOrbit } from '../components/BrandLogos'
 import { Button } from '@/components/ui/button'
 
-type LogoKey = 'llama' | 'candle' | 'chart' | 'mono' | 'orbit'
+type LogoKey = 'orbit' | 'candle' | 'chart'
 
 const LOGOS: { key: LogoKey; name: string; blurb: string; Comp: React.ComponentType<{ size?: number; className?: string }> }[] = [
-  { key: 'candle', name: '1 · Candle Bull', blurb: 'Vela japonesa alcista + flecha que se dibuja. Glow respirando.', Comp: LogoCandleBull },
-  { key: 'chart',  name: '2 · Chart Peak', blurb: 'Línea de precio trazándose con dot pulsante al final.',           Comp: LogoChartPeak },
-  { key: 'mono',   name: '3 · SA Monogram', blurb: 'Monograma geométrico con barrido de luz (sweep).',              Comp: LogoMonogram },
-  { key: 'orbit',  name: '4 · Orbit',       blurb: 'Radar de señales: núcleo pulsante + 2 órbitas girando.',        Comp: LogoOrbit },
+  { key: 'orbit',  name: 'Orbit · Principal',     blurb: 'Logo principal — sidebar + favicon. Radar de señales.',        Comp: LogoOrbit },
+  { key: 'candle', name: 'Candle Bull · Value',   blurb: 'Ornamento en páginas VALUE US/EU. Vela alcista + flecha.',     Comp: LogoCandleBull },
+  { key: 'chart',  name: 'Chart Peak · Dashboard', blurb: 'Ornamento en Dashboard. Línea de precio trazándose.',          Comp: LogoChartPeak },
 ]
 
 export default function LogoPreview() {
-  const [selected, setSelected] = useState<LogoKey>('candle')
+  const [selected, setSelected] = useState<LogoKey>('orbit')
 
   return (
     <>
       <div className="mb-7 animate-fade-in-up">
-        <h1 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Logo Preview</h1>
-        <p className="text-sm text-muted-foreground">4 opciones animadas · dime cuál te gusta más y la instalo en el header</p>
-      </div>
-
-      {/* Comparación con el actual */}
-      <div className="mb-6 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 animate-fade-in-up">
-        <div className="text-[0.6rem] font-bold uppercase tracking-widest text-amber-400/80 mb-2">Logo actual (referencia)</div>
-        <div className="flex items-center gap-4">
-          <LlamaLogo size={36} />
-          <LlamaLogo size={56} />
-          <LlamaLogo size={96} />
-        </div>
+        <h1 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Sistema de logos</h1>
+        <p className="text-sm text-muted-foreground">Orbit es el logo principal; Candle Bull y Chart Peak se usan como ornamentos en Value y Dashboard.</p>
       </div>
 
       {/* Grid de candidatos */}
@@ -89,7 +77,7 @@ export default function LogoPreview() {
       </div>
 
       <div className="mt-8 p-4 rounded-xl border border-primary/20 bg-primary/5 text-sm text-muted-foreground animate-fade-in-up">
-        <span className="font-semibold text-foreground">Dime cuál te mola</span> (1/2/3/4) y lo instalo en el <code className="font-mono text-primary">App.tsx</code>, sustituyendo el logo de la llama en todos los sitios. Puedo ajustar colores, velocidad de animación o proporciones.
+        <span className="font-semibold text-foreground">Instalados:</span> Orbit en el sidebar, Candle Bull en Value US/EU, Chart Peak en Dashboard.
       </div>
 
       {/* Botones rápidos */}

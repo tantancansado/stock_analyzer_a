@@ -20,6 +20,7 @@ import GradeBadge from '../components/GradeBadge'
 import ScoreRing from '../components/ScoreRing'
 import InfoTooltip from '../components/InfoTooltip'
 import TickerLogo from '../components/TickerLogo'
+import { LogoChartPeak } from '../components/BrandLogos'
 import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar, Wallet, Zap, Crosshair, BarChart3, Brain, Target, ChevronDown, ChevronUp, Sparkles } from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { useWatchlist } from '../hooks/useWatchlist'
@@ -1290,11 +1291,14 @@ export default function Dashboard() {
   return (
     <>
       {/* Header */}
-      <div className="mb-7 animate-fade-in-up">
-        <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Dashboard</h2>
-        <p className="text-[1rem] text-muted-foreground">
-          Resumen ejecutivo · Actualización diaria automática
-        </p>
+      <div className="mb-7 animate-fade-in-up flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Dashboard</h2>
+          <p className="text-[1rem] text-muted-foreground">
+            Resumen ejecutivo · Actualización diaria automática
+          </p>
+        </div>
+        <LogoChartPeak size={56} className="shrink-0 opacity-80 hidden sm:block" />
       </div>
 
       <StaleDataBanner module="macro" />

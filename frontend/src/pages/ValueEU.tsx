@@ -8,6 +8,7 @@ import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
 import { useChartSignals } from '../hooks/useChartSignals'
 import type { TechnicalSummary } from '../api/client'
 import PageHeader from '../components/PageHeader'
+import { LogoCandleBull } from '../components/BrandLogos'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
   if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
@@ -260,6 +261,7 @@ export default function ValueEU() {
       >
         <CsvDownload dataset="value-eu" label="CSV" />
         <CsvDownload dataset="value-eu-full" label="CSV Full" />
+        <LogoCandleBull size={44} className="ml-1 opacity-80 hidden sm:block" />
       </PageHeader>
 
       {/* Macro Risk Overlay */}

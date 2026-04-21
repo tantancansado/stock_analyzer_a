@@ -15,7 +15,7 @@ import ShortcutsModal from './components/ShortcutsModal'
 import ErrorBoundary from './components/ErrorBoundary'
 import ScrollToTop from './components/ScrollToTop'
 import Loading from './components/Loading'
-import LlamaLogo from './components/LlamaLogo'
+import { LogoOrbit } from './components/BrandLogos'
 import PageLlama from './components/PageLlama'
 import Login from './pages/Login'
 
@@ -72,7 +72,7 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
       <div className="px-4 py-4 border-b border-border/40 relative flex-shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 shadow-md shadow-primary/10">
-            <LlamaLogo size={36} title="Stock Analyzer" />
+            <LogoOrbit size={36} title="Stock Analyzer" />
           </div>
           <div className="min-w-0">
             <h1 className="text-[1rem] lg:text-[1.05rem] font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
