@@ -1,25 +1,25 @@
 {
-  "scan_date": "2026-04-21T20:28:27.836978+00:00",
+  "scan_date": "2026-04-21T21:25:13.851698+00:00",
   "total_tickers_with_flow": 92,
   "unusual_count": 53,
-  "bullish_count": 48,
-  "bearish_count": 17,
+  "bullish_count": 47,
+  "bearish_count": 15,
   "results": [
     {
       "ticker": "SPY",
-      "signal": "BEARISH",
+      "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
       "current_price": 704.0800170898438,
       "drawdown_from_high_pct": -1.2,
-      "call_pct": 14.5,
-      "total_call_premium": 268695276.0,
-      "total_put_premium": 1586337022.0,
-      "total_premium": 1855032298.0,
-      "net_premium": -1317641746.0,
-      "total_call_volume": 5574536,
-      "total_put_volume": 6478394,
-      "avg_iv": 0.399,
+      "call_pct": 38.7,
+      "total_call_premium": 490350178.0,
+      "total_put_premium": 777424215.0,
+      "total_premium": 1267774393.0,
+      "net_premium": -287074037.0,
+      "total_call_volume": 5751009,
+      "total_put_volume": 6686253,
+      "avg_iv": 0.457,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -27,184 +27,117 @@
           "strike": 710.0,
           "expiry": "2026-04-21",
           "dte": 0,
-          "volume": 278626,
+          "volume": 279004,
           "open_interest": 3959,
-          "vol_oi_ratio": 70.38,
-          "last_price": 6.27,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 174698502.0,
-          "iv": 0.132,
+          "vol_oi_ratio": 70.47,
+          "last_price": 3.29,
+          "last_trade_date": "2026-04-21 20:14",
+          "premium_usd": 91792316.0,
+          "iv": 0.0,
           "itm": true,
           "speculative": true
         },
         {
           "side": "PUT",
-          "strike": 707.0,
+          "strike": 709.0,
           "expiry": "2026-04-21",
           "dte": 0,
-          "volume": 531224,
-          "open_interest": 10738,
-          "vol_oi_ratio": 49.47,
-          "last_price": 3.13,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 166273112.0,
-          "iv": 0.068,
+          "volume": 294945,
+          "open_interest": 6465,
+          "vol_oi_ratio": 45.62,
+          "last_price": 2.39,
+          "last_trade_date": "2026-04-21 20:14",
+          "premium_usd": 70491855.0,
+          "iv": 0.0,
           "itm": true,
           "speculative": true
         },
         {
           "side": "PUT",
-          "strike": 706.0,
+          "strike": 711.0,
           "expiry": "2026-04-21",
           "dte": 0,
-          "volume": 747615,
-          "open_interest": 6745,
-          "vol_oi_ratio": 110.84,
-          "last_price": 2.05,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 153261075.0,
-          "iv": 0.051,
+          "volume": 121659,
+          "open_interest": 3009,
+          "vol_oi_ratio": 40.43,
+          "last_price": 4.37,
+          "last_trade_date": "2026-04-21 20:11",
+          "premium_usd": 53164983.0,
+          "iv": 0.0,
           "itm": true,
           "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 174698502.0,
-      "detected_at": "2026-04-21T20:28:22.480007+00:00"
+      "max_single_premium": 91792316.0,
+      "detected_at": "2026-04-21T21:25:08.821472+00:00"
     },
     {
       "ticker": "QQQ",
-      "signal": "BEARISH",
+      "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
       "current_price": 644.3300170898438,
       "drawdown_from_high_pct": -0.9,
-      "call_pct": 17.4,
-      "total_call_premium": 162242002.0,
-      "total_put_premium": 768085336.0,
-      "total_premium": 930327338.0,
-      "net_premium": -605843334.0,
-      "total_call_volume": 2816101,
-      "total_put_volume": 3516791,
-      "avg_iv": 0.522,
+      "call_pct": 53.3,
+      "total_call_premium": 317887695.0,
+      "total_put_premium": 278121446.0,
+      "total_premium": 596009141.0,
+      "net_premium": 39766249.0,
+      "total_call_volume": 2894791,
+      "total_put_volume": 3627066,
+      "avg_iv": 0.634,
       "unusual_score": 100,
       "top_contracts": [
         {
-          "side": "PUT",
-          "strike": 647.0,
+          "side": "CALL",
+          "strike": 645.0,
           "expiry": "2026-04-21",
           "dte": 0,
-          "volume": 327980,
-          "open_interest": 4055,
-          "vol_oi_ratio": 80.88,
-          "last_price": 3.37,
-          "last_trade_date": "2026-04-21 19:58",
-          "premium_usd": 110529260.0,
-          "iv": 0.134,
-          "itm": true,
+          "volume": 187283,
+          "open_interest": 7072,
+          "vol_oi_ratio": 26.48,
+          "last_price": 1.82,
+          "last_trade_date": "2026-04-21 20:14",
+          "premium_usd": 34085506.0,
+          "iv": 0.293,
+          "itm": false,
           "speculative": true
         },
         {
-          "side": "PUT",
+          "side": "CALL",
           "strike": 646.0,
           "expiry": "2026-04-21",
           "dte": 0,
-          "volume": 441808,
-          "open_interest": 4610,
-          "vol_oi_ratio": 95.84,
-          "last_price": 2.48,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 109568384.0,
-          "iv": 0.119,
-          "itm": true,
+          "volume": 287504,
+          "open_interest": 4561,
+          "vol_oi_ratio": 63.04,
+          "last_price": 1.1,
+          "last_trade_date": "2026-04-21 20:14",
+          "premium_usd": 31625440.0,
+          "iv": 0.22,
+          "itm": false,
           "speculative": true
         },
         {
-          "side": "PUT",
-          "strike": 648.0,
-          "expiry": "2026-04-21",
-          "dte": 0,
-          "volume": 176717,
-          "open_interest": 2968,
-          "vol_oi_ratio": 59.54,
-          "last_price": 4.61,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 81466537.0,
-          "iv": 0.164,
-          "itm": true,
+          "side": "CALL",
+          "strike": 647.0,
+          "expiry": "2026-04-22",
+          "dte": 1,
+          "volume": 87465,
+          "open_interest": 1791,
+          "vol_oi_ratio": 48.84,
+          "last_price": 2.8,
+          "last_trade_date": "2026-04-21 20:14",
+          "premium_usd": 24490200.0,
+          "iv": 0.213,
+          "itm": false,
           "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 110529260.0,
-      "detected_at": "2026-04-21T20:28:19.863222+00:00"
-    },
-    {
-      "ticker": "IWM",
-      "signal": "BEARISH",
-      "flow_interpretation": "STANDARD",
-      "interpretation_reason": "",
-      "current_price": 274.510009765625,
-      "drawdown_from_high_pct": -1.1,
-      "call_pct": 19.0,
-      "total_call_premium": 31453889.0,
-      "total_put_premium": 133860609.0,
-      "total_premium": 165314498.0,
-      "net_premium": -102406720.0,
-      "total_call_volume": 568379,
-      "total_put_volume": 847701,
-      "avg_iv": 0.372,
-      "unusual_score": 100,
-      "top_contracts": [
-        {
-          "side": "PUT",
-          "strike": 279.0,
-          "expiry": "2026-04-21",
-          "dte": 0,
-          "volume": 26209,
-          "open_interest": 226,
-          "vol_oi_ratio": 115.97,
-          "last_price": 5.18,
-          "last_trade_date": "2026-04-21 19:52",
-          "premium_usd": 13576262.0,
-          "iv": 0.275,
-          "itm": true,
-          "speculative": true
-        },
-        {
-          "side": "PUT",
-          "strike": 278.0,
-          "expiry": "2026-04-21",
-          "dte": 0,
-          "volume": 35924,
-          "open_interest": 908,
-          "vol_oi_ratio": 39.56,
-          "last_price": 3.68,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 13220032.0,
-          "iv": 0.232,
-          "itm": true,
-          "speculative": true
-        },
-        {
-          "side": "PUT",
-          "strike": 276.0,
-          "expiry": "2026-04-21",
-          "dte": 0,
-          "volume": 77194,
-          "open_interest": 2372,
-          "vol_oi_ratio": 32.54,
-          "last_price": 1.64,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 12659816.0,
-          "iv": 0.126,
-          "itm": true,
-          "speculative": true
-        }
-      ],
-      "has_large_premium": true,
-      "max_single_premium": 13576262.0,
-      "detected_at": "2026-04-21T20:28:14.353994+00:00"
+      "max_single_premium": 34085506.0,
+      "detected_at": "2026-04-21T21:25:05.959686+00:00"
     },
     {
       "ticker": "MSFT",
@@ -213,14 +146,14 @@
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 424.1600036621094,
       "drawdown_from_high_pct": -23.6,
-      "call_pct": 87.4,
-      "total_call_premium": 143385447.0,
-      "total_put_premium": 20700366.0,
-      "total_premium": 164085813.0,
-      "net_premium": 122685081.0,
-      "total_call_volume": 416030,
-      "total_put_volume": 64891,
-      "avg_iv": 0.658,
+      "call_pct": 87.5,
+      "total_call_premium": 144486087.0,
+      "total_put_premium": 20703130.0,
+      "total_premium": 165189217.0,
+      "net_premium": 123782957.0,
+      "total_call_volume": 418597,
+      "total_put_volume": 65429,
+      "avg_iv": 0.662,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -228,13 +161,13 @@
           "strike": 425.0,
           "expiry": "2026-05-01",
           "dte": 10,
-          "volume": 6461,
+          "volume": 6490,
           "open_interest": 2768,
-          "vol_oi_ratio": 2.33,
-          "last_price": 14.1,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 9110010.0,
-          "iv": 0.495,
+          "vol_oi_ratio": 2.34,
+          "last_price": 14.25,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 9248250.0,
+          "iv": 0.499,
           "itm": false,
           "speculative": true
         },
@@ -243,13 +176,13 @@
           "strike": 425.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 17609,
+          "volume": 17669,
           "open_interest": 7339,
-          "vol_oi_ratio": 2.4,
+          "vol_oi_ratio": 2.41,
           "last_price": 4.85,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 8540365.0,
-          "iv": 0.302,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 8569465.0,
+          "iv": 0.305,
           "itm": false,
           "speculative": true
         },
@@ -258,20 +191,87 @@
           "strike": 430.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 23410,
+          "volume": 23606,
           "open_interest": 12662,
-          "vol_oi_ratio": 1.85,
-          "last_price": 2.8,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 6554800.0,
-          "iv": 0.295,
+          "vol_oi_ratio": 1.86,
+          "last_price": 2.87,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 6774922.0,
+          "iv": 0.296,
           "itm": false,
           "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 9110010.0,
-      "detected_at": "2026-04-21T20:28:17.329025+00:00"
+      "max_single_premium": 9248250.0,
+      "detected_at": "2026-04-21T21:25:03.088451+00:00"
+    },
+    {
+      "ticker": "IWM",
+      "signal": "BEARISH",
+      "flow_interpretation": "STANDARD",
+      "interpretation_reason": "",
+      "current_price": 274.510009765625,
+      "drawdown_from_high_pct": -1.1,
+      "call_pct": 32.2,
+      "total_call_premium": 41554578.0,
+      "total_put_premium": 87684568.0,
+      "total_premium": 129239146.0,
+      "net_premium": -46129990.0,
+      "total_call_volume": 588142,
+      "total_put_volume": 889488,
+      "avg_iv": 0.79,
+      "unusual_score": 100,
+      "top_contracts": [
+        {
+          "side": "PUT",
+          "strike": 279.0,
+          "expiry": "2026-04-21",
+          "dte": 0,
+          "volume": 26212,
+          "open_interest": 226,
+          "vol_oi_ratio": 115.98,
+          "last_price": 4.71,
+          "last_trade_date": "2026-04-21 20:03",
+          "premium_usd": 12345852.0,
+          "iv": 0.463,
+          "itm": true,
+          "speculative": true
+        },
+        {
+          "side": "PUT",
+          "strike": 278.0,
+          "expiry": "2026-04-21",
+          "dte": 0,
+          "volume": 35999,
+          "open_interest": 908,
+          "vol_oi_ratio": 39.65,
+          "last_price": 2.07,
+          "last_trade_date": "2026-04-21 20:12",
+          "premium_usd": 7451793.0,
+          "iv": 0.508,
+          "itm": true,
+          "speculative": true
+        },
+        {
+          "side": "PUT",
+          "strike": 281.0,
+          "expiry": "2026-04-21",
+          "dte": 0,
+          "volume": 10838,
+          "open_interest": 29,
+          "vol_oi_ratio": 373.72,
+          "last_price": 6.65,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 7207270.0,
+          "iv": 0.53,
+          "itm": true,
+          "speculative": true
+        }
+      ],
+      "has_large_premium": true,
+      "max_single_premium": 12345852.0,
+      "detected_at": "2026-04-21T21:25:00.057242+00:00"
     },
     {
       "ticker": "NOW",
@@ -281,13 +281,13 @@
       "current_price": 100.13999938964844,
       "drawdown_from_high_pct": -52.6,
       "call_pct": 46.2,
-      "total_call_premium": 21040170.0,
-      "total_put_premium": 24550043.0,
-      "total_premium": 45590213.0,
-      "net_premium": -3509873.0,
-      "total_call_volume": 56936,
-      "total_put_volume": 38537,
-      "avg_iv": 1.467,
+      "total_call_premium": 21263104.0,
+      "total_put_premium": 24752929.0,
+      "total_premium": 46016033.0,
+      "net_premium": -3489825.0,
+      "total_call_volume": 57445,
+      "total_put_volume": 39061,
+      "avg_iv": 1.469,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -310,12 +310,12 @@
           "strike": 100.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 5312,
+          "volume": 5339,
           "open_interest": 6674,
           "vol_oi_ratio": 0.8,
-          "last_price": 5.2,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 2762240.0,
+          "last_price": 5.13,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 2738907.0,
           "iv": 1.204,
           "itm": true,
           "speculative": true
@@ -338,7 +338,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 3075620.0,
-      "detected_at": "2026-04-21T20:28:17.942601+00:00"
+      "detected_at": "2026-04-21T21:25:03.592532+00:00"
     },
     {
       "ticker": "GLD",
@@ -347,14 +347,14 @@
       "interpretation_reason": "",
       "current_price": 429.57000732421875,
       "drawdown_from_high_pct": -15.7,
-      "call_pct": 37.3,
-      "total_call_premium": 15894452.0,
-      "total_put_premium": 26748136.0,
-      "total_premium": 42642588.0,
-      "net_premium": -10853684.0,
-      "total_call_volume": 61329,
-      "total_put_volume": 77625,
-      "avg_iv": 0.481,
+      "call_pct": 37.4,
+      "total_call_premium": 16627173.0,
+      "total_put_premium": 27853938.0,
+      "total_premium": 44481111.0,
+      "net_premium": -11226765.0,
+      "total_call_volume": 65135,
+      "total_put_volume": 80866,
+      "avg_iv": 0.487,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -362,29 +362,14 @@
           "strike": 428.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 4808,
+          "volume": 4810,
           "open_interest": 1915,
           "vol_oi_ratio": 2.51,
-          "last_price": 4.0,
-          "last_trade_date": "2026-04-21 19:53",
-          "premium_usd": 1923200.0,
-          "iv": 0.271,
+          "last_price": 4.03,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 1938430.0,
+          "iv": 0.313,
           "itm": false,
-          "speculative": true
-        },
-        {
-          "side": "PUT",
-          "strike": 430.0,
-          "expiry": "2026-04-24",
-          "dte": 3,
-          "volume": 3523,
-          "open_interest": 7042,
-          "vol_oi_ratio": 0.5,
-          "last_price": 4.75,
-          "last_trade_date": "2026-04-21 19:55",
-          "premium_usd": 1673425.0,
-          "iv": 0.272,
-          "itm": true,
           "speculative": true
         },
         {
@@ -398,14 +383,29 @@
           "last_price": 125.73,
           "last_trade_date": "2026-04-21 15:57",
           "premium_usd": 1533906.0,
-          "iv": 1.492,
+          "iv": 1.979,
+          "itm": true,
+          "speculative": true
+        },
+        {
+          "side": "PUT",
+          "strike": 430.0,
+          "expiry": "2026-04-24",
+          "dte": 3,
+          "volume": 3547,
+          "open_interest": 7042,
+          "vol_oi_ratio": 0.5,
+          "last_price": 4.25,
+          "last_trade_date": "2026-04-21 20:14",
+          "premium_usd": 1507475.0,
+          "iv": 0.252,
           "itm": true,
           "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 1923200.0,
-      "detected_at": "2026-04-21T20:28:11.980649+00:00"
+      "max_single_premium": 1938430.0,
+      "detected_at": "2026-04-21T21:24:57.751172+00:00"
     },
     {
       "ticker": "TLT",
@@ -415,15 +415,30 @@
       "current_price": 86.56999969482422,
       "drawdown_from_high_pct": -6.1,
       "call_pct": 94.4,
-      "total_call_premium": 21805563.0,
-      "total_put_premium": 1301088.0,
-      "total_premium": 23106651.0,
-      "net_premium": 20504475.0,
-      "total_call_volume": 101344,
-      "total_put_volume": 32268,
-      "avg_iv": 0.25,
+      "total_call_premium": 22097799.0,
+      "total_put_premium": 1322219.0,
+      "total_premium": 23420018.0,
+      "net_premium": 20775580.0,
+      "total_call_volume": 103701,
+      "total_put_volume": 32948,
+      "avg_iv": 0.265,
       "unusual_score": 100,
       "top_contracts": [
+        {
+          "side": "CALL",
+          "strike": 80.0,
+          "expiry": "2026-04-22",
+          "dte": 1,
+          "volume": 2956,
+          "open_interest": 2,
+          "vol_oi_ratio": 1478.0,
+          "last_price": 6.7,
+          "last_trade_date": "2026-04-21 20:01",
+          "premium_usd": 1980520.0,
+          "iv": 0.77,
+          "itm": true,
+          "speculative": true
+        },
         {
           "side": "CALL",
           "strike": 83.5,
@@ -435,22 +450,7 @@
           "last_price": 3.38,
           "last_trade_date": "2026-04-21 19:39",
           "premium_usd": 1934712.0,
-          "iv": 0.308,
-          "itm": true,
-          "speculative": true
-        },
-        {
-          "side": "CALL",
-          "strike": 80.0,
-          "expiry": "2026-04-22",
-          "dte": 1,
-          "volume": 2796,
-          "open_interest": 2,
-          "vol_oi_ratio": 1398.0,
-          "last_price": 6.63,
-          "last_trade_date": "2026-04-21 19:54",
-          "premium_usd": 1853748.0,
-          "iv": 0.643,
+          "iv": 0.356,
           "itm": true,
           "speculative": true
         },
@@ -465,14 +465,14 @@
           "last_price": 3.87,
           "last_trade_date": "2026-04-21 19:20",
           "premium_usd": 1466343.0,
-          "iv": 0.343,
+          "iv": 0.395,
           "itm": true,
           "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 1934712.0,
-      "detected_at": "2026-04-21T20:28:23.258655+00:00"
+      "max_single_premium": 1980520.0,
+      "detected_at": "2026-04-21T21:25:09.462824+00:00"
     },
     {
       "ticker": "ISRG",
@@ -481,14 +481,14 @@
       "interpretation_reason": "",
       "current_price": 451.2900085449219,
       "drawdown_from_high_pct": -25.3,
-      "call_pct": 49.0,
-      "total_call_premium": 8002519.0,
-      "total_put_premium": 8314024.0,
-      "total_premium": 16316543.0,
-      "net_premium": -311505.0,
-      "total_call_volume": 14400,
-      "total_put_volume": 11371,
-      "avg_iv": 0.707,
+      "call_pct": 48.7,
+      "total_call_premium": 8364781.0,
+      "total_put_premium": 8811513.0,
+      "total_premium": 17176294.0,
+      "net_premium": -446732.0,
+      "total_call_volume": 15018,
+      "total_put_volume": 11879,
+      "avg_iv": 0.704,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -496,13 +496,13 @@
           "strike": 440.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 1319,
+          "volume": 1339,
           "open_interest": 166,
-          "vol_oi_ratio": 7.95,
-          "last_price": 10.7,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 1411330.0,
-          "iv": 0.872,
+          "vol_oi_ratio": 8.07,
+          "last_price": 11.04,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 1478256.0,
+          "iv": 0.841,
           "itm": false,
           "speculative": true
         },
@@ -517,29 +517,29 @@
           "last_price": 17.75,
           "last_trade_date": "2026-04-21 19:54",
           "premium_usd": 594625.0,
-          "iv": 0.831,
+          "iv": 0.834,
           "itm": true,
           "speculative": true
         },
         {
           "side": "CALL",
-          "strike": 480.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 414,
-          "open_interest": 156,
-          "vol_oi_ratio": 2.65,
-          "last_price": 11.3,
-          "last_trade_date": "2026-04-21 19:54",
-          "premium_usd": 467820.0,
-          "iv": 0.498,
+          "strike": 500.0,
+          "expiry": "2026-04-24",
+          "dte": 3,
+          "volume": 1263,
+          "open_interest": 542,
+          "vol_oi_ratio": 2.33,
+          "last_price": 3.99,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 503937.0,
+          "iv": 0.954,
           "itm": false,
-          "speculative": false
+          "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 1411330.0,
-      "detected_at": "2026-04-21T20:28:13.245911+00:00"
+      "max_single_premium": 1478256.0,
+      "detected_at": "2026-04-21T21:24:58.997530+00:00"
     },
     {
       "ticker": "COST",
@@ -548,14 +548,14 @@
       "interpretation_reason": "Calls OTM (0% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 1005.8099975585938,
       "drawdown_from_high_pct": -5.7,
-      "call_pct": 73.9,
-      "total_call_premium": 10669055.0,
-      "total_put_premium": 3774059.0,
-      "total_premium": 14443114.0,
-      "net_premium": 6894996.0,
-      "total_call_volume": 12747,
-      "total_put_volume": 10169,
-      "avg_iv": 0.489,
+      "call_pct": 74.1,
+      "total_call_premium": 10787086.0,
+      "total_put_premium": 3767882.0,
+      "total_premium": 14554968.0,
+      "net_premium": 7019204.0,
+      "total_call_volume": 12985,
+      "total_put_volume": 10271,
+      "avg_iv": 0.492,
       "unusual_score": 94,
       "top_contracts": [
         {
@@ -593,12 +593,12 @@
           "strike": 1100.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 3742,
+          "volume": 3906,
           "open_interest": 539,
-          "vol_oi_ratio": 6.94,
-          "last_price": 1.37,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 512654.0,
+          "vol_oi_ratio": 7.25,
+          "last_price": 1.29,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 503874.0,
           "iv": 0.214,
           "itm": false,
           "speculative": false
@@ -606,7 +606,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 803200.0,
-      "detected_at": "2026-04-21T20:28:08.495088+00:00"
+      "detected_at": "2026-04-21T21:24:54.439346+00:00"
     },
     {
       "ticker": "WMT",
@@ -615,14 +615,14 @@
       "interpretation_reason": "Calls OTM (0% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 129.60000610351562,
       "drawdown_from_high_pct": -3.8,
-      "call_pct": 87.6,
-      "total_call_premium": 10717899.0,
-      "total_put_premium": 1517716.0,
-      "total_premium": 12235615.0,
-      "net_premium": 9200183.0,
-      "total_call_volume": 48157,
-      "total_put_volume": 16025,
-      "avg_iv": 0.592,
+      "call_pct": 87.5,
+      "total_call_premium": 10725020.0,
+      "total_put_premium": 1526392.0,
+      "total_premium": 12251412.0,
+      "net_premium": 9198628.0,
+      "total_call_volume": 48755,
+      "total_put_volume": 16269,
+      "avg_iv": 0.606,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -630,12 +630,12 @@
           "strike": 130.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 4686,
+          "volume": 4917,
           "open_interest": 14440,
-          "vol_oi_ratio": 0.32,
-          "last_price": 3.32,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 1555752.0,
+          "vol_oi_ratio": 0.34,
+          "last_price": 3.2,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 1573440.0,
           "iv": 0.262,
           "itm": false,
           "speculative": false
@@ -645,13 +645,13 @@
           "strike": 129.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 7211,
+          "volume": 7222,
           "open_interest": 2818,
           "vol_oi_ratio": 2.56,
-          "last_price": 1.77,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 1276347.0,
-          "iv": 0.276,
+          "last_price": 1.69,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 1220518.0,
+          "iv": 0.269,
           "itm": true,
           "speculative": true
         },
@@ -660,20 +660,20 @@
           "strike": 130.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 7547,
+          "volume": 7590,
           "open_interest": 7131,
           "vol_oi_ratio": 1.06,
           "last_price": 1.18,
-          "last_trade_date": "2026-04-21 19:58",
-          "premium_usd": 890546.0,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 895620.0,
           "iv": 0.257,
           "itm": false,
           "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 1555752.0,
-      "detected_at": "2026-04-21T20:28:26.813629+00:00"
+      "max_single_premium": 1573440.0,
+      "detected_at": "2026-04-21T21:25:13.304678+00:00"
     },
     {
       "ticker": "XLE",
@@ -682,14 +682,14 @@
       "interpretation_reason": "",
       "current_price": 55.869998931884766,
       "drawdown_from_high_pct": -12.0,
-      "call_pct": 78.1,
-      "total_call_premium": 9192958.0,
-      "total_put_premium": 2573832.0,
-      "total_premium": 11766790.0,
-      "net_premium": 6619126.0,
-      "total_call_volume": 92397,
-      "total_put_volume": 44673,
-      "avg_iv": 0.502,
+      "call_pct": 75.9,
+      "total_call_premium": 8838929.0,
+      "total_put_premium": 2800140.0,
+      "total_premium": 11639069.0,
+      "net_premium": 6038789.0,
+      "total_call_volume": 97007,
+      "total_put_volume": 44950,
+      "avg_iv": 0.622,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -697,13 +697,13 @@
           "strike": 55.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 12243,
+          "volume": 12328,
           "open_interest": 5034,
-          "vol_oi_ratio": 2.43,
-          "last_price": 2.27,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 2779161.0,
-          "iv": 0.313,
+          "vol_oi_ratio": 2.45,
+          "last_price": 2.18,
+          "last_trade_date": "2026-04-21 20:14",
+          "premium_usd": 2687504.0,
+          "iv": 0.317,
           "itm": true,
           "speculative": false
         },
@@ -712,118 +712,51 @@
           "strike": 55.5,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 5021,
+          "volume": 5028,
           "open_interest": 76,
-          "vol_oi_ratio": 66.07,
-          "last_price": 1.98,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 994158.0,
+          "vol_oi_ratio": 66.16,
+          "last_price": 1.84,
+          "last_trade_date": "2026-04-21 20:12",
+          "premium_usd": 925152.0,
           "iv": 0.311,
           "itm": true,
           "speculative": false
         },
         {
-          "side": "CALL",
-          "strike": 56.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 4518,
-          "open_interest": 12051,
-          "vol_oi_ratio": 0.37,
-          "last_price": 1.73,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 781614.0,
-          "iv": 0.311,
+          "side": "PUT",
+          "strike": 55.0,
+          "expiry": "2026-04-24",
+          "dte": 3,
+          "volume": 16668,
+          "open_interest": 7243,
+          "vol_oi_ratio": 2.3,
+          "last_price": 0.5,
+          "last_trade_date": "2026-04-21 20:10",
+          "premium_usd": 833400.0,
+          "iv": 0.421,
           "itm": false,
-          "speculative": false
+          "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 2779161.0,
-      "detected_at": "2026-04-21T20:28:26.988694+00:00"
-    },
-    {
-      "ticker": "INTU",
-      "signal": "BULLISH",
-      "flow_interpretation": "FRESH_BULLISH",
-      "interpretation_reason": "Calls OTM (8% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 404.8500061035156,
-      "drawdown_from_high_pct": -50.2,
-      "call_pct": 70.2,
-      "total_call_premium": 6058330.0,
-      "total_put_premium": 2570522.0,
-      "total_premium": 8628852.0,
-      "net_premium": 3487808.0,
-      "total_call_volume": 4743,
-      "total_put_volume": 3391,
-      "avg_iv": 0.747,
-      "unusual_score": 92,
-      "top_contracts": [
-        {
-          "side": "CALL",
-          "strike": 420.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 445,
-          "open_interest": 1325,
-          "vol_oi_ratio": 0.34,
-          "last_price": 16.79,
-          "last_trade_date": "2026-04-21 19:32",
-          "premium_usd": 747155.0,
-          "iv": 0.519,
-          "itm": false,
-          "speculative": false
-        },
-        {
-          "side": "CALL",
-          "strike": 440.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 460,
-          "open_interest": 353,
-          "vol_oi_ratio": 1.3,
-          "last_price": 10.47,
-          "last_trade_date": "2026-04-21 18:55",
-          "premium_usd": 481620.0,
-          "iv": 0.519,
-          "itm": false,
-          "speculative": false
-        },
-        {
-          "side": "CALL",
-          "strike": 450.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 478,
-          "open_interest": 781,
-          "vol_oi_ratio": 0.61,
-          "last_price": 8.2,
-          "last_trade_date": "2026-04-21 18:19",
-          "premium_usd": 391960.0,
-          "iv": 0.53,
-          "itm": false,
-          "speculative": false
-        }
-      ],
-      "has_large_premium": true,
-      "max_single_premium": 747155.0,
-      "detected_at": "2026-04-21T20:28:12.948975+00:00"
+      "max_single_premium": 2687504.0,
+      "detected_at": "2026-04-21T21:25:13.523676+00:00"
     },
     {
       "ticker": "FICO",
       "signal": "BEARISH",
       "flow_interpretation": "FRESH_BEARISH",
-      "interpretation_reason": "Puts OTM (6% bajo precio). Apuesta nueva a caída desde nivel actual.",
+      "interpretation_reason": "Puts OTM (5% bajo precio). Apuesta nueva a caída desde nivel actual.",
       "current_price": 1036.699951171875,
       "drawdown_from_high_pct": -53.3,
-      "call_pct": 23.5,
-      "total_call_premium": 1983663.0,
-      "total_put_premium": 6452960.0,
-      "total_premium": 8436623.0,
-      "net_premium": -4469297.0,
-      "total_call_volume": 1350,
-      "total_put_volume": 714,
-      "avg_iv": 0.915,
+      "call_pct": 23.8,
+      "total_call_premium": 2090666.0,
+      "total_put_premium": 6696364.0,
+      "total_premium": 8787030.0,
+      "net_premium": -4605698.0,
+      "total_call_volume": 1376,
+      "total_put_volume": 763,
+      "avg_iv": 0.92,
       "unusual_score": 84,
       "top_contracts": [
         {
@@ -837,7 +770,7 @@
           "last_price": 53.4,
           "last_trade_date": "2026-04-21 19:53",
           "premium_usd": 566040.0,
-          "iv": 0.733,
+          "iv": 0.741,
           "itm": false,
           "speculative": false
         },
@@ -852,29 +785,96 @@
           "last_price": 56.6,
           "last_trade_date": "2026-04-21 19:50",
           "premium_usd": 509400.0,
-          "iv": 0.726,
+          "iv": 0.731,
           "itm": false,
           "speculative": false
         },
         {
           "side": "PUT",
-          "strike": 950.0,
+          "strike": 970.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 50,
-          "open_interest": 123,
-          "vol_oi_ratio": 0.41,
-          "last_price": 42.0,
-          "last_trade_date": "2026-04-21 19:09",
-          "premium_usd": 210000.0,
-          "iv": 0.758,
+          "volume": 57,
+          "open_interest": 29,
+          "vol_oi_ratio": 1.97,
+          "last_price": 49.4,
+          "last_trade_date": "2026-04-21 19:54",
+          "premium_usd": 281580.0,
+          "iv": 0.732,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 566040.0,
-      "detected_at": "2026-04-21T20:28:10.129769+00:00"
+      "detected_at": "2026-04-21T21:24:56.127742+00:00"
+    },
+    {
+      "ticker": "INTU",
+      "signal": "BULLISH",
+      "flow_interpretation": "STANDARD",
+      "interpretation_reason": "",
+      "current_price": 404.8500061035156,
+      "drawdown_from_high_pct": -50.2,
+      "call_pct": 70.0,
+      "total_call_premium": 6070475.0,
+      "total_put_premium": 2601792.0,
+      "total_premium": 8672267.0,
+      "net_premium": 3468683.0,
+      "total_call_volume": 4761,
+      "total_put_volume": 3404,
+      "avg_iv": 0.771,
+      "unusual_score": 92,
+      "top_contracts": [
+        {
+          "side": "CALL",
+          "strike": 420.0,
+          "expiry": "2026-05-15",
+          "dte": 24,
+          "volume": 445,
+          "open_interest": 1325,
+          "vol_oi_ratio": 0.34,
+          "last_price": 16.79,
+          "last_trade_date": "2026-04-21 19:32",
+          "premium_usd": 747155.0,
+          "iv": 0.537,
+          "itm": false,
+          "speculative": false
+        },
+        {
+          "side": "CALL",
+          "strike": 440.0,
+          "expiry": "2026-05-15",
+          "dte": 24,
+          "volume": 460,
+          "open_interest": 353,
+          "vol_oi_ratio": 1.3,
+          "last_price": 10.47,
+          "last_trade_date": "2026-04-21 18:55",
+          "premium_usd": 481620.0,
+          "iv": 0.517,
+          "itm": false,
+          "speculative": false
+        },
+        {
+          "side": "CALL",
+          "strike": 337.5,
+          "expiry": "2026-04-24",
+          "dte": 3,
+          "volume": 68,
+          "open_interest": 7,
+          "vol_oi_ratio": 9.71,
+          "last_price": 55.45,
+          "last_trade_date": "2026-04-17 19:50",
+          "premium_usd": 377060.0,
+          "iv": 1.527,
+          "itm": true,
+          "speculative": true
+        }
+      ],
+      "has_large_premium": true,
+      "max_single_premium": 747155.0,
+      "detected_at": "2026-04-21T21:24:58.692172+00:00"
     },
     {
       "ticker": "DHR",
@@ -883,14 +883,14 @@
       "interpretation_reason": "",
       "current_price": 194.5399932861328,
       "drawdown_from_high_pct": -19.9,
-      "call_pct": 10.8,
-      "total_call_premium": 879586.0,
-      "total_put_premium": 7268961.0,
-      "total_premium": 8148547.0,
-      "net_premium": -6389375.0,
-      "total_call_volume": 8544,
-      "total_put_volume": 6596,
-      "avg_iv": 0.458,
+      "call_pct": 11.0,
+      "total_call_premium": 903185.0,
+      "total_put_premium": 7273468.0,
+      "total_premium": 8176653.0,
+      "net_premium": -6370283.0,
+      "total_call_volume": 8553,
+      "total_put_volume": 6633,
+      "avg_iv": 0.461,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -919,7 +919,7 @@
           "last_price": 6.28,
           "last_trade_date": "2026-04-21 19:54",
           "premium_usd": 298300.0,
-          "iv": 0.328,
+          "iv": 0.318,
           "itm": true,
           "speculative": false
         },
@@ -934,14 +934,14 @@
           "last_price": 6.36,
           "last_trade_date": "2026-04-21 19:54",
           "premium_usd": 279204.0,
-          "iv": 0.351,
+          "iv": 0.341,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 6651850.0,
-      "detected_at": "2026-04-21T20:28:09.866778+00:00"
+      "detected_at": "2026-04-21T21:24:55.344855+00:00"
     },
     {
       "ticker": "BRK-B",
@@ -950,14 +950,14 @@
       "interpretation_reason": "",
       "current_price": 468.5,
       "drawdown_from_high_pct": -13.6,
-      "call_pct": 70.4,
-      "total_call_premium": 5592889.0,
-      "total_put_premium": 2357194.0,
-      "total_premium": 7950083.0,
-      "net_premium": 3235695.0,
-      "total_call_volume": 20539,
-      "total_put_volume": 6945,
-      "avg_iv": 0.433,
+      "call_pct": 70.2,
+      "total_call_premium": 5639681.0,
+      "total_put_premium": 2390947.0,
+      "total_premium": 8030628.0,
+      "net_premium": 3248734.0,
+      "total_call_volume": 20753,
+      "total_put_volume": 7007,
+      "avg_iv": 0.434,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -980,13 +980,13 @@
           "strike": 500.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 3135,
+          "volume": 3179,
           "open_interest": 14077,
-          "vol_oi_ratio": 0.22,
-          "last_price": 1.55,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 485925.0,
-          "iv": 0.212,
+          "vol_oi_ratio": 0.23,
+          "last_price": 1.57,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 499103.0,
+          "iv": 0.21,
           "itm": false,
           "speculative": false
         },
@@ -1008,7 +1008,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1276290.0,
-      "detected_at": "2026-04-21T20:28:05.138764+00:00"
+      "detected_at": "2026-04-21T21:24:51.024326+00:00"
     },
     {
       "ticker": "V",
@@ -1017,14 +1017,14 @@
       "interpretation_reason": "",
       "current_price": 309.94000244140625,
       "drawdown_from_high_pct": -17.5,
-      "call_pct": 63.7,
-      "total_call_premium": 4567312.0,
-      "total_put_premium": 2603338.0,
-      "total_premium": 7170650.0,
-      "net_premium": 1963974.0,
-      "total_call_volume": 14499,
-      "total_put_volume": 7167,
-      "avg_iv": 0.582,
+      "call_pct": 63.9,
+      "total_call_premium": 4608365.0,
+      "total_put_premium": 2605193.0,
+      "total_premium": 7213558.0,
+      "net_premium": 2003172.0,
+      "total_call_volume": 14555,
+      "total_put_volume": 7197,
+      "avg_iv": 0.584,
       "unusual_score": 80,
       "top_contracts": [
         {
@@ -1053,7 +1053,7 @@
           "last_price": 64.0,
           "last_trade_date": "2026-03-31 19:38",
           "premium_usd": 396800.0,
-          "iv": 1.558,
+          "iv": 1.542,
           "itm": true,
           "speculative": true
         },
@@ -1068,14 +1068,14 @@
           "last_price": 62.95,
           "last_trade_date": "2026-04-01 19:07",
           "premium_usd": 346225.0,
-          "iv": 0.449,
+          "iv": 0.462,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 485100.0,
-      "detected_at": "2026-04-21T20:28:25.595050+00:00"
+      "detected_at": "2026-04-21T21:25:11.090539+00:00"
     },
     {
       "ticker": "ETN",
@@ -1085,13 +1085,13 @@
       "current_price": 409.70001220703125,
       "drawdown_from_high_pct": -0.3,
       "call_pct": 49.7,
-      "total_call_premium": 3116131.0,
-      "total_put_premium": 3156924.0,
-      "total_premium": 6273055.0,
-      "net_premium": -40793.0,
-      "total_call_volume": 2471,
-      "total_put_volume": 6267,
-      "avg_iv": 0.664,
+      "total_call_premium": 3116074.0,
+      "total_put_premium": 3155470.0,
+      "total_premium": 6271544.0,
+      "net_premium": -39396.0,
+      "total_call_volume": 2472,
+      "total_put_volume": 6269,
+      "avg_iv": 0.665,
       "unusual_score": 90,
       "top_contracts": [
         {
@@ -1105,7 +1105,7 @@
           "last_price": 8.75,
           "last_trade_date": "2026-04-21 15:36",
           "premium_usd": 708750.0,
-          "iv": 0.452,
+          "iv": 0.449,
           "itm": false,
           "speculative": false
         },
@@ -1120,7 +1120,7 @@
           "last_price": 88.8,
           "last_trade_date": "2026-03-27 18:55",
           "premium_usd": 692640.0,
-          "iv": 0.628,
+          "iv": 0.64,
           "itm": true,
           "speculative": true
         },
@@ -1135,14 +1135,14 @@
           "last_price": 24.17,
           "last_trade_date": "2026-04-21 17:53",
           "premium_usd": 659841.0,
-          "iv": 0.458,
+          "iv": 0.456,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 708750.0,
-      "detected_at": "2026-04-21T20:28:10.835131+00:00"
+      "detected_at": "2026-04-21T21:24:56.749074+00:00"
     },
     {
       "ticker": "RACE",
@@ -1158,7 +1158,7 @@
       "net_premium": 1262784.0,
       "total_call_volume": 882,
       "total_put_volume": 430,
-      "avg_iv": 0.612,
+      "avg_iv": 0.616,
       "unusual_score": 87,
       "top_contracts": [
         {
@@ -1209,7 +1209,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 634500.0,
-      "detected_at": "2026-04-21T20:28:19.886477+00:00"
+      "detected_at": "2026-04-21T21:25:06.129015+00:00"
     },
     {
       "ticker": "MA",
@@ -1219,13 +1219,13 @@
       "current_price": 511.3500061035156,
       "drawdown_from_high_pct": -15.0,
       "call_pct": 62.3,
-      "total_call_premium": 3016824.0,
-      "total_put_premium": 1824462.0,
-      "total_premium": 4841286.0,
-      "net_premium": 1192362.0,
-      "total_call_volume": 2678,
-      "total_put_volume": 2073,
-      "avg_iv": 0.529,
+      "total_call_premium": 3017941.0,
+      "total_put_premium": 1824273.0,
+      "total_premium": 4842214.0,
+      "net_premium": 1193668.0,
+      "total_call_volume": 2687,
+      "total_put_volume": 2074,
+      "avg_iv": 0.524,
       "unusual_score": 82,
       "top_contracts": [
         {
@@ -1239,7 +1239,7 @@
           "last_price": 16.8,
           "last_trade_date": "2026-04-21 19:02",
           "premium_usd": 515760.0,
-          "iv": 0.308,
+          "iv": 0.306,
           "itm": true,
           "speculative": false
         },
@@ -1276,7 +1276,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 515760.0,
-      "detected_at": "2026-04-21T20:28:15.481348+00:00"
+      "detected_at": "2026-04-21T21:25:01.270208+00:00"
     },
     {
       "ticker": "JNJ",
@@ -1285,13 +1285,13 @@
       "interpretation_reason": "Puts OTM (3% bajo precio). Apuesta nueva a caída desde nivel actual.",
       "current_price": 226.16000366210938,
       "drawdown_from_high_pct": -10.2,
-      "call_pct": 33.2,
-      "total_call_premium": 1420149.0,
-      "total_put_premium": 2857295.0,
-      "total_premium": 4277444.0,
-      "net_premium": -1437146.0,
-      "total_call_volume": 9000,
-      "total_put_volume": 8718,
+      "call_pct": 33.4,
+      "total_call_premium": 1425401.0,
+      "total_put_premium": 2847942.0,
+      "total_premium": 4273343.0,
+      "net_premium": -1422541.0,
+      "total_call_volume": 9115,
+      "total_put_volume": 8751,
       "avg_iv": 0.652,
       "unusual_score": 100,
       "top_contracts": [
@@ -1343,7 +1343,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 1187975.0,
-      "detected_at": "2026-04-21T20:28:14.592258+00:00"
+      "detected_at": "2026-04-21T21:25:00.254306+00:00"
     },
     {
       "ticker": "ABT",
@@ -1352,14 +1352,14 @@
       "interpretation_reason": "Puts 21% ITM con acción ya -33% desde máximos. Probable recogida de beneficios, no apuesta bajista nueva. Posible zona de suelo.",
       "current_price": 92.72000122070312,
       "drawdown_from_high_pct": -33.3,
-      "call_pct": 16.8,
-      "total_call_premium": 626638.0,
-      "total_put_premium": 3093033.0,
-      "total_premium": 3719671.0,
-      "net_premium": -2466395.0,
-      "total_call_volume": 10058,
-      "total_put_volume": 4542,
-      "avg_iv": 0.597,
+      "call_pct": 16.7,
+      "total_call_premium": 621427.0,
+      "total_put_premium": 3099055.0,
+      "total_premium": 3720482.0,
+      "net_premium": -2477628.0,
+      "total_call_volume": 10150,
+      "total_put_volume": 4563,
+      "avg_iv": 0.609,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -1373,7 +1373,7 @@
           "last_price": 18.8,
           "last_trade_date": "2026-04-17 19:43",
           "premium_usd": 1893160.0,
-          "iv": 0.819,
+          "iv": 0.849,
           "itm": true,
           "speculative": false
         },
@@ -1397,20 +1397,20 @@
           "strike": 95.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 855,
+          "volume": 866,
           "open_interest": 1018,
-          "vol_oi_ratio": 0.84,
-          "last_price": 1.73,
-          "last_trade_date": "2026-04-21 19:29",
-          "premium_usd": 147915.0,
-          "iv": 0.285,
+          "vol_oi_ratio": 0.85,
+          "last_price": 1.6,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 138560.0,
+          "iv": 0.269,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 1893160.0,
-      "detected_at": "2026-04-21T20:28:03.719682+00:00"
+      "detected_at": "2026-04-21T21:24:49.877729+00:00"
     },
     {
       "ticker": "AXP",
@@ -1420,27 +1420,27 @@
       "current_price": 329.7900085449219,
       "drawdown_from_high_pct": -14.9,
       "call_pct": 81.3,
-      "total_call_premium": 2730604.0,
-      "total_put_premium": 627589.0,
-      "total_premium": 3358193.0,
-      "net_premium": 2103015.0,
-      "total_call_volume": 2284,
-      "total_put_volume": 2482,
-      "avg_iv": 0.668,
-      "unusual_score": 39,
+      "total_call_premium": 2751117.0,
+      "total_put_premium": 632869.0,
+      "total_premium": 3383986.0,
+      "net_premium": 2118248.0,
+      "total_call_volume": 2356,
+      "total_put_volume": 2494,
+      "avg_iv": 0.669,
+      "unusual_score": 42,
       "top_contracts": [
         {
           "side": "CALL",
           "strike": 340.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 151,
+          "volume": 168,
           "open_interest": 1110,
-          "vol_oi_ratio": 0.14,
-          "last_price": 6.98,
-          "last_trade_date": "2026-04-21 19:55",
-          "premium_usd": 105398.0,
-          "iv": 0.341,
+          "vol_oi_ratio": 0.15,
+          "last_price": 7.18,
+          "last_trade_date": "2026-04-21 19:57",
+          "premium_usd": 120624.0,
+          "iv": 0.339,
           "itm": false,
           "speculative": false
         },
@@ -1470,14 +1470,14 @@
           "last_price": 11.36,
           "last_trade_date": "2026-04-21 18:23",
           "premium_usd": 65888.0,
-          "iv": 0.515,
+          "iv": 0.511,
           "itm": true,
           "speculative": true
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 105398.0,
-      "detected_at": "2026-04-21T20:28:05.097003+00:00"
+      "max_single_premium": 120624.0,
+      "detected_at": "2026-04-21T21:24:51.111987+00:00"
     },
     {
       "ticker": "XLK",
@@ -1486,14 +1486,14 @@
       "interpretation_reason": "Calls 34% ITM con acción +64% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
       "current_price": 154.69000244140625,
       "drawdown_from_high_pct": -0.1,
-      "call_pct": 89.1,
-      "total_call_premium": 2882077.0,
-      "total_put_premium": 354230.0,
-      "total_premium": 3236307.0,
-      "net_premium": 2527847.0,
-      "total_call_volume": 5100,
-      "total_put_volume": 3005,
-      "avg_iv": 0.546,
+      "call_pct": 88.7,
+      "total_call_premium": 2892993.0,
+      "total_put_premium": 369464.0,
+      "total_premium": 3262457.0,
+      "net_premium": 2523529.0,
+      "total_call_volume": 5166,
+      "total_put_volume": 3032,
+      "avg_iv": 0.682,
       "unusual_score": 94,
       "top_contracts": [
         {
@@ -1507,7 +1507,7 @@
           "last_price": 47.73,
           "last_trade_date": "2026-04-14 19:31",
           "premium_usd": 801864.0,
-          "iv": 0.998,
+          "iv": 1.107,
           "itm": true,
           "speculative": false
         },
@@ -1522,7 +1522,7 @@
           "last_price": 32.02,
           "last_trade_date": "2026-03-27 14:26",
           "premium_usd": 320200.0,
-          "iv": 1.262,
+          "iv": 1.561,
           "itm": true,
           "speculative": true
         },
@@ -1537,14 +1537,14 @@
           "last_price": 26.45,
           "last_trade_date": "2026-03-31 16:38",
           "premium_usd": 235405.0,
-          "iv": 1.251,
+          "iv": 1.414,
           "itm": true,
           "speculative": true
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 801864.0,
-      "detected_at": "2026-04-21T20:28:27.834322+00:00"
+      "detected_at": "2026-04-21T21:25:13.848730+00:00"
     },
     {
       "ticker": "PG",
@@ -1553,14 +1553,14 @@
       "interpretation_reason": "Calls OTM (3% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 142.32000732421875,
       "drawdown_from_high_pct": -16.8,
-      "call_pct": 71.9,
-      "total_call_premium": 2292888.0,
-      "total_put_premium": 896915.0,
-      "total_premium": 3189803.0,
-      "net_premium": 1395973.0,
-      "total_call_volume": 18313,
-      "total_put_volume": 4181,
-      "avg_iv": 0.463,
+      "call_pct": 71.8,
+      "total_call_premium": 2303545.0,
+      "total_put_premium": 903261.0,
+      "total_premium": 3206806.0,
+      "net_premium": 1400284.0,
+      "total_call_volume": 18397,
+      "total_put_volume": 4194,
+      "avg_iv": 0.471,
       "unusual_score": 88,
       "top_contracts": [
         {
@@ -1574,7 +1574,7 @@
           "last_price": 1.11,
           "last_trade_date": "2026-04-21 19:47",
           "premium_usd": 646908.0,
-          "iv": 0.252,
+          "iv": 0.251,
           "itm": false,
           "speculative": false
         },
@@ -1583,13 +1583,13 @@
           "strike": 143.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 2537,
+          "volume": 2594,
           "open_interest": 1910,
-          "vol_oi_ratio": 1.33,
-          "last_price": 2.07,
-          "last_trade_date": "2026-04-21 19:58",
-          "premium_usd": 525159.0,
-          "iv": 0.419,
+          "vol_oi_ratio": 1.36,
+          "last_price": 2.04,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 529176.0,
+          "iv": 0.407,
           "itm": false,
           "speculative": true
         },
@@ -1604,66 +1604,14 @@
           "last_price": 2.56,
           "last_trade_date": "2026-04-21 19:34",
           "premium_usd": 217600.0,
-          "iv": 0.265,
+          "iv": 0.267,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 646908.0,
-      "detected_at": "2026-04-21T20:28:19.909897+00:00"
-    },
-    {
-      "ticker": "AZO",
-      "signal": "BULLISH",
-      "flow_interpretation": "FRESH_BULLISH",
-      "interpretation_reason": "Calls OTM (5% sobre precio). Apuesta nueva alcista desde nivel actual.",
-      "current_price": 3606.179931640625,
-      "drawdown_from_high_pct": -17.8,
-      "call_pct": 72.6,
-      "total_call_premium": 2191253.0,
-      "total_put_premium": 826657.0,
-      "total_premium": 3017910.0,
-      "net_premium": 1364596.0,
-      "total_call_volume": 382,
-      "total_put_volume": 171,
-      "avg_iv": 0.441,
-      "unusual_score": 100,
-      "top_contracts": [
-        {
-          "side": "CALL",
-          "strike": 3500.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 101,
-          "open_interest": 85,
-          "vol_oi_ratio": 1.19,
-          "last_price": 121.1,
-          "last_trade_date": "2026-04-16 19:29",
-          "premium_usd": 1223110.0,
-          "iv": 0.342,
-          "itm": true,
-          "speculative": false
-        },
-        {
-          "side": "CALL",
-          "strike": 4100.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 82,
-          "open_interest": 517,
-          "vol_oi_ratio": 0.16,
-          "last_price": 8.25,
-          "last_trade_date": "2026-04-21 18:47",
-          "premium_usd": 67650.0,
-          "iv": 0.347,
-          "itm": false,
-          "speculative": false
-        }
-      ],
-      "has_large_premium": true,
-      "max_single_premium": 1223110.0,
-      "detected_at": "2026-04-21T20:28:03.683576+00:00"
+      "detected_at": "2026-04-21T21:25:05.622825+00:00"
     },
     {
       "ticker": "MCD",
@@ -1672,28 +1620,28 @@
       "interpretation_reason": "",
       "current_price": 301.8399963378906,
       "drawdown_from_high_pct": -11.7,
-      "call_pct": 59.2,
-      "total_call_premium": 1771217.0,
-      "total_put_premium": 1218653.0,
-      "total_premium": 2989870.0,
-      "net_premium": 552564.0,
-      "total_call_volume": 7722,
-      "total_put_volume": 3742,
-      "avg_iv": 0.526,
-      "unusual_score": 46,
+      "call_pct": 59.4,
+      "total_call_premium": 1796326.0,
+      "total_put_premium": 1228083.0,
+      "total_premium": 3024409.0,
+      "net_premium": 568243.0,
+      "total_call_volume": 7802,
+      "total_put_volume": 3774,
+      "avg_iv": 0.524,
+      "unusual_score": 47,
       "top_contracts": [
         {
           "side": "PUT",
           "strike": 305.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 316,
+          "volume": 322,
           "open_interest": 359,
-          "vol_oi_ratio": 0.88,
+          "vol_oi_ratio": 0.9,
           "last_price": 4.45,
-          "last_trade_date": "2026-04-21 19:49",
-          "premium_usd": 140620.0,
-          "iv": 0.198,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 143290.0,
+          "iv": 0.233,
           "itm": true,
           "speculative": true
         },
@@ -1702,13 +1650,13 @@
           "strike": 305.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 1016,
+          "volume": 1048,
           "open_interest": 503,
-          "vol_oi_ratio": 2.02,
-          "last_price": 1.3,
-          "last_trade_date": "2026-04-21 19:57",
-          "premium_usd": 132080.0,
-          "iv": 0.206,
+          "vol_oi_ratio": 2.08,
+          "last_price": 1.31,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 137288.0,
+          "iv": 0.216,
           "itm": false,
           "speculative": true
         },
@@ -1729,8 +1677,60 @@
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 140620.0,
-      "detected_at": "2026-04-21T20:28:15.502386+00:00"
+      "max_single_premium": 143290.0,
+      "detected_at": "2026-04-21T21:25:01.291531+00:00"
+    },
+    {
+      "ticker": "AZO",
+      "signal": "BULLISH",
+      "flow_interpretation": "FRESH_BULLISH",
+      "interpretation_reason": "Calls OTM (5% sobre precio). Apuesta nueva alcista desde nivel actual.",
+      "current_price": 3606.179931640625,
+      "drawdown_from_high_pct": -17.8,
+      "call_pct": 72.6,
+      "total_call_premium": 2187823.0,
+      "total_put_premium": 826657.0,
+      "total_premium": 3014480.0,
+      "net_premium": 1361166.0,
+      "total_call_volume": 384,
+      "total_put_volume": 171,
+      "avg_iv": 0.441,
+      "unusual_score": 100,
+      "top_contracts": [
+        {
+          "side": "CALL",
+          "strike": 3500.0,
+          "expiry": "2026-05-15",
+          "dte": 24,
+          "volume": 101,
+          "open_interest": 85,
+          "vol_oi_ratio": 1.19,
+          "last_price": 121.1,
+          "last_trade_date": "2026-04-16 19:29",
+          "premium_usd": 1223110.0,
+          "iv": 0.373,
+          "itm": true,
+          "speculative": false
+        },
+        {
+          "side": "CALL",
+          "strike": 4100.0,
+          "expiry": "2026-05-15",
+          "dte": 24,
+          "volume": 82,
+          "open_interest": 517,
+          "vol_oi_ratio": 0.16,
+          "last_price": 8.25,
+          "last_trade_date": "2026-04-21 18:47",
+          "premium_usd": 67650.0,
+          "iv": 0.35,
+          "itm": false,
+          "speculative": false
+        }
+      ],
+      "has_large_premium": true,
+      "max_single_premium": 1223110.0,
+      "detected_at": "2026-04-21T21:24:49.762531+00:00"
     },
     {
       "ticker": "CDNS",
@@ -1740,13 +1740,13 @@
       "current_price": 325.8399963378906,
       "drawdown_from_high_pct": -13.4,
       "call_pct": 85.2,
-      "total_call_premium": 2482140.0,
-      "total_put_premium": 429922.0,
-      "total_premium": 2912062.0,
-      "net_premium": 2052218.0,
-      "total_call_volume": 2029,
-      "total_put_volume": 1307,
-      "avg_iv": 0.76,
+      "total_call_premium": 2484740.0,
+      "total_put_premium": 432936.0,
+      "total_premium": 2917676.0,
+      "net_premium": 2051804.0,
+      "total_call_volume": 2030,
+      "total_put_volume": 1309,
+      "avg_iv": 0.767,
       "unusual_score": 62,
       "top_contracts": [
         {
@@ -1775,7 +1775,7 @@
           "last_price": 9.0,
           "last_trade_date": "2026-04-21 19:24",
           "premium_usd": 238500.0,
-          "iv": 0.577,
+          "iv": 0.54,
           "itm": true,
           "speculative": true
         },
@@ -1797,23 +1797,23 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 246432.0,
-      "detected_at": "2026-04-21T20:28:06.422749+00:00"
+      "detected_at": "2026-04-21T21:24:52.567580+00:00"
     },
     {
       "ticker": "XLF",
-      "signal": "BULLISH",
+      "signal": "MIXED",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
       "current_price": 52.29999923706055,
       "drawdown_from_high_pct": -7.5,
-      "call_pct": 66.0,
-      "total_call_premium": 1767866.0,
-      "total_put_premium": 910942.0,
-      "total_premium": 2678808.0,
-      "net_premium": 856924.0,
-      "total_call_volume": 33521,
-      "total_put_volume": 19707,
-      "avg_iv": 0.452,
+      "call_pct": 65.0,
+      "total_call_premium": 1730486.0,
+      "total_put_premium": 933043.0,
+      "total_premium": 2663529.0,
+      "net_premium": 797443.0,
+      "total_call_volume": 33527,
+      "total_put_volume": 20441,
+      "avg_iv": 0.621,
       "unusual_score": 75,
       "top_contracts": [
         {
@@ -1827,7 +1827,7 @@
           "last_price": 17.57,
           "last_trade_date": "2026-04-21 18:17",
           "premium_usd": 411138.0,
-          "iv": 0.84,
+          "iv": 0.867,
           "itm": true,
           "speculative": false
         },
@@ -1842,7 +1842,7 @@
           "last_price": 0.19,
           "last_trade_date": "2026-04-21 19:40",
           "premium_usd": 303943.0,
-          "iv": 0.182,
+          "iv": 0.2,
           "itm": false,
           "speculative": false
         },
@@ -1857,14 +1857,14 @@
           "last_price": 0.85,
           "last_trade_date": "2026-04-21 19:55",
           "premium_usd": 255425.0,
-          "iv": 0.182,
+          "iv": 0.193,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 411138.0,
-      "detected_at": "2026-04-21T20:28:27.725423+00:00"
+      "detected_at": "2026-04-21T21:25:13.617027+00:00"
     },
     {
       "ticker": "MCO",
@@ -1873,14 +1873,14 @@
       "interpretation_reason": "",
       "current_price": 459.5899963378906,
       "drawdown_from_high_pct": -16.0,
-      "call_pct": 64.3,
-      "total_call_premium": 1520923.0,
-      "total_put_premium": 845799.0,
-      "total_premium": 2366722.0,
-      "net_premium": 675124.0,
-      "total_call_volume": 630,
-      "total_put_volume": 290,
-      "avg_iv": 0.44,
+      "call_pct": 63.9,
+      "total_call_premium": 1519648.0,
+      "total_put_premium": 857060.0,
+      "total_premium": 2376708.0,
+      "net_premium": 662588.0,
+      "total_call_volume": 640,
+      "total_put_volume": 327,
+      "avg_iv": 0.444,
       "unusual_score": 100,
       "top_contracts": [
         {
@@ -1903,13 +1903,13 @@
           "strike": 500.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 105,
+          "volume": 106,
           "open_interest": 149,
-          "vol_oi_ratio": 0.7,
-          "last_price": 4.0,
-          "last_trade_date": "2026-04-21 19:30",
-          "premium_usd": 42000.0,
-          "iv": 0.352,
+          "vol_oi_ratio": 0.71,
+          "last_price": 3.9,
+          "last_trade_date": "2026-04-21 19:56",
+          "premium_usd": 41340.0,
+          "iv": 0.339,
           "itm": false,
           "speculative": false
         },
@@ -1918,20 +1918,20 @@
           "strike": 520.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 228,
+          "volume": 229,
           "open_interest": 33,
-          "vol_oi_ratio": 6.91,
-          "last_price": 1.3,
-          "last_trade_date": "2026-04-21 19:48",
-          "premium_usd": 29640.0,
-          "iv": 0.343,
+          "vol_oi_ratio": 6.94,
+          "last_price": 1.25,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 28625.0,
+          "iv": 0.353,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 1209590.0,
-      "detected_at": "2026-04-21T20:28:15.215238+00:00"
+      "detected_at": "2026-04-21T21:25:00.864740+00:00"
     },
     {
       "ticker": "KO",
@@ -1940,14 +1940,14 @@
       "interpretation_reason": "",
       "current_price": 74.69999694824219,
       "drawdown_from_high_pct": -8.9,
-      "call_pct": 77.2,
-      "total_call_premium": 1708451.0,
-      "total_put_premium": 505102.0,
-      "total_premium": 2213553.0,
-      "net_premium": 1203349.0,
-      "total_call_volume": 10026,
-      "total_put_volume": 5566,
-      "avg_iv": 0.476,
+      "call_pct": 77.0,
+      "total_call_premium": 1707720.0,
+      "total_put_premium": 509063.0,
+      "total_premium": 2216783.0,
+      "net_premium": 1198657.0,
+      "total_call_volume": 10102,
+      "total_put_volume": 5593,
+      "avg_iv": 0.479,
       "unusual_score": 92,
       "top_contracts": [
         {
@@ -1981,24 +1981,24 @@
           "speculative": false
         },
         {
-          "side": "CALL",
+          "side": "PUT",
           "strike": 75.0,
-          "expiry": "2026-04-24",
-          "dte": 3,
-          "volume": 1276,
-          "open_interest": 998,
-          "vol_oi_ratio": 1.28,
-          "last_price": 0.58,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 74008.0,
-          "iv": 0.237,
-          "itm": false,
-          "speculative": true
+          "expiry": "2026-05-15",
+          "dte": 24,
+          "volume": 441,
+          "open_interest": 6087,
+          "vol_oi_ratio": 0.07,
+          "last_price": 1.68,
+          "last_trade_date": "2026-04-21 19:58",
+          "premium_usd": 74088.0,
+          "iv": 0.208,
+          "itm": true,
+          "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 756020.0,
-      "detected_at": "2026-04-21T20:28:15.056010+00:00"
+      "detected_at": "2026-04-21T21:25:00.848790+00:00"
     },
     {
       "ticker": "TMO",
@@ -2014,7 +2014,7 @@
       "net_premium": 809151.0,
       "total_call_volume": 1643,
       "total_put_volume": 1404,
-      "avg_iv": 0.632,
+      "avg_iv": 0.634,
       "unusual_score": 81,
       "top_contracts": [
         {
@@ -2058,14 +2058,14 @@
           "last_price": 7.7,
           "last_trade_date": "2026-04-21 18:02",
           "premium_usd": 185570.0,
-          "iv": 0.644,
+          "iv": 0.639,
           "itm": false,
           "speculative": true
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 506160.0,
-      "detected_at": "2026-04-21T20:28:24.329999+00:00"
+      "detected_at": "2026-04-21T21:25:10.164287+00:00"
     },
     {
       "ticker": "SPGI",
@@ -2081,7 +2081,7 @@
       "net_premium": 517284.0,
       "total_call_volume": 1091,
       "total_put_volume": 400,
-      "avg_iv": 0.488,
+      "avg_iv": 0.487,
       "unusual_score": 67,
       "top_contracts": [
         {
@@ -2110,14 +2110,14 @@
           "last_price": 3.6,
           "last_trade_date": "2026-04-21 19:58",
           "premium_usd": 41760.0,
-          "iv": 0.321,
+          "iv": 0.388,
           "itm": false,
           "speculative": true
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 306946.0,
-      "detected_at": "2026-04-21T20:28:22.460872+00:00"
+      "detected_at": "2026-04-21T21:25:08.796991+00:00"
     },
     {
       "ticker": "EQIX",
@@ -2126,14 +2126,14 @@
       "interpretation_reason": "Calls 17% ITM con acción +54% desde mínimos anuales. Posible recogida de beneficios en calls largas.",
       "current_price": 1094.3399658203125,
       "drawdown_from_high_pct": -0.9,
-      "call_pct": 73.7,
+      "call_pct": 73.6,
       "total_call_premium": 1037519.0,
-      "total_put_premium": 370445.0,
-      "total_premium": 1407964.0,
-      "net_premium": 667074.0,
+      "total_put_premium": 371661.0,
+      "total_premium": 1409180.0,
+      "net_premium": 665858.0,
       "total_call_volume": 185,
-      "total_put_volume": 482,
-      "avg_iv": 0.447,
+      "total_put_volume": 483,
+      "avg_iv": 0.446,
       "unusual_score": 83,
       "top_contracts": [
         {
@@ -2147,14 +2147,14 @@
           "last_price": 108.55,
           "last_trade_date": "2026-04-02 14:36",
           "premium_usd": 542750.0,
-          "iv": 0.536,
+          "iv": 0.529,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 542750.0,
-      "detected_at": "2026-04-21T20:28:08.598689+00:00"
+      "detected_at": "2026-04-21T21:24:54.572956+00:00"
     },
     {
       "ticker": "PEP",
@@ -2163,14 +2163,14 @@
       "interpretation_reason": "",
       "current_price": 154.9199981689453,
       "drawdown_from_high_pct": -9.7,
-      "call_pct": 62.0,
-      "total_call_premium": 835729.0,
-      "total_put_premium": 511284.0,
-      "total_premium": 1347013.0,
-      "net_premium": 324445.0,
-      "total_call_volume": 6137,
-      "total_put_volume": 5704,
-      "avg_iv": 0.418,
+      "call_pct": 61.5,
+      "total_call_premium": 836644.0,
+      "total_put_premium": 522718.0,
+      "total_premium": 1359362.0,
+      "net_premium": 313926.0,
+      "total_call_volume": 6154,
+      "total_put_volume": 5783,
+      "avg_iv": 0.419,
       "unusual_score": 45,
       "top_contracts": [
         {
@@ -2199,7 +2199,7 @@
           "last_price": 8.42,
           "last_trade_date": "2026-04-17 14:14",
           "premium_usd": 120406.0,
-          "iv": 0.463,
+          "iv": 0.505,
           "itm": true,
           "speculative": true
         },
@@ -2214,14 +2214,14 @@
           "last_price": 1.76,
           "last_trade_date": "2026-04-21 19:44",
           "premium_usd": 77616.0,
-          "iv": 0.241,
+          "iv": 0.237,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 133991.0,
-      "detected_at": "2026-04-21T20:28:19.747683+00:00"
+      "detected_at": "2026-04-21T21:25:05.668976+00:00"
     },
     {
       "ticker": "CB",
@@ -2230,44 +2230,44 @@
       "interpretation_reason": "",
       "current_price": 329.2900085449219,
       "drawdown_from_high_pct": -4.7,
-      "call_pct": 62.5,
-      "total_call_premium": 748419.0,
-      "total_put_premium": 449276.0,
-      "total_premium": 1197695.0,
-      "net_premium": 299143.0,
-      "total_call_volume": 1149,
-      "total_put_volume": 1066,
-      "avg_iv": 0.444,
+      "call_pct": 61.9,
+      "total_call_premium": 744833.0,
+      "total_put_premium": 459098.0,
+      "total_premium": 1203931.0,
+      "net_premium": 285735.0,
+      "total_call_volume": 1214,
+      "total_put_volume": 1077,
+      "avg_iv": 0.455,
       "unusual_score": 57,
       "top_contracts": [
-        {
-          "side": "CALL",
-          "strike": 330.0,
-          "expiry": "2026-05-15",
-          "dte": 24,
-          "volume": 246,
-          "open_interest": 1448,
-          "vol_oi_ratio": 0.17,
-          "last_price": 8.6,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 211560.0,
-          "iv": 0.269,
-          "itm": false,
-          "speculative": false
-        },
         {
           "side": "PUT",
           "strike": 330.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 281,
+          "volume": 285,
           "open_interest": 72,
-          "vol_oi_ratio": 3.9,
-          "last_price": 7.18,
-          "last_trade_date": "2026-04-21 19:54",
-          "premium_usd": 201758.0,
-          "iv": 0.207,
+          "vol_oi_ratio": 3.96,
+          "last_price": 7.29,
+          "last_trade_date": "2026-04-21 19:56",
+          "premium_usd": 207765.0,
+          "iv": 0.269,
           "itm": true,
+          "speculative": false
+        },
+        {
+          "side": "CALL",
+          "strike": 330.0,
+          "expiry": "2026-05-15",
+          "dte": 24,
+          "volume": 247,
+          "open_interest": 1448,
+          "vol_oi_ratio": 0.17,
+          "last_price": 8.4,
+          "last_trade_date": "2026-04-21 19:58",
+          "premium_usd": 207480.0,
+          "iv": 0.254,
+          "itm": false,
           "speculative": false
         },
         {
@@ -2275,20 +2275,20 @@
           "strike": 340.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 494,
+          "volume": 497,
           "open_interest": 308,
-          "vol_oi_ratio": 1.6,
-          "last_price": 3.9,
-          "last_trade_date": "2026-04-21 19:54",
-          "premium_usd": 192660.0,
-          "iv": 0.237,
+          "vol_oi_ratio": 1.61,
+          "last_price": 3.7,
+          "last_trade_date": "2026-04-21 19:59",
+          "premium_usd": 183890.0,
+          "iv": 0.227,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
-      "max_single_premium": 211560.0,
-      "detected_at": "2026-04-21T20:28:04.897374+00:00"
+      "max_single_premium": 207765.0,
+      "detected_at": "2026-04-21T21:24:50.933027+00:00"
     },
     {
       "ticker": "VRSN",
@@ -2298,13 +2298,13 @@
       "current_price": 269.7799987792969,
       "drawdown_from_high_pct": -13.1,
       "call_pct": 98.9,
-      "total_call_premium": 1079246.0,
+      "total_call_premium": 1079501.0,
       "total_put_premium": 11760.0,
-      "total_premium": 1091006.0,
-      "net_premium": 1067486.0,
-      "total_call_volume": 320,
+      "total_premium": 1091261.0,
+      "net_premium": 1067741.0,
+      "total_call_volume": 321,
       "total_put_volume": 23,
-      "avg_iv": 0.617,
+      "avg_iv": 0.615,
       "unusual_score": 93,
       "top_contracts": [
         {
@@ -2318,14 +2318,14 @@
           "last_price": 66.15,
           "last_trade_date": "2026-04-10 17:57",
           "premium_usd": 780570.0,
-          "iv": 0.758,
+          "iv": 0.715,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 780570.0,
-      "detected_at": "2026-04-21T20:28:24.766869+00:00"
+      "detected_at": "2026-04-21T21:25:11.223080+00:00"
     },
     {
       "ticker": "SAP",
@@ -2334,13 +2334,13 @@
       "interpretation_reason": "",
       "current_price": 176.44000244140625,
       "drawdown_from_high_pct": -43.7,
-      "call_pct": 38.5,
-      "total_call_premium": 400389.0,
-      "total_put_premium": 639908.0,
-      "total_premium": 1040297.0,
-      "net_premium": -239519.0,
-      "total_call_volume": 782,
-      "total_put_volume": 778,
+      "call_pct": 38.6,
+      "total_call_premium": 402085.0,
+      "total_put_premium": 640338.0,
+      "total_premium": 1042423.0,
+      "net_premium": -238253.0,
+      "total_call_volume": 787,
+      "total_put_volume": 780,
       "avg_iv": 0.811,
       "unusual_score": 67,
       "top_contracts": [
@@ -2355,7 +2355,7 @@
           "last_price": 12.1,
           "last_trade_date": "2026-04-21 19:46",
           "premium_usd": 302500.0,
-          "iv": 0.906,
+          "iv": 0.921,
           "itm": true,
           "speculative": true
         },
@@ -2370,7 +2370,7 @@
           "last_price": 4.3,
           "last_trade_date": "2026-04-21 18:16",
           "premium_usd": 57620.0,
-          "iv": 0.508,
+          "iv": 0.505,
           "itm": false,
           "speculative": false
         },
@@ -2385,14 +2385,14 @@
           "last_price": 3.56,
           "last_trade_date": "2026-04-21 14:03",
           "premium_usd": 35600.0,
-          "iv": 0.591,
+          "iv": 0.594,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 302500.0,
-      "detected_at": "2026-04-21T20:28:22.022222+00:00"
+      "detected_at": "2026-04-21T21:25:08.097298+00:00"
     },
     {
       "ticker": "TT",
@@ -2408,7 +2408,7 @@
       "net_premium": 847544.0,
       "total_call_volume": 316,
       "total_put_volume": 80,
-      "avg_iv": 0.559,
+      "avg_iv": 0.562,
       "unusual_score": 54,
       "top_contracts": [
         {
@@ -2422,14 +2422,14 @@
           "last_price": 10.96,
           "last_trade_date": "2026-04-21 19:41",
           "premium_usd": 189608.0,
-          "iv": 0.379,
+          "iv": 0.381,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 189608.0,
-      "detected_at": "2026-04-21T20:28:23.213324+00:00"
+      "detected_at": "2026-04-21T21:25:09.353341+00:00"
     },
     {
       "ticker": "PGR",
@@ -2438,14 +2438,14 @@
       "interpretation_reason": "",
       "current_price": 207.5,
       "drawdown_from_high_pct": -28.4,
-      "call_pct": 88.9,
-      "total_call_premium": 791734.0,
-      "total_put_premium": 98373.0,
-      "total_premium": 890107.0,
-      "net_premium": 693361.0,
-      "total_call_volume": 1152,
-      "total_put_volume": 278,
-      "avg_iv": 0.481,
+      "call_pct": 89.0,
+      "total_call_premium": 798772.0,
+      "total_put_premium": 98921.0,
+      "total_premium": 897693.0,
+      "net_premium": 699851.0,
+      "total_call_volume": 1155,
+      "total_put_volume": 282,
+      "avg_iv": 0.479,
       "unusual_score": 81,
       "top_contracts": [
         {
@@ -2474,7 +2474,7 @@
           "last_price": 1.3,
           "last_trade_date": "2026-04-21 19:47",
           "premium_usd": 54600.0,
-          "iv": 0.318,
+          "iv": 0.312,
           "itm": false,
           "speculative": true
         },
@@ -2483,20 +2483,20 @@
           "strike": 215.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 140,
+          "volume": 141,
           "open_interest": 275,
           "vol_oi_ratio": 0.51,
-          "last_price": 2.4,
-          "last_trade_date": "2026-04-21 16:47",
-          "premium_usd": 33600.0,
-          "iv": 0.271,
+          "last_price": 2.85,
+          "last_trade_date": "2026-04-21 19:55",
+          "premium_usd": 40185.0,
+          "iv": 0.265,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 500500.0,
-      "detected_at": "2026-04-21T20:28:20.052795+00:00"
+      "detected_at": "2026-04-21T21:25:05.941701+00:00"
     },
     {
       "ticker": "CL",
@@ -2505,14 +2505,14 @@
       "interpretation_reason": "",
       "current_price": 81.80999755859375,
       "drawdown_from_high_pct": -17.6,
-      "call_pct": 83.3,
-      "total_call_premium": 637272.0,
-      "total_put_premium": 127925.0,
-      "total_premium": 765197.0,
-      "net_premium": 509347.0,
-      "total_call_volume": 906,
-      "total_put_volume": 647,
-      "avg_iv": 0.529,
+      "call_pct": 83.0,
+      "total_call_premium": 636554.0,
+      "total_put_premium": 130099.0,
+      "total_premium": 766653.0,
+      "net_premium": 506455.0,
+      "total_call_volume": 907,
+      "total_put_volume": 654,
+      "avg_iv": 0.53,
       "unusual_score": 51,
       "top_contracts": [
         {
@@ -2526,7 +2526,7 @@
           "last_price": 20.6,
           "last_trade_date": "2026-04-17 18:56",
           "premium_usd": 164800.0,
-          "iv": 2.025,
+          "iv": 1.803,
           "itm": true,
           "speculative": true
         },
@@ -2541,7 +2541,7 @@
           "last_price": 10.7,
           "last_trade_date": "2026-04-17 16:55",
           "premium_usd": 112350.0,
-          "iv": 0.636,
+          "iv": 0.594,
           "itm": true,
           "speculative": false
         },
@@ -2563,28 +2563,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 164800.0,
-      "detected_at": "2026-04-21T20:28:07.482448+00:00"
-    },
-    {
-      "ticker": "ADP",
-      "signal": "BEARISH",
-      "flow_interpretation": "STANDARD",
-      "interpretation_reason": "",
-      "current_price": 202.8699951171875,
-      "drawdown_from_high_pct": -38.5,
-      "call_pct": 26.1,
-      "total_call_premium": 194507.0,
-      "total_put_premium": 549969.0,
-      "total_premium": 744476.0,
-      "net_premium": -355462.0,
-      "total_call_volume": 633,
-      "total_put_volume": 567,
-      "avg_iv": 0.536,
-      "unusual_score": 0,
-      "top_contracts": [],
-      "has_large_premium": false,
-      "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:03.925353+00:00"
+      "detected_at": "2026-04-21T21:24:53.089770+00:00"
     },
     {
       "ticker": "CME",
@@ -2593,28 +2572,28 @@
       "interpretation_reason": "",
       "current_price": 284.3999938964844,
       "drawdown_from_high_pct": -13.6,
-      "call_pct": 45.7,
-      "total_call_premium": 308252.0,
-      "total_put_premium": 366680.0,
-      "total_premium": 674932.0,
-      "net_premium": -58428.0,
-      "total_call_volume": 1251,
-      "total_put_volume": 860,
-      "avg_iv": 0.467,
-      "unusual_score": 29,
+      "call_pct": 44.1,
+      "total_call_premium": 334266.0,
+      "total_put_premium": 424511.0,
+      "total_premium": 758777.0,
+      "net_premium": -90245.0,
+      "total_call_volume": 1467,
+      "total_put_volume": 1083,
+      "avg_iv": 0.479,
+      "unusual_score": 31,
       "top_contracts": [
         {
           "side": "CALL",
           "strike": 285.0,
           "expiry": "2026-04-24",
           "dte": 3,
-          "volume": 178,
+          "volume": 179,
           "open_interest": 1,
-          "vol_oi_ratio": 178.0,
-          "last_price": 4.23,
-          "last_trade_date": "2026-04-21 19:56",
-          "premium_usd": 75294.0,
-          "iv": 0.454,
+          "vol_oi_ratio": 179.0,
+          "last_price": 4.47,
+          "last_trade_date": "2026-04-21 19:57",
+          "premium_usd": 80013.0,
+          "iv": 0.521,
           "itm": false,
           "speculative": true
         },
@@ -2629,7 +2608,7 @@
           "last_price": 5.0,
           "last_trade_date": "2026-04-21 19:49",
           "premium_usd": 66000.0,
-          "iv": 0.437,
+          "iv": 0.412,
           "itm": true,
           "speculative": true
         },
@@ -2650,8 +2629,29 @@
         }
       ],
       "has_large_premium": false,
-      "max_single_premium": 75294.0,
-      "detected_at": "2026-04-21T20:28:07.536990+00:00"
+      "max_single_premium": 80013.0,
+      "detected_at": "2026-04-21T21:24:53.459805+00:00"
+    },
+    {
+      "ticker": "ADP",
+      "signal": "BEARISH",
+      "flow_interpretation": "STANDARD",
+      "interpretation_reason": "",
+      "current_price": 202.8699951171875,
+      "drawdown_from_high_pct": -38.5,
+      "call_pct": 26.1,
+      "total_call_premium": 194507.0,
+      "total_put_premium": 549889.0,
+      "total_premium": 744396.0,
+      "net_premium": -355382.0,
+      "total_call_volume": 633,
+      "total_put_volume": 567,
+      "avg_iv": 0.546,
+      "unusual_score": 0,
+      "top_contracts": [],
+      "has_large_premium": false,
+      "max_single_premium": 0,
+      "detected_at": "2026-04-21T21:24:49.695789+00:00"
     },
     {
       "ticker": "LIN",
@@ -2667,7 +2667,7 @@
       "net_premium": -368443.0,
       "total_call_volume": 163,
       "total_put_volume": 706,
-      "avg_iv": 0.348,
+      "avg_iv": 0.35,
       "unusual_score": 66,
       "top_contracts": [
         {
@@ -2696,30 +2696,30 @@
           "last_price": 4.3,
           "last_trade_date": "2026-04-21 17:35",
           "premium_usd": 37410.0,
-          "iv": 0.274,
+          "iv": 0.277,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 292320.0,
-      "detected_at": "2026-04-21T20:28:14.143450+00:00"
+      "detected_at": "2026-04-21T21:24:59.761579+00:00"
     },
     {
       "ticker": "CBOE",
       "signal": "BULLISH",
       "flow_interpretation": "STANDARD",
       "interpretation_reason": "",
-      "current_price": 299.3999938964844,
+      "current_price": 299.25,
       "drawdown_from_high_pct": -3.4,
       "call_pct": 87.4,
       "total_call_premium": 527480.0,
-      "total_put_premium": 75785.0,
-      "total_premium": 603265.0,
-      "net_premium": 451695.0,
+      "total_put_premium": 75858.0,
+      "total_premium": 603338.0,
+      "net_premium": 451622.0,
       "total_call_volume": 654,
-      "total_put_volume": 851,
-      "avg_iv": 0.455,
+      "total_put_volume": 852,
+      "avg_iv": 0.453,
       "unusual_score": 67,
       "top_contracts": [
         {
@@ -2740,7 +2740,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 306400.0,
-      "detected_at": "2026-04-21T20:28:06.267596+00:00"
+      "detected_at": "2026-04-21T21:24:52.022918+00:00"
     },
     {
       "ticker": "BRO",
@@ -2750,13 +2750,13 @@
       "current_price": 68.94999694824219,
       "drawdown_from_high_pct": -42.1,
       "call_pct": 99.0,
-      "total_call_premium": 541913.0,
+      "total_call_premium": 543193.0,
       "total_put_premium": 5572.0,
-      "total_premium": 547485.0,
-      "net_premium": 536341.0,
-      "total_call_volume": 756,
+      "total_premium": 548765.0,
+      "net_premium": 537621.0,
+      "total_call_volume": 757,
       "total_put_volume": 26,
-      "avg_iv": 0.607,
+      "avg_iv": 0.642,
       "unusual_score": 82,
       "top_contracts": [
         {
@@ -2770,14 +2770,14 @@
           "last_price": 10.48,
           "last_trade_date": "2026-03-27 17:56",
           "premium_usd": 528192.0,
-          "iv": 0.836,
+          "iv": 0.888,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 528192.0,
-      "detected_at": "2026-04-21T20:28:05.044741+00:00"
+      "detected_at": "2026-04-21T21:24:50.813831+00:00"
     },
     {
       "ticker": "ICE",
@@ -2786,13 +2786,13 @@
       "interpretation_reason": "Calls OTM (4% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 158.6300048828125,
       "drawdown_from_high_pct": -16.2,
-      "call_pct": 73.4,
+      "call_pct": 73.3,
       "total_call_premium": 401220.0,
-      "total_put_premium": 145364.0,
-      "total_premium": 546584.0,
-      "net_premium": 255856.0,
+      "total_put_premium": 145996.0,
+      "total_premium": 547216.0,
+      "net_premium": 255224.0,
       "total_call_volume": 3002,
-      "total_put_volume": 945,
+      "total_put_volume": 946,
       "avg_iv": 0.375,
       "unusual_score": 50,
       "top_contracts": [
@@ -2807,7 +2807,7 @@
           "last_price": 2.4,
           "last_trade_date": "2026-04-17 17:19",
           "premium_usd": 163680.0,
-          "iv": 0.333,
+          "iv": 0.325,
           "itm": false,
           "speculative": false
         },
@@ -2822,7 +2822,7 @@
           "last_price": 1.34,
           "last_trade_date": "2026-04-21 19:52",
           "premium_usd": 106530.0,
-          "iv": 0.318,
+          "iv": 0.341,
           "itm": false,
           "speculative": true
         },
@@ -2844,7 +2844,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 163680.0,
-      "detected_at": "2026-04-21T20:28:12.247056+00:00"
+      "detected_at": "2026-04-21T21:24:58.126762+00:00"
     },
     {
       "ticker": "MSCI",
@@ -2855,17 +2855,17 @@
       "drawdown_from_high_pct": -4.6,
       "call_pct": 71.1,
       "total_call_premium": 314261.0,
-      "total_put_premium": 127822.0,
-      "total_premium": 442083.0,
-      "net_premium": 186439.0,
+      "total_put_premium": 127587.0,
+      "total_premium": 441848.0,
+      "net_premium": 186674.0,
       "total_call_volume": 142,
-      "total_put_volume": 289,
-      "avg_iv": 0.503,
+      "total_put_volume": 290,
+      "avg_iv": 0.508,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:15.782751+00:00"
+      "detected_at": "2026-04-21T21:25:01.413181+00:00"
     },
     {
       "ticker": "ROP",
@@ -2874,14 +2874,14 @@
       "interpretation_reason": "",
       "current_price": 362.92999267578125,
       "drawdown_from_high_pct": -37.9,
-      "call_pct": 40.2,
+      "call_pct": 40.1,
       "total_call_premium": 173034.0,
-      "total_put_premium": 257439.0,
-      "total_premium": 430473.0,
-      "net_premium": -84405.0,
+      "total_put_premium": 257969.0,
+      "total_premium": 431003.0,
+      "net_premium": -84935.0,
       "total_call_volume": 190,
-      "total_put_volume": 125,
-      "avg_iv": 0.607,
+      "total_put_volume": 126,
+      "avg_iv": 0.616,
       "unusual_score": 3,
       "top_contracts": [
         {
@@ -2895,14 +2895,14 @@
           "last_price": 4.1,
           "last_trade_date": "2026-04-21 19:47",
           "premium_usd": 28700.0,
-          "iv": 0.385,
+          "iv": 0.382,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 28700.0,
-      "detected_at": "2026-04-21T20:28:20.962800+00:00"
+      "detected_at": "2026-04-21T21:25:06.772403+00:00"
     },
     {
       "ticker": "CNI",
@@ -2918,7 +2918,7 @@
       "net_premium": -214370.0,
       "total_call_volume": 628,
       "total_put_volume": 867,
-      "avg_iv": 0.397,
+      "avg_iv": 0.394,
       "unusual_score": 68,
       "top_contracts": [
         {
@@ -2932,7 +2932,7 @@
           "last_price": 5.44,
           "last_trade_date": "2026-04-21 17:20",
           "premium_usd": 307360.0,
-          "iv": 0.254,
+          "iv": 0.243,
           "itm": true,
           "speculative": false
         },
@@ -2954,7 +2954,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 307360.0,
-      "detected_at": "2026-04-21T20:28:06.248273+00:00"
+      "detected_at": "2026-04-21T21:24:52.281360+00:00"
     },
     {
       "ticker": "ERIE",
@@ -2970,7 +2970,7 @@
       "net_premium": 404545.0,
       "total_call_volume": 321,
       "total_put_volume": 6,
-      "avg_iv": 0.551,
+      "avg_iv": 0.53,
       "unusual_score": 72,
       "top_contracts": [
         {
@@ -2984,14 +2984,14 @@
           "last_price": 12.23,
           "last_trade_date": "2026-04-17 19:45",
           "premium_usd": 368123.0,
-          "iv": 0.56,
+          "iv": 0.522,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 368123.0,
-      "detected_at": "2026-04-21T20:28:09.758797+00:00"
+      "detected_at": "2026-04-21T21:24:55.329760+00:00"
     },
     {
       "ticker": "GWW",
@@ -3012,7 +3012,7 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:11.137331+00:00"
+      "detected_at": "2026-04-21T21:24:56.623090+00:00"
     },
     {
       "ticker": "VEEV",
@@ -3021,14 +3021,14 @@
       "interpretation_reason": "",
       "current_price": 167.7899932861328,
       "drawdown_from_high_pct": -46.0,
-      "call_pct": 42.2,
-      "total_call_premium": 166688.0,
+      "call_pct": 42.7,
+      "total_call_premium": 169851.0,
       "total_put_premium": 228035.0,
-      "total_premium": 394723.0,
-      "net_premium": -61347.0,
-      "total_call_volume": 446,
+      "total_premium": 397886.0,
+      "net_premium": -58184.0,
+      "total_call_volume": 453,
       "total_put_volume": 380,
-      "avg_iv": 0.569,
+      "avg_iv": 0.572,
       "unusual_score": 37,
       "top_contracts": [
         {
@@ -3051,20 +3051,20 @@
           "strike": 190.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 229,
+          "volume": 234,
           "open_interest": 183,
-          "vol_oi_ratio": 1.25,
-          "last_price": 1.43,
-          "last_trade_date": "2026-04-21 19:54",
-          "premium_usd": 32747.0,
-          "iv": 0.443,
+          "vol_oi_ratio": 1.28,
+          "last_price": 1.5,
+          "last_trade_date": "2026-04-21 19:57",
+          "premium_usd": 35100.0,
+          "iv": 0.457,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 99330.0,
-      "detected_at": "2026-04-21T20:28:24.446559+00:00"
+      "detected_at": "2026-04-21T21:25:10.404869+00:00"
     },
     {
       "ticker": "ORLY",
@@ -3073,14 +3073,14 @@
       "interpretation_reason": "Calls OTM (4% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 93.80999755859375,
       "drawdown_from_high_pct": -13.7,
-      "call_pct": 85.5,
-      "total_call_premium": 329432.0,
+      "call_pct": 85.9,
+      "total_call_premium": 338422.0,
       "total_put_premium": 55658.0,
-      "total_premium": 385090.0,
-      "net_premium": 273774.0,
-      "total_call_volume": 1932,
+      "total_premium": 394080.0,
+      "net_premium": 282764.0,
+      "total_call_volume": 1943,
       "total_put_volume": 91,
-      "avg_iv": 0.509,
+      "avg_iv": 0.511,
       "unusual_score": 46,
       "top_contracts": [
         {
@@ -3103,20 +3103,20 @@
           "strike": 100.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 789,
+          "volume": 800,
           "open_interest": 1960,
-          "vol_oi_ratio": 0.4,
-          "last_price": 0.9,
-          "last_trade_date": "2026-04-21 19:34",
-          "premium_usd": 71010.0,
-          "iv": 0.315,
+          "vol_oi_ratio": 0.41,
+          "last_price": 1.0,
+          "last_trade_date": "2026-04-21 19:58",
+          "premium_usd": 80000.0,
+          "iv": 0.347,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 140250.0,
-      "detected_at": "2026-04-21T20:28:17.480760+00:00"
+      "detected_at": "2026-04-21T21:25:03.107539+00:00"
     },
     {
       "ticker": "WM",
@@ -3125,14 +3125,14 @@
       "interpretation_reason": "",
       "current_price": 223.4199981689453,
       "drawdown_from_high_pct": -10.0,
-      "call_pct": 45.7,
-      "total_call_premium": 172803.0,
+      "call_pct": 45.8,
+      "total_call_premium": 173098.0,
       "total_put_premium": 205166.0,
-      "total_premium": 377969.0,
-      "net_premium": -32363.0,
-      "total_call_volume": 331,
+      "total_premium": 378264.0,
+      "net_premium": -32068.0,
+      "total_call_volume": 371,
       "total_put_volume": 465,
-      "avg_iv": 0.39,
+      "avg_iv": 0.398,
       "unusual_score": 44,
       "top_contracts": [
         {
@@ -3176,14 +3176,14 @@
           "last_price": 3.4,
           "last_trade_date": "2026-04-21 19:49",
           "premium_usd": 30260.0,
-          "iv": 0.278,
+          "iv": 0.287,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 131100.0,
-      "detected_at": "2026-04-21T20:28:25.471199+00:00"
+      "detected_at": "2026-04-21T21:25:11.631702+00:00"
     },
     {
       "ticker": "ZTS",
@@ -3192,14 +3192,14 @@
       "interpretation_reason": "",
       "current_price": 118.18000030517578,
       "drawdown_from_high_pct": -31.4,
-      "call_pct": 41.6,
-      "total_call_premium": 139569.0,
-      "total_put_premium": 195824.0,
-      "total_premium": 335393.0,
-      "net_premium": -56255.0,
-      "total_call_volume": 324,
-      "total_put_volume": 480,
-      "avg_iv": 0.549,
+      "call_pct": 41.4,
+      "total_call_premium": 140109.0,
+      "total_put_premium": 198634.0,
+      "total_premium": 338743.0,
+      "net_premium": -58525.0,
+      "total_call_volume": 326,
+      "total_put_volume": 489,
+      "avg_iv": 0.547,
       "unusual_score": 44,
       "top_contracts": [
         {
@@ -3213,7 +3213,7 @@
           "last_price": 4.2,
           "last_trade_date": "2026-04-21 19:53",
           "premium_usd": 128520.0,
-          "iv": 0.464,
+          "iv": 0.548,
           "itm": false,
           "speculative": false
         },
@@ -3228,7 +3228,7 @@
           "last_price": 3.27,
           "last_trade_date": "2026-04-21 19:29",
           "premium_usd": 62130.0,
-          "iv": 0.482,
+          "iv": 0.451,
           "itm": false,
           "speculative": false
         },
@@ -3243,14 +3243,14 @@
           "last_price": 6.0,
           "last_trade_date": "2026-04-21 19:36",
           "premium_usd": 30000.0,
-          "iv": 0.487,
+          "iv": 0.438,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 128520.0,
-      "detected_at": "2026-04-21T20:28:26.774447+00:00"
+      "detected_at": "2026-04-21T21:25:12.955609+00:00"
     },
     {
       "ticker": "HEI",
@@ -3259,14 +3259,14 @@
       "interpretation_reason": "Calls OTM (12% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 276.0199890136719,
       "drawdown_from_high_pct": -23.7,
-      "call_pct": 65.8,
-      "total_call_premium": 210617.0,
+      "call_pct": 65.9,
+      "total_call_premium": 211367.0,
       "total_put_premium": 109306.0,
-      "total_premium": 319923.0,
-      "net_premium": 101311.0,
-      "total_call_volume": 871,
+      "total_premium": 320673.0,
+      "net_premium": 102061.0,
+      "total_call_volume": 872,
       "total_put_volume": 87,
-      "avg_iv": 0.506,
+      "avg_iv": 0.507,
       "unusual_score": 44,
       "top_contracts": [
         {
@@ -3287,7 +3287,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 127280.0,
-      "detected_at": "2026-04-21T20:28:11.281162+00:00"
+      "detected_at": "2026-04-21T21:24:56.789753+00:00"
     },
     {
       "ticker": "FDS",
@@ -3303,7 +3303,7 @@
       "net_premium": 143279.0,
       "total_call_volume": 484,
       "total_put_volume": 87,
-      "avg_iv": 0.678,
+      "avg_iv": 0.669,
       "unusual_score": 20,
       "top_contracts": [
         {
@@ -3339,7 +3339,7 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 52780.0,
-      "detected_at": "2026-04-21T20:28:10.026595+00:00"
+      "detected_at": "2026-04-21T21:24:55.756677+00:00"
     },
     {
       "ticker": "NDSN",
@@ -3355,7 +3355,7 @@
       "net_premium": 269769.0,
       "total_call_volume": 314,
       "total_put_volume": 1,
-      "avg_iv": 0.392,
+      "avg_iv": 0.382,
       "unusual_score": 64,
       "top_contracts": [
         {
@@ -3369,14 +3369,14 @@
           "last_price": 8.71,
           "last_trade_date": "2026-04-17 19:49",
           "premium_usd": 269139.0,
-          "iv": 0.36,
+          "iv": 0.343,
           "itm": true,
           "speculative": false
         }
       ],
       "has_large_premium": true,
       "max_single_premium": 269139.0,
-      "detected_at": "2026-04-21T20:28:16.525638+00:00"
+      "detected_at": "2026-04-21T21:25:02.792070+00:00"
     },
     {
       "ticker": "MSI",
@@ -3392,7 +3392,7 @@
       "net_premium": 142894.0,
       "total_call_volume": 233,
       "total_put_volume": 52,
-      "avg_iv": 0.38,
+      "avg_iv": 0.381,
       "unusual_score": 51,
       "top_contracts": [
         {
@@ -3413,7 +3413,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 167440.0,
-      "detected_at": "2026-04-21T20:28:16.292087+00:00"
+      "detected_at": "2026-04-21T21:25:02.418883+00:00"
     },
     {
       "ticker": "CPRT",
@@ -3423,13 +3423,13 @@
       "current_price": 33.7400016784668,
       "drawdown_from_high_pct": -47.2,
       "call_pct": 86.6,
-      "total_call_premium": 204692.0,
-      "total_put_premium": 31806.0,
-      "total_premium": 236498.0,
-      "net_premium": 172886.0,
-      "total_call_volume": 1320,
-      "total_put_volume": 174,
-      "avg_iv": 0.728,
+      "total_call_premium": 205219.0,
+      "total_put_premium": 31707.0,
+      "total_premium": 236926.0,
+      "net_premium": 173512.0,
+      "total_call_volume": 1335,
+      "total_put_volume": 175,
+      "avg_iv": 0.786,
       "unusual_score": 51,
       "top_contracts": [
         {
@@ -3450,7 +3450,7 @@
       ],
       "has_large_premium": true,
       "max_single_premium": 167316.0,
-      "detected_at": "2026-04-21T20:28:07.372341+00:00"
+      "detected_at": "2026-04-21T21:24:53.368360+00:00"
     },
     {
       "ticker": "TJX",
@@ -3459,14 +3459,14 @@
       "interpretation_reason": "Calls OTM (1% sobre precio). Apuesta nueva alcista desde nivel actual.",
       "current_price": 159.25,
       "drawdown_from_high_pct": -4.0,
-      "call_pct": 90.6,
-      "total_call_premium": 193850.0,
-      "total_put_premium": 20058.0,
-      "total_premium": 213908.0,
-      "net_premium": 173792.0,
-      "total_call_volume": 994,
-      "total_put_volume": 369,
-      "avg_iv": 0.692,
+      "call_pct": 90.7,
+      "total_call_premium": 195351.0,
+      "total_put_premium": 20078.0,
+      "total_premium": 215429.0,
+      "net_premium": 175273.0,
+      "total_call_volume": 1002,
+      "total_put_volume": 370,
+      "avg_iv": 0.628,
       "unusual_score": 10,
       "top_contracts": [
         {
@@ -3495,14 +3495,14 @@
           "last_price": 3.4,
           "last_trade_date": "2026-04-21 18:47",
           "premium_usd": 26520.0,
-          "iv": 0.232,
+          "iv": 0.244,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 36840.0,
-      "detected_at": "2026-04-21T20:28:23.185859+00:00"
+      "detected_at": "2026-04-21T21:25:08.901238+00:00"
     },
     {
       "ticker": "SYK",
@@ -3511,14 +3511,14 @@
       "interpretation_reason": "",
       "current_price": 327.29998779296875,
       "drawdown_from_high_pct": -19.2,
-      "call_pct": 58.1,
-      "total_call_premium": 112266.0,
-      "total_put_premium": 81110.0,
-      "total_premium": 193376.0,
-      "net_premium": 31156.0,
-      "total_call_volume": 426,
-      "total_put_volume": 84,
-      "avg_iv": 0.419,
+      "call_pct": 57.1,
+      "total_call_premium": 112336.0,
+      "total_put_premium": 84460.0,
+      "total_premium": 196796.0,
+      "net_premium": 27876.0,
+      "total_call_volume": 427,
+      "total_put_volume": 91,
+      "avg_iv": 0.421,
       "unusual_score": 31,
       "top_contracts": [
         {
@@ -3532,14 +3532,14 @@
           "last_price": 3.2,
           "last_trade_date": "2026-04-21 19:51",
           "premium_usd": 80000.0,
-          "iv": 0.328,
+          "iv": 0.324,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 80000.0,
-      "detected_at": "2026-04-21T20:28:22.082481+00:00"
+      "detected_at": "2026-04-21T21:25:07.948700+00:00"
     },
     {
       "ticker": "OTIS",
@@ -3548,14 +3548,14 @@
       "interpretation_reason": "Puts OTM (0% bajo precio). Apuesta nueva a caída desde nivel actual.",
       "current_price": 78.87000274658203,
       "drawdown_from_high_pct": -22.2,
-      "call_pct": 24.7,
-      "total_call_premium": 46821.0,
-      "total_put_premium": 143072.0,
-      "total_premium": 189893.0,
-      "net_premium": -96251.0,
-      "total_call_volume": 245,
-      "total_put_volume": 673,
-      "avg_iv": 0.459,
+      "call_pct": 24.8,
+      "total_call_premium": 47416.0,
+      "total_put_premium": 143525.0,
+      "total_premium": 190941.0,
+      "net_premium": -96109.0,
+      "total_call_volume": 250,
+      "total_put_volume": 676,
+      "avg_iv": 0.472,
       "unusual_score": 35,
       "top_contracts": [
         {
@@ -3569,7 +3569,7 @@
           "last_price": 2.15,
           "last_trade_date": "2026-04-21 19:51",
           "premium_usd": 91805.0,
-          "iv": 0.533,
+          "iv": 0.434,
           "itm": false,
           "speculative": false
         },
@@ -3593,20 +3593,20 @@
           "strike": 80.0,
           "expiry": "2026-05-15",
           "dte": 24,
-          "volume": 141,
+          "volume": 142,
           "open_interest": 167,
-          "vol_oi_ratio": 0.84,
-          "last_price": 2.25,
-          "last_trade_date": "2026-04-21 19:52",
-          "premium_usd": 31725.0,
-          "iv": 0.39,
+          "vol_oi_ratio": 0.85,
+          "last_price": 2.2,
+          "last_trade_date": "2026-04-21 19:58",
+          "premium_usd": 31240.0,
+          "iv": 0.384,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 91805.0,
-      "detected_at": "2026-04-21T20:28:17.597324+00:00"
+      "detected_at": "2026-04-21T21:25:03.523840+00:00"
     },
     {
       "ticker": "MKC",
@@ -3622,7 +3622,7 @@
       "net_premium": 123224.0,
       "total_call_volume": 908,
       "total_put_volume": 273,
-      "avg_iv": 0.551,
+      "avg_iv": 0.598,
       "unusual_score": 14,
       "top_contracts": [
         {
@@ -3643,7 +3643,7 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 42570.0,
-      "detected_at": "2026-04-21T20:28:15.410576+00:00"
+      "detected_at": "2026-04-21T21:25:01.146270+00:00"
     },
     {
       "ticker": "CTAS",
@@ -3659,12 +3659,12 @@
       "net_premium": -2030.0,
       "total_call_volume": 438,
       "total_put_volume": 488,
-      "avg_iv": 0.438,
+      "avg_iv": 0.443,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:08.621867+00:00"
+      "detected_at": "2026-04-21T21:24:54.978766+00:00"
     },
     {
       "ticker": "IDXX",
@@ -3685,7 +3685,7 @@
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:11.230678+00:00"
+      "detected_at": "2026-04-21T21:24:57.328945+00:00"
     },
     {
       "ticker": "AJG",
@@ -3701,12 +3701,12 @@
       "net_premium": -71388.0,
       "total_call_volume": 60,
       "total_put_volume": 57,
-      "avg_iv": 0.466,
+      "avg_iv": 0.465,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:02.807529+00:00"
+      "detected_at": "2026-04-21T21:24:48.639962+00:00"
     },
     {
       "ticker": "VRSK",
@@ -3722,12 +3722,33 @@
       "net_premium": -40278.0,
       "total_call_volume": 98,
       "total_put_volume": 85,
-      "avg_iv": 0.53,
+      "avg_iv": 0.527,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:24.560842+00:00"
+      "detected_at": "2026-04-21T21:25:11.063090+00:00"
+    },
+    {
+      "ticker": "AWK",
+      "signal": "BULLISH",
+      "flow_interpretation": "STANDARD",
+      "interpretation_reason": "",
+      "current_price": 132.0500030517578,
+      "drawdown_from_high_pct": -12.3,
+      "call_pct": 65.7,
+      "total_call_premium": 78120.0,
+      "total_put_premium": 40797.0,
+      "total_premium": 118917.0,
+      "net_premium": 37323.0,
+      "total_call_volume": 640,
+      "total_put_volume": 95,
+      "avg_iv": 0.387,
+      "unusual_score": 0,
+      "top_contracts": [],
+      "has_large_premium": false,
+      "max_single_premium": 0,
+      "detected_at": "2026-04-21T21:24:48.922179+00:00"
     },
     {
       "ticker": "ROL",
@@ -3743,7 +3764,7 @@
       "net_premium": -42955.0,
       "total_call_volume": 303,
       "total_put_volume": 227,
-      "avg_iv": 0.634,
+      "avg_iv": 0.636,
       "unusual_score": 4,
       "top_contracts": [
         {
@@ -3772,35 +3793,14 @@
           "last_price": 1.95,
           "last_trade_date": "2026-04-21 18:51",
           "premium_usd": 26130.0,
-          "iv": 0.541,
+          "iv": 0.532,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 29925.0,
-      "detected_at": "2026-04-21T20:28:20.144852+00:00"
-    },
-    {
-      "ticker": "AWK",
-      "signal": "BULLISH",
-      "flow_interpretation": "STANDARD",
-      "interpretation_reason": "",
-      "current_price": 132.0500030517578,
-      "drawdown_from_high_pct": -12.3,
-      "call_pct": 65.0,
-      "total_call_premium": 75778.0,
-      "total_put_premium": 40797.0,
-      "total_premium": 116575.0,
-      "net_premium": 34981.0,
-      "total_call_volume": 638,
-      "total_put_volume": 95,
-      "avg_iv": 0.382,
-      "unusual_score": 0,
-      "top_contracts": [],
-      "has_large_premium": false,
-      "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:02.850655+00:00"
+      "detected_at": "2026-04-21T21:25:06.518504+00:00"
     },
     {
       "ticker": "WCN",
@@ -3816,7 +3816,7 @@
       "net_premium": 102803.0,
       "total_call_volume": 581,
       "total_put_volume": 12,
-      "avg_iv": 0.438,
+      "avg_iv": 0.458,
       "unusual_score": 2,
       "top_contracts": [
         {
@@ -3830,14 +3830,14 @@
           "last_price": 0.6,
           "last_trade_date": "2026-04-21 19:49",
           "premium_usd": 27300.0,
-          "iv": 0.286,
+          "iv": 0.304,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 27300.0,
-      "detected_at": "2026-04-21T20:28:25.453477+00:00"
+      "detected_at": "2026-04-21T21:25:11.456144+00:00"
     },
     {
       "ticker": "SHW",
@@ -3853,12 +3853,12 @@
       "net_premium": 15434.0,
       "total_call_volume": 50,
       "total_put_volume": 176,
-      "avg_iv": 0.451,
+      "avg_iv": 0.454,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:21.050263+00:00"
+      "detected_at": "2026-04-21T21:25:07.156504+00:00"
     },
     {
       "ticker": "PAYX",
@@ -3867,14 +3867,14 @@
       "interpretation_reason": "",
       "current_price": 93.68000030517578,
       "drawdown_from_high_pct": -41.9,
-      "call_pct": 62.5,
-      "total_call_premium": 59996.0,
+      "call_pct": 61.1,
+      "total_call_premium": 56451.0,
       "total_put_premium": 36011.0,
-      "total_premium": 96007.0,
-      "net_premium": 23985.0,
-      "total_call_volume": 352,
+      "total_premium": 92462.0,
+      "net_premium": 20440.0,
+      "total_call_volume": 353,
       "total_put_volume": 174,
-      "avg_iv": 0.481,
+      "avg_iv": 0.491,
       "unusual_score": 4,
       "top_contracts": [
         {
@@ -3888,14 +3888,14 @@
           "last_price": 2.65,
           "last_trade_date": "2026-04-21 17:37",
           "premium_usd": 29150.0,
-          "iv": 0.332,
+          "iv": 0.327,
           "itm": false,
           "speculative": false
         }
       ],
       "has_large_premium": false,
       "max_single_premium": 29150.0,
-      "detected_at": "2026-04-21T20:28:17.636383+00:00"
+      "detected_at": "2026-04-21T21:25:04.175524+00:00"
     },
     {
       "ticker": "WST",
@@ -3911,12 +3911,12 @@
       "net_premium": 76769.0,
       "total_call_volume": 62,
       "total_put_volume": 14,
-      "avg_iv": 0.572,
+      "avg_iv": 0.57,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:25.546321+00:00"
+      "detected_at": "2026-04-21T21:25:12.106582+00:00"
     },
     {
       "ticker": "AON",
@@ -3932,7 +3932,7 @@
       "net_premium": 67151.0,
       "total_call_volume": 138,
       "total_put_volume": 18,
-      "avg_iv": 0.397,
+      "avg_iv": 0.399,
       "unusual_score": 18,
       "top_contracts": [
         {
@@ -3953,7 +3953,7 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 48760.0,
-      "detected_at": "2026-04-21T20:28:02.750424+00:00"
+      "detected_at": "2026-04-21T21:24:48.852381+00:00"
     },
     {
       "ticker": "FAST",
@@ -3969,7 +3969,7 @@
       "net_premium": 59058.0,
       "total_call_volume": 986,
       "total_put_volume": 131,
-      "avg_iv": 0.639,
+      "avg_iv": 0.633,
       "unusual_score": 3,
       "top_contracts": [
         {
@@ -4005,7 +4005,7 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 28322.0,
-      "detected_at": "2026-04-21T20:28:09.990624+00:00"
+      "detected_at": "2026-04-21T21:24:55.568503+00:00"
     },
     {
       "ticker": "IT",
@@ -4021,12 +4021,12 @@
       "net_premium": -39409.0,
       "total_call_volume": 56,
       "total_put_volume": 48,
-      "avg_iv": 0.727,
+      "avg_iv": 0.73,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:12.124749+00:00"
+      "detected_at": "2026-04-21T21:24:57.801224+00:00"
     },
     {
       "ticker": "ECL",
@@ -4035,19 +4035,19 @@
       "interpretation_reason": "",
       "current_price": 270.8399963378906,
       "drawdown_from_high_pct": -12.4,
-      "call_pct": 23.5,
-      "total_call_premium": 18405.0,
+      "call_pct": 23.4,
+      "total_call_premium": 18365.0,
       "total_put_premium": 60011.0,
-      "total_premium": 78416.0,
-      "net_premium": -41606.0,
-      "total_call_volume": 70,
+      "total_premium": 78376.0,
+      "net_premium": -41646.0,
+      "total_call_volume": 69,
       "total_put_volume": 37,
-      "avg_iv": 0.351,
+      "avg_iv": 0.368,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:08.759808+00:00"
+      "detected_at": "2026-04-21T21:24:54.370229+00:00"
     },
     {
       "ticker": "CHD",
@@ -4063,12 +4063,12 @@
       "net_premium": 41901.0,
       "total_call_volume": 40,
       "total_put_volume": 74,
-      "avg_iv": 0.649,
+      "avg_iv": 0.648,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:06.105034+00:00"
+      "detected_at": "2026-04-21T21:24:52.066530+00:00"
     },
     {
       "ticker": "NDAQ",
@@ -4077,19 +4077,19 @@
       "interpretation_reason": "",
       "current_price": 87.5999984741211,
       "drawdown_from_high_pct": -13.9,
-      "call_pct": 78.8,
-      "total_call_premium": 52241.0,
-      "total_put_premium": 14052.0,
-      "total_premium": 66293.0,
-      "net_premium": 38189.0,
-      "total_call_volume": 222,
-      "total_put_volume": 216,
-      "avg_iv": 0.547,
+      "call_pct": 78.1,
+      "total_call_premium": 52383.0,
+      "total_put_premium": 14682.0,
+      "total_premium": 67065.0,
+      "net_premium": 37701.0,
+      "total_call_volume": 224,
+      "total_put_volume": 226,
+      "avg_iv": 0.552,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:17.522154+00:00"
+      "detected_at": "2026-04-21T21:25:03.709600+00:00"
     },
     {
       "ticker": "MTD",
@@ -4105,12 +4105,12 @@
       "net_premium": 29146.0,
       "total_call_volume": 12,
       "total_put_volume": 5,
-      "avg_iv": 0.425,
+      "avg_iv": 0.42,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:16.403996+00:00"
+      "detected_at": "2026-04-21T21:25:02.120878+00:00"
     },
     {
       "ticker": "AME",
@@ -4126,12 +4126,12 @@
       "net_premium": 38899.0,
       "total_call_volume": 217,
       "total_put_volume": 27,
-      "avg_iv": 0.421,
+      "avg_iv": 0.422,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:02.584169+00:00"
+      "detected_at": "2026-04-21T21:24:48.682403+00:00"
     },
     {
       "ticker": "VLTO",
@@ -4168,7 +4168,7 @@
       ],
       "has_large_premium": false,
       "max_single_premium": 49664.0,
-      "detected_at": "2026-04-21T20:28:24.271984+00:00"
+      "detected_at": "2026-04-21T21:25:10.555489+00:00"
     },
     {
       "ticker": "TYL",
@@ -4177,19 +4177,19 @@
       "interpretation_reason": "",
       "current_price": 341.4599914550781,
       "drawdown_from_high_pct": -45.0,
-      "call_pct": 51.5,
-      "total_call_premium": 22119.0,
+      "call_pct": 51.2,
+      "total_call_premium": 21892.0,
       "total_put_premium": 20836.0,
-      "total_premium": 42955.0,
-      "net_premium": 1283.0,
+      "total_premium": 42728.0,
+      "net_premium": 1056.0,
       "total_call_volume": 20,
       "total_put_volume": 12,
-      "avg_iv": 0.583,
+      "avg_iv": 0.58,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:23.562572+00:00"
+      "detected_at": "2026-04-21T21:25:12.130161+00:00"
     },
     {
       "ticker": "ITW",
@@ -4205,12 +4205,12 @@
       "net_premium": 4806.0,
       "total_call_volume": 34,
       "total_put_volume": 44,
-      "avg_iv": 0.319,
+      "avg_iv": 0.322,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:12.688721+00:00"
+      "detected_at": "2026-04-21T21:24:58.375754+00:00"
     },
     {
       "ticker": "RSG",
@@ -4219,19 +4219,19 @@
       "interpretation_reason": "",
       "current_price": 205.3000030517578,
       "drawdown_from_high_pct": -20.7,
-      "call_pct": 61.7,
+      "call_pct": 60.3,
       "total_call_premium": 20040.0,
-      "total_put_premium": 12426.0,
-      "total_premium": 32466.0,
-      "net_premium": 7614.0,
+      "total_put_premium": 13176.0,
+      "total_premium": 33216.0,
+      "net_premium": 6864.0,
       "total_call_volume": 87,
-      "total_put_volume": 63,
-      "avg_iv": 0.304,
+      "total_put_volume": 64,
+      "avg_iv": 0.307,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:21.098668+00:00"
+      "detected_at": "2026-04-21T21:25:06.755579+00:00"
     },
     {
       "ticker": "BR",
@@ -4247,12 +4247,12 @@
       "net_premium": 8182.0,
       "total_call_volume": 35,
       "total_put_volume": 21,
-      "avg_iv": 0.489,
+      "avg_iv": 0.49,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:04.277366+00:00"
+      "detected_at": "2026-04-21T21:24:50.157845+00:00"
     },
     {
       "ticker": "TW",
@@ -4268,12 +4268,12 @@
       "net_premium": 15987.0,
       "total_call_volume": 28,
       "total_put_volume": 12,
-      "avg_iv": 0.451,
+      "avg_iv": 0.452,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:23.498506+00:00"
+      "detected_at": "2026-04-21T21:25:09.939326+00:00"
     },
     {
       "ticker": "DSGX",
@@ -4289,12 +4289,12 @@
       "net_premium": -18205.0,
       "total_call_volume": 5,
       "total_put_volume": 28,
-      "avg_iv": 0.636,
+      "avg_iv": 0.662,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:08.925531+00:00"
+      "detected_at": "2026-04-21T21:24:54.530182+00:00"
     },
     {
       "ticker": "RELX",
@@ -4310,12 +4310,12 @@
       "net_premium": 24127.0,
       "total_call_volume": 44,
       "total_put_volume": 2,
-      "avg_iv": 0.731,
+      "avg_iv": 0.741,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:19.012622+00:00"
+      "detected_at": "2026-04-21T21:25:05.401159+00:00"
     },
     {
       "ticker": "CP",
@@ -4324,19 +4324,19 @@
       "interpretation_reason": "",
       "current_price": 82.48999786376953,
       "drawdown_from_high_pct": -7.7,
-      "call_pct": 84.8,
-      "total_call_premium": 20372.0,
-      "total_put_premium": 3640.0,
-      "total_premium": 24012.0,
-      "net_premium": 16732.0,
-      "total_call_volume": 64,
-      "total_put_volume": 34,
-      "avg_iv": 0.348,
+      "call_pct": 84.1,
+      "total_call_premium": 20317.0,
+      "total_put_premium": 3830.0,
+      "total_premium": 24147.0,
+      "net_premium": 16487.0,
+      "total_call_volume": 65,
+      "total_put_volume": 35,
+      "avg_iv": 0.346,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:07.461744+00:00"
+      "detected_at": "2026-04-21T21:24:53.337178+00:00"
     },
     {
       "ticker": "JKHY",
@@ -4352,12 +4352,12 @@
       "net_premium": 541.0,
       "total_call_volume": 6,
       "total_put_volume": 4,
-      "avg_iv": 0.465,
+      "avg_iv": 0.461,
       "unusual_score": 0,
       "top_contracts": [],
       "has_large_premium": false,
       "max_single_premium": 0,
-      "detected_at": "2026-04-21T20:28:13.145601+00:00"
+      "detected_at": "2026-04-21T21:24:58.886440+00:00"
     }
   ]
 }
