@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """
 Earnings Thesis Generator — genera tesis IA para tickers del portfolio con earnings <14d.
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """
 TICKER ANALYZER API - Flask backend para el dashboard
 Estrategia CACHE-FIRST:
