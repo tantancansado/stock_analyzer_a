@@ -4,15 +4,15 @@
 
    Design language: Nothing OS
    - Pure black #000 / Off-white #F5F5F5 / Accent white
-   - NDot / NType82 Mono → fallback: Space Mono / DM Mono
+   - NType82 Mono → fallback: Geist Mono / Space Mono / DM Mono
    - No blur, no gradients, no glass — crisp 1px borders only
    - Dot-matrix grid background (22px pitch, low opacity)
-   - VT323 for large display numbers (dot-matrix feel)
+   - Geist Mono for large display numbers (clean geometric feel)
    - Monospace everywhere for data/tickers
 ════════════════════════════════════════════════════════════════════ */
 
-/* ── Google Fonts: Space Mono + VT323 ────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=VT323&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap');
+/* ── Google Fonts: Space Mono + DM Mono + Geist Mono ─────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
 
 /* ── Nothing tokens — override noir tokens ───────────────────────── */
 [data-theme="noir"] {
@@ -67,13 +67,14 @@
   font-family: 'Space Mono', monospace !important;
 }
 
-/* Large display numbers: VT323 dot-matrix feel */
+/* Large display numbers: Geist Mono — clean geometric, Nothing-like */
 [data-theme="noir"] [class*="text-4xl"],
 [data-theme="noir"] [class*="text-3xl"],
 [data-theme="noir"] [class*="text-2xl"][class*="font-bold"],
 [data-theme="noir"] [class*="text-xl"][class*="font-bold"] {
-  font-family: 'VT323', monospace !important;
-  letter-spacing: 0.06em;
+  font-family: 'Geist Mono', 'Space Mono', monospace !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em;
   line-height: 1.05;
 }
 
@@ -94,9 +95,10 @@
 }
 
 [data-theme="noir"] aside h1 {
-  font-family: 'VT323', monospace !important;
-  font-size: 1.15rem !important;
-  letter-spacing: 0.12em !important;
+  font-family: 'Geist Mono', 'Space Mono', monospace !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
   animation: none !important;
 }
