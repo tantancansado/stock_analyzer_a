@@ -1,17 +1,40 @@
 {
   "scan_date": "2026-04-22",
-  "scan_time": "07:21",
+  "scan_time": "13:06",
   "tickers": [
     "MSFT",
     "BSX",
+    "ABT",
+    "UNH",
+    "V",
     "BR",
-    "ABT"
+    "OTIS"
   ],
-  "count": 25,
-  "alta_count": 7,
-  "media_count": 2,
-  "new_alerts": 0,
+  "count": 55,
+  "alta_count": 17,
+  "media_count": 4,
+  "new_alerts": 15,
   "items": [
+    {
+      "id": "1957e728-9665-38de-baaa-66c15cd25386",
+      "ticker": "OTIS",
+      "title": "Otis Worldwide to Report Q1 Earnings: Here's What You Need to Know",
+      "source": "Zacks",
+      "pub_date": "2026-04-20T14:22:00Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/otis-worldwide-report-q1-earnings-142200720.html",
+      "importance": "ALTA"
+    },
+    {
+      "id": "3ffac7bb-3d62-370b-a449-cd5a200609d1",
+      "ticker": "OTIS",
+      "title": "Otis (OTIS) Reports Q1: Everything You Need To Know Ahead Of Earnings",
+      "source": "StockStory",
+      "pub_date": "2026-04-21T03:57:51Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/otis-otis-reports-q1-everything-035751274.html",
+      "importance": "ALTA"
+    },
     {
       "id": "3a6fbb5f-7408-3768-8d33-d574043fe6e7",
       "ticker": "BSX",
@@ -23,33 +46,23 @@
       "importance": "ALTA"
     },
     {
-      "id": "131f4d33-01c1-35b0-b4e6-7f29a0f7ffd2",
-      "ticker": "MSFT",
-      "title": "Sector Update: Tech Stocks Higher Late Afternoon",
-      "source": "MT Newswires",
-      "pub_date": "2026-04-21T19:56:27Z",
-      "time_ago": "hace 11h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/sector-tech-stocks-higher-afternoon-195627082.html",
+      "id": "5cc8bc13-40e0-424c-ad85-dad1b552ee52",
+      "ticker": "UNH",
+      "title": "UnitedHealth stock jumps 8% on earnings outlook beat",
+      "source": "Yahoo Finance",
+      "pub_date": "2026-04-21T12:52:16Z",
+      "time_ago": "hace 1d",
+      "url": "https://finance.yahoo.com/markets/stocks/article/unitedhealth-stock-jumps-8-on-earnings-outlook-beat-125216776.html",
       "importance": "ALTA"
     },
     {
-      "id": "23c94c15-531d-30b1-bc16-da66d76f3983",
-      "ticker": "MSFT",
-      "title": "Microsoft must face $2.8 billion UK lawsuit over cloud computing licences",
-      "source": "Reuters",
-      "pub_date": "2026-04-21T20:01:46Z",
-      "time_ago": "hace 11h",
-      "url": "https://finance.yahoo.com/sectors/technology/articles/microsoft-must-face-2-8-164222406.html",
-      "importance": "ALTA"
-    },
-    {
-      "id": "2e1d8652-1187-3503-9c36-910c506e3e2c",
-      "ticker": "MSFT",
-      "title": "Google, Apple Lead Earnings Barrage. Get Ready.",
-      "source": "Investor's Business Daily",
-      "pub_date": "2026-04-21T20:13:16Z",
-      "time_ago": "hace 11h",
-      "url": "https://www.investors.com/how-to-invest/how-to-invest-earnings-season-google-stock-apple-microsoft/?src=A00220&yptr=yahoo",
+      "id": "6744ada0-fea1-311c-b40e-11e059d6cb85",
+      "ticker": "V",
+      "title": "Visa (V) Earnings Expected to Grow: Should You Buy?",
+      "source": "Zacks",
+      "pub_date": "2026-04-21T14:00:07Z",
+      "time_ago": "hace 23h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/visa-v-earnings-expected-grow-140007574.html",
       "importance": "ALTA"
     },
     {
@@ -58,8 +71,88 @@
       "title": "Gates Foundation to Cut 20% of Staff, Review Epstein Ties",
       "source": "The Wall Street Journal",
       "pub_date": "2026-04-22T02:11:00Z",
-      "time_ago": "hace 5h",
+      "time_ago": "hace 10h",
       "url": "https://www.wsj.com/business/gates-foundation-to-cut-20-of-staff-review-epstein-ties-6df2ccea?siteid=yhoof2&yptr=yahoo",
+      "importance": "ALTA"
+    },
+    {
+      "id": "9a9e59da-c6eb-3319-8702-88fac4e34da3",
+      "ticker": "UNH",
+      "title": "UnitedHealth stock jumps as earnings and outlook top expectations",
+      "source": "TheStreet",
+      "pub_date": "2026-04-22T04:39:00Z",
+      "time_ago": "hace 8h",
+      "url": "https://www.thestreet.com/investing/stocks/unitedhealth-stock-jumps-as-earnings-and-outlook-top-expectations",
+      "importance": "ALTA"
+    },
+    {
+      "id": "cb6ee9f5-878f-30fc-8e79-a155289bce88",
+      "ticker": "UNH",
+      "title": "UnitedHealth Group Inc (UNH) Q1 2026 Earnings Call Highlights: Strong EPS and AI Investments ...",
+      "source": "GuruFocus.com",
+      "pub_date": "2026-04-22T07:01:36Z",
+      "time_ago": "hace 6h",
+      "url": "https://finance.yahoo.com/sectors/healthcare/articles/unitedhealth-group-inc-unh-q1-070136214.html",
+      "importance": "ALTA"
+    },
+    {
+      "id": "8e800f23-2021-30d3-8e91-a30b930fb957",
+      "ticker": "OTIS",
+      "title": "Otis flags tariff hit, shipment delays amid Middle East conflict",
+      "source": "Reuters",
+      "pub_date": "2026-04-22T11:12:47Z",
+      "time_ago": "hace 1h",
+      "url": "https://ca.finance.yahoo.com/news/otis-flags-tariff-hit-shipment-111247605.html",
+      "importance": "ALTA"
+    },
+    {
+      "id": "f6e54fbf-b897-32d2-a7bf-3cb1327690a2",
+      "ticker": "BSX",
+      "title": "Stocks Rise Pre-Bell as Trump Extends Iran Ceasefire; Tesla Earnings On Deck",
+      "source": "MT Newswires",
+      "pub_date": "2026-04-22T11:13:50Z",
+      "time_ago": "hace 1h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/stocks-rise-pre-bell-trump-111350233.html",
+      "importance": "ALTA"
+    },
+    {
+      "id": "e5450b43-ed31-352f-9f97-c0e4089f5d33",
+      "ticker": "OTIS",
+      "title": "Otis Worldwide (OTIS) Lags Q1 Earnings Estimates",
+      "source": "Zacks",
+      "pub_date": "2026-04-22T11:20:01Z",
+      "time_ago": "hace 1h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/otis-worldwide-otis-lags-q1-112001575.html",
+      "importance": "ALTA"
+    },
+    {
+      "id": "0c65b4c8-3e75-3a38-8579-0b243478f712",
+      "ticker": "BSX",
+      "title": "Boston Scientific (BSX) Q1 Earnings Match Estimates",
+      "source": "Zacks",
+      "pub_date": "2026-04-22T11:45:02Z",
+      "time_ago": "hace 1h",
+      "url": "https://finance.yahoo.com/sectors/healthcare/articles/boston-scientific-bsx-q1-earnings-114502602.html",
+      "importance": "ALTA"
+    },
+    {
+      "id": "79d5f1b7-34d4-36bd-b08f-cf45f01a13b9",
+      "ticker": "MSFT",
+      "title": "Microsoft Higher Ahead Of Magnificent Seven Earnings; Is Microsoft A Buy Now?",
+      "source": "Investor's Business Daily",
+      "pub_date": "2026-04-22T12:00:35Z",
+      "time_ago": "hace 1h",
+      "url": "https://www.investors.com/research/microsoft-msft-stock-earnings-april-2026/?src=A00220&yptr=yahoo",
+      "importance": "ALTA"
+    },
+    {
+      "id": "6e2db932-078f-375e-a3a4-cbde37c258f1",
+      "ticker": "BSX",
+      "title": "Boston Scientific Slashes Guidance; Why Shares Rallied",
+      "source": "Investor's Business Daily",
+      "pub_date": "2026-04-22T12:51:30Z",
+      "time_ago": "hace 14min",
+      "url": "https://www.investors.com/news/technology/boston-scientific-stock-boston-scientific-earnings-q1-2026/?src=A00220&yptr=yahoo",
       "importance": "ALTA"
     },
     {
@@ -67,17 +160,27 @@
       "ticker": "MSFT",
       "title": "⏰ Earnings en 7 días — 29 Apr",
       "source": "Earnings Calendar",
-      "pub_date": "2026-04-22T07:21:54.721775+00:00",
+      "pub_date": "2026-04-22T13:06:17.844654+00:00",
       "time_ago": "",
       "url": "",
       "importance": "ALTA"
     },
     {
-      "id": "earn_BSX_20260422",
-      "ticker": "BSX",
-      "title": "⏰ Earnings en 0 días — 22 Apr",
+      "id": "earn_V_20260428",
+      "ticker": "V",
+      "title": "⏰ Earnings en 6 días — 28 Apr",
       "source": "Earnings Calendar",
-      "pub_date": "2026-04-22T07:21:55.321489+00:00",
+      "pub_date": "2026-04-22T13:06:20.178725+00:00",
+      "time_ago": "",
+      "url": "",
+      "importance": "ALTA"
+    },
+    {
+      "id": "earn_BR_20260430",
+      "ticker": "BR",
+      "title": "⏰ Earnings en 7 días — 30 Apr",
+      "source": "Earnings Calendar",
+      "pub_date": "2026-04-22T13:06:20.712524+00:00",
       "time_ago": "",
       "url": "",
       "importance": "ALTA"
@@ -88,7 +191,7 @@
       "title": "Wall Street Refuses to Blink: 2 Healthcare Stocks at 52-Week Lows That Analysts Still Love",
       "source": "24/7 Wall St.",
       "pub_date": "2026-04-21T15:20:19Z",
-      "time_ago": "hace 16h",
+      "time_ago": "hace 21h",
       "url": "https://247wallst.com/investing/2026/04/21/wall-street-refuses-to-blink-2-healthcare-stocks-at-52-week-lows-that-analysts-still-love/",
       "importance": "MEDIA"
     },
@@ -98,19 +201,29 @@
       "title": "Wall Street Refuses to Blink: 2 Healthcare Stocks at 52-Week Lows That Analysts Still Love",
       "source": "24/7 Wall St.",
       "pub_date": "2026-04-21T15:20:19Z",
-      "time_ago": "hace 16h",
+      "time_ago": "hace 21h",
       "url": "https://247wallst.com/investing/2026/04/21/wall-street-refuses-to-blink-2-healthcare-stocks-at-52-week-lows-that-analysts-still-love/",
       "importance": "MEDIA"
     },
     {
-      "id": "5044e674-262e-3125-a696-8f84c63a48c9",
+      "id": "9745ba44-f310-3b10-937b-29044265859b",
+      "ticker": "UNH",
+      "title": "UnitedHealth profit edges up in Q1 2026",
+      "source": "Life Insurance International",
+      "pub_date": "2026-04-22T09:18:57Z",
+      "time_ago": "hace 3h",
+      "url": "https://www.lifeinsuranceinternational.com/news/unitedhealth-profit-q1-2026/",
+      "importance": "MEDIA"
+    },
+    {
+      "id": "82ee9790-8952-3b8f-89c0-b096d32da4ca",
       "ticker": "ABT",
-      "title": "Has the Abbott Laboratories Sell-Off Finally Created an Entry Point?",
+      "title": "Here Are Wednesday’s Top Wall Street Analyst Research Calls: Abbott Laboratories, Airbnb, Biogen, Cava Group, GitLab, Halliburton, Qualcomm, Seagate, Toast, and More",
       "source": "24/7 Wall St.",
-      "pub_date": "2026-04-20T11:05:27Z",
-      "time_ago": "hace 1d",
-      "url": "https://247wallst.com/investing/2026/04/20/has-the-abbott-laboratories-sell-off-finally-created-an-entry-point/",
-      "importance": "BAJA"
+      "pub_date": "2026-04-22T11:58:41Z",
+      "time_ago": "hace 1h",
+      "url": "https://247wallst.com/investing/2026/04/22/here-are-wednesdays-top-wall-street-analyst-research-calls-abbott-laboratories-airbnb-biogen-cava-group-gitlab-halliburton-qualcomm-seagate-toast-and-more/",
+      "importance": "MEDIA"
     },
     {
       "id": "a45ce99f-0dbf-37ab-9b10-d5c0df72aa1e",
@@ -178,8 +291,28 @@
       "title": "Medtronic leads $100M investment in Pulnovo Medical",
       "source": "MedTech Dive",
       "pub_date": "2026-04-21T11:00:00Z",
-      "time_ago": "hace 20h",
+      "time_ago": "hace 1d",
       "url": "https://www.medtechdive.com/news/medtronic-leads-100m-investment-in-pulnovo-medical/818033/",
+      "importance": "BAJA"
+    },
+    {
+      "id": "c37c607f-ba3e-3ff4-ae1e-670edbf056e3",
+      "ticker": "V",
+      "title": "Visa and TikTok launch ‘creator card’ to support entrepreneurs",
+      "source": "PA Media: Money",
+      "pub_date": "2026-04-21T11:16:48Z",
+      "time_ago": "hace 1d",
+      "url": "https://uk.finance.yahoo.com/news/visa-tiktok-launch-creator-card-230100323.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "b27c4760-172e-336a-addc-49a7b9e09a78",
+      "ticker": "V",
+      "title": "Visa and TikTok roll out debit card for content creators in UK",
+      "source": "Electronic Payments",
+      "pub_date": "2026-04-21T11:31:51Z",
+      "time_ago": "hace 1d",
+      "url": "https://www.electronicpaymentsinternational.com/news/visa-tiktok-debit-card-content-creators-uk/",
       "importance": "BAJA"
     },
     {
@@ -188,8 +321,18 @@
       "title": "Is the Options Market Predicting a Spike in Abbott Laboratories Stock?",
       "source": "Zacks",
       "pub_date": "2026-04-21T12:51:00Z",
-      "time_ago": "hace 18h",
+      "time_ago": "hace 1d",
       "url": "https://finance.yahoo.com/markets/options/articles/options-market-predicting-spike-abbott-125100307.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "a02b4f73-2826-359c-a1c8-90ffeab58273",
+      "ticker": "V",
+      "title": "BeInCrypto 100 Institutional Awards Nomination: Visa for Best Stablecoin Infrastructure",
+      "source": "BeInCrypto",
+      "pub_date": "2026-04-21T14:11:13Z",
+      "time_ago": "hace 22h",
+      "url": "https://beincrypto.com/visa-beincrypto-institutional-100-awards-nominee/",
       "importance": "BAJA"
     },
     {
@@ -198,8 +341,18 @@
       "title": "Apple vs. Microsoft: Which is better positioned based on leadership?",
       "source": "Yahoo Finance Video",
       "pub_date": "2026-04-21T14:37:36Z",
-      "time_ago": "hace 16h",
+      "time_ago": "hace 22h",
       "url": "https://finance.yahoo.com/video/apple-vs-microsoft-which-is-better-positioned-based-on-leadership-143736310.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "4fe2b447-5397-327a-acac-8f0c5df2ab34",
+      "ticker": "V",
+      "title": "Microsoft's Dynamics 365 Adoption Deepens: Is Growth Sustainable?",
+      "source": "Zacks",
+      "pub_date": "2026-04-21T15:06:00Z",
+      "time_ago": "hace 22h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/microsofts-dynamics-365-adoption-deepens-150600031.html",
       "importance": "BAJA"
     },
     {
@@ -208,7 +361,7 @@
       "title": "Study Supports GlucoTrack’s Blood Glucose Monitoring Implant",
       "source": "Exec Edge",
       "pub_date": "2026-04-21T15:59:46Z",
-      "time_ago": "hace 15h",
+      "time_ago": "hace 21h",
       "url": "https://finance.yahoo.com/sectors/healthcare/articles/study-supports-glucotrack-blood-glucose-155946442.html",
       "importance": "BAJA"
     },
@@ -218,28 +371,38 @@
       "title": "Everything to know about Apple's incoming CEO John Ternus",
       "source": "Yahoo Finance Video",
       "pub_date": "2026-04-21T19:56:00Z",
-      "time_ago": "hace 11h",
+      "time_ago": "hace 17h",
       "url": "https://finance.yahoo.com/video/everything-to-know-about-apples-incoming-ceo-john-ternus-195600623.html",
       "importance": "BAJA"
     },
     {
-      "id": "bd62ddfd-9340-399b-89d7-07d7d06a4c27",
-      "ticker": "MSFT",
-      "title": "How Apple and Its Stock Performed During Tim Cook's Time as CEO",
-      "source": "Investopedia",
-      "pub_date": "2026-04-21T20:46:00Z",
-      "time_ago": "hace 10h",
-      "url": "https://www.investopedia.com/how-apple-and-its-stock-performed-during-tim-cook-time-as-ceo-aapl-11954786",
+      "id": "ea147fb1-b138-3c7d-84b9-aad805634424",
+      "ticker": "V",
+      "title": "Visa (V) Suffers a Larger Drop Than the General Market: Key Insights",
+      "source": "Zacks",
+      "pub_date": "2026-04-21T21:45:05Z",
+      "time_ago": "hace 15h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/visa-v-suffers-larger-drop-214505542.html",
       "importance": "BAJA"
     },
     {
-      "id": "8ba8e1a1-248d-37ed-98bf-a413532fcc6c",
-      "ticker": "MSFT",
-      "title": "US Equity Indexes Fall as Vance's Trip to Pakistan on Hold Ahead of Iran Ceasefire Deadline",
-      "source": "MT Newswires",
-      "pub_date": "2026-04-21T21:05:30Z",
-      "time_ago": "hace 10h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-fall-vance-210530947.html",
+      "id": "396f4ad3-153d-30d7-8959-5fc1d4b94d95",
+      "ticker": "V",
+      "title": "Visa Says You're In The Top 10% Of Households If Your Combined Net Worth Is Above This Number",
+      "source": "Money Digest",
+      "pub_date": "2026-04-21T22:30:00Z",
+      "time_ago": "hace 14h",
+      "url": "https://www.moneydigest.com/2153104/visa-top-10-percent-households-combined-net-worth-above-this-number/",
+      "importance": "BAJA"
+    },
+    {
+      "id": "9123c422-7016-3210-92ce-9b607cda0021",
+      "ticker": "UNH",
+      "title": "Why Is Clover Health (CLOV) Stock Soaring Today",
+      "source": "StockStory",
+      "pub_date": "2026-04-21T23:33:51Z",
+      "time_ago": "hace 13h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/why-clover-health-clov-stock-233351179.html",
       "importance": "BAJA"
     },
     {
@@ -248,7 +411,7 @@
       "title": "SpaceX partners with AI startup Cursor, may buy it for $60 bn",
       "source": "AFP",
       "pub_date": "2026-04-22T00:46:14Z",
-      "time_ago": "hace 6h",
+      "time_ago": "hace 12h",
       "url": "https://finance.yahoo.com/sectors/technology/articles/spacex-partners-ai-startup-cursor-235318333.html",
       "importance": "BAJA"
     },
@@ -258,8 +421,148 @@
       "title": "Nuclear Stock Face-Off: Is Oklo or Cameco the Better Buy Right Now?",
       "source": "Motley Fool",
       "pub_date": "2026-04-22T01:25:00Z",
-      "time_ago": "hace 5h",
+      "time_ago": "hace 11h",
       "url": "https://www.fool.com/investing/2026/04/21/nuclear-stock-face-off-is-oklo-or-cameco/",
+      "importance": "BAJA"
+    },
+    {
+      "id": "58bc3280-0465-3a80-90e3-38d0e62120fc",
+      "ticker": "UNH",
+      "title": "Why Centene (CNC) Stock Is Trading Up Today",
+      "source": "StockStory",
+      "pub_date": "2026-04-22T01:41:51Z",
+      "time_ago": "hace 11h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/why-centene-cnc-stock-trading-014151898.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "d7c6a9dc-0d28-3538-be88-bc456d076aa1",
+      "ticker": "UNH",
+      "title": "UnitedHealth (UNH) Sets Sights on AI, Climbs 7%",
+      "source": "Insider Monkey",
+      "pub_date": "2026-04-22T01:45:25Z",
+      "time_ago": "hace 11h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/unitedhealth-unh-sets-sights-ai-014525347.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "7e27137c-5fc5-3684-9016-8a8280806bba",
+      "ticker": "UNH",
+      "title": "Molina Healthcare (MOH) Stock Is Up, What You Need To Know",
+      "source": "StockStory",
+      "pub_date": "2026-04-22T01:49:51Z",
+      "time_ago": "hace 11h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/molina-healthcare-moh-stock-know-014951890.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "54a22904-77eb-36c4-8ac7-7e0de00450e9",
+      "ticker": "OTIS",
+      "title": "A Look At Otis Worldwide (OTIS) Valuation After Recent Share Price Weakness",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-04-22T06:05:18Z",
+      "time_ago": "hace 7h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/look-otis-worldwide-otis-valuation-060518917.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "1a268a80-45ba-31ba-ba9f-d3755a968199",
+      "ticker": "V",
+      "title": "Is Visa (V) Attractively Priced After Recent Global Payments Headlines?",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-04-22T06:06:01Z",
+      "time_ago": "hace 7h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/visa-v-attractively-priced-recent-060601934.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "1a57d957-bcc7-33f2-a75b-62130dfad616",
+      "ticker": "MSFT",
+      "title": "Europe has the talent and dunding to win at AI. First, it needs to break free from the Magnificent Seven",
+      "source": "Fortune",
+      "pub_date": "2026-04-22T08:00:00Z",
+      "time_ago": "hace 5h",
+      "url": "https://finance.yahoo.com/sectors/technology/articles/europe-talent-dunding-win-ai-080000228.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "4b191f90-bdd4-3fd6-96ba-fee0258244aa",
+      "ticker": "MSFT",
+      "title": "US investors crave predictability after Orban's overnight law changes",
+      "source": "Reuters",
+      "pub_date": "2026-04-22T09:34:34Z",
+      "time_ago": "hace 3h",
+      "url": "https://ca.finance.yahoo.com/news/us-investors-crave-predictability-orbans-093434300.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "1f0c09f6-d62e-32d3-bf06-7af776b5f100",
+      "ticker": "MSFT",
+      "title": "OpenAI Poaches Airbnb Executive to be First Director for EMEA",
+      "source": "Bloomberg",
+      "pub_date": "2026-04-22T10:00:00Z",
+      "time_ago": "hace 3h",
+      "url": "https://finance.yahoo.com/sectors/technology/articles/openai-poaches-airbnb-executive-first-100000466.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "22ef77c1-e444-3077-93a1-c7e97376630b",
+      "ticker": "BSX",
+      "title": "Boston Scientific (NYSE:BSX) Surprises With Q1 CY2026 Sales",
+      "source": "StockStory",
+      "pub_date": "2026-04-22T10:39:32Z",
+      "time_ago": "hace 2h",
+      "url": "https://finance.yahoo.com/sectors/healthcare/articles/boston-scientific-nyse-bsx-surprises-103932798.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "9b9718d8-6eea-327b-aeaa-efb89e68de7c",
+      "ticker": "OTIS",
+      "title": "Otis (NYSE:OTIS) Surprises With Q1 CY2026 Sales",
+      "source": "StockStory",
+      "pub_date": "2026-04-22T10:45:49Z",
+      "time_ago": "hace 2h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/otis-nyse-otis-surprises-q1-104549044.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "3175038a-b8c2-3b62-8db1-ee17bceb7c1f",
+      "ticker": "BSX",
+      "title": "Boston Scientific Net Grows Sharply",
+      "source": "The Wall Street Journal",
+      "pub_date": "2026-04-22T11:13:00Z",
+      "time_ago": "hace 1h",
+      "url": "https://www.wsj.com/business/earnings/boston-scientific-net-grows-sharply-1b7f54f0?siteid=yhoof2&yptr=yahoo",
+      "importance": "BAJA"
+    },
+    {
+      "id": "4efc4a05-b8ba-3e89-80cc-2aeed1af9798",
+      "ticker": "MSFT",
+      "title": "Ranking the \"Magnificent Seven\" From Most to Least Attractive, Based on Future Cash Flow",
+      "source": "Motley Fool",
+      "pub_date": "2026-04-22T11:26:00Z",
+      "time_ago": "hace 1h",
+      "url": "https://www.fool.com/investing/2026/04/22/ranking-magnificent-seven-most-to-least-attractive/",
+      "importance": "BAJA"
+    },
+    {
+      "id": "7d27f76c-2ee4-3033-94e9-db2adbbf8dff",
+      "ticker": "V",
+      "title": "Wall Street’s Bullish Stocks View Contrasts With Consumer Gloom",
+      "source": "Bloomberg",
+      "pub_date": "2026-04-22T11:28:00Z",
+      "time_ago": "hace 1h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-bullish-stocks-view-112800536.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "f0a6ead4-33c5-3f2f-8bf8-88bcca2de521",
+      "ticker": "UNH",
+      "title": "UNH Q1 Deep Dive: AI Investment and Value-Based Care Drive UnitedHealth’s Strong Start",
+      "source": "StockStory",
+      "pub_date": "2026-04-22T12:53:23Z",
+      "time_ago": "hace 12min",
+      "url": "https://finance.yahoo.com/sectors/healthcare/articles/unh-q1-deep-dive-ai-125323833.html",
       "importance": "BAJA"
     }
   ]
