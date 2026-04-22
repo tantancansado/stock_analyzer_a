@@ -1,18 +1,16 @@
 {
-  "scan_date": "2026-04-21",
-  "scan_time": "19:00",
+  "scan_date": "2026-04-22",
+  "scan_time": "01:48",
   "tickers": [
     "MSFT",
     "BSX",
-    "AMCR",
     "BR",
-    "ABT",
-    "VRSK"
+    "ABT"
   ],
-  "count": 29,
-  "alta_count": 8,
+  "count": 25,
+  "alta_count": 7,
   "media_count": 2,
-  "new_alerts": 7,
+  "new_alerts": 4,
   "items": [
     {
       "id": "3a6fbb5f-7408-3768-8d33-d574043fe6e7",
@@ -20,8 +18,18 @@
       "title": "Boston Scientific (BSX) Q1 Earnings: What To Expect",
       "source": "StockStory",
       "pub_date": "2026-04-21T05:25:51Z",
-      "time_ago": "hace 13h",
+      "time_ago": "hace 20h",
       "url": "https://finance.yahoo.com/sectors/healthcare/articles/boston-scientific-bsx-q1-earnings-052551976.html",
+      "importance": "ALTA"
+    },
+    {
+      "id": "131f4d33-01c1-35b0-b4e6-7f29a0f7ffd2",
+      "ticker": "MSFT",
+      "title": "Sector Update: Tech Stocks Higher Late Afternoon",
+      "source": "MT Newswires",
+      "pub_date": "2026-04-21T19:56:27Z",
+      "time_ago": "hace 5h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/sector-tech-stocks-higher-afternoon-195627082.html",
       "importance": "ALTA"
     },
     {
@@ -29,49 +37,39 @@
       "ticker": "MSFT",
       "title": "Microsoft must face $2.8 billion UK lawsuit over cloud computing licences",
       "source": "Reuters",
-      "pub_date": "2026-04-21T16:49:17Z",
-      "time_ago": "hace 2h",
+      "pub_date": "2026-04-21T20:01:46Z",
+      "time_ago": "hace 5h",
       "url": "https://finance.yahoo.com/sectors/technology/articles/microsoft-must-face-2-8-164222406.html",
       "importance": "ALTA"
     },
     {
-      "id": "3f449a4d-c256-3184-a0ba-1d7997291ce2",
-      "ticker": "VRSK",
-      "title": "Verisk (VRSK) Q2 2025 Earnings Call Transcript",
-      "source": "Motley Fool",
-      "pub_date": "2026-04-21T17:14:27Z",
-      "time_ago": "hace 1h",
-      "url": "https://www.fool.com/earnings/call-transcripts/2026/04/21/verisk-vrsk-q2-2025-earnings-call-transcript/",
-      "importance": "ALTA"
-    },
-    {
-      "id": "8689f2dd-1b5d-3b9c-a89c-5fe50cdc6673",
+      "id": "2e1d8652-1187-3503-9c36-910c506e3e2c",
       "ticker": "MSFT",
-      "title": "Sector Update: Tech Stocks Rise Tuesday Afternoon",
-      "source": "MT Newswires",
-      "pub_date": "2026-04-21T17:47:02Z",
-      "time_ago": "hace 1h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/sector-tech-stocks-rise-tuesday-174702535.html",
+      "title": "Google, Apple Lead Earnings Barrage. Get Ready.",
+      "source": "Investor's Business Daily",
+      "pub_date": "2026-04-21T20:13:16Z",
+      "time_ago": "hace 5h",
+      "url": "https://www.investors.com/how-to-invest/how-to-invest-earnings-season-google-stock-apple-microsoft/?src=A00220&yptr=yahoo",
       "importance": "ALTA"
     },
     {
-      "id": "60362092-5fcb-398b-a661-86d662fe7f15",
-      "ticker": "AMCR",
-      "title": "Amcor (AMCR) Q1 2026 Earnings Transcript",
-      "source": "Motley Fool",
-      "pub_date": "2026-04-21T17:53:55Z",
-      "time_ago": "hace 1h",
-      "url": "https://www.fool.com/earnings/call-transcripts/2026/04/21/amcor-amcr-q1-2026-earnings-transcript/",
-      "importance": "ALTA"
-    },
-    {
-      "id": "7436bf55-e5f9-4a07-8a96-86013071b67d",
+      "id": "88cb0ead-947e-3ddc-a6a3-280d0b305982",
       "ticker": "MSFT",
-      "title": "Apple may have revealed a big earnings clue by announcing Tim Cook successor",
-      "source": "Yahoo Finance",
-      "pub_date": "2026-04-21T18:25:50Z",
-      "time_ago": "hace 34min",
-      "url": "https://finance.yahoo.com/news/apple-may-have-revealed-a-big-earnings-clue-by-announcing-tim-cook-successor-182550256.html",
+      "title": "Gates Foundation to Cut 20% of Staff, Review Epstein Ties",
+      "source": "The Wall Street Journal",
+      "pub_date": "2026-04-21T22:05:00Z",
+      "time_ago": "hace 3h",
+      "url": "https://www.wsj.com/business/gates-foundation-to-cut-20-of-staff-review-epstein-ties-6df2ccea?siteid=yhoof2&yptr=yahoo",
+      "importance": "ALTA"
+    },
+    {
+      "id": "earn_MSFT_20260429",
+      "ticker": "MSFT",
+      "title": "⏰ Earnings en 7 días — 29 Apr",
+      "source": "Earnings Calendar",
+      "pub_date": "2026-04-22T01:48:25.126551+00:00",
+      "time_ago": "",
+      "url": "",
       "importance": "ALTA"
     },
     {
@@ -79,17 +77,7 @@
       "ticker": "BSX",
       "title": "⏰ Earnings en 0 días — 22 Apr",
       "source": "Earnings Calendar",
-      "pub_date": "2026-04-21T19:00:15.545459+00:00",
-      "time_ago": "",
-      "url": "",
-      "importance": "ALTA"
-    },
-    {
-      "id": "earn_VRSK_20260429",
-      "ticker": "VRSK",
-      "title": "⏰ Earnings en 7 días — 29 Apr",
-      "source": "Earnings Calendar",
-      "pub_date": "2026-04-21T19:00:17.744249+00:00",
+      "pub_date": "2026-04-22T01:48:25.703324+00:00",
       "time_ago": "",
       "url": "",
       "importance": "ALTA"
@@ -100,7 +88,7 @@
       "title": "Wall Street Refuses to Blink: 2 Healthcare Stocks at 52-Week Lows That Analysts Still Love",
       "source": "24/7 Wall St.",
       "pub_date": "2026-04-21T15:20:19Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 10h",
       "url": "https://247wallst.com/investing/2026/04/21/wall-street-refuses-to-blink-2-healthcare-stocks-at-52-week-lows-that-analysts-still-love/",
       "importance": "MEDIA"
     },
@@ -110,19 +98,9 @@
       "title": "Wall Street Refuses to Blink: 2 Healthcare Stocks at 52-Week Lows That Analysts Still Love",
       "source": "24/7 Wall St.",
       "pub_date": "2026-04-21T15:20:19Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 10h",
       "url": "https://247wallst.com/investing/2026/04/21/wall-street-refuses-to-blink-2-healthcare-stocks-at-52-week-lows-that-analysts-still-love/",
       "importance": "MEDIA"
-    },
-    {
-      "id": "497e929c-9c84-3658-bc84-3f14d78ae320",
-      "ticker": "BSX",
-      "title": "Here’s What Piper Sandler Thinks About Boston Scientific Corp (BSX) Now",
-      "source": "Insider Monkey",
-      "pub_date": "2026-04-19T20:50:12Z",
-      "time_ago": "hace 1d",
-      "url": "https://finance.yahoo.com/sectors/healthcare/articles/piper-sandler-thinks-boston-scientific-205012055.html",
-      "importance": "BAJA"
     },
     {
       "id": "5044e674-262e-3125-a696-8f84c63a48c9",
@@ -180,7 +158,7 @@
       "title": "Better Medical Device Stock Right Now: Abbott Laboratories vs. Dexcom",
       "source": "Motley Fool",
       "pub_date": "2026-04-20T20:41:33Z",
-      "time_ago": "hace 22h",
+      "time_ago": "hace 1d",
       "url": "https://www.fool.com/investing/2026/04/20/better-medical-device-stock-right-now-abbott-labor/",
       "importance": "BAJA"
     },
@@ -190,7 +168,7 @@
       "title": "Truist Cuts PT on Boston Scientific Corporation (BSX) to $90 From $92",
       "source": "Insider Monkey",
       "pub_date": "2026-04-20T21:31:06Z",
-      "time_ago": "hace 21h",
+      "time_ago": "hace 1d",
       "url": "https://finance.yahoo.com/sectors/healthcare/articles/truist-cuts-pt-boston-scientific-213106706.html",
       "importance": "BAJA"
     },
@@ -200,7 +178,7 @@
       "title": "Medtronic leads $100M investment in Pulnovo Medical",
       "source": "MedTech Dive",
       "pub_date": "2026-04-21T11:00:00Z",
-      "time_ago": "hace 8h",
+      "time_ago": "hace 14h",
       "url": "https://www.medtechdive.com/news/medtronic-leads-100m-investment-in-pulnovo-medical/818033/",
       "importance": "BAJA"
     },
@@ -210,8 +188,18 @@
       "title": "Is the Options Market Predicting a Spike in Abbott Laboratories Stock?",
       "source": "Zacks",
       "pub_date": "2026-04-21T12:51:00Z",
-      "time_ago": "hace 6h",
+      "time_ago": "hace 12h",
       "url": "https://finance.yahoo.com/markets/options/articles/options-market-predicting-spike-abbott-125100307.html",
+      "importance": "BAJA"
+    },
+    {
+      "id": "11d154dd-3dba-4deb-ae09-ae2542ee5de0",
+      "ticker": "MSFT",
+      "title": "Apple vs. Microsoft: Which is better positioned based on leadership?",
+      "source": "Yahoo Finance Video",
+      "pub_date": "2026-04-21T14:37:36Z",
+      "time_ago": "hace 11h",
+      "url": "https://finance.yahoo.com/video/apple-vs-microsoft-which-is-better-positioned-based-on-leadership-143736310.html",
       "importance": "BAJA"
     },
     {
@@ -220,88 +208,58 @@
       "title": "Study Supports GlucoTrack’s Blood Glucose Monitoring Implant",
       "source": "Exec Edge",
       "pub_date": "2026-04-21T15:59:46Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 9h",
       "url": "https://finance.yahoo.com/sectors/healthcare/articles/study-supports-glucotrack-blood-glucose-155946442.html",
       "importance": "BAJA"
     },
     {
-      "id": "12e50f76-aa9d-3e20-b15e-4b1777a00665",
+      "id": "bc141211-a22f-49b9-afe7-c53928ed6e0b",
       "ticker": "MSFT",
-      "title": "The AI Spending Spree Is Far from Over",
-      "source": "The Wall Street Journal",
-      "pub_date": "2026-04-21T16:10:00Z",
-      "time_ago": "hace 2h",
-      "url": "https://www.wsj.com/tech/ai/the-ai-spending-spree-is-far-from-over-026c17df?siteid=yhoof2&yptr=yahoo",
+      "title": "Everything to know about Apple's incoming CEO John Ternus",
+      "source": "Yahoo Finance Video",
+      "pub_date": "2026-04-21T19:56:00Z",
+      "time_ago": "hace 5h",
+      "url": "https://finance.yahoo.com/video/everything-to-know-about-apples-incoming-ceo-john-ternus-195600623.html",
       "importance": "BAJA"
     },
     {
-      "id": "7cc550ab-1ae4-3e32-bf7d-d812b7d3c307",
+      "id": "bd62ddfd-9340-399b-89d7-07d7d06a4c27",
       "ticker": "MSFT",
-      "title": "Apple vs. Microsoft: What's the Better \"Magnificent Seven\" Stock to Buy in 2026?",
-      "source": "Motley Fool",
-      "pub_date": "2026-04-21T16:20:00Z",
-      "time_ago": "hace 2h",
-      "url": "https://www.fool.com/investing/2026/04/21/apple-vs-microsoft-whats-the-better-magnificient-s/",
+      "title": "How Apple and Its Stock Performed During Tim Cook's Time as CEO",
+      "source": "Investopedia",
+      "pub_date": "2026-04-21T20:46:00Z",
+      "time_ago": "hace 5h",
+      "url": "https://www.investopedia.com/how-apple-and-its-stock-performed-during-tim-cook-time-as-ceo-aapl-11954786",
       "importance": "BAJA"
     },
     {
-      "id": "954177c2-869b-328d-8fab-0a464217b7d4",
+      "id": "8ba8e1a1-248d-37ed-98bf-a413532fcc6c",
       "ticker": "MSFT",
-      "title": "AMD Stock Hits Record Highs – Is It Too Late To Buy?",
-      "source": "Trefis",
-      "pub_date": "2026-04-21T16:41:47Z",
-      "time_ago": "hace 2h",
-      "url": "https://www.trefis.com/articles/597042/amd-stock-hits-record-highs-is-it-too-late-to-buy/2026-04-21?source=yahoo&from=AMD-2026-04-21",
-      "importance": "BAJA"
-    },
-    {
-      "id": "fbac93ec-c004-39cf-8b1f-5551d3bcd5e6",
-      "ticker": "MSFT",
-      "title": "US Equity Indexes Slip as Investors Await Fate of Iran Peace Talks in Pakistan",
+      "title": "US Equity Indexes Fall as Vance's Trip to Pakistan on Hold Ahead of Iran Ceasefire Deadline",
       "source": "MT Newswires",
-      "pub_date": "2026-04-21T17:00:03Z",
-      "time_ago": "hace 2h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-slip-investors-170003679.html",
+      "pub_date": "2026-04-21T21:05:30Z",
+      "time_ago": "hace 4h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-fall-vance-210530947.html",
       "importance": "BAJA"
     },
     {
-      "id": "3d171285-d2cb-366b-b324-516993587b9d",
+      "id": "45146852-4f5d-3b10-97b5-a9bbb91395f2",
       "ticker": "MSFT",
-      "title": "Microsoft cuts Xbox Game Pass price, to remove 'Call of Duty' day one inclusions",
-      "source": "Reuters",
-      "pub_date": "2026-04-21T17:16:08Z",
+      "title": "SpaceX partners with AI startup Cursor, may buy it for $60 bn",
+      "source": "AFP",
+      "pub_date": "2026-04-22T00:46:14Z",
       "time_ago": "hace 1h",
-      "url": "https://finance.yahoo.com/sectors/technology/articles/microsoft-cuts-xbox-game-pass-171608802.html",
+      "url": "https://finance.yahoo.com/sectors/technology/articles/spacex-partners-ai-startup-cursor-235318333.html",
       "importance": "BAJA"
     },
     {
-      "id": "d8b5fe7f-9aea-316a-8049-2967917fc1ab",
-      "ticker": "VRSK",
-      "title": "1 Mid-Cap Stock Worth Your Attention and 2 Facing Challenges",
-      "source": "StockStory",
-      "pub_date": "2026-04-21T17:33:51Z",
-      "time_ago": "hace 1h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/1-mid-cap-stock-worth-173351287.html",
-      "importance": "BAJA"
-    },
-    {
-      "id": "d627541e-e942-3b3e-9cb9-1facda205e1e",
+      "id": "34dfe17f-6ec8-3f74-8051-b2090dc2ff61",
       "ticker": "MSFT",
-      "title": "Microsoft cuts Game Pass Ultimate price, drops CoD at launch",
-      "source": "Quartz",
-      "pub_date": "2026-04-21T17:48:01Z",
-      "time_ago": "hace 1h",
-      "url": "https://qz.com/microsoft-game-pass-ultimate-price-cut-call-of-duty-042126",
-      "importance": "BAJA"
-    },
-    {
-      "id": "dc268e5f-3d72-3b57-910f-608b32da299d",
-      "ticker": "MSFT",
-      "title": "Microsoft Eyes Q3 Reset as AI Demand Builds",
-      "source": "GuruFocus.com",
-      "pub_date": "2026-04-21T18:21:57Z",
-      "time_ago": "hace 38min",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/microsoft-eyes-q3-reset-ai-182157378.html",
+      "title": "Nuclear Stock Face-Off: Is Oklo or Cameco the Better Buy Right Now?",
+      "source": "Motley Fool",
+      "pub_date": "2026-04-22T01:25:00Z",
+      "time_ago": "hace 23min",
+      "url": "https://www.fool.com/investing/2026/04/21/nuclear-stock-face-off-is-oklo-or-cameco/",
       "importance": "BAJA"
     }
   ]
