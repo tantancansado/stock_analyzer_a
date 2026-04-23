@@ -1,61 +1,62 @@
 {
-  "generated_at": "2026-04-22T07:48:36Z",
-  "pipeline_date": "2026-04-22",
-  "ok_count": 12,
+  "generated_at": "2026-04-23T07:54:25Z",
+  "pipeline_date": "2026-04-23",
+  "ok_count": 13,
   "total": 16,
   "modules": {
     "value_us": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "value_eu": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "value_global": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "fundamental": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "technical": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "cerebro": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "mean_reversion": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "macro": {
       "status": "ok",
-      "date": "2026-04-21",
+      "date": "2026-04-22",
       "days_ago": 1
     },
     "macro_stress": {
-      "status": "missing",
-      "date": null
+      "status": "ok",
+      "date": "2026-04-22",
+      "days_ago": 1
     },
     "insiders": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "portfolio": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "earnings": {
@@ -64,17 +65,17 @@
     },
     "earnings_theses": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "catalysts": {
       "status": "stale",
       "date": "2026-04-07",
-      "days_ago": 15
+      "days_ago": 16
     },
     "options_flow": {
       "status": "ok",
-      "date": "2026-04-22",
+      "date": "2026-04-23",
       "days_ago": 0
     },
     "bounce": {
