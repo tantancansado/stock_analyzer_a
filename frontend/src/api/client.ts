@@ -891,9 +891,10 @@ export interface PipelineStatus {
 }
 
 export interface ModuleHealth {
-  status: 'ok' | 'stale' | 'missing'
+  status: 'ok' | 'stale' | 'missing' | 'empty'
   date: string | null
   days_ago?: number
+  rows?: number
 }
 
 export interface PipelineHealth {

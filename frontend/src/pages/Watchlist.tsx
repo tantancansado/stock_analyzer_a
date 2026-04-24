@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Star, Trash2, StickyNote, ChevronRight, Brain } from 'lucide-react'
+import { Star, Trash2, StickyNote, ChevronRight, Brain, Clock } from 'lucide-react'
 import { useWatchlist, type WatchlistEntry } from '../hooks/useWatchlist'
 import { fetchValueOpportunities, fetchEUValueOpportunities, fetchCerebroAlerts, type CerebroAlert } from '../api/client'
 import { useApi } from '../hooks/useApi'
@@ -60,7 +60,7 @@ function NoteEditor({ entry, onSave }: { entry: WatchlistEntry; onSave: (note: s
   )
 }
 
-type LiveEntry = { value_score: number; conviction_grade?: string }
+type LiveEntry = { value_score: number; conviction_grade?: string; days_to_earnings?: number | null }
 
 function alertSeverityStyle(severity: string) {
   if (severity === 'HIGH') return 'text-red-400 bg-red-500/10 border-red-500/30'
@@ -132,7 +132,11 @@ export default function Watchlist() {
         if (cancelled) return
         const map: Record<string, LiveEntry> = {}
         for (const item of [...(us.data.data ?? []), ...(eu.data.data ?? [])]) {
-          map[item.ticker] = { value_score: item.value_score, conviction_grade: item.conviction_grade }
+          map[item.ticker] = {
+            value_score: item.value_score,
+            conviction_grade: item.conviction_grade,
+            days_to_earnings: item.days_to_earnings,
+          }
         }
         setLiveMap(map)
       })
@@ -232,6 +236,41 @@ export default function Watchlist() {
           <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2 px-1">
             {sorted.length} {sorted.length === 1 ? 'ticker' : 'tickers'} en seguimiento
           </div>
+
+          {(() => {
+            const upcoming = sorted
+              .map(e => {
+                const d = liveMap[e.ticker]?.days_to_earnings
+                return d != null && d >= 0 && d <= 7 ? { ticker: e.ticker, days: d } : null
+              })
+              .filter((x): x is { ticker: string; days: number } => x !== null)
+              .sort((a, b) => a.days - b.days)
+            if (upcoming.length === 0) return null
+            return (
+              <div className="mb-4 animate-fade-in-up rounded-xl border px-4 py-3 flex items-start gap-3 bg-amber-500/8 border-amber-500/30">
+                <Clock size={16} className="text-amber-400 shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-bold text-amber-400 mb-1">
+                    {upcoming.length} {upcoming.length === 1 ? 'ticker' : 'tickers'} con earnings en {'<'}7 días
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {upcoming.map(u => (
+                      <Link
+                        key={u.ticker}
+                        to={`/search?q=${u.ticker}`}
+                        className="inline-flex items-center gap-1 text-[0.7rem] font-mono font-bold px-2 py-0.5 rounded border border-amber-500/30 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 transition-colors"
+                      >
+                        {u.ticker}
+                        <span className="text-amber-400/60 font-normal">
+                          {u.days === 0 ? 'hoy' : u.days === 1 ? '1d' : `${u.days}d`}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )
+          })()}
 
           {/* Mobile cards */}
           <div className="sm:hidden space-y-2 mb-2">

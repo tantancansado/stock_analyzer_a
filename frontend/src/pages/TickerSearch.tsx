@@ -7,6 +7,8 @@ import PriceChart from '../components/PriceChart'
 import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import TickerLogo from '../components/TickerLogo'
+import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import { useEntryVerdict } from '../hooks/useEntryVerdicts'
 import { Search, AlertCircle } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -180,6 +182,7 @@ export default function TickerSearch() {
   }
 
   const r = result
+  const verdict = useEntryVerdict(r?.ticker as string | undefined)
   const sf = (key: string) => {
     const v = r?.[key]
     if (v == null) return null
@@ -331,13 +334,14 @@ export default function TickerSearch() {
                   </div>
                 </div>
               </div>
-              <div className="text-right shrink-0">
+              <div className="text-right shrink-0 flex flex-col items-end gap-2">
                 <div className="text-3xl font-extrabold tracking-tight tabular-nums">{fmtDollar(sf('current_price')) ?? '—'}</div>
                 {ss('tier_emoji') && (
-                  <Badge variant="blue" className="mt-1 text-xs">
+                  <Badge variant="blue" className="text-xs">
                     {ss('tier_emoji')} {ss('tier_label')}
                   </Badge>
                 )}
+                {verdict && <EntryVerdictBadge verdict={verdict} />}
               </div>
             </div>
 

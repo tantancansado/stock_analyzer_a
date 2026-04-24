@@ -112,18 +112,32 @@ def check_pipeline_health() -> dict:
     stale_critical = []
     stale_optional = []
     missing        = []
+    empty          = []
+
+    def _label(name: str, info: dict) -> str:
+        dt = info.get('date', '?')
+        days = info.get('days_ago')
+        rows = info.get('rows')
+        parts = [f'último: {dt}']
+        if days is not None:
+            parts.append(f'{days}d')
+        if rows is not None:
+            parts.append(f'{rows} filas')
+        return f"{name} ({', '.join(parts)})"
 
     for name, info in modules.items():
         status = info.get('status', 'unknown')
         if status == 'missing':
             missing.append(name)
+        elif status == 'empty':
+            empty.append(_label(name, info))
         elif status == 'stale':
             if name in CRITICAL_MODULES:
-                stale_critical.append(f"{name} (último: {info.get('date', '?')})")
+                stale_critical.append(_label(name, info))
             else:
-                stale_optional.append(f"{name} (último: {info.get('date', '?')})")
+                stale_optional.append(_label(name, info))
 
-    all_ok = not stale_critical and not missing
+    all_ok = not stale_critical and not missing and not empty
     return {
         'pipeline_date':    pipeline_dt,
         'generated_at':     generated,
@@ -132,6 +146,7 @@ def check_pipeline_health() -> dict:
         'stale_critical':   stale_critical,
         'stale_optional':   stale_optional,
         'missing':          missing,
+        'empty':            empty,
         'all_ok':           all_ok,
     }
 
@@ -346,11 +361,14 @@ def build_alert(pipeline: dict, counts: dict, grades: dict, actions: dict,
     elif not pipeline.get('all_ok'):
         lines = ['🔴 <b>Módulos del pipeline con problemas:</b>']
         for m in pipeline.get('stale_critical', []):
-            lines.append(f"  • ❌ CRÍTICO: <code>{m}</code>")
+            lines.append(f"  • ❌ CRÍTICO stale: <code>{m}</code>")
             all_issues.append(f'módulo crítico stale: {m}')
         for m in pipeline.get('missing', []):
             lines.append(f"  • 🔴 FALTA: <code>{m}</code>")
             all_issues.append(f'módulo faltante: {m}')
+        for m in pipeline.get('empty', []):
+            lines.append(f"  • 📭 VACÍO: <code>{m}</code>")
+            all_issues.append(f'módulo vacío: {m}')
         for m in pipeline.get('stale_optional', [])[:3]:
             lines.append(f"  • 🟡 stale: <code>{m}</code>")
         if pipeline.get('stale_optional') and len(pipeline['stale_optional']) > 3:

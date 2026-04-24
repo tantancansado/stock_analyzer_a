@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { Link } from 'react-router-dom'
 import StaleDataBanner from '../components/StaleDataBanner'
+import PipelineFreshnessBanner from '../components/PipelineFreshnessBanner'
 import {
   fetchMarketRegime, fetchValueOpportunities, fetchEUValueOpportunities,
   fetchPortfolioTracker, fetchRecurringInsiders, fetchOptionsFlow, fetchMeanReversion,
@@ -1305,6 +1306,10 @@ export default function Dashboard() {
           </p>
         </div>
         <LogoChartPeak size={56} className="shrink-0 opacity-80 hidden sm:block" />
+      </div>
+
+      <div className="mb-4 animate-fade-in-up">
+        <PipelineFreshnessBanner />
       </div>
 
       <StaleDataBanner module="macro" />

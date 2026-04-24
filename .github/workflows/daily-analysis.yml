@@ -307,6 +307,10 @@ jobs:
         continue-on-error: true
         run: python3 macro_country_scanner.py || echo "Macro country scanner failed"
 
+      - name: Economic Calendar (FOMC/CPI/NFP schedule)
+        continue-on-error: true
+        run: python3 economic_calendar_generator.py || echo "Economic calendar generation failed"
+
       - name: Catalyst Scanner
         continue-on-error: true
         run: python3 catalyst_scanner.py || echo "Catalyst scanner failed"
@@ -457,28 +461,37 @@ jobs:
           with open('docs/pipeline_status.json', 'w') as f:
               json.dump(status, f, indent=2)
 
-          # Module → (file path, JSON date key or None for mtime)
-          # Only include modules that actually produce output in this workflow.
+          # Module → (file_path, json_date_key_or_None, min_rows_or_None, stale_threshold_days)
+          # stale_threshold: how many days old before status flips to 'stale' (ok if <= threshold)
           MODULES = {
-            'value_us':       ('docs/value_opportunities.csv',                  None),
-            'value_eu':       ('docs/european_value_opportunities.csv',          None),
-            'value_global':   ('docs/global_value_opportunities.csv',            None),
-            'fundamental':    ('docs/fundamental_scores.csv',                    None),
-            'technical':      ('docs/technical_signals_summary.csv',             None),
-            'cerebro':        ('docs/cerebro_briefing.json',                     'generated_at'),
-            'mean_reversion': ('docs/mean_reversion_opportunities.json',         'generated_at'),
-            'macro':          ('docs/macro_radar.json',                          'date'),
-            'insiders':       ('docs/recurring_insiders.csv',                    None),
-            'portfolio':      ('docs/portfolio_tracker/recommendations.csv',     None),
-            'earnings':       ('docs/tikr_earnings_data.json',                   'generated_at'),
-            'theses':         ('docs/theses.json',                                None),
-            'catalysts':      ('docs/catalysts.json',                            'generated_at'),
-            'options_flow':   ('docs/options_flow.csv',                          None),
+            'value_us':       ('docs/value_opportunities.csv',                  None, 20, 2),
+            'value_eu':       ('docs/european_value_opportunities.csv',          None, 10, 3),
+            'value_global':   ('docs/global_value_opportunities.csv',            None,  5, 3),
+            'fundamental':    ('docs/fundamental_scores.csv',                    None, 50, 2),
+            'technical':      ('docs/technical_signals_summary.csv',             None, 30, 2),
+            'cerebro':        ('docs/cerebro_briefing.json',                     'generated_at', None, 3),
+            'mean_reversion': ('docs/mean_reversion_opportunities.json',         'generated_at', None, 3),
+            'macro':          ('docs/macro_radar.json',                          'date',         None, 2),
+            'insiders':       ('docs/recurring_insiders.csv',                    None,  5, 3),
+            'portfolio':      ('docs/portfolio_tracker/recommendations.csv',     None,  1, 2),
+            'earnings':       ('docs/tikr_earnings_data.json',                   'generated_at', None, 7),
+            'theses':         ('docs/theses.json',                                None,  None, 7),
+            'catalysts':      ('docs/catalysts.json',                            'generated_at', None, 7),
+            'economic_cal':   ('docs/economic_calendar.json',                    'generated_at', None, 7),
+            'options_flow':   ('docs/options_flow.csv',                          None,  1, 3),
           }
+
+          def _csv_rows(path):
+              try:
+                  with open(path) as fh:
+                      n = sum(1 for _ in fh) - 1  # minus header
+                  return max(0, n)
+              except Exception:
+                  return None
 
           modules = {}
           ok_count = 0
-          for name, (path, date_key) in MODULES.items():
+          for name, (path, date_key, min_rows, stale_days) in MODULES.items():
               if not os.path.exists(path):
                   modules[name] = {'status': 'missing', 'date': None}
                   continue
@@ -496,9 +509,25 @@ jobs:
                   from datetime import datetime as dt
                   file_date = dt.fromtimestamp(os.path.getmtime(path)).strftime('%Y-%m-%d')
               days_ago = (NOW_UTC.date() - date(*(int(x) for x in file_date.split('-')))).days
-              module_status = 'ok' if days_ago <= 1 else 'stale'
-              if module_status == 'ok': ok_count += 1
-              modules[name] = {'status': module_status, 'date': file_date, 'days_ago': days_ago}
+
+              row_count = _csv_rows(path) if path.endswith('.csv') else None
+              too_few = (min_rows is not None and row_count is not None and row_count < min_rows)
+
+              if too_few:
+                  module_status = 'empty'
+              elif days_ago <= stale_days:
+                  module_status = 'ok'
+                  ok_count += 1
+              else:
+                  module_status = 'stale'
+
+              entry = {'status': module_status, 'date': file_date, 'days_ago': days_ago,
+                       'stale_threshold_days': stale_days}
+              if row_count is not None:
+                  entry['rows'] = row_count
+                  if min_rows is not None:
+                      entry['min_rows'] = min_rows
+              modules[name] = entry
 
           health = {
             'generated_at': NOW_STR,

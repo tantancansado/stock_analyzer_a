@@ -30,6 +30,14 @@ import yfinance as yf
 DOCS = Path('docs')
 DOCS.mkdir(exist_ok=True)
 
+# Web app base URL — used to hyperlink tickers in Telegram messages
+_APP_BASE = 'https://tantancansado.github.io/stock_analyzer_a/app/#/search?q='
+
+
+def _ticker_link(ticker: str) -> str:
+    """Return Telegram-HTML anchor linking to the web app search page."""
+    return f'<a href="{_APP_BASE}{ticker}">{ticker}</a>'
+
 # ── Keywords for importance classification ────────────────────────────────────
 
 _KEYWORDS_HIGH = [
@@ -499,7 +507,7 @@ def _send_telegram(alerts: list, portfolio_labels: dict,
             icon = '🔴' if p['pl_pct'] <= _STOP_LOSS_PCT else (
                    '🟢' if p['pl_pct'] >= _PROFIT_TARGET_PCT else (
                    '🔵' if p['pl_pct'] >= _NEAR_TARGET_PCT else '⚪'))
-            lines.append(f"  {icon} <code>{p['ticker']}</code> {p['pl_pct']:+.1f}%")
+            lines.append(f"  {icon} {_ticker_link(p['ticker'])} {p['pl_pct']:+.1f}%")
         lines.append('')
 
     # ── P&L zone alerts ───────────────────────────────────────────────────────
@@ -517,7 +525,7 @@ def _send_telegram(alerts: list, portfolio_labels: dict,
             by_ticker.setdefault(a['ticker'], []).append(a)
         for ticker, items in by_ticker.items():
             label = portfolio_labels.get(ticker, ticker)
-            lines.append(f'<b>{ticker}</b> <i>({label})</i>')
+            lines.append(f'<b>{_ticker_link(ticker)}</b> <i>({label})</i>')
             for item in items[:3]:
                 icon     = _news_icon(item)
                 title    = item['title'][:120]
