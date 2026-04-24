@@ -63,6 +63,34 @@ _KEYWORDS_MEDIUM = [
     'warning', 'concern', 'risk',
 ]
 
+# ── Keywords for sentiment classification (bullish vs bearish) ────────────────
+
+_KEYWORDS_BULLISH = [
+    'beats', 'beat estimates', 'beat expectations', 'tops estimates', 'tops expectations',
+    'raises guidance', 'raised guidance', 'raises outlook', 'upgrades', 'upgraded',
+    'buyback', 'repurchase', 'dividend raise', 'dividend increase', 'dividend hike',
+    'acquires', 'acquisition', 'wins contract', 'wins deal', 'record', 'strong',
+    'surges', 'soars', 'jumps', 'rally', 'rallies', 'gains', 'outperforms',
+    'approval', 'approved', 'fda approves', 'greenlight',
+    'partnership', 'expands', 'launches',
+    'safest pick', 'top pick', 'best pick',
+]
+
+_KEYWORDS_BEARISH = [
+    'misses', 'missed estimates', 'falls short', 'disappoints',
+    'cuts guidance', 'lowers guidance', 'lowered outlook', 'downgrades', 'downgraded',
+    'dividend cut', 'dividend suspend', 'dividend suspended',
+    'bankruptcy', 'chapter 11', 'default', 'restructuring',
+    'layoff', 'layoffs', 'cuts jobs', 'job cut',
+    'probe', 'investigation', 'lawsuit', 'settlement', 'fine', 'penalty',
+    'recall', 'fails trial', 'rejected',
+    'warning', 'concern', 'risk', 'fraud', 'scandal',
+    'plunge', 'plunges', 'drops', 'tumbles', 'slumps', 'slides', 'sinks',
+    'overrated', 'warning signs', 'sell', 'avoid',
+    'ceo resigns', 'ceo fired', 'cfo resigns', 'cfo fired',
+    'tariff', 'sanction',
+]
+
 # News IDs seen in last run (avoid re-alerting same story)
 _SEEN_CACHE_PATH = DOCS / '.portfolio_news_seen.json'
 
@@ -250,8 +278,21 @@ def _classify_importance(title: str) -> str:
     return 'BAJA'
 
 
+def _classify_sentiment(title: str) -> str:
+    t = title.lower()
+    bull = sum(1 for kw in _KEYWORDS_BULLISH if kw in t)
+    bear = sum(1 for kw in _KEYWORDS_BEARISH if kw in t)
+    if bull > bear:
+        return 'BULLISH'
+    if bear > bull:
+        return 'BEARISH'
+    return 'NEUTRAL'
+
+
 def _groq_classify_batch(items: list[dict]) -> None:
-    """Re-classify non-earnings news items using Groq. Mutates 'importance' in-place."""
+    """Re-classify non-earnings news items using Groq.
+    Mutates 'importance' and 'sentiment' in-place.
+    """
     import requests as req
     api_key = os.environ.get('GROQ_API_KEY', '')
     if not api_key:
@@ -264,12 +305,21 @@ def _groq_classify_batch(items: list[dict]) -> None:
 
     numbered = [f'{j+1}. [{i["ticker"]}] {i["title"]}' for j, i in enumerate(to_classify)]
     prompt = (
-        'Classify each financial news headline as ALTA, MEDIA, or BAJA impact for a stock investor.\n'
-        'ALTA = earnings surprises, guidance changes, M&A, regulatory actions, CEO change, bankruptcy, dividend cut\n'
-        'MEDIA = analyst upgrades/downgrades, buybacks, contracts, partnerships, ordinary dividends\n'
-        'BAJA = general market commentary, sector overviews, conference appearances\n\n'
+        'For each financial news headline, classify two axes:\n'
+        '\n'
+        'IMPACT (how much it moves the stock):\n'
+        '  ALTA = earnings surprises, guidance changes, M&A, regulatory actions, CEO change, bankruptcy, dividend cut\n'
+        '  MEDIA = analyst upgrades/downgrades, buybacks, contracts, partnerships, ordinary dividends\n'
+        '  BAJA = general market commentary, sector overviews, conference appearances\n'
+        '\n'
+        'SENTIMENT (direction for the stockholder):\n'
+        '  BULLISH = beat estimates, raised guidance, upgrade, buyback, new contract, approval, acquisition target, positive coverage\n'
+        '  BEARISH = missed estimates, cut guidance, downgrade, dividend cut, investigation/probe, layoffs, overrated/warning signs, bankruptcy\n'
+        '  NEUTRAL = factual without clear direction (conference appearance, routine filing, mixed signals, Q&A recap)\n'
+        '\n'
         'Headlines:\n' + '\n'.join(numbered) + '\n\n'
-        'Reply ONLY with a JSON array of strings, one per headline, e.g. ["ALTA","MEDIA","BAJA",...]'
+        'Reply ONLY with a JSON array of objects, one per headline in order, e.g.\n'
+        '[{"impact":"ALTA","sentiment":"BULLISH"},{"impact":"MEDIA","sentiment":"BEARISH"},...]'
     )
     try:
         resp = req.post(
@@ -279,26 +329,50 @@ def _groq_classify_batch(items: list[dict]) -> None:
                 'model': 'llama-3.1-8b-instant',
                 'messages': [{'role': 'user', 'content': prompt}],
                 'temperature': 0,
-                'max_tokens': 256,
+                'max_tokens': 512,
+                'response_format': {'type': 'json_object'},
             },
-            timeout=15,
+            timeout=20,
         )
         resp.raise_for_status()
         raw = resp.json()['choices'][0]['message']['content'].strip()
-        # Extract JSON array from response
+        # Groq json_object mode may wrap the array — handle both shapes
         start, end = raw.find('['), raw.rfind(']')
         if start == -1 or end == -1:
             return
-        labels = json.loads(raw[start:end + 1])
-        if not isinstance(labels, list) or len(labels) != len(to_classify):
+        parsed = json.loads(raw[start:end + 1])
+        if not isinstance(parsed, list) or len(parsed) != len(to_classify):
             return
-        valid = {'ALTA', 'MEDIA', 'BAJA'}
-        for item, label in zip(to_classify, labels):
-            if isinstance(label, str) and label.upper() in valid:
-                item['importance'] = label.upper()
-        print(f'  Groq re-classified {len(to_classify)} headlines')
+        valid_imp = {'ALTA', 'MEDIA', 'BAJA'}
+        valid_sen = {'BULLISH', 'BEARISH', 'NEUTRAL'}
+        for item, obj in zip(to_classify, parsed):
+            if not isinstance(obj, dict):
+                continue
+            imp = str(obj.get('impact', '')).upper()
+            sen = str(obj.get('sentiment', '')).upper()
+            if imp in valid_imp:
+                item['importance'] = imp
+            if sen in valid_sen:
+                item['sentiment'] = sen
+        print(f'  Groq re-classified {len(to_classify)} headlines (impact+sentiment)')
     except Exception as e:
         print(f'  Groq classification skipped: {e}')
+
+
+def _news_icon(item: dict) -> str:
+    """Pick an emoji based on (importance, sentiment). Earnings alerts keep ⏰."""
+    if item.get('title', '').startswith('⏰'):
+        return '⏰'
+    imp = item.get('importance', 'MEDIA')
+    sen = item.get('sentiment', 'NEUTRAL')
+    if imp == 'ALTA':
+        if sen == 'BULLISH': return '🟢'
+        if sen == 'BEARISH': return '🔴'
+        return '⚠️'
+    # MEDIA or BAJA
+    if sen == 'BULLISH': return '📈'
+    if sen == 'BEARISH': return '📉'
+    return '📌'
 
 
 def _time_ago(pub_date_str: str) -> str:
@@ -361,6 +435,7 @@ def _fetch_ticker_news(ticker: str, lookback_hours: int = 48) -> list:
                 'time_ago':   _time_ago(pub_str) if pub_str else '',
                 'url':        url,
                 'importance': _classify_importance(title),
+                'sentiment':  _classify_sentiment(title),
             })
         return items
 
@@ -389,6 +464,7 @@ def _fetch_earnings_alert(ticker: str) -> Optional[dict]:
                 'time_ago':   '',
                 'url':        '',
                 'importance': 'ALTA',
+                'sentiment':  'NEUTRAL',
             }
     except Exception:
         pass
@@ -443,7 +519,7 @@ def _send_telegram(alerts: list, portfolio_labels: dict,
             label = portfolio_labels.get(ticker, ticker)
             lines.append(f'<b>{ticker}</b> <i>({label})</i>')
             for item in items[:3]:
-                icon     = '🔴' if item['importance'] == 'ALTA' else '📌'
+                icon     = _news_icon(item)
                 title    = item['title'][:120]
                 time_str = f" · {item['time_ago']}" if item['time_ago'] else ''
                 lines.append(f"  {icon} {title}")

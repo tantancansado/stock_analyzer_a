@@ -457,6 +457,8 @@ jobs:
           with open('docs/pipeline_status.json', 'w') as f:
               json.dump(status, f, indent=2)
 
+          # Module → (file path, JSON date key or None for mtime)
+          # Only include modules that actually produce output in this workflow.
           MODULES = {
             'value_us':       ('docs/value_opportunities.csv',                  None),
             'value_eu':       ('docs/european_value_opportunities.csv',          None),
@@ -466,14 +468,12 @@ jobs:
             'cerebro':        ('docs/cerebro_briefing.json',                     'generated_at'),
             'mean_reversion': ('docs/mean_reversion_opportunities.json',         'generated_at'),
             'macro':          ('docs/macro_radar.json',                          'date'),
-            'macro_stress':   ('docs/macro_stress.json',                         'generated_at'),
             'insiders':       ('docs/recurring_insiders.csv',                    None),
             'portfolio':      ('docs/portfolio_tracker/recommendations.csv',     None),
-            'earnings':       ('docs/earnings_calendar.json',                    'generated_at'),
-            'earnings_theses':('docs/earnings_theses.json',                      'generated_at'),
+            'earnings':       ('docs/tikr_earnings_data.json',                   'generated_at'),
+            'theses':         ('docs/theses.json',                                None),
             'catalysts':      ('docs/catalysts.json',                            'generated_at'),
             'options_flow':   ('docs/options_flow.csv',                          None),
-            'bounce':         ('docs/bounce_setups.json',                        'generated_at'),
           }
 
           modules = {}
