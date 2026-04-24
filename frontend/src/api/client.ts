@@ -418,6 +418,48 @@ export const fetchMeanReversion = async () => {
   return apiClient.get('/api/mean-reversion')
 }
 
+export interface BounceBroadSetup {
+  ticker: string
+  price: number
+  target: number
+  stop: number
+  target_pct: number
+  stop_pct: number
+  rr: number
+  rsi2: number
+  rsi14: number
+  atr_pct: number
+  vol_ratio: number
+  dist_support: number
+  drawdown_20d: number
+  sma20_distance: number
+  above_sma200: boolean
+  horizon_days: string
+  setup_type: string
+}
+
+export interface BounceBroadResponse {
+  scan_date: string
+  generated_at: string
+  universe_size: number
+  universe: string
+  count: number
+  criteria: Record<string, unknown>
+  setups: BounceBroadSetup[]
+}
+
+export const fetchBounceBroad = async () => {
+  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+  if (csvBase) {
+    const url = `${csvBase}/bounce_setups_broad.json`
+    const res = await apiClient.get<BounceBroadResponse>(url, {
+      transformResponse: [(d) => typeof d === 'string' ? JSON.parse(d) : d],
+    })
+    return { data: res.data }
+  }
+  return apiClient.get<BounceBroadResponse>('/api/bounce-broad')
+}
+
 export const fetchOwnerEarningsBatch = async (targetReturn = 15) => {
   const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
   if (csvBase) {

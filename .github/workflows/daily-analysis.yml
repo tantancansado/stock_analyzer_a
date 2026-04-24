@@ -303,6 +303,10 @@ jobs:
           python3 mean_reversion_detector.py || echo "Mean reversion detector failed"
           python3 mean_reversion_backtester.py || echo "Mean reversion backtest failed"
 
+      - name: Bounce Scanner (Universo Ampliado — SP500 minus curated)
+        continue-on-error: true
+        run: python3 bounce_scanner_broad.py || echo "Bounce scanner broad failed"
+
       - name: Macro Country Scanner
         continue-on-error: true
         run: python3 macro_country_scanner.py || echo "Macro country scanner failed"
@@ -373,6 +377,8 @@ jobs:
             docs/european_value_opportunities.csv \
             docs/global_value_opportunities.csv \
             docs/mean_reversion_opportunities.csv \
+            docs/bounce_setups_broad.csv \
+            docs/bounce_setups_broad.json \
             docs/recurring_insiders.csv \
             docs/eu_recurring_insiders.csv \
             docs/momentum_opportunities.csv \
@@ -479,6 +485,7 @@ jobs:
             'catalysts':      ('docs/catalysts.json',                            'generated_at', None, 7),
             'economic_cal':   ('docs/economic_calendar.json',                    'generated_at', None, 7),
             'options_flow':   ('docs/options_flow.csv',                          None,  1, 3),
+            'bounce_broad':   ('docs/bounce_setups_broad.json',                  'generated_at', None, 3),
           }
 
           def _csv_rows(path):

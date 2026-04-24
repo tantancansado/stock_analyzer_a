@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { fetchMeanReversion } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import BroadBounceView from './BroadBounceView'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import TickerLogo from '../components/TickerLogo'
@@ -312,7 +313,10 @@ function SectionHeader({ icon, title, subtitle, count, accent }: {
 
 type TierFilter = 'ALL' | 'EXTREMO' | 'ALTO' | 'MEDIO'
 
+type BounceMode = 'curated' | 'broad'
+
 export default function BounceTrader() {
+  const [mode, setMode] = useState<BounceMode>('curated')
   const { data: raw, loading, error } = useApi(() => fetchMeanReversion(), [])
   const [tierFilter, setTierFilter] = useState<TierFilter>('ALL')
   const [hideEarnings, setHideEarnings] = useState(true)
@@ -363,6 +367,33 @@ export default function BounceTrader() {
     <>
       <StaleDataBanner module="mean_reversion" />
 
+      {/* Mode tabs */}
+      <div className="flex gap-2 mb-5 animate-fade-in-up">
+        <button
+          onClick={() => setMode('curated')}
+          className={`text-[0.72rem] font-bold px-4 py-2 rounded-lg border transition-colors ${
+            mode === 'curated'
+              ? 'bg-primary/15 border-primary/50 text-primary'
+              : 'bg-muted/10 border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
+          }`}
+        >
+          Universo curado
+        </button>
+        <button
+          onClick={() => setMode('broad')}
+          className={`text-[0.72rem] font-bold px-4 py-2 rounded-lg border transition-colors ${
+            mode === 'broad'
+              ? 'bg-purple-500/15 border-purple-500/50 text-purple-300'
+              : 'bg-muted/10 border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
+          }`}
+        >
+          Universo ampliado (SP500)
+        </button>
+      </div>
+
+      {mode === 'broad' && <BroadBounceView />}
+
+      {mode === 'curated' && <>
       {/* Header */}
       <div className="mb-6 animate-fade-in-up">
         <div className="flex items-start justify-between gap-4 mb-1">
@@ -485,6 +516,7 @@ export default function BounceTrader() {
 
         </div>
       )}
+      </>}
     </>
   )
 }

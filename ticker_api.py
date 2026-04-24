@@ -1272,6 +1272,17 @@ def mean_reversion():
     ])
 
 
+@app.route('/api/bounce-broad')
+def bounce_broad():
+    """Bounce setups corto plazo (1-5d) sobre S&P 500 excluyendo universo curado."""
+    data = _load_json(DOCS / 'bounce_setups_broad.json')
+    if data:
+        return jsonify(data)
+    return _csv_to_json_response([
+        (DOCS / 'bounce_setups_broad.csv', 'csv'),
+    ])
+
+
 @app.route('/api/recurring-insiders')
 def recurring_insiders():
     import json as _json
@@ -1389,6 +1400,7 @@ def download_csv(dataset: str):
         'value-us-full':    'value_conviction.csv',
         'value-eu-full':    'european_value_conviction.csv',
         'mean-reversion':   'mean_reversion_opportunities.csv',
+        'bounce-broad':     'bounce_setups_broad.csv',
         'insiders':         'recurring_insiders.csv',
         'insiders-eu':      'eu_recurring_insiders.csv',
         'options-flow':     'options_flow.csv',
