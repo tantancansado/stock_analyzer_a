@@ -49,6 +49,18 @@ from datetime import datetime
 
 from ticker_api_config import load_runtime_config
 from ticker_api_data import build_dataset_summary, load_csv_file, load_json_file, load_static_datasets
+from ticker_api_helpers import (
+    sf as _sf,
+    sfl as _sfl,
+    safe_int as _safe_int,
+    clamp as _clamp,
+    truthy as _truthy,
+    first_value as _first_value,
+    pct_from_ratio as _pct_from_ratio,
+    extract_jwt_sub as _extract_jwt_sub,
+    earnings_estimate_avg as _earnings_estimate_avg,
+    score_contribution as _score_contribution,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -162,13 +174,7 @@ print(build_dataset_summary(_DATASETS))
 # UTILIDADES
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _sf(val, default=None):
-    """safe_float: convierte a float, devuelve default si NaN/None/error."""
-    try:
-        v = float(val)
-        return default if pd.isna(v) else v
-    except (TypeError, ValueError):
-        return default
+# _sf imported from ticker_api_helpers.sf
 
 
 def _validate_ticker(ticker):
@@ -699,13 +705,7 @@ def _analyze_from_cache(ticker):
 # ANÁLISIS LIVE (yfinance — funciona en local, puede fallar en Railway)
 # ─────────────────────────────────────────────────────────────────────────────
 
-def _sfl(val, default=None):
-    """safe_float_live: sin pandas, para valores de yfinance."""
-    try:
-        v = float(val)
-        return v if v == v else default  # NaN check
-    except (TypeError, ValueError):
-        return default
+# _sfl imported from ticker_api_helpers.sfl
 
 
 def _run_vcp(ticker):
@@ -2284,53 +2284,8 @@ _SEARCH_ENRICH_CACHE: dict = {}
 _SEARCH_ENRICH_TTL_S = 6 * 3600
 
 
-def _clamp(value: float | None, low: float, high: float) -> float | None:
-    if value is None:
-        return None
-    return max(low, min(high, value))
-
-
-def _truthy(value) -> bool:
-    if isinstance(value, bool):
-        return value
-    return str(value).strip().lower() in {'1', 'true', 'yes', 'y', 'si'}
-
-
-def _safe_int(val, default=None):
-    try:
-        if val is None:
-            return default
-        if isinstance(val, float) and pd.isna(val):
-            return default
-        return int(float(val))
-    except (TypeError, ValueError):
-        return default
-
-
-def _first_value(*values):
-    for value in values:
-        if value is None:
-            continue
-        if isinstance(value, str) and not value.strip():
-            continue
-        return value
-    return None
-
-
-def _pct_from_ratio(val):
-    num = _sf(val)
-    if num is None:
-        return None
-    return round(num * 100.0, 1)
-
-
-def _extract_jwt_sub(token: str) -> str | None:
-    try:
-        payload = pyjwt.decode(token, options={"verify_signature": False, "verify_aud": False})
-        sub = payload.get('sub')
-        return str(sub) if sub else None
-    except Exception:
-        return None
+# _clamp, _truthy, _safe_int, _first_value, _pct_from_ratio, _extract_jwt_sub
+# imported from ticker_api_helpers
 
 
 def _fetch_portfolio_tickers(user_id: str) -> list[str]:
@@ -2442,26 +2397,7 @@ def _earnings_history_stats(tk) -> tuple[float | None, float | None, int]:
     return beat_rate, avg_surprise, total
 
 
-def _earnings_estimate_avg(frame, label: str = '0q') -> float | None:
-    if frame is None or getattr(frame, 'empty', True):
-        return None
-    try:
-        if label in frame.index:
-            row = frame.loc[label]
-            if hasattr(row, 'iloc'):
-                return _sf(row.get('avg') if hasattr(row, 'get') else row.iloc[0])
-    except Exception:
-        return None
-    return None
-
-
-def _score_contribution(delta: float, description: str, out: list[dict]) -> None:
-    if abs(delta) < 1:
-        return
-    out.append({
-        'impact': round(delta, 1),
-        'signal': description,
-    })
+# _earnings_estimate_avg, _score_contribution imported from ticker_api_helpers
 
 
 def _build_earnings_expectation_snapshot(ticker: str, base_row: dict | None = None, thesis: dict | None = None) -> dict:
