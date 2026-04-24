@@ -322,7 +322,7 @@ export default function BounceTrader() {
   const [hideEarnings, setHideEarnings] = useState(true)
 
   const allSetups: BounceSetup[] = useMemo(() => {
-    const ops: BounceSetup[] = Array.isArray(raw?.opportunities) ? raw.opportunities : []
+    const ops: BounceSetup[] = Array.isArray(raw?.opportunities) ? (raw.opportunities as BounceSetup[]) : []
     return ops.filter(s => {
       if (s.strategy !== 'Oversold Bounce') return false
       if (s.rsi == null || s.rsi >= 30 || s.rsi === 0) return false
@@ -347,7 +347,7 @@ export default function BounceTrader() {
 
   // Raw count before quality filters (for "X filtered out" message)
   const rawBounceCount = useMemo(() => {
-    const ops: BounceSetup[] = Array.isArray(raw?.opportunities) ? raw.opportunities : []
+    const ops: BounceSetup[] = Array.isArray(raw?.opportunities) ? (raw.opportunities as BounceSetup[]) : []
     return ops.filter(s => s.strategy === 'Oversold Bounce' && s.rsi != null && s.rsi < 30 && s.rsi !== 0).length
   }, [raw])
 

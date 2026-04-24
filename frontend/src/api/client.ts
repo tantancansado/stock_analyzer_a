@@ -223,6 +223,38 @@ export const fetchValueOpportunities = async (): Promise<{
 
 const STATIC_DATA_BASE = (import.meta.env.VITE_CSV_BASE as string | undefined) || 'https://tantancansado.github.io/stock_analyzer_a'
 
+/**
+ * Fetcher unificado para endpoints con dualidad estático/API.
+ *
+ * En producción (VITE_CSV_BASE definido) lee el JSON directamente de
+ * GitHub Pages — siempre fresco, no depende del deploy de Railway.
+ * En dev (sin VITE_CSV_BASE) cae al API Flask local.
+ *
+ * Reemplaza el patrón repetido 14 veces:
+ *   const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+ *   if (csvBase) {
+ *     const url = `${csvBase}/foo.json`
+ *     const res = await apiClient.get(url, { transformResponse: [...] })
+ *     return { data: res.data }
+ *   }
+ *   return apiClient.get('/api/foo')
+ *
+ * @param staticFile  nombre del archivo en docs/ (p.ej. "portfolio_news.json")
+ * @param apiPath     path del endpoint Flask (p.ej. "/api/portfolio-news")
+ */
+export async function fetchStaticOrApi<T>(staticFile: string, apiPath: string): Promise<{ data: T }> {
+  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+  if (csvBase) {
+    const url = `${csvBase}/${staticFile}`
+    const res = await apiClient.get<T>(url, {
+      transformResponse: [(d) => typeof d === 'string' ? JSON.parse(d) : d],
+    })
+    return { data: res.data }
+  }
+  const res = await apiClient.get<T>(apiPath)
+  return { data: res.data }
+}
+
 // Simple quoted-CSV parser (handles commas inside "..." fields)
 function parseCsvRows(text: string): Record<string, string>[] {
   const lines = text.trim().split('\n')
@@ -395,28 +427,14 @@ export const fetchSectorRotation = () =>
 export const fetchOptionsFlow = () =>
   apiClient.get('/api/options-flow')
 
-export const fetchUnusualFlow = async () => {
-  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
-  if (csvBase) {
-    const url = `${csvBase}/unusual_flow.json`
-    const res = await apiClient.get(url, { transformResponse: [(d) => typeof d === 'string' ? JSON.parse(d) : d] })
-    return { data: res.data }
-  }
-  return apiClient.get('/api/unusual-flow')
-}
+export const fetchUnusualFlow = () =>
+  fetchStaticOrApi<unknown>('unusual_flow.json', '/api/unusual-flow')
 
-export const fetchMeanReversion = async () => {
-  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
-  if (csvBase) {
-    // Production: read JSON directly from GitHub Pages (always up-to-date)
-    // GitHub Pages serves .json as text/plain — force JSON parsing
-    const url = `${csvBase}/mean_reversion_opportunities.json`
-    const res = await apiClient.get(url, { transformResponse: [(d) => typeof d === 'string' ? JSON.parse(d) : d] })
-    return { data: res.data }
-  }
-  // Development: use local API
-  return apiClient.get('/api/mean-reversion')
-}
+export const fetchMeanReversion = () =>
+  fetchStaticOrApi<{ opportunities?: unknown[]; scan_date?: string }>(
+    'mean_reversion_opportunities.json',
+    '/api/mean-reversion'
+  )
 
 export interface BounceBroadSetup {
   ticker: string
@@ -448,17 +466,8 @@ export interface BounceBroadResponse {
   setups: BounceBroadSetup[]
 }
 
-export const fetchBounceBroad = async () => {
-  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
-  if (csvBase) {
-    const url = `${csvBase}/bounce_setups_broad.json`
-    const res = await apiClient.get<BounceBroadResponse>(url, {
-      transformResponse: [(d) => typeof d === 'string' ? JSON.parse(d) : d],
-    })
-    return { data: res.data }
-  }
-  return apiClient.get<BounceBroadResponse>('/api/bounce-broad')
-}
+export const fetchBounceBroad = () =>
+  fetchStaticOrApi<BounceBroadResponse>('bounce_setups_broad.json', '/api/bounce-broad')
 
 export const fetchOwnerEarningsBatch = async (targetReturn = 15) => {
   const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
