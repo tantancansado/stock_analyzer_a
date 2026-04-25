@@ -23,7 +23,7 @@ describe('page wrappers', () => {
   it('configures the EntrySetups tabs', () => {
     const element = EntrySetups()
 
-    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['mean-reversion', 'momentum'])
+    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['mean-reversion', 'momentum', 'broad-bounce'])
   })
 
   it('configures the MyPortfolio tabs', () => {
@@ -35,6 +35,6 @@ describe('page wrappers', () => {
   it('configures the Macro tabs', () => {
     const element = Macro()
 
-    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['radar', 'countries'])
+    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['radar', 'countries', 'stress'])
   })
 })

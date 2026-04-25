@@ -1,5 +1,5 @@
 import StaleDataBanner from '../components/StaleDataBanner'
-import { useState, useEffect, useRef, useDeferredValue } from 'react'
+import { useState, useEffect, useRef, useDeferredValue, useCallback } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { fetchEUValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchValueEUInsight, type ValueOpportunity } from '../api/client'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
@@ -64,6 +64,9 @@ import OeAiBadge from '../components/OeAiBadge'
 import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
+import { useValueExperienceMode } from '../hooks/useValueExperienceMode'
+import { ValueClarityPanel, ValueDecisionBadge, ValueModeToggle } from '../components/ValueDecision'
+import { getValueDecision } from '@/lib/valueDecision'
 
 const MARKET_FLAGS: Record<string, string> = {
   DAX40: '🇩🇪', FTSE100: '🇬🇧', CAC40: '🇫🇷',
@@ -87,6 +90,7 @@ export default function ValueEU() {
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedRow, setExpandedRow] = useState<ValueOpportunity | null>(null)
   const [thesisText, setThesisText] = useState<string>('')
+  const { clearMode, setClearMode } = useValueExperienceMode()
 
   // URL-synced filters
   const [searchParams, setSearchParams] = useSearchParams()
@@ -95,13 +99,28 @@ export default function ValueEU() {
   const minScore     = searchParams.get('score')  ?? '55'
 
   function setFilterGrade(v: string) {
-    setSearchParams(p => { const n = new URLSearchParams(p); v === 'ALL' ? n.delete('grade')  : n.set('grade',  v); return n }, { replace: true })
+    setSearchParams(p => {
+      const n = new URLSearchParams(p)
+      if (v === 'ALL') n.delete('grade')
+      else n.set('grade', v)
+      return n
+    }, { replace: true })
   }
   function setFilterSector(v: string) {
-    setSearchParams(p => { const n = new URLSearchParams(p); v === 'ALL' ? n.delete('sector') : n.set('sector', v); return n }, { replace: true })
+    setSearchParams(p => {
+      const n = new URLSearchParams(p)
+      if (v === 'ALL') n.delete('sector')
+      else n.set('sector', v)
+      return n
+    }, { replace: true })
   }
   function setMinScore(v: string) {
-    setSearchParams(p => { const n = new URLSearchParams(p); (v === '' || v === '55') ? n.delete('score') : n.set('score', v); return n }, { replace: true })
+    setSearchParams(p => {
+      const n = new URLSearchParams(p)
+      if (v === '' || v === '55') n.delete('score')
+      else n.set('score', v)
+      return n
+    }, { replace: true })
   }
 
   // Local-only filters
@@ -124,6 +143,21 @@ export default function ValueEU() {
   // useDeferredValue: numeric filter inputs don't block UI during filtering
   const deferredMinFcf = useDeferredValue(minFcf)
   const deferredMinRr = useDeferredValue(minRr)
+
+  const toggleThesis = useCallback(async (ticker: string, row: ValueOpportunity) => {
+    currentThesisTicker.current = ticker
+    setExpandedRow(row)
+    setThesisText('Cargando tesis...')
+    try {
+      const res = await fetchThesis(ticker)
+      if (currentThesisTicker.current !== ticker) return
+      const t = res.data.thesis
+      const text = !t ? 'Sin tesis disponible'
+        : typeof t === 'string' ? t
+        : (t as Record<string, string>).thesis_narrative || (t as Record<string, string>).overview || JSON.stringify(t)
+      setThesisText(text)
+    } catch { if (currentThesisTicker.current === ticker) setThesisText('Error cargando tesis') }
+  }, [])
 
   useEffect(() => { setPage(1); setFocusedIdx(-1) }, [filterGrade, filterSector, filterMarket, minScore, minFcf, minRr, hideTraps, hideExits, onlyOwned])
 
@@ -156,7 +190,7 @@ export default function ValueEU() {
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
-  }, [])
+  }, [toggleThesis])
 
   if (loading) return <Loading />
   if (error) return <ErrorState message={error} />
@@ -189,26 +223,12 @@ export default function ValueEU() {
   })
   const totalPages = Math.ceil(sorted.length / PAGE_SIZE)
   const paged = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+  // eslint-disable-next-line react-hooks/refs -- keeps keyboard navigation in sync without rebinding the listener on every page/filter change.
   pagedRef.current = paged
 
   const onSort = (key: SortKey) => {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
     else { setSortKey(key); setSortDir('desc') }
-  }
-
-  const toggleThesis = async (ticker: string, row: ValueOpportunity) => {
-    currentThesisTicker.current = ticker
-    setExpandedRow(row)
-    setThesisText('Cargando tesis...')
-    try {
-      const res = await fetchThesis(ticker)
-      if (currentThesisTicker.current !== ticker) return
-      const t = res.data.thesis
-      const text = !t ? 'Sin tesis disponible'
-        : typeof t === 'string' ? t
-        : (t as Record<string, string>).thesis_narrative || (t as Record<string, string>).overview || JSON.stringify(t)
-      setThesisText(text)
-    } catch { if (currentThesisTicker.current === ticker) setThesisText('Error cargando tesis') }
   }
 
   const thCls = (key: SortKey) =>
@@ -235,6 +255,18 @@ export default function ValueEU() {
     setSearchParams({}, { replace: true })
     setFilterMarket('ALL'); setMinFcf(''); setMinRr(''); setHideTraps(false); setHideExits(false); setOnlyOwned(false)
   }
+  const applyRecommendedView = () => {
+    setSearchParams({}, { replace: true })
+    setFilterMarket('ALL'); setMinFcf(''); setMinRr(''); setHideTraps(true); setHideExits(true); setOnlyOwned(false)
+  }
+  const decisionFor = (row: ValueOpportunity) => getValueDecision({
+    row,
+    hasTrap: !!cerebro.trapMap[row.ticker],
+    hasExit: !!(cerebro.exitMap[row.ticker] || row.cerebro_signal === 'EXIT'),
+    hasEntry: !!cerebro.entryMap[row.ticker],
+    hasSmartMoney: !!cerebro.smMap[row.ticker],
+    hasSqueeze: !!cerebro.squeezeMap[row.ticker],
+  })
 
   const fmtFcf = (v?: number) => {
     if (v == null) return <span className="text-muted-foreground">—</span>
@@ -260,8 +292,9 @@ export default function ValueEU() {
           )}
           {source && <span className="ml-2 align-middle text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 border border-border/40 rounded px-1.5 py-0.5">{source}</span>}
         </>}
-        subtitle="Blue chips europeos seleccionados por fundamentales, FCF y dividendos"
+        subtitle="Ideas europeas ordenadas por oportunidad. La vista clara deja la explicación técnica detrás."
       >
+        <ValueModeToggle clearMode={clearMode} onChange={setClearMode} />
         <CsvDownload dataset="value-eu" label="CSV" />
         <CsvDownload dataset="value-eu-full" label="CSV Full" />
         <LogoCandleBull size={44} className="ml-1 opacity-80 hidden sm:block" />
@@ -297,6 +330,17 @@ export default function ValueEU() {
         <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis VALUE Europa" className="mb-5" />
       )}
 
+      {clearMode && (
+        <ValueClarityPanel
+          rows={sorted}
+          getDecision={decisionFor}
+          currencyFor={(row) => getCurrency(row.ticker)}
+          onSelect={(row) => toggleThesis(row.ticker, row)}
+          onRecommended={applyRecommendedView}
+          onExpert={() => setClearMode(false)}
+        />
+      )}
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {[
           { label: 'Oportunidades', value: rows.length, sub: `${markets.size} mercados`, idx: 1 },
@@ -321,6 +365,27 @@ export default function ValueEU() {
       )}
 
       {/* Filter Bar */}
+      {clearMode ? (
+        <Card className="glass mb-3 px-4 py-3 animate-fade-in-up">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-foreground">Vista recomendada activa</p>
+              <p className="text-xs text-muted-foreground">
+                Priorizamos ideas limpias y escondemos alertas graves. Los filtros técnicos siguen a un toque.
+              </p>
+            </div>
+            <button type="button" onClick={applyRecommendedView} className="filter-btn active">
+              Restaurar criterio
+            </button>
+            <button type="button" onClick={() => setClearMode(false)} className="filter-btn">
+              Ver filtros
+            </button>
+            <span className="filter-label !normal-case !tracking-normal">
+              {filtered.length !== rows.length ? `${filtered.length} / ${rows.length}` : `${rows.length} ideas`}
+            </span>
+          </div>
+        </Card>
+      ) : (
       <Card className="glass px-4 py-3 mb-3 animate-fade-in-up">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
 
@@ -423,6 +488,7 @@ export default function ValueEU() {
           </div>
         </div>
       </Card>
+      )}
 
       {/* Mobile card view */}
       <div className="sm:hidden space-y-2.5 mb-2">
@@ -438,6 +504,44 @@ export default function ValueEU() {
           const hasTrap   = !!cerebro.trapMap[d.ticker]
           const hasExit   = !!(cerebro.exitMap[d.ticker] || d.cerebro_signal === 'EXIT')
           const hasSM     = !!cerebro.smMap[d.ticker]
+          const hasSqueeze = !!cerebro.squeezeMap[d.ticker]
+          const decision = decisionFor(d)
+          if (clearMode) {
+            return (
+              <div
+                key={d.ticker}
+                onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
+                className={`glass rounded-2xl p-4 cursor-pointer active:scale-[0.98] transition-transform border ${decision.panelClass}`}
+                style={{ animationDelay: `${i * 40}ms` }}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-start gap-3 min-w-0">
+                    <TickerLogo ticker={d.ticker} size="md" className="mt-0.5 shrink-0" />
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-mono font-extrabold text-base leading-tight">{d.ticker}</span>
+                        <ValueDecisionBadge decision={decision} />
+                        <OwnedBadge ticker={d.ticker} />
+                      </div>
+                      <span className="text-xs text-muted-foreground truncate max-w-[210px] block mt-0.5">{d.company_name}</span>
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    {d.analyst_upside_pct != null && (
+                      <div className={`text-sm font-bold ${d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
+                      </div>
+                    )}
+                    <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{cur}{d.current_price?.toFixed(2)}</div>
+                  </div>
+                </div>
+                <div className="mt-3 rounded-xl border border-border/20 bg-muted/10 px-3 py-2">
+                  <p className="text-sm font-semibold text-foreground">{decision.headline}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{decision.detail}</p>
+                </div>
+              </div>
+            )
+          }
           return (
             <div
               key={d.ticker}
@@ -472,11 +576,12 @@ export default function ValueEU() {
               </div>
 
               {/* Row 2: Cerebro signals */}
-              {(hasTrap || hasExit || hasSM || d.earnings_warning) && (
+              {(hasTrap || hasExit || hasSM || hasSqueeze || d.earnings_warning) && (
                 <div className="flex flex-wrap gap-1.5 mt-2.5">
                   {hasTrap && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/25">⚠ TRAP</span>}
                   {hasExit && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/25">↑ EXIT</span>}
                   {hasSM && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/25">🐋 SMART $</span>}
+                  {hasSqueeze && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/25">💥 SQUEEZE</span>}
                   {d.earnings_warning && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-400 border border-yellow-500/25">📅 EARNINGS</span>}
                 </div>
               )}
@@ -503,6 +608,74 @@ export default function ValueEU() {
       </div>
 
       {/* Desktop table */}
+      {clearMode ? (
+        <div className="hidden sm:block">
+          <Card className="glass animate-fade-in-up overflow-clip">
+            <Table>
+              <TableHeader>
+                <TableRow className="border-border/50 hover:bg-transparent">
+                  <TableHead>Idea</TableHead>
+                  <TableHead>Decisión</TableHead>
+                  <TableHead>Lectura simple</TableHead>
+                  <TableHead>Potencial</TableHead>
+                  <TableHead>Precio</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {paged.map((d, i) => {
+                  const decision = decisionFor(d)
+                  const cur = getCurrency(d.ticker)
+                  return (
+                    <TableRow
+                      key={d.ticker}
+                      data-row-idx={i}
+                      className={`cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
+                      onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
+                    >
+                      <TableCell>
+                        <div className="flex items-center gap-2">
+                          <TickerLogo ticker={d.ticker} size="sm" />
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-mono font-bold text-primary text-[0.85rem]">{d.ticker}</span>
+                              <OwnedBadge ticker={d.ticker} />
+                            </div>
+                            <div className="max-w-[190px] truncate text-[0.72rem] text-muted-foreground">{d.company_name}</div>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell><ValueDecisionBadge decision={decision} /></TableCell>
+                      <TableCell className="max-w-[520px] whitespace-normal">
+                        <div className="text-[0.82rem] font-semibold text-foreground">{decision.headline}</div>
+                        <div className="mt-0.5 text-[0.72rem] leading-relaxed text-muted-foreground">{decision.detail}</div>
+                      </TableCell>
+                      <TableCell className="tabular-nums">
+                        {d.analyst_upside_pct != null ? (
+                          <span className={d.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                            {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
+                          </span>
+                        ) : <span className="text-muted-foreground">—</span>}
+                      </TableCell>
+                      <TableCell className="tabular-nums">{cur}{d.current_price?.toFixed(2)}</TableCell>
+                      <TableCell>
+                        <WatchlistButton ticker={d.ticker} company_name={d.company_name} sector={d.sector} current_price={d.current_price} value_score={d.value_score} conviction_grade={d.conviction_grade} analyst_upside_pct={d.analyst_upside_pct} fcf_yield_pct={d.fcf_yield_pct} />
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+            {sorted.length === 0 && (
+              <CardContent className="py-16 text-center">
+                <p className="font-medium text-muted-foreground">
+                  {rows.length === 0 ? 'No hay ideas VALUE europeas ahora mismo' : 'No hay ideas con los filtros actuales'}
+                </p>
+              </CardContent>
+            )}
+          </Card>
+        </div>
+      ) : (
       <div className="hidden sm:block">
       <Card className="glass animate-fade-in-up">
         <Table>
@@ -695,6 +868,7 @@ export default function ValueEU() {
         )}
       </Card>
       </div>
+      )}
 
       <PaginationBar page={page} totalPages={totalPages} onPage={setPage} />
 
