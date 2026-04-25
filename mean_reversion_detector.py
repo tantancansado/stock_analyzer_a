@@ -116,15 +116,16 @@ class MeanReversionDetector:
         - Fundamentales sólidos
         """
         try:
-            stock = yf.Ticker(ticker)
-
+            from yfinance_client import get_history, YFClientError, RateLimitError
             # Obtener datos históricos
             end_date = datetime.now()
             start_date = end_date - timedelta(days=self.lookback_days)
-            hist = stock.history(start=start_date, end=end_date)
-
-            if len(hist) < 50:  # Datos insuficientes
-                return None
+            try:
+                hist = get_history(ticker, start=start_date, end=end_date, min_rows=50)
+            except RateLimitError:
+                return None  # rate-limit no es problema del ticker
+            except YFClientError:
+                return None  # data missing / other
 
             # Calcular indicadores
             current_price = hist['Close'].iloc[-1]

@@ -25,7 +25,8 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from typing import Optional
 
-import yfinance as yf
+import yfinance as yf  # still needed for tk.news (no helper in yfinance_client yet)
+from yfinance_client import get_info, YFClientError
 
 DOCS = Path('docs')
 DOCS.mkdir(exist_ok=True)
@@ -193,10 +194,10 @@ def _check_pl_alerts(portfolio: list) -> tuple[list[dict], dict]:
             continue
 
         try:
-            info      = yf.Ticker(ticker).info
+            info      = get_info(ticker)
             cur_price = (info.get('currentPrice') or info.get('regularMarketPrice')
                          or info.get('previousClose') or 0)
-        except Exception:
+        except YFClientError:
             cur_price = 0
 
         if not cur_price:
@@ -455,8 +456,7 @@ def _fetch_ticker_news(ticker: str, lookback_hours: int = 48) -> list:
 def _fetch_earnings_alert(ticker: str) -> Optional[dict]:
     """Return an earnings alert dict if earnings are within 7 days."""
     try:
-        tk   = yf.Ticker(ticker)
-        info = tk.info or {}
+        info = get_info(ticker)
         ts   = info.get('earningsTimestamp') or info.get('nextFiscalYearEnd')
         if not ts:
             return None

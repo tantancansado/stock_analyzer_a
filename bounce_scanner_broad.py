@@ -36,9 +36,11 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import yfinance as yf
 
 from curated_tickers import ALL_TICKERS
+from yfinance_client import (
+    get_history, RateLimitError, DataNotFoundError, get_stats,
+)
 
 DOCS = Path('docs')
 DOCS.mkdir(exist_ok=True)
@@ -88,11 +90,18 @@ def _load_universe() -> list[str]:
 
 
 def _fetch(ticker: str) -> pd.DataFrame | None:
+    """
+    Fetch via yfinance_client. Distingue rate-limit (no penalizar al ticker)
+    de data-missing (skip silencioso).
+    """
     try:
-        df = yf.Ticker(ticker).history(period='1y', interval='1d', auto_adjust=True)
-        if df is None or df.empty or len(df) < 220:
-            return None
-        return df
+        return get_history(ticker, period='1y', interval='1d', auto_adjust=True, min_rows=220)
+    except RateLimitError:
+        # Rate limit: no es problema del ticker, simplemente skip
+        return None
+    except DataNotFoundError:
+        # Ticker delisted o sin historial suficiente
+        return None
     except Exception:
         return None
 
@@ -205,6 +214,11 @@ def scan() -> list[dict]:
     setups.sort(key=lambda s: (s['rsi2'], -s['rr']))
     setups = setups[:MAX_RESULTS]
     print(f'\nEvaluated {evaluated}/{len(tickers)} — {len(setups)} setups que pasan TODOS los filtros')
+    stats = get_stats()
+    if stats['rate_limited'] or stats['other_errors']:
+        print(f"  yfinance: ok={stats['calls_ok']} rate_limited={stats['rate_limited']} "
+              f"missing={stats['data_missing']} other={stats['other_errors']} "
+              f"ok_rate={stats['ok_rate']}")
     return setups
 
 

@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 import pandas as pd
-import yfinance as yf
+from yfinance_client import get_info, RateLimitError, YFClientError
 
 DOCS = Path(__file__).resolve().parent / "docs"
 HISTORY_FILE = DOCS / "analyst_revisions_history.json"
@@ -51,8 +51,12 @@ def _prune(snapshots: list[dict[str, Any]], cutoff: datetime) -> list[dict[str, 
 
 def _fetch_snapshot(ticker: str) -> dict[str, Any] | None:
     try:
-        info = yf.Ticker(ticker).info
-    except Exception as exc:  # yfinance is flaky — log and skip
+        info = get_info(ticker)
+    except RateLimitError:
+        # No imprimir como error: es del cliente, no del ticker
+        print(f"   ⚠ {ticker}: rate limited", flush=True)
+        return None
+    except YFClientError as exc:
         print(f"   ⚠ {ticker}: yfinance error: {exc}", flush=True)
         return None
     target_mean = info.get("targetMeanPrice")

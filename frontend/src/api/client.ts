@@ -411,15 +411,8 @@ export interface PortfolioNewsData {
 }
 
 // Portfolio news is updated every 6h — read from GitHub Pages directly (always fresh)
-export const fetchPortfolioNews = async (): Promise<{ data: PortfolioNewsData }> => {
-  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
-  const base = csvBase || ''
-  try {
-    const res = await fetch(`${base}/portfolio_news.json`, { cache: 'no-store' })
-    if (res.ok) return { data: await res.json() as PortfolioNewsData }
-  } catch { /* fall through to API */ }
-  return apiClient.get<PortfolioNewsData>('/api/portfolio-news')
-}
+export const fetchPortfolioNews = () =>
+  fetchStaticOrApi<PortfolioNewsData>('portfolio_news.json', '/api/portfolio-news')
 
 export const fetchSectorRotation = () =>
   apiClient.get<SectorRotationData>('/api/sector-rotation')
@@ -469,17 +462,11 @@ export interface BounceBroadResponse {
 export const fetchBounceBroad = () =>
   fetchStaticOrApi<BounceBroadResponse>('bounce_setups_broad.json', '/api/bounce-broad')
 
-export const fetchOwnerEarningsBatch = async (targetReturn = 15) => {
-  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
-  if (csvBase) {
-    // Production: pre-computed JSON from GitHub Pages (fast, always fresh)
-    const url = `${csvBase}/owner_earnings_batch.json`
-    const res = await apiClient.get(url, { transformResponse: [(d) => typeof d === 'string' ? JSON.parse(d) : d] })
-    return { data: res.data }
-  }
-  // Development: compute on-demand via Railway API
-  return apiClient.get(`/api/owner-earnings-batch?target_return=${targetReturn / 100}`)
-}
+export const fetchOwnerEarningsBatch = (targetReturn = 15) =>
+  fetchStaticOrApi<unknown>(
+    'owner_earnings_batch.json',
+    `/api/owner-earnings-batch?target_return=${targetReturn / 100}`,
+  )
 
 export const fetchRecurringInsiders = () =>
   apiClient.get<{ data: InsiderData[]; count: number; source: string }>('/api/recurring-insiders')

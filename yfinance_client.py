@@ -195,19 +195,35 @@ def get_info(ticker: str, *, required_fields: Optional[list[str]] = None) -> dic
 def get_history(
     ticker: str,
     *,
-    period: str = '1y',
+    period: Optional[str] = '1y',
     interval: str = '1d',
     auto_adjust: bool = True,
     min_rows: Optional[int] = None,
+    start: Optional[Any] = None,
+    end: Optional[Any] = None,
 ) -> Any:
     """
     Obtiene historial OHLCV. Devuelve DataFrame o lanza.
+
+    Acepta dos modos exclusivos:
+      - period (default '1y'): rango relativo
+      - start/end (datetime o str): rango absoluto. Si se pasa start, period
+        se ignora.
 
     :param min_rows: si se pasa y el df tiene menos, lanza DataNotFoundError.
     """
     _wait_for_rate_cushion()
     try:
-        df = yf.Ticker(ticker).history(period=period, interval=interval, auto_adjust=auto_adjust)
+        if start is not None:
+            df = yf.Ticker(ticker).history(
+                start=start, end=end,
+                interval=interval, auto_adjust=auto_adjust,
+            )
+        else:
+            df = yf.Ticker(ticker).history(
+                period=period or '1y',
+                interval=interval, auto_adjust=auto_adjust,
+            )
     except Exception as exc:
         if _is_rate_limit_error(exc):
             _record(False, 'rate_limit', ticker)

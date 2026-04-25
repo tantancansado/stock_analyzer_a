@@ -36,14 +36,24 @@ def _reset_stats_and_gap():
     set_min_gap_seconds(0.15)
 
 
+def _ticker_with_raising_info(message: str, exc_cls: type[BaseException] = RuntimeError) -> MagicMock:
+    """Mock yf.Ticker cuya .info lanza la excepción dada al accederse."""
+    mock_tk = MagicMock()
+    err = exc_cls(message)
+
+    def _raise(_self):
+        raise err
+
+    type(mock_tk).info = property(_raise)
+    return mock_tk
+
+
 # ── Error classification ──────────────────────────────────────────────────────
 
 class TestRateLimitClassification:
 
     def test_too_many_requests_raises_rate_limit_error(self):
-        mock_tk = MagicMock()
-        mock_tk.info = MagicMock(side_effect=Exception("Too Many Requests from Yahoo"))
-        type(mock_tk).info = property(lambda self: (_ for _ in ()).throw(Exception("Too Many Requests")))
+        mock_tk = _ticker_with_raising_info("Too Many Requests from Yahoo")
 
         with patch('yfinance_client.yf.Ticker', return_value=mock_tk):
             with pytest.raises(RateLimitError):
@@ -54,16 +64,14 @@ class TestRateLimitClassification:
         assert stats['calls_ok'] == 0
 
     def test_429_in_message_raises_rate_limit_error(self):
-        mock_tk = MagicMock()
-        type(mock_tk).info = property(lambda self: (_ for _ in ()).throw(Exception("HTTP 429")))
+        mock_tk = _ticker_with_raising_info("HTTP 429")
 
         with patch('yfinance_client.yf.Ticker', return_value=mock_tk):
             with pytest.raises(RateLimitError):
                 get_info('X')
 
     def test_other_error_raises_yfclient_error(self):
-        mock_tk = MagicMock()
-        type(mock_tk).info = property(lambda self: (_ for _ in ()).throw(Exception("Network unreachable")))
+        mock_tk = _ticker_with_raising_info("Network unreachable", ConnectionError)
 
         with patch('yfinance_client.yf.Ticker', return_value=mock_tk):
             with pytest.raises(YFClientError) as exc_info:
@@ -132,7 +140,7 @@ class TestHappyPath:
         with patch('yfinance_client.yf.Ticker', return_value=mock_tk):
             info = get_info('AAPL', required_fields=['currentPrice'])
 
-        assert info['currentPrice'] == 150.0
+        assert info['currentPrice'] == pytest.approx(150.0)
         stats = get_stats()
         assert stats['calls_ok'] == 1
         assert stats['rate_limited'] == 0
@@ -146,6 +154,22 @@ class TestHappyPath:
             df = get_history('AAPL', min_rows=250)
 
         assert len(df) == 260
+
+    def test_get_history_with_start_end_passes_through(self):
+        from datetime import date
+        df_expected = pd.DataFrame({'Close': list(range(60))})
+        mock_tk = MagicMock()
+        mock_tk.history.return_value = df_expected
+
+        with patch('yfinance_client.yf.Ticker', return_value=mock_tk):
+            df = get_history('AAPL', start=date(2026, 1, 1), end=date(2026, 4, 1))
+
+        # history was called with start/end, NOT period
+        call_kwargs = mock_tk.history.call_args.kwargs
+        assert 'start' in call_kwargs and call_kwargs['start'] == date(2026, 1, 1)
+        assert 'end' in call_kwargs and call_kwargs['end'] == date(2026, 4, 1)
+        assert 'period' not in call_kwargs
+        assert len(df) == 60
 
     def test_get_current_price_uses_first_available(self):
         mock_tk = MagicMock()
@@ -183,8 +207,7 @@ class TestRateCushion:
 class TestStats:
 
     def test_stats_tracks_errors_by_ticker(self):
-        mock_tk = MagicMock()
-        type(mock_tk).info = property(lambda self: (_ for _ in ()).throw(Exception("Too Many Requests")))
+        mock_tk = _ticker_with_raising_info("Too Many Requests")
 
         with patch('yfinance_client.yf.Ticker', return_value=mock_tk):
             for _ in range(3):
@@ -198,8 +221,7 @@ class TestStats:
     def test_ok_rate_computed(self):
         mock_ok = MagicMock()
         mock_ok.info = {'currentPrice': 100}
-        mock_fail = MagicMock()
-        type(mock_fail).info = property(lambda self: (_ for _ in ()).throw(Exception("Too Many Requests")))
+        mock_fail = _ticker_with_raising_info("Too Many Requests")
 
         with patch('yfinance_client.yf.Ticker', side_effect=[mock_ok, mock_ok, mock_fail]):
             get_info('A', required_fields=['currentPrice'])
