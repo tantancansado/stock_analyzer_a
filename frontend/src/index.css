@@ -292,6 +292,161 @@ button:active:not(:disabled) { transform: scale(0.97); }
    → all defined in Cybertruck Light section below */
 
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   LIQUID GLASS — Apple-style refractive glass.
+   Use sparingly: only on hero elements (modals, lead cards, toolbars). The
+   url(#glass-distortion) backdrop-filter triggers SVG filter compositing on
+   every paint, which is heavy. Lists/tables MUST keep .glass, never use this.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.liquid-glass {
+  position: relative;
+  background:
+    linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.10) 0%,
+      hsl(0 0% 100% / 0.04) 50%,
+      hsl(0 0% 100% / 0.02) 100%
+    ),
+    hsl(var(--card) / 0.18);
+
+  /* Real refraction: SVG displacement of what's behind the glass + blur. */
+  backdrop-filter: url(#glass-distortion) blur(22px) saturate(180%) brightness(1.06);
+  -webkit-backdrop-filter: blur(22px) saturate(180%) brightness(1.06);
+
+  /* Heavy chamfer — top-left bright (light source above-left), bottom-right dark.
+     This is what gives glass its "carved out of crystal" look. */
+  border: 1px solid hsl(0 0% 100% / 0.14);
+  box-shadow:
+    /* outer drop — floating */
+    0 24px 60px -12px hsl(0 0% 0% / 0.55),
+    0 8px 24px -8px hsl(0 0% 0% / 0.35),
+
+    /* top-left bevel (lit edge) */
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.62),
+    inset 1.5px 0 0 hsl(0 0% 100% / 0.32),
+
+    /* bottom-right bevel (shadowed edge) */
+    inset 0 -1px 0 hsl(0 0% 0% / 0.18),
+    inset -1px 0 0 hsl(0 0% 0% / 0.10),
+
+    /* inner glow — gives the "thick glass" volumetric feel */
+    inset 0 0 24px hsl(0 0% 100% / 0.05);
+
+  overflow: clip;
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.32s ease;
+  isolation: isolate; /* keeps pseudo-elements composited above the backdrop */
+}
+
+/* Specular sweep — diagonal highlight, more pronounced than .glass.
+   Travels slightly with hover for the "wet glass" feel. */
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    hsl(0 0% 100% / 0.18) 18%,
+    hsl(0 0% 100% / 0.04) 32%,
+    transparent 48%,
+    transparent 72%,
+    hsl(0 0% 100% / 0.06) 92%,
+    hsl(0 0% 100% / 0.20) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: overlay;
+  opacity: 0.85;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.32s ease;
+}
+
+/* Cursor-tracked light spot — same hook as .glass (var(--mouse-x/y) set by
+   App.tsx mousemove listener). Bigger radius and more saturated than .glass. */
+.liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+      hsl(0 0% 100% / 0.12) 0%,
+      hsl(194 100% 70% / 0.05) 35%,
+      transparent 70%
+    );
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease;
+}
+
+.liquid-glass:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 32px 72px -12px hsl(0 0% 0% / 0.62),
+    0 10px 28px -8px hsl(0 0% 0% / 0.40),
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.74),
+    inset 1.5px 0 0 hsl(0 0% 100% / 0.40),
+    inset 0 -1px 0 hsl(0 0% 0% / 0.20),
+    inset -1px 0 0 hsl(0 0% 0% / 0.12),
+    inset 0 0 32px hsl(0 0% 100% / 0.07);
+}
+
+.liquid-glass:hover::before {
+  transform: translateX(2%);
+  opacity: 1;
+}
+
+/* Optional tints — same recipe, different cast */
+.liquid-glass-tinted-blue {
+  background:
+    linear-gradient(
+      135deg,
+      hsl(194 100% 70% / 0.10) 0%,
+      hsl(220 80% 65% / 0.04) 50%,
+      hsl(0 0% 100% / 0.02) 100%
+    ),
+    hsl(var(--card) / 0.18);
+}
+
+.liquid-glass-tinted-amber {
+  background:
+    linear-gradient(
+      135deg,
+      hsl(35 100% 70% / 0.10) 0%,
+      hsl(20 80% 60% / 0.04) 50%,
+      hsl(0 0% 100% / 0.02) 100%
+    ),
+    hsl(var(--card) / 0.18);
+}
+
+/* Reduced motion — kill the sweep animation, keep only the static look */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass,
+  .liquid-glass::before,
+  .liquid-glass::after {
+    transition: none;
+  }
+  .liquid-glass:hover {
+    transform: none;
+  }
+}
+
+/* Browsers without backdrop-filter fall back to plain semi-transparent bg
+   + heavier shadow to keep the depth feeling. */
+@supports not (backdrop-filter: blur(1px)) {
+  .liquid-glass {
+    background: hsl(var(--card) / 0.78);
+    backdrop-filter: none;
+  }
+}
+
+
 /* ═══════════════════════════════════════════════════════════════════
    BACKGROUND ORBS — vivid color blobs that glass blurs through
    These need to be bright enough to actually show through cards.

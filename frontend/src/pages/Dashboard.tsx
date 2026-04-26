@@ -909,7 +909,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
   const ss = SESGO_STYLES[sesgoKey] ?? SESGO_STYLES.NEUTRO
 
   return (
-    <Card className={`glass border-l-4 ${ss.border} ${ss.bg} p-5 mb-5 animate-fade-in-up`}>
+    <Card className={`liquid-glass border-l-4 ${ss.border} ${ss.bg} p-5 mb-5 animate-fade-in-up`}>
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
         <div className="flex items-center gap-2.5">

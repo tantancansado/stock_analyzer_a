@@ -79,7 +79,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
         role="dialog"
         aria-modal="true"
       >
-        <div className="relative w-full sm:max-w-2xl bg-[hsl(var(--card))] border border-border/50 shadow-2xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[88dvh] modal-enter overflow-hidden">
+        <div className="liquid-glass relative w-full sm:max-w-2xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[88dvh] modal-enter">
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/60 via-primary to-purple-500/50 z-10" />
 
           <div className="sm:hidden flex justify-center pt-3 pb-1 flex-shrink-0">

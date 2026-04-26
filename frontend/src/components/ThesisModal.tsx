@@ -220,7 +220,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
         role="dialog"
         aria-modal="true"
       >
-        <div className="relative w-full sm:max-w-4xl bg-[hsl(var(--card))] border border-border/50 shadow-2xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[90dvh] modal-enter overflow-hidden">
+        <div className="liquid-glass relative w-full sm:max-w-4xl rounded-t-2xl sm:rounded-2xl flex flex-col max-h-[92dvh] sm:max-h-[90dvh] modal-enter">
           {/* Top accent */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/50 via-primary to-purple-500/50 z-10" />
 

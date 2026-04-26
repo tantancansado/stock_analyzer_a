@@ -49,7 +49,7 @@ export default function PipelineFreshnessBanner({ className = '' }: { className?
 
   return (
     <div
-      className={`inline-flex flex-wrap items-center gap-2 text-[0.72rem] font-medium px-3 py-1.5 rounded-lg border ${tone} ${className}`}
+      className={`liquid-glass inline-flex flex-wrap items-center gap-2 text-[0.72rem] font-medium px-3 py-1.5 rounded-lg ${tone} ${className}`}
       title={failing.length ? `Módulos con problemas: ${failing.join(', ')}` : 'Todos los módulos OK'}
     >
       <Icon size={13} className={iconTone} />

@@ -68,7 +68,7 @@ export function ValueClarityPanel({
   const lead = ready[0] ?? watch[0] ?? evaluated[0]
 
   return (
-    <Card className="glass mb-5 overflow-clip border border-border/40">
+    <Card className="liquid-glass mb-5 overflow-clip">
       <CardContent className="p-0">
         <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="p-5 md:p-6">

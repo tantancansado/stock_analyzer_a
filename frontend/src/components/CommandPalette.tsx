@@ -87,7 +87,7 @@ export default function CommandPalette({ open, onClose }: Props) {
               transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
             >
               <Command
-                className="cmd-palette glass rounded-2xl border border-border/80 shadow-2xl overflow-clip"
+                className="cmd-palette liquid-glass rounded-2xl shadow-2xl"
                 shouldFilter={false}
               >
                 {/* Search input */}

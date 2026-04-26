@@ -36,7 +36,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
 
       {/* Panel */}
       <div
-        className="relative z-10 w-full max-w-sm glass rounded-2xl border border-border/50 shadow-2xl p-5 animate-fade-in-up"
+        className="relative z-10 w-full max-w-sm liquid-glass rounded-2xl shadow-2xl p-5 animate-fade-in-up"
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}

@@ -186,6 +186,37 @@ export default function App() {
         <div className="orb orb-5" />
       </div>
 
+      {/* Liquid glass distortion filter — used by .liquid-glass via backdrop-filter: url(#glass-distortion).
+          Hidden SVG, mounted once globally. Subtle turbulence + low displacement scale to feel like
+          actual refraction through curved glass, not chromatic distortion. */}
+      <svg
+        aria-hidden="true"
+        className="liquid-glass-defs"
+        width="0"
+        height="0"
+        style={{ position: 'absolute', overflow: 'hidden', pointerEvents: 'none' }}
+      >
+        <defs>
+          <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.012 0.018"
+              numOctaves="2"
+              seed="7"
+              result="noise"
+            />
+            <feGaussianBlur in="noise" stdDeviation="2" result="softNoise" />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="softNoise"
+              scale="14"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+
       {user && (
         <>
           {/* Mobile overlay */}
