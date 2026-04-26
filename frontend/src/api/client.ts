@@ -462,6 +462,48 @@ export interface BounceBroadResponse {
 export const fetchBounceBroad = () =>
   fetchStaticOrApi<BounceBroadResponse>('bounce_setups_broad.json', '/api/bounce-broad')
 
+// ── Portfolio Strategies (per-position trim/add plan via Groq) ─────────────────
+
+export type StrategyAction = 'HOLD' | 'TRIM' | 'ADD' | 'EXIT' | 'WATCH'
+
+export interface PortfolioStrategy {
+  ticker: string
+  company?: string
+  current_price: number
+  avg_price: number
+  shares: number
+  pl_pct: number | null
+  current_action: StrategyAction
+  action_reason: string
+  trim_at_price: number | null
+  trim_pct: number | null
+  trim_reason: string | null
+  add_at_price: number | null
+  add_pct: number | null
+  add_reason: string | null
+  stop_loss_price: number
+  triggers_sell: string[]
+  triggers_buy: string[]
+  next_check_date: string
+  next_check_reason: string
+  thesis_short: string
+  confidence: number
+  signals?: Record<string, unknown>
+}
+
+export interface PortfolioStrategiesResponse {
+  generated_at: string
+  scan_date: string
+  count: number
+  strategies: Record<string, PortfolioStrategy>
+}
+
+export const fetchPortfolioStrategies = () =>
+  fetchStaticOrApi<PortfolioStrategiesResponse>(
+    'portfolio_strategies.json',
+    '/api/portfolio-strategies',
+  )
+
 export const fetchOwnerEarningsBatch = (targetReturn = 15) =>
   fetchStaticOrApi<unknown>(
     'owner_earnings_batch.json',

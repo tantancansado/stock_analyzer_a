@@ -29,7 +29,7 @@ describe('page wrappers', () => {
   it('configures the MyPortfolio tabs', () => {
     const element = MyPortfolio()
 
-    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['positions', 'signals'])
+    expect(element.props.tabs.map((tab: { id: string }) => tab.id)).toEqual(['positions', 'strategies', 'signals'])
   })
 
   it('configures the Macro tabs', () => {

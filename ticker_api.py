@@ -1283,6 +1283,26 @@ def bounce_broad():
     ])
 
 
+@app.route('/api/portfolio-strategies')
+def portfolio_strategies():
+    """Plan de trading IA por posición (trim/add levels, triggers, fechas)."""
+    data = _load_json(DOCS / 'portfolio_strategies.json')
+    if data:
+        return jsonify(data)
+    return jsonify({'count': 0, 'strategies': {}})
+
+
+@app.route('/api/portfolio-strategies/<ticker>')
+def portfolio_strategy_one(ticker: str):
+    ticker = (ticker or '').upper().strip()
+    data = _load_json(DOCS / 'portfolio_strategies.json')
+    strategies = (data or {}).get('strategies') or {}
+    s = strategies.get(ticker)
+    if not s:
+        return jsonify({'error': 'Not found'}), 404
+    return jsonify(s)
+
+
 @app.route('/api/recurring-insiders')
 def recurring_insiders():
     import json as _json
