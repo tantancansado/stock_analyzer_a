@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { getLogoUrl, getClearbitUrl, hasClearbitLogo } from '@/lib/logos'
+import { getLogoUrl, getClearbitUrl } from '@/lib/logos'
 
 export type LogoSize = 'xs' | 'sm' | 'md' | 'lg'
 
@@ -26,8 +26,33 @@ function paletteColor(ticker: string): string {
   return PALETTE[h % PALETTE.length]
 }
 
-// Two-stage source: Parqet first, Clearbit second, initials last
-type Stage = 'parqet' | 'clearbit' | 'initials'
+function makeInitials(ticker: string): string {
+  return ticker.replaceAll(/\.[A-Z]{1,3}$/g, '').replaceAll(/[^A-Z0-9]/g, '').slice(0, 2)
+}
+
+/**
+ * Build the ordered list of candidate URLs for a ticker.
+ * Always tries Parqet first, Clearbit second (if a domain mapping exists).
+ * The component renders initials when this list is exhausted.
+ *
+ * Both sources are always attempted: Parqet covers ~3000 symbols (US-heavy)
+ * but misses many EU tickers. Clearbit only fires when we have a hand-curated
+ * domain mapping but covers cases Parqet misses.
+ */
+function buildCandidates(ticker: string): string[] {
+  const out: string[] = []
+  if (!ticker) return out
+  out.push(getLogoUrl(ticker))
+  const cb = getClearbitUrl(ticker)
+  if (cb && cb !== out[0]) out.push(cb)
+  return out
+}
+
+// Module-level cache: ticker → candidate URL that successfully rendered
+// in this session. Avoids hitting Parqet for tickers we already know are EU
+// (saves a 404 round-trip, smoother re-mounts after navigation).
+const _winnerByTicker = new Map<string, string>()
+const _failedByTicker = new Set<string>()
 
 interface Props {
   readonly ticker: string
@@ -37,10 +62,36 @@ interface Props {
 
 export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
   const safe = ticker ?? ''
-  const prefersClearbit = hasClearbitLogo(safe)
-  const [stage, setStage] = useState<Stage>(prefersClearbit ? 'clearbit' : 'parqet')
   const { px, text, rounded, pad } = SIZE[size]
-  const initials = safe.replaceAll(/\.[A-Z]{1,3}$/g, '').replaceAll(/[^A-Z0-9]/g, '').slice(0, 2)
+  const initials = makeInitials(safe)
+
+  // Build candidates once per ticker change. Re-runs ONLY when ticker changes,
+  // not on every render — fixes the bug where switching ticker kept the old
+  // stage frozen because useState lazy-init only runs at mount.
+  const [candidateIdx, setCandidateIdx] = useState(0)
+  const candidatesRef = useRef<string[]>([])
+  const tokenRef = useRef(0)
+
+  useEffect(() => {
+    const known = _winnerByTicker.get(safe)
+    if (known) {
+      // We already validated this URL earlier — use it directly.
+      candidatesRef.current = [known]
+      setCandidateIdx(0)
+      tokenRef.current++
+      return
+    }
+    if (_failedByTicker.has(safe)) {
+      // We already exhausted candidates for this ticker — go straight to initials.
+      candidatesRef.current = []
+      setCandidateIdx(0)
+      tokenRef.current++
+      return
+    }
+    candidatesRef.current = buildCandidates(safe)
+    setCandidateIdx(0)
+    tokenRef.current++  // invalidates pending image events from previous ticker
+  }, [safe])
 
   const base = cn(
     'flex-shrink-0 border inline-flex items-center justify-center overflow-hidden',
@@ -48,7 +99,11 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
     className,
   )
 
-  if (stage === 'initials' || !safe) {
+  const candidates = candidatesRef.current
+  const exhausted = candidateIdx >= candidates.length
+
+  // Initials fallback: no candidates, exhausted all, or empty ticker
+  if (!safe || candidates.length === 0 || exhausted) {
     return (
       <span
         className={cn(base, paletteColor(safe))}
@@ -56,55 +111,43 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
         aria-hidden="true"
       >
         <span className={cn('font-mono font-bold leading-none select-none', text)}>
-          {initials}
+          {initials || '?'}
         </span>
       </span>
     )
   }
 
-  const src = stage === 'parqet' ? getLogoUrl(safe) : (getClearbitUrl(safe) ?? '')
+  const src = candidates[candidateIdx]
+  // Capture the token at render time. If the ticker changes mid-flight, any
+  // image event for the old ticker will see a stale token and be ignored.
+  const token = tokenRef.current
+
+  const advanceOrFail = () => {
+    if (token !== tokenRef.current) return  // stale event from previous ticker, ignore
+    setCandidateIdx(idx => {
+      const next = idx + 1
+      if (next >= candidates.length) {
+        _failedByTicker.add(safe)  // remember to skip both sources next time
+      }
+      return next
+    })
+  }
 
   const handleError = () => {
-    if (stage === 'clearbit') {
-      setStage('parqet')
-      return
-    }
-    if (stage === 'parqet') {
-      setStage('initials')
-      return
-    }
+    advanceOrFail()
   }
 
   const handleLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    if (token !== tokenRef.current) return
     const img = event.currentTarget
+    // Detect 1x1 placeholders that some CDNs return with status 200 for
+    // unknown tickers. Treat as a failed candidate.
     if (img.naturalWidth <= 1 || img.naturalHeight <= 1) {
-      if (stage === 'clearbit') {
-        setStage('parqet')
-      } else if (stage === 'parqet') {
-        setStage('initials')
-      }
+      advanceOrFail()
       return
     }
-    if (stage === 'parqet' && prefersClearbit && src === getLogoUrl(safe)) {
-      const fallback = getClearbitUrl(safe)
-      if (!fallback) {
-        setStage('initials')
-      }
-    }
-  }
-
-  if ((stage === 'clearbit' && !getClearbitUrl(safe)) || (stage === 'parqet' && !safe)) {
-    return (
-      <span
-        className={cn(base, paletteColor(safe))}
-        style={{ width: px, height: px }}
-        aria-hidden="true"
-      >
-        <span className={cn('font-mono font-bold leading-none select-none', text)}>
-          {initials}
-        </span>
-      </span>
-    )
+    // Successful load — remember this URL for the rest of the session
+    _winnerByTicker.set(safe, src)
   }
 
   return (
@@ -114,6 +157,9 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
       aria-hidden="true"
     >
       <img
+        // key forces a fresh <img> element on each candidate change so the
+        // previous one doesn't fire late onLoad/onError after a setState.
+        key={`${safe}-${candidateIdx}`}
         src={src}
         alt=""
         width={px}
