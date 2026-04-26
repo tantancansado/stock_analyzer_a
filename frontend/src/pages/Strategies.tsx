@@ -48,6 +48,15 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
                   {s.ticker}
                 </Link>
                 <ActionBadge action={s.current_action} />
+                {s._stale_strategy && (
+                  <span
+                    className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300/90 px-2 py-0.5 text-[0.62rem] font-bold uppercase tracking-wider"
+                    title={s._stale_reason || 'Plan del día anterior — IA sin presupuesto hoy'}
+                  >
+                    <AlertTriangle size={10} strokeWidth={2.5} />
+                    Plan ayer
+                  </span>
+                )}
               </div>
               <div className="text-[0.72rem] text-muted-foreground/70 mt-0.5">
                 {s.shares} acc · avg ${s.avg_price.toFixed(2)} · actual <b className="text-foreground">${s.current_price.toFixed(2)}</b>

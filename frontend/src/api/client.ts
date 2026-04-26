@@ -489,6 +489,8 @@ export interface PortfolioStrategy {
   thesis_short: string
   confidence: number
   signals?: Record<string, unknown>
+  _stale_strategy?: boolean
+  _stale_reason?: string
 }
 
 export interface PortfolioStrategiesResponse {

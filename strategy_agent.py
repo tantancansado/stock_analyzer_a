@@ -235,24 +235,51 @@ Devuelve SOLO un JSON con esta estructura exacta:
 """
 
 
-def _call_groq(prompt: str, ticker: str) -> dict:
+# Modelos en orden de preferencia: el primero (8b) usa ~5x menos tokens que 70b
+# y para extraer JSON estructurado de 10-12 campos es más que suficiente.
+# El 70b se usa solo como fallback de calidad si quedan tokens.
+GROQ_MODELS_PRIMARY  = 'llama-3.1-8b-instant'
+GROQ_MODELS_FALLBACK = 'llama-3.3-70b-versatile'
+
+
+def _call_groq(prompt: str, ticker: str, *, prefer_quality: bool = False) -> tuple[dict, bool]:
+    """
+    Llama a Groq con manejo explícito de rate-limit.
+
+    Returns:
+        (parsed_dict, ok) — ok=False si rate-limited, así el caller decide
+        si conservar la estrategia anterior en lugar de sobrescribir.
+    """
     if not GROQ_API_KEY:
-        return {}
+        return {}, False
+
     try:
         from groq import Groq
-        client = Groq(api_key=GROQ_API_KEY)
+    except ImportError:
+        print("[WARN] groq package not available", file=sys.stderr)
+        return {}, False
+
+    client = Groq(api_key=GROQ_API_KEY)
+    model = GROQ_MODELS_FALLBACK if prefer_quality else GROQ_MODELS_PRIMARY
+
+    try:
         resp = client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+            model=model,
             messages=[{'role': 'user', 'content': prompt}],
             response_format={'type': 'json_object'},
             temperature=0.25,
             max_tokens=900,
         )
         content = resp.choices[0].message.content or '{}'
-        return json.loads(content)
+        return json.loads(content), True
     except Exception as exc:
+        msg = str(exc).lower()
+        # Detectar rate-limit explícitamente — el caller mantendrá estrategia anterior
+        if '429' in msg or 'rate limit' in msg or 'tokens per day' in msg:
+            print(f"[RATE-LIMIT] Groq 429 for {ticker} — preserving previous strategy", file=sys.stderr)
+            return {}, False
         print(f"[WARN] Groq failed for {ticker}: {exc}", file=sys.stderr)
-        return {}
+        return {}, True  # otros errores: usar fallback validado (HOLD)
 
 
 def _validate_strategy(raw: dict, position: dict, current_price: float) -> dict:
@@ -337,6 +364,20 @@ def _load_all_datasets() -> dict:
     }
 
 
+def _load_previous_strategies() -> dict:
+    """Carga el JSON anterior si existe — lo usamos como fallback cuando Groq
+    falla por rate-limit. Mejor mantener un plan de ayer (aún razonable) que
+    sobrescribir con HOLD vacío de hoy."""
+    prev_path = DOCS / 'portfolio_strategies.json'
+    if not prev_path.exists():
+        return {}
+    try:
+        data = json.loads(prev_path.read_text())
+        return data.get('strategies') or {}
+    except Exception:
+        return {}
+
+
 def generate_strategies(dry_run: bool = False) -> dict:
     positions = _load_positions()
     if not positions:
@@ -345,7 +386,10 @@ def generate_strategies(dry_run: bool = False) -> dict:
 
     print(f"Generando estrategias para {len(positions)} posiciones...")
     datasets = _load_all_datasets()
+    previous = _load_previous_strategies()
     strategies: dict[str, dict] = {}
+    rate_limited_count = 0
+    fresh_count = 0
 
     for entry in positions:
         ticker = str(entry.get('ticker', '')).upper().strip()
@@ -383,9 +427,24 @@ def generate_strategies(dry_run: bool = False) -> dict:
             print(f"  {ticker}: dry-run prompt generated")
             continue
 
-        raw = _call_groq(prompt, ticker)
-        validated = _validate_strategy(raw, entry, current_price)
+        raw, ok = _call_groq(prompt, ticker)
 
+        if not ok and ticker in previous:
+            # Rate-limited: conservamos la estrategia anterior pero refrescamos
+            # precio/P&L para que la UI muestre la distancia actualizada.
+            prev = dict(previous[ticker])
+            prev['current_price'] = round(current_price, 2)
+            prev['pl_pct'] = round((current_price - avg) / avg * 100, 1) if avg else None
+            prev['signals'] = signals  # señales sí son frescas (no usan Groq)
+            prev['_stale_strategy'] = True  # marca para que la UI pueda mostrar "actualizado ayer"
+            prev['_stale_reason'] = 'Groq rate-limit hit; estrategia del run anterior conservada'
+            strategies[ticker] = prev
+            rate_limited_count += 1
+            print(f"  {ticker}: STALE — using previous {prev.get('current_action', '?')} "
+                  f"(rate-limited, no Groq call)")
+            continue
+
+        validated = _validate_strategy(raw, entry, current_price)
         strategies[ticker] = {
             'ticker':        ticker,
             'company':       signals.get('sector'),  # sector como fallback
@@ -396,8 +455,9 @@ def generate_strategies(dry_run: bool = False) -> dict:
             'signals':       signals,
             **validated,
         }
+        fresh_count += 1
         print(f"  {ticker}: {validated['current_action']} (conf {validated['confidence']})")
-        time.sleep(0.4)  # rate limit
+        time.sleep(0.4)  # rate limit cushion
 
     out = {
         'generated_at':  datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
@@ -410,6 +470,7 @@ def generate_strategies(dry_run: bool = False) -> dict:
         json_path = DOCS / 'portfolio_strategies.json'
         json_path.write_text(json.dumps(out, indent=2, ensure_ascii=False, default=str))
         print(f"Wrote {json_path}")
+        print(f"  fresh: {fresh_count} | stale (rate-limited): {rate_limited_count} | total: {len(strategies)}")
 
         # Flat CSV para download / inspección rápida
         if strategies:
