@@ -1,10 +1,13 @@
 {
-  "description": "Tickers de cartera a monitorizar para noticias y alertas Telegram. Edita esta lista con tus posiciones actuales.",
+  "description": "Tickers de cartera a monitorizar (FALLBACK local — la fuente real es Supabase personal_portfolio_positions). Solo se usa cuando no hay SUPABASE_SERVICE_ROLE_KEY configurado.",
   "tickers": [
-    {"ticker": "UNH", "notes": "Healthcare - UnitedHealth"},
-    {"ticker": "PRU", "notes": "Financials - Prudential"},
-    {"ticker": "IP",  "notes": "Packaging - International Paper"},
-    {"ticker": "WYY", "notes": "IT Services - WideOpenWest / WEY"}
+    {"ticker": "ABT",  "shares": 62, "avg_price": 96.27,  "notes": "Healthcare - Abbott Laboratories"},
+    {"ticker": "BR",   "shares": 29, "avg_price": 163.73, "notes": "Financials - Broadridge"},
+    {"ticker": "BSX",  "shares": 62, "avg_price": 61.47,  "notes": "Healthcare - Boston Scientific"},
+    {"ticker": "MSFT", "shares": 10, "avg_price": 369.61, "notes": "Tech - Microsoft"},
+    {"ticker": "OTIS", "shares": 35, "avg_price": 79.89,  "notes": "Industrials - Otis"},
+    {"ticker": "UNH",  "shares": 14, "avg_price": 344.72, "notes": "Healthcare - UnitedHealth"},
+    {"ticker": "V",    "shares": 11, "avg_price": 312.21, "notes": "Financials - Visa"}
   ],
-  "updated": "2026-04-06"
+  "updated": "2026-04-26"
 }
