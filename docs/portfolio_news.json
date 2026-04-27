@@ -1,19 +1,19 @@
 {
   "scan_date": "2026-04-27",
-  "scan_time": "08:07",
+  "scan_time": "09:51",
   "tickers": [
     "MSFT",
-    "BSX",
-    "ABT",
-    "UNH",
     "V",
-    "BR",
-    "OTIS"
+    "AMCR",
+    "ABT",
+    "OTIS",
+    "MA",
+    "BR"
   ],
-  "count": 27,
-  "alta_count": 8,
-  "media_count": 0,
-  "new_alerts": 2,
+  "count": 29,
+  "alta_count": 13,
+  "media_count": 1,
+  "new_alerts": 6,
   "items": [
     {
       "id": "6de26eca-4c95-4f90-ad85-252a25415c0a",
@@ -21,7 +21,7 @@
       "title": "Elon Musk's years-long legal battle with OpenAI and Sam Altman will finally head to trial on Monday",
       "source": "Yahoo Finance",
       "pub_date": "2026-04-26T13:00:00Z",
-      "time_ago": "hace 19h",
+      "time_ago": "hace 20h",
       "url": "https://finance.yahoo.com/sectors/technology/article/elon-musks-years-long-legal-battle-with-openai-and-sam-altman-will-finally-head-to-trial-on-monday-130000137.html",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
@@ -32,7 +32,7 @@
       "title": "Musk OpenAI Lawsuit Puts Microsoft AI Partnership And Governance Under Spotlight",
       "source": "Simply Wall St.",
       "pub_date": "2026-04-26T23:05:45Z",
-      "time_ago": "hace 9h",
+      "time_ago": "hace 10h",
       "url": "https://finance.yahoo.com/markets/stocks/articles/musk-openai-lawsuit-puts-microsoft-230545809.html",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
@@ -43,7 +43,7 @@
       "title": "Dow Jones Futures: Tech Stocks, Oil Prices Rise Amid Iran News; Apple, Amazon, Google Lead Earnings",
       "source": "Investor's Business Daily",
       "pub_date": "2026-04-27T04:14:47Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 5h",
       "url": "https://www.investors.com/market-trend/stock-market-today/dow-jones-futures-apple-amazon-google-earnings-ai-iran-talks/?src=A00220&yptr=yahoo",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
@@ -54,7 +54,7 @@
       "title": "Stocks Have Soared Ahead of Big Tech Earnings. There’s Little Room for Error.",
       "source": "Barrons.com",
       "pub_date": "2026-04-27T05:00:00Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 4h",
       "url": "https://www.barrons.com/articles/stocks-tech-earnings-f5231a1a?siteid=yhoof2&yptr=yahoo",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
@@ -65,8 +65,52 @@
       "title": "The Financial Stock That Keeps Growing Its Revenue No Matter What",
       "source": "Motley Fool",
       "pub_date": "2026-04-27T05:20:00Z",
-      "time_ago": "hace 2h",
+      "time_ago": "hace 4h",
       "url": "https://www.fool.com/investing/2026/04/27/financial-stock-growing-revenue-no-matter-what/",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "15a4a43f-5e85-38d6-8d12-399652c23a19",
+      "ticker": "MSFT",
+      "title": "Mag 7 Earnings, Fed Meeting: What to Watch This Week",
+      "source": "The Wall Street Journal",
+      "pub_date": "2026-04-27T07:38:09Z",
+      "time_ago": "hace 2h",
+      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-04-27-2026/card/mag-7-earnings-fed-meeting-what-to-watch-this-week-lnhF4FJbXmOYhXq28tep?siteid=yhoof2&yptr=yahoo",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "15a4a43f-5e85-38d6-8d12-399652c23a19",
+      "ticker": "V",
+      "title": "Mag 7 Earnings, Fed Meeting: What to Watch This Week",
+      "source": "The Wall Street Journal",
+      "pub_date": "2026-04-27T07:38:09Z",
+      "time_ago": "hace 2h",
+      "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-04-27-2026/card/mag-7-earnings-fed-meeting-what-to-watch-this-week-lnhF4FJbXmOYhXq28tep?siteid=yhoof2&yptr=yahoo",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "15aa2407-f9ef-3603-a6cf-40fb5240b3e8",
+      "ticker": "MSFT",
+      "title": "Stock Futures Slide With Markets on Edge Ahead of Big Tech Earnings",
+      "source": "Barrons.com",
+      "pub_date": "2026-04-27T07:46:20Z",
+      "time_ago": "hace 2h",
+      "url": "https://www.barrons.com/livecoverage/stock-market-news-today-042726/card/stock-futures-slide-with-markets-on-edge-ahead-of-big-tech-earnings-QbIiRYPqkJ686FAma2jR?siteid=yhoof2&yptr=yahoo",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "5e3b9f95-de47-32f5-92f2-286ae7b9b4b6",
+      "ticker": "V",
+      "title": "Visa (V) Q1 Earnings Report Preview: What To Look For",
+      "source": "StockStory",
+      "pub_date": "2026-04-27T09:24:55Z",
+      "time_ago": "hace 26min",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/visa-v-q1-earnings-report-092455407.html",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
     },
@@ -75,7 +119,7 @@
       "ticker": "MSFT",
       "title": "⏰ Earnings en 2 días — 29 Apr",
       "source": "Earnings Calendar",
-      "pub_date": "2026-04-27T08:07:52.702892+00:00",
+      "pub_date": "2026-04-27T09:51:10.708293+00:00",
       "time_ago": "",
       "url": "",
       "importance": "ALTA",
@@ -86,7 +130,18 @@
       "ticker": "V",
       "title": "⏰ Earnings en 1 día — 28 Apr",
       "source": "Earnings Calendar",
-      "pub_date": "2026-04-27T08:07:54.774955+00:00",
+      "pub_date": "2026-04-27T09:51:11.212956+00:00",
+      "time_ago": "",
+      "url": "",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "earn_MA_20260430",
+      "ticker": "MA",
+      "title": "⏰ Earnings en 3 días — 30 Apr",
+      "source": "Earnings Calendar",
+      "pub_date": "2026-04-27T09:51:13.356038+00:00",
       "time_ago": "",
       "url": "",
       "importance": "ALTA",
@@ -97,33 +152,22 @@
       "ticker": "BR",
       "title": "⏰ Earnings en 3 días — 30 Apr",
       "source": "Earnings Calendar",
-      "pub_date": "2026-04-27T08:07:55.325485+00:00",
+      "pub_date": "2026-04-27T09:51:13.894964+00:00",
       "time_ago": "",
       "url": "",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
     },
     {
-      "id": "15ef4c3b-df6b-3b46-9027-889261d80ae5",
-      "ticker": "UNH",
-      "title": "Stock Market Week Ahead: Hyperscaler Blitz, Federal Reserve Transition",
-      "source": "Investor's Business Daily",
-      "pub_date": "2026-04-25T10:30:58Z",
-      "time_ago": "hace 1d",
-      "url": "https://www.investors.com/research/investing-action-plan/stock-market-week-hyperscalers-federal-reserve-warsh-powell-apple-amazon-google/?src=A00220&yptr=yahoo",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "ea41c16e-a5fb-3d5a-8c12-de90606c8e50",
-      "ticker": "UNH",
-      "title": "Healthcare CEF Insiders Are Quietly Buying While 60% of Distributions Return Capital",
-      "source": "24/7 Wall St.",
-      "pub_date": "2026-04-25T10:35:05Z",
-      "time_ago": "hace 1d",
-      "url": "https://247wallst.com/investing/2026/04/25/healthcare-cef-insiders-are-quietly-buying-while-60-of-distributions-return-capital/",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
+      "id": "b2601ef4-b705-3695-b6cf-4fb85e5c3761",
+      "ticker": "MA",
+      "title": "Mastercard (MA): One of the Best Low Risk and High Growth Stocks to Invest In Now",
+      "source": "Insider Monkey",
+      "pub_date": "2026-04-26T20:20:55Z",
+      "time_ago": "hace 13h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/mastercard-ma-one-best-low-202055953.html",
+      "importance": "MEDIA",
+      "sentiment": "BEARISH"
     },
     {
       "id": "ef5a6b74-3c0e-31d4-8f77-5755e4beb781",
@@ -148,6 +192,17 @@
       "sentiment": "NEUTRAL"
     },
     {
+      "id": "72e8cd91-bff5-30b9-b92f-b914bbddeba9",
+      "ticker": "MA",
+      "title": "ECB Picks Open European Standards for Digital Euro, Sidelining Visa and Mastercard",
+      "source": "BeInCrypto",
+      "pub_date": "2026-04-25T21:34:54Z",
+      "time_ago": "hace 1d",
+      "url": "https://beincrypto.com/ecb-digital-euro-open-standards/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
       "id": "fd53ccc8-f998-3b28-8c9d-db87ee0aa4b4",
       "ticker": "V",
       "title": "Visa Validator Role On Tempo Reframes Stablecoin And Card Payment Future",
@@ -159,81 +214,15 @@
       "sentiment": "NEUTRAL"
     },
     {
-      "id": "8cf09518-d4a1-3a23-ad58-684420b91652",
-      "ticker": "UNH",
-      "title": "UnitedHealth Prior Authorization Expansion Meets Mixed Returns And Valuation Upside",
-      "source": "Simply Wall St.",
-      "pub_date": "2026-04-26T00:13:41Z",
-      "time_ago": "hace 1d",
-      "url": "https://finance.yahoo.com/sectors/healthcare/articles/unitedhealth-prior-authorization-expansion-meets-001341294.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "a64955a1-5fdb-30df-814f-c7a7399db797",
-      "ticker": "UNH",
-      "title": "Jim Cramer on CVS Health: “I Think It’s Only Going to Get Better as the Competition Disappears”",
-      "source": "Insider Monkey",
-      "pub_date": "2026-04-26T15:19:14Z",
-      "time_ago": "hace 16h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-cvs-health-think-151914378.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "1042aac1-301d-3bcf-bd4f-9be88c8e1b9b",
-      "ticker": "UNH",
-      "title": "Jim Cramer on UnitedHealth: “The Stock Deserves to Be Much Higher”",
-      "source": "Insider Monkey",
-      "pub_date": "2026-04-26T15:19:19Z",
-      "time_ago": "hace 16h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-unitedhealth-stock-deserves-151919131.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
       "id": "634c6144-14f6-3336-b36d-12e82aba3183",
       "ticker": "BR",
       "title": "1 Oversold Stock Ready to Bounce Back and 2 That Underwhelm",
       "source": "StockStory",
       "pub_date": "2026-04-26T16:58:16Z",
-      "time_ago": "hace 15h",
+      "time_ago": "hace 16h",
       "url": "https://finance.yahoo.com/markets/stocks/articles/1-oversold-stock-ready-bounce-165816037.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "3583135b-1eea-34c3-bae3-98f161763156",
-      "ticker": "UNH",
-      "title": "Is It Safe to Buy UnitedHealth Stock Again?",
-      "source": "Motley Fool",
-      "pub_date": "2026-04-26T18:20:00Z",
-      "time_ago": "hace 13h",
-      "url": "https://www.fool.com/investing/2026/04/26/is-it-safe-to-buy-unitedhealth-stock-again/",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "31d81d87-7b90-314f-bc67-57c3972b2fcf",
-      "ticker": "MSFT",
-      "title": "Is SentinelOne, Inc. (S) A Good Stock To Buy Now?",
-      "source": "Insider Monkey",
-      "pub_date": "2026-04-26T19:48:13Z",
-      "time_ago": "hace 12h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/sentinelone-inc-good-stock-buy-194813630.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "ccb4d9b9-3468-3f47-90d4-380da56c42f4",
-      "ticker": "MSFT",
-      "title": "Record-Setting Momentum Rally Is Drawing Doubters",
-      "source": "Bloomberg",
-      "pub_date": "2026-04-26T20:50:14Z",
-      "time_ago": "hace 11h",
-      "url": "https://finance.yahoo.com/news/record-setting-momentum-rally-drawing-200000605.html",
-      "importance": "BAJA",
-      "sentiment": "BULLISH"
     },
     {
       "id": "c7946350-1e92-3861-95ea-dc785dd70481",
@@ -241,8 +230,19 @@
       "title": "Visa (V) Among Best Fintech Stocks According to Billionaires",
       "source": "Insider Monkey",
       "pub_date": "2026-04-26T20:57:10Z",
-      "time_ago": "hace 11h",
+      "time_ago": "hace 12h",
       "url": "https://finance.yahoo.com/markets/stocks/articles/visa-v-among-best-fintech-205710176.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "da6ae68f-74df-332d-a265-e89f3901279c",
+      "ticker": "MA",
+      "title": "Mastercard (MA): Among the Best Fintech Stocks to Invest In",
+      "source": "Insider Monkey",
+      "pub_date": "2026-04-26T20:57:21Z",
+      "time_ago": "hace 12h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/mastercard-ma-among-best-fintech-205721467.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     },
@@ -252,7 +252,7 @@
       "title": "Microsoft Corporation (MSFT) Partners With Stellantis",
       "source": "Insider Monkey",
       "pub_date": "2026-04-26T22:31:29Z",
-      "time_ago": "hace 9h",
+      "time_ago": "hace 11h",
       "url": "https://finance.yahoo.com/markets/stocks/articles/microsoft-corporation-msft-partners-stellantis-223129263.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -263,8 +263,19 @@
       "title": "The Street Is Bullish on Visa (V), Here’s Why",
       "source": "Insider Monkey",
       "pub_date": "2026-04-26T22:33:42Z",
-      "time_ago": "hace 9h",
+      "time_ago": "hace 11h",
       "url": "https://finance.yahoo.com/markets/stocks/articles/street-bullish-visa-v-why-223342892.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "b5270cb2-cc0e-3655-89c8-25e8dd459ece",
+      "ticker": "MA",
+      "title": "Citi Remains a Buy on Mastercard (MA) Despite Macroeconomic Uncertainty",
+      "source": "Insider Monkey",
+      "pub_date": "2026-04-26T22:34:12Z",
+      "time_ago": "hace 11h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/citi-remains-buy-mastercard-ma-223412414.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     },
@@ -274,7 +285,7 @@
       "title": "Here’s Why Accenture (ACN) Is a Good Stock to Buy While the Market Is Down",
       "source": "Insider Monkey",
       "pub_date": "2026-04-26T22:38:59Z",
-      "time_ago": "hace 9h",
+      "time_ago": "hace 11h",
       "url": "https://finance.yahoo.com/markets/stocks/articles/why-accenture-acn-good-stock-223859408.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -285,19 +296,19 @@
       "title": "Microsoft (MSFT) Announces A$25B Investment in Australia’s AI and Cloud Infrastructure",
       "source": "Insider Monkey",
       "pub_date": "2026-04-27T04:31:08Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 5h",
       "url": "https://finance.yahoo.com/sectors/technology/articles/microsoft-msft-announces-25b-investment-043108650.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     },
     {
-      "id": "afa4c225-fc36-3c01-b9a7-3dd4d4d10521",
-      "ticker": "UNH",
-      "title": "Is UnitedHealth Group Incorporated (UNH) One of the Best Low Volatility Stocks to Invest in Right Now?",
+      "id": "f93efb8e-db07-3d23-a762-df2806c17a69",
+      "ticker": "MA",
+      "title": "Why Mastercard Incorporated (MA) is One of the Best Low Volatility Stocks to Invest In Right Now",
       "source": "Insider Monkey",
-      "pub_date": "2026-04-27T05:26:16Z",
-      "time_ago": "hace 2h",
-      "url": "https://finance.yahoo.com/sectors/healthcare/articles/unitedhealth-group-incorporated-unh-one-052616557.html",
+      "pub_date": "2026-04-27T05:26:07Z",
+      "time_ago": "hace 4h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/why-mastercard-incorporated-ma-one-052607265.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     },
@@ -307,10 +318,21 @@
       "title": "Microsoft (MSFT), Meta (META) Announce Significant Job Reductions Amid Industry Pivot to AI",
       "source": "Insider Monkey",
       "pub_date": "2026-04-27T06:20:43Z",
-      "time_ago": "hace 1h",
+      "time_ago": "hace 3h",
       "url": "https://finance.yahoo.com/sectors/technology/articles/microsoft-msft-meta-meta-announce-062043000.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "ada7c43c-39a1-3877-921b-6c4358e92b70",
+      "ticker": "AMCR",
+      "title": "Amcor launches medical packaging plant in Malaysia",
+      "source": "Packaging Gateway",
+      "pub_date": "2026-04-27T09:31:52Z",
+      "time_ago": "hace 19min",
+      "url": "https://www.packaging-gateway.com/news/amcor-malaysia-medical-packaging-plant/",
+      "importance": "BAJA",
+      "sentiment": "BULLISH"
     }
   ]
 }

@@ -1,0 +1,501 @@
+{
+  "generated_at": "2026-04-27T09:51:41Z",
+  "horizon_days": 14,
+  "count": 5,
+  "snapshots": {
+    "MSFT": {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "earnings_date": "2026-04-29",
+      "days_to_earnings": 2,
+      "current_price": 424.6,
+      "term_structure": [
+        {
+          "strike": 425.0,
+          "call_price": 14.2,
+          "put_price": 14.33,
+          "straddle": 28.53,
+          "implied_move_pct": 6.72,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-01",
+          "days_to_exp": 4
+        },
+        {
+          "strike": 425.0,
+          "call_price": 14.7,
+          "put_price": 14.93,
+          "straddle": 29.63,
+          "implied_move_pct": 6.98,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-04",
+          "days_to_exp": 7
+        },
+        {
+          "strike": 425.0,
+          "call_price": 14.75,
+          "put_price": 17.82,
+          "straddle": 32.57,
+          "implied_move_pct": 7.67,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-06",
+          "days_to_exp": 9
+        },
+        {
+          "strike": 425.0,
+          "call_price": 16.0,
+          "put_price": 15.6,
+          "straddle": 31.6,
+          "implied_move_pct": 7.44,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-08",
+          "days_to_exp": 11
+        }
+      ],
+      "skew": {
+        "put_strike": 402.5,
+        "call_strike": 447.5,
+        "put_iv": 0.125,
+        "call_iv": 0.125,
+        "skew_pts": 0.0
+      },
+      "history": {
+        "beat_rate": 1.0,
+        "beats": 4,
+        "total": 4,
+        "avg_surprise_pct": 0.08,
+        "history": [
+          {
+            "period": "2025-03-31",
+            "estimate": 3.22154,
+            "actual": 3.46,
+            "beat": true,
+            "surprise_pct": 0.074
+          },
+          {
+            "period": "2025-06-30",
+            "estimate": 3.37669,
+            "actual": 3.65,
+            "beat": true,
+            "surprise_pct": 0.0809
+          },
+          {
+            "period": "2025-09-30",
+            "estimate": 3.66355,
+            "actual": 4.13,
+            "beat": true,
+            "surprise_pct": 0.1273
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 3.91702,
+            "actual": 4.14,
+            "beat": true,
+            "surprise_pct": 0.056900002
+          }
+        ]
+      },
+      "52w_high": 555.45,
+      "52w_low": 356.28,
+      "analyst_target": 576.425,
+      "analyst_count": 54.0
+    },
+    "V": {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "earnings_date": "2026-04-28",
+      "days_to_earnings": 1,
+      "current_price": 309.42,
+      "term_structure": [
+        {
+          "strike": 310.0,
+          "call_price": 6.3,
+          "put_price": 6.65,
+          "straddle": 12.95,
+          "implied_move_pct": 4.19,
+          "call_iv": 0.0039,
+          "put_iv": 0.0,
+          "expiration": "2026-05-01",
+          "days_to_exp": 4
+        },
+        {
+          "strike": 310.0,
+          "call_price": 6.9,
+          "put_price": 7.88,
+          "straddle": 14.78,
+          "implied_move_pct": 4.78,
+          "call_iv": 0.0039,
+          "put_iv": 0.0,
+          "expiration": "2026-05-08",
+          "days_to_exp": 11
+        },
+        {
+          "strike": 310.0,
+          "call_price": 7.9,
+          "put_price": 9.18,
+          "straddle": 17.08,
+          "implied_move_pct": 5.52,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-15",
+          "days_to_exp": 18
+        },
+        {
+          "strike": 310.0,
+          "call_price": 8.71,
+          "put_price": 10.36,
+          "straddle": 19.07,
+          "implied_move_pct": 6.16,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-22",
+          "days_to_exp": 25
+        }
+      ],
+      "skew": {
+        "put_strike": 292.5,
+        "call_strike": 325.0,
+        "put_iv": 0.125,
+        "call_iv": 0.125,
+        "skew_pts": 0.0
+      },
+      "history": {
+        "beat_rate": 1.0,
+        "beats": 4,
+        "total": 4,
+        "avg_surprise_pct": 0.02,
+        "history": [
+          {
+            "period": "2025-03-31",
+            "estimate": 2.67959,
+            "actual": 2.76,
+            "beat": true,
+            "surprise_pct": 0.03
+          },
+          {
+            "period": "2025-06-30",
+            "estimate": 2.84683,
+            "actual": 2.98,
+            "beat": true,
+            "surprise_pct": 0.0468
+          },
+          {
+            "period": "2025-09-30",
+            "estimate": 2.97176,
+            "actual": 2.98,
+            "beat": true,
+            "surprise_pct": 0.0028
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 3.14227,
+            "actual": 3.17,
+            "beat": true,
+            "surprise_pct": 0.0088
+          }
+        ]
+      },
+      "52w_high": 375.51,
+      "52w_low": 293.89,
+      "analyst_target": 392.33362,
+      "analyst_count": 36.0
+    },
+    "AMCR": {
+      "ticker": "AMCR",
+      "company_name": "Amcor plc",
+      "sector": "Consumer Cyclical",
+      "earnings_date": "2026-05-06",
+      "days_to_earnings": 9,
+      "current_price": 38.95,
+      "term_structure": [
+        {
+          "strike": 39.0,
+          "call_price": 2.59,
+          "put_price": 1.7,
+          "straddle": 4.29,
+          "implied_move_pct": 11.01,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-15",
+          "days_to_exp": 18
+        },
+        {
+          "strike": 39.0,
+          "call_price": 4.13,
+          "put_price": 2.5,
+          "straddle": 6.63,
+          "implied_move_pct": 17.02,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-06-18",
+          "days_to_exp": 52
+        },
+        {
+          "strike": 39.0,
+          "call_price": 4.0,
+          "put_price": 2.7,
+          "straddle": 6.7,
+          "implied_move_pct": 17.2,
+          "call_iv": 0.5476,
+          "put_iv": 0.0,
+          "expiration": "2026-07-17",
+          "days_to_exp": 81
+        },
+        {
+          "strike": 39.0,
+          "call_price": 3.92,
+          "put_price": 3.0,
+          "straddle": 6.92,
+          "implied_move_pct": 17.77,
+          "call_iv": 0.001,
+          "put_iv": 0.0,
+          "expiration": "2026-10-16",
+          "days_to_exp": 172
+        }
+      ],
+      "skew": {
+        "put_strike": 37.0,
+        "call_strike": 41.0,
+        "put_iv": 0.0625,
+        "call_iv": 0.0625,
+        "skew_pts": 0.0
+      },
+      "history": {
+        "beat_rate": 0.5,
+        "beats": 2,
+        "total": 4,
+        "avg_surprise_pct": -0.0,
+        "history": [
+          {
+            "period": "2025-03-31",
+            "estimate": 0.91183,
+            "actual": 0.9,
+            "beat": false,
+            "surprise_pct": -0.012999999
+          },
+          {
+            "period": "2025-06-30",
+            "estimate": 1.07774,
+            "actual": 1.0,
+            "beat": false,
+            "surprise_pct": -0.0721
+          },
+          {
+            "period": "2025-09-30",
+            "estimate": 0.91988,
+            "actual": 0.965,
+            "beat": true,
+            "surprise_pct": 0.049000002
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 0.83931,
+            "actual": 0.86,
+            "beat": true,
+            "surprise_pct": 0.0247
+          }
+        ]
+      },
+      "52w_high": 50.94,
+      "52w_low": 37.95,
+      "analyst_target": 50.21818,
+      "analyst_count": 11.0
+    },
+    "MA": {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "earnings_date": "2026-04-30",
+      "days_to_earnings": 3,
+      "current_price": 504.17,
+      "term_structure": [
+        {
+          "strike": 505.0,
+          "call_price": 10.4,
+          "put_price": 10.69,
+          "straddle": 21.09,
+          "implied_move_pct": 4.18,
+          "call_iv": 0.0039,
+          "put_iv": 0.0,
+          "expiration": "2026-05-01",
+          "days_to_exp": 4
+        },
+        {
+          "strike": 505.0,
+          "call_price": 13.0,
+          "put_price": 12.94,
+          "straddle": 25.94,
+          "implied_move_pct": 5.15,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-08",
+          "days_to_exp": 11
+        },
+        {
+          "strike": 505.0,
+          "call_price": 15.23,
+          "put_price": 15.9,
+          "straddle": 31.13,
+          "implied_move_pct": 6.17,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-15",
+          "days_to_exp": 18
+        },
+        {
+          "strike": 505.0,
+          "call_price": 14.85,
+          "put_price": 15.9,
+          "straddle": 30.75,
+          "implied_move_pct": 6.1,
+          "call_iv": 0.002,
+          "put_iv": 0.0,
+          "expiration": "2026-05-22",
+          "days_to_exp": 25
+        }
+      ],
+      "skew": {
+        "put_strike": 477.5,
+        "call_strike": 530.0,
+        "put_iv": 0.125,
+        "call_iv": 0.125,
+        "skew_pts": 0.0
+      },
+      "history": {
+        "beat_rate": 1.0,
+        "beats": 4,
+        "total": 4,
+        "avg_surprise_pct": 0.05,
+        "history": [
+          {
+            "period": "2025-03-31",
+            "estimate": 3.55917,
+            "actual": 3.73,
+            "beat": true,
+            "surprise_pct": 0.048
+          },
+          {
+            "period": "2025-06-30",
+            "estimate": 4.02443,
+            "actual": 4.15,
+            "beat": true,
+            "surprise_pct": 0.0312
+          },
+          {
+            "period": "2025-09-30",
+            "estimate": 4.31425,
+            "actual": 4.38,
+            "beat": true,
+            "surprise_pct": 0.0152
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 4.24031,
+            "actual": 4.76,
+            "beat": true,
+            "surprise_pct": 0.122600004
+          }
+        ]
+      },
+      "52w_high": 601.77,
+      "52w_low": 480.5,
+      "analyst_target": 652.69446,
+      "analyst_count": 36.0
+    },
+    "BR": {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
+      "sector": "Technology",
+      "earnings_date": "2026-04-30",
+      "days_to_earnings": 3,
+      "current_price": 155.07,
+      "term_structure": [
+        {
+          "strike": 155.0,
+          "call_price": 11.45,
+          "put_price": 4.6,
+          "straddle": 16.05,
+          "implied_move_pct": 10.35,
+          "call_iv": 0.0,
+          "put_iv": 0.001,
+          "expiration": "2026-05-15",
+          "days_to_exp": 18
+        },
+        {
+          "strike": 155.0,
+          "call_price": 8.82,
+          "put_price": 9.08,
+          "straddle": 17.9,
+          "implied_move_pct": 11.54,
+          "call_iv": 0.0,
+          "put_iv": 0.0005,
+          "expiration": "2026-06-18",
+          "days_to_exp": 52
+        },
+        {
+          "strike": 155.0,
+          "call_price": 14.92,
+          "put_price": 13.9,
+          "straddle": 28.82,
+          "implied_move_pct": 18.59,
+          "call_iv": 0.0,
+          "put_iv": 0.0003,
+          "expiration": "2026-09-18",
+          "days_to_exp": 144
+        }
+      ],
+      "skew": {
+        "put_strike": 145.0,
+        "call_strike": 165.0,
+        "put_iv": 0.0625,
+        "call_iv": 0.0625,
+        "skew_pts": 0.0
+      },
+      "history": {
+        "beat_rate": 1.0,
+        "beats": 4,
+        "total": 4,
+        "avg_surprise_pct": 0.1,
+        "history": [
+          {
+            "period": "2025-03-31",
+            "estimate": 2.41171,
+            "actual": 2.44,
+            "beat": true,
+            "surprise_pct": 0.0117
+          },
+          {
+            "period": "2025-06-30",
+            "estimate": 3.49836,
+            "actual": 3.55,
+            "beat": true,
+            "surprise_pct": 0.0148
+          },
+          {
+            "period": "2025-09-30",
+            "estimate": 1.24571,
+            "actual": 1.51,
+            "beat": true,
+            "surprise_pct": 0.21219999
+          },
+          {
+            "period": "2025-12-31",
+            "estimate": 1.3612,
+            "actual": 1.59,
+            "beat": true,
+            "surprise_pct": 0.1681
+          }
+        ]
+      },
+      "52w_high": 271.91,
+      "52w_low": 150.1,
+      "analyst_target": 245.875,
+      "analyst_count": 8.0
+    }
+  }
+}
