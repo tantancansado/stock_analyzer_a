@@ -1,42 +1,42 @@
 {
   "date": "2026-04-27",
-  "timestamp": "2026-04-27T09:39:28.441275",
+  "timestamp": "2026-04-27T16:12:14.880618",
   "narrative": null,
   "macro_regime": "CALM",
   "top_sectors": [
     {
-      "industry": "Specialty Industrial Machinery",
+      "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 56.4,
-      "num_tickers": 7,
+      "avg_rs_percentile": 55.9,
+      "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Railroads",
+      "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 53.3,
-      "num_tickers": 2,
+      "avg_rs_percentile": 53.7,
+      "num_tickers": 7,
       "label": "Top 10%"
     },
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 49.8,
+      "avg_rs_percentile": 47.6,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Beverages - Non-Alcoholic",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 35.9,
+      "industry": "Industrial Distribution",
+      "sector": "Industrials",
+      "avg_rs_percentile": 34.9,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Medical Instruments & Supplies",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 32.1,
-      "num_tickers": 5,
+      "industry": "Beverages - Non-Alcoholic",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 34.8,
+      "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
@@ -44,36 +44,36 @@
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 3.1,
+      "avg_rs_percentile": 4.0,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
       "industry": "Insurance Brokers",
       "sector": "Financial Services",
-      "avg_rs_percentile": 0.6,
+      "avg_rs_percentile": 1.5,
       "num_tickers": 4,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Medical Devices",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 1.2,
+      "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Information Technology Services",
       "sector": "Technology",
-      "avg_rs_percentile": 0.1,
+      "avg_rs_percentile": 1.2,
       "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Credit Services",
       "sector": "Financial Services",
-      "avg_rs_percentile": 0.0,
+      "avg_rs_percentile": 1.1,
       "num_tickers": 3,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Medical Devices",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 0.0,
-      "num_tickers": 2,
       "label": "Bottom 25%"
     }
   ],
