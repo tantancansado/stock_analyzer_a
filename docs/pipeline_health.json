@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-27T08:22:01Z",
+  "generated_at": "2026-04-27T09:53:12Z",
   "pipeline_date": "2026-04-27",
-  "ok_count": 15,
-  "total": 17,
+  "ok_count": 16,
+  "total": 18,
   "modules": {
     "value_us": {
       "status": "ok",
@@ -58,8 +58,8 @@
     },
     "macro": {
       "status": "ok",
-      "date": "2026-04-26",
-      "days_ago": 1,
+      "date": "2026-04-27",
+      "days_ago": 0,
       "stale_threshold_days": 2
     },
     "insiders": {
@@ -75,7 +75,7 @@
       "date": "2026-04-27",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 1505,
+      "rows": 1512,
       "min_rows": 1
     },
     "earnings": {
@@ -117,6 +117,12 @@
       "stale_threshold_days": 3
     },
     "strategies": {
+      "status": "ok",
+      "date": "2026-04-27",
+      "days_ago": 0,
+      "stale_threshold_days": 3
+    },
+    "earnings_opts": {
       "status": "ok",
       "date": "2026-04-27",
       "days_ago": 0,
