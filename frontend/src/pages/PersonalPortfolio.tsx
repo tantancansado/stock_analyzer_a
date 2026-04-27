@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
-import { apiClient, fetchMacroStress, fetchAnalystRevisions, type MacroStressMarket, type AnalystRevision } from '@/api/client'
+import { apiClient, fetchMacroStress, fetchAnalystRevisions, refreshUserArtifacts, type MacroStressMarket, type AnalystRevision } from '@/api/client'
 import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
@@ -965,6 +965,30 @@ export default function PersonalPortfolio() {
   const [analyzing, setAnalyzing] = useState(false)
   const [error, setError]         = useState('')
   const [analyzed, setAnalyzed]   = useState(false)
+  const [refreshState, setRefreshState] = useState<{ status: 'idle' | 'running' | 'ok' | 'error'; message?: string }>({ status: 'idle' })
+
+  // Trigger recompute on-demand de strategies/theses/options tras mutar la cartera.
+  // No bloquea la UI: corre en background y muestra estado en un banner.
+  const triggerArtifactsRefresh = useCallback(async () => {
+    setRefreshState({ status: 'running', message: 'Recalculando estrategias y earnings…' })
+    try {
+      const res = await refreshUserArtifacts()
+      const errors = Object.entries(res.summary)
+        .filter(([, v]) => 'error' in v)
+        .map(([k]) => k)
+      if (errors.length === 0) {
+        setRefreshState({ status: 'ok', message: `Estrategias recalculadas (${res.elapsed_seconds}s)` })
+      } else {
+        setRefreshState({ status: 'error', message: `Parcial: ${errors.join(', ')} fallaron` })
+      }
+      // Auto-clear el banner después de 6s
+      window.setTimeout(() => setRefreshState({ status: 'idle' }), 6000)
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e)
+      setRefreshState({ status: 'error', message: `Refresh falló: ${msg.slice(0, 80)}` })
+      window.setTimeout(() => setRefreshState({ status: 'idle' }), 8000)
+    }
+  }, [])
 
   // Load positions from Supabase on mount
   useEffect(() => {
@@ -1025,6 +1049,7 @@ export default function PersonalPortfolio() {
       if (!err) {
         setPositions(prev => prev.map(x => x.id === existing.id ? { ...x, shares: newShares, avg_price: newAvg } : x))
         setResult(null); setAnalyzed(false)
+        triggerArtifactsRefresh()
       }
       return
     }
@@ -1038,6 +1063,7 @@ export default function PersonalPortfolio() {
     if (!err && data) {
       setPositions(prev => [...prev, { id: data.id, ticker: data.ticker, shares: data.shares, avg_price: data.avg_price, currency: data.currency }])
       setResult(null); setAnalyzed(false)
+      triggerArtifactsRefresh()
     }
   }
 
@@ -1045,6 +1071,7 @@ export default function PersonalPortfolio() {
     await supabase.from('personal_portfolio_positions').delete().eq('id', id)
     setPositions(prev => prev.filter(p => p.id !== id))
     setResult(null); setAnalyzed(false)
+    triggerArtifactsRefresh()
   }
 
   const updatePosition = async (id: string, shares: number, avgPrice: number) => {
@@ -1054,6 +1081,7 @@ export default function PersonalPortfolio() {
       .eq('id', id)
     setPositions(prev => prev.map(p => p.id === id ? { ...p, shares, avg_price: avgPrice } : p))
     setResult(null); setAnalyzed(false)
+    triggerArtifactsRefresh()
   }
 
   const totalCost  = positions.reduce((s, p) => s + p.shares * p.avg_price, 0)
@@ -1345,6 +1373,20 @@ export default function PersonalPortfolio() {
 
       {/* Add form */}
       <AddForm onAdd={addPosition} saving={saving} />
+
+      {/* Refresh status banner — feedback al editar posiciones */}
+      {refreshState.status !== 'idle' && (
+        <div className={
+          refreshState.status === 'running' ? 'flex items-center gap-2 p-3 rounded-xl bg-primary/10 border border-primary/20 text-primary text-sm animate-fade-in-up' :
+          refreshState.status === 'ok'      ? 'flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm animate-fade-in-up' :
+                                              'flex items-center gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm animate-fade-in-up'
+        }>
+          {refreshState.status === 'running'
+            ? <Loader2 size={14} className="animate-spin" />
+            : refreshState.status === 'ok' ? <Check size={14} /> : <AlertTriangle size={14} />}
+          {refreshState.message}
+        </div>
+      )}
 
       {/* Error */}
       {error && (

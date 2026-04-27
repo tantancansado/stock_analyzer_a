@@ -378,15 +378,56 @@ def _load_previous_strategies() -> dict:
         return {}
 
 
-def generate_strategies(dry_run: bool = False) -> dict:
-    positions = _load_positions()
+def _load_previous_strategies_for_user(user_id: str) -> dict:
+    """Carga el último payload guardado en Supabase para preservar en 429."""
+    try:
+        from portfolio_artifacts import read_artifact
+        art = read_artifact(user_id, 'portfolio_strategies')
+        if art and isinstance(art.get('payload'), dict):
+            return art['payload'].get('strategies') or {}
+    except Exception:
+        pass
+    return {}
+
+
+def generate_strategies(
+    dry_run: bool = False,
+    *,
+    user_id: Optional[str] = None,
+    positions_override: Optional[list[dict]] = None,
+    source: str = 'pipeline',
+) -> dict:
+    """
+    Genera plan IA para una cartera.
+
+    Modos:
+      - default (sin args): legacy. Lee positions del Supabase global o fallback
+        portfolio_watch.json. Escribe SOLO el JSON estático.
+      - con user_id: por-usuario. Lee positions de ese user via portfolio_artifacts,
+        escribe payload a Supabase user_artifacts (kind=portfolio_strategies),
+        y mantiene el JSON estático con las MISMAS estrategias (compat con UI).
+      - con positions_override: usa esas posiciones directamente (no toca Supabase
+        para leer). Útil para tests / refresh on-demand desde el endpoint.
+    """
+    if positions_override is not None:
+        positions = positions_override
+    elif user_id:
+        from portfolio_artifacts import list_user_positions
+        positions = list_user_positions(user_id)
+    else:
+        positions = _load_positions()
+
     if not positions:
         print("No hay posiciones reales — nada que planificar.")
         return {'count': 0, 'strategies': {}}
 
-    print(f"Generando estrategias para {len(positions)} posiciones...")
+    print(f"Generando estrategias para {len(positions)} posiciones"
+          f"{f' (user {user_id[:8]}…)' if user_id else ''}...")
     datasets = _load_all_datasets()
-    previous = _load_previous_strategies()
+    if user_id:
+        previous = _load_previous_strategies_for_user(user_id)
+    else:
+        previous = _load_previous_strategies()
     strategies: dict[str, dict] = {}
     rate_limited_count = 0
     fresh_count = 0
@@ -467,9 +508,28 @@ def generate_strategies(dry_run: bool = False) -> dict:
     }
 
     if not dry_run:
-        json_path = DOCS / 'portfolio_strategies.json'
-        json_path.write_text(json.dumps(out, indent=2, ensure_ascii=False, default=str))
-        print(f"Wrote {json_path}")
+        # ── Escritura JSON estático ──────────────────────────────────────────
+        # Solo escribimos el JSON estático en modo "global" (sin user_id).
+        # En modo per-user, el JSON estático conserva la última generación
+        # global del pipeline y NO lo pisamos para no romper a otros users.
+        if user_id is None:
+            json_path = DOCS / 'portfolio_strategies.json'
+            json_path.write_text(json.dumps(out, indent=2, ensure_ascii=False, default=str))
+            print(f"Wrote {json_path}")
+
+        # ── Escritura per-user en Supabase ───────────────────────────────────
+        try:
+            from portfolio_artifacts import write_artifact, list_user_ids as _list_users
+            target_users: list[str] = [user_id] if user_id else _list_users()
+            written = 0
+            for uid in target_users:
+                if write_artifact(uid, 'portfolio_strategies', out, source=source):
+                    written += 1
+            if target_users:
+                print(f"  Supabase: upserted strategies for {written}/{len(target_users)} users (source={source})")
+        except Exception as exc:
+            print(f"  [warn] Supabase write skipped: {exc}")
+
         print(f"  fresh: {fresh_count} | stale (rate-limited): {rate_limited_count} | total: {len(strategies)}")
 
         # Flat CSV para download / inspección rápida

@@ -506,6 +506,34 @@ export const fetchPortfolioStrategies = () =>
     '/api/portfolio-strategies',
   )
 
+// ── Refresh on-demand (POST) — recomputa todos los artifacts del user ──────
+export interface PortfolioRefreshResponse {
+  user_id: string
+  count_positions: number
+  elapsed_seconds: number
+  summary: {
+    portfolio_strategies?: { count?: number; generated_at?: string; error?: string }
+    earnings_theses?: { status?: string; error?: string }
+    earnings_options?: { status?: string; error?: string }
+  }
+}
+
+/**
+ * Recomputa los artifacts del user (strategies, earnings theses, earnings
+ * options) en función de las posiciones actuales en Supabase.
+ *
+ * Tarda 30-90s. Idempotente. Usa Groq (puede caer en rate-limit fuera del
+ * pipeline diario; en ese caso preserva la última versión válida).
+ *
+ * Uso típico: tras editar/añadir/quitar una posición, llamar a esta función
+ * para que la pestaña Estrategias refleje la cartera nueva sin esperar al
+ * pipeline diario.
+ */
+export const refreshUserArtifacts = async (): Promise<PortfolioRefreshResponse> => {
+  const res = await apiClient.post<PortfolioRefreshResponse>('/api/portfolio/refresh')
+  return res.data
+}
+
 export const fetchOwnerEarningsBatch = (targetReturn = 15) =>
   fetchStaticOrApi<unknown>(
     'owner_earnings_batch.json',

@@ -49,8 +49,12 @@ class EarningsCalendar:
             earnings_dates = stock.earnings_dates
 
             if earnings_dates is not None and not earnings_dates.empty:
-                # Get next earnings date (first future date)
-                today = pd.Timestamp.now()
+                # Get next earnings date (first future date).
+                # yfinance ahora devuelve el index con timezone (America/New_York).
+                # Hacemos `today` tz-aware en la misma zona para evitar
+                # "Invalid comparison between dtype=datetime64[us, America/New_York] and Timestamp"
+                idx_tz = earnings_dates.index.tz
+                today = pd.Timestamp.now(tz=idx_tz) if idx_tz is not None else pd.Timestamp.now()
                 future_earnings = earnings_dates[earnings_dates.index > today]
 
                 if not future_earnings.empty:

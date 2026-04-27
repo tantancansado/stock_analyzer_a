@@ -34,7 +34,7 @@ DOCS = Path('docs')
 OUTPUT_PATH = DOCS / 'earnings_theses.json'
 SNAPSHOT_PATH = DOCS / 'personal_portfolio_snapshot.json'
 HORIZON_DAYS = 14
-GROQ_MODEL = 'llama-3.3-70b-versatile'
+GROQ_MODEL = 'llama-3.1-8b-instant'  # 5x fewer tokens than 70b — fits inside daily TPD budget
 
 
 def _log(msg: str) -> None:
@@ -402,6 +402,7 @@ _VALID_VERDICTS = {'HOLD', 'REDUCE', 'EXIT_BEFORE', 'ADD_AFTER', 'HOLD_THROUGH'}
 
 
 def _call_groq(client, ctx: dict) -> dict | None:
+    """Returns dict on success, None on 'no data' (skip), or {'_rate_limited': True} on 429."""
     prompt = _build_prompt(ctx)
     try:
         resp = client.chat.completions.create(
@@ -419,6 +420,10 @@ def _call_groq(client, ctx: dict) -> dict | None:
             text = text.strip()
         data = json.loads(text)
     except Exception as e:
+        msg = str(e).lower()
+        if '429' in msg or 'rate limit' in msg or 'tokens per day' in msg:
+            _log(f"  [rate-limit] {ctx['ticker']} — preserving previous thesis if any")
+            return {'_rate_limited': True}
         _log(f"  [groq] {ctx['ticker']} failed: {e}")
         return None
 
@@ -444,7 +449,21 @@ def _call_groq(client, ctx: dict) -> dict | None:
     }
 
 
-def main() -> int:
+def main(
+    *,
+    user_id: str | None = None,
+    positions_override: list[dict] | None = None,
+    source: str = 'pipeline',
+) -> int:
+    """
+    Genera earnings theses.
+
+    Modos:
+      - default: lee positions globales y escribe el JSON estático.
+      - user_id: lee positions de ese usuario y escribe a Supabase user_artifacts.
+      - positions_override: usa esas positions sin tocar Supabase para leer
+        (útil para refresh on-demand desde el endpoint Flask).
+    """
     if Groq is None:
         _log('[fatal] groq package not installed; skipping')
         return 0
@@ -453,13 +472,43 @@ def main() -> int:
         _log('[fatal] GROQ_API_KEY not set; skipping')
         return 0
 
-    positions = _load_positions()
+    if positions_override is not None:
+        positions = positions_override
+    elif user_id:
+        try:
+            from portfolio_artifacts import list_user_positions
+            positions = list_user_positions(user_id)
+        except Exception as exc:
+            _log(f'[fatal] cannot load positions for user {user_id}: {exc}')
+            return 0
+    else:
+        positions = _load_positions()
+
     if not positions:
         _log('[info] no portfolio positions available; nothing to do')
         return 0
 
+    # ── Cargar tesis previas para preservar cuando Groq rate-limita ──────────
+    previous_theses: dict[str, dict] = {}
+    if user_id:
+        try:
+            from portfolio_artifacts import read_artifact
+            art = read_artifact(user_id, 'earnings_theses')
+            if art and isinstance(art.get('payload'), dict):
+                previous_theses = art['payload'].get('theses') or {}
+        except Exception:
+            previous_theses = {}
+    elif OUTPUT_PATH.exists():
+        try:
+            prev_data = json.loads(OUTPUT_PATH.read_text())
+            previous_theses = prev_data.get('theses') or {}
+        except Exception:
+            previous_theses = {}
+
     client = Groq(api_key=api_key)
     theses: dict[str, dict] = {}
+    rate_limited_n = 0
+    fresh_n = 0
 
     for i, pos in enumerate(positions, 1):
         ticker = pos['ticker']
@@ -475,6 +524,23 @@ def main() -> int:
 
         ai = _call_groq(client, ctx)
         if ai is None:
+            continue
+        if ai.get('_rate_limited'):
+            # Preservar tesis previa si existe
+            prev = previous_theses.get(ticker)
+            if prev:
+                stale = dict(prev)
+                # Refresh price/days_to_earnings con ctx fresco
+                if ctx.get('current_price') is not None:
+                    stale['current_price'] = ctx['current_price']
+                stale['days_to_earnings'] = ctx['days_to_earnings']
+                stale['_stale_thesis'] = True
+                stale['_stale_reason'] = 'Groq rate-limit hit; tesis del run anterior conservada'
+                theses[ticker] = stale
+                rate_limited_n += 1
+                _log(f"  STALE — using previous verdict={stale.get('verdict','?')}")
+            else:
+                _log("  no previous thesis to preserve, skipping")
             continue
 
         merged = {
@@ -502,6 +568,7 @@ def main() -> int:
             merged['beat_rate_last_4q'] = ctx.get('beat_rate_last_4q')
 
         theses[ticker] = merged
+        fresh_n += 1
         _log(f"  OK verdict={merged['verdict']} conf={merged['confidence']}")
         time.sleep(1)
 
@@ -512,8 +579,25 @@ def main() -> int:
         'theses': theses,
     }
     DOCS.mkdir(exist_ok=True)
-    OUTPUT_PATH.write_text(json.dumps(out, indent=2, default=str))
-    _log(f"[done] wrote {len(theses)} theses → {OUTPUT_PATH}")
+    # Solo escribir el JSON estático en modo global (sin user_id)
+    if user_id is None:
+        OUTPUT_PATH.write_text(json.dumps(out, indent=2, default=str))
+        _log(f"[done] wrote {len(theses)} theses → {OUTPUT_PATH}")
+
+    # Escribir a Supabase per-user
+    try:
+        from portfolio_artifacts import write_artifact, list_user_ids
+        target_users = [user_id] if user_id else list_user_ids()
+        written = 0
+        for uid in target_users:
+            if write_artifact(uid, 'earnings_theses', out, source=source):
+                written += 1
+        if target_users:
+            _log(f"  Supabase: upserted theses for {written}/{len(target_users)} users (source={source})")
+    except Exception as exc:
+        _log(f"  [warn] Supabase write skipped: {exc}")
+
+    _log(f"  fresh: {fresh_n} | stale (rate-limited): {rate_limited_n} | total: {len(theses)}")
     return 0
 
 

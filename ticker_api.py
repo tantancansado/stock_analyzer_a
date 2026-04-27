@@ -1283,9 +1283,35 @@ def bounce_broad():
     ])
 
 
+def _get_user_artifact_for_request(kind: str) -> dict | None:
+    """Si el request trae JWT válido y hay artefacto fresco en Supabase para ese
+    user, devuelve su payload. Si no, None (caller cae a JSON estático).
+    """
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').strip()
+    if not token:
+        return None
+    user_id = _extract_jwt_sub(token)
+    if not user_id:
+        return None
+    try:
+        from portfolio_artifacts import read_artifact
+        art = read_artifact(user_id, kind)
+        if art and isinstance(art.get('payload'), dict):
+            payload = dict(art['payload'])
+            payload['_source'] = art.get('source', 'pipeline')
+            payload['_updated_at'] = art.get('updated_at')
+            return payload
+    except Exception:
+        return None
+    return None
+
+
 @app.route('/api/portfolio-strategies')
 def portfolio_strategies():
-    """Plan de trading IA por posición (trim/add levels, triggers, fechas)."""
+    """Plan de trading IA por posición. Prefiere Supabase per-user, fallback al JSON estático."""
+    user_payload = _get_user_artifact_for_request('portfolio_strategies')
+    if user_payload:
+        return jsonify(user_payload)
     data = _load_json(DOCS / 'portfolio_strategies.json')
     if data:
         return jsonify(data)
@@ -1295,12 +1321,105 @@ def portfolio_strategies():
 @app.route('/api/portfolio-strategies/<ticker>')
 def portfolio_strategy_one(ticker: str):
     ticker = (ticker or '').upper().strip()
-    data = _load_json(DOCS / 'portfolio_strategies.json')
-    strategies = (data or {}).get('strategies') or {}
+    user_payload = _get_user_artifact_for_request('portfolio_strategies')
+    data = user_payload or _load_json(DOCS / 'portfolio_strategies.json') or {}
+    strategies = data.get('strategies') or {}
     s = strategies.get(ticker)
     if not s:
         return jsonify({'error': 'Not found'}), 404
     return jsonify(s)
+
+
+@app.route('/api/earnings-options')
+def earnings_options():
+    """Snapshot de opciones pre-earnings (straddle, skew, beat history)."""
+    user_payload = _get_user_artifact_for_request('earnings_options')
+    if user_payload:
+        return jsonify(user_payload)
+    data = _load_json(DOCS / 'earnings_options.json')
+    if data:
+        return jsonify(data)
+    return jsonify({'count': 0, 'snapshots': {}})
+
+
+@app.route('/api/portfolio/refresh', methods=['POST'])
+def portfolio_refresh():
+    """
+    Recompute on-demand de los artefactos del usuario que llama.
+    Auth requerida (JWT). Tarda 30-90s. Idempotente.
+
+    Genera para el caller:
+      - portfolio_strategies (vía Groq, ~10-30s)
+      - earnings_theses     (vía Groq, ~5-20s)
+      - earnings_options    (sin LLM, yfinance only, ~5-15s)
+
+    Devuelve un resumen con conteo + updated_at por artefacto.
+    """
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').strip()
+    if not token:
+        return jsonify({'error': 'Auth required'}), 401
+    user_id = _extract_jwt_sub(token)
+    if not user_id:
+        return jsonify({'error': 'Invalid token'}), 401
+
+    try:
+        from portfolio_artifacts import list_user_positions
+        positions = list_user_positions(user_id)
+    except Exception as exc:
+        _logger.exception('list_user_positions failed')
+        return jsonify({'error': f'Cannot load positions: {exc}'}), 500
+
+    if not positions:
+        return jsonify({
+            'user_id': user_id,
+            'count_positions': 0,
+            'message': 'No positions to refresh',
+        }), 200
+
+    started = time.time()
+    summary: dict[str, dict] = {}
+
+    # 1) Portfolio strategies (Groq)
+    try:
+        from strategy_agent import generate_strategies
+        strat_out = generate_strategies(
+            user_id=user_id,
+            positions_override=positions,
+            source='on_demand',
+        )
+        summary['portfolio_strategies'] = {
+            'count': strat_out.get('count', 0),
+            'generated_at': strat_out.get('generated_at'),
+        }
+    except Exception as exc:
+        _logger.exception('strategy_agent failed')
+        summary['portfolio_strategies'] = {'error': str(exc)[:200]}
+
+    # 2) Earnings theses (Groq, solo si hay earnings ≤14d)
+    try:
+        from earnings_thesis_generator import main as run_theses
+        run_theses(user_id=user_id, positions_override=positions, source='on_demand')
+        summary['earnings_theses'] = {'status': 'ok'}
+    except Exception as exc:
+        _logger.exception('earnings_thesis_generator failed')
+        summary['earnings_theses'] = {'error': str(exc)[:200]}
+
+    # 3) Earnings options snapshot (no LLM, yfinance only)
+    try:
+        from earnings_options_snapshot import main as run_options
+        run_options(user_id=user_id, positions_override=positions, source='on_demand')
+        summary['earnings_options'] = {'status': 'ok'}
+    except Exception as exc:
+        _logger.exception('earnings_options_snapshot failed')
+        summary['earnings_options'] = {'error': str(exc)[:200]}
+
+    elapsed = round(time.time() - started, 1)
+    return jsonify({
+        'user_id': user_id,
+        'count_positions': len(positions),
+        'elapsed_seconds': elapsed,
+        'summary': summary,
+    }), 200
 
 
 @app.route('/api/recurring-insiders')
