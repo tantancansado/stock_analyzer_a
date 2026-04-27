@@ -405,14 +405,23 @@ def run_european_scanner(max_tickers: int = None, skip_scoring: bool = False,
     # 2. Score fundamentals (or load existing)
     scores_path = Path('docs/european_fundamental_scores.csv')
 
-    # Auto-skip if CSV is fresh (<24h old)
+    # Auto-skip if CSV is fresh (<24h old) AND has enough rows.
+    # Si el CSV tiene <50 filas asumimos que un run anterior se cortó por
+    # rate-limit / error; en ese caso forzamos re-scoring para reconstruir
+    # el universo completo (~100 tickers) en lugar de perpetuar el truncado.
     auto_skip = False
     if scores_path.exists() and not skip_scoring:
         import os
         file_age_hours = (time.time() - os.path.getmtime(scores_path)) / 3600
-        if file_age_hours < 24:
+        try:
+            rows = sum(1 for _ in open(scores_path)) - 1  # excluir header
+        except Exception:
+            rows = 0
+        if file_age_hours < 24 and rows >= 50:
             auto_skip = True
-            print(f"\nCSV reciente ({file_age_hours:.1f}h) — reutilizando scores existentes")
+            print(f"\nCSV reciente ({file_age_hours:.1f}h, {rows} filas) — reutilizando scores existentes")
+        elif file_age_hours < 24 and rows < 50:
+            print(f"\n⚠️  CSV reciente ({file_age_hours:.1f}h) pero TRUNCADO ({rows} filas). Forzando re-scoring completo.")
 
     if (skip_scoring or auto_skip) and scores_path.exists():
         print(f"Cargando scores existentes de {scores_path}")

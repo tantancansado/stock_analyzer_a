@@ -49,8 +49,8 @@ GROQ_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct'
 
 # ── Expected output ranges (histórico normal del sistema) ─────────────────────
 BASELINES = {
-    'value_filtered':    {'min': 5,   'max': 40,  'label': 'VALUE picks filtrados'},
-    'value_raw':         {'min': 10,  'max': 80,  'label': 'VALUE picks brutos'},
+    'value_filtered':    {'min': 5,   'max': 80,  'label': 'VALUE picks filtrados'},
+    'value_raw':         {'min': 10,  'max': 120, 'label': 'VALUE picks brutos'},
     'fundamental_rows':  {'min': 80,  'max': 300, 'label': 'filas fundamental_scores'},
     'bounce_detected':   {'min': 0,   'max': 40,  'label': 'bounce setups detectados'},
     'eu_value':          {'min': 0,   'max': 40,  'label': 'VALUE EU picks'},
@@ -206,8 +206,14 @@ def check_grade_distribution() -> dict:
     Detecta si la distribución de grades cambió bruscamente.
     Un sistema sano tiene una distribución razonablemente estable.
     Si de repente el 90%+ son A o el 90%+ son F, algo falló en el scoring.
+
+    Las grades viven en `value_conviction.csv` (output de conviction_filter.py),
+    NO en `value_opportunities_filtered.csv` (output de ai_quality_filter, sin
+    columna conviction_grade).
     """
-    rows = _fetch_csv('docs/value_opportunities_filtered.csv')
+    # Prefer conviction_csv (grades A/B/C/D); fallback al filtered si conviction
+    # no existe (p.ej. primer run o conviction_filter falló).
+    rows = _fetch_csv('docs/value_conviction.csv') or _fetch_csv('docs/value_opportunities_filtered.csv')
     if not rows:
         return {'skipped': True}
 

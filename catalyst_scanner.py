@@ -399,6 +399,16 @@ def load_earnings_events(universe: list) -> list:
 
 # ─── 4. FDA PDUFA CALENDAR ────────────────────────────────────────────────────
 
+PHARMA_TICKERS = [
+    # Big pharma
+    'JNJ', 'PFE', 'MRK', 'ABBV', 'LLY', 'BMY', 'AMGN', 'GILD',
+    # Mid pharma + biotech
+    'BIIB', 'REGN', 'VRTX', 'MRNA', 'BNTX',
+    # Specialty
+    'ZTS', 'MDT', 'BSX', 'ABT', 'ISRG',
+]
+
+
 def scrape_fda_pdufa() -> list:
     """
     Obtiene fechas PDUFA de la FDA (decisiones de aprobación de fármacos).

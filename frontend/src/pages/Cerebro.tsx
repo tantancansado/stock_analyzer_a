@@ -8,7 +8,8 @@ import {
   fetchCerebroStressTest, fetchCerebroBriefing, fetchMeanReversion,
   fetchCerebroShortSqueeze, fetchCerebroQualityDecay,
   type CerebroTier, type CerebroAlert, type EntrySignal, type MeanReversionItem,
-  type ShortSqueezeSetup, type QualityDecay,
+  type ShortSqueezeSetup, type QualityDecay, type CerebroSignal, type ExitSignal,
+  type ValueTrap, type SmartMoneySignal,
 } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
@@ -19,11 +20,318 @@ import TickerLogo from '../components/TickerLogo'
 import {
   Brain, Crosshair, Bell, SlidersHorizontal, TrendingUp, TrendingDown, Minus, ChevronRight,
   Zap, CheckCircle2, Newspaper, Bot, AlertOctagon, ShieldAlert,
-  Building2, Users, Wallet, BarChart2, Activity, Repeat2,
+  Building2, Users, Wallet, BarChart2, Activity, Repeat2, Sparkles, MessageCircle,
+  type LucideIcon,
 } from 'lucide-react'
 import { nlAlert } from '@/lib/nl'
 
 // ── helpers ───────────────────────────────────────────────────────────────────
+
+type CerebroTab = 'briefing' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration'
+
+type CoachTone = 'risk' | 'opportunity' | 'watch' | 'calm'
+
+interface CoachAction {
+  id: string
+  tab: CerebroTab
+  tone: CoachTone
+  eyebrow: string
+  title: string
+  body: string
+  meta?: string
+  ticker?: string
+  icon: LucideIcon
+}
+
+const COACH_TONE: Record<CoachTone, { panel: string; icon: string; pill: string }> = {
+  risk: {
+    panel: 'border-red-500/25 bg-red-500/5 hover:border-red-500/40',
+    icon: 'bg-red-500/15 text-red-400 border-red-500/25',
+    pill: 'text-red-300 bg-red-500/10 border-red-500/20',
+  },
+  opportunity: {
+    panel: 'border-emerald-500/25 bg-emerald-500/5 hover:border-emerald-500/40',
+    icon: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25',
+    pill: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/20',
+  },
+  watch: {
+    panel: 'border-cyan-500/25 bg-cyan-500/5 hover:border-cyan-500/40',
+    icon: 'bg-cyan-500/15 text-cyan-400 border-cyan-500/25',
+    pill: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/20',
+  },
+  calm: {
+    panel: 'border-border/35 bg-muted/10 hover:border-border/60',
+    icon: 'bg-muted/20 text-muted-foreground border-border/30',
+    pill: 'text-muted-foreground bg-muted/15 border-border/30',
+  },
+}
+
+function CoachActionButton({ action, onOpen }: { action: CoachAction; onOpen: (tab: CerebroTab) => void }) {
+  const Icon = action.icon
+  const tone = COACH_TONE[action.tone]
+  return (
+    <button
+      type="button"
+      onClick={() => onOpen(action.tab)}
+      className={`group w-full rounded-xl border p-3 text-left transition-all active:scale-[0.99] ${tone.panel}`}
+    >
+      <div className="flex items-start gap-3">
+        <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${tone.icon}`}>
+          <Icon size={15} strokeWidth={1.8} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="mb-1 flex flex-wrap items-center gap-2">
+            <span className={`rounded-full border px-2 py-0.5 text-[0.58rem] font-bold uppercase tracking-[0.14em] ${tone.pill}`}>
+              {action.eyebrow}
+            </span>
+            {action.ticker && <span className="font-mono text-[0.72rem] font-bold text-primary">{action.ticker}</span>}
+          </div>
+          <p className="text-sm font-semibold leading-snug text-foreground">{action.title}</p>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{action.body}</p>
+          {action.meta && <p className="mt-2 text-[0.68rem] font-medium text-foreground/65">{action.meta}</p>}
+        </div>
+        <ChevronRight size={14} className="mt-2 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+      </div>
+    </button>
+  )
+}
+
+function CerebroCoachPanel({
+  headline,
+  subline,
+  actions,
+  onOpenTab,
+}: {
+  headline: string
+  subline: string
+  actions: CoachAction[]
+  onOpenTab: (tab: CerebroTab) => void
+}) {
+  return (
+    <Card className="glass mb-5 overflow-clip border-primary/20 animate-fade-in-up">
+      <CardContent className="p-0">
+        <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="relative p-5 md:p-6">
+            <div className="mb-4 flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-violet-500/25 bg-violet-500/10 text-violet-300">
+                <MessageCircle size={17} strokeWidth={1.75} />
+              </span>
+              <div>
+                <div className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-violet-300">Cerebro te diría</div>
+                <div className="text-[0.72rem] text-muted-foreground">Resumen operativo, sin jerga</div>
+              </div>
+            </div>
+
+            <p className="max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
+              {headline}
+            </p>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">{subline}</p>
+
+            <div className="mt-5 flex flex-wrap gap-2">
+              <button type="button" onClick={() => onOpenTab(actions[0]?.tab ?? 'briefing')} className="filter-btn active">
+                Ir a lo importante
+              </button>
+              <button type="button" onClick={() => onOpenTab('briefing')} className="filter-btn">
+                Ver briefing
+              </button>
+              <button type="button" onClick={() => onOpenTab('agents')} className="filter-btn">
+                Revisar riesgos
+              </button>
+            </div>
+          </div>
+
+          <div className="border-t border-border/20 p-4 lg:border-l lg:border-t-0">
+            <div className="mb-2 flex items-center gap-2 px-1">
+              <Sparkles size={13} className="text-primary" />
+              <span className="text-[0.66rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">Siguiente foco</span>
+            </div>
+            <div className="space-y-2">
+              {actions.map(action => (
+                <CoachActionButton key={action.id} action={action} onOpen={onOpenTab} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+function buildCoachActions({
+  entrySignals,
+  exits,
+  traps,
+  alerts,
+  convergences,
+  topBounces,
+  smartMoney,
+  squeezeSetups,
+  decayItems,
+}: {
+  entrySignals: EntrySignal[]
+  exits: ExitSignal[]
+  traps: ValueTrap[]
+  alerts: CerebroAlert[]
+  convergences: CerebroSignal[]
+  topBounces: MeanReversionItem[]
+  smartMoney: SmartMoneySignal[]
+  squeezeSetups: ShortSqueezeSetup[]
+  decayItems: QualityDecay[]
+}): CoachAction[] {
+  const actions: CoachAction[] = []
+  const highExit = exits.find(item => item.severity === 'HIGH') ?? exits[0]
+  const highTrap = traps.find(item => item.severity === 'HIGH') ?? traps[0]
+  const highDecay = decayItems.find(item => item.severity === 'HIGH') ?? decayItems[0]
+  const topEntry = entrySignals.find(item => item.signal === 'STRONG_BUY') ?? entrySignals.find(item => item.signal === 'BUY')
+  const triple = convergences
+    .filter(item => item.strategy_count >= 3)
+    .sort((a, b) => b.convergence_score - a.convergence_score)[0]
+  const bounce = topBounces[0]
+  const alert = alerts.find(item => item.severity === 'HIGH')
+  const squeeze = squeezeSetups.find(item => item.severity === 'HIGH') ?? squeezeSetups[0]
+  const smart = smartMoney[0]
+
+  if (highExit) {
+    actions.push({
+      id: `exit-${highExit.ticker}`,
+      tab: 'agents',
+      tone: 'risk',
+      eyebrow: 'Primero',
+      ticker: highExit.ticker,
+      icon: ShieldAlert,
+      title: `Revisa ${highExit.ticker} antes de buscar compras.`,
+      body: 'Cerebro detecta deterioro suficiente como para no dejarlo escondido en una tabla.',
+      meta: highExit.reasons.slice(0, 2).join(' · '),
+    })
+  }
+
+  if (highTrap && actions.length < 3) {
+    actions.push({
+      id: `trap-${highTrap.ticker}`,
+      tab: 'agents',
+      tone: 'risk',
+      eyebrow: 'Cuidado',
+      ticker: highTrap.ticker,
+      icon: AlertOctagon,
+      title: `${highTrap.ticker} parece barato, pero no limpio.`,
+      body: 'Puede ser una trampa de valor. Si está en cartera o watchlist, merece una revisión fría.',
+      meta: `Riesgo ${highTrap.trap_score}/10 · ${highTrap.flags.slice(0, 2).join(' · ')}`,
+    })
+  }
+
+  if (topEntry && actions.length < 3) {
+    actions.push({
+      id: `entry-${topEntry.ticker}`,
+      tab: 'entry',
+      tone: 'opportunity',
+      eyebrow: topEntry.signal === 'STRONG_BUY' ? 'Accionable' : 'Candidata',
+      ticker: topEntry.ticker,
+      icon: Zap,
+      title: `${topEntry.ticker} es la idea más clara para mirar hoy.`,
+      body: 'La señal combina calidad, precio y punto de entrada. No significa comprar automático: significa empezar aquí.',
+      meta: `Entry score ${topEntry.entry_score} · ${topEntry.signals_fired.slice(0, 3).join(' · ')}`,
+    })
+  }
+
+  if (triple && actions.length < 3) {
+    actions.push({
+      id: `conv-${triple.ticker}`,
+      tab: 'convergence',
+      tone: 'watch',
+      eyebrow: 'Confluencia',
+      ticker: triple.ticker,
+      icon: Crosshair,
+      title: `${triple.ticker} aparece por varias vías a la vez.`,
+      body: 'Cuando varias estrategias apuntan al mismo ticker, merece estar arriba en la pila de revisión.',
+      meta: `${triple.strategy_count} estrategias · score ${triple.convergence_score}`,
+    })
+  }
+
+  if (bounce && actions.length < 3) {
+    actions.push({
+      id: `bounce-${bounce.ticker}`,
+      tab: 'bounces',
+      tone: 'watch',
+      eyebrow: 'Táctico',
+      ticker: bounce.ticker,
+      icon: Repeat2,
+      title: `${bounce.ticker} tiene rebote interesante, pero con disciplina.`,
+      body: 'Es una lectura más táctica que de convicción larga. Entrada, stop y target importan más que la historia.',
+      meta: `Score ${bounce.reversion_score} · ${bounce.quality}`,
+    })
+  }
+
+  if (highDecay && actions.length < 3) {
+    actions.push({
+      id: `decay-${highDecay.ticker}`,
+      tab: 'agents',
+      tone: 'risk',
+      eyebrow: 'Deterioro',
+      ticker: highDecay.ticker,
+      icon: TrendingDown,
+      title: `${highDecay.ticker} muestra señales de calidad empeorando.`,
+      body: 'No es ruido de precio: Cerebro ve empeoramiento en métricas internas.',
+      meta: highDecay.flags.slice(0, 2).join(' · '),
+    })
+  }
+
+  if (alert && actions.length < 3) {
+    actions.push({
+      id: `alert-${alert.ticker}-${alert.type}`,
+      tab: 'alerts',
+      tone: 'risk',
+      eyebrow: 'Alerta',
+      ticker: alert.ticker,
+      icon: Bell,
+      title: `${alert.ticker} necesita atención puntual.`,
+      body: nlAlert({ type: alert.type, ticker: alert.ticker, severity: alert.severity, details: alert.message }),
+      meta: alert.title,
+    })
+  }
+
+  if (squeeze && actions.length < 3) {
+    actions.push({
+      id: `squeeze-${squeeze.ticker}`,
+      tab: 'agents',
+      tone: 'watch',
+      eyebrow: 'Volátil',
+      ticker: squeeze.ticker,
+      icon: Activity,
+      title: `${squeeze.ticker} puede moverse fuerte.`,
+      body: 'Tiene ingredientes de short squeeze. Trátalo como operación de riesgo, no como inversión tranquila.',
+      meta: `${squeeze.short_pct_float.toFixed(1)}% short float · squeeze ${squeeze.squeeze_score}/10`,
+    })
+  }
+
+  if (smart && actions.length < 3) {
+    actions.push({
+      id: `smart-${smart.ticker}`,
+      tab: 'agents',
+      tone: 'watch',
+      eyebrow: 'Dinero listo',
+      ticker: smart.ticker,
+      icon: Building2,
+      title: `${smart.ticker} tiene dinero sofisticado mirando.`,
+      body: 'Hedge funds e insiders aparecen en la misma zona. No es una orden, pero sí una pista que merece lectura.',
+      meta: `${smart.n_hedge_funds} fondos · ${smart.n_insiders} insiders`,
+    })
+  }
+
+  if (actions.length === 0) {
+    actions.push({
+      id: 'calm-market',
+      tab: 'briefing',
+      tone: 'calm',
+      eyebrow: 'Calma',
+      icon: Brain,
+      title: 'No hay una urgencia clara ahora mismo.',
+      body: 'Hoy Cerebro no ve nada que obligue a actuar. Mantener disciplina también es una decisión.',
+      meta: 'Revisa el briefing y evita forzar operaciones.',
+    })
+  }
+
+  return actions.slice(0, 3)
+}
 
 function WrBar({ wr, baseline }: { wr: number; baseline: number }) {
   const color = wr >= baseline + 10 ? 'bg-emerald-500' : wr >= baseline ? 'bg-blue-500' : wr >= baseline - 10 ? 'bg-amber-500' : 'bg-red-500'
@@ -294,7 +602,7 @@ export default function Cerebro() {
   const { data: decayData }   = useApi(() => fetchCerebroQualityDecay(), [])
   const { data: mrRaw }       = useApi(() => fetchMeanReversion(), [])
 
-  const [activeTab, setActiveTab] = useState<'briefing' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration'>('briefing')
+  const [activeTab, setActiveTab] = useState<CerebroTab>('briefing')
   const [entryFilter, setEntryFilter] = useState<'ACTIONABLE' | 'STRONG_BUY' | 'BUY' | 'MONITOR'>('ACTIONABLE')
   const [focusedIdx, setFocusedIdx] = useState(-1)
   const [showAllAlerts, setShowAllAlerts] = useState(false)
@@ -347,7 +655,41 @@ export default function Cerebro() {
   const filteredEntry = entryFilter === 'ACTIONABLE'
     ? entrySignals.filter(s => s.signal === 'STRONG_BUY' || s.signal === 'BUY')
     : entrySignals.filter(s => s.signal === entryFilter)
+  // eslint-disable-next-line react-hooks/refs -- keeps keyboard navigation in sync without rebinding the listener on every filter change.
   pagedRef.current = filteredEntry
+
+  const coachActions = buildCoachActions({
+    entrySignals,
+    exits: exitData?.exits ?? [],
+    traps: trapsData?.traps ?? [],
+    alerts,
+    convergences: signals,
+    topBounces,
+    smartMoney: smData?.signals ?? [],
+    squeezeSetups: squeezeData?.setups ?? [],
+    decayItems: decayData?.decays ?? [],
+  })
+
+  const highRiskCount =
+    (exitData?.high_count ?? 0) +
+    (trapsData?.high_count ?? 0) +
+    (decayData?.high_count ?? 0) +
+    alerts.filter(a => a.severity === 'HIGH').length
+  const topEntry = entrySignals.find(s => s.signal === 'STRONG_BUY') ?? entrySignals.find(s => s.signal === 'BUY')
+  const coachHeadline = highRiskCount > 0
+    ? 'Yo hoy empezaría por proteger la cartera.'
+    : topEntry
+    ? `Yo hoy miraría ${topEntry.ticker} primero.`
+    : topBounces.length > 0
+    ? 'Hoy veo más vigilancia que compra inmediata.'
+    : 'Hoy no forzaría ninguna operación.'
+  const coachSubline = highRiskCount > 0
+    ? 'Hay señales de riesgo que pueden ahorrar más dinero que una buena entrada. Primero limpio lo delicado, luego busco oportunidades.'
+    : topEntry
+    ? 'Hay al menos una idea con suficiente claridad para abrir análisis. La decisión final sigue siendo tamaño, precio y encaje con tu cartera.'
+    : topBounces.length > 0
+    ? 'Hay posibles movimientos tácticos, pero Cerebro no está gritando compra. Mejor mirar niveles y esperar confirmación.'
+    : 'El sistema no encuentra una prioridad urgente. En días así, la ventaja está en no inventarse señales.'
 
   const tabs = [
     { id: 'briefing' as const,    label: 'Briefing',        icon: Newspaper,        count: undefined, highlight: !!briefingData?.narrative },
@@ -371,9 +713,16 @@ export default function Cerebro() {
           Cerebro — IA Proactiva
         </h2>
         <p className="text-sm text-muted-foreground">
-          Agente autónomo · Aprende del historial de señales · Actualización diaria
+          Te resume lo importante primero. El detalle técnico sigue debajo cuando lo necesites.
         </p>
       </div>
+
+      <CerebroCoachPanel
+        headline={coachHeadline}
+        subline={coachSubline}
+        actions={coachActions}
+        onOpenTab={setActiveTab}
+      />
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">

@@ -211,7 +211,10 @@ export interface MarketRegime {
 export const fetchValueOpportunities = async (): Promise<{
   data: { data: ValueOpportunity[]; count: number; source: string }
 }> => {
-  for (const filename of ['value_opportunities_filtered.csv', 'value_opportunities.csv']) {
+  // Order matters: conviction csv contains the conviction_grade column
+  // (set by conviction_filter.py). Fallback to ai-filtered if conviction
+  // is missing, then to raw — both lack grade columns and lose UI features.
+  for (const filename of ['value_conviction.csv', 'value_opportunities_filtered.csv', 'value_opportunities.csv']) {
     try {
       const data = await fetchValueCsv(filename)
       if (data.data.length > 0) return { data }

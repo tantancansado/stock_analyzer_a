@@ -131,8 +131,24 @@ def _atm_straddle(tk: yf.Ticker, expiration: str, spot: float) -> Optional[dict]
     }
 
 
+def _is_placeholder_iv(put_iv: float, call_iv: float) -> bool:
+    """
+    Detecta valores de IV "fake" que yfinance devuelve cuando no tiene datos
+    reales (mercado cerrado, spreads vacíos). El patrón: put_iv == call_iv
+    exacto y son potencias de 2 escaladas (0.0625, 0.125, 0.25, 0.5).
+
+    En un mercado real, put_iv y call_iv 5% OTM raramente coinciden con
+    >4 decimales (siempre hay skew o liquidez asimétrica).
+    """
+    if put_iv != call_iv:
+        return False
+    # ¿Es el valor un múltiplo claro de 1/16 (0.0625)?
+    rounded = round(put_iv * 16) / 16
+    return abs(put_iv - rounded) < 1e-6
+
+
 def _vol_skew(tk: yf.Ticker, expiration: str, spot: float) -> Optional[dict]:
-    """5% OTM put IV - 5% OTM call IV. Positivo = miedo bajista."""
+    """5% OTM put IV - 5% OTM call IV. Positivo = miedo bajista. None si datos no fiables."""
     try:
         chain = tk.option_chain(expiration)
     except Exception:
@@ -153,12 +169,27 @@ def _vol_skew(tk: yf.Ticker, expiration: str, spot: float) -> Optional[dict]:
     call_iv = _safe_float(call_5.iloc[0].get('impliedVolatility'))
     if put_iv is None or call_iv is None or put_iv <= 0 or call_iv <= 0:
         return None
+
+    # Filtro placeholder yfinance (mercado cerrado): put == call exactamente
+    # y valor es múltiplo de 1/16. Si lo detectamos, no devolvemos skew falso.
+    if _is_placeholder_iv(put_iv, call_iv):
+        return {
+            'put_strike': float(put_5.iloc[0]['strike']),
+            'call_strike': float(call_5.iloc[0]['strike']),
+            'put_iv': None,
+            'call_iv': None,
+            'skew_pts': None,
+            'unreliable': True,
+            'reason': 'IV placeholder (mercado cerrado o spreads vacíos)',
+        }
+
     return {
         'put_strike': float(put_5.iloc[0]['strike']),
         'call_strike': float(call_5.iloc[0]['strike']),
         'put_iv': round(put_iv, 4),
         'call_iv': round(call_iv, 4),
         'skew_pts': round((put_iv - call_iv) * 100, 2),
+        'unreliable': False,
     }
 
 
