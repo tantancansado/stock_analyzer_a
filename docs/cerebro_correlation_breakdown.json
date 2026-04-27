@@ -1,15 +1,10 @@
 {
   "generated_at": "2026-04-27",
-  "systemic_risk": "HIGH",
-  "correlation_score": 6,
+  "systemic_risk": "MODERATE",
+  "correlation_score": 4,
   "universe_breadth_pct": 9.9,
-  "breadth_change": 7.2,
+  "breadth_change": -0.4,
   "signals": [
-    {
-      "type": "MULTI_SECTOR_DECAY",
-      "severity": "MEDIUM",
-      "detail": "Quality decay en 3 sectores simult\u00e1neamente"
-    },
     {
       "type": "EXIT_SIGNAL_SURGE",
       "severity": "HIGH",

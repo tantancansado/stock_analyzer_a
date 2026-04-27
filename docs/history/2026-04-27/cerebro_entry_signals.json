@@ -18,7 +18,7 @@
       "analyst_upside_pct": 48.7,
       "fcf_yield_pct": 5.37,
       "risk_reward_ratio": 6.09,
-      "days_in_value": 10,
+      "days_in_value": 11,
       "streak_days": 1,
       "entry_score": 73,
       "signal": "BUY",
@@ -83,7 +83,7 @@
       "analyst_upside_pct": 28.4,
       "fcf_yield_pct": 5.97,
       "risk_reward_ratio": 3.55,
-      "days_in_value": 1,
+      "days_in_value": 2,
       "streak_days": 3,
       "entry_score": 58,
       "signal": "BUY",
@@ -122,11 +122,123 @@
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
       "days_to_earnings": 85
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 68.45,
+      "conviction_grade": "",
+      "current_price": 77.86,
+      "analyst_upside_pct": 50.1,
+      "fcf_yield_pct": 5.64,
+      "risk_reward_ratio": 6.26,
+      "days_in_value": 3,
+      "streak_days": 1,
+      "entry_score": 43,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": null
+    },
+    {
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "region": "US",
+      "sector": "Communication Services",
+      "value_score": 65.4,
+      "conviction_grade": "",
+      "current_price": 504.8,
+      "analyst_upside_pct": 29.5,
+      "fcf_yield_pct": 6.13,
+      "risk_reward_ratio": 3.69,
+      "days_in_value": 3,
+      "streak_days": 1,
+      "entry_score": 43,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 24
     },
     {
       "ticker": "JKHY",
@@ -139,7 +251,7 @@
       "analyst_upside_pct": 31.9,
       "fcf_yield_pct": 3.06,
       "risk_reward_ratio": 3.99,
-      "days_in_value": 3,
+      "days_in_value": 4,
       "streak_days": 1,
       "entry_score": 38,
       "signal": "MONITOR",
@@ -196,7 +308,7 @@
       "analyst_upside_pct": 50.0,
       "fcf_yield_pct": 4.81,
       "risk_reward_ratio": 6.25,
-      "days_in_value": 1,
+      "days_in_value": 2,
       "streak_days": 2,
       "entry_score": 38,
       "signal": "MONITOR",
@@ -231,110 +343,6 @@
         "Sin se\u00f1al MR oversold",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 24
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "region": "US",
-      "sector": "Industrials",
-      "value_score": 68.45,
-      "conviction_grade": "",
-      "current_price": 77.86,
-      "analyst_upside_pct": 50.1,
-      "fcf_yield_pct": 5.64,
-      "risk_reward_ratio": 6.26,
-      "days_in_value": 2,
-      "streak_days": 1,
-      "entry_score": 33,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "FCF yield \u22655%",
-        "R:R \u22652",
-        "Upside \u226520%",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": null
-    },
-    {
-      "ticker": "AUTO.L",
-      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
-      "region": "US",
-      "sector": "Communication Services",
-      "value_score": 65.4,
-      "conviction_grade": "",
-      "current_price": 504.8,
-      "analyst_upside_pct": 29.5,
-      "fcf_yield_pct": 6.13,
-      "risk_reward_ratio": 3.69,
-      "days_in_value": 2,
-      "streak_days": 1,
-      "entry_score": 33,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "FCF yield \u22655%",
-        "R:R \u22652",
-        "Upside \u226520%",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
         "Solo 2d en VALUE"
       ],
       "rsi": null,
@@ -352,7 +360,7 @@
       "analyst_upside_pct": 57.6,
       "fcf_yield_pct": 23.87,
       "risk_reward_ratio": 7.2,
-      "days_in_value": 1,
+      "days_in_value": 2,
       "streak_days": 1,
       "entry_score": 33,
       "signal": "MONITOR",
@@ -387,7 +395,7 @@
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
@@ -404,7 +412,7 @@
       "analyst_upside_pct": 58.6,
       "fcf_yield_pct": 6.61,
       "risk_reward_ratio": 7.32,
-      "days_in_value": 6,
+      "days_in_value": 7,
       "streak_days": 1,
       "entry_score": 28,
       "signal": "WAIT",
@@ -461,7 +469,7 @@
       "analyst_upside_pct": 51.3,
       "fcf_yield_pct": 3.94,
       "risk_reward_ratio": 6.41,
-      "days_in_value": 1,
+      "days_in_value": 2,
       "streak_days": 1,
       "entry_score": 23,
       "signal": "WAIT",
@@ -492,7 +500,7 @@
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
@@ -509,7 +517,7 @@
       "analyst_upside_pct": 43.6,
       "fcf_yield_pct": 3.32,
       "risk_reward_ratio": 5.45,
-      "days_in_value": 1,
+      "days_in_value": 2,
       "streak_days": 1,
       "entry_score": 23,
       "signal": "WAIT",
@@ -540,7 +548,7 @@
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
@@ -557,7 +565,7 @@
       "analyst_upside_pct": 13.1,
       "fcf_yield_pct": 3.3,
       "risk_reward_ratio": 1.64,
-      "days_in_value": 1,
+      "days_in_value": 2,
       "streak_days": 2,
       "entry_score": 15,
       "signal": "WAIT",
@@ -584,7 +592,7 @@
         "Sin se\u00f1al MR oversold",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,

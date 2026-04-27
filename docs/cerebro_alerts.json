@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-04-27",
-  "total": 96,
+  "total": 89,
   "high_count": 69,
   "alerts": [
     {
@@ -367,6 +367,21 @@
       }
     },
     {
+      "ticker": "ISRG",
+      "type": "VALUE_CONTRADICTION",
+      "severity": "HIGH",
+      "title": "Contradicci\u00f3n IA: ISRG en VALUE pero Cerebro dice AVOID",
+      "message": "Score VALUE 34 (Grado ?) \u2014 pero Cerebro detecta trampa de valor (adj -18pts). Raz\u00f3n: Quality decay HIGH: Piotroski cay\u00f3 3pts (7 \u2192 4/9).",
+      "date": "2026-04-27",
+      "data": {
+        "value_score": 34.2,
+        "conviction_grade": "",
+        "cerebro_signal": "AVOID",
+        "cerebro_score_adj": -18,
+        "cerebro_reason": "Quality decay HIGH: Piotroski cay\u00f3 3pts (7 \u2192 4/9) | Caro vs peers en Healthcare (FCF rank 10/12)"
+      }
+    },
+    {
       "ticker": "KO",
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
@@ -524,22 +539,6 @@
       "data": {
         "days_to_earnings": 2.0,
         "value_score": 30.6
-      }
-    },
-    {
-      "ticker": "PAYX",
-      "type": "NEW_CONVERGENCE",
-      "severity": "HIGH",
-      "title": "Nueva convergencia: PAYX",
-      "message": "Aparece en 3 estrategias: VALUE, INSIDERS, OPTIONS. Score convergencia: 77.",
-      "date": "2026-04-27",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "INSIDERS",
-          "OPTIONS"
-        ],
-        "convergence_score": 77
       }
     },
     {
@@ -910,21 +909,6 @@
       }
     },
     {
-      "ticker": "BR",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: BR",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 52.",
-      "date": "2026-04-27",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 52
-      }
-    },
-    {
       "ticker": "CDNS",
       "type": "STREAK",
       "severity": "MEDIUM",
@@ -936,21 +920,6 @@
         "strategies": [
           "VALUE",
           "INSIDERS"
-        ]
-      }
-    },
-    {
-      "ticker": "CME",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "CME \u2014 3 d\u00edas en convergencia",
-      "message": "Lleva 3 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-04-27",
-      "data": {
-        "streak_days": 3,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
         ]
       }
     },
@@ -1021,36 +990,6 @@
       }
     },
     {
-      "ticker": "KO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: KO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-04-27",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
-      }
-    },
-    {
-      "ticker": "MCO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MCO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-04-27",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
-      }
-    },
-    {
       "ticker": "MSCI",
       "type": "STREAK",
       "severity": "MEDIUM",
@@ -1102,21 +1041,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "PG",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: PG",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-04-27",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
       }
     },
     {
@@ -1174,21 +1098,6 @@
       }
     },
     {
-      "ticker": "VEEV",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: VEEV",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-04-27",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
-      }
-    },
-    {
       "ticker": "VRSK",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -1198,21 +1107,6 @@
       "data": {
         "purchase_count": 9.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "VRSK",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: VRSK",
-      "message": "Aparece en 2 estrategias: VALUE, INSIDERS. Score convergencia: 57.",
-      "date": "2026-04-27",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "INSIDERS"
-        ],
-        "convergence_score": 57
       }
     }
   ]

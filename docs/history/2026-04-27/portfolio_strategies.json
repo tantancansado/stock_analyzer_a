@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-04-27T09:51:34Z",
+  "generated_at": "2026-04-27T16:25:54Z",
   "scan_date": "2026-04-27",
   "count": 7,
   "strategies": {
     "MSFT": {
       "ticker": "MSFT",
       "company": "Technology",
-      "current_price": 424.6,
+      "current_price": 423.71,
       "avg_price": 369.61,
       "shares": 10.0,
-      "pl_pct": 14.9,
+      "pl_pct": 14.6,
       "signals": {
         "value_score": null,
         "fundamental_score": 72.8,
@@ -44,36 +44,36 @@
         "has_squeeze": false,
         "market_regime": "CALM"
       },
-      "current_action": "HOLD",
-      "action_reason": "No hay señales claras para tomar acción hoy, pero próximo check post-earnings.",
-      "trim_at_price": null,
-      "trim_pct": null,
-      "trim_reason": null,
+      "current_action": "TRIM",
+      "action_reason": "El precio actual de $423.71 es un 15% por encima del coste medio y el RSI(14) no está disponible, pero el ticker está cerca de la resistencia 20d.",
+      "trim_at_price": 400.0,
+      "trim_pct": 20.0,
+      "trim_reason": "Recoger en pullback para mantener la tesis VALUE.",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 324.21,
+      "stop_loss_price": 314.41,
       "triggers_sell": [
-        "RSI>70",
+        "RSI(14) > 70",
         "Cerebro EXIT",
-        "fundamental deteriorado"
+        "fundamentales deteriorados"
       ],
       "triggers_buy": [
-        "RSI<30",
-        "SMA50 cruzando arriba de SMA200"
+        "RSI(14) < 30",
+        "fundamentales intactos"
       ],
-      "next_check_date": "2024-04-26",
-      "next_check_reason": "Post-earnings de MSFT",
-      "thesis_short": "Creo que MSFT es una buena oportunidad de inversión a largo plazo debido a su sólida posición en el mercado de tecnología y su capacidad para generar cash flow.",
+      "next_check_date": "2024-04-30",
+      "next_check_reason": "Post-earnings, cuando se conozcan los resultados financieros.",
+      "thesis_short": "Creo que Microsoft es una empresa de valor sólida con un crecimiento a largo plazo, impulsada por su dominio en el mercado de software y su capacidad para innovar.",
       "confidence": 80
     },
     "V": {
       "ticker": "V",
       "company": "Financial Services",
-      "current_price": 309.42,
+      "current_price": 310.14,
       "avg_price": 312.21,
       "shares": 11.0,
-      "pl_pct": -0.9,
+      "pl_pct": -0.7,
       "signals": {
         "value_score": null,
         "fundamental_score": 71.5,
@@ -100,7 +100,7 @@
         "insider_purchase_count": null,
         "unique_insiders": null,
         "options_signal": null,
-        "pcr": 999.0,
+        "pcr": 0.74,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -108,35 +108,35 @@
         "has_squeeze": false,
         "market_regime": "CALM"
       },
-      "current_action": "HOLD",
-      "action_reason": "El precio actual está cerca de la resistencia 20d, pero no hay señal de venta fuerte ni deterioro fundamental.",
-      "trim_at_price": null,
-      "trim_pct": null,
-      "trim_reason": null,
+      "current_action": "TRIM",
+      "action_reason": "El ticker está caro y cerca de resistencia, es hora de recoger parte de la posición.",
+      "trim_at_price": 315.0,
+      "trim_pct": 20.0,
+      "trim_reason": "RSI>70 y opciones bajistas",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 296.19,
+      "stop_loss_price": 276.51,
       "triggers_sell": [
         "Cerebro EXIT",
-        "fundamental deteriorado"
+        "Fundamental deteriorado",
+        "Insiders vendiendo masivo"
       ],
       "triggers_buy": [
-        "RSI<30",
-        "SMA50 cruzando hacia arriba"
+        "RSI<30 y opciones compradoras"
       ],
-      "next_check_date": "2024-05-02",
+      "next_check_date": "2024-05-01",
       "next_check_reason": "Post-earnings",
-      "thesis_short": "V es una oportunidad de inversión de valor en el sector de servicios financieros, con un potencial de crecimiento a largo plazo.",
+      "thesis_short": "Creo que V es una buena oportunidad de inversión a largo plazo debido a su valor intrínseco y fundamentos sólidos.",
       "confidence": 80
     },
     "AMCR": {
       "ticker": "AMCR",
       "company": null,
-      "current_price": 38.95,
+      "current_price": 38.91,
       "avg_price": 40.32,
       "shares": 85.0,
-      "pl_pct": -3.4,
+      "pl_pct": -3.5,
       "signals": {
         "value_score": null,
         "fundamental_score": null,
@@ -172,35 +172,35 @@
         "market_regime": "CALM"
       },
       "current_action": "HOLD",
-      "action_reason": "No hay señales claras de compra o venta hoy, pero la tesis VALUE sigue intacta. Próximo check post-earnings.",
+      "action_reason": "No hay señales claras para actuar hoy, próximo check post-earnings.",
       "trim_at_price": null,
       "trim_pct": null,
       "trim_reason": null,
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 34.59,
+      "stop_loss_price": 34.28,
       "triggers_sell": [
-        "Cerebro EXIT",
-        "fundamental deteriorado",
-        "insiders vendiendo masivo"
+        "RSI(14) > 70",
+        "Precio cerca de resistencia 20d",
+        "Options flow bajista (PCR < 0)"
       ],
       "triggers_buy": [
-        "RSI<30",
-        "cercanía a soporte 20d"
+        "Precio cerca de soporte 20d",
+        "RSI(14) < 30"
       ],
       "next_check_date": "2024-05-10",
-      "next_check_reason": "Post-earnings, esperando actualizaciones de fundamentales y análisis técnico.",
-      "thesis_short": "AMCR sigue siendo una oportunidad de inversión atractiva en el sector, con un valor intrínseco superior al precio actual. Esperamos una recuperación a largo plazo.",
-      "confidence": 80
+      "next_check_reason": "Post-earnings de AMCR",
+      "thesis_short": "AMCR es una oportunidad de inversión a largo plazo en el sector de la tecnología, con un valor intrínseco superior al precio actual.",
+      "confidence": 60
     },
     "ABT": {
       "ticker": "ABT",
       "company": "Healthcare",
-      "current_price": 91.13,
+      "current_price": 93.11,
       "avg_price": 95.77,
       "shares": 72.0,
-      "pl_pct": -4.8,
+      "pl_pct": -2.8,
       "signals": {
         "value_score": null,
         "fundamental_score": 67.3,
@@ -235,15 +235,15 @@
         "has_squeeze": false,
         "market_regime": "CALM"
       },
-      "current_action": "HOLD",
-      "action_reason": "El precio actual de $91.13 no es lo suficientemente atractivo para tomar acción, pero la tesis VALUE sigue intacta.",
-      "trim_at_price": null,
-      "trim_pct": null,
-      "trim_reason": null,
+      "current_action": "TRIM",
+      "action_reason": "El precio actual de $93.11 es un 2.3% debajo del coste medio y el RSI(14) no está disponible, pero el sector Healthcare sigue siendo favorable.",
+      "trim_at_price": 90.0,
+      "trim_pct": 20.0,
+      "trim_reason": "Vender 20% de la posición para recoger en pullback",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 81.31,
+      "stop_loss_price": 81.21,
       "triggers_sell": [
         "RSI(14) > 70",
         "Cerebro EXIT",
@@ -253,18 +253,18 @@
         "RSI(14) < 30",
         "SMA50 > SMA200"
       ],
-      "next_check_date": "2024-05-15",
+      "next_check_date": "2024-05-29",
       "next_check_reason": "Post-earnings de ABT",
-      "thesis_short": "ABT es un valor sólido en el sector Healthcare con un potencial de crecimiento a largo plazo.",
+      "thesis_short": "ABT es una empresa líder en el sector Healthcare con un valor atractivo en comparación con sus pares. La tesis VALUE se mantiene, pero es necesario ajustar la posición en función de los niveles técnicos.",
       "confidence": 80
     },
     "OTIS": {
       "ticker": "OTIS",
       "company": "Industrials",
-      "current_price": 77.95,
+      "current_price": 77.75,
       "avg_price": 79.49,
       "shares": 25.0,
-      "pl_pct": -1.9,
+      "pl_pct": -2.2,
       "signals": {
         "value_score": null,
         "fundamental_score": 40.5,
@@ -300,35 +300,35 @@
         "market_regime": "CALM"
       },
       "current_action": "HOLD",
-      "action_reason": "No hay señales claras para tomar acción hoy, pero la tesis VALUE sigue intacta.",
+      "action_reason": "El precio actual está dentro de la zona de confort de la tesis VALUE y no hay señales claras para vender o comprar.",
       "trim_at_price": null,
       "trim_pct": null,
       "trim_reason": null,
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 73.19,
+      "stop_loss_price": 70.31,
       "triggers_sell": [
         "RSI(14) > 70",
         "Precio cerca de resistencia 20d",
-        "Options flow bajista (PCR < 0)"
+        "Options flow bajistas (PCR < 0)"
       ],
       "triggers_buy": [
-        "Precio cerca de soporte 20d",
-        "Analyst upside > 20%"
+        "Precio en zona de soporte 20d",
+        "Fundamentales intactos (FCF yield > 5%)"
       ],
       "next_check_date": "2024-05-15",
       "next_check_reason": "Post-earnings de OTIS",
-      "thesis_short": "OTIS es una empresa de seguridad con un valor intrínseco bajo, pero con un crecimiento potencial en el sector industriales.",
-      "confidence": 60
+      "thesis_short": "OTIS es una empresa de servicios de seguridad con un valor intrínseco superior a su precio actual, ofreciendo una oportunidad de inversión a largo plazo.",
+      "confidence": 80
     },
     "MA": {
       "ticker": "MA",
       "company": "Financial Services",
-      "current_price": 504.17,
+      "current_price": 507.57,
       "avg_price": 507.15,
       "shares": 11.0,
-      "pl_pct": -0.6,
+      "pl_pct": 0.1,
       "signals": {
         "value_score": null,
         "fundamental_score": 66.5,
@@ -355,7 +355,7 @@
         "insider_purchase_count": null,
         "unique_insiders": null,
         "options_signal": null,
-        "pcr": 0.0,
+        "pcr": 0.02,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -364,35 +364,35 @@
         "market_regime": "CALM"
       },
       "current_action": "TRIM",
-      "action_reason": "El precio está cerca de la resistencia 20d y el RSI está en 73.5, por lo que es hora de recoger parte de la posición.",
-      "trim_at_price": 510.0,
+      "action_reason": "El precio está cerca de su máximo histórico y el RSI está en 73.3, lo que indica sobrecompra. Es hora de recoger parte de la posición.",
+      "trim_at_price": 520.0,
       "trim_pct": 20.0,
-      "trim_reason": null,
+      "trim_reason": "Nivel de resistencia técnica",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 445.18,
+      "stop_loss_price": 446.19,
       "triggers_sell": [
-        "Cerebro EXIT",
+        "Cerebro: EXIT",
         "Fundamental deteriorado",
         "Insiders vendiendo masivo"
       ],
       "triggers_buy": [
         "RSI<30",
-        "SMA50>MA"
+        "Precio en zona de soporte técnico"
       ],
       "next_check_date": "2024-04-30",
-      "next_check_reason": "Próxima reunión Fed y post-earnings",
-      "thesis_short": "Creemos que MA es subvaluado y tiene un potencial de crecimiento a largo plazo debido a su sólido desempeño financiero y su posición en el sector de servicios financieros.",
+      "next_check_reason": "Earnings report",
+      "thesis_short": "Creemos que MA es una oportunidad de inversión a largo plazo debido a su valor intrínseco y su potencial de crecimiento en el sector de servicios financieros.",
       "confidence": 80
     },
     "BR": {
       "ticker": "BR",
       "company": "Technology",
-      "current_price": 155.07,
+      "current_price": 157.49,
       "avg_price": 162.97,
       "shares": 65.0,
-      "pl_pct": -4.8,
+      "pl_pct": -3.4,
       "signals": {
         "value_score": null,
         "fundamental_score": 56.0,
@@ -419,7 +419,7 @@
         "insider_purchase_count": null,
         "unique_insiders": null,
         "options_signal": null,
-        "pcr": null,
+        "pcr": 999.0,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -427,25 +427,28 @@
         "has_squeeze": false,
         "market_regime": "CALM"
       },
-      "current_action": "TRIM",
-      "action_reason": "El precio actual ($155.07) es un 5.1% por debajo del coste medio ($162.97) y el RSI(14) no está disponible, pero el ticker está cerca de su precio de admisión. Es hora de recoger algunos beneficios.",
+      "current_action": "HOLD",
+      "action_reason": "No hay señales claras para tomar acción hoy, pero próximo check post-earnings",
       "trim_at_price": null,
-      "trim_pct": 30.0,
-      "trim_reason": "Vender 30% de la posición a $145.00",
+      "trim_pct": null,
+      "trim_reason": null,
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 138.49,
+      "stop_loss_price": 144.61,
       "triggers_sell": [
-        "Precio de admisión ($145.00)",
-        "Días a earnings: 0",
-        "Cerebro: EXIT"
+        "Cerebro EXIT",
+        "Fundamental deteriorado",
+        "Insiders vendiendo masivo"
       ],
-      "triggers_buy": [],
-      "next_check_date": "2024-04-30",
+      "triggers_buy": [
+        "RSI<30",
+        "Cerca de soporte técnico"
+      ],
+      "next_check_date": "2023-04-28",
       "next_check_reason": "Post-earnings",
-      "thesis_short": "BR es un valor sólido en el sector tecnología, con un FCF yield del 6.61% y un analista upside del 58.6%.",
-      "confidence": 80
+      "thesis_short": "Creemos que BR es una oportunidad de valor en el sector tecnología, con un potencial de crecimiento a largo plazo",
+      "confidence": 60
     }
   }
 }

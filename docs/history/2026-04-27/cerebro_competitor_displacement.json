@@ -1,23 +1,9 @@
 {
   "generated_at": "2026-04-27",
-  "total": 5,
-  "dropped_count": 1,
+  "total": 4,
+  "dropped_count": 0,
   "narrative": null,
   "displacements": [
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "V",
-      "sector": "Financial Services",
-      "prev_score": 58.6,
-      "replacements": [
-        "MA",
-        "NDAQ",
-        "LSEG.L"
-      ],
-      "top_replacement": "MA",
-      "top_replacement_score": 59.6,
-      "detail": "V sali\u00f3 de VALUE (59pts); peers en Financial Services: MA, NDAQ"
-    },
     {
       "type": "EXIT_TO_PEER",
       "exiting_ticker": "MSFT",

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-27T08:03:44.106183",
+  "timestamp": "2026-04-27T09:34:19.082381",
   "date": "2026-04-27",
   "regime": {
     "name": "CALM",
@@ -11,11 +11,11 @@
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 19.16,
-      "percentile": 64.4,
+      "current": 19.05,
+      "percentile": 62.9,
       "score": 0.5,
-      "change_5d": 1.5,
-      "interpretation": "VIX 19.2 (moderado)",
+      "change_5d": 1.0,
+      "interpretation": "VIX 19.0 (moderado)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
@@ -58,7 +58,7 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 96.59,
+      "current": 96.58,
       "percentile": 95.7,
       "score": -1,
       "change_5d": 7.8,
@@ -78,22 +78,22 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 98.36,
-      "percentile": 37.0,
+      "current": 98.3,
+      "percentile": 35.9,
       "score": 1,
-      "change_5d": 0.32,
-      "change_20d": -1.78,
-      "interpretation": "DXY 98.4 (rango neutro)",
+      "change_5d": 0.25,
+      "change_20d": -1.85,
+      "interpretation": "DXY 98.3 (rango neutro)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 159.24,
-      "percentile": 95.0,
+      "current": 159.13,
+      "percentile": 92.9,
       "score": 1,
-      "change_5d": 0.05,
-      "change_20d": -0.62,
-      "interpretation": "USD/JPY 159.2 (yen debil (risk-on))",
+      "change_5d": -0.02,
+      "change_20d": -0.69,
+      "interpretation": "USD/JPY 159.1 (yen debil (risk-on))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
     },
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "El r\u00e9gimen de mercado actual es CALM, con se\u00f1ales positivas en cr\u00e9dito HY/IG y amplitud de mercado. El principal riesgo es la alta demanda de put OTM (SKEW Index). Recomendamos un posicionamiento cauteloso, con enfoque en activos de crecimiento y diversificaci\u00f3n.",
+  "ai_narrative": null,
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 74.4,
+      "similarity": 74.2,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -189,7 +189,7 @@
       "name": "Crisis SVB",
       "date": "Mar 2023",
       "duration_days": 14,
-      "similarity": 64.5,
+      "similarity": 64.3,
       "outcome": {
         "spy_30d": 5,
         "spy_90d": 12,
@@ -199,8 +199,8 @@
       "key_difference": "Riesgo sist\u00e9mico pero localizado. Bancos regionales fue la se\u00f1al clave (KRE -40%).",
       "closest_signals": [
         "gold_spy",
-        "vix",
-        "copper_gold"
+        "copper_gold",
+        "vix"
       ],
       "diverging_signals": [
         "small_cap",
@@ -212,7 +212,7 @@
       "name": "Mercado Bajista 2022",
       "date": "Ene-Dic 2022",
       "duration_days": 280,
-      "similarity": 64.3,
+      "similarity": 64.1,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -18,
