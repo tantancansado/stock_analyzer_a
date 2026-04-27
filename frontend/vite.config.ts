@@ -20,6 +20,9 @@ export default defineConfig(({ mode }) => ({
       // Usar el manifest.json existente en public/
       manifest: false,
       workbox: {
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         navigateFallback: '/stock_analyzer_a/app/index.html',
         navigateFallbackDenylist: [/^\/api\//, /^\/stock_analyzer_a\/(?!app\/)/],

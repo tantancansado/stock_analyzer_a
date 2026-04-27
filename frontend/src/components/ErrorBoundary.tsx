@@ -3,6 +3,7 @@ import { Component, type ReactNode, type ErrorInfo } from 'react'
 interface Props { children: ReactNode; resetKey?: string }
 interface State { error: Error | null; resetKey: string }
 
+const IMPORT_ERROR_RELOAD_KEY = 'sa-import-error-reload'
 const IMPORT_ERROR_PATTERNS = [
   'importing a module script failed',
   'failed to fetch dynamically imported module',
@@ -14,6 +15,12 @@ const IMPORT_ERROR_PATTERNS = [
 function isImportError(error: Error | null): boolean {
   const message = `${error?.name ?? ''} ${error?.message ?? ''}`.toLowerCase()
   return IMPORT_ERROR_PATTERNS.some(pattern => message.includes(pattern))
+}
+
+function clearImportErrorReloadFlag() {
+  try {
+    sessionStorage.removeItem(IMPORT_ERROR_RELOAD_KEY)
+  } catch {}
 }
 
 async function recoverAppShell() {
@@ -55,15 +62,22 @@ export default class ErrorBoundary extends Component<Props, State> {
 
     if (isImportError(error)) {
       try {
-        const key = 'sa-import-error-reload'
-        if (sessionStorage.getItem(key) !== '1') {
-          sessionStorage.setItem(key, '1')
+        if (sessionStorage.getItem(IMPORT_ERROR_RELOAD_KEY) !== '1') {
+          sessionStorage.setItem(IMPORT_ERROR_RELOAD_KEY, '1')
           void recoverAppShell()
           return
         }
-        sessionStorage.removeItem(key)
+        clearImportErrorReloadFlag()
       } catch {}
     }
+  }
+
+  componentDidMount() {
+    if (!this.state.error) clearImportErrorReloadFlag()
+  }
+
+  componentDidUpdate(_prevProps: Props, prevState: State) {
+    if (prevState.error && !this.state.error) clearImportErrorReloadFlag()
   }
 
   render() {
@@ -72,16 +86,20 @@ export default class ErrorBoundary extends Component<Props, State> {
       return (
         <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center">
           <div className="text-5xl mb-4 opacity-30">⚠️</div>
-          <h2 className="text-lg font-bold text-foreground mb-2">Algo salió mal</h2>
+          <h2 className="text-lg font-bold text-foreground mb-2">
+            {importError ? 'La app necesita actualizarse' : 'Algo salió mal'}
+          </h2>
           <p className="text-sm text-muted-foreground mb-4 max-w-md">
-            {this.state.error.message || 'Error inesperado en esta sección.'}
+            {importError
+              ? 'Hay una versión nueva y el navegador intentó abrir una pieza antigua. Actualiza la app para continuar.'
+              : this.state.error.message || 'Error inesperado en esta sección.'}
           </p>
           {importError ? (
             <button
               onClick={() => { void recoverAppShell() }}
               className="text-xs px-4 py-2 rounded border border-primary/40 text-primary hover:bg-primary/10 transition-colors"
             >
-              Recargar app
+              Actualizar ahora
             </button>
           ) : (
             <button

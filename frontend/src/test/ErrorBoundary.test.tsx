@@ -24,14 +24,28 @@ describe('ErrorBoundary', () => {
     expect(screen.getByRole('button', { name: 'Reintentar' })).toBeInTheDocument()
   })
 
-  it('renders a reload action for import errors', () => {
+  it('renders a refresh action for import errors without exposing chunk URLs', () => {
     render(
       <ErrorBoundary>
-        <Boom message="Failed to fetch dynamically imported module" />
+        <Boom message="Failed to fetch dynamically imported module: https://example.com/assets/BounceTrader-old.js" />
       </ErrorBoundary>,
     )
 
-    expect(screen.getByRole('button', { name: 'Recargar app' })).toBeInTheDocument()
+    expect(screen.getByText('La app necesita actualizarse')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Actualizar ahora' })).toBeInTheDocument()
+    expect(screen.queryByText(/BounceTrader-old/)).not.toBeInTheDocument()
+  })
+
+  it('clears the import error reload marker after a healthy mount', () => {
+    sessionStorage.setItem('sa-import-error-reload', '1')
+
+    render(
+      <ErrorBoundary>
+        <div>Recovered view</div>
+      </ErrorBoundary>,
+    )
+
+    expect(sessionStorage.getItem('sa-import-error-reload')).toBeNull()
   })
 
   it('resets the error state when resetKey changes', () => {
