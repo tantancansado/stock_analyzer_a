@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-04-26T17:05:21.060123",
-  "date": "2026-04-26",
+  "timestamp": "2026-04-27T08:03:44.106183",
+  "date": "2026-04-27",
   "regime": {
     "name": "CALM",
     "color": "#10b981",
     "description": "Mercado en calma. Condiciones favorables para operar."
   },
-  "composite_score": 7.5,
-  "composite_pct": 62.5,
+  "composite_score": 8.5,
+  "composite_pct": 64.2,
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 18.71,
-      "percentile": 60.9,
+      "current": 19.16,
+      "percentile": 64.4,
       "score": 0.5,
-      "change_5d": 7.0,
-      "interpretation": "VIX 18.7 (moderado)",
+      "change_5d": 1.5,
+      "interpretation": "VIX 19.2 (moderado)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
@@ -58,12 +58,12 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 94.4,
-      "percentile": 92.0,
-      "score": -2,
-      "change_5d": 12.6,
-      "change_20d": -0.1,
-      "interpretation": "Petroleo $94.4 (spike geopolitico)",
+      "current": 96.59,
+      "percentile": 95.7,
+      "score": -1,
+      "change_5d": 7.8,
+      "change_20d": -3.1,
+      "interpretation": "Petroleo $96.6 (subida rapida)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
     },
@@ -78,22 +78,22 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 98.51,
-      "percentile": 42.5,
+      "current": 98.36,
+      "percentile": 37.0,
       "score": 1,
-      "change_5d": 0.42,
-      "change_20d": -1.39,
-      "interpretation": "DXY 98.5 (rango neutro)",
+      "change_5d": 0.32,
+      "change_20d": -1.78,
+      "interpretation": "DXY 98.4 (rango neutro)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 159.33,
-      "percentile": 95.4,
+      "current": 159.24,
+      "percentile": 95.0,
       "score": 1,
-      "change_5d": 0.09,
-      "change_20d": -0.23,
-      "interpretation": "USD/JPY 159.3 (yen debil (risk-on))",
+      "change_5d": 0.05,
+      "change_20d": -0.62,
+      "interpretation": "USD/JPY 159.2 (yen debil (risk-on))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
     },
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "El r\u00e9gimen actual es CALM, con se\u00f1ales de moderaci\u00f3n en la volatilidad y la curva de tipos. La relaci\u00f3n cr\u00e9dito HY/IG y la amplitud del mercado sugieren un entorno alcista. El principal riesgo es el spike geopol\u00edtico en el petr\u00f3leo. Recomiendo un posicionamiento cauteloso, con \u00e9nfasis en activos de crecimiento y diversificaci\u00f3n.",
+  "ai_narrative": "El r\u00e9gimen de mercado actual es CALM, con se\u00f1ales positivas en cr\u00e9dito HY/IG y amplitud de mercado. El principal riesgo es la alta demanda de put OTM (SKEW Index). Recomendamos un posicionamiento cauteloso, con enfoque en activos de crecimiento y diversificaci\u00f3n.",
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 73.6,
+      "similarity": 74.4,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -176,8 +176,8 @@
       "key_difference": "Geopol\u00edtica + inflaci\u00f3n estructural. No fue shock temporal \u2014 dio paso al ciclo bajista completo.",
       "closest_signals": [
         "regional_banks",
-        "copper_gold",
-        "oil"
+        "oil",
+        "copper_gold"
       ],
       "diverging_signals": [
         "small_cap",
@@ -199,8 +199,8 @@
       "key_difference": "Riesgo sist\u00e9mico pero localizado. Bancos regionales fue la se\u00f1al clave (KRE -40%).",
       "closest_signals": [
         "gold_spy",
-        "copper_gold",
-        "vix"
+        "vix",
+        "copper_gold"
       ],
       "diverging_signals": [
         "small_cap",
@@ -222,8 +222,8 @@
       "key_difference": "Impulsado por yields reales al alza. Las growth stocks sufrieron m\u00e1s.",
       "closest_signals": [
         "vix",
-        "oil",
-        "regional_banks"
+        "regional_banks",
+        "oil"
       ],
       "diverging_signals": [
         "credit",
