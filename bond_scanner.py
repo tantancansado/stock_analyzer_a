@@ -26,7 +26,8 @@ import pandas as pd
 import yfinance as yf
 
 DOCS = Path("docs")
-OUTPUT = DOCS / "bonds_opportunities.csv"
+OUTPUT           = DOCS / "bonds_opportunities.csv"
+OUTPUT_PREFERRED = DOCS / "preferred_stocks.csv"
 
 # ─── Universe ────────────────────────────────────────────────────────────────
 # Each entry: ticker, display_name, bond_type, avg_duration_years, currency
@@ -300,6 +301,175 @@ def scan() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+# ─── Preferred Stocks Universe ───────────────────────────────────────────────
+# Ticker, display_name, issuer, sector, nominal (par value), fixed_dividend_pct
+# fixed_dividend_pct = annual dividend / par value (as stated in prospectus)
+# Callable = company can redeem at par — listed for info only
+PREFERRED_UNIVERSE = [
+    # ── Big US Banks (Too-Big-To-Fail) ───────────────────────────────────────
+    ("JPM-PD",  "JPMorgan Chase Pref D",  "JPMorgan Chase",  "Bank",      25.0, 6.10),
+    ("JPM-PC",  "JPMorgan Chase Pref C",  "JPMorgan Chase",  "Bank",      25.0, 6.00),
+    ("BAC-PM",  "BofA Preferred M",       "Bank of America", "Bank",      25.0, 6.10),
+    ("WFC-PY",  "Wells Fargo Pref Y",     "Wells Fargo",     "Bank",      25.0, 5.63),
+    ("C-PN",    "Citigroup Preferred N",  "Citigroup",       "Bank",      25.0, 6.30),
+    ("GS-PA",   "Goldman Sachs Pref A",   "Goldman Sachs",   "Bank",      25.0, 5.50),
+    # ── Insurance / Financial ─────────────────────────────────────────────────
+    ("ALL-PB",  "Allstate Preferred B",   "Allstate",        "Insurance", 25.0, 6.625),
+    # ── Utilities (reguladas, flujo de caja predecible) ───────────────────────
+    ("DUK-PA",  "Duke Energy Pref A",     "Duke Energy",     "Utility",   25.0, 5.75),
+    ("AEP-PA",  "AEP Preferred A",        "Am. Elec. Power", "Utility",   25.0, 6.125),
+    # ── REITs (inmobiliario) ──────────────────────────────────────────────────
+    ("PSA-PH",  "Public Storage Pref H",  "Public Storage",  "REIT",      25.0, 5.60),
+    ("PSA-PK",  "Public Storage Pref K",  "Public Storage",  "REIT",      25.0, 5.875),
+    ("O-PA",    "Realty Income Pref A",   "Realty Income",   "REIT",      25.0, 6.00),
+]
+
+# Risk tier por sector (para la explicación al usuario)
+PREFERRED_RISK = {
+    "Bank":      "BAJO",      # TBTF — respaldo implícito del estado
+    "Insurance": "BAJO-MEDIO",
+    "Utility":   "BAJO",      # Reguladas, monopolio regional
+    "REIT":      "MEDIO",     # Sensibles a tipos y valoración inmobiliaria
+}
+
+
+def _fetch_preferred(ticker: str, par: float, fixed_div_pct: float) -> dict | None:
+    """Fetch preferred stock data and compute current yield vs stated dividend."""
+    try:
+        t = yf.Ticker(ticker)
+        info = t.info or {}
+
+        price = _safe(info.get("regularMarketPrice") or info.get("previousClose"))
+        if price is None or price <= 0:
+            fi = getattr(t, "fast_info", None)
+            if fi:
+                price = _safe(getattr(fi, "last_price", None))
+        if price is None or price <= 0:
+            print(f"  [SKIP] {ticker}: no price")
+            return None
+        # Sanity check: preferreds trade near $25 par — reject obviously wrong data
+        if price > par * 5:
+            print(f"  [SKIP] {ticker}: price ${price:.2f} implausible for ${par} par preferred")
+            return None
+
+        week52_high = _safe(info.get("fiftyTwoWeekHigh"))
+        week52_low  = _safe(info.get("fiftyTwoWeekLow"))
+        pct_from_par = round((price / par - 1) * 100, 2)
+        pct_from_high = round((price / week52_high - 1) * 100, 2) if week52_high else None
+
+        # Current yield = annual dividend / current price
+        annual_div = par * fixed_div_pct / 100
+        current_yield = round(annual_div / price * 100, 2)
+
+        # Premium/discount to par — affects effective yield and call risk
+        # If trading above par → callable risk (company redeems at par, you lose premium)
+        # If trading below par → extra yield, price upside if called
+
+        return {
+            "price":          price,
+            "week52_high":    week52_high,
+            "week52_low":     week52_low,
+            "pct_from_par":   pct_from_par,
+            "pct_from_high":  pct_from_high,
+            "annual_div":     round(annual_div, 4),
+            "current_yield":  current_yield,
+            "stated_div_pct": fixed_div_pct,
+        }
+    except Exception as e:
+        print(f"  [ERROR] {ticker}: {e}")
+        return None
+
+
+def _preferred_rating(current_yield: float, pct_from_par: float, sector: str) -> str:
+    """VALUE rating for preferreds: yield attractiveness + price vs par."""
+    score = 0
+
+    # 1. Yield level — compare to T-Bill (~4.3%) and IG corp (~4.7%)
+    if current_yield >= 6.5:
+        score += 3
+    elif current_yield >= 5.5:
+        score += 2
+    elif current_yield >= 4.8:
+        score += 1
+    else:
+        score -= 1
+
+    # 2. Price vs par — below par = extra upside if called, above par = call risk
+    if pct_from_par <= -5:
+        score += 2   # significant discount = price + yield upside
+    elif pct_from_par <= -2:
+        score += 1
+    elif pct_from_par >= 3:
+        score -= 1   # trading above par = call risk (company redeems at par)
+
+    # 3. REIT preferreds penalty (more sensitive to rate cycle)
+    if sector == "REIT":
+        score -= 1
+
+    if score >= 4:
+        return "MUY_ATRACTIVO"
+    elif score >= 2:
+        return "ATRACTIVO"
+    elif score >= 0:
+        return "NEUTRAL"
+    else:
+        return "CARO"
+
+
+def _preferred_recommendation(sector: str, rating: str, pct_from_par: float,
+                               current_yield: float) -> str:
+    risk = PREFERRED_RISK.get(sector, "MEDIO")
+    above = pct_from_par > 1.5
+
+    if rating in ("MUY_ATRACTIVO", "ATRACTIVO"):
+        base = f"Yield {current_yield:.1f}% fijo, riesgo {risk}"
+        if above:
+            return f"{base} — cotiza sobre par, cuidado con llamada anticipada"
+        if pct_from_par <= -3:
+            return f"{base} — bajo par: yield alto + potencial de precio si la empresa la llama"
+        return f"{base} — precio justo, cupón atractivo vs T-Bills"
+    if rating == "NEUTRAL":
+        return f"Yield {current_yield:.1f}% aceptable, sin prima especial vs alternativas"
+    return f"Yield {current_yield:.1f}% — poco atractivo dado el riesgo; mejor un T-Bill o VCSH"
+
+
+def scan_preferred() -> pd.DataFrame:
+    rows = []
+    for ticker, name, issuer, sector, par, fixed_div_pct in PREFERRED_UNIVERSE:
+        print(f"Fetching preferred {ticker}...")
+        data = _fetch_preferred(ticker, par, fixed_div_pct)
+        time.sleep(0.4)
+
+        if data is None:
+            continue
+
+        rating = _preferred_rating(data["current_yield"], data["pct_from_par"], sector)
+        rec = _preferred_recommendation(sector, rating, data["pct_from_par"], data["current_yield"])
+
+        rows.append({
+            "ticker":          ticker,
+            "name":            name,
+            "issuer":          issuer,
+            "sector":          sector,
+            "par_value":       par,
+            "stated_div_pct":  fixed_div_pct,
+            "annual_div":      data["annual_div"],
+            "price":           data["price"],
+            "pct_from_par":    data["pct_from_par"],
+            "week52_high":     data["week52_high"],
+            "week52_low":      data["week52_low"],
+            "pct_from_high":   data["pct_from_high"],
+            "current_yield":   data["current_yield"],
+            "risk_tier":       PREFERRED_RISK.get(sector, "MEDIO"),
+            "value_rating":    rating,
+            "recommendation":  rec,
+            "currency":        "USD",
+            "generated_at":    datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        })
+
+    return pd.DataFrame(rows)
+
+
 def main():
     print("=== Bond Scanner ===")
     DOCS.mkdir(exist_ok=True)
@@ -323,6 +493,21 @@ def main():
         for _, r in atractivo.iterrows():
             yield_str = f"{r['yield_pct']:.2f}%" if r["yield_pct"] else "N/A"
             print(f"  {r['ticker']:12s} {r['value_rating']:15s} yield={yield_str}  dur={r['duration_years']}y  {r['recommendation'][:60]}")
+
+    # ── Preferred stocks ──────────────────────────────────────────────────────
+    print("\n=== Preferred Stocks Scanner ===")
+    dfp = scan_preferred()
+
+    if dfp.empty:
+        print("No preferred data retrieved")
+    else:
+        rating_order = {"MUY_ATRACTIVO": 0, "ATRACTIVO": 1, "NEUTRAL": 2, "CARO": 3}
+        dfp["_sort"] = dfp["value_rating"].map(rating_order).fillna(4)
+        dfp = dfp.sort_values(["_sort", "current_yield"], ascending=[True, False]).drop(columns=["_sort"])
+        dfp.to_csv(OUTPUT_PREFERRED, index=False)
+        print(f"Done: {len(dfp)} preferreds written to {OUTPUT_PREFERRED}")
+        for _, r in dfp.iterrows():
+            print(f"  {r['ticker']:10s} {r['value_rating']:15s} yield={r['current_yield']:.2f}%  par_dist={r['pct_from_par']:+.1f}%  {r['recommendation'][:55]}")
 
 
 if __name__ == "__main__":

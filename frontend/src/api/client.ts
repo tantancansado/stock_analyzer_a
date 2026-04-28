@@ -1532,6 +1532,57 @@ export const fetchChartSignals = async (): Promise<Record<string, ChartSignal>> 
   return res.data?.signals ?? {}
 }
 
+export interface PreferredStock {
+  ticker: string
+  name: string
+  issuer: string
+  sector: string
+  par_value: number
+  stated_div_pct: number
+  annual_div: number
+  price: number | null
+  pct_from_par: number | null
+  week52_high: number | null
+  week52_low: number | null
+  pct_from_high: number | null
+  current_yield: number | null
+  risk_tier: string
+  value_rating: string
+  recommendation: string
+  currency: string
+  generated_at: string
+}
+
+export async function fetchPreferredStocks(): Promise<PreferredStock[]> {
+  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+  if (csvBase) {
+    const url = `${csvBase}/preferred_stocks.csv`
+    const res = await apiClient.get<string>(url, { transformResponse: [(d) => d] })
+    return parseCsvRows(res.data).map(row => ({
+      ticker:         row.ticker ?? '',
+      name:           row.name ?? '',
+      issuer:         row.issuer ?? '',
+      sector:         row.sector ?? '',
+      par_value:      row.par_value ? parseFloat(row.par_value) : 25,
+      stated_div_pct: row.stated_div_pct ? parseFloat(row.stated_div_pct) : 0,
+      annual_div:     row.annual_div ? parseFloat(row.annual_div) : 0,
+      price:          row.price ? parseFloat(row.price) : null,
+      pct_from_par:   row.pct_from_par ? parseFloat(row.pct_from_par) : null,
+      week52_high:    row.week52_high ? parseFloat(row.week52_high) : null,
+      week52_low:     row.week52_low ? parseFloat(row.week52_low) : null,
+      pct_from_high:  row.pct_from_high ? parseFloat(row.pct_from_high) : null,
+      current_yield:  row.current_yield ? parseFloat(row.current_yield) : null,
+      risk_tier:      row.risk_tier ?? '',
+      value_rating:   row.value_rating ?? '',
+      recommendation: row.recommendation ?? '',
+      currency:       row.currency ?? 'USD',
+      generated_at:   row.generated_at ?? '',
+    }))
+  }
+  const res = await apiClient.get<{ data: PreferredStock[] }>('/api/preferred-stocks')
+  return res.data.data ?? []
+}
+
 export async function fetchPortfolioPrices(tickers: string[]): Promise<Record<string, number>> {
   if (!tickers.length) return {}
   try {

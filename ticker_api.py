@@ -4103,6 +4103,21 @@ def bonds():
         return jsonify({'data': [], 'count': 0, 'error': str(e)})
 
 
+@app.route('/api/preferred-stocks')
+def preferred_stocks():
+    """Preferred stocks from bond_scanner.py output."""
+    import json as _json
+    p = DOCS / 'preferred_stocks.csv'
+    if not p.exists():
+        return jsonify({'data': [], 'count': 0, 'error': 'preferred_stocks.csv not found'})
+    try:
+        df = pd.read_csv(p)
+        records = _json.loads(df.to_json(orient='records'))
+        return jsonify({'data': records, 'count': len(records)})
+    except Exception as e:
+        return jsonify({'data': [], 'count': 0, 'error': str(e)})
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':

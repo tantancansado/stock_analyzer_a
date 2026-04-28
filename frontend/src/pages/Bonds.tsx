@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { fetchBonds, type BondOpportunity } from '../api/client'
+import { fetchBonds, fetchPreferredStocks, type BondOpportunity, type PreferredStock } from '../api/client'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -367,6 +367,220 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
   )
 }
 
+// ─── Preferred Stocks Section ─────────────────────────────────────────────────
+
+const SECTOR_COLORS: Record<string, string> = {
+  Bank:      'text-blue-400 bg-blue-500/10 border-blue-500/25',
+  Insurance: 'text-violet-400 bg-violet-500/10 border-violet-500/25',
+  Utility:   'text-yellow-400 bg-yellow-500/10 border-yellow-500/25',
+  REIT:      'text-orange-400 bg-orange-500/10 border-orange-500/25',
+}
+
+const RISK_COLORS: Record<string, string> = {
+  'BAJO':       'text-emerald-400',
+  'BAJO-MEDIO': 'text-yellow-400',
+  'MEDIO':      'text-orange-400',
+  'ALTO':       'text-red-400',
+}
+
+function PreferredRow({ p }: { p: PreferredStock }) {
+  const [expanded, setExpanded] = useState(false)
+  const ratingCfg = RATING_CONFIG[p.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
+  const sectorCls = SECTOR_COLORS[p.sector] ?? 'text-slate-400 bg-slate-500/10 border-slate-500/25'
+  const riskColor = RISK_COLORS[p.risk_tier] ?? 'text-muted-foreground'
+  const abovePar = (p.pct_from_par ?? 0) > 1.5
+
+  return (
+    <>
+      <tr
+        className="border-b border-border/20 hover:bg-white/[0.02] cursor-pointer transition-colors"
+        onClick={() => setExpanded(e => !e)}
+      >
+        {/* Ticker + nombre */}
+        <td className="px-3 py-2.5">
+          <div className="flex items-center gap-2">
+            <div className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', ratingCfg.dot)} />
+            <div>
+              <span className="font-mono font-bold text-sm text-primary">{p.ticker}</span>
+              <div className="text-[0.62rem] text-muted-foreground">{p.issuer}</div>
+            </div>
+          </div>
+        </td>
+        {/* Sector */}
+        <td className="px-3 py-2.5">
+          <Badge variant="outline" className={cn('text-[0.65rem] font-medium', sectorCls)}>
+            {p.sector}
+          </Badge>
+        </td>
+        {/* Yield actual */}
+        <td className="px-3 py-2.5 text-right">
+          <span className={cn('font-mono font-bold text-sm',
+            (p.current_yield ?? 0) >= 6.5 ? 'text-emerald-400' :
+            (p.current_yield ?? 0) >= 5.5 ? 'text-green-400' : 'text-muted-foreground'
+          )}>
+            {p.current_yield != null ? `${p.current_yield.toFixed(2)}%` : '—'}
+          </span>
+        </td>
+        {/* Dividendo fijo */}
+        <td className="px-3 py-2.5 text-right">
+          <span className="font-mono text-xs text-muted-foreground">
+            {p.stated_div_pct.toFixed(3)}% · ${p.annual_div.toFixed(2)}/a
+          </span>
+        </td>
+        {/* Precio vs par */}
+        <td className="px-3 py-2.5 text-right">
+          <div className="text-xs font-mono">
+            <span className="text-foreground/80">${p.price?.toFixed(2) ?? '—'}</span>
+            {p.pct_from_par != null && (
+              <span className={cn('ml-1.5', abovePar ? 'text-orange-400' : 'text-emerald-400')}>
+                {p.pct_from_par > 0 ? '+' : ''}{p.pct_from_par.toFixed(1)}% par
+              </span>
+            )}
+          </div>
+        </td>
+        {/* Riesgo */}
+        <td className="px-3 py-2.5 text-center">
+          <span className={cn('text-[0.65rem] font-semibold', riskColor)}>{p.risk_tier}</span>
+        </td>
+        {/* Rating */}
+        <td className="px-3 py-2.5">
+          <Badge variant="outline" className={cn('text-[0.65rem] font-semibold border', ratingCfg.bg, ratingCfg.text)}>
+            {ratingCfg.label}
+          </Badge>
+        </td>
+        <td className="px-3 py-2.5 text-right">
+          {expanded ? <ChevronUp size={14} className="text-muted-foreground" /> : <ChevronDown size={14} className="text-muted-foreground" />}
+        </td>
+      </tr>
+
+      {expanded && (
+        <tr className="border-b border-border/20 bg-white/[0.015]">
+          <td colSpan={8} className="px-4 py-3">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs mb-3">
+              <div>
+                <div className="text-muted-foreground/60 mb-0.5">Valor nominal (par)</div>
+                <div className="font-mono font-semibold">${p.par_value}</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground/60 mb-0.5">Dividendo anual</div>
+                <div className="font-mono">${p.annual_div.toFixed(4)} ({p.stated_div_pct.toFixed(3)}% sobre par)</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground/60 mb-0.5">Yield actual</div>
+                <div className="font-mono font-semibold text-emerald-400">{p.current_yield?.toFixed(2)}%</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground/60 mb-0.5">Máx / Mín 52s</div>
+                <div className="font-mono">${p.week52_high?.toFixed(2)} / ${p.week52_low?.toFixed(2)}</div>
+              </div>
+            </div>
+            {/* Explicación clara */}
+            <div className="text-xs space-y-1 mb-3 text-muted-foreground/80">
+              <div>
+                <span className="text-foreground/60 font-medium">¿Cómo funciona? </span>
+                Comprando a <span className="font-mono text-foreground">${p.price?.toFixed(2)}</span>, recibes{' '}
+                <span className="font-mono text-emerald-400">${p.annual_div.toFixed(2)}</span> al año en dividendos fijos
+                ({p.current_yield?.toFixed(2)}%). Si la empresa la recompra ("llama") a par (${p.par_value}),{' '}
+                {abovePar
+                  ? <span className="text-orange-400">perderías la prima de ${((p.price ?? p.par_value) - p.par_value).toFixed(2)} por acción.</span>
+                  : <span className="text-emerald-400">ganarías ${(p.par_value - (p.price ?? p.par_value)).toFixed(2)} extra por acción además del cupón.</span>
+                }
+              </div>
+            </div>
+            <div className={cn('text-xs px-3 py-2 rounded-lg border', ratingCfg.bg, ratingCfg.text)}>
+              {p.recommendation}
+            </div>
+          </td>
+        </tr>
+      )}
+    </>
+  )
+}
+
+function PreferredSection() {
+  const [prefs, setPrefs] = useState<PreferredStock[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchPreferredStocks()
+      .then(data => setPrefs(data))
+      .catch(() => setPrefs([]))
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading) return <div className="text-xs text-muted-foreground py-4">Cargando preferred stocks...</div>
+  if (!prefs.length) return null
+
+  const atractivos = prefs.filter(p => ['MUY_ATRACTIVO', 'ATRACTIVO'].includes(p.value_rating))
+
+  return (
+    <div className="space-y-4">
+      {/* Explicación */}
+      <Card className="glass border-primary/15">
+        <CardContent className="p-4">
+          <div className="flex items-start gap-3">
+            <div className="flex-1 space-y-2 text-xs text-muted-foreground">
+              <div className="text-sm font-semibold text-foreground">Preferred Stocks — ¿qué son?</div>
+              <div>
+                Son <span className="text-foreground/80 font-medium">acciones preferentes</span>: cotizan en bolsa como una acción normal,
+                pero pagan un <span className="text-emerald-400 font-medium">dividendo fijo y garantizado</span> antes que los accionistas ordinarios.
+                Si la empresa quiebra, cobras antes que ellos. El precio orbita cerca de <span className="font-mono">$25</span> (valor nominal) y no sube como una acción.
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 pt-1">
+                <div className="px-2.5 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/15">
+                  <div className="text-emerald-400 font-medium mb-0.5">A favor</div>
+                  <div>Cupón fijo 5-8% · Prioridad en cobro · Sin análisis complejo · Compra en cualquier broker</div>
+                </div>
+                <div className="px-2.5 py-2 rounded-lg bg-orange-500/8 border border-orange-500/15">
+                  <div className="text-orange-400 font-medium mb-0.5">Riesgo principal</div>
+                  <div>Si suben tipos, el precio baja a $23-24. Si la empresa las "llama" a $25 y compraste a $26, pierdes la prima</div>
+                </div>
+                <div className="px-2.5 py-2 rounded-lg bg-blue-500/8 border border-blue-500/15">
+                  <div className="text-blue-400 font-medium mb-0.5">Riesgo bajo para</div>
+                  <div>Bancos TBTF (JPM, BAC, WFC) y utilities reguladas — probabilidad de quiebra prácticamente nula</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Resumen */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-base font-semibold text-foreground">Preferred Stocks</h2>
+          <p className="text-xs text-muted-foreground">{prefs.length} analizadas · {atractivos.length} atractivas</p>
+        </div>
+      </div>
+
+      {/* Tabla */}
+      <Card className="glass border-border/30">
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm no-sticky-thead">
+              <thead>
+                <tr className="border-b border-border/30 text-[0.7rem] text-muted-foreground/60 uppercase tracking-wider">
+                  <th className="px-3 py-2.5 text-left">Ticker</th>
+                  <th className="px-3 py-2.5 text-left">Sector</th>
+                  <th className="px-3 py-2.5 text-right">Yield actual</th>
+                  <th className="px-3 py-2.5 text-right">Dividendo fijo</th>
+                  <th className="px-3 py-2.5 text-right">Precio vs Par</th>
+                  <th className="px-3 py-2.5 text-center">Riesgo</th>
+                  <th className="px-3 py-2.5 text-left">Rating</th>
+                  <th className="px-3 py-2.5" />
+                </tr>
+              </thead>
+              <tbody>
+                {prefs.map(p => <PreferredRow key={p.ticker} p={p} />)}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
 // ─── Filters ──────────────────────────────────────────────────────────────────
 
 type FilterType = 'ALL' | 'T_Bill' | 'EUR_Cash' | 'Treasury' | 'IG_Corp' | 'HY_Corp' | 'TIPS' | 'EUR_Govt' | 'EUR_IG' | 'EM_Bond' | 'Aggregate'
@@ -543,6 +757,9 @@ export default function Bonds() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Preferred Stocks */}
+      <PreferredSection />
 
       {/* How to read guide */}
       <Card className="glass border-border/20">
