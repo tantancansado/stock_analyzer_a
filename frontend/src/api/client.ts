@@ -1541,3 +1541,56 @@ export async function fetchPortfolioPrices(tickers: string[]): Promise<Record<st
     return {}
   }
 }
+
+export interface BondOpportunity {
+  ticker: string
+  name: string
+  short_name: string
+  bond_type: string
+  currency: string
+  price: number | null
+  week52_high: number | null
+  week52_low: number | null
+  pct_from_high: number | null
+  yield_pct: number | null
+  sec_yield_pct: number | null
+  hist_avg_yield_pct: number | null
+  yield_vs_avg_pct: number | null
+  duration_years: number | null
+  modified_duration: number | null
+  expense_ratio_pct: number | null
+  value_rating: string
+  recommendation: string
+  generated_at: string
+}
+
+export async function fetchBonds(): Promise<BondOpportunity[]> {
+  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+  if (csvBase) {
+    const url = `${csvBase}/bonds_opportunities.csv`
+    const res = await apiClient.get<string>(url, { transformResponse: [(d) => d] })
+    return parseCsvRows(res.data).map(row => ({
+      ticker:              row.ticker ?? '',
+      name:                row.name ?? '',
+      short_name:          row.short_name ?? '',
+      bond_type:           row.bond_type ?? '',
+      currency:            row.currency ?? 'USD',
+      price:               row.price ? parseFloat(row.price) : null,
+      week52_high:         row.week52_high ? parseFloat(row.week52_high) : null,
+      week52_low:          row.week52_low ? parseFloat(row.week52_low) : null,
+      pct_from_high:       row.pct_from_high ? parseFloat(row.pct_from_high) : null,
+      yield_pct:           row.yield_pct ? parseFloat(row.yield_pct) : null,
+      sec_yield_pct:       row.sec_yield_pct ? parseFloat(row.sec_yield_pct) : null,
+      hist_avg_yield_pct:  row.hist_avg_yield_pct ? parseFloat(row.hist_avg_yield_pct) : null,
+      yield_vs_avg_pct:    row.yield_vs_avg_pct ? parseFloat(row.yield_vs_avg_pct) : null,
+      duration_years:      row.duration_years ? parseFloat(row.duration_years) : null,
+      modified_duration:   row.modified_duration ? parseFloat(row.modified_duration) : null,
+      expense_ratio_pct:   row.expense_ratio_pct ? parseFloat(row.expense_ratio_pct) : null,
+      value_rating:        row.value_rating ?? '',
+      recommendation:      row.recommendation ?? '',
+      generated_at:        row.generated_at ?? '',
+    }))
+  }
+  const res = await apiClient.get<{ data: BondOpportunity[] }>('/api/bonds')
+  return res.data.data ?? []
+}

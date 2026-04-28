@@ -3,7 +3,7 @@ import {
   PieChart, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Star, Radar, CalendarDays, AlertTriangle,
   DollarSign, Wallet, Bell, Brain,
-  Crosshair, Calculator, Shuffle, BookOpen,
+  Crosshair, Calculator, Shuffle, BookOpen, Landmark,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -25,6 +25,7 @@ export const NAV_PRIMARY: NavLinkItem[] = [
 
 // Secondary nav — shown in collapsible "Más" section
 export const NAV_SECONDARY: NavLinkItem[] = [
+  { path: '/bonds',           icon: Landmark,      label: 'Bonos',           color: '#06b6d4', keywords: ['bonos', 'renta fija', 'yield', 'treasury', 'etf', 'corporativo', 'tlt', 'ief'] },
   { path: '/entry-setups',    icon: TrendingUp,    label: 'Entry setups',    color: '#f97316', keywords: ['momentum', 'vcp', 'mean reversion', 'rebote', 'oversold', 'tendencia'] },
   { path: '/options',         icon: Activity,      label: 'Options flow',    color: '#ec4899', keywords: ['options', 'opciones', 'flujo', 'institucional'] },
   { path: '/sectors',         icon: PieChart,      label: 'Sectores',        color: '#6366f1', keywords: ['sector', 'rotacion', 'sectorial'] },

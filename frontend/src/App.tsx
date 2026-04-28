@@ -42,6 +42,7 @@ const Calibration      = lazy(() => import('./pages/Calibration'))
 const OwnerEarnings    = lazy(() => import('./pages/OwnerEarnings'))
 const Manual           = lazy(() => import('./pages/Manual'))
 const LogoPreview      = lazy(() => import('./pages/LogoPreview'))
+const Bonds            = lazy(() => import('./pages/Bonds'))
 
 function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: () => void }) {
   return (
@@ -303,6 +304,7 @@ export default function App() {
                   <Route path="/cerebro"        element={<Cerebro />} />
                   <Route path="/alerts"         element={<Alerts />} />
                   <Route path="/bounce"         element={<BounceTrader />} />
+                  <Route path="/bonds"          element={<Bonds />} />
                   <Route path="/owner-earnings" element={<OwnerEarnings />} />
                   <Route path="/datos"           element={<Datos />} />
                   <Route path="/manual"          element={<Manual />} />

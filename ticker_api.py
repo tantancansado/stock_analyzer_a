@@ -4088,6 +4088,21 @@ def portfolio_prices():
     return jsonify({'prices': prices})
 
 
+@app.route('/api/bonds')
+def bonds():
+    """Bond ETF opportunities from bond_scanner.py output."""
+    import json as _json
+    p = DOCS / 'bonds_opportunities.csv'
+    if not p.exists():
+        return jsonify({'data': [], 'count': 0, 'error': 'bonds_opportunities.csv not found'})
+    try:
+        df = pd.read_csv(p)
+        records = _json.loads(df.to_json(orient='records'))
+        return jsonify({'data': records, 'count': len(records)})
+    except Exception as e:
+        return jsonify({'data': [], 'count': 0, 'error': str(e)})
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
