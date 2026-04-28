@@ -142,6 +142,13 @@
   border-bottom: 1px solid hsl(var(--border) / 0.5);
 }
 
+/* Tables inside overflow-x-auto containers (e.g. calculators) must NOT
+   use sticky thead — the scroll container breaks sticky positioning and
+   the header ends up displaced over the first data row. */
+.glass table.no-sticky-thead thead th {
+  position: static;
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    CYBERTRUCK TYPOGRAPHY — angular, industrial, geometric
    Applied only in .dark (NOT [data-theme="noir"], which overrides)

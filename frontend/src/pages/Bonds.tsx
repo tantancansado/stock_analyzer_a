@@ -157,7 +157,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
 
         {/* Results table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-xs">
+          <table className="w-full text-xs no-sticky-thead">
             <thead>
               <tr className="border-b border-border/20 text-[0.65rem] text-muted-foreground/50 uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">ETF</th>
