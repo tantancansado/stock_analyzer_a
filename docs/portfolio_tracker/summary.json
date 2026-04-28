@@ -1,23 +1,23 @@
 {
-  "total_signals": 1512,
+  "total_signals": 1521,
   "unique_tickers": 189,
-  "date_range": "2026-02-26 to 2026-04-27",
-  "active_signals": 145,
+  "date_range": "2026-02-26 to 2026-04-28",
+  "active_signals": 154,
   "completed_signals": 1367,
   "overall": {
     "7d": {
-      "count": 1440,
-      "win_rate": 25.0,
-      "avg_return": -4.29,
-      "median_return": -3.79,
+      "count": 1445,
+      "win_rate": 25.1,
+      "avg_return": -4.27,
+      "median_return": -3.76,
       "best": 35.4,
       "worst": -99.1
     },
     "14d": {
-      "count": 1382,
+      "count": 1389,
       "win_rate": 27.6,
-      "avg_return": -5.12,
-      "median_return": -4.68,
+      "avg_return": -5.1,
+      "median_return": -4.65,
       "best": 40.27,
       "worst": -99.1
     },
@@ -32,26 +32,26 @@
   },
   "conviction": {
     "7d": {
-      "count": 524,
-      "win_rate": 32.3,
-      "avg_return": -2.0
+      "count": 529,
+      "win_rate": 32.5,
+      "avg_return": -1.96
     }
   },
   "value_strategy": {
-    "count": 753,
+    "count": 759,
     "7d": {
-      "count": 1440,
-      "win_rate": 25.0,
-      "avg_return": -4.29,
-      "median_return": -3.79,
+      "count": 1445,
+      "win_rate": 25.1,
+      "avg_return": -4.27,
+      "median_return": -3.76,
       "best": 35.4,
       "worst": -99.1
     },
     "14d": {
-      "count": 1382,
+      "count": 1389,
       "win_rate": 27.6,
-      "avg_return": -5.12,
-      "median_return": -4.68,
+      "avg_return": -5.1,
+      "median_return": -4.65,
       "best": 40.27,
       "worst": -99.1
     },
@@ -65,20 +65,20 @@
     }
   },
   "momentum_strategy": {
-    "count": 13,
+    "count": 14,
     "7d": {
-      "count": 1440,
-      "win_rate": 25.0,
-      "avg_return": -4.29,
-      "median_return": -3.79,
+      "count": 1445,
+      "win_rate": 25.1,
+      "avg_return": -4.27,
+      "median_return": -3.76,
       "best": 35.4,
       "worst": -99.1
     },
     "14d": {
-      "count": 1382,
+      "count": 1389,
       "win_rate": 27.6,
-      "avg_return": -5.12,
-      "median_return": -4.68,
+      "avg_return": -5.1,
+      "median_return": -4.65,
       "best": 40.27,
       "worst": -99.1
     },
@@ -98,19 +98,19 @@
       "win_rate_14d": 18.3
     },
     "Industrials": {
-      "count": 178,
-      "avg_14d": -6.2,
-      "win_rate_14d": 23.0
+      "count": 181,
+      "avg_14d": -6.09,
+      "win_rate_14d": 23.8
     },
     "Financial Services": {
-      "count": 554,
-      "avg_14d": -3.09,
-      "win_rate_14d": 34.1
+      "count": 556,
+      "avg_14d": -3.08,
+      "win_rate_14d": 34.0
     },
     "Technology": {
-      "count": 142,
-      "avg_14d": -3.24,
-      "win_rate_14d": 31.0
+      "count": 144,
+      "avg_14d": -3.22,
+      "win_rate_14d": 30.6
     },
     "Communication Services": {
       "count": 72,
@@ -148,7 +148,7 @@
       "win_rate_14d": 66.7
     }
   },
-  "score_correlation": 0.02,
+  "score_correlation": 0.021,
   "top_performers": [
     {
       "ticker": "FIGR",
@@ -235,6 +235,105 @@
   ],
   "recent_signals": [
     {
+      "ticker": "SGE.L",
+      "company_name": "THE SAGE GROUP PLC ORD 1 4/77P",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 900.0,
+      "sector": "Technology",
+      "value_score": 63.6,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 505.6,
+      "sector": "Communication Services",
+      "value_score": 65.4,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 151.01,
+      "sector": "Technology",
+      "value_score": 69.0,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 2701.8977,
+      "sector": "Industrials",
+      "value_score": 67.22,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 389.92,
+      "sector": "Technology",
+      "value_score": 66.8,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 267.9,
+      "sector": "Technology",
+      "value_score": 69.03999999999999,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 78.09,
+      "sector": "Industrials",
+      "value_score": 63.45,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "EME",
+      "company_name": "EMCOR Group, Inc.",
+      "strategy": "MOMENTUM",
+      "signal_date": "2026-04-28",
+      "signal_price": 750.42,
+      "sector": "Industrials",
+      "value_score": null,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-04-28",
+      "signal_price": 2708.0,
+      "sector": "Industrials",
+      "value_score": 69.7,
+      "days_active": 0,
+      "first_result_date": "2026-05-05"
+    },
+    {
       "ticker": "EME",
       "company_name": "EMCOR Group, Inc.",
       "strategy": "MOMENTUM",
@@ -242,7 +341,7 @@
       "signal_price": 750.42,
       "sector": "Industrials",
       "value_score": null,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-05-04"
     },
     {
@@ -253,7 +352,7 @@
       "signal_price": 395.95,
       "sector": "Technology",
       "value_score": 66.8,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-05-04"
     },
     {
@@ -264,7 +363,7 @@
       "signal_price": 175.26,
       "sector": "Technology",
       "value_score": 67.08,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-05-04"
     },
     {
@@ -275,7 +374,7 @@
       "signal_price": 77.86,
       "sector": "Industrials",
       "value_score": 68.45,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-05-04"
     },
     {
@@ -286,7 +385,7 @@
       "signal_price": 269.2,
       "sector": "Technology",
       "value_score": 69.03999999999999,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-05-04"
     },
     {
@@ -297,7 +396,7 @@
       "signal_price": 2733.364,
       "sector": "Industrials",
       "value_score": 72.22,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-05-04"
     },
     {
@@ -308,18 +407,18 @@
       "signal_price": 151.15,
       "sector": "Technology",
       "value_score": 73.28,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-05-04"
     },
     {
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
       "strategy": "VALUE",
       "signal_date": "2026-04-26",
-      "signal_price": 2742.0,
-      "sector": "Industrials",
-      "value_score": 67.22,
-      "days_active": 1,
+      "signal_price": 155.07,
+      "sector": "Technology",
+      "value_score": 69.2,
+      "days_active": 2,
       "first_result_date": "2026-05-03"
     },
     {
@@ -330,7 +429,7 @@
       "signal_price": 151.15,
       "sector": "Technology",
       "value_score": 73.28,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-05-03"
     },
     {
@@ -341,120 +440,21 @@
       "signal_price": 77.86,
       "sector": "Industrials",
       "value_score": 71.45,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-05-03"
-    },
-    {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-26",
-      "signal_price": 155.07,
-      "sector": "Technology",
-      "value_score": 69.2,
-      "days_active": 1,
-      "first_result_date": "2026-05-03"
-    },
-    {
-      "ticker": "SAP",
-      "company_name": "SAP  SE",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-26",
-      "signal_price": 175.26,
-      "sector": "Technology",
-      "value_score": 67.08,
-      "days_active": 1,
-      "first_result_date": "2026-05-03"
-    },
-    {
-      "ticker": "RELX",
-      "company_name": "RELX PLC PLC",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-26",
-      "signal_price": 36.53,
-      "sector": "Industrials",
-      "value_score": 65.42,
-      "days_active": 1,
-      "first_result_date": "2026-05-03"
-    },
-    {
-      "ticker": "EME",
-      "company_name": "EMCOR Group, Inc.",
-      "strategy": "MOMENTUM",
-      "signal_date": "2026-04-26",
-      "signal_price": 750.42,
-      "sector": "Industrials",
-      "value_score": null,
-      "days_active": 1,
-      "first_result_date": "2026-05-03"
-    },
-    {
-      "ticker": "CLPBY",
-      "company_name": "Coloplast AS",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-24",
-      "signal_price": 6.46,
-      "sector": "Healthcare",
-      "value_score": 59.400000000000006,
-      "days_active": 3,
-      "first_result_date": "2026-05-01"
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-24",
-      "signal_price": 77.03,
-      "sector": "Industrials",
-      "value_score": 66.45,
-      "days_active": 3,
-      "first_result_date": "2026-05-01"
-    },
-    {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-24",
-      "signal_price": 150.6,
-      "sector": "Technology",
-      "value_score": 65.28,
-      "days_active": 3,
-      "first_result_date": "2026-05-01"
     },
     {
       "ticker": "EXPN.L",
       "company_name": "EXPERIAN PLC ORD USD0.10",
       "strategy": "VALUE",
-      "signal_date": "2026-04-24",
-      "signal_price": 2802.0,
+      "signal_date": "2026-04-26",
+      "signal_price": 2742.0,
       "sector": "Industrials",
-      "value_score": 62.22,
-      "days_active": 3,
-      "first_result_date": "2026-05-01"
-    },
-    {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-24",
-      "signal_price": 155.95,
-      "sector": "Technology",
-      "value_score": 61.2,
-      "days_active": 3,
-      "first_result_date": "2026-05-01"
-    },
-    {
-      "ticker": "AUTO.L",
-      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-24",
-      "signal_price": 504.2,
-      "sector": "Communication Services",
-      "value_score": 60.4,
-      "days_active": 3,
-      "first_result_date": "2026-05-01"
+      "value_score": 67.22,
+      "days_active": 2,
+      "first_result_date": "2026-05-03"
     }
   ],
-  "avg_max_drawdown": -8.11,
-  "generated_at": "2026-04-27T16:12:47.505144"
+  "avg_max_drawdown": -8.06,
+  "generated_at": "2026-04-28T08:12:35.057582"
 }

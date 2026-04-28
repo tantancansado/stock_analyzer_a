@@ -1,42 +1,42 @@
 {
-  "date": "2026-04-27",
-  "timestamp": "2026-04-27T16:12:14.880618",
+  "date": "2026-04-28",
+  "timestamp": "2026-04-28T08:12:04.114542",
   "narrative": null,
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 55.9,
+      "avg_rs_percentile": 54.1,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 53.7,
+      "avg_rs_percentile": 53.3,
       "num_tickers": 7,
       "label": "Top 10%"
     },
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 47.6,
+      "avg_rs_percentile": 44.3,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Industrial Distribution",
       "sector": "Industrials",
-      "avg_rs_percentile": 34.9,
+      "avg_rs_percentile": 35.0,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Beverages - Non-Alcoholic",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 34.8,
-      "num_tickers": 2,
+      "industry": "Medical Instruments & Supplies",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 31.3,
+      "num_tickers": 5,
       "label": "Top 25%"
     }
   ],
@@ -44,15 +44,15 @@
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 4.0,
+      "avg_rs_percentile": 3.8,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Insurance Brokers",
+      "industry": "Credit Services",
       "sector": "Financial Services",
-      "avg_rs_percentile": 1.5,
-      "num_tickers": 4,
+      "avg_rs_percentile": 1.8,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
@@ -63,16 +63,16 @@
       "label": "Bottom 25%"
     },
     {
-      "industry": "Information Technology Services",
-      "sector": "Technology",
-      "avg_rs_percentile": 1.2,
-      "num_tickers": 3,
+      "industry": "Insurance Brokers",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 0.9,
+      "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Credit Services",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 1.1,
+      "industry": "Information Technology Services",
+      "sector": "Technology",
+      "avg_rs_percentile": 0.2,
       "num_tickers": 3,
       "label": "Bottom 25%"
     }
