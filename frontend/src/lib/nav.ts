@@ -19,13 +19,13 @@ export const NAV_PRIMARY: NavLinkItem[] = [
   { path: '/insiders',       icon: Users,           label: 'Insiders',       color: '#8b5cf6', logo: 'llama-bags.png',          keywords: ['insiders', 'directivos', 'compras'] },
   { path: '/bounce',         icon: Crosshair,       label: 'Rebotes técnicos', color: '#f97316', logo: 'llama-shield.png',      keywords: ['bounce', 'rebote', 'corto plazo', 'oversold', 'rsi extremo'] },
   { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: '#10b981', logo: 'llama-safe.png',          keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
+  { path: '/bonds',          icon: Landmark,        label: 'Bonos',          color: '#06b6d4',                                 keywords: ['bonos', 'renta fija', 'yield', 'treasury', 'etf', 'corporativo', 'tlt', 'ief'] },
   { path: '/owner-earnings', icon: Calculator,      label: 'Owner Earnings', color: '#06b6d4', logo: 'llama-plant.png',         keywords: ['owner earnings', 'valoracion', 'compra', 'buffett', 'fcf', 'precio objetivo', 'dcf'] },
   { path: '/search',         icon: Search,          label: 'Buscar',         color: '#94a3b8', logo: 'llama-hands-growth.png',  keywords: ['buscar', 'ticker', 'search', 'analisis'] },
 ]
 
 // Secondary nav — shown in collapsible "Más" section
 export const NAV_SECONDARY: NavLinkItem[] = [
-  { path: '/bonds',           icon: Landmark,      label: 'Bonos',           color: '#06b6d4', keywords: ['bonos', 'renta fija', 'yield', 'treasury', 'etf', 'corporativo', 'tlt', 'ief'] },
   { path: '/entry-setups',    icon: TrendingUp,    label: 'Entry setups',    color: '#f97316', keywords: ['momentum', 'vcp', 'mean reversion', 'rebote', 'oversold', 'tendencia'] },
   { path: '/options',         icon: Activity,      label: 'Options flow',    color: '#ec4899', keywords: ['options', 'opciones', 'flujo', 'institucional'] },
   { path: '/sectors',         icon: PieChart,      label: 'Sectores',        color: '#6366f1', keywords: ['sector', 'rotacion', 'sectorial'] },
