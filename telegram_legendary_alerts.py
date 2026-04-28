@@ -63,12 +63,16 @@ class TelegramLegendaryAlerts:
 
     @staticmethod
     def _safe_float(val, default=0.0):
-        """Safely convert a value to float, returning default if not possible"""
         try:
-            if val is None:
+            import math, pandas as pd
+            if val is None or (isinstance(val, float) and math.isnan(val)):
                 return default
+            try:
+                if pd.isna(val):
+                    return default
+            except (TypeError, ValueError):
+                pass
             f = float(val)
-            import math
             return default if math.isnan(f) else f
         except (ValueError, TypeError):
             return default
@@ -100,7 +104,7 @@ class TelegramLegendaryAlerts:
             opportunity: Dict con datos de la oportunidad
         """
         ticker = opportunity['ticker']
-        company = opportunity.get('company_name', ticker)
+        company = opportunity.get('company_name') or ticker
         score = self._safe_float(opportunity.get('super_score_5d', opportunity.get('super_score_4d', 0)))
         tier = opportunity['tier']
         dims = {k: self._safe_float(v) for k, v in opportunity['dimensions'].items()}
@@ -306,7 +310,7 @@ class TelegramLegendaryAlerts:
 
         for i, (_, row) in enumerate(top10.head(5).iterrows(), 1):
             ticker = row['ticker']
-            company = row.get('company_name', ticker)
+            company = row.get('company_name') or ticker
             if not isinstance(company, str):
                 company = str(ticker)
             score = self._safe_float(row.get(score_col, 0))
@@ -377,7 +381,7 @@ VCP + Insider buying convergencia
 
         for _, row in timing.head(5).iterrows():
             ticker = row['ticker']
-            company = row.get('company_name', ticker)
+            company = row.get('company_name') or ticker
             if not isinstance(company, str):
                 company = str(ticker)
             score = self._safe_float(row.get('super_score_5d', row.get('super_score_4d', 0)))
@@ -444,7 +448,7 @@ de alta probabilidad de éxito.
 
         for _, row in repeaters.head(5).iterrows():
             ticker = row['ticker']
-            company = row.get('company_name', ticker)
+            company = row.get('company_name') or ticker
             if not isinstance(company, str):
                 company = str(ticker)
             count = int(self._safe_float(row.get('repeat_count', 0)))
@@ -516,7 +520,7 @@ Detectadas {len(df)} oportunidades de compra en dips:
 
         for _, row in top_opps.head(5).iterrows():
             ticker = row['ticker']
-            company = row.get('company_name', ticker)
+            company = row.get('company_name') or ticker
             strategy = row['strategy']
             score = row['reversion_score']
             quality = row['quality']
@@ -606,7 +610,7 @@ Detectados {len(df)} flujos inusuales de opciones:
 
         for _, row in whale_flows.head(5).iterrows():
             ticker = row['ticker']
-            company = row.get('company_name', ticker)
+            company = row.get('company_name') or ticker
             sentiment = row['sentiment']
             score = self._safe_float(row['flow_score'])
             quality = row['quality']
@@ -698,7 +702,7 @@ con score predictivo alto (&gt;= 70/100)
 
         for i, (_, row) in enumerate(top_ml.head(5).iterrows(), 1):
             ticker = row['ticker']
-            company = row.get('company_name', ticker)
+            company = row.get('company_name') or ticker
             ml_score = self._safe_float(row['ml_score'])
 
             # Componentes del score

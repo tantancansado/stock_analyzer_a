@@ -692,7 +692,7 @@ PRECIO ACTUAL: {_fmt(row.get('current_price'), prefix='$')}
 VALUE SCORE: {_fmt(row.get('value_score'), '/100')}
 
 FUNDAMENTALES:
-- Score fundamental: {_fmt(row.get('fundamental_score'), '/100')} (50.0 = sin datos reales)
+- Score fundamental: {('SIN DATOS REALES (default 50.0)' if abs((row.get('fundamental_score') or 0) - 50.0) < 0.01 else _fmt(row.get('fundamental_score'), '/100'))}
 - ROE: {_fmt(row.get('roe_pct'), '%')}
 - Margen operativo: {_fmt(row.get('operating_margin_pct'), '%')}
 - Margen neto: {_fmt(row.get('profit_margin_pct'), '%')}

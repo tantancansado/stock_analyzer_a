@@ -90,6 +90,41 @@ def _row(df: pd.DataFrame, ticker: str) -> dict:
     return {}
 
 
+def _fetch_technical_indicators(ticker: str) -> dict:
+    """Calcula RSI(14), SMA50, SMA200, soporte y resistencia 20d directamente de yfinance."""
+    try:
+        import yfinance as yf
+        hist = yf.Ticker(ticker).history(period='1y', interval='1d', auto_adjust=True)
+        if hist.empty or len(hist) < 20:
+            return {}
+        close = hist['Close']
+        # RSI(14)
+        delta = close.diff()
+        gain = delta.clip(lower=0).rolling(14).mean()
+        loss = (-delta.clip(upper=0)).rolling(14).mean()
+        rs = gain / loss.replace(0, float('nan'))
+        rsi = float((100 - 100 / (1 + rs)).iloc[-1])
+        # SMAs
+        sma50 = float(close.rolling(50).mean().iloc[-1]) if len(close) >= 50 else None
+        sma200 = float(close.rolling(200).mean().iloc[-1]) if len(close) >= 200 else None
+        # Soporte y resistencia 20d
+        recent = close.iloc[-20:]
+        support = float(recent.min())
+        resistance = float(recent.max())
+        rsi_tier = 'OVERBOUGHT' if rsi > 70 else ('OVERSOLD' if rsi < 30 else 'NEUTRAL')
+        return {
+            'rsi_14': round(rsi, 1),
+            'rsi_tier': rsi_tier,
+            'sma_50': round(sma50, 2) if sma50 else None,
+            'sma_200': round(sma200, 2) if sma200 else None,
+            'support_20d': round(support, 2),
+            'resistance_20d': round(resistance, 2),
+        }
+    except Exception as exc:
+        print(f"[WARN] technical indicators for {ticker}: {exc}", file=sys.stderr)
+        return {}
+
+
 def _safe_float(v: Any) -> Optional[float]:
     try:
         if v is None:
@@ -128,11 +163,11 @@ def _gather_signals_for(ticker: str, datasets: dict) -> dict:
         'sector':              fund.get('sector') or fund.get('sector_name'),
         'conviction_grade':    fund.get('conviction_grade'),
 
-        # Technical
-        'rsi_14':              _safe_float(tech.get('rsi_14') or tech.get('rsi')),
-        'rsi_tier':            tech.get('rsi_tier'),
-        'sma_50':              _safe_float(tech.get('sma_50') or tech.get('ma50')),
-        'sma_200':             _safe_float(tech.get('sma_200') or tech.get('ma200')),
+        # Technical — primero CSVs del pipeline, fallback yfinance directo
+        'rsi_14':              _safe_float(tech.get('rsi_14') or tech.get('rsi') or mr_row.get('rsi')),
+        'rsi_tier':            tech.get('rsi_tier') or mr_row.get('rsi_tier'),
+        'sma_50':              _safe_float(tech.get('sma_50') or tech.get('ma50') or mr_row.get('sma_50')),
+        'sma_200':             _safe_float(tech.get('sma_200') or tech.get('ma200') or mr_row.get('sma_200')),
         'support_20d':         _safe_float(tech.get('support') or mr_row.get('support_level')),
         'resistance_20d':      _safe_float(tech.get('resistance')),
         'weinstein_stage':     tech.get('weinstein_stage') or tech.get('stage'),
@@ -190,43 +225,50 @@ POSICIÓN ACTUAL:
 
 SEÑALES DEL PIPELINE (todas hoy):
 - Sector: {signals.get('sector') or '?'}
-- Value score: {signals.get('value_score')}
-- Fundamental: {signals.get('fundamental_score')} | FCF yield: {signals.get('fcf_yield_pct')}%
+- Value score: {signals.get('value_score') if signals.get('value_score') is not None else 'sin dato'}
+- Fundamental: {signals.get('fundamental_score') if signals.get('fundamental_score') is not None else 'sin dato'} | FCF yield: {f"{signals['fcf_yield_pct']}%" if signals.get('fcf_yield_pct') is not None else 'sin dato'}
 - Conviction grade: {signals.get('conviction_grade') or '?'}
-- Analyst upside: {signals.get('analyst_upside_pct')}% (target ${signals.get('analyst_target')}, {signals.get('analyst_count')} analistas, "{signals.get('analyst_recommendation')}")
-- Días a earnings: {signals.get('days_to_earnings')} {'⚠ MUY CERCA' if signals.get('earnings_warning') else ''}
-- RSI(14): {signals.get('rsi_14')} ({signals.get('rsi_tier') or '?'})
-- SMA50: ${signals.get('sma_50')}, SMA200: ${signals.get('sma_200')}
-- Stage Weinstein: {signals.get('weinstein_stage')} | MA filter: {'PASS' if signals.get('ma_passes') else 'FAIL'}
-- Soporte 20d: ${signals.get('support_20d')}, Resistencia 20d: ${signals.get('resistance_20d')}
-- Insiders comprando: {'SÍ' if signals.get('insiders_buying') else 'no'} ({signals.get('insider_purchase_count')} compras / {signals.get('unique_insiders')} insiders únicos)
-- Options flow: {signals.get('options_signal') or '-'} (PCR {signals.get('pcr')})
-- Cerebro: {signals.get('cerebro_signal') or '-'} | Trap: {signals.get('has_trap')} | Exit signal: {signals.get('has_exit')} | Smart money: {signals.get('has_smart_money')} | Squeeze: {signals.get('has_squeeze')}
+- Analyst upside: {f"{signals['analyst_upside_pct']}%" if signals.get('analyst_upside_pct') is not None else 'sin dato'} (target {f"${signals['analyst_target']}" if signals.get('analyst_target') is not None else 'sin dato'}, {signals.get('analyst_count') or '?'} analistas, "{signals.get('analyst_recommendation') or '?'}")
+- Días a earnings: {signals.get('days_to_earnings') if signals.get('days_to_earnings') is not None else 'sin dato'} {'⚠ MUY CERCA' if signals.get('earnings_warning') else ''}
+- RSI(14): {signals.get('rsi_14') if signals.get('rsi_14') is not None else 'SIN DATO — no uses RSI como trigger'} ({signals.get('rsi_tier') or '?'})
+- SMA50: {f"${signals['sma_50']}" if signals.get('sma_50') is not None else 'sin dato'}, SMA200: {f"${signals['sma_200']}" if signals.get('sma_200') is not None else 'sin dato'}
+- Stage Weinstein: {signals.get('weinstein_stage') or 'sin dato'} | MA filter: {'PASS' if signals.get('ma_passes') else 'FAIL'}
+- Soporte 20d: {f"${signals['support_20d']}" if signals.get('support_20d') is not None else 'sin dato'}, Resistencia 20d: {f"${signals['resistance_20d']}" if signals.get('resistance_20d') is not None else 'SIN DATO — no uses resistencia como trigger'}
+- Insiders comprando: {'SÍ' if signals.get('insiders_buying') else 'no'} ({signals.get('insider_purchase_count') or 0} compras / {signals.get('unique_insiders') or 0} insiders únicos)
+- Options flow: {signals.get('options_signal') or 'sin dato'} (PCR {signals.get('pcr') if signals.get('pcr') is not None else 'sin dato'})
+- Cerebro: {signals.get('cerebro_signal') or 'sin dato'} | Trap: {signals.get('has_trap')} | Exit signal: {signals.get('has_exit')} | Smart money: {signals.get('has_smart_money')} | Squeeze: {signals.get('has_squeeze')}
 - Régimen de mercado: {signals.get('market_regime') or '?'}
+
+RESTRICCIONES CRÍTICAS (no las violes bajo ningún concepto):
+- Si "Insiders comprando: SÍ" → NUNCA pongas "insiders vendiendo" en triggers_sell. Es contradictorio y falso.
+- Si RSI(14) es null/None → NUNCA uses RSI como condición de trim ni como trigger. Sin dato, sin trigger.
+- Si Resistencia 20d es null/None → NUNCA uses "cerca de resistencia" como trigger.
+- Si current_action es TRIM → trim_at_price DEBE ser un número concreto, nunca null.
+- Solo genera triggers basados en señales que tengas datos reales arriba. Si el dato es null, omite ese trigger.
 
 INSTRUCCIONES:
 1. Diseña un plan que combine MANTENER el core (la tesis VALUE) con TRIMMING ACTIVO en niveles técnicos.
-2. Si el ticker está caro (RSI>70, cerca de resistencia, options bajistas), considera vender 20-40% para recoger en pullback.
+2. Si el ticker está caro (RSI>70 Y tienes RSI real, cerca de resistencia Y tienes resistencia real, options bajistas), considera vender 20-40% para recoger en pullback.
 3. Si está barato y fundamentales intactos, considera AÑADIR hasta 30% en niveles técnicos clave.
-4. Si hay señal de salida real (Cerebro EXIT, fundamental deteriorado, insiders vendiendo masivo), recomienda EXIT.
+4. Si hay señal de salida real (Cerebro EXIT=true, fundamental deteriorado, insiders vendiendo con datos reales), recomienda EXIT.
 5. Triggers temporales: usa fechas/eventos concretos (post-earnings, próxima reunión Fed, etc.).
 6. Stop loss obligatorio: nunca por debajo de coste medio - 15%.
-7. Sé HONESTO: si no hay nada que hacer hoy, di HOLD y "próximo check post-earnings".
+7. Sé HONESTO: si no hay datos técnicos suficientes, di HOLD y pon como trigger el próximo evento conocido (earnings, etc.).
 
 Devuelve SOLO un JSON con esta estructura exacta:
 
 {{
   "current_action": "HOLD" | "TRIM" | "ADD" | "EXIT" | "WATCH",
   "action_reason": "frase corta en español de por qué esta acción HOY",
-  "trim_at_price": número o null,
+  "trim_at_price": número concreto o null (si TRIM, DEBE ser número),
   "trim_pct": número 0-100 o null (% de la posición a vender en trim_at_price),
   "trim_reason": "frase corta o null",
   "add_at_price": número o null,
   "add_pct": número 0-100 o null (% adicional sobre cost_basis a comprar),
   "add_reason": "frase corta o null",
   "stop_loss_price": número (siempre presente, técnico o -15% del avg),
-  "triggers_sell": ["lista de 1-3 condiciones concretas para salir total"],
-  "triggers_buy": ["lista de 0-2 condiciones para añadir agresivamente"],
+  "triggers_sell": ["1-3 condiciones SOLO basadas en datos reales disponibles arriba"],
+  "triggers_buy": ["0-2 condiciones para añadir agresivamente"],
   "next_check_date": "YYYY-MM-DD",
   "next_check_reason": "qué evento te hace volver a mirar este ticker",
   "thesis_short": "1-2 frases con tu tesis larga sobre el ticker",
@@ -282,9 +324,10 @@ def _call_groq(prompt: str, ticker: str, *, prefer_quality: bool = False) -> tup
         return {}, True  # otros errores: usar fallback validado (HOLD)
 
 
-def _validate_strategy(raw: dict, position: dict, current_price: float) -> dict:
+def _validate_strategy(raw: dict, position: dict, current_price: float, signals: dict | None = None) -> dict:
     """Sanea respuesta del LLM. Aplica reglas duras post-LLM."""
     avg = position.get('avg_price') or 0
+    signals = signals or {}
 
     action = str(raw.get('current_action', 'HOLD')).upper()
     if action not in VALID_ACTIONS:
@@ -293,13 +336,17 @@ def _validate_strategy(raw: dict, position: dict, current_price: float) -> dict:
     # Stop loss obligatorio
     stop = _safe_float(raw.get('stop_loss_price'))
     if stop is None or (avg and stop < avg * 0.80):
-        # Fallback: -15% del coste medio
         stop = avg * 0.85 if avg else current_price * 0.88
 
     trim_at = _safe_float(raw.get('trim_at_price'))
     trim_pct = _safe_float(raw.get('trim_pct'))
     if trim_pct is not None:
         trim_pct = max(0, min(100, trim_pct))
+
+    # TRIM sin precio concreto es una señal vacía — degradar a HOLD
+    if action == 'TRIM' and trim_at is None:
+        action = 'HOLD'
+        raw['action_reason'] = (raw.get('action_reason') or '') + ' [TRIM degradado a HOLD: falta trim_at_price]'
 
     add_at = _safe_float(raw.get('add_at_price'))
     add_pct = _safe_float(raw.get('add_pct'))
@@ -314,6 +361,23 @@ def _validate_strategy(raw: dict, position: dict, current_price: float) -> dict:
         triggers_buy = [str(triggers_buy)]
     triggers_sell = [str(t)[:200] for t in triggers_sell[:5]]
     triggers_buy = [str(t)[:200] for t in triggers_buy[:5]]
+
+    # Filtrar triggers alucinados: eliminar condiciones basadas en datos que son null
+    insiders_buying = bool(signals.get('insiders_buying'))
+    has_rsi = signals.get('rsi_14') is not None
+    has_resistance = signals.get('resistance_20d') is not None
+
+    def _trigger_is_hallucinated(t: str) -> bool:
+        tl = t.lower()
+        if insiders_buying and ('insider' in tl) and ('vend' in tl or 'sell' in tl or 'selling' in tl):
+            return True
+        if not has_rsi and 'rsi' in tl:
+            return True
+        if not has_resistance and 'resistencia' in tl:
+            return True
+        return False
+
+    triggers_sell = [t for t in triggers_sell if not _trigger_is_hallucinated(t)]
 
     # Validar fecha
     next_check = raw.get('next_check_date')
@@ -458,6 +522,18 @@ def generate_strategies(
             continue
 
         signals = _gather_signals_for(ticker, datasets)
+
+        # Si los CSVs del pipeline no tienen datos técnicos para este ticker,
+        # los calculamos directamente de yfinance (tickers de cartera que no
+        # están en el universo de mean_reversion ni technical_signals_summary).
+        if signals.get('rsi_14') is None:
+            live_tech = _fetch_technical_indicators(ticker)
+            if live_tech:
+                for k, v in live_tech.items():
+                    if signals.get(k) is None:
+                        signals[k] = v
+                print(f"  {ticker}: technical indicators fetched live (rsi={live_tech.get('rsi_14')})")
+
         prompt = _build_prompt(ticker, entry, signals, current_price)
 
         if dry_run:
@@ -485,7 +561,7 @@ def generate_strategies(
                   f"(rate-limited, no Groq call)")
             continue
 
-        validated = _validate_strategy(raw, entry, current_price)
+        validated = _validate_strategy(raw, entry, current_price, signals)
         strategies[ticker] = {
             'ticker':        ticker,
             'company':       signals.get('sector'),  # sector como fallback

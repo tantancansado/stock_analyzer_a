@@ -534,12 +534,12 @@ MACRO FUNDAMENTALS (IMF Jan-2026 Update):
 - Context: {country['macro_notes']}
 
 MARKET DATA (real-time ETF: {country['etf']}):
-- Price vs 200-day MA: {mkt.get('pct_from_200', 'N/A'):+.1f}% {'(IN CORRECTION ZONE — potential entry)' if isinstance(mkt.get('pct_from_200'), float) and -20 < mkt.get('pct_from_200', 0) < -3 else ''}
-- Position in 52-week range: {mkt.get('position_in_range', 'N/A'):.0f}% (0=52wLow, 100=52wHigh)
-- YTD return: {mkt.get('ytd_return', 'N/A'):+.1f}%
-- 1-month return: {mkt.get('m1_return', 'N/A'):+.1f}%
-- 200MA slope: {mkt.get('ma200_slope', 'N/A'):+.2f}% (positive = uptrend)
-- Currency vs USD YTD: {country.get('currency_ytd', 'N/A')}%
+- Price vs 200-day MA: {f"{mkt['pct_from_200']:+.1f}% {'(IN CORRECTION ZONE — potential entry)' if -20 < mkt['pct_from_200'] < -3 else ''}" if isinstance(mkt.get('pct_from_200'), (int, float)) else 'no data'}
+- Position in 52-week range: {f"{mkt['position_in_range']:.0f}% (0=52wLow, 100=52wHigh)" if isinstance(mkt.get('position_in_range'), (int, float)) else 'no data'}
+- YTD return: {f"{mkt['ytd_return']:+.1f}%" if isinstance(mkt.get('ytd_return'), (int, float)) else 'no data'}
+- 1-month return: {f"{mkt['m1_return']:+.1f}%" if isinstance(mkt.get('m1_return'), (int, float)) else 'no data'}
+- 200MA slope: {f"{mkt['ma200_slope']:+.2f}% (positive = uptrend)" if isinstance(mkt.get('ma200_slope'), (int, float)) else 'no data'}
+- Currency vs USD YTD: {f"{country['currency_ytd']}%" if country.get('currency_ytd') is not None else 'no data'}
 
 QUANTITATIVE SIGNAL:
 - Macro score: {country['macro_score']:.0f}/100

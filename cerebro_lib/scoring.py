@@ -128,7 +128,7 @@ def score_exit_signal(
     if not ticker_in_value:
         reasons.append("Ya no aparece en VALUE — tesis posiblemente rota")
         severity = "HIGH"
-    elif current_score is not None and entry_score and (entry_score - current_score) >= 15:
+    elif current_score is not None and entry_score is not None and entry_score > 0 and (entry_score - current_score) >= 15:
         drop = entry_score - current_score
         reasons.append(f"Score cayó {drop:.0f}pts ({entry_score:.0f} → {current_score:.0f})")
         severity = "HIGH" if drop >= 25 else "MEDIUM"
@@ -140,7 +140,7 @@ def score_exit_signal(
         if severity == "LOW":
             severity = "MEDIUM"
 
-    if (not insider_active) and entry_score and entry_score > 65:
+    if (not insider_active) and entry_score is not None and entry_score > 0 and entry_score > 65:
         reasons.append("Sin insider buying activo — señal de convicción perdida")
         # severity stays LOW (this was a no-op in original code)
 

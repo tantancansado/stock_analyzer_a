@@ -391,20 +391,40 @@ class SuperScoreIntegrator:
         if 'fundamental_score' not in df.columns:
             df['fundamental_score'] = 50.0
 
-        # Calcular Super Score Ultimate
-        df['super_score_ultimate'] = (
-            df['vcp_score'] * self.weights['vcp'] +
-            df['ml_score'] * self.weights['ml'] +
-            df['fundamental_score'] * self.weights['fundamental']
-        )
+        # Calcular Super Score Ultimate — los scores default (50.0) NO ponderan,
+        # se renormaliza el peso entre los componentes con datos reales.
+        DEFAULT = 50.0
+        vcp_w   = self.weights['vcp']
+        ml_w    = self.weights['ml']
+        fund_w  = self.weights['fundamental']
 
-        # Redondear
-        df['super_score_ultimate'] = df['super_score_ultimate'].round(1)
+        def _super_score_row(row):
+            vcp   = row['vcp_score']
+            ml    = row['ml_score']
+            fund  = row['fundamental_score']
+            ml_real   = ml   != DEFAULT
+            fund_real = fund != DEFAULT
+            # Redistribuir el peso de los componentes con default entre los reales
+            extra_ml   = ml_w   if not ml_real   else 0.0
+            extra_fund = fund_w if not fund_real else 0.0
+            total_real_w = vcp_w + (ml_w if ml_real else 0) + (fund_w if fund_real else 0)
+            if total_real_w == 0:
+                return DEFAULT
+            # El peso liberado se reparte proporcionalmente entre los componentes reales
+            scale = (vcp_w + ml_w + fund_w) / total_real_w
+            score = vcp * vcp_w * scale
+            if ml_real:
+                score += ml * ml_w * scale
+            if fund_real:
+                score += fund * fund_w * scale
+            return round(score, 1)
 
-        # Calcular componentes individuales para display
-        df['vcp_contribution'] = (df['vcp_score'] * self.weights['vcp']).round(1)
-        df['ml_contribution'] = (df['ml_score'] * self.weights['ml']).round(1)
-        df['fundamental_contribution'] = (df['fundamental_score'] * self.weights['fundamental']).round(1)
+        df['super_score_ultimate'] = df.apply(_super_score_row, axis=1)
+
+        # Calcular componentes individuales para display (NaN cuando es default)
+        df['vcp_contribution']          = (df['vcp_score'] * vcp_w).round(1)
+        df['ml_contribution']           = df.apply(lambda r: round(r['ml_score'] * ml_w, 1) if r['ml_score'] != DEFAULT else None, axis=1)
+        df['fundamental_contribution']  = df.apply(lambda r: round(r['fundamental_score'] * fund_w, 1) if r['fundamental_score'] != DEFAULT else None, axis=1)
 
         # 🔴 FIX LOOK-AHEAD BIAS: Agregar timestamps
         df['score_timestamp'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

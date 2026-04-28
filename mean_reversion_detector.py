@@ -356,14 +356,17 @@ class MeanReversionDetector:
             # Base: cualquier setup que pase RSI<30 + score≥50 ya tiene valor
             bounce_confidence = 20
 
-            # RSI diario (bonus encima de la base)
+            # RSI diario (bonus encima de la base) — rsi_tier se define aquí antes de usarse
             if current_rsi < 20:
+                rsi_tier = 'EXTREMO'
                 bounce_confidence += 25
                 bounce_signals.append('RSI extremo <20')
             elif current_rsi < 25:
+                rsi_tier = 'ALTO'
                 bounce_confidence += 15
                 bounce_signals.append('RSI muy bajo')
             else:
+                rsi_tier = 'MEDIO'
                 bounce_confidence += 5
 
             # RSI semanal — confirmación de timeframe superior (+15-20% win rate)
@@ -465,14 +468,6 @@ class MeanReversionDetector:
             bounce_usd = round(bounce_target - current_price, 2)
             bounce_pct = round((bounce_target / current_price - 1) * 100, 1)
             bounce_rr = round(bounce_usd / (current_price - stop_loss), 2) if (current_price - stop_loss) > 0 else 0
-
-            # Confianza del rebote según RSI
-            if current_rsi < 20:
-                rsi_tier = 'EXTREMO'
-            elif current_rsi < 25:
-                rsi_tier = 'ALTO'
-            else:
-                rsi_tier = 'MEDIO'
 
             return {
                 'ticker': ticker,

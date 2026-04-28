@@ -27,30 +27,47 @@ def analyze_with_ai(ticker_data: dict, strategy: str = "VALUE") -> dict:
     try:
         client = Groq(api_key=GROQ_API_KEY)
 
+        def _nd(val, suffix=''):
+            """Devuelve el valor formateado o 'N/A' si es None/NaN."""
+            if val is None:
+                return 'N/A'
+            try:
+                import math
+                if isinstance(val, float) and math.isnan(val):
+                    return 'N/A'
+            except Exception:
+                pass
+            return f'{val}{suffix}'
+
         # Build strategy-specific prompt
+        td = ticker_data  # alias corto
+        ticker  = td['ticker']
+        sector  = _nd(td.get('sector'))
+        price   = f"${td['current_price']:.2f}" if td.get('current_price') is not None else 'N/A'
+
         if strategy == "MOMENTUM":
             prompt = f"""Analyze this MOMENTUM stock (Minervini-style) for safety and quality.
 
-{ticker_data['ticker']} - {ticker_data['sector']} - ${ticker_data['current_price']:.2f}
+{ticker} - {sector} - {price}
 
 MOMENTUM METRICS:
-Proximity to 52w high: {ticker_data.get('proximity_to_52w_high', 'N/A')}x
-RS line at new high: {ticker_data.get('rs_line_at_new_high', 'N/A')} (CRITICAL Minervini rule)
-Earnings accelerating: {ticker_data.get('eps_accelerating', 'N/A')}
-Revenue accelerating: {ticker_data.get('rev_accelerating', 'N/A')}
-Industry strength: {ticker_data.get('industry_group_percentile', 'N/A')}%
-Short %: {ticker_data.get('short_percent_float', 'N/A')}%
+Proximity to 52w high: {_nd(td.get('proximity_to_52w_high'), 'x')}
+RS line at new high: {_nd(td.get('rs_line_at_new_high'))} (CRITICAL Minervini rule)
+Earnings accelerating: {_nd(td.get('eps_accelerating'))}
+Revenue accelerating: {_nd(td.get('rev_accelerating'))}
+Industry strength: {_nd(td.get('industry_group_percentile'), '%')}
+Short %: {_nd(td.get('short_percent_float'), '%')}
 
 SMART MONEY VALIDATION:
-Options flow: {ticker_data.get('flow_score', 'N/A')}/100
-Unusual calls: {ticker_data.get('unusual_calls', 'N/A')}
-Whales buying: {ticker_data.get('num_whales', 'N/A')}
-Market regime: {ticker_data.get('market_regime', 'N/A')}
+Options flow: {_nd(td.get('flow_score'), '/100')}
+Unusual calls: {_nd(td.get('unusual_calls'))}
+Whales buying: {_nd(td.get('num_whales'))}
+Market regime: {_nd(td.get('market_regime'))}
 
 FUNDAMENTALS (safety check):
-ROE: {ticker_data.get('roe', 'N/A')}%
-Margin: {ticker_data.get('profit_margin', 'N/A')}%
-Growth: {ticker_data.get('rev_growth', 'N/A')}%
+ROE: {_nd(td.get('roe'), '%')}
+Margin: {_nd(td.get('profit_margin'), '%')}
+Growth: {_nd(td.get('rev_growth'), '%')}
 
 CRITICAL SAFETY CHECKS:
 1. RS line at new high? (Minervini won't buy without this)
@@ -66,37 +83,37 @@ Respond ONLY with JSON:
         elif strategy == "SHORT":
             prompt = f"""You are a short-seller analyst. Validate this bearish opportunity.
 
-{ticker_data['ticker']} - {ticker_data.get('sector','?')} - ${ticker_data.get('current_price', 0):.2f}
+{ticker} - {sector} - {price}
 
-SHORT THESIS SCORE: {ticker_data.get('short_score', 'N/A')}/100
-Quality: {ticker_data.get('short_quality', 'N/A')}
+SHORT THESIS SCORE: {_nd(td.get('short_score'), '/100')}
+Quality: {_nd(td.get('short_quality'))}
 
 TECHNICAL BREAKDOWN (bearish signals):
-Weinstein Stage: {ticker_data.get('weinstein_stage', 'N/A')} (4 = confirmed downtrend)
-Death Cross (MA50<MA200): {ticker_data.get('death_cross', 'N/A')}
-Below MA200: {ticker_data.get('below_ma200', 'N/A')}
-% from 52w high: {ticker_data.get('pct_from_52w_high', 'N/A')}%
-RSI daily: {ticker_data.get('rsi_daily', 'N/A')}
+Weinstein Stage: {_nd(td.get('weinstein_stage'))} (4 = confirmed downtrend)
+Death Cross (MA50<MA200): {_nd(td.get('death_cross'))}
+Below MA200: {_nd(td.get('below_ma200'))}
+% from 52w high: {_nd(td.get('pct_from_52w_high'), '%')}
+RSI daily: {_nd(td.get('rsi_daily'))}
 
 FUNDAMENTAL DETERIORATION:
-Revenue growth YoY: {ticker_data.get('rev_growth_yoy', 'N/A')}%
-ROE: {ticker_data.get('roe_pct', 'N/A')}%
-FCF yield: {ticker_data.get('fcf_yield_pct', 'N/A')}%
-Debt/Equity: {ticker_data.get('debt_to_equity', 'N/A')}
-Operating margin: {ticker_data.get('operating_margin', 'N/A')}%
-Piotroski score: {ticker_data.get('piotroski_score', 'N/A')}/9 (low = weak fundamentals)
+Revenue growth YoY: {_nd(td.get('rev_growth_yoy'), '%')}
+ROE: {_nd(td.get('roe_pct'), '%')}
+FCF yield: {_nd(td.get('fcf_yield_pct'), '%')}
+Debt/Equity: {_nd(td.get('debt_to_equity'))}
+Operating margin: {_nd(td.get('operating_margin'), '%')}
+Piotroski score: {_nd(td.get('piotroski_score'), '/9')} (low = weak fundamentals)
 
 ANALYST CONSENSUS:
-Analyst target: ${ticker_data.get('analyst_target', 'N/A')} (upside from current: {ticker_data.get('analyst_upside_pct', 'N/A')}%)
+Analyst target: {_nd(td.get('analyst_target'))} (upside from current: {_nd(td.get('analyst_upside_pct'), '%')})
 Note: For shorts, NEGATIVE analyst upside = analyst target BELOW current price = bearish confirmation
 
 SHORT RISK FACTORS (why this short could FAIL):
-Short interest: {ticker_data.get('short_interest_pct', 'N/A')}% (>20% = squeeze risk)
-Squeeze risk: {ticker_data.get('squeeze_risk', 'N/A')}
-Earnings within 5 days: {ticker_data.get('earnings_warning', 'N/A')}
+Short interest: {_nd(td.get('short_interest_pct'), '%')} (>20% = squeeze risk)
+Squeeze risk: {_nd(td.get('squeeze_risk'))}
+Earnings within 5 days: {_nd(td.get('earnings_warning'))}
 
 EXISTING SHORT THESIS (auto-generated):
-{ticker_data.get('short_thesis', 'N/A')}
+{_nd(td.get('short_thesis'))}
 
 Validate this bearish thesis. Key questions:
 1. Is the technical breakdown CONFIRMED and sustained (not a temporary dip)?
@@ -111,30 +128,32 @@ Respond ONLY with JSON:
 {{"verdict": "BUY"|"HOLD"|"AVOID", "confidence": 0-100, "reasoning": "brief explanation of bearish thesis strength"}}"""
 
         elif strategy == "MICRO_CAP":
+            mcap = td.get('market_cap')
+            mcap_str = f"${mcap:,.0f}" if mcap is not None else 'N/A'
             prompt = f"""You are a micro-cap specialist. Validate this small company for a high-conviction long entry.
 
-{ticker_data['ticker']} - {ticker_data.get('company_name','')} - {ticker_data.get('sector','?')} - ${ticker_data.get('current_price',0):.2f}
-Market cap: ${ticker_data.get('market_cap',0):,.0f} | Score: {ticker_data.get('micro_cap_score','N/A')}/100 | Quality: {ticker_data.get('quality','')}
+{ticker} - {_nd(td.get('company_name'))} - {sector} - {price}
+Market cap: {mcap_str} | Score: {_nd(td.get('micro_cap_score'), '/100')} | Quality: {_nd(td.get('quality'))}
 
 GROWTH QUALITY:
-EPS growth YoY: {ticker_data.get('eps_growth_yoy','N/A')}% | Accelerating: {ticker_data.get('eps_accelerating','N/A')}
-Revenue growth YoY: {ticker_data.get('rev_growth_yoy','N/A')}% | Accelerating: {ticker_data.get('rev_accelerating','N/A')}
+EPS growth YoY: {_nd(td.get('eps_growth_yoy'), '%')} | Accelerating: {_nd(td.get('eps_accelerating'))}
+Revenue growth YoY: {_nd(td.get('rev_growth_yoy'), '%')} | Accelerating: {_nd(td.get('rev_accelerating'))}
 
 FINANCIAL HEALTH:
-Piotroski score: {ticker_data.get('piotroski_score','N/A')}/9 (>=7 = strong)
-FCF yield: {ticker_data.get('fcf_yield_pct','N/A')}%
-Interest coverage: {ticker_data.get('interest_coverage','N/A')}x
-Financial health score: {ticker_data.get('financial_health_score','N/A')}/25
+Piotroski score: {_nd(td.get('piotroski_score'), '/9')} (>=7 = strong)
+FCF yield: {_nd(td.get('fcf_yield_pct'), '%')}
+Interest coverage: {_nd(td.get('interest_coverage'), 'x')}
+Financial health score: {_nd(td.get('financial_health_score'), '/25')}
 
 TECHNICAL SETUP:
-RS line at new high: {ticker_data.get('rs_line_at_new_high','N/A')} (key for micro-cap breakout)
-RS line percentile: {ticker_data.get('rs_line_percentile','N/A')}%
-Trend template pass: {ticker_data.get('trend_template_pass','N/A')}
+RS line at new high: {_nd(td.get('rs_line_at_new_high'))} (key for micro-cap breakout)
+RS line percentile: {_nd(td.get('rs_line_percentile'), '%')}
+Trend template pass: {_nd(td.get('trend_template_pass'))}
 
 RISK FACTORS:
-Short % float: {ticker_data.get('short_percent_float','N/A')}% | Squeeze potential: {ticker_data.get('short_squeeze_potential','N/A')}
-Analyst upside: {ticker_data.get('analyst_upside_pct','N/A')}%
-Earnings warning: {ticker_data.get('earnings_warning','N/A')}
+Short % float: {_nd(td.get('short_percent_float'), '%')} | Squeeze potential: {_nd(td.get('short_squeeze_potential'))}
+Analyst upside: {_nd(td.get('analyst_upside_pct'), '%')}
+Earnings warning: {_nd(td.get('earnings_warning'))}
 
 Micro-cap conviction check:
 1. Is growth real and accelerating? (not a one-off quarter)
@@ -150,17 +169,17 @@ Respond ONLY with JSON:
         else:  # VALUE
             prompt = f"""Analyze this VALUE stock opportunity as a fundamental analyst.
 
-{ticker_data['ticker']} - {ticker_data['sector']} - ${ticker_data['current_price']:.2f}
+{ticker} - {sector} - {price}
 
 VALUATION:
-Target: ${ticker_data.get('target_price_analyst', 'N/A')} ({ticker_data.get('analyst_count', 0)} analysts)
-Upside: {ticker_data.get('analyst_upside_pct', 'N/A')}%
+Target: {_nd(td.get('target_price_analyst'))} ({_nd(td.get('analyst_count'), ' analysts')})
+Upside: {_nd(td.get('analyst_upside_pct'), '%')}
 
 FUNDAMENTALS:
-ROE: {ticker_data.get('roe', 'N/A')}%
-Margin: {ticker_data.get('profit_margin', 'N/A')}%
-Debt/Eq: {ticker_data.get('debt_to_equity', 'N/A')}
-Growth: {ticker_data.get('rev_growth', 'N/A')}%
+ROE: {_nd(td.get('roe'), '%')}
+Margin: {_nd(td.get('profit_margin'), '%')}
+Debt/Eq: {_nd(td.get('debt_to_equity'))}
+Growth: {_nd(td.get('rev_growth'), '%')}
 
 QUALITY CHECKS:
 1. Upside realistic? (>100% suspicious)

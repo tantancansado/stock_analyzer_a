@@ -96,6 +96,8 @@ def _format_alert(ticker: str, strategy: dict, level_type: str, current_price: f
         reason = strategy.get('trim_reason') or '-'
         emoji = '🟢'
         verb = 'TRIM'
+        if target is None:
+            return ''
         action_msg = f'Vender {pct:.0f}% a ${target:.2f} (precio actual ${current_price:.2f})'
     else:  # ADD
         target = strategy.get('add_at_price')
@@ -103,6 +105,8 @@ def _format_alert(ticker: str, strategy: dict, level_type: str, current_price: f
         reason = strategy.get('add_reason') or '-'
         emoji = '🔵'
         verb = 'ADD'
+        if target is None:
+            return ''
         action_msg = f'Comprar +{pct:.0f}% a ${target:.2f} (precio actual ${current_price:.2f})'
 
     lines = [
@@ -206,6 +210,8 @@ def run_alerts() -> dict:
                 continue
 
             text = _format_alert(ticker, strat, level_type, current)
+            if not text:
+                continue
             if _send_telegram(text):
                 sent += 1
                 seen[key] = datetime.now(timezone.utc).isoformat()

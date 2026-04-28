@@ -1280,7 +1280,7 @@ class FundamentalScorer:
 
                 if implied_growth is not None:
                     # Weight by analyst conviction: strong buy = full weight
-                    if rec_mean and num_analysts and num_analysts >= 3:
+                    if rec_mean is not None and num_analysts is not None and num_analysts >= 3:
                         if rec_mean < 2.0:      # Strong Buy consensus
                             weight = 1.0
                         elif rec_mean < 2.5:    # Buy consensus
