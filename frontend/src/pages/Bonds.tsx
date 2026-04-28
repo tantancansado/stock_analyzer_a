@@ -7,6 +7,8 @@ import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from 'lucide-
 import { cn } from '@/lib/utils'
 
 const BOND_TYPE_LABELS: Record<string, string> = {
+  T_Bill:    'T-Bill <1a',
+  EUR_Cash:  'Cash EUR',
   Treasury:  'Tesoro EEUU',
   TIPS:      'TIPS (Inflación)',
   Aggregate: 'Agregado',
@@ -18,6 +20,8 @@ const BOND_TYPE_LABELS: Record<string, string> = {
 }
 
 const TYPE_COLORS: Record<string, string> = {
+  T_Bill:    'text-emerald-400 bg-emerald-500/10 border-emerald-500/25',
+  EUR_Cash:  'text-teal-400 bg-teal-500/10 border-teal-500/25',
   Treasury:  'text-blue-400 bg-blue-500/10 border-blue-500/25',
   TIPS:      'text-yellow-400 bg-yellow-500/10 border-yellow-500/25',
   Aggregate: 'text-slate-400 bg-slate-500/10 border-slate-500/25',
@@ -187,10 +191,12 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
   )
 }
 
-type FilterType = 'ALL' | 'Treasury' | 'IG_Corp' | 'HY_Corp' | 'TIPS' | 'EUR_Govt' | 'EUR_IG' | 'EM_Bond' | 'Aggregate'
+type FilterType = 'ALL' | 'T_Bill' | 'EUR_Cash' | 'Treasury' | 'IG_Corp' | 'HY_Corp' | 'TIPS' | 'EUR_Govt' | 'EUR_IG' | 'EM_Bond' | 'Aggregate'
 
 const TYPE_FILTERS: { key: FilterType; label: string }[] = [
   { key: 'ALL',      label: 'Todos' },
+  { key: 'T_Bill',   label: 'T-Bill <1a' },
+  { key: 'EUR_Cash', label: 'Cash EUR' },
   { key: 'Treasury', label: 'Tesoro EEUU' },
   { key: 'TIPS',     label: 'TIPS' },
   { key: 'IG_Corp',  label: 'Corp IG' },
@@ -346,11 +352,12 @@ export default function Bonds() {
       <Card className="glass border-border/20">
         <CardContent className="p-4 text-xs text-muted-foreground space-y-1.5">
           <div className="font-semibold text-foreground/70 mb-2">Cómo leer la tabla</div>
-          <div><span className="text-emerald-400 font-medium">Yield vs Histórico positivo</span> — el bono paga más que su media histórica → precio caído → oportunidad</div>
-          <div><span className="text-yellow-400 font-medium">Duración larga (&gt;10y)</span> — mayor sensibilidad a tipos de interés. Alto potencial alcista si tipos bajan, alto riesgo si suben</div>
-          <div><span className="text-orange-400 font-medium">Corp HY</span> — rendimiento alto pero riesgo de impago. Requiere prima de riesgo real, no solo yield nominal</div>
-          <div><span className="text-purple-400 font-medium">EUR Govt/IG</span> — denominado en EUR. Diversifica fuera del dólar aunque añade riesgo divisa</div>
-          <div><span className="text-blue-400 font-medium">TIPS</span> — protección contra inflación. El yield mostrado es nominal; el yield real es menor</div>
+          <div><span className="text-emerald-400 font-medium">T-Bill / Cash EUR</span> — vencimiento &lt;1 año. Sin riesgo de precio, liquidez total. BIL/SGOV pagan ~4-5% con duración 1-3 meses — ideal para capital en espera</div>
+          <div><span className="text-blue-400 font-medium">Treasury 1-2 años</span> — SHY/VGSH: rendimiento competitivo, riesgo de tipos mínimo, mucho más seguro que largo plazo</div>
+          <div><span className="text-emerald-400 font-medium">Yield vs Histórico positivo</span> — el ETF paga más que su media histórica → precio deprimido → oportunidad de entrada</div>
+          <div><span className="text-yellow-400 font-medium">Duración larga (&gt;10y)</span> — sensibilidad alta a tipos. TLT puede subir 15-20% si tipos bajan, pero también caer igual si suben</div>
+          <div><span className="text-orange-400 font-medium">Corp HY</span> — rendimiento alto pero riesgo de impago. Solo cuando los spreads son realmente amplios</div>
+          <div><span className="text-purple-400 font-medium">EUR Govt/IG</span> — denominado en EUR, añade riesgo divisa vs USD pero diversifica geografía</div>
         </CardContent>
       </Card>
     </div>

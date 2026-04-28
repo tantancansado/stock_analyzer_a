@@ -31,21 +31,29 @@ OUTPUT = DOCS / "bonds_opportunities.csv"
 # ─── Universe ────────────────────────────────────────────────────────────────
 # Each entry: ticker, display_name, bond_type, avg_duration_years, currency
 UNIVERSE = [
-    # ── US Treasury ETFs ──────────────────────────────────────────────────────
-    ("SHY",     "iShares 1-3yr Treasury",        "Treasury",   2.0,  "USD"),
+    # ── US T-Bills / Ultracorto (< 1 año) ────────────────────────────────────
+    ("BIL",     "SPDR Bloomberg 1-3m T-Bill",     "T_Bill",     0.2,  "USD"),
+    ("SHV",     "iShares Short Treasury Bond",    "T_Bill",     0.4,  "USD"),
+    ("SGOV",    "iShares 0-3m Treasury Bond",     "T_Bill",     0.2,  "USD"),
+    # ── US Treasury 1-2 años ─────────────────────────────────────────────────
+    ("SHY",     "iShares 1-3yr Treasury",         "Treasury",   2.0,  "USD"),
+    ("VGSH",    "Vanguard Short-Term Treasury",   "Treasury",   2.0,  "USD"),
+    # ── US Treasury medio/largo ───────────────────────────────────────────────
     ("IEF",     "iShares 7-10yr Treasury",        "Treasury",   8.5,  "USD"),
     ("TLT",     "iShares 20+yr Treasury",         "Treasury",  17.0,  "USD"),
     ("TIPS",    "iShares TIPS Bond",              "TIPS",       7.5,  "USD"),
+    ("STIP",    "iShares 0-5yr TIPS Bond",        "TIPS",       2.5,  "USD"),
     # ── US Aggregate / IG Corp ────────────────────────────────────────────────
     ("AGG",     "iShares Core US Aggregate",      "Aggregate",  6.2,  "USD"),
     ("BND",     "Vanguard Total Bond Market",     "Aggregate",  6.5,  "USD"),
+    ("VCSH",    "Vanguard Short-Term IG Corp",    "IG_Corp",    2.8,  "USD"),
     ("VCIT",    "Vanguard Intermediate IG Corp",  "IG_Corp",    5.8,  "USD"),
     ("LQD",     "iShares IG Corporate Bond",      "IG_Corp",    9.0,  "USD"),
-    ("VCSH",    "Vanguard Short-Term IG Corp",    "IG_Corp",    2.8,  "USD"),
     # ── High Yield ────────────────────────────────────────────────────────────
     ("HYG",     "iShares HY Corporate Bond",      "HY_Corp",    4.0,  "USD"),
     ("JNK",     "SPDR Bloomberg HY Bond",         "HY_Corp",    3.8,  "USD"),
-    # ── EUR Govt & IG ────────────────────────────────────────────────────────
+    # ── EUR Ultracorto / Govt ─────────────────────────────────────────────────
+    ("XEON.DE", "Xtrackers EUR Overnight Rate",   "EUR_Cash",   0.1,  "EUR"),
     ("IBTS.MI", "iShares EUR Govt 1-3yr",         "EUR_Govt",   1.9,  "EUR"),
     ("IEAG.MI", "iShares EUR IG Corporate",       "EUR_IG",     5.0,  "EUR"),
     ("IEMB.MI", "iShares EUR Emerging Mkts Bond", "EM_Bond",    6.5,  "EUR"),
@@ -55,17 +63,23 @@ UNIVERSE = [
 
 # Historical average yields for VALUE comparison (approximate long-term averages)
 HIST_AVG_YIELD = {
+    "BIL":     3.8,
+    "SHV":     3.8,
+    "SGOV":    3.8,
     "SHY":     3.5,
+    "VGSH":    3.5,
     "IEF":     3.8,
     "TLT":     3.8,
     "TIPS":    1.5,   # real yield
+    "STIP":    1.2,   # real yield short
     "AGG":     3.6,
     "BND":     3.6,
+    "VCSH":    4.0,
     "VCIT":    4.5,
     "LQD":     4.8,
-    "VCSH":    4.0,
     "HYG":     7.0,
     "JNK":     7.2,
+    "XEON.DE": 2.0,
     "IBTS.MI": 2.5,
     "IEAG.MI": 3.0,
     "IEMB.MI": 5.5,
@@ -213,12 +227,22 @@ def _value_rating(ticker: str, bond_type: str, yield_pct: float | None, pct_from
 
 def _recommendation(bond_type: str, value_rating: str, duration_years: float) -> str:
     if value_rating in ("MUY_ATRACTIVO", "ATRACTIVO"):
+        if bond_type == "T_Bill":
+            return "Liquidez remunerada ~4-5% sin riesgo de tipos — ideal para capital en espera"
+        if bond_type == "EUR_Cash":
+            return "Equivalente a cuenta remunerada en EUR, sin riesgo de precio"
+        if bond_type == "Treasury" and duration_years <= 3:
+            return "Tesoro corto plazo: rendimiento competitivo sin exposición a subida de tipos"
         if bond_type == "Treasury" and duration_years >= 10:
             return "Bloquear yield alto con duración larga mientras dure"
+        if bond_type == "IG_Corp" and duration_years <= 3:
+            return "Corp IG corto: spread extra sobre Treasury sin riesgo de duración"
         if bond_type == "IG_Corp":
             return "IG corporativo con spread atractivo, bajo riesgo crédito"
         if bond_type == "HY_Corp":
             return "Alto rendimiento — solo posición pequeña, riesgo crédito"
+        if bond_type == "TIPS" and duration_years <= 3:
+            return "TIPS cortos: protección inflación con mínimo riesgo de tipos"
         if bond_type == "TIPS":
             return "Protección inflación a buen precio"
         if bond_type in ("EUR_Govt", "EUR_IG"):
@@ -227,6 +251,8 @@ def _recommendation(bond_type: str, value_rating: str, duration_years: float) ->
             return "Emergentes con prima de riesgo atractiva"
         return "Atractivo para asignación de renta fija"
     if value_rating == "NEUTRAL":
+        if bond_type == "T_Bill":
+            return "Yield aceptable para liquidez pero sin prima especial ahora"
         return "Precio justo — mantener si ya en cartera"
     return "Caro vs histórico — esperar corrección"
 
