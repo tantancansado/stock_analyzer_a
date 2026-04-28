@@ -3,7 +3,7 @@ import { fetchBonds, type BondOpportunity } from '../api/client'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Calculator } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const BOND_TYPE_LABELS: Record<string, string> = {
@@ -33,12 +33,203 @@ const TYPE_COLORS: Record<string, string> = {
 }
 
 const RATING_CONFIG = {
-  MUY_ATRACTIVO: { label: 'MUY ATRACTIVO', bg: 'bg-emerald-500/15 border-emerald-500/30', text: 'text-emerald-400', dot: 'bg-emerald-400', order: 0 },
-  ATRACTIVO:     { label: 'ATRACTIVO',     bg: 'bg-green-500/10 border-green-500/25',     text: 'text-green-400',   dot: 'bg-green-400',   order: 1 },
-  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-slate-500/10 border-slate-500/25',     text: 'text-slate-400',   dot: 'bg-slate-400',   order: 2 },
-  CARO:          { label: 'CARO',          bg: 'bg-red-500/10 border-red-500/25',          text: 'text-red-400',     dot: 'bg-red-400',     order: 3 },
-  SIN_DATO:      { label: 'SIN DATO',      bg: 'bg-muted/20 border-muted/30',             text: 'text-muted-foreground', dot: 'bg-muted', order: 4 },
+  MUY_ATRACTIVO: { label: 'MUY ATRACTIVO', bg: 'bg-emerald-500/15 border-emerald-500/30', text: 'text-emerald-400', dot: 'bg-emerald-400' },
+  ATRACTIVO:     { label: 'ATRACTIVO',     bg: 'bg-green-500/10 border-green-500/25',     text: 'text-green-400',   dot: 'bg-green-400'   },
+  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-slate-500/10 border-slate-500/25',     text: 'text-slate-400',   dot: 'bg-slate-400'   },
+  CARO:          { label: 'CARO',          bg: 'bg-red-500/10 border-red-500/25',          text: 'text-red-400',     dot: 'bg-red-400'     },
+  SIN_DATO:      { label: 'SIN DATO',      bg: 'bg-muted/20 border-muted/30',             text: 'text-muted-foreground', dot: 'bg-muted'  },
 }
+
+// ─── Yield calculator helpers ─────────────────────────────────────────────────
+
+// Para ETFs de T-Bills y muy corto plazo el yield anual ya está normalizado.
+// El rendimiento para un plazo X meses = capital × yield_anual × (meses/12)
+// con reinversión mensual (interés compuesto mensual).
+function calcReturn(capital: number, yieldAnnual: number, months: number) {
+  const monthlyRate = yieldAnnual / 100 / 12
+  const final = capital * Math.pow(1 + monthlyRate, months)
+  const gain = final - capital
+  const effectiveYield = (gain / capital) * 100   // rendimiento total del período
+  return { final, gain, effectiveYield }
+}
+
+function fmtEur(n: number) {
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n)
+}
+function fmtUsd(n: number) {
+  return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n)
+}
+
+const PRESET_MONTHS = [1, 3, 6, 12, 24, 36]
+
+function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
+  const [capital, setCapital] = useState(10000)
+  const [months, setMonths] = useState(12)
+  const [rawCapital, setRawCapital] = useState('10000')
+
+  // Only show bonds with actual yield data, sorted by yield desc
+  const calcBonds = useMemo(() =>
+    bonds
+      .filter(b => b.yield_pct != null && b.yield_pct > 0)
+      .sort((a, b) => (b.yield_pct ?? 0) - (a.yield_pct ?? 0)),
+    [bonds]
+  )
+
+  const topGainer = calcBonds[0]
+
+  return (
+    <Card className="glass border-primary/20">
+      <CardContent className="p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <Calculator size={16} className="text-primary" />
+          <h2 className="text-sm font-semibold text-foreground">Calculadora de rendimiento</h2>
+          <span className="text-xs text-muted-foreground ml-1">— ¿cuánto ganas si inviertes X durante Y meses?</span>
+        </div>
+
+        {/* Inputs */}
+        <div className="flex flex-wrap gap-4 mb-5">
+          {/* Capital */}
+          <div>
+            <label className="text-xs text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
+            <div className="flex items-center gap-1.5">
+              <input
+                type="text"
+                inputMode="numeric"
+                value={rawCapital}
+                onChange={e => {
+                  const raw = e.target.value.replace(/[^\d]/g, '')
+                  setRawCapital(raw)
+                  const n = parseInt(raw, 10)
+                  if (!isNaN(n) && n > 0) setCapital(n)
+                }}
+                className="w-32 px-3 py-1.5 rounded-lg border border-border/50 bg-background/40 text-foreground text-sm font-mono focus:outline-none focus:border-primary/60"
+              />
+              {[1000, 5000, 10000, 50000, 100000].map(v => (
+                <button
+                  key={v}
+                  onClick={() => { setCapital(v); setRawCapital(String(v)) }}
+                  className={cn(
+                    'text-[0.65rem] px-2 py-1 rounded border transition-all',
+                    capital === v
+                      ? 'bg-primary/20 border-primary/50 text-primary'
+                      : 'border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
+                  )}
+                >
+                  {v >= 1000 ? `${v / 1000}k` : v}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Plazo */}
+          <div>
+            <label className="text-xs text-muted-foreground block mb-1.5">Plazo</label>
+            <div className="flex gap-1.5">
+              {PRESET_MONTHS.map(m => (
+                <button
+                  key={m}
+                  onClick={() => setMonths(m)}
+                  className={cn(
+                    'text-xs px-2.5 py-1.5 rounded-lg border transition-all font-medium',
+                    months === m
+                      ? 'bg-primary/20 border-primary/50 text-primary'
+                      : 'border-border/40 text-muted-foreground hover:border-border/60 hover:text-foreground'
+                  )}
+                >
+                  {m < 12 ? `${m}m` : `${m / 12}a`}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Top gainer highlight */}
+        {topGainer && (() => {
+          const { gain, effectiveYield } = calcReturn(capital, topGainer.yield_pct!, months)
+          return (
+            <div className="mb-4 px-3 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/20 text-xs text-emerald-400">
+              Mejor rendimiento: <span className="font-bold">{topGainer.ticker}</span> — ganarías{' '}
+              <span className="font-bold">{fmtUsd(gain)}</span> en {months < 12 ? `${months} meses` : months === 12 ? '1 año' : `${months / 12} años`}{' '}
+              <span className="opacity-70">({effectiveYield.toFixed(2)}% del período)</span>
+            </div>
+          )
+        })()}
+
+        {/* Results table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="border-b border-border/20 text-[0.65rem] text-muted-foreground/50 uppercase tracking-wider">
+                <th className="pb-2 text-left pr-3">ETF</th>
+                <th className="pb-2 text-left pr-3">Tipo</th>
+                <th className="pb-2 text-right pr-3">Yield anual</th>
+                <th className="pb-2 text-right pr-3">Ganancia</th>
+                <th className="pb-2 text-right pr-3">Capital final</th>
+                <th className="pb-2 text-right">Rend. período</th>
+              </tr>
+            </thead>
+            <tbody>
+              {calcBonds.map((b, i) => {
+                const { final, gain, effectiveYield } = calcReturn(capital, b.yield_pct!, months)
+                const ratingCfg = RATING_CONFIG[b.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
+                const typeCls = TYPE_COLORS[b.bond_type] ?? 'text-slate-400'
+                const isTop = i === 0
+                return (
+                  <tr
+                    key={b.ticker}
+                    className={cn(
+                      'border-b border-border/10 transition-colors',
+                      isTop ? 'bg-emerald-500/5' : 'hover:bg-white/[0.02]'
+                    )}
+                  >
+                    <td className="py-2 pr-3">
+                      <div className="flex items-center gap-1.5">
+                        <div className={cn('w-1 h-1 rounded-full flex-shrink-0', ratingCfg.dot)} />
+                        <span className="font-mono font-bold text-foreground">{b.ticker}</span>
+                        {isTop && <span className="text-[0.6rem] text-emerald-400 font-medium">TOP</span>}
+                      </div>
+                    </td>
+                    <td className="py-2 pr-3">
+                      <span className={cn('text-[0.65rem] font-medium', typeCls.split(' ')[0])}>
+                        {BOND_TYPE_LABELS[b.bond_type] ?? b.bond_type}
+                      </span>
+                    </td>
+                    <td className="py-2 pr-3 text-right font-mono text-foreground/80">
+                      {b.yield_pct!.toFixed(2)}%
+                    </td>
+                    <td className="py-2 pr-3 text-right font-mono font-semibold text-emerald-400">
+                      +{b.currency === 'EUR' ? fmtEur(gain) : fmtUsd(gain)}
+                    </td>
+                    <td className="py-2 pr-3 text-right font-mono text-foreground/70">
+                      {b.currency === 'EUR' ? fmtEur(final) : fmtUsd(final)}
+                    </td>
+                    <td className="py-2 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <div className="h-1 w-16 rounded-full bg-muted/20 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-emerald-500/60"
+                            style={{ width: `${Math.min((effectiveYield / (calcBonds[0]?.yield_pct ?? 1)) * (months / 12) * 100, 100)}%` }}
+                          />
+                        </div>
+                        <span className="font-mono text-foreground/60 w-12 text-right">{effectiveYield.toFixed(2)}%</span>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-[0.62rem] text-muted-foreground/40 mt-3">
+          Cálculo con reinversión mensual (interés compuesto). No incluye fiscalidad ni comisiones de broker. Los T-Bills y ETFs de ultracorto se pueden vender en cualquier momento — no hay penalización por liquidez anticipada.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
+// ─── Bond table row ───────────────────────────────────────────────────────────
 
 function fmt(n: number | null | undefined, dec = 2, suffix = '') {
   if (n == null) return '—'
@@ -73,7 +264,7 @@ function DurationBar({ years }: { years: number | null | undefined }) {
       <div className="h-1 w-16 rounded-full bg-muted/30 overflow-hidden">
         <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
       </div>
-      <span className="text-xs font-mono" style={{ color }}>{years}y</span>
+      <span className="text-xs font-mono" style={{ color }}>{years < 1 ? `${(years * 12).toFixed(0)}m` : `${years}y`}</span>
     </div>
   )
 }
@@ -89,7 +280,6 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
         className="border-b border-border/20 hover:bg-white/[0.02] cursor-pointer transition-colors"
         onClick={() => setExpanded(e => !e)}
       >
-        {/* Ticker */}
         <td className="px-3 py-2.5">
           <div className="flex items-center gap-2">
             <div className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', ratingCfg.dot)} />
@@ -99,15 +289,11 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
             </div>
           </div>
         </td>
-
-        {/* Type */}
         <td className="px-3 py-2.5">
           <Badge variant="outline" className={cn('text-[0.65rem] font-medium', typeCls)}>
             {BOND_TYPE_LABELS[bond.bond_type] ?? bond.bond_type}
           </Badge>
         </td>
-
-        {/* Yield */}
         <td className="px-3 py-2.5 text-right">
           {bond.yield_pct != null ? (
             <span className={cn('font-mono font-bold text-sm', bond.yield_pct >= 5 ? 'text-emerald-400' : bond.yield_pct >= 3.5 ? 'text-green-400' : 'text-muted-foreground')}>
@@ -115,30 +301,20 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
             </span>
           ) : <span className="text-muted-foreground">—</span>}
         </td>
-
-        {/* vs histórico */}
         <td className="px-3 py-2.5 text-right">
           <YieldVsAvg val={bond.yield_vs_avg_pct} />
         </td>
-
-        {/* Duración */}
         <td className="px-3 py-2.5">
           <DurationBar years={bond.duration_years} />
         </td>
-
-        {/* % desde máximo */}
         <td className="px-3 py-2.5 text-right">
           <PctFromHigh val={bond.pct_from_high} />
         </td>
-
-        {/* Rating */}
         <td className="px-3 py-2.5">
           <Badge variant="outline" className={cn('text-[0.65rem] font-semibold border', ratingCfg.bg, ratingCfg.text)}>
             {ratingCfg.label}
           </Badge>
         </td>
-
-        {/* Expand */}
         <td className="px-3 py-2.5 text-right">
           {expanded ? <ChevronUp size={14} className="text-muted-foreground" /> : <ChevronDown size={14} className="text-muted-foreground" />}
         </td>
@@ -191,21 +367,25 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
   )
 }
 
+// ─── Filters ──────────────────────────────────────────────────────────────────
+
 type FilterType = 'ALL' | 'T_Bill' | 'EUR_Cash' | 'Treasury' | 'IG_Corp' | 'HY_Corp' | 'TIPS' | 'EUR_Govt' | 'EUR_IG' | 'EM_Bond' | 'Aggregate'
 
 const TYPE_FILTERS: { key: FilterType; label: string }[] = [
-  { key: 'ALL',      label: 'Todos' },
-  { key: 'T_Bill',   label: 'T-Bill <1a' },
-  { key: 'EUR_Cash', label: 'Cash EUR' },
-  { key: 'Treasury', label: 'Tesoro EEUU' },
-  { key: 'TIPS',     label: 'TIPS' },
-  { key: 'IG_Corp',  label: 'Corp IG' },
-  { key: 'HY_Corp',  label: 'Corp HY' },
-  { key: 'EUR_Govt', label: 'EUR Gob' },
-  { key: 'EUR_IG',   label: 'EUR Corp' },
-  { key: 'EM_Bond',  label: 'Emergentes' },
+  { key: 'ALL',       label: 'Todos' },
+  { key: 'T_Bill',    label: 'T-Bill <1a' },
+  { key: 'EUR_Cash',  label: 'Cash EUR' },
+  { key: 'Treasury',  label: 'Tesoro EEUU' },
+  { key: 'TIPS',      label: 'TIPS' },
+  { key: 'IG_Corp',   label: 'Corp IG' },
+  { key: 'HY_Corp',   label: 'Corp HY' },
+  { key: 'EUR_Govt',  label: 'EUR Gob' },
+  { key: 'EUR_IG',    label: 'EUR Corp' },
+  { key: 'EM_Bond',   label: 'Emergentes' },
   { key: 'Aggregate', label: 'Agregado' },
 ]
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Bonds() {
   const [bonds, setBonds] = useState<BondOpportunity[]>([])
@@ -213,6 +393,7 @@ export default function Bonds() {
   const [error, setError] = useState<string | null>(null)
   const [typeFilter, setTypeFilter] = useState<FilterType>('ALL')
   const [ratingFilter, setRatingFilter] = useState<'ALL' | 'ATRACTIVO' | 'NEUTRAL' | 'CARO'>('ALL')
+  const [showCalc, setShowCalc] = useState(true)
 
   useEffect(() => {
     setLoading(true)
@@ -233,7 +414,9 @@ export default function Bonds() {
   }, [bonds, typeFilter, ratingFilter])
 
   const atractivos = bonds.filter(b => ['MUY_ATRACTIVO', 'ATRACTIVO'].includes(b.value_rating))
-  const avgYield = bonds.length ? bonds.reduce((s, b) => s + (b.yield_pct ?? 0), 0) / bonds.filter(b => b.yield_pct != null).length : 0
+  const avgYield = bonds.length
+    ? bonds.reduce((s, b) => s + (b.yield_pct ?? 0), 0) / bonds.filter(b => b.yield_pct != null).length
+    : 0
   const generatedAt = bonds[0]?.generated_at
 
   if (loading) return <Loading />
@@ -278,6 +461,19 @@ export default function Bonds() {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Calculator toggle + panel */}
+      <div>
+        <button
+          onClick={() => setShowCalc(v => !v)}
+          className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors mb-3"
+        >
+          <Calculator size={14} />
+          Calculadora de rendimiento
+          {showCalc ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+        </button>
+        {showCalc && <YieldCalculator bonds={bonds} />}
       </div>
 
       {/* Filters */}
@@ -352,7 +548,7 @@ export default function Bonds() {
       <Card className="glass border-border/20">
         <CardContent className="p-4 text-xs text-muted-foreground space-y-1.5">
           <div className="font-semibold text-foreground/70 mb-2">Cómo leer la tabla</div>
-          <div><span className="text-emerald-400 font-medium">T-Bill / Cash EUR</span> — vencimiento &lt;1 año. Sin riesgo de precio, liquidez total. BIL/SGOV pagan ~4-5% con duración 1-3 meses — ideal para capital en espera</div>
+          <div><span className="text-emerald-400 font-medium">T-Bill / Cash EUR</span> — vencimiento &lt;1 año. Sin riesgo de precio, liquidez total. BIL/SGOV pagan ~4-5% anual — a 3 meses son ~1.1%, proporcional al tiempo invertido</div>
           <div><span className="text-blue-400 font-medium">Treasury 1-2 años</span> — SHY/VGSH: rendimiento competitivo, riesgo de tipos mínimo, mucho más seguro que largo plazo</div>
           <div><span className="text-emerald-400 font-medium">Yield vs Histórico positivo</span> — el ETF paga más que su media histórica → precio deprimido → oportunidad de entrada</div>
           <div><span className="text-yellow-400 font-medium">Duración larga (&gt;10y)</span> — sensibilidad alta a tipos. TLT puede subir 15-20% si tipos bajan, pero también caer igual si suben</div>
