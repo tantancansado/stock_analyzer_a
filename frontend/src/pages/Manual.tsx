@@ -4,7 +4,7 @@ import {
   BookOpen, Compass, Workflow, Bot, Shield, HelpCircle, Search,
   LayoutDashboard, Brain, DollarSign, Radar, Users, Crosshair,
   Wallet, Calculator, TrendingUp, Activity, PieChart, Star,
-  Bell, CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database,
+  Bell, CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -47,6 +47,7 @@ const SECTIONS: Section[] = [
   { id: 'backtest',           title: 'Backtest',              icon: FlaskConical,    group: 'pages' },
   { id: 'comparar',           title: 'Comparar tickers',      icon: Shuffle,         group: 'pages' },
   { id: 'datos',              title: 'Exportar datos',        icon: Database,        group: 'pages' },
+  { id: 'bonos',              title: 'Bonos & Preferentes',   icon: Landmark,        group: 'pages' },
 
   // Agents
   { id: 'agentes-overview',   title: 'Agentes — visión general', icon: Bot, group: 'agents' },
@@ -63,6 +64,7 @@ const SECTIONS: Section[] = [
   { id: 'agente-macro',       title: 'Macro / Country Scanner', icon: Bot, group: 'agents' },
   { id: 'agente-catalyst',    title: 'Catalyst Scanner',      icon: Bot, group: 'agents' },
   { id: 'agente-portfolio',   title: 'Portfolio Tracker',     icon: Bot, group: 'agents' },
+  { id: 'agente-ml-scorer',  title: 'ML Scorer',             icon: Bot, group: 'agents' },
   { id: 'agente-cerebro',     title: 'Cerebro (orquestador)', icon: Bot, group: 'agents' },
 
   // Concepts
@@ -577,6 +579,23 @@ export default function Manual() {
             <OpenLink to="/datos" />
           </Card>
 
+          <SectionHeader id="bonos" icon={Landmark} title="Bonos & Preferentes"
+            subtitle="Renta fija y acciones preferentes con rating VALUE." />
+          <Card>
+            <p className="mb-3">
+              La sección Bonos tiene dos partes diferenciadas:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 text-sm mb-4">
+              <li><b>ETFs de bonos</b> — 21 ETFs clasificados por tipo: T-Bills (BIL, SGOV, SHV), Treasury corto (VGSH, SHY), TIPS, IG Corp, High Yield, EUR Govt, EUR IG y EM. Cada uno muestra yield actual, duración, distancia al máximo 52w y rating VALUE (Muy atractivo → Neutral → Caro).</li>
+              <li><b>Calculadora de rendimiento</b> — introduce capital y plazo (1m hasta 3 años) y el sistema calcula ganancia, capital final y yield del período por instrumento, usando interés compuesto mensual.</li>
+              <li><b>Acciones preferentes</b> — instrumentos híbridos: pagan dividendo fijo como un bono ($25 par, NYSE) pero cotizan como acciones. Ventajas: senior al accionista común, yield 6-8%, sin vencimiento fijo. Riesgo principal: si el precio sube por encima del par ($25) la empresa puede rescatarlas (call risk).</li>
+            </ul>
+            <div className="bg-muted/20 rounded p-3 text-sm text-muted-foreground space-y-1">
+              <p><b>¿Por qué estas preferentes ahora?</b> La Fed subió tipos 0→5.5% en 2022-2023. Las preferentes con cupón del 5.5-6% bajaron de $25 a $18-19 porque los bonos del tesoro pagaban lo mismo. Ahora compras $25 de valor a $18-19 y cobras 7-8% anual. Si los tipos bajan, el precio sube de vuelta hacia $25 (+30% de plusvalía adicional).</p>
+            </div>
+            <OpenLink to="/bonds" />
+          </Card>
+
           {/* ──────────────── Agents ──────────────── */}
 
           <h2 className="text-lg font-bold uppercase tracking-widest text-muted-foreground/60 mt-10 mb-4 pb-1 border-b border-border/30">
@@ -710,6 +729,40 @@ export default function Manual() {
             <p className="mb-2"><b>Qué hace:</b> guarda cada recomendación hecha por el sistema con su fecha y score, y calcula el return 7d/14d/30d después.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/portfolio_tracker/recommendations.csv</code> + <code className="bg-muted/30 px-1 rounded">summary.json</code></p>
             <p className="text-sm text-muted-foreground">Alimenta el widget "Portfolio win rate" del Dashboard. También la pestaña Historial de señales.</p>
+          </Card>
+
+          <SectionHeader id="agente-ml-scorer" icon={Bot} title="ML Scorer" />
+          <Card>
+            <p className="mb-2"><b>Qué hace:</b> entrena un modelo Gradient Boosting cada día sobre el historial completo de señales del Portfolio Tracker (1.367+ señales con outcome verificado a 30 días) y predice la probabilidad de win para cada ticker del universo VALUE.</p>
+            <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/ml_scores.csv</code> — alimenta el campo <code className="bg-muted/30 px-1 rounded">ml_score</code> del Super Score Integrador.</p>
+            <div className="mt-3 space-y-2 text-sm">
+              <p className="font-semibold text-foreground/80">Rendimiento del modelo (cross-validation 5-fold):</p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
+                  <div className="text-emerald-400 font-bold text-lg">82.3%</div>
+                  <div className="text-muted-foreground text-xs">Accuracy</div>
+                </div>
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
+                  <div className="text-emerald-400 font-bold text-lg">0.912</div>
+                  <div className="text-muted-foreground text-xs">ROC-AUC</div>
+                </div>
+              </div>
+              <p className="font-semibold text-foreground/80 mt-3">Features por orden de importancia:</p>
+              <ul className="space-y-1 text-muted-foreground">
+                <li><span className="text-cyan-400 font-medium">1. FCF Yield %</span> — 26.8% · el más predictivo: empresas con caja real ganan</li>
+                <li><span className="text-cyan-400 font-medium">2. Value Score</span> — 20.1% · el score compuesto sí predice, pero menos de lo esperado</li>
+                <li><span className="text-cyan-400 font-medium">3. Strategy (US vs EU)</span> — 18.9% · VALUE US 66% win rate vs EU_VALUE 27%</li>
+                <li><span className="text-cyan-400 font-medium">4. Analyst Upside %</span> — 12.9% · el consenso de analistas tiene peso real</li>
+                <li><span className="text-cyan-400 font-medium">5. Risk/Reward ratio</span> — 11.1% · R:R predice mejor que el sector</li>
+              </ul>
+              <p className="font-semibold text-foreground/80 mt-3">Hallazgos estadísticos clave:</p>
+              <ul className="space-y-1 text-muted-foreground">
+                <li>• <b>CONFIRMED_UPTREND</b>: 59.1% win rate · <b>UPTREND_PRESSURE</b>: 30.6% — el régimen importa mucho</li>
+                <li>• Value Score top 50%: 58-65% win rate · bottom 50%: solo 32%</li>
+                <li>• Sectores ganadores: Communication Services 65%, Financial Services 59%</li>
+                <li>• Sectores perdedores: Consumer Cyclical 16%, Consumer Defensive 15% — el modelo los penaliza automáticamente</li>
+              </ul>
+            </div>
           </Card>
 
           <SectionHeader id="agente-cerebro" icon={Bot} title="Cerebro (orquestador)" />
