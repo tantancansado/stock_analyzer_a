@@ -184,26 +184,36 @@ def calculate_conviction_score(row) -> dict:
         and analyst_upside_dcf >= 30
     )
 
+    dcf_upside_stored = _sf(row.get('target_price_dcf_upside_pct'))
     if is_london:
         score += 5  # Neutral — don't penalise, don't reward (data units mismatch)
-    elif price and dcf and price > 0:
-        dcf_upside = (dcf - price) / price * 100
-        if dcf_upside >= 50:
-            score += 15
-            reasons.append(f"DCF dice +{dcf_upside:.0f}% infravalorada")
-        elif dcf_upside >= 20:
-            score += 10
-            reasons.append(f"DCF: +{dcf_upside:.0f}% margen")
-        elif dcf_upside >= 0:
-            score += 5
-        elif dcf_upside < -20:
-            penalty = 3 if strong_consensus else 10
-            score -= penalty
-            red_flags.append(f"DCF dice SOBREVALORADA ({dcf_upside:.0f}%)")
-        elif dcf_upside < 0:
-            penalty = 1 if strong_consensus else 3
-            score -= penalty
-            red_flags.append(f"DCF ligeramente por debajo ({dcf_upside:.0f}%)")
+    else:
+        # Prefer the pre-computed upside (already currency-corrected); fall back to
+        # live calculation only when the stored value is absent.
+        if dcf_upside_stored is not None:
+            dcf_upside = dcf_upside_stored
+        elif price and dcf and price > 0:
+            dcf_upside = (dcf - price) / price * 100
+        else:
+            dcf_upside = None
+
+        if dcf_upside is not None:
+            if dcf_upside >= 50:
+                score += 15
+                reasons.append(f"DCF dice +{dcf_upside:.0f}% infravalorada")
+            elif dcf_upside >= 20:
+                score += 10
+                reasons.append(f"DCF: +{dcf_upside:.0f}% margen")
+            elif dcf_upside >= 0:
+                score += 5
+            elif dcf_upside < -20:
+                penalty = 3 if strong_consensus else 10
+                score -= penalty
+                red_flags.append(f"DCF dice SOBREVALORADA ({dcf_upside:.0f}%)")
+            else:  # < 0
+                penalty = 1 if strong_consensus else 3
+                score -= penalty
+                red_flags.append(f"DCF ligeramente por debajo ({dcf_upside:.0f}%)")
 
     # ─── 5. Analyst consensus (max 12pts) ───
     max_score += 12

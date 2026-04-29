@@ -906,18 +906,26 @@ ESTRUCTURA (usa **negrita** para cada sección):
             if t_analyst_low and t_analyst_high:
                 entry_lines.append(f"  Rango: ${t_analyst_low:.2f} — ${t_analyst_high:.2f}")
 
-        # DCF target
+        # DCF target — solo si hay datos reales de crecimiento (upside precalculado en fundamental_scorer)
         t_dcf = row.get('target_price_dcf')
-        if t_dcf and current_price:
-            dcf_upside = (t_dcf / current_price - 1) * 100
-            label = "infravalorada" if dcf_upside > 10 else "cerca de valor justo" if dcf_upside > -10 else "sobrevalorada"
-            entry_lines.append(f"Valor intrínseco (DCF): ${t_dcf:.2f} ({dcf_upside:+.1f}% — {label})")
+        dcf_upside_stored = row.get('target_price_dcf_upside_pct')
+        if t_dcf and dcf_upside_stored is not None:
+            try:
+                dcf_upside = float(dcf_upside_stored)
+                label = "infravalorada" if dcf_upside > 10 else "cerca de valor justo" if dcf_upside > -10 else "sobrevalorada"
+                entry_lines.append(f"Valor intrínseco (DCF): ${t_dcf:.2f} ({dcf_upside:+.1f}% — {label})")
+            except (TypeError, ValueError):
+                pass
 
-        # P/E fair value target
+        # P/E fair value target — solo si hay datos reales de EPS y crecimiento
         t_pe = row.get('target_price_pe')
-        if t_pe and current_price:
-            pe_upside = (t_pe / current_price - 1) * 100
-            entry_lines.append(f"Valor por P/E justo: ${t_pe:.2f} ({pe_upside:+.1f}%)")
+        pe_upside_stored = row.get('target_price_pe_upside_pct')
+        if t_pe and pe_upside_stored is not None:
+            try:
+                pe_upside = float(pe_upside_stored)
+                entry_lines.append(f"Valor por P/E justo: ${t_pe:.2f} ({pe_upside:+.1f}%)")
+            except (TypeError, ValueError):
+                pass
 
         # Proximity to 52w high
         prox = row.get('proximity_to_52w_high')

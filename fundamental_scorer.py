@@ -1378,9 +1378,9 @@ class FundamentalScorer:
             shares      = info.get('sharesOutstanding')
             growth_rate = info.get('earningsGrowth') or info.get('revenueGrowth')
 
-            if fcf and shares and float(shares) > 0:
+            if fcf and shares and float(shares) > 0 and growth_rate:
                 fcf_ps = float(fcf) / float(shares)  # FCF per share
-                g = float(growth_rate) if growth_rate else 0.08  # default 8%
+                g = float(growth_rate)
                 g = max(0.03, min(g, 0.30))  # clip 3%-30%
                 discount = 0.10
                 terminal_g = 0.03
@@ -1410,8 +1410,8 @@ class FundamentalScorer:
             eps = float(eps_fwd) if eps_fwd and float(eps_fwd) > 0 else (
                   float(eps_ttm) if eps_ttm and float(eps_ttm) > 0 else None)
 
-            if eps and eps > 0:
-                g_annual = float(g_eps) if g_eps else 0.10
+            if eps and eps > 0 and g_eps:
+                g_annual = float(g_eps)
                 g_annual = max(0.03, min(g_annual, 0.35))
                 # Fair P/E = PEG 1.0 × growth% (e.g. 15% growth → P/E 15), capped 10-30
                 fair_pe = max(10, min(g_annual * 100, 30))
