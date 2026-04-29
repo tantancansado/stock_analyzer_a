@@ -9,6 +9,7 @@ import ThesisBody from './ThesisBody'
 import TickerLogo from './TickerLogo'
 import PriceChart from './PriceChart'
 import WatchlistButton from './WatchlistButton'
+import ScoreBreakdown from './ScoreBreakdown'
 import type { ValueOpportunity, TechnicalSignal } from '../api/client'
 import { useTechnicalSignals } from '../hooks/useTechnicalSignals'
 
@@ -361,6 +362,9 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
 
                 {/* Conviction */}
                 <ConvictionPanel row={row} />
+
+                {/* Score breakdown */}
+                <ScoreBreakdown row={row} />
 
                 {/* Quick health summary */}
                 {(row.roe_pct != null || row.profit_margin_pct != null || row.revenue_growth_pct != null) && (

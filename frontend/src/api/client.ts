@@ -112,6 +112,21 @@ export interface ValueOpportunity {
   ml_score?: number | null
   ml_win_prob?: number | null
   ml_confidence?: number | null
+  // Score breakdown bonuses (from super_score_integrator.py)
+  piotroski_bonus?: number | null
+  fcf_bonus?: number | null
+  dividend_bonus?: number | null
+  buyback_bonus?: number | null
+  revision_bonus?: number | null
+  rr_bonus?: number | null
+  sector_bonus?: number | null
+  insider_bonus?: number | null
+  institutional_bonus?: number | null
+  options_bonus?: number | null
+  mr_bonus?: number | null
+  hf_bonus?: number | null
+  days_in_list?: number | null
+  profitability_penalty?: number | null
 }
 
 export interface MomentumOpportunity {
@@ -323,6 +338,10 @@ const VALUE_NUMERIC = new Set([
   'target_price_pe','target_price_pe_upside_pct','fcf_per_share','short_percent_float',
   'short_ratio','market_cape','pct_from_52w_high','oe_ai_adjustment',
   'target_change_7d_pct','target_change_30d_pct','upgrade_days_14d','downgrade_days_14d','target_revision_bonus',
+  'piotroski_bonus','fcf_bonus','dividend_bonus','buyback_bonus','revision_bonus',
+  'rr_bonus','sector_bonus','insider_bonus','institutional_bonus','options_bonus',
+  'mr_bonus','hf_bonus','days_in_list','profitability_penalty',
+  'cerebro_score_adj','hedge_fund_count',
 ])
 
 const VALUE_BOOLEAN = new Set([

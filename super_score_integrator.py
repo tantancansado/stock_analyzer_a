@@ -1364,6 +1364,104 @@ class SuperScoreIntegrator:
                 print(f"⚠️  Cerebro CSV load failed (skipping): {e}")
         # ──────────────────────────────────────────────────────────────────────
 
+        # ── SECTOR WIN-RATE WEIGHTING (ML-derived, dynamic) ───────────────────
+        # sector_win_rates from ml_model_report.json (retrained daily).
+        # Sectors with ≥50% historical win rate → mild bonus.
+        # Sectors with <25% → penalty. Stays within ±6pts to avoid dominating.
+        # Base win rate (global average) anchors neutrality so we only adjust
+        # for sectors that materially differ from the mean.
+        ml_report_path = Path('docs/ml_model_report.json')
+        if ml_report_path.exists() and 'sector' in df.columns:
+            try:
+                _ml_rep = json.loads(ml_report_path.read_text())
+                _sec_wr = _ml_rep.get('sector_win_rates', {})
+                _base_wr = _ml_rep.get('win_rate_base', 0.35)
+                if _sec_wr:
+                    def _sector_adj(sector: str) -> float:
+                        wr = _sec_wr.get(sector)
+                        if wr is None:
+                            return 0.0
+                        delta = wr - _base_wr          # how much above/below avg
+                        if delta >= 0.20:              # sector wr >> avg (Energy 71%)
+                            return 6.0
+                        elif delta >= 0.10:            # clearly above avg
+                            return 3.0
+                        elif delta <= -0.20:           # sector wr << avg (Consumer Cyc 9%)
+                            return -6.0
+                        elif delta <= -0.10:           # below avg
+                            return -3.0
+                        return 0.0                     # near avg → neutral
+
+                    df['sector_wr_adj'] = df['sector'].map(_sector_adj).fillna(0.0)
+                    df['value_score'] = (df['value_score'] + df['sector_wr_adj']).clip(lower=0, upper=100)
+
+                    up_n   = int((df['sector_wr_adj'] > 0).sum())
+                    down_n = int((df['sector_wr_adj'] < 0).sum())
+                    if up_n or down_n:
+                        best  = df.loc[df['sector_wr_adj'] > 0, 'sector'].value_counts().index[:2].tolist()
+                        worst = df.loc[df['sector_wr_adj'] < 0, 'sector'].value_counts().index[:2].tolist()
+                        print(f"   📈 Sector win-rate adj: {up_n} boosted {best} · {down_n} penalized {worst}")
+                    df.drop(columns=['sector_wr_adj'], inplace=True, errors='ignore')
+            except Exception as _e:
+                print(f"   ⚠️  Sector win-rate adj skipped: {_e}")
+        # ──────────────────────────────────────────────────────────────────────
+
+        # ── SCORE DECAY: penalize tickers stale in the list ───────────────────
+        # A ticker that's been in the VALUE list ≥14 days without being entered
+        # signals the thesis hasn't materialized → reduce conviction.
+        # Looks back through docs/history/ snapshots to find first appearance.
+        history_base = Path('docs/history')
+        if history_base.exists() and 'ticker' in df.columns:
+            try:
+                today_str = datetime.now().strftime('%Y-%m-%d')
+                snapshots = sorted([
+                    d for d in history_base.iterdir()
+                    if d.is_dir() and d.name < today_str
+                ])
+                # Build {ticker → first_seen_date_str} from history
+                first_seen: dict[str, str] = {}
+                for snap in snapshots:
+                    snap_csv = snap / 'value_opportunities.csv'
+                    if not snap_csv.exists():
+                        continue
+                    try:
+                        snap_df = pd.read_csv(snap_csv, usecols=['ticker'])
+                        for t in snap_df['ticker'].str.upper().str.strip():
+                            if t not in first_seen:
+                                first_seen[t] = snap.name  # YYYY-MM-DD
+                    except Exception:
+                        continue
+
+                if first_seen:
+                    today_dt = datetime.now().date()
+                    def _days_in_list(ticker: str) -> int:
+                        fs = first_seen.get(str(ticker).upper().strip())
+                        if fs is None:
+                            return 0
+                        try:
+                            from datetime import date as _date
+                            d = _date.fromisoformat(fs)
+                            return max(0, (today_dt - d).days)
+                        except Exception:
+                            return 0
+
+                    df['days_in_list'] = df['ticker'].map(_days_in_list)
+                    # Decay schedule: 7-13d = -3pts, 14-20d = -7pts, ≥21d = -12pts
+                    decay = pd.Series(0.0, index=df.index)
+                    decay[df['days_in_list'] >= 21] = -12.0
+                    decay[(df['days_in_list'] >= 14) & (df['days_in_list'] < 21)] = -7.0
+                    decay[(df['days_in_list'] >= 7)  & (df['days_in_list'] < 14)] = -3.0
+                    df['value_score'] = (df['value_score'] + decay).clip(lower=0, upper=100)
+
+                    d7  = int((df['days_in_list'] >= 7).sum())
+                    d14 = int((df['days_in_list'] >= 14).sum())
+                    d21 = int((df['days_in_list'] >= 21).sum())
+                    if d7:
+                        print(f"   ⏳ Score decay applied: {d7} stale ≥7d · {d14} ≥14d (-7pts) · {d21} ≥21d (-12pts)")
+            except Exception as _e:
+                print(f"   ⚠️  Score decay skipped: {_e}")
+        # ──────────────────────────────────────────────────────────────────────
+
         value_top = int((df['value_score'] >= 60).sum())
         value_avg = df['value_score'].mean()
         print(f"✅ Value score ≥60: {value_top}/{len(df)} ({value_top/len(df)*100:.1f}%)")
