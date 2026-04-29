@@ -75,7 +75,8 @@
   * { border-color: hsl(var(--border)); }
 
   html {
-    font-size: 14px;
+    /* móvil: base 16px → 0.6rem=9.6px, 0.65rem=10.4px, 0.75rem=12px */
+    font-size: 16px;
   }
 
   body {
@@ -100,6 +101,13 @@
   .dark ::-webkit-scrollbar-thumb:hover { background: hsl(239 84% 67% / 0.5); }
 }
 
+/* tablet/desktop: volver a 14px — el diseño en pantallas grandes ya está calibrado */
+@media (min-width: 640px) {
+  html {
+    font-size: 14px;
+  }
+}
+
 @media (min-width: 1100px) {
   html {
     font-size: 15px;
@@ -109,6 +117,46 @@
 @media (min-width: 1536px) {
   html {
     font-size: 15.5px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE LEGIBILITY — fuentes mínimas en pantallas pequeñas
+   Solo actúa en móvil (<640px). Los tamaños 0.5/0.55rem son ilegibles
+   en retina móvil; se elevan al mínimo legible sin tocar el layout.
+════════════════════════════════════════════════════════════════════ */
+@media (max-width: 639px) {
+  /* Micro-labels (badge category labels, section headers) */
+  [class*="text-[0.5rem]"],
+  [class*="text-[0.55rem]"],
+  [class*="text-[0.58rem]"] {
+    font-size: 0.625rem !important; /* 10px @ 16px base */
+  }
+
+  /* Sub-labels y metadata */
+  [class*="text-[0.6rem]"],
+  [class*="text-[0.62rem]"],
+  [class*="text-[0.64rem]"],
+  [class*="text-[0.65rem]"],
+  [class*="text-[0.66rem]"],
+  [class*="text-[0.68rem]"] {
+    font-size: 0.6875rem !important; /* 11px @ 16px base */
+  }
+
+  /* Body secundario y valores de tabla */
+  [class*="text-[0.7rem]"],
+  [class*="text-[0.72rem]"],
+  [class*="text-[0.75rem]"] {
+    font-size: 0.75rem !important; /* 12px @ 16px base */
+  }
+
+  /* Texto de soporte, métricas pequeñas */
+  [class*="text-[0.8rem]"],
+  [class*="text-[0.82rem]"],
+  [class*="text-[0.84rem]"],
+  [class*="text-[0.85rem]"],
+  [class*="text-[0.86rem]"] {
+    font-size: 0.875rem !important; /* 14px @ 16px base */
   }
 }
 
