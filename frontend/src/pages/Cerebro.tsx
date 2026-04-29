@@ -6,7 +6,7 @@ import {
   fetchCerebroEntrySignals, fetchCerebroExitSignals, fetchCerebroValueTraps, fetchCerebroSmartMoney,
   fetchCerebroInsiderClusters, fetchCerebroDividendSafety, fetchCerebroPiotroski,
   fetchCerebroStressTest, fetchCerebroBriefing, fetchMeanReversion,
-  fetchCerebroShortSqueeze, fetchCerebroQualityDecay, fetchEarningsCalendar,
+  fetchCerebroShortSqueeze, fetchCerebroQualityDecay, fetchEarningsCalendar, fetchPortfolioPrices,
   type CerebroTier, type CerebroAlert, type EntrySignal, type MeanReversionItem,
   type ShortSqueezeSetup, type QualityDecay, type CerebroSignal, type ExitSignal,
   type ValueTrap, type SmartMoneySignal, type EarningsEntry,
@@ -29,7 +29,7 @@ import { nlAlert } from '@/lib/nl'
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-type CerebroTab = 'briefing' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration'
+type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration'
 
 type CoachTone = 'risk' | 'opportunity' | 'watch' | 'calm'
 
@@ -606,15 +606,27 @@ export default function Cerebro() {
   const { data: earningsRaw } = useApi(() => fetchEarningsCalendar(), [])
 
   const { user } = useAuth()
-  const [portfolioTickers, setPortfolioTickers] = useState<string[]>([])
+  interface PortfolioPos { id: string; ticker: string; shares: number; avg_price: number; currency: string }
+  const [portfolioPositions, setPortfolioPositions] = useState<PortfolioPos[]>([])
+  const [livePrices, setLivePrices] = useState<Record<string, number>>({})
+  const portfolioTickers = useMemo(() => portfolioPositions.map(p => p.ticker), [portfolioPositions])
+
   useEffect(() => {
     if (!user) return
     supabase
       .from('personal_portfolio_positions')
-      .select('ticker')
+      .select('*')
       .eq('user_id', user.id)
       .then(({ data }) => {
-        if (data) setPortfolioTickers(data.map((r: { ticker: string }) => r.ticker))
+        if (data) {
+          const positions = data.map((r: { id: string; ticker: string; shares: number; avg_price: number; currency: string }) => ({
+            id: r.id, ticker: r.ticker, shares: r.shares, avg_price: r.avg_price, currency: r.currency,
+          }))
+          setPortfolioPositions(positions)
+          if (positions.length) {
+            fetchPortfolioPrices(positions.map(p => p.ticker)).then(setLivePrices)
+          }
+        }
       })
   }, [user])
 
@@ -700,14 +712,32 @@ export default function Cerebro() {
     (decayData?.high_count ?? 0) +
     alerts.filter(a => a.severity === 'HIGH').length
   const topEntry = entrySignals.find(s => s.signal === 'STRONG_BUY') ?? entrySignals.find(s => s.signal === 'BUY')
-  const coachHeadline = highRiskCount > 0
+  // Portfolio-specific risk signals (needed for coach and tabs)
+  const pSet = new Set(portfolioTickers.map(t => t.toUpperCase()))
+  const portfolioExitHigh  = (exitData?.exits  ?? []).filter(e => pSet.has(e.ticker.toUpperCase()) && e.severity === 'HIGH')
+  const portfolioTrapsHigh = (trapsData?.traps ?? []).filter(t => pSet.has(t.ticker.toUpperCase()) && t.severity === 'HIGH')
+  const portfolioDecayHigh = ((decayData as { decays?: { ticker: string; severity: string }[] } | null)?.decays ?? []).filter(d => pSet.has(d.ticker.toUpperCase()) && d.severity === 'HIGH')
+  const portfolioRiskCount = portfolioExitHigh.length + portfolioTrapsHigh.length + portfolioDecayHigh.length
+
+  // Coach: portfolio-aware headline
+  const ownedExit  = portfolioExitHigh[0]
+  const ownedTrap  = portfolioTrapsHigh[0]
+  const coachHeadline = ownedExit
+    ? `Revisa ${ownedExit.ticker} — tienes esta posición y Cerebro detecta deterioro.`
+    : ownedTrap
+    ? `${ownedTrap.ticker} puede ser una trampa — y está en tu cartera.`
+    : highRiskCount > 0
     ? 'Yo hoy empezaría por proteger la cartera.'
     : topEntry
     ? `Yo hoy miraría ${topEntry.ticker} primero.`
     : topBounces.length > 0
     ? 'Hoy veo más vigilancia que compra inmediata.'
     : 'Hoy no forzaría ninguna operación.'
-  const coachSubline = highRiskCount > 0
+  const coachSubline = ownedExit
+    ? `El Exit Monitor tiene señal HIGH en ${ownedExit.ticker}. Antes de buscar entradas nuevas, vale la pena revisar esta posición.`
+    : ownedTrap
+    ? `${ownedTrap.ticker} tiene puntuación de trampa ${ownedTrap.trap_score}/10. Puede estar barata sin estar limpia.`
+    : highRiskCount > 0
     ? 'Hay señales de riesgo que pueden ahorrar más dinero que una buena entrada. Primero limpio lo delicado, luego busco oportunidades.'
     : topEntry
     ? 'Hay al menos una idea con suficiente claridad para abrir análisis. La decisión final sigue siendo tamaño, precio y encaje con tu cartera.'
@@ -716,13 +746,14 @@ export default function Cerebro() {
     : 'El sistema no encuentra una prioridad urgente. En días así, la ventaja está en no inventarse señales.'
 
   const tabs = [
-    { id: 'briefing' as const,    label: 'Briefing',        icon: Newspaper,        count: undefined, highlight: !!briefingData?.narrative },
-    { id: 'entry' as const,       label: 'Señales',         icon: Zap,              count: (entryData?.strong_buy ?? 0) + (entryData?.buy ?? 0), highlight: (entryData?.strong_buy ?? 0) > 0 },
-    { id: 'bounces' as const,     label: 'Rebotes',         icon: Repeat2,          count: topBounces.length, highlight: topBounces.length > 0 },
-    { id: 'convergence' as const, label: 'Convergencias',   icon: Crosshair,        count: convergence?.triple_or_more, highlight: (convergence?.triple_or_more ?? 0) > 0 },
-    { id: 'agents' as const,      label: 'Agentes IA',      icon: Bot,              count: (exitData?.high_count ?? 0) + (trapsData?.high_count ?? 0) + (squeezeData?.high_count ?? 0) + (decayData?.high_count ?? 0), highlight: (exitData?.high_count ?? 0) + (trapsData?.high_count ?? 0) + (squeezeData?.high_count ?? 0) + (decayData?.high_count ?? 0) > 0 },
-    { id: 'alerts' as const,      label: 'Alertas',         icon: Bell,             count: alerts.filter(a => a.severity === 'HIGH').length || undefined, highlight: alerts.some(a => a.severity === 'HIGH') },
-    { id: 'insights' as const,    label: 'Patrones',        icon: Brain,            count: undefined },
+    { id: 'briefing' as const,    label: 'Briefing',        icon: Newspaper,         count: undefined,          highlight: !!briefingData?.narrative },
+    { id: 'myportfolio' as const, label: 'Mi cartera',      icon: Wallet,            count: portfolioRiskCount || (portfolioPositions.length ? undefined : undefined), highlight: portfolioRiskCount > 0 },
+    { id: 'entry' as const,       label: 'Señales',         icon: Zap,               count: (entryData?.strong_buy ?? 0) + (entryData?.buy ?? 0), highlight: (entryData?.strong_buy ?? 0) > 0 },
+    { id: 'bounces' as const,     label: 'Rebotes',         icon: Repeat2,           count: topBounces.length,  highlight: topBounces.length > 0 },
+    { id: 'convergence' as const, label: 'Convergencias',   icon: Crosshair,         count: convergence?.triple_or_more, highlight: (convergence?.triple_or_more ?? 0) > 0 },
+    { id: 'agents' as const,      label: 'Agentes IA',      icon: Bot,               count: (exitData?.high_count ?? 0) + (trapsData?.high_count ?? 0) + (squeezeData?.high_count ?? 0) + (decayData?.high_count ?? 0), highlight: (exitData?.high_count ?? 0) + (trapsData?.high_count ?? 0) + (squeezeData?.high_count ?? 0) + (decayData?.high_count ?? 0) > 0 },
+    { id: 'alerts' as const,      label: 'Alertas',         icon: Bell,              count: alerts.filter(a => a.severity === 'HIGH').length || undefined, highlight: alerts.some(a => a.severity === 'HIGH') },
+    { id: 'insights' as const,    label: 'Patrones',        icon: Brain,             count: undefined },
     { id: 'calibration' as const, label: 'Calibración',     icon: SlidersHorizontal, count: calibration?.total_recommendations },
   ]
 
@@ -751,16 +782,16 @@ export default function Cerebro() {
       {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-5">
         {[
-          { label: 'Strong Buy hoy',    value: entryData?.strong_buy ?? '—',  color: (entryData?.strong_buy ?? 0) > 0 ? 'text-emerald-400' : 'text-muted-foreground', sub: `${entryData?.buy ?? 0} BUY · ${entryData?.monitor ?? 0} Monitor` },
-          { label: 'Señales analizadas',value: insights?.total_analyzed ?? '—', color: 'text-violet-400', sub: 'histórico' },
-          { label: 'Win rate base',     value: insights ? `${insights.baseline_win_rate_7d.toFixed(1)}%` : '—', color: insights?.baseline_win_rate_7d != null ? (insights.baseline_win_rate_7d >= 55 ? 'text-emerald-400' : insights.baseline_win_rate_7d >= 45 ? 'text-amber-400' : 'text-red-400') : '', sub: '7d sistema' },
-          { label: 'Convergencias hoy', value: convergence?.total_convergences ?? '—', color: 'text-cyan-400', sub: `${convergence?.triple_or_more ?? 0} triples` },
-          { label: 'Alertas HIGH',      value: alertsData?.high_count ?? '—', color: (alertsData?.high_count ?? 0) > 0 ? 'text-red-400' : 'text-muted-foreground', sub: `${alertsData?.total ?? 0} total` },
+          { label: 'En cartera',        value: portfolioPositions.length || '—', color: portfolioPositions.length > 0 ? 'text-violet-400' : 'text-muted-foreground', sub: portfolioRiskCount > 0 ? `⚠ ${portfolioRiskCount} alerta${portfolioRiskCount > 1 ? 's' : ''}` : portfolioEarnings.length > 0 ? `${portfolioEarnings.length} earnings próx.` : 'sin alertas', onClick: () => setActiveTab('myportfolio') },
+          { label: 'Strong Buy hoy',    value: entryData?.strong_buy ?? '—',     color: (entryData?.strong_buy ?? 0) > 0 ? 'text-emerald-400' : 'text-muted-foreground', sub: `${entryData?.buy ?? 0} BUY · ${entryData?.monitor ?? 0} Monitor`, onClick: () => setActiveTab('entry') },
+          { label: 'Win rate VALUE',    value: insights ? `${insights.baseline_win_rate_7d.toFixed(1)}%` : '—', color: insights?.baseline_win_rate_7d != null ? (insights.baseline_win_rate_7d >= 55 ? 'text-emerald-400' : insights.baseline_win_rate_7d >= 45 ? 'text-amber-400' : 'text-red-400') : '', sub: '7d histórico', onClick: () => setActiveTab('insights') },
+          { label: 'Convergencias',     value: convergence?.total_convergences ?? '—', color: 'text-cyan-400', sub: `${convergence?.triple_or_more ?? 0} triples`, onClick: () => setActiveTab('convergence') },
+          { label: 'Alertas HIGH',      value: alertsData?.high_count ?? '—',    color: (alertsData?.high_count ?? 0) > 0 ? 'text-red-400' : 'text-muted-foreground', sub: `${alertsData?.total ?? 0} total`, onClick: () => setActiveTab('alerts') },
         ].map((s, i) => (
-          <Card key={s.label} className="glass p-5 border border-border/40 hover:border-border/60 transition-colors animate-fade-in-up" style={{ animationDelay: `${i * 60}ms` }}>
+          <Card key={s.label} onClick={s.onClick} className="glass p-5 border border-border/40 hover:border-border/60 transition-colors animate-fade-in-up cursor-pointer active:scale-[0.98]" style={{ animationDelay: `${i * 60}ms` }}>
             <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{s.label}</div>
             <div className={`text-3xl font-extrabold tabular-nums leading-none mb-1 ${s.color}`}>{s.value}</div>
-            <div className="text-[0.66rem] text-muted-foreground">{s.sub}</div>
+            <div className={`text-[0.66rem] ${portfolioRiskCount > 0 && s.label === 'En cartera' ? 'text-red-400' : 'text-muted-foreground'}`}>{s.sub}</div>
           </Card>
         ))}
       </div>
@@ -794,7 +825,39 @@ export default function Cerebro() {
           {briefingData?.narrative ? (
             <AiNarrativeCard narrative={briefingData.narrative} label={`Briefing diario · ${briefingData.generated_at} · Régimen ${briefingData.regime}`} />
           ) : (
-            <Card className="glass"><CardContent className="py-8 text-center text-muted-foreground text-sm">Briefing no disponible aún — se genera al final del pipeline.</CardContent></Card>
+            <Card className="glass border-border/30">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Newspaper size={13} className="text-muted-foreground/60" />
+                  <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Resumen automático</span>
+                  <span className="ml-auto text-[0.6rem] text-muted-foreground/40">Briefing IA no generado aún</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[0.75rem]">
+                  <div className="rounded-lg bg-muted/10 border border-border/20 p-2.5">
+                    <div className="text-[0.58rem] text-muted-foreground/50 mb-1 uppercase tracking-wider">Régimen</div>
+                    <div className="font-bold text-foreground/80">{briefingData?.regime ?? insights?.market_regimes?.[0]?.label ?? '—'}</div>
+                  </div>
+                  <div className="rounded-lg bg-emerald-500/5 border border-emerald-500/15 p-2.5">
+                    <div className="text-[0.58rem] text-muted-foreground/50 mb-1 uppercase tracking-wider">Entradas hoy</div>
+                    <div className="font-bold text-emerald-400">{(entryData?.strong_buy ?? 0) + (entryData?.buy ?? 0)} accionables</div>
+                  </div>
+                  <div className="rounded-lg bg-red-500/5 border border-red-500/15 p-2.5">
+                    <div className="text-[0.58rem] text-muted-foreground/50 mb-1 uppercase tracking-wider">Alertas HIGH</div>
+                    <div className="font-bold text-red-400">{alertsData?.high_count ?? 0}</div>
+                  </div>
+                  <div className="rounded-lg bg-cyan-500/5 border border-cyan-500/15 p-2.5">
+                    <div className="text-[0.58rem] text-muted-foreground/50 mb-1 uppercase tracking-wider">Convergencias</div>
+                    <div className="font-bold text-cyan-400">{convergence?.triple_or_more ?? 0} triples</div>
+                  </div>
+                  {portfolioRiskCount > 0 && (
+                    <div className="rounded-lg bg-violet-500/5 border border-violet-500/20 p-2.5 col-span-2">
+                      <div className="text-[0.58rem] text-muted-foreground/50 mb-1 uppercase tracking-wider">Tu cartera</div>
+                      <div className="font-bold text-violet-400">{portfolioRiskCount} alerta{portfolioRiskCount > 1 ? 's' : ''} en posiciones propias</div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           )}
 
           {briefingData?.sections && (
@@ -979,6 +1042,134 @@ export default function Cerebro() {
                 </Card>
               )}
             </div>
+          )}
+        </div>
+      )}
+
+      {/* ── TAB: Mi Cartera ──────────────────────────────────────────────────── */}
+      {activeTab === 'myportfolio' && (
+        <div className="space-y-4 animate-fade-in-up">
+          {!user ? (
+            <Card className="glass"><CardContent className="py-12 text-center text-muted-foreground">Inicia sesión para ver tu cartera.</CardContent></Card>
+          ) : portfolioPositions.length === 0 ? (
+            <Card className="glass"><CardContent className="py-12 text-center text-muted-foreground">No hay posiciones guardadas. Añádelas en <Link to="/my-portfolio" className="text-primary hover:underline">Mi cartera →</Link></CardContent></Card>
+          ) : (
+            <>
+              {/* Risk alerts for owned positions */}
+              {portfolioRiskCount > 0 && (
+                <div className="space-y-2">
+                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-red-400/70">Alertas en tus posiciones</div>
+                  {portfolioExitHigh.map(e => (
+                    <div key={e.ticker} className="flex items-start gap-3 p-3 rounded-xl border border-red-500/30 bg-red-500/5">
+                      <TickerLogo ticker={e.ticker} size="sm" className="shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <Link to={`/search?q=${e.ticker}`} className="font-mono font-bold text-primary text-[0.85rem] hover:underline">{e.ticker}</Link>
+                          <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded border bg-red-500/15 text-red-400 border-red-500/30">EXIT HIGH</span>
+                          {e.current_score != null && <span className="text-[0.65rem] text-muted-foreground ml-auto">Score {e.entry_score.toFixed(0)} → {e.current_score.toFixed(0)}</span>}
+                        </div>
+                        <p className="text-[0.72rem] text-muted-foreground">{e.reasons.slice(0, 2).join(' · ')}</p>
+                      </div>
+                    </div>
+                  ))}
+                  {portfolioTrapsHigh.map(t => (
+                    <div key={t.ticker} className="flex items-start gap-3 p-3 rounded-xl border border-amber-500/30 bg-amber-500/5">
+                      <TickerLogo ticker={t.ticker} size="sm" className="shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <Link to={`/search?q=${t.ticker}`} className="font-mono font-bold text-primary text-[0.85rem] hover:underline">{t.ticker}</Link>
+                          <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded border bg-amber-500/15 text-amber-400 border-amber-500/30">TRAMPA HIGH</span>
+                          <span className="text-[0.65rem] text-amber-400 ml-auto">{t.trap_score}/10</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1 mt-1">{t.flags.slice(0, 3).map((f, i) => <span key={i} className="text-[0.6rem] text-muted-foreground/70 bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}</div>
+                      </div>
+                    </div>
+                  ))}
+                  {portfolioDecayHigh.map(d => (
+                    <div key={d.ticker} className="flex items-start gap-3 p-3 rounded-xl border border-orange-500/25 bg-orange-500/5">
+                      <TickerLogo ticker={d.ticker} size="sm" className="shrink-0 mt-0.5" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <Link to={`/search?q=${d.ticker}`} className="font-mono font-bold text-primary text-[0.85rem] hover:underline">{d.ticker}</Link>
+                          <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded border bg-orange-500/15 text-orange-400 border-orange-500/25">DETERIORO</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Earnings upcoming */}
+              {portfolioEarnings.length > 0 && (
+                <div className="space-y-2">
+                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-violet-400/70">Earnings próximos (≤14d)</div>
+                  {portfolioEarnings.map(e => (
+                    <div key={e.ticker} className="flex items-center gap-3 p-3 rounded-xl border border-violet-500/20 bg-violet-500/5">
+                      <TickerLogo ticker={e.ticker} size="sm" className="shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <Link to={`/search?q=${e.ticker}`} className="font-mono font-bold text-primary text-[0.85rem] hover:underline">{e.ticker}</Link>
+                          <span className="text-[0.65rem] text-muted-foreground truncate">{e.company}</span>
+                        </div>
+                        {e.implied_move_pct != null && <div className="text-[0.65rem] text-muted-foreground">Movimiento implícito: ±{e.implied_move_pct.toFixed(1)}%</div>}
+                      </div>
+                      <div className="text-right shrink-0">
+                        <div className={`text-sm font-black tabular-nums ${e.days_to_earnings === 0 ? 'text-red-400' : e.days_to_earnings != null && e.days_to_earnings <= 3 ? 'text-amber-400' : 'text-violet-400'}`}>
+                          {e.days_to_earnings === 0 ? 'HOY' : `${e.days_to_earnings}d`}
+                        </div>
+                        {e.earnings_catalyst && <div className="text-[0.55rem] text-emerald-400 font-bold">CATALIZADOR</div>}
+                        {e.earnings_warning && <div className="text-[0.55rem] text-amber-400 font-bold">RIESGO</div>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Positions P&L grid */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/60">Tus posiciones</div>
+                  <Link to="/my-portfolio" className="text-[0.7rem] text-primary hover:underline">Ver análisis completo →</Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {portfolioPositions.map(pos => {
+                    const live = livePrices[pos.ticker]
+                    const pnlPct = live != null ? ((live - pos.avg_price) / pos.avg_price) * 100 : null
+                    const hasExit  = pSet.has(pos.ticker.toUpperCase()) && (exitData?.exits ?? []).some(e => e.ticker.toUpperCase() === pos.ticker.toUpperCase())
+                    const hasTrap  = pSet.has(pos.ticker.toUpperCase()) && (trapsData?.traps ?? []).some(t => t.ticker.toUpperCase() === pos.ticker.toUpperCase())
+                    const hasEarnings = portfolioEarnings.some(e => e.ticker.toUpperCase() === pos.ticker.toUpperCase())
+                    return (
+                      <div key={pos.ticker} className={`flex items-center gap-3 p-3 rounded-xl border transition-colors ${hasExit ? 'border-red-500/25 bg-red-500/5' : hasTrap ? 'border-amber-500/20 bg-amber-500/5' : 'border-border/30 bg-muted/5 hover:border-border/50'}`}>
+                        <TickerLogo ticker={pos.ticker} size="sm" className="shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <Link to={`/search?q=${pos.ticker}`} className="font-mono font-bold text-primary text-[0.85rem] hover:underline">{pos.ticker}</Link>
+                            {hasExit  && <span className="text-[0.5rem] font-bold px-1 py-0 rounded border bg-red-500/15 text-red-400 border-red-500/25">EXIT</span>}
+                            {hasTrap  && <span className="text-[0.5rem] font-bold px-1 py-0 rounded border bg-amber-500/15 text-amber-400 border-amber-500/25">TRAMPA</span>}
+                            {hasEarnings && <span className="text-[0.5rem] font-bold px-1 py-0 rounded border bg-violet-500/15 text-violet-400 border-violet-500/25">EARN</span>}
+                          </div>
+                          <div className="text-[0.65rem] text-muted-foreground">
+                            {pos.shares} acc · entrada {pos.currency === 'USD' ? '$' : '£'}{pos.avg_price.toFixed(2)}
+                          </div>
+                        </div>
+                        <div className="text-right shrink-0">
+                          {live != null ? (
+                            <>
+                              <div className="text-[0.8rem] font-bold text-foreground tabular-nums">{pos.currency === 'USD' ? '$' : '£'}{live.toFixed(2)}</div>
+                              <div className={`text-[0.65rem] font-bold tabular-nums ${pnlPct != null && pnlPct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                {pnlPct != null ? `${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(1)}%` : '—'}
+                              </div>
+                            </>
+                          ) : (
+                            <div className="text-[0.65rem] text-muted-foreground/40">sin precio</div>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </>
           )}
         </div>
       )}
@@ -1352,19 +1543,27 @@ export default function Cerebro() {
             </div>
             {exitData?.narrative && <AiNarrativeCard narrative={exitData.narrative} label="" />}
             <div className="space-y-2 mt-2">
-              {(exitData?.exits ?? []).slice(0, 6).map(e => (
-                <div key={e.ticker} className={`flex items-start gap-3 p-3 rounded-xl border ${e.severity === 'HIGH' ? 'border-red-500/25 bg-red-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
+              {[...(exitData?.exits ?? [])].sort((a, b) => {
+                const aOwned = pSet.has(a.ticker.toUpperCase()) ? -1 : 0
+                const bOwned = pSet.has(b.ticker.toUpperCase()) ? -1 : 0
+                return aOwned - bOwned
+              }).slice(0, 8).map(e => {
+                const owned = pSet.has(e.ticker.toUpperCase())
+                return (
+                <div key={e.ticker} className={`flex items-start gap-3 p-3 rounded-xl border ${owned ? 'border-red-500/40 bg-red-500/8 ring-1 ring-red-500/20' : e.severity === 'HIGH' ? 'border-red-500/25 bg-red-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
                   <TickerLogo ticker={e.ticker} size="sm" className="shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
+                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                       <Link to={`/search?q=${e.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{e.ticker}</Link>
                       <span className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ${e.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>{e.severity}</span>
+                      {owned && <span className="text-[0.55rem] font-bold px-1.5 py-0.5 rounded border bg-violet-500/20 text-violet-300 border-violet-500/40">EN CARTERA</span>}
                       {e.current_score != null && <span className="text-[0.65rem] text-muted-foreground ml-auto">Score {e.entry_score.toFixed(0)} → {e.current_score.toFixed(0)}</span>}
                     </div>
                     <p className="text-[0.7rem] text-muted-foreground leading-relaxed">{e.reasons.join(' · ')}</p>
                   </div>
                 </div>
-              ))}
+                )
+              })}
               {!exitData?.exits?.length && <p className="text-sm text-muted-foreground text-center py-4">Sin señales de salida activas</p>}
             </div>
           </section>
@@ -1378,19 +1577,23 @@ export default function Cerebro() {
             </div>
             {trapsData?.narrative && <AiNarrativeCard narrative={trapsData.narrative} label="" />}
             <div className="space-y-2 mt-2">
-              {(trapsData?.traps ?? []).slice(0, 6).map(t => (
-                <div key={t.ticker} className={`p-3 rounded-xl border ${t.severity === 'HIGH' ? 'border-red-500/25 bg-red-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
-                  <div className="flex items-center gap-2 mb-1">
+              {[...(trapsData?.traps ?? [])].sort((a, b) => (pSet.has(a.ticker.toUpperCase()) ? -1 : 1) - (pSet.has(b.ticker.toUpperCase()) ? -1 : 1)).slice(0, 8).map(t => {
+                const owned = pSet.has(t.ticker.toUpperCase())
+                return (
+                <div key={t.ticker} className={`p-3 rounded-xl border ${owned ? 'border-amber-500/40 bg-amber-500/8 ring-1 ring-amber-500/20' : t.severity === 'HIGH' ? 'border-red-500/25 bg-red-500/5' : 'border-amber-500/20 bg-amber-500/5'}`}>
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <TickerLogo ticker={t.ticker} size="sm" className="shrink-0" />
                     <Link to={`/search?q=${t.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{t.ticker}</Link>
                     <span className="text-[0.65rem] text-muted-foreground">{t.company_name}</span>
+                    {owned && <span className="text-[0.55rem] font-bold px-1.5 py-0.5 rounded border bg-violet-500/20 text-violet-300 border-violet-500/40">EN CARTERA</span>}
                     <span className="ml-auto text-[0.65rem] text-amber-400">trampa {t.trap_score}/10</span>
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {t.flags.map((f, i) => <span key={i} className="text-[0.6rem] text-muted-foreground/70 bg-muted/10 border border-border/20 px-1.5 py-0.5 rounded">{f}</span>)}
                   </div>
                 </div>
-              ))}
+                )
+              })}
               {!trapsData?.traps?.length && <p className="text-sm text-muted-foreground text-center py-4">Sin value traps detectadas</p>}
             </div>
           </section>
