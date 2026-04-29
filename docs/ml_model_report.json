@@ -1,0 +1,32 @@
+{
+  "trained_at": "2026-04-29T18:01:54.972778",
+  "n_samples": 1390,
+  "win_rate_base": 0.2777,
+  "cv_roc_auc": 0.8834,
+  "cv_brier_score": 0.1283,
+  "feature_importance": {
+    "regime_num": 0.1276,
+    "regime_x_sector": 0.1211,
+    "fcf_gte_5": 0.0881,
+    "sector_wr": 0.0769,
+    "fcf_positive": 0.0754,
+    "analyst_upside_pct": 0.0716,
+    "fcf_yield_pct": 0.0675,
+    "value_score": 0.0673,
+    "risk_reward_ratio": 0.0627,
+    "value_score_sq": 0.0618
+  },
+  "sector_win_rates": {
+    "Energy": 0.714,
+    "Utilities": 0.667,
+    "Communication Services": 0.5,
+    "Financial Services": 0.338,
+    "Technology": 0.313,
+    "Industrials": 0.239,
+    "Real Estate": 0.194,
+    "Healthcare": 0.183,
+    "Consumer Defensive": 0.153,
+    "Basic Materials": 0.116,
+    "Consumer Cyclical": 0.09
+  }
+}
