@@ -25,3 +25,33 @@ self.addEventListener('fetch', e => {
     caches.match(e.request).then(cached => cached ?? fetch(e.request))
   )
 })
+
+// ── Web Push ──────────────────────────────────────────────────────────────────
+self.addEventListener('push', e => {
+  let data = {}
+  try { data = e.data?.json() ?? {} } catch { data = { title: 'Stock Analyzer', body: e.data?.text() ?? '' } }
+
+  const title   = data.title ?? 'Stock Analyzer'
+  const options = {
+    body:    data.body ?? '',
+    tag:     data.tag  ?? 'sa-alert',
+    icon:    '/stock_analyzer_a/app/icon-192.png',
+    badge:   '/stock_analyzer_a/app/icon-192.png',
+    data:    { url: data.url ?? '/stock_analyzer_a/app/' },
+    requireInteraction: false,
+    silent:  false,
+  }
+  e.waitUntil(self.registration.showNotification(title, options))
+})
+
+self.addEventListener('notificationclick', e => {
+  e.notification.close()
+  const url = e.notification.data?.url ?? '/stock_analyzer_a/app/'
+  e.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+      const match = list.find(c => c.url.includes('/stock_analyzer_a/app'))
+      if (match) { match.focus(); return match.navigate(url) }
+      return clients.openWindow(url)
+    })
+  )
+})

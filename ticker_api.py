@@ -4119,6 +4119,127 @@ def preferred_stocks():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# WEB PUSH SUBSCRIPTIONS
+# ─────────────────────────────────────────────────────────────────────────────
+
+_PUSH_SUBS_FILE = Path('data/push_subscriptions.json')
+_PUSH_SUBS_FILE.parent.mkdir(exist_ok=True)
+
+def _load_push_subs() -> list:
+    if _PUSH_SUBS_FILE.exists():
+        try:
+            return json.load(open(_PUSH_SUBS_FILE))
+        except Exception:
+            return []
+    return []
+
+def _save_push_subs(subs: list) -> None:
+    json.dump(subs, open(_PUSH_SUBS_FILE, 'w'), indent=2)
+
+
+@app.route('/api/push/subscribe', methods=['POST'])
+def push_subscribe():
+    """Register a Web Push subscription."""
+    sub = request.get_json(force=True)
+    if not sub or not sub.get('endpoint'):
+        return jsonify({'error': 'Invalid subscription'}), 400
+    subs = _load_push_subs()
+    # Dedup by endpoint
+    subs = [s for s in subs if s.get('endpoint') != sub['endpoint']]
+    subs.append(sub)
+    _save_push_subs(subs)
+    return jsonify({'ok': True, 'subscribers': len(subs)})
+
+
+@app.route('/api/push/unsubscribe', methods=['POST'])
+def push_unsubscribe():
+    """Remove a Web Push subscription."""
+    body = request.get_json(force=True) or {}
+    endpoint = body.get('endpoint')
+    if not endpoint:
+        return jsonify({'error': 'endpoint required'}), 400
+    subs = _load_push_subs()
+    subs = [s for s in subs if s.get('endpoint') != endpoint]
+    _save_push_subs(subs)
+    return jsonify({'ok': True, 'subscribers': len(subs)})
+
+
+@app.route('/api/push/vapid-public-key')
+def push_vapid_key():
+    """Return the VAPID public key for the frontend."""
+    key = os.environ.get('VAPID_PUBLIC_KEY', '')
+    if not key:
+        return jsonify({'error': 'VAPID not configured'}), 503
+    return jsonify({'key': key})
+
+
+@app.route('/api/push/send', methods=['POST'])
+def push_send():
+    """Send a Web Push notification to all subscribers. Internal use only."""
+    # Simple internal token check
+    token = request.headers.get('X-Internal-Token', '')
+    expected = os.environ.get('INTERNAL_API_TOKEN', '')
+    if expected and token != expected:
+        return jsonify({'error': 'Forbidden'}), 403
+
+    payload = request.get_json(force=True) or {}
+    title   = payload.get('title', 'Stock Analyzer')
+    body    = payload.get('body', '')
+    tag     = payload.get('tag', 'sa-alert')
+    url     = payload.get('url', '/stock_analyzer_a/app/')
+
+    vapid_private = os.environ.get('VAPID_PRIVATE_KEY', '')
+    vapid_public  = os.environ.get('VAPID_PUBLIC_KEY', '')
+    vapid_email   = os.environ.get('VAPID_EMAIL', 'tantancansado@gmail.com')
+
+    if not vapid_private or not vapid_public:
+        return jsonify({'error': 'VAPID keys not configured'}), 503
+
+    try:
+        from pywebpush import webpush, WebPushException
+    except ImportError:
+        return jsonify({'error': 'pywebpush not installed'}), 503
+
+    subs = _load_push_subs()
+    sent = 0
+    failed_endpoints = []
+
+    notification_payload = json.dumps({
+        'title': title,
+        'body':  body,
+        'tag':   tag,
+        'url':   url,
+        'icon':  '/stock_analyzer_a/app/icon-192.png',
+    })
+
+    for sub in subs:
+        try:
+            webpush(
+                subscription_info=sub,
+                data=notification_payload,
+                vapid_private_key=vapid_private,
+                vapid_claims={'sub': f'mailto:{vapid_email}'},
+            )
+            sent += 1
+        except WebPushException as e:
+            status = e.response.status_code if e.response else 0
+            if status in (404, 410):
+                # Subscription expired/unsubscribed
+                failed_endpoints.append(sub.get('endpoint'))
+            else:
+                logging.warning(f"Push failed ({status}): {e}")
+        except Exception as e:
+            logging.warning(f"Push error: {e}")
+
+    # Clean expired subscriptions
+    if failed_endpoints:
+        subs = [s for s in subs if s.get('endpoint') not in failed_endpoints]
+        _save_push_subs(subs)
+
+    return jsonify({'sent': sent, 'subscribers': len(subs), 'expired_removed': len(failed_endpoints)})
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
     import sys
