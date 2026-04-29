@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { FlaskConical, Info, ArrowLeftRight } from 'lucide-react'
 import Loading from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
+
+const BacktestResults = lazy(() => import('./BacktestResults'))
 
 // ── Config ─────────────────────────────────────────────────────────────────────
 
@@ -170,7 +172,7 @@ export default function Backtest() {
   const [mrSetups, setMrSetups] = useState<MRSetup[]>([])
   const [loading,  setLoading]  = useState(true)
   const [error,    setError]    = useState('')
-  const [tab,      setTab]      = useState<'value' | 'mr'>('value')
+  const [tab,      setTab]      = useState<'value' | 'mr' | 'analytics'>('value')
   const [period,   setPeriod]   = useState<Period>('7d')
   const [strat,    setStrat]    = useState('ALL')
   const [sort,     setSort]     = useState<'date' | 'ret' | 'score'>('ret')
@@ -258,6 +260,10 @@ export default function Backtest() {
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'mr' ? 'bg-background text-teal-400 border border-teal-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
           <ArrowLeftRight size={14} /> Mean Reversion ({mrSetups.length})
         </button>
+        <button onClick={() => setTab('analytics')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'analytics' ? 'bg-background text-violet-400 border border-violet-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
+          📈 Analytics
+        </button>
       </div>
 
       {/* ── VALUE TAB ── */}
@@ -332,6 +338,13 @@ export default function Backtest() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* ── ANALYTICS TAB ── */}
+      {tab === 'analytics' && (
+        <Suspense fallback={<Loading />}>
+          <BacktestResults />
+        </Suspense>
       )}
 
       {/* ── MEAN REVERSION TAB ── */}

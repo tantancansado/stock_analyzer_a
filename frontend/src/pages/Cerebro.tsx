@@ -1,5 +1,5 @@
 import StaleDataBanner from '../components/StaleDataBanner'
-import { useState, useRef, useEffect, useMemo } from 'react'
+import { useState, useRef, useEffect, useMemo, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import {
   fetchCerebroInsights, fetchCerebroConvergence, fetchCerebroAlerts, fetchCerebroCalibration,
@@ -23,13 +23,16 @@ import {
   Brain, Crosshair, Bell, SlidersHorizontal, TrendingUp, TrendingDown, Minus, ChevronRight,
   Zap, CheckCircle2, Newspaper, Bot, AlertOctagon, ShieldAlert,
   Building2, Users, Wallet, BarChart2, Activity, Repeat2, Sparkles, MessageCircle, CalendarDays,
+  GitBranch,
   type LucideIcon,
 } from 'lucide-react'
 import { nlAlert } from '@/lib/nl'
 
+const ThesisDriftTab = lazy(() => import('./ThesisDrift'))
+
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration'
+type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration' | 'thesis'
 
 type CoachTone = 'risk' | 'opportunity' | 'watch' | 'calm'
 
@@ -755,6 +758,7 @@ export default function Cerebro() {
     { id: 'alerts' as const,      label: 'Alertas',         icon: Bell,              count: alerts.filter(a => a.severity === 'HIGH').length || undefined, highlight: alerts.some(a => a.severity === 'HIGH') },
     { id: 'insights' as const,    label: 'Patrones',        icon: Brain,             count: undefined },
     { id: 'calibration' as const, label: 'Calibración',     icon: SlidersHorizontal, count: calibration?.total_recommendations },
+    { id: 'thesis' as const,      label: 'Thesis Drift',    icon: GitBranch,          count: undefined,                            highlight: false },
   ]
 
 
@@ -1876,6 +1880,13 @@ export default function Cerebro() {
           </section>
 
         </div>
+      )}
+
+      {/* ── TAB: Thesis Drift ──────────────────────────────────────────────────── */}
+      {activeTab === 'thesis' && (
+        <Suspense fallback={<Loading />}>
+          <ThesisDriftTab />
+        </Suspense>
       )}
     </>
   )

@@ -24,7 +24,7 @@ const Value            = lazy(() => import('./pages/Value'))
 const EntrySetups      = lazy(() => import('./pages/EntrySetups'))
 const Insiders         = lazy(() => import('./pages/Insiders'))
 const OptionsFlow      = lazy(() => import('./pages/OptionsFlow'))
-const SectorRotation   = lazy(() => import('./pages/SectorRotation'))
+const Sectors          = lazy(() => import('./pages/Sectors'))
 const MyPortfolio      = lazy(() => import('./pages/MyPortfolio'))
 const Backtest         = lazy(() => import('./pages/Backtest'))
 const TickerSearch     = lazy(() => import('./pages/TickerSearch'))
@@ -287,7 +287,7 @@ export default function App() {
                   <Route path="/insiders"       element={<Insiders />} />
                   <Route path="/options"        element={<OptionsFlow />} />
                   <Route path="/mean-reversion" element={<Navigate to="/entry-setups?tab=mean-reversion" replace />} />
-                  <Route path="/sectors"        element={<SectorRotation />} />
+                  <Route path="/sectors"        element={<Sectors />} />
                   <Route path="/portfolio"      element={<Navigate to="/my-portfolio?tab=signals" replace />} />
                   <Route path="/calibration"   element={<Calibration />} />
                   <Route path="/backtest"       element={<Backtest />} />

@@ -574,6 +574,9 @@ export const fetchRecurringInsiders = () =>
 export const fetchPortfolioTracker = () =>
   apiClient.get<PortfolioSummary>('/api/portfolio-tracker')
 
+export const fetchPortfolioSignals = () =>
+  apiClient.get<{ data: Record<string, unknown>[] }>('/api/portfolio-tracker/signals')
+
 export interface CalibrationBucket {
   range: string
   count: number
@@ -852,6 +855,23 @@ export interface SectorSummary {
   tickers: string[]
 }
 export const fetchCerebroSectorRV = () => apiClient.get<{ generated_at: string; total: number; rerate_sectors: number; narrative: string | null; standouts: SectorStandout[]; sector_summary: SectorSummary[] }>('/api/cerebro/sector-rv')
+
+// ── Thesis Drift ──────────────────────────────────────────────────────────────
+export interface ThesisDrift {
+  ticker: string
+  company_name: string
+  sector: string
+  severity: 'HIGH' | 'MEDIUM' | 'LOW'
+  drift_score: number
+  days_tracked: number
+  baseline_date: string
+  value_score_now: number
+  value_score_prev: number
+  drift_flags: string[]
+  improvements: string[]
+}
+export const fetchCerebroThesisDrift = () =>
+  apiClient.get<{ generated_at: string; total: number; high_count: number; drifts: ThesisDrift[] }>('/api/cerebro/thesis-drift')
 
 // ── Cerebro Daily Action Plan ─────────────────────────────────────────────────
 export interface MacroPlay {
