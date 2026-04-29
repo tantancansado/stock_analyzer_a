@@ -1664,3 +1664,29 @@ export async function fetchBonds(): Promise<BondOpportunity[]> {
   const res = await apiClient.get<{ data: BondOpportunity[] }>('/api/bonds')
   return res.data.data ?? []
 }
+
+export interface MlWinPrediction {
+  probability: number
+  percentile: number
+  label: 'ALTA' | 'MEDIA' | 'BAJA'
+}
+
+export interface MlWinProbabilityData {
+  generated_at: string
+  market_regime: string
+  model_auc: number
+  base_win_rate: number
+  predictions: Record<string, MlWinPrediction>
+}
+
+export async function fetchMlWinProbability(): Promise<MlWinProbabilityData | null> {
+  try {
+    const url = `${STATIC_DATA_BASE}/ml_win_probability.json`
+    const res = await apiClient.get<MlWinProbabilityData>(url, {
+      transformResponse: [(d) => typeof d === 'string' ? JSON.parse(d) : d],
+    })
+    return res.data
+  } catch {
+    return null
+  }
+}

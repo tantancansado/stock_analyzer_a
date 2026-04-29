@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useDeferredValue } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, type ValueOpportunity } from '../api/client'
+import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchMlWinProbability, type ValueOpportunity, type MlWinPrediction } from '../api/client'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { useApi } from '../hooks/useApi'
@@ -49,6 +49,22 @@ function TechBiasCell({ t }: { t?: TechnicalSummary }) {
   )
 }
 
+function MlWinBadge({ pred }: { pred?: MlWinPrediction }) {
+  if (!pred) return <span className="text-muted-foreground/30 text-xs">—</span>
+  const cls =
+    pred.label === 'ALTA'  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
+    pred.label === 'MEDIA' ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' :
+                             'bg-muted/20 text-muted-foreground border-border/30'
+  return (
+    <span
+      className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
+      title={`XGBoost win probability: ${(pred.probability * 100).toFixed(0)}% (P${pred.percentile})`}
+    >
+      {(pred.probability * 100).toFixed(0)}%
+    </span>
+  )
+}
+
 function EntryQualityBadge({ quality, confidence }: { quality?: string; confidence?: string }) {
   if (!quality || quality === 'wait') return <span className="text-muted-foreground/30 text-xs">—</span>
   const cfg: Record<string, { cls: string; label: string }> = {
@@ -73,6 +89,8 @@ export default function ValueUS() {
   const { data, loading, error } = useApi(() => fetchValueOpportunities(), [])
   const { data: regime } = useApi(() => fetchMarketRegime(), [])
   const { data: macroRaw } = useApi(() => fetchMacroRadar(), [])
+  const { data: mlData } = useApi(() => fetchMlWinProbability().then(d => ({ data: d })), [])
+  const mlMap = useMemo(() => mlData?.predictions ?? {}, [mlData])
   const techMap = useTechnicalSummaryMap()
   const cerebro = useCerebroSignals()
   const chartSignals = useChartSignals()
@@ -795,6 +813,10 @@ export default function ValueUS() {
                 Entry
                 <InfoTooltip text="Calidad de entrada según análisis de gráfico por IA (Groq Vision): IDEAL=en pivote/base, OK=extensión leve, EVITAR=extendido/distribución. '?' = baja confianza." align="right" />
               </TableHead>
+              <TableHead className={compact ? 'hidden' : 'hidden sm:table-cell'}>
+                P(win)
+                <InfoTooltip text="Probabilidad de ganar en 14 días según modelo XGBoost entrenado con 1.300+ señales históricas VALUE. Verde ≥45%, ámbar 30-45%, gris <30%. Basado en value_score, FCF, R:R, sector y régimen de mercado." align="right" />
+              </TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -924,6 +946,9 @@ export default function ValueUS() {
                       quality={chartSignals[d.ticker]?.entry_quality}
                       confidence={chartSignals[d.ticker]?.confidence}
                     />
+                  </TableCell>
+                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
+                    <MlWinBadge pred={mlMap[d.ticker?.toUpperCase() ?? '']} />
                   </TableCell>
                   <TableCell>
                     <WatchlistButton ticker={d.ticker} company_name={d.company_name} sector={d.sector} current_price={d.current_price} value_score={d.value_score} conviction_grade={d.conviction_grade} analyst_upside_pct={d.analyst_upside_pct} fcf_yield_pct={d.fcf_yield_pct} />

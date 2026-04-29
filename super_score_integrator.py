@@ -1870,6 +1870,16 @@ Note:
     if not value_df.empty:
         integrator.export_ticker_data_cache(value_df)
 
+    # ML win probability predictor
+    print("\n" + "="*80)
+    print("🤖 ML WIN PROBABILITY PREDICTOR")
+    print("="*80)
+    try:
+        import ml_win_predictor
+        ml_win_predictor.run()
+    except Exception as e:
+        print(f"  ⚠️  ML predictor failed: {e}")
+
     # Mostrar resumen de ambas secciones
     print("\n" + "="*80)
     print("📊 SUMMARY")
