@@ -81,6 +81,18 @@ class PortfolioTracker:
 
         signals_recorded = 0
 
+        # Build cooldown set: tickers signalled in the last 21 days — skip re-entry
+        # Prevents same ticker appearing 15+ consecutive days, which inflates win rate stats
+        COOLDOWN_DAYS = 21
+        cooldown_cutoff = today - pd.Timedelta(days=COOLDOWN_DAYS)
+        if not self.recommendations.empty:
+            recent = self.recommendations[self.recommendations['signal_date'] >= cooldown_cutoff]
+            cooldown_tickers = set(recent['ticker'].str.upper().str.strip())
+        else:
+            cooldown_tickers = set()
+        if cooldown_tickers:
+            print(f"  Cooldown active for {len(cooldown_tickers)} tickers (signalled in last {COOLDOWN_DAYS}d)")
+
         # Record VALUE opportunities — only high-conviction signals (score ≥ 55, grade A/B)
         value_path = Path('docs/value_opportunities.csv')
         if value_path.exists():
@@ -93,6 +105,9 @@ class PortfolioTracker:
                     vdf = vdf[vdf['conviction_grade'].isin(['A', 'B'])]
                 vdf = vdf.head(6)  # max 6 picks per day
                 for _, row in vdf.iterrows():
+                    ticker = str(row['ticker']).upper().strip()
+                    if ticker in cooldown_tickers:
+                        continue
                     price = row.get('current_price', 0)
                     if not price or pd.isna(price) or float(price) <= 0:
                         continue
@@ -119,6 +134,7 @@ class PortfolioTracker:
                         [self.recommendations, pd.DataFrame([rec])],
                         ignore_index=True
                     )
+                    cooldown_tickers.add(ticker)
                     signals_recorded += 1
                 print(f"  Recorded {signals_recorded} VALUE signals")
 
@@ -129,6 +145,9 @@ class PortfolioTracker:
             mdf = pd.read_csv(momentum_path)
             if not mdf.empty:
                 for _, row in mdf.iterrows():
+                    ticker = str(row['ticker']).upper().strip()
+                    if ticker in cooldown_tickers:
+                        continue
                     price = row.get('current_price', 0)
                     if not price or pd.isna(price) or float(price) <= 0:
                         continue
@@ -155,6 +174,7 @@ class PortfolioTracker:
                         [self.recommendations, pd.DataFrame([rec])],
                         ignore_index=True
                     )
+                    cooldown_tickers.add(ticker)
                     mom_recorded += 1
                 print(f"  Recorded {mom_recorded} MOMENTUM signals")
 
@@ -172,6 +192,9 @@ class PortfolioTracker:
                     edf = edf[edf['conviction_grade'].isin(['A', 'B'])]
                 edf = edf.head(6)
                 for _, row in edf.iterrows():
+                    ticker = str(row['ticker']).upper().strip()
+                    if ticker in cooldown_tickers:
+                        continue
                     price = row.get('current_price', 0)
                     if not price or pd.isna(price) or float(price) <= 0:
                         continue
@@ -198,6 +221,7 @@ class PortfolioTracker:
                         [self.recommendations, pd.DataFrame([rec])],
                         ignore_index=True
                     )
+                    cooldown_tickers.add(ticker)
                     eu_recorded += 1
                 print(f"  Recorded {eu_recorded} EU_VALUE signals")
 

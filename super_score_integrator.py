@@ -455,14 +455,15 @@ class SuperScoreIntegrator:
         df['market_regime'] = market_regime['regime']
         df['market_recommendation'] = market_regime['recommendation']
 
-        # Penalize if market in correction
+        # Penalize if market in correction/pressure
+        # Data shows UPTREND_PRESSURE = 0% win rate → treat same as AVOID
         market_penalty = 0
         if market_regime['recommendation'] == 'AVOID':
-            market_penalty = 15
-            print("⚠️  WARNING: Market in CORRECTION - reducing all scores by 15 points")
+            market_penalty = 20
+            print("⚠️  WARNING: Market in CORRECTION - reducing all scores by 20 points")
         elif market_regime['recommendation'] == 'CAUTION':
-            market_penalty = 5
-            print("⚠️  CAUTION: Market under pressure - reducing all scores by 5 points")
+            market_penalty = 20
+            print("⚠️  CAUTION: Market UPTREND_PRESSURE (0% win rate) - reducing all scores by 20 points")
         else:
             print("✅ Market in CONFIRMED_UPTREND - safe to trade")
 
@@ -1108,11 +1109,27 @@ class SuperScoreIntegrator:
 
         # VALUATION CHECK: Reject stocks with negative analyst upside (overvalued)
         if 'analyst_upside_pct' in df.columns:
-            overvalued = df['analyst_upside_pct'].notna() & (df['analyst_upside_pct'] < 0)
+            _up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
+
+            overvalued = _up.notna() & (_up < 0)
             if overvalued.sum() > 0:
                 overvalued_tickers = df[overvalued]['ticker'].tolist()
                 print(f"🚫 Rejected from VALUE (analyst upside < 0%): {overvalued_tickers}")
                 df.loc[overvalued, 'value_score'] = 0.0
+
+            # Winners have median upside 25.9% vs losers 16.1% → tiered bonus/penalty
+            # Upside < 15%: weak signal, penalize (-5pts); ≥30%: strong conviction (+5pts); ≥20%: mild (+2pts)
+            df['upside_bonus'] = 0.0
+            mask_weak   = _up.notna() & (_up >= 0) & (_up < 15)
+            mask_decent = _up.notna() & (_up >= 20) & (_up < 30)
+            mask_strong = _up.notna() & (_up >= 30)
+            df.loc[mask_weak,   'upside_bonus'] = -5.0
+            df.loc[mask_decent, 'upside_bonus'] =  2.0
+            df.loc[mask_strong, 'upside_bonus'] =  5.0
+            df['value_score'] += df['upside_bonus']
+            n_weak = int(mask_weak.sum()); n_strong = int(mask_strong.sum())
+            print(f"   📐 Upside tiers: {n_weak} weak <15% (-5pts) · {n_strong} strong ≥30% (+5pts)")
+            df.drop(columns=['upside_bonus', '_up'], inplace=True, errors='ignore')
 
         # RISK/REWARD CHECK: Calculate R:R ratio and penalize poor risk/reward
         if 'analyst_upside_pct' in df.columns and 'current_price' in df.columns:
