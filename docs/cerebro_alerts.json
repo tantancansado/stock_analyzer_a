@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-04-29",
-  "total": 101,
+  "total": 91,
   "high_count": 60,
   "alerts": [
     {
@@ -32,11 +32,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de ADP en 0d",
-      "message": "Score VALUE 39. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 40. Earnings en 0 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 39.27
+        "value_score": 40.25
       }
     },
     {
@@ -60,7 +60,7 @@
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 1.0,
-        "value_score": 33.52
+        "value_score": 34.455
       }
     },
     {
@@ -68,11 +68,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de AON en 2d",
-      "message": "Score VALUE 45. Earnings en 2 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 49. Earnings en 2 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 2.0,
-        "value_score": 45.18
+        "value_score": 48.86
       }
     },
     {
@@ -143,11 +143,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de BR en 1d",
-      "message": "Score VALUE 61. Earnings en 1 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 65. Earnings en 1 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 1.0,
-        "value_score": 61.2
+        "value_score": 64.68
       }
     },
     {
@@ -179,11 +179,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de CNI en 0d",
-      "message": "Score VALUE 42. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 43. Earnings en 0 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 41.88000000000001
+        "value_score": 43.345000000000006
       }
     },
     {
@@ -195,7 +195,7 @@
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 33.7
+        "value_score": 34.050000000000004
       }
     },
     {
@@ -239,11 +239,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de G24.DE en 0d",
-      "message": "Score VALUE 59. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 63. Earnings en 0 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 59.2
+        "value_score": 62.940000000000005
       }
     },
     {
@@ -299,11 +299,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de ICE en 1d",
-      "message": "Score VALUE 50. Earnings en 1 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 54. Earnings en 1 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 1.0,
-        "value_score": 49.95
+        "value_score": 54.205
       }
     },
     {
@@ -316,6 +316,21 @@
       "data": {
         "purchase_count": 5.0,
         "unique_insiders": 4.0
+      }
+    },
+    {
+      "ticker": "ISRG",
+      "type": "VALUE_CONTRADICTION",
+      "severity": "HIGH",
+      "title": "Contradicci\u00f3n IA: ISRG en VALUE pero Cerebro dice AVOID",
+      "message": "Score VALUE 34 (Grado ?) \u2014 pero Cerebro detecta trampa de valor (adj -15pts). Raz\u00f3n: Thesis drift HIGH (47d): Score cay\u00f3 17pts en 47d (48\u219231).",
+      "date": "2026-04-29",
+      "data": {
+        "value_score": 33.910000000000004,
+        "conviction_grade": "",
+        "cerebro_signal": "AVOID",
+        "cerebro_score_adj": -15,
+        "cerebro_reason": "Thesis drift HIGH (47d): Score cay\u00f3 17pts en 47d (48\u219231) | Caro vs peers en Healthcare (FCF rank 13/15)"
       }
     },
     {
@@ -359,11 +374,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de MA en 1d",
-      "message": "Score VALUE 50. Earnings en 1 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 51. Earnings en 1 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 1.0,
-        "value_score": 49.6
+        "value_score": 51.395
       }
     },
     {
@@ -458,11 +473,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de ORLY en 0d",
-      "message": "Score VALUE 31. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 32. Earnings en 0 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 30.8
+        "value_score": 31.95
       }
     },
     {
@@ -609,7 +624,7 @@
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 1.0,
-        "value_score": 37.52
+        "value_score": 38.435
       }
     },
     {
@@ -629,11 +644,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de TT en 1d",
-      "message": "Score VALUE 30. Earnings en 1 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 34. Earnings en 1 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 1.0,
-        "value_score": 30.32
+        "value_score": 34.15
       }
     },
     {
@@ -641,11 +656,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de TW en 0d",
-      "message": "Score VALUE 47. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 50. Earnings en 0 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 47.2
+        "value_score": 50.495
       }
     },
     {
@@ -653,11 +668,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de TYL en 0d",
-      "message": "Score VALUE 41. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 42. Earnings en 0 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 41.28
+        "value_score": 42.245000000000005
       }
     },
     {
@@ -697,19 +712,6 @@
       }
     },
     {
-      "ticker": "V",
-      "type": "SCORE_DRIFT",
-      "severity": "HIGH",
-      "title": "Tesis en riesgo: V",
-      "message": "Score baj\u00f3 25 pts (de 64 \u2192 39). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-04-29",
-      "data": {
-        "original_score": 63.6,
-        "current_score": 38.6,
-        "drop": 25.0
-      }
-    },
-    {
       "ticker": "VOD.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -726,11 +728,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
       "title": "Earnings de VRSK en 0d",
-      "message": "Score VALUE 34. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 35. Earnings en 0 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 0.0,
-        "value_score": 34.02
+        "value_score": 35.29
       }
     },
     {
@@ -753,12 +755,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: ADP",
-      "message": "Score baj\u00f3 24 pts (de 64 \u2192 39). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 23 pts (de 64 \u2192 40). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-04-29",
       "data": {
         "original_score": 63.5,
-        "current_score": 39.3,
-        "drop": 24.3
+        "current_score": 40.2,
+        "drop": 23.3
       }
     },
     {
@@ -778,12 +780,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: AON",
-      "message": "Score baj\u00f3 21 pts (de 66 \u2192 45). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 18 pts (de 66 \u2192 49). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-04-29",
       "data": {
         "original_score": 66.4,
-        "current_score": 45.2,
-        "drop": 21.2
+        "current_score": 48.9,
+        "drop": 17.5
       }
     },
     {
@@ -796,21 +798,6 @@
       "data": {
         "purchase_count": 3.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "ATLKY",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: ATLKY",
-      "message": "Aparece en 2 estrategias: VALUE, MR. Score convergencia: 48.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "MR"
-        ],
-        "convergence_score": 48
       }
     },
     {
@@ -829,21 +816,6 @@
       }
     },
     {
-      "ticker": "CNI",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: CNI",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
-      }
-    },
-    {
       "ticker": "CPR.MI",
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
@@ -853,19 +825,6 @@
       "data": {
         "days_to_earnings": 7.0,
         "value_score": 25.2
-      }
-    },
-    {
-      "ticker": "CTAS",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: CTAS",
-      "message": "Score baj\u00f3 18 pts (de 57 \u2192 39). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-04-29",
-      "data": {
-        "original_score": 57.4,
-        "current_score": 39.4,
-        "drop": 18.0
       }
     },
     {
@@ -885,11 +844,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
       "title": "Earnings de ETN en 6d",
-      "message": "Score VALUE 36. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 38. Earnings en 6 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 6.0,
-        "value_score": 35.64
+        "value_score": 38.42
       }
     },
     {
@@ -936,26 +895,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
       "title": "Earnings de IDXX en 6d",
-      "message": "Score VALUE 43. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 44. Earnings en 6 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 6.0,
-        "value_score": 43.0
-      }
-    },
-    {
-      "ticker": "INTU",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "INTU \u2014 3 d\u00edas en convergencia",
-      "message": "Lleva 3 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-04-29",
-      "data": {
-        "streak_days": 3,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
+        "value_score": 44.17
       }
     },
     {
@@ -963,11 +907,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
       "title": "Earnings de IT en 6d",
-      "message": "Score VALUE 55. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 57. Earnings en 6 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 6.0,
-        "value_score": 54.97
+        "value_score": 56.535
       }
     },
     {
@@ -1002,41 +946,11 @@
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
       "title": "Earnings de JKHY en 6d",
-      "message": "Score VALUE 69. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 71. Earnings en 6 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 6.0,
-        "value_score": 69.0
-      }
-    },
-    {
-      "ticker": "MA",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MA",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
-      }
-    },
-    {
-      "ticker": "MCO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MCO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
+        "value_score": 70.67
       }
     },
     {
@@ -1106,30 +1020,15 @@
       }
     },
     {
-      "ticker": "PG",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: PG",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
-      }
-    },
-    {
       "ticker": "RACE",
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
       "title": "Earnings de RACE en 6d",
-      "message": "Score VALUE 36. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "message": "Score VALUE 37. Earnings en 6 d\u00edas \u2014 evita entrar.",
       "date": "2026-04-29",
       "data": {
         "days_to_earnings": 6.0,
-        "value_score": 35.68
+        "value_score": 36.53
       }
     },
     {
@@ -1184,21 +1083,6 @@
       }
     },
     {
-      "ticker": "SYK",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: SYK",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
-      }
-    },
-    {
       "ticker": "TYL",
       "type": "STREAK",
       "severity": "MEDIUM",
@@ -1214,18 +1098,16 @@
       }
     },
     {
-      "ticker": "VEEV",
-      "type": "NEW_CONVERGENCE",
+      "ticker": "V",
+      "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Nueva convergencia: VEEV",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
+      "title": "Tesis en riesgo: V",
+      "message": "Score baj\u00f3 22 pts (de 64 \u2192 42). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-04-29",
       "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
+        "original_score": 63.6,
+        "current_score": 41.5,
+        "drop": 22.1
       }
     },
     {
@@ -1253,36 +1135,6 @@
           "VALUE",
           "OPTIONS"
         ]
-      }
-    },
-    {
-      "ticker": "WM",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: WM",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
-      }
-    },
-    {
-      "ticker": "ZTS",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: ZTS",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-04-29",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
       }
     }
   ]

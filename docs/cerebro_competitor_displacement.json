@@ -1,90 +1,9 @@
 {
   "generated_at": "2026-04-29",
-  "total": 11,
-  "dropped_count": 3,
+  "total": 3,
+  "dropped_count": 0,
   "narrative": null,
   "displacements": [
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "MA",
-      "sector": "Financial Services",
-      "prev_score": 59.6,
-      "replacements": [
-        "LSEG.L",
-        "NDAQ"
-      ],
-      "top_replacement": "LSEG.L",
-      "top_replacement_score": 53.49,
-      "detail": "MA sali\u00f3 de VALUE (60pts); peers en Financial Services: LSEG.L, NDAQ"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "WKL.AS",
-      "sector": "Industrials",
-      "prev_score": 56.2,
-      "replacements": [
-        "EXPN.L",
-        "WTKWY",
-        "EXPN.L"
-      ],
-      "top_replacement": "EXPN.L",
-      "top_replacement_score": 67.22,
-      "detail": "WKL.AS sali\u00f3 de VALUE (56pts); peers en Industrials: EXPN.L, WTKWY"
-    },
-    {
-      "type": "COMPETITOR_RISE",
-      "dropped_ticker": "IT",
-      "sector": "Technology",
-      "prev_score": 56.97,
-      "replacements": [
-        "VRSN",
-        "JKHY",
-        "INTU"
-      ],
-      "top_replacement": "VRSN",
-      "top_replacement_score": 69.03999999999999,
-      "detail": "IT sali\u00f3 de VALUE (57pts); peers en Technology: VRSN, JKHY"
-    },
-    {
-      "type": "EXIT_TO_PEER",
-      "exiting_ticker": "SAP.DE",
-      "sector": "Technology",
-      "replacement": "VRSN",
-      "replacement_score": 69.03999999999999,
-      "detail": "Exit SAP.DE (Technology) \u2192 rotar a peer VRSN (69pts)"
-    },
-    {
-      "type": "EXIT_TO_PEER",
-      "exiting_ticker": "SGE.L",
-      "sector": "Technology",
-      "replacement": "VRSN",
-      "replacement_score": 69.03999999999999,
-      "detail": "Exit SGE.L (Technology) \u2192 rotar a peer VRSN (69pts)"
-    },
-    {
-      "type": "EXIT_TO_PEER",
-      "exiting_ticker": "RMV.L",
-      "sector": "Communication Services",
-      "replacement": "AUTO.L",
-      "replacement_score": 65.4,
-      "detail": "Exit RMV.L (Communication Services) \u2192 rotar a peer AUTO.L (65pts)"
-    },
-    {
-      "type": "EXIT_TO_PEER",
-      "exiting_ticker": "AMS.MC",
-      "sector": "Technology",
-      "replacement": "VRSN",
-      "replacement_score": 69.03999999999999,
-      "detail": "Exit AMS.MC (Technology) \u2192 rotar a peer VRSN (69pts)"
-    },
-    {
-      "type": "EXIT_TO_PEER",
-      "exiting_ticker": "DSY.PA",
-      "sector": "Technology",
-      "replacement": "VRSN",
-      "replacement_score": 69.03999999999999,
-      "detail": "Exit DSY.PA (Technology) \u2192 rotar a peer VRSN (69pts)"
-    },
     {
       "type": "SECTOR_TAILWIND",
       "sector": "Technology",
@@ -95,7 +14,7 @@
         "INTU"
       ],
       "top_ticker": "VRSN",
-      "top_score": 69.03999999999999,
+      "top_score": 71.565,
       "detail": "Sector Technology l\u00edder (RS 100) \u2014 VRSN, JKHY, INTU son los picks VALUE"
     },
     {
@@ -107,7 +26,7 @@
         "G24.DE"
       ],
       "top_ticker": "AUTO.L",
-      "top_score": 65.4,
+      "top_score": 69.645,
       "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 AUTO.L, G24.DE son los picks VALUE"
     },
     {
@@ -118,7 +37,7 @@
         "CLPBY"
       ],
       "top_ticker": "CLPBY",
-      "top_score": 50.2,
+      "top_score": 54.785,
       "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 CLPBY son los picks VALUE"
     }
   ]

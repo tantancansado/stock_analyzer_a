@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29T10:05:11Z",
+  "generated_at": "2026-04-29T12:16:58Z",
   "scan_date": "2026-04-29",
   "count": 7,
   "strategies": {
@@ -36,7 +36,7 @@
         "insider_purchase_count": 3.0,
         "unique_insiders": 1.0,
         "options_signal": null,
-        "pcr": 0.74,
+        "pcr": 0.4,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -45,23 +45,26 @@
         "market_regime": "CALM"
       },
       "current_action": "TRIM",
-      "action_reason": "El precio está caro y hay señales de sobrecompra",
-      "trim_at_price": 420.0,
-      "trim_pct": 20.0,
-      "trim_reason": "Para recoger en pullback y evitar pérdidas",
+      "action_reason": "El RSI está sobrecomprado y estamos cerca de la resistencia 20d, considero vender 20-40% para recoger en pullback.",
+      "trim_at_price": 432.92,
+      "trim_pct": 30.0,
+      "trim_reason": "Para evitar una caída más profunda y aprovechar el pullback.",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 317.71,
+      "stop_loss_price": 324.51,
       "triggers_sell": [
         "RSI(14) > 70",
-        "Cerca de resistencia 20d ($432.92)",
-        "Options flow bajista (PCR < 0.74)"
+        "Cerca de resistencia 20d",
+        "Options flow bajista (PCR < 0.5)"
       ],
-      "triggers_buy": [],
-      "next_check_date": "2024-04-30",
-      "next_check_reason": "Earnings report próximo",
-      "thesis_short": "Creemos que MSFT es una inversión de valor sólida con crecimiento a largo plazo",
+      "triggers_buy": [
+        "RSI(14) < 30",
+        "SMA50 > SMA200"
+      ],
+      "next_check_date": "2024-05-03",
+      "next_check_reason": "Earnings de MSFT el próximo 3 de mayo",
+      "thesis_short": "Creo que MSFT es una buena inversión a largo plazo debido a su sólido crecimiento y fundamentos sólidos.",
       "confidence": 80
     },
     "V": {
@@ -97,7 +100,7 @@
         "insider_purchase_count": null,
         "unique_insiders": null,
         "options_signal": null,
-        "pcr": null,
+        "pcr": 0.79,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -113,19 +116,18 @@
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 283.51,
+      "stop_loss_price": 278.31,
       "triggers_sell": [
-        "RSI(14) > 70",
-        "cerca de resistencia 20d ($317.02)",
-        "options flow bajistas (PCR < 0)"
+        "Cerebro EXIT=true",
+        "Fundamental deteriorado (Value score < 60)",
+        "Insiders vendiendo (con datos reales)"
       ],
       "triggers_buy": [
-        "RSI(14) < 30",
-        "cerca de soporte 20d ($298.51)"
+        "RSI(14) < 30 y cerca de soporte 20d"
       ],
-      "next_check_date": "2024-05-10",
-      "next_check_reason": "Próxima reunión Fed, esperamos señales claras para ajustar la posición.",
-      "thesis_short": "V es una oportunidad de inversión a largo plazo en el sector de servicios financieros, con un valor intrínseco sólido y un crecimiento potencial.",
+      "next_check_date": "2024-05-15",
+      "next_check_reason": "Próxima reunión Fed",
+      "thesis_short": "V es una oportunidad de inversión a largo plazo en el sector de servicios financieros, con un valor intrínseco superior al precio actual.",
       "confidence": 80
     },
     "AMCR": {
@@ -169,28 +171,28 @@
         "has_squeeze": false,
         "market_regime": "CALM"
       },
-      "current_action": "HOLD",
-      "action_reason": "El ticker está en un nivel técnico interesante, pero no hay suficientes señales para tomar acción hoy.",
-      "trim_at_price": null,
-      "trim_pct": null,
-      "trim_reason": null,
+      "current_action": "TRIM",
+      "action_reason": "Mantener la tesis VALUE pero ajustar la posición técnica",
+      "trim_at_price": 37.5,
+      "trim_pct": 20.0,
+      "trim_reason": "RSI(14) en zona de oversold y cerca de soporte 20d",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
       "stop_loss_price": 34.29,
       "triggers_sell": [
-        "Cerebro EXIT=true",
-        "Insiders vendiendo",
-        "RSI(14) > 70"
+        "RSI(14) > 70",
+        "cerca de resistencia 20d",
+        "options bajistas"
       ],
       "triggers_buy": [
         "RSI(14) < 30",
-        "SMA50 > SMA200"
+        "cerca de soporte 20d"
       ],
       "next_check_date": "2024-05-01",
-      "next_check_reason": "Próxima reunión Fed",
-      "thesis_short": "Creo que AMCR es un valor a largo plazo debido a su precio razonable y fundamentales sólidos.",
-      "confidence": 60
+      "next_check_reason": "Earnings report del próximo trimestre",
+      "thesis_short": "AMCR es una oportunidad de inversión atractiva en el sector tecnológico, con un valor intrínseco superior a su precio actual",
+      "confidence": 80
     },
     "ABT": {
       "ticker": "ABT",
@@ -234,23 +236,26 @@
         "market_regime": "CALM"
       },
       "current_action": "TRIM",
-      "action_reason": "El ticker está caro y hay señales de sobrecompra",
-      "trim_at_price": 92.5,
+      "action_reason": "El precio está cerca de la resistencia 20d y el RSI es sobrecomprado",
+      "trim_at_price": 95.0,
       "trim_pct": 20.0,
-      "trim_reason": "RSI(14) está en 29.9 y hay cerca de resistencia",
+      "trim_reason": "Recoger parte de la posición en un posible pullback",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
       "stop_loss_price": 81.41,
       "triggers_sell": [
         "RSI(14) > 70",
-        "cerca de resistencia",
+        "cerca de resistencia 20d",
         "options bajistas"
       ],
-      "triggers_buy": [],
+      "triggers_buy": [
+        "RSI(14) < 30",
+        "cercano a soporte 20d"
+      ],
       "next_check_date": "2023-05-15",
-      "next_check_reason": "Próximo evento: Earnings",
-      "thesis_short": "ABT es un valor sólido en el sector Healthcare con fundamentales intactos",
+      "next_check_reason": "Próxima reunión Fed",
+      "thesis_short": "ABT es un valor sólido en el sector de la atención médica, con un crecimiento a largo plazo prometedor",
       "confidence": 80
     },
     "OTIS": {
@@ -295,25 +300,25 @@
         "market_regime": "CALM"
       },
       "current_action": "TRIM",
-      "action_reason": "Mantener la tesis VALUE, pero recortar en niveles técnicos",
+      "action_reason": "Mantener la tesis VALUE, pero ajustar la posición técnica",
       "trim_at_price": 75.0,
       "trim_pct": 20.0,
-      "trim_reason": "RSI(14) > 70 y cerca de resistencia 20d",
+      "trim_reason": "Cerca de resistencia 20d y RSI en zona alta",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 66.55,
+      "stop_loss_price": 66.69,
       "triggers_sell": [
-        "RSI(14) > 70",
-        "cerca de resistencia 20d",
-        "options bajistas"
+        "Cerebro EXIT=true",
+        "Insiders vendiendo",
+        "RSI(14) > 70"
       ],
       "triggers_buy": [
         "RSI(14) < 30"
       ],
-      "next_check_date": "2023-05-15",
+      "next_check_date": "2023-05-12",
       "next_check_reason": "Próxima reunión Fed",
-      "thesis_short": "OTIS es un valor sólido en el sector Industriales, con un FCF yield del 5.67% y una convicción de los analistas",
+      "thesis_short": "OTIS es una oportunidad de valor en el sector Industriales, con un FCF yield atractivo y una convicción de los analistas",
       "confidence": 80
     },
     "MA": {
@@ -349,7 +354,7 @@
         "insider_purchase_count": null,
         "unique_insiders": null,
         "options_signal": null,
-        "pcr": null,
+        "pcr": 0.0,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -358,26 +363,25 @@
         "market_regime": "CALM"
       },
       "current_action": "HOLD",
-      "action_reason": "No hay señales claras para ajustar la posición actual.",
+      "action_reason": "No hay señales claras para vender o comprar, manteniendo la posición actual.",
       "trim_at_price": null,
       "trim_pct": null,
       "trim_reason": null,
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 445.71,
+      "stop_loss_price": 443.71,
       "triggers_sell": [
         "Cerebro EXIT=true",
-        "Fundamental deteriorado",
-        "Insiders vendiendo"
+        "Fundamental deteriorado (FCF yield < 3.5%)",
+        "Insiders vendiendo (con datos reales)"
       ],
       "triggers_buy": [
-        "RSI(14) < 30",
-        "SMA50 < SMA200"
+        "RSI(14) < 30 (bajo) y SMA50 > SMA200 (indicando posible pullback)"
       ],
-      "next_check_date": "2023-05-01",
-      "next_check_reason": "Earnings report del 1 de mayo",
-      "thesis_short": "MA ofrece un valor atractivo en el sector de servicios financieros, con una relación precio-valor razonable y una perspectiva de crecimiento sólida.",
+      "next_check_date": "2024-05-01",
+      "next_check_reason": "Próximo evento: Earnings de MA",
+      "thesis_short": "Creemos que MA es una oportunidad de valor en el sector de servicios financieros, con un potencial de crecimiento a largo plazo.",
       "confidence": 80
     },
     "BR": {
@@ -421,28 +425,24 @@
         "has_squeeze": false,
         "market_regime": "CALM"
       },
-      "current_action": "HOLD",
-      "action_reason": "Esperando a que se confirme la señal de salida del Cerebro o se deterioren los fundamentales.",
-      "trim_at_price": null,
-      "trim_pct": null,
-      "trim_reason": null,
+      "current_action": "TRIM",
+      "action_reason": "Mantener la tesis VALUE, pero ajustar la posición técnica",
+      "trim_at_price": 155.0,
+      "trim_pct": 30.0,
+      "trim_reason": "Cerca de resistencia 20d y RSI en zona neutral",
       "add_at_price": null,
       "add_pct": null,
       "add_reason": null,
-      "stop_loss_price": 141.33,
+      "stop_loss_price": 140.46,
       "triggers_sell": [
-        "Cerebro EXIT=true",
-        "Fundamental deteriorado (FCF yield < 5%)",
-        "Insiders vendiendo (con datos reales)"
+        "RSI > 70",
+        "Cerca de resistencia 20d",
+        "Options bajistas"
       ],
-      "triggers_buy": [
-        "RSI(14) < 30 (bajo)",
-        "SMA50 > SMA200 (indicando subida)",
-        "Analyst upside > 50% (indicando crecimiento potencial)"
-      ],
-      "next_check_date": "2024-05-01",
-      "next_check_reason": "Próximo evento: Earnings de BR el 2024-05-01",
-      "thesis_short": "Creemos que BR es una oportunidad de inversión atractiva debido a su valoración atractiva y crecimiento potencial.",
+      "triggers_buy": [],
+      "next_check_date": "2024-05-02",
+      "next_check_reason": "Earnings report del 2 de mayo",
+      "thesis_short": "BR es un valor atractivo en el sector Technology con fundamentales sólidos",
       "confidence": 80
     }
   }

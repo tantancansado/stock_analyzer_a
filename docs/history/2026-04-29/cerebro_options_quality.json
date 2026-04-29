@@ -1,28 +1,27 @@
 {
   "generated_at": "2026-04-29",
-  "total": 24,
+  "total": 4,
   "tier1": 0,
   "tier2": 1,
-  "tier3": 5,
-  "noise_filtered": 18,
+  "tier3": 0,
+  "noise_filtered": 3,
   "actionable": [
     {
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "sentiment": "BEARISH",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sentiment": "BULLISH",
       "tier": "TIER2",
-      "quality_score": 55,
-      "value_score": 35.5,
-      "fcf_yield": null,
-      "insider_confirmation": true,
+      "quality_score": 50,
+      "value_score": 71.6,
+      "fcf_yield": 3.28,
+      "insider_confirmation": false,
       "in_value": true,
       "quality_factors": [
-        "VALUE weak (36pts)",
-        "INSIDER CONF",
-        "DIRECTIONAL (100% puts)"
+        "VALUE strong (72pts)",
+        "DIRECTIONAL (100% calls)"
       ],
-      "flow_score": 50.0,
-      "total_premium": 14916.0,
+      "flow_score": 70.0,
+      "total_premium": 780570.0,
       "detected_date": "2026-04-29"
     }
   ],

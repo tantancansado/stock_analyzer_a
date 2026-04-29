@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-04-29",
-  "total": 164,
-  "high_count": 144,
-  "narrative": "La salida de estas empresas de la lista VALUE implica una posible p\u00e9rdida de confianza en su desempe\u00f1o y una mayor incertidumbre para la gesti\u00f3n de riesgo, ya que la falta de compras por parte de los insiders puede indicar una disminuci\u00f3n en la convicci\u00f3n de los l\u00edderes en la empresa. Esto puede requerir una reevaluaci\u00f3n de la estrategia de inversi\u00f3n y la gesti\u00f3n de riesgo para minimizar posibles p\u00e9rdidas y maximizar los rendimientos.",
+  "total": 163,
+  "high_count": 143,
+  "narrative": null,
   "exits": [
     {
       "ticker": "EXEL",
@@ -128,10 +128,10 @@
       "ticker": "SPGI",
       "severity": "HIGH",
       "entry_score": 67.6,
-      "current_score": 30.64,
+      "current_score": 34.27,
       "signal_date": "2026-03-20",
       "reasons": [
-        "Score cay\u00f3 37pts (68 \u2192 31)"
+        "Score cay\u00f3 33pts (68 \u2192 34)"
       ],
       "fundamental_score": 56.6
     },
@@ -291,21 +291,14 @@
     },
     {
       "ticker": "THFF",
-      "severity": "MEDIUM",
+      "severity": "HIGH",
       "entry_score": 64.12,
       "current_score": null,
       "signal_date": "2026-03-12",
       "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 80% confianza \u2014 La se\u00f1al de salida parece ser falsa positiva; la empresa report\u00f3 ingresos netos de $19.8\u202fmillones y super\u00f3 las estimaciones de ganancias y ingresos en el primer trimestre."
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": null,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 80,
-        "summary": "La se\u00f1al de salida parece ser falsa positiva; la empresa report\u00f3 ingresos netos de $19.8\u202fmillones y super\u00f3 las estimaciones de ganancias y ingresos en el primer trimestre.",
-        "key_finding": "First Financial Corp. (THFF) super\u00f3 las estimaciones de ganancias y ingresos del Q1 2026, reportando $19.8\u202fM de utilidad neta."
-      }
+      "fundamental_score": null
     },
     {
       "ticker": "AROW",
@@ -339,24 +332,6 @@
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
       "fundamental_score": null
-    },
-    {
-      "ticker": "V",
-      "severity": "MEDIUM",
-      "entry_score": 63.6,
-      "current_score": 38.6,
-      "signal_date": "2026-04-16",
-      "reasons": [
-        "Score cay\u00f3 25pts (64 \u2192 39)",
-        "IA: falso positivo con 90% confianza \u2014 La empresa report\u00f3 resultados financieros s\u00f3lidos en los \u00faltimos tres meses, con un aumento del 17\u202f% en ingresos netos y del 20\u202f% en EPS ajustado en el Q2\u202f2026."
-      ],
-      "fundamental_score": 71.5,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 90,
-        "summary": "La empresa report\u00f3 resultados financieros s\u00f3lidos en los \u00faltimos tres meses, con un aumento del 17\u202f% en ingresos netos y del 20\u202f% en EPS ajustado en el Q2\u202f2026.",
-        "key_finding": "Visa present\u00f3 un fuerte crecimiento de ingresos y EPS en su informe del segundo trimestre de 2026, sin se\u00f1ales de deterioro fundamental."
-      }
     },
     {
       "ticker": "DPZ",
@@ -1627,7 +1602,7 @@
       "ticker": "JKHY",
       "severity": "MEDIUM",
       "entry_score": 73.28,
-      "current_score": 69.0,
+      "current_score": 70.67,
       "signal_date": "2026-04-26",
       "reasons": [
         "Earnings en 6d \u2014 alta incertidumbre, considera reducir",
@@ -1639,7 +1614,7 @@
       "ticker": "BR",
       "severity": "MEDIUM",
       "entry_score": 73.2,
-      "current_score": 61.2,
+      "current_score": 64.68,
       "signal_date": "2026-04-08",
       "reasons": [
         "Earnings en 1d \u2014 alta incertidumbre, considera reducir",
@@ -1662,10 +1637,10 @@
       "ticker": "AON",
       "severity": "MEDIUM",
       "entry_score": 66.38,
-      "current_score": 45.18,
+      "current_score": 48.86,
       "signal_date": "2026-03-24",
       "reasons": [
-        "Score cay\u00f3 21pts (66 \u2192 45)",
+        "Score cay\u00f3 18pts (66 \u2192 49)",
         "Earnings en 2d \u2014 alta incertidumbre, considera reducir"
       ],
       "fundamental_score": 68.2
@@ -1683,13 +1658,24 @@
       "fundamental_score": 57.0
     },
     {
+      "ticker": "V",
+      "severity": "MEDIUM",
+      "entry_score": 63.6,
+      "current_score": 41.515,
+      "signal_date": "2026-04-16",
+      "reasons": [
+        "Score cay\u00f3 22pts (64 \u2192 42)"
+      ],
+      "fundamental_score": 71.5
+    },
+    {
       "ticker": "ADP",
       "severity": "MEDIUM",
       "entry_score": 63.55,
-      "current_score": 39.27,
+      "current_score": 40.25,
       "signal_date": "2026-03-24",
       "reasons": [
-        "Score cay\u00f3 24pts (64 \u2192 39)",
+        "Score cay\u00f3 23pts (64 \u2192 40)",
         "Earnings en 0d \u2014 alta incertidumbre, considera reducir"
       ],
       "fundamental_score": 48.8
@@ -1698,7 +1684,7 @@
       "ticker": "IT",
       "severity": "MEDIUM",
       "entry_score": 62.68000000000001,
-      "current_score": 54.97,
+      "current_score": 56.535,
       "signal_date": "2026-03-19",
       "reasons": [
         "Earnings en 6d \u2014 alta incertidumbre, considera reducir"
@@ -1709,7 +1695,7 @@
       "ticker": "MA",
       "severity": "MEDIUM",
       "entry_score": 62.6,
-      "current_score": 49.6,
+      "current_score": 51.395,
       "signal_date": "2026-04-16",
       "reasons": [
         "Earnings en 1d \u2014 alta incertidumbre, considera reducir"
@@ -1726,17 +1712,6 @@
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
       "fundamental_score": 63.8
-    },
-    {
-      "ticker": "CTAS",
-      "severity": "MEDIUM",
-      "entry_score": 57.38000000000001,
-      "current_score": 39.38,
-      "signal_date": "2026-03-24",
-      "reasons": [
-        "Score cay\u00f3 18pts (57 \u2192 39)"
-      ],
-      "fundamental_score": 66.7
     },
     {
       "ticker": "AXP",
@@ -1786,7 +1761,7 @@
       "ticker": "WTKWY",
       "severity": "LOW",
       "entry_score": 71.45,
-      "current_score": 63.45,
+      "current_score": 67.95500000000001,
       "signal_date": "2026-04-26",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
@@ -1797,7 +1772,7 @@
       "ticker": "VRSN",
       "severity": "LOW",
       "entry_score": 69.03999999999999,
-      "current_score": 69.03999999999999,
+      "current_score": 71.565,
       "signal_date": "2026-04-27",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
@@ -1819,7 +1794,7 @@
       "ticker": "SAP",
       "severity": "LOW",
       "entry_score": 67.08,
-      "current_score": 61.17999999999999,
+      "current_score": 64.75,
       "signal_date": "2026-04-26",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
@@ -1830,7 +1805,7 @@
       "ticker": "INTU",
       "severity": "LOW",
       "entry_score": 66.8,
-      "current_score": 66.8,
+      "current_score": 68.63,
       "signal_date": "2026-04-27",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
@@ -1841,7 +1816,7 @@
       "ticker": "RELX",
       "severity": "LOW",
       "entry_score": 65.42,
-      "current_score": 60.42,
+      "current_score": 63.46,
       "signal_date": "2026-04-26",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"

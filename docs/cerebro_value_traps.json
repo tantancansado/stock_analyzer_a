@@ -1,9 +1,23 @@
 {
   "generated_at": "2026-04-29",
-  "total": 3,
+  "total": 4,
   "high_count": 0,
-  "narrative": "Estos tickers podr\u00edan ser trampas de valor debido a que presentan se\u00f1ales de alerta en sus fundamentos, como un flujo de caja libre (FCF) negativo en el caso de HEXA-B.ST y SAF.PA, lo que indica que est\u00e1n \"quemando caja\" a pesar de tener una valuaci\u00f3n barata. Adem\u00e1s, DEMANT.CO muestra un puntaje de Piotroski d\u00e9bil y un score fundamental cerca del default, lo que sugiere que los datos sobre esta empresa pueden ser poco fiables y, por lo tanto, no reflejar su verdadero valor.",
+  "narrative": null,
   "traps": [
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "severity": "MEDIUM",
+      "trap_score": 4,
+      "value_score": 67.95500000000001,
+      "flags": [
+        "Fundamental score cerca de default (50) \u2014 datos poco fiables",
+        "Sin cobertura de analistas \u2014 tesis sin verificar externamente"
+      ],
+      "piotroski": 7.0,
+      "fcf_yield_pct": 5.65,
+      "fundamental_score": 48.0
+    },
     {
       "ticker": "DEMANT.CO",
       "company_name": "Demant A/S",
@@ -15,7 +29,7 @@
         "Fundamental score cerca de default (50) \u2014 datos poco fiables"
       ],
       "piotroski": 4.0,
-      "fcf_yield_pct": 7.71,
+      "fcf_yield_pct": 7.74,
       "fundamental_score": 51.8
     },
     {
@@ -41,7 +55,7 @@
         "FCF negativo (-1.5%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 7.0,
-      "fcf_yield_pct": -1.52,
+      "fcf_yield_pct": -1.54,
       "fundamental_score": 57.5
     }
   ]
