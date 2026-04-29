@@ -129,7 +129,8 @@ def earnings_history_stats(hist: Any) -> tuple[Optional[float], Optional[float],
     for _, row in df.iterrows():
         est = sf(row.get('epsEstimate'))
         act = sf(row.get('epsActual'))
-        sur = sf(row.get('surprisePercent'))
+        sur_raw = sf(row.get('surprisePercent'))
+        sur = round(sur_raw * 100, 2) if sur_raw is not None else None  # decimal → percentage
         if est is not None and act is not None:
             beats += 1 if act >= est else 0
             total += 1

@@ -210,7 +210,8 @@ def _earnings_history(tk: yf.Ticker, n: int = 8) -> Optional[dict]:
     for idx, r in recent.iterrows():
         est = _safe_float(r.get('epsEstimate'))
         act = _safe_float(r.get('epsActual'))
-        sur = _safe_float(r.get('surprisePercent'))
+        sur_raw = _safe_float(r.get('surprisePercent'))
+        sur = round(sur_raw * 100, 2) if sur_raw is not None else None  # decimal → percentage
         if est is not None and act is not None:
             total += 1
             if act >= est:

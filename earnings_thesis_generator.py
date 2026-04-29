@@ -232,7 +232,8 @@ def _earnings_history(tk: yf.Ticker) -> tuple[float | None, list[dict]]:
     for idx, row in df.iterrows():
         est = _safe_float(row.get('epsEstimate'))
         act = _safe_float(row.get('epsActual'))
-        sur = _safe_float(row.get('surprisePercent'))
+        sur_raw = _safe_float(row.get('surprisePercent'))
+        sur = round(sur_raw * 100, 2) if sur_raw is not None else None  # decimal → percentage
         beat = None
         if est is not None and act is not None:
             beat = act >= est
