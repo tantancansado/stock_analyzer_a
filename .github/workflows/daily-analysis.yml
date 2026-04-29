@@ -95,6 +95,10 @@ jobs:
         continue-on-error: true
         run: python3 analyst_revisions_tracker.py || echo "Analyst revisions tracker failed"
 
+      - name: ML Scorer (win probability model)
+        continue-on-error: true
+        run: python3 ml_scorer.py || echo "ML scorer failed"
+
       - name: Run Super Score Integration [CRITICAL]
         run: python3 super_score_integrator.py
 
