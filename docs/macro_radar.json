@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-04-29T09:52:45.461409",
+  "timestamp": "2026-04-29T11:59:04.941240",
   "date": "2026-04-29",
   "regime": {
     "name": "CALM",
@@ -11,11 +11,11 @@
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 17.93,
-      "percentile": 52.5,
+      "current": 18.0,
+      "percentile": 53.3,
       "score": 0.5,
-      "change_5d": -5.2,
-      "interpretation": "VIX 17.9 (bajo)",
+      "change_5d": -4.9,
+      "interpretation": "VIX 18.0 (bajo)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
@@ -58,7 +58,7 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 103.38,
+      "current": 103.37,
       "percentile": 98.6,
       "score": -2,
       "change_5d": 11.2,
@@ -78,21 +78,21 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 98.73,
-      "percentile": 49.8,
+      "current": 98.7,
+      "percentile": 49.1,
       "score": 1,
-      "change_5d": 0.14,
-      "change_20d": -1.23,
+      "change_5d": 0.11,
+      "change_20d": -1.26,
       "interpretation": "DXY 98.7 (rango neutro)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 159.81,
-      "percentile": 98.9,
+      "current": 159.85,
+      "percentile": 99.3,
       "score": 1,
-      "change_5d": 0.27,
-      "change_20d": 0.78,
+      "change_5d": 0.3,
+      "change_20d": 0.8,
       "interpretation": "USD/JPY 159.8 (yen debil (risk-on))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
@@ -166,7 +166,7 @@
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 71.6,
+      "similarity": 71.7,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -189,7 +189,7 @@
       "name": "Mercado Bajista 2022",
       "date": "Ene-Dic 2022",
       "duration_days": 280,
-      "similarity": 61.3,
+      "similarity": 61.4,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -18,
@@ -212,7 +212,7 @@
       "name": "Crisis SVB",
       "date": "Mar 2023",
       "duration_days": 14,
-      "similarity": 60.3,
+      "similarity": 60.4,
       "outcome": {
         "spy_30d": 5,
         "spy_90d": 12,

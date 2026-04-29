@@ -1,6 +1,6 @@
 {
   "date": "2026-04-29",
-  "timestamp": "2026-04-29T09:57:47.326234",
+  "timestamp": "2026-04-29T12:04:04.028964",
   "narrative": null,
   "total_tickers": 16,
   "total_us": 8,
@@ -23,14 +23,6 @@
       "days_span": 8
     },
     {
-      "ticker": "FAST",
-      "market": "US",
-      "purchase_count": 7,
-      "unique_insiders": 1,
-      "confidence_score": 150.0,
-      "days_span": 16
-    },
-    {
       "ticker": "TYL",
       "market": "US",
       "purchase_count": 6,
@@ -39,12 +31,20 @@
       "days_span": 5
     },
     {
-      "ticker": "ABT",
+      "ticker": "FAST",
       "market": "US",
       "purchase_count": 5,
+      "unique_insiders": 1,
+      "confidence_score": 110.0,
+      "days_span": 14
+    },
+    {
+      "ticker": "MSCI",
+      "market": "US",
+      "purchase_count": 4,
       "unique_insiders": 2,
-      "confidence_score": 120.0,
-      "days_span": 13
+      "confidence_score": 100.0,
+      "days_span": 6
     }
   ]
 }
