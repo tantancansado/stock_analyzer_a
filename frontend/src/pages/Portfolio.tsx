@@ -656,6 +656,63 @@ export default function Portfolio() {
         </div>
       )}
 
+      {/* ── Alpha vs benchmark ── */}
+      {pf.alpha?.['30d']?.count != null && pf.alpha['30d'].count >= 3 && (
+        <div className="mt-6 animate-fade-in-up">
+          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30 mb-4">
+            Alpha vs benchmark
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {(['30d', '14d', '7d'] as const).map(period => {
+              const a = pf.alpha![period]
+              if (!a || a.count < 3) return null
+              const alphaColor = (a.avg_alpha ?? 0) > 0 ? 'text-emerald-400' : 'text-red-400'
+              const bench = period === '30d' ? 'SPY/VGK' : period === '14d' ? 'SPY/VGK' : 'SPY/VGK'
+              return (
+                <Card key={period} className="glass border-border/20">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">{period}</span>
+                      <Badge variant={(a.avg_alpha ?? 0) > 0 ? 'green' : 'red'} className="text-[0.65rem]">
+                        {(a.avg_alpha ?? 0) > 0 ? '↑ OUTPERFORM' : '↓ UNDERPERFORM'}
+                      </Badge>
+                    </div>
+                    <div className={`text-3xl font-extrabold tabular-nums leading-none mb-1 ${alphaColor}`}>
+                      {(a.avg_alpha ?? 0) > 0 ? '+' : ''}{a.avg_alpha?.toFixed(2)}%
+                    </div>
+                    <div className="text-[0.65rem] text-muted-foreground/50 mb-3">alpha medio vs {bench}</div>
+                    <div className="space-y-1.5 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Nuestras señales</span>
+                        <span className={a.avg_signal_return != null && a.avg_signal_return > 0 ? 'text-emerald-400 font-semibold' : 'text-red-400 font-semibold'}>
+                          {a.avg_signal_return != null ? `${a.avg_signal_return > 0 ? '+' : ''}${a.avg_signal_return.toFixed(2)}%` : '—'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Benchmark ({bench})</span>
+                        <span className="text-muted-foreground/70 font-semibold">
+                          {a.avg_benchmark_return != null ? `${a.avg_benchmark_return > 0 ? '+' : ''}${a.avg_benchmark_return.toFixed(2)}%` : '—'}
+                        </span>
+                      </div>
+                      <div className="flex justify-between pt-1 border-t border-border/20">
+                        <span className="text-muted-foreground">% señales con alpha+</span>
+                        <span className={`font-semibold ${(a.positive_alpha_rate ?? 0) >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
+                          {a.positive_alpha_rate?.toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="flex justify-between text-[0.65rem] text-muted-foreground/50">
+                        <span>{a.count} señales</span>
+                        <span>mejor {a.best_alpha != null ? `+${a.best_alpha.toFixed(1)}%` : '—'} / peor {a.worst_alpha?.toFixed(1)}%</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ── Estadísticas del sistema ── */}
       {calibData && (
         <div className="mt-8 space-y-4 animate-fade-in-up">

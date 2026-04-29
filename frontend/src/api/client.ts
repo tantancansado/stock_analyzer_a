@@ -205,6 +205,21 @@ export interface PortfolioSummary {
   recent_signals?: Array<Record<string, unknown>>
   avg_max_drawdown?: number
   score_correlation?: number
+  alpha?: {
+    '30d': AlphaStat
+    '14d': AlphaStat
+    '7d':  AlphaStat
+  }
+}
+
+export interface AlphaStat {
+  count: number
+  avg_alpha: number | null
+  avg_signal_return: number | null
+  avg_benchmark_return: number | null
+  positive_alpha_rate: number | null
+  best_alpha: number | null
+  worst_alpha: number | null
 }
 
 export interface MarketRegime {

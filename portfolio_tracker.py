@@ -16,6 +16,24 @@ import argparse
 
 
 TRACKER_DIR = Path('docs/portfolio_tracker')
+
+
+def _alpha_stats(df: pd.DataFrame, alpha_col: str, return_col: str) -> dict:
+    """Alpha = señal return - benchmark return en el mismo período."""
+    valid = df[df[alpha_col].notna() & (df[return_col] > -95) & (df[return_col] < 500)]
+    if len(valid) < 3:
+        return {'count': 0, 'avg_alpha': None, 'positive_alpha_rate': None,
+                'avg_signal_return': None, 'avg_benchmark_return': None}
+    bench_col = alpha_col.replace('alpha_', 'benchmark_return_')
+    return {
+        'count': int(len(valid)),
+        'avg_alpha': round(float(valid[alpha_col].mean()), 2),
+        'avg_signal_return': round(float(valid[return_col].mean()), 2),
+        'avg_benchmark_return': round(float(valid[bench_col].mean()), 2) if bench_col in valid.columns else None,
+        'positive_alpha_rate': round(float((valid[alpha_col] > 0).mean() * 100), 1),
+        'best_alpha': round(float(valid[alpha_col].max()), 2),
+        'worst_alpha': round(float(valid[alpha_col].min()), 2),
+    }
 RECOMMENDATIONS_FILE = TRACKER_DIR / 'recommendations.csv'
 PERFORMANCE_FILE = TRACKER_DIR / 'performance.csv'
 SUMMARY_FILE = TRACKER_DIR / 'summary.json'
@@ -40,7 +58,9 @@ class PortfolioTracker:
             'return_7d', 'return_14d', 'return_30d',
             'price_7d', 'price_14d', 'price_30d',
             'win_7d', 'win_14d', 'win_30d',
-            'max_drawdown_30d', 'status'
+            'max_drawdown_30d', 'status',
+            'benchmark_return_7d', 'benchmark_return_14d', 'benchmark_return_30d',
+            'alpha_7d', 'alpha_14d', 'alpha_30d',
         ])
 
     def record_signals(self):
@@ -191,8 +211,28 @@ class PortfolioTracker:
         today = pd.Timestamp.now().normalize()
         updated = 0
 
+        # ── Download benchmarks once for the full date range ──────────────────
+        # SPY = benchmark for VALUE US / MOMENTUM
+        # VGK = benchmark for EU_VALUE (Vanguard FTSE Europe)
+        bench_hists: dict[str, pd.DataFrame] = {}
+        active_all = self.recommendations[self.recommendations['status'] == 'ACTIVE'].copy()
+        if not active_all.empty:
+            earliest = pd.Timestamp(active_all['signal_date'].min()) - timedelta(days=1)
+            bench_end = (today + timedelta(days=1)).strftime('%Y-%m-%d')
+            bench_start = earliest.strftime('%Y-%m-%d')
+            for bench in ['SPY', 'VGK']:
+                try:
+                    h = yf.Ticker(bench).history(start=bench_start, end=bench_end)
+                    if not h.empty:
+                        if h.index.tz is not None:
+                            h.index = h.index.tz_localize(None)
+                        bench_hists[bench] = h
+                except Exception as e:
+                    print(f"    Warning: could not download {bench}: {e}")
+        # ──────────────────────────────────────────────────────────────────────
+
         # Group by ticker to batch yfinance calls
-        active = self.recommendations[self.recommendations['status'] == 'ACTIVE'].copy()
+        active = active_all.copy()
         tickers_to_check = active['ticker'].unique()
 
         print(f"  Checking {len(tickers_to_check)} tickers for performance updates...")
@@ -248,6 +288,25 @@ class PortfolioTracker:
                                 self.recommendations.at[idx, col_price] = round(check_price, 2)
                                 self.recommendations.at[idx, col_win] = pct_return > 0
                                 updated += 1
+
+                                # ── Alpha vs benchmark ────────────────────────
+                                strategy = rec.get('strategy', 'VALUE')
+                                bench_key = 'VGK' if strategy == 'EU_VALUE' else 'SPY'
+                                bench_col_ret  = f'benchmark_return_{period}d'
+                                bench_col_alpha = f'alpha_{period}d'
+                                if bench_key in bench_hists and pd.isna(rec.get(bench_col_ret)):
+                                    bh = bench_hists[bench_key]
+                                    b_signal_mask = bh.index >= signal_date
+                                    b_check_mask  = bh.index >= check_date
+                                    if b_signal_mask.any() and b_check_mask.any():
+                                        b_signal_price = float(bh.loc[b_signal_mask, 'Close'].iloc[0])
+                                        b_check_price  = float(bh.loc[b_check_mask,  'Close'].iloc[0])
+                                        if b_signal_price > 0:
+                                            bench_ret = ((b_check_price - b_signal_price) / b_signal_price) * 100
+                                            alpha     = pct_return - bench_ret
+                                            self.recommendations.at[idx, bench_col_ret]   = round(bench_ret, 2)
+                                            self.recommendations.at[idx, bench_col_alpha] = round(alpha, 2)
+                                # ─────────────────────────────────────────────
 
                     # Max drawdown over 30 days
                     if days_since >= 7 and pd.isna(rec.get('max_drawdown_30d')):
@@ -408,6 +467,13 @@ class PortfolioTracker:
             'recent_signals': recent_signals,
 
             'avg_max_drawdown': round(df['max_drawdown_30d'].mean(), 2) if df['max_drawdown_30d'].notna().sum() > 0 else None,
+
+            # ── Alpha vs benchmark (SPY for US, VGK for EU) ──────────────────
+            'alpha': {
+                '30d': _alpha_stats(df, 'alpha_30d', 'return_30d'),
+                '14d': _alpha_stats(df, 'alpha_14d', 'return_14d'),
+                '7d':  _alpha_stats(df, 'alpha_7d',  'return_7d'),
+            },
 
             'generated_at': datetime.now().isoformat()
         }
