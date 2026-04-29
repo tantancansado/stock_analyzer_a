@@ -1,7 +1,6 @@
 import { useLocation, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Clock, Sun, Moon, Menu, Search, Brain, Grid3x3 } from 'lucide-react'
-import PushNotificationButton from './PushNotificationButton'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { useTheme } from '../context/ThemeContext'
 import { useNothingTheme } from '../hooks/useNothingTheme'
@@ -139,9 +138,6 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           <Clock size={11} strokeWidth={1.5} />
           {dateStr} · {timeStr}
         </span>
-
-        {/* Web Push alerts */}
-        <PushNotificationButton />
 
         {/* Cerebro alert bell — ping only when there are real alerts */}
         <Link

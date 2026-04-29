@@ -368,15 +368,6 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 auto_telegram_alerts.py || echo "Telegram alerts failed"
 
-      - name: Send Web Push Notifications
-        continue-on-error: true
-        env:
-          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
-          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
-          TICKER_API_URL: ${{ secrets.TICKER_API_URL }}
-          INTERNAL_API_TOKEN: ${{ secrets.INTERNAL_API_TOKEN }}
-        run: python3 web_push_notifier.py || echo "Web push notifier failed"
-
       - name: New VALUE Picks Alert
         continue-on-error: true
         env:
