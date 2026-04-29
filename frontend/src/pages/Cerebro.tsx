@@ -6,12 +6,14 @@ import {
   fetchCerebroEntrySignals, fetchCerebroExitSignals, fetchCerebroValueTraps, fetchCerebroSmartMoney,
   fetchCerebroInsiderClusters, fetchCerebroDividendSafety, fetchCerebroPiotroski,
   fetchCerebroStressTest, fetchCerebroBriefing, fetchMeanReversion,
-  fetchCerebroShortSqueeze, fetchCerebroQualityDecay,
+  fetchCerebroShortSqueeze, fetchCerebroQualityDecay, fetchEarningsCalendar,
   type CerebroTier, type CerebroAlert, type EntrySignal, type MeanReversionItem,
   type ShortSqueezeSetup, type QualityDecay, type CerebroSignal, type ExitSignal,
-  type ValueTrap, type SmartMoneySignal,
+  type ValueTrap, type SmartMoneySignal, type EarningsEntry,
 } from '../api/client'
 import { useApi } from '../hooks/useApi'
+import { supabase } from '@/lib/supabase'
+import { useAuth } from '@/context/AuthContext'
 import Loading, { ErrorState } from '../components/Loading'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import { Card, CardContent } from '@/components/ui/card'
@@ -601,6 +603,28 @@ export default function Cerebro() {
   const { data: squeezeData } = useApi(() => fetchCerebroShortSqueeze(), [])
   const { data: decayData }   = useApi(() => fetchCerebroQualityDecay(), [])
   const { data: mrRaw }       = useApi(() => fetchMeanReversion(), [])
+  const { data: earningsRaw } = useApi(() => fetchEarningsCalendar(), [])
+
+  const { user } = useAuth()
+  const [portfolioTickers, setPortfolioTickers] = useState<string[]>([])
+  useEffect(() => {
+    if (!user) return
+    supabase
+      .from('personal_portfolio_positions')
+      .select('ticker')
+      .eq('user_id', user.id)
+      .then(({ data }) => {
+        if (data) setPortfolioTickers(data.map((r: { ticker: string }) => r.ticker))
+      })
+  }, [user])
+
+  const portfolioEarnings = useMemo<EarningsEntry[]>(() => {
+    if (!earningsRaw?.earnings || !portfolioTickers.length) return []
+    const tSet = new Set(portfolioTickers.map(t => t.toUpperCase()))
+    return earningsRaw.earnings.filter(
+      e => tSet.has(e.ticker.toUpperCase()) && e.days_to_earnings != null && e.days_to_earnings >= 0 && e.days_to_earnings <= 14
+    ).sort((a, b) => (a.days_to_earnings ?? 99) - (b.days_to_earnings ?? 99))
+  }, [earningsRaw, portfolioTickers])
 
   const [activeTab, setActiveTab] = useState<CerebroTab>('briefing')
   const [entryFilter, setEntryFilter] = useState<'ACTIONABLE' | 'STRONG_BUY' | 'BUY' | 'MONITOR'>('ACTIONABLE')
@@ -897,6 +921,36 @@ export default function Cerebro() {
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
                           <span className="ml-auto text-[0.65rem] text-cyan-400">conv {score}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Portfolio earnings */}
+              {portfolioEarnings.length > 0 && (
+                <Card className="glass border-violet-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '270ms' }}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Bell size={13} className="text-violet-400" />
+                      <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Earnings en tu cartera</span>
+                      <span className="ml-auto text-[0.6rem] bg-violet-500/15 text-violet-400 px-1.5 py-0.5 rounded border border-violet-500/30 font-bold">
+                        {portfolioEarnings.length} próximos
+                      </span>
+                    </div>
+                    <div className="space-y-2">
+                      {portfolioEarnings.map(e => (
+                        <div key={e.ticker} className="flex items-center gap-2">
+                          <TickerLogo ticker={e.ticker} size="xs" className="shrink-0" />
+                          <Link to={`/search?q=${e.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline w-12 shrink-0">{e.ticker}</Link>
+                          <span className="text-[0.65rem] text-muted-foreground truncate flex-1">{e.company}</span>
+                          <span className={`text-[0.65rem] font-bold tabular-nums shrink-0 ${e.days_to_earnings === 0 ? 'text-red-400' : e.days_to_earnings != null && e.days_to_earnings <= 3 ? 'text-amber-400' : 'text-violet-400'}`}>
+                            {e.days_to_earnings === 0 ? 'HOY' : `${e.days_to_earnings}d`}
+                          </span>
+                          {e.earnings_catalyst && (
+                            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 font-bold shrink-0">CAT</span>
+                          )}
                         </div>
                       ))}
                     </div>

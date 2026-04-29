@@ -343,14 +343,19 @@ class PortfolioTracker:
 
         df = self.recommendations
 
-        # Overall stats
-        total = len(df)
-        unique_tickers = df['ticker'].nunique()
-        date_range = f"{df['signal_date'].min().date()} to {df['signal_date'].max().date()}"
+        # Core VALUE strategies only — exclude MOMENTUM/Bounce/Entry (different logic, distorts stats)
+        VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'}
+        value_core = df[df['strategy'].isin(VALUE_STRATEGIES)]
+
+        # Overall stats (VALUE core only)
+        total = len(value_core)
+        unique_tickers = value_core['ticker'].nunique()
+        date_range = f"{value_core['signal_date'].min().date()} to {value_core['signal_date'].max().date()}" if not value_core.empty else ''
 
         # Win rates by period
-        def win_stats(col_return, col_win):
-            valid = df[df[col_return].notna()]
+        def win_stats(col_return, col_win, subset=None):
+            d = subset if subset is not None else value_core
+            valid = d[d[col_return].notna()]
             if valid.empty:
                 return {'count': 0, 'win_rate': None, 'avg_return': None,
                         'median_return': None, 'best': None, 'worst': None}
@@ -364,17 +369,18 @@ class PortfolioTracker:
                 'worst': round(valid[col_return].min(), 2),
             }
 
-        # By strategy
-        value_df = df[df['strategy'] == 'VALUE']
-        mom_df = df[df['strategy'] == 'MOMENTUM']
+        # By strategy (VALUE core only)
+        value_df  = value_core[value_core['strategy'] == 'VALUE']
+        eu_df     = value_core[value_core['strategy'] == 'EU_VALUE']
+        mom_df    = df[df['strategy'] == 'MOMENTUM']  # kept separate, not mixed in
 
-        # Conviction slice: value_score ≥ 55 (matches frontend default filter)
-        conviction_df = df[df['value_score'].notna() & (df['value_score'] >= 55)]
+        # Conviction slice: value_score ≥ 55 (VALUE core only)
+        conviction_df = value_core[value_core['value_score'].notna() & (value_core['value_score'] >= 55)]
 
-        # Sector analysis
+        # Sector analysis (VALUE core only)
         sector_perf = {}
-        for sector in df['sector'].unique():
-            sdf = df[(df['sector'] == sector) & df['return_14d'].notna()]
+        for sector in value_core['sector'].unique():
+            sdf = value_core[(value_core['sector'] == sector) & value_core['return_14d'].notna()]
             if len(sdf) >= 2:
                 sector_perf[sector] = {
                     'count': len(sdf),
@@ -390,15 +396,16 @@ class PortfolioTracker:
                 score_corr = round(valid['value_score'].corr(valid['return_14d']), 3)
 
         # Ensure company_name column exists (backfill from ticker for old rows)
-        if 'company_name' not in df.columns:
-            df['company_name'] = df['ticker']
+        if 'company_name' not in value_core.columns:
+            value_core = value_core.copy()
+            value_core['company_name'] = value_core['ticker']
         else:
-            df['company_name'] = df['company_name'].fillna(df['ticker'])
+            value_core = value_core.copy()
+            value_core['company_name'] = value_core['company_name'].fillna(value_core['ticker'])
 
-        # Top/Bottom performers — deduplicated by ticker, extreme returns excluded (data errors)
+        # Top/Bottom performers — VALUE core only, extreme returns excluded
         perf_cols = ['ticker', 'company_name', 'strategy', 'signal_date', 'signal_price', 'return_14d']
-        # Filter out likely data errors: LSE pence/GBP mismatch causes -99%, splits cause +900%
-        valid_ret = df[df['return_14d'].notna() & (df['return_14d'] > -95) & (df['return_14d'] < 500)]
+        valid_ret = value_core[value_core['return_14d'].notna() & (value_core['return_14d'] > -95) & (value_core['return_14d'] < 500)]
         if not valid_ret.empty:
             top_by_ticker = valid_ret.loc[valid_ret.groupby('ticker')['return_14d'].idxmax()]
             bot_by_ticker = valid_ret.loc[valid_ret.groupby('ticker')['return_14d'].idxmin()]
@@ -408,13 +415,12 @@ class PortfolioTracker:
             top5 = []
             bottom5 = []
 
-        # Recent active signals (last 20, most recent first) — shown while waiting for returns
-        active_df = df[df['status'] == 'ACTIVE'].sort_values('signal_date', ascending=False)
+        # Recent active signals — VALUE core only
+        active_df = value_core[value_core['status'] == 'ACTIVE'].sort_values('signal_date', ascending=False)
         signal_cols = ['ticker', 'company_name', 'strategy', 'signal_date', 'signal_price', 'sector', 'value_score']
         recent_signals = active_df.head(20)[
             [c for c in signal_cols if c in active_df.columns]
         ].to_dict('records')
-        # Add days_active and first_result_date for UI display
         today_ts = pd.Timestamp.now().normalize()
         for s in recent_signals:
             sig_dt = pd.Timestamp(s['signal_date'])
@@ -426,8 +432,8 @@ class PortfolioTracker:
             'total_signals': total,
             'unique_tickers': unique_tickers,
             'date_range': date_range,
-            'active_signals': int((df['status'] == 'ACTIVE').sum()),
-            'completed_signals': int((df['status'] == 'COMPLETED').sum()),
+            'active_signals': int((value_core['status'] == 'ACTIVE').sum()),
+            'completed_signals': int((value_core['status'] == 'COMPLETED').sum()),
 
             'overall': {
                 '7d': win_stats('return_7d', 'win_7d'),
@@ -435,7 +441,7 @@ class PortfolioTracker:
                 '30d': win_stats('return_30d', 'win_30d'),
             },
 
-            # High-conviction only (score ≥ 55) — the real signal quality metric
+            # High-conviction only (score ≥ 55)
             'conviction': {
                 '7d': (lambda d: {
                     'count': 0, 'win_rate': None, 'avg_return': None
@@ -448,16 +454,20 @@ class PortfolioTracker:
 
             'value_strategy': {
                 'count': len(value_df),
-                '7d': win_stats('return_7d', 'win_7d') if not value_df.empty else {},
-                '14d': win_stats('return_14d', 'win_14d') if not value_df.empty else {},
-                '30d': win_stats('return_30d', 'win_30d') if not value_df.empty else {},
+                '7d':  win_stats('return_7d',  'win_7d',  value_df) if not value_df.empty else {},
+                '14d': win_stats('return_14d', 'win_14d', value_df) if not value_df.empty else {},
+                '30d': win_stats('return_30d', 'win_30d', value_df) if not value_df.empty else {},
+            },
+
+            'eu_value_strategy': {
+                'count': len(eu_df),
+                '7d':  win_stats('return_7d',  'win_7d',  eu_df) if not eu_df.empty else {},
+                '14d': win_stats('return_14d', 'win_14d', eu_df) if not eu_df.empty else {},
+                '30d': win_stats('return_30d', 'win_30d', eu_df) if not eu_df.empty else {},
             },
 
             'momentum_strategy': {
                 'count': len(mom_df),
-                '7d': win_stats('return_7d', 'win_7d') if not mom_df.empty else {},
-                '14d': win_stats('return_14d', 'win_14d') if not mom_df.empty else {},
-                '30d': win_stats('return_30d', 'win_30d') if not mom_df.empty else {},
             },
 
             'sector_performance': sector_perf,
@@ -466,13 +476,21 @@ class PortfolioTracker:
             'worst_performers': bottom5,
             'recent_signals': recent_signals,
 
-            'avg_max_drawdown': round(df['max_drawdown_30d'].mean(), 2) if df['max_drawdown_30d'].notna().sum() > 0 else None,
+            'avg_max_drawdown': round(value_core['max_drawdown_30d'].mean(), 2) if value_core['max_drawdown_30d'].notna().sum() > 0 else None,
 
-            # ── Alpha vs benchmark (SPY for US, VGK for EU) ──────────────────
+            # ── Alpha vs benchmark (SPY for VALUE US, VGK for EU_VALUE) ──────
             'alpha': {
-                '30d': _alpha_stats(df, 'alpha_30d', 'return_30d'),
-                '14d': _alpha_stats(df, 'alpha_14d', 'return_14d'),
-                '7d':  _alpha_stats(df, 'alpha_7d',  'return_7d'),
+                '30d': _alpha_stats(value_core, 'alpha_30d', 'return_30d'),
+                '14d': _alpha_stats(value_core, 'alpha_14d', 'return_14d'),
+                '7d':  _alpha_stats(value_core, 'alpha_7d',  'return_7d'),
+            },
+            'alpha_us': {
+                '30d': _alpha_stats(value_df, 'alpha_30d', 'return_30d'),
+                '14d': _alpha_stats(value_df, 'alpha_14d', 'return_14d'),
+            },
+            'alpha_eu': {
+                '30d': _alpha_stats(eu_df, 'alpha_30d', 'return_30d'),
+                '14d': _alpha_stats(eu_df, 'alpha_14d', 'return_14d'),
             },
 
             'generated_at': datetime.now().isoformat()
@@ -484,7 +502,8 @@ class PortfolioTracker:
 
     def generate_calibration(self):
         """Compute score/regime/sector calibration — does a higher score actually predict better returns?"""
-        df = self.recommendations
+        VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'}
+        df = self.recommendations[self.recommendations['strategy'].isin(VALUE_STRATEGIES)]
         completed = df[df['return_14d'].notna() & (df['return_14d'] > -95) & (df['return_14d'] < 500)]
         if len(completed) < 10:
             return
