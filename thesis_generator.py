@@ -159,7 +159,7 @@ class ThesisGenerator:
             'value_score': value_score,
             'vcp_score': _safe_float(record.get('vcp_score')),
             'entry_score': None,
-            'fundamental_score': _safe_float(record.get('fundamental_score'), 50),
+            'fundamental_score': _safe_float(record.get('fundamental_score'), None),
             'pe_ratio': None,
             'peg_ratio': None,
             'fcf_yield': None,
@@ -1130,16 +1130,17 @@ ESTRUCTURA (usa **negrita** para cada sección):
 
         # Handle NaN/None in entry_score
         if entry_score is None or (isinstance(entry_score, float) and np.isnan(entry_score)):
-            entry_score = 50  # Default neutral
+            entry_score = None
 
-        tech_avg = (vcp_score + entry_score) / 2
-        rating['technical'] = min(5, int(tech_avg / 20) + 1)
+        tech_scores = [s for s in [vcp_score if vcp_score else None, entry_score] if s is not None]
+        tech_avg = sum(tech_scores) / len(tech_scores) if tech_scores else None
+        rating['technical'] = min(5, int(tech_avg / 20) + 1) if tech_avg is not None else None
 
         # Fundamental Value (0-5 stars)
-        fund_score = row.get('fundamental_score', 50)
-        if fund_score is None or (isinstance(fund_score, float) and np.isnan(fund_score)):
-            fund_score = 50
-        rating['fundamental'] = min(5, int(fund_score / 20) + 1)
+        fund_score = row.get('fundamental_score')
+        if fund_score is None or (isinstance(fund_score, float) and (np.isnan(fund_score) or abs(fund_score - 50.0) < 0.01)):
+            fund_score = None
+        rating['fundamental'] = min(5, int(fund_score / 20) + 1) if fund_score is not None else None
 
         # Risk/Reward (0-5 stars) - basado en combinación
         score_5d = row.get('super_score_5d', 50) or 50

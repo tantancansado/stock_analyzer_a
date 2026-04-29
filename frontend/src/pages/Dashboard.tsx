@@ -385,7 +385,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
                 </span>
               </div>
               <span className="text-[0.65rem] text-muted-foreground tabular-nums">
-                {macro.composite_score > 0 ? '+' : ''}{macro.composite_score.toFixed(1)} / {macro.max_score}
+                {macro.composite_score != null && macro.composite_score > 0 ? '+' : ''}{fmt(macro.composite_score)} / {macro.max_score}
               </span>
             </div>
 
@@ -1574,7 +1574,7 @@ export default function Dashboard() {
                       </div>
                     </div>
                     <div className="flex-shrink-0">
-                      <ScoreRing score={bestPick.value_score ?? 0} size="lg" />
+                      <ScoreRing score={bestPick.value_score} size="lg" />
                     </div>
                   </div>
                 </div>

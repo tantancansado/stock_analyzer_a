@@ -76,7 +76,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
             )}
             {entry.fcf_yield != null && (
               <div className="text-center">
-                <div className={`font-bold ${entry.fcf_yield < 0 ? 'text-red-400' : entry.fcf_yield < (entry.dividend_yield ?? 0) ? 'text-orange-400' : 'text-green-400'}`}>
+                <div className={`font-bold ${entry.fcf_yield < 0 ? 'text-red-400' : entry.dividend_yield != null && entry.fcf_yield < entry.dividend_yield ? 'text-orange-400' : 'text-green-400'}`}>
                   {entry.fcf_yield.toFixed(1)}%
                 </div>
                 <div className="text-muted-foreground/60 text-[0.6rem]">FCF</div>
@@ -363,7 +363,7 @@ export default function DividendTraps() {
           {data.safe_count} dividendos sostenibles
           {data.safe_dividends.length > 0 && data.safe_dividends.some(s => s.dividend_yield != null) && (
             <> · dividendo medio <span className="text-emerald-400 font-semibold">
-              {(data.safe_dividends.reduce((acc, s) => acc + (s.dividend_yield ?? 0), 0) / data.safe_dividends.filter(s => s.dividend_yield != null).length).toFixed(1)}%
+              {(data.safe_dividends.filter(s => s.dividend_yield != null).reduce((acc, s) => acc + s.dividend_yield!, 0) / data.safe_dividends.filter(s => s.dividend_yield != null).length).toFixed(1)}%
             </span></>
           )}
         </p>

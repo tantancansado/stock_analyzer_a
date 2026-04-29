@@ -9,7 +9,7 @@ function scoreColor(s: number) {
 }
 
 export default function ScoreRing({ score, size = 'md', showLabel = true }: {
-  score: number
+  score: number | null | undefined
   size?: 'sm' | 'md' | 'lg'
   showLabel?: boolean
 }) {
@@ -18,11 +18,22 @@ export default function ScoreRing({ score, size = 'md', showLabel = true }: {
   const r = (px - stroke * 2) / 2
   const cx = px / 2
   const circumference = 2 * Math.PI * r
+  const fontSize = size === 'lg' ? 18 : size === 'md' ? 13 : 10
+
+  if (score == null) {
+    return (
+      <div style={{ width: px, height: px, position: 'relative', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <svg width={px} height={px} style={{ transform: 'rotate(-90deg)', overflow: 'visible', position: 'absolute' }}>
+          <circle cx={cx} cy={cx} r={r} fill="none" stroke="currentColor" strokeWidth={stroke} className="text-muted/20" />
+        </svg>
+        <span style={{ fontSize, fontWeight: 700, color: 'var(--muted-foreground)', opacity: 0.4 }}>—</span>
+      </div>
+    )
+  }
+
   const pct = Math.min(Math.max(score, 0), 100) / 100
   const offset = circumference * (1 - pct)
   const color = scoreColor(score)
-  const fontSize = size === 'lg' ? 18 : size === 'md' ? 13 : 10
-
   const glowId = `score-glow-${size}-${Math.round(score)}`
 
   return (

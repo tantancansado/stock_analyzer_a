@@ -794,6 +794,64 @@ def scan_entry_signals(convergence: dict) -> dict:
     return result
 
 
+def _validate_exits_with_ai(exits: list) -> None:
+    """
+    For HIGH-severity exit signals, use Groq compound-beta (web search) to verify
+    whether the deterioration is real or a scoring artifact (e.g. price ran up).
+    Mutates each exit dict in-place: adds 'ai_validation' and may downgrade severity.
+    """
+    if not groq_client:
+        return
+
+    high_exits = [e for e in exits if e.get("severity") == "HIGH"]
+    if not high_exits:
+        return
+
+    for e in high_exits:
+        ticker = e["ticker"]
+        reasons_str = "; ".join(e.get("reasons", []))
+        fund_score = e.get("fundamental_score")
+        try:
+            prompt = (
+                f"Stock: {ticker}\n"
+                f"Our system flagged a HIGH exit signal with these reasons: {reasons_str}\n"
+                f"Fundamental score in our DB: {fund_score if fund_score is not None else 'N/A'}/100\n\n"
+                f"Search for recent news and financial data about {ticker} to answer:\n"
+                f"1. Has the company's business fundamentally deteriorated in the last 3 months? "
+                f"(earnings misses, guidance cuts, major negative events, management changes, etc.)\n"
+                f"2. Is this exit signal likely a TRUE POSITIVE (real deterioration) or FALSE POSITIVE "
+                f"(price ran up reducing VALUE upside, but company is still strong)?\n\n"
+                f"Reply in JSON only: "
+                f'{{\"verdict\": \"TRUE_POSITIVE\" or \"FALSE_POSITIVE\" or \"UNCERTAIN\", '
+                f'\"confidence\": 0-100, \"summary\": \"1-2 sentences in Spanish\", '
+                f'\"key_finding\": \"most important recent fact\"}}'
+            )
+            r = groq_client.chat.completions.create(
+                model="compound-beta",
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=300,
+                temperature=0,
+            )
+            raw = r.choices[0].message.content or ""
+            import re as _re
+            m = _re.search(r"\{[^{}]+\}", raw, _re.DOTALL)
+            if m:
+                import json as _json
+                val = _json.loads(m.group())
+                e["ai_validation"] = val
+                verdict = val.get("verdict", "")
+                confidence = int(val.get("confidence", 0))
+                if verdict == "FALSE_POSITIVE" and confidence >= 70:
+                    e["severity"] = "MEDIUM"
+                    e["reasons"].append(f"IA: falso positivo con {confidence}% confianza — {val.get('summary','')}")
+                    print(f"  🤖 {ticker}: AI downgraded HIGH→MEDIUM (FALSE_POSITIVE, {confidence}%)")
+                else:
+                    e["ai_validation"]["summary_note"] = val.get("summary", "")
+                    print(f"  🤖 {ticker}: AI verdict={verdict} ({confidence}%)")
+        except Exception as ex:
+            print(f"  [AI exit validation] {ticker}: {ex}")
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # 7. EXIT MONITOR — cuándo salir de una posición
 # ══════════════════════════════════════════════════════════════════════════════
@@ -845,6 +903,16 @@ def scan_exit_signals() -> dict:
         if t not in seen or vs > seen[t]["entry_score"]:
             seen[t] = {"entry_score": vs, "signal_date": str(row.get("signal_date",""))}
 
+    # Load fundamental_scores for the "not in VALUE" case — avoids false HIGH
+    fund_df = load_csv(DOCS / "fundamental_scores.csv")
+    fund_map: dict[str, float] = {}
+    if not fund_df.empty and "ticker" in fund_df.columns and "fundamental_score" in fund_df.columns:
+        for _, r in fund_df.iterrows():
+            t = str(r.get("ticker", "")).upper()
+            v = sf(r.get("fundamental_score"))
+            if t and v is not None:
+                fund_map[t] = v
+
     for ticker, meta in seen.items():
         curr     = current.get(ticker, {})
         curr_score = curr.get("value_score")
@@ -857,6 +925,7 @@ def scan_exit_signals() -> dict:
             earnings_warning=bool(curr.get("earnings_warning")),
             days_to_earnings=curr.get("days_to_earnings"),
             insider_active=ticker in insider_active,
+            fundamental_score=fund_map.get(ticker),
         )
 
         if reasons:
@@ -867,10 +936,14 @@ def scan_exit_signals() -> dict:
                 current_score=curr_score,
                 signal_date=meta["signal_date"][:10] if meta["signal_date"] else None,
                 reasons=reasons,
+                fundamental_score=fund_map.get(ticker),
             ))
 
     exits.sort(key=lambda x: ({"HIGH":0,"MEDIUM":1,"LOW":2}.get(x["severity"],3), -(x["entry_score"] or 0)))
     high_count = sum(1 for e in exits if e["severity"] == "HIGH")
+
+    # ── AI validation for HIGH signals — verify real deterioration via web search ──
+    _validate_exits_with_ai(exits)
 
     narrative = ai(
         f"Monitor de salida VALUE: {len(exits)} posiciones con señales de revisión ({high_count} HIGH).\n"

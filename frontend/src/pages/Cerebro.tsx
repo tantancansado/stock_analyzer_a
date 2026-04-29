@@ -22,7 +22,7 @@ import TickerLogo from '../components/TickerLogo'
 import {
   Brain, Crosshair, Bell, SlidersHorizontal, TrendingUp, TrendingDown, Minus, ChevronRight,
   Zap, CheckCircle2, Newspaper, Bot, AlertOctagon, ShieldAlert,
-  Building2, Users, Wallet, BarChart2, Activity, Repeat2, Sparkles, MessageCircle,
+  Building2, Users, Wallet, BarChart2, Activity, Repeat2, Sparkles, MessageCircle, CalendarDays,
   type LucideIcon,
 } from 'lucide-react'
 import { nlAlert } from '@/lib/nl'
@@ -823,7 +823,28 @@ export default function Cerebro() {
       {activeTab === 'briefing' && (
         <div key="briefing" className="space-y-4 animate-fade-in-up">
           {briefingData?.narrative ? (
-            <AiNarrativeCard narrative={briefingData.narrative} label={`Briefing diario · ${briefingData.generated_at} · Régimen ${briefingData.regime}`} />
+            <>
+              <AiNarrativeCard narrative={briefingData.narrative} label={`Briefing diario · ${briefingData.generated_at} · Régimen ${briefingData.regime}`} />
+              {portfolioEarnings.length > 0 && (
+                <Card className="glass border-amber-500/20">
+                  <CardContent className="p-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <CalendarDays size={12} className="text-amber-400" />
+                      <span className="text-[0.65rem] font-bold uppercase tracking-widest text-amber-400/80">Earnings en tu cartera · próx. 14 días</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {portfolioEarnings.map(e => (
+                        <span key={e.ticker} className="inline-flex items-center gap-1.5 text-[0.72rem] font-bold px-2.5 py-1 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                          {e.ticker}
+                          <span className="font-normal text-amber-400/70">{e.days_to_earnings === 0 ? 'HOY' : e.days_to_earnings === 1 ? 'MAÑANA' : `en ${e.days_to_earnings}d`}</span>
+                          {e.implied_move_pct != null && <span className="font-normal text-muted-foreground/50">±{e.implied_move_pct.toFixed(1)}%</span>}
+                        </span>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </>
           ) : (
             <Card className="glass border-border/30">
               <CardContent className="p-4">
@@ -853,6 +874,20 @@ export default function Cerebro() {
                     <div className="rounded-lg bg-violet-500/5 border border-violet-500/20 p-2.5 col-span-2">
                       <div className="text-[0.58rem] text-muted-foreground/50 mb-1 uppercase tracking-wider">Tu cartera</div>
                       <div className="font-bold text-violet-400">{portfolioRiskCount} alerta{portfolioRiskCount > 1 ? 's' : ''} en posiciones propias</div>
+                    </div>
+                  )}
+                  {portfolioEarnings.length > 0 && (
+                    <div className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-2.5 col-span-2 sm:col-span-3">
+                      <div className="text-[0.58rem] text-muted-foreground/50 mb-1.5 uppercase tracking-wider">Earnings en tu cartera (próx. 14d)</div>
+                      <div className="flex flex-wrap gap-2">
+                        {portfolioEarnings.map(e => (
+                          <span key={e.ticker} className="inline-flex items-center gap-1.5 text-[0.7rem] font-bold px-2 py-0.5 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                            {e.ticker}
+                            <span className="font-normal text-amber-400/70">{e.days_to_earnings === 0 ? 'HOY' : e.days_to_earnings === 1 ? 'MAÑANA' : `en ${e.days_to_earnings}d`}</span>
+                            {e.implied_move_pct != null && <span className="font-normal text-muted-foreground/60">±{e.implied_move_pct.toFixed(1)}%</span>}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1557,9 +1592,21 @@ export default function Cerebro() {
                       <Link to={`/search?q=${e.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{e.ticker}</Link>
                       <span className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ${e.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>{e.severity}</span>
                       {owned && <span className="text-[0.55rem] font-bold px-1.5 py-0.5 rounded border bg-violet-500/20 text-violet-300 border-violet-500/40">EN CARTERA</span>}
+                      {(e as any).ai_validation && (
+                        <span className={`text-[0.55rem] font-bold px-1.5 py-0.5 rounded border ${
+                          (e as any).ai_validation.verdict === 'FALSE_POSITIVE' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
+                          (e as any).ai_validation.verdict === 'TRUE_POSITIVE'  ? 'bg-red-500/15 text-red-400 border-red-500/30' :
+                          'bg-muted/20 text-muted-foreground border-border/30'
+                        }`}>
+                          🤖 {(e as any).ai_validation.verdict === 'FALSE_POSITIVE' ? 'FALSO POSITIVO' : (e as any).ai_validation.verdict === 'TRUE_POSITIVE' ? 'CONFIRMADO' : 'INCIERTO'} {(e as any).ai_validation.confidence}%
+                        </span>
+                      )}
                       {e.current_score != null && <span className="text-[0.65rem] text-muted-foreground ml-auto">Score {e.entry_score.toFixed(0)} → {e.current_score.toFixed(0)}</span>}
                     </div>
                     <p className="text-[0.7rem] text-muted-foreground leading-relaxed">{e.reasons.join(' · ')}</p>
+                    {(e as any).ai_validation?.summary && (
+                      <p className="text-[0.65rem] text-muted-foreground/60 mt-1 italic">{(e as any).ai_validation.summary}</p>
+                    )}
                   </div>
                 </div>
                 )

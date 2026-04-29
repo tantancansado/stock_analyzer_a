@@ -110,24 +110,34 @@ def score_exit_signal(
     earnings_warning: bool,
     days_to_earnings: float | None,
     insider_active: bool,
+    fundamental_score: float | None = None,
 ) -> tuple[str, list[str]]:
     """Return (severity, reasons) for whether to exit a position.
 
     Severity: LOW | MEDIUM | HIGH.  Empty reasons → no exit signal.
 
-    Rules (preserved from cerebro.py scan_exit_signals):
-      ticker no longer in VALUE        → HIGH + reason
-      score dropped ≥25pts             → HIGH + drop reason
-      score dropped ≥15pts             → MEDIUM + drop reason
-      earnings in ≤7d                  → upgrade LOW→MEDIUM + reason
-      no insider activity & entry>65   → LOW + reason (was a tautology bug)
+    Rules:
+      ticker no longer in VALUE + fundamental_score < 60 → HIGH (thesis broken)
+      ticker no longer in VALUE + fundamental_score >= 60 → MEDIUM (price ran up, not deterioration)
+      ticker no longer in VALUE + no fundamental data     → MEDIUM (uncertain, not confirmed HIGH)
+      score dropped ≥25pts                               → HIGH + drop reason
+      score dropped ≥15pts                               → MEDIUM + drop reason
+      earnings in ≤7d                                    → upgrade LOW→MEDIUM + reason
+      no insider activity & entry>65                     → LOW + reason
     """
     reasons: list[str] = []
     severity = "LOW"
 
     if not ticker_in_value:
-        reasons.append("Ya no aparece en VALUE — tesis posiblemente rota")
-        severity = "HIGH"
+        # Only HIGH if fundamentals also deteriorated — avoids false positives
+        # when price ran up and reduced VALUE upside (still a good company)
+        fund_ok = fundamental_score is not None and fundamental_score >= 60
+        if fund_ok:
+            reasons.append("Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos)")
+            severity = "MEDIUM"
+        else:
+            reasons.append("Ya no aparece en VALUE — tesis posiblemente rota")
+            severity = "HIGH"
     elif current_score is not None and entry_score is not None and entry_score > 0 and (entry_score - current_score) >= 15:
         drop = entry_score - current_score
         reasons.append(f"Score cayó {drop:.0f}pts ({entry_score:.0f} → {current_score:.0f})")

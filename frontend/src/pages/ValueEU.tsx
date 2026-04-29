@@ -552,7 +552,7 @@ export default function ValueEU() {
               {/* Row 1: logo + ticker + grade + upside */}
               <div className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-3 min-w-0">
-                  <ScoreRing score={d.value_score ?? 0} size="sm" />
+                  <ScoreRing score={d.value_score} size="sm" />
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-mono font-extrabold text-base leading-tight">{d.ticker}</span>

@@ -23,6 +23,11 @@ import random
 import argparse
 from typing import Dict, List, Optional
 
+try:
+    from ai_data_fetcher import fetch_missing_financials as _ai_fetch
+except ImportError:
+    _ai_fetch = None
+
 
 def _yf_ticker_with_retry(ticker: str, max_retries: int = 4) -> yf.Ticker:
     """Return a yf.Ticker object, with a small initial delay to reduce 429s."""
@@ -189,7 +194,7 @@ class FundamentalScorer:
                 ),
 
                 # Target Prices (analyst consensus + fundamental-based)
-                **self._calculate_target_prices(info),
+                **self._calculate_target_prices(info, ticker),
 
                 # Value Quality Metrics (FCF, dividends, buybacks, revisions, earnings cal)
                 **self._calculate_value_quality_metrics(stock, info),
@@ -1251,11 +1256,6 @@ class FundamentalScorer:
                             val = financials.loc[label].head(4).sum()
                             interest_val = abs(float(val)) if val else None
                             break
-                    # Fallback: estimate from total debt × ~5% rate
-                    if not interest_val:
-                        total_debt = info.get('totalDebt')
-                        if total_debt and total_debt > 0:
-                            interest_val = float(total_debt) * 0.05  # estimate 5% rate
                     if ebit_val and interest_val and interest_val > 0:
                         result['interest_coverage'] = round(float(ebit_val) / float(interest_val), 1)
             except Exception:
@@ -1316,7 +1316,7 @@ class FundamentalScorer:
 
         return result
 
-    def _calculate_target_prices(self, info: Dict) -> Dict:
+    def _calculate_target_prices(self, info: Dict, ticker: str = '') -> Dict:
         """
         Calcula precios objetivo usando 3 métodos:
         1. Analyst consensus (targetMeanPrice de yfinance)
@@ -1378,6 +1378,37 @@ class FundamentalScorer:
             shares      = info.get('sharesOutstanding')
             growth_rate = info.get('earningsGrowth') or info.get('revenueGrowth')
 
+            # ── AI fallback for missing DCF/P/E inputs ────────────────────────
+            _ai_missing = []
+            if not fcf:
+                _ai_missing.append('freeCashflow')
+            if not shares:
+                _ai_missing.append('sharesOutstanding')
+            if not growth_rate:
+                _ai_missing.append('earningsGrowth')
+                _ai_missing.append('revenueGrowth')
+            if not info.get('epsForwardTwelveMonths'):
+                _ai_missing.append('epsForwardTwelveMonths')
+            if not info.get('epsTrailingTwelveMonths'):
+                _ai_missing.append('epsTrailingTwelveMonths')
+
+            if _ai_missing and _ai_fetch:
+                company = info.get('shortName', '') or info.get('longName', '')
+                _ai_data = _ai_fetch(ticker or info.get('symbol', ''), _ai_missing, currency, company)
+                if not fcf and _ai_data.get('freeCashflow'):
+                    fcf = _ai_data['freeCashflow']
+                if not shares and _ai_data.get('sharesOutstanding'):
+                    shares = _ai_data['sharesOutstanding']
+                if not growth_rate:
+                    growth_rate = _ai_data.get('earningsGrowth') or _ai_data.get('revenueGrowth')
+                if (not info.get('epsForwardTwelveMonths') and _ai_data.get('epsForwardTwelveMonths')) or \
+                   (not info.get('epsTrailingTwelveMonths') and _ai_data.get('epsTrailingTwelveMonths')):
+                    info = dict(info)
+                    if _ai_data.get('epsForwardTwelveMonths'):
+                        info['epsForwardTwelveMonths'] = _ai_data['epsForwardTwelveMonths']
+                    if _ai_data.get('epsTrailingTwelveMonths'):
+                        info['epsTrailingTwelveMonths'] = _ai_data['epsTrailingTwelveMonths']
+
             if fcf and shares and float(shares) > 0 and growth_rate:
                 fcf_ps = float(fcf) / float(shares)  # FCF per share
                 g = float(growth_rate)
@@ -1405,7 +1436,7 @@ class FundamentalScorer:
             # ── 3. P/E justo ─────────────────────────────────────────────────
             eps_fwd = info.get('epsForwardTwelveMonths')
             eps_ttm = info.get('epsTrailingTwelveMonths')
-            g_eps   = info.get('earningsGrowth')
+            g_eps   = info.get('earningsGrowth') or growth_rate
 
             eps = float(eps_fwd) if eps_fwd and float(eps_fwd) > 0 else (
                   float(eps_ttm) if eps_ttm and float(eps_ttm) > 0 else None)

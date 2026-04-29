@@ -643,7 +643,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   const [editPrice, setEditPrice]     = useState(String(pos.avg_price))
   const ticker = pos.ticker
   const cur    = result?.current_price ?? pos.avg_price
-  const pl     = result?.pl_pct ?? 0
+  const pl     = result?.pl_pct ?? null
   const sym    = pos.currency === 'EUR' ? '€' : '$'
   const action = result?.action ?? 'MANTENER'
 
@@ -758,13 +758,13 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       </div>
 
       {/* ── P&L BAND ── */}
-      <div className={`flex items-center gap-2 px-4 py-2.5 mx-3 mb-3 rounded-xl ${pl >= 0 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
-        {pl >= 0 ? <TrendingUp size={15} className="text-emerald-400 shrink-0" /> : <TrendingDown size={15} className="text-red-400 shrink-0" />}
-        <span className={`text-2xl font-black tabular-nums leading-none ${pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-          {pl >= 0 ? '+' : ''}{pl.toFixed(2)}%
+      <div className={`flex items-center gap-2 px-4 py-2.5 mx-3 mb-3 rounded-xl ${pl == null ? 'bg-muted/10 border border-border/20' : pl >= 0 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
+        {pl == null ? <TrendingUp size={15} className="text-muted-foreground/40 shrink-0" /> : pl >= 0 ? <TrendingUp size={15} className="text-emerald-400 shrink-0" /> : <TrendingDown size={15} className="text-red-400 shrink-0" />}
+        <span className={`text-2xl font-black tabular-nums leading-none ${pl == null ? 'text-muted-foreground/30' : pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+          {pl == null ? '—' : `${pl >= 0 ? '+' : ''}${pl.toFixed(2)}%`}
         </span>
         {result && (
-          <span className={`text-sm font-semibold tabular-nums opacity-60 ${pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+          <span className={`text-sm font-semibold tabular-nums opacity-60 ${(pl ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {result.pl_abs >= 0 ? '+' : ''}{sym}{Math.abs(result.pl_abs).toFixed(0)}
           </span>
         )}
@@ -780,7 +780,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       <div className="px-4 pb-2">
         <p className="text-[0.73rem] leading-relaxed text-muted-foreground/70">
           {nlPositionStatus({
-            pl_pct:          pl,
+            pl_pct:          pl ?? 0,
             action,
             cerebro_exit:    !!exit,
             cerebro_trap:    !!trap,
