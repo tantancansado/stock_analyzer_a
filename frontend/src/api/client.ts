@@ -69,6 +69,12 @@ export interface ValueOpportunity {
   target_price?: number
   thesis?: string
   proximity_to_52w_high?: number
+  // Fundamental growth signals
+  eps_accelerating?: boolean | null
+  eps_accel_quarters?: number | null
+  rev_accelerating?: boolean | null
+  short_squeeze_potential?: boolean | null
+  earnings_catalyst?: boolean | null
   // Piotroski F-Score (Proven: +13.4% annual alpha)
   piotroski_score?: number
   piotroski_label?: string
