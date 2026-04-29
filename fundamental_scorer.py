@@ -1344,6 +1344,11 @@ class FundamentalScorer:
                 return result
             current_price = float(current_price)
 
+            # yfinance returns currentPrice in GBp (pence) for UK stocks but
+            # FCF/EPS fields are in GBP (pounds) — off by 100x. Multiply by 100.
+            currency = str(info.get('currency', '') or '').strip()
+            gbp_pence = currency in ('GBp', 'GBX')
+
             def _upside(target):
                 if target and target > 0:
                     return round((target - current_price) / current_price * 100, 1)
@@ -1391,6 +1396,8 @@ class FundamentalScorer:
                 pv_terminal = terminal_value / (1 + discount) ** 5
 
                 dcf_price = round(pv_fcf + pv_terminal, 2)
+                if gbp_pence:
+                    dcf_price = round(dcf_price * 100, 2)
                 if dcf_price > 0:
                     result['target_price_dcf']            = dcf_price
                     result['target_price_dcf_upside_pct'] = _upside(dcf_price)
@@ -1409,6 +1416,8 @@ class FundamentalScorer:
                 # Fair P/E = PEG 1.0 × growth% (e.g. 15% growth → P/E 15), capped 10-30
                 fair_pe = max(10, min(g_annual * 100, 30))
                 pe_target = round(eps * fair_pe, 2)
+                if gbp_pence:
+                    pe_target = round(pe_target * 100, 2)
                 if pe_target > 0:
                     result['target_price_pe']            = pe_target
                     result['target_price_pe_upside_pct'] = _upside(pe_target)
