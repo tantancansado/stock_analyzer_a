@@ -1,20 +1,20 @@
 {
-  "timestamp": "2026-04-29T07:58:58.104374",
+  "timestamp": "2026-04-29T09:52:45.461409",
   "date": "2026-04-29",
   "regime": {
     "name": "CALM",
     "color": "#10b981",
     "description": "Mercado en calma. Condiciones favorables para operar."
   },
-  "composite_score": 11.0,
-  "composite_pct": 68.3,
+  "composite_score": 10.0,
+  "composite_pct": 66.7,
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 17.89,
+      "current": 17.93,
       "percentile": 52.5,
       "score": 0.5,
-      "change_5d": -5.4,
+      "change_5d": -5.2,
       "interpretation": "VIX 17.9 (bajo)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
@@ -58,12 +58,12 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 101.73,
-      "percentile": 98.2,
-      "score": -1,
-      "change_5d": 9.4,
-      "change_20d": 0.3,
-      "interpretation": "Petroleo $101.7 (subida rapida)",
+      "current": 103.38,
+      "percentile": 98.6,
+      "score": -2,
+      "change_5d": 11.2,
+      "change_20d": 2.0,
+      "interpretation": "Petroleo $103.4 (spike geopolitico)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
     },
@@ -78,22 +78,22 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 98.68,
-      "percentile": 48.0,
+      "current": 98.73,
+      "percentile": 49.8,
       "score": 1,
-      "change_5d": 0.09,
-      "change_20d": -1.28,
+      "change_5d": 0.14,
+      "change_20d": -1.23,
       "interpretation": "DXY 98.7 (rango neutro)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 159.36,
-      "percentile": 94.7,
+      "current": 159.81,
+      "percentile": 98.9,
       "score": 1,
-      "change_5d": 0.32,
-      "change_20d": -0.3,
-      "interpretation": "USD/JPY 159.4 (yen debil (risk-on))",
+      "change_5d": 0.27,
+      "change_20d": 0.78,
+      "interpretation": "USD/JPY 159.8 (yen debil (risk-on))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
     },
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "El r\u00e9gimen de mercado actual se caracteriza por una tendencia alcista moderada, con se\u00f1ales como la amplitud del mercado y la relaci\u00f3n entre peque\u00f1as y grandes empresas apuntando hacia un escenario de \"risk-on\". El principal riesgo es la subida r\u00e1pida del petr\u00f3leo. Recomendamos un posicionamiento cauteloso, con un enfoque en activos de crecimiento y una diversificaci\u00f3n adecuada para mitigar posibles correcciones.",
+  "ai_narrative": null,
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 71.5,
+      "similarity": 71.6,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
