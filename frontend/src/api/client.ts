@@ -102,6 +102,10 @@ export interface ValueOpportunity {
   upgrade_days_14d?: number | null
   downgrade_days_14d?: number | null
   target_revision_bonus?: number | null
+  // ML Scorer (ml_scorer.py → docs/ml_scores.csv)
+  ml_score?: number | null
+  ml_win_prob?: number | null
+  ml_confidence?: number | null
 }
 
 export interface MomentumOpportunity {

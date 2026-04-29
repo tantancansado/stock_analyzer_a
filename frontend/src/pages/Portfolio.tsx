@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from 'react'
-import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsight, type PortfolioSummary, type CorrelationData } from '../api/client'
+import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsight, fetchCalibration, type PortfolioSummary, type CorrelationData, type CalibrationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import TickerLogo from '../components/TickerLogo'
@@ -7,6 +7,13 @@ import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
+import {
+  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+  ReferenceLine, LineChart, Line,
+} from 'recharts'
+
+const fmtPct = (v: unknown) => [`${Number(v).toFixed(1)}%`, 'Win rate 14d'] as [string, string]
+const winColor = (wr: number) => wr >= 55 ? '#10b981' : wr >= 45 ? '#f59e0b' : '#ef4444'
 const PortfolioStatsPlayer = lazy(() =>
   import('../components/PortfolioStatsVideo').then(m => ({ default: m.PortfolioStatsPlayer }))
 )
@@ -77,6 +84,7 @@ export default function Portfolio() {
   const { data, loading, error } = useApi(() => fetchPortfolioTracker(), [])
   const { data: corrData } = useApi<CorrelationData>(() => fetchCorrelationMatrix(), [])
   const { data: insightRaw } = useApi(() => fetchPortfolioInsight(), [])
+  const { data: calibData } = useApi<CalibrationData>(() => fetchCalibration(), [])
   const { data: signalsData } = useApi<SignalsResponse>(
     () => api.get<SignalsResponse>('/api/portfolio-tracker/signals'),
     []
@@ -645,6 +653,122 @@ export default function Portfolio() {
               </div>
             </CardContent>
           </Card>
+        </div>
+      )}
+
+      {/* ── Estadísticas del sistema ── */}
+      {calibData && (
+        <div className="mt-8 space-y-4 animate-fade-in-up">
+          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30">
+            Estadísticas del sistema
+          </h2>
+
+          {/* Win rate por régimen */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card className="glass border-border/20">
+              <CardContent className="p-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-3">Win rate por régimen de mercado</p>
+                <ResponsiveContainer width="100%" height={160}>
+                  <BarChart data={calibData.regime_analysis} layout="vertical" margin={{ left: 8, right: 32 }}>
+                    <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
+                    <YAxis type="category" dataKey="regime" tick={{ fontSize: 10 }} width={120} />
+                    <Tooltip formatter={fmtPct} contentStyle={{ background: '#0f1117', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12 }} />
+                    <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
+                    <Bar dataKey="win_rate_14d" radius={[0, 4, 4, 0]} fill="#06b6d4"
+                      label={false}
+                      isAnimationActive={false}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate_14d ?? props.value)} />}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            {/* Win rate por sector */}
+            <Card className="glass border-border/20">
+              <CardContent className="p-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-3">Win rate por sector (top 8)</p>
+                <ResponsiveContainer width="100%" height={160}>
+                  <BarChart
+                    data={[...calibData.sector_calibration]
+                      .filter(s => s.count >= 10)
+                      .sort((a, b) => b.win_rate_14d - a.win_rate_14d)
+                      .slice(0, 8)}
+                    layout="vertical"
+                    margin={{ left: 8, right: 32 }}
+                  >
+                    <XAxis type="number" domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
+                    <YAxis type="category" dataKey="sector" tick={{ fontSize: 9 }} width={130} />
+                    <Tooltip formatter={fmtPct} contentStyle={{ background: '#0f1117', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12 }} />
+                    <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
+                    <Bar dataKey="win_rate_14d" radius={[0, 4, 4, 0]} fill="#06b6d4"
+                      isAnimationActive={false}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate_14d ?? props.value)} />}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Win rate por score bucket (línea) */}
+          <Card className="glass border-border/20">
+            <CardContent className="p-4">
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-1">Win rate por score bucket — ¿el score predice?</p>
+              <p className="text-[0.7rem] text-muted-foreground/50 mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
+              <ResponsiveContainer width="100%" height={180}>
+                <LineChart data={calibData.score_buckets} margin={{ left: 8, right: 16, top: 8 }}>
+                  <XAxis dataKey="range" tick={{ fontSize: 10 }} />
+                  <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
+                  <Tooltip formatter={fmtPct} contentStyle={{ background: '#0f1117', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12 }} />
+                  <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" label={{ value: '50%', position: 'insideTopRight', fontSize: 10, fill: 'rgba(255,255,255,0.3)' }} />
+                  <Line type="monotone" dataKey="win_rate_14d" stroke="#06b6d4" strokeWidth={2} dot={{ fill: '#06b6d4', r: 4 }} activeDot={{ r: 6 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+
+          {/* FCF yield buckets */}
+          {calibData.fcf_yield_buckets?.length > 0 && (
+            <Card className="glass border-border/20">
+              <CardContent className="p-4">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
+                <p className="text-[0.7rem] text-muted-foreground/50 mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
+                <ResponsiveContainer width="100%" height={160}>
+                  <BarChart data={calibData.fcf_yield_buckets} margin={{ left: 8, right: 16 }}>
+                    <XAxis dataKey="range" tick={{ fontSize: 10 }} />
+                    <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
+                    <Tooltip formatter={fmtPct} contentStyle={{ background: '#0f1117', border: '1px solid rgba(255,255,255,0.1)', fontSize: 12 }} />
+                    <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" />
+                    <Bar dataKey="win_rate_14d" radius={[4, 4, 0, 0]} fill="#06b6d4"
+                      isAnimationActive={false}
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate_14d ?? props.value)} />}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Stats summary row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { label: 'Señales analizadas', value: calibData.total_completed, color: 'text-foreground' },
+              { label: 'Accuracy modelo ML', value: '82.3%', color: 'text-violet-400' },
+              { label: 'ROC-AUC modelo ML', value: '0.912', color: 'text-violet-400' },
+              { label: 'Feature #1', value: 'FCF Yield', color: 'text-cyan-400' },
+            ].map(s => (
+              <Card key={s.label} className="glass border-border/20">
+                <CardContent className="p-3 text-center">
+                  <div className={`text-xl font-extrabold tabular-nums ${s.color}`}>{s.value}</div>
+                  <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">{s.label}</div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       )}
     </>

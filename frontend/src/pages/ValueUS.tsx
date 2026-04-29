@@ -596,6 +596,13 @@ export default function ValueUS() {
                 </div>
                 <div className="text-right shrink-0">
                   <GradeBadge grade={d.conviction_grade} score={d.conviction_score} />
+                  {d.ml_score != null && d.ml_score !== 50 && (
+                    <div className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full border mt-1 inline-block ${
+                      d.ml_score >= 70 ? 'bg-violet-500/15 text-violet-400 border-violet-500/30' :
+                      d.ml_score >= 55 ? 'bg-blue-500/15 text-blue-400 border-blue-500/30' :
+                      'bg-muted/20 text-muted-foreground border-border/30'
+                    }`}>ML {d.ml_score.toFixed(0)}</div>
+                  )}
                   {d.analyst_upside_pct != null && (
                     <div className={`text-sm font-bold mt-1 ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
@@ -881,7 +888,18 @@ export default function ValueUS() {
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell max-w-[160px] truncate text-muted-foreground text-[0.76rem]'}>{d.company_name}</TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell tabular-nums'}>${d.current_price?.toFixed(2)}</TableCell>
                   <TableCell><ScoreBar score={d.value_score} /></TableCell>
-                  <TableCell><GradeBadge grade={d.conviction_grade} score={d.conviction_score} /></TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1.5">
+                      <GradeBadge grade={d.conviction_grade} score={d.conviction_score} />
+                      {d.ml_score != null && d.ml_score !== 50 && (
+                        <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full border ${
+                          d.ml_score >= 70 ? 'bg-violet-500/15 text-violet-400 border-violet-500/30' :
+                          d.ml_score >= 55 ? 'bg-blue-500/15 text-blue-400 border-blue-500/30' :
+                          'bg-muted/20 text-muted-foreground border-border/30'
+                        }`}>ML {d.ml_score.toFixed(0)}</span>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden md:table-cell max-w-[120px] truncate text-muted-foreground text-[0.76rem]'}>{d.sector}</TableCell>
                   <TableCell className="tabular-nums">
                     {d.target_price_analyst ? `$${d.target_price_analyst.toFixed(0)}` : '—'}
