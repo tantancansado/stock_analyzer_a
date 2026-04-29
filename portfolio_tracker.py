@@ -20,6 +20,9 @@ TRACKER_DIR = Path('docs/portfolio_tracker')
 
 def _alpha_stats(df: pd.DataFrame, alpha_col: str, return_col: str) -> dict:
     """Alpha = señal return - benchmark return en el mismo período."""
+    if alpha_col not in df.columns or return_col not in df.columns:
+        return {'count': 0, 'avg_alpha': None, 'positive_alpha_rate': None,
+                'avg_signal_return': None, 'avg_benchmark_return': None}
     valid = df[df[alpha_col].notna() & (df[return_col] > -95) & (df[return_col] < 500)]
     if len(valid) < 3:
         return {'count': 0, 'avg_alpha': None, 'positive_alpha_rate': None,
