@@ -402,6 +402,13 @@ jobs:
         continue-on-error: true
         run: python3 score_drift_detector.py || echo "Score drift detection failed"
 
+      - name: Telegram daily alert
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 telegram_alerts.py || echo "Telegram alert failed"
+
       # ── Archive + status ───────────────────────────────────────────────────
       - name: Archive daily CSV snapshot
         if: always()
