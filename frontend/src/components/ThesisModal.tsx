@@ -154,7 +154,7 @@ function Chip({ label, value, color }: { label: string; value: string; color?: s
     color?.includes('red')     ? 'bg-red-500/8 border-red-500/15'         :
     color?.includes('amber')   ? 'bg-amber-500/8 border-amber-500/15'     :
     color?.includes('purple')  ? 'bg-purple-500/8 border-purple-500/15'   :
-    color?.includes('primary') ? 'bg-primary/8 border-primary/20'         :
+    color?.includes('primary') ? 'bg-primary/10 border-primary/20'         :
                                  'bg-muted/20 border-border/20'
   return (
     <div className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg border min-w-[56px] ${bg}`}>
@@ -287,7 +287,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
           {(row.entry_price != null || row.stop_loss != null || row.target_price != null) && (
             <div className="flex gap-2 px-5 lg:px-6 pb-3 flex-shrink-0">
               {row.entry_price != null && (
-                <div className="flex-1 px-3 py-2 rounded-lg bg-primary/6 border border-primary/15">
+                <div className="flex-1 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20">
                   <div className="text-[0.5rem] font-bold uppercase tracking-widest text-primary/40 mb-0.5">Entrada</div>
                   <div className="font-extrabold text-[0.95rem] tabular-nums text-primary leading-none">{currency}{row.entry_price.toFixed(2)}</div>
                 </div>

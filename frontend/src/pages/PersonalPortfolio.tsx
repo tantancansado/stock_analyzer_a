@@ -336,7 +336,7 @@ const STRAT_META: Record<string, { label: string; color: string; bg: string; bor
   BUY_MORE:          { label: 'Añadir posición',     color: 'text-emerald-400', bg: 'bg-emerald-500/8', border: 'border-emerald-500/20' },
   CASH_SECURED_PUT:  { label: 'Cash-Secured Put',   color: 'text-cyan-400',    bg: 'bg-cyan-500/8',    border: 'border-cyan-500/20' },
   TRAILING_STOP:     { label: 'Trailing Stop',       color: 'text-amber-400',   bg: 'bg-amber-500/8',   border: 'border-amber-500/20' },
-  HOLD:              { label: 'Mantener',            color: 'text-primary',     bg: 'bg-primary/8',     border: 'border-primary/20' },
+  HOLD:              { label: 'Mantener',            color: 'text-primary',     bg: 'bg-primary/10',     border: 'border-primary/20' },
   SELL:              { label: 'Cerrar posición',     color: 'text-red-400',     bg: 'bg-red-500/8',     border: 'border-red-500/20' },
 }
 
@@ -492,7 +492,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                       </div>
                       {/* Order instructions — the "para tontos" section */}
                       {pc.order_instructions && (
-                        <div className="p-2 rounded-lg bg-primary/5 border border-primary/15 text-[0.72rem] text-foreground/80">
+                        <div className="p-2 rounded-lg bg-primary/5 border border-primary/20 text-[0.72rem] text-foreground/80">
                           <div className="text-primary font-semibold text-[0.6rem] uppercase tracking-wide mb-1">Orden exacta en tu broker</div>
                           {pc.order_instructions}
                         </div>
@@ -909,7 +909,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 
       {/* ── SIZING ROW (compact, no scroll) ── */}
       {result?.volatility_pct != null && (
-        <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/4 border border-primary/10">
+        <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/5 border border-primary/10">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[0.55rem] font-bold uppercase tracking-widest text-primary/50">Sizing</span>
             {(overweight || underweight) && (
@@ -1279,7 +1279,7 @@ export default function PersonalPortfolio() {
                         </span>
                       </div>
                       <div className="relative h-2 rounded-full bg-muted/30 overflow-hidden">
-                        <div className="absolute inset-y-0 left-0 rounded-full bg-primary/40" style={{ width: `${(optimal / maxBar) * 100}%` }} />
+                        <div className="absolute inset-y-0 left-0 rounded-full bg-primary/50" style={{ width: `${(optimal / maxBar) * 100}%` }} />
                         <div className={`absolute inset-y-0 left-0 rounded-full ${isOver ? 'bg-red-400/60' : 'bg-emerald-400/60'}`} style={{ width: `${(actual / maxBar) * 100}%`, height: '50%', top: '25%' }} />
                       </div>
                       <div className="flex justify-between mt-0.5 text-[0.58rem] text-muted-foreground/60">

@@ -58,7 +58,7 @@ export default function ThesisDrift() {
               key={sev}
               onClick={() => setFilter(active ? 'ALL' : sev)}
               className={`text-left p-3 rounded-xl border transition-all ${
-                active ? 'border-primary/50 bg-primary/8' : 'border-border/40 bg-card/50 hover:border-border/70'
+                active ? 'border-primary/50 bg-primary/10' : 'border-border/40 bg-card/50 hover:border-border/70'
               }`}
             >
               <div className="flex items-center justify-between mb-1">

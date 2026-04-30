@@ -495,7 +495,7 @@ export default function MeanReversion() {
                               <div key={label} className={`flex-1 rounded-lg border px-3 py-2 ${
                                 color === 'emerald' ? 'bg-emerald-500/8 border-emerald-500/20' :
                                 color === 'red' ? 'bg-red-500/8 border-red-500/15' :
-                                'bg-primary/6 border-primary/15'
+                                'bg-primary/5 border-primary/20'
                               }`}>
                                 <div className={`text-sm font-bold tabular-nums ${
                                   color === 'emerald' ? 'text-emerald-400' :

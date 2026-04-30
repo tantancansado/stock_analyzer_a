@@ -226,7 +226,7 @@ export default function CatalystScreener() {
               onClick={() => setActiveSetup(s.id)}
               className={`text-left p-3 rounded-xl border transition-all ${
                 active
-                  ? 'border-primary/50 bg-primary/8 shadow-sm shadow-primary/10'
+                  ? 'border-primary/50 bg-primary/10 shadow-sm shadow-primary/10'
                   : 'border-border/40 bg-card/50 hover:border-border/70 hover:bg-card/80'
               }`}
             >

@@ -210,7 +210,7 @@ export default function DividendTraps() {
 
       {/* Portfolio alert */}
       {myPositions.length > 0 && (myTraps.length > 0 || mySafe.length > 0) && (
-        <Card className={`glass border ${myTraps.length > 0 ? 'border-red-500/30 bg-red-500/5' : 'border-primary/20 bg-primary/3'}`}>
+        <Card className={`glass border ${myTraps.length > 0 ? 'border-red-500/30 bg-red-500/5' : 'border-primary/20 bg-primary/5'}`}>
           <CardContent className="p-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
               <Briefcase size={14} />
