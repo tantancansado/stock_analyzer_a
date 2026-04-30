@@ -146,6 +146,23 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                   </div>
                 </div>
 
+                {/* Sentiment tone badge */}
+                {thesis.sentiment_tone && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/50">Tono</span>
+                    <span className={`text-[0.65rem] font-bold px-2 py-0.5 rounded-full border ${
+                      thesis.sentiment_tone === 'BULLISH'
+                        ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                        : thesis.sentiment_tone === 'BEARISH'
+                        ? 'bg-red-500/15 text-red-400 border-red-500/30'
+                        : 'bg-muted/20 text-muted-foreground border-border/30'
+                    }`}>
+                      {thesis.sentiment_tone === 'BULLISH' ? '▲ Optimista' : thesis.sentiment_tone === 'BEARISH' ? '▼ Defensivo' : '— Neutro'}
+                    </span>
+                    <span className="text-[0.6rem] text-muted-foreground/40">basado en noticias recientes + historial</span>
+                  </div>
+                )}
+
                 {/* Implied move big number */}
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex-1 min-w-[160px] px-4 py-3 rounded-xl bg-primary/5 border border-primary/20">

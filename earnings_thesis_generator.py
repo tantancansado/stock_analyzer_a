@@ -250,6 +250,24 @@ def _earnings_history(tk: yf.Ticker) -> tuple[float | None, list[dict]]:
     return beat_rate, rows
 
 
+def _fetch_recent_headlines(tk: yf.Ticker, max_items: int = 6) -> list[str]:
+    """Fetches recent news headlines for sentiment context."""
+    try:
+        news = tk.news or []
+        headlines = []
+        for item in news[:max_items]:
+            title = (
+                item.get('content', {}).get('title')
+                or item.get('title')
+                or ''
+            )
+            if title:
+                headlines.append(title.strip())
+        return headlines
+    except Exception:
+        return []
+
+
 def _build_context(ticker: str, shares: float | None, avg_price: float | None) -> dict | None:
     tk = yf.Ticker(ticker)
     edate = _next_earnings_date(tk)
@@ -294,6 +312,7 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
 
     implied_move = _implied_move_pct(tk, current_price, max(days_to, 1))
     beat_rate, history = _earnings_history(tk)
+    headlines = _fetch_recent_headlines(tk)
 
     unrealized_pct = None
     if avg_price and current_price and avg_price > 0:
@@ -313,6 +332,7 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
         'implied_move_pct': implied_move,
         'beat_rate_last_4q': beat_rate,
         'earnings_history': history,
+        'recent_headlines': headlines,
         'shares': shares,
         'avg_price': avg_price,
         'unrealized_pct': unrealized_pct,
@@ -338,6 +358,9 @@ Implied move (opciones ATM): {implied_move}%
 Beat rate últimos 4Q: {beat_rate}
 Histórico surprises: {history_str}
 
+NOTICIAS RECIENTES (titulares)
+{headlines_str}
+
 REGLAS
 - Si implied_move es null, no lo inventes: deja implied_move_pct: null.
 - Si no hay consenso EPS/Rev fiable, deja el campo a null.
@@ -347,6 +370,10 @@ REGLAS
   * REDUCE: recortar parcialmente el tamaño antes del earnings
   * EXIT_BEFORE: salir completamente antes del earnings (riesgo asimétrico negativo)
   * ADD_AFTER: esperar al post-earnings para añadir (posible mejor precio/claridad)
+- sentiment_tone: evalúa el tono de las noticias recientes + historial de beats:
+  * "BULLISH": noticias positivas, management optimista, beats consistentes
+  * "NEUTRAL": noticias mixtas o sin señal clara
+  * "BEARISH": advertencias, profit warnings, cambios de management, misses recientes
 - key_risks y key_catalysts: máximo 3 cada uno, frases cortas en español.
 - thesis_summary: 3-5 frases en español, accionables, estilo Lynch/GARP. Menciona qué vigilar (guidance, márgenes, segmento concreto).
 - confidence: 0-100 según claridad de la tesis.
@@ -354,6 +381,7 @@ REGLAS
 Devuelve SOLO JSON con esta forma exacta:
 {{
   "verdict": "HOLD|REDUCE|EXIT_BEFORE|ADD_AFTER|HOLD_THROUGH",
+  "sentiment_tone": "BULLISH|NEUTRAL|BEARISH",
   "implied_move_pct": number|null,
   "expected_eps": number|null,
   "expected_revenue_millions": number|null,
@@ -379,6 +407,12 @@ def _format_history(history: list[dict]) -> str:
     return '; '.join(parts) if parts else 'sin datos'
 
 
+def _format_headlines(headlines: list[str]) -> str:
+    if not headlines:
+        return 'Sin noticias recientes disponibles'
+    return '\n'.join(f'• {h}' for h in headlines)
+
+
 def _build_prompt(ctx: dict) -> str:
     return PROMPT_TEMPLATE.format(
         ticker=ctx['ticker'],
@@ -396,6 +430,7 @@ def _build_prompt(ctx: dict) -> str:
         implied_move=ctx.get('implied_move_pct'),
         beat_rate=ctx.get('beat_rate_last_4q'),
         history_str=_format_history(ctx.get('earnings_history') or []),
+        headlines_str=_format_headlines(ctx.get('recent_headlines') or []),
     )
 
 
@@ -431,6 +466,9 @@ def _call_groq(client, ctx: dict) -> dict | None:
     verdict = str(data.get('verdict', '')).upper().strip()
     if verdict not in _VALID_VERDICTS:
         verdict = 'HOLD'
+    tone = str(data.get('sentiment_tone', 'NEUTRAL')).upper().strip()
+    if tone not in {'BULLISH', 'NEUTRAL', 'BEARISH'}:
+        tone = 'NEUTRAL'
     risks = data.get('key_risks') or []
     cats = data.get('key_catalysts') or []
     if not isinstance(risks, list):
@@ -439,6 +477,7 @@ def _call_groq(client, ctx: dict) -> dict | None:
         cats = []
     return {
         'verdict': verdict,
+        'sentiment_tone': tone,
         'implied_move_pct': _safe_float(data.get('implied_move_pct')),
         'expected_eps': _safe_float(data.get('expected_eps')),
         'expected_revenue_millions': _safe_float(data.get('expected_revenue_millions')),

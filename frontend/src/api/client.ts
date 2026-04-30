@@ -1219,6 +1219,8 @@ export interface EarningsThesis {
   shares?: number | null
   unrealized_pct?: number | null
   verdict: EarningsThesisVerdict
+  sentiment_tone?: 'BULLISH' | 'NEUTRAL' | 'BEARISH' | null
+  recent_headlines?: string[]
   implied_move_pct: number | null
   expected_eps: number | null
   expected_revenue_millions: number | null
