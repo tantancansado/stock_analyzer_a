@@ -1,193 +1,158 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
-import { Command } from 'cmdk'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, ArrowRight, TrendingUp } from 'lucide-react'
-import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
-import { NAV_LINKS } from '@/lib/nav'
+import { Search, Calculator, LineChart, Activity, Briefcase, Zap, Radar, BookOpen } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
-interface Props {
-  open: boolean
-  onClose: () => void
-}
+const NAVIGATION = [
+  { id: 'dash', title: 'Dashboard', icon: <Activity size={16} />, path: '/' },
+  { id: 'macro', title: 'Macro Radar', icon: <Radar size={16} />, path: '/macro-radar' },
+  { id: 'port', title: 'Portfolio Tracker', icon: <Briefcase size={16} />, path: '/portfolio-tracker' },
+  { id: 'val', title: 'Value Picks', icon: <LineChart size={16} />, path: '/value' },
+  { id: 'mom', title: 'Momentum', icon: <Zap size={16} />, path: '/momentum' },
+  { id: 'opt', title: 'Opciones & Flujos', icon: <LineChart size={16} />, path: '/options' },
+  { id: 'bonds', title: 'Bonos & Preferentes', icon: <Calculator size={16} />, path: '/bonds' },
+  { id: 'cerebro', title: 'Cerebro AI', icon: <BookOpen size={16} />, path: '/cerebro' },
+]
 
-// Regex: looks like a ticker (1-5 uppercase letters, optionally with a dot for EU)
-const TICKER_RE = /^[A-Z]{1,5}(\.[A-Z]{1,2})?$/
+export default function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [query, setQuery] = useState('')
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const navigate = useNavigate()
+  const inputRef = useRef<HTMLInputElement>(null)
 
-function looksLikeTicker(q: string): boolean {
-  return TICKER_RE.test(q.trim().toUpperCase())
-}
+  // Toggle via props logic handled in App.tsx (App captures Cmd+K and sets open)
+  // We just need to handle Escape to close
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+  }, [onClose])
 
-export default function CommandPalette({ open, onClose }: Props) {
-  const [query, setQuery]       = useState('')
-  const navigate                = useNavigate()
-  const reduceMotion            = useReducedMotion()
-  const inputRef                = useRef<HTMLInputElement>(null)
-
+  // Auto focus input when opened
   useEffect(() => {
     if (open) {
       setQuery('')
+      setSelectedIndex(0)
       setTimeout(() => inputRef.current?.focus(), 50)
     }
   }, [open])
 
+  // Filter items
+  const q = query.trim().toLowerCase()
+  const navItems = q ? NAVIGATION.filter(n => n.title.toLowerCase().includes(q) || n.id.includes(q)) : NAVIGATION
+  const isTickerSearch = q.length > 0 && /^[a-z]+$/i.test(q)
+  
+  const totalItems = navItems.length + (isTickerSearch ? 1 : 0)
+
+  // Keyboard navigation
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!open) return
+      if (e.key === 'ArrowDown') {
+        e.preventDefault()
+        setSelectedIndex((i) => (i + 1) % totalItems)
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault()
+        setSelectedIndex((i) => (i - 1 + totalItems) % totalItems)
+      } else if (e.key === 'Enter') {
+        e.preventDefault()
+        if (totalItems === 0) return
+        
+        // Handle selection
+        if (isTickerSearch && selectedIndex === 0) {
+          navigate(`/search?q=${q.toUpperCase()}`)
+          onClose()
+        } else {
+          const navIdx = isTickerSearch ? selectedIndex - 1 : selectedIndex
+          if (navIdx >= 0 && navIdx < navItems.length) {
+            navigate(navItems[navIdx].path)
+            onClose()
+          }
+        }
+      }
     }
-    document.addEventListener('keydown', handler)
-    return () => document.removeEventListener('keydown', handler)
-  }, [onClose])
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [open, selectedIndex, totalItems, isTickerSearch, q, navigate, navItems, onClose])
 
-  const go = useCallback((path: string) => {
-    navigate(path)
-    onClose()
-  }, [navigate, onClose])
+  // Reset index on query change
+  useEffect(() => { setSelectedIndex(0) }, [query])
 
-  const goTicker = useCallback((ticker: string) => {
-    navigate(`/search?q=${encodeURIComponent(ticker.trim().toUpperCase())}`)
-    onClose()
-  }, [navigate, onClose])
-
-  const q      = query.trim()
-  const upper  = q.toUpperCase()
-  const isLikelyTicker = looksLikeTicker(q)
-
-  const filtered = NAV_LINKS.filter(item => {
-    if (!q) return true
-    const ql = q.toLowerCase()
-    return (
-      item.label.toLowerCase().includes(ql) ||
-      item.path.toLowerCase().includes(ql) ||
-      (item.keywords ?? []).some(k => k.toLowerCase().includes(ql))
-    )
-  })
-
-  // If query looks like a ticker, show it first as a direct action
-  const showTickerAction = q.length >= 1 && q.length <= 6
+  if (!open) return null
 
   return (
-    <AnimatePresence>
-      {open ? (
-        <>
-          <motion.div
-            className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm"
-            onClick={onClose}
-            aria-hidden="true"
-            initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}
+    <>
+      <div 
+        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200"
+        onClick={onClose}
+      />
+      <div className="fixed left-[50%] top-[20%] z-50 w-full max-w-lg translate-x-[-50%] rounded-xl border border-primary/20 bg-background/80 shadow-2xl backdrop-blur-xl animate-in zoom-in-95 duration-200 overflow-hidden">
+        <div className="flex items-center border-b border-primary/20 px-3">
+          <Search className="mr-2 h-4 w-4 shrink-0 text-primary opacity-50" />
+          <input
+            ref={inputRef}
+            className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="Escribe un comando o busca un ticker..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
+          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            ESC
+          </kbd>
+        </div>
+        
+        <div className="max-h-[300px] overflow-y-auto p-2 scrollbar-none">
+          {totalItems === 0 && (
+            <div className="py-6 text-center text-sm text-muted-foreground">
+              No se encontraron resultados.
+            </div>
+          )}
 
-          <div className="fixed inset-x-0 top-[15vh] z-[201] mx-auto w-full max-w-lg px-4">
-            <motion.div
-              initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -14, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -10, scale: 0.985 }}
-              transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Command
-                className="cmd-palette liquid-glass rounded-2xl shadow-2xl"
-                shouldFilter={false}
+          {isTickerSearch && (
+            <div className="mb-2">
+              <div className="px-2 py-1.5 text-[0.65rem] font-semibold uppercase text-muted-foreground">Analizar Ticker</div>
+              <div 
+                className={cn(
+                  "flex items-center gap-2 rounded-sm px-2 py-2.5 text-sm transition-colors cursor-pointer",
+                  selectedIndex === 0 ? "bg-primary/20 text-primary" : "text-foreground hover:bg-white/5"
+                )}
+                onClick={() => { navigate(`/search?q=${q.toUpperCase()}`); onClose() }}
               >
-                {/* Search input */}
-                <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border/50">
-                  <Search size={15} className="text-muted-foreground flex-shrink-0" strokeWidth={1.75} />
-                  <Command.Input
-                    ref={inputRef}
-                    value={query}
-                    onValueChange={setQuery}
-                    onKeyDown={e => {
-                      // Enter on empty or ticker-like query → go to search
-                      if (e.key === 'Enter' && q && filtered.length === 0) {
-                        goTicker(q)
-                      }
-                    }}
-                    placeholder="Página o ticker (AAPL, MSFT…)"
-                    className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 outline-none"
-                  />
-                  {query && (
-                    <button
-                      onClick={() => setQuery('')}
-                      className="text-muted-foreground/50 hover:text-muted-foreground text-xs px-1.5 py-0.5 rounded border border-border/40 transition-colors"
-                    >
-                      esc
-                    </button>
-                  )}
-                  {!query && (
-                    <kbd className="hidden sm:flex items-center gap-0.5 text-[0.6rem] text-muted-foreground/40 font-mono">
-                      <span className="text-xs">⌘</span>K
-                    </kbd>
-                  )}
-                </div>
+                <Search size={16} className="text-primary/70" />
+                <span>Buscar acción: <strong className="font-mono text-primary">{q.toUpperCase()}</strong></span>
+              </div>
+            </div>
+          )}
 
-                <Command.List className="max-h-[420px] overflow-y-auto p-2">
-                  {/* Ticker quick-jump — shown whenever query looks like a ticker */}
-                  {showTickerAction && (
-                    <Command.Group heading="Analizar ticker" className="cmd-group">
-                      <Command.Item
-                        value={`ticker-${upper}`}
-                        onSelect={() => goTicker(q)}
-                        className="cmd-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm transition-all"
-                      >
-                        <span className="flex items-center justify-center w-6 h-6 rounded-md flex-shrink-0 bg-primary/15 text-primary">
-                          <TrendingUp size={13} strokeWidth={1.75} />
-                        </span>
-                        <span className="flex-1 text-foreground font-medium">
-                          Analizar <span className="font-mono text-primary">{upper}</span>
-                        </span>
-                        {isLikelyTicker && (
-                          <span className="text-[0.6rem] text-muted-foreground/50 border border-border/30 px-1.5 py-0.5 rounded">
-                            ticker
-                          </span>
-                        )}
-                        <ArrowRight size={12} className="text-muted-foreground/30 flex-shrink-0" />
-                      </Command.Item>
-                    </Command.Group>
-                  )}
-
-                  {/* Navigation items */}
-                  {filtered.length === 0 && !showTickerAction && (
-                    <Command.Empty className="py-10 text-center text-sm text-muted-foreground">
-                      Sin resultados para "<span className="text-foreground">{query}</span>"
-                    </Command.Empty>
-                  )}
-
-                  {filtered.length > 0 && (
-                    <Command.Group heading="Navegación" className="cmd-group">
-                      {filtered.map(item => (
-                        <Command.Item
-                          key={item.path}
-                          value={item.path}
-                          onSelect={() => go(item.path)}
-                          className="cmd-item flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-sm transition-all"
-                        >
-                          <span
-                            className="flex items-center justify-center w-6 h-6 rounded-md flex-shrink-0"
-                            style={{ background: `${item.color}1a`, color: item.color }}
-                          >
-                            <item.icon size={13} strokeWidth={1.75} />
-                          </span>
-                          <span className="flex-1 text-foreground font-medium">{item.label}</span>
-                          <ArrowRight size={12} className="text-muted-foreground/30 flex-shrink-0" />
-                        </Command.Item>
-                      ))}
-                    </Command.Group>
-                  )}
-                </Command.List>
-
-                {/* Footer */}
-                <div className="flex items-center gap-4 px-4 py-2.5 border-t border-border/40 text-[0.6rem] text-muted-foreground/50 font-mono">
-                  <span><kbd className="mr-0.5">↑↓</kbd> navegar</span>
-                  <span><kbd className="mr-0.5">↵</kbd> abrir</span>
-                  <span><kbd className="mr-0.5">esc</kbd> cerrar</span>
-                  <span className="ml-auto opacity-60">escribe un ticker para ir directo al análisis</span>
-                </div>
-              </Command>
-            </motion.div>
-          </div>
-        </>
-      ) : null}
-    </AnimatePresence>
+          {navItems.length > 0 && (
+            <div>
+              <div className="px-2 py-1.5 text-[0.65rem] font-semibold uppercase text-muted-foreground">Navegación</div>
+              {navItems.map((item, i) => {
+                const idx = isTickerSearch ? i + 1 : i
+                return (
+                  <div
+                    key={item.id}
+                    className={cn(
+                      "flex items-center gap-2 rounded-sm px-2 py-2 text-sm transition-colors cursor-pointer mb-0.5",
+                      selectedIndex === idx ? "bg-primary/20 text-primary shadow-[inset_0_0_10px_rgba(0,255,255,0.1)]" : "text-foreground hover:bg-white/5"
+                    )}
+                    onClick={() => { navigate(item.path); onClose() }}
+                  >
+                    <div className={selectedIndex === idx ? "text-primary" : "text-muted-foreground"}>
+                      {item.icon}
+                    </div>
+                    {item.title}
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   )
 }

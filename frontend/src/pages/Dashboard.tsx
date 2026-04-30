@@ -24,9 +24,11 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { LogoChartPeak } from '../components/BrandLogos'
-import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar, Wallet, Zap, Crosshair, BarChart3, Brain, Target, ChevronDown, ChevronUp, Sparkles } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Crosshair, BarChart3, Brain, Target, ChevronDown, ChevronUp, Sparkles } from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { useWatchlist } from '../hooks/useWatchlist'
+import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
+import { cn } from '@/lib/utils'
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -198,14 +200,13 @@ function TopPicksTable({
                     <div className="text-[0.72rem] text-muted-foreground/50 truncate">{r.sector}</div>
                   )}
                 </div>
-                <div className="shrink-0 text-right">
-                  <div className="text-[0.84rem] font-bold text-foreground tabular-nums">
-                    {fmt(r.value_score, 0)}
-                    <span className="text-muted-foreground/50 font-normal text-[0.7rem]">pts</span>
+                <div className="shrink-0 flex items-center gap-3">
+                  <div className="text-right">
+                    {r.analyst_upside_pct != null && (
+                      <UpsideCell upside={r.analyst_upside_pct} />
+                    )}
                   </div>
-                  {r.analyst_upside_pct != null && (
-                    <UpsideCell upside={r.analyst_upside_pct} />
-                  )}
+                  <ScoreRing score={r.value_score} size="sm" />
                 </div>
                 {r.earnings_warning && (
                   <span title="Earnings próximos">
@@ -298,33 +299,53 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
           <p className="text-sm text-muted-foreground text-center py-2">Sin datos</p>
         ) : (
           <>
-            <div className="flex items-center gap-4 mb-3">
-              <div>
-                <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">Bullish</div>
-                <div className="text-2xl font-extrabold text-emerald-400 tabular-nums">{bullish}</div>
+            <div className="flex items-center gap-2">
+              {/* Donut Chart */}
+              <div className="h-[90px] w-[90px] shrink-0 relative">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Bullish', value: bullish, color: '#34d399' }, // emerald-400
+                        { name: 'Bearish', value: bearish, color: '#f87171' }  // red-400
+                      ]}
+                      cx="50%" cy="50%"
+                      innerRadius={28} outerRadius={40}
+                      paddingAngle={5}
+                      dataKey="value"
+                      stroke="none"
+                    >
+                      {[
+                        { name: 'Bullish', value: bullish, color: '#34d399' },
+                        { name: 'Bearish', value: bearish, color: '#f87171' }
+                      ].map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} style={{ filter: `drop-shadow(0px 0px 4px ${entry.color}80)` }} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex items-center justify-center flex-col pointer-events-none">
+                  <span className="text-lg font-extrabold leading-none">{total}</span>
+                </div>
               </div>
-              <div className="h-10 w-px bg-border/50" />
-              <div>
-                <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">Bearish</div>
-                <div className="text-2xl font-extrabold text-red-400 tabular-nums">{bearish}</div>
-              </div>
-              <div className="h-10 w-px bg-border/50" />
-              <div>
-                <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground mb-1">Total</div>
-                <div className="text-2xl font-extrabold tabular-nums">{total}</div>
+
+              {/* Legend */}
+              <div className="flex-1 space-y-2">
+                <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 rounded px-2 py-1.5">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-emerald-400">Bullish</span>
+                  <span className="font-mono font-bold text-sm text-emerald-400">{bullish}</span>
+                </div>
+                <div className="flex justify-between items-center bg-red-500/10 border border-red-500/20 rounded px-2 py-1.5">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-red-400">Bearish</span>
+                  <span className="font-mono font-bold text-sm text-red-400">{bearish}</span>
+                </div>
               </div>
             </div>
             {total > 0 && (
-              <div className="relative h-1.5 rounded-full overflow-hidden bg-red-500/30">
-                <div
-                  className="absolute inset-y-0 left-0 bg-emerald-500/70 rounded-full"
-                  style={{ width: `${Math.round((bullish / total) * 100)}%` }}
-                />
+              <div className="text-[0.7rem] font-medium text-muted-foreground/60 mt-3 text-center uppercase tracking-widest">
+                Balance: <span className="text-foreground/80">{Math.round((bullish / total) * 100)}% Alcista</span>
               </div>
             )}
-            <div className="text-[0.72rem] text-muted-foreground mt-1.5 text-right">
-              {total > 0 ? `${Math.round((bullish / total) * 100)}% alcista` : ''}
-            </div>
           </>
         )}
       </Card>
@@ -360,7 +381,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <Radar size={11} /> Macro Radar
+          <RadarIcon size={11} /> Macro Radar
         </span>
         <Link to="/macro-radar" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
           Ver detalle <ChevronRight size={11} />
@@ -377,42 +398,48 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
           <p className="text-sm text-muted-foreground text-center py-2">Sin datos</p>
         ) : (
           <>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: macro.regime?.color }} />
+                <div className="w-2 h-2 rounded-full animate-pulse shadow-[0_0_8px_currentColor]" style={{ backgroundColor: macro.regime?.color, color: macro.regime?.color }} />
                 <span className={`text-base font-extrabold ${MACRO_REGIME_TEXT[macro.regime?.name] ?? 'text-foreground'}`}>
                   {macro.regime?.name}
                 </span>
               </div>
               <span className="text-[0.65rem] text-muted-foreground tabular-nums">
-                {macro.composite_score != null && macro.composite_score > 0 ? '+' : ''}{fmt(macro.composite_score)} / {macro.max_score}
+                {macro.composite_score != null && macro.composite_score > 0 ? '+' : ''}{fmt(macro.composite_score)} pts
               </span>
             </div>
 
-            {/* Composite gauge */}
-            <div className="h-1.5 w-full rounded-full bg-muted/30 overflow-hidden mb-2">
-              <div
-                className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: `${((macro.composite_score + macro.max_score) / (2 * macro.max_score)) * 100}%`,
-                  backgroundColor: macro.regime?.color,
-                }}
-              />
+            {/* Radar Chart */}
+            <div className="h-[140px] w-full -mt-2 -mb-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart cx="50%" cy="50%" outerRadius="70%" data={
+                  (macro.signal_order ?? Object.keys(macro.signals)).map(k => ({
+                    subject: macro.signals[k]?.label?.split(' ')[0] || k,
+                    A: macro.signals[k]?.score ?? 0,
+                    fullMark: 3,
+                  }))
+                }>
+                  <PolarGrid stroke="hsl(var(--muted-foreground)/0.15)" />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 9 }} />
+                  <Radar name="Macro" dataKey="A" stroke={macro.regime?.color ?? '#00ffff'} fill={macro.regime?.color ?? '#00ffff'} fillOpacity={0.2} />
+                </RadarChart>
+              </ResponsiveContainer>
             </div>
 
-            {/* Worst 3 signals */}
-            <div className="space-y-1">
+            {/* Worst signals */}
+            <div className="flex justify-between gap-1">
               {(macro.signal_order ?? Object.keys(macro.signals))
                 .map(k => ({ k, s: macro.signals[k] }))
                 .filter(x => x.s)
                 .sort((a, b) => (a.s.score ?? 0) - (b.s.score ?? 0))
-                .slice(0, 3)
+                .slice(0, 2)
                 .map(({ k, s }) => (
-                  <div key={k} className="flex items-center justify-between">
-                    <span className="text-[0.62rem] text-muted-foreground truncate">{s.label}</span>
-                    <span className={`text-[0.62rem] font-bold tabular-nums shrink-0 ml-2 ${s.score < -1 ? 'text-red-400' : s.score < 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
+                  <div key={k} className="flex-1 bg-white/[0.02] border border-border/20 rounded-md p-1.5">
+                    <div className="text-[0.55rem] text-muted-foreground uppercase tracking-wider mb-0.5 truncate">{s.label}</div>
+                    <div className={`text-xs font-bold tabular-nums ${s.score < -1 ? 'text-red-400' : s.score < 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
                       {s.score > 0 ? '+' : ''}{s.score.toFixed(1)}
-                    </span>
+                    </div>
                   </div>
                 ))}
             </div>
@@ -675,14 +702,8 @@ function EntrySignalsMini({ data, loading }: {
                   <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{s.ticker}</Link>
                   <span className={`text-[0.58rem] font-bold tabular-nums ${ENTRY_SIGNAL_COLOR[s.signal]}`}>{ENTRY_SIGNAL_LABEL[s.signal]}</span>
                 </div>
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-1.5 rounded-full bg-muted/20 overflow-hidden">
-                    <div
-                      className={`h-full rounded-full ${s.entry_score >= 75 ? 'bg-emerald-500' : s.entry_score >= 50 ? 'bg-amber-500' : 'bg-blue-500'}`}
-                      style={{ width: `${s.entry_score}%` }}
-                    />
-                  </div>
-                  <span className="text-[0.65rem] tabular-nums font-bold text-muted-foreground">{s.entry_score}</span>
+                <div className="flex items-center shrink-0">
+                  <ScoreRing score={s.entry_score} size="sm" showLabel />
                 </div>
               </div>
             ))}
@@ -745,7 +766,7 @@ function LivePriceItem({ id, price }: { id: string; price: { label: string; kind
   }
 
   return (
-    <div className="flex items-center gap-1.5 px-2.5 border-r border-border/20 last:border-0">
+    <div className="flex items-center gap-1.5 px-2.5 border-r border-primary/10 last:border-0">
       <span className="text-[0.72rem] text-muted-foreground/60 hidden sm:inline">{price.label}</span>
       <span className={`font-mono font-bold text-[0.86rem] tabular-nums ${chgColor}`}>{fmtVal()}</span>
       {price.change_pct != null && (
@@ -768,14 +789,28 @@ function LivePricesBar() {
   const isOpen   = data.market_open
   const freshness = secsAgo < 90 ? 'text-emerald-400' : secsAgo < 180 ? 'text-amber-400' : 'text-muted-foreground/40'
 
+  // Market Heat Indicator based on VIX
+  const vixValue = data.prices['vix']?.current ?? 20
+  const heatLevel = vixValue < 15 ? 'CALM' : vixValue < 20 ? 'WATCH' : vixValue < 25 ? 'STRESS' : 'PANIC'
+  const heatColor = vixValue < 15 ? 'text-emerald-400' : vixValue < 20 ? 'text-blue-400' : vixValue < 25 ? 'text-orange-400' : 'text-red-400'
+  const heatBg = vixValue < 15 ? 'bg-emerald-500/20' : vixValue < 20 ? 'bg-blue-500/20' : vixValue < 25 ? 'bg-orange-500/20' : 'bg-red-500/20'
+
   return (
-    <div className="flex items-center gap-0 mb-4 rounded-lg border border-border/20 bg-muted/5 overflow-x-auto scrollbar-none animate-fade-in-up">
+    <div className="flex items-center gap-0 mb-4 rounded-lg border border-primary/20 bg-background/50 backdrop-blur-md shadow-[0_0_15px_rgba(0,255,255,0.05)] overflow-x-auto scrollbar-none animate-fade-in-up">
       {/* Status pill */}
-      <div className="flex items-center gap-1.5 px-3 py-2 border-r border-border/20 shrink-0">
+      <div className="flex items-center gap-1.5 px-3 py-2 border-r border-primary/10 shrink-0">
         <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground/30'}`} />
         <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/60">
           {isOpen ? 'Live' : 'Closed'}
         </span>
+      </div>
+
+      {/* Market Heat */}
+      <div className="flex items-center gap-2 px-3 border-r border-primary/10 shrink-0">
+        <div className="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Heat</div>
+        <div className={cn("px-1.5 py-0.5 rounded text-[0.6rem] font-bold tracking-widest", heatColor, heatBg)}>
+          {heatLevel}
+        </div>
       </div>
 
       {/* Prices */}

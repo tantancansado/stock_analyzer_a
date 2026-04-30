@@ -62,10 +62,27 @@ function fmtUsd(n: number) {
 
 const PRESET_MONTHS = [1, 3, 6, 12, 24, 36]
 
+function useStickyState<T>(defaultValue: T, key: string): [T, React.Dispatch<React.SetStateAction<T>>] {
+  const [value, setValue] = useState<T>(() => {
+    try {
+      const stickyValue = window.localStorage.getItem(key)
+      return stickyValue !== null ? JSON.parse(stickyValue) : defaultValue
+    } catch {
+      return defaultValue
+    }
+  })
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value))
+    } catch {}
+  }, [key, value])
+  return [value, setValue]
+}
+
 function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
-  const [capital, setCapital] = useState(10000)
-  const [months, setMonths] = useState(12)
-  const [rawCapital, setRawCapital] = useState('10000')
+  const [capital, setCapital] = useStickyState(10000, 'sa_calc_capital')
+  const [months, setMonths] = useStickyState(12, 'sa_calc_months')
+  const [rawCapital, setRawCapital] = useState(String(capital))
 
   // Only show bonds with actual yield data, sorted by yield desc
   const calcBonds = useMemo(() =>
@@ -370,9 +387,9 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
 // ─── Preferred Stocks Calculator ─────────────────────────────────────────────
 
 function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
-  const [capital, setCapital] = useState(10000)
-  const [months, setMonths]   = useState(12)
-  const [rawCapital, setRawCapital] = useState('10000')
+  const [capital, setCapital] = useStickyState(10000, 'sa_calc_capital')
+  const [months, setMonths]   = useStickyState(12, 'sa_calc_months')
+  const [rawCapital, setRawCapital] = useState(String(capital))
 
   // Only prefs with a valid current_yield, sorted desc
   const calcPrefs = useMemo(() =>
