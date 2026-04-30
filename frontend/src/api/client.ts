@@ -1760,6 +1760,46 @@ export interface ContrarianData {
   picks: ContrarianPick[]
 }
 
+export type ScoreAlertType = 'NEW_ENTRY' | 'EXITED' | 'SCORE_UP' | 'SCORE_DOWN'
+
+export interface ScoreAlert {
+  type: ScoreAlertType
+  ticker: string
+  company_name: string
+  sector: string
+  score_today: number | null
+  score_prev: number | null
+  delta: number | null
+  grade: string
+}
+
+export interface ScoreAlertsData {
+  generated_at: string
+  alerts: ScoreAlert[]
+  counts: {
+    new_entries: number
+    exited: number
+    score_up: number
+    score_down: number
+  }
+}
+
+export async function fetchScoreAlerts(): Promise<ScoreAlertsData | null> {
+  try {
+    const url = `${STATIC_DATA_BASE}/score_alerts.json`
+    const res = await fetch(url, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json() as ScoreAlertsData
+  } catch {
+    try {
+      const res = await apiClient.get<ScoreAlertsData>('/api/score-alerts')
+      return res.data
+    } catch {
+      return null
+    }
+  }
+}
+
 export async function fetchContrarianPicks(): Promise<ContrarianData | null> {
   try {
     // Try static GitHub Pages first (always fresh), fallback to Railway API

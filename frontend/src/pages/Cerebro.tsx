@@ -27,13 +27,14 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { nlAlert } from '@/lib/nl'
+import ScoreAlerts from '../components/ScoreAlerts'
 
 const ThesisDriftTab       = lazy(() => import('./ThesisDrift'))
 const ContrarianDiscovery  = lazy(() => import('./ContrarianDiscovery'))
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration' | 'thesis' | 'contrarian'
+type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration' | 'thesis' | 'contrarian' | 'novedades'
 
 type CoachTone = 'risk' | 'opportunity' | 'watch' | 'calm'
 
@@ -761,6 +762,7 @@ export default function Cerebro() {
     { id: 'calibration' as const, label: 'Calibración',     icon: SlidersHorizontal, count: calibration?.total_recommendations },
     { id: 'thesis' as const,      label: 'Thesis Drift',    icon: GitBranch,          count: undefined,                            highlight: false },
     { id: 'contrarian' as const,  label: 'Contrarian',      icon: Target,             count: undefined,                            highlight: false },
+    { id: 'novedades' as const,   label: 'Novedades',       icon: Bell,               count: undefined,                            highlight: false },
   ]
 
 
@@ -1896,6 +1898,12 @@ export default function Cerebro() {
         <Suspense fallback={<Loading />}>
           <ContrarianDiscovery />
         </Suspense>
+      )}
+
+      {activeTab === 'novedades' && (
+        <div className="px-1 py-2">
+          <ScoreAlerts />
+        </div>
       )}
     </>
   )

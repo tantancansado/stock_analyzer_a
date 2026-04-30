@@ -2296,6 +2296,15 @@ def contrarian_picks():
     return jsonify(data)
 
 
+@app.route('/api/score-alerts')
+def score_alerts():
+    """Return score drift alerts from score_alerts.json."""
+    data = _load_json(DOCS / 'score_alerts.json')
+    if not data:
+        return jsonify({"error": "No score alerts. Run score_drift_detector.py"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/dividend-traps')
 def dividend_traps():
     """Return dividend trap analysis from dividend_traps.json."""

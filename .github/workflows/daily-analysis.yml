@@ -398,6 +398,10 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 contrarian_discovery.py || echo "Contrarian discovery failed"
 
+      - name: Score Drift Detector — novedades vs ayer
+        continue-on-error: true
+        run: python3 score_drift_detector.py || echo "Score drift detection failed"
+
       # ── Archive + status ───────────────────────────────────────────────────
       - name: Archive daily CSV snapshot
         if: always()
