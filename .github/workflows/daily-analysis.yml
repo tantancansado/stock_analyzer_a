@@ -392,6 +392,12 @@ jobs:
         continue-on-error: true
         run: python3 dividend_trap_scanner.py || echo "Dividend trap scanner failed"
 
+      - name: Contrarian Discovery — quality companies cheap by circumstance
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python3 contrarian_discovery.py || echo "Contrarian discovery failed"
+
       # ── Archive + status ───────────────────────────────────────────────────
       - name: Archive daily CSV snapshot
         if: always()

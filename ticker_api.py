@@ -2287,6 +2287,15 @@ def score_history(ticker):
     return jsonify({'ticker': ticker, 'history': results, 'points': len(results)})
 
 
+@app.route('/api/contrarian-picks')
+def contrarian_picks():
+    """Return contrarian discovery picks from contrarian_picks.json."""
+    data = _load_json(DOCS / 'contrarian_picks.json')
+    if not data:
+        return jsonify({"error": "No contrarian data. Run contrarian_discovery.py"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/dividend-traps')
 def dividend_traps():
     """Return dividend trap analysis from dividend_traps.json."""

@@ -23,16 +23,17 @@ import {
   Brain, Crosshair, Bell, SlidersHorizontal, TrendingUp, TrendingDown, Minus, ChevronRight,
   Zap, CheckCircle2, Newspaper, Bot, AlertOctagon, ShieldAlert,
   Building2, Users, Wallet, BarChart2, Activity, Repeat2, Sparkles, MessageCircle, CalendarDays,
-  GitBranch,
+  GitBranch, Target,
   type LucideIcon,
 } from 'lucide-react'
 import { nlAlert } from '@/lib/nl'
 
-const ThesisDriftTab = lazy(() => import('./ThesisDrift'))
+const ThesisDriftTab       = lazy(() => import('./ThesisDrift'))
+const ContrarianDiscovery  = lazy(() => import('./ContrarianDiscovery'))
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration' | 'thesis'
+type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration' | 'thesis' | 'contrarian'
 
 type CoachTone = 'risk' | 'opportunity' | 'watch' | 'calm'
 
@@ -759,6 +760,7 @@ export default function Cerebro() {
     { id: 'insights' as const,    label: 'Patrones',        icon: Brain,             count: undefined },
     { id: 'calibration' as const, label: 'Calibración',     icon: SlidersHorizontal, count: calibration?.total_recommendations },
     { id: 'thesis' as const,      label: 'Thesis Drift',    icon: GitBranch,          count: undefined,                            highlight: false },
+    { id: 'contrarian' as const,  label: 'Contrarian',      icon: Target,             count: undefined,                            highlight: false },
   ]
 
 
@@ -1886,6 +1888,13 @@ export default function Cerebro() {
       {activeTab === 'thesis' && (
         <Suspense fallback={<Loading />}>
           <ThesisDriftTab />
+        </Suspense>
+      )}
+
+      {/* ── TAB: Contrarian Discovery ─────────────────────────────────────────── */}
+      {activeTab === 'contrarian' && (
+        <Suspense fallback={<Loading />}>
+          <ContrarianDiscovery />
         </Suspense>
       )}
     </>

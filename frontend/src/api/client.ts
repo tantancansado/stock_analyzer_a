@@ -1724,6 +1724,51 @@ export interface MlWinProbabilityData {
   predictions: Record<string, MlWinPrediction>
 }
 
+export interface ContrarianPick {
+  ticker: string
+  company_name: string
+  sector: string | null
+  current_price: number | null
+  drawdown_from_52w: number
+  analyst_upside_pct: number | null
+  analyst_count: number | null
+  piotroski_score: number | null
+  roe_pct: number | null
+  fcf_yield_pct: number | null
+  profit_margin_pct: number | null
+  debt_to_equity: number | null
+  verdict: 'CONTRARIAN_BUY' | 'WATCH' | 'AVOID'
+  confidence: number
+  drop_reason: string
+  is_circumstantial: boolean
+  recovery_thesis: string
+  key_risks: string
+}
+
+export interface ContrarianData {
+  generated_at: string
+  count: number
+  contrarian_buys: number
+  picks: ContrarianPick[]
+}
+
+export async function fetchContrarianPicks(): Promise<ContrarianData | null> {
+  try {
+    // Try static GitHub Pages first (always fresh), fallback to Railway API
+    const url = `${STATIC_DATA_BASE}/contrarian_picks.json`
+    const res = await fetch(url, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json() as ContrarianData
+  } catch {
+    try {
+      const res = await apiClient.get<ContrarianData>('/api/contrarian-picks')
+      return res.data
+    } catch {
+      return null
+    }
+  }
+}
+
 export async function fetchMlWinProbability(): Promise<MlWinProbabilityData | null> {
   try {
     const url = `${STATIC_DATA_BASE}/ml_win_probability.json`
