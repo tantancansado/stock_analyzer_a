@@ -205,6 +205,9 @@ class FundamentalScorer:
                 # Magic Formula (Greenblatt) + PEG (Lynch)
                 **self._calculate_magic_formula_metrics(stock, info),
 
+                # IV vs Realized Volatility (options pricing signal)
+                **self._calculate_iv_metrics(stock, price_history),
+
                 # Timestamp
                 'analyzed_at': datetime.now().isoformat()
             }
@@ -1313,6 +1316,81 @@ class FundamentalScorer:
 
         except Exception as e:
             print(f"      ⚠️ Value quality metrics error: {e}")
+
+        return result
+
+    def _calculate_iv_metrics(self, stock, price_history: pd.DataFrame) -> Dict:
+        """
+        IV vs Realized Volatility metrics:
+        - hv_30d: 30-day historical (realized) volatility annualized
+        - atm_iv: ATM implied volatility from nearest liquid options expiry
+        - iv_ratio: atm_iv / hv_30d  (>1.3 = expensive, <0.8 = cheap)
+        - iv_premium_pts: (atm_iv - hv_30d) * 100 in percentage points
+
+        Uses price_history already fetched — no extra yfinance call.
+        ATM IV may be None if market is closed or no liquid options.
+        """
+        result = {
+            'hv_30d': None,
+            'atm_iv': None,
+            'iv_ratio': None,
+            'iv_premium_pts': None,
+        }
+        try:
+            if price_history is None or price_history.empty or len(price_history) < 22:
+                return result
+            rets = price_history['Close'].pct_change().dropna()
+            hv30 = float(rets.tail(21).std() * np.sqrt(252) * 100)
+            result['hv_30d'] = round(hv30, 1)
+        except Exception:
+            return result
+
+        try:
+            exps = stock.options
+            if not exps:
+                return result
+
+            # Pick expiry 20-50 days out for a stable IV read
+            from datetime import date as _date
+            today = _date.today()
+            target_exp = None
+            for e in exps:
+                try:
+                    dte = (_date.fromisoformat(e) - today).days
+                    if 15 <= dte <= 60:
+                        target_exp = e
+                        break
+                except Exception:
+                    continue
+            if target_exp is None:
+                target_exp = exps[0]
+
+            chain = stock.option_chain(target_exp)
+            calls = chain.calls
+            if calls.empty:
+                return result
+
+            # Get current price from history (last close)
+            spot = float(price_history['Close'].iloc[-1])
+            atm_idx = (calls['strike'] - spot).abs().idxmin()
+            atm_row = calls.loc[atm_idx]
+            raw_iv = float(atm_row.get('impliedVolatility') or 0)
+
+            # Reject yfinance placeholder IVs (0, near-zero, or power-of-2/16 values)
+            if raw_iv <= 0.001:
+                return result
+            rounded = round(raw_iv * 16) / 16
+            if abs(raw_iv - rounded) < 1e-6:
+                return result  # placeholder
+
+            atm_iv_pct = raw_iv * 100
+            result['atm_iv'] = round(atm_iv_pct, 1)
+
+            if result['hv_30d'] and result['hv_30d'] > 0:
+                result['iv_ratio'] = round(atm_iv_pct / result['hv_30d'], 2)
+                result['iv_premium_pts'] = round(atm_iv_pct - result['hv_30d'], 1)
+        except Exception:
+            pass
 
         return result
 

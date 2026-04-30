@@ -112,6 +112,11 @@ export interface ValueOpportunity {
   ml_score?: number | null
   ml_win_prob?: number | null
   ml_confidence?: number | null
+  // IV vs Realized Volatility (options pricing signal)
+  hv_30d?: number | null
+  atm_iv?: number | null
+  iv_ratio?: number | null
+  iv_premium_pts?: number | null
   // Score breakdown bonuses (from super_score_integrator.py)
   piotroski_bonus?: number | null
   fcf_bonus?: number | null
@@ -342,6 +347,7 @@ const VALUE_NUMERIC = new Set([
   'rr_bonus','sector_bonus','insider_bonus','institutional_bonus','options_bonus',
   'mr_bonus','hf_bonus','days_in_list','profitability_penalty',
   'cerebro_score_adj','hedge_fund_count',
+  'hv_30d','atm_iv','iv_ratio','iv_premium_pts',
 ])
 
 const VALUE_BOOLEAN = new Set([

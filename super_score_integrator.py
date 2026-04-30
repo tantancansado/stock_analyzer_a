@@ -1087,6 +1087,27 @@ class SuperScoreIntegrator:
         except Exception as exc:
             print(f"   ⚠ Target revision merge skipped: {exc}")
 
+        # ── IV vs REALIZED VOLATILITY BONUS ────────────────────────────────────
+        # iv_ratio = ATM_IV / HV_30d:
+        #   <0.8 → opciones baratas vs historia → mercado NO anticipa movimiento
+        #         → mejor entrada para comprar acciones (poca presión put compradores)  +3pts
+        #   0.8–1.3 → normal → neutral
+        #   >1.3 → opciones caras → mercado anticipa movimiento / riesgo elevado → -3pts
+        #   >2.0 → miedo extremo → -5pts (algo grave se anticipa)
+        # Solo aplica si iv_ratio tiene datos fiables (no None, calculado en horario de mercado)
+        if 'iv_ratio' in df.columns:
+            _iv = pd.to_numeric(df['iv_ratio'], errors='coerce')
+            iv_bonus = pd.Series(0.0, index=df.index)
+            iv_bonus[_iv.notna() & (_iv < 0.8)]                         =  3.0
+            iv_bonus[_iv.notna() & (_iv >= 1.3) & (_iv < 2.0)]         = -3.0
+            iv_bonus[_iv.notna() & (_iv >= 2.0)]                        = -5.0
+            df['value_score'] += iv_bonus
+            cheap = int((_iv < 0.8).sum())
+            exp   = int((_iv >= 1.3).sum())
+            if cheap or exp:
+                print(f"   📉 IV/HV ratio: {cheap} cheap IV (+3pts) · {exp} expensive IV (-3/-5pts)")
+        # ──────────────────────────────────────────────────────────────────────
+
         # Earnings timing warning — penalize if reporting within 7 days (risky entry)
         if 'earnings_warning' in df.columns:
             earnings_risk = df['earnings_warning'] == True

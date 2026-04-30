@@ -32,6 +32,14 @@ function buildContributions(row: ValueOpportunity): Contribution[] {
   add('Hedge Funds', row.hf_bonus)
   add('Cerebro IA', row.cerebro_score_adj)
   add('Owner Earn.', row.oe_ai_adjustment)
+  // IV bonus: derive from iv_ratio
+  if (row.iv_ratio != null) {
+    let ivAdj = 0
+    if (row.iv_ratio < 0.8)        ivAdj =  3
+    else if (row.iv_ratio >= 2)    ivAdj = -5
+    else if (row.iv_ratio >= 1.3)  ivAdj = -3
+    if (ivAdj !== 0) items.push({ label: 'IV/HV', value: ivAdj, positive: ivAdj > 0 })
+  }
   if (row.profitability_penalty != null && row.profitability_penalty !== 0) {
     items.push({ label: 'Rent. baja', value: -Math.abs(row.profitability_penalty), positive: false })
   }
