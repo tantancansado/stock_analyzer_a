@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react'
 import { Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom'
-import { X, LogOut, ChevronDown } from 'lucide-react'
+import { X, LogOut } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ThemeProvider } from './context/ThemeContext'
 import { useAuth } from './context/AuthContext'
 import { PersonalPortfolioProvider } from './context/PersonalPortfolioContext'
 import { ToastProvider } from './components/Toast'
 import { cn } from '@/lib/utils'
-import { NAV_PRIMARY, NAV_SECONDARY } from '@/lib/nav'
+import { NAV_CATEGORIES, type NavLinkItem } from '@/lib/nav'
 import TopBar from './components/TopBar'
 import ProtectedRoute from './components/ProtectedRoute'
 import CommandPalette from './components/CommandPalette'
@@ -44,7 +44,7 @@ const Manual           = lazy(() => import('./pages/Manual'))
 const LogoPreview      = lazy(() => import('./pages/LogoPreview'))
 const Bonds            = lazy(() => import('./pages/Bonds'))
 
-function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: () => void }) {
+function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) {
   return (
     <NavLink
       to={item.path}
@@ -65,8 +65,6 @@ function NavItem({ item, onClose }: { item: (typeof NAV_PRIMARY)[0]; onClose: ()
 }
 
 function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; onSignOut: () => void }>) {
-  const [moreOpen, setMoreOpen] = useState(false)
-
   return (
     <>
       {/* Header */}
@@ -88,28 +86,20 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
         </button>
       </div>
 
-      {/* Primary nav */}
-      <nav className="flex-1 px-2 py-2 overflow-y-auto min-h-0">
-        <div className="space-y-0.5">
-          {NAV_PRIMARY.map(item => <NavItem key={item.path} item={item} onClose={onClose} />)}
-        </div>
-
-        {/* Más — collapsible */}
-        <div className="mt-3">
-          <button
-            onClick={() => setMoreOpen(v => !v)}
-            className="flex w-full items-center gap-2 px-3 py-1.5 rounded-lg text-[0.72rem] lg:text-[0.78rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground/35 hover:text-muted-foreground/70 transition-colors"
-          >
-            <span className="flex-1 text-left">Más</span>
-            <ChevronDown size={11} strokeWidth={1.75} className={cn('transition-transform duration-200', moreOpen ? 'rotate-180' : '')} />
-          </button>
-
-          <div className={cn('collapsible-panel', moreOpen && 'open')}>
-            <div className="space-y-0.5 mt-0.5">
-              {NAV_SECONDARY.map(item => <NavItem key={item.path} item={item} onClose={onClose} />)}
+      {/* Nav Categories */}
+      <nav className="flex-1 px-3 py-4 overflow-y-auto min-h-0 custom-scrollbar space-y-6">
+        {NAV_CATEGORIES.map(category => (
+          <div key={category.name}>
+            <div className="px-2 mb-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground/60">
+              {category.name}
+            </div>
+            <div className="space-y-0.5">
+              {category.items.map(item => (
+                <NavItem key={item.path} item={item} onClose={onClose} />
+              ))}
             </div>
           </div>
-        </div>
+        ))}
       </nav>
 
       {/* Logout */}

@@ -1,154 +1,138 @@
-#!/usr/bin/env python3
 """
-ML Win Predictor — probabilidad de éxito para señales VALUE
+ML Win Predictor — entrena XGBoost con historial de señales VALUE y predice
+probabilidad de win_14d para los tickers actuales.
 
-Entrena un XGBoost classifier sobre señales históricas de portfolio_tracker
-y predice P(win_14d=True) para los tickers actuales en value_opportunities.csv.
-
-Output: docs/ml_win_probability.json  (ticker → probability)
-        docs/ml_model_report.json     (métricas de calibración, feature importance)
-
-El modelo se re-entrena en cada ejecución con todos los datos disponibles.
-No necesita datos externos — solo el historial de señales ya generadas.
+Outputs:
+  docs/ml_win_probability.json  — predictions por ticker + metadata
+  docs/ml_model_report.json     — feature importances, cv scores, sector win rates
 """
-
-import os
 import json
 import warnings
+from datetime import datetime
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-from pathlib import Path
-from datetime import datetime
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings('ignore')
 
-DOCS = Path(__file__).parent / "docs"
+DOCS      = Path(__file__).parent / 'docs'
+RECS_CSV  = DOCS / 'portfolio_tracker' / 'recommendations.csv'
+VALUE_CSV = DOCS / 'value_opportunities.csv'
+EU_CSV    = DOCS / 'european_value_opportunities.csv'
+OUT_PROBS  = DOCS / 'ml_win_probability.json'
+OUT_REPORT = DOCS / 'ml_model_report.json'
 
-# ── Feature engineering ───────────────────────────────────────────────────────
-
-VALUE_STRATEGIES = {"VALUE", "EU_VALUE"}
-
-SECTOR_WIN_RATES: dict[str, float] = {}  # filled at train time, used at predict time
+TARGET   = 'win_14d'
+MIN_ROWS = 200
 
 REGIME_MAP = {
-    "CONFIRMED_UPTREND": 2,
-    "UPTREND":           1,
-    "UPTREND_PRESSURE":  0,
-    "NEUTRAL":           0,
-    "CORRECTION":       -1,
-    "BEAR":             -2,
+    'CONFIRMED_UPTREND': 2,
+    'UPTREND':           1,
+    'UPTREND_PRESSURE':  0,
+    'NEUTRAL':           0,
+    'CORRECTION':       -1,
+    'BEAR':             -2,
 }
 
-SECTOR_MAP: dict[str, int] = {}  # ordinal by historical win rate, filled at train time
+# Mutable globals filled at train time, used at inference time
+_SECTOR_WIN_RATES: dict = {}
+_GLOBAL_MEDIAN_FEATURES: dict = {}
 
 
-def _build_features(df: pd.DataFrame, fit: bool = False) -> pd.DataFrame:
-    """
-    Build feature matrix from a recommendations-style dataframe.
-    If fit=True, computes sector/regime encodings and stores them globally.
-    """
-    global SECTOR_WIN_RATES, SECTOR_MAP
+def _regime_num(series: pd.Series) -> pd.Series:
+    return series.fillna('NEUTRAL').astype(str).str.upper().map(
+        lambda x: REGIME_MAP.get(x, 0)
+    )
+
+
+def _build_features(df: pd.DataFrame, fit: bool) -> pd.DataFrame:
+    global _SECTOR_WIN_RATES, _GLOBAL_MEDIAN_FEATURES
 
     out = pd.DataFrame(index=df.index)
 
-    # ── Numeric features ──────────────────────────────────────────────────────
-    out["value_score"]        = pd.to_numeric(df.get("value_score"), errors="coerce")
-    out["analyst_upside_pct"] = pd.to_numeric(df.get("analyst_upside_pct"), errors="coerce")
-    out["risk_reward_ratio"]  = pd.to_numeric(df.get("risk_reward_ratio"), errors="coerce")
-    out["fcf_yield_pct"]      = pd.to_numeric(df.get("fcf_yield_pct"), errors="coerce")
+    vs = pd.to_numeric(df.get('value_score'), errors='coerce')
+    up = pd.to_numeric(df.get('analyst_upside_pct'), errors='coerce')
+    rr = pd.to_numeric(df.get('risk_reward_ratio'), errors='coerce')
+    fc = pd.to_numeric(df.get('fcf_yield_pct'), errors='coerce')
 
-    # Derived: value_score² captures non-linear threshold effects
-    out["value_score_sq"] = out["value_score"] ** 2
-
-    # ── Regime encoding ───────────────────────────────────────────────────────
-    out["regime_num"] = df.get("market_regime", "NEUTRAL").map(
-        lambda x: REGIME_MAP.get(str(x).upper(), 0)
-    )
-
-    # ── Sector encoding (win-rate target encoding) ────────────────────────────
     if fit:
-        # Compute historical win rate per sector
-        has_label = df["win_14d"].notna()
-        wr = (
-            df.loc[has_label]
-            .groupby("sector")["win_14d"]
-            .apply(lambda x: (x == True).mean())
-            .to_dict()
-        )
-        SECTOR_WIN_RATES = wr
-        # Ordinal rank by win rate for fallback
-        ranked = sorted(wr, key=wr.get)
-        SECTOR_MAP = {s: i for i, s in enumerate(ranked)}
+        _GLOBAL_MEDIAN_FEATURES = {
+            'value_score':         float(vs.median()),
+            'analyst_upside_pct':  float(up.median()),
+            'risk_reward_ratio':   float(rr.median()),
+            'fcf_yield_pct':       float(fc.median()),
+        }
+        wr = df.groupby('sector')[TARGET].apply(lambda x: float(x.mean())).to_dict()
+        _SECTOR_WIN_RATES = {k: v for k, v in wr.items() if df['sector'].eq(k).sum() >= 10}
 
-    global_mean = np.mean(list(SECTOR_WIN_RATES.values())) if SECTOR_WIN_RATES else 0.28
-    out["sector_wr"] = df.get("sector", "Unknown").map(
-        lambda x: SECTOR_WIN_RATES.get(str(x), global_mean)
+    m = _GLOBAL_MEDIAN_FEATURES
+    vs = vs.fillna(m.get('value_score', 55.0))
+    up = up.fillna(m.get('analyst_upside_pct', 15.0))
+    rr = rr.fillna(m.get('risk_reward_ratio', 2.0))
+    fc = fc.fillna(0.0)
+
+    global_wr = float(np.mean(list(_SECTOR_WIN_RATES.values()))) if _SECTOR_WIN_RATES else 0.28
+    sec_wr = df.get('sector', pd.Series('Unknown', index=df.index)).fillna('Unknown').map(
+        lambda x: _SECTOR_WIN_RATES.get(str(x), global_wr)
     )
+    reg = _regime_num(df.get('market_regime', pd.Series('NEUTRAL', index=df.index)))
 
-    # ── Regime × sector interaction ───────────────────────────────────────────
-    out["regime_x_sector"] = out["regime_num"] * out["sector_wr"]
+    out['value_score']        = vs
+    out['value_score_sq']     = vs ** 2
+    out['analyst_upside_pct'] = up
+    out['risk_reward_ratio']  = rr
+    out['fcf_yield_pct']      = fc
+    out['sector_wr']          = sec_wr
+    out['regime_num']         = reg
+    out['regime_x_sector']    = reg * sec_wr
+    out['score_gte_65']       = (vs >= 65).astype(float)
+    out['score_gte_75']       = (vs >= 75).astype(float)
+    out['rr_gte_2']           = (rr >= 2).astype(float)
+    out['rr_gte_3']           = (rr >= 3).astype(float)
+    out['upside_gte_30']      = (up >= 30).astype(float)
+    out['fcf_positive']       = (fc > 0).astype(float)
+    out['fcf_gte_5']          = (fc >= 5).astype(float)
 
-    # ── Score tier flags ──────────────────────────────────────────────────────
-    out["score_gte_65"] = (out["value_score"] >= 65).astype(float)
-    out["score_gte_75"] = (out["value_score"] >= 75).astype(float)
-    out["rr_gte_2"]     = (out["risk_reward_ratio"] >= 2).astype(float)
-    out["rr_gte_3"]     = (out["risk_reward_ratio"] >= 3).astype(float)
-    out["upside_gte_30"]= (out["analyst_upside_pct"] >= 30).astype(float)
-    out["fcf_positive"] = (out["fcf_yield_pct"] > 0).astype(float)
-    out["fcf_gte_5"]    = (out["fcf_yield_pct"] >= 5).astype(float)
+    return out.fillna(0)
 
-    # ── Fill missing values with medians (safe for inference) ─────────────────
-    num_cols = ["value_score", "analyst_upside_pct", "risk_reward_ratio",
-                "fcf_yield_pct", "value_score_sq"]
-    medians = out[num_cols].median()
-    out[num_cols] = out[num_cols].fillna(medians)
-    out = out.fillna(0)
 
-    return out
+def _prob_label(prob: float) -> str:
+    if prob >= 0.45:
+        return 'ALTA'
+    if prob >= 0.30:
+        return 'MEDIA'
+    return 'BAJA'
 
 
 FEATURE_COLS = [
-    "value_score", "value_score_sq",
-    "analyst_upside_pct", "risk_reward_ratio",
-    "fcf_yield_pct", "sector_wr", "regime_num", "regime_x_sector",
-    "score_gte_65", "score_gte_75",
-    "rr_gte_2", "rr_gte_3", "upside_gte_30",
-    "fcf_positive", "fcf_gte_5",
+    'value_score', 'value_score_sq',
+    'analyst_upside_pct', 'risk_reward_ratio',
+    'fcf_yield_pct', 'sector_wr', 'regime_num', 'regime_x_sector',
+    'score_gte_65', 'score_gte_75',
+    'rr_gte_2', 'rr_gte_3', 'upside_gte_30',
+    'fcf_positive', 'fcf_gte_5',
 ]
 
 
-# ── Training ──────────────────────────────────────────────────────────────────
+def _load_training_data() -> pd.DataFrame:
+    df = pd.read_csv(RECS_CSV)
+    df = df[df.get('strategy', pd.Series()).isin({'VALUE', 'EU_VALUE'})] if 'strategy' in df.columns else df
+    df = df[df['status'] == 'COMPLETED'].copy()
+    df = df[df[TARGET].notna() & df['return_14d'].notna()]
+    df = df[(df['return_14d'] > -95) & (df['return_14d'] < 500)]
+    df[TARGET] = df[TARGET].map({True: 1, False: 0, 'True': 1, 'False': 0})
+    return df[df[TARGET].isin([0, 1])]
 
-def train(recs: pd.DataFrame):
-    """
-    Train XGBoost classifier on completed VALUE signals.
-    Returns (model, report_dict).
-    """
-    try:
-        from xgboost import XGBClassifier
-    except ImportError:
-        print("  ⚠️  xgboost not installed — skipping ML training")
-        return None, {}
 
-    from sklearn.model_selection import StratifiedKFold, cross_val_score
+def _train(df: pd.DataFrame):
+    from xgboost import XGBClassifier
     from sklearn.calibration import CalibratedClassifierCV
-    from sklearn.metrics import roc_auc_score, brier_score_loss
-
-    # Filter to VALUE strategies with completed labels
-    df = recs[recs.get("strategy", pd.Series()).isin(VALUE_STRATEGIES)].copy() \
-        if "strategy" in recs.columns else recs.copy()
-    df = df[df["win_14d"].notna() & df["return_14d"].notna()]
-    df = df[(df["return_14d"] > -95) & (df["return_14d"] < 500)]
-    df["win_14d"] = df["win_14d"].map({True: 1, False: 0, "True": 1, "False": 0})
-    df = df[df["win_14d"].isin([0, 1])]
-
-    print(f"  Training on {len(df)} completed VALUE signals (win rate {df['win_14d'].mean()*100:.1f}%)")
+    from sklearn.model_selection import StratifiedKFold, cross_val_score
 
     X = _build_features(df, fit=True)[FEATURE_COLS]
-    y = df["win_14d"].values
-
-    # Class weight to handle imbalance (~28% positives)
-    scale_pos_weight = (y == 0).sum() / max((y == 1).sum(), 1)
+    y = df[TARGET].values
+    scale_pos_weight = float((y == 0).sum()) / max(float((y == 1).sum()), 1)
 
     base = XGBClassifier(
         n_estimators=200,
@@ -157,153 +141,113 @@ def train(recs: pd.DataFrame):
         subsample=0.8,
         colsample_bytree=0.8,
         scale_pos_weight=scale_pos_weight,
-        eval_metric="logloss",
+        eval_metric='logloss',
         random_state=42,
         verbosity=0,
     )
-
-    # Calibrate probabilities with isotonic regression (Platt scaling)
-    model = CalibratedClassifierCV(base, cv=3, method="isotonic")
+    model = CalibratedClassifierCV(base, cv=3, method='isotonic')
     model.fit(X, y)
 
-    # Cross-validated metrics
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-    cv_auc  = cross_val_score(model, X, y, cv=cv, scoring="roc_auc").mean()
-    cv_brier = cross_val_score(model, X, y, cv=cv, scoring="neg_brier_score").mean()
+    cv_auc   = float(cross_val_score(model, X, y, cv=cv, scoring='roc_auc').mean())
+    cv_brier = float(-cross_val_score(model, X, y, cv=cv, scoring='neg_brier_score').mean())
 
-    # Feature importance from underlying XGBClassifier
-    # CalibratedClassifierCV wraps multiple estimators — average importances
-    importances: dict[str, float] = {}
+    importances: dict = {}
     try:
-        estimators = [e.estimator for e in model.calibrated_classifiers_]
-        imp_matrix = np.array([e.feature_importances_ for e in estimators])
-        mean_imp = imp_matrix.mean(axis=0)
-        importances = dict(sorted(zip(FEATURE_COLS, mean_imp.tolist()),
-                                  key=lambda x: x[1], reverse=True))
+        imps = np.array([e.estimator.feature_importances_ for e in model.calibrated_classifiers_])
+        importances = dict(zip(FEATURE_COLS, imps.mean(axis=0).tolist()))
     except Exception:
         pass
 
-    report = {
-        "trained_at":        datetime.now().isoformat(),
-        "n_samples":         int(len(df)),
-        "win_rate_base":     round(float(y.mean()), 4),
-        "cv_roc_auc":        round(float(cv_auc), 4),
-        "cv_brier_score":    round(float(-cv_brier), 4),
-        "feature_importance": {k: round(v, 4) for k, v in list(importances.items())[:10]},
-        "sector_win_rates":  {k: round(v, 3) for k, v in sorted(
-            SECTOR_WIN_RATES.items(), key=lambda x: x[1], reverse=True)},
-    }
-
-    print(f"  ✓ CV ROC-AUC: {cv_auc:.3f}  Brier: {-cv_brier:.3f}")
-    print(f"  Top features: {list(importances.keys())[:5]}")
-
-    return model, report
+    return model, cv_auc, cv_brier, importances
 
 
-# ── Inference ─────────────────────────────────────────────────────────────────
+def _load_current_tickers() -> pd.DataFrame:
+    dfs = []
+    for p in [VALUE_CSV, EU_CSV]:
+        if p.exists():
+            d = pd.read_csv(p)
+            if not d.empty and 'ticker' in d.columns:
+                dfs.append(d)
+    if not dfs:
+        return pd.DataFrame()
+    combined = pd.concat(dfs, ignore_index=True)
+    combined['value_score'] = pd.to_numeric(combined.get('value_score'), errors='coerce')
+    return (combined.sort_values('value_score', ascending=False)
+                    .drop_duplicates(subset='ticker')
+                    .reset_index(drop=True))
 
-def predict(model, value_df: pd.DataFrame, market_regime: str = "NEUTRAL") -> dict[str, float]:
-    """
-    Predict win probability for each ticker in value_df.
-    Returns dict {ticker: probability}.
-    """
-    if model is None or value_df.empty:
-        return {}
-
-    df = value_df.copy()
-    # Inject current market regime if not present
-    if "market_regime" not in df.columns:
-        df["market_regime"] = market_regime
-
-    X = _build_features(df, fit=False)[FEATURE_COLS]
-    probs = model.predict_proba(X)[:, 1]
-
-    result = {}
-    for ticker, prob in zip(df["ticker"].str.upper(), probs):
-        result[ticker] = round(float(prob), 4)
-
-    return result
-
-
-# ── Main pipeline step ────────────────────────────────────────────────────────
 
 def run():
-    print("[ML] Win probability predictor...")
+    print('[ML] Win probability predictor...')
 
-    recs_path = DOCS / "portfolio_tracker" / "recommendations.csv"
-    if not recs_path.exists():
-        print("  ⚠️  recommendations.csv not found — skipping")
+    if not RECS_CSV.exists():
+        print('  recommendations.csv not found — skipping')
         return
 
-    recs = pd.read_csv(recs_path)
+    df = _load_training_data()
+    print(f'  Training on {len(df)} completed VALUE signals (win rate {df[TARGET].mean()*100:.1f}%)')
 
-    # Train
-    model, report = train(recs)
-    if model is None:
+    if len(df) < MIN_ROWS:
+        print(f'  Not enough data ({len(df)} < {MIN_ROWS}) — skipping')
         return
 
-    # Load current value opportunities (US + EU)
-    dfs = []
-    for fname in ["value_opportunities.csv", "value_conviction.csv",
-                  "european_value_opportunities.csv", "european_value_conviction.csv"]:
-        p = DOCS / fname
-        if p.exists():
-            df = pd.read_csv(p)
-            if not df.empty and "ticker" in df.columns:
-                dfs.append(df)
-
-    if not dfs:
-        print("  ⚠️  No value opportunity CSVs found — skipping inference")
-        return
-
-    # Deduplicate by ticker, keep highest value_score
-    all_val = pd.concat(dfs, ignore_index=True)
-    all_val["value_score"] = pd.to_numeric(all_val.get("value_score"), errors="coerce")
-    all_val = (all_val.sort_values("value_score", ascending=False)
-                      .drop_duplicates(subset="ticker")
-                      .reset_index(drop=True))
-
-    # Get current market regime from cerebro insights if available
-    market_regime = "NEUTRAL"
     try:
-        insights = json.loads((DOCS / "cerebro_insights.json").read_text())
-        regimes = insights.get("market_regimes", [{}])
-        if regimes:
-            market_regime = regimes[0].get("label", "NEUTRAL")
-    except Exception:
-        pass
+        model, cv_auc, cv_brier, importances = _train(df)
+    except ImportError:
+        print('  xgboost/sklearn not installed — skipping')
+        return
 
-    probabilities = predict(model, all_val, market_regime)
+    print(f'  CV ROC-AUC: {cv_auc:.3f}  Brier: {cv_brier:.3f}')
 
-    # Build output with percentile rank
-    probs_sorted = sorted(probabilities.values(), reverse=True)
+    val_df = _load_current_tickers()
+    if val_df.empty:
+        print('  No current value tickers — skipping inference')
+        return
+
+    x_inf = _build_features(val_df, fit=False)[FEATURE_COLS]
+    probs = model.predict_proba(x_inf)[:, 1]
+
+    probs_list = [float(p) for p in probs]
+    probs_sorted = sorted(probs_list, reverse=True)
     n = len(probs_sorted)
-
-    output = {
-        "generated_at":  datetime.now().isoformat(),
-        "market_regime": market_regime,
-        "model_auc":     report.get("cv_roc_auc"),
-        "base_win_rate": report.get("win_rate_base"),
-        "predictions":   {},
-    }
-
-    for ticker, prob in sorted(probabilities.items(), key=lambda x: x[1], reverse=True):
-        rank = probs_sorted.index(prob) + 1
-        percentile = round((1 - rank / n) * 100, 0)
-        output["predictions"][ticker] = {
-            "probability":  prob,
-            "percentile":   int(percentile),
-            "label":        "ALTA" if prob >= 0.45 else "MEDIA" if prob >= 0.30 else "BAJA",
+    predictions: dict = {}
+    for ticker, prob in zip(val_df['ticker'].astype(str).str.upper(), probs_list):
+        prob_r = round(prob, 4)
+        rank = sum(1 for p in probs_sorted if p > prob) + 1
+        predictions[ticker] = {
+            'probability': prob_r,
+            'percentile':  int(round((1 - rank / n) * 100)),
+            'label':       _prob_label(prob_r),
         }
 
-    # Save outputs
-    (DOCS / "ml_win_probability.json").write_text(json.dumps(output, indent=2))
-    (DOCS / "ml_model_report.json").write_text(json.dumps(report, indent=2))
+    base_wr = round(float(df[TARGET].mean()), 4)
+    sec_wr  = {k: round(v, 3) for k, v in sorted(
+        _SECTOR_WIN_RATES.items(), key=lambda x: x[1], reverse=True)}
+    top_imp = dict(sorted(importances.items(), key=lambda x: -x[1])[:10])
 
-    n_high = sum(1 for v in output["predictions"].values() if v["label"] == "ALTA")
-    print(f"  ✓ {len(probabilities)} tickers scored | {n_high} ALTA probabilidad")
-    print(f"  Saved → ml_win_probability.json, ml_model_report.json")
+    OUT_PROBS.write_text(json.dumps({
+        'generated_at':  datetime.now().isoformat(),
+        'model_auc':     round(cv_auc, 4),
+        'base_win_rate': base_wr,
+        'predictions':   predictions,
+    }, indent=2))
+
+    OUT_REPORT.write_text(json.dumps({
+        'generated_at':       datetime.now().isoformat(),
+        'n_samples':          int(len(df)),
+        'win_rate_base':      base_wr,
+        'cv_roc_auc':         round(cv_auc, 4),
+        'cv_brier_score':     round(cv_brier, 4),
+        'feature_importance': {k: round(v, 4) for k, v in top_imp.items()},
+        'sector_win_rates':   sec_wr,
+    }, indent=2))
+
+    n_alta = sum(1 for v in predictions.values() if v['label'] == 'ALTA')
+    print(f'  {len(predictions)} tickers scored | {n_alta} ALTA probabilidad')
+    print(f'  Top features: {list(top_imp.keys())[:5]}')
+    print(f'  Saved → {OUT_PROBS.name}, {OUT_REPORT.name}')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     run()

@@ -112,6 +112,9 @@ export interface ValueOpportunity {
   ml_score?: number | null
   ml_win_prob?: number | null
   ml_confidence?: number | null
+  // ML Win Predictor (ml_win_predictor.py → docs/ml_win_probability.json)
+  ml_win_probability?: number | null
+  ml_win_label?: string | null
   // IV vs Realized Volatility (options pricing signal)
   hv_30d?: number | null
   atm_iv?: number | null
@@ -348,6 +351,7 @@ const VALUE_NUMERIC = new Set([
   'mr_bonus','hf_bonus','days_in_list','profitability_penalty',
   'cerebro_score_adj','hedge_fund_count',
   'hv_30d','atm_iv','iv_ratio','iv_premium_pts',
+  'ml_win_probability',
 ])
 
 const VALUE_BOOLEAN = new Set([

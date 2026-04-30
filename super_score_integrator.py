@@ -1483,6 +1483,26 @@ class SuperScoreIntegrator:
                 print(f"   ⚠️  Score decay skipped: {_e}")
         # ──────────────────────────────────────────────────────────────────────
 
+        # ── ML win probability (from ml_win_predictor.py) ────────────────────
+        try:
+            _ml_probs_path = Path('docs/ml_win_probability.json')
+            if _ml_probs_path.exists():
+                _ml_data = json.loads(_ml_probs_path.read_text())
+                _preds = _ml_data.get('predictions', {})
+                df['ml_win_probability'] = (
+                    df['ticker'].str.upper()
+                    .map(lambda t: _preds.get(t, {}).get('probability'))
+                )
+                df['ml_win_label'] = (
+                    df['ticker'].str.upper()
+                    .map(lambda t: _preds.get(t, {}).get('label', ''))
+                )
+                n_scored = df['ml_win_probability'].notna().sum()
+                print(f"   🤖 ML win probability loaded: {n_scored}/{len(df)} tickers")
+        except Exception as _e:
+            print(f"   ⚠️  ML win probability skipped: {_e}")
+        # ──────────────────────────────────────────────────────────────────────
+
         value_top = int((df['value_score'] >= 60).sum())
         value_avg = df['value_score'].mean()
         print(f"✅ Value score ≥60: {value_top}/{len(df)} ({value_top/len(df)*100:.1f}%)")
