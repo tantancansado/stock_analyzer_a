@@ -1042,11 +1042,7 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 
 /* ── Override dark mode tokens ─────────────────────────────────── */
 .dark {
-  /* Electric cyan replaces warm indigo as the brand primary */
-  --primary:             194 100% 48%;
-  --primary-foreground:  210 40% 5%;
-  --ring:                194 100% 48%;
-
+  /* Retaining the original indigo primary, overriding only the background tones */
   /* Cold steel darkness — shift hue from warm navy to steel-blue */
   --background:          212 28% 3%;
   --foreground:          210 22% 92%;
