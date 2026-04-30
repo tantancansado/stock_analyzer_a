@@ -937,21 +937,34 @@ tr[class*="cursor-pointer"]:hover td:first-child {
    ROTATING GRADIENT BORDER — for stat cards, @property required
 ════════════════════════════════════════════════════════════════════ */
 
+@property --glow-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-rotate {
+  from { --glow-angle: 0deg; }
+  to   { --glow-angle: 360deg; }
+}
+
 .glow-border {
   position: relative;
   isolation: isolate;
+  animation: border-rotate 8s linear infinite;
 }
 .glow-border::before {
   content: '';
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    hsl(239 84% 67% / 0.45),
-    hsl(160 84% 55% / 0.45),
-    hsl(300 80% 65% / 0.35),
-    hsl(38  92% 62% / 0.25)
+  background: conic-gradient(
+    from var(--glow-angle),
+    hsl(239 84% 67% / 0.45) 0%,
+    hsl(160 84% 55% / 0.45) 25%,
+    hsl(300 80% 65% / 0.35) 50%,
+    hsl(38  92% 62% / 0.25) 75%,
+    hsl(239 84% 67% / 0.45) 100%
   );
   z-index: -1;
 }
@@ -1042,27 +1055,27 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 
 /* ── Override dark mode tokens ─────────────────────────────────── */
 .dark {
-  /* Electric cyan accent — Cybertruck signature */
-  --primary:             194 100% 48%;
+  /* Electric cyan accent — boosted to full brightness */
+  --primary:             194 100% 52%;
   --primary-foreground:  0 0% 0%;
-  --ring:                194 100% 48%;
-  /* Cold steel darkness — shift hue from warm navy to steel-blue */
-  --background:          212 28% 3%;
-  --foreground:          210 22% 92%;
-  --card:                212 24% 5%;
-  --card-foreground:     210 22% 92%;
-  --popover:             212 24% 5%;
-  --popover-foreground:  210 22% 92%;
+  --ring:                194 100% 52%;
+  /* Near-pure black background for maximum contrast */
+  --background:          214 30% 2%;
+  --foreground:          210 30% 96%;
+  --card:                214 28% 4%;
+  --card-foreground:     210 30% 96%;
+  --popover:             214 28% 4%;
+  --popover-foreground:  210 30% 96%;
 
-  /* Steel borders */
-  --border:              210 14% 20%;
-  --input:               210 14% 18%;
+  /* More visible steel borders */
+  --border:              210 18% 26%;
+  --input:               210 18% 22%;
 
-  /* Cold muted tones */
-  --muted:               212 22% 9%;
-  --muted-foreground:    210 16% 55%;
-  --secondary:           212 22% 9%;
-  --accent:              212 22% 9%;
+  /* Cold muted tones — slightly lighter for readability */
+  --muted:               212 24% 8%;
+  --muted-foreground:    210 20% 62%;
+  --secondary:           212 24% 8%;
+  --accent:              212 24% 8%;
 
   /* Sharper corners — signature angular Cybertruck silhouette */
   --radius: 0.25rem;
@@ -1070,21 +1083,21 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 
 /* ── Cold steel orbs ────────────────────────────────────────────── */
 .dark .orb-1 {
-  background: radial-gradient(circle, hsl(194 100% 40%), hsl(210 80% 26%) 50%, transparent 70%);
-  opacity: 0.38;
+  background: radial-gradient(circle, hsl(194 100% 48%), hsl(210 80% 30%) 50%, transparent 70%);
+  opacity: 0.55;
 }
 .dark .orb-2 {
-  background: radial-gradient(circle, hsl(210 60% 26%), hsl(220 50% 18%) 50%, transparent 70%);
-  opacity: 0.28;
+  background: radial-gradient(circle, hsl(210 70% 35%), hsl(220 60% 20%) 50%, transparent 70%);
+  opacity: 0.45;
 }
 .dark .orb-3 {
-  background: radial-gradient(circle, hsl(194 80% 33%), hsl(205 65% 25%) 50%, transparent 70%);
-  opacity: 0.20;
+  background: radial-gradient(circle, hsl(194 90% 40%), hsl(205 75% 30%) 50%, transparent 70%);
+  opacity: 0.35;
 }
 
 /* ── Metallic glass panels ──────────────────────────────────────── */
 .dark .glass {
-  background: hsl(212 26% 5% / 0.38);
+  background: hsl(212 30% 7% / 0.55);
   border-color: hsl(210 20% 32% / 0.28);
   box-shadow:
     0 8px 32px hsl(0 0% 0% / 0.60),
@@ -1424,13 +1437,21 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 /* ── Neon power grid — cyberpunk background texture ─────────── */
+.dark body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at top, hsl(194 100% 48% / 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
 .dark body::after {
   content: '';
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(hsl(194 100% 55% / 0.030) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(194 100% 55% / 0.030) 1px, transparent 1px);
+    linear-gradient(hsl(194 100% 55% / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, hsl(194 100% 55% / 0.05) 1px, transparent 1px);
   background-size: 52px 52px;
   pointer-events: none;
   z-index: 0;
@@ -1441,7 +1462,7 @@ tr[class*="cursor-pointer"]:hover td:first-child {
   box-shadow:
     0 8px 32px hsl(0 0% 0% / 0.60),
     0 2px  8px hsl(0 0% 0% / 0.40),
-    0 0   35px hsl(194 100% 48% / 0.07),
+    0 0   45px hsl(194 100% 48% / 0.15),
     inset 0  1.5px 0 hsl(0 0% 88% / 0.16),
     inset 0 -1px   0 hsl(0 0% 0%   / 0.14),
     inset  1.5px 0 0 hsl(0 0% 78% / 0.09),
@@ -1452,11 +1473,11 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 .dark .glass::before {
   background: linear-gradient(
     135deg,
-    hsl(194 100% 70% / 0.65)  0%,
-    hsl(194 100% 55% / 0.40) 20%,
-    hsl(0   0%  80% / 0.12)  48%,
-    hsl(194 100% 55% / 0.30) 76%,
-    hsl(194 100% 72% / 0.55) 100%
+    hsl(194 100% 70% / 0.75)  0%,
+    hsl(194 100% 55% / 0.50) 20%,
+    hsl(0   0%  80% / 0.15)  48%,
+    hsl(194 100% 55% / 0.40) 76%,
+    hsl(194 100% 72% / 0.65) 100%
   );
 }
 
@@ -1465,7 +1486,7 @@ tr[class*="cursor-pointer"]:hover td:first-child {
   box-shadow:
     0 20px 52px hsl(0 0% 0% / 0.65),
     0  6px 18px hsl(0 0% 0% / 0.45),
-    0  0   55px hsl(194 100% 48% / 0.14),
+    0  0   65px hsl(194 100% 48% / 0.28),
     inset 0  1.5px 0 hsl(0 0% 90% / 0.24),
     inset 0 -1px   0 hsl(0 0% 0%   / 0.14),
     inset  1.5px 0 0 hsl(0 0% 80% / 0.14),
@@ -1476,29 +1497,29 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 .dark .glass .text-primary,
 .dark .glass [class*="text-primary"] {
   text-shadow:
-    0 0  8px hsl(194 100% 55% / 0.70),
-    0 0 18px hsl(194 100% 55% / 0.35);
+    0 0  10px hsl(194 100% 55% / 0.85),
+    0 0 22px hsl(194 100% 55% / 0.45);
 }
 
 /* ── Positive percentage gains — neon green ─────────────────── */
 .dark .glass .text-emerald-400,
 .dark .glass [class*="text-emerald"] {
   text-shadow:
-    0 0  8px hsl(152 100% 45% / 0.65),
-    0 0 18px hsl(152 100% 45% / 0.28);
+    0 0  10px hsl(152 100% 45% / 0.80),
+    0 0 22px hsl(152 100% 45% / 0.38);
 }
 
 /* ── Negative/red values — neon red ─────────────────────────── */
 .dark .glass .text-red-400,
 .dark .glass [class*="text-red-4"] {
   text-shadow:
-    0 0  7px hsl(0 100% 58% / 0.55),
-    0 0 16px hsl(0 100% 58% / 0.22);
+    0 0  10px hsl(0 100% 58% / 0.75),
+    0 0 20px hsl(0 100% 58% / 0.32);
 }
 
 /* ── Score bar — glowing fill edge ──────────────────────────── */
 .dark .glass [style*="width"] {
-  box-shadow: 1px 0 8px hsl(194 100% 55% / 0.55), 0 0 4px hsl(194 100% 55% / 0.30);
+  box-shadow: 1px 0 8px hsl(194 100% 55% / 0.75), 0 0 5px hsl(194 100% 55% / 0.45);
 }
 
 /* ── Buttons — neon glow on hover ────────────────────────────── */

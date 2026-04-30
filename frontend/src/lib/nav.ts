@@ -14,6 +14,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
   {
     name: 'Portfolio',
     items: [
+      { path: '/cerebro',        icon: Brain,           label: 'Cerebro',        color: '#8b5cf6', logo: 'llama-magnify.png',       keywords: ['cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'alertas', 'entrada'] },
       { path: '/dashboard',      icon: LayoutDashboard, label: 'Dashboard',      color: '#6366f1', logo: 'llama-charts.png',        keywords: ['inicio', 'home', 'resumen'] },
       { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: '#10b981', logo: 'llama-safe.png',          keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
       { path: '/watchlist',       icon: Star,          label: 'Watchlist',       color: '#f59e0b', keywords: ['watchlist', 'seguimiento', 'favoritos'] },
@@ -46,7 +47,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
   {
     name: 'Tools',
     items: [
-      { path: '/cerebro',        icon: Brain,           label: 'Cerebro',        color: '#8b5cf6', logo: 'llama-magnify.png',       keywords: ['cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'alertas', 'entrada'] },
+
       { path: '/owner-earnings', icon: Calculator,      label: 'Valoración',     color: '#06b6d4', logo: 'llama-plant.png',         keywords: ['owner earnings', 'valoracion', 'compra', 'buffett', 'fcf', 'precio objetivo', 'dcf'] },
       { path: '/position-sizing', icon: Ruler,         label: 'Position sizing', color: '#f59e0b', keywords: ['position', 'tamaño', 'kelly', 'sizing'] },
       { path: '/backtest',        icon: FlaskConical,  label: 'Backtest',        color: '#6366f1', keywords: ['backtest', 'historico', 'simulacion'] },

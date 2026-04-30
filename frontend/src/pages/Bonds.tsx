@@ -367,6 +367,174 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
   )
 }
 
+// ─── Preferred Stocks Calculator ─────────────────────────────────────────────
+
+function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
+  const [capital, setCapital] = useState(10000)
+  const [months, setMonths]   = useState(12)
+  const [rawCapital, setRawCapital] = useState('10000')
+
+  // Only prefs with a valid current_yield, sorted desc
+  const calcPrefs = useMemo(() =>
+    prefs
+      .filter(p => p.current_yield != null && p.current_yield > 0)
+      .sort((a, b) => (b.current_yield ?? 0) - (a.current_yield ?? 0)),
+    [prefs]
+  )
+
+  const topGainer = calcPrefs[0]
+
+  return (
+    <Card className="glass border-primary/20">
+      <CardContent className="p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <Calculator size={16} className="text-primary" />
+          <h2 className="text-sm font-semibold text-foreground">Calculadora de rendimiento — Preferred Stocks</h2>
+          <span className="text-xs text-muted-foreground ml-1">— ¿cuánto cobras en dividendos si inviertes X durante Y meses?</span>
+        </div>
+
+        {/* Inputs */}
+        <div className="flex flex-wrap gap-4 mb-5">
+          {/* Capital */}
+          <div>
+            <label className="text-xs text-muted-foreground block mb-1.5">Capital a invertir ($)</label>
+            <div className="flex items-center gap-1.5">
+              <input
+                type="text"
+                inputMode="numeric"
+                value={rawCapital}
+                onChange={e => {
+                  const raw = e.target.value.replace(/[^\d]/g, '')
+                  setRawCapital(raw)
+                  const n = parseInt(raw, 10)
+                  if (!isNaN(n) && n > 0) setCapital(n)
+                }}
+                className="w-32 px-3 py-1.5 rounded-lg border border-border/50 bg-background/40 text-foreground text-sm font-mono focus:outline-none focus:border-primary/60"
+              />
+              {[1000, 5000, 10000, 50000, 100000].map(v => (
+                <button
+                  key={v}
+                  onClick={() => { setCapital(v); setRawCapital(String(v)) }}
+                  className={cn(
+                    'text-[0.65rem] px-2 py-1 rounded border transition-all',
+                    capital === v
+                      ? 'bg-primary/20 border-primary/50 text-primary'
+                      : 'border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
+                  )}
+                >
+                  {v >= 1000 ? `${v / 1000}k` : v}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Plazo */}
+          <div>
+            <label className="text-xs text-muted-foreground block mb-1.5">Plazo</label>
+            <div className="flex gap-1.5">
+              {PRESET_MONTHS.map(m => (
+                <button
+                  key={m}
+                  onClick={() => setMonths(m)}
+                  className={cn(
+                    'text-xs px-2.5 py-1.5 rounded-lg border transition-all font-medium',
+                    months === m
+                      ? 'bg-primary/20 border-primary/50 text-primary'
+                      : 'border-border/40 text-muted-foreground hover:border-border/60 hover:text-foreground'
+                  )}
+                >
+                  {m < 12 ? `${m}m` : `${m / 12}a`}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Top highlight */}
+        {topGainer && (() => {
+          const { gain, effectiveYield } = calcReturn(capital, topGainer.current_yield!, months)
+          return (
+            <div className="mb-4 px-3 py-2 rounded-lg bg-emerald-500/8 border border-emerald-500/20 text-xs text-emerald-400">
+              Mayor yield: <span className="font-bold">{topGainer.ticker}</span> ({topGainer.issuer}) — cobrarías{' '}
+              <span className="font-bold">{fmtUsd(gain)}</span> en dividendos en {months < 12 ? `${months} meses` : months === 12 ? '1 año' : `${months / 12} años`}{' '}
+              <span className="opacity-70">({effectiveYield.toFixed(2)}% del período)</span>
+            </div>
+          )
+        })()}
+
+        {/* Results table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs no-sticky-thead">
+            <thead>
+              <tr className="border-b border-border/20 text-[0.65rem] text-muted-foreground/50 uppercase tracking-wider">
+                <th className="pb-2 text-left pr-3">Ticker</th>
+                <th className="pb-2 text-left pr-3">Emisor</th>
+                <th className="pb-2 text-right pr-3">Yield actual</th>
+                <th className="pb-2 text-right pr-3">Div. anual / acción</th>
+                <th className="pb-2 text-right pr-3">Dividendos cobrados</th>
+                <th className="pb-2 text-right pr-3">Capital final</th>
+                <th className="pb-2 text-right">Rend. período</th>
+              </tr>
+            </thead>
+            <tbody>
+              {calcPrefs.map((p, i) => {
+                const { final, gain, effectiveYield } = calcReturn(capital, p.current_yield!, months)
+                const ratingCfg = RATING_CONFIG[p.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
+                const isTop = i === 0
+                return (
+                  <tr
+                    key={p.ticker}
+                    className={cn(
+                      'border-b border-border/10 transition-colors',
+                      isTop ? 'bg-emerald-500/5' : 'hover:bg-white/[0.02]'
+                    )}
+                  >
+                    <td className="py-2 pr-3">
+                      <div className="flex items-center gap-1.5">
+                        <div className={cn('w-1 h-1 rounded-full flex-shrink-0', ratingCfg.dot)} />
+                        <span className="font-mono font-bold text-foreground">{p.ticker}</span>
+                        {isTop && <span className="text-[0.6rem] text-emerald-400 font-medium">TOP</span>}
+                      </div>
+                    </td>
+                    <td className="py-2 pr-3 text-muted-foreground/70 truncate max-w-[120px]">{p.issuer}</td>
+                    <td className="py-2 pr-3 text-right font-mono text-foreground/80">
+                      {p.current_yield!.toFixed(2)}%
+                    </td>
+                    <td className="py-2 pr-3 text-right font-mono text-muted-foreground/70">
+                      {fmtUsd(p.annual_div)}
+                    </td>
+                    <td className="py-2 pr-3 text-right font-mono font-semibold text-emerald-400">
+                      +{fmtUsd(gain)}
+                    </td>
+                    <td className="py-2 pr-3 text-right font-mono text-foreground/70">
+                      {fmtUsd(final)}
+                    </td>
+                    <td className="py-2 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <div className="h-1 w-16 rounded-full bg-muted/20 overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-emerald-500/60"
+                            style={{ width: `${Math.min((effectiveYield / (calcPrefs[0]?.current_yield ?? 1)) * (months / 12) * 100, 100)}%` }}
+                          />
+                        </div>
+                        <span className="font-mono text-foreground/60 w-12 text-right">{effectiveYield.toFixed(2)}%</span>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <p className="text-[0.62rem] text-muted-foreground/40 mt-3">
+          Cálculo con reinversión mensual (interés compuesto). El capital final asume que el precio de la preferred se mantiene estable — puede variar. No incluye fiscalidad ni comisiones.
+        </p>
+      </CardContent>
+    </Card>
+  )
+}
+
 // ─── Preferred Stocks Section ─────────────────────────────────────────────────
 
 const SECTOR_COLORS: Record<string, string> = {
@@ -500,6 +668,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
 function PreferredSection() {
   const [prefs, setPrefs] = useState<PreferredStock[]>([])
   const [loading, setLoading] = useState(true)
+  const [showCalc, setShowCalc] = useState(true)
 
   useEffect(() => {
     fetchPreferredStocks()
@@ -545,13 +714,24 @@ function PreferredSection() {
         </CardContent>
       </Card>
 
-      {/* Resumen */}
+      {/* Resumen + toggle calculadora */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-base font-semibold text-foreground">Preferred Stocks</h2>
           <p className="text-xs text-muted-foreground">{prefs.length} analizadas · {atractivos.length} atractivas</p>
         </div>
+        <button
+          onClick={() => setShowCalc(v => !v)}
+          className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors"
+        >
+          <Calculator size={14} />
+          Calculadora de rendimiento
+          {showCalc ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+        </button>
       </div>
+
+      {/* Calculadora */}
+      {showCalc && <PreferredCalculator prefs={prefs} />}
 
       {/* Tabla */}
       <Card className="glass border-border/30">
