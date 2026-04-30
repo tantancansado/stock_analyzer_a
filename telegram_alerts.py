@@ -127,6 +127,33 @@ def build_message() -> str:
                 lines.append(f'  {a["ticker"]} {a["score_prev"]:.0f}→{a["score_today"]:.0f} (Δ{a["delta"]:+.1f})')
             lines.append('')
 
+    # ── Portfolio price alerts ────────────────────────────────────────────────
+    port_data = _load_json(DOCS / 'portfolio_alerts.json')
+    port_alerts = port_data.get('alerts', [])
+    if port_alerts:
+        stops   = [a for a in port_alerts if a['type'] == 'STOP_TRIGGERED']
+        targets = [a for a in port_alerts if a['type'] == 'TARGET_REACHED']
+        near    = [a for a in port_alerts if a['type'] == 'NEAR_TARGET']
+
+        if stops:
+            lines.append('🚨 <b>STOP ACTIVADO</b>')
+            for a in stops:
+                lines.append(f'  <b>{a["ticker"]}</b> {a["pct_change"]:+.1f}% · entry {a["entry"]} → {a["current"]}')
+            lines.append('')
+
+        if targets:
+            lines.append('🎯 <b>Objetivo alcanzado</b>')
+            for a in targets:
+                lines.append(f'  <b>{a["ticker"]}</b> {a["pct_change"]:+.1f}% · target {a["target"]}')
+            lines.append('')
+
+        if near:
+            lines.append('🔔 <b>Cerca del objetivo</b>')
+            for a in near:
+                ptt = f" ({a['pct_to_target']:.0f}% del camino)" if a.get('pct_to_target') else ''
+                lines.append(f'  {a["ticker"]} {a["pct_change"]:+.1f}%{ptt}')
+            lines.append('')
+
     # ── ML model stats ────────────────────────────────────────────────────────
     ml_data = _load_json(DOCS / 'ml_win_probability.json')
     if ml_data:

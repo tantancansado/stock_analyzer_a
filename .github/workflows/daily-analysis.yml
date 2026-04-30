@@ -402,6 +402,13 @@ jobs:
         continue-on-error: true
         run: python3 score_drift_detector.py || echo "Score drift detection failed"
 
+      - name: Portfolio price alerts
+        continue-on-error: true
+        env:
+          SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: python3 portfolio_price_alerts.py || echo "Portfolio price alerts failed"
+
       - name: Telegram daily alert
         continue-on-error: true
         env:

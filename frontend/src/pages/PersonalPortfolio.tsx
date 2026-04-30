@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
-import { apiClient, fetchMacroStress, fetchAnalystRevisions, refreshUserArtifacts, type MacroStressMarket, type AnalystRevision } from '@/api/client'
+import { apiClient, fetchMacroStress, fetchAnalystRevisions, fetchPortfolioAlerts, refreshUserArtifacts, type MacroStressMarket, type AnalystRevision, type PortfolioAlert } from '@/api/client'
 import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
@@ -627,7 +627,20 @@ function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: s
   )
 }
 
-function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings }: {
+function PriceAlertBadge({ alert }: { alert: PortfolioAlert }) {
+  const cfg = alert.type === 'STOP_TRIGGERED'
+    ? { label: '🚨 STOP', cls: 'bg-red-500/20 text-red-400 border-red-500/40' }
+    : alert.type === 'TARGET_REACHED'
+    ? { label: '🎯 TARGET', cls: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' }
+    : { label: '🔔 cerca target', cls: 'bg-amber-500/15 text-amber-400 border-amber-500/30' }
+  return (
+    <span className={`text-[0.58rem] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide ${cfg.cls}`}>
+      {cfg.label}
+    </span>
+  )
+}
+
+function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings, priceAlert }: {
   result?: PositionResult
   pos: Position
   userId: string
@@ -636,6 +649,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   cerebro: CerebroMaps
   confluence: ConfluenceSignals | null
   macroWarnings: MacroExposureWarning[]
+  priceAlert?: PortfolioAlert
 }) {
   const [expanded, setExpanded] = useState(false)
   const [editing, setEditing]   = useState(false)
@@ -693,6 +707,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         {/* Right: price + action + remove + edit */}
         <div className="flex flex-col items-end gap-1.5 shrink-0">
           <div className="flex items-center gap-1.5">
+            {priceAlert && <PriceAlertBadge alert={priceAlert} />}
             {result && !editing && (
               <span className={`text-[0.62rem] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wide ${ACTION_STYLES[action]}`}>
                 {action}
@@ -956,8 +971,13 @@ export default function PersonalPortfolio() {
   const { user } = useAuth()
   const cerebro    = useCerebroSignals()
   const confluence = usePortfolioConfluence()
-  const { data: macroStressData } = useApi(() => fetchMacroStress(), [])
-  const { data: revisionsData }   = useApi(() => fetchAnalystRevisions(), [])
+  const { data: macroStressData }    = useApi(() => fetchMacroStress(), [])
+  const { data: revisionsData }      = useApi(() => fetchAnalystRevisions(), [])
+  const { data: portAlertsData }     = useApi(() => fetchPortfolioAlerts().then(d => ({ data: d })), [])
+  const priceAlertMap = useMemo<Record<string, PortfolioAlert>>(() => {
+    const alerts = portAlertsData?.alerts ?? []
+    return Object.fromEntries(alerts.map(a => [a.ticker.toUpperCase(), a]))
+  }, [portAlertsData])
   const [positions, setPositions] = useState<Position[]>([])
   const [loadingDb, setLoadingDb] = useState(true)
   const [saving, setSaving]       = useState(false)
@@ -1481,6 +1501,7 @@ export default function PersonalPortfolio() {
                         cerebro={cerebro}
                         confluence={confluence[pos.ticker] ?? null}
                         macroWarnings={macroWarningsByTicker[pos.ticker] ?? []}
+                        priceAlert={priceAlertMap[pos.ticker.toUpperCase()]}
                       />
                     </div>
                   ))}

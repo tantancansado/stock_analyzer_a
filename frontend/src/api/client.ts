@@ -1764,6 +1764,44 @@ export interface ContrarianData {
   picks: ContrarianPick[]
 }
 
+export type PortfolioAlertType = 'STOP_TRIGGERED' | 'TARGET_REACHED' | 'NEAR_TARGET'
+
+export interface PortfolioAlert {
+  type: PortfolioAlertType
+  ticker: string
+  current: number
+  entry: number
+  target: number | null
+  pct_change: number
+  pct_to_target: number | null
+}
+
+export interface PortfolioAlertsData {
+  generated_at: string
+  alerts: PortfolioAlert[]
+  counts: {
+    stop_triggered: number
+    target_reached: number
+    near_target: number
+  }
+}
+
+export async function fetchPortfolioAlerts(): Promise<PortfolioAlertsData | null> {
+  try {
+    const url = `${STATIC_DATA_BASE}/portfolio_alerts.json`
+    const res = await fetch(url, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json() as PortfolioAlertsData
+  } catch {
+    try {
+      const res = await apiClient.get<PortfolioAlertsData>('/api/portfolio-price-alerts')
+      return res.data
+    } catch {
+      return null
+    }
+  }
+}
+
 export type ScoreAlertType = 'NEW_ENTRY' | 'EXITED' | 'SCORE_UP' | 'SCORE_DOWN'
 
 export interface ScoreAlert {

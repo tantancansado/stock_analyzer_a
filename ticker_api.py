@@ -2296,6 +2296,15 @@ def contrarian_picks():
     return jsonify(data)
 
 
+@app.route('/api/portfolio-price-alerts')
+def portfolio_price_alerts():
+    """Return portfolio price alerts from portfolio_alerts.json."""
+    data = _load_json(DOCS / 'portfolio_alerts.json')
+    if not data:
+        return jsonify({"error": "No portfolio alerts. Run portfolio_price_alerts.py"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/score-alerts')
 def score_alerts():
     """Return score drift alerts from score_alerts.json."""
