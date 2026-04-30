@@ -5,7 +5,7 @@
    FONTS
 ════════════════════════════════════════════════════════════════════ */
 @theme {
-  --font-sans:    'Rajdhani', 'Oxanium', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-display: 'Oxanium', 'Rajdhani', sans-serif;
   --font-mono:    'JetBrains Mono', 'IBM Plex Mono', 'Menlo', monospace;
 }
@@ -268,19 +268,19 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 .glass {
   /* Very transparent — orbs show through as blurred color */
-  background: hsl(var(--card) / 0.20);
-  backdrop-filter: blur(16px) saturate(160%) brightness(1.04);
-  -webkit-backdrop-filter: blur(16px) saturate(160%) brightness(1.04);
+  background: hsl(var(--card) / 0.25);
+  backdrop-filter: blur(20px) saturate(170%) brightness(1.05);
+  -webkit-backdrop-filter: blur(20px) saturate(170%) brightness(1.05);
 
   /* Subtle border — specular insets simulate glass edge refraction */
-  border: 1px solid hsl(0 0% 100% / 0.10);
+  border: 1px solid hsl(0 0% 100% / 0.08);
   box-shadow:
-    0 8px 32px hsl(0 0% 0% / 0.35),
-    0 2px 8px  hsl(0 0% 0% / 0.20),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.44),  /* top bright edge  */
-    inset 0 -1px   0 hsl(0 0% 0%   / 0.08),  /* bottom dark edge */
-    inset  1.5px 0 0 hsl(0 0% 100% / 0.15),  /* left bright edge */
-    inset -1px   0 0 hsl(0 0% 0%   / 0.05);  /* right dark edge  */
+    0 8px 32px hsl(0 0% 0% / 0.25),
+    0 2px 8px  hsl(0 0% 0% / 0.15),
+    inset 0  1px 0 hsl(0 0% 100% / 0.25),  /* top bright edge  */
+    inset 0 -1px 0 hsl(0 0% 0%   / 0.05),  /* bottom dark edge */
+    inset  1px 0 0 hsl(0 0% 100% / 0.10),  /* left bright edge */
+    inset -1px 0 0 hsl(0 0% 0%   / 0.03);  /* right dark edge  */
 
   position: relative;
   /* overflow:clip clips content (border-radius, pseudo-elements) like
@@ -294,14 +294,14 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
 /* Hover: stronger lift + brighter speculars */
 .glass:not(:has(table)):hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow:
-    0 20px 52px hsl(0 0% 0% / 0.40),
-    0  6px 18px hsl(0 0% 0% / 0.26),
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.55),
-    inset 0 -1px   0 hsl(0 0% 0%   / 0.08),
-    inset  1.5px 0 0 hsl(0 0% 100% / 0.20),
-    inset -1px   0 0 hsl(0 0% 0%   / 0.05);
+    0 16px 48px hsl(0 0% 0% / 0.30),
+    0  6px 16px hsl(0 0% 0% / 0.20),
+    inset 0  1px 0 hsl(0 0% 100% / 0.35),
+    inset 0 -1px 0 hsl(0 0% 0%   / 0.05),
+    inset  1px 0 0 hsl(0 0% 100% / 0.15),
+    inset -1px 0 0 hsl(0 0% 0%   / 0.03);
 }
 
 /* Iridescent gradient border — simulates prismatic glass edge */
@@ -371,22 +371,22 @@ button:active:not(:disabled) { transform: scale(0.97); }
 
   /* Heavy chamfer — top-left bright (light source above-left), bottom-right dark.
      This is what gives glass its "carved out of crystal" look. */
-  border: 1px solid hsl(0 0% 100% / 0.14);
+  border: 1px solid hsl(0 0% 100% / 0.10);
   box-shadow:
     /* outer drop — floating */
-    0 24px 60px -12px hsl(0 0% 0% / 0.55),
-    0 8px 24px -8px hsl(0 0% 0% / 0.35),
+    0 20px 50px -10px hsl(0 0% 0% / 0.40),
+    0 8px 20px -6px hsl(0 0% 0% / 0.25),
 
     /* top-left bevel (lit edge) */
-    inset 0  1.5px 0 hsl(0 0% 100% / 0.62),
-    inset 1.5px 0 0 hsl(0 0% 100% / 0.32),
+    inset 0  1px 0 hsl(0 0% 100% / 0.40),
+    inset 1px 0 0 hsl(0 0% 100% / 0.20),
 
     /* bottom-right bevel (shadowed edge) */
-    inset 0 -1px 0 hsl(0 0% 0% / 0.18),
-    inset -1px 0 0 hsl(0 0% 0% / 0.10),
+    inset 0 -1px 0 hsl(0 0% 0% / 0.10),
+    inset -1px 0 0 hsl(0 0% 0% / 0.05),
 
     /* inner glow — gives the "thick glass" volumetric feel */
-    inset 0 0 24px hsl(0 0% 100% / 0.05);
+    inset 0 0 20px hsl(0 0% 100% / 0.03);
 
   overflow: clip;
   transition:
