@@ -239,10 +239,10 @@ def _parse_health_earnings(rfund):
         if hd is not None and not (isinstance(hd, float) and pd.isna(hd)):
             if isinstance(hd, str):
                 try:
-                    hd_dict = _ast.literal_eval(hd)
-                except (ValueError, SyntaxError):
+                    hd_dict = json.loads(hd)
+                except (ValueError, KeyError):
                     try:
-                        hd_dict = json.loads(hd)
+                        hd_dict = _ast.literal_eval(hd)
                     except Exception:
                         hd_dict = {}
             elif isinstance(hd, dict):
@@ -259,10 +259,10 @@ def _parse_health_earnings(rfund):
         if ed is not None and not (isinstance(ed, float) and pd.isna(ed)):
             if isinstance(ed, str):
                 try:
-                    ed_dict = _ast.literal_eval(ed)
-                except (ValueError, SyntaxError):
+                    ed_dict = json.loads(ed)
+                except (ValueError, KeyError):
                     try:
-                        ed_dict = json.loads(ed)
+                        ed_dict = _ast.literal_eval(ed)
                     except Exception:
                         ed_dict = {}
             elif isinstance(ed, dict):
@@ -1239,6 +1239,7 @@ def portfolio_watch_get():
 
 
 @app.route('/api/portfolio-watch', methods=['POST'])
+@limiter.limit("10 per minute")
 def portfolio_watch_post():
     """Update the portfolio watch list. Body: {"tickers": [{"ticker":"UNH","notes":"..."}]}"""
     try:
@@ -1344,6 +1345,7 @@ def earnings_options():
 
 
 @app.route('/api/portfolio/refresh', methods=['POST'])
+@limiter.limit("3 per minute")
 def portfolio_refresh():
     """
     Recompute on-demand de los artefactos del usuario que llama.
