@@ -238,10 +238,10 @@ class TestSourceCodeAlignment:
 
     def test_market_penalty_constants_in_source(self):
         from pathlib import Path
-        import super_score_integrator as ssi
-        src = Path(ssi.__file__).read_text()
-        assert "market_penalty = 15" in src, "Market AVOID penalty cambió en source"
-        assert "market_penalty = 5"  in src, "Market CAUTION penalty cambió en source"
+        import scoring.filters as sf_mod
+        src = Path(sf_mod.__file__).read_text()
+        assert "MARKET_PENALTY_AVOID" in src and "= 15" in src, "Market AVOID penalty cambió en source"
+        assert "MARKET_PENALTY_CAUTION" in src and "= 5"  in src, "Market CAUTION penalty cambió en source"
 
     def test_filter_penalty_weights_in_source(self):
         from pathlib import Path

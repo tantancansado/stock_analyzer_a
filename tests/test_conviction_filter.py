@@ -76,8 +76,10 @@ class TestCalculateConvictionScore:
         assert result['conviction_score'] < 60
 
     def test_dcf_overvalued_penalized(self):
-        row_bad = self._make_row(target_price_dcf=70.0)   # DCF says overvalued (-30%)
-        row_good = self._make_row(target_price_dcf=160.0)  # DCF says undervalued (+60%)
+        # Must also clear target_price_dcf_upside_pct so the code falls back to
+        # computing upside from current_price instead of using the stored precomputed value.
+        row_bad = self._make_row(target_price_dcf=70.0, target_price_dcf_upside_pct=None)   # DCF says overvalued (-30%)
+        row_good = self._make_row(target_price_dcf=160.0, target_price_dcf_upside_pct=None)  # DCF says undervalued (+60%)
         result_bad = calculate_conviction_score(row_bad)
         result_good = calculate_conviction_score(row_good)
         assert result_bad['conviction_score'] < result_good['conviction_score']

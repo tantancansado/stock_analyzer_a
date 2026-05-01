@@ -117,10 +117,11 @@ class TestEarningsHelpers:
         assert earnings_history_stats(pd.DataFrame()) == (None, None, 0)
 
     def test_earnings_history_stats_computes_beat_rate(self):
+        # yfinance returns surprisePercent as decimal (0.20 = 20%) — the function × 100 internally.
         df = pd.DataFrame({
             'epsEstimate':     [1.0, 1.0, 1.0, 1.0],
             'epsActual':       [1.2, 0.9, 1.1, 1.3],
-            'surprisePercent': [20.0, -10.0, 10.0, 30.0],
+            'surprisePercent': [0.20, -0.10, 0.10, 0.30],
         })
         beat_rate, avg_surprise, total = earnings_history_stats(df)
         assert total == 4
