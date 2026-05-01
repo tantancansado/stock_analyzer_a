@@ -259,13 +259,31 @@ export interface MarketRegime {
 export const fetchValueOpportunities = async (): Promise<{
   data: { data: ValueOpportunity[]; count: number; source: string }
 }> => {
-  // Order matters: conviction csv contains the conviction_grade column
-  // (set by conviction_filter.py). Fallback to ai-filtered if conviction
-  // is missing, then to raw — both lack grade columns and lose UI features.
-  for (const filename of ['value_conviction.csv', 'value_opportunities_filtered.csv', 'value_opportunities.csv']) {
+  // Load filtered (all daily tickers) + enrich conviction grades from conviction.csv.
+  // Conviction.csv can mix US/EU ADRs and filters to grade≥B, missing new tickers —
+  // so we use filtered as the source of truth and patch grades where available.
+  for (const filename of ['value_opportunities_filtered.csv', 'value_opportunities.csv']) {
     try {
-      const data = await fetchValueCsv(filename)
-      if (data.data.length > 0) return { data }
+      const base = await fetchValueCsv(filename)
+      if (base.data.length === 0) continue
+      // Try to enrich with conviction grades (best-effort)
+      try {
+        const conv = await fetchValueCsv('value_conviction.csv')
+        const gradeMap = new Map(conv.data.map(r => [r.ticker, r]))
+        base.data = base.data.map(r => {
+          const c = gradeMap.get(r.ticker)
+          if (!c) return r
+          return {
+            ...r,
+            conviction_grade: c.conviction_grade ?? r.conviction_grade,
+            conviction_score: c.conviction_score ?? r.conviction_score,
+            conviction_reasons: c.conviction_reasons ?? r.conviction_reasons,
+            conviction_positives: c.conviction_positives ?? r.conviction_positives,
+            conviction_red_flags: c.conviction_red_flags ?? r.conviction_red_flags,
+          }
+        })
+      } catch { /* conviction enrichment failed — show tickers without grades */ }
+      return { data: base }
     } catch { /* try next */ }
   }
   const res = await apiClient.get<{ data: ValueOpportunity[]; count: number; source: string }>('/api/value-opportunities')
@@ -351,7 +369,7 @@ const VALUE_NUMERIC = new Set([
   'mr_bonus','hf_bonus','days_in_list','profitability_penalty',
   'cerebro_score_adj','hedge_fund_count',
   'hv_30d','atm_iv','iv_ratio','iv_premium_pts',
-  'ml_win_probability',
+  'ml_win_probability','ml_score',
 ])
 
 const VALUE_BOOLEAN = new Set([
