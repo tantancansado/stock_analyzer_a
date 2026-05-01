@@ -12,6 +12,7 @@ const NAVIGATION = [
   { id: 'opt', title: 'Opciones & Flujos', icon: <LineChart size={16} />, path: '/options' },
   { id: 'bonds', title: 'Bonos & Preferentes', icon: <Calculator size={16} />, path: '/bonds' },
   { id: 'cerebro', title: 'Cerebro AI', icon: <BookOpen size={16} />, path: '/cerebro' },
+  { id: 'owner-earnings', title: 'Owner Earnings', icon: <Calculator size={16} />, path: '/owner-earnings', keywords: ['buffett', 'lynch', 'graham', 'intrinsic', 'value'] },
 ]
 
 export default function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -43,8 +44,15 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
 
   // Filter items
   const q = query.trim().toLowerCase()
-  const navItems = q ? NAVIGATION.filter(n => n.title.toLowerCase().includes(q) || n.id.includes(q)) : NAVIGATION
-  const isTickerSearch = q.length > 0 && /^[a-z]+$/i.test(q)
+  const navItems = q
+    ? NAVIGATION.filter(
+        n =>
+          n.title.toLowerCase().includes(q) ||
+          n.id.includes(q) ||
+          ('keywords' in n && (n.keywords as string[]).some(kw => kw.includes(q))),
+      )
+    : NAVIGATION
+  const isTickerSearch = q.length >= 1 && q.length <= 5 && /^[a-z]+$/i.test(q)
   
   const totalItems = navItems.length + (isTickerSearch ? 1 : 0)
 
@@ -108,14 +116,17 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
         <div className="max-h-[300px] overflow-y-auto p-2 scrollbar-none">
           {totalItems === 0 && (
             <div className="py-6 text-center text-sm text-muted-foreground">
-              No se encontraron resultados.
+              Sin resultados para <span className="font-mono">{query}</span>
             </div>
           )}
 
           {isTickerSearch && (
             <div className="mb-2">
               <div className="px-2 py-1.5 text-[0.65rem] font-semibold uppercase text-muted-foreground">Analizar Ticker</div>
-              <div 
+              <div
+                role="option"
+                aria-selected={selectedIndex === 0}
+                tabIndex={0}
                 className={cn(
                   "flex items-center gap-2 rounded-sm px-2 py-2.5 text-sm transition-colors cursor-pointer",
                   selectedIndex === 0 ? "bg-primary/20 text-primary" : "text-foreground hover:bg-white/5"
@@ -123,7 +134,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
                 onClick={() => { navigate(`/search?q=${q.toUpperCase()}`); onClose() }}
               >
                 <Search size={16} className="text-primary/70" />
-                <span>Buscar acción: <strong className="font-mono text-primary">{q.toUpperCase()}</strong></span>
+                <span>Analizar <strong className="font-mono text-primary">{q.toUpperCase()}</strong></span>
               </div>
             </div>
           )}
