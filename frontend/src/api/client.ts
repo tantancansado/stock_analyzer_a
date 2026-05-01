@@ -349,7 +349,7 @@ function parseCsvRows(text: string): Record<string, string>[] {
   })
 }
 
-const VALUE_NUMERIC = new Set([
+export const VALUE_NUMERIC = new Set([
   'current_price','value_score','conviction_score','conviction_positives','conviction_red_flags',
   'target_price_analyst','target_price_analyst_high','target_price_analyst_low','analyst_upside_pct',
   'analyst_count','fcf_yield_pct','risk_reward_ratio','dividend_yield_pct','days_to_earnings',
@@ -377,7 +377,7 @@ const VALUE_BOOLEAN = new Set([
   'eps_accelerating','rev_accelerating','rs_line_at_new_high','short_squeeze_potential',
 ])
 
-function parseValueRows(text: string): ValueOpportunity[] {
+export function parseValueRows(text: string): ValueOpportunity[] {
   return parseCsvRows(text).map(row => {
     const obj: Record<string, unknown> = {}
     for (const [k, v] of Object.entries(row)) {
