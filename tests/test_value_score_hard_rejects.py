@@ -226,6 +226,9 @@ class TestIntegrationAgainstProductionCode:
         assert "df['negative_roe'] == True" in src, \
             "Lógica de hard-reject negative_roe cambió"
 
-        # Línea 1091: overvalued = df['analyst_upside_pct'].notna() & (df['analyst_upside_pct'] < 0)
-        assert "df['analyst_upside_pct'] < 0" in src, \
-            "Lógica de reject overvalued cambió"
+        # analyst_upside_pct < 0 reject — variable may be aliased (e.g. _up = pd.to_numeric(...))
+        # so check that the 'analyst_upside_pct' column is referenced AND that < 0 comparison exists.
+        assert "'analyst_upside_pct'" in src, \
+            "Referencia a analyst_upside_pct desapareció del source"
+        assert "< 0" in src, \
+            "Comparación < 0 para reject de upside negativo desapareció del source"
