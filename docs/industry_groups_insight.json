@@ -1,79 +1,79 @@
 {
-  "date": "2026-04-30",
-  "timestamp": "2026-04-30T08:08:00.972155",
-  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos, como Discount Stores y Beverages - Non-Alcoholic, que lideran el ranking de Relative Strength. Esto sugiere que los inversores buscan seguridad en un entorno de bajo riesgo, consistente con el r\u00e9gimen macro CALM. Se recomienda concentrar las b\u00fasquedas en sectores defensivos y evitar los c\u00edclicos y tecnol\u00f3gicos, como Auto Parts y Information Technology Services, que se encuentran en los \u00faltimos lugares del ranking.",
+  "date": "2026-05-01",
+  "timestamp": "2026-05-01T08:05:41.765589",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos, con Discount Stores y Beverages - Non-Alcoholic liderando el ranking. Esto es consistente con el r\u00e9gimen macro CALM, que suele favorecer a los sectores m\u00e1s estables. Se recomienda concentrar las b\u00fasquedas en sectores defensivos y evitar los c\u00edclicos y tecnol\u00f3gicos, como Credit Services e Information Technology Services, que se encuentran en los \u00faltimos lugares del ranking.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 46.6,
+      "avg_rs_percentile": 51.1,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 46.0,
+      "avg_rs_percentile": 49.5,
       "num_tickers": 7,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Beverages - Non-Alcoholic",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 42.0,
-      "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 39.6,
+      "avg_rs_percentile": 47.5,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Beverages - Non-Alcoholic",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 43.4,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Financial Data & Stock Exchanges",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 32.8,
-      "num_tickers": 10,
+      "industry": "Industrial Distribution",
+      "sector": "Industrials",
+      "avg_rs_percentile": 33.4,
+      "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Auto Parts",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 6.0,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Information Technology Services",
-      "sector": "Technology",
-      "avg_rs_percentile": 3.0,
+      "industry": "Credit Services",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 7.1,
       "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 1.3,
+      "avg_rs_percentile": 3.6,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Insurance Brokers",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 0.7,
-      "num_tickers": 4,
+      "industry": "Information Technology Services",
+      "sector": "Technology",
+      "avg_rs_percentile": 0.9,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Medical Devices",
       "sector": "Healthcare",
-      "avg_rs_percentile": 0.3,
+      "avg_rs_percentile": 0.0,
       "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Insurance Brokers",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 0.0,
+      "num_tickers": 4,
       "label": "Bottom 25%"
     }
   ],

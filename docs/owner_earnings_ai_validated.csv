@@ -1,106 +1,106 @@
 ticker,data_quality,thesis_verdict,reasoning,confidence,score_adjustment,validated_at
-RSG,MIXED,AVOID,"El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED se basa en una proyección de crecimiento de FCF y un EV/FCF target que puede no reflejar la realidad del mercado.",60,-5,2026-04-30T08:08:48+00:00
-FAST,MIXED,BUY,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de información sobre el ROIC y el histórico de FCF limita la confianza en la evaluación.",70,3,2026-04-30T08:08:48+00:00
-MSI,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",80,-8,2026-04-30T08:08:48+00:00
-CB,MIXED,BUY,"El dato de FCF es coherente en general, pero la caída en el último año y la falta de consenso en las proyecciones forward generan dudas. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, aunque es importante monitorear la evolución del FCF y los fundamentales de la empresa.",70,3,2026-04-30T08:08:48+00:00
-CHD,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración con un upside negativo y una margen de seguridad también negativa.",80,-8,2026-04-30T08:08:48+00:00
-ROP,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración con un margen de seguridad negativo y un ROIC inferior al coste de capital estimado.",80,-8,2026-04-30T08:08:48+00:00
-CBOE,MIXED,AVOID,"El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere una sobrevaloración.",60,-5,2026-04-30T08:08:48+00:00
-7741.T,MIXED,WATCH,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis HOLD parece razonable considerando el upside negativo y la margen de seguridad también negativa, pero es importante esperar un mejor precio o más información para tomar una decisión informada.",60,0,2026-04-30T08:08:48+00:00
-ISRG,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el precio de compra calculado para un retorno anual del 15%. La empresa presenta una margen de seguridad negativa y un upside vs precio actual también negativo, lo que sugiere que el precio actual puede estar sobrevalorado.",80,-8,2026-04-30T08:08:48+00:00
-BRK-B,UNRELIABLE,INSUFFICIENT,No hay suficiente información sobre el flujo de caja libre (FCF) histórico y proyectado para evaluar la calidad del dato y la tesis implícita. La falta de datos sobre el FCF y otros indicadores clave como el ROIC y el CapEx/Sales mediana hace que sea imposible determinar la fiabilidad del dato y la corrección de la tesis.,0,0,2026-04-30T08:08:48+00:00
-CNI,MIXED,BUY,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tendencia de crecimiento y el margen de seguridad sugieren una tesis BUY sólida.",70,3,2026-04-30T08:08:48+00:00
-SYK,MIXED,WATCH,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, la empresa tiene un historial estable y el modelo sugiere un precio de compra razonable. La tesis HOLD parece adecuada considerando el upside limitado y la margen de seguridad negativa.",60,0,2026-04-30T08:08:48+00:00
-ERIE,MIXED,INSUFFICIENT,"El dato subyacente presenta cierta volatilidad en el flujo de caja libre (FCF) y no hay proyecciones forward disponibles, lo que genera incertidumbre. Además, la falta de consenso y la baja cobertura de analistas agregan dudas sobre la fiabilidad del modelo. La tesis NO_DATA no puede ser evaluada adecuadamente debido a la falta de información.",60,0,2026-04-30T08:08:48+00:00
-MSFT,MIXED,BUY,"El dato de FCF es coherente en general, pero la caída en el último año y la volatilidad en las proyecciones forward generan alguna duda. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, así como por los fundamentales del negocio de Microsoft.",80,3,2026-04-30T08:08:48+00:00
-AUTO.L,MIXED,BUY,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tesis de compra se ve respaldada por el upside sólido y la margen de seguridad. La empresa parece tener un perfil de crecimiento estable.",70,3,2026-04-30T08:08:48+00:00
-RELX,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo, lo que sugiere que el precio actual puede estar por encima del valor justo.",80,-8,2026-04-30T08:08:48+00:00
-AJG,MIXED,AVOID,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, considerando el modelo y la tesis implícita de sobrevaloración, el precio actual parece estar por encima del valor razonable según el modelo de Owner Earnings.",70,-5,2026-04-30T08:08:48+00:00
-LRLCY,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el upside negativo y la margen de seguridad también negativa, lo que sugiere que el precio actual puede estar por encima del valor justo.",80,-8,2026-04-30T08:08:48+00:00
-CP,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y un ROIC inferior al coste capital estimado. Además, la dilución de acciones y la conversión FCF/EBITDA baja en los últimos años generan dudas sobre la calidad del dato. La tesis OVERVALUED parece correcta debido a la presencia de varios red flags y una valoración que parece alta en relación con el histórico de la empresa.",70,-5,2026-04-30T08:08:48+00:00
-ZTS,MIXED,WATCH,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que introduce incertidumbre en la valoración. La tesis WATCH parece correcta ya que el precio de compra estimado es cercano al precio actual y el upside no es significativamente alto.",60,0,2026-04-30T08:08:48+00:00
-NOW,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una sobrevaloración actual.",80,-8,2026-04-30T08:08:48+00:00
-INTU,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una margen de seguridad negativa.",80,-8,2026-04-30T08:08:48+00:00
-SPGI,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y la dilución de acciones, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la sobrevaloración del precio actual en relación con el precio de compra calculado y la falta de margen de seguridad.",70,-5,2026-04-30T08:08:48+00:00
-LSEG.L,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como la volatilidad en el FCF y la dilución de acciones, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED se ve respaldada por el bajo ROIC y la alta valoración en relación con el histórico.",70,-5,2026-04-30T08:08:48+00:00
-CME,MIXED,AVOID,"El dato subyacente presenta cierta volatilidad en el FCF histórico, especialmente en 2022, lo que genera dudas sobre su coherencia. Además, la proyección de FCF forward parece optimista. La tesis OVERVALUED parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo.",70,-5,2026-04-30T08:08:48+00:00
-FICO,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como un ROE negativo y un apalancamiento moderado, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis HOLD no parece correcta debido a la sobrevaloración y los red flags detectados.",70,-5,2026-04-30T08:08:48+00:00
-ITW,MIXED,AVOID,"El dato de FCF histórico y forward parece coherente, pero la caída de 3 años consecutivos y la proyección de FCF para 2029 y 2030 son inconsistentes, lo que genera dudas sobre la fiabilidad del dato. La tesis OVERVALUED parece correcta debido a la alta valoración actual y la falta de consistencia en las proyecciones de FCF.",70,-5,2026-04-30T08:08:48+00:00
-DHR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ETN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-CSU.TO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-CLPBY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-V,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-BRO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-PGR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-EXPN.L,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-PEP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-IT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-AI.PA,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-HEI,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-CDNS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ESLOY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-WST,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-LIN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-SBGSY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-MTD,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ROL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-TNE.AX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-TYL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-GVDNY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-HESAY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-VLTO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-DBOEY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-MCD,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-AON,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ASAZY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-EQIX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-VRSN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ADP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-PAYX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-WMT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-SAP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-WTKWY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-CPRT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-AXP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-AWK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-TW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-SHW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-FDS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-TT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ATLKY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-CTAS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-VRSK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-VEEV,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-DSGX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-WM,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-G24.DE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-IDXX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ICE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-AZO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ECL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-PG,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-AME,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-RACE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-GWW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-JNJ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-TJX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-MKC,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-MSCI,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-WCN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-MA,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ORLY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-SXYAY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-MMC,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-KO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ABT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-NDSN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-BR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-TMO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-NDAQ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-CL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-COST,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-MCO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-OTIS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-JKHY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
-ITRK.L,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-04-30T08:08:48+00:00
+RSG,MIXED,AVOID,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Aunque el histórico no está disponible, los supuestos de valoración parecen razonables. La tesis de sobrevaloración se apoya en el precio actual en comparación con el precio de compra calculado.",60,-5,2026-05-01T08:06:24+00:00
+FAST,MIXED,BUY,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de información sobre el ROIC y el histórico de FCF limita la confianza en la evaluación.",70,3,2026-05-01T08:06:24+00:00
+MSI,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",80,-8,2026-05-01T08:06:24+00:00
+CB,MIXED,BUY,"El dato de FCF es coherente en general, pero la caída en el último año y la falta de consenso en las proyecciones forward generan dudas. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, aunque es importante monitorear la evolución del FCF y los fundamentales de la empresa.",70,3,2026-05-01T08:06:24+00:00
+CHD,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra significativamente más bajo para alcanzar el retorno anual objetivo del 15%.",80,-8,2026-05-01T08:06:24+00:00
+ROP,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la coherencia del FCF y el histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el margen de seguridad negativo y el ROIC por debajo del coste de capital estimado.",80,-8,2026-05-01T08:06:24+00:00
+CBOE,MIXED,AVOID,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración.",60,-5,2026-05-01T08:06:24+00:00
+7741.T,MIXED,WATCH,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, la ausencia de red flags y la coherencia en la proyección de FCF sugieren que el modelo puede ser útil, aunque con precaución. La tesis HOLD parece razonable dado el upside negativo y la margen de seguridad también negativa, lo que sugiere que el precio actual puede estar cerca del valor justo.",60,0,2026-05-01T08:06:24+00:00
+ISRG,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una posible sobrevaloración.",80,-8,2026-05-01T08:06:24+00:00
+BRK-B,UNRELIABLE,INSUFFICIENT,"No hay suficiente información para evaluar la calidad del dato subyacente y la tesis implícita, ya que faltan datos históricos y proyecciones de FCF. Además, el modelo no puede ser aplicado de manera fiable sin esta información.",0,0,2026-05-01T08:06:24+00:00
+CNI,MIXED,BUY,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de red flags detectadas y el upside significativo respaldan la tesis de compra.",70,3,2026-05-01T08:06:24+00:00
+SYK,MIXED,WATCH,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis HOLD parece razonable considerando el upside limitado y la margen de seguridad negativa, por lo que es mejor esperar un mejor precio.",60,0,2026-05-01T08:06:24+00:00
+ERIE,MIXED,INSUFFICIENT,"El dato de FCF histórico parece coherente, pero la falta de proyección forward y el bajo número de analistas cubriendo la acción generan incertidumbre. Además, la imposibilidad de calcular el precio de compra y el margen de seguridad debido a la falta de datos hace que no se pueda emitir un juicio claro sobre la tesis.",60,0,2026-05-01T08:06:24+00:00
+MSFT,MIXED,BUY,"El dato de FCF es coherente en general, pero la caída en el último año y la volatilidad en los años anteriores generan algunas dudas. Sin embargo, la tendencia a largo plazo y las proyecciones forward sugieren un crecimiento sólido, lo que respalda la tesis de compra.",80,3,2026-05-01T08:06:24+00:00
+AUTO.L,MIXED,BUY,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad. La empresa parece tener un perfil de crecimiento estable.",70,3,2026-05-01T08:06:24+00:00
+RELX,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el bajo upside y la gran brecha entre el precio actual y el precio de compra calculado para un retorno anual del 15%. Esto sugiere que el precio actual puede estar sobrevaluado en relación con los fundamentos del negocio.",80,-8,2026-05-01T08:06:24+00:00
+AJG,MIXED,AVOID,"El dato de flujo de caja libre (FCF) es proyectado sin consenso y no hay un histórico claro de al menos 3 años, lo que genera dudas sobre la fiabilidad del dato subyacente. La tesis de sobrevaloración se basa en una proyección de crecimiento del FCF y un múltiplo de valoración objetivo, pero la falta de consenso y la ausencia de un histórico sólido de FCF generan incertidumbre. Por lo tanto, se recomienda evitar la acción debido a la posible sobrevaloración y la falta de confianza en el dato subyacente.",60,-5,2026-05-01T08:06:24+00:00
+LRLCY,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el resultado del modelo que indica un upside negativo y una margen de seguridad también negativa, lo que sugiere que el precio actual puede estar por encima del valor justo.",80,-8,2026-05-01T08:06:24+00:00
+CP,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y un ROIC inferior al coste capital estimado. Además, la dilución de acciones y la conversión FCF/EBITDA baja en los últimos años generan dudas. La tesis OVERVALUED parece correcta debido a estos factores y al margen de seguridad negativo.",70,-5,2026-05-01T08:06:24+00:00
+ZTS,MIXED,WATCH,"El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis WATCH parece correcta ya que el precio de compra estimado es cercano al precio actual y el upside no es significativo.",60,0,2026-05-01T08:06:24+00:00
+NOW,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad también negativa.",80,-8,2026-05-01T08:06:24+00:00
+INTU,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una posible sobrevaloración.",80,-8,2026-05-01T08:06:24+00:00
+SPGI,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y la dilución de acciones, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la sobrevaloración del precio actual en relación con el precio de compra calculado y la falta de margen de seguridad.",70,-5,2026-05-01T08:06:24+00:00
+LSEG.L,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como la volatilidad en el FCF histórico y la dilución de acciones. La tesis OVERVALUED parece correcta debido a la baja rentabilidad sobre el capital invertido y la valoración alta en relación con el flujo de caja libre.",70,-5,2026-05-01T08:06:24+00:00
+CME,MIXED,AVOID,"El dato subyacente presenta cierta volatilidad en el FCF histórico, especialmente en 2022, lo que genera dudas sobre su coherencia. Además, la proyección de FCF forward se basa en un consenso que puede no reflejar la realidad futura. La tesis OVERVALUED parece correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado para un retorno anual del 15%.",70,-5,2026-05-01T08:06:24+00:00
+FICO,MIXED,AVOID,"El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF coherente y un número razonable de shares, pero también muestra un ROE negativo y un apalancamiento moderado, lo que genera dudas sobre la calidad del dato. La tesis HOLD parece incorrecta debido a la presencia de red flags graves y un upside limitado en comparación con el precio actual.",80,-5,2026-05-01T08:06:24+00:00
+ITW,MIXED,AVOID,"El dato subyacente presenta una caída en el FCF durante tres años consecutivos, lo que genera dudas sobre su coherencia. Aunque el histórico de FCF es amplio, la volatilidad y la falta de consenso en las proyecciones futuras afectan la fiabilidad del dato. La tesis de sobrevaloración parece correcta debido a la alta relación EV/FCF y al margen de seguridad negativo.",70,-5,2026-05-01T08:06:24+00:00
+DHR,MIXED,BUY,"El dato de flujo de caja libre (FCF) es coherente en las proyecciones, pero la falta de histórico y la ausencia de consenso en las proyecciones futuras generan dudas. Sin embargo, la tesis de compra se ve respaldada por el upside sólido y la margen de seguridad, lo que sugiere que el precio actual podría ser atractivo.",70,3,2026-05-01T08:06:24+00:00
+ETN,RELIABLE,WATCH,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis HOLD podría ser correcta considerando el upside negativo y la margen de seguridad también negativa, lo que sugiere que el precio actual podría estar cerca del valor justo, por lo que se recomienda esperar un mejor precio.",80,2,2026-05-01T08:06:24+00:00
+CSU.TO,MIXED,AVOID,"El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis de sobrevaloración se basa en una proyección de FCF que puede no ser precisa, por lo que es prudente evitar la acción.",60,-5,2026-05-01T08:06:24+00:00
+CLPBY,RELIABLE,BUY,"El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. La tesis de compra se ve respaldada por un upside sólido y una margen de seguridad significativa, lo que sugiere que la acción está subvalorada.",80,8,2026-05-01T08:06:24+00:00
+V,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que indica un upside negativo y una margen de seguridad también negativa.",80,-8,2026-05-01T08:06:24+00:00
+BRO,MIXED,WATCH,"El dato de flujo de caja libre (FCF) es proyectado sin consenso, lo que introduce incertidumbre. Sin embargo, la empresa tiene un histórico de crecimiento y el modelo de valoración sugiere que el precio actual está cerca del valor justo. La tesis HOLD parece razonable, pero es mejor esperar un mejor precio debido a la falta de consenso en las proyecciones de FCF.",60,0,2026-05-01T08:06:24+00:00
+PGR,RELIABLE,BUY,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis de compra se ve respaldada por el upside sólido y la margen de seguridad del 51%, lo que sugiere que el precio actual es atractivo en relación con el valor intrínseco proyectado.",80,8,2026-05-01T08:06:24+00:00
+EXPN.L,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo y una margen de seguridad negativa, lo que indica que el precio actual puede estar sobrevalorado.",80,-8,2026-05-01T08:06:24+00:00
+PEP,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",80,-8,2026-05-01T08:06:24+00:00
+IT,MIXED,AVOID,"El dato de FCF es coherente en general, pero la caída en el último año y la volatilidad en los años anteriores generan dudas. La tesis OVERVALUED parece correcta debido a la baja margen de seguridad y el precio actual por encima del precio de compra calculado.",70,-5,2026-05-01T08:06:24+00:00
+AI.PA,MIXED,WATCH,"El dato subyacente es mixto debido a la volatilidad del FCF histórico y la falta de consenso en las proyecciones forward. La tesis BUY parece apoyada por el upside potencial, pero la persistencia de FCF negativos y el ROIC bajo generan dudas sobre la sostenibilidad del modelo. Es prudente esperar un mejor precio o más información antes de tomar una decisión.",60,0,2026-05-01T08:06:24+00:00
+HEI,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo y una sobrevaloración del 24.4%.",80,-8,2026-05-01T08:06:24+00:00
+CDNS,RELIABLE,WATCH,"El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis HOLD podría ser correcta considerando el margen de seguridad negativo y el upside limitado, lo que sugiere que el precio actual podría estar cerca del valor justo.",80,2,2026-05-01T08:06:24+00:00
+ESLOY,MIXED,AVOID,"El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF de más de 3 años, pero también muestra volatilidad en los flujos de efectivo y un ROIC bajo en comparación con el coste de capital estimado. La tesis de sobrevaloración parece estar respaldada por el modelo, que indica un precio de compra significativamente más bajo que el actual y un margen de seguridad negativo.",70,-5,2026-05-01T08:06:24+00:00
+WST,MIXED,AVOID,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Además, la falta de histórico de FCF y el ROIC desconocido limitan la confiabilidad del modelo. La tesis de sobrevaloración parece plausible dada la gran brecha entre el precio actual y el precio de compra calculado.",60,-5,2026-05-01T08:06:24+00:00
+LIN,MIXED,WATCH,"El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Aunque el modelo sugiere un upside, la falta de histórico de FCF y la proyección sin consenso afectan la confiabilidad. La tesis BUY no está plenamente respaldada por la información disponible.",60,0,2026-05-01T08:06:24+00:00
+SBGSY,RELIABLE,AVOID,"El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el precio actual y las proyecciones de crecimiento, lo que sugiere un margen de seguridad negativo y un upside limitado.",80,-8,2026-05-01T08:06:24+00:00
+MTD,MIXED,AVOID,"El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y un ROE negativo, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED parece correcta debido a la sobrevaloración del precio actual en relación con el precio de compra calculado.",70,-5,2026-05-01T08:06:24+00:00
+ROL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+TNE.AX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+TYL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+GVDNY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+HESAY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+VLTO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+DBOEY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+MCD,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+AON,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ASAZY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+EQIX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+VRSN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ADP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+PAYX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+WMT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+SAP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+WTKWY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+CPRT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+AXP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+AWK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+TW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+SHW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+FDS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+TT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ATLKY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+CTAS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+VRSK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+VEEV,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+DSGX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+WM,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+G24.DE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+IDXX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ICE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+AZO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ECL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+PG,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+AME,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+RACE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+GWW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+JNJ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+TJX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+MKC,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+MSCI,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+WCN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+MA,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ORLY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+SXYAY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+MMC,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+KO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ABT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+NDSN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+BR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+TMO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+NDAQ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+CL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+COST,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+MCO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+OTIS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+JKHY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
+ITRK.L,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-05-01T08:06:24+00:00
