@@ -59,6 +59,7 @@ from ticker_api_helpers import (
     pct_from_ratio as _pct_from_ratio,
     extract_jwt_sub as _extract_jwt_sub,
     earnings_estimate_avg as _earnings_estimate_avg,
+    earnings_history_stats as _earnings_history_stats_from_df,
     score_contribution as _score_contribution,
 )
 
@@ -2537,34 +2538,10 @@ def _earnings_history_stats(tk) -> tuple[float | None, float | None, int]:
         hist = tk.earnings_history
     except Exception:
         hist = None
-    if hist is None or getattr(hist, 'empty', True):
-        return None, None, 0
-
-    try:
-        df = hist.sort_index(ascending=False).head(4)
-    except Exception:
-        df = hist.head(4)
-
-    beats = 0
-    total = 0
-    surprises: list[float] = []
-    for _, row in df.iterrows():
-        est = _sf(row.get('epsEstimate'))
-        act = _sf(row.get('epsActual'))
-        sur_raw = _sf(row.get('surprisePercent'))
-        sur = round(sur_raw * 100, 2) if sur_raw is not None else None  # decimal → percentage
-        if est is not None and act is not None:
-            beats += 1 if act >= est else 0
-            total += 1
-        if sur is not None:
-            surprises.append(sur)
-
-    beat_rate = round(beats / total, 3) if total > 0 else None
-    avg_surprise = round(sum(surprises) / len(surprises), 2) if surprises else None
-    return beat_rate, avg_surprise, total
+    return _earnings_history_stats_from_df(hist)
 
 
-# _earnings_estimate_avg, _score_contribution imported from ticker_api_helpers
+# _earnings_estimate_avg, _score_contribution, _earnings_history_stats_from_df imported from ticker_api_helpers
 
 
 def _build_earnings_expectation_snapshot(ticker: str, base_row: dict | None = None, thesis: dict | None = None) -> dict:
