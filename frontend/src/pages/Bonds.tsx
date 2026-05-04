@@ -3,7 +3,7 @@ import { fetchBonds, fetchPreferredStocks, type BondOpportunity, type PreferredS
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Calculator } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Calculator, Brain } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const BOND_TYPE_LABELS: Record<string, string> = {
@@ -77,6 +77,336 @@ function useStickyState<T>(defaultValue: T, key: string): [T, React.Dispatch<Rea
     } catch {}
   }, [key, value])
   return [value, setValue]
+}
+
+// ─── Fixed Income Advisor ────────────────────────────────────────────────────
+
+interface Horizon {
+  months: number
+  label: string
+  shortLabel: string
+}
+
+const HORIZONS: Horizon[] = [
+  { months: 3,  label: '3 meses',  shortLabel: '3m' },
+  { months: 6,  label: '6 meses',  shortLabel: '6m' },
+  { months: 12, label: '1 año',    shortLabel: '1a' },
+  { months: 24, label: '2 años',   shortLabel: '2a' },
+]
+
+interface Recommendation {
+  ticker: string
+  name: string
+  type: string
+  yieldPct: number
+  currency: 'EUR' | 'USD'
+  gainBase: number        // ganancia en escenario normal
+  gainRateCut: number     // ganancia si tipos bajan 1%
+  gainRateHike: number    // ganancia si tipos suben 1%
+  tesis: string
+  riskNote: string
+  rateCutNote: string
+  color: string
+}
+
+function buildRecommendation(
+  months: number,
+  capital: number,
+  bonds: BondOpportunity[],
+  prefs: PreferredStock[],
+): Recommendation {
+  const find = (ticker: string) => bonds.find(b => b.ticker === ticker)
+
+  // helpers
+  const gain = (yld: number, duration: number, scenarioDelta: number) => {
+    // compuesto mensual para income, más price impact si hay duración
+    const monthly = yld / 100 / 12
+    const income = capital * (Math.pow(1 + monthly, months) - 1)
+    const priceImpact = capital * (-duration * scenarioDelta / 100)  // aprox lineal
+    return income + priceImpact
+  }
+
+  // ── 3 meses: solo cash sin riesgo ───────────────────────────────────────────
+  if (months === 3) {
+    const xeon = find('XEON.DE')
+    const eurYield = xeon?.yield_pct ?? 3.9
+    // Para 3m lo más sensato es XEON (EUR, cero duración)
+    const g = capital * (Math.pow(1 + eurYield / 100 / 12, 3) - 1)
+    return {
+      ticker: 'XEON',
+      name: 'Xtrackers EUR Overnight (XEON)',
+      type: 'Cash EUR',
+      yieldPct: eurYield,
+      currency: 'EUR',
+      gainBase: g,
+      gainRateCut: g * 0.92,   // si BCE baja, yield baja ligeramente
+      gainRateHike: g * 1.05,  // si BCE sube, yield sube
+      tesis: `Para 3 meses no tiene sentido asumir ningún riesgo. XEON replica el tipo overnight del BCE (ahora ~${eurYield.toFixed(1)}%) con liquidez total. Tu dinero trabaja como si estuviera en cuenta corriente pero cobrando. No hay riesgo de precio porque la duración es prácticamente cero.`,
+      riskNote: 'Riesgo casi inexistente. El único escenario negativo es que el BCE baje tipos de golpe, lo que reduciría el yield pero no haría bajar el precio.',
+      rateCutNote: `Si el BCE baja tipos -1%, el yield pasaría a ~${(eurYield - 1).toFixed(1)}%. A 3 meses la diferencia sería mínima (~${fmtEur(g * 0.08)} menos).`,
+      color: '#14b8a6',
+    }
+  }
+
+  // ── 6 meses: IBTU (T-Bills USD) o XEON según yield ──────────────────────────
+  if (months === 6) {
+    const ibtu = find('IBTU.L') ?? find('BIL') ?? find('SGOV')
+    const yld6 = ibtu?.yield_pct ?? 5.1
+    const g = capital * (Math.pow(1 + yld6 / 100 / 12, 6) - 1)
+    const gCut = capital * (Math.pow(1 + (yld6 - 0.5) / 100 / 12, 6) - 1)
+    const gHike = capital * (Math.pow(1 + (yld6 + 0.5) / 100 / 12, 6) - 1)
+    return {
+      ticker: ibtu?.ticker ?? 'IBTU',
+      name: 'iShares $ Treasury 0-1yr (IBTU)',
+      type: 'T-Bill USD',
+      yieldPct: yld6,
+      currency: 'USD',
+      gainBase: g,
+      gainRateCut: gCut,
+      gainRateHike: gHike,
+      tesis: `A 6 meses puedes capturar el diferencial Fed vs BCE (~1.5% más yield en USD). Los T-Bills de menos de 1 año tienen duración mínima, así que aunque la Fed mueva tipos, el impacto en precio es marginal. Disponible en IBKR Ireland como IBTU cotizando en Londres en USD.`,
+      riskNote: 'Riesgo de divisa EUR/USD. Si el dólar se deprecia un 2% contra el euro, parte de la ganancia se erosiona. Si tienes gastos en USD no es un riesgo.',
+      rateCutNote: `Si la Fed baja -0.5%, el yield pasaría a ~${(yld6 - 0.5).toFixed(1)}%. Ganarías ${fmtUsd(gCut)} en vez de ${fmtUsd(g)} — diferencia pequeña a 6 meses.`,
+      color: '#3b82f6',
+    }
+  }
+
+  // ── 1 año: IEF / IBTM (Treasury 3-7y) — captura bajada de tipos ─────────────
+  if (months === 12) {
+    const ief = find('IEF') ?? find('IBTM.L')
+    const yld = ief?.yield_pct ?? 4.3
+    const dur = ief?.duration_years ?? 7.5
+    const g     = gain(yld, dur, 0)
+    const gCut  = gain(yld, dur, -1)   // tipos bajan 1% → precio sube
+    const gHike = gain(yld, dur, +1)   // tipos suben 1% → precio baja
+    return {
+      ticker: ief?.ticker ?? 'IEF',
+      name: 'iShares 7-10yr Treasury (IEF / IBTM)',
+      type: 'Tesoro EEUU',
+      yieldPct: yld,
+      currency: 'USD',
+      gainBase: g,
+      gainRateCut: gCut,
+      gainRateHike: gHike,
+      tesis: `A 1 año tiene sentido apostar a que la Fed empezará a bajar tipos. Con duración ~${dur}y, cada 1% de bajada de tipos suma aproximadamente un ${dur}% extra de ganancia de precio encima del cupón del ${yld.toFixed(1)}%. Es el trade más claro del ciclo actual si Trump presiona a Powell.`,
+      riskNote: `Si los tipos suben 1% en vez de bajar, el precio caería ~${dur}% y perderías dinero neto ese año. Es el riesgo principal. Por eso horizonte mínimo recomendado: 12 meses.`,
+      rateCutNote: `Si la Fed baja -1%: ganarías ${fmtUsd(gCut)} (${((gCut / capital) * 100).toFixed(1)}% total) — el cupón más la revalorización del precio. Este es el escenario base.`,
+      color: '#6366f1',
+    }
+  }
+
+  // ── 2 años: preferred stocks (máximo yield, captura par) ────────────────────
+  const topPref = prefs
+    .filter(p => ['MUY_ATRACTIVO', 'ATRACTIVO'].includes(p.value_rating) && (p.current_yield ?? 0) > 5)
+    .sort((a, b) => (b.current_yield ?? 0) - (a.current_yield ?? 0))[0]
+
+  const prefYield = topPref?.current_yield ?? 7.0
+  const pctFromPar = topPref?.pct_from_par ?? -20
+  const potentialParGain = Math.abs(pctFromPar) / 100  // upside si se llama a par
+  const g2 = capital * (Math.pow(1 + prefYield / 100 / 12, 24) - 1)
+  const g2Cut = g2 + capital * potentialParGain * 0.5  // bajada tipos → precio se acerca a par
+  const g2Hike = capital * (Math.pow(1 + (prefYield - 1) / 100 / 12, 24) - 1) - capital * 0.05
+
+  return {
+    ticker: topPref?.ticker ?? 'PSA-PK',
+    name: topPref ? `${topPref.issuer} (${topPref.ticker})` : 'Preferred stock financiera',
+    type: 'Preferred Stock',
+    yieldPct: prefYield,
+    currency: 'USD',
+    gainBase: g2,
+    gainRateCut: g2Cut,
+    gainRateHike: g2Hike,
+    tesis: `A 2 años las preferred stocks de bancos sistémicos o REITs de calidad ofrecen el mejor binomio yield/riesgo. Cobras ~${prefYield.toFixed(1)}% anual fijo mientras esperas. Están un ${Math.abs(pctFromPar).toFixed(0)}% por debajo de su valor nominal ($25), así que si los tipos bajan y la empresa decide "llamarlas", cobrarías $25 por acción — un ${Math.abs(pctFromPar).toFixed(0)}% extra de golpe sobre lo que pagaste.`,
+    riskNote: 'Si los tipos suben más, el precio puede caer otro 5-10%. Con horizonte 2 años el cupón cubre casi cualquier caída razonable. Riesgo real solo en quiebra del emisor (JPM, BAC, PSA — muy improbable).',
+    rateCutNote: `Si la Fed baja -1%: el precio se acercaría al par, ganando ~${(potentialParGain * 50).toFixed(0)}% de upside adicional sobre el cupón. Total estimado: ${fmtUsd(g2Cut)} (${((g2Cut / capital) * 100).toFixed(1)}%).`,
+    color: '#f59e0b',
+  }
+}
+
+function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: number; rateHike: number; capital: number }) {
+  const max = Math.max(Math.abs(base), Math.abs(rateCut), Math.abs(rateHike), 1)
+  const bar = (val: number, color: string, label: string) => {
+    const pct = Math.min(Math.abs(val) / max * 80, 80)
+    const isNeg = val < 0
+    return (
+      <div className="flex items-center gap-2 text-xs">
+        <span className="w-28 text-white/40 shrink-0">{label}</span>
+        <div className="flex-1 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <div className="h-2 rounded-full transition-all" style={{
+            width: `${pct}%`,
+            background: isNeg ? '#ef4444' : color,
+          }} />
+        </div>
+        <span className="w-20 text-right font-mono shrink-0" style={{ color: isNeg ? '#ef4444' : color }}>
+          {isNeg ? '' : '+'}{val >= 0 ? fmtEur(val) : fmtEur(val)}
+        </span>
+        <span className="w-12 text-right font-mono text-white/40 text-[10px] shrink-0">
+          {isNeg ? '' : '+'}{((val / capital) * 100).toFixed(1)}%
+        </span>
+      </div>
+    )
+  }
+  return (
+    <div className="space-y-1.5 mt-3">
+      {bar(rateCut, '#22c55e', '📉 Tipos bajan')}
+      {bar(base,    '#22d3ee', '➡️ Escenario base')}
+      {bar(rateHike,'#f59e0b', '📈 Tipos suben')}
+    </div>
+  )
+}
+
+function AdvisorCard({ label, rec, capital }: {
+  label: string
+  rec: Recommendation
+  capital: number
+}) {
+  const [expanded, setExpanded] = useState(false)
+  const pctBase = ((rec.gainBase / capital) * 100)
+
+  return (
+    <Card className="glass border-border/30 flex flex-col">
+      <CardContent className="p-5 flex flex-col gap-3 flex-1">
+        {/* Header */}
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: rec.color }}>{label}</div>
+            <div className="text-sm font-semibold text-white leading-tight">{rec.ticker}</div>
+            <div className="text-xs text-white/40 mt-0.5">{rec.name}</div>
+          </div>
+          <div className="text-right shrink-0">
+            <div className="text-xl font-bold font-mono text-white">{fmtEur(rec.gainBase)}</div>
+            <div className="text-xs font-mono mt-0.5" style={{ color: pctBase >= 0 ? '#22c55e' : '#ef4444' }}>
+              +{pctBase.toFixed(2)}% total
+            </div>
+          </div>
+        </div>
+
+        {/* Yield badge */}
+        <div className="flex gap-2 flex-wrap">
+          <span className="text-xs px-2 py-0.5 rounded-full font-mono" style={{ background: `${rec.color}18`, color: rec.color, border: `1px solid ${rec.color}30` }}>
+            {rec.yieldPct.toFixed(1)}% anual
+          </span>
+          <span className="text-xs px-2 py-0.5 rounded-full text-white/40" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+            {rec.currency} · IBKR Ireland ✓
+          </span>
+        </div>
+
+        {/* Tesis */}
+        <p className="text-xs text-white/60 leading-relaxed">{rec.tesis}</p>
+
+        {/* Scenarios bar */}
+        <GainBar base={rec.gainBase} rateCut={rec.gainRateCut} rateHike={rec.gainRateHike} capital={capital} />
+
+        {/* Expandible */}
+        <button
+          onClick={() => setExpanded(v => !v)}
+          className="flex items-center gap-1 text-xs text-white/30 hover:text-white/60 transition-colors mt-1"
+        >
+          {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          {expanded ? 'Menos detalle' : 'Más detalle'}
+        </button>
+
+        {expanded && (
+          <div className="space-y-2 pt-1 border-t border-white/5">
+            <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
+              <span className="text-red-400 font-medium">⚠️ Riesgo: </span>
+              <span className="text-white/60">{rec.riskNote}</span>
+            </div>
+            <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
+              <span className="text-emerald-400 font-medium">📉 Si bajan tipos: </span>
+              <span className="text-white/60">{rec.rateCutNote}</span>
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  )
+}
+
+function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs: PreferredStock[] }) {
+  const [capital, setCapital] = useStickyState(10000, 'sa_advisor_capital')
+  const [rawCapital, setRawCapital] = useState(String(capital))
+  const [show, setShow] = useState(true)
+
+  const recs = useMemo(() =>
+    HORIZONS.map(h => ({
+      ...h,
+      rec: buildRecommendation(h.months, capital, bonds, prefs),
+    })),
+    [capital, bonds, prefs]
+  )
+
+  return (
+    <div className="space-y-4">
+      {/* Header toggle */}
+      <button
+        onClick={() => setShow(v => !v)}
+        className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors"
+      >
+        <Brain size={14} />
+        Asesor de renta fija — ¿dónde meter tu dinero?
+        {show ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+      </button>
+
+      {show && (
+        <Card className="glass border-primary/15">
+          <CardContent className="p-5 space-y-5">
+            {/* Capital input */}
+            <div className="flex flex-wrap items-center gap-4">
+              <div>
+                <label className="text-xs text-white/40 block mb-1">Tu capital disponible</label>
+                <div className="flex items-center gap-2">
+                  <span className="text-white/50 text-sm">€</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={rawCapital}
+                    onChange={e => {
+                      const raw = e.target.value.replace(/[^\d]/g, '')
+                      setRawCapital(raw)
+                      const n = parseInt(raw, 10)
+                      if (!isNaN(n) && n >= 100) setCapital(n)
+                    }}
+                    onBlur={() => setRawCapital(String(capital))}
+                    className="w-36 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm font-mono text-white focus:outline-none focus:border-primary/50"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {[5000, 10000, 25000, 50000].map(v => (
+                  <button
+                    key={v}
+                    onClick={() => { setCapital(v); setRawCapital(String(v)) }}
+                    className={cn(
+                      'text-xs px-2.5 py-1 rounded-lg border transition-all',
+                      capital === v
+                        ? 'bg-primary/20 border-primary/50 text-primary'
+                        : 'border-white/10 text-white/40 hover:text-white/70 hover:border-white/20'
+                    )}
+                  >
+                    {fmtEur(v)}
+                  </button>
+                ))}
+              </div>
+              <div className="text-xs text-white/30 ml-auto">Cuenta IBKR Ireland · todos accesibles desde EU</div>
+            </div>
+
+            {/* Cards por horizonte */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              {recs.map(({ months, label, rec }) => (
+                <AdvisorCard key={months} label={label} rec={rec} capital={capital} />
+              ))}
+            </div>
+
+            {/* Nota disclaimer */}
+            <p className="text-[10px] text-white/20 text-center">
+              Proyecciones basadas en yields actuales del scanner diario · No es asesoramiento financiero · Rendimientos pasados no garantizan futuros
+            </p>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  )
 }
 
 function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
@@ -800,6 +1130,7 @@ const TYPE_FILTERS: { key: FilterType; label: string }[] = [
 
 export default function Bonds() {
   const [bonds, setBonds] = useState<BondOpportunity[]>([])
+  const [prefs, setPrefs] = useState<PreferredStock[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [typeFilter, setTypeFilter] = useState<FilterType>('ALL')
@@ -808,8 +1139,8 @@ export default function Bonds() {
 
   useEffect(() => {
     setLoading(true)
-    fetchBonds()
-      .then(data => setBonds(data))
+    Promise.all([fetchBonds(), fetchPreferredStocks()])
+      .then(([bondsData, prefsData]) => { setBonds(bondsData); setPrefs(prefsData) })
       .catch(err => setError(err.message ?? 'Error de conexión'))
       .finally(() => setLoading(false))
   }, [])
@@ -873,6 +1204,9 @@ export default function Bonds() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Asesor IA */}
+      {bonds.length > 0 && <FixedIncomeAdvisor bonds={bonds} prefs={prefs} />}
 
       {/* Calculator toggle + panel */}
       <div>
