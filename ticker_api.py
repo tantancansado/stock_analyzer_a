@@ -1573,6 +1573,88 @@ def portfolio_calibration():
     return jsonify(data if data else {"error": "No calibration data yet"})
 
 
+@app.route('/api/portfolio-tracker/timeseries')
+def portfolio_timeseries():
+    """Temporal breakdown of signals: by week, month, quarter, weekday."""
+    import json as _json
+    csv_path = DOCS / 'portfolio_tracker' / 'recommendations.csv'
+    if not csv_path.exists():
+        return jsonify({'error': 'No data yet'}), 404
+
+    df = _load_csv(csv_path)
+    if df.empty:
+        return jsonify({'error': 'Empty data'}), 404
+
+    completed = df[df['status'] == 'COMPLETED'].copy()
+    if completed.empty:
+        return jsonify({'error': 'No completed signals yet'}), 404
+
+    completed['signal_date'] = pd.to_datetime(completed['signal_date'], errors='coerce')
+    completed = completed.dropna(subset=['signal_date'])
+    completed['week']    = completed['signal_date'].dt.to_period('W').apply(lambda p: str(p.start_time.date()))
+    completed['month']   = completed['signal_date'].dt.to_period('M').apply(lambda p: str(p.start_time.date()))
+    completed['quarter'] = completed['signal_date'].dt.to_period('Q').apply(lambda p: f"Q{p.quarter} {p.year}")
+    completed['weekday'] = completed['signal_date'].dt.day_name()
+
+    def _agg(group_col: str, label_col: str | None = None) -> list[dict]:
+        lc = label_col or group_col
+        out = []
+        for key, grp in completed.groupby(lc):
+            r14 = pd.to_numeric(grp['return_14d'], errors='coerce').dropna()
+            r30 = pd.to_numeric(grp['return_30d'], errors='coerce').dropna()
+            w14 = grp['win_14d'].map({'True': True, 'False': False, True: True, False: False})
+            w30 = grp['win_30d'].map({'True': True, 'False': False, True: True, False: False})
+            # strategy split
+            strat_counts = grp['strategy'].value_counts().to_dict()
+            out.append({
+                'label':          str(key),
+                'signals':        int(len(grp)),
+                'win_rate_14d':   round(float(w14.mean() * 100), 1) if len(w14) else None,
+                'win_rate_30d':   round(float(w30.mean() * 100), 1) if len(w30) else None,
+                'avg_return_14d': round(float(r14.mean()), 2) if len(r14) else None,
+                'avg_return_30d': round(float(r30.mean()), 2) if len(r30) else None,
+                'value_us':       int(strat_counts.get('VALUE', 0)),
+                'value_eu':       int(strat_counts.get('EU_VALUE', 0)),
+                'momentum':       int(strat_counts.get('MOMENTUM', 0)),
+            })
+        return out
+
+    # weekday order
+    weekday_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    by_weekday = sorted(_agg('weekday'), key=lambda x: weekday_order.index(x['label']) if x['label'] in weekday_order else 99)
+
+    # strategy overall comparison
+    strat_rows = []
+    for strat, grp in completed.groupby('strategy'):
+        r14 = pd.to_numeric(grp['return_14d'], errors='coerce').dropna()
+        r30 = pd.to_numeric(grp['return_30d'], errors='coerce').dropna()
+        w14 = grp['win_14d'].map({'True': True, 'False': False, True: True, False: False})
+        w30 = grp['win_30d'].map({'True': True, 'False': False, True: True, False: False})
+        strat_rows.append({
+            'strategy':       str(strat),
+            'signals':        int(len(grp)),
+            'win_rate_14d':   round(float(w14.mean() * 100), 1) if len(w14) else None,
+            'win_rate_30d':   round(float(w30.mean() * 100), 1) if len(w30) else None,
+            'avg_return_14d': round(float(r14.mean()), 2) if len(r14) else None,
+            'avg_return_30d': round(float(r30.mean()), 2) if len(r30) else None,
+            'avg_drawdown':   round(float(pd.to_numeric(grp['max_drawdown_30d'], errors='coerce').dropna().mean()), 2),
+        })
+
+    return jsonify({
+        'by_week':     sorted(_agg('week'),    key=lambda x: x['label']),
+        'by_month':    sorted(_agg('month'),   key=lambda x: x['label']),
+        'by_quarter':  sorted(_agg('quarter'), key=lambda x: x['label']),
+        'by_weekday':  by_weekday,
+        'by_strategy': strat_rows,
+        'total_completed': int(len(completed)),
+        'date_range': {
+            'from': str(completed['signal_date'].min().date()),
+            'to':   str(completed['signal_date'].max().date()),
+        },
+    })
+
+
+
 @app.route('/api/market-regime')
 def market_regime():
     us = _load_json(DOCS / 'market_regime.json')

@@ -656,6 +656,38 @@ export interface CalibrationData {
 export const fetchCalibration = () =>
   apiClient.get<CalibrationData>('/api/portfolio-tracker/calibration')
 
+export interface TimeseriesRow {
+  label: string
+  signals: number
+  win_rate_14d: number | null
+  win_rate_30d: number | null
+  avg_return_14d: number | null
+  avg_return_30d: number | null
+  value_us?: number
+  value_eu?: number
+  momentum?: number
+}
+export interface StrategyRow {
+  strategy: string
+  signals: number
+  win_rate_14d: number | null
+  win_rate_30d: number | null
+  avg_return_14d: number | null
+  avg_return_30d: number | null
+  avg_drawdown: number
+}
+export interface TimeseriesData {
+  by_week: TimeseriesRow[]
+  by_month: TimeseriesRow[]
+  by_quarter: TimeseriesRow[]
+  by_weekday: TimeseriesRow[]
+  by_strategy: StrategyRow[]
+  total_completed: number
+  date_range: { from: string; to: string }
+}
+export const fetchTimeseries = () =>
+  apiClient.get<TimeseriesData>('/api/portfolio-tracker/timeseries')
+
 export interface BreadthData {
   total: number
   trend_pass?: number; trend_pass_pct?: number

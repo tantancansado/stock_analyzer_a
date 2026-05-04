@@ -20,6 +20,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
       { path: '/watchlist',       icon: Star,          label: 'Watchlist',       color: '#f59e0b', keywords: ['watchlist', 'seguimiento', 'favoritos'] },
       { path: '/alerts',          icon: Bell,          label: 'Alertas',         color: '#f59e0b', keywords: ['alertas', 'email', 'notificaciones', 'precio'] },
       { path: '/portfolio',        icon: BarChart2,      label: 'Portfolio tracker', color: '#10b981', keywords: ['portfolio', 'tracker', 'señales', 'rendimiento', 'win rate', 'estadísticas'] },
+      { path: '/signal-stats',     icon: Activity,      label: 'Estadísticas',      color: '#06b6d4', keywords: ['estadisticas', 'señales', 'semana', 'mes', 'quarter', 'historico', 'rendimiento'] },
     ]
   },
   {
