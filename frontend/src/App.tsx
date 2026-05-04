@@ -43,6 +43,7 @@ const OwnerEarnings    = lazy(() => import('./pages/OwnerEarnings'))
 const Manual           = lazy(() => import('./pages/Manual'))
 const LogoPreview      = lazy(() => import('./pages/LogoPreview'))
 const Bonds            = lazy(() => import('./pages/Bonds'))
+const AdminUsage       = lazy(() => import('./pages/AdminUsage'))
 
 function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) {
   return (
@@ -64,7 +65,9 @@ function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) 
   )
 }
 
-function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; onSignOut: () => void }>) {
+const ADMIN_EMAIL = 'tantancansado@gmail.com'
+
+function SidebarContent({ onClose, onSignOut, userEmail }: Readonly<{ onClose: () => void; onSignOut: () => void; userEmail?: string | null }>) {
   return (
     <>
       {/* Header */}
@@ -94,7 +97,7 @@ function SidebarContent({ onClose, onSignOut }: Readonly<{ onClose: () => void; 
               {category.name}
             </div>
             <div className="space-y-0.5">
-              {category.items.map(item => (
+              {category.items.filter(item => !item.adminOnly || userEmail === ADMIN_EMAIL).map(item => (
                 <NavItem key={item.path} item={item} onClose={onClose} />
               ))}
             </div>
@@ -234,7 +237,7 @@ export default function App() {
             'max-md:-translate-x-full',
             sidebarOpen && 'max-md:translate-x-0 max-md:shadow-2xl',
           )}>
-            <SidebarContent onClose={close} onSignOut={handleSignOut} />
+            <SidebarContent onClose={close} onSignOut={handleSignOut} userEmail={user?.email} />
           </aside>
 
           {/* Command Palette */}
@@ -299,6 +302,7 @@ export default function App() {
                   <Route path="/datos"           element={<Datos />} />
                   <Route path="/manual"          element={<Manual />} />
                   <Route path="/logo-preview"    element={<LogoPreview />} />
+                  <Route path="/admin/usage"     element={<AdminUsage />} />
                 </Route>
               </Routes>
             </motion.div>

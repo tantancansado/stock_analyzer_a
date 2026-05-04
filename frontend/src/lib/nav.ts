@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-export type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string; logo?: string; keywords?: string[] }
+export type NavLinkItem = { path: string; icon: LucideIcon; label: string; color: string; logo?: string; keywords?: string[]; adminOnly?: boolean }
 export type NavCategory = { name: string; items: NavLinkItem[] }
 
 export const NAV_CATEGORIES: NavCategory[] = [
@@ -53,6 +53,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
       { path: '/backtest',        icon: FlaskConical,  label: 'Backtest',        color: '#6366f1', keywords: ['backtest', 'historico', 'simulacion'] },
       { path: '/datos',           icon: Database,      label: 'Exportar datos',  color: '#64748b', keywords: ['datos', 'historial', 'csv', 'descarga', 'exportar'] },
       { path: '/manual',          icon: BookOpen,      label: 'Manual',          color: '#94a3b8', keywords: ['manual', 'ayuda', 'help', 'guia', 'documentacion', 'como funciona'] },
+      { path: '/admin/usage',     icon: Users,         label: 'Admin',           color: '#e11d48', keywords: ['admin', 'usuarios', 'uso'], adminOnly: true },
     ]
   }
 ]

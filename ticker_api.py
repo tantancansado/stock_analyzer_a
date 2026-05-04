@@ -4126,6 +4126,147 @@ def preferred_stocks():
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# ADMIN — solo accesible por el owner (user_id hardcoded)
+# ─────────────────────────────────────────────────────────────────────────────
+
+_ADMIN_USER_ID = '3da8acd3-0b70-43c7-9684-6da77fbc6cfa'
+
+
+def _admin_only():
+    """Returns (user_id, error_response). error_response is None if authorized."""
+    token = request.headers.get('Authorization', '').removeprefix('Bearer ').strip()
+    if not token:
+        return None, (jsonify({'error': 'unauthorized'}), 401)
+    user_id = _extract_jwt_sub(token)
+    if user_id != _ADMIN_USER_ID:
+        return None, (jsonify({'error': 'forbidden'}), 403)
+    return user_id, None
+
+
+def _supabase_admin_get(path: str, params: str = '') -> list[dict]:
+    """GET against Supabase REST API using service role key."""
+    import requests as _req
+    url_base = (os.environ.get('SUPABASE_URL') or SUPABASE_URL or '').rstrip('/')
+    svc_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
+    if not url_base or not svc_key:
+        return []
+    url = f"{url_base}/rest/v1/{path}"
+    if params:
+        url += f"?{params}"
+    headers = {
+        'apikey': svc_key,
+        'Authorization': f'Bearer {svc_key}',
+        'Accept': 'application/json',
+        'Prefer': 'count=exact',
+    }
+    try:
+        r = _req.get(url, headers=headers, timeout=10)
+        r.raise_for_status()
+        return r.json() if isinstance(r.json(), list) else []
+    except Exception as e:
+        _logger.warning("supabase_admin_get %s → %s", path, e)
+        return []
+
+
+@app.route('/api/admin/usage', methods=['GET'])
+def admin_usage():
+    """Admin dashboard: registered users, portfolio usage, ticker searches."""
+    _, err = _admin_only()
+    if err:
+        return err
+
+    import json as _json
+    from collections import Counter
+
+    url_base = (os.environ.get('SUPABASE_URL') or SUPABASE_URL or '').rstrip('/')
+    svc_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
+
+    # ── registered users (auth.users via admin endpoint) ──────────────────────
+    registered_users = []
+    if url_base and svc_key:
+        import requests as _req
+        try:
+            r = _req.get(
+                f"{url_base}/auth/v1/admin/users?per_page=100",
+                headers={'apikey': svc_key, 'Authorization': f'Bearer {svc_key}'},
+                timeout=10,
+            )
+            if r.ok:
+                data = r.json()
+                users_list = data.get('users', data) if isinstance(data, dict) else data
+                registered_users = [
+                    {
+                        'user_id': u.get('id'),
+                        'email': u.get('email'),
+                        'created_at': u.get('created_at'),
+                        'last_sign_in': u.get('last_sign_in_at'),
+                        'confirmed': bool(u.get('email_confirmed_at')),
+                    }
+                    for u in users_list
+                ]
+        except Exception as e:
+            _logger.warning("admin/users fetch → %s", e)
+
+    # ── personal portfolio positions ───────────────────────────────────────────
+    positions = _supabase_admin_get(
+        'personal_portfolio_positions',
+        'select=user_id,ticker,created_at&order=created_at.desc&limit=500',
+    )
+    positions_by_user: dict[str, dict] = {}
+    for p in positions:
+        uid = p.get('user_id', '')
+        if uid not in positions_by_user:
+            positions_by_user[uid] = {'count': 0, 'tickers': [], 'last_activity': ''}
+        positions_by_user[uid]['count'] += 1
+        positions_by_user[uid]['tickers'].append(p.get('ticker', ''))
+        ts = p.get('created_at', '')
+        if ts > positions_by_user[uid]['last_activity']:
+            positions_by_user[uid]['last_activity'] = ts
+
+    portfolio_stats = [
+        {
+            'user_id': uid,
+            'positions': v['count'],
+            'tickers': list(dict.fromkeys(v['tickers'])),  # unique, preserves order
+            'last_activity': v['last_activity'],
+        }
+        for uid, v in sorted(positions_by_user.items(), key=lambda x: x[1]['last_activity'], reverse=True)
+    ]
+
+    # ── trade journal entries ──────────────────────────────────────────────────
+    journal = _supabase_admin_get(
+        'trade_journal',
+        'select=user_id,ticker,created_at&order=created_at.desc&limit=500',
+    )
+    journal_by_user: dict[str, int] = {}
+    for j in journal:
+        uid = j.get('user_id', '')
+        journal_by_user[uid] = journal_by_user.get(uid, 0) + 1
+
+    # ── enrich registered users with activity ─────────────────────────────────
+    for u in registered_users:
+        uid = u['user_id']
+        ps = positions_by_user.get(uid, {})
+        u['positions'] = ps.get('count', 0)
+        u['tickers'] = list(dict.fromkeys(ps.get('tickers', [])))
+        u['last_portfolio_activity'] = ps.get('last_activity', '')
+        u['journal_entries'] = journal_by_user.get(uid, 0)
+
+    # ── global totals ──────────────────────────────────────────────────────────
+    all_tickers = [p.get('ticker', '') for p in positions if p.get('ticker')]
+    ticker_frequency = Counter(all_tickers).most_common(20)
+
+    return jsonify({
+        'registered_users': registered_users,
+        'total_users': len(registered_users),
+        'total_positions': len(positions),
+        'total_journal_entries': len(journal),
+        'portfolio_by_user': portfolio_stats,
+        'top_tickers': [{'ticker': t, 'count': c} for t, c in ticker_frequency],
+    })
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 
 if __name__ == '__main__':
     import sys
