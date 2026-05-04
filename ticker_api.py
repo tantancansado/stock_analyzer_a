@@ -276,6 +276,29 @@ def _parse_health_earnings(rfund):
     return result
 
 
+def _live_earnings_days(ticker: str) -> tuple[int | None, str | None]:
+    """Fetch next earnings date live from yfinance. Returns (days_to_earnings, earnings_date_str).
+    Used to override stale CSV values — Railway deploy snapshots go out of date fast."""
+    try:
+        import yfinance as _yf
+        cal = _yf.Ticker(ticker).calendar
+        if not cal:
+            return None, None
+        ed_list = cal.get('Earnings Date')
+        if not ed_list:
+            return None, None
+        import datetime as _dt
+        today = _dt.date.today()
+        dates = [d for d in ed_list if isinstance(d, _dt.date) and d >= today]
+        if not dates:
+            return None, None
+        nxt = min(dates)
+        days = (nxt - today).days
+        return days, nxt.strftime('%Y-%m-%d')
+    except Exception:
+        return None, None
+
+
 def _analyze_from_cache(ticker):
     """Construye la respuesta completa usando los CSVs del pipeline diario.
     Principio: null donde no hay dato, nunca valores inventados."""
@@ -567,7 +590,7 @@ def _analyze_from_cache(ticker):
         'timing_convergence': False, 'vcp_repeater': False,
     })
 
-    return {
+    result = {
         "source": "pipeline_cache",
         "ticker": ticker,
         "company_name": company_name,
@@ -700,6 +723,17 @@ def _analyze_from_cache(ticker):
 
         "thesis": thesis,
     }
+
+    # Override earnings fields with live yfinance data — the CSV is a daily snapshot
+    # that goes stale: earnings that already happened still show days_to_earnings=1
+    live_days, live_date = _live_earnings_days(ticker)
+    if live_days is not None:
+        result["days_to_earnings"] = live_days
+        result["next_earnings"]    = live_date
+        result["earnings_warning"] = live_days <= 7
+        result["earnings_catalyst"] = 7 < live_days <= 21
+
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
