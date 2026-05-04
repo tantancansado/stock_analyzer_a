@@ -206,6 +206,10 @@ jobs:
         continue-on-error: true
         run: python3 bond_scanner.py || echo "Bond scanner failed"
 
+      - name: Commodity Scanner (ETF materias primas)
+        continue-on-error: true
+        run: python3 commodity_scanner.py || echo "Commodity scanner failed"
+
       # ── Commit core outputs para que scanners los lea en su checkout ────────
       - name: Commit Core Outputs
         if: always()

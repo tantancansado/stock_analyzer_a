@@ -1490,6 +1490,7 @@ const CSV_FILES: Record<string, string> = {
   'fundamental':    'fundamental_scores.csv',
   'fundamental-eu': 'european_fundamental_scores.csv',
   'micro-cap':      'micro_cap_opportunities.csv',
+  'commodities':    'commodity_opportunities.csv',
 }
 
 export const downloadCsv = (dataset: string) => {
@@ -1770,6 +1771,91 @@ export async function fetchBonds(): Promise<BondOpportunity[]> {
   }
   const res = await apiClient.get<{ data: BondOpportunity[] }>('/api/bonds')
   return res.data.data ?? []
+}
+
+export interface CommodityOpportunity {
+  ticker: string
+  name: string
+  short_name: string
+  commodity_type: string
+  sector: string
+  currency: string
+  ibkr_ireland: boolean
+  price: number | null
+  week52_high: number | null
+  week52_low: number | null
+  pct_from_high: number | null
+  pct_from_low: number | null
+  range_position: number | null
+  avg_2y_price: number | null
+  pct_vs_2y_avg: number | null
+  vol_ratio: number | null
+  change_1d: number | null
+  dist_yield_pct: number | null
+  expense_ratio_pct: number | null
+  momentum_signal: string
+  seasonality: string
+  value_rating: string
+  recommendation: string
+  cycle_driver: string
+  cycle_bullish: string
+  cycle_bearish: string
+  generated_at: string
+}
+
+export async function fetchCommodities(): Promise<CommodityOpportunity[]> {
+  try {
+    const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+    if (!csvBase) throw new Error('no csvBase')
+    const url = `${csvBase}/commodity_opportunities.csv`
+    const res = await fetch(url, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const text = await res.text()
+    const lines = text.trim().split('\n')
+    if (lines.length < 2) return []
+    const headers = lines[0].split(',')
+    return lines.slice(1).map(line => {
+      const vals = line.split(',')
+      const row: Record<string, string> = {}
+      headers.forEach((h, i) => { row[h.trim()] = (vals[i] ?? '').trim() })
+      return {
+        ticker:           row.ticker ?? '',
+        name:             row.name ?? '',
+        short_name:       row.short_name ?? '',
+        commodity_type:   row.commodity_type ?? '',
+        sector:           row.sector ?? '',
+        currency:         row.currency ?? '',
+        ibkr_ireland:     row.ibkr_ireland === 'True',
+        price:            row.price ? parseFloat(row.price) : null,
+        week52_high:      row.week52_high ? parseFloat(row.week52_high) : null,
+        week52_low:       row.week52_low ? parseFloat(row.week52_low) : null,
+        pct_from_high:    row.pct_from_high ? parseFloat(row.pct_from_high) : null,
+        pct_from_low:     row.pct_from_low ? parseFloat(row.pct_from_low) : null,
+        range_position:   row.range_position ? parseFloat(row.range_position) : null,
+        avg_2y_price:     row.avg_2y_price ? parseFloat(row.avg_2y_price) : null,
+        pct_vs_2y_avg:    row.pct_vs_2y_avg ? parseFloat(row.pct_vs_2y_avg) : null,
+        vol_ratio:        row.vol_ratio ? parseFloat(row.vol_ratio) : null,
+        change_1d:        row.change_1d ? parseFloat(row.change_1d) : null,
+        dist_yield_pct:   row.dist_yield_pct ? parseFloat(row.dist_yield_pct) : null,
+        expense_ratio_pct: row.expense_ratio_pct ? parseFloat(row.expense_ratio_pct) : null,
+        momentum_signal:  row.momentum_signal ?? '',
+        seasonality:      row.seasonality ?? '',
+        value_rating:     row.value_rating ?? '',
+        recommendation:   row.recommendation ?? '',
+        cycle_driver:     row.cycle_driver ?? '',
+        cycle_bullish:    row.cycle_bullish ?? '',
+        cycle_bearish:    row.cycle_bearish ?? '',
+        generated_at:     row.generated_at ?? '',
+      }
+    })
+  } catch {
+    try {
+      const res = await apiClient.get<{ data: CommodityOpportunity[] }>('/api/commodities')
+      return res.data.data ?? []
+    } catch {
+      return []
+    }
+  }
 }
 
 export interface MlWinPrediction {

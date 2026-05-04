@@ -4207,6 +4207,21 @@ def preferred_stocks():
         return jsonify({'data': [], 'count': 0, 'error': str(e)})
 
 
+@app.route('/api/commodities')
+def commodities():
+    """Commodity ETF opportunities from commodity_scanner.py output."""
+    import json as _json
+    p = DOCS / 'commodity_opportunities.csv'
+    if not p.exists():
+        return jsonify({'data': [], 'count': 0, 'error': 'commodity_opportunities.csv not found'})
+    try:
+        df = pd.read_csv(p)
+        records = _json.loads(df.to_json(orient='records'))
+        return jsonify({'data': records, 'count': len(records)})
+    except Exception as e:
+        return jsonify({'data': [], 'count': 0, 'error': str(e)})
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # ADMIN — solo accesible por el owner (user_id hardcoded)
 # ─────────────────────────────────────────────────────────────────────────────

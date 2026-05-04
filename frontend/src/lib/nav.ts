@@ -3,7 +3,7 @@ import {
   PieChart, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Star, Radar, CalendarDays, AlertTriangle,
   DollarSign, Wallet, Bell, Brain,
-  Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2,
+  Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2, Wheat,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -40,6 +40,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { path: '/macro-radar',    icon: Radar,           label: 'Macro',          color: '#e11d48', logo: 'llama-network.png',       keywords: ['macro', 'radar', 'economía', 'países', 'pib', 'global', 'country'] },
       { path: '/bonds',          icon: Landmark,        label: 'Bonos',          color: '#06b6d4',                                 keywords: ['bonos', 'renta fija', 'yield', 'treasury', 'etf', 'corporativo', 'tlt', 'ief'] },
+      { path: '/commodities',    icon: Wheat,           label: 'Materias primas', color: '#f59e0b',                                keywords: ['materias primas', 'commodities', 'oro', 'plata', 'petroleo', 'trigo', 'cobre', 'cafe', 'cacao', 'gas'] },
       { path: '/earnings',        icon: CalendarDays,  label: 'Calendario',      color: '#f59e0b', keywords: ['earnings', 'resultados', 'calendario', 'catalyst', 'catalizador', 'fda', 'pdufa'] },
       { path: '/dividend-traps',  icon: AlertTriangle, label: 'Dividend traps',  color: '#ef4444', keywords: ['dividendo', 'trampa', 'yield trap'] },
       { path: '/compare',         icon: Shuffle,       label: 'Comparar',        color: '#0ea5e9', keywords: ['comparar', 'comparador', 'compare'] },
