@@ -4265,6 +4265,7 @@ def admin_usage():
 
     # ── registered users (auth.users via admin endpoint) ──────────────────────
     registered_users = []
+    _debug: dict = {'url_base': bool(url_base), 'svc_key': bool(svc_key)}
     if url_base and svc_key:
         import requests as _req
         try:
@@ -4273,9 +4274,12 @@ def admin_usage():
                 headers={'apikey': svc_key, 'Authorization': f'Bearer {svc_key}'},
                 timeout=10,
             )
+            _debug['auth_status'] = r.status_code
             if r.ok:
                 data = r.json()
+                _debug['auth_raw_keys'] = list(data.keys()) if isinstance(data, dict) else type(data).__name__
                 users_list = data.get('users', data) if isinstance(data, dict) else data
+                _debug['users_found'] = len(users_list)
                 registered_users = [
                     {
                         'user_id': u.get('id'),
@@ -4286,7 +4290,10 @@ def admin_usage():
                     }
                     for u in users_list
                 ]
+            else:
+                _debug['auth_error'] = r.text[:300]
         except Exception as e:
+            _debug['auth_exception'] = str(e)
             _logger.warning("admin/users fetch → %s", e)
 
     # ── personal portfolio positions ───────────────────────────────────────────
@@ -4345,6 +4352,7 @@ def admin_usage():
         'total_journal_entries': len(journal),
         'portfolio_by_user': portfolio_stats,
         'top_tickers': [{'ticker': t, 'count': c} for t, c in ticker_frequency],
+        '_debug': _debug,
     })
 
 
