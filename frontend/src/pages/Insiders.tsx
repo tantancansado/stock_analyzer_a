@@ -160,7 +160,7 @@ export default function Insiders() {
                             {d.unique_insiders}
                           </span>
                         </TableCell>
-                        <TableCell className="hidden md:table-cell tabular-nums text-muted-foreground">{fmtQty(d.total_qty)}</TableCell>
+                        <TableCell className="hidden md:table-cell tabular-nums text-muted-foreground">{fmtQty(d.total_shares ?? d.total_qty)}</TableCell>
                         <TableCell className="hidden sm:table-cell text-muted-foreground text-[0.75rem]">{d.last_purchase}</TableCell>
                         <TableCell>
                           {isEu && d.confidence_label

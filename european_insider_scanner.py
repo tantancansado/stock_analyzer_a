@@ -346,10 +346,25 @@ def analyze_eu_recurring(df: pd.DataFrame, min_purchases: int = MIN_PURCHASES) -
         else:
             label = "MODERADA"
 
+        total_shares = int(group["Shares"].sum()) if "Shares" in group.columns else 0
+
+        # Fetch company name — fast_info first, info as fallback
+        company_name = ""
+        try:
+            tk = yf.Ticker(str(ticker))
+            company_name = tk.fast_info.get("longName") or ""
+            if not company_name:
+                company_name = tk.info.get("longName") or tk.info.get("shortName") or ""
+        except Exception:
+            pass
+        time.sleep(0.3)
+
         results.append({
             "ticker":           ticker,
+            "company_name":     company_name,
             "purchase_count":   purchase_count,
             "unique_insiders":  unique_insiders,
+            "total_shares":     total_shares,
             "days_span":        days_span,
             "first_purchase":   first_purchase,
             "last_purchase":    last_purchase,
@@ -386,8 +401,8 @@ def save_eu_insiders(df: pd.DataFrame) -> None:
     if df.empty:
         # Write empty file with correct schema so API doesn't break
         empty = pd.DataFrame(columns=[
-            "ticker", "purchase_count", "unique_insiders", "days_span",
-            "first_purchase", "last_purchase", "confidence_score",
+            "ticker", "company_name", "purchase_count", "unique_insiders", "total_shares",
+            "days_span", "first_purchase", "last_purchase", "confidence_score",
             "confidence_label", "market",
         ])
         empty.to_csv(path, index=False)

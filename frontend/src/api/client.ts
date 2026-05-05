@@ -158,7 +158,8 @@ export interface InsiderData {
   days_span: number
   first_purchase?: string
   last_purchase: string
-  total_qty?: number
+  total_qty?: number        // US field
+  total_shares?: number     // EU field
   confidence_score: number
   confidence_label?: string // EU field
   market?: string
