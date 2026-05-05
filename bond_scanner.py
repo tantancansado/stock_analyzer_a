@@ -58,6 +58,10 @@ UNIVERSE = [
     ("IBTS.MI", "iShares EUR Govt 1-3yr",         "EUR_Govt",   1.9,  "EUR"),
     ("IEAG.MI", "iShares EUR IG Corporate",       "EUR_IG",     5.0,  "EUR"),
     ("IEMB.MI", "iShares EUR Emerging Mkts Bond", "EM_Bond",    6.5,  "EUR"),
+    # ── UK Gilts (GBP) ───────────────────────────────────────────────────────
+    ("IGLT.L",  "iShares UK Gilts All Stocks",   "UK_Gilt",    9.5,  "GBP"),
+    ("VGOV.L",  "Vanguard UK Govt Bond",         "UK_Gilt",   13.5,  "GBP"),
+    ("IGLS.L",  "iShares UK Gilts 0-5yr",        "UK_Gilt",    2.8,  "GBP"),
     # ── EM Dollar ────────────────────────────────────────────────────────────
     ("EMB",     "iShares USD Emerging Mkts Bond", "EM_Bond",    7.2,  "USD"),
 ]
@@ -85,6 +89,10 @@ HIST_AVG_YIELD = {
     "IEAG.MI": 3.0,
     "IEMB.MI": 5.5,
     "EMB":     6.5,
+    # UK Gilts — historical avg yield (10y ~4.0%, 30y ~4.5% over past 20 years)
+    "IGLT.L":  4.0,   # all-stocks avg ~4%
+    "VGOV.L":  4.2,   # longer duration, slightly higher avg
+    "IGLS.L":  3.5,   # short gilts, lower avg
 }
 
 # Max drawdown thresholds to flag price dislocation (% below 52w high)
@@ -250,11 +258,19 @@ def _recommendation(bond_type: str, value_rating: str, duration_years: float) ->
             return "Bono europeo atractivo, diversifica fuera USD"
         if bond_type == "EM_Bond":
             return "Emergentes con prima de riesgo atractiva"
+        if bond_type == "UK_Gilt":
+            if duration_years >= 10:
+                return "Gilt largo: yield históricamente alto — atractivo si BoE recorta tipos, riesgo divisa GBP"
+            return "Gilt corto: yield competitivo con bajo riesgo de duración, riesgo divisa GBP"
         return "Atractivo para asignación de renta fija"
     if value_rating == "NEUTRAL":
         if bond_type == "T_Bill":
             return "Yield aceptable para liquidez pero sin prima especial ahora"
+        if bond_type == "UK_Gilt":
+            return "Gilt a yield justo — esperar catalizador BoE antes de entrar"
         return "Precio justo — mantener si ya en cartera"
+    if bond_type == "UK_Gilt":
+        return "Gilt caro vs histórico — yield insuficiente dado riesgo inflación UK"
     return "Caro vs histórico — esperar corrección"
 
 

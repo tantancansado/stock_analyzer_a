@@ -17,6 +17,7 @@ const BOND_TYPE_LABELS: Record<string, string> = {
   EUR_Govt:  'Gob EUR',
   EUR_IG:    'Corp EUR IG',
   EM_Bond:   'Emergentes',
+  UK_Gilt:   'Gilt UK',
 }
 
 const TYPE_COLORS: Record<string, string> = {
@@ -30,6 +31,7 @@ const TYPE_COLORS: Record<string, string> = {
   EUR_Govt:  'text-purple-400 bg-purple-500/10 border-purple-500/25',
   EUR_IG:    'text-violet-400 bg-violet-500/10 border-violet-500/25',
   EM_Bond:   'text-pink-400 bg-pink-500/10 border-pink-500/25',
+  UK_Gilt:   'text-red-300 bg-red-500/10 border-red-500/25',
 }
 
 const RATING_CONFIG = {
@@ -1110,7 +1112,7 @@ function PreferredSection() {
 
 // ─── Filters ──────────────────────────────────────────────────────────────────
 
-type FilterType = 'ALL' | 'T_Bill' | 'EUR_Cash' | 'Treasury' | 'IG_Corp' | 'HY_Corp' | 'TIPS' | 'EUR_Govt' | 'EUR_IG' | 'EM_Bond' | 'Aggregate'
+type FilterType = 'ALL' | 'T_Bill' | 'EUR_Cash' | 'Treasury' | 'IG_Corp' | 'HY_Corp' | 'TIPS' | 'EUR_Govt' | 'EUR_IG' | 'EM_Bond' | 'Aggregate' | 'UK_Gilt'
 
 const TYPE_FILTERS: { key: FilterType; label: string }[] = [
   { key: 'ALL',       label: 'Todos' },
@@ -1124,6 +1126,7 @@ const TYPE_FILTERS: { key: FilterType; label: string }[] = [
   { key: 'EUR_IG',    label: 'EUR Corp' },
   { key: 'EM_Bond',   label: 'Emergentes' },
   { key: 'Aggregate', label: 'Agregado' },
+  { key: 'UK_Gilt',   label: 'Gilt UK' },
 ]
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
