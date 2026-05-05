@@ -167,9 +167,7 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
         onError={handleError}
         onLoad={handleLoad}
         className={cn('w-full h-full object-contain', pad)}
-        loading="lazy"
         decoding="async"
-        referrerPolicy="no-referrer"
       />
     </span>
   )
