@@ -350,7 +350,9 @@ const TICKER_DOMAIN: Record<string, string> = {
  * Fallback handled in TickerLogo component via onError → initials badge.
  */
 export function getLogoUrl(ticker: string): string {
-  return `https://assets.parqet.com/logos/symbol/${encodeURIComponent(ticker)}?format=jpg`
+  // FMP has CORS open (*) and covers both US and EU tickers (AAL.L, SIE.DE, etc.)
+  // Parqet was blocking logos in the browser due to missing Access-Control-Allow-Origin header
+  return `https://financialmodelingprep.com/image-stock/${encodeURIComponent(ticker)}.png`
 }
 
 /**
