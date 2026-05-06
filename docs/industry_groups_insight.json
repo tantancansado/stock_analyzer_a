@@ -1,79 +1,79 @@
 {
-  "date": "2026-05-05",
-  "timestamp": "2026-05-05T07:57:58.194297",
-  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos, como Discount Stores y Beverages - Non-Alcoholic, que lideran el ranking de Relative Strength. Esto sugiere que los inversores est\u00e1n buscando seguridad en un entorno de bajo riesgo, consistente con el r\u00e9gimen macro CALM. Se recomienda concentrar las b\u00fasquedas en sectores defensivos y evitar los c\u00edclicos y tecnol\u00f3gicos, como Auto Parts e Information Technology Services, que se encuentran en los \u00faltimos lugares del ranking.",
+  "date": "2026-05-06",
+  "timestamp": "2026-05-06T08:12:16.434064",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos, como Discount Stores y Beverages - Non-Alcoholic, que lideran el ranking de Relative Strength. Esto es consistente con el r\u00e9gimen macro CALM, que suele favorecer a los sectores m\u00e1s estables. Se recomienda concentrar las b\u00fasquedas en sectores defensivos y evitar los c\u00edclicos y tecnol\u00f3gicos, como Diagnostics & Research y Information Technology Services, que se encuentran en los \u00faltimos lugares del ranking.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 49.0,
+      "avg_rs_percentile": 47.6,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 39.3,
+      "avg_rs_percentile": 42.0,
       "num_tickers": 7,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Beverages - Non-Alcoholic",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 37.1,
-      "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 36.6,
+      "avg_rs_percentile": 35.7,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Beverages - Non-Alcoholic",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 35.2,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Financial Data & Stock Exchanges",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 31.4,
-      "num_tickers": 10,
+      "industry": "Internet Content & Information",
+      "sector": "Communication Services",
+      "avg_rs_percentile": 30.0,
+      "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Auto Parts",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 6.4,
-      "num_tickers": 2,
+      "industry": "Diagnostics & Research",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 2.9,
+      "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Diagnostics & Research",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 1.1,
-      "num_tickers": 4,
+      "industry": "Credit Services",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 2.1,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Insurance Brokers",
       "sector": "Financial Services",
-      "avg_rs_percentile": 0.9,
+      "avg_rs_percentile": 1.2,
       "num_tickers": 4,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Information Technology Services",
-      "sector": "Technology",
-      "avg_rs_percentile": 0.5,
-      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Medical Devices",
       "sector": "Healthcare",
-      "avg_rs_percentile": 0.0,
+      "avg_rs_percentile": 0.5,
       "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Information Technology Services",
+      "sector": "Technology",
+      "avg_rs_percentile": 0.2,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     }
   ],
