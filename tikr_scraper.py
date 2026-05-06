@@ -1417,7 +1417,7 @@ if __name__ == '__main__':
     elif args.tickers:
         run_tickers = [t.strip().upper() for t in args.tickers.split(',') if t.strip()]
     elif args.run:
-        run_tickers = {1: TIER_1, 2: TIER_2, 3: TIER_3}.get(args.tier, get_universe())
+        run_tickers = {1: TIER_1, 2: TIER_2, 3: TIER_3}.get(args.tier, get_universe(include_hf_watch=True))
     else:
         parser.print_help()
         sys.exit(1)

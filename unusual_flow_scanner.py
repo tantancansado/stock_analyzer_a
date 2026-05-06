@@ -66,7 +66,7 @@ CHAT_ID   = os.environ.get('TELEGRAM_CHAT_ID', '')
 def load_ticker_universe() -> list[str]:
     """Carga el universo curado de ~105 empresas de calidad."""
     from curated_tickers import get_universe
-    tickers = set(get_universe())
+    tickers = set(get_universe(include_hf_watch=True))
 
     # Añadir ETFs de referencia para contexto de mercado
     tickers.update(['SPY', 'QQQ', 'IWM', 'GLD', 'TLT', 'XLF', 'XLE', 'XLK'])

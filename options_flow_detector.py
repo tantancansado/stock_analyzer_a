@@ -375,7 +375,7 @@ class OptionsFlowDetector:
 def load_5d_opportunities() -> Tuple[List[str], Dict[str, str]]:
     """Carga tickers del universo curado (Tier 1+2+3, ~105 empresas de calidad)."""
     from curated_tickers import get_universe
-    tickers = get_universe()
+    tickers = get_universe(include_hf_watch=True)
 
     company_names = {}
     fs_path = Path("docs/fundamental_scores.csv")

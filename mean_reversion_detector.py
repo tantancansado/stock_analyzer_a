@@ -1061,7 +1061,7 @@ Tono: técnico, directo. Sin emojis."""
 def load_5d_opportunities() -> Tuple[List[str], Dict[str, str]]:
     """Carga tickers del universo curado (Tier 1+2+3, ~105 empresas de calidad)."""
     from curated_tickers import get_universe
-    tickers = get_universe()
+    tickers = get_universe(include_hf_watch=True)
 
     # Intentar cargar company_names desde fundamental_scores si existe
     company_names = {}

@@ -30,7 +30,7 @@ HORIZON_DAYS = 90  # cuántos días hacia adelante cubrir
 
 # ─── Universo de tickers a monitorear ────────────────────────────────────────
 # Siempre usar el universo curado como fuente de verdad
-from curated_tickers import ALL_TICKERS as _CURATED
+from curated_tickers import HF_UNIVERSE as _CURATED
 
 # Sector ETFs solo como contexto macro (no se analizan fundamentalmente)
 _MACRO_ETFS = [
