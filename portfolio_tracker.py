@@ -699,15 +699,107 @@ class PortfolioTracker:
         print(f"  Summary saved: {SUMMARY_FILE}")
 
 
+def backfill_alpha(tracker: 'PortfolioTracker') -> int:
+    """
+    Backfill alpha_7d / alpha_14d / alpha_30d for COMPLETED signals that have
+    return data but no benchmark comparison.
+
+    Downloads SPY (US/MOMENTUM) and VGK (EU_VALUE) history once for the full
+    date range, then computes alpha for every row missing it.
+    Returns count of rows updated.
+    """
+    df = tracker.recommendations
+    if df.empty:
+        return 0
+
+    # Rows that have a return but no alpha yet
+    needs = df[
+        df['return_7d'].notna() &
+        (df['alpha_7d'].isna() | (df['alpha_7d'] == ''))
+    ].copy()
+
+    if needs.empty:
+        print("  No rows need alpha backfill.")
+        return 0
+
+    print(f"  Backfilling alpha for {len(needs)} rows…")
+
+    # Date range: earliest signal to today
+    earliest = pd.Timestamp(needs['signal_date'].min()) - timedelta(days=1)
+    end_str   = (pd.Timestamp.now() + timedelta(days=2)).strftime('%Y-%m-%d')
+    start_str = earliest.strftime('%Y-%m-%d')
+
+    bench_hists: dict[str, pd.DataFrame] = {}
+    for bench in ['SPY', 'VGK']:
+        try:
+            h = yf.Ticker(bench).history(start=start_str, end=end_str)
+            if not h.empty:
+                if h.index.tz is not None:
+                    h.index = h.index.tz_localize(None)
+                bench_hists[bench] = h
+                print(f"  Downloaded {bench}: {len(h)} days")
+        except Exception as e:
+            print(f"  Warning: could not download {bench}: {e}")
+
+    if not bench_hists:
+        print("  No benchmark data available — skipping backfill.")
+        return 0
+
+    updated = 0
+    for idx, row in needs.iterrows():
+        signal_date = pd.Timestamp(row['signal_date'])
+        strategy    = str(row.get('strategy', 'VALUE'))
+        bench_key   = 'VGK' if strategy == 'EU_VALUE' else 'SPY'
+        bh = bench_hists.get(bench_key)
+        if bh is None:
+            continue
+
+        for period, col_ret, col_bench, col_alpha in [
+            (7,  'return_7d',  'benchmark_return_7d',  'alpha_7d'),
+            (14, 'return_14d', 'benchmark_return_14d', 'alpha_14d'),
+            (30, 'return_30d', 'benchmark_return_30d', 'alpha_30d'),
+        ]:
+            sig_return = row.get(col_ret)
+            if pd.isna(sig_return):
+                continue
+            # Only backfill if not already set
+            existing = row.get(col_alpha)
+            if not pd.isna(existing) and existing != '':
+                continue
+
+            check_date = signal_date + timedelta(days=period)
+            b_sig_mask   = bh.index >= signal_date
+            b_check_mask = bh.index >= check_date
+            if not b_sig_mask.any() or not b_check_mask.any():
+                continue
+
+            b_sig_price   = float(bh.loc[b_sig_mask,   'Close'].iloc[0])
+            b_check_price = float(bh.loc[b_check_mask, 'Close'].iloc[0])
+            if b_sig_price <= 0:
+                continue
+
+            bench_ret = (b_check_price - b_sig_price) / b_sig_price * 100
+            alpha     = float(sig_return) - bench_ret
+
+            df.at[idx, col_bench] = round(bench_ret, 2)
+            df.at[idx, col_alpha] = round(alpha, 2)
+            updated += 1
+
+    tracker._save_recommendations()
+    print(f"  ✓ Backfilled {updated} alpha values across {len(needs)} rows.")
+    return updated
+
+
 def main():
     parser = argparse.ArgumentParser(description='Portfolio Tracker')
-    parser.add_argument('--record', action='store_true', help='Record today\'s signals')
-    parser.add_argument('--update', action='store_true', help='Update performance for past signals')
-    parser.add_argument('--report', action='store_true', help='Generate and print performance report')
-    parser.add_argument('--all', action='store_true', help='Record + Update + Report')
+    parser.add_argument('--record',         action='store_true', help='Record today\'s signals')
+    parser.add_argument('--update',         action='store_true', help='Update performance for past signals')
+    parser.add_argument('--report',         action='store_true', help='Generate and print performance report')
+    parser.add_argument('--all',            action='store_true', help='Record + Update + Report')
+    parser.add_argument('--backfill-alpha', action='store_true', help='Backfill alpha vs SPY/VGK for completed signals')
     args = parser.parse_args()
 
-    if not any([args.record, args.update, args.report, args.all]):
+    if not any([args.record, args.update, args.report, args.all, args.backfill_alpha]):
         args.all = True
 
     tracker = PortfolioTracker()
@@ -725,6 +817,11 @@ def main():
         print("\n2. UPDATING PERFORMANCE")
         print("-" * 40)
         tracker.update_performance()
+
+    if args.backfill_alpha:
+        print("\n[BACKFILL] ALPHA VS BENCHMARK")
+        print("-" * 40)
+        backfill_alpha(tracker)
 
     if args.report or args.all:
         print("\n3. GENERATING REPORT")

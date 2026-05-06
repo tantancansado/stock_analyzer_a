@@ -162,7 +162,7 @@ jobs:
         run: python3 generate_insights.py || echo "AI insights generation failed"
 
       - name: Portfolio Tracker (record signals + update performance) [CRITICAL]
-        run: python3 portfolio_tracker.py --all
+        run: python3 portfolio_tracker.py --all --backfill-alpha
 
       - name: Entry Verdict Agent (¿Entro hoy? per ticker)
         continue-on-error: true

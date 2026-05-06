@@ -46,6 +46,7 @@ const Bonds            = lazy(() => import('./pages/Bonds'))
 const AdminUsage       = lazy(() => import('./pages/AdminUsage'))
 const SignalStats      = lazy(() => import('./pages/SignalStats'))
 const Commodities      = lazy(() => import('./pages/Commodities'))
+const ThesisDrift      = lazy(() => import('./pages/ThesisDrift'))
 
 function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) {
   return (
@@ -307,6 +308,7 @@ export default function App() {
                   <Route path="/admin/usage"     element={<AdminUsage />} />
                   <Route path="/signal-stats"    element={<SignalStats />} />
                   <Route path="/commodities"     element={<Commodities />} />
+                  <Route path="/thesis-drift"    element={<ThesisDrift />} />
                 </Route>
               </Routes>
             </motion.div>

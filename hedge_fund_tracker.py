@@ -394,7 +394,7 @@ def main():
         'generated_at':   datetime.utcnow().isoformat() + 'Z',
         'funds_scraped':  list(VALUE_FUNDS.values()),
         'holdings_count': len(df),
-        'top_consensus':  summary_df.head(40).to_dict('records'),
+        'top_consensus':  summary_df.to_dict('records'),
     }
     json_path = OUTPUT_DIR / 'hedge_fund_summary.json'
     with open(json_path, 'w') as f:

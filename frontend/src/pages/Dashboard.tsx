@@ -8,6 +8,7 @@ import {
   fetchPortfolioTracker, fetchRecurringInsiders, fetchOptionsFlow, fetchMeanReversion,
   fetchMacroRadar, fetchDailyBriefing, fetchMarketBreadth, fetchCerebroConvergence, fetchCerebroAlerts,
   fetchCerebroEntrySignals, fetchCerebroDailyPlan, fetchLivePrices, fetchPortfolioNews, fetchPortfolioPrices,
+  fetchCerebroSmartMoney, type SmartMoneySignal,
   type ValueOpportunity, type InsiderData, type PortfolioSummary, type BreadthData, type CerebroAlert,
   type DailyPlan, type DailyPlanAction, type MacroPlay, type LivePricesData, type PortfolioNewsItem,
 } from '../api/client'
@@ -714,6 +715,59 @@ function EntrySignalsMini({ data, loading }: {
   )
 }
 
+function SmartMoneyMini({ data, loading }: {
+  data: { total: number; signals: SmartMoneySignal[] } | null
+  loading: boolean
+}) {
+  const top = (data?.signals ?? []).slice(0, 6)
+
+  function tierLabel(s: SmartMoneySignal) {
+    if (s.n_hedge_funds > 0 && s.n_insiders > 0) return { label: 'HF+INS', style: 'bg-amber-500/20 text-amber-400 border-amber-500/30' }
+    if (s.n_insiders >= 3 && s.in_value) return { label: 'INSIDER', style: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' }
+    return { label: 'HF', style: 'bg-blue-500/20 text-blue-400 border-blue-500/30' }
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-2 px-1">
+        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+          <Sparkles size={11} /> Smart Money
+        </span>
+        <Link to="/cerebro" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
+          {!loading && <span className="mr-0.5">{data?.total ?? 0} señales</span>}
+          <ChevronRight size={11} />
+        </Link>
+      </div>
+      <Card className="glass p-4">
+        {loading ? (
+          <div className="space-y-2">{['a','b','c'].map(k => <Skeleton key={k} className="h-4 w-full" />)}</div>
+        ) : top.length === 0 ? (
+          <p className="text-sm text-muted-foreground text-center py-1">Sin confluencia smart money</p>
+        ) : (
+          <div className="space-y-2">
+            {top.map(s => {
+              const { label, style } = tierLabel(s)
+              return (
+                <div key={s.ticker} className="flex items-center justify-between gap-2">
+                  <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline shrink-0">
+                    {s.ticker}
+                  </Link>
+                  <div className="flex items-center gap-1 flex-wrap justify-end">
+                    <span className={`text-[0.5rem] font-bold px-1 py-0 rounded border ${style}`}>{label}</span>
+                    {s.value_score != null && (
+                      <span className="text-[0.58rem] text-muted-foreground tabular-nums">V{Math.round(s.value_score)}</span>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </Card>
+    </div>
+  )
+}
+
 // ── LivePricesBar ─────────────────────────────────────────────────────────────
 
 const LIVE_ORDER = ['vix', 'spy', 'oil', 'gold', 'tnx', 'tyx', 'dxy'] as const
@@ -1225,6 +1279,7 @@ export default function Dashboard() {
   const { data: cerebroConv, loading: loadingConv } = useApi(() => fetchCerebroConvergence(), [])
   const { data: cerebroAlertsRaw, loading: loadingAlerts } = useApi(() => fetchCerebroAlerts(), [])
   const { data: cerebroEntry, loading: loadingEntry } = useApi(() => fetchCerebroEntrySignals(), [])
+  const { data: smartMoneyRaw, loading: loadingSmartMoney } = useApi(() => fetchCerebroSmartMoney(), [])
   const { data: dailyPlanRaw, loading: loadingDailyPlan } = useApi(() => fetchCerebroDailyPlan(), [])
   const { data: portfolioNewsRaw, loading: loadingPortfolioNews } = useApi(() => fetchPortfolioNews(), [])
 
@@ -1632,9 +1687,10 @@ export default function Dashboard() {
           </div>
 
           {/* Cerebro widgets */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
             <EntrySignalsMini data={cerebroEntry} loading={loadingEntry} />
             <ConvergenciaMini loading={loadingConv} data={cerebroConv} />
+            <SmartMoneyMini data={smartMoneyRaw} loading={loadingSmartMoney} />
             <BreadthMini data={breadthRaw ?? undefined} loading={loadingBreadth} />
             <WatchlistAlertsMini
               alerts={cerebroAlertsRaw?.alerts}
