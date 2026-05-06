@@ -44,7 +44,19 @@ jobs:
           git config --local user.name "GitHub Actions Bot"
           git add docs/portfolio_news.json docs/.portfolio_news_seen.json || echo "Nothing to add"
           git commit -m "chore: portfolio news update $(date +%Y-%m-%d\ %H:%M)" || echo "No changes"
-          git pull --rebase origin main && git push || echo "Push failed"
+          push_with_retry() {
+            for i in 1 2 3; do
+              git fetch origin main
+              git stash --include-untracked 2>/dev/null || true
+              git rebase origin/main && git push && echo "Push OK (attempt $i)" && return 0
+              git rebase --abort 2>/dev/null || true
+              echo "Attempt $i failed, retrying..."
+              sleep $((i * 5))
+            done
+            echo "All push attempts failed"
+            return 1
+          }
+          push_with_retry || true
 
       - name: Trigger GitHub Pages Deployment
         if: always()

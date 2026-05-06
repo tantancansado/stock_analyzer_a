@@ -202,14 +202,6 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: pip install mplfinance 2>/dev/null || true; python3 chart_analyzer.py --batch || echo "Chart analyzer failed"
 
-      - name: Bond Scanner (ETF + corporate bond opportunities)
-        continue-on-error: true
-        run: python3 bond_scanner.py || echo "Bond scanner failed"
-
-      - name: Commodity Scanner (ETF materias primas)
-        continue-on-error: true
-        run: python3 commodity_scanner.py || echo "Commodity scanner failed"
-
       # ── Commit core outputs para que scanners los lea en su checkout ────────
       - name: Commit Core Outputs
         if: always()
@@ -271,6 +263,14 @@ jobs:
           pip install pandas numpy yfinance requests beautifulsoup4 lxml
           pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
           pip install groq pyyaml
+
+      - name: Bond Scanner (ETF + corporate bond opportunities)
+        continue-on-error: true
+        run: python3 bond_scanner.py || echo "Bond scanner failed"
+
+      - name: Commodity Scanner (ETF materias primas)
+        continue-on-error: true
+        run: python3 commodity_scanner.py || echo "Commodity scanner failed"
 
       - name: Check Price Alerts (send emails via Resend)
         continue-on-error: true

@@ -3749,6 +3749,15 @@ def scan_daily_plan(exit_sigs: dict, value_traps: dict, smart_money: dict, squee
 # MAIN
 # ══════════════════════════════════════════════════════════════════════════════
 
+def _safe_run(name: str, fn, *args, default=None):
+    """Run a scan module, catching all exceptions so one failure doesn't abort the rest."""
+    try:
+        return fn(*args)
+    except Exception as exc:
+        print(f"⚠  {name} failed: {exc}")
+        return default if default is not None else {}
+
+
 def main():
     _reset_csv_cache()
     print("=" * 60)
@@ -3758,35 +3767,36 @@ def main():
         print("⚠  No GROQ_API_KEY — rule-based mode (no AI narratives)")
 
     # Original 6 modules
-    insights    = mine_patterns()
-    convergence = scan_convergence()
-    alerts      = generate_alerts(convergence)
-    calibration = self_calibrate(insights)
-    tuning      = auto_tune(insights, calibration)
-    entry_sigs  = scan_entry_signals(convergence)
+    insights    = _safe_run("mine_patterns",           mine_patterns)
+    convergence = _safe_run("scan_convergence",        scan_convergence)
+    alerts      = _safe_run("generate_alerts",         generate_alerts,      convergence)
+    calibration = _safe_run("self_calibrate",          self_calibrate,       insights)
+    tuning      = _safe_run("auto_tune",               auto_tune,            insights, calibration)
+    entry_sigs  = _safe_run("scan_entry_signals",      scan_entry_signals,   convergence)
 
     # New agent modules
-    exit_sigs   = scan_exit_signals()
-    value_traps = scan_value_traps()
-    smart_money = scan_smart_money()
-    ins_clusters= scan_insider_clusters()
-    div_safety  = scan_dividend_safety()
-    piotroski   = scan_piotroski_momentum()
-    stress      = scan_portfolio_stress()
-    squeeze     = scan_short_squeeze()
-    decay       = scan_quality_decay()
-    sector_rv   = scan_sector_relative_value()
+    exit_sigs   = _safe_run("scan_exit_signals",       scan_exit_signals)
+    value_traps = _safe_run("scan_value_traps",        scan_value_traps)
+    smart_money = _safe_run("scan_smart_money",        scan_smart_money)
+    ins_clusters= _safe_run("scan_insider_clusters",   scan_insider_clusters)
+    div_safety  = _safe_run("scan_dividend_safety",    scan_dividend_safety)
+    piotroski   = _safe_run("scan_piotroski_momentum", scan_piotroski_momentum)
+    stress      = _safe_run("scan_portfolio_stress",   scan_portfolio_stress)
+    squeeze     = _safe_run("scan_short_squeeze",      scan_short_squeeze)
+    decay       = _safe_run("scan_quality_decay",      scan_quality_decay)
+    sector_rv   = _safe_run("scan_sector_relative_value", scan_sector_relative_value)
 
     # ── New agents (6) ────────────────────────────────────────────────────────
-    earnings_rev  = scan_earnings_revisions()
-    regime_trans  = scan_regime_transition()
-    thesis_drift  = scan_thesis_drift()
-    corr_bd       = scan_correlation_breakdown(exit_sigs, decay)
-    comp_disp     = scan_competitor_displacement()
-    opts_quality  = scan_options_signal_quality()
+    earnings_rev  = _safe_run("scan_earnings_revisions",     scan_earnings_revisions)
+    regime_trans  = _safe_run("scan_regime_transition",      scan_regime_transition)
+    thesis_drift  = _safe_run("scan_thesis_drift",           scan_thesis_drift)
+    corr_bd       = _safe_run("scan_correlation_breakdown",  scan_correlation_breakdown, exit_sigs, decay)
+    comp_disp     = _safe_run("scan_competitor_displacement", scan_competitor_displacement)
+    opts_quality  = _safe_run("scan_options_signal_quality", scan_options_signal_quality)
 
-    briefing    = generate_personal_briefing(entry_sigs, convergence, alerts, value_traps, exit_sigs, smart_money)
-    daily_plan  = scan_daily_plan(exit_sigs, value_traps, smart_money, squeeze)
+    briefing    = _safe_run("generate_personal_briefing", generate_personal_briefing,
+                            entry_sigs, convergence, alerts, value_traps, exit_sigs, smart_money)
+    daily_plan  = _safe_run("scan_daily_plan", scan_daily_plan, exit_sigs, value_traps, smart_money, squeeze)
 
     save_json(DOCS / "cerebro_insights.json",           insights)
     save_json(DOCS / "cerebro_convergence.json",         convergence)
