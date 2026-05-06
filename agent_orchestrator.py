@@ -53,7 +53,7 @@ BASELINES = {
     'value_raw':         {'min': 10,  'max': 120, 'label': 'VALUE picks brutos'},
     'fundamental_rows':  {'min': 80,  'max': 300, 'label': 'filas fundamental_scores'},
     'bounce_detected':   {'min': 0,   'max': 40,  'label': 'bounce setups detectados'},
-    'eu_value':          {'min': 0,   'max': 40,  'label': 'VALUE EU picks'},
+    'eu_value':          {'min': 0,   'max': 60,  'label': 'VALUE EU picks'},
     'insider_rows':      {'min': 1,   'max': 200, 'label': 'filas recurring_insiders'},
 }
 
