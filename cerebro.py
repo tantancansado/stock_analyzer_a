@@ -437,9 +437,12 @@ def self_calibrate(insights: dict) -> dict:
         if tier["vs_baseline_wr"] > 10 and tier["n"] >= 10:
             recs.append(dict(type="BOOST", factor=f"Score {tier['label']}",
                 insight=f"WR {tier['win_rate_7d']}% ({tier['vs_baseline_wr']:+.1f}pp sobre base). Priorizar este rango.", n=tier["n"]))
-        elif tier["vs_baseline_wr"] < -10 and tier["n"] >= 10:
+        # Lowered threshold to -5pp (from -10pp) so the 70-80 anomaly is caught
+        # (WR 19% vs baseline 26% = -6.9pp, which was silently ignored before)
+        elif tier["vs_baseline_wr"] < -5 and tier["n"] >= 20:
             recs.append(dict(type="REDUCE", factor=f"Score {tier['label']}",
-                insight=f"Solo {tier['win_rate_7d']}% WR ({tier['vs_baseline_wr']:+.1f}pp bajo base). Filtrar más agresivo.", n=tier["n"]))
+                insight=f"Solo {tier['win_rate_7d']}% WR ({tier['vs_baseline_wr']:+.1f}pp bajo base, n={tier['n']}). "
+                        f"Este rango de score no discrimina bien — filtrar más agresivo o revisar factores.", n=tier["n"]))
 
     for reg in insights.get("market_regimes", []):
         if reg["vs_baseline_wr"] < -15 and reg["n"] >= 5:
@@ -1035,8 +1038,15 @@ def scan_value_traps() -> dict:
 
 def scan_smart_money() -> dict:
     """
-    Finds tickers where hedge funds (13F) AND insiders are buying simultaneously.
-    Smart money convergence = maximum conviction signal.
+    Finds tickers where smart money is accumulating. Three tiers:
+      Tier 1 (MAX): HF holdings AND insider buying simultaneously
+      Tier 2 (HIGH): Strong insider buying (≥3 insiders) in a VALUE pick
+      Tier 3 (MEDIUM): HF-tracked ticker that appears in VALUE opportunities
+
+    The old "must be in BOTH" requirement produced zero results because
+    the 3 tracked funds (Buffett/Ackman/Tepper) don't overlap with curated
+    insider universe. Tiered approach captures real signal without needing
+    perfect intersection.
     """
     print("[9/13] Smart money scan...")
     hf_df    = load_csv(DOCS / "hedge_fund_holdings.csv")
@@ -1075,41 +1085,77 @@ def scan_smart_money() -> dict:
             t = str(row.get("ticker","")).upper()
             ins_map[t] = {"purchase_count": sf(row.get("purchase_count")) or 1, "unique_insiders": sf(row.get("unique_insiders")) or 1}
 
-    # Convergence: must be in BOTH
     results = []
+    seen = set()
+
+    # Tier 1: HF + insiders simultaneously (original logic, kept as highest tier)
     for ticker in set(hf_map.keys()) & set(ins_map.keys()):
         hf   = hf_map[ticker]
         ins  = ins_map[ticker]
         meta = value_map.get(ticker, {})
-        n_funds   = len(hf["funds"]) if hf["funds"] else hf["count"]
-        n_ins     = int(ins["unique_insiders"] or 1)
-        conv_score = score_smart_money(
-            n_hedge_funds=n_funds, n_insiders=n_ins,
-            value_score=meta.get("value_score"),
-        )
+        n_funds = len(hf["funds"]) if hf["funds"] else hf["count"]
+        n_ins   = int(ins["unique_insiders"] or 1)
+        conv_score = score_smart_money(n_hedge_funds=n_funds, n_insiders=n_ins, value_score=meta.get("value_score"))
         results.append(dict(
-            ticker=ticker,
-            company_name=meta.get("company_name", ticker),
-            sector=meta.get("sector",""),
-            value_score=meta.get("value_score"),
-            n_hedge_funds=n_funds,
-            hedge_funds=list(hf["funds"])[:5],
-            n_insiders=n_ins,
-            insider_purchases=int(ins["purchase_count"] or 1),
-            convergence_score=conv_score,
-            in_value=ticker in value_map,
+            ticker=ticker, company_name=meta.get("company_name", ticker),
+            sector=meta.get("sector",""), value_score=meta.get("value_score"),
+            tier=1, tier_label="HF+Insiders",
+            n_hedge_funds=n_funds, hedge_funds=list(hf["funds"])[:5],
+            n_insiders=n_ins, insider_purchases=int(ins["purchase_count"] or 1),
+            convergence_score=conv_score, in_value=ticker in value_map,
         ))
+        seen.add(ticker)
 
-    results.sort(key=lambda x: -x["convergence_score"])
+    # Tier 2: Strong insider buying (≥3 unique insiders) in a VALUE pick
+    for ticker, ins in ins_map.items():
+        if ticker in seen: continue
+        if ticker not in value_map: continue
+        n_ins = int(ins["unique_insiders"] or 1)
+        if n_ins < 3: continue
+        meta = value_map[ticker]
+        conv_score = score_smart_money(n_hedge_funds=0, n_insiders=n_ins, value_score=meta.get("value_score"))
+        results.append(dict(
+            ticker=ticker, company_name=meta.get("company_name", ticker),
+            sector=meta.get("sector",""), value_score=meta.get("value_score"),
+            tier=2, tier_label="Strong Insiders",
+            n_hedge_funds=0, hedge_funds=[],
+            n_insiders=n_ins, insider_purchases=int(ins["purchase_count"] or 1),
+            convergence_score=conv_score, in_value=True,
+        ))
+        seen.add(ticker)
+
+    # Tier 3: HF-held ticker that also appears in VALUE opportunities
+    for ticker in set(hf_map.keys()) & set(value_map.keys()):
+        if ticker in seen: continue
+        hf   = hf_map[ticker]
+        meta = value_map[ticker]
+        n_funds = len(hf["funds"]) if hf["funds"] else hf["count"]
+        conv_score = score_smart_money(n_hedge_funds=n_funds, n_insiders=0, value_score=meta.get("value_score"))
+        results.append(dict(
+            ticker=ticker, company_name=meta.get("company_name", ticker),
+            sector=meta.get("sector",""), value_score=meta.get("value_score"),
+            tier=3, tier_label="HF+Value",
+            n_hedge_funds=n_funds, hedge_funds=list(hf["funds"])[:5],
+            n_insiders=0, insider_purchases=0,
+            convergence_score=conv_score, in_value=True,
+        ))
+        seen.add(ticker)
+
+    results.sort(key=lambda x: (x["tier"], -x["convergence_score"]))
+
+    t1 = sum(1 for r in results if r["tier"] == 1)
+    t2 = sum(1 for r in results if r["tier"] == 2)
+    t3 = sum(1 for r in results if r["tier"] == 3)
 
     narrative = ai(
-        f"Smart money convergence: {len(results)} tickers donde hedge funds e insiders compran simultáneamente.\n"
-        + "\n".join(f"- {r['ticker']}: {r['n_hedge_funds']} HF + {r['n_insiders']} insiders, score {r['convergence_score']}" for r in results[:5])
+        f"Smart money convergence: {len(results)} señales ({t1} HF+insiders, {t2} insiders fuertes, {t3} HF en VALUE).\n"
+        + "\n".join(f"- {r['ticker']} [{r['tier_label']}]: score {r['convergence_score']} value_score={r['value_score']}" for r in results[:5])
         + "\n\n2 frases en español: qué significa esta confluencia de capital inteligente.", 150
     ) if results else None
 
-    print(f"  ✓ {len(results)} smart money convergences")
-    return dict(generated_at=TODAY, total=len(results), narrative=narrative, signals=results)
+    print(f"  ✓ {len(results)} smart money signals (T1={t1} T2={t2} T3={t3})")
+    return dict(generated_at=TODAY, total=len(results), tier1=t1, tier2=t2, tier3=t3,
+                narrative=narrative, signals=results)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1933,16 +1979,71 @@ def scan_earnings_revisions() -> dict:
         return dict(generated_at=TODAY, total=0, upgrades=0, downgrades=0,
                     revisions=[], note="baseline_initialized")
 
-    # ── TIKR not refreshed yet: return cached output ──────────────────────────
+    # ── TIKR not refreshed yet: use fundamental_scores as fallback ───────────
     tikr_refreshed = bool(tikr_gen and base_gen and tikr_gen != base_gen)
     if not tikr_refreshed:
         cached = load_json(DOCS / "cerebro_earnings_revisions_cached.json")
-        if cached:
+        if cached and cached.get("total", 0) > 0:
             print(f"  ✓ TIKR sin cambios — revisiones cacheadas ({cached.get('tikr_date','?')}): "
                   f"{cached.get('upgrades',0)} up / {cached.get('downgrades',0)} down")
             return cached
-        return dict(generated_at=TODAY, total=0, upgrades=0, downgrades=0,
-                    revisions=[], note="awaiting_tikr_refresh")
+
+        # Fallback: use analyst_revision_momentum from fundamental_scores.csv
+        # This field is computed daily by fundamental_scorer.py from yfinance analyst data
+        print("  TIKR no actualizado — usando analyst_revision_momentum de fundamental_scores como fallback")
+        fund_df = load_csv(DOCS / "fundamental_scores.csv")
+        if fund_df.empty or "analyst_revision_momentum" not in fund_df.columns:
+            return dict(generated_at=TODAY, total=0, upgrades=0, downgrades=0,
+                        revisions=[], note="awaiting_tikr_refresh")
+
+        revisions_fb = []
+        for _, row in fund_df.iterrows():
+            ticker = str(row.get("ticker","")).upper()
+            arm = sf(row.get("analyst_revision_momentum"))
+            upside = sf(row.get("analyst_upside_pct"))
+            if arm is None or arm == 0.0:
+                continue
+            if arm >= 20:
+                direction, score_adj = "STRONG_UP", 8
+            elif arm >= 8:
+                direction, score_adj = "UP", 4
+            elif arm <= -20:
+                direction, score_adj = "STRONG_DOWN", -8
+            elif arm <= -8:
+                direction, score_adj = "DOWN", -4
+            else:
+                continue  # too small to surface
+
+            revisions_fb.append(dict(
+                ticker=ticker,
+                company_name=str(row.get("company_name", ticker)),
+                direction=direction,
+                eps_prev=None, eps_curr=None, eps_chg_pct=None,
+                rev_chg_pct=None, analysts_prev=None, analysts_curr=None, analysts_delta=None,
+                score_adj=score_adj,
+                analyst_revision_momentum=round(arm, 1),
+                analyst_upside_pct=upside,
+                flags=[f"revision_momentum={arm:+.1f} (yfinance implied EPS growth × reco weight)"],
+                source="fundamental_scores_fallback",
+            ))
+
+        revisions_fb.sort(key=lambda x: -abs(x["score_adj"]))
+        upgrades_fb   = sum(1 for r in revisions_fb if r["direction"] in ("STRONG_UP", "UP"))
+        downgrades_fb = sum(1 for r in revisions_fb if r["direction"] in ("STRONG_DOWN", "DOWN"))
+
+        narrative_fb = ai(
+            f"Revisiones de estimaciones (fuente: momentum analistas yfinance): "
+            f"{upgrades_fb} upgrades y {downgrades_fb} downgrades.\n"
+            + "\n".join(f"- {r['ticker']}: momentum={r['analyst_revision_momentum']:+.1f} ({r['direction']})" for r in revisions_fb[:5])
+            + "\n\n2 frases en español: qué implican estas revisiones para el inversor VALUE.", 200
+        ) if revisions_fb else None
+
+        print(f"  ✓ Fallback: {len(revisions_fb)} revisiones ({upgrades_fb} up / {downgrades_fb} down)")
+        return dict(generated_at=TODAY, tikr_date="fallback_fundamental_scores",
+                    prev_date="", total=len(revisions_fb),
+                    upgrades=upgrades_fb, downgrades=downgrades_fb,
+                    narrative=narrative_fb, revisions=revisions_fb,
+                    note="fundamental_scores_fallback")
 
     # ── TIKR refreshed: compute revisions ────────────────────────────────────
     print(f"  TIKR actualizado: {base_gen[:10]} → {tikr_gen[:10]}")
