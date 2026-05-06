@@ -175,21 +175,69 @@ TIER_4 = [
 ]
 
 
+# ── HF WATCH — Carteras de grandes inversores (seguimiento, no scoring curado) ─
+# Tickers mantenidos por Buffett/Ackman/Tepper que NO están en Tier 1-4.
+# Se incluyen en el scoring pipeline como universo ampliado para detectar
+# oportunidades VALUE que el sistema curado no cubre.
+# NO se usan para momentum ni para señales de alta convicción por defecto.
+
+HF_WATCH = [
+    # ── Berkshire Hathaway (Buffett) ──────────────────────────────────────────
+    'OXY',    # Occidental Petroleum — posición masiva de Buffett
+    'BAC',    # Bank of America — segunda posición de Berkshire
+    'COF',    # Capital One Financial — bancos/crédito
+    'CVX',    # Chevron — energía
+    'DVA',    # DaVita — diálisis
+    'KHC',    # Kraft Heinz — consumo (posición problemática de Buffett)
+    'KR',     # Kroger — supermercados
+    'UNH',    # UnitedHealth Group — seguros/salud
+    'ALLY',   # Ally Financial — banco digital
+    'CHTR',   # Charter Communications — cable/broadband
+    'NVR',    # NVR Inc — homebuilder premium
+    'POOL',   # Pool Corp — distribuidor de piscinas
+    'STZ',    # Constellation Brands — alcohol premium
+    'NUE',    # Nucor — acero (mejor operador del sector)
+    'DPZ',    # Domino's Pizza
+    'NYT',    # New York Times — medios con suscripción recurrente
+    'LPX',    # Louisiana-Pacific — building products
+    'LEN',    # Lennar — homebuilder
+
+    # ── Pershing Square (Ackman) ──────────────────────────────────────────────
+    'BN',     # Brookfield Corporation — asset management alternativo
+    'QSR',    # Restaurant Brands (Burger King / Tim Hortons / Popeyes)
+    'UBER',   # Uber Technologies
+    'HHH',    # Howard Hughes Holdings — real estate dev
+
+    # ── Appaloosa (Tepper) — solo posiciones con suficiente liquidez ──────────
+    'TEVA',   # Teva Pharmaceutical — genéricos, posición de valor
+    'KVUE',   # Kenvue — consumer health (spinoff J&J)
+    'THC',    # Tenet Healthcare — hospitales
+    'GPK',    # Graphic Packaging — packaging
+    'TECK',   # Teck Resources — minería de cobre
+    'HRI',    # Herc Holdings — alquiler de equipos
+    'FHN',    # First Horizon National — banca regional
+    'FCNCA',  # First Citizens BancShares — banca regional (adquirió SVB)
+    'KD',     # Kyndryl Holdings — IT services (spinoff IBM)
+]
+
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
-def get_universe(include_tier4: bool = False) -> list:
+def get_universe(include_tier4: bool = False, include_hf_watch: bool = False) -> list:
     """
     Retorna el universo de tickers para scoring.
-    Por defecto Tier 1+2+3 (excluye Tier 4 'No apta').
+    Por defecto Tier 1+2+3 (excluye Tier 4 'No apta' y HF_WATCH).
     """
     universe = TIER_1 + TIER_2 + TIER_3
     if include_tier4:
         universe += TIER_4
+    if include_hf_watch:
+        universe += HF_WATCH
     return list(dict.fromkeys(universe))  # deduplicate, preserve order
 
 
 def get_tier(ticker: str) -> str:
-    """Retorna el tier de un ticker ('1','2','3','4','?')."""
+    """Retorna el tier de un ticker ('1','2','3','4','HF','?')."""
     t = ticker.upper()
     if t in [x.upper() for x in TIER_1]:
         return '1'
@@ -199,25 +247,31 @@ def get_tier(ticker: str) -> str:
         return '3'
     if t in [x.upper() for x in TIER_4]:
         return '4'
+    if t in [x.upper() for x in HF_WATCH]:
+        return 'HF'
     return '?'
 
 
 def get_tier_label(tier: str) -> str:
     return {
-        '1': 'Élite',
-        '2': 'Alta convicción',
-        '3': 'Convicción parcial',
-        '4': 'No apta',
+        '1':  'Élite',
+        '2':  'Alta convicción',
+        '3':  'Convicción parcial',
+        '4':  'No apta',
+        'HF': 'HF Watch',
     }.get(tier, 'Desconocido')
 
 
-ALL_TICKERS = get_universe(include_tier4=True)
+ALL_TICKERS    = get_universe(include_tier4=True)
 SCORED_TICKERS = get_universe(include_tier4=False)  # default scoring universe
+HF_UNIVERSE    = get_universe(include_tier4=False, include_hf_watch=True)
 
 if __name__ == '__main__':
     print(f"Tier 1 ({len(TIER_1)} tickers): {', '.join(TIER_1)}")
     print(f"Tier 2 ({len(TIER_2)} tickers): {', '.join(TIER_2)}")
     print(f"Tier 3 ({len(TIER_3)} tickers): {', '.join(TIER_3)}")
     print(f"Tier 4 ({len(TIER_4)} tickers): {', '.join(TIER_4)}")
+    print(f"HF Watch ({len(HF_WATCH)} tickers): {', '.join(HF_WATCH)}")
     print(f"\nUniverse (T1+T2+T3): {len(SCORED_TICKERS)} tickers")
+    print(f"HF Universe (T1+T2+T3+HF): {len(HF_UNIVERSE)} tickers")
     print(f"Full universe (all): {len(ALL_TICKERS)} tickers")

@@ -1699,8 +1699,8 @@ def main():
     elif args.curated or args.curated_all:
         from curated_tickers import get_universe
         include_t4 = bool(args.curated_all)
-        tickers = get_universe(include_tier4=include_t4)
-        tier_label = 'T1+T2+T3+T4' if include_t4 else 'T1+T2+T3'
+        tickers = get_universe(include_tier4=include_t4, include_hf_watch=True)
+        tier_label = 'T1+T2+T3+T4+HF' if include_t4 else 'T1+T2+T3+HF'
         print(f"🎯 Universo curado ({tier_label}): {len(tickers)} tickers")
         print(f"📊 Scoring {len(tickers)} tickers únicos...")
         results_df = scorer.score_batch(tickers)
