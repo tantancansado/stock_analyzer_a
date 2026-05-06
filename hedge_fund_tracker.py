@@ -389,14 +389,31 @@ def main():
     summary_csv = OUTPUT_DIR / 'hedge_fund_summary.csv'
     summary_df.to_csv(summary_csv, index=False)
 
+    # ── Stale detection: tickers que desaparecieron vs. scrape anterior ─────────
+    json_path = OUTPUT_DIR / 'hedge_fund_summary.json'
+    stale_tickers: list[str] = []
+    if json_path.exists():
+        try:
+            import json as _json
+            prev = _json.load(open(json_path))
+            prev_tickers = {r['ticker'] for r in prev.get('top_consensus', [])}
+            curr_tickers = set(summary_df['ticker'])
+            stale_tickers = sorted(prev_tickers - curr_tickers)
+            if stale_tickers:
+                print(f'\n⚠ STALE ({len(stale_tickers)} tickers salieron de los 13F):')
+                for t in stale_tickers:
+                    print(f'  - {t}')
+        except Exception:
+            pass
+
     # JSON para la API
     summary_json = {
         'generated_at':   datetime.utcnow().isoformat() + 'Z',
         'funds_scraped':  list(VALUE_FUNDS.values()),
         'holdings_count': len(df),
         'top_consensus':  summary_df.to_dict('records'),
+        'stale_tickers':  stale_tickers,
     }
-    json_path = OUTPUT_DIR / 'hedge_fund_summary.json'
     with open(json_path, 'w') as f:
         json.dump(summary_json, f, indent=2)
 

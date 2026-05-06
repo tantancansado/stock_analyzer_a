@@ -953,6 +953,36 @@ export interface ThesisDrift {
 export const fetchCerebroThesisDrift = () =>
   apiClient.get<{ generated_at: string; total: number; high_count: number; drifts: ThesisDrift[] }>('/api/cerebro/thesis-drift')
 
+export interface OptionsQualitySignal {
+  ticker: string
+  company_name: string
+  tier: 'TIER1' | 'TIER2' | 'TIER3'
+  quality_score: number
+  signal_type: string
+  premium_usd: number
+  volume: number
+  oi: number
+  vol_oi_ratio: number
+  flags: string[]
+}
+export const fetchCerebroOptionsQuality = () =>
+  apiClient.get<{ generated_at: string; tier1: number; tier2: number; tier3: number; noise_filtered: number; actionable: OptionsQualitySignal[] }>('/api/cerebro/options-quality')
+
+export interface EarningsRevision {
+  ticker: string
+  company_name: string
+  direction: 'STRONG_UP' | 'UP' | 'DOWN' | 'STRONG_DOWN'
+  eps_prev: number
+  eps_curr: number
+  eps_chg_pct: number
+  rev_chg_pct: number
+  analysts_delta: number
+  score_adj: number
+  flags: string[]
+}
+export const fetchCerebroEarningsRevisions = () =>
+  apiClient.get<{ generated_at: string; total: number; upgrades: number; downgrades: number; revisions: EarningsRevision[]; note?: string }>('/api/cerebro/earnings-revisions')
+
 // ── Cerebro Daily Action Plan ─────────────────────────────────────────────────
 export interface MacroPlay {
   instrument: string

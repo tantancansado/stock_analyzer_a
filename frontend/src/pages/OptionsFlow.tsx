@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
-import { fetchUnusualFlow, downloadCsv } from '../api/client'
+import { Link } from 'react-router-dom'
+import { fetchUnusualFlow, fetchCerebroOptionsQuality, downloadCsv, type OptionsQualitySignal } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
 import Loading, { ErrorState } from '../components/Loading'
@@ -150,6 +151,7 @@ function ContractRow({ c }: { c: TopContract }) {
 
 export default function OptionsFlow() {
   const { data, loading, error } = useApi(() => fetchUnusualFlow(), [])
+  const { data: qualityRaw } = useApi(() => fetchCerebroOptionsQuality(), [])
   const [sortKey, setSortKey] = useState<keyof FlowResult>('total_premium')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
   const [signalFilter, setSignalFilter] = useState<'ALL' | 'BULLISH' | 'BEARISH' | 'MIXED'>('ALL')
@@ -368,6 +370,66 @@ export default function OptionsFlow() {
           )}
         </Card>
       </div>
+
+      {/* Cerebro Options Quality — TIER1/TIER2 filtered by IA */}
+      {qualityRaw && (qualityRaw.tier1 + qualityRaw.tier2) > 0 && (() => {
+        const tier12 = (qualityRaw.actionable as OptionsQualitySignal[])
+          .filter(s => s.tier === 'TIER1' || s.tier === 'TIER2')
+          .slice(0, 10)
+        const TIER_STYLE: Record<string, string> = {
+          TIER1: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+          TIER2: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+        }
+        return (
+          <div className="mt-6">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h2 className="text-base font-bold">🧠 Calidad IA — TIER 1 &amp; 2</h2>
+                <p className="text-[0.72rem] text-muted-foreground mt-0.5">
+                  Flujo filtrado por cerebro: contratos con volumen institucional confirmado y baja probabilidad de ruido.
+                  T1 (ruido filtrado) = {qualityRaw.noise_filtered} descartados.
+                </p>
+              </div>
+            </div>
+            <Card className="glass">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-border/50 hover:bg-transparent">
+                    <TableHead>Ticker</TableHead>
+                    <TableHead>Tier</TableHead>
+                    <TableHead>Tipo señal</TableHead>
+                    <TableHead className="text-right">Score</TableHead>
+                    <TableHead className="text-right">Premium</TableHead>
+                    <TableHead className="text-right">Vol/OI</TableHead>
+                    <TableHead>Flags</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {tier12.map(s => (
+                    <TableRow key={s.ticker} className="border-border/30 hover:bg-muted/5">
+                      <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
+                        <Link to={`/search?q=${s.ticker}`} className="hover:underline">{s.ticker}</Link>
+                      </TableCell>
+                      <TableCell>
+                        <span className={`text-[0.55rem] font-bold px-1.5 py-0.5 rounded border ${TIER_STYLE[s.tier] ?? ''}`}>{s.tier}</span>
+                      </TableCell>
+                      <TableCell className="text-[0.75rem] text-muted-foreground">{s.signal_type}</TableCell>
+                      <TableCell className="text-right tabular-nums text-[0.8rem] font-semibold text-primary">{s.quality_score}</TableCell>
+                      <TableCell className="text-right tabular-nums text-[0.75rem]">
+                        ${(s.premium_usd / 1000).toFixed(0)}K
+                      </TableCell>
+                      <TableCell className="text-right tabular-nums text-[0.75rem]">{s.vol_oi_ratio?.toFixed(1)}x</TableCell>
+                      <TableCell className="text-[0.65rem] text-muted-foreground max-w-[220px]">
+                        {(s.flags ?? []).slice(0, 2).join(' · ')}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
+          </div>
+        )
+      })()}
     </>
   )
 }

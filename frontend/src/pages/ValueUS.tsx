@@ -155,6 +155,7 @@ export default function ValueUS() {
   const [hideTraps, setHideTraps] = useState(true)
   const [hideExits, setHideExits] = useState(true)
   const [onlyOwned, setOnlyOwned] = useState(false)
+  const [onlyHf, setOnlyHf] = useState(false)
   const [compact, setCompact] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1280)
   const { isOwned, positions: myPos } = usePersonalPortfolio()
   const [page, setPage] = useState(1)
@@ -194,7 +195,7 @@ export default function ValueUS() {
   }, [])
 
   // Reset page + scroll to top when any filter changes
-  useEffect(() => { setPage(1); setFocusedIdx(-1) }, [filterGrade, filterSector, minScore, minFcf, minRr, hideEarnings, hideTraps, hideExits, onlyOwned])
+  useEffect(() => { setPage(1); setFocusedIdx(-1) }, [filterGrade, filterSector, minScore, minFcf, minRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf])
   // Scroll to top when page changes
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [page])
 
@@ -250,8 +251,9 @@ export default function ValueUS() {
     if (hideTraps && cerebro.trapMap[r.ticker]?.severity === 'HIGH') return false
     if (hideExits && (cerebro.exitMap[r.ticker] || r.cerebro_signal === 'EXIT')) return false
     if (onlyOwned && !isOwned(r.ticker)) return false
+    if (onlyHf && (r.hedge_fund_count ?? 0) < 1) return false
     return true
-  }), [rows, filterGrade, filterSector, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, cerebro.trapMap, cerebro.exitMap, isOwned]) // eslint-disable-line react-hooks/exhaustive-deps
+  }), [rows, filterGrade, filterSector, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf, cerebro.trapMap, cerebro.exitMap, isOwned]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
     const av = a[sortKey] ?? 0
@@ -295,10 +297,10 @@ export default function ValueUS() {
 
   const hiddenByTraps = hideTraps ? Object.values(cerebro.trapMap).filter(t => t.severity === 'HIGH').length : 0
   const hiddenByExits = hideExits ? rows.filter(r => cerebro.exitMap[r.ticker] || r.cerebro_signal === 'EXIT').length : 0
-  const hasActiveFilters = filterGrade !== 'ALL' || filterSector !== 'ALL' || minScore !== '55' || minFcf !== '' || minRr !== '' || hideEarnings || hideTraps || hideExits || onlyOwned
+  const hasActiveFilters = filterGrade !== 'ALL' || filterSector !== 'ALL' || minScore !== '55' || minFcf !== '' || minRr !== '' || hideEarnings || hideTraps || hideExits || onlyOwned || onlyHf
   const resetFilters = () => {
     setSearchParams({}, { replace: true })
-    setMinFcf(''); setMinRr(''); setHideEarnings(false); setHideTraps(false); setHideExits(false); setOnlyOwned(false)
+    setMinFcf(''); setMinRr(''); setHideEarnings(false); setHideTraps(false); setHideExits(false); setOnlyOwned(false); setOnlyHf(false)
   }
   const applyRecommendedView = () => {
     setSearchParams({}, { replace: true })
@@ -517,6 +519,10 @@ export default function ValueUS() {
               En cartera
             </button>
           )}
+          <button onClick={() => setOnlyHf(v => !v)} className={`filter-btn ${onlyHf ? 'active' : ''}`}
+            title="Mostrar solo tickers en cartera de Buffett, Ackman o Tepper">
+            🐋 HF Watch
+          </button>
 
           {/* Compact toggle */}
           <button onClick={() => setCompact(v => !v)} className={`filter-btn ${compact ? 'active' : ''}`}

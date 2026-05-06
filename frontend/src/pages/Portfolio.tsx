@@ -35,6 +35,8 @@ interface SignalRow {
   max_drawdown_30d?: number
   win_7d?: boolean
   win_14d?: boolean
+  alpha_7d?: number | null
+  alpha_30d?: number | null
   status?: string
 }
 
@@ -536,6 +538,8 @@ export default function Portfolio() {
                       <TableHead className={thS('return_7d')} onClick={() => onSigSort('return_7d')}>Ret. 7d</TableHead>
                       <TableHead className={thS('return_14d')} onClick={() => onSigSort('return_14d')}>Ret. 14d</TableHead>
                       <TableHead className={thS('return_30d')} onClick={() => onSigSort('return_30d')}>Ret. 30d</TableHead>
+                      <TableHead className={thS('alpha_7d')} onClick={() => onSigSort('alpha_7d')} title="Retorno vs SPY/VGK a 7 días">α 7d</TableHead>
+                      <TableHead className={thS('alpha_30d')} onClick={() => onSigSort('alpha_30d')} title="Retorno vs SPY/VGK a 30 días">α 30d</TableHead>
                       <TableHead className={thS('max_drawdown_30d')} onClick={() => onSigSort('max_drawdown_30d')}>Max DD</TableHead>
                       <TableHead className={thS('sector')} onClick={() => onSigSort('sector')}>Sector</TableHead>
                       <TableHead>Estado</TableHead>
@@ -570,6 +574,12 @@ export default function Portfolio() {
                         </TableCell>
                         <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.return_30d)}`}>
                           {s.return_30d != null ? `${s.return_30d >= 0 ? '+' : ''}${s.return_30d.toFixed(2)}%` : '—'}
+                        </TableCell>
+                        <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.alpha_7d ?? undefined)}`}>
+                          {s.alpha_7d != null ? `${s.alpha_7d >= 0 ? '+' : ''}${s.alpha_7d.toFixed(2)}%` : '—'}
+                        </TableCell>
+                        <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.alpha_30d ?? undefined)}`}>
+                          {s.alpha_30d != null ? `${s.alpha_30d >= 0 ? '+' : ''}${s.alpha_30d.toFixed(2)}%` : '—'}
                         </TableCell>
                         <TableCell className="tabular-nums text-[0.8rem] text-red-400">
                           {s.max_drawdown_30d != null ? `${s.max_drawdown_30d.toFixed(2)}%` : '—'}
