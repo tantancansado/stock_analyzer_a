@@ -375,7 +375,7 @@ def calculate_conviction_score(row) -> dict:
     }
 
 
-def filter_by_conviction(input_path: str, output_path: str = None, min_grade: str = 'B'):
+def filter_by_conviction(input_path: str, output_path: str = None, min_grade: str = 'B', eu_mode: bool = False):
     """
     Aplica conviction filter a un CSV de oportunidades VALUE.
 
@@ -398,6 +398,18 @@ def filter_by_conviction(input_path: str, output_path: str = None, min_grade: st
     print(f"CONVICTION FILTER — {input_p.name}")
     print(f"{'='*80}")
     print(f"Input: {len(df)} oportunidades")
+
+    # ── EU hard filters (data-driven: based on 30d portfolio tracker performance) ──
+    # FCF ≥ 6%: win rate 47-83% vs 10% below. Consumer Cyclical/Healthcare EU: <10% win rate.
+    if eu_mode and len(df) > 0:
+        n_before = len(df)
+        EU_EXCLUDED_SECTORS = {'Consumer Cyclical', 'Healthcare'}
+        if 'sector' in df.columns:
+            df = df[~df['sector'].isin(EU_EXCLUDED_SECTORS)].copy()
+        if 'fcf_yield_pct' in df.columns:
+            fcf = pd.to_numeric(df['fcf_yield_pct'], errors='coerce')
+            df = df[fcf >= 3.0].copy()
+        print(f"  EU hard filters (FCF≥3%, excl. Consumer Cyclical/Healthcare): {n_before} → {len(df)}")
 
     if len(df) == 0:
         print("  Sin oportunidades para filtrar")
@@ -490,7 +502,8 @@ def main():
         eu_result = filter_by_conviction(
             eu_input,
             output_path='docs/european_value_conviction.csv',
-            min_grade='D'
+            min_grade='D',
+            eu_mode=True
         )
         if eu_result:
             total += eu_result

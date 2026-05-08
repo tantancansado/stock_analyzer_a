@@ -190,6 +190,14 @@ class PortfolioTracker:
                     edf = edf[edf['value_score'] >= 55]
                 if 'conviction_grade' in edf.columns:
                     edf = edf[edf['conviction_grade'].isin(['A', 'B'])]
+                # EU hard filters — same as conviction_filter.py eu_mode
+                _EU_EXCL = {'Consumer Cyclical', 'Healthcare'}
+                if 'sector' in edf.columns:
+                    edf = edf[~edf['sector'].isin(_EU_EXCL)]
+                if 'fcf_yield_pct' in edf.columns:
+                    import numpy as np
+                    _fcf = pd.to_numeric(edf['fcf_yield_pct'], errors='coerce')
+                    edf = edf[_fcf >= 3.0]
                 edf = edf.head(6)
                 for _, row in edf.iterrows():
                     ticker = str(row['ticker']).upper().strip()
