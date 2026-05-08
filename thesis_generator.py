@@ -756,6 +756,20 @@ ESTRUCTURA (usa **negrita** para cada sección):
 6. **Conclusión** — Veredicto claro: comprar, esperar, o evitar. Con justificación.
 """
 
+        # Prefer Claude Haiku (better quality, ~$5.5/mes); fall back to Groq
+        try:
+            from groq_utils import claude_chat as _claude_chat, CLAUDE_HAIKU
+            text = _claude_chat(
+                messages=[{"role": "user", "content": data_context}],
+                model=CLAUDE_HAIKU,
+                max_tokens=800,
+                temperature=0.3,
+            )
+            if text:
+                return text
+        except Exception as _ce:
+            print(f"  ⚠️  Claude Haiku falló para {ticker}: {_ce} — usando Groq")
+
         groq_chat = getattr(self, '_groq_chat', None)
         if groq_chat:
             response = groq_chat(
@@ -771,7 +785,6 @@ ESTRUCTURA (usa **negrita** para cada sección):
                 max_tokens=800,
                 temperature=0.3,
             )
-
         return response.choices[0].message.content
 
     def _narrative_value(self, row):

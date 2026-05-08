@@ -1,13 +1,14 @@
 """
-Groq API helpers with model fallback chain.
+AI API helpers: Groq (free, with model fallback) + Anthropic Claude (paid).
 
-When the primary model hits its daily token limit (429 rate_limit_exceeded),
-automatically retries with progressively cheaper models before giving up.
-
-Fallback chain:
+Groq fallback chain on 429 rate_limit_exceeded:
   1. llama-3.3-70b-versatile    (primary — 100k TPD free)
   2. llama-3.1-8b-instant       (fallback — 500k TPD free, separate quota)
   3. llama-3.1-70b-specdec      (last resort — different quota bucket)
+
+Claude usage by task:
+  - thesis_generator: Haiku 4.5  (~$5.5/mes for ~40k output tokens/day)
+  - cerebro exits + daily_plan:  Sonnet 4.6 (~$1.5/mes for ~1.5k output tokens/day)
 """
 from __future__ import annotations
 import os
@@ -78,3 +79,62 @@ def groq_chat(
             raise  # non-rate-limit error → propagate immediately
 
     raise last_exc  # type: ignore[misc]
+
+
+# ── Anthropic Claude helpers ──────────────────────────────────────────────────
+
+CLAUDE_HAIKU   = "claude-haiku-4-5"
+CLAUDE_SONNET  = "claude-sonnet-4-6"
+
+_anthropic_client = None
+
+
+def _get_anthropic_client():
+    global _anthropic_client
+    if _anthropic_client is not None:
+        return _anthropic_client
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        return None
+    try:
+        import anthropic
+        _anthropic_client = anthropic.Anthropic(api_key=api_key)
+        return _anthropic_client
+    except ImportError:
+        logger.warning("anthropic package not installed — Claude unavailable")
+        return None
+    except Exception as exc:
+        logger.warning("Failed to init Anthropic client: %s", exc)
+        return None
+
+
+def claude_chat(
+    messages: list[dict],
+    model: str = CLAUDE_HAIKU,
+    max_tokens: int = 800,
+    temperature: float = 0.3,
+    system: str | None = None,
+) -> str | None:
+    """
+    Calls Anthropic Messages API. Returns text content or None on failure.
+
+    messages: list of {"role": "user"|"assistant", "content": "..."}
+    system:   optional system prompt (Anthropic separates it from messages)
+    """
+    client = _get_anthropic_client()
+    if client is None:
+        return None
+    try:
+        kwargs: dict[str, Any] = {
+            "model": model,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+            "messages": messages,
+        }
+        if system:
+            kwargs["system"] = system
+        resp = client.messages.create(**kwargs)
+        return resp.content[0].text if resp.content else None
+    except Exception as exc:
+        logger.warning("claude_chat(%s): %s", model, exc)
+        raise

@@ -800,13 +800,10 @@ def scan_entry_signals(convergence: dict) -> dict:
 
 def _validate_exits_with_ai(exits: list) -> None:
     """
-    For HIGH-severity exit signals, use Groq compound-beta (web search) to verify
-    whether the deterioration is real or a scoring artifact (e.g. price ran up).
+    For HIGH-severity exit signals, use Claude Sonnet (or Groq compound-beta fallback)
+    to verify whether the deterioration is real or a scoring artifact.
     Mutates each exit dict in-place: adds 'ai_validation' and may downgrade severity.
     """
-    if not groq_client:
-        return
-
     high_exits = [e for e in exits if e.get("severity") == "HIGH"]
     if not high_exits:
         return
@@ -820,8 +817,8 @@ def _validate_exits_with_ai(exits: list) -> None:
                 f"Stock: {ticker}\n"
                 f"Our system flagged a HIGH exit signal with these reasons: {reasons_str}\n"
                 f"Fundamental score in our DB: {fund_score if fund_score is not None else 'N/A'}/100\n\n"
-                f"Search for recent news and financial data about {ticker} to answer:\n"
-                f"1. Has the company's business fundamentally deteriorated in the last 3 months? "
+                f"Based on your knowledge of this company up to your training cutoff, answer:\n"
+                f"1. Has the company's business fundamentally deteriorated recently? "
                 f"(earnings misses, guidance cuts, major negative events, management changes, etc.)\n"
                 f"2. Is this exit signal likely a TRUE POSITIVE (real deterioration) or FALSE POSITIVE "
                 f"(price ran up reducing VALUE upside, but company is still strong)?\n\n"
@@ -830,20 +827,42 @@ def _validate_exits_with_ai(exits: list) -> None:
                 f'\"confidence\": 0-100, \"summary\": \"1-2 sentences in Spanish\", '
                 f'\"key_finding\": \"most important recent fact\"}}'
             )
-            from groq_utils import groq_chat as _groq_chat, SCOUT_FALLBACK
-            r = _groq_chat(
-                groq_client,
-                messages=[{"role": "user", "content": prompt}],
-                model="compound-beta",
-                max_tokens=300,
-                temperature=0,
-                fallback_chain=["meta-llama/llama-4-scout-17b-16e-instruct"] + SCOUT_FALLBACK,
-            )
-            raw = r.choices[0].message.content or ""
+            raw: str | None = None
+
+            # Primary: Claude Sonnet 4.6 (better reasoning for exit decisions)
+            try:
+                from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
+                raw = _claude_chat(
+                    messages=[{"role": "user", "content": prompt}],
+                    model=CLAUDE_SONNET,
+                    max_tokens=300,
+                    temperature=0,
+                )
+                if raw:
+                    print(f"  🤖 {ticker}: Claude Sonnet exit validation")
+            except Exception as _ce:
+                print(f"  ⚠️  Claude Sonnet falló para {ticker}: {_ce} — usando Groq fallback")
+
+            # Fallback: Groq compound-beta (web search capable)
+            if not raw and groq_client:
+                from groq_utils import groq_chat as _groq_chat, SCOUT_FALLBACK
+                r = _groq_chat(
+                    groq_client,
+                    messages=[{"role": "user", "content": prompt}],
+                    model="compound-beta",
+                    max_tokens=300,
+                    temperature=0,
+                    fallback_chain=["meta-llama/llama-4-scout-17b-16e-instruct"] + SCOUT_FALLBACK,
+                )
+                raw = r.choices[0].message.content or ""
+
+            if not raw:
+                continue
+
             import re as _re
+            import json as _json
             m = _re.search(r"\{[^{}]+\}", raw, _re.DOTALL)
             if m:
-                import json as _json
                 val = _json.loads(m.group())
                 e["ai_validation"] = val
                 verdict = val.get("verdict", "")
@@ -3679,7 +3698,25 @@ def scan_daily_plan(exit_sigs: dict, value_traps: dict, smart_money: dict, squee
     ai_plan: dict | None = None
     ai_powered = False
 
-    if groq_client:
+    import re as _re_plan
+    raw_text: str | None = None
+
+    # Primary: Claude Sonnet 4.6 (better JSON + reasoning for daily plan)
+    try:
+        from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
+        raw_text = _claude_chat(
+            messages=[{"role": "user", "content": prompt}],
+            model=CLAUDE_SONNET,
+            max_tokens=1200,
+            temperature=0.15,
+        )
+        if raw_text:
+            print("  🤖 daily_plan: Claude Sonnet")
+    except Exception as _ce:
+        print(f"  ⚠️  Claude Sonnet daily_plan falló: {_ce} — usando Groq fallback")
+
+    # Fallback: Groq
+    if not raw_text and groq_client:
         try:
             from groq_utils import groq_chat as _groq_chat
             r = _groq_chat(
@@ -3690,23 +3727,23 @@ def scan_daily_plan(exit_sigs: dict, value_traps: dict, smart_money: dict, squee
                 response_format={"type": "json_object"},
             )
             raw_text = r.choices[0].message.content.strip()
-
-            # Try direct JSON parse
-            try:
-                ai_plan = json.loads(raw_text)
-                ai_powered = True
-            except json.JSONDecodeError:
-                # Try extracting JSON block via regex
-                import re
-                match = re.search(r'\{[\s\S]*\}', raw_text)
-                if match:
-                    try:
-                        ai_plan = json.loads(match.group(0))
-                        ai_powered = True
-                    except json.JSONDecodeError:
-                        print("  [daily_plan] JSON extraction failed — usando fallback rule-based")
+            if raw_text:
+                print("  ⚡ daily_plan: Groq fallback")
         except Exception as e:
             print(f"  [daily_plan] Groq error: {e}")
+
+    if raw_text:
+        try:
+            ai_plan = json.loads(raw_text)
+            ai_powered = True
+        except json.JSONDecodeError:
+            match = _re_plan.search(r'\{[\s\S]*\}', raw_text)
+            if match:
+                try:
+                    ai_plan = json.loads(match.group(0))
+                    ai_powered = True
+                except json.JSONDecodeError:
+                    print("  [daily_plan] JSON extraction failed — usando fallback rule-based")
 
     # ── Rule-based fallback ───────────────────────────────────────────────────
     if ai_plan is None:
