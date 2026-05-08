@@ -1801,7 +1801,13 @@ def scan_quality_decay() -> dict:
         if decay_score < 3 or not flags:
             continue
 
-        severity = "HIGH" if decay_score >= 6 else "MEDIUM"
+        # Piotroski ≥7 means balance sheet is still strong — decay may be 1-2 bad quarters,
+        # not structural deterioration. Cap at MEDIUM to avoid false alarms on quality companies.
+        strong_balance = curr_piotr is not None and curr_piotr >= 7
+        if decay_score >= 6 and strong_balance:
+            severity = "MEDIUM"
+        else:
+            severity = "HIGH" if decay_score >= 6 else "MEDIUM"
         decays.append(dict(
             ticker=t,
             company_name=company,

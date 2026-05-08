@@ -562,10 +562,11 @@ class SuperScoreIntegrator:
         df.loc[(df['ma_filter_pass'] == False) & (~rate_limited), 'filter_penalty'] += 20
         df.loc[(df['ma_filter_pass'] == True) & (df['ma_filter_score'] < 80), 'filter_penalty'] += 5
 
-        # A/D filter penalty
-        df.loc[df['ad_signal'] == 'STRONG_DISTRIBUTION', 'filter_penalty'] += 15
-        df.loc[df['ad_signal'] == 'DISTRIBUTION', 'filter_penalty'] += 10
-        df.loc[df['ad_score'] < 50, 'filter_penalty'] += 5
+        # A/D filter penalty — halved vs original: distribution is a momentum signal,
+        # not a VALUE signal. A good business being sold by the market is a VALUE opportunity.
+        df.loc[df['ad_signal'] == 'STRONG_DISTRIBUTION', 'filter_penalty'] += 8
+        df.loc[df['ad_signal'] == 'DISTRIBUTION', 'filter_penalty'] += 5
+        df.loc[df['ad_score'] < 50, 'filter_penalty'] += 2
 
         # Float penalty (minimal - only for mega caps)
         df.loc[df['float_category'] == 'MEGA_FLOAT', 'filter_penalty'] += 3
@@ -737,7 +738,9 @@ class SuperScoreIntegrator:
         )
         print(f"🔥 Short squeeze potential (≥8% float): {squeeze_count}/{len(df)}")
 
-        # --- 52-Week High Proximity bonus/penalty (Minervini: buy near highs) ---
+        # --- 52-Week High Proximity bonus/penalty ---
+        # Bonus near highs is kept (momentum signal). Penalty for being far from highs
+        # is removed: in VALUE, -40% from highs with intact fundamentals IS the opportunity.
         df['proximity_bonus'] = 0.0
         if 'proximity_to_52w_high' in df.columns:
             # proximity_to_52w_high is negative: -5 = 5% below high
@@ -746,8 +749,8 @@ class SuperScoreIntegrator:
                 (df['proximity_to_52w_high'] >= -15) & (df['proximity_to_52w_high'] < -5),
                 'proximity_bonus'
             ] += 3.0
-            # -15 to -30: neutral (no change)
-            df.loc[df['proximity_to_52w_high'] < -30, 'proximity_bonus'] -= 5.0
+            # -15 to -30: neutral
+            # < -30: previously -5pts — removed. Deep discount = VALUE opportunity, not a flaw.
 
         near_high_count = int(
             (df.get('proximity_to_52w_high', pd.Series(dtype=float)) >= -10).sum()
@@ -1199,11 +1202,12 @@ class SuperScoreIntegrator:
                 print(f"⚠️  Upside extremo >80% con <10 analistas: {tickers} → -8pts adicionales")
 
             # ANALYST QUALITY: recommendation weight bonus/penalty
-            # strong_buy from multiple analysts is meaningful signal; hold/sell is negative
+            # 'hold' is neutral in VALUE — blue chips (MA, AON, ICE) structurally get 'hold'
+            # from analysts because they're widely held. Only 'sell' is a real negative signal.
             rec_bonus = pd.Series(0.0, index=df.index)
             rec_bonus[_rec == 'strong_buy'] = 5.0   # high conviction
-            rec_bonus[_rec == 'buy']        = 2.0   # positive but less strong
-            rec_bonus[_rec == 'hold']       = -3.0  # analysts not excited
+            rec_bonus[_rec == 'buy']        = 2.0   # positive
+            rec_bonus[_rec == 'hold']       = 0.0   # neutral — not a negative for VALUE
             rec_bonus[_rec == 'sell']       = -8.0  # analysts actively negative
             # Weight by coverage: more analysts = more reliable signal
             _cnt_norm = (_cnt.clip(upper=20) / 20).fillna(0)  # 0-1 scale, cap at 20
