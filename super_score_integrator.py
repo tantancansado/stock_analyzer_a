@@ -166,14 +166,17 @@ class SuperScoreIntegrator:
 
         df = pd.read_csv(vcp_path)
 
-        # Renombrar columnas para consistencia
+        # Renombrar columnas para consistencia (vcp_scanner_usa.py usa nombres en español)
         df = df.rename(columns={
-            'vcp_score': 'vcp_score',
-            'quality': 'vcp_quality'
+            'calidad_patron':       'vcp_quality',
+            'quality':              'vcp_quality',
+            'etapa_analisis':       'stage',
+            'profundidad_base':     'consolidation_quality',
+            'precio':               'current_price',
         })
 
         # Seleccionar columnas relevantes
-        cols = ['ticker', 'vcp_score', 'vcp_quality', 'stage', 'consolidation_quality']
+        cols = ['ticker', 'vcp_score', 'vcp_quality', 'stage', 'consolidation_quality', 'current_price']
         available_cols = [col for col in cols if col in df.columns]
 
         return df[available_cols]

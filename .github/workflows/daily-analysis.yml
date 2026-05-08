@@ -91,6 +91,10 @@ jobs:
       - name: Fundamental Scoring [CRITICAL]
         run: python3 fundamental_scorer.py --curated
 
+      - name: VCP Scanner (S&P 500 — actualiza precios y patrones técnicos)
+        continue-on-error: true
+        run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP scanner failed"
+
       - name: Analyst Revisions Tracker
         continue-on-error: true
         run: python3 analyst_revisions_tracker.py || echo "Analyst revisions tracker failed"
