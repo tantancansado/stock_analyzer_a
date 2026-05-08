@@ -2195,19 +2195,28 @@ Tu evaluación debe:
 
 Tono: analítico, honesto, estilo nota de investigación. Sin emojis. Sin repetir los números exactos del prompt."""
 
-    groq_key = _os.environ.get('GROQ_API_KEY', '')
-    if not groq_key:
-        return jsonify({'ticker': ticker, 'narrative': None, 'error': 'GROQ_API_KEY not configured'}), 200
-
     try:
-        from groq import Groq as _Groq
-        client = _Groq(api_key=groq_key)
-        resp = client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+        from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
+        narrative = _claude_chat(
             messages=[{'role': 'user', 'content': prompt}],
-            max_tokens=250,
+            model=CLAUDE_SONNET,
+            max_tokens=600,
             temperature=0.25,
         )
+        if not narrative:
+            raise ValueError("Claude returned empty")
+        return jsonify({'ticker': ticker, 'narrative': narrative, 'date': pd.Timestamp.now().strftime('%Y-%m-%d')})
+    except Exception:
+        pass
+
+    groq_key = _os.environ.get('GROQ_API_KEY', '')
+    if not groq_key:
+        return jsonify({'ticker': ticker, 'narrative': None, 'error': 'No AI configured'}), 200
+    try:
+        from groq import Groq as _Groq
+        from groq_utils import groq_chat as _groq_chat
+        client = _Groq(api_key=groq_key)
+        resp = _groq_chat(client, messages=[{'role': 'user', 'content': prompt}], max_tokens=400, temperature=0.25)
         narrative = resp.choices[0].message.content.strip()
         return jsonify({'ticker': ticker, 'narrative': narrative, 'date': pd.Timestamp.now().strftime('%Y-%m-%d')})
     except Exception as e:
@@ -3759,19 +3768,30 @@ Sé honesto: si la tesis se ha roto, di VENDER. Los pesos recomendados deben sum
 Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el rango de delta objetivo (~0.25-0.35 OTM), si es PROTECTIVE_PUT indica cuánto downside proteger."""
 
     try:
-        from groq import Groq as _Groq
-        client = _Groq(api_key=groq_key)
-        resp = client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+        from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
+        ai_text = _claude_chat(
             messages=[{'role': 'user', 'content': prompt}],
+            model=CLAUDE_SONNET,
             max_tokens=4096,
             temperature=0.25,
-            response_format={"type": "json_object"},
         )
-        ai_text = resp.choices[0].message.content.strip()
-        ai_result = _json.loads(ai_text)
+        if ai_text:
+            import re as _re
+            _m = _re.search(r'\{[\s\S]*\}', ai_text)
+            ai_result = _json.loads(_m.group(0)) if _m else _json.loads(ai_text)
+        else:
+            raise ValueError("empty")
     except Exception:
-        ai_result = None
+        try:
+            from groq import Groq as _Groq
+            from groq_utils import groq_chat as _groq_chat
+            client = _Groq(api_key=groq_key)
+            resp = _groq_chat(client, messages=[{'role': 'user', 'content': prompt}],
+                              max_tokens=4096, temperature=0.25,
+                              response_format={"type": "json_object"})
+            ai_result = _json.loads(resp.choices[0].message.content.strip())
+        except Exception:
+            ai_result = None
 
     result_positions = []
     for p in enriched:
@@ -4057,19 +4077,30 @@ RESPONDE EN JSON VÁLIDO (sin markdown, sin texto extra). Incluye instrucciones 
 }}"""
 
             try:
-                from groq import Groq as _Groq
-                client = _Groq(api_key=groq_key)
-                resp = client.chat.completions.create(
-                    model='llama-3.3-70b-versatile',
+                from groq_utils import claude_chat as _claude_chat, CLAUDE_SONNET
+                _ai_text = _claude_chat(
                     messages=[{'role': 'user', 'content': prompt}],
+                    model=CLAUDE_SONNET,
                     max_tokens=800,
                     temperature=0.2,
-                    response_format={"type": "json_object"},
                 )
-                ai_text = resp.choices[0].message.content.strip()
-                ai_recommendation = _json.loads(ai_text)
+                if _ai_text:
+                    import re as _re
+                    _m = _re.search(r'\{[\s\S]*\}', _ai_text)
+                    ai_recommendation = _json.loads(_m.group(0)) if _m else _json.loads(_ai_text)
+                else:
+                    raise ValueError("empty")
             except Exception:
-                ai_recommendation = None
+                try:
+                    from groq import Groq as _Groq
+                    from groq_utils import groq_chat as _groq_chat
+                    client = _Groq(api_key=groq_key)
+                    resp = _groq_chat(client, messages=[{'role': 'user', 'content': prompt}],
+                                     max_tokens=800, temperature=0.2,
+                                     response_format={"type": "json_object"})
+                    ai_recommendation = _json.loads(resp.choices[0].message.content.strip())
+                except Exception:
+                    ai_recommendation = None
 
         return jsonify({
             'ticker':           ticker,
