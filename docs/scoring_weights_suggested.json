@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-29",
+  "generated_at": "2026-05-08",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -36,22 +36,22 @@
     {
       "factor": "fcf_yield_bonus",
       "change": "+3",
-      "reason": "FCF alto mejora WR +7.5pp. Aumentar peso FCF.",
-      "n": 384
+      "reason": "FCF alto mejora WR +7.3pp. Aumentar peso FCF.",
+      "n": 419
     },
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
-      "reason": "R:R alto mejora WR +10.1pp. Aumentar peso R:R.",
-      "n": 531
+      "reason": "R:R alto mejora WR +9.9pp. Aumentar peso R:R.",
+      "n": 582
     },
     {
       "factor": "score_threshold_note",
       "change": "Consider raising minimum threshold to 70+ for published picks",
-      "reason": "Score 80+ has 60.0% WR vs 26% base",
+      "reason": "Score 80+ has 60.0% WR vs 27% base",
       "n": 5
     }
   ],
-  "expected_impact": "Based on 1457 historical signals",
-  "narrative": "Ajustes propuestos basados en an\u00e1lisis hist\u00f3rico. Requieren revisi\u00f3n antes de aplicar al pipeline."
+  "expected_impact": "Based on 1518 historical signals",
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que:\n\n- Un aumento en el peso de la FCF (Free Cash Flow) podr\u00eda mejorar la precisi\u00f3n en un 7,3% de puntos porcentuales (pp) en la tasa de victorias (WR).\n- Un aumento en el peso de la relaci\u00f3n riesgo-recompensa (R:R) podr\u00eda mejorar la precisi\u00f3n en un 9,9% de puntos porcentuales (pp) en la tasa de victorias (WR).\n\nEstos ajustes podr\u00edan llevar a una mayor precisi\u00f3n en las predicciones, especialmente en aquellas con una puntu"
 }
