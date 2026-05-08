@@ -1,25 +1,25 @@
 {
   "model": "llama-3.3-70b-versatile",
-  "validated_at": "2026-05-07T08:33:18+00:00",
+  "validated_at": "2026-05-08T07:31:09+00:00",
   "total": 105,
   "results": {
     "RSG": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una valoración alta en relación con el FCF.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración del 47.7% y una margen de seguridad negativa del 91.2%.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "FAST": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración con un upside negativo y una margen de seguridad insuficiente.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. La falta de red flags detectadas también respalda la confiabilidad del dato.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MSI": {
       "data_quality": "RELIABLE",
@@ -28,52 +28,52 @@
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CB": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF es coherente en general, pero la caída en el último año y la falta de consenso en las proyecciones forward generan dudas. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, aunque es importante monitorear la evolución del FCF y las red flags.",
+      "reasoning": "El dato de FCF es coherente en general, pero la caída en el último año y la falta de consenso en el forward generan dudas. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, aunque es importante monitorear la evolución del FCF.",
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CHD": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "No se dispone de datos históricos de FCF, lo que hace imposible evaluar la coherencia y tendencia de los flujos de efectivo. Además, no hay proyecciones de FCF forward, lo que limita la capacidad de evaluar el potencial de crecimiento futuro. La falta de información sobre el ROIC y el NTM FCF yield también complica la evaluación de la rentabilidad y el valor de la empresa.",
+      "reasoning": "No hay suficiente información para evaluar la calidad del dato y la tesis implícita, ya que faltan datos históricos y proyecciones de FCF. La falta de información hace que no se pueda tomar una decisión informada.",
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ROP": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia del FCF y el histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración con un margen de seguridad negativo y un ROIC por debajo del coste capital estimado.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia del FCF y el histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el ROIC bajo y el precio actual en relación con el valor calculado para un retorno anual del 15%. La margen de seguridad negativa también apoya esta conclusión.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CBOE": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración con un upside negativo y una margen de seguridad insuficiente.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo, lo que sugiere que el precio actual puede estar sobrevalorado.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "7741.T": {
       "data_quality": "MIXED",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "El dato de flujo de caja libre (FCF) histórico y proyectado parece coherente, pero la falta de información sobre el precio de compra y el margen de seguridad para un retorno anual del 15% genera incertidumbre. Además, la ausencia de una tesis implícita clara complica la evaluación de la inversión.",
+      "reasoning": "El dato de FCF histórico y forward parece coherente, pero la falta de información sobre el precio de compra y el margen de seguridad para un retorno anual del 15% genera incertidumbre. Además, la ausencia de una tesis implícita clara complica la evaluación de la inversión.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ISRG": {
       "data_quality": "MIXED",
@@ -82,97 +82,97 @@
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "BRK-B": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "No hay suficiente información disponible para evaluar la calidad del dato y la tesis, ya que faltan datos históricos y proyecciones de FCF. La falta de información sobre el flujo de caja libre y el retorno sobre la inversión hace imposible evaluar la situación actual de la empresa.",
+      "reasoning": "No hay suficiente información disponible para evaluar la calidad del dato y la tesis, ya que faltan datos históricos y proyecciones de FCF. La falta de información sobre el flujo de caja libre y otros indicadores financieros clave hace que sea imposible tomar una decisión informada.",
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CNI": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la volatilidad en el flujo de caja libre y la dilución de acciones. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un margen de seguridad negativo y un upside limitado.",
+      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y la dilución de acciones, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED parece correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el título está sobrevalorado.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "SYK": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, la empresa tiene un historial estable y el modelo de valoración sugiere que el precio actual está cerca del valor justo. La tesis HOLD parece razonable, pero es preferible esperar un mejor precio para considerar una compra.",
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis HOLD parece razonable considerando el upside limitado y la margen de seguridad negativa, pero es importante esperar un mejor precio o más información para tomar una decisión informada.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ERIE": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "No hay suficiente información sobre el flujo de caja libre (FCF) histórico y proyectado de Erie Indemnity Company, lo que hace que el modelo de Owner Earnings no sea fiable para tomar decisiones. La falta de datos sobre el FCF y el ROIC último año también complica la evaluación de la tesis implícita.",
-      "confidence": 20,
+      "reasoning": "No hay datos históricos de FCF disponibles, lo que hace imposible evaluar la coherencia y tendencia de los flujos de efectivo. Además, no hay proyecciones de FCF forward, lo que limita la capacidad de evaluar el potencial de crecimiento futuro. La falta de información sobre el ROIC y el NTM FCF yield también complica la evaluación de la rentabilidad y el valor de la empresa.",
+      "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MSFT": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF es coherente en general, pero la caída en el último año y la proyección de crecimiento significativo en los próximos años generan alguna duda. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, aunque es importante monitorear la evolución del FCF y las proyecciones.",
-      "confidence": 80,
+      "reasoning": "El dato de FCF es coherente en general, pero la caída en el último año y la proyección de crecimiento significativo en los próximos años generan alguna duda. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, aunque es importante monitorear los red flags detectados.",
+      "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "AUTO.L": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad del 52% respaldan la tesis de compra. La falta de histórico de FCF y la ausencia de red flags graves también apoyan esta decisión.",
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tesis de compra se ve respaldada por el upside sólido y la margen de seguridad. La empresa parece tener un crecimiento estable en su flujo de caja libre y un retorno sobre la inversión razonable.",
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "RELX": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y la ausencia de red flags significativos. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que indica un upside negativo y una margen de seguridad insuficiente.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo, lo que sugiere que el precio actual puede estar por encima del valor justo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "AJG": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y un apalancamiento moderado, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED parece correcta debido a la sobrevaloración y los red flags detectados.",
+      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y el apalancamiento moderado, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED parece correcta debido a la sobrevaloración y los red flags detectados.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "LRLCY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y las proyecciones de FCF, lo que sugiere que la acción está sobrevalorada.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el bajo NTM FCF yield y el EV/FCF target aplicado, lo que sugiere que el precio actual puede estar por encima de su valor justo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CP": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato de FCF es coherente en general, pero presenta algunas inconsistencias como la caída en el último año y un ROIC inferior al coste capital estimado. Además, la dilución de acciones y la conversión FCF/EBITDA baja en algunos años generan dudas. La tesis de sobrevaloración parece tener fundamentos sólidos debido a la relación EV/FCF target aplicado y el NTM FCF yield.",
+      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y un ROIC inferior al coste capital estimado. La tesis OVERVALUED parece correcta debido a la presencia de varios red flags y una valoración que supera la mediana histórica.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ZTS": {
       "data_quality": "MIXED",
@@ -181,277 +181,277 @@
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "NOW": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una sobrevaloración actual.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y un margen de seguridad negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "INTU": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración con un margen de seguridad negativo.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "SPGI": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Aunque el histórico de FCF no está disponible, las proyecciones futuras sugieren un crecimiento constante. Sin embargo, la falta de consenso y la ausencia de un histórico de FCF sólido generan dudas sobre la fiabilidad del dato. La tesis de sobrevaloración parece tener fundamentos, considerando el precio actual y la valoración del modelo.",
-      "confidence": 60,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "LSEG.L": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la volatilidad en el FCF histórico y la dilución de acciones. Además, el ROIC es inferior al coste capital estimado, lo que genera dudas sobre la capacidad de la empresa para generar valor. La tesis OVERVALUED parece estar respaldada por estos factores.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "CME": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo, lo que sugiere que el precio actual puede estar por encima del valor justo.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "FICO": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como el ROE negativo y el apalancamiento moderado, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la sobrevaloración y los red flags detectados.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "ITW": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta una caída en el FCF durante tres años consecutivos, lo que genera dudas sobre su coherencia. Aunque el histórico de FCF es mayor a 3 años, la volatilidad y la falta de consenso en las proyecciones forward generan incertidumbre. La tesis OVERVALUED parece correcta debido a la sobrevaloración y los red flags detectados.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "DHR": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "BUY",
-      "reasoning": "El dato de flujo de caja libre (FCF) es coherente en las proyecciones, pero la falta de histórico y la ausencia de consenso en las proyecciones futuras generan dudas. Sin embargo, la tesis de compra se ve respaldada por el upside sólido y la margen de seguridad, lo que sugiere que el precio actual podría ser atractivo.",
-      "confidence": 70,
-      "score_adjustment": 3,
-      "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "ETN": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis HOLD podría ser cuestionable considerando el upside negativo y la margen de seguridad también negativa, lo que sugiere que el precio actual podría estar cerca del valor justo, pero no necesariamente sobrevalorado.",
-      "confidence": 80,
-      "score_adjustment": 2,
-      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "CSU.TO": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis WATCH parece correcta ya que el modelo sugiere un upside limitado y el precio actual está cerca del valor justo.",
-      "confidence": 80,
-      "score_adjustment": 2,
-      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "CLPBY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. La tesis de compra se ve respaldada por un upside sólido y una margen de seguridad significativa, lo que sugiere que el precio actual es atractivo en relación con el valor intrínseco de la empresa.",
-      "confidence": 85,
-      "score_adjustment": 8,
-      "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "V": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloramiento con una margen de seguridad negativa.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "BRO": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "PGR": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF parece coherente y hay un histórico de al menos 3 años, pero la volatilidad en el FCF y la dependencia de proyecciones forward para el modelo pueden introducir incertidumbre. La tesis BUY se apoya en un upside sólido y una margen de seguridad significativa, lo que sugiere un potencial de crecimiento.",
-      "confidence": 80,
-      "score_adjustment": 3,
-      "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "EXPN.L": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis de compra se ve respaldada por el upside sólido y la margen de seguridad, lo que sugiere que el precio actual es atractivo en relación con el valor intrínseco.",
-      "confidence": 80,
-      "score_adjustment": 8,
-      "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "PEP": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. La falta de red flags detectadas también respalda la confiabilidad del dato.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "IT": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato de FCF es coherente en general, pero la caída en el último año y la volatilidad en los años anteriores generan dudas. La tesis de sobrevaloración parece correcta debido a la baja relación entre el precio actual y el flujo de caja libre proyectado, lo que sugiere un margen de seguridad negativo y un upside limitado.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "AI.PA": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente es mixto debido a la volatilidad del FCF histórico y la falta de consenso en las proyecciones forward. La tesis BUY se ve cuestionada por los red flags detectados, como el ROE y ROIC negativos, lo que sugiere que la empresa no está generando retornos adecuados. Sin embargo, el upside potencial y la margen de seguridad son atractivos, por lo que se recomienda esperar un mejor precio.",
-      "confidence": 60,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "HEI": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. La falta de margen de seguridad y el upside negativo refuerzan esta conclusión.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "CDNS": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. La empresa tiene un histórico de FCF creciente, pero el precio actual puede estar reflejando expectativas demasiado optimistas.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "ESLOY": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de red flags detectadas también respalda la tesis de compra.",
-      "confidence": 70,
-      "score_adjustment": 3,
-      "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "WST": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el precio de compra calculado para un retorno anual del 15%, lo que sugiere un margen de seguridad negativo y un upside limitado.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "LIN": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la conversión FCF/EBITDA baja en algunos años, lo que genera dudas sobre la fiabilidad del flujo de caja. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración de la acción. La falta de margen de seguridad y el upside negativo refuerzan esta conclusión.",
-      "confidence": 80,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "SBGSY": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad sugieren una oportunidad atractiva. La falta de red flags y el ROIC no disponible no permiten una evaluación completa.",
-      "confidence": 70,
-      "score_adjustment": 3,
-      "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "MTD": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis OVERVALUED parece correcta considerando el alto precio actual y la baja rentabilidad esperada.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "ROL": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloramiento con un upside negativo y una margen de seguridad insuficiente.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "TNE.AX": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta cierta volatilidad en el flujo de caja libre (FCF) histórico y forward, lo que genera dudas sobre su coherencia. La tesis OVERVALUED parece correcta debido a la gran brecha entre el precio actual y el precio de compra calculado para un retorno anual del 15%, lo que sugiere que el título está sobrevalorado.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
-    },
-    "TYL": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
       "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una margen de seguridad negativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
-    "GVDNY": {
+    "SPGI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Además, la falta de histórico de FCF y el ROIC desconocido limitan la confiabilidad del modelo. La tesis de sobrevaloración parece plausible dada la brecha entre el precio actual y el precio de compra calculado.",
+      "confidence": 60,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "LSEG.L": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF coherente y un consenso de proyecciones forward, pero también muestra algunas debilidades, como un ROIC bajo y una dilución de acciones significativa. La tesis OVERVALUED parece estar respaldada por el modelo, que indica un precio de compra muy por debajo del actual y una margen de seguridad negativa. Sin embargo, es importante considerar los red flags detectados y la volatilidad potencial en las proyecciones de FCF.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "CME": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato de FCF histórico y forward parece coherente, pero la volatilidad en el FCF de 2022 y la falta de contexto sobre este año generan dudas. La tesis OVERVALUED parece correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado puede estar sobrevalorando a CME Group.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "FICO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF coherente y un número razonable de acciones, pero también muestra un apalancamiento moderado y un ROE negativo, lo que genera dudas sobre la calidad del dato. La tesis OVERVALUED parece estar respaldada por el modelo, que sugiere un precio de compra más bajo que el actual y un margen de seguridad negativo.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "ITW": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato de FCF histórico y forward parece coherente, pero la caída de FCF en los últimos años y la proyección de un aumento significativo en 2029 generan dudas sobre la fiabilidad del dato. La tesis OVERVALUED parece correcta debido a la alta valoración actual y la presencia de red flags como la caída de FCF en tres años consecutivos.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "DHR": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente es mixto debido a la caída del FCF en el último año y la cobertura de analistas baja, pero la tendencia histórica y las proyecciones forward son coherentes. La tesis BUY se apoya en el upside sólido y la margen de seguridad, aunque se debe considerar la volatilidad del FCF.",
+      "reasoning": "El dato de flujo de caja libre (FCF) es coherente en las proyecciones, pero no hay un histórico de al menos 3 años para evaluar su consistencia. La tesis de compra se basa en un upside sólido y una margen de seguridad razonable, lo que sugiere que el precio actual podría ser atractivo.",
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "ETN": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "WATCH",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis HOLD puede no ser la más adecuada considerando el upside negativo y la margen de seguridad también negativa, lo que sugiere que el precio actual puede estar cerca del valor justo, pero no necesariamente sobrevalorado.",
+      "confidence": 80,
+      "score_adjustment": 2,
+      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "CSU.TO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "WATCH",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis WATCH se justifica porque el precio de compra calculado es cercano al precio actual, lo que sugiere que la acción está cerca de su valor justo y no ofrece un upside significativo en este momento.",
+      "confidence": 80,
+      "score_adjustment": 2,
+      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "CLPBY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "BUY",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. La tesis de compra se ve respaldada por un upside sólido y una margen de seguridad significativa, lo que sugiere que el precio actual es atractivo en relación con el potencial de crecimiento futuro.",
+      "confidence": 80,
+      "score_adjustment": 8,
+      "oe_ai_verdict": "RELIABLE/BUY (+8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "V": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo, lo que sugiere que el precio actual puede estar por encima de su valor justo.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "BRO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo y una margen de seguridad negativa.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "PGR": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "BUY",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis de compra se ve respaldada por el upside sólido y la margen de seguridad del 51.4%, lo que sugiere un potencial de crecimiento significativo.",
+      "confidence": 80,
+      "score_adjustment": 8,
+      "oe_ai_verdict": "RELIABLE/BUY (+8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "EXPN.L": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "BUY",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis de compra se ve respaldada por el upside sólido y la margen de seguridad, lo que sugiere que el precio actual es atractivo en relación con el valor intrínseco de la empresa.",
+      "confidence": 80,
+      "score_adjustment": 8,
+      "oe_ai_verdict": "RELIABLE/BUY (+8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "PEP": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. La falta de red flags detectadas también respalda la confiabilidad del dato.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "IT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente es mixto debido a la caída del FCF en el último año y la volatilidad en los flujos de efectivo históricos. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una sobrevaloración actual.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "AI.PA": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "WATCH",
+      "reasoning": "El dato subyacente es mixto debido a la volatilidad del FCF histórico y la falta de consenso en las proyecciones forward. La tesis BUY parece apoyada por el upside potencial, pero la presencia de red flags como el ROE y ROIC negativos y el FCF negativo persistente sin contexto claro generan dudas sobre la solidez de la inversión.",
+      "confidence": 60,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/WATCH (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "HEI": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. El margen de seguridad negativo y el upside vs precio actual también apoyan esta conclusión.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "CDNS": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. La falta de margen de seguridad y el upside negativo refuerzan esta conclusión.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "ESLOY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "BUY",
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre, pero la proyección de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de histórico de FCF y el ROIC no disponible también limitan la confiabilidad del dato. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la ausencia de red flags detectadas.",
+      "confidence": 70,
+      "score_adjustment": 3,
+      "oe_ai_verdict": "MIXED/BUY (+3)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "WST": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el precio de compra calculado para un retorno anual del 15%, lo que sugiere un upside negativo y una margen de seguridad también negativa.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "LIN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "SBGSY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "MTD": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "ROL": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "TNE.AX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "TYL": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
+    },
+    "GVDNY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "HESAY": {
       "data_quality": "MIXED",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "El dato de flujo de caja libre (FCF) histórico y proyectado parece coherente, pero la falta de información sobre el precio de compra y el margen de seguridad, así como la baja cobertura de analistas, generan dudas sobre la fiabilidad del modelo. La tesis NO_DATA no se puede evaluar adecuadamente debido a la falta de resultados en el modelo.",
-      "confidence": 60,
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "VLTO": {
       "data_quality": "MIXED",
@@ -460,7 +460,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "DBOEY": {
       "data_quality": "MIXED",
@@ -469,7 +469,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MCD": {
       "data_quality": "MIXED",
@@ -478,7 +478,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "AON": {
       "data_quality": "MIXED",
@@ -487,7 +487,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ASAZY": {
       "data_quality": "MIXED",
@@ -496,7 +496,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "EQIX": {
       "data_quality": "MIXED",
@@ -505,7 +505,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "VRSN": {
       "data_quality": "MIXED",
@@ -514,7 +514,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ADP": {
       "data_quality": "MIXED",
@@ -523,7 +523,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "PAYX": {
       "data_quality": "MIXED",
@@ -532,7 +532,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "WMT": {
       "data_quality": "MIXED",
@@ -541,7 +541,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "SAP": {
       "data_quality": "MIXED",
@@ -550,7 +550,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "WTKWY": {
       "data_quality": "MIXED",
@@ -559,7 +559,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CPRT": {
       "data_quality": "MIXED",
@@ -568,7 +568,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "AXP": {
       "data_quality": "MIXED",
@@ -577,7 +577,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "AWK": {
       "data_quality": "MIXED",
@@ -586,7 +586,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "TW": {
       "data_quality": "MIXED",
@@ -595,7 +595,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "SHW": {
       "data_quality": "MIXED",
@@ -604,7 +604,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "FDS": {
       "data_quality": "MIXED",
@@ -613,7 +613,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "TT": {
       "data_quality": "MIXED",
@@ -622,7 +622,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ATLKY": {
       "data_quality": "MIXED",
@@ -631,7 +631,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CTAS": {
       "data_quality": "MIXED",
@@ -640,7 +640,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "VRSK": {
       "data_quality": "MIXED",
@@ -649,7 +649,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "VEEV": {
       "data_quality": "MIXED",
@@ -658,7 +658,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "DSGX": {
       "data_quality": "MIXED",
@@ -667,7 +667,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "WM": {
       "data_quality": "MIXED",
@@ -676,7 +676,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "G24.DE": {
       "data_quality": "MIXED",
@@ -685,7 +685,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "IDXX": {
       "data_quality": "MIXED",
@@ -694,7 +694,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ICE": {
       "data_quality": "MIXED",
@@ -703,7 +703,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "AZO": {
       "data_quality": "MIXED",
@@ -712,7 +712,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ECL": {
       "data_quality": "MIXED",
@@ -721,7 +721,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "PG": {
       "data_quality": "MIXED",
@@ -730,7 +730,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "AME": {
       "data_quality": "MIXED",
@@ -739,7 +739,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "RACE": {
       "data_quality": "MIXED",
@@ -748,7 +748,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "GWW": {
       "data_quality": "MIXED",
@@ -757,7 +757,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "JNJ": {
       "data_quality": "MIXED",
@@ -766,7 +766,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "TJX": {
       "data_quality": "MIXED",
@@ -775,7 +775,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MKC": {
       "data_quality": "MIXED",
@@ -784,7 +784,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MSCI": {
       "data_quality": "MIXED",
@@ -793,7 +793,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "WCN": {
       "data_quality": "MIXED",
@@ -802,7 +802,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MA": {
       "data_quality": "MIXED",
@@ -811,7 +811,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ORLY": {
       "data_quality": "MIXED",
@@ -820,7 +820,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "SXYAY": {
       "data_quality": "MIXED",
@@ -829,7 +829,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MMC": {
       "data_quality": "MIXED",
@@ -838,7 +838,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "KO": {
       "data_quality": "MIXED",
@@ -847,7 +847,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ABT": {
       "data_quality": "MIXED",
@@ -856,7 +856,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "NDSN": {
       "data_quality": "MIXED",
@@ -865,7 +865,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "BR": {
       "data_quality": "MIXED",
@@ -874,7 +874,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "TMO": {
       "data_quality": "MIXED",
@@ -883,7 +883,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "NDAQ": {
       "data_quality": "MIXED",
@@ -892,7 +892,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "CL": {
       "data_quality": "MIXED",
@@ -901,7 +901,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "COST": {
       "data_quality": "MIXED",
@@ -910,7 +910,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "MCO": {
       "data_quality": "MIXED",
@@ -919,7 +919,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "OTIS": {
       "data_quality": "MIXED",
@@ -928,7 +928,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "JKHY": {
       "data_quality": "MIXED",
@@ -937,7 +937,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     },
     "ITRK.L": {
       "data_quality": "MIXED",
@@ -946,7 +946,7 @@
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-07T08:33:18+00:00"
+      "validated_at": "2026-05-08T07:31:09+00:00"
     }
   }
 }

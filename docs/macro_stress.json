@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-07T08:27:02+00:00",
+  "generated_at": "2026-05-08T07:25:16+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -7,9 +7,9 @@
       "label": "Petr\u00f3leo (WTI)",
       "category": "energy",
       "primary_ticker": "CL=F",
-      "stress_score": 35.3,
-      "band": "amber",
-      "regime": "BUILDING",
+      "stress_score": 62.7,
+      "band": "red",
+      "regime": "TIGHTENING",
       "signals_used": 1,
       "coverage_pct": 25.0,
       "signals": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -6.72,
-          "percentile": 35.3,
+          "value": -5.77,
+          "percentile": 62.7,
           "z": null,
-          "score": 35.3,
-          "contribution": 8.8,
+          "score": 62.7,
+          "contribution": 15.7,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 93.69,
-            "deferred_price": 99.99
+            "front_price": 95.03,
+            "deferred_price": 100.51
           },
           "history_ready": true
         },
@@ -86,7 +86,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -6.72%",
+      "narrative": "backwardation -5.77%",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -1409,7 +1409,7 @@
         },
         {
           "date": "2026-05-08",
-          "price": 93.71,
+          "price": 95.14,
           "stress_score": null
         }
       ],
@@ -1417,16 +1417,16 @@
         {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 35.3,
-          "contribution": 8.8
+          "score": 62.7,
+          "contribution": 15.7
         }
       ]
     }
   },
   "summary": {
     "markets_total": 1,
-    "markets_red": 0,
+    "markets_red": 1,
     "top_market": "crude_oil",
-    "top_stress_score": 35.3
+    "top_stress_score": 62.7
   }
 }
