@@ -42,7 +42,10 @@ def _prune(snapshots: list[dict[str, Any]], cutoff: datetime) -> list[dict[str, 
     pruned = []
     for snap in snapshots:
         try:
-            if datetime.fromisoformat(snap["date"]) >= cutoff:
+            snap_dt = datetime.fromisoformat(snap["date"])
+            if snap_dt.tzinfo is None:
+                snap_dt = snap_dt.replace(tzinfo=timezone.utc)
+            if snap_dt >= cutoff:
                 pruned.append(snap)
         except (KeyError, ValueError):
             continue

@@ -76,8 +76,9 @@ def ai(prompt: str, max_tokens: int = 300):
     if not groq_client:
         return None
     try:
-        r = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+        from groq_utils import groq_chat as _groq_chat
+        r = _groq_chat(
+            groq_client,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=max_tokens, temperature=0.4,
         )
@@ -829,11 +830,14 @@ def _validate_exits_with_ai(exits: list) -> None:
                 f'\"confidence\": 0-100, \"summary\": \"1-2 sentences in Spanish\", '
                 f'\"key_finding\": \"most important recent fact\"}}'
             )
-            r = groq_client.chat.completions.create(
-                model="compound-beta",
+            from groq_utils import groq_chat as _groq_chat, SCOUT_FALLBACK
+            r = _groq_chat(
+                groq_client,
                 messages=[{"role": "user", "content": prompt}],
+                model="compound-beta",
                 max_tokens=300,
                 temperature=0,
+                fallback_chain=["meta-llama/llama-4-scout-17b-16e-instruct"] + SCOUT_FALLBACK,
             )
             raw = r.choices[0].message.content or ""
             import re as _re
@@ -3677,8 +3681,9 @@ def scan_daily_plan(exit_sigs: dict, value_traps: dict, smart_money: dict, squee
 
     if groq_client:
         try:
-            r = groq_client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
+            from groq_utils import groq_chat as _groq_chat
+            r = _groq_chat(
+                groq_client,
                 messages=[{"role": "user", "content": prompt}],
                 max_tokens=1200,
                 temperature=0.15,

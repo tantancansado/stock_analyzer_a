@@ -11,6 +11,7 @@ import json
 import os
 import ast
 from groq import Groq
+from groq_utils import groq_chat
 
 # Groq API (free tier) - must be set in environment
 GROQ_API_KEY = os.getenv('GROQ_API_KEY')
@@ -190,11 +191,11 @@ QUALITY CHECKS:
 Respond ONLY with JSON:
 {{"verdict": "BUY"|"HOLD"|"AVOID", "confidence": 0-100, "reasoning": "brief explanation"}}"""
 
-        response = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+        response = groq_chat(
+            client,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,
             max_tokens=150,
+            temperature=0.2,
             response_format={"type": "json_object"},
         )
 

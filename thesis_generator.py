@@ -50,8 +50,10 @@ class ThesisGenerator:
                     print("⚠️ GROQ_API_KEY not set, using templates")
                 else:
                     from groq import Groq
+                    from groq_utils import groq_chat as _groq_chat
                     self.ai_client = Groq()
-                    print("✅ AI narratives enabled (Groq Llama 3.3 70B)")
+                    self._groq_chat = _groq_chat
+                    print("✅ AI narratives enabled (Groq Llama 3.3 70B + fallback)")
             except Exception as e:
                 print(f"⚠️ AI not available ({e}), using templates")
 
@@ -754,12 +756,21 @@ ESTRUCTURA (usa **negrita** para cada sección):
 6. **Conclusión** — Veredicto claro: comprar, esperar, o evitar. Con justificación.
 """
 
-        response = self.ai_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
-            messages=[{"role": "user", "content": data_context}],
-            max_tokens=800,
-            temperature=0.3,
-        )
+        groq_chat = getattr(self, '_groq_chat', None)
+        if groq_chat:
+            response = groq_chat(
+                self.ai_client,
+                messages=[{"role": "user", "content": data_context}],
+                max_tokens=800,
+                temperature=0.3,
+            )
+        else:
+            response = self.ai_client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[{"role": "user", "content": data_context}],
+                max_tokens=800,
+                temperature=0.3,
+            )
 
         return response.choices[0].message.content
 
@@ -1150,8 +1161,9 @@ ESTRUCTURA (usa **negrita** para cada sección):
         risk_reward = (score_5d + abs(upside)) / 2
         rating['risk_reward'] = min(5, int(risk_reward / 20) + 1)
 
-        # Overall
-        rating['overall'] = round((rating['technical'] + rating['fundamental'] + rating['risk_reward']) / 3, 1)
+        # Overall — use only non-None components
+        _stars = [v for v in [rating['technical'], rating['fundamental'], rating['risk_reward']] if v is not None]
+        rating['overall'] = round(sum(_stars) / len(_stars), 1) if _stars else 3.0
 
         return rating
 

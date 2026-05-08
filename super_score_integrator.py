@@ -2018,8 +2018,11 @@ Note:
         integrator.save_results(momentum_df, filename='momentum_opportunities', score_column='momentum_score')
     else:
         # Always overwrite so stale data from previous runs isn't shown
+        # Write empty CSV with header so downstream readers don't crash
         import pandas as _pd
-        _pd.DataFrame().to_csv('docs/momentum_opportunities.csv', index=False)
+        _pd.DataFrame(columns=['ticker', 'company_name', 'momentum_score', 'vcp_score',
+                                'current_price', 'sector', 'signal_date']).to_csv(
+            'docs/momentum_opportunities.csv', index=False)
         print("⚠️  No momentum opportunities — cleared stale file")
 
     # Exportar ticker data cache (usar value_df como principal)
