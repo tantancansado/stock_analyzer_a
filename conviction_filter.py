@@ -399,8 +399,22 @@ def filter_by_conviction(input_path: str, output_path: str = None, min_grade: st
     print(f"{'='*80}")
     print(f"Input: {len(df)} oportunidades")
 
+    # ── US hard filters (data-driven: 681 signals, zona dorada = 78.7% win rate) ──
+    # score>=60 + RR>=2 + upside 10-50% → avg +5.8%. Outside: avg +0.5% or worse.
+    if not eu_mode and len(df) > 0:
+        n_before = len(df)
+        if 'value_score' in df.columns:
+            df = df[pd.to_numeric(df['value_score'], errors='coerce') >= 60].copy()
+        if 'risk_reward_ratio' in df.columns:
+            _rr = pd.to_numeric(df['risk_reward_ratio'], errors='coerce')
+            df = df[_rr >= 2.0].copy()
+        if 'analyst_upside_pct' in df.columns:
+            _up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
+            df = df[_up.between(10.0, 55.0)].copy()
+        print(f"  US hard filters (score>=60, RR>=2, upside 10-55%): {n_before} -> {len(df)}")
+
     # ── EU hard filters (data-driven: based on 30d portfolio tracker performance) ──
-    # FCF ≥ 6%: win rate 47-83% vs 10% below. Consumer Cyclical/Healthcare EU: <10% win rate.
+    # FCF ≥ 3%: win rate 47%+ vs <25% below. Consumer Cyclical/Healthcare EU: <10% win rate.
     if eu_mode and len(df) > 0:
         n_before = len(df)
         EU_EXCLUDED_SECTORS = {'Consumer Cyclical', 'Healthcare'}
