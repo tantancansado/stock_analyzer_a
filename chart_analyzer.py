@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Chart Analyzer — Phase 2: Groq Vision (Llama 4, free tier)
+Chart Analyzer — Phase 2: Groq Vision (Llama 4 Scout, free tier)
 
 Generates annotated candlestick charts (mplfinance) and sends them to
-Groq's vision API (meta-llama/llama-4-maverick) for technical analysis.
+Groq's vision API (llama-4-scout) for technical analysis.
 Uses JSON mode for clean structured output — no parsing needed.
 
 Pipeline mode (nightly):  python3 chart_analyzer.py --batch
@@ -26,10 +26,9 @@ CHART_SIGNALS_JSON = DOCS / "chart_signals.json"
 TECHNICAL_JSON = DOCS / "technical_signals.json"
 FILTERED_CSV = DOCS / "value_opportunities_filtered.csv"
 
-# Groq vision model — Llama 4 Maverick (best multimodal on Groq, free tier)
-MODEL = "meta-llama/llama-4-maverick-17b-128e-instruct"
-# Fallback if Maverick unavailable
-MODEL_FALLBACK = "meta-llama/llama-4-scout-17b-16e-instruct"
+# Groq vision model — Llama 4 Scout (Maverick was retired)
+MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
+MODEL_FALLBACK = "llama-3.2-11b-vision-preview"
 ANALYSIS_PROMPT = """\
 You are a professional technical analyst reviewing a daily candlestick chart.
 The chart shows 6 months of price + volume with 50-day (orange), 150-day (blue),
