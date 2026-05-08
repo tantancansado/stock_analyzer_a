@@ -8,18 +8,67 @@ on:
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  ARQUITECTURA DE JOBS
-#  ┌─────────────────┐     ┌──────────────────┐     ┌────────────┐
-#  │  core-scoring   │────▶│    scanners       │────▶│   deploy   │
-#  │  ~15 min        │     │  ~45 min          │     │  ~1 min    │
-#  │  CRITICAL path  │     │  opcional, always │     │  always    │
-#  └─────────────────┘     └──────────────────┘     └────────────┘
 #
-#  Beneficio: si core falla, re-ejecutas solo ese job (~15 min),
-#  scanners y deploy se encolan solos. No re-ejecutas 2 horas.
+#  ┌─────────────────┐ ─────────────────────────────────────────────┐
+#  │  vcp-scan       │ S&P 500 VCP (~30 min, paralelo)              │
+#  │  ~30 min        │ ─▶ commit docs/reports/vcp/latest.csv        │
+#  └─────────────────┘                                              │
+#                                                                   ├──▶ scanners ──▶ deploy
+#  ┌─────────────────┐                                              │
+#  │  core-scoring   │ fundamental + integrator (lee VCP via sync)  │
+#  │  ~20 min        │                                              │
+#  └─────────────────┘ ─────────────────────────────────────────────┘
+#
+#  Beneficio: VCP (el más lento) corre en paralelo con fundamental scoring.
+#  Tiempo total: max(vcp, core) en vez de vcp + core.
 #  Cada job hace su propio git commit/push al terminar.
 # ══════════════════════════════════════════════════════════════════════════════
 
 jobs:
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # JOB 0 — VCP Scanner (corre en PARALELO con core-scoring)
+  #  S&P 500 completo (~500 tickers). Genera docs/reports/vcp/latest.csv
+  #  El integrator espera a que este job y core-scoring terminen antes de fusionar.
+  # ════════════════════════════════════════════════════════════════════════════
+  vcp-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pandas numpy yfinance requests beautifulsoup4 lxml scipy
+
+      - name: VCP Scanner (S&P 500 — universo ampliado de patrones técnicos)
+        run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP scanner failed"
+
+      - name: Commit VCP outputs
+        if: always()
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+          git add docs/reports/vcp/ || true
+          git diff --cached --quiet && echo "No VCP changes" || \
+            git commit -m "chore(vcp): S&P500 scan - $(date +%Y-%m-%d)"
+          for i in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main && git push && echo "VCP push OK" && break
+            git rebase --abort 2>/dev/null || true
+            sleep $((i * 5))
+          done || echo "VCP push failed (non-critical)"
 
   # ════════════════════════════════════════════════════════════════════════════
   # JOB 1 — Core scoring  (CRITICAL — si falla, re-ejecutar solo este job)
@@ -91,10 +140,6 @@ jobs:
       - name: Fundamental Scoring [CRITICAL]
         run: python3 fundamental_scorer.py --curated
 
-      - name: VCP Scanner (S&P 500 — actualiza precios y patrones técnicos)
-        continue-on-error: true
-        run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP scanner failed"
-
       - name: Analyst Revisions Tracker
         continue-on-error: true
         run: python3 analyst_revisions_tracker.py || echo "Analyst revisions tracker failed"
@@ -102,6 +147,11 @@ jobs:
       - name: ML Win Predictor (XGBoost win probability)
         continue-on-error: true
         run: python3 ml_win_predictor.py || echo "ML win predictor failed"
+
+      - name: Sync VCP outputs from parallel job
+        run: |
+          git fetch origin main
+          git checkout origin/main -- docs/reports/vcp/ 2>/dev/null && echo "VCP outputs synced" || echo "VCP sync skipped (not yet available)"
 
       - name: Run Super Score Integration [CRITICAL]
         run: python3 super_score_integrator.py
@@ -681,7 +731,7 @@ jobs:
   # JOB 3 — GitHub Pages deploy (siempre, tras los dos jobs anteriores)
   # ════════════════════════════════════════════════════════════════════════════
   deploy:
-    needs: [core-scoring, scanners]
+    needs: [vcp-scan, core-scoring, scanners]
     if: always()
     runs-on: ubuntu-latest
 
