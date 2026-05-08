@@ -932,12 +932,17 @@ def scan_exit_signals() -> dict:
     # Load fundamental_scores for the "not in VALUE" case — avoids false HIGH
     fund_df = load_csv(DOCS / "fundamental_scores.csv")
     fund_map: dict[str, float] = {}
-    if not fund_df.empty and "ticker" in fund_df.columns and "fundamental_score" in fund_df.columns:
+    piotroski_map: dict[str, float] = {}
+    if not fund_df.empty and "ticker" in fund_df.columns:
         for _, r in fund_df.iterrows():
             t = str(r.get("ticker", "")).upper()
             v = sf(r.get("fundamental_score"))
-            if t and v is not None:
-                fund_map[t] = v
+            p = sf(r.get("piotroski_score"))
+            if t:
+                if v is not None:
+                    fund_map[t] = v
+                if p is not None:
+                    piotroski_map[t] = p
 
     for ticker, meta in seen.items():
         curr     = current.get(ticker, {})
@@ -952,6 +957,7 @@ def scan_exit_signals() -> dict:
             days_to_earnings=curr.get("days_to_earnings"),
             insider_active=ticker in insider_active,
             fundamental_score=fund_map.get(ticker),
+            piotroski_score=piotroski_map.get(ticker),
         )
 
         if reasons:

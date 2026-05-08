@@ -111,6 +111,7 @@ def score_exit_signal(
     days_to_earnings: float | None,
     insider_active: bool,
     fundamental_score: float | None = None,
+    piotroski_score: float | None = None,
 ) -> tuple[str, list[str]]:
     """Return (severity, reasons) for whether to exit a position.
 
@@ -120,7 +121,8 @@ def score_exit_signal(
       ticker no longer in VALUE + fundamental_score < 60 → HIGH (thesis broken)
       ticker no longer in VALUE + fundamental_score >= 60 → MEDIUM (price ran up, not deterioration)
       ticker no longer in VALUE + no fundamental data     → MEDIUM (uncertain, not confirmed HIGH)
-      score dropped ≥25pts                               → HIGH + drop reason
+      score dropped ≥25pts + piotroski < 8               → HIGH + drop reason
+      score dropped ≥25pts + piotroski ≥ 8               → MEDIUM (momentum weakness, fundamentals intact)
       score dropped ≥15pts                               → MEDIUM + drop reason
       earnings in ≤7d                                    → upgrade LOW→MEDIUM + reason
       no insider activity & entry>65                     → LOW + reason
@@ -140,8 +142,18 @@ def score_exit_signal(
             severity = "HIGH"
     elif current_score is not None and entry_score is not None and entry_score > 0 and (entry_score - current_score) >= 15:
         drop = entry_score - current_score
-        reasons.append(f"Score cayó {drop:.0f}pts ({entry_score:.0f} → {current_score:.0f})")
-        severity = "HIGH" if drop >= 25 else "MEDIUM"
+        # Piotroski ≥8 means balance sheet is intact — score drop is likely momentum/RS,
+        # not fundamental deterioration. Downgrade to MEDIUM and explain.
+        strong_balance = piotroski_score is not None and piotroski_score >= 8
+        if drop >= 25 and strong_balance:
+            reasons.append(
+                f"Score cayó {drop:.0f}pts ({entry_score:.0f} → {current_score:.0f}) "
+                f"— caída técnica/momentum, balance sólido (Piotroski {piotroski_score:.0f}/9)"
+            )
+            severity = "MEDIUM"
+        else:
+            reasons.append(f"Score cayó {drop:.0f}pts ({entry_score:.0f} → {current_score:.0f})")
+            severity = "HIGH" if drop >= 25 else "MEDIUM"
 
     if earnings_warning and days_to_earnings is not None and days_to_earnings <= 7:
         reasons.append(

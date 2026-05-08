@@ -34,12 +34,28 @@ class TestScoreExitSignal:
         assert any("tesis posiblemente rota" in r for r in reasons)
 
     def test_score_drop_massive_is_high(self):
-        # entry 80 → current 50 = drop 30 → HIGH
+        # entry 80 → current 50 = drop 30, no piotroski → HIGH
         sev, reasons = score_exit_signal(
             **_base(entry_score=80, current_score=50)
         )
         assert sev == "HIGH"
         assert any("Score cayó 30pts" in r for r in reasons)
+
+    def test_score_drop_massive_strong_piotroski_is_medium(self):
+        # drop ≥25 but Piotroski 9 → MEDIUM (momentum weakness, not fundamental)
+        sev, reasons = score_exit_signal(
+            **_base(entry_score=80, current_score=50, piotroski_score=9)
+        )
+        assert sev == "MEDIUM"
+        assert any("Piotroski" in r for r in reasons)
+        assert any("balance sólido" in r for r in reasons)
+
+    def test_score_drop_massive_weak_piotroski_stays_high(self):
+        # drop ≥25 and Piotroski 5 → still HIGH
+        sev, _ = score_exit_signal(
+            **_base(entry_score=80, current_score=50, piotroski_score=5)
+        )
+        assert sev == "HIGH"
 
     def test_score_drop_medium(self):
         # entry 80 → current 62 = drop 18 → MEDIUM
