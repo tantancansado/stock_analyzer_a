@@ -780,6 +780,12 @@ export default function Cerebro() {
   }, [earningsRaw, portfolioTickers])
 
   const [activeTab, setActiveTab] = useState<CerebroTab>('briefing')
+  const scrollToTabs = (tab: CerebroTab) => {
+    setActiveTab(tab)
+    setTimeout(() => {
+      document.getElementById('cerebro-tabs-anchor')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 50)
+  }
   const [entryFilter, setEntryFilter] = useState<'ACTIONABLE' | 'STRONG_BUY' | 'BUY' | 'MONITOR'>('ACTIONABLE')
   const [focusedIdx, setFocusedIdx] = useState(-1)
   const [showAllAlerts, setShowAllAlerts] = useState(false)
@@ -816,7 +822,7 @@ export default function Cerebro() {
     top_convergences: briefingData?.sections?.top_convergences ?? [],
     high_alerts: briefingData?.sections?.high_alerts ?? [],
     traps_warning: briefingData?.sections?.traps_warning ?? [],
-    exit_warnings: briefingData?.sections?.exit_warnings ?? [],
+    exit_warnings: (briefingData?.sections?.exit_warnings ?? []) as unknown as [string, string, string, number, number][],
     smart_money: briefingData?.sections?.smart_money ?? [],
     macro_stress: briefingData?.sections?.macro_stress ?? [],
   }
@@ -916,13 +922,13 @@ export default function Cerebro() {
         </p>
       </div>
 
-      <IdeasHoy signals={entrySignals} onVerDetalle={() => setActiveTab('entry')} />
+      <IdeasHoy signals={entrySignals} onVerDetalle={() => scrollToTabs('entry')} />
 
       <CerebroCoachPanel
         headline={coachHeadline}
         subline={coachSubline}
         actions={coachActions}
-        onOpenTab={setActiveTab}
+        onOpenTab={scrollToTabs}
       />
 
       {/* Summary cards */}
@@ -943,7 +949,7 @@ export default function Cerebro() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-4 border-b border-border/40 overflow-x-auto">
+      <div id="cerebro-tabs-anchor" className="flex gap-1 mb-4 border-b border-border/40 overflow-x-auto">
         {tabs.map(tab => (
           <button
             key={tab.id}
@@ -1131,12 +1137,18 @@ export default function Cerebro() {
                       <ShieldAlert size={13} className="text-red-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Vigilar / Salir</span>
                     </div>
-                    <div className="space-y-1.5">
-                      {briefingSections.exit_warnings.map(([ticker, reason]) => (
-                        <div key={`exit-${ticker}`} className="flex items-start gap-2">
-                          <TickerLogo ticker={ticker} size="xs" className="shrink-0 mt-0.5" />
-                          <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-red-400 text-[0.8rem] hover:underline w-12 shrink-0">{ticker}</Link>
-                          <span className="text-[0.65rem] text-muted-foreground leading-tight">{reason}</span>
+                    <div className="space-y-2">
+                      {briefingSections.exit_warnings.map(([ticker, reason, aiFinding, entryScore, currentScore]: [string, string, string, number, number]) => (
+                        <div key={`exit-${ticker}`} className="rounded-lg border border-red-500/15 bg-red-500/5 px-3 py-2">
+                          <div className="flex items-center gap-2 mb-1">
+                            <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
+                            <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-red-400 text-[0.8rem] hover:underline">{ticker}</Link>
+                            {entryScore != null && currentScore != null && (
+                              <span className="ml-auto text-[0.62rem] text-red-400/70 font-mono">score {Math.round(entryScore)} → {Math.round(currentScore)}</span>
+                            )}
+                          </div>
+                          <p className="text-[0.65rem] text-muted-foreground leading-tight">{reason}</p>
+                          {aiFinding && <p className="mt-1 text-[0.62rem] text-red-300/70 leading-tight italic">{aiFinding}</p>}
                         </div>
                       ))}
                       {briefingSections.traps_warning.map(([ticker, score]) => (

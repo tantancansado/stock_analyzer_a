@@ -1541,7 +1541,16 @@ def generate_personal_briefing(entry_sigs: dict, convergence: dict, alerts: dict
         "top_convergences": [(s["ticker"], s["convergence_score"]) for s in top_conv],
         "high_alerts":      [(a["ticker"], a["type"]) for a in high_alerts],
         "traps_warning":    [(t["ticker"], t["trap_score"]) for t in traps_high],
-        "exit_warnings":    [(e["ticker"], "; ".join(e["reasons"][:1])) for e in exits_high],
+        "exit_warnings":    [
+            (
+                e["ticker"],
+                "; ".join(e["reasons"][:2]),
+                e.get("ai_validation", {}).get("key_finding", ""),
+                e.get("entry_score"),
+                e.get("current_score"),
+            )
+            for e in exits_high
+        ],
         "smart_money":      [(s["ticker"], s["n_hedge_funds"]) for s in smart_top],
         "macro_stress":     stressed_markets,
     }
@@ -1560,6 +1569,7 @@ ALERTAS HIGH: {', '.join(f"{t[0]}({t[1]})" for t in sections['high_alerts']) or 
 TRAMPAS DETECTADAS: {', '.join(t[0] for t in sections['traps_warning']) or 'ninguna'}
 
 SEÑALES DE SALIDA: {', '.join(f"{t[0]}: {t[1]}" for t in sections['exit_warnings']) or 'ninguna'}
+{chr(10).join(f"  {t[0]} IA: {t[2]}" for t in sections['exit_warnings'] if t[2]) or ''}
 
 SMART MONEY: {', '.join(f"{t[0]}({t[1]} HF)" for t in sections['smart_money']) or 'ningún cruce HF+insiders'}
 
