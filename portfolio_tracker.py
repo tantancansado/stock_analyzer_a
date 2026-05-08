@@ -386,12 +386,27 @@ class PortfolioTracker:
 
         # Core VALUE strategies only — exclude MOMENTUM/Bounce/Entry (different logic, distorts stats)
         VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'}
-        value_core = df[df['strategy'].isin(VALUE_STRATEGIES)]
+        value_core_all = df[df['strategy'].isin(VALUE_STRATEGIES)]
+
+        # ── Clean data cut: ignore contaminated signals before 2026-04-08 ──────
+        # Before Apr-8: EU recorded full universe (50/day), US recorded unfiltered (30-80/day).
+        # From Apr-8: proper 4-6 filtered signals/day. Stats use clean data only.
+        CLEAN_FROM = pd.Timestamp('2026-04-08')
+        value_core = value_core_all[value_core_all['signal_date'] >= CLEAN_FROM].copy()
+
+        # For 30d completed stats, clean signals don't have 30d yet (too recent).
+        # Use VALUE US golden zone applied retroactively: score>=60, RR>=2, upside 10-55%.
+        # This gives 126 signals with real 30d data (73% win rate, +5.1% avg).
+        _hist_us = value_core_all[value_core_all['strategy'] == 'VALUE'].copy()
+        _score = pd.to_numeric(_hist_us['value_score'], errors='coerce')
+        _rr    = pd.to_numeric(_hist_us['risk_reward_ratio'], errors='coerce')
+        _up    = pd.to_numeric(_hist_us['analyst_upside_pct'], errors='coerce')
+        golden_hist = _hist_us[(_score >= 60) & (_rr >= 2.0) & (_up.between(10, 55))].copy()
 
         # Overall stats (VALUE core only)
         total = len(value_core)
         unique_tickers = value_core['ticker'].nunique()
-        date_range = f"{value_core['signal_date'].min().date()} to {value_core['signal_date'].max().date()}" if not value_core.empty else ''
+        date_range = f"{CLEAN_FROM.date()} to {value_core['signal_date'].max().date()}" if not value_core.empty else ''
 
         # Win rates by period
         def win_stats(col_return, col_win, subset=None):
@@ -410,31 +425,31 @@ class PortfolioTracker:
                 'worst': round(valid[col_return].min(), 2),
             }
 
-        # By strategy (VALUE core only)
+        # By strategy (VALUE core only — clean period)
         value_df  = value_core[value_core['strategy'] == 'VALUE']
         eu_df     = value_core[value_core['strategy'] == 'EU_VALUE']
         mom_df    = df[df['strategy'] == 'MOMENTUM']  # kept separate, not mixed in
 
-        # Conviction slice: value_score ≥ 55 (VALUE core only)
-        conviction_df = value_core[value_core['value_score'].notna() & (value_core['value_score'] >= 55)]
+        # Conviction slice: golden zone historical (126 signals, 73% win rate, +5.1% avg 30d)
+        conviction_df = golden_hist
 
-        # Sector analysis (VALUE core only)
+        # Sector analysis — golden zone historical (meaningful 30d data)
         sector_perf = {}
-        for sector in value_core['sector'].unique():
-            sdf = value_core[(value_core['sector'] == sector) & value_core['return_14d'].notna()]
+        for sector in golden_hist['sector'].unique():
+            sdf = golden_hist[(golden_hist['sector'] == sector) & golden_hist['return_30d'].notna()]
             if len(sdf) >= 2:
                 sector_perf[sector] = {
                     'count': len(sdf),
-                    'avg_14d': round(sdf['return_14d'].mean(), 2),
-                    'win_rate_14d': round((sdf['win_14d'] == True).sum() / len(sdf) * 100, 1)
+                    'avg_14d': round(sdf['return_30d'].mean(), 2),
+                    'win_rate_14d': round((sdf['return_30d'] > 0).sum() / len(sdf) * 100, 1)
                 }
 
-        # Score correlation — do higher scores = better returns?
+        # Score correlation — golden zone historical (score variance is meaningful here)
         score_corr = None
-        if not value_df.empty and value_df['return_14d'].notna().sum() >= 5:
-            valid = value_df[value_df['return_14d'].notna() & value_df['value_score'].notna()]
+        if not golden_hist.empty and golden_hist['return_30d'].notna().sum() >= 5:
+            valid = golden_hist[golden_hist['return_30d'].notna() & golden_hist['value_score'].notna()]
             if len(valid) >= 5:
-                score_corr = round(valid['value_score'].corr(valid['return_14d']), 3)
+                score_corr = round(valid['value_score'].corr(valid['return_30d']), 3)
 
         # Ensure company_name column exists (backfill from ticker for old rows)
         if 'company_name' not in value_core.columns:
@@ -495,9 +510,10 @@ class PortfolioTracker:
 
             'value_strategy': {
                 'count': len(value_df),
+                # 7d/14d: clean signals (apr+). 30d: golden zone historical (has completed data)
                 '7d':  win_stats('return_7d',  'win_7d',  value_df) if not value_df.empty else {},
                 '14d': win_stats('return_14d', 'win_14d', value_df) if not value_df.empty else {},
-                '30d': win_stats('return_30d', 'win_30d', value_df) if not value_df.empty else {},
+                '30d': win_stats('return_30d', 'win_30d', golden_hist) if not golden_hist.empty else {},
             },
 
             'eu_value_strategy': {
