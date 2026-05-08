@@ -3632,78 +3632,143 @@ def analyze_personal_portfolio():
 
     enriched = []
     for pos in positions:
-        ticker  = str(pos.get('ticker', '')).upper().strip()
-        shares  = float(pos.get('shares', 0) or 0)
-        avg_p   = float(pos.get('avg_price', 0) or 0)
-        currency = pos.get('currency', 'USD')
+        ticker     = str(pos.get('ticker', '')).upper().strip()
+        shares     = float(pos.get('shares', 0) or 0)
+        avg_p      = float(pos.get('avg_price', 0) or 0)
+        currency   = pos.get('currency', 'USD')
+        asset_type = pos.get('asset_type', 'stock') or 'stock'
         if not ticker or shares <= 0:
             continue
+
         try:
             t_obj = _yf.Ticker(ticker)
             info  = t_obj.info
         except Exception:
             t_obj = None
             info  = {}
+
         cur_price = (info.get('currentPrice') or info.get('regularMarketPrice')
                      or info.get('previousClose') or avg_p or 0)
-        mkt_val  = shares * cur_price
-        cost     = shares * avg_p
-        pl_pct   = ((cur_price - avg_p) / avg_p * 100) if avg_p else 0
+
+        # ── Asset-type specific calculations ────────────────────────
+        extra: dict = {'asset_type': asset_type}
+
+        if asset_type == 'option':
+            # Options: market_value = contracts × 100 × current_premium
+            # We use avg_price as entry premium; cur_price fetched from underlying
+            option_strike = float(pos.get('option_strike') or 0)
+            option_expiry = pos.get('option_expiry', '')
+            option_type   = pos.get('option_type', 'call')
+            intrinsic = 0.0
+            if option_type == 'call' and cur_price > 0 and option_strike > 0:
+                intrinsic = max(0.0, cur_price - option_strike)
+            elif option_type == 'put' and option_strike > 0:
+                intrinsic = max(0.0, option_strike - cur_price)
+            itm = intrinsic > 0
+            days_to_expiry = None
+            if option_expiry:
+                try:
+                    from datetime import date as _date
+                    exp_d = _date.fromisoformat(option_expiry)
+                    days_to_expiry = (exp_d - _date.today()).days
+                except Exception:
+                    pass
+            mkt_val = shares * 100 * avg_p  # current premium unknown; use cost as proxy
+            cost    = shares * 100 * avg_p
+            pl_pct  = 0.0  # can't compute without live premium
+            extra.update({
+                'option_type': option_type, 'option_strike': option_strike,
+                'option_expiry': option_expiry, 'days_to_expiry': days_to_expiry,
+                'intrinsic_value': round(intrinsic, 2), 'itm': itm,
+            })
+
+        elif asset_type in ('bond', 'preferred'):
+            coupon_rate  = float(pos.get('coupon_rate') or 0)
+            par_value    = float(pos.get('par_value') or 1000)
+            maturity_date = pos.get('maturity_date', '')
+            # For bonds: avg_price is % of par (e.g. 98.5); cur_price from yfinance (also % of par or dollar)
+            # Normalize: if cur_price > 20, assume it's dollar price for bond ETFs
+            bond_price = cur_price if cur_price > 0 else avg_p
+            mkt_val = shares * bond_price if asset_type == 'preferred' else (shares * (bond_price / 100) if bond_price <= 200 else shares * bond_price)
+            cost    = shares * avg_p if asset_type == 'preferred' else (shares * (avg_p / 100) if avg_p <= 200 else shares * avg_p)
+            pl_pct  = ((bond_price - avg_p) / avg_p * 100) if avg_p else 0
+            current_yield = (coupon_rate / bond_price * 100) if bond_price > 0 and coupon_rate > 0 else None
+            ytm = None
+            days_to_maturity = None
+            if maturity_date and coupon_rate and asset_type == 'bond':
+                try:
+                    from datetime import date as _date
+                    mat_d = _date.fromisoformat(maturity_date)
+                    days_to_maturity = (mat_d - _date.today()).days
+                    years = days_to_maturity / 365.25
+                    if years > 0 and bond_price > 0:
+                        face = par_value
+                        price_dec = bond_price / 100 * face if bond_price <= 200 else bond_price
+                        coupon_abs = face * coupon_rate / 100
+                        ytm = round(((coupon_abs + (face - price_dec) / years) / ((face + price_dec) / 2)) * 100, 2)
+                except Exception:
+                    pass
+            extra.update({
+                'coupon_rate': coupon_rate, 'par_value': par_value, 'maturity_date': maturity_date,
+                'current_yield': round(current_yield, 2) if current_yield else None,
+                'ytm': ytm, 'days_to_maturity': days_to_maturity,
+            })
+
+        else:
+            # Regular stock
+            mkt_val = shares * cur_price
+            cost    = shares * avg_p
+            pl_pct  = ((cur_price - avg_p) / avg_p * 100) if avg_p else 0
+
         fcf_yield = None
-        try:
-            fcf = info.get('freeCashflow')
-            mc  = info.get('marketCap')
-            if fcf and mc and mc > 0:
-                fcf_yield = fcf / mc * 100
-        except Exception:
-            pass
+        if asset_type == 'stock':
+            try:
+                fcf = info.get('freeCashflow')
+                mc  = info.get('marketCap')
+                if fcf and mc and mc > 0:
+                    fcf_yield = fcf / mc * 100
+            except Exception:
+                pass
 
-        # ── Position sizing for this holding ─────────────────────────
-        volatility = _calc_atr_volatility(t_obj, cur_price) if t_obj else 0.20
-        kelly_pct  = _calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss)
+        # ── Position sizing (stocks only) ────────────────────────────
+        volatility = kelly_pct_val = opt_size_pct = stop_loss_price = stop_loss_pct_atr = risk_amount = vol_mult = None
+        if asset_type == 'stock':
+            volatility      = _calc_atr_volatility(t_obj, cur_price) if t_obj else 0.20
+            kelly_pct_val   = _calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss)
+            vol_mult        = 0.7 if volatility > 0.15 else (1.2 if volatility < 0.05 else 1.0)
+            opt_size_pct    = min(kelly_pct_val * vol_mult, 0.10)
+            stop_loss_pct_atr = volatility * 2
+            stop_loss_price   = cur_price * (1 - stop_loss_pct_atr)
+            risk_amount       = shares * (cur_price - stop_loss_price)
 
-        # Volatility multiplier (high vol → smaller, low vol → larger)
-        vol_mult = 0.7 if volatility > 0.15 else (1.2 if volatility < 0.05 else 1.0)
-        opt_size_pct = min(kelly_pct * vol_mult, 0.10)  # capped at 10%
-
-        # Stop loss based on 2x ATR
-        stop_loss_pct_atr = volatility * 2
-        stop_loss_price   = cur_price * (1 - stop_loss_pct_atr)
-
-        # Risk: how much we lose if price hits stop
-        risk_per_share = cur_price - stop_loss_price
-        risk_amount    = shares * risk_per_share
-
-        enriched.append({
+        row = {
             'ticker': ticker, 'shares': shares, 'avg_price': avg_p,
             'current_price': cur_price, 'currency': currency,
             'market_value': mkt_val, 'cost_basis': cost, 'pl_pct': pl_pct,
             'pl_abs': mkt_val - cost,
             'company_name': info.get('shortName', ticker),
             'sector': info.get('sector', ''),
-            'forward_pe': info.get('forwardPE'),
-            'trailing_pe': info.get('trailingPE'),
-            'analyst_target': info.get('targetMeanPrice'),
+            'forward_pe': info.get('forwardPE') if asset_type == 'stock' else None,
+            'analyst_target': info.get('targetMeanPrice') if asset_type in ('stock', 'preferred') else None,
             'analyst_upside': (
                 (info.get('targetMeanPrice') - cur_price) / cur_price * 100
-                if info.get('targetMeanPrice') and cur_price else None
+                if info.get('targetMeanPrice') and cur_price and asset_type in ('stock', 'preferred') else None
             ),
             'fcf_yield': fcf_yield,
-            'dividend_yield': info.get('dividendYield'),
-            'revenue_growth': info.get('revenueGrowth'),
-            'roe': info.get('returnOnEquity'),
-            'debt_to_equity': info.get('debtToEquity'),
+            'dividend_yield': info.get('dividendYield') if asset_type in ('stock', 'preferred') else None,
             'fifty_two_week_high': info.get('fiftyTwoWeekHigh'),
             'fifty_two_week_low': info.get('fiftyTwoWeekLow'),
-            # Position sizing fields
-            'volatility_pct': round(volatility * 100, 1),
-            'kelly_pct': round(kelly_pct * 100, 1),
-            'optimal_size_pct': round(opt_size_pct * 100, 1),
-            'stop_loss_atr': round(stop_loss_price, 2),
-            'stop_loss_pct_atr': round(stop_loss_pct_atr * 100, 1),
-            'risk_amount': round(risk_amount, 0),
+            # Position sizing (None for non-stock)
+            'volatility_pct': round(volatility * 100, 1) if volatility is not None else None,
+            'kelly_pct': round(kelly_pct_val * 100, 1) if kelly_pct_val is not None else None,
+            'optimal_size_pct': round(opt_size_pct * 100, 1) if opt_size_pct is not None else None,
+            'stop_loss_atr': round(stop_loss_price, 2) if stop_loss_price is not None else None,
+            'stop_loss_pct_atr': round(stop_loss_pct_atr * 100, 1) if stop_loss_pct_atr is not None else None,
+            'risk_amount': round(risk_amount, 0) if risk_amount is not None else None,
             'vol_multiplier': vol_mult,
-        })
+        }
+        row.update(extra)
+        enriched.append(row)
 
     if not enriched:
         return jsonify({'error': 'No valid positions fetched'}), 400
@@ -3721,13 +3786,29 @@ def analyze_personal_portfolio():
 
     lines = []
     for p in enriched:
-        l = (f"- {p['ticker']} ({p.get('company_name','')}): "
-             f"{p['portfolio_pct']:.1f}% cartera | precio actual {p['currency']}{p['current_price']:.2f} "
-             f"| P&L: {p['pl_pct']:+.1f}%")
-        if p.get('forward_pe'):   l += f" | PE fwd: {p['forward_pe']:.1f}x"
-        if p.get('analyst_target'): l += f" | target analistas: {p['currency']}{p['analyst_target']:.2f} ({p.get('analyst_upside',0):+.1f}%)"
-        if p.get('fcf_yield'):    l += f" | FCF yield: {p['fcf_yield']:.1f}%"
-        if p.get('sector'):       l += f" | Sector: {p['sector']}"
+        atype = p.get('asset_type', 'stock')
+        if atype == 'option':
+            l = (f"- {p['ticker']} OPCIÓN {(p.get('option_type') or '').upper()} "
+                 f"strike ${p.get('option_strike',0):.2f} exp {p.get('option_expiry','')} "
+                 f"| {p.get('portfolio_pct',0):.1f}% cartera | P&L: {p['pl_pct']:+.1f}% "
+                 f"| {'ITM' if p.get('itm') else 'OTM'} | {p.get('days_to_expiry','?')} días a exp")
+        elif atype == 'bond':
+            l = (f"- {p['ticker']} BONO {p.get('coupon_rate',0):.2f}% cupón "
+                 f"| precio {p['current_price']:.2f}% | YTM {p.get('ytm','?')}% "
+                 f"| {p.get('portfolio_pct',0):.1f}% cartera | P&L: {p['pl_pct']:+.1f}%")
+            if p.get('days_to_maturity'): l += f" | {p['days_to_maturity']}d a vencimiento"
+        elif atype == 'preferred':
+            l = (f"- {p['ticker']} PREFERRED {p.get('coupon_rate',0):.2f}% div fijo "
+                 f"| precio {p['current_price']:.2f} | yield {p.get('current_yield','?')}% "
+                 f"| {p.get('portfolio_pct',0):.1f}% cartera | P&L: {p['pl_pct']:+.1f}%")
+        else:
+            l = (f"- {p['ticker']} ({p.get('company_name','')}): "
+                 f"{p['portfolio_pct']:.1f}% cartera | precio actual {p['currency']}{p['current_price']:.2f} "
+                 f"| P&L: {p['pl_pct']:+.1f}%")
+            if p.get('forward_pe'):     l += f" | PE fwd: {p['forward_pe']:.1f}x"
+            if p.get('analyst_target'): l += f" | target: {p['currency']}{p['analyst_target']:.2f} ({p.get('analyst_upside',0):+.1f}%)"
+            if p.get('fcf_yield'):      l += f" | FCF yield: {p['fcf_yield']:.1f}%"
+            if p.get('sector'):         l += f" | Sector: {p['sector']}"
         lines.append(l)
 
     tickers_list = ', '.join(p['ticker'] for p in enriched)
@@ -3760,6 +3841,9 @@ Analiza la cartera y devuelve ÚNICAMENTE un JSON válido con esta estructura ex
   ]
 }}
 
+La cartera puede contener acciones, opciones, bonos y preferred stocks — adapta el análisis al tipo de instrumento.
+Para opciones: evalúa si mantener hasta expiración, cerrar con beneficio/pérdida, o rodar a otro vencimiento.
+Para bonos/preferred: evalúa yield vs alternativas, riesgo de crédito y si mantener o vender.
 Valores posibles para action: MANTENER, AÑADIR, REDUCIR, VENDER
 Valores posibles para conviction: ALTA, MEDIA, BAJA
 Valores posibles para options_strategy: COVERED_CALL (vender call OTM para ingresos), PROTECTIVE_PUT (comprar put para proteger), COLLAR (vender call + comprar put), BUY_MORE (añadir sin opciones), CASH_SECURED_PUT (vender put para entrar más barato), TRAILING_STOP (stop dinámico sin opciones), HOLD (mantener sin acción adicional), SELL (cerrar posición)
@@ -3807,6 +3891,8 @@ Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el
             'pl_pct': round(p['pl_pct'], 2),
             'pl_abs': round(p['pl_abs'], 2),
             'portfolio_pct': round(p['portfolio_pct'], 2),
+            'asset_type': p.get('asset_type', 'stock'),
+            # stock
             'forward_pe': p.get('forward_pe'),
             'analyst_target': p.get('analyst_target'),
             'analyst_upside': p.get('analyst_upside'),
@@ -3814,12 +3900,26 @@ Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el
             'dividend_yield': p.get('dividend_yield'),
             'fifty_two_week_high': p.get('fifty_two_week_high'),
             'fifty_two_week_low': p.get('fifty_two_week_low'),
+            # option
+            'option_type': p.get('option_type'),
+            'option_strike': p.get('option_strike'),
+            'option_expiry': p.get('option_expiry'),
+            'days_to_expiry': p.get('days_to_expiry'),
+            'intrinsic_value': p.get('intrinsic_value'),
+            'itm': p.get('itm'),
+            # bond/preferred
+            'coupon_rate': p.get('coupon_rate'),
+            'par_value': p.get('par_value'),
+            'maturity_date': p.get('maturity_date'),
+            'ytm': p.get('ytm'),
+            'days_to_maturity': p.get('days_to_maturity'),
+            'current_yield': p.get('current_yield'),
             'action': 'MANTENER', 'conviction': 'MEDIA',
             'target_price': p.get('analyst_target'),
             'stop_loss': None, 'recommended_weight_pct': round(p['portfolio_pct'], 1),
             'analysis': '', 'key_risk': '',
             'options_strategy': '', 'options_rationale': '',
-            # Position sizing
+            # Position sizing (None for non-stock)
             'volatility_pct': p.get('volatility_pct'),
             'kelly_pct': p.get('kelly_pct'),
             'optimal_size_pct': p.get('optimal_size_pct'),

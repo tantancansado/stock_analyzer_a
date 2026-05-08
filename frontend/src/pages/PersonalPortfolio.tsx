@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check } from 'lucide-react'
+import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check, Landmark, Star } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
 import { apiClient, fetchMacroStress, fetchAnalystRevisions, fetchPortfolioAlerts, refreshUserArtifacts, type MacroStressMarket, type AnalystRevision, type PortfolioAlert } from '@/api/client'
@@ -13,12 +13,23 @@ import { useApi } from '../hooks/useApi'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
+type AssetType = 'stock' | 'option' | 'bond' | 'preferred'
+
 interface Position {
   id: string
   ticker: string
   shares: number
   avg_price: number
   currency: 'USD' | 'EUR'
+  asset_type?: AssetType
+  // options
+  option_type?: 'call' | 'put'
+  option_strike?: number
+  option_expiry?: string
+  // bonds & preferred
+  coupon_rate?: number
+  par_value?: number
+  maturity_date?: string
 }
 
 interface JournalEntry {
@@ -40,6 +51,8 @@ interface PositionResult {
   pl_pct: number
   pl_abs: number
   portfolio_pct: number
+  asset_type?: AssetType
+  // stock
   forward_pe?: number
   analyst_target?: number
   analyst_upside?: number
@@ -47,6 +60,20 @@ interface PositionResult {
   dividend_yield?: number
   fifty_two_week_high?: number
   fifty_two_week_low?: number
+  // option
+  option_type?: 'call' | 'put'
+  option_strike?: number
+  option_expiry?: string
+  days_to_expiry?: number
+  intrinsic_value?: number
+  itm?: boolean
+  // bond / preferred
+  coupon_rate?: number
+  par_value?: number
+  maturity_date?: string
+  ytm?: number
+  days_to_maturity?: number
+  current_yield?: number
   action: 'MANTENER' | 'AÑADIR' | 'REDUCIR' | 'VENDER'
   conviction: 'ALTA' | 'MEDIA' | 'BAJA'
   target_price?: number
@@ -56,7 +83,7 @@ interface PositionResult {
   key_risk: string
   options_strategy?: string
   options_rationale?: string
-  // Position sizing
+  // Position sizing (stocks only)
   volatility_pct?: number
   kelly_pct?: number
   optimal_size_pct?: number
@@ -241,88 +268,187 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
 
 // ── Add Position Form ─────────────────────────────────────────────────────────
 
+const ASSET_TYPES: { value: AssetType; label: string; icon: React.ReactNode; color: string }[] = [
+  { value: 'stock',     label: 'Acción',   icon: <TrendingUp size={12} />,   color: 'text-cyan-400' },
+  { value: 'option',    label: 'Opción',   icon: <TrendingDown size={12} />, color: 'text-purple-400' },
+  { value: 'bond',      label: 'Bono',     icon: <Landmark size={12} />,    color: 'text-amber-400' },
+  { value: 'preferred', label: 'Preferred',icon: <Star size={12} />,        color: 'text-emerald-400' },
+]
+
+const SHARES_LABEL: Record<AssetType, string> = {
+  stock:     'Acciones',
+  option:    'Contratos',
+  bond:      'Nominal ($)',
+  preferred: 'Acciones',
+}
+
+const PRICE_LABEL: Record<AssetType, string> = {
+  stock:     'Precio medio',
+  option:    'Prima pagada',
+  bond:      'Precio (% par)',
+  preferred: 'Precio medio',
+}
+
 function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promise<void>; saving: boolean }) {
-  const [ticker, setTicker]     = useState('')
-  const [shares, setShares]     = useState('')
-  const [price, setPrice]       = useState('')
-  const [currency, setCurrency] = useState<'USD' | 'EUR'>('USD')
-  const [error, setError]       = useState('')
+  const [assetType, setAssetType] = useState<AssetType>('stock')
+  const [ticker, setTicker]       = useState('')
+  const [shares, setShares]       = useState('')
+  const [price, setPrice]         = useState('')
+  const [currency, setCurrency]   = useState<'USD' | 'EUR'>('USD')
+  // option fields
+  const [optType, setOptType]     = useState<'call' | 'put'>('call')
+  const [strike, setStrike]       = useState('')
+  const [expiry, setExpiry]       = useState('')
+  // bond/preferred fields
+  const [coupon, setCoupon]       = useState('')
+  const [parVal, setParVal]       = useState('1000')
+  const [maturity, setMaturity]   = useState('')
+  const [error, setError]         = useState('')
 
   const submit = async () => {
     const t = ticker.trim().toUpperCase()
     const s = parseFloat(shares)
     const p = parseFloat(price)
     if (!t) return setError('Introduce el ticker')
-    if (!s || s <= 0) return setError('Acciones inválidas')
+    if (!s || s <= 0) return setError('Cantidad inválida')
     if (!p || p <= 0) return setError('Precio inválido')
+    if (assetType === 'option') {
+      if (!strike || parseFloat(strike) <= 0) return setError('Strike inválido')
+      if (!expiry) return setError('Fecha de expiración requerida')
+    }
     setError('')
-    await onAdd({ ticker: t, shares: s, avg_price: p, currency })
-    setTicker(''); setShares(''); setPrice('')
+    const pos: Omit<Position, 'id'> = { ticker: t, shares: s, avg_price: p, currency, asset_type: assetType }
+    if (assetType === 'option') {
+      pos.option_type   = optType
+      pos.option_strike = parseFloat(strike)
+      pos.option_expiry = expiry
+    }
+    if (assetType === 'bond' || assetType === 'preferred') {
+      if (coupon) pos.coupon_rate = parseFloat(coupon)
+      if (parVal) pos.par_value   = parseFloat(parVal)
+      if (maturity) pos.maturity_date = maturity
+    }
+    await onAdd(pos)
+    setTicker(''); setShares(''); setPrice(''); setStrike(''); setExpiry(''); setCoupon(''); setMaturity('')
   }
 
+  const inputCls = "px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
+
   return (
-    <div className="glass rounded-2xl p-5">
-      <h2 className="text-sm font-bold text-foreground mb-4 flex items-center gap-2">
+    <div className="glass rounded-2xl p-5 space-y-4">
+      <h2 className="text-sm font-bold text-foreground flex items-center gap-2">
         <Plus size={14} className="text-primary" />
         Añadir posición
       </h2>
+
+      {/* Asset type selector */}
+      <div className="flex gap-2 flex-wrap">
+        {ASSET_TYPES.map(at => (
+          <button
+            key={at.value}
+            onClick={() => setAssetType(at.value)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-all ${
+              assetType === at.value
+                ? `bg-primary/15 border-primary/40 text-primary`
+                : 'bg-muted/20 border-border/30 text-muted-foreground hover:border-border/60'
+            }`}
+          >
+            <span className={assetType === at.value ? 'text-primary' : at.color}>{at.icon}</span>
+            {at.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Common fields */}
       <div className="flex flex-col sm:flex-row flex-wrap gap-2 items-end">
         <div className="flex flex-col gap-1">
           <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Ticker</label>
-          <input
-            value={ticker}
-            onChange={e => setTicker(e.target.value.toUpperCase())}
-            onKeyDown={e => e.key === 'Enter' && submit()}
-            placeholder="AAPL"
-            className="w-24 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm font-mono font-bold text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
-          />
+          <input value={ticker} onChange={e => setTicker(e.target.value.toUpperCase())}
+            onKeyDown={e => e.key === 'Enter' && submit()} placeholder="AAPL"
+            className={`w-24 font-mono font-bold ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Acciones</label>
-          <input
-            value={shares}
-            onChange={e => setShares(e.target.value)}
+          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">{SHARES_LABEL[assetType]}</label>
+          <input value={shares} onChange={e => setShares(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
-            placeholder="100"
-            type="number"
-            min="0"
-            className="w-24 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
-          />
+            placeholder={assetType === 'option' ? '1' : assetType === 'bond' ? '10000' : '100'}
+            type="number" min="0" className={`w-24 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Precio medio</label>
-          <input
-            value={price}
-            onChange={e => setPrice(e.target.value)}
+          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">{PRICE_LABEL[assetType]}</label>
+          <input value={price} onChange={e => setPrice(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
-            placeholder="150.00"
-            type="number"
-            min="0"
-            step="0.01"
-            className="w-28 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
-          />
+            placeholder={assetType === 'bond' ? '98.50' : assetType === 'option' ? '3.50' : '150.00'}
+            type="number" min="0" step="0.01" className={`w-28 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Moneda</label>
-          <select
-            value={currency}
-            onChange={e => setCurrency(e.target.value as 'USD' | 'EUR')}
-            className="px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground focus:outline-none focus:border-primary/50"
-          >
+          <select value={currency} onChange={e => setCurrency(e.target.value as 'USD' | 'EUR')}
+            className={inputCls}>
             <option value="USD">USD $</option>
             <option value="EUR">EUR €</option>
           </select>
         </div>
-        <button
-          onClick={submit}
-          disabled={saving}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50"
-        >
+      </div>
+
+      {/* Option-specific fields */}
+      {assetType === 'option' && (
+        <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-purple-500/5 border border-purple-500/15">
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Tipo</label>
+            <div className="flex rounded-lg overflow-hidden border border-border/40">
+              {(['call', 'put'] as const).map(v => (
+                <button key={v} onClick={() => setOptType(v)}
+                  className={`px-3 py-1.5 text-xs font-bold uppercase transition-colors ${
+                    optType === v ? (v === 'call' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400') : 'bg-muted/20 text-muted-foreground'
+                  }`}>{v}</button>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Strike</label>
+            <input value={strike} onChange={e => setStrike(e.target.value)} placeholder="150.00"
+              type="number" min="0" step="0.50" className={`w-24 ${inputCls}`} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
+            <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
+              className={`w-36 ${inputCls}`} />
+          </div>
+        </div>
+      )}
+
+      {/* Bond/Preferred-specific fields */}
+      {(assetType === 'bond' || assetType === 'preferred') && (
+        <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Cupón %</label>
+            <input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="5.25"
+              type="number" min="0" step="0.01" className={`w-20 ${inputCls}`} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Valor par</label>
+            <input value={parVal} onChange={e => setParVal(e.target.value)} placeholder="1000"
+              type="number" min="0" className={`w-20 ${inputCls}`} />
+          </div>
+          {assetType === 'bond' && (
+            <div className="flex flex-col gap-1">
+              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Vencimiento</label>
+              <input value={maturity} onChange={e => setMaturity(e.target.value)} type="date"
+                className={`w-36 ${inputCls}`} />
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="flex items-center gap-3">
+        <button onClick={submit} disabled={saving}
+          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50">
           {saving ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} strokeWidth={2.5} />}
           Añadir
         </button>
+        {error && <p className="text-xs text-red-400">{error}</p>}
       </div>
-      {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
     </div>
   )
 }
@@ -698,9 +824,32 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           {result?.company_name && result.company_name !== ticker && (
             <p className="text-xs text-muted-foreground/60 truncate mt-0.5 leading-tight">{result.company_name}</p>
           )}
-          {/* Row 2: cost basis */}
-          <p className="text-[0.65rem] text-muted-foreground/40 mt-1">
-            {pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)}
+          {/* Row 2: cost basis + asset type badge */}
+          <p className="text-[0.65rem] text-muted-foreground/40 mt-1 flex items-center gap-1.5 flex-wrap">
+            {pos.asset_type === 'option' ? (
+              <>
+                <span className={`px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border ${pos.option_type === 'call' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
+                  {pos.option_type?.toUpperCase()} ${pos.option_strike}
+                </span>
+                {pos.option_expiry && <span>exp {pos.option_expiry}</span>}
+                <span>{pos.shares} contrato{pos.shares !== 1 ? 's' : ''} · prima {sym}{pos.avg_price.toFixed(2)}</span>
+              </>
+            ) : pos.asset_type === 'bond' ? (
+              <>
+                <span className="px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border bg-amber-500/15 text-amber-400 border-amber-500/25">BONO</span>
+                {pos.coupon_rate && <span>{pos.coupon_rate}% cupón</span>}
+                {pos.maturity_date && <span>vence {pos.maturity_date}</span>}
+                <span>nominal {sym}{pos.shares.toLocaleString()} · precio {pos.avg_price.toFixed(2)}%</span>
+              </>
+            ) : pos.asset_type === 'preferred' ? (
+              <>
+                <span className="px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border bg-emerald-500/15 text-emerald-400 border-emerald-500/25">PREFERRED</span>
+                {pos.coupon_rate && <span>{pos.coupon_rate}% div</span>}
+                <span>{pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)}</span>
+              </>
+            ) : (
+              <span>{pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)}</span>
+            )}
           </p>
         </div>
 
@@ -881,34 +1030,70 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         <PriceChart ticker={ticker} height={58} mini />
       </div>
 
-      {/* ── KEY METRICS GRID (2×3, no scroll) ── */}
-      {result && (
-        <div className="grid grid-cols-3 gap-px bg-border/20 border border-border/20 rounded-xl overflow-hidden mx-3 mb-3">
-          {[
+      {/* ── KEY METRICS GRID ── */}
+      {result && (() => {
+        const assetT = pos.asset_type ?? 'stock'
+        type MetricDef = { label: string; value: string; valueClass?: string; suffix?: string; suffixClass?: string }
+        let metrics: (MetricDef | false)[] = []
+
+        if (assetT === 'option') {
+          const dte = result.days_to_expiry
+          const itm = result.itm
+          metrics = [
+            { label: 'Tipo', value: (pos.option_type ?? '—').toUpperCase(), valueClass: pos.option_type === 'call' ? 'text-emerald-400' : 'text-red-400' },
+            { label: 'Strike', value: `${sym}${pos.option_strike ?? '—'}` },
+            dte != null && { label: 'Días exp', value: String(dte), valueClass: dte < 14 ? 'text-red-400' : dte < 30 ? 'text-amber-400' : 'text-foreground' },
+            result.intrinsic_value != null && { label: 'Val intrínseco', value: `${sym}${result.intrinsic_value.toFixed(2)}`, valueClass: result.intrinsic_value > 0 ? 'text-emerald-400' : 'text-muted-foreground' },
+            itm != null && { label: 'Estado', value: itm ? 'ITM' : 'OTM', valueClass: itm ? 'text-emerald-400' : 'text-amber-400' },
+            { label: 'Peso', value: `${result.portfolio_pct.toFixed(1)}%` },
+          ]
+        } else if (assetT === 'bond') {
+          metrics = [
+            pos.coupon_rate != null && { label: 'Cupón', value: `${pos.coupon_rate.toFixed(2)}%`, valueClass: 'text-amber-400' },
+            result.ytm != null && { label: 'YTM', value: `${result.ytm.toFixed(2)}%`, valueClass: 'text-emerald-400' },
+            result.current_yield != null && { label: 'Yield actual', value: `${result.current_yield.toFixed(2)}%` },
+            result.days_to_maturity != null && { label: 'Días venc.', value: String(result.days_to_maturity) },
+            { label: 'Precio', value: `${result.current_price.toFixed(2)}%` },
+            { label: 'Peso', value: `${result.portfolio_pct.toFixed(1)}%` },
+          ]
+        } else if (assetT === 'preferred') {
+          metrics = [
+            pos.coupon_rate != null && { label: 'Div fijo', value: `${pos.coupon_rate.toFixed(2)}%`, valueClass: 'text-emerald-400' },
+            result.current_yield != null && { label: 'Yield actual', value: `${result.current_yield.toFixed(2)}%`, valueClass: 'text-emerald-400' },
+            pos.par_value != null && { label: 'Par', value: `${sym}${pos.par_value}` },
+            result.analyst_target != null && { label: 'Target', value: `${sym}${result.analyst_target.toFixed(0)}` },
+            result.stop_loss != null && { label: 'Stop loss', value: `${sym}${result.stop_loss.toFixed(2)}`, valueClass: 'text-red-400' },
+            { label: 'Peso', value: `${result.portfolio_pct.toFixed(1)}%` },
+          ]
+        } else {
+          metrics = [
             result.forward_pe != null && { label: 'PE fwd', value: `${result.forward_pe.toFixed(1)}x` },
             result.fcf_yield != null && { label: 'FCF yield', value: `${result.fcf_yield.toFixed(1)}%`, valueClass: result.fcf_yield >= 5 ? 'text-emerald-400' : result.fcf_yield < 0 ? 'text-red-400' : 'text-foreground' },
             result.dividend_yield != null && result.dividend_yield > 0 && { label: 'Div yield', value: `${result.dividend_yield.toFixed(2)}%`, valueClass: 'text-emerald-400' },
-            result.analyst_target != null && { label: 'Target', value: `${sym}${result.analyst_target.toFixed(0)}`, valueClass: 'text-foreground', suffix: result.analyst_upside != null ? ` ${result.analyst_upside >= 0 ? '+' : ''}${result.analyst_upside.toFixed(0)}%` : undefined, suffixClass: result.analyst_upside != null && result.analyst_upside >= 0 ? 'text-emerald-400' : 'text-red-400' },
+            result.analyst_target != null && { label: 'Target', value: `${sym}${result.analyst_target.toFixed(0)}`, suffix: result.analyst_upside != null ? ` ${result.analyst_upside >= 0 ? '+' : ''}${result.analyst_upside.toFixed(0)}%` : undefined, suffixClass: result.analyst_upside != null && result.analyst_upside >= 0 ? 'text-emerald-400' : 'text-red-400' },
             result.stop_loss != null && { label: 'Stop loss', value: `${sym}${result.stop_loss.toFixed(2)}`, valueClass: 'text-red-400' },
             { label: 'Peso', value: `${result.portfolio_pct.toFixed(1)}%`, valueClass: overweight ? 'text-red-400' : underweight ? 'text-blue-400' : 'text-foreground' },
-          ].filter(Boolean).slice(0, 6).map((m, i) => {
-            if (!m) return null
-            const metric = m as { label: string; value: string; valueClass?: string; suffix?: string; suffixClass?: string }
-            return (
+          ]
+        }
+
+        const items = metrics.filter(Boolean).slice(0, 6) as MetricDef[]
+        return (
+          <div className="grid grid-cols-3 gap-px bg-border/20 border border-border/20 rounded-xl overflow-hidden mx-3 mb-3">
+            {items.map((m, i) => (
               <div key={i} className="bg-muted/8 px-3 py-2.5">
-                <div className="text-[0.55rem] font-semibold uppercase tracking-wider text-muted-foreground/40 mb-0.5">{metric.label}</div>
-                <div className={`text-sm font-bold tabular-nums ${metric.valueClass ?? 'text-foreground'}`}>
-                  {metric.value}
-                  {metric.suffix && <span className={`text-xs ml-1 ${metric.suffixClass}`}>{metric.suffix}</span>}
+                <div className="text-[0.55rem] font-semibold uppercase tracking-wider text-muted-foreground/40 mb-0.5">{m.label}</div>
+                <div className={`text-sm font-bold tabular-nums ${m.valueClass ?? 'text-foreground'}`}>
+                  {m.value}
+                  {m.suffix && <span className={`text-xs ml-1 ${m.suffixClass}`}>{m.suffix}</span>}
                 </div>
               </div>
-            )
-          })}
-        </div>
-      )}
+            ))}
+          </div>
+        )
+      })()}
 
-      {/* ── SIZING ROW (compact, no scroll) ── */}
-      {result?.volatility_pct != null && (
+      {/* ── SIZING ROW (stocks only) ── */}
+      {result?.volatility_pct != null && (pos.asset_type ?? 'stock') === 'stock' && (
         <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/5 border border-primary/10">
           <div className="flex items-center justify-between mb-1.5">
             <span className="text-[0.55rem] font-bold uppercase tracking-widest text-primary/50">Sizing</span>
@@ -956,8 +1141,8 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         </div>
       )}
 
-      {/* ── OPTIONS PANEL ── */}
-      {result && <div className="mx-3 mb-3"><OptionsPanel result={result} sym={sym} /></div>}
+      {/* ── OPTIONS PANEL (stocks only) ── */}
+      {result && (pos.asset_type ?? 'stock') === 'stock' && <div className="mx-3 mb-3"><OptionsPanel result={result} sym={sym} /></div>}
 
       {/* ── JOURNAL ── */}
       <JournalSection ticker={ticker} userId={userId} />
@@ -1027,6 +1212,13 @@ export default function PersonalPortfolio() {
             shares: r.shares,
             avg_price: r.avg_price,
             currency: r.currency,
+            asset_type: (r.asset_type ?? 'stock') as AssetType,
+            option_type: r.option_type ?? undefined,
+            option_strike: r.option_strike ?? undefined,
+            option_expiry: r.option_expiry ?? undefined,
+            coupon_rate: r.coupon_rate ?? undefined,
+            par_value: r.par_value ?? undefined,
+            maturity_date: r.maturity_date ?? undefined,
           })))
         }
         setLoadingDb(false)
@@ -1076,12 +1268,22 @@ export default function PersonalPortfolio() {
     setSaving(true)
     const { data, error: err } = await supabase
       .from('personal_portfolio_positions')
-      .insert({ user_id: user.id, ticker: p.ticker, shares: p.shares, avg_price: p.avg_price, currency: p.currency })
+      .insert({
+        user_id: user.id, ticker: p.ticker, shares: p.shares, avg_price: p.avg_price, currency: p.currency,
+        asset_type: p.asset_type ?? 'stock',
+        option_type: p.option_type ?? null, option_strike: p.option_strike ?? null, option_expiry: p.option_expiry ?? null,
+        coupon_rate: p.coupon_rate ?? null, par_value: p.par_value ?? null, maturity_date: p.maturity_date ?? null,
+      })
       .select()
       .single()
     setSaving(false)
     if (!err && data) {
-      setPositions(prev => [...prev, { id: data.id, ticker: data.ticker, shares: data.shares, avg_price: data.avg_price, currency: data.currency }])
+      setPositions(prev => [...prev, {
+        id: data.id, ticker: data.ticker, shares: data.shares, avg_price: data.avg_price, currency: data.currency,
+        asset_type: (data.asset_type ?? 'stock') as AssetType,
+        option_type: data.option_type ?? undefined, option_strike: data.option_strike ?? undefined, option_expiry: data.option_expiry ?? undefined,
+        coupon_rate: data.coupon_rate ?? undefined, par_value: data.par_value ?? undefined, maturity_date: data.maturity_date ?? undefined,
+      }])
       setResult(null); setAnalyzed(false)
       triggerArtifactsRefresh()
     }
