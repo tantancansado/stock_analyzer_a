@@ -181,8 +181,9 @@ def _default_result() -> dict:
 def validate_one(client: Groq, oe: dict) -> dict:
     prompt = build_prompt(oe)
     try:
-        resp = client.chat.completions.create(
-            model=MODEL,
+        from groq_utils import groq_chat as _groq_chat
+        resp = _groq_chat(
+            client,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2,
             max_tokens=300,

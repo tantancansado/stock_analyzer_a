@@ -305,8 +305,9 @@ def _call_groq(prompt: str, ticker: str, *, prefer_quality: bool = False) -> tup
     model = GROQ_MODELS_FALLBACK if prefer_quality else GROQ_MODELS_PRIMARY
 
     try:
-        resp = client.chat.completions.create(
-            model=model,
+        from groq_utils import groq_chat as _groq_chat
+        resp = _groq_chat(
+            client,
             messages=[{'role': 'user', 'content': prompt}],
             response_format={'type': 'json_object'},
             temperature=0.25,

@@ -223,8 +223,9 @@ Respond ONLY with valid JSON (no markdown):
 }}"""
 
     try:
-        resp = client.chat.completions.create(
-            model=GROQ_MODEL,
+        from groq_utils import groq_chat as _groq_chat
+        resp = _groq_chat(
+            client,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.25,
             max_tokens=300,

@@ -631,8 +631,9 @@ Proporciona:
 Responde en español, tono profesional, máximo 120 palabras."""
 
     try:
-        resp = _groq.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+        from groq_utils import groq_chat as _groq_chat
+        resp = _groq_chat(
+            _groq,
             messages=[{'role': 'user', 'content': prompt}],
             max_tokens=200,
             temperature=0.3,

@@ -566,8 +566,9 @@ Respond ONLY with valid JSON (no markdown, no code blocks):
 
     try:
         client = Groq(api_key=api_key)
-        resp = client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+        from groq_utils import groq_chat as _groq_chat
+        resp = _groq_chat(
+            client,
             messages=[{'role': 'user', 'content': prompt}],
             temperature=0.3,
             max_tokens=600,

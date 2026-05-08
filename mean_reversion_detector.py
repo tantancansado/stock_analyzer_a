@@ -772,9 +772,10 @@ Reglas:
 
         try:
             from groq import Groq
+            from groq_utils import groq_chat as _groq_chat
             client = Groq(api_key=api_key)
-            resp = client.chat.completions.create(
-                model='llama-3.3-70b-versatile',
+            resp = _groq_chat(
+                client,
                 messages=[{'role': 'user', 'content': prompt}],
                 max_tokens=600,
                 temperature=0.15,
@@ -1030,8 +1031,9 @@ Top 5 setups:
 
 Analiza: 1) Calidad general del batch actual, 2) Si hay concentración sectorial, 3) Cómo filtrar los mejores en este entorno.
 Tono: técnico, directo. Sin emojis."""
-                _resp = _client.chat.completions.create(
-                    model='llama-3.3-70b-versatile',
+                from groq_utils import groq_chat as _groq_chat_mr
+                _resp = _groq_chat_mr(
+                    _client,
                     messages=[{'role': 'user', 'content': _prompt}],
                     max_tokens=180,
                     temperature=0.25,

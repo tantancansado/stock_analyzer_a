@@ -465,8 +465,9 @@ Check:
 Respond ONLY with valid JSON, no extra text:
 {{"ai_verdict": "CLEAN|SUSPECT|RISKY", "ai_notes": "one sentence max", "extra_flags": ["optional extra risk flags"]}}"""
 
-        response = groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+        from groq_utils import groq_chat as _groq_chat
+        response = _groq_chat(
+            groq_client,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.1,
             max_tokens=200,

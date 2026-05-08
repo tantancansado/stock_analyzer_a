@@ -441,8 +441,9 @@ def _call_groq(client, ctx: dict) -> dict | None:
     """Returns dict on success, None on 'no data' (skip), or {'_rate_limited': True} on 429."""
     prompt = _build_prompt(ctx)
     try:
-        resp = client.chat.completions.create(
-            model=GROQ_MODEL,
+        from groq_utils import groq_chat as _groq_chat
+        resp = _groq_chat(
+            client,
             messages=[{'role': 'user', 'content': prompt}],
             temperature=0.3,
             max_tokens=600,

@@ -33,8 +33,9 @@ def _groq(prompt: str, max_tokens: int = 200) -> str | None:
             print("  Groq: GROQ_API_KEY not set — skipping")
             return None
         client = Groq(api_key=key)
-        resp = client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+        from groq_utils import groq_chat as _groq_chat
+        resp = _groq_chat(
+            client,
             messages=[{'role': 'user', 'content': prompt}],
             max_tokens=max_tokens,
             temperature=0.25,
