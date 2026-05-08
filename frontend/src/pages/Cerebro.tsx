@@ -103,6 +103,142 @@ function CoachActionButton({ action, onOpen }: { action: CoachAction; onOpen: (t
   )
 }
 
+// ── Ideas del día ─────────────────────────────────────────────────────────────
+
+const SIGNAL_COLOR = {
+  STRONG_BUY: { card: 'border-emerald-500/30 bg-emerald-500/5', badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/25', label: 'FUERTE COMPRA' },
+  BUY:        { card: 'border-cyan-500/25 bg-cyan-500/5',       badge: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/25',         label: 'COMPRA' },
+  MONITOR:    { card: 'border-border/40 bg-muted/5',            badge: 'bg-muted/20 text-muted-foreground border-border/30',      label: 'VIGILAR' },
+  WAIT:       { card: 'border-border/30 bg-muted/5',            badge: 'bg-muted/20 text-muted-foreground border-border/25',      label: 'ESPERAR' },
+}
+
+function oneLiner(sig: EntrySignal): string {
+  const fired = sig.signals_fired
+  if (fired.includes('FCF alto') && fired.includes('Insider buying'))   return 'FCF sólido con compras de insiders'
+  if (fired.includes('Insider buying'))                                  return 'Insiders comprando — señal de convicción interna'
+  if (fired.includes('FCF alto') && fired.includes('Piotroski fuerte')) return 'Balance sólido con alta generación de caja'
+  if (fired.includes('Piotroski fuerte'))                                return 'Balance financiero entre los más fuertes del universo'
+  if (fired.includes('FCF alto'))                                        return `FCF ${sig.fcf_yield_pct?.toFixed(1)}% — se paga a sí misma`
+  if (fired.includes('Upside > 30%') || (sig.analyst_upside_pct ?? 0) > 30) return `${sig.analyst_upside_pct?.toFixed(0)}% de upside validado por analistas`
+  if (sig.risk_reward_ratio && sig.risk_reward_ratio >= 4)               return `R:R ${sig.risk_reward_ratio.toFixed(1)}x — riesgo asimétrico excepcional`
+  return `${sig.signals_fired.slice(0, 2).join(' · ')}`
+}
+
+function IdeasHoy({ signals, onVerDetalle }: { signals: EntrySignal[]; onVerDetalle: () => void }) {
+  const [expanded, setExpanded] = useState<string | null>(null)
+
+  // Deduplicate by ticker, keep highest entry_score
+  const deduped = Object.values(
+    signals.reduce<Record<string, EntrySignal>>((acc, s) => {
+      if (!acc[s.ticker] || s.entry_score > acc[s.ticker].entry_score) acc[s.ticker] = s
+      return acc
+    }, {})
+  ).sort((a, b) => b.entry_score - a.entry_score).slice(0, 5)
+
+  if (deduped.length === 0) return null
+
+  return (
+    <div className="mb-5 animate-fade-in-up">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Zap size={14} className="text-emerald-400" />
+          <span className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground">Ideas de hoy</span>
+          <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">{deduped.length}</span>
+        </div>
+        <button onClick={onVerDetalle} className="text-[0.65rem] text-muted-foreground hover:text-primary transition-colors">
+          Ver análisis completo →
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
+        {deduped.map(sig => {
+          const style = SIGNAL_COLOR[sig.signal] ?? SIGNAL_COLOR.MONITOR
+          const isOpen = expanded === sig.ticker
+          return (
+            <button
+              key={sig.ticker}
+              type="button"
+              onClick={() => setExpanded(isOpen ? null : sig.ticker)}
+              className={`text-left rounded-xl border p-3.5 transition-all active:scale-[0.98] hover:border-opacity-60 ${style.card} ${isOpen ? 'ring-1 ring-primary/20' : ''}`}
+            >
+              {/* Top row */}
+              <div className="flex items-start justify-between gap-1 mb-2">
+                <div>
+                  <div className="font-mono font-bold text-primary text-[0.95rem] leading-none">{sig.ticker}</div>
+                  <div className="text-[0.62rem] text-muted-foreground mt-0.5 leading-tight truncate max-w-[120px]">{sig.company_name.split(' ').slice(0, 2).join(' ')}</div>
+                </div>
+                <span className={`text-[0.55rem] font-bold px-1.5 py-0.5 rounded border shrink-0 ${style.badge}`}>{style.label}</span>
+              </div>
+
+              {/* Key numbers */}
+              <div className="flex gap-2 flex-wrap mb-2">
+                {sig.analyst_upside_pct != null && (
+                  <span className="text-[0.72rem]">
+                    <span className="text-muted-foreground">↑</span>{' '}
+                    <strong className="text-emerald-400">+{sig.analyst_upside_pct.toFixed(0)}%</strong>
+                  </span>
+                )}
+                {sig.risk_reward_ratio != null && (
+                  <span className="text-[0.72rem]">
+                    <span className="text-muted-foreground">R:R</span>{' '}
+                    <strong className={sig.risk_reward_ratio >= 3 ? 'text-emerald-400' : 'text-foreground'}>{sig.risk_reward_ratio.toFixed(1)}x</strong>
+                  </span>
+                )}
+                {sig.fcf_yield_pct != null && (
+                  <span className="text-[0.72rem]">
+                    <span className="text-muted-foreground">FCF</span>{' '}
+                    <strong className={sig.fcf_yield_pct >= 5 ? 'text-emerald-400' : 'text-foreground'}>{sig.fcf_yield_pct.toFixed(1)}%</strong>
+                  </span>
+                )}
+              </div>
+
+              {/* One-liner */}
+              <p className="text-[0.68rem] text-muted-foreground leading-snug">{oneLiner(sig)}</p>
+
+              {/* Earnings warning */}
+              {sig.earnings_warning && sig.days_to_earnings != null && (
+                <div className="mt-1.5 text-[0.62rem] text-amber-400 flex items-center gap-1">
+                  <Bell size={9} /> Earnings {sig.days_to_earnings}d
+                </div>
+              )}
+
+              {/* Expanded: entry levels */}
+              {isOpen && (
+                <div className="mt-2.5 pt-2.5 border-t border-border/30 space-y-0.5">
+                  <div className="text-[0.62rem] text-muted-foreground/60 font-bold uppercase tracking-wider mb-1">Niveles</div>
+                  {sig.current_price != null && (
+                    <div className="flex justify-between text-[0.68rem]">
+                      <span className="text-muted-foreground">Precio</span>
+                      <strong className="text-foreground">{sig.current_price.toLocaleString()}</strong>
+                    </div>
+                  )}
+                  {sig.days_to_earnings != null && !sig.earnings_warning && (
+                    <div className="flex justify-between text-[0.68rem]">
+                      <span className="text-muted-foreground">Earnings en</span>
+                      <strong className="text-foreground">{sig.days_to_earnings}d</strong>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-[0.68rem]">
+                    <span className="text-muted-foreground">Score</span>
+                    <strong className="text-foreground">{sig.value_score.toFixed(0)}</strong>
+                  </div>
+                  {sig.signals_fired.length > 0 && (
+                    <div className="mt-1.5 flex flex-wrap gap-1">
+                      {sig.signals_fired.slice(0, 3).map(s => (
+                        <span key={s} className="text-[0.58rem] px-1 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/15">{s}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 function CerebroCoachPanel({
   headline,
   subline,
@@ -779,6 +915,8 @@ export default function Cerebro() {
           Te resume lo importante primero. El detalle técnico sigue debajo cuando lo necesites.
         </p>
       </div>
+
+      <IdeasHoy signals={entrySignals} onVerDetalle={() => setActiveTab('entry')} />
 
       <CerebroCoachPanel
         headline={coachHeadline}
