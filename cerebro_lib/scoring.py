@@ -353,8 +353,12 @@ def score_value_trap(
         )
 
     if fundamental_score is not None and 48 <= fundamental_score <= 53:
-        score += 2
-        flags.append("Fundamental score cerca de default (50) — datos poco fiables")
+        # Only flag as trap-indicator if Piotroski is also weak — a Piotroski ≥7
+        # company with missing data is just missing data, not a trap.
+        piotr_ok = piotroski is not None and piotroski >= 7
+        if not piotr_ok:
+            score += 2
+            flags.append("Fundamental score cerca de default (50) — datos poco fiables")
 
     if (analyst_count is None or analyst_count < 2) and value_score > 65:
         score += 2

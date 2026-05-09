@@ -3168,6 +3168,16 @@ def generate_ticker_signals_csv(
     decay_map:      dict[str, dict] = {d["ticker"]: d for d in quality_decay.get("decays", [])}
     sector_map:     dict[str, dict] = {s["ticker"]: s for s in sector_rv.get("standouts", [])}
 
+    # Piotroski scores for all tickers (to cap negative stacking on quality companies)
+    _fdf = load_csv(DOCS / "fundamental_scores.csv")
+    _piotroski_scores: dict[str, float] = {}
+    if not _fdf.empty and "ticker" in _fdf.columns and "piotroski_score" in _fdf.columns:
+        for _, _r in _fdf.iterrows():
+            _t = str(_r.get("ticker", "")).upper()
+            _p = sf(_r.get("piotroski_score"))
+            if _t and _p is not None:
+                _piotroski_scores[_t] = _p
+
     # New agent maps
     rev_map:   dict[str, dict] = {
         r["ticker"]: r for r in (earnings_rev or {}).get("revisions", [])
@@ -3311,6 +3321,14 @@ def generate_ticker_signals_csv(
 
         if not reasons:
             continue
+
+        # ── Cap negative stacking on quality companies ─────────────────────────
+        # Piotroski ≥8: multiple MEDIUM signals (drift+decay+exit) often reflect the same
+        # market correction, not independent deteriorations. Cap total negative adj at -12
+        # so a Piotroski-9 company doesn't get treated worse than a Piotroski-4 one.
+        _piotr_score = _piotroski_scores.get(ticker)
+        if score_adj < -12 and _piotr_score is not None and _piotr_score >= 8:
+            score_adj = -12
 
         # ── Primary signal (most severe wins) ─────────────────────────────────
         has_high_negative = (
