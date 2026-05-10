@@ -1,0 +1,376 @@
+{
+  "generated_at": "2026-05-08",
+  "total": 23,
+  "tier1": 0,
+  "tier2": 1,
+  "tier3": 22,
+  "narrative": "La confluencia de capital inteligente se refiere a la acumulaci\u00f3n de se\u00f1ales de inversi\u00f3n de \"smart money\" (inversores institucionales y altamente informados) en un conjunto espec\u00edfico de acciones. En este caso, se observa una convergencia de 23 se\u00f1ales, donde 1 se\u00f1al es de insiders fuertes y 22 son de fondos hedge (HF) que apuntan a acciones con un valor atractivo (VALUE).\n\nEsto sugiere que los inversores m\u00e1s informados y experimentados est\u00e1n apostando por estas acciones, lo que podr\u00eda ser un indicador de que est\u00e1n preparadas para un posible aumento en su valor, ya que los insiders y los fond",
+  "signals": [
+    {
+      "ticker": "SGE.L",
+      "company_name": "THE SAGE GROUP PLC ORD 1 4/77P",
+      "sector": "Technology",
+      "value_score": 58.6,
+      "tier": 2,
+      "tier_label": "Strong Insiders",
+      "n_hedge_funds": 0,
+      "hedge_funds": [],
+      "n_insiders": 12,
+      "insider_purchases": 14,
+      "convergence_score": 100,
+      "in_value": true
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "value_score": 62.655,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 34,
+      "in_value": true
+    },
+    {
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "value_score": 54.0,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 31,
+      "in_value": true
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "New York Times Company (The)",
+      "sector": "Communication Services",
+      "value_score": 53.3,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 31,
+      "in_value": true
+    },
+    {
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporatio",
+      "sector": "Energy",
+      "value_score": 49.36,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 30,
+      "in_value": true
+    },
+    {
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "value_score": 47.8,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 29,
+      "in_value": true
+    },
+    {
+      "ticker": "POOL",
+      "company_name": "Pool Corporation",
+      "sector": "Industrials",
+      "value_score": 42.22,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 28,
+      "in_value": true
+    },
+    {
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
+      "value_score": 44.8,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Pershing Square (Ackman)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 28,
+      "in_value": true
+    },
+    {
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "sector": "Healthcare",
+      "value_score": 41.92,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 28,
+      "in_value": true
+    },
+    {
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporati",
+      "sector": "Financial Services",
+      "value_score": 41.48,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 27,
+      "in_value": true
+    },
+    {
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "sector": "Healthcare",
+      "value_score": 40.55,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 27,
+      "in_value": true
+    },
+    {
+      "ticker": "KD",
+      "company_name": "Kyndryl Holdings, Inc.",
+      "sector": "Technology",
+      "value_score": 36.45,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 26,
+      "in_value": true
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "value_score": 35.855000000000004,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 26,
+      "in_value": true
+    },
+    {
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "value_score": 35.08,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 26,
+      "in_value": true
+    },
+    {
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza Inc",
+      "sector": "Consumer Cyclical",
+      "value_score": 38.120000000000005,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 26,
+      "in_value": true
+    },
+    {
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "value_score": 36.22,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Appaloosa (Tepper)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 26,
+      "in_value": true
+    },
+    {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "value_score": 37.260000000000005,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 26,
+      "in_value": true
+    },
+    {
+      "ticker": "KR",
+      "company_name": "Kroger Company (The)",
+      "sector": "Consumer Defensive",
+      "value_score": 33.84,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 25,
+      "in_value": true
+    },
+    {
+      "ticker": "BN",
+      "company_name": "Brookfield Corporation",
+      "sector": "Financial Services",
+      "value_score": 32.0,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Pershing Square (Ackman)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 25,
+      "in_value": true
+    },
+    {
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International",
+      "sector": "Consumer Cyclical",
+      "value_score": 34.8,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Pershing Square (Ackman)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 25,
+      "in_value": true
+    },
+    {
+      "ticker": "ALLY",
+      "company_name": "Ally Financial Inc.",
+      "sector": "Financial Services",
+      "value_score": 30.260000000000005,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 24,
+      "in_value": true
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "value_score": 30.700000000000003,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 24,
+      "in_value": true
+    },
+    {
+      "ticker": "HHH",
+      "company_name": "Howard Hughes Holdings Inc.",
+      "sector": "Real Estate",
+      "value_score": 31.46,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Pershing Square (Ackman)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 24,
+      "in_value": true
+    }
+  ]
+}

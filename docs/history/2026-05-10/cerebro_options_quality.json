@@ -1,0 +1,49 @@
+{
+  "generated_at": "2026-05-08",
+  "total": 23,
+  "tier1": 0,
+  "tier2": 2,
+  "tier3": 1,
+  "noise_filtered": 20,
+  "actionable": [
+    {
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 55,
+      "value_score": 39.9,
+      "fcf_yield": 2.82,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (40pts)",
+        "INSIDER CONF",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 82191.0,
+      "detected_date": "2026-05-08"
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 42.7,
+      "fcf_yield": 5.55,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (43pts)",
+        "FCF 5.5%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 50.0,
+      "total_premium": 78090.0,
+      "detected_date": "2026-05-08"
+    }
+  ],
+  "narrative": "Aqu\u00ed te presento dos posibles frases en espa\u00f1ol que responden a tu pregunta:\n\n1. \"Las opciones solo confirman cuando hay alineaci\u00f3n con fundamentales porque reflejan la confianza de los inversores en la capacidad de la empresa para cumplir con sus objetivos financieros y mantener su valor a largo plazo.\"\n2. \"La alineaci\u00f3n entre opciones y fundamentales es fundamental porque muestra que los inversores est\u00e1n tomando decisiones informadas basadas en la informaci\u00f3n financiera y operativa de la empresa, en lugar de simplemente especular con el mercado.\"\n\nEn ambos casos, la idea es que las opciones solo confirman cuando hay una alineaci\u00f3n con los fundamentales porque reflejan la confianza de los inversores en la capacidad de la empresa para cumplir con sus objetivos financieros y mantener su valor"
+}

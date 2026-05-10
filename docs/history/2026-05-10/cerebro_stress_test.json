@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-05-08",
+  "total_positions": 175,
+  "risks": [
+    {
+      "type": "SECTOR_CONCENTRATION",
+      "severity": "HIGH",
+      "message": "81% de se\u00f1ales en Unknown (141/175) \u2014 concentraci\u00f3n elevada",
+      "detail": {
+        "sector": "Unknown",
+        "count": 141,
+        "pct": 81
+      }
+    },
+    {
+      "type": "GEO_CONCENTRATION",
+      "severity": "LOW",
+      "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
+      "detail": {
+        "us": 175,
+        "eu": 0
+      }
+    }
+  ],
+  "narrative": "Para mitigar estos riesgos de concentraci\u00f3n, puedes considerar las siguientes estrategias:\n\n1. **Diversificar la cartera**: intenta reducir la concentraci\u00f3n en sectores espec\u00edficos o regiones geogr\u00e1ficas. Puedes considerar invertir en empresas de diferentes sectores o regiones para reducir la exposici\u00f3n a riesgos espec\u00edficos.\n2. **Revisar y ajustar la cartera**: analiza la cartera actual y ajusta la composici\u00f3n para reducir la concentraci\u00f3n. Puedes considerar vender o comprar activos que ayuden a diversificar la cartera y reducir los riesgos.\n\nRecuerda que la diversificaci\u00f3n es una estrategia clave para",
+  "sector_breakdown": [
+    {
+      "sector": "Unknown",
+      "count": 141,
+      "pct": 81
+    },
+    {
+      "sector": "Technology",
+      "count": 10,
+      "pct": 6
+    },
+    {
+      "sector": "Financial Services",
+      "count": 6,
+      "pct": 3
+    },
+    {
+      "sector": "Consumer Cyclical",
+      "count": 5,
+      "pct": 3
+    },
+    {
+      "sector": "Basic Materials",
+      "count": 5,
+      "pct": 3
+    },
+    {
+      "sector": "Communication Services",
+      "count": 4,
+      "pct": 2
+    },
+    {
+      "sector": "Industrials",
+      "count": 3,
+      "pct": 2
+    },
+    {
+      "sector": "Healthcare",
+      "count": 1,
+      "pct": 1
+    }
+  ],
+  "region_breakdown": {
+    "US": 175
+  }
+}
