@@ -914,7 +914,7 @@ function PriceAlertBadge({ alert }: { alert: PortfolioAlert }) {
   )
 }
 
-function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings, priceAlert }: {
+function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings, priceAlert, coveredCall }: {
   result?: PositionResult
   pos: Position
   userId: string
@@ -924,6 +924,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   confluence: ConfluenceSignals | null
   macroWarnings: MacroExposureWarning[]
   priceAlert?: PortfolioAlert
+  coveredCall?: Position
 }) {
   const [expanded, setExpanded] = useState(false)
   const [editing, setEditing]   = useState(false)
@@ -1316,8 +1317,8 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       {result && (pos.asset_type ?? 'stock') === 'stock' && <div className="mx-3 mb-3"><OptionsPanel result={result} sym={sym} /></div>}
 
       {/* ── COVERED CALL TRACKER ── */}
-      {pos.asset_type === 'covered_call' && (
-        <CoveredCallTracker pos={pos} currentPrice={cur} />
+      {coveredCall && (
+        <CoveredCallTracker pos={coveredCall} currentPrice={cur} />
       )}
 
       {/* ── JOURNAL ── */}
@@ -1829,10 +1830,11 @@ export default function PersonalPortfolio() {
           ))}
 
           {!analyzing && (() => {
-            const posWithAlerts = positions.filter(p =>
+            const stockPositions = positions.filter(p => p.asset_type !== 'covered_call')
+            const posWithAlerts = stockPositions.filter(p =>
               cerebro.exitMap[p.ticker] || cerebro.trapMap[p.ticker] || cerebro.divMap[p.ticker]
             )
-            const criticalCount = positions.filter(p =>
+            const criticalCount = stockPositions.filter(p =>
               cerebro.exitMap[p.ticker]?.severity === 'HIGH' || cerebro.trapMap[p.ticker]?.severity === 'HIGH'
             ).length
             return (
@@ -1867,23 +1869,34 @@ export default function PersonalPortfolio() {
                     </div>
                   </div>
                 )}
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {positions.map((pos, index) => (
-                    <div key={pos.id} className="animate-fade-in-up h-full" style={{ animationDelay: `${index * 80}ms` }}>
-                      <PositionCard
-                        pos={pos}
-                        userId={user!.id}
-                        result={result?.positions.find(r => r.ticker === pos.ticker)}
-                        onRemove={() => removePosition(pos.id)}
-                        onEdit={updatePosition}
-                        cerebro={cerebro}
-                        confluence={confluence[pos.ticker] ?? null}
-                        macroWarnings={macroWarningsByTicker[pos.ticker] ?? []}
-                        priceAlert={priceAlertMap[pos.ticker.toUpperCase()]}
-                      />
+                {(() => {
+                  // Map ticker → covered_call position so we can embed it in the stock card
+                  const ccByTicker = new Map<string, Position>()
+                  for (const p of positions) {
+                    if (p.asset_type === 'covered_call') ccByTicker.set(p.ticker, p)
+                  }
+                  const visiblePositions = positions.filter(p => p.asset_type !== 'covered_call')
+                  return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                      {visiblePositions.map((pos, index) => (
+                        <div key={pos.id} className="animate-fade-in-up h-full" style={{ animationDelay: `${index * 80}ms` }}>
+                          <PositionCard
+                            pos={pos}
+                            userId={user!.id}
+                            result={result?.positions.find(r => r.ticker === pos.ticker)}
+                            onRemove={() => removePosition(pos.id)}
+                            onEdit={updatePosition}
+                            cerebro={cerebro}
+                            confluence={confluence[pos.ticker] ?? null}
+                            macroWarnings={macroWarningsByTicker[pos.ticker] ?? []}
+                            priceAlert={priceAlertMap[pos.ticker.toUpperCase()]}
+                            coveredCall={ccByTicker.get(pos.ticker)}
+                          />
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  )
+                })()}
               </>
             )
           })()}
