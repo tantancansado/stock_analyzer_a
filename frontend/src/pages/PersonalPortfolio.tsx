@@ -13,7 +13,7 @@ import { useApi } from '../hooks/useApi'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
-type AssetType = 'stock' | 'option' | 'bond' | 'preferred'
+type AssetType = 'stock' | 'option' | 'bond' | 'preferred' | 'covered_call'
 
 interface Position {
   id: string
@@ -269,24 +269,27 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
 // ── Add Position Form ─────────────────────────────────────────────────────────
 
 const ASSET_TYPES: { value: AssetType; label: string; icon: React.ReactNode; color: string }[] = [
-  { value: 'stock',     label: 'Acción',   icon: <TrendingUp size={12} />,   color: 'text-cyan-400' },
-  { value: 'option',    label: 'Opción',   icon: <TrendingDown size={12} />, color: 'text-purple-400' },
-  { value: 'bond',      label: 'Bono',     icon: <Landmark size={12} />,    color: 'text-amber-400' },
-  { value: 'preferred', label: 'Preferred',icon: <Star size={12} />,        color: 'text-emerald-400' },
+  { value: 'stock',        label: 'Acción',        icon: <TrendingUp size={12} />,   color: 'text-cyan-400' },
+  { value: 'option',       label: 'Opción',        icon: <TrendingDown size={12} />, color: 'text-purple-400' },
+  { value: 'covered_call', label: 'Covered Call',  icon: <Zap size={12} />,          color: 'text-amber-400' },
+  { value: 'bond',         label: 'Bono',          icon: <Landmark size={12} />,     color: 'text-amber-400' },
+  { value: 'preferred',    label: 'Preferred',     icon: <Star size={12} />,         color: 'text-emerald-400' },
 ]
 
 const SHARES_LABEL: Record<AssetType, string> = {
-  stock:     'Acciones',
-  option:    'Contratos',
-  bond:      'Nominal ($)',
-  preferred: 'Acciones',
+  stock:        'Acciones',
+  option:       'Contratos',
+  covered_call: 'Acciones',
+  bond:         'Nominal ($)',
+  preferred:    'Acciones',
 }
 
 const PRICE_LABEL: Record<AssetType, string> = {
-  stock:     'Precio medio',
-  option:    'Prima pagada',
-  bond:      'Precio (% par)',
-  preferred: 'Precio medio',
+  stock:        'Precio medio',
+  option:       'Prima pagada',
+  covered_call: 'Coste base/acc',
+  bond:         'Precio (% par)',
+  preferred:    'Precio medio',
 }
 
 function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promise<void>; saving: boolean }) {
@@ -305,6 +308,8 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
   const [maturity, setMaturity]   = useState('')
   const [error, setError]         = useState('')
 
+  const [ccPremium, setCcPremium] = useState('')
+
   const submit = async () => {
     const t = ticker.trim().toUpperCase()
     const s = parseFloat(shares)
@@ -316,6 +321,11 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       if (!strike || parseFloat(strike) <= 0) return setError('Strike inválido')
       if (!expiry) return setError('Fecha de expiración requerida')
     }
+    if (assetType === 'covered_call') {
+      if (!strike || parseFloat(strike) <= 0) return setError('Strike inválido')
+      if (!expiry) return setError('Fecha de expiración requerida')
+      if (!ccPremium || parseFloat(ccPremium) <= 0) return setError('Prima cobrada requerida')
+    }
     setError('')
     const pos: Omit<Position, 'id'> = { ticker: t, shares: s, avg_price: p, currency, asset_type: assetType }
     if (assetType === 'option') {
@@ -323,13 +333,18 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       pos.option_strike = parseFloat(strike)
       pos.option_expiry = expiry
     }
+    if (assetType === 'covered_call') {
+      pos.option_strike = parseFloat(strike)
+      pos.option_expiry = expiry
+      pos.coupon_rate   = parseFloat(ccPremium)  // reuse field: premium received per share
+    }
     if (assetType === 'bond' || assetType === 'preferred') {
       if (coupon) pos.coupon_rate = parseFloat(coupon)
       if (parVal) pos.par_value   = parseFloat(parVal)
       if (maturity) pos.maturity_date = maturity
     }
     await onAdd(pos)
-    setTicker(''); setShares(''); setPrice(''); setStrike(''); setExpiry(''); setCoupon(''); setMaturity('')
+    setTicker(''); setShares(''); setPrice(''); setStrike(''); setExpiry(''); setCoupon(''); setMaturity(''); setCcPremium('')
   }
 
   const inputCls = "px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
@@ -415,6 +430,30 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
             <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
               className={`w-36 ${inputCls}`} />
           </div>
+        </div>
+      )}
+
+      {/* Covered Call specific fields */}
+      {assetType === 'covered_call' && (
+        <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Strike vendido</label>
+            <input value={strike} onChange={e => setStrike(e.target.value)} placeholder="60.00"
+              type="number" min="0" step="0.50" className={`w-24 ${inputCls}`} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Prima cobrada/acc</label>
+            <input value={ccPremium} onChange={e => setCcPremium(e.target.value)} placeholder="1.14"
+              type="number" min="0" step="0.01" className={`w-28 ${inputCls}`} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
+            <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
+              className={`w-36 ${inputCls}`} />
+          </div>
+          <p className="w-full text-[0.62rem] text-amber-400/70 mt-1">
+            Precio medio = coste de la acción (no la prima). Prima cobrada se guarda aparte.
+          </p>
         </div>
       )}
 
@@ -742,6 +781,115 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
   )
 }
 
+// ── Covered Call Tracker ──────────────────────────────────────────────────────
+
+function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice: number }) {
+  const strike      = pos.option_strike ?? 0
+  const expiry      = pos.option_expiry ?? ''
+  const premium     = pos.coupon_rate ?? 0   // premium received per share
+  const costBasis   = pos.avg_price           // stock cost per share
+  const shares      = pos.shares
+  const sym         = pos.currency === 'EUR' ? '€' : '$'
+
+  // Days to expiry
+  const today    = new Date()
+  today.setHours(0, 0, 0, 0)
+  const expiryDate = expiry ? new Date(expiry) : null
+  const dte        = expiryDate ? Math.max(0, Math.ceil((expiryDate.getTime() - today.getTime()) / 86400000)) : null
+
+  // P&L breakdown
+  const stockPL    = (currentPrice - costBasis) * shares
+  const premiumPnL = premium * shares   // collected upfront, always ours
+  const combined   = stockPL + premiumPnL
+  const combinedPct = costBasis > 0 ? (combined / (costBasis * shares)) * 100 : 0
+
+  // Effective cost basis after premium
+  const effectiveBasis = costBasis - premium
+
+  // Strike proximity
+  const distPct    = strike > 0 ? ((strike - currentPrice) / currentPrice) * 100 : null
+  const nearStrike = distPct !== null && distPct < 5   // within 5% of strike → risk
+  const itm        = currentPrice >= strike
+
+  // Recommendation
+  let rec   = ''
+  let recCls = ''
+  if (itm) {
+    rec    = 'ITM — riesgo de asignación. Considera cerrar (recomprar) o rodar el strike hacia arriba.'
+    recCls = 'text-red-400'
+  } else if (dte !== null && dte <= 14 && !itm) {
+    rec    = `Expira en ${dte} días OTM — deja expirar y quédate la prima entera.`
+    recCls = 'text-emerald-400'
+  } else if (nearStrike) {
+    rec    = `Precio cerca del strike (${distPct?.toFixed(1)}% OTM) — monitoriza de cerca.`
+    recCls = 'text-amber-400'
+  } else {
+    rec    = `OTM ${distPct?.toFixed(1)}% — posición tranquila. La prima se acumula con el paso del tiempo.`
+    recCls = 'text-primary'
+  }
+
+  return (
+    <div className="mx-3 mb-3 rounded-xl border overflow-hidden border-amber-500/25 bg-amber-500/5">
+      {/* Header */}
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-amber-500/20">
+        <span className="text-[0.55rem] font-bold uppercase tracking-widest text-amber-400/60">Covered Call vendida</span>
+        <span className="font-mono font-bold text-amber-400 text-sm">{sym}{strike} · exp {expiry}</span>
+        {dte !== null && (
+          <span className={`ml-auto text-[0.62rem] font-bold px-1.5 py-0.5 rounded border ${
+            dte <= 7   ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' :
+            dte <= 21  ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' :
+                         'bg-muted/20 text-muted-foreground border-border/30'
+          }`}>
+            {dte}d exp
+          </span>
+        )}
+        {itm && (
+          <span className="text-[0.62rem] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">
+            ITM ⚠
+          </span>
+        )}
+      </div>
+
+      {/* P&L grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-amber-500/10 text-[0.68rem]">
+        <div className="bg-background/60 px-3 py-2.5">
+          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">Prima cobrada</div>
+          <div className="font-bold text-emerald-400">{sym}{(premium * shares).toFixed(2)}</div>
+          <div className="text-muted-foreground/40 text-[0.55rem]">{sym}{premium.toFixed(2)}/acc</div>
+        </div>
+        <div className="bg-background/60 px-3 py-2.5">
+          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L acción</div>
+          <div className={`font-bold ${stockPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {stockPL >= 0 ? '+' : ''}{sym}{stockPL.toFixed(2)}
+          </div>
+          <div className="text-muted-foreground/40 text-[0.55rem]">base {sym}{costBasis.toFixed(2)}</div>
+        </div>
+        <div className="bg-background/60 px-3 py-2.5">
+          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L combinado</div>
+          <div className={`font-bold text-base ${combined >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            {combined >= 0 ? '+' : ''}{sym}{combined.toFixed(2)}
+          </div>
+          <div className={`text-[0.62rem] font-semibold ${combinedPct >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+            {combinedPct >= 0 ? '+' : ''}{combinedPct.toFixed(2)}%
+          </div>
+        </div>
+        <div className="bg-background/60 px-3 py-2.5">
+          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">Base efectiva</div>
+          <div className="font-bold text-foreground">{sym}{effectiveBasis.toFixed(2)}</div>
+          <div className="text-muted-foreground/40 text-[0.55rem]">
+            dist strike {distPct != null ? `${distPct >= 0 ? '+' : ''}${distPct.toFixed(1)}%` : '—'}
+          </div>
+        </div>
+      </div>
+
+      {/* Recommendation */}
+      <div className="px-4 py-2.5">
+        <p className={`text-[0.72rem] leading-relaxed ${recCls}`}>{rec}</p>
+      </div>
+    </div>
+  )
+}
+
 // ── Position Card ─────────────────────────────────────────────────────────────
 
 function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: string; value: string; valueClass?: string }) {
@@ -846,6 +994,12 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 <span className="px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border bg-emerald-500/15 text-emerald-400 border-emerald-500/25">PREFERRED</span>
                 {pos.coupon_rate && <span>{pos.coupon_rate}% div</span>}
                 <span>{pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)}</span>
+              </>
+            ) : pos.asset_type === 'covered_call' ? (
+              <>
+                <span className="px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border bg-amber-500/15 text-amber-400 border-amber-500/25">COVERED CALL</span>
+                <span>CALL ${pos.option_strike} exp {pos.option_expiry}</span>
+                <span>{pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)} · prima {sym}{(pos.coupon_rate ?? 0).toFixed(2)}/acc</span>
               </>
             ) : (
               <span>{pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)}</span>
@@ -1036,7 +1190,24 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         type MetricDef = { label: string; value: string; valueClass?: string; suffix?: string; suffixClass?: string }
         let metrics: (MetricDef | false)[] = []
 
-        if (assetT === 'option') {
+        if (assetT === 'covered_call') {
+          const strike  = pos.option_strike ?? 0
+          const premium = pos.coupon_rate ?? 0
+          const today2  = new Date(); today2.setHours(0,0,0,0)
+          const expDate = pos.option_expiry ? new Date(pos.option_expiry) : null
+          const dte2    = expDate ? Math.max(0, Math.ceil((expDate.getTime() - today2.getTime()) / 86400000)) : null
+          const distPct2 = strike > 0 ? ((strike - cur) / cur) * 100 : null
+          const itm2    = cur >= strike
+          const combined2 = (cur - pos.avg_price + premium) * pos.shares
+          metrics = [
+            { label: 'Strike', value: `${sym}${strike}`, valueClass: itm2 ? 'text-red-400' : 'text-amber-400' },
+            { label: 'Prima cobrada', value: `${sym}${(premium * pos.shares).toFixed(2)}`, valueClass: 'text-emerald-400' },
+            dte2 != null && { label: 'Días exp', value: String(dte2), valueClass: dte2 <= 7 ? 'text-emerald-400' : dte2 <= 21 ? 'text-amber-400' : 'text-foreground' },
+            { label: 'Estado', value: itm2 ? 'ITM ⚠' : `OTM ${distPct2?.toFixed(1)}%`, valueClass: itm2 ? 'text-red-400' : 'text-emerald-400' },
+            { label: 'P&L combinado', value: `${combined2 >= 0 ? '+' : ''}${sym}${combined2.toFixed(2)}`, valueClass: combined2 >= 0 ? 'text-emerald-400' : 'text-red-400' },
+            { label: 'Base efectiva', value: `${sym}${(pos.avg_price - premium).toFixed(2)}` },
+          ]
+        } else if (assetT === 'option') {
           const dte = result.days_to_expiry
           const itm = result.itm
           metrics = [
@@ -1143,6 +1314,11 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 
       {/* ── OPTIONS PANEL (stocks only) ── */}
       {result && (pos.asset_type ?? 'stock') === 'stock' && <div className="mx-3 mb-3"><OptionsPanel result={result} sym={sym} /></div>}
+
+      {/* ── COVERED CALL TRACKER ── */}
+      {pos.asset_type === 'covered_call' && (
+        <CoveredCallTracker pos={pos} currentPrice={cur} />
+      )}
 
       {/* ── JOURNAL ── */}
       <JournalSection ticker={ticker} userId={userId} />
