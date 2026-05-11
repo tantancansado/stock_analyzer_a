@@ -1327,6 +1327,49 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   )
 }
 
+// ── Analysis Cache ────────────────────────────────────────────────────────────
+// Cache key: sorted ticker list + shares + avg_price fingerprint
+// TTL: 6 hours. On mutation: invalidate immediately and re-analyze.
+
+const CACHE_KEY   = 'sa-portfolio-analysis-v1'
+const CACHE_TTL_MS = 6 * 60 * 60 * 1000  // 6 hours
+
+interface CacheEntry {
+  fingerprint: string
+  result: AnalysisResult
+  ts: number
+}
+
+function positionsFingerprint(positions: Position[]): string {
+  return positions
+    .filter(p => p.asset_type !== 'covered_call')
+    .map(p => `${p.ticker}:${p.shares}:${p.avg_price}`)
+    .sort()
+    .join('|')
+}
+
+function readCache(fingerprint: string): AnalysisResult | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY)
+    if (!raw) return null
+    const entry: CacheEntry = JSON.parse(raw)
+    if (entry.fingerprint !== fingerprint) return null
+    if (Date.now() - entry.ts > CACHE_TTL_MS) return null
+    return entry.result
+  } catch { return null }
+}
+
+function writeCache(fingerprint: string, result: AnalysisResult) {
+  try {
+    const entry: CacheEntry = { fingerprint, result, ts: Date.now() }
+    localStorage.setItem(CACHE_KEY, JSON.stringify(entry))
+  } catch { /* quota exceeded — ignore */ }
+}
+
+function invalidateCache() {
+  localStorage.removeItem(CACHE_KEY)
+}
+
 // ── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function PersonalPortfolio() {
@@ -1347,6 +1390,7 @@ export default function PersonalPortfolio() {
   const [analyzing, setAnalyzing] = useState(false)
   const [error, setError]         = useState('')
   const [analyzed, setAnalyzed]   = useState(false)
+  const [cacheAge, setCacheAge]   = useState<number | null>(null)  // ms since last analysis
   const [refreshState, setRefreshState] = useState<{ status: 'idle' | 'running' | 'ok' | 'error'; message?: string }>({ status: 'idle' })
 
   // Trigger recompute on-demand de strategies/theses/options tras mutar la cartera.
@@ -1402,24 +1446,37 @@ export default function PersonalPortfolio() {
       })
   }, [user])
 
-  // Auto-analyze once positions are loaded
+  // Auto-analyze once positions are loaded — uses cache when fresh
   useEffect(() => {
-    if (!loadingDb && positions.length > 0 && !analyzed) {
-      analyze()
+    if (loadingDb || positions.length === 0 || analyzed) return
+    const fp = positionsFingerprint(positions)
+    const cached = readCache(fp)
+    if (cached) {
+      setResult(cached)
+      setAnalyzed(true)
+      try {
+        const entry: CacheEntry = JSON.parse(localStorage.getItem(CACHE_KEY) ?? '{}')
+        setCacheAge(Date.now() - (entry.ts ?? 0))
+      } catch { /* ignore */ }
+      return
     }
+    analyze()
   }, [loadingDb]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const analyze = useCallback(async () => {
+  const analyze = useCallback(async (silent = false) => {
     if (!positions.length) return
-    setAnalyzing(true); setError('')
+    if (!silent) { setAnalyzing(true); setError('') }
     try {
       const resp = await apiClient.post('/api/analyze-personal-portfolio', { positions })
+      const fp = positionsFingerprint(positions)
+      writeCache(fp, resp.data)
       setResult(resp.data)
       setAnalyzed(true)
+      setCacheAge(0)
     } catch {
-      setError('Error al analizar. Asegúrate de que el backend está corriendo.')
+      if (!silent) setError('Error al analizar. Asegúrate de que el backend está corriendo.')
     } finally {
-      setAnalyzing(false)
+      if (!silent) setAnalyzing(false)
     }
   }, [positions])
 
@@ -1437,7 +1494,7 @@ export default function PersonalPortfolio() {
       setSaving(false)
       if (!err) {
         setPositions(prev => prev.map(x => x.id === existing.id ? { ...x, shares: newShares, avg_price: newAvg } : x))
-        setResult(null); setAnalyzed(false)
+        invalidateCache(); setResult(null); setAnalyzed(false)
         triggerArtifactsRefresh()
       }
       return
@@ -1461,7 +1518,7 @@ export default function PersonalPortfolio() {
         option_type: data.option_type ?? undefined, option_strike: data.option_strike ?? undefined, option_expiry: data.option_expiry ?? undefined,
         coupon_rate: data.coupon_rate ?? undefined, par_value: data.par_value ?? undefined, maturity_date: data.maturity_date ?? undefined,
       }])
-      setResult(null); setAnalyzed(false)
+      invalidateCache(); setResult(null); setAnalyzed(false)
       triggerArtifactsRefresh()
     }
   }
@@ -1469,7 +1526,7 @@ export default function PersonalPortfolio() {
   const removePosition = async (id: string) => {
     await supabase.from('personal_portfolio_positions').delete().eq('id', id)
     setPositions(prev => prev.filter(p => p.id !== id))
-    setResult(null); setAnalyzed(false)
+    invalidateCache(); setResult(null); setAnalyzed(false)
     triggerArtifactsRefresh()
   }
 
@@ -1479,7 +1536,7 @@ export default function PersonalPortfolio() {
       .update({ shares, avg_price: avgPrice })
       .eq('id', id)
     setPositions(prev => prev.map(p => p.id === id ? { ...p, shares, avg_price: avgPrice } : p))
-    setResult(null); setAnalyzed(false)
+    invalidateCache(); setResult(null); setAnalyzed(false)
     triggerArtifactsRefresh()
   }
 
@@ -1585,14 +1642,22 @@ export default function PersonalPortfolio() {
                 </div>
               )}
             </div>
-            <button
-              onClick={analyze}
-              disabled={analyzing}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/25 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors disabled:opacity-50"
-            >
-              <RefreshCw size={13} className={analyzing ? 'animate-spin' : ''} />
-              {analyzing ? 'Analizando...' : 'Re-analizar'}
-            </button>
+            <div className="flex flex-col items-end gap-1.5">
+              <button
+                onClick={() => { invalidateCache(); analyze() }}
+                disabled={analyzing}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/25 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors disabled:opacity-50"
+              >
+                <RefreshCw size={13} className={analyzing ? 'animate-spin' : ''} />
+                {analyzing ? 'Analizando...' : 'Re-analizar'}
+              </button>
+              {cacheAge !== null && (
+                <span className="text-[0.58rem] text-muted-foreground/40">
+                  {cacheAge === 0 ? 'Actualizado ahora' : cacheAge < 60_000 ? 'Hace <1 min' : cacheAge < 3_600_000 ? `Hace ${Math.round(cacheAge / 60_000)}min` : `Hace ${Math.round(cacheAge / 3_600_000)}h`}
+                  {' · '}cache activo
+                </span>
+              )}
+            </div>
           </div>
 
           {result.portfolio_analysis?.summary && (
@@ -1809,7 +1874,7 @@ export default function PersonalPortfolio() {
         <div className="space-y-4">
           {!analyzed && !analyzing && (
             <button
-              onClick={analyze}
+              onClick={() => analyze()}
               className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
             >
               <RefreshCw size={14} />
