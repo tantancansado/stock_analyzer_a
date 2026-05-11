@@ -1467,14 +1467,20 @@ export default function PersonalPortfolio() {
     if (!positions.length) return
     if (!silent) { setAnalyzing(true); setError('') }
     try {
-      const resp = await apiClient.post('/api/analyze-personal-portfolio', { positions })
+      const resp = await apiClient.post('/api/analyze-personal-portfolio', { positions }, { timeout: 120_000 })
       const fp = positionsFingerprint(positions)
       writeCache(fp, resp.data)
       setResult(resp.data)
       setAnalyzed(true)
       setCacheAge(0)
-    } catch {
-      if (!silent) setError('Error al analizar. Asegúrate de que el backend está corriendo.')
+    } catch (e: unknown) {
+      if (!silent) {
+        const isTimeout = e && typeof e === 'object' && 'code' in e && (e as {code: string}).code === 'ECONNABORTED'
+        setError(isTimeout
+          ? 'El servidor tardó demasiado (cold start). Espera 30s y pulsa Re-analizar.'
+          : 'Error al analizar. Pulsa Re-analizar para intentarlo de nuevo.'
+        )
+      }
     } finally {
       if (!silent) setAnalyzing(false)
     }

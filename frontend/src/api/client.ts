@@ -26,7 +26,18 @@ export const apiClient = axios.create({
 
 // Attach Supabase JWT to every request; refresh proactively if expiring soon
 apiClient.interceptors.request.use(async (config) => {
-  // Refresh token if it expires in less than 2 minutes
+  // Fallback: if onAuthStateChange hasn't fired yet, fetch session directly
+  if (!_cachedToken) {
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      _cachedToken = session?.access_token ?? null
+      if (session?.access_token) {
+        const payload = JSON.parse(atob(session.access_token.split('.')[1]))
+        _tokenExpiresAt = payload.exp ? payload.exp * 1000 : null
+      }
+    } catch { /* ignore */ }
+  }
+  // Proactive refresh if token expires in less than 2 minutes
   if (_cachedToken && _tokenExpiresAt && Date.now() > _tokenExpiresAt - 120_000) {
     try {
       const { data: { session } } = await supabase.auth.refreshSession()
