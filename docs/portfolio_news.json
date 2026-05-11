@@ -1,23 +1,37 @@
 {
   "scan_date": "2026-05-11",
-  "scan_time": "09:00",
+  "scan_time": "14:30",
   "tickers": [
-    "ABT",
+    "BR",
     "MA",
-    "BR"
+    "BSX",
+    "PSA-PRK",
+    "ABT",
+    "MCD"
   ],
-  "count": 5,
-  "alta_count": 2,
+  "count": 10,
+  "alta_count": 3,
   "media_count": 1,
   "new_alerts": 1,
   "items": [
+    {
+      "id": "16158032-feb1-3b2f-8b5b-da8f8d3e6b68",
+      "ticker": "MCD",
+      "title": "Inflation Drumbeat Persists for Unnerved US Consumer",
+      "source": "Bloomberg",
+      "pub_date": "2026-05-10T14:42:19Z",
+      "time_ago": "hace 23h",
+      "url": "https://finance.yahoo.com/economy/articles/inflation-drumbeat-persists-unnerved-us-200000571.html",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
+    },
     {
       "id": "1275b1bb-0e8f-3ace-8cb9-1c9799d6c5d4",
       "ticker": "MA",
       "title": "Ripple (XRP) Has Closed 10 Major Deals This Year: Here’s the Scoreboard for Each Partnership",
       "source": "24/7 Wall St.",
       "pub_date": "2026-05-10T18:31:23Z",
-      "time_ago": "hace 14h",
+      "time_ago": "hace 19h",
       "url": "https://247wallst.com/investing/2026/05/10/ripple-xrp-has-closed-10-major-deals-this-year-heres-the-scoreboard-for-each-partnership/",
       "importance": "ALTA",
       "sentiment": "BULLISH"
@@ -28,7 +42,7 @@
       "title": "A Look At Abbott Laboratories (ABT) Valuation After Mixed Q1 Results And Baby Formula Legal Ruling",
       "source": "Simply Wall St.",
       "pub_date": "2026-05-11T05:10:31Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 9h",
       "url": "https://finance.yahoo.com/markets/stocks/articles/look-abbott-laboratories-abt-valuation-051031858.html",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
@@ -39,19 +53,30 @@
       "title": "What This Fund’s $4 Million Apollo Commercial Real Estate Finance Sale Could Signal About CRE Risk",
       "source": "Motley Fool",
       "pub_date": "2026-05-10T18:03:01Z",
-      "time_ago": "hace 14h",
+      "time_ago": "hace 20h",
       "url": "https://www.fool.com/coverage/filings/2026/05/10/what-this-fund-s-usd4-million-apollo-commercial-real-estate-finance-sale-could-signal-about-cre-risk/",
       "importance": "MEDIA",
       "sentiment": "BEARISH"
     },
     {
-      "id": "7578fda7-56e4-37c1-8ea0-d006074e788f",
-      "ticker": "ABT",
-      "title": "Abbott Laboratories: Mispriced Growth Behind Near-Term Noise?",
-      "source": "GuruFocus.com",
-      "pub_date": "2026-05-09T11:46:56Z",
+      "id": "9eaeb16f-9b20-343c-aa7f-190848d2c064",
+      "ticker": "MCD",
+      "title": "KFC launches wallet-friendly family dinner menu",
+      "source": "TheStreet",
+      "pub_date": "2026-05-09T16:03:00Z",
       "time_ago": "hace 1d",
-      "url": "https://finance.yahoo.com/sectors/healthcare/articles/abbott-laboratories-mispriced-growth-behind-114656208.html",
+      "url": "https://www.thestreet.com/restaurants/kfc-launches-wallet-friendly-family-dinner-menu",
+      "importance": "BAJA",
+      "sentiment": "BULLISH"
+    },
+    {
+      "id": "a412a1a2-f336-3d74-9369-415171f2f554",
+      "ticker": "MCD",
+      "title": "McDonald's Stock Falls Through 1-Year Lows - Are Sales Slowdown Fears Overdone?",
+      "source": "Barchart",
+      "pub_date": "2026-05-10T14:00:03Z",
+      "time_ago": "hace 1d",
+      "url": "https://www.barchart.com/story/news/1836711/mcdonald-s-stock-falls-through-1-year-lows-are-sales-slowdown-fears-overdone",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     },
@@ -61,8 +86,41 @@
       "title": "What to Know About This Fund’s $3 Million Blackstone Mortgage Trust Sale Amid Office Stress",
       "source": "Motley Fool",
       "pub_date": "2026-05-10T17:57:01Z",
-      "time_ago": "hace 15h",
+      "time_ago": "hace 20h",
       "url": "https://www.fool.com/coverage/filings/2026/05/10/cura-wealth-dumps-155k-bxmt-shares-worth-299-million/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "ddd6d1b4-a76c-3797-8042-c83ed7ba5de8",
+      "ticker": "MA",
+      "title": "XRP NEWS: JPMorgan and Mastercard Leverage XRP Ledger for Tokenized Treasury Redemptions",
+      "source": "Coinspeaker",
+      "pub_date": "2026-05-11T13:05:58Z",
+      "time_ago": "hace 1h",
+      "url": "https://www.coinspeaker.com/jpmorgan-mastercard-xrp-news-ledger-tokenized-treasury-redemptions/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "fbd5504a-9685-3e47-90fc-c90680ff1335",
+      "ticker": "MA",
+      "title": "Visa vs. Mastercard: Better Payments Stock?",
+      "source": "Motley Fool",
+      "pub_date": "2026-05-11T13:25:00Z",
+      "time_ago": "hace 1h",
+      "url": "https://www.fool.com/investing/2026/05/11/visa-vs-mastercard-better-payments-stock/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "b2fa98aa-0cb6-4326-81fb-2dda7f4bc3f7",
+      "ticker": "MCD",
+      "title": "Wendy's empire has burned. Its future now hinges on a chicken sandwich.",
+      "source": "Yahoo Finance",
+      "pub_date": "2026-05-11T14:11:27Z",
+      "time_ago": "hace 18min",
+      "url": "https://finance.yahoo.com/markets/article/wendys-empire-has-burned-its-future-now-hinges-on-a-chicken-sandwich-141127840.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     }
