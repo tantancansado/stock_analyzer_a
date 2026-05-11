@@ -919,7 +919,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   pos: Position
   userId: string
   onRemove: () => void
-  onEdit: (id: string, shares: number, avgPrice: number) => void
+  onEdit: (id: string, shares: number, avgPrice: number, ticker?: string) => void
   cerebro: CerebroMaps
   confluence: ConfluenceSignals | null
   macroWarnings: MacroExposureWarning[]
@@ -928,6 +928,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 }) {
   const [expanded, setExpanded] = useState(false)
   const [editing, setEditing]   = useState(false)
+  const [editTicker, setEditTicker]   = useState(pos.ticker)
   const [editShares, setEditShares]   = useState(String(pos.shares))
   const [editPrice, setEditPrice]     = useState(String(pos.avg_price))
   const ticker = pos.ticker
@@ -1018,7 +1019,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
               </span>
             )}
             <button
-              onClick={() => { setEditing(e => !e); setEditShares(String(pos.shares)); setEditPrice(String(pos.avg_price)) }}
+              onClick={() => { setEditing(e => !e); setEditTicker(pos.ticker); setEditShares(String(pos.shares)); setEditPrice(String(pos.avg_price)) }}
               className={`p-1 rounded-md transition-colors ${editing ? 'text-primary bg-primary/10' : 'text-muted-foreground/40 hover:text-primary hover:bg-primary/10'}`}
               title="Editar posición"
             >
@@ -1030,6 +1031,15 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           </div>
           {editing ? (
             <div className="flex flex-col items-end gap-1 mt-1">
+              <div className="flex items-center gap-1">
+                <span className="text-[0.6rem] text-muted-foreground/50">ticker</span>
+                <input
+                  value={editTicker}
+                  onChange={e => setEditTicker(e.target.value.toUpperCase())}
+                  className="w-20 text-right text-xs font-mono font-bold bg-background/60 border border-border/40 rounded px-1 py-0.5 focus:outline-none focus:border-primary/50"
+                  placeholder="AAPL"
+                />
+              </div>
               <div className="flex items-center gap-1">
                 <span className="text-[0.6rem] text-muted-foreground/50">acc</span>
                 <input
@@ -1056,7 +1066,8 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 onClick={() => {
                   const s = parseFloat(editShares)
                   const p = parseFloat(editPrice)
-                  if (s > 0 && p > 0) { onEdit(pos.id, s, p); setEditing(false) }
+                  const t = editTicker.trim()
+                  if (s > 0 && p > 0 && t) { onEdit(pos.id, s, p, t); setEditing(false) }
                 }}
                 className="flex items-center gap-1 text-[0.6rem] font-bold px-2 py-0.5 rounded bg-primary/15 border border-primary/30 text-primary hover:bg-primary/25 transition-colors"
               >
@@ -1536,12 +1547,14 @@ export default function PersonalPortfolio() {
     triggerArtifactsRefresh()
   }
 
-  const updatePosition = async (id: string, shares: number, avgPrice: number) => {
+  const updatePosition = async (id: string, shares: number, avgPrice: number, ticker?: string) => {
+    const update: Record<string, unknown> = { shares, avg_price: avgPrice }
+    if (ticker) update.ticker = ticker
     await supabase
       .from('personal_portfolio_positions')
-      .update({ shares, avg_price: avgPrice })
+      .update(update)
       .eq('id', id)
-    setPositions(prev => prev.map(p => p.id === id ? { ...p, shares, avg_price: avgPrice } : p))
+    setPositions(prev => prev.map(p => p.id === id ? { ...p, shares, avg_price: avgPrice, ...(ticker ? { ticker } : {}) } : p))
     invalidateCache(); setResult(null); setAnalyzed(false)
     triggerArtifactsRefresh()
   }
