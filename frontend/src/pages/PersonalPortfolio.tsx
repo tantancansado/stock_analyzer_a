@@ -1609,9 +1609,32 @@ export default function PersonalPortfolio() {
 
   if (loadingDb) {
     return (
-      <div className="flex items-center justify-center py-24 gap-3 text-muted-foreground">
-        <Loader2 size={18} className="animate-spin" />
-        <span className="text-sm">Cargando cartera...</span>
+      <div className="flex flex-col items-center justify-center py-32 gap-6 select-none">
+        {/* Animated tickers */}
+        <div className="flex gap-2 items-end h-10">
+          {['ABT','BSX','MA','INTU','ADP'].map((t, i) => (
+            <div key={t} className="flex flex-col items-center gap-1">
+              <div
+                className="w-8 rounded-sm bg-primary/70"
+                style={{
+                  height: `${20 + Math.sin(i * 1.3) * 14 + 14}px`,
+                  animation: `portfolioBar 1.1s ease-in-out ${i * 0.15}s infinite alternate`,
+                }}
+              />
+              <span className="text-[0.5rem] font-mono text-muted-foreground/40">{t}</span>
+            </div>
+          ))}
+        </div>
+        <style>{`
+          @keyframes portfolioBar {
+            0%   { transform: scaleY(0.4); opacity: 0.4; }
+            100% { transform: scaleY(1);   opacity: 1;   }
+          }
+        `}</style>
+        <div className="text-center space-y-1">
+          <p className="text-sm font-semibold text-foreground/80">Cargando tu cartera…</p>
+          <p className="text-xs text-muted-foreground/50">Conectando con la nube</p>
+        </div>
       </div>
     )
   }
@@ -1901,17 +1924,49 @@ export default function PersonalPortfolio() {
             </button>
           )}
 
-          {analyzing && positions.map(p => (
-            <div key={p.id} className="glass rounded-2xl p-5 animate-pulse">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-muted/40" />
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 w-24 bg-muted/40 rounded" />
-                  <div className="h-3 w-40 bg-muted/30 rounded" />
+          {analyzing && (() => {
+            const stockTickers = positions.filter(p => p.asset_type !== 'covered_call').map(p => p.ticker)
+            const steps = [
+              'Consultando precios en tiempo real…',
+              'Calculando P&L y sizing Kelly…',
+              'Evaluando fundamentales VALUE…',
+              'Analizando riesgo de cartera…',
+              'Generando análisis con IA…',
+            ]
+            return (
+              <div className="glass rounded-2xl p-8 space-y-6 animate-fade-in-up">
+                {/* Ticker parade */}
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {stockTickers.map((t, i) => (
+                    <span
+                      key={t}
+                      className="font-mono font-bold text-xs px-2.5 py-1 rounded-lg border border-primary/20 text-primary/70 bg-primary/5"
+                      style={{ animation: `fadeInUp 0.4s ease-out ${i * 0.08}s both` }}
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
+                {/* Steps */}
+                <div className="space-y-2.5 max-w-xs mx-auto">
+                  {steps.map((step, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-2.5"
+                      style={{ animation: `fadeInUp 0.4s ease-out ${0.3 + i * 0.25}s both` }}
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary/60 shrink-0"
+                        style={{ animation: `pulse 1.4s ${i * 0.25}s infinite` }} />
+                      <span className="text-xs text-muted-foreground/60">{step}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-center text-[0.65rem] text-muted-foreground/30">
+                  ~20-40s · solo en la primera visita del día
+                </p>
               </div>
-            </div>
-          ))}
+            )
+          })()}
 
           {!analyzing && (() => {
             const stockPositions = positions.filter(p => p.asset_type !== 'covered_call')
