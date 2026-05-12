@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-11T09:09:52+00:00",
+  "generated_at": "2026-05-12T08:34:03+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -7,9 +7,9 @@
       "label": "Petr\u00f3leo (WTI)",
       "category": "energy",
       "primary_ticker": "CL=F",
-      "stress_score": 39.7,
-      "band": "amber",
-      "regime": "BUILDING",
+      "stress_score": 63.5,
+      "band": "red",
+      "regime": "TIGHTENING",
       "signals_used": 1,
       "coverage_pct": 25.0,
       "signals": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -6.58,
-          "percentile": 39.7,
+          "value": -5.74,
+          "percentile": 63.5,
           "z": null,
-          "score": 39.7,
-          "contribution": 9.9,
+          "score": 63.5,
+          "contribution": 15.9,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 97.53,
-            "deferred_price": 103.95
+            "front_price": 100.99,
+            "deferred_price": 106.79
           },
           "history_ready": true
         },
@@ -86,7 +86,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -6.58%",
+      "narrative": "backwardation -5.74%",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -1409,7 +1409,7 @@
         },
         {
           "date": "2026-05-15",
-          "price": 97.55,
+          "price": 100.85,
           "stress_score": null
         }
       ],
@@ -1417,16 +1417,16 @@
         {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 39.7,
-          "contribution": 9.9
+          "score": 63.5,
+          "contribution": 15.9
         }
       ]
     }
   },
   "summary": {
     "markets_total": 1,
-    "markets_red": 0,
+    "markets_red": 1,
     "top_market": "crude_oil",
-    "top_stress_score": 39.7
+    "top_stress_score": 63.5
   }
 }
