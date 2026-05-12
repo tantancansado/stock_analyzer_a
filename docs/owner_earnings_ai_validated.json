@@ -1,52 +1,52 @@
 {
   "model": "llama-3.3-70b-versatile",
-  "validated_at": "2026-05-11T09:15:46+00:00",
+  "validated_at": "2026-05-12T08:39:32+00:00",
   "total": 136,
   "results": {
     "RSG": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo.",
+      "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo.",
       "confidence": 60,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "FAST": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una sobrevaloración actual.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad también negativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MSI": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una margen de seguridad negativa.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración con un margen de seguridad negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CB": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "No hay suficiente información sobre el flujo de caja libre (FCF) histórico y proyectado para evaluar la calidad del dato y la tesis implícita. La falta de datos clave como el FCF histórico y forward, así como el NTM FCF yield y el ROIC último año, hace que no se pueda realizar una evaluación precisa.",
+      "reasoning": "No se dispone de información histórica de FCF, lo que hace que el modelo no sea fiable para tomar decisiones. Además, no hay datos de FCF forward ni ROIC, lo que limita la capacidad de evaluar la tesis. La falta de información impide emitir un juicio sobre la valoración de la acción.",
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CHD": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo para alcanzar un retorno anual del 15%. La empresa parece estar sobrevalorada en relación con su desempeño histórico y proyecciones futuras.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ROP": {
       "data_quality": "MIXED",
@@ -55,79 +55,79 @@
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CBOE": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra significativamente más bajo para alcanzar un retorno anual del 15%. La ausencia de red flags detectadas también respalda la confiabilidad del análisis.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloramiento con una upside negativa del 50.1% y una margen de seguridad del -100.3%.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "7741.T": {
       "data_quality": "MIXED",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "El dato subyacente presenta cierta coherencia en el FCF histórico, pero la proyección forward y la falta de información sobre el precio de compra y el margen de seguridad generan dudas. La tesis NO_DATA no puede ser evaluada adecuadamente debido a la falta de información.",
+      "reasoning": "El dato de flujo de caja libre (FCF) histórico y proyectado parece coherente, pero la falta de información sobre el precio de compra y la tesis implícita no permite una evaluación completa. Además, el modelo no proporciona suficiente información para determinar la valoración actual de la empresa.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ISRG": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y las proyecciones forward sin consenso, lo que introduce incertidumbre en la evaluación. La tesis HOLD parece razonable considerando el upside limitado y la margen de seguridad negativa, pero es importante esperar un mejor precio o más información para tomar una decisión informada.",
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, la empresa tiene un historial de crecimiento y el modelo sugiere un precio de compra razonable. La tesis HOLD podría ser correcta, pero es mejor esperar un mejor precio.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "BRK-B": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "El dato subyacente es inadecuado para este modelo debido a la falta de información sobre el flujo de caja libre (FCF) histórico y forward, lo que impide una evaluación precisa. La ausencia de datos clave como el TEV, FCF forward y ROIC último año también complica la valoración. Por lo tanto, no se puede emitir un juicio sobre la tesis.",
+      "reasoning": "No hay suficiente información para evaluar la calidad del dato subyacente y la tesis implícita, ya que faltan datos históricos y proyecciones de FCF. La falta de información hace que no se pueda tomar una decisión informada.",
       "confidence": 0,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CNI": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de histórico de FCF y la ausencia de red flags graves también respaldan la tesis de compra.",
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre, pero la proyección de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de histórico de FCF y la ausencia de red flags graves también influyen en la evaluación. La tesis BUY se basa en el potencial de crecimiento y la valoración razonable.",
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "SYK": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis implícita de HOLD puede no ser del todo precisa, ya que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor de la acción podría estar ligeramente sobrevalorado. Por lo tanto, es prudente esperar un mejor precio antes de tomar una decisión de inversión.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis HOLD puede no ser la más adecuada considerando el margen de seguridad negativo y el upside limitado en relación con el precio actual.",
       "confidence": 80,
       "score_adjustment": 2,
       "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ERIE": {
       "data_quality": "MIXED",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "El dato de FCF histórico es coherente, pero la falta de proyección forward y el bajo número de analistas cubriendo la acción generan dudas sobre la calidad del dato. La tesis NO_DATA no puede ser evaluada adecuadamente debido a la falta de información.",
+      "reasoning": "El dato de FCF es coherente y tiene un histórico de más de 3 años, pero la falta de proyección forward y la cobertura de analistas baja generan dudas. La tesis NO_DATA no se puede evaluar adecuadamente debido a la falta de información.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MSFT": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF forward no tiene consenso, lo que introduce incertidumbre, pero la tendencia histórica no está disponible para evaluar la coherencia. La tesis BUY se basa en un upside sólido y una margen de seguridad significativa, lo que sugiere un potencial de crecimiento.",
-      "confidence": 70,
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, sin embargo, la tesis de compra se ve respaldada por el upside sólido y la margen de seguridad. La empresa tiene un perfil de crecimiento estable y una posición sólida en el mercado.",
+      "confidence": 80,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "AUTO.L": {
       "data_quality": "MIXED",
@@ -136,628 +136,628 @@
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "RELX": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad. La empresa tiene un modelo de negocio estable y el sector no parece tener problemas significativos.",
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad del 70% sugieren un potencial atractivo para la inversión. La falta de red flags detectadas también respalda la tesis de compra.",
       "confidence": 80,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "AJG": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y el apalancamiento moderado, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED se ve respaldada por el bajo ROIC y la dilución de acciones, lo que sugiere que el precio actual puede estar sobrevalorado.",
+      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y el apalancamiento moderado, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED parece correcta debido a la sobrevaloración y los red flags detectados.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "LRLCY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el bajo NTM FCF yield y el alto precio actual en comparación con el precio de compra calculado para un retorno anual del 15%. La gran diferencia entre el precio actual y el precio de compra sugiere que la acción está sobrevalorada.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el bajo NTM FCF yield y el EV/FCF target aplicado, lo que sugiere que la acción está sobrevalorada.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CP": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunos indicadores de alerta como la caída del FCF en el último año y un ROIC inferior al coste capital estimado, lo que sugiere que la valoración puede ser alta. Además, la dilución de acciones y la conversión FCF/EBITDA baja en algunos años pasados agregan incertidumbre. La tesis OVERVALUED parece tener fundamentos sólidos.",
-      "confidence": 80,
+      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y un ROIC inferior al coste capital estimado. Además, la dilución de acciones y la conversión FCF/EBITDA baja en algunos años generan dudas. La tesis OVERVALUED parece correcta debido a la presencia de varios red flags y una valoración que parece alta en relación con el histórico y el consenso de analistas.",
+      "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ZTS": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato de FCF es coherente en general, pero la caída en el último año y la volatilidad en los años anteriores generan dudas. La tesis de sobrevaloración parece correcta debido a la diferencia significativa entre el precio de compra calculado y el precio actual, así como la falta de margen de seguridad.",
+      "reasoning": "El dato de FCF es coherente en general, pero la caída en el último año y la volatilidad en los años anteriores generan dudas. La tesis de sobrevaloración parece correcta debido a la diferencia significativa entre el precio actual y el precio de compra calculado, así como la falta de margen de seguridad.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "NOW": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad. La empresa presenta un crecimiento proyectado en FCF y un ROIC no disponible, lo que podría ser un punto a considerar.",
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tendencia de crecimiento y los supuestos de valoración parecen razonables. La tesis BUY se apoya en el upside sólido y la margen de seguridad, aunque es importante considerar los riesgos asociados con la falta de datos históricos.",
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "INTU": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato de flujo de caja libre (FCF) forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Aunque el modelo sugiere que la acción está sobrevalorada, la falta de histórico de FCF y la ausencia de un consenso claro en las proyecciones futuras generan dudas sobre la fiabilidad del dato subyacente.",
-      "confidence": 60,
+      "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que la acción está sobrevalorada.",
+      "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "SPGI": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y la dilución de acciones, lo que genera dudas sobre la fiabilidad del modelo. Además, la tesis OVERVALUED parece correcta debido a la sobrevaloración del precio actual en comparación con el precio de compra calculado.",
+      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y la dilución de acciones, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la sobrevaloración del precio actual en relación con el precio de compra calculado y la falta de margen de seguridad.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "LSEG.L": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la volatilidad en el FCF histórico y la dilución de acciones. Además, el ROIC es inferior al coste capital estimado, lo que sugiere que la empresa puede estar sobrevalorada.",
+      "reasoning": "El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF coherente y un número razonable de acciones, pero también muestra algunas señales de alerta moderadas, como un ROIC bajo y una dilución de acciones anual. La tesis OVERVALUED parece estar respaldada por el modelo, que indica un precio de compra muy por debajo del actual y un upside negativo. Sin embargo, la calidad del dato no es óptima debido a la volatilidad en las proyecciones de FCF forward y la presencia de red flags.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CME": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis HOLD parece razonable considerando el upside negativo y la margen de seguridad negativa, pero es importante esperar un mejor precio o más información para tomar una decisión informada.",
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y las proyecciones forward sin consenso, lo que introduce incertidumbre en la valoración. La tesis HOLD parece razonable considerando el upside limitado y la margen de seguridad negativa, pero es importante esperar un mejor precio o más información para tomar una decisión informada.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "FICO": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF coherente y un consenso de proyecciones forward, pero también muestra un apalancamiento moderado y un ROE negativo, lo que genera dudas sobre la calidad del dato. La tesis OVERVALUED parece estar respaldada por el modelo, que sugiere un precio de compra más bajo que el actual y un margen de seguridad negativo.",
-      "confidence": 70,
+      "reasoning": "El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF coherente y un consenso de proyecciones forward, pero también muestra un apalancamiento moderado y un ROE negativo, lo que genera dudas sobre la calidad del dato. La tesis OVERVALUED parece correcta debido a la sobrevaloración del precio actual en relación con el precio de compra calculado y la presencia de red flags como el apalancamiento y el ROE negativo.",
+      "confidence": 80,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ITW": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato de FCF histórico y forward parece coherente, pero la caída de FCF en los últimos años y la falta de consenso en las proyecciones forward generan dudas sobre la fiabilidad del dato. La tesis OVERVALUED parece correcta debido a la alta valoración actual y la falta de fundamentos sólidos para justificar el precio.",
+      "reasoning": "El dato de FCF histórico y forward parece coherente, pero la caída de FCF en los últimos años y la falta de estabilidad en las proyecciones forward generan dudas sobre la fiabilidad del dato. La tesis OVERVALUED parece correcta debido a la alta valuación actual y la falta de fundamentos sólidos que respalden un crecimiento futuro.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "DHR": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato de flujo de caja libre (FCF) es coherente en las proyecciones, pero no hay un histórico de al menos 3 años para evaluar su consistencia. La tesis de compra se basa en un upside sólido y una margen de seguridad razonable, lo que sugiere que el precio actual podría ser atractivo.",
-      "confidence": 70,
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tendencia de crecimiento y el margen de seguridad sugieren una tesis BUY sólida. La empresa presenta un perfil de crecimiento estable y una valoración razonable.",
+      "confidence": 80,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ETN": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis HOLD podría ser correcta considerando el upside negativo y la margen de seguridad también negativa, lo que sugiere que el precio actual podría estar cerca del valor justo, pero no necesariamente sobrevalorado.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis HOLD podría ser correcta considerando el upside negativo y la margen de seguridad también negativa, lo que sugiere que el precio actual podría estar cerca del valor justo, por lo que se recomienda esperar un mejor precio.",
       "confidence": 80,
       "score_adjustment": 2,
       "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CSU.TO": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis WATCH se justifica porque el precio de compra calculado es cercano al precio actual, lo que sugiere que la acción está cerca de su valor justo y no ofrece un upside significativo en este momento.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis WATCH parece correcta ya que el precio de compra calculado es cercano al precio actual, lo que sugiere que la acción está cerca de su valor justo y no ofrece un upside significativo en este momento.",
       "confidence": 80,
       "score_adjustment": 2,
       "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CLPBY": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tendencia de crecimiento y el margen de seguridad sugieren una tesis BUY sólida. La empresa presenta un perfil atractivo con un ROIC no disponible, pero con un NTM FCF yield razonable y una mediana histórica de EV/FCF coherente.",
-      "confidence": 80,
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad. La empresa parece tener un crecimiento estable en su flujo de caja libre y un ROIC no disponible, lo que podría ser un indicador de una gestión eficiente.",
+      "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "V": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, pero la tendencia de crecimiento y los supuestos de valoración parecen razonables. La tesis BUY se apoya en el upside sólido y la margen de seguridad significativa. Sin embargo, es importante tener en cuenta las limitaciones del modelo debido a la falta de datos históricos.",
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, la tendencia de crecimiento y el margen de seguridad sugieren una oportunidad de inversión atractiva. La falta de red flags y el ROIC no disponible no afectan significativamente la evaluación.",
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "BRO": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia del flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloramiento con un margen de seguridad negativo.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "PGR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. La tesis de compra se ve respaldada por el upside sólido y la margen de seguridad del 52.7%, lo que sugiere que el precio actual es atractivo en relación con el valor intrínseco proyectado.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. La tesis de compra se ve respaldada por un upside sólido y una margen de seguridad significativa. Los fundamentales de la empresa, como el ROIC del último año, también apoyan la decisión de compra.",
       "confidence": 80,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "EXPN.L": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo, lo que sugiere que el precio actual puede estar por encima del valor justo.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que indica un upside negativo y una margen de seguridad insuficiente.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "PEP": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el margen de seguridad negativo y el precio de compra calculado significativamente por debajo del precio actual.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "IT": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Además, la falta de histórico de FCF y el ROIC desconocido limitan la confiabilidad del modelo. La tesis OVERVALUED parece plausible dada la gran brecha entre el precio actual y el precio de compra calculado.",
-      "confidence": 60,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "AI.PA": {
-      "data_quality": "UNRELIABLE",
-      "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "No hay datos históricos de FCF disponibles, lo que hace imposible evaluar la calidad del dato subyacente y la tesis implícita. La falta de información sobre el flujo de caja libre y el ROIC último año también complica la evaluación.",
-      "confidence": 0,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "HEI": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings muestra una tendencia coherente en el flujo de caja libre (FCF) histórico y proyectado, lo que sugiere que el dato subyacente es fiable. Sin embargo, la tesis implícita de sobrevaloración parece correcta debido a la diferencia significativa entre el precio actual y el precio de compra calculado para un retorno anual del 15%, lo que indica un posible sobrevaloramiento de la acción.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "CDNS": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo.",
-      "confidence": 60,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "ESLOY": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como un ROIC bajo en comparación con el coste de capital estimado y una cobertura de analistas baja. Además, la proyección de FCF forward muestra un crecimiento significativo, lo que podría ser optimista. La tesis OVERVALUED parece correcta debido a la baja rentabilidad y el alto precio actual en comparación con el valor calculado por el modelo.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "WST": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo y una margen de seguridad negativa.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "LIN": {
-      "data_quality": "MIXED",
-      "thesis_verdict": "WATCH",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Aunque el modelo sugiere un upside de 17.7%, la falta de histórico de FCF y la ausencia de consenso en las proyecciones futuras generan dudas sobre la fiabilidad del dato. La tesis BUY no está suficientemente respaldada por fundamentales sólidos.",
-      "confidence": 60,
-      "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "SBGSY": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el bajo NTM FCF yield y el EV/FCF target aplicado, lo que sugiere que el precio actual puede estar por encima del valor justo.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "MTD": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
       "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere una sobrevaloración.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "AI.PA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No hay datos históricos de FCF disponibles, lo que hace que el modelo no sea fiable. Además, no hay proyecciones de FCF forward, lo que impide evaluar la tesis implícita.",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "HEI": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo que sugiere un precio de compra más bajo y una sobrevaloración del 25.2%.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "CDNS": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED se apoya en una proyección de FCF que podría ser optimista, lo que sugiere que el precio actual podría estar sobrevalorado.",
+      "confidence": 60,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "ESLOY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente es mixto debido a la volatilidad en el flujo de caja libre histórico y la falta de consenso en las proyecciones forward. La tesis OVERVALUED parece correcta considerando el bajo ROIC y la cobertura de analistas baja.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "WST": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y un upside limitado.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "LIN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "WATCH",
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis BUY no es del todo convincente debido a la proximidad del precio de compra al precio actual y la falta de fundamentos sólidos que respalden el upside.",
+      "confidence": 60,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/WATCH (0)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "SBGSY": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que indica un upside negativo y una margen de seguridad también negativa.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "MTD": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del dato. La tesis OVERVALUED parece correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que la acción está sobrevalorada.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ROL": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Aunque el modelo sugiere un upside, la falta de histórico de FCF y la ausencia de consenso en las proyecciones futuras generan dudas sobre la fiabilidad del dato. La tesis BUY no se puede confirmar con certeza debido a estas limitaciones.",
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis BUY se basa en una proyección de crecimiento del FCF, pero el margen de seguridad es razonable. Sin embargo, la falta de información histórica y la volatilidad potencial del sector hacen que sea prudente esperar un mejor precio.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TNE.AX": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis HOLD parece razonable considerando el precio actual y el resultado del modelo, pero es importante esperar un mejor precio o más información para tomar una decisión informada.",
+      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis HOLD puede ser correcta considerando el precio actual y el valor calculado, pero es recomendable esperar un mejor precio debido a la falta de margen de seguridad.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TYL": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la falta de histórico de FCF y la proyección sin consenso, lo que genera incertidumbre. La tesis OVERVALUED parece correcta considerando el alto precio actual y la baja rentabilidad esperada.",
-      "confidence": 70,
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Además, la falta de histórico de FCF y el ROIC desconocido limitan la confiabilidad del modelo. La tesis OVERVALUED parece plausible considerando el alto precio actual y la baja rentabilidad esperada.",
+      "confidence": 60,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "GVDNY": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente es mixto debido a la caída del FCF en el último año y la cobertura de analistas baja, pero el histórico de FCF es coherente y el modelo muestra un upside sólido con margen de seguridad. La tesis BUY parece correcta considerando los fundamentales y la valoración.",
-      "confidence": 80,
+      "reasoning": "El dato subyacente es mixto debido a la caída del FCF en el último año y la cobertura de analistas baja, pero la tendencia histórica y las proyecciones forward son coherentes. La tesis BUY se apoya en el upside sólido y la margen de seguridad, aunque se debe tener en cuenta la volatilidad del FCF.",
+      "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "HESAY": {
       "data_quality": "MIXED",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "El dato de flujo de caja libre (FCF) histórico y proyectado parece coherente, pero la falta de información sobre el precio de compra y el margen de seguridad, así como la baja cobertura de analistas, generan dudas sobre la fiabilidad del dato. La tesis NO_DATA no puede ser evaluada adecuadamente debido a la falta de resultados en el modelo.",
+      "reasoning": "El dato histórico de FCF es coherente, pero la falta de información sobre el precio de compra y el margen de seguridad, así como la baja cobertura de analistas, generan incertidumbre. La proyección de FCF forward parece razonable, pero no hay suficiente información para evaluar la tesis de manera concluyente.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "VLTO": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la volatilidad en el flujo de caja libre (FCF) histórico y las proyecciones hacia adelante que pueden no reflejar con precisión el desempeño futuro. La tesis de sobrevaloración parece correcta considerando el margen de seguridad negativo y el upside limitado en relación con el precio actual.",
+      "reasoning": "El dato subyacente es mixto debido a la volatilidad en el flujo de caja libre (FCF) histórico y la dependencia en proyecciones forward para la valoración. La tesis OVERVALUED parece correcta considerando el margen de seguridad negativo y el upside vs precio actual también negativo.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "DBOEY": {
-      "data_quality": "MIXED",
+      "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es mixto debido a la volatilidad en el FCF histórico y la falta de consenso en las proyecciones forward. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un sobrevaloración.",
-      "confidence": 70,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia del FCF y el histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el bajo margen de seguridad y el precio actual en comparación con el precio de compra calculado.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MCD": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato de flujo de caja libre (FCF) es coherente en general, pero el ROE negativo y el apalancamiento moderado son señales de alerta. La tesis de sobrevaloración parece correcta debido a la baja rentabilidad y el alto precio en relación con el FCF.",
+      "reasoning": "El dato subyacente tiene algunas inconsistencias, como el ROE negativo y la deuda neta/EBITDA moderada, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la sobrevaloración y los red flags detectados.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "AON": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED parece correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que la acción está sobrevalorada.",
+      "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que genera dudas sobre la fiabilidad del modelo. La tesis OVERVALUED se apoya en una proyección de FCF que puede no ser precisa, lo que sugiere evitar la acción.",
       "confidence": 60,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ASAZY": {
       "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre. Sin embargo, la proyección de crecimiento y el margen de seguridad sugieren una oportunidad atractiva. La falta de red flags detectadas y el ROIC no disponible no permiten una evaluación completa.",
+      "reasoning": "El dato de FCF es coherente en las proyecciones, pero no hay histórico disponible, lo que genera dudas sobre la fiabilidad. Sin embargo, la tesis BUY se ve respaldada por el upside sólido y la margen de seguridad, aunque se debe tener en cuenta la falta de consenso en las proyecciones de FCF.",
       "confidence": 70,
       "score_adjustment": 3,
       "oe_ai_verdict": "MIXED/BUY (+3)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "EQIX": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en los últimos años y el apalancamiento elevado, lo que genera dudas sobre la fiabilidad del modelo. Sin embargo, la tesis WATCH parece correcta dado que el precio de compra calculado es cercano al precio actual y el upside no es significativo.",
+      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en los últimos años y el apalancamiento elevado, lo que genera dudas sobre la fiabilidad del modelo. Sin embargo, la tesis WATCH parece correcta, ya que el precio de compra calculado es cercano al precio actual y el upside no es significativo.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "VRSN": {
       "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunos indicadores de fiabilidad, como un histórico de FCF coherente y un consenso de proyecciones forward. Sin embargo, la presencia de un ROE negativo alto y la volatilidad en las proyecciones de FCF forward generan dudas sobre la calidad del dato. La tesis de sobrevaloración parece estar respaldada por el modelo, que sugiere un precio de compra significativamente inferior al actual y un margen de seguridad negativo.",
+      "reasoning": "El dato de FCF es coherente y tiene un histórico de más de 3 años, pero el ROE negativo y la falta de contexto sobre este indicador generan dudas. La tesis OVERVALUED parece correcta debido a la alta valoración y el bajo NTM FCF yield.",
       "confidence": 70,
       "score_adjustment": -5,
       "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ADP": {
       "data_quality": "MIXED",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, la empresa tiene un historial estable y el modelo de valoración sugiere que el precio actual está cerca del valor justo, lo que respalda la tesis WATCH.",
+      "reasoning": "El dato de FCF forward no cuenta con consenso y el histórico no está disponible, lo que introduce incertidumbre en la evaluación. Sin embargo, la proyección de crecimiento y el ROIC no están disponibles, lo que limita la capacidad de evaluar la tesis de manera más completa. La tesis WATCH parece adecuada dada la proximidad del precio actual al precio de compra calculado.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "MIXED/WATCH (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "PAYX": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis de sobrevaloración parece correcta considerando el bajo upside y la margen de seguridad negativa en relación con el precio actual.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags significativos. Sin embargo, la tesis de sobrevaloración parece correcta considerando el upside negativo y la margen de seguridad muy baja. El modelo sugiere que el precio actual es superior al valor justo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "WMT": {
-      "data_quality": "RELIABLE",
+      "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable, con FCF coherente y shares razonables. Además, el modelo de Owner Earnings muestra un upside sólido con un margen de seguridad de 95.1%, lo que respalda la tesis de compra.",
+      "reasoning": "El dato de flujo de caja libre (FCF) es proyectado sin consenso, lo que introduce incertidumbre. Sin embargo, la tendencia ascendente en las proyecciones de FCF y la ausencia de red flags graves sugieren que la tesis de compra es plausible. La margen de seguridad del 95.1% y el upside del 1934.6% también respaldan la decisión de compra.",
       "confidence": 80,
-      "score_adjustment": 8,
-      "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "score_adjustment": 3,
+      "oe_ai_verdict": "MIXED/BUY (+3)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "SAP": {
-      "data_quality": "RELIABLE",
+      "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable, con un historial de FCF coherente y una proyección de crecimiento razonable. La tesis BUY se basa en un upside sólido con un margen de seguridad de 66.3% y fundamentales que lo respaldan.",
-      "confidence": 80,
-      "score_adjustment": 8,
-      "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "reasoning": "El dato de FCF forward no cuenta con consenso, lo que introduce incertidumbre en la proyección. Sin embargo, la empresa tiene un historial de generación de flujo de caja y el modelo de valoración sugiere un upside significativo. La ausencia de red flags detectadas y el margen de seguridad del 66.3% respaldan la tesis de compra.",
+      "confidence": 70,
+      "score_adjustment": 3,
+      "oe_ai_verdict": "MIXED/BUY (+3)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "WTKWY": {
-      "data_quality": "RELIABLE",
+      "data_quality": "MIXED",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónable cobertura de analistas. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "reasoning": "El dato subyacente es mixto debido a la volatilidad en el FCF histórico y la falta de consenso en las proyecciones forward. La tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que indica un upside negativo y una margen de seguridad insuficiente.",
+      "confidence": 70,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CPRT": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable, pero la tesis OVERVALUED no se sostiene debido a un margen de seguridad negativo y un upside significativo",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y la ausencia de red flags. Sin embargo, la tesis de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que sugiere un upside negativo y una margen de seguridad insuficiente.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "AXP": {
-      "data_quality": "RELIABLE",
+      "data_quality": "MIXED",
       "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se considera correcta debido al upside sólido con un margen de seguridad del 42.6% y fundamentales que lo respaldan.",
-      "confidence": 80,
-      "score_adjustment": 8,
-      "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "reasoning": "El dato de flujo de caja libre (FCF) es coherente en las proyecciones, pero carece de un consenso claro y no se proporciona un histórico de más de 3 años, lo que genera cierta incertidumbre. Sin embargo, la tesis de compra se ve respaldada por un upside sólido y una margen de seguridad significativa.",
+      "confidence": 70,
+      "score_adjustment": 3,
+      "oe_ai_verdict": "MIXED/BUY (+3)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "AWK": {
-      "data_quality": "MIXED",
+      "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "La falta de datos históricos y forward para el FCF hace que el modelo no sea fiable. Además, la tesis NO_DATA no puede ser evaluada con precisión debido a la falta de información.",
-      "confidence": 60,
+      "reasoning": "No hay suficiente información sobre el flujo de caja libre (FCF) histórico y proyectado para evaluar la calidad del dato y tomar una decisión informada. La falta de datos clave como el FCF y el ROIC último año hace que sea imposible evaluar la tesis implícita.",
+      "confidence": 0,
       "score_adjustment": 0,
-      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TW": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable dilución de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la baja relación precio-valoración y el margen de seguridad negativo.",
+      "reasoning": "El dato subyacente parece fiable debido a la consistencia en el flujo de caja libre (FCF) y un histórico de al menos 3 años. Sin embargo, la tesis OVERVALUED parece correcta considerando el precio actual y el resultado del modelo, que sugiere un precio de compra más bajo y una sobrevaloración actual.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "SHW": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable, pero la tesis OVERVALUED no se sostiene debido a que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado es correcto.",
+      "reasoning": "El dato subyacente parece fiable debido a la coherencia en el flujo de caja libre (FCF) y la disponibilidad de un histórico de al menos 3 años. Sin embargo, la tesis implícita de sobrevaloración parece correcta considerando el precio actual y el resultado del modelo, que indica un precio de compra significativamente más bajo que el actual.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "FDS": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado podría estar subestimando la empresa.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado podría estar subestimando la empresa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TT": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la disponibilidad de información de shares. Sin embargo, la tesis WATCH se debe a que el precio de compra calculado es ligeramente superior al precio actual, lo que sugiere que el stock ya está valorado de manera razonable.",
+      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la disponibilidad de información de shares razonables. Sin embargo, la tesis WATCH se debe a que el precio de compra calculado es ligeramente superior al precio actual, lo que sugiere que el valor actual es cercano al fair value.",
       "confidence": 80,
       "score_adjustment": 2,
       "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ATLKY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable, con FCF coherente y una historia de más de 3 años. La tesis BUY se basa en un upside sólido con un margen de seguridad del 99.1% y fundamentales que lo respaldan.",
-      "confidence": 90,
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se considera correcta debido al upside sólido con un margen de seguridad del 99.1% y fundamentales que lo respaldan.",
+      "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CTAS": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "WATCH",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis WATCH se debe a que el precio de compra se encuentra cerca del precio actual, lo que sugiere que el stock ya está valorado de manera razonable.",
+      "reasoning": "El dato subyacente parece fiable, con FCF coherente y un historial de al menos 3 años. Sin embargo, la tesis WATCH se debe a que el precio de compra calculado es solo un 1,8% por encima del precio actual, lo que sugiere que el valor actual del mercado ya está cerca del valor intrínseco.",
       "confidence": 80,
       "score_adjustment": 2,
       "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "VRSK": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la baja relación entre el precio actual y el precio de compra calculado, lo que sugiere que el valor actual del mercado es razonable.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado es más bajo que el valor intrínseco.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "VEEV": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónable estimación de las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de un margen de seguridad negativo y un upside significativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado es más bajo que el valor intrínseco.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "DSGX": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual, lo que sugiere que la acción podría estar subvalorada.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a un margen de seguridad negativo y un upside significativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "WM": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable, pero la tesis OVERVALUED no se sostiene debido a la baja relación EV/FCF actual y la alta relación EV/FCF target aplicado, lo que sugiere que el precio actual ya refleja una valoración ajustada.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable estimación de las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags, como la conversión FCF/EBITDA < 40% en 3 de los últimos 3 años, y un margen de seguridad negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "G24.DE": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado podría estar subestimando el valor de la empresa.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "IDXX": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "A pesar de que el modelo de Owner Earnings es fiable, la tesis OVERVALUED no es correcta debido a que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado es más bajo que el valor estimado.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "ICE": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable, con FCF coherente y shares razonables. La tesis BUY se basa en un upside sólido con un margen de seguridad del 30.7% y fundamentales que lo respaldan.",
-      "confidence": 80,
-      "score_adjustment": 8,
-      "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "AZO": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "A pesar de que el FCF histórico es coherente y hay un historial de al menos 3 años, el modelo presenta red flags graves como un FCF cayendo 3 años consecutivos y un ROE negativo. Estos indicadores sugieren que la empresa puede estar experimentando problemas financieros.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "ECL": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis OVERVALUED no es correcta debido a la baja relación entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "PG": {
-      "data_quality": "RELIABLE",
-      "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis OVERVALUED no es correcta debido a la caída del FCF en el último año y el margen de seguridad negativo.",
-      "confidence": 80,
-      "score_adjustment": -8,
-      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "AME": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
       "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el precio actual podría ser un buen punto de entrada.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "ICE": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "BUY",
+      "reasoning": "El dato subyacente parece fiable, con FCF coherente y un historial de al menos 3 años. Además, no se detectan red flags graves. La tesis BUY se basa en un upside sólido con un margen de seguridad del 30,7% y fundamentales que lo respaldan.",
+      "confidence": 85,
+      "score_adjustment": 8,
+      "oe_ai_verdict": "RELIABLE/BUY (+8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "AZO": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "A pesar de que el dato subyacente es fiable, la caída de FCF durante 3 años consecutivos y el ROE negativo son red flags graves que sugieren que la tesis HOLD no es correcta.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "ECL": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual es correcto.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "PG": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El dato subyacente es fiable, pero la caída del FCF en el último año y el margen de seguridad negativo sugieren que la empresa puede estar sobrevalorada.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "AME": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "AVOID",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado es razonable.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "RACE": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos de shares razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónable cantidad de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran cantidad de upside potencial y el margen de seguridad negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "GWW": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable, pero el FCF ha caído 3 años consecutivos lo que genera preocupación. La tesis OVERVALUED se ve respaldada por el margen de seguridad y la red de red flags.",
+      "reasoning": "El dato subyacente es fiable, pero la tendencia de FCF cayendo 3 años consecutivos y la red flag de sobrevaloración sugieren que la empresa puede estar sobrevalorada.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "JNJ": {
       "data_quality": "RELIABLE",
@@ -766,466 +766,466 @@
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TJX": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos de shares. Sin embargo, la tesis OVERVALUED no es correcta debido a que el precio de compra calculado es inferior al precio actual, lo que sugiere que la empresa podría estar subvalorada.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual y el margen de seguridad es negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MKC": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónable disponibilidad de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MSCI": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable cantidad de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags graves, como un ROE negativo y un apalancamiento moderado.",
+      "reasoning": "El FCF histórico es coherente y el modelo tiene un margen de seguridad negativo, lo que sugiere que la empresa está sobrevalorada. Además, el red flag de ROE negativo es un indicador de problemas en la gestión de la empresa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "WCN": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable, pero la tesis OVERVALUED no se sostiene debido a que el precio de compra calculado es significativamente inferior al precio actual, lo que sugiere que el mercado ya ha incorporado una corrección.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a que el precio actual es inferior al precio de compra calculado, lo que sugiere que el valor actual es subestimado.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MA": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se considera correcta debido a un upside sólido con un margen de seguridad del 55,8% y fundamentales que lo respaldan.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las proyecciones de acciones. La tesis BUY se considera correcta debido a un upside sólido con un margen de seguridad de 55,8% y fundamentales que lo respaldan.",
       "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ORLY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "A pesar de que el FCF histórico es coherente y hay un historial de al menos 3 años, la caída de 3 años consecutivos en el FCF y el ROE negativo son red flags graves que sugieren que la empresa puede estar experimentando problemas financieros. Por lo tanto, la tesis HOLD no es correcta.",
+      "reasoning": "A pesar de que el FCF histórico es coherente y hay un historial de al menos 3 años, la tendencia de caída en los FCF y el ROE negativo son red flags graves que sugieren que la empresa puede estar experimentando problemas financieros. Por lo tanto, la tesis HOLD no es correcta.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "SXYAY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable cobertura de analistas. Sin embargo, la tesis OVERVALUED no es correcta debido a la caída del FCF en el último año y el margen de seguridad negativo.",
+      "reasoning": "El dato subyacente parece fiable, con un historial de FCF coherente y una cobertura de analistas, aunque baja. Sin embargo, la tesis OVERVALUED no parece ser correcta debido a la caída del FCF en el último año y el margen de seguridad negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MMC": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. La tesis BUY se considera correcta debido a un upside sólido con un margen de seguridad de 18.4% y fundamentales que respaldan la compra.",
+      "reasoning": "El dato subyacente parece fiable, con un historial de FCF coherente y una proyección de crecimiento razonable. La tesis BUY se basa en un upside sólido con un margen de seguridad y fundamentales que lo respaldan.",
       "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "KO": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable, pero la tesis OVERVALUED no se sostiene debido a la presencia de red flags, como la conversión FCF/EBITDA < 40% en 2 de los últimos 3 años, y un margen de seguridad negativo.",
+      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la razónnable cantidad de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags, como la conversión FCF/EBITDA < 40% en 2 de los últimos 3 años.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ABT": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los FCF históricos y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es significativamente inferior al precio actual, lo que sugiere que el valor actual del mercado es razonable.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "NDSN": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado ya refleja una sobrevaloración.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a que el precio de compra calculado es inferior al precio actual y el margen de seguridad es negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "BR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
+      "reasoning": "A pesar de que el modelo de Owner Earnings es fiable, la tesis OVERVALUED no se sostiene debido a que el precio de compra calculado es inferior al precio actual, lo que indica que el valor actual del mercado ya refleja una sobrevaloración.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TMO": {
       "data_quality": "RELIABLE",
-      "thesis_verdict": "WATCH",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis HOLD no parece ser la más adecuada, ya que el precio de compra es ligeramente inferior al precio actual y el margen de seguridad es negativo.",
+      "thesis_verdict": "BUY",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. La tesis HOLD se considera correcta debido a un upside sólido con un margen de seguridad y fundamentales que lo respaldan.",
       "confidence": 80,
-      "score_adjustment": 2,
-      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "score_adjustment": 8,
+      "oe_ai_verdict": "RELIABLE/BUY (+8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "NDAQ": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónable dilución de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha anticipado una mejora significativa en el FCF.",
+      "reasoning": "El dato subyacente es fiable, pero la tesis OVERVALUED no se sostiene debido a un margen de seguridad negativo y red flags leves de dilución de acciones.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CL": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado es más bajo que el valor intrínseco.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los FCF históricos y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual, lo que sugiere que la empresa está subvalorada.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "COST": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable, con un historial de FCF coherente y una proyección de crecimiento razonable. La tesis WATCH se basa en un upside sólido con un margen de seguridad de 11.6%, lo que sugiere que el precio actual es subvalorado.",
+      "reasoning": "El dato subyacente parece fiable, con FCF coherente y shares razonables. Además, el modelo muestra un upside sólido con un margen de seguridad de 11.6%, lo que sugiere que la tesis WATCH es correcta.",
       "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "MCO": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la evaluación del precio de compra y el upside vs precio actual, que sugiere que el valor actual del mercado es bajo.",
+      "reasoning": "El dato subyacente es fiable, pero la tesis OVERVALUED no se sostiene debido a la falta de margen de seguridad y la posible sobrevaloración del precio actual.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "OTIS": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. La tesis HOLD es correcta debido a un upside sólido con margen de seguridad y fundamentales que lo respaldan.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis HOLD es correcta debido a un upside sólido con un margen de seguridad y fundamentales que lo respaldan.",
       "confidence": 80,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "JKHY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual y el margen de seguridad es negativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el precio actual podría ser un buen punto de entrada.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ITRK.L": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TEVA": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags graves, como la conversión FCF/EBITDA inferior al 40% en 3 de los últimos 3 años.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags importantes, como la conversión FCF/EBITDA < 40% en 3 de los últimos 3 años.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "NVR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos de shares. Sin embargo, la tesis OVERVALUED no es correcta debido a la caída del FCF en el último año y el margen de seguridad negativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable estimación de las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la caída del FCF en el último año y el margen de seguridad negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "COF": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Aunque el modelo de Owner Earnings es fiable, la tesis HOLD no es correcta debido a la baja relación ROIC/coste capital y la dilución de acciones. Además, el precio actual ya está cerca del precio de compra calculado.",
+      "reasoning": "Aunque el FCF histórico es coherente y hay suficiente información, la ROIC del 3,5% es inferior al costo de capital estimado del 8%, lo que genera un red flag. Además, la dilución de acciones es significativa, lo que reduce la confiabilidad de la tesis HOLD.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "LPX": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la disponibilidad de información de shares. Sin embargo, la tesis WATCH se debe a que el precio de compra calculado es ligeramente superior al precio actual y el margen de seguridad es moderado.",
+      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la disponibilidad de información de shares. Sin embargo, la tesis WATCH se debe a que el precio de compra calculado es ligeramente superior al precio actual, lo que sugiere que el valor actual del mercado ya refleja una buena parte del crecimiento futuro.",
       "confidence": 80,
       "score_adjustment": 2,
       "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CVX": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos de shares razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de un red flag significativo: ROIC inferior al coste capital estimado.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de un red flag significativo (ROIC < coste capital estimado) y un margen de seguridad negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "DVA": {
       "data_quality": "RELIABLE",
-      "thesis_verdict": "WATCH",
-      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la disponibilidad de información de shares. Sin embargo, la tesis HOLD no es del todo convincente debido a la caída del FCF en los últimos tres años y el apalancamiento moderado.",
-      "confidence": 80,
-      "score_adjustment": 2,
-      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
-    },
-    "GPK": {
-      "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis NO_DATA es incorrecta debido a la presencia de red flags graves, como el apalancamiento moderado, ROIC inferior al coste capital y conversión FCF/EBITDA baja en los últimos años.",
+      "reasoning": "Aunque el modelo de Owner Earnings es fiable, la tesis HOLD no es correcta debido a la caída consecutiva de los FCF y el apalancamiento moderado.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
+    },
+    "GPK": {
+      "data_quality": "RELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El dato subyacente es fiable, pero la tesis NO_DATA no se puede evaluar con certeza debido a la falta de información sobre el precio de compra y el margen de seguridad.",
+      "confidence": 60,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "RELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "KD": {
-      "data_quality": "MIXED",
+      "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente presenta algunas inconsistencias, como la caída del FCF en el último año y la conversión FCF/EBITDA baja en varios años. Además, la tesis NO_DATA no se puede evaluar adecuadamente debido a la falta de información sobre el precio de compra y el upside vs precio actual.",
-      "confidence": 60,
-      "score_adjustment": -5,
-      "oe_ai_verdict": "MIXED/AVOID (-5)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "reasoning": "El modelo Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis NO_DATA es incorrecta debido a la presencia de red flags graves, como la caída del FCF en el último año y la conversión FCF/EBITDA inferior al 40% en tres de los últimos tres años.",
+      "confidence": 80,
+      "score_adjustment": -8,
+      "oe_ai_verdict": "RELIABLE/AVOID (-8)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "BN": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis NO_DATA es incorrecta debido a los red flags graves detectados, como el FCF cayendo 3 años consecutivos y un apalancamiento elevado.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis NO_DATA no es correcta debido a los red flags graves, como el FCF cayendo 3 años consecutivos y el apalancamiento elevado.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "UBER": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la razónable dilución de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónable dilución de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la posible sobrevaloración del precio actual en comparación con el precio de compra calculado.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "HHH": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable dilución de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags graves como el apalancamiento elevado y la ROIC inferior al coste capital estimado.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a los red flags graves como el apalancamiento elevado y la dilución de acciones.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "NUE": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El dato subyacente es fiable, pero la tendencia de FCF cayendo 3 años consecutivos y la conversión FCF/EBITDA < 40% en 2 de los últimos 3 años son red flags graves que cuestionan la tesis OVERVALUED.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la caída de los FCF en los últimos 3 años y la conversión FCF/EBITDA inferior al 40% en 2 de los últimos 3 años, lo que sugiere problemas de gestión y generación de cash.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "DPZ": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags graves, como el apalancamiento elevado y el ROE negativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los FCF históricos y la disponibilidad de datos razonables. Sin embargo, la tesis OVERVALUED no es correcta debido a la presencia de red flags graves, como el apalancamiento elevado y el ROE negativo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "OXY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos de acciones razonables. Sin embargo, la tesis OVERVALUED es incorrecta debido a la caída de FCF en los últimos tres años y la dilución de acciones, lo que sugiere que la empresa puede estar experimentando problemas financieros.",
+      "reasoning": "El FCF histórico es coherente y hay un histórico de al menos 3 años. Sin embargo, el FCF está cayendo en los últimos 3 años, lo que sugiere problemas de sostenibilidad a largo plazo. Además, el ROIC es inferior al coste de capital estimado, lo que también es un red flag.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "CHTR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis NO_DATA es incorrecta debido a los red flags graves, como el apalancamiento elevado y la conversión FCF/EBITDA inferior al 40% en tres de los últimos tres años.",
+      "reasoning": "El modelo Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. Sin embargo, la tesis NO_DATA es incorrecta debido a los red flags graves, como el apalancamiento elevado y la conversión FCF/EBITDA inferior al 40% en tres de los últimos tres años.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "FCNCA": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la falta de información sobre el FCF forward y el NTM FCF yield limita la capacidad de evaluar la tesis NO_DATA.",
+      "reasoning": "La calidad de los datos es buena, pero faltan proyecciones de FCF y EV/FCF target aplicado, lo que hace que la tesis implícita sea insuficiente para tomar una decisión.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "RELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "BAC": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "La falta de datos históricos y forward para el FCF hace que el modelo no sea fiable. Además, la información sobre el precio actual, market cap y TEV no es completa.",
+      "reasoning": "La falta de datos históricos y forward para el FCF hace que el modelo no sea fiable. Además, la falta de información sobre el ROIC y el NTM FCF yield dificulta evaluar la tesis NO_DATA.",
       "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "KVUE": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable cantidad de acciones. La tesis BUY es correcta debido al upside sólido con un margen de seguridad del 79,6% y fundamentales que lo respaldan.",
+      "reasoning": "El modelo de Owner Earnings parece fiable debido a la coherencia del FCF histórico y la ausencia de red flags. La tesis BUY se basa en un upside sólido con un margen de seguridad del 79.6% y fundamentales que lo respaldan.",
       "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "FHN": {
       "data_quality": "UNRELIABLE",
       "thesis_verdict": "INSUFFICIENT",
-      "reasoning": "La falta de datos históricos y forward para el FCF hace que el modelo no sea fiable. Además, la falta de información sobre el ROIC y el NTM FCF yield hace que no sea posible emitir un veredicto sobre la tesis NO_DATA.",
-      "confidence": 80,
+      "reasoning": "No se proporciona información sobre el FCF histórico ni forward, lo que hace que el modelo no sea fiable. Además, la falta de datos sobre ROIC y NTM FCF yield dificulta evaluar la tesis NO_DATA.",
+      "confidence": 60,
       "score_adjustment": 0,
       "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "TECK": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable, con FCF coherente y un historial de al menos 3 años. Además, no se detectan red flags graves. La tesis BUY se basa en un upside sólido con un margen de seguridad del 41,5% y fundamentales que lo respaldan.",
-      "confidence": 80,
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se basa en un upside sólido con un margen de seguridad del 41,5% y fundamentales que lo respaldan.",
+      "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "NYT": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "A pesar de que el dato subyacente parece fiable, la tesis OVERVALUED no se sostiene debido a que el precio de compra calculado es inferior al precio actual y el margen de seguridad es negativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran diferencia entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "KR": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se considera correcta debido a un upside sólido con un margen de seguridad de 36.0% y fundamentales que lo respaldan.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. La tesis BUY se considera correcta debido al upside sólido con un margen de seguridad del 36.0% y fundamentales que lo respaldan.",
       "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "THC": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Aunque el modelo de Owner Earnings es fiable, la tesis OVERVALUED no se sostiene debido a un margen de seguridad negativo y un upside significativamente negativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el valor actual del mercado es bajo.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "QSR": {
       "data_quality": "RELIABLE",
-      "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la disponibilidad de datos razonables. La tesis HOLD es correcta debido a un upside sólido con un margen de seguridad y fundamentales que lo respaldan.",
+      "thesis_verdict": "WATCH",
+      "reasoning": "El modelo de Owner Earnings parece fiable debido a la coherencia de los datos de FCF y la disponibilidad de información histórica. Sin embargo, la tesis HOLD no parece ser la más adecuada, ya que el modelo sugiere un upside limitado y un margen de seguridad bajo.",
       "confidence": 80,
-      "score_adjustment": 8,
-      "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "score_adjustment": 2,
+      "oe_ai_verdict": "RELIABLE/WATCH (+2)",
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "HRI": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "Aunque el modelo de Owner Earnings es fiable, la tesis OVERVALUED no se sostiene debido a un margen de seguridad muy bajo y un upside significativo. Esto sugiere que el precio actual podría ser una oportunidad de compra.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "LEN": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable cantidad de acciones. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra es inferior al precio actual y el margen de seguridad es negativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónnable cantidad de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a que el precio de compra calculado es inferior al precio actual, lo que sugiere que el valor actual del mercado es inferior al valor intrínseco.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "UNH": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se basa en un upside sólido con un margen de seguridad del 56,9% y fundamentales que lo respaldan.",
+      "reasoning": "El dato subyacente es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se considera correcta debido a un upside sólido con un margen de seguridad y fundamentales que lo respaldan.",
       "confidence": 85,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "POOL": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la razónnable cantidad de acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha incorporado una corrección significativa.",
-      "confidence": 80,
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado está subestimando la empresa.",
+      "confidence": 85,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "STZ": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia de los datos de FCF y la disponibilidad de información sobre las acciones. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el valor actual del mercado es inferior al valor intrínseco.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la gran brecha entre el precio actual y el precio de compra calculado, lo que sugiere que el mercado ya ha anticipado una corrección significativa.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "ALLY": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "AVOID",
-      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta ya que el precio de compra calculado es inferior al precio actual y el margen de seguridad es negativo.",
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF y la disponibilidad de datos históricos. Sin embargo, la tesis OVERVALUED no es correcta debido a la falta de margen de seguridad y la posible sobrevaloración del precio actual.",
       "confidence": 80,
       "score_adjustment": -8,
       "oe_ai_verdict": "RELIABLE/AVOID (-8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     },
     "KHC": {
       "data_quality": "RELIABLE",
       "thesis_verdict": "BUY",
-      "reasoning": "El dato subyacente parece fiable, con FCF coherente y shares razonables. La tesis BUY se basa en un upside sólido con un margen de seguridad del 67.1% y fundamentales que lo respaldan.",
-      "confidence": 85,
+      "reasoning": "El modelo de Owner Earnings es fiable debido a la coherencia del FCF histórico y la razónabilidad de las acciones. La tesis BUY se basa en un upside sólido con un margen de seguridad del 67.1% y fundamentales que lo respaldan.",
+      "confidence": 80,
       "score_adjustment": 8,
       "oe_ai_verdict": "RELIABLE/BUY (+8)",
-      "validated_at": "2026-05-11T09:15:46+00:00"
+      "validated_at": "2026-05-12T08:39:32+00:00"
     }
   }
 }
