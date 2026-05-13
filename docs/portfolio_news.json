@@ -1,6 +1,6 @@
 {
   "scan_date": "2026-05-13",
-  "scan_time": "14:09",
+  "scan_time": "19:42",
   "tickers": [
     "BR",
     "MA",
@@ -8,10 +8,10 @@
     "PSA-PRK",
     "MCD"
   ],
-  "count": 25,
-  "alta_count": 2,
-  "media_count": 5,
-  "new_alerts": 3,
+  "count": 28,
+  "alta_count": 3,
+  "media_count": 3,
+  "new_alerts": 2,
   "items": [
     {
       "id": "88bf2cf8-9b18-30b6-84c7-b9c2bbaff25a",
@@ -19,7 +19,7 @@
       "title": "McDonald’s, Recommitting to Chicago, Strikes Soccer-Stadium Naming Deal",
       "source": "The Wall Street Journal",
       "pub_date": "2026-05-13T09:00:00Z",
-      "time_ago": "hace 5h",
+      "time_ago": "hace 10h",
       "url": "https://www.wsj.com/business/hospitality/mcdonalds-recommitting-to-chicago-strikes-soccer-stadium-naming-deal-46041536?siteid=yhoof2&yptr=yahoo",
       "importance": "ALTA",
       "sentiment": "NEUTRAL"
@@ -30,43 +30,21 @@
       "title": "McDonald's Expands Brand With $750M Stadium Deal",
       "source": "Benzinga",
       "pub_date": "2026-05-13T12:55:53Z",
-      "time_ago": "hace 1h",
+      "time_ago": "hace 6h",
       "url": "https://finance.yahoo.com/news/mcdonalds-expands-brand-750m-stadium-125553365.html",
       "importance": "ALTA",
       "sentiment": "BULLISH"
     },
     {
-      "id": "001982ca-5b28-34d9-9ce4-2423e2b4002f",
-      "ticker": "MA",
-      "title": "Truist Cuts PayPal Price Target as Cross-Border Volume Weakness Bites",
-      "source": "24/7 Wall St.",
-      "pub_date": "2026-05-12T15:14:33Z",
-      "time_ago": "hace 22h",
-      "url": "https://247wallst.com/investing/2026/05/12/truist-cuts-paypal-price-target-as-cross-border-volume-weakness-bites/",
-      "importance": "MEDIA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "94b17013-4708-3349-9d98-b135992a1038",
-      "ticker": "MA",
-      "title": "Mastercard Latin America Credit Push Ties Inclusion Goals To Valuation Debate",
-      "source": "Simply Wall St.",
-      "pub_date": "2026-05-12T16:19:05Z",
-      "time_ago": "hace 21h",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/mastercard-latin-america-credit-push-161905684.html",
-      "importance": "MEDIA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "30679b23-788f-3c0d-ab19-2bb73e3b78d9",
+      "id": "13449bba-cfe0-3412-96b3-95317f64dd33",
       "ticker": "MCD",
-      "title": "McDonald’s has a new warning for all of its customers",
-      "source": "TheStreet",
-      "pub_date": "2026-05-12T17:17:00Z",
-      "time_ago": "hace 20h",
-      "url": "https://www.thestreet.com/restaurants/mcdonalds-has-a-warning-for-customers-about-rising-costs",
-      "importance": "MEDIA",
-      "sentiment": "BEARISH"
+      "title": "McDonald's Park Deal Links Stadium Branding To Long Term Investor Story",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-05-13T17:25:50Z",
+      "time_ago": "hace 2h",
+      "url": "https://finance.yahoo.com/news/mcdonalds-park-deal-links-stadium-172550123.html",
+      "importance": "ALTA",
+      "sentiment": "NEUTRAL"
     },
     {
       "id": "0c1bf7e6-0955-3bb4-9c3f-ac37b9691d96",
@@ -74,7 +52,7 @@
       "title": "RBC Capital Trims Price Target on McDonald’s (MCD) Despite Better-than-Expected Q1",
       "source": "Insider Monkey",
       "pub_date": "2026-05-12T19:04:58Z",
-      "time_ago": "hace 19h",
+      "time_ago": "hace 1d",
       "url": "https://finance.yahoo.com/news/rbc-capital-trims-price-target-190458099.html",
       "importance": "MEDIA",
       "sentiment": "NEUTRAL"
@@ -85,31 +63,20 @@
       "title": "The Zacks Analyst Blog  NVIDIA, Mastercard, AbbVie, Waterstone and Precipio",
       "source": "Zacks",
       "pub_date": "2026-05-13T10:12:00Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 9h",
       "url": "https://finance.yahoo.com/news/zacks-analyst-blog-nvidia-mastercard-101200445.html",
       "importance": "MEDIA",
       "sentiment": "NEUTRAL"
     },
     {
-      "id": "9912739f-c794-3178-a030-94d03f74e3f5",
-      "ticker": "MA",
-      "title": "Analysis-U.S. CEOs seek China business gains from Trump-Xi summit",
-      "source": "Reuters",
-      "pub_date": "2026-05-12T09:54:30Z",
-      "time_ago": "hace 1d",
-      "url": "https://ca.finance.yahoo.com/news/analysis-u-ceos-seek-china-095144628.html",
-      "importance": "BAJA",
-      "sentiment": "BULLISH"
-    },
-    {
-      "id": "060305f7-4052-3fec-b182-ae7130327854",
-      "ticker": "MA",
-      "title": "Ondo Global Markets Tops $1B TVL As Tokenized Stocks Gain Ground",
-      "source": "CCN",
-      "pub_date": "2026-05-12T10:32:15Z",
-      "time_ago": "hace 1d",
-      "url": "https://www.ccn.com/news/crypto/ondo-global-markets-1b-tvl-tokenized-stocks/",
-      "importance": "BAJA",
+      "id": "dc030019-a18d-3d3b-a191-7b115a0e8d63",
+      "ticker": "MCD",
+      "title": "Jim Cramer on Restaurant Brands: “They Reported a Pretty Solid Quarter”",
+      "source": "Insider Monkey",
+      "pub_date": "2026-05-13T14:28:25Z",
+      "time_ago": "hace 5h",
+      "url": "https://finance.yahoo.com/news/jim-cramer-restaurant-brands-reported-142825616.html",
+      "importance": "MEDIA",
       "sentiment": "NEUTRAL"
     },
     {
@@ -146,67 +113,12 @@
       "sentiment": "NEUTRAL"
     },
     {
-      "id": "b5b4190f-373c-3905-8a4c-d1613d57e045",
-      "ticker": "MCD",
-      "title": "These Are the Top 150 New and Emerging Franchises in 2026",
-      "source": "Entrepreneur",
-      "pub_date": "2026-05-12T13:00:00Z",
-      "time_ago": "hace 1d",
-      "url": "https://www.entrepreneur.com/buying-a-franchise/these-are-the-top-150-new-and-emerging-franchises-in-2026",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "3c95a8b5-a606-31e7-a3ba-27028c836f40",
-      "ticker": "MCD",
-      "title": "Brokers Suggest Investing in McDonald's (MCD): Read This Before Placing a Bet",
-      "source": "Zacks",
-      "pub_date": "2026-05-12T13:30:04Z",
-      "time_ago": "hace 1d",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/brokers-suggest-investing-mcdonalds-mcd-133004129.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "2a68504a-9710-3d52-a0d6-8afd981fbe6b",
-      "ticker": "MCD",
-      "title": "McDonald’s CEO Makes Stunning 1,000 Times More Than Workers",
-      "source": "24/7 Wall St.",
-      "pub_date": "2026-05-12T14:15:49Z",
-      "time_ago": "hace 23h",
-      "url": "https://247wallst.com/investing/2026/05/12/mcdonalds-ceo-makes-stunning-1000-times-more-than-workers/",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "5e9d3194-f383-43f5-a128-2c0d6ce361ef",
-      "ticker": "MCD",
-      "title": "The fast food stocks benefitting from value, premium offerings",
-      "source": "Yahoo Finance Video",
-      "pub_date": "2026-05-12T14:41:17Z",
-      "time_ago": "hace 23h",
-      "url": "https://finance.yahoo.com/video/the-fast-food-stocks-benefitting-from-value-premium-offerings-144117531.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "5f184063-340a-3cf3-837f-485861849774",
-      "ticker": "MA",
-      "title": "1 Stock I'm Consistently Loading Up On, No Questions Asked",
-      "source": "Motley Fool",
-      "pub_date": "2026-05-12T16:52:00Z",
-      "time_ago": "hace 21h",
-      "url": "https://www.fool.com/investing/2026/05/12/1-stock-im-consistently-loading-up-on-no-questions/",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
       "id": "5ea36e9f-9be8-3250-b560-d57d018aed6e",
       "ticker": "MCD",
       "title": "McDonald’s Looks Undervalued Despite Stock Pressure This Year",
       "source": "24/7 Wall St.",
       "pub_date": "2026-05-12T18:01:36Z",
-      "time_ago": "hace 20h",
+      "time_ago": "hace 1d",
       "url": "https://247wallst.com/investing/2026/05/12/mcdonalds-looks-undervalued-despite-stock-pressure-this-year/",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -217,30 +129,8 @@
       "title": "Consumer Discretionary Stocks’ Long Winter Isn’t Over",
       "source": "Barrons.com",
       "pub_date": "2026-05-12T18:19:00Z",
-      "time_ago": "hace 19h",
+      "time_ago": "hace 1d",
       "url": "https://www.barrons.com/articles/consumer-discretionary-stocks-home-depot-07dfbd29?siteid=yhoof2&yptr=yahoo",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "0c4def8a-1076-3ea6-8d8a-c14160950959",
-      "ticker": "MA",
-      "title": "Elon Musk To Join Trump On China State Visit. Tesla Stock Sinks.",
-      "source": "Investor's Business Daily",
-      "pub_date": "2026-05-12T20:02:51Z",
-      "time_ago": "hace 18h",
-      "url": "https://www.investors.com/news/elon-musk-donald-trump-china-visit-tesla-boeing-rare-earths/?src=A00220&yptr=yahoo",
-      "importance": "BAJA",
-      "sentiment": "BEARISH"
-    },
-    {
-      "id": "d97871d9-74bf-3ac5-b3e6-0f958ab43915",
-      "ticker": "MA",
-      "title": "Top Stock Reports for NVIDIA, Mastercard & AbbVie",
-      "source": "Zacks",
-      "pub_date": "2026-05-12T20:28:00Z",
-      "time_ago": "hace 17h",
-      "url": "https://finance.yahoo.com/news/top-stock-reports-nvidia-mastercard-202800878.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     },
@@ -250,10 +140,21 @@
       "title": "Boston Scientific Insiders Sold US$1.2m Of Shares Suggesting Hesitancy",
       "source": "Simply Wall St.",
       "pub_date": "2026-05-13T11:00:17Z",
-      "time_ago": "hace 3h",
+      "time_ago": "hace 8h",
       "url": "https://finance.yahoo.com/news/boston-scientific-insiders-sold-us-110017504.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "b8ac9143-dd30-3b91-97fd-37a4327277bd",
+      "ticker": "BSX",
+      "title": "J&J launches improved Shockwave catheter",
+      "source": "MedTech Dive",
+      "pub_date": "2026-05-13T11:08:22Z",
+      "time_ago": "hace 8h",
+      "url": "https://www.medtechdive.com/news/jj-launches-improved-shockwave-catheter/820121/",
+      "importance": "BAJA",
+      "sentiment": "BULLISH"
     },
     {
       "id": "26a1d7ce-226b-3f41-9bdf-144bf3f20037",
@@ -261,7 +162,7 @@
       "title": "Jim Cramer Won't 'Dump' This Medical Device Maker, Passes On Ford",
       "source": "Benzinga",
       "pub_date": "2026-05-13T12:01:07Z",
-      "time_ago": "hace 2h",
+      "time_ago": "hace 7h",
       "url": "https://finance.yahoo.com/news/jim-cramer-wont-dump-medical-120107548.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -271,8 +172,8 @@
       "ticker": "MA",
       "title": "Trump Has Landed in China—See Which CEOs Are There With Him",
       "source": "The Wall Street Journal",
-      "pub_date": "2026-05-13T12:30:13Z",
-      "time_ago": "hace 1h",
+      "pub_date": "2026-05-13T13:44:43Z",
+      "time_ago": "hace 5h",
       "url": "https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-05-13-2026/card/trump-has-landed-in-china-see-which-ceos-are-there-with-him-nZMC4XhSfxoEh7wHknL8?siteid=yhoof2&yptr=yahoo",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -283,8 +184,140 @@
       "title": "XRP ETFs See Biggest Inflows Since January",
       "source": "CryptoProwl",
       "pub_date": "2026-05-13T13:46:00Z",
-      "time_ago": "hace 23min",
+      "time_ago": "hace 5h",
       "url": "https://www.cryptoprowl.com/releases/xrp-etfs-see-biggest-inflows-since-january-5469",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "f29a16af-90c9-36b8-ae68-2875b19413f1",
+      "ticker": "MA",
+      "title": "Brazil's beloved instant payment system faces scrutiny from the Trump administration",
+      "source": "Associated Press",
+      "pub_date": "2026-05-13T14:13:37Z",
+      "time_ago": "hace 5h",
+      "url": "https://finance.yahoo.com/news/brazils-beloved-instant-payment-system-141337629.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "505e51b0-e26a-35f4-b852-5b1a33c69a7d",
+      "ticker": "BSX",
+      "title": "Should You Buy, Hold or Sell BSX Stock Amid Cardiovascular Boom?",
+      "source": "Zacks",
+      "pub_date": "2026-05-13T14:40:00Z",
+      "time_ago": "hace 5h",
+      "url": "https://finance.yahoo.com/news/buy-hold-sell-bsx-stock-144000134.html",
+      "importance": "BAJA",
+      "sentiment": "BEARISH"
+    },
+    {
+      "id": "d804f642-2373-342e-8fda-f0db605aa43c",
+      "ticker": "MCD",
+      "title": "Forget McDonald’s. The Value Menu Isn’t Working and This Steakhouse Chain Is Taking Its Customers",
+      "source": "24/7 Wall St.",
+      "pub_date": "2026-05-13T14:43:15Z",
+      "time_ago": "hace 4h",
+      "url": "https://247wallst.com/investing/2026/05/13/forget-mcdonalds-the-value-menu-isnt-working-and-this-steakhouse-chain-is-taking-its-customers/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "efbfad5c-ac4e-3a43-ade5-7e97c463942c",
+      "ticker": "MCD",
+      "title": "Can Chipotle's Global Expansion Become a Bigger Growth Lever?",
+      "source": "Zacks",
+      "pub_date": "2026-05-13T15:12:00Z",
+      "time_ago": "hace 4h",
+      "url": "https://finance.yahoo.com/news/chipotles-global-expansion-become-bigger-151200346.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "278d6300-3033-3144-a3d4-eeeaa53421d7",
+      "ticker": "BR",
+      "title": "Broadridge Deploys Agentic AI Across Wealth, Capital Markets",
+      "source": "Wealth Management",
+      "pub_date": "2026-05-13T15:27:33Z",
+      "time_ago": "hace 4h",
+      "url": "https://www.wealthmanagement.com/artificial-intelligence/broadridge-deploys-agentic-ai-across-wealth-capital-markets",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "e4321ac3-9ddb-3919-8aa1-4fbe88e9e6e6",
+      "ticker": "MA",
+      "title": "5 Financial Transaction Stocks to Watch Amid Digital Advancements",
+      "source": "Zacks",
+      "pub_date": "2026-05-13T15:51:00Z",
+      "time_ago": "hace 3h",
+      "url": "https://finance.yahoo.com/news/5-financial-transaction-stocks-watch-155100556.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "0298a9b1-5a69-38b0-a508-6cc49687ac4b",
+      "ticker": "MA",
+      "title": "Can Visa's Flexible Credential Make Card Payments Smarter in the U.K.?",
+      "source": "Zacks",
+      "pub_date": "2026-05-13T16:29:00Z",
+      "time_ago": "hace 3h",
+      "url": "https://finance.yahoo.com/news/visas-flexible-credential-card-payments-162900230.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "ccbbc456-0195-3e0b-8a67-d68a4a3d658d",
+      "ticker": "MCD",
+      "title": "Can Project Fresh Save The Wendy's Company?",
+      "source": "Trefis",
+      "pub_date": "2026-05-13T16:30:30Z",
+      "time_ago": "hace 3h",
+      "url": "https://www.trefis.com/articles/599257/can-project-fresh-save-the-wendys-company/2026-05-13",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "6523064c-4057-3c62-9eac-1608cbf9d2e7",
+      "ticker": "MA",
+      "title": "Can Affirm and Google Simplify Payments in AI Shopping?",
+      "source": "Zacks",
+      "pub_date": "2026-05-13T16:31:00Z",
+      "time_ago": "hace 3h",
+      "url": "https://finance.yahoo.com/news/affirm-google-simplify-payments-ai-163100746.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "55070965-eb85-3445-9930-bee5e427eb20",
+      "ticker": "MA",
+      "title": "Why One Brazil Fund Opened an $11 Million Position in MercadoLibre Despite a Steep One-Year Stock Drop",
+      "source": "Motley Fool",
+      "pub_date": "2026-05-13T16:44:36Z",
+      "time_ago": "hace 2h",
+      "url": "https://www.fool.com/coverage/filings/2026/05/13/why-one-brazil-fund-opened-an-usd11-million-position-in-mercadolibre-despite-a-steep-one-year-stock-drop/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "290c256c-0b22-3f1e-8fe5-7f14366e5c21",
+      "ticker": "MA",
+      "title": "U.S. Consumer Spending Tops $21.86T: 5 Fintech Stocks Under $75",
+      "source": "24/7 Wall St.",
+      "pub_date": "2026-05-13T16:49:33Z",
+      "time_ago": "hace 2h",
+      "url": "https://247wallst.com/investing/2026/05/13/u-s-consumer-spending-tops-21-86t-5-fintech-stocks-under-75/",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "46053872-aec4-3b55-8bff-db0fb131e91a",
+      "ticker": "MA",
+      "title": "U.S. PIX Inquiry Puts Mastercard Growth And Valuation In Focus",
+      "source": "Simply Wall St.",
+      "pub_date": "2026-05-13T18:19:34Z",
+      "time_ago": "hace 1h",
+      "url": "https://finance.yahoo.com/news/u-pix-inquiry-puts-mastercard-181934026.html",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     }
