@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-13T08:42:43+00:00",
+  "generated_at": "2026-05-15T08:45:45+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -7,9 +7,9 @@
       "label": "Petr\u00f3leo (WTI)",
       "category": "energy",
       "primary_ticker": "CL=F",
-      "stress_score": 64.3,
-      "band": "red",
-      "regime": "TIGHTENING",
+      "stress_score": 7.9,
+      "band": "green",
+      "regime": "BALANCED",
       "signals_used": 1,
       "coverage_pct": 25.0,
       "signals": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -5.62,
-          "percentile": 64.3,
+          "value": -8.68,
+          "percentile": 7.9,
           "z": null,
-          "score": 64.3,
-          "contribution": 16.1,
+          "score": 7.9,
+          "contribution": 2.0,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 101.24,
-            "deferred_price": 106.93
+            "front_price": 100.37,
+            "deferred_price": 109.08
           },
           "history_ready": true
         },
@@ -86,7 +86,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -5.62%",
+      "narrative": "backwardation -8.68%",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -1409,7 +1409,7 @@
         },
         {
           "date": "2026-05-15",
-          "price": 101.24,
+          "price": 100.26,
           "stress_score": null
         }
       ],
@@ -1417,16 +1417,16 @@
         {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 64.3,
-          "contribution": 16.1
+          "score": 7.9,
+          "contribution": 2.0
         }
       ]
     }
   },
   "summary": {
     "markets_total": 1,
-    "markets_red": 1,
+    "markets_red": 0,
     "top_market": "crude_oil",
-    "top_stress_score": 64.3
+    "top_stress_score": 7.9
   }
 }

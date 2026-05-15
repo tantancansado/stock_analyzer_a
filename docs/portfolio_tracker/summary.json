@@ -2,30 +2,30 @@
   "total_signals": 135,
   "unique_tickers": 26,
   "date_range": "2026-04-08 to 2026-05-07",
-  "active_signals": 124,
-  "completed_signals": 11,
+  "active_signals": 106,
+  "completed_signals": 29,
   "overall": {
     "7d": {
-      "count": 134,
-      "win_rate": 50.0,
-      "avg_return": 0.32,
-      "median_return": 0.04,
+      "count": 135,
+      "win_rate": 49.6,
+      "avg_return": 0.25,
+      "median_return": -0.07,
       "best": 14.77,
       "worst": -16.89
     },
     "14d": {
-      "count": 129,
-      "win_rate": 36.4,
-      "avg_return": -0.99,
-      "median_return": -1.24,
+      "count": 134,
+      "win_rate": 36.6,
+      "avg_return": -1.06,
+      "median_return": -1.33,
       "best": 17.97,
-      "worst": -12.38
+      "worst": -13.92
     },
     "30d": {
-      "count": 11,
-      "win_rate": 54.5,
-      "avg_return": 0.15,
-      "median_return": 0.16,
+      "count": 29,
+      "win_rate": 34.5,
+      "avg_return": -2.99,
+      "median_return": -3.83,
       "best": 16.08,
       "worst": -13.59
     }
@@ -40,26 +40,26 @@
   "value_strategy": {
     "count": 86,
     "7d": {
-      "count": 85,
-      "win_rate": 38.8,
-      "avg_return": -0.24,
-      "median_return": -0.73,
+      "count": 86,
+      "win_rate": 38.4,
+      "avg_return": -0.35,
+      "median_return": -0.76,
       "best": 14.77,
-      "worst": -8.63
+      "worst": -9.78
     },
     "14d": {
-      "count": 80,
-      "win_rate": 27.5,
-      "avg_return": -1.85,
+      "count": 85,
+      "win_rate": 28.2,
+      "avg_return": -1.92,
       "median_return": -2.94,
       "best": 17.97,
-      "worst": -9.96
+      "worst": -13.92
     },
     "30d": {
-      "count": 131,
-      "win_rate": 71.8,
-      "avg_return": 4.89,
-      "median_return": 6.32,
+      "count": 134,
+      "win_rate": 70.1,
+      "avg_return": 4.63,
+      "median_return": 6.24,
       "best": 30.21,
       "worst": -12.76
     }
@@ -83,10 +83,10 @@
       "worst": -12.38
     },
     "30d": {
-      "count": 5,
-      "win_rate": 60.0,
-      "avg_return": 1.04,
-      "median_return": 0.57,
+      "count": 16,
+      "win_rate": 43.8,
+      "avg_return": -1.82,
+      "median_return": -2.12,
       "best": 16.01,
       "worst": -13.59
     }
@@ -96,9 +96,9 @@
   },
   "sector_performance": {
     "Technology": {
-      "count": 22,
-      "avg_14d": -1.31,
-      "win_rate_14d": 31.8
+      "count": 23,
+      "avg_14d": -1.77,
+      "win_rate_14d": 30.4
     },
     "Financial Services": {
       "count": 61,
@@ -106,9 +106,9 @@
       "win_rate_14d": 78.7
     },
     "Industrials": {
-      "count": 23,
-      "avg_14d": 7.73,
-      "win_rate_14d": 73.9
+      "count": 25,
+      "avg_14d": 6.81,
+      "win_rate_14d": 68.0
     },
     "Basic Materials": {
       "count": 9,
@@ -136,7 +136,7 @@
       "win_rate_14d": 75.0
     }
   },
-  "score_correlation": -0.217,
+  "score_correlation": -0.182,
   "top_performers": [
     {
       "ticker": "EXPE",
@@ -163,23 +163,31 @@
       "return_14d": 9.23
     },
     {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-29 00:00:00",
+      "signal_price": 270.4,
+      "return_14d": 9.15
+    },
+    {
       "ticker": "SGE.L",
       "company_name": "THE SAGE GROUP PLC ORD 1 4/77P",
       "strategy": "EU_VALUE",
       "signal_date": "2026-04-08 00:00:00",
       "signal_price": 835.4,
       "return_14d": 8.33
-    },
-    {
-      "ticker": "DECK",
-      "company_name": "Deckers Outdoor Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-08 00:00:00",
-      "signal_price": 100.26,
-      "return_14d": 7.41
     }
   ],
   "worst_performers": [
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-29 00:00:00",
+      "signal_price": 77.79,
+      "return_14d": -13.92
+    },
     {
       "ticker": "SAP.DE",
       "company_name": "SAP SE                        I",
@@ -187,14 +195,6 @@
       "signal_date": "2026-04-08 00:00:00",
       "signal_price": 172.22,
       "return_14d": -12.38
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-23 00:00:00",
-      "signal_price": 79.69,
-      "return_14d": -9.96
     },
     {
       "ticker": "RELX",
@@ -230,7 +230,7 @@
       "signal_price": 83.68,
       "sector": "Communication Services",
       "value_score": 58.3,
-      "days_active": 6,
+      "days_active": 8,
       "first_result_date": "2026-05-14"
     },
     {
@@ -241,7 +241,7 @@
       "signal_price": 71.55,
       "sector": "Communication Services",
       "value_score": 72.955,
-      "days_active": 13,
+      "days_active": 15,
       "first_result_date": "2026-05-07"
     },
     {
@@ -252,7 +252,7 @@
       "signal_price": 889.6,
       "sector": "Technology",
       "value_score": 57.2,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -263,7 +263,7 @@
       "signal_price": 2663.0,
       "sector": "Industrials",
       "value_score": 62.7,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -274,7 +274,7 @@
       "signal_price": 148.2,
       "sector": "Technology",
       "value_score": 63.1,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -285,7 +285,7 @@
       "signal_price": 77.79,
       "sector": "Industrials",
       "value_score": 63.45,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -296,7 +296,7 @@
       "signal_price": 505.6,
       "sector": "Communication Services",
       "value_score": 65.4,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -307,7 +307,7 @@
       "signal_price": 400.38,
       "sector": "Technology",
       "value_score": 66.8,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -318,7 +318,7 @@
       "signal_price": 2659.5,
       "sector": "Industrials",
       "value_score": 67.22,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -329,7 +329,7 @@
       "signal_price": 152.8,
       "sector": "Technology",
       "value_score": 69.0,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -340,7 +340,7 @@
       "signal_price": 270.4,
       "sector": "Technology",
       "value_score": 69.03999999999999,
-      "days_active": 14,
+      "days_active": 16,
       "first_result_date": "2026-05-06"
     },
     {
@@ -351,7 +351,7 @@
       "signal_price": 389.92,
       "sector": "Technology",
       "value_score": 66.8,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -362,7 +362,7 @@
       "signal_price": 267.9,
       "sector": "Technology",
       "value_score": 69.03999999999999,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -373,7 +373,7 @@
       "signal_price": 151.01,
       "sector": "Technology",
       "value_score": 69.0,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -384,7 +384,7 @@
       "signal_price": 2701.8977,
       "sector": "Industrials",
       "value_score": 67.22,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -395,7 +395,7 @@
       "signal_price": 78.09,
       "sector": "Industrials",
       "value_score": 63.45,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -406,7 +406,7 @@
       "signal_price": 505.6,
       "sector": "Communication Services",
       "value_score": 65.4,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -417,7 +417,7 @@
       "signal_price": 2708.0,
       "sector": "Industrials",
       "value_score": 69.7,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -428,7 +428,7 @@
       "signal_price": 900.0,
       "sector": "Technology",
       "value_score": 63.6,
-      "days_active": 15,
+      "days_active": 17,
       "first_result_date": "2026-05-05"
     },
     {
@@ -439,67 +439,69 @@
       "signal_price": 395.95,
       "sector": "Technology",
       "value_score": 66.8,
-      "days_active": 16,
+      "days_active": 18,
       "first_result_date": "2026-05-04"
     }
   ],
-  "avg_max_drawdown": -2.61,
+  "avg_max_drawdown": -2.67,
   "alpha": {
     "30d": {
-      "count": 6,
-      "avg_alpha": -9.7,
-      "avg_signal_return": -0.59,
-      "avg_benchmark_return": 9.11,
-      "positive_alpha_rate": 16.7,
+      "count": 18,
+      "avg_alpha": -9.21,
+      "avg_signal_return": -3.93,
+      "avg_benchmark_return": 5.27,
+      "positive_alpha_rate": 22.2,
       "best_alpha": 6.96,
-      "worst_alpha": -17.67
+      "worst_alpha": -19.68
     },
     "14d": {
-      "count": 106,
-      "avg_alpha": -2.42,
-      "avg_signal_return": -0.98,
-      "avg_benchmark_return": 1.44,
-      "positive_alpha_rate": 35.8,
+      "count": 111,
+      "avg_alpha": -2.63,
+      "avg_signal_return": -1.06,
+      "avg_benchmark_return": 1.56,
+      "positive_alpha_rate": 36.0,
       "best_alpha": 12.76,
-      "worst_alpha": -13.23
+      "worst_alpha": -18.24
     },
     "7d": {
-      "count": 134,
-      "avg_alpha": -0.31,
-      "avg_signal_return": 0.32,
-      "avg_benchmark_return": 0.63,
-      "positive_alpha_rate": 47.8,
+      "count": 135,
+      "avg_alpha": -0.4,
+      "avg_signal_return": 0.25,
+      "avg_benchmark_return": 0.64,
+      "positive_alpha_rate": 47.4,
       "best_alpha": 11.23,
       "worst_alpha": -18.38
     }
   },
   "alpha_us": {
     "30d": {
-      "count": 6,
-      "avg_alpha": -9.7,
-      "avg_signal_return": -0.59,
-      "avg_benchmark_return": 9.11,
-      "positive_alpha_rate": 16.7,
+      "count": 12,
+      "avg_alpha": -12.92,
+      "avg_signal_return": -4.5,
+      "avg_benchmark_return": 8.42,
+      "positive_alpha_rate": 8.3,
       "best_alpha": 6.96,
-      "worst_alpha": -17.67
+      "worst_alpha": -19.68
     },
     "14d": {
-      "count": 70,
-      "avg_alpha": -4.69,
-      "avg_signal_return": -1.86,
-      "avg_benchmark_return": 2.83,
-      "positive_alpha_rate": 15.7,
+      "count": 75,
+      "avg_alpha": -4.86,
+      "avg_signal_return": -1.93,
+      "avg_benchmark_return": 2.93,
+      "positive_alpha_rate": 17.3,
       "best_alpha": 12.76,
-      "worst_alpha": -13.23
+      "worst_alpha": -18.24
     }
   },
   "alpha_eu": {
     "30d": {
-      "count": 0,
-      "avg_alpha": null,
-      "positive_alpha_rate": null,
-      "avg_signal_return": null,
-      "avg_benchmark_return": null
+      "count": 6,
+      "avg_alpha": -1.79,
+      "avg_signal_return": -2.81,
+      "avg_benchmark_return": -1.02,
+      "positive_alpha_rate": 50.0,
+      "best_alpha": 5.26,
+      "worst_alpha": -11.12
     },
     "14d": {
       "count": 36,
@@ -511,5 +513,5 @@
       "worst_alpha": -12.84
     }
   },
-  "generated_at": "2026-05-13T08:48:25.317259"
+  "generated_at": "2026-05-15T08:51:20.795607"
 }
