@@ -44,19 +44,21 @@ DOCS.mkdir(exist_ok=True)
 def _load_positions() -> list[dict]:
     """Reusa el loader de Supabase del portfolio_news_monitor."""
     from portfolio_news_monitor import _load_portfolio_from_supabase
+    # None = Supabase unavailable (use fallback); [] = portfolio empty (respect it)
     positions = _load_portfolio_from_supabase()
-    if not positions:
-        # Fallback local
-        cfg = DOCS / 'portfolio_watch.json'
-        if cfg.exists():
-            data = json.loads(cfg.read_text())
-            positions = [
-                {'ticker': t['ticker'], 'avg_price': t.get('avg_price'),
-                 'shares': t.get('shares')}
-                for t in data.get('tickers', [])
-                if isinstance(t, dict) and t.get('ticker')
-            ]
-    return positions
+    if positions is not None:
+        return positions
+    # Fallback: only used when Supabase is not configured
+    cfg = DOCS / 'portfolio_watch.json'
+    if cfg.exists():
+        data = json.loads(cfg.read_text())
+        return [
+            {'ticker': t['ticker'], 'avg_price': t.get('avg_price'),
+             'shares': t.get('shares')}
+            for t in data.get('tickers', [])
+            if isinstance(t, dict) and t.get('ticker')
+        ]
+    return []
 
 
 def _safe_load_csv(path: Path, index_col: str = 'ticker') -> pd.DataFrame:

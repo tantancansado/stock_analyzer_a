@@ -127,14 +127,18 @@ def _save_seen_ids(seen: dict) -> None:
         pass
 
 
-def _load_portfolio_from_supabase() -> list:
-    """Load tickers from Supabase personal_portfolio_positions via REST API."""
+def _load_portfolio_from_supabase() -> list | None:
+    """
+    Load tickers from Supabase personal_portfolio_positions via REST API.
+    Returns list (possibly empty) if Supabase responded, None if unavailable.
+    Callers must treat None as "use fallback" and [] as "portfolio is empty".
+    """
     supabase_url = os.environ.get('SUPABASE_URL', '').rstrip('/')
     service_key  = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
     user_id      = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
 
     if not supabase_url or not service_key:
-        return []
+        return None
 
     import urllib.request
     url = f"{supabase_url}/rest/v1/personal_portfolio_positions?select=ticker,shares,avg_price"
@@ -165,7 +169,7 @@ def _load_portfolio_from_supabase() -> list:
             return positions
     except Exception as e:
         print(f"  Supabase load failed: {e}")
-        return []
+        return None
 
 
 # P&L thresholds
@@ -262,11 +266,12 @@ def _check_pl_alerts(portfolio: list) -> tuple[list[dict], dict]:
 
 def _load_portfolio() -> list:
     # Try Supabase first (GitHub Actions sets SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY)
+    # None = Supabase unavailable (use fallback); [] = portfolio empty (respect it)
     positions = _load_portfolio_from_supabase()
-    if positions:
+    if positions is not None:
         return positions
 
-    # Fallback: local portfolio_watch.json
+    # Fallback: local portfolio_watch.json (only when Supabase is not configured)
     cfg_path = DOCS / 'portfolio_watch.json'
     if not cfg_path.exists():
         print("  portfolio_watch.json not found — nothing to monitor")

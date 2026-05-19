@@ -170,6 +170,36 @@ def _level_crossed(level_type: str, target: float, current: float) -> bool:
     return current <= target
 
 
+def _load_active_tickers() -> set[str] | None:
+    """
+    Fetches current positions from Supabase.
+    Returns set of uppercase ticker strings, or None if unavailable (no env vars).
+    Used to filter strategy alerts to only positions still held.
+    """
+    supabase_url = os.environ.get('SUPABASE_URL', '').rstrip('/')
+    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
+    user_id = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
+    if not supabase_url or not service_key:
+        return None
+    try:
+        import urllib.request
+        url = f"{supabase_url}/rest/v1/personal_portfolio_positions?select=ticker"
+        if user_id:
+            url += f"&user_id=eq.{user_id}"
+        req = urllib.request.Request(url, headers={
+            'apikey': service_key,
+            'Authorization': f'Bearer {service_key}',
+        })
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            rows = json.loads(resp.read().decode())
+            tickers = {r['ticker'].upper().strip() for r in rows if r.get('ticker')}
+            print(f'  Supabase active tickers: {sorted(tickers) or "(empty portfolio)"}')
+            return tickers
+    except Exception as exc:
+        print(f'  Supabase ticker load failed: {exc} — skipping filter')
+        return None
+
+
 def run_alerts() -> dict:
     strategies_path = DOCS / 'portfolio_strategies.json'
     if not strategies_path.exists():
@@ -179,6 +209,17 @@ def run_alerts() -> dict:
     data = json.loads(strategies_path.read_text())
     strategies = data.get('strategies') or {}
     if not strategies:
+        return {'sent': 0, 'checked': 0}
+
+    # Filter to only tickers still held in Supabase portfolio
+    active = _load_active_tickers()
+    if active is not None:
+        stale = [t for t in strategies if t.upper() not in active]
+        if stale:
+            print(f'  Skipping {len(stale)} removed positions: {stale}')
+        strategies = {t: v for t, v in strategies.items() if t.upper() in active}
+    if not strategies:
+        print('  No active positions to alert on.')
         return {'sent': 0, 'checked': 0}
 
     seen = _load_seen()
