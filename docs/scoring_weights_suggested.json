@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-19",
+  "generated_at": "2026-05-20",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1519 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que:\n\n- Aumentar el peso del FCF (Free Cash Flow) podr\u00eda mejorar la precisi\u00f3n en un 7,3% punto porcentual (pp) en las predicciones.\n- Aumentar el peso del R:R (Risk-Reward) podr\u00eda mejorar la precisi\u00f3n en un 9,9% pp en las predicciones.\n\nEstos ajustes podr\u00edan llevar a una mayor precisi\u00f3n en las predicciones, especialmente si se aplican a las selecciones con un score de 80 o m\u00e1s, donde la precisi\u00f3n actual es del 60% en compar"
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de acierto en +33,3 puntos porcentuales (pp) con la incorporaci\u00f3n de FCF alto y +22,9 pp con la incorporaci\u00f3n de R:R alto.\n\nEstos cambios podr\u00edan llevar a una mejora en la precisi\u00f3n de las predicciones, especialmente al aumentar el peso de los factores de FCF y R:R, que han demostrado tener un impacto positivo en la tasa de acierto."
 }

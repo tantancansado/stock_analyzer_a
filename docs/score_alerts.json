@@ -1,244 +1,44 @@
 {
-  "generated_at": "2026-05-19",
+  "generated_at": "2026-05-20",
   "alerts": [
-    {
-      "type": "SCORE_UP",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "sector": "Industrials",
-      "score_today": 52.5,
-      "score_prev": 27.1,
-      "delta": 25.5,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NOW",
-      "company_name": "ServiceNow, Inc.",
-      "sector": "Technology",
-      "score_today": 47.6,
-      "score_prev": 36.1,
-      "delta": 11.5,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CME",
-      "company_name": "CME Group Inc.",
-      "sector": "Financial Services",
-      "score_today": 35.2,
-      "score_prev": 24.6,
-      "delta": 10.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "sector": "Industrials",
-      "score_today": 35.1,
-      "score_prev": 24.9,
-      "delta": 10.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 58.8,
-      "score_prev": 50.8,
-      "delta": 8.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange Inc.",
-      "sector": "Financial Services",
-      "score_today": 49.8,
-      "score_prev": 43.8,
-      "delta": 6.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SAP",
-      "company_name": "SAP  SE",
-      "sector": "Technology",
-      "score_today": 58.9,
-      "score_prev": 53.6,
-      "delta": 5.3,
-      "grade": "🟡 Good"
-    },
     {
       "type": "SCORE_UP",
       "ticker": "TEVA",
       "company_name": "Teva Pharmaceutical Industries ",
       "sector": "Healthcare",
-      "score_today": 45.8,
-      "score_prev": 40.5,
-      "delta": 5.2,
-      "grade": "🔴 Weak"
+      "score_today": 61.8,
+      "score_prev": 45.8,
+      "delta": 16.0,
+      "grade": "🟡 Average"
     },
     {
-      "type": "NEW_ENTRY",
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
+      "type": "SCORE_UP",
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 59.0,
+      "score_prev": 43.0,
+      "delta": 16.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
       "sector": "Industrials",
-      "score_today": 65.0,
-      "score_prev": null,
-      "delta": null,
+      "score_today": 53.8,
+      "score_prev": 43.8,
+      "delta": 10.0,
       "grade": "🟡 Good"
     },
     {
-      "type": "NEW_ENTRY",
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 56.3,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 37.1,
-      "score_prev": 42.1,
-      "delta": -5.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CDNS",
-      "company_name": "Cadence Design Systems, Inc.",
-      "sector": "Technology",
-      "score_today": 25.1,
-      "score_prev": 30.3,
-      "delta": -5.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CLPBY",
-      "company_name": "Coloplast AS",
-      "sector": "Healthcare",
-      "score_today": 52.6,
-      "score_prev": 57.8,
-      "delta": -5.3,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "RELX",
-      "company_name": "RELX PLC PLC",
-      "sector": "Industrials",
-      "score_today": 27.2,
-      "score_prev": 32.6,
-      "delta": -5.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International",
-      "sector": "Consumer Cyclical",
-      "score_today": 29.1,
-      "score_prev": 34.8,
-      "delta": -5.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
+      "type": "SCORE_UP",
+      "ticker": "LSEG.L",
+      "company_name": "LONDON STOCK EXCHANGE GROUP PLC",
       "sector": "Financial Services",
-      "score_today": 30.7,
-      "score_prev": 36.7,
-      "delta": -6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
-      "sector": "Technology",
-      "score_today": 41.8,
-      "score_prev": 49.8,
-      "delta": -8.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 27.2,
-      "score_prev": 35.2,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 35.6,
-      "score_prev": 44.4,
-      "delta": -8.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc",
-      "sector": "Technology",
-      "score_today": 24.7,
-      "score_prev": 33.6,
-      "delta": -8.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 44.0,
-      "score_prev": 53.7,
-      "delta": -9.6,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "sector": "Technology",
-      "score_today": 43.2,
-      "score_prev": 55.2,
-      "delta": -12.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AUTO.L",
-      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
-      "sector": "Communication Services",
-      "score_today": 59.2,
-      "score_prev": 72.0,
-      "delta": -12.8,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "POOL",
-      "company_name": "Pool Corporation",
-      "sector": "Industrials",
-      "score_today": 25.1,
-      "score_prev": 39.2,
-      "delta": -14.1,
+      "score_today": 43.5,
+      "score_prev": 38.3,
+      "delta": 5.2,
       "grade": "🔴 Weak"
     },
     {
@@ -246,39 +46,19 @@
       "ticker": "AON",
       "company_name": "Aon plc",
       "sector": "Financial Services",
-      "score_today": 34.4,
-      "score_prev": 49.4,
-      "delta": -15.0,
+      "score_today": 29.4,
+      "score_prev": 34.4,
+      "delta": -5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "DHR",
-      "company_name": "Danaher Corporation",
-      "sector": "Healthcare",
-      "score_today": 29.1,
-      "score_prev": 45.1,
-      "delta": -16.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 30.2,
-      "score_prev": 46.9,
-      "delta": -16.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "score_today": 34.3,
-      "score_prev": 51.0,
-      "delta": -16.7,
+      "ticker": "TYL",
+      "company_name": "Tyler Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 31.7,
+      "score_prev": 37.1,
+      "delta": -5.4,
       "grade": "🔴 Weak"
     },
     {
@@ -286,26 +66,76 @@
       "ticker": "NYT",
       "company_name": "New York Times Company (The)",
       "sector": "Communication Services",
-      "score_today": 39.5,
-      "score_prev": 56.3,
-      "delta": -16.8,
+      "score_today": 33.3,
+      "score_prev": 39.5,
+      "delta": -6.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CLPBY",
+      "company_name": "Coloplast AS",
+      "sector": "Healthcare",
+      "score_today": 44.9,
+      "score_prev": 52.6,
+      "delta": -7.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 48.8,
+      "score_prev": 56.8,
+      "delta": -8.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SAP",
+      "company_name": "SAP  SE",
+      "sector": "Technology",
+      "score_today": 50.9,
+      "score_prev": 58.9,
+      "delta": -8.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "sector": "Communication Services",
+      "score_today": 48.4,
+      "score_prev": 59.2,
+      "delta": -10.8,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange Inc.",
+      "sector": "Financial Services",
+      "score_today": 35.8,
+      "score_prev": 49.8,
+      "delta": -14.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
       "sector": "Industrials",
-      "score_today": 47.1,
-      "score_prev": 74.0,
-      "delta": -26.9,
-      "grade": "🟡 Good"
+      "score_today": 27.7,
+      "score_prev": 41.9,
+      "delta": -14.2,
+      "grade": "🔴 Weak"
     }
   ],
   "counts": {
-    "new_entries": 2,
+    "new_entries": 0,
     "exited": 0,
-    "score_up": 8,
-    "score_down": 20
+    "score_up": 4,
+    "score_down": 9
   }
 }
