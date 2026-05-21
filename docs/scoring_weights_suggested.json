@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-20",
+  "generated_at": "2026-05-21",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1519 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de acierto en +33,3 puntos porcentuales (pp) con la incorporaci\u00f3n de FCF alto y +22,9 pp con la incorporaci\u00f3n de R:R alto.\n\nEstos cambios podr\u00edan llevar a una mejora en la precisi\u00f3n de las predicciones, especialmente al aumentar el peso de los factores de FCF y R:R, que han demostrado tener un impacto positivo en la tasa de acierto."
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE se centran en aumentar el peso de las se\u00f1ales \"FCF alto\" y \"R:R alto\", lo que podr\u00eda mejorar la precisi\u00f3n del sistema en un 7.3 y 9.9 puntos porcentuales, respectivamente.\n\nAdem\u00e1s, considerar un umbral m\u00ednimo de 70 o m\u00e1s para las predicciones publicadas podr\u00eda mejorar significativamente la precisi\u00f3n del sistema, pasando del 27% de acierto base al 60% de acierto en las predicciones con un puntaje de 80 o m\u00e1s."
 }
