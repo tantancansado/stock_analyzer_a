@@ -1,79 +1,79 @@
 {
-  "date": "2026-05-20",
-  "timestamp": "2026-05-20T09:12:05.912058",
-  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos, como Discount Stores y Beverages - Non-Alcoholic, que lideran el ranking de Relative Strength. Esto es consistente con el r\u00e9gimen macro CALM, que suele favorecer a los sectores m\u00e1s estables. Recomiendo concentrar las b\u00fasquedas en sectores defensivos y de salud, como Consumer Defensive y Healthcare, y evitar sectores c\u00edclicos y tecnol\u00f3gicos, como Residential Construction e Information Technology Services.",
+  "date": "2026-05-21",
+  "timestamp": "2026-05-21T09:15:06.388933",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos, como Healthcare y Consumer Defensive, que lideran el ranking de Relative Strength. Esto es consistente con el r\u00e9gimen macro CALM, que suele favorecer a los sectores m\u00e1s estables. Se recomienda concentrar las b\u00fasquedas en sectores como Healthcare y Discount Stores, y evitar sectores c\u00edclicos como Auto Parts y Packaged Foods. La tecnolog\u00eda tambi\u00e9n muestra una rotaci\u00f3n hacia sectores m\u00e1s defensivos, como Software - Infrastructure.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
-      "industry": "Discount Stores",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 58.8,
+      "industry": "Medical Care Facilities",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 54.4,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Medical Care Facilities",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 57.6,
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 48.3,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 41.2,
+      "avg_rs_percentile": 40.7,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Drug Manufacturers - Specialty & Generic",
       "sector": "Healthcare",
-      "avg_rs_percentile": 40.8,
+      "avg_rs_percentile": 40.6,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Beverages - Non-Alcoholic",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 36.5,
+      "industry": "Software - Infrastructure",
+      "sector": "Technology",
+      "avg_rs_percentile": 32.2,
       "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Insurance Brokers",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 6.6,
+      "industry": "Diagnostics & Research",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 7.7,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Diagnostics & Research",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 6.2,
-      "num_tickers": 4,
+      "industry": "Auto Parts",
+      "sector": "Consumer Cyclical",
+      "avg_rs_percentile": 7.7,
+      "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Packaged Foods",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 6.2,
+      "avg_rs_percentile": 5.4,
       "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Insurance Brokers",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 4.8,
+      "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
       "industry": "Information Technology Services",
       "sector": "Technology",
-      "avg_rs_percentile": 5.2,
+      "avg_rs_percentile": 4.6,
       "num_tickers": 4,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Residential Construction",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 3.8,
-      "num_tickers": 2,
       "label": "Bottom 25%"
     }
   ],

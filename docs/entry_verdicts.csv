@@ -1,97 +1,90 @@
 ticker,origin,verdict,confidence,reasons,blockers,trigger,source
-DEMANT.CO,value_eu,AVOID,75,,score bajo (30),Revisa si el score mejora tras próximo earnings,rules
 STMN.SW,value_eu,AVOID,75,,score bajo (29),Revisa si el score mejora tras próximo earnings,rules
 DSV.CO,value_eu,AVOID,75,,score bajo (29),Revisa si el score mejora tras próximo earnings,rules
-ERF.PA,value_eu,AVOID,75,,score bajo (28),Revisa si el score mejora tras próximo earnings,rules
 KNEBV.HE,value_eu,AVOID,75,,score bajo (28),Revisa si el score mejora tras próximo earnings,rules
 SY1.DE,value_eu,AVOID,75,,score bajo (28),Revisa si el score mejora tras próximo earnings,rules
-BEI.DE,value_eu,AVOID,75,,score bajo (26),Revisa si el score mejora tras próximo earnings,rules
-TEVA,value,ENTRY,80,score 54/100 · ROE 22% · FCF yield 6.6%,,Entrada válida ahora,rules
-NYT,value,ENTRY,80,ROE 20% · upside +12% analistas · sobre MA50/150/200,,Entrada válida ahora,rules
+ERF.PA,value_eu,AVOID,75,,score bajo (27),Revisa si el score mejora tras próximo earnings,rules
+TEVA,value,ENTRY,80,score 54/100 · ROE 22% · FCF yield 6.5%,,Entrada válida ahora,rules
+NYT,value,ENTRY,80,ROE 20% · upside +13% analistas · sobre MA50/150/200,,Entrada válida ahora,rules
+EQIX,value,ENTRY,80,upside +12% analistas · sobre MA50/150/200 · Piotroski 6/9,,Entrada válida ahora,rules
 GWW,value,ENTRY,80,ROE 46% · sobre MA50/150/200 · Piotroski 6/9,,Entrada válida ahora,rules
-UNH,value,ENTRY,80,FCF yield 5.0% · sobre MA50/150/200 · Piotroski 6/9,,Entrada válida ahora,rules
+ETN,value,ENTRY,80,ROE 21% · upside +19% analistas · sobre MA50/150/200,,Entrada válida ahora,rules
 KO,value,ENTRY,80,ROE 43% · sobre MA50/150/200 · Piotroski 7/9,,Entrada válida ahora,rules
-CME,value,ENTRY,80,ROE 16% · sobre MA50/150/200 · Piotroski 6/9,,Entrada válida ahora,rules
-JNJ,value,ENTRY,80,ROE 26% · upside +10% analistas · sobre MA50/150/200,,Entrada válida ahora,rules
-AUTO.L,value,WAIT,85,upside +35%,earnings en 1d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
-EXPN.L,value,WAIT,85,upside +60%,earnings en 0d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
-SGE.L,value_eu,WAIT,85,upside +26%,earnings en 1d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
-ADP,value,WAIT,60,score 67/100 · ROE 71% · FCF yield 5.4%,RS débil (9%),Espera confirmación técnica (MA pass + RS subiendo),rules
-ASAZY,value,WAIT,60,score 58/100 · ROE 15% · FCF yield 43.9%,RS débil (1%),Espera confirmación técnica (MA pass + RS subiendo),rules
-SAP,value,WAIT,60,score 57/100 · ROE 16% · upside +44% analistas,RS débil (9%),Espera confirmación técnica (MA pass + RS subiendo),rules
-OTIS,value,WAIT,60,score 57/100 · FCF yield 6.2% · upside +33% analistas,RS débil (1%),Espera confirmación técnica (MA pass + RS subiendo),rules
-FICO,value,WAIT,60,score 54/100 · upside +31% analistas · Piotroski 7/9,RS débil (12%),Entra si el score sube sobre 60 y el RS percentile supera el 20% tras earnings,ai
-MA,value,WAIT,60,score 53/100 · ROE 232% · upside +30% analistas,RS débil (8%),Espera confirmación técnica (MA pass + RS subiendo),rules
-MSFT,value,WAIT,60,score 53/100 · ROE 34% · upside +34% analistas,RS débil (8%),Espera confirmación técnica (MA pass + RS subiendo),rules
-UBER,value,WAIT,60,score 51/100 · ROE 35% · upside +41% analistas,RS débil (2%),Espera confirmación técnica (MA pass + RS subiendo),rules
-AJG,value,WAIT,60,upside +31% analistas · Piotroski 6/9,RS débil (6%),Entra si el RS percentile sube sobre 20% y se confirma un cierre sobre la MA50 con volumen tras earnings,ai
-KVUE,value,WAIT,60,ROE 16% · FCF yield 5.6% · upside +14% analistas,RS débil (16%),Espera confirmación técnica (MA pass + RS subiendo),rules
-NOW,value,WAIT,60,ROE 16% · upside +40% analistas,RS débil (9%),Entra si ROE supera el 18% y RS percentile sube sobre el 20% tras earnings,ai
+UNH,value,ENTRY,80,FCF yield 5.1% · sobre MA50/150/200 · Piotroski 6/9,,Entrada válida ahora,rules
+AUTO.L,value,WAIT,85,upside +37%,earnings en 0d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
+SGE.L,value_eu,WAIT,85,upside +29%,earnings en 0d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
+ADP,value,WAIT,60,score 67/100 · ROE 71% · FCF yield 5.4%,RS débil (8%),Espera confirmación técnica (MA pass + RS subiendo),rules
+WTKWY,value,WAIT,60,score 58/100 · ROE 112% · margen 21%,RS débil (4%),Espera confirmación técnica (MA pass + RS subiendo),rules
+ASAZY,value,WAIT,60,score 58/100 · ROE 15% · FCF yield 43.2%,RS débil (3%),Espera confirmación técnica (MA pass + RS subiendo),rules
+OTIS,value,WAIT,60,score 57/100 · FCF yield 6.2% · upside +32% analistas,RS débil (0%),Espera confirmación técnica (MA pass + RS subiendo),rules
+UBER,value,WAIT,60,score 54/100 · ROE 35% · upside +40% analistas,RS débil (1%),Espera confirmación técnica (MA pass + RS subiendo),rules
+MA,value,WAIT,60,score 53/100 · ROE 232% · upside +30% analistas,RS débil (5%),Espera confirmación técnica (MA pass + RS subiendo),rules
+NOW,value,WAIT,60,ROE 16% · upside +38% analistas,RS débil (9%),Entra si ROE supera el 18% y RS percentile sube sobre el 20% tras earnings,ai
 LSEG.L,value,WAIT,60,upside +32% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-AON,value,WAIT,60,ROE 46% · upside +20% analistas · Piotroski 8/9,RS débil (10%),Entra si ROE supera el 50% y RS percentile sube sobre el 20% tras earnings,ai
-ICE,value,WAIT,60,upside +30% analistas · Piotroski 8/9,RS débil (2%),Entra si el RS percentile sube sobre 20% y se confirma un cierre sobre la media móvil de 50 días con volumen tras los próximos earnings,ai
-CTAS,value,WAIT,60,ROE 41% · upside +23% analistas · Piotroski 8/9,RS débil (9%),Entra si el ROE se mantiene por encima del 40% y el RS percentile supera el 20% tras los próximos earnings,ai
-WTKWY,value,WAIT,60,ROE 112% · margen 21% · FCF yield 5.8%,RS débil (6%),Espera confirmación técnica (MA pass + RS subiendo),rules
-BAC,value,WAIT,60,upside +24% analistas,RS débil (16%),Espera confirmación técnica (MA pass + RS subiendo),rules
-JKHY,value,WAIT,60,ROE 25% · upside +35% analistas · Piotroski 9/9,RS débil (9%),Entra si ROE supera el 28% y RS percentile sube sobre el 15% tras earnings,ai
-ROP,value,WAIT,60,FCF yield 6.5% · upside +38% analistas · Piotroski 6/9,RS débil (4%),Entra si el RS percentile sube sobre 20% y el precio cierra sobre la media móvil de 50 días con volumen aumentado tras earnings,ai
-CHTR,value,WAIT,60,ROE 28% · FCF yield 11.9% · upside +72% analistas,RS débil (1%),Espera confirmación técnica (MA pass + RS subiendo),rules
-THC,value,WAIT,60,ROE 30% · FCF yield 18.6% · upside +28% analistas,RS débil (20%),Espera confirmación técnica (MA pass + RS subiendo),rules
-MCO,value,WAIT,60,ROE 71% · upside +23% analistas · Piotroski 8/9,RS débil (6%),Entra si ROE se mantiene sobre 60% y RS percentile sube sobre 20% tras earnings,ai
-BRK-B,value,WAIT,60,FCF yield 5.9%,RS débil (6%),Espera confirmación técnica (MA pass + RS subiendo),rules
-CVX,value,WAIT,60,sobre MA50/150/200,,Espera confirmación técnica (MA pass + RS subiendo),rules
-COF,value,WAIT,60,upside +40% analistas · EPS acelerando,RS débil (4%),Entra si el RS percentile supera el 20% y se confirma el crecimiento de EPS en los próximos earnings,ai
-GVDNY,value,WAIT,60,ROE 23% · upside +26% analistas · Piotroski 7/9,RS débil (5%),Entra si el ROE se mantiene por encima del 20% y el RS percentile supera el 10% después de los próximos earnings,ai
-DPZ,value,WAIT,60,FCF yield 5.0% · upside +30% analistas · Piotroski 8/9,RS débil (5%),Entra si el RS percentile sube por encima del 20% y el precio cierra sobre la media móvil de 50 días después de los earnings,ai
-ETN,value,WAIT,60,ROE 21% · upside +21% analistas · sobre MA50/150/200,RS débil (29%),Espera confirmación técnica (MA pass + RS subiendo),rules
-CLPBY,value,WAIT,60,FCF yield 50.8% · upside +32% analistas · Piotroski 7/9,RS débil (3%),Entra si el RS percentile sube sobre el 10% y el precio cierra sobre el promedio móvil de 50 días,ai
+KVUE,value,WAIT,60,ROE 16% · FCF yield 5.6% · upside +11% analistas,RS débil (16%),Espera confirmación técnica (MA pass + RS subiendo),rules
+BAC,value,WAIT,60,upside +23% analistas,RS débil (16%),Espera confirmación técnica (MA pass + RS subiendo),rules
+THC,value,WAIT,60,ROE 30% · FCF yield 19.0% · upside +30% analistas,RS débil (14%),Espera confirmación técnica (MA pass + RS subiendo),rules
+JKHY,value,WAIT,60,ROE 25% · upside +35% analistas · Piotroski 9/9,RS débil (7%),Entra si ROE supera el 25% y RS percentile sube sobre el 20% tras earnings,ai
+ROP,value,WAIT,60,FCF yield 6.7% · upside +40% analistas · Piotroski 6/9,RS débil (2%),Entra si el RS percentile sube sobre el 5% y el precio cierra sobre la media móvil de 50 días después de los earnings,ai
+CHTR,value,WAIT,60,ROE 28% · FCF yield 11.8% · upside +68% analistas,RS débil (1%),Espera confirmación técnica (MA pass + RS subiendo),rules
+MSFT,value,WAIT,60,ROE 34% · upside +33% analistas · Piotroski 6/9,RS débil (7%),Entra si el ROE supera el 40% y el RS percentile sube sobre el 20% tras earnings,ai
+SAP,value,WAIT,60,ROE 16% · upside +43% analistas · Piotroski 8/9,RS débil (9%),Entra si ROE supera el 18% y el RS percentile sube por encima del 20% tras earnings,ai
+ICE,value,WAIT,60,upside +32% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+V,value,WAIT,60,ROE 60% · upside +21% analistas · Piotroski 6/9,RS débil (8%),Entra si ROE supera el 65% y el RS percentile sube por encima del 20% tras earnings,ai
+EXPN.L,value,WAIT,60,ROE 28% · margen 18% · upside +50% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+BRK-B,value,WAIT,60,FCF yield 5.9%,RS débil (4%),Espera confirmación técnica (MA pass + RS subiendo),rules
+GVDNY,value,WAIT,60,ROE 23% · upside +26% analistas · Piotroski 7/9,RS débil (5%),Entra si ROE supera el 25% y el RS percentile sube sobre el 10% tras earnings,ai
+COF,value,WAIT,60,upside +36% analistas · EPS acelerando,RS débil (7%),Entra si el RS percentile sube sobre 20% y se confirma un cierre sobre la media móvil de 50 días tras los earnings,ai
+AON,value,WAIT,60,ROE 46% · upside +21% analistas · Piotroski 8/9,RS débil (7%),Entra si ROE supera el 50% y RS percentile sube sobre el 20% tras earnings,ai
+CTAS,value,WAIT,60,ROE 41% · upside +24% analistas · Piotroski 8/9,RS débil (7%),Entra si el ROE se mantiene por encima del 40% y el RS percentile sube por encima del 20% tras los próximos earnings,ai
+CVX,value,WAIT,60,upside +12% analistas · sobre MA50/150/200,,Espera confirmación técnica (MA pass + RS subiendo),rules
+RELX,value,WAIT,60,ROE 70% · margen 22% · upside +56% analistas,RS débil (11%),Espera confirmación técnica (MA pass + RS subiendo),rules
+VEEV,value,WAIT,60,upside +59% analistas · Piotroski 7/9,RS débil (5%),Entra si el RS percentile sube sobre el 10% y se confirma un cierre sobre la MA50 con volumen tras earnings,ai
+BR,value,WAIT,60,ROE 42% · FCF yield 6.9% · upside +38% analistas,RS débil (4%),Espera confirmación técnica (MA pass + RS subiendo),rules
 VRSN,value,WAIT,60,Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-BR,value,WAIT,60,ROE 42% · FCF yield 6.9% · upside +38% analistas,RS débil (5%),Espera confirmación técnica (MA pass + RS subiendo),rules
-V,value,WAIT,60,ROE 60% · upside +21% analistas · Piotroski 6/9,RS débil (10%),Entra si ROE supera el 65% y RS percentile sube sobre el 20% tras earnings,ai
-CSU.TO,value,WAIT,60,ROE 20% · upside +45% analistas · Piotroski 6/9,RS débil (9%),Entra si ROE supera el 25% y el RS percentile sube por encima del 20% tras los próximos earnings,ai
-SPGI,value,WAIT,60,upside +30% analistas · Piotroski 7/9,RS débil (5%),Entra si el RS percentile supera el 20% y se confirma un cierre sobre la media móvil de 50 días después de los earnings,ai
-TW,value,WAIT,60,upside +23% analistas · Piotroski 8/9,RS débil (6%),Entra si el RS percentile sube por encima del 20% después de los próximos earnings,ai
-DBOEY,value,WAIT,60,ROE 19% · upside +19% analistas,RS débil (28%),Entra si ROE supera el 20% y RS percentile sube sobre 50% tras earnings,ai
-POOL,value,WAIT,60,ROE 34% · upside +46% analistas,RS débil (3%),Entra si ROE se mantiene sobre 30% y RS percentile supera el 10% tras earnings,ai
-FAST,value,WAIT,60,ROE 34% · Piotroski 8/9,RS débil (5%),Entra si ROE supera el 35% y RS percentile sube sobre el 10% tras earnings,ai
-VEEV,value,WAIT,60,upside +61% analistas · Piotroski 7/9,RS débil (5%),Entra si el RS percentile sube sobre el 10% después de los earnings,ai
-STZ,value,WAIT,60,ROE 23% · FCF yield 8.1% · upside +21% analistas,RS débil (10%),Espera confirmación técnica (MA pass + RS subiendo),rules
-HESAY,value,WAIT,60,ROE 25% · margen 28% · upside +46% analistas,RS débil (3%),Espera confirmación técnica (MA pass + RS subiendo),rules
-VLTO,value,WAIT,60,ROE 36% · upside +26% analistas · Piotroski 6/9,RS débil (6%),Entra si ROE supera el 40% y RS percentile sube sobre el 20% tras earnings,ai
-TYL,value,WAIT,60,upside +38% analistas · Piotroski 8/9,RS débil (7%),Entra si el RS percentile sube sobre el 20% y se confirma un cierre sobre la MA50 con volumen tras earnings,ai
-ERIE,value,WAIT,60,ROE 26%,RS débil (6%),Espera confirmación técnica (MA pass + RS subiendo),rules
-OXY,value,WAIT,60,FCF yield 5.0% · sobre MA50/150/200,,Espera confirmación técnica (MA pass + RS subiendo),rules
-NDAQ,value,WAIT,60,ROE 16% · upside +16% analistas · Piotroski 9/9,RS débil (25%),Entra si ROE supera el 18% y RS percentile sube por encima del 50% tras earnings,ai
+HESAY,value,WAIT,60,ROE 25% · margen 28% · upside +44% analistas,RS débil (4%),Espera confirmación técnica (MA pass + RS subiendo),rules
+VRSK,value,WAIT,60,upside +29% analistas · Piotroski 7/9,RS débil (6%),Entra si el RS percentile sube sobre 20% y se confirma un cierre sobre la media móvil de 50 días con volumen tras los earnings,ai
+DPZ,value,WAIT,60,upside +28% analistas · Piotroski 8/9,RS débil (5%),Entra si el RS percentile sube sobre el 20% y se confirma un cierre sobre la media móvil de 50 días después de los earnings,ai
+CSU.TO,value,WAIT,60,ROE 20% · upside +46% analistas · Piotroski 6/9,RS débil (8%),Entra si ROE supera el 22% y el RS percentile sube por encima del 15% tras los próximos earnings,ai
+TW,value,WAIT,60,upside +28% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+POOL,value,WAIT,60,ROE 34% · upside +43% analistas,RS débil (4%),Entra si ROE supera el 35% y RS percentile sube sobre el 10% tras earnings,ai
+DBOEY,value,WAIT,60,ROE 19% · upside +19% analistas,RS débil (27%),Entra si ROE supera el 20% y RS percentile sube sobre 50%,ai
+FAST,value,WAIT,60,ROE 34% · Piotroski 8/9,RS débil (3%),Entra si ROE supera el 35% y RS percentile sube sobre el 10% tras earnings,ai
+TYL,value,WAIT,60,upside +40% analistas · Piotroski 8/9,RS débil (5%),Entra si el RS percentile sube sobre el 20% y se confirma un cierre sobre la media móvil de 50 días después de los earnings,ai
+CME,value,WAIT,60,ROE 16% · sobre MA50/150/200 · Piotroski 6/9,RS débil (20%),Entra si ROE supera el 18% y RS percentile sube sobre 30% con confirmación de tendencia alcista,ai
+INTU,value,WAIT,60,ROE 24% · upside +54% analistas · Piotroski 9/9,RS débil (2%),Entra si el ROE supera el 25% y el RS percentile sube por encima del 10%,ai
+ERIE,value,WAIT,60,ROE 26%,RS débil (4%),Espera confirmación técnica (MA pass + RS subiendo),rules
+SPGI,value,WAIT,60,upside +28% analistas · Piotroski 7/9,RS débil (6%),Entra si el RS percentile supera el 20% y se confirma un cierre sobre la media móvil de 50 días después de los earnings,ai
 WKL.AS,value_eu,WAIT,60,score 57/100 · ROE 112% · margen 21%,,Espera confirmación técnica (MA pass + RS subiendo),rules
-AMS.MC,value_eu,WAIT,60,score 56/100 · ROE 26% · upside +31% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
-SAP.DE,value_eu,WAIT,60,score 55/100 · ROE 16% · upside +41% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+AMS.MC,value_eu,WAIT,60,score 55/100 · ROE 26% · upside +28% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+SAP.DE,value_eu,WAIT,60,score 55/100 · ROE 16% · upside +40% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
 RMV.L,value_eu,WAIT,60,score 55/100 · ROE 266% · margen 51%,,Espera confirmación técnica (MA pass + RS subiendo),rules
 NOVO-B.CO,value_eu,WAIT,60,score 54/100 · ROE 71%,,Espera confirmación técnica (MA pass + RS subiendo),rules
 G24.DE,value_eu,WAIT,60,score 52/100 · ROE 18% · upside +43% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
 PGHN.SW,value_eu,WAIT,60,score 51/100 · ROE 55% · margen 49%,,Espera confirmación técnica (MA pass + RS subiendo),rules
-DB1.DE,value_eu,WAIT,60,ROE 19% · upside +12% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
-RACE.MI,value_eu,WAIT,60,ROE 42% · upside +28% analistas · Piotroski 9/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-ITX.MC,value_eu,WAIT,60,ROE 31% · upside +18% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+DB1.DE,value_eu,WAIT,60,ROE 19% · upside +11% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+ITX.MC,value_eu,WAIT,60,ROE 31% · upside +15% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+ASSA-B.ST,value_eu,WAIT,60,ROE 15% · upside +20% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+RACE.MI,value_eu,WAIT,60,ROE 42% · upside +24% analistas · Piotroski 9/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+MONC.MI,value_eu,WAIT,60,ROE 17% · margen 20% · upside +20% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+HEXA-B.ST,value_eu,WAIT,60,ROE 18% · upside +28% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+CPG.L,value_eu,WAIT,60,ROE 27% · upside +21% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
 LR.PA,value_eu,WAIT,60,ROE 17% · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-ASSA-B.ST,value_eu,WAIT,60,ROE 15% · upside +21% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-MONC.MI,value_eu,WAIT,60,ROE 17% · margen 20% · upside +23% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
-CPG.L,value_eu,WAIT,60,ROE 27% · upside +22% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-MC.PA,value_eu,WAIT,60,ROE 16% · FCF yield 5.1% · upside +27% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
 ITRK.L,value_eu,WAIT,60,ROE 28%,,Espera confirmación técnica (MA pass + RS subiendo),rules
-GIVN.SW,value_eu,WAIT,60,ROE 23% · upside +22% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-HEXA-B.ST,value_eu,WAIT,60,ROE 18% · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-RMS.PA,value_eu,WAIT,60,ROE 25% · margen 28% · upside +30% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
-OR.PA,value_eu,WAIT,60,ROE 18% · upside +15% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-LIFCO-B.ST,value_eu,WAIT,60,ROE 19% · upside +22% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-SU.PA,value_eu,WAIT,60,ROE 16% · upside +16% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-SIKA.SW,value_eu,WAIT,60,ROE 15% · FCF yield 5.3% · upside +29% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
-HEIA.AS,value_eu,WAIT,60,FCF yield 5.6% · upside +28% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-SAF.PA,value_eu,WAIT,60,ROE 56% · margen 23% · upside +24% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+GIVN.SW,value_eu,WAIT,60,ROE 23% · upside +20% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+OR.PA,value_eu,WAIT,60,ROE 18% · upside +13% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+RMS.PA,value_eu,WAIT,60,ROE 25% · margen 28% · upside +27% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+MC.PA,value_eu,WAIT,60,ROE 16% · upside +24% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+LIFCO-B.ST,value_eu,WAIT,60,ROE 19% · upside +18% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+SIKA.SW,value_eu,WAIT,60,ROE 15% · FCF yield 5.1% · upside +26% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+SU.PA,value_eu,WAIT,60,ROE 16% · upside +13% analistas · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+HEIA.AS,value_eu,WAIT,60,FCF yield 5.6% · upside +27% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
 ATCO-B.ST,value_eu,WAIT,60,ROE 22% · Piotroski 6/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+AI.PA,value_eu,WAIT,60,upside +11% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
 DSY.PA,value_eu,WAIT,60,Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-AI.PA,value_eu,WAIT,60,upside +14% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-CPR.MI,value_eu,WAIT,60,upside +27% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-IMCD.AS,value_eu,WAIT,60,FCF yield 5.6% · upside +23% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+CPR.MI,value_eu,WAIT,60,upside +23% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+SAF.PA,value_eu,WAIT,60,ROE 56% · margen 23% · upside +20% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
+IMCD.AS,value_eu,WAIT,60,FCF yield 5.5% · upside +21% analistas,,Espera confirmación técnica (MA pass + RS subiendo),rules
 DPLM.L,value_eu,WAIT,60,ROE 19% · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-GEBN.SW,value_eu,WAIT,60,margen 19% · upside +14% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
-INDT.ST,value_eu,WAIT,60,upside +32% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+GEBN.SW,value_eu,WAIT,60,margen 19% · upside +11% analistas · Piotroski 7/9,,Espera confirmación técnica (MA pass + RS subiendo),rules
+INDT.ST,value_eu,WAIT,60,upside +28% analistas · Piotroski 8/9,,Espera confirmación técnica (MA pass + RS subiendo),rules

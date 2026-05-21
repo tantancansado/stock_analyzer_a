@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-20T09:07:07+00:00",
+  "generated_at": "2026-05-21T09:10:10+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -7,11 +7,11 @@
       "label": "Petr\u00f3leo (WTI)",
       "category": "energy",
       "primary_ticker": "CL=F",
-      "stress_score": 34.5,
+      "stress_score": 55.8,
       "band": "amber",
-      "regime": "BUILDING",
-      "signals_used": 1,
-      "coverage_pct": 25.0,
+      "regime": "TIGHTENING",
+      "signals_used": 2,
+      "coverage_pct": 45.0,
       "signals": {
         "inventory": {
           "label": "Inventarios comerciales USA",
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -6.74,
-          "percentile": 34.5,
+          "value": -6.71,
+          "percentile": 36.5,
           "z": null,
-          "score": 34.5,
-          "contribution": 8.6,
+          "score": 36.5,
+          "contribution": 9.1,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 102.01,
-            "deferred_price": 108.89
+            "front_price": 98.41,
+            "deferred_price": 105.01
           },
           "history_ready": true
         },
@@ -47,13 +47,15 @@
           "label": "Tensi\u00f3n geopol\u00edtica",
           "weight": 0.2,
           "direction": "high_is_stress",
-          "value": null,
-          "percentile": null,
+          "value": 75,
+          "percentile": 100.0,
           "z": null,
-          "score": null,
-          "contribution": null,
+          "score": 80.0,
+          "contribution": 16.0,
           "meta": {
-            "note": "no data"
+            "tone_avg": 0.0,
+            "query": "(\"Strait of Hormuz\" OR Hormuz OR \"Suez Canal\" OR Suez OR \"Red Sea\" OR Houthi) AND (tanker OR refinery OR attack OR sanctions OR embargo)",
+            "event_count_30d": 75
           },
           "history_ready": false
         },
@@ -86,7 +88,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -6.74%",
+      "narrative": "backwardation -6.71% \u00b7 eventos geopol\u00edticos 75",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -110,7 +112,7 @@
       },
       "historical_analogues": [],
       "history_ready": false,
-      "history_note": "No hay suficiente hist\u00f3rico de se\u00f1ales para buscar an\u00e1logos todav\u00eda.",
+      "history_note": "Hist\u00f3rico insuficiente: a\u00fan no hay suficientes fechas comparables con al menos 3 se\u00f1ales.",
       "chart_series": [
         {
           "date": "2021-06-04",
@@ -1409,16 +1411,22 @@
         },
         {
           "date": "2026-05-22",
-          "price": 102.01,
+          "price": 98.37,
           "stress_score": null
         }
       ],
       "top_contributors": [
         {
+          "key": "geopolitical",
+          "label": "Tensi\u00f3n geopol\u00edtica",
+          "score": 80.0,
+          "contribution": 16.0
+        },
+        {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 34.5,
-          "contribution": 8.6
+          "score": 36.5,
+          "contribution": 9.1
         }
       ]
     }
@@ -1427,6 +1435,6 @@
     "markets_total": 1,
     "markets_red": 0,
     "top_market": "crude_oil",
-    "top_stress_score": 34.5
+    "top_stress_score": 55.8
   }
 }
