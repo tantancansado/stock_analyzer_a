@@ -1,153 +1,83 @@
 {
-  "generated_at": "2026-05-21",
+  "generated_at": "2026-05-22",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
       "sector": "Industrials",
-      "score_today": 64.5,
-      "score_prev": 52.5,
-      "delta": 12.0,
+      "score_today": 53.2,
+      "score_prev": 40.8,
+      "delta": 12.3,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 58.8,
-      "score_prev": 48.8,
-      "delta": 10.0,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AON",
-      "company_name": "Aon plc",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 39.4,
-      "score_prev": 29.4,
-      "delta": 10.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 60.9,
-      "score_prev": 51.9,
-      "delta": 9.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NOW",
-      "company_name": "ServiceNow, Inc.",
-      "sector": "Technology",
-      "score_today": 49.6,
-      "score_prev": 43.6,
-      "delta": 6.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "sector": "Technology",
-      "score_today": 48.9,
-      "score_prev": 43.2,
-      "delta": 5.7,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CHTR",
-      "company_name": "Charter Communications, Inc.",
-      "sector": "Communication Services",
-      "score_today": 35.0,
-      "score_prev": 30.0,
+      "score_today": 32.7,
+      "score_prev": 27.7,
       "delta": 5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange Inc.",
       "sector": "Financial Services",
-      "score_today": 25.3,
-      "score_prev": 30.3,
-      "delta": -5.0,
+      "score_today": 33.0,
+      "score_prev": 39.0,
+      "delta": -6.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporatio",
-      "sector": "Energy",
-      "score_today": 23.0,
-      "score_prev": 28.2,
-      "delta": -5.2,
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "score_today": 30.4,
+      "score_prev": 39.4,
+      "delta": -9.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
-      "sector": "Consumer Cyclical",
-      "score_today": 29.6,
-      "score_prev": 35.8,
-      "delta": -6.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 23.7,
-      "score_prev": 31.7,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
       "sector": "Industrials",
-      "score_today": 40.8,
-      "score_prev": 53.8,
-      "delta": -13.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 30.9,
-      "score_prev": 44.4,
-      "delta": -13.5,
+      "score_today": 38.5,
+      "score_prev": 48.5,
+      "delta": -10.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "score_today": 27.8,
-      "score_prev": 41.8,
-      "delta": -14.0,
+      "score_today": 45.8,
+      "score_prev": 55.8,
+      "delta": -10.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "ticker": "ETN",
+      "company_name": "Eaton Corporation, PLC",
       "sector": "Industrials",
-      "score_today": 33.1,
-      "score_prev": 47.1,
+      "score_today": 27.5,
+      "score_prev": 39.5,
+      "delta": -12.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SAP",
+      "company_name": "SAP  SE",
+      "sector": "Technology",
+      "score_today": 37.6,
+      "score_prev": 51.6,
       "delta": -14.0,
       "grade": "🔴 Weak"
     }
@@ -155,7 +85,7 @@
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 7,
-    "score_down": 8
+    "score_up": 2,
+    "score_down": 6
   }
 }
