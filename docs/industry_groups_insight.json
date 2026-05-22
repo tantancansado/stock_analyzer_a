@@ -1,41 +1,41 @@
 {
-  "date": "2026-05-21",
-  "timestamp": "2026-05-21T09:15:06.388933",
-  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos, como Healthcare y Consumer Defensive, que lideran el ranking de Relative Strength. Esto es consistente con el r\u00e9gimen macro CALM, que suele favorecer a los sectores m\u00e1s estables. Se recomienda concentrar las b\u00fasquedas en sectores como Healthcare y Discount Stores, y evitar sectores c\u00edclicos como Auto Parts y Packaged Foods. La tecnolog\u00eda tambi\u00e9n muestra una rotaci\u00f3n hacia sectores m\u00e1s defensivos, como Software - Infrastructure.",
+  "date": "2026-05-22",
+  "timestamp": "2026-05-22T09:04:17.843602",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra un enfoque en sectores defensivos, con Healthcare y Consumer Defensive liderando el ranking. Esto es consistente con el r\u00e9gimen macro CALM, que suele favorecer a los sectores m\u00e1s estables. Se recomienda concentrar las b\u00fasquedas en sectores como Healthcare y Discount Stores, y evitar sectores c\u00edclicos como Industrials y Technology, que se encuentran en los \u00faltimos lugares del ranking.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 54.4,
-      "num_tickers": 2,
-      "label": "Top 10%"
-    },
-    {
-      "industry": "Discount Stores",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 48.3,
+      "avg_rs_percentile": 49.8,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 40.7,
+      "avg_rs_percentile": 40.0,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Drug Manufacturers - Specialty & Generic",
       "sector": "Healthcare",
-      "avg_rs_percentile": 40.6,
+      "avg_rs_percentile": 40.0,
       "num_tickers": 2,
-      "label": "Top 25%"
+      "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 32.2,
+      "avg_rs_percentile": 32.7,
+      "num_tickers": 2,
+      "label": "Top 25%"
+    },
+    {
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 31.4,
       "num_tickers": 2,
       "label": "Top 25%"
     }
@@ -44,15 +44,22 @@
     {
       "industry": "Diagnostics & Research",
       "sector": "Healthcare",
-      "avg_rs_percentile": 7.7,
+      "avg_rs_percentile": 8.0,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Auto Parts",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 7.7,
-      "num_tickers": 2,
+      "industry": "Insurance Brokers",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 6.0,
+      "num_tickers": 4,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Waste Management",
+      "sector": "Industrials",
+      "avg_rs_percentile": 5.6,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
@@ -63,16 +70,9 @@
       "label": "Bottom 25%"
     },
     {
-      "industry": "Insurance Brokers",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 4.8,
-      "num_tickers": 4,
-      "label": "Bottom 25%"
-    },
-    {
       "industry": "Information Technology Services",
       "sector": "Technology",
-      "avg_rs_percentile": 4.6,
+      "avg_rs_percentile": 4.4,
       "num_tickers": 4,
       "label": "Bottom 25%"
     }
