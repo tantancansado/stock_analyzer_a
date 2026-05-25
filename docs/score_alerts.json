@@ -1,91 +1,141 @@
 {
-  "generated_at": "2026-05-22",
+  "generated_at": "2026-05-25",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
       "sector": "Industrials",
-      "score_today": 53.2,
-      "score_prev": 40.8,
-      "delta": 12.3,
+      "score_today": 51.5,
+      "score_prev": 38.5,
+      "delta": 13.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "score_today": 34.9,
+      "score_prev": 23.3,
+      "delta": 11.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
+      "score_today": 72.0,
+      "score_prev": 61.0,
+      "delta": 11.0,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 56.0,
+      "score_prev": 45.8,
+      "delta": 10.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 70.9,
+      "score_prev": 60.9,
+      "delta": 10.0,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "sector": "Communication Services",
+      "score_today": 57.6,
+      "score_prev": 48.2,
+      "delta": 9.4,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "RELX",
+      "company_name": "RELX PLC PLC",
+      "sector": "Industrials",
+      "score_today": 34.4,
+      "score_prev": 28.4,
+      "delta": 6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CSU.TO",
+      "company_name": "CONSTELLATION SOFTWARE INC.",
+      "sector": "Technology",
+      "score_today": 31.6,
+      "score_prev": 25.9,
+      "delta": 5.8,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KVUE",
+      "company_name": "Kenvue Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 49.8,
+      "score_prev": 54.8,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NOW",
+      "company_name": "ServiceNow, Inc.",
+      "sector": "Technology",
+      "score_today": 44.6,
+      "score_prev": 49.6,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
       "ticker": "V",
       "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 32.7,
-      "score_prev": 27.7,
-      "delta": 5.0,
+      "score_today": 27.7,
+      "score_prev": 32.7,
+      "delta": -5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange Inc.",
-      "sector": "Financial Services",
-      "score_today": 33.0,
-      "score_prev": 39.0,
-      "delta": -6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 30.4,
-      "score_prev": 39.4,
-      "delta": -9.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "score_today": 38.5,
-      "score_prev": 48.5,
-      "delta": -10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 45.8,
-      "score_prev": 55.8,
-      "delta": -10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ETN",
-      "company_name": "Eaton Corporation, PLC",
-      "sector": "Industrials",
+      "ticker": "EQIX",
+      "company_name": "Equinix, Inc.",
+      "sector": "Real Estate",
       "score_today": 27.5,
-      "score_prev": 39.5,
-      "delta": -12.0,
+      "score_prev": 35.9,
+      "delta": -8.4,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "SAP",
-      "company_name": "SAP  SE",
-      "sector": "Technology",
-      "score_today": 37.6,
-      "score_prev": 51.6,
-      "delta": -14.0,
-      "grade": "🔴 Weak"
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "score_today": 43.2,
+      "score_prev": 53.2,
+      "delta": -10.0,
+      "grade": "🟡 Average"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 2,
-    "score_down": 6
+    "score_up": 8,
+    "score_down": 5
   }
 }
