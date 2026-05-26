@@ -1,141 +1,151 @@
 {
-  "generated_at": "2026-05-25",
+  "generated_at": "2026-05-26",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "score_today": 51.5,
-      "score_prev": 38.5,
-      "delta": 13.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": 34.9,
-      "score_prev": 23.3,
-      "delta": 11.6,
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange Inc.",
+      "sector": "Financial Services",
+      "score_today": 49.0,
+      "score_prev": 33.0,
+      "delta": 16.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "sector": "Industrials",
-      "score_today": 72.0,
-      "score_prev": 61.0,
-      "delta": 11.0,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "TNE.AX",
+      "company_name": "TECH ONE FPO [TNE]",
       "sector": "Technology",
-      "score_today": 56.0,
-      "score_prev": 45.8,
-      "delta": 10.2,
-      "grade": "🟡 Average"
+      "score_today": 34.3,
+      "score_prev": 29.0,
+      "delta": 5.4,
+      "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
+      "type": "SCORE_DOWN",
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporati",
       "sector": "Financial Services",
-      "score_today": 70.9,
-      "score_prev": 60.9,
-      "delta": 10.0,
-      "grade": "🟡 Good"
+      "score_today": 35.5,
+      "score_prev": 42.4,
+      "delta": -7.0,
+      "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_UP",
+      "type": "SCORE_DOWN",
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
+      "sector": "Industrials",
+      "score_today": 30.1,
+      "score_prev": 37.1,
+      "delta": -7.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CNI",
+      "company_name": "Canadian National Railway Compa",
+      "sector": "Industrials",
+      "score_today": 28.5,
+      "score_prev": 36.5,
+      "delta": -8.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
       "ticker": "AUTO.L",
       "company_name": "AUTOTRADER GROUP PLC ORD 1P",
       "sector": "Communication Services",
-      "score_today": 57.6,
-      "score_prev": 48.2,
-      "delta": 9.4,
-      "grade": "🟢 Excellent"
+      "score_today": 48.6,
+      "score_prev": 57.6,
+      "delta": -9.0,
+      "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_UP",
-      "ticker": "RELX",
-      "company_name": "RELX PLC PLC",
+      "type": "SCORE_DOWN",
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
       "sector": "Industrials",
-      "score_today": 34.4,
-      "score_prev": 28.4,
-      "delta": 6.0,
-      "grade": "🔴 Weak"
+      "score_today": 58.4,
+      "score_prev": 67.5,
+      "delta": -9.2,
+      "grade": "🟡 Good"
     },
     {
-      "type": "SCORE_UP",
-      "ticker": "CSU.TO",
-      "company_name": "CONSTELLATION SOFTWARE INC.",
+      "type": "SCORE_DOWN",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
       "sector": "Technology",
-      "score_today": 31.6,
-      "score_prev": 25.9,
-      "delta": 5.8,
+      "score_today": 25.6,
+      "score_prev": 34.9,
+      "delta": -9.3,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 49.8,
-      "score_prev": 54.8,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "NOW",
-      "company_name": "ServiceNow, Inc.",
-      "sector": "Technology",
-      "score_today": 44.6,
-      "score_prev": 49.6,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
+      "ticker": "LSEG.L",
+      "company_name": "LONDON STOCK EXCHANGE GROUP PLC",
       "sector": "Financial Services",
-      "score_today": 27.7,
-      "score_prev": 32.7,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "EQIX",
-      "company_name": "Equinix, Inc.",
-      "sector": "Real Estate",
-      "score_today": 27.5,
-      "score_prev": 35.9,
-      "delta": -8.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "score_today": 43.2,
-      "score_prev": 53.2,
+      "score_today": 42.0,
+      "score_prev": 52.0,
       "delta": -10.0,
       "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "DBOEY",
+      "company_name": "Deutsche Boerse AG",
+      "sector": "Financial Services",
+      "score_today": 26.5,
+      "score_prev": 37.5,
+      "delta": -11.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "FAST",
+      "company_name": "Fastenal Company",
+      "sector": "Industrials",
+      "score_today": 27.7,
+      "score_prev": 38.7,
+      "delta": -11.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 59.9,
+      "score_prev": 70.9,
+      "delta": -11.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "sector": "Healthcare",
+      "score_today": 41.8,
+      "score_prev": 57.8,
+      "delta": -16.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "score_today": 24.6,
+      "score_prev": 51.5,
+      "delta": -27.0,
+      "grade": "🔴 Weak"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 8,
-    "score_down": 5
+    "score_up": 2,
+    "score_down": 12
   }
 }
