@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-05-19",
+  "total": 1,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 0,
+  "wait": 1,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 65.04,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 22.9,
+      "fcf_yield_pct": 43.67,
+      "risk_reward_ratio": null,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 23,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 60
+    }
+  ]
+}

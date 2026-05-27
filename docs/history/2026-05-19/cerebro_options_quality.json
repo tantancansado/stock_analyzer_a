@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-05-19",
+  "total": 33,
+  "tier1": 0,
+  "tier2": 3,
+  "tier3": 12,
+  "noise_filtered": 18,
+  "actionable": [
+    {
+      "ticker": "TYL",
+      "company_name": "Tyler Technologies, Inc.",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 55,
+      "value_score": 37.1,
+      "fcf_yield": 4.22,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (37pts)",
+        "INSIDER CONF",
+        "DIRECTIONAL (100% puts)"
+      ],
+      "flow_score": 80.0,
+      "total_premium": 14069200.0,
+      "detected_date": "2026-05-19"
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 56.8,
+      "fcf_yield": 5.54,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (57pts)",
+        "FCF 5.5%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 220858.0,
+      "detected_date": "2026-05-19"
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 41.8,
+      "fcf_yield": 7.05,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (42pts)",
+        "FCF 7.0%",
+        "DIRECTIONAL (100% puts)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 185913.0,
+      "detected_date": "2026-05-19"
+    }
+  ],
+  "narrative": "Aqu\u00ed te dejo dos frases en espa\u00f1ol que resumen la idea:\n\n1. \"Las opciones solo confirman la direcci\u00f3n del mercado cuando hay alineaci\u00f3n con los fundamentales del negocio, lo que sugiere que la informaci\u00f3n financiera y operativa de la empresa es un factor clave en la toma de decisiones de inversi\u00f3n\".\n2. \"La correlaci\u00f3n entre opciones y fundamentales es un indicador importante de que las opciones no son un predictor independiente del mercado, sino que se benefician de la informaci\u00f3n subyacente de la empresa para tomar decisiones de inversi\u00f3n informadas\"."
+}

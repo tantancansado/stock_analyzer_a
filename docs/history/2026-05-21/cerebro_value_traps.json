@@ -1,0 +1,61 @@
+{
+  "generated_at": "2026-05-21",
+  "total": 4,
+  "high_count": 0,
+  "narrative": "Estos tickers podr\u00edan ser value traps debido a que, a pesar de tener una valuaci\u00f3n barata, presentan problemas subyacentes como flujos de caja libres (FCF) negativos, lo que indica que est\u00e1n \"quemando caja\" y no generando suficiente efectivo para mantener su actividad. Adem\u00e1s, en el caso de ERIE, su puntuaci\u00f3n de Piotroski d\u00e9bil y un fundamental score cercano a la default sugiere una situaci\u00f3n financiera inestable y datos poco fiables, lo que aumenta el riesgo de que sea una trampa de valor.",
+  "traps": [
+    {
+      "ticker": "ERIE",
+      "company_name": "Erie Indemnity Company",
+      "severity": "MEDIUM",
+      "trap_score": 4,
+      "value_score": 31.28,
+      "flags": [
+        "Piotroski d\u00e9bil (4/9)",
+        "Fundamental score cerca de default (50) \u2014 datos poco fiables"
+      ],
+      "piotroski": 4.0,
+      "fcf_yield_pct": 3.83,
+      "fundamental_score": 49.5
+    },
+    {
+      "ticker": "NOVO-B.CO",
+      "company_name": "Novo Nordisk B A/S",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 54.2,
+      "flags": [
+        "FCF negativo (-0.9%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 5.0,
+      "fcf_yield_pct": -0.95,
+      "fundamental_score": 78.0
+    },
+    {
+      "ticker": "HEXA-B.ST",
+      "company_name": "Hexagon AB ser. B",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 41.2,
+      "flags": [
+        "FCF negativo (-2.1%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 6.0,
+      "fcf_yield_pct": -2.13,
+      "fundamental_score": 72.9
+    },
+    {
+      "ticker": "SAF.PA",
+      "company_name": "SAFRAN",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 34.8,
+      "flags": [
+        "FCF negativo (-1.5%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 7.0,
+      "fcf_yield_pct": -1.48,
+      "fundamental_score": 54.5
+    }
+  ]
+}

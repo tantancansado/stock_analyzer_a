@@ -1,0 +1,66 @@
+{
+  "generated_at": "2026-05-21",
+  "macro_regime": "CALM",
+  "composite_score": 11.0,
+  "sesgo": "DEFENSIVO",
+  "confianza": 60,
+  "situacion": "Mercado en calma, pero con se\u00f1ales de debilidad en sectores clave",
+  "narrativa": "El mercado est\u00e1 siendo impulsado por la calma macro, pero la debilidad en bancos regionales y el aumento en la volatilidad en el SKEW Index sugieren que la situaci\u00f3n puede cambiar r\u00e1pidamente. Los inversores VALUE deben estar atentos a estas se\u00f1ales y ajustar sus estrategias en consecuencia.",
+  "acciones_inmediatas": [
+    {
+      "prioridad": 1,
+      "accion": "VENDER",
+      "instrumento": "KRE",
+      "razon": "Bancos regionales est\u00e1n debilit\u00e1ndose y pueden seguir bajando",
+      "catalizador": "Debilidad en la econom\u00eda regional",
+      "size_hint": "peque\u00f1a (1-2%)",
+      "invalidacion": "Rebrote en la econom\u00eda regional"
+    },
+    {
+      "prioridad": 2,
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "Yield 30yr en zona hist\u00f3ricamente atractiva para bonos largos",
+      "catalizador": "Yield 30yr en 5.12%",
+      "size_hint": "media (3-4%)",
+      "invalidacion": "Aumento en la inflaci\u00f3n"
+    }
+  ],
+  "macro_plays": [
+    {
+      "instrument": "TLT/VGLT",
+      "direction": "LONG",
+      "thesis": "Yield 30yr en 5.12% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
+      "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
+      "timeframe": "3-6 meses",
+      "score": 95,
+      "eu_alternative": {
+        "ticker": "DTLA",
+        "name": "Xtrackers US Treasuries 20yr+ UCITS ETF",
+        "exchange": "Xetra",
+        "available": "DEGIRO/IB"
+      }
+    }
+  ],
+  "macro_plays_commentary": "La zona hist\u00f3ricamente atractiva para bonos largos es un buen catalizador para la compra de TLT",
+  "value_en_entorno": [],
+  "value_en_entorno_razon": "Los tickers VALUE encajan en el r\u00e9gimen actual porque est\u00e1n siendo impulsados por la calma macro y la debilidad en sectores clave",
+  "evitar": [
+    {
+      "ticker": "ATLKY",
+      "razon": "Se\u00f1al de debilidad en el sector"
+    }
+  ],
+  "agenda_semana": [
+    {
+      "fecha": "2026-05-24",
+      "evento": "Reuni\u00f3n de la Reserva Federal",
+      "impacto": "ALTO",
+      "accion_sugerida": "Vigilar el mercado"
+    }
+  ],
+  "frase_del_dia": "El mercado es un gran libro de historia, y los inversores deben leerlo para aprender de los errores del pasado.",
+  "mensaje_telegram": "\ud83d\udea8 Mercado en calma, pero con se\u00f1ales de debilidad. Vender KRE y comprar TLT. \ud83d\udcc9",
+  "ai_powered": true
+}

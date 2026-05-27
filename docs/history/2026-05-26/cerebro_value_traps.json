@@ -1,0 +1,47 @@
+{
+  "generated_at": "2026-05-26",
+  "total": 3,
+  "high_count": 0,
+  "narrative": "Aqu\u00ed te presento dos posibles explicaciones en espa\u00f1ol sobre por qu\u00e9 estos tickers podr\u00edan ser value traps:\n\n1. \"A pesar de tener una valuaci\u00f3n barata, estos tickers presentan flujos de efectivo negativos, lo que sugiere que est\u00e1n quemando caja y no est\u00e1n generando suficientes ganancias para pagar dividendos o reinvertir en la empresa. Esto puede ser un signo de que la empresa est\u00e1 en problemas y que la valuaci\u00f3n baja no es un indicador de valor a largo plazo.\"\n\n2. \"La combinaci\u00f3n de flujos de efectivo negativos y valuaci\u00f3n barata en estos tickers puede ser un indicador de que se est\u00e1 tratando",
+  "traps": [
+    {
+      "ticker": "NOVO-B.CO",
+      "company_name": "Novo Nordisk B A/S",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 52.6,
+      "flags": [
+        "FCF negativo (-0.9%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 5.0,
+      "fcf_yield_pct": -0.94,
+      "fundamental_score": 74.0
+    },
+    {
+      "ticker": "HEXA-B.ST",
+      "company_name": "Hexagon AB ser. B",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 48.4,
+      "flags": [
+        "FCF negativo (-2.5%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 6.0,
+      "fcf_yield_pct": -2.53,
+      "fundamental_score": 68.5
+    },
+    {
+      "ticker": "SAF.PA",
+      "company_name": "SAFRAN",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 31.6,
+      "flags": [
+        "FCF negativo (-1.4%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 7.0,
+      "fcf_yield_pct": -1.37,
+      "fundamental_score": 54.0
+    }
+  ]
+}

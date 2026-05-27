@@ -1,0 +1,71 @@
+{
+  "generated_at": "2026-05-19",
+  "total_positions": 146,
+  "risks": [
+    {
+      "type": "SECTOR_CONCENTRATION",
+      "severity": "HIGH",
+      "message": "75% de se\u00f1ales en Unknown (110/146) \u2014 concentraci\u00f3n elevada",
+      "detail": {
+        "sector": "Unknown",
+        "count": 110,
+        "pct": 75
+      }
+    },
+    {
+      "type": "GEO_CONCENTRATION",
+      "severity": "LOW",
+      "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
+      "detail": {
+        "us": 146,
+        "eu": 0
+      }
+    }
+  ],
+  "narrative": "Para mitigar los riesgos de concentraci\u00f3n, se puede diversificar la cartera invirtiendo en sectores y mercados diferentes, lo que reducir\u00eda la exposici\u00f3n a un solo sector o mercado. Adem\u00e1s, se puede considerar la inclusi\u00f3n de se\u00f1ales de otros mercados y sectores para disminuir la concentraci\u00f3n en el mercado US y el sector Unknown, aumentando as\u00ed la diversificaci\u00f3n y reduciendo el riesgo.",
+  "sector_breakdown": [
+    {
+      "sector": "Unknown",
+      "count": 110,
+      "pct": 75
+    },
+    {
+      "sector": "Technology",
+      "count": 10,
+      "pct": 7
+    },
+    {
+      "sector": "Financial Services",
+      "count": 6,
+      "pct": 4
+    },
+    {
+      "sector": "Basic Materials",
+      "count": 5,
+      "pct": 3
+    },
+    {
+      "sector": "Consumer Cyclical",
+      "count": 5,
+      "pct": 3
+    },
+    {
+      "sector": "Communication Services",
+      "count": 4,
+      "pct": 3
+    },
+    {
+      "sector": "Industrials",
+      "count": 4,
+      "pct": 3
+    },
+    {
+      "sector": "Healthcare",
+      "count": 1,
+      "pct": 1
+    }
+  ],
+  "region_breakdown": {
+    "US": 146
+  }
+}

@@ -1,0 +1,203 @@
+{
+  "generated_at": "2026-05-21",
+  "total": 4,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 1,
+  "wait": 3,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 61.040000000000006,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 23.6,
+      "fcf_yield_pct": 43.91,
+      "risk_reward_ratio": null,
+      "days_in_value": 3,
+      "streak_days": 1,
+      "entry_score": 33,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 58
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 60.855,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 29.5,
+      "fcf_yield_pct": 3.66,
+      "risk_reward_ratio": null,
+      "days_in_value": 1,
+      "streak_days": 4,
+      "entry_score": 28,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Upside \u226520%",
+        "Options flow alcista",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 71
+    },
+    {
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 64.54499999999999,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 33.0,
+      "fcf_yield_pct": 6.18,
+      "risk_reward_ratio": null,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 23,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 63
+    },
+    {
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "region": "US",
+      "sector": "Healthcare",
+      "value_score": 61.75,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 18.2,
+      "fcf_yield_pct": 6.58,
+      "risk_reward_ratio": null,
+      "days_in_value": 2,
+      "streak_days": 1,
+      "entry_score": 15,
+      "signal": "WAIT",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Upside <20%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 2d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 70
+    }
+  ]
+}

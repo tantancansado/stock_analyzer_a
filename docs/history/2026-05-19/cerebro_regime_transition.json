@@ -1,0 +1,43 @@
+{
+  "generated_at": "2026-05-19",
+  "regime_current": "CALM",
+  "composite_now": 10.5,
+  "composite_delta_5d": 2.0,
+  "composite_delta_20d": 6.5,
+  "composite_trajectory": "IMPROVING",
+  "direction": "BEAR_TRANSITION",
+  "transition_probability": 45,
+  "alert_level": "ALERT",
+  "signals_turning": [
+    {
+      "signal": "VIX",
+      "detail": "Percentil VIX subi\u00f3 24pp \u2192 stress creciente",
+      "severity": "MEDIUM"
+    },
+    {
+      "signal": "Breadth/Small caps",
+      "detail": "Deterioro de breadth \u2014 mercado estrech\u00e1ndose (92\u219272, \u0394-21)",
+      "severity": "MEDIUM"
+    }
+  ],
+  "turning_bearish": [
+    {
+      "signal": "VIX",
+      "detail": "Percentil VIX subi\u00f3 24pp \u2192 stress creciente",
+      "severity": "MEDIUM"
+    },
+    {
+      "signal": "Breadth/Small caps",
+      "detail": "Deterioro de breadth \u2014 mercado estrech\u00e1ndose (92\u219272, \u0394-21)",
+      "severity": "MEDIUM"
+    }
+  ],
+  "turning_bullish": [
+    {
+      "signal": "Gold/SPY",
+      "detail": "Gold/SPY percentil cay\u00f3 19pp \u2192 retorno al riesgo",
+      "severity": "MEDIUM"
+    }
+  ],
+  "narrative": "Como inversor de valor, es importante estar atento a los cambios en el r\u00e9gimen del mercado y ajustar la estrategia de inversi\u00f3n en consecuencia. En este caso, con se\u00f1ales de transici\u00f3n hacia un r\u00e9gimen m\u00e1s bearish y un aumento en el estr\u00e9s del mercado, es recomendable reducir la exposici\u00f3n a activos de riesgo y buscar oportunidades de inversi\u00f3n en sectores y empresas m\u00e1s defensivos y con un valor intr\u00ednseco s\u00f3lido."
+}

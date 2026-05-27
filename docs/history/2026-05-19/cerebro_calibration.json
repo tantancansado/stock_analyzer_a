@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-05-19",
+  "recommendations": [
+    {
+      "type": "BOOST",
+      "factor": "Score 60\u201370",
+      "insight": "WR 40.8% (+13.5pp sobre base). Priorizar este rango.",
+      "n": 328
+    },
+    {
+      "type": "REGIME_FILTER",
+      "factor": "R\u00e9gimen UPTREND_PRESSURE",
+      "insight": "Solo 11.5% WR en UPTREND_PRESSURE. Considera pausar se\u00f1ales.",
+      "n": 547
+    },
+    {
+      "type": "BOOST",
+      "factor": "FCF Yield \u22655%",
+      "insight": "FCF alto mejora WR +7.3pp. Aumentar peso FCF.",
+      "n": 419
+    },
+    {
+      "type": "BOOST",
+      "factor": "R:R \u22653",
+      "insight": "R:R alto mejora WR +9.9pp. Aumentar peso R:R.",
+      "n": 582
+    }
+  ],
+  "narrative": "Seg\u00fan las recomendaciones de calibraci\u00f3n, los ajustes m\u00e1s urgentes son:\n\n- Pausar se\u00f1ales en el r\u00e9gimen UPTREND_PRESSURE, ya que solo representa el 11,5% de la WR base.\n- Aumentar el peso de FCF (Flujo de Efectivo Libre) y R:R (Relaci\u00f3n entre Beneficio y Flujo de Efectivo Libre), ya que ambos tienen un impacto significativo en la WR (+7,3pp y +9,9pp respectivamente).\n\nEstos ajustes son m\u00e1s urgentes porque pueden mejorar significativamente la eficiencia del sistema y reducir la probabilidad de falsos positivos.",
+  "total_recommendations": 4
+}

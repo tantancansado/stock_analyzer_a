@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-05-25",
+  "total": 3,
+  "high_count": 1,
+  "narrative": "Un short squeeze en un valor fundamentalmente s\u00f3lido puede ser especialmente explosivo porque los inversores que han tomado posiciones cortas en el valor ya est\u00e1n perdiendo dinero debido a la mejora de la calidad fundamental del mismo. Esto los obliga a cubrir sus posiciones cortas a cualquier precio, lo que puede provocar un r\u00e1pido aumento en el precio del valor y hacer que los inversores que han tomado posiciones largas se beneficien de la situaci\u00f3n.\n\nLa combinaci\u00f3n de un short squeeze con una mejora en la calidad fundamental del valor puede crear un efecto de \"piedra en el estanque\" que hace que el precio del valor suba r\u00e1pidamente, ya que los inversores",
+  "setups": [
+    {
+      "ticker": "CHTR",
+      "company_name": "Charter Communications, Inc.",
+      "sector": "Communication Services",
+      "severity": "HIGH",
+      "squeeze_score": 70,
+      "short_pct_float": 39.5,
+      "piotroski": 7.0,
+      "value_score": 35.0,
+      "insider_buying": false,
+      "hf_present": true,
+      "flags": [
+        "Short muy alto (39.5% del float)",
+        "Piotroski 7/9 \u2014 calidad mejorando",
+        "Hedge funds con posici\u00f3n larga"
+      ]
+    },
+    {
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza Inc",
+      "sector": "Consumer Cyclical",
+      "severity": "MEDIUM",
+      "squeeze_score": 40,
+      "short_pct_float": 10.8,
+      "piotroski": 8.0,
+      "value_score": 27.120000000000005,
+      "insider_buying": false,
+      "hf_present": true,
+      "flags": [
+        "Short moderado (10.8% del float)",
+        "Piotroski 8/9 \u2014 calidad mejorando",
+        "Hedge funds con posici\u00f3n larga"
+      ]
+    },
+    {
+      "ticker": "POOL",
+      "company_name": "Pool Corporation",
+      "sector": "Industrials",
+      "severity": "MEDIUM",
+      "squeeze_score": 25,
+      "short_pct_float": 10.9,
+      "piotroski": 5.0,
+      "value_score": 24.12,
+      "insider_buying": false,
+      "hf_present": true,
+      "flags": [
+        "Short moderado (10.9% del float)",
+        "Hedge funds con posici\u00f3n larga"
+      ]
+    }
+  ]
+}

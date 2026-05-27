@@ -1,0 +1,100 @@
+{
+  "generated_at": "2026-05-20",
+  "total": 8,
+  "dropped_count": 3,
+  "narrative": "Rotar dentro de un sector tiene m\u00e1s sentido que esperar cuando un competidor emerge con una mejor posici\u00f3n, como en el caso de SAP, AUTO.L y ADP, que salieron de la categor\u00eda VALUE y tienen pares en sectores como Technology y Communication Services. En situaciones como estas, es m\u00e1s beneficioso cambiar a un peer con un mejor desempe\u00f1o, como ASAZY, que esperar a que el competidor original recupere su posici\u00f3n.",
+  "displacements": [
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "SAP",
+      "sector": "Technology",
+      "prev_score": 58.885000000000005,
+      "replacements": [
+        "UBER",
+        "MSFT",
+        "SAP.DE"
+      ],
+      "top_replacement": "UBER",
+      "top_replacement_score": 59.0,
+      "detail": "SAP sali\u00f3 de VALUE (59pts); peers en Technology: UBER, MSFT"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "AUTO.L",
+      "sector": "Communication Services",
+      "prev_score": 59.22,
+      "replacements": [
+        "RMV.L"
+      ],
+      "top_replacement": "RMV.L",
+      "top_replacement_score": 55.0,
+      "detail": "AUTO.L sali\u00f3 de VALUE (59pts); peers en Communication Services: RMV.L"
+    },
+    {
+      "type": "COMPETITOR_RISE",
+      "dropped_ticker": "ADP",
+      "sector": "Technology",
+      "prev_score": 56.75,
+      "replacements": [
+        "UBER",
+        "MSFT",
+        "SAP.DE"
+      ],
+      "top_replacement": "UBER",
+      "top_replacement_score": 59.0,
+      "detail": "ADP sali\u00f3 de VALUE (57pts); peers en Technology: UBER, MSFT"
+    },
+    {
+      "type": "EXIT_TO_PEER",
+      "exiting_ticker": "WTKWY",
+      "sector": "Industrials",
+      "replacement": "ASAZY",
+      "replacement_score": 65.04,
+      "detail": "Exit WTKWY (Industrials) \u2192 rotar a peer ASAZY (65pts)"
+    },
+    {
+      "type": "EXIT_TO_PEER",
+      "exiting_ticker": "RELX",
+      "sector": "Industrials",
+      "replacement": "ASAZY",
+      "replacement_score": 65.04,
+      "detail": "Exit RELX (Industrials) \u2192 rotar a peer ASAZY (65pts)"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Technology",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "UBER",
+        "MSFT",
+        "SAP.DE"
+      ],
+      "top_ticker": "UBER",
+      "top_score": 59.0,
+      "detail": "Sector Technology l\u00edder (RS 100) \u2014 UBER, MSFT, SAP.DE son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "TEVA",
+        "NOVO-B.CO"
+      ],
+      "top_ticker": "TEVA",
+      "top_score": 61.75,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 TEVA, NOVO-B.CO son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Communication Services",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "RMV.L"
+      ],
+      "top_ticker": "RMV.L",
+      "top_score": 55.0,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 RMV.L son los picks VALUE"
+    }
+  ]
+}

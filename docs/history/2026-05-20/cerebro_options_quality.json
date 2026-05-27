@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-05-20",
+  "total": 28,
+  "tier1": 0,
+  "tier2": 4,
+  "tier3": 5,
+  "noise_filtered": 19,
+  "actionable": [
+    {
+      "ticker": "TYL",
+      "company_name": "Tyler Technologies, Inc.",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 55,
+      "value_score": 31.7,
+      "fcf_yield": 4.1,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (32pts)",
+        "INSIDER CONF",
+        "DIRECTIONAL (100% puts)"
+      ],
+      "flow_score": 80.0,
+      "total_premium": 14069200.0,
+      "detected_date": "2026-05-20"
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 55,
+      "value_score": 31.9,
+      "fcf_yield": 4.2,
+      "insider_confirmation": true,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (32pts)",
+        "INSIDER CONF",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 70.0,
+      "total_premium": 700085.0,
+      "detected_date": "2026-05-20"
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 48.8,
+      "fcf_yield": 5.33,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (49pts)",
+        "FCF 5.3%",
+        "DIRECTIONAL (100% calls)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 454532.0,
+      "detected_date": "2026-05-20"
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
+      "sentiment": "BEARISH",
+      "tier": "TIER2",
+      "quality_score": 45,
+      "value_score": 41.8,
+      "fcf_yield": 6.82,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE weak (42pts)",
+        "FCF 6.8%",
+        "DIRECTIONAL (100% puts)"
+      ],
+      "flow_score": 60.0,
+      "total_premium": 185913.0,
+      "detected_date": "2026-05-20"
+    }
+  ],
+  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que responden a tu pregunta:\n\n1. \"Las opciones solo confirman cuando hay alineaci\u00f3n con fundamentales porque reflejan la percepci\u00f3n del mercado sobre la salud financiera y el potencial de crecimiento de la empresa, lo que a su vez est\u00e1 influenciado por factores fundamentales como la rentabilidad, la liquidez y la direcci\u00f3n estrat\u00e9gica.\"\n2. \"La alineaci\u00f3n entre opciones y fundamentales es crucial porque las opciones reflejan la opini\u00f3n del mercado sobre el valor presente y futuro de la empresa, mientras que los fundamentales proporcionan la base real sobre la que se asienta ese valor, permitiendo as\u00ed una toma de decisiones m\u00e1s informada.\""
+}

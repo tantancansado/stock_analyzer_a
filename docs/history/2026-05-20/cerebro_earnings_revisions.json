@@ -1,0 +1,943 @@
+{
+  "generated_at": "2026-05-19",
+  "tikr_date": "2026-05-17",
+  "prev_date": "2026-05-03",
+  "total": 57,
+  "upgrades": 11,
+  "downgrades": 7,
+  "narrative": "Estas revisiones de estimaciones sugieren que un inversor VALUE debe tener cuidado con acciones como ECL, ITRK.L y CLPBY, que han experimentado un descenso significativo en sus estimaciones de beneficios, lo que podr\u00eda indicar una disminuci\u00f3n en su valoraci\u00f3n. Por otro lado, acciones como ETN e IT, que han visto un aumento en sus estimaciones de beneficios, podr\u00edan ser consideradas como oportunidades de inversi\u00f3n m\u00e1s atractivas, ya que su valoraci\u00f3n podr\u00eda estar aumentando.",
+  "revisions": [
+    {
+      "ticker": "ECL",
+      "company_name": "Ecolab Inc.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 11.896,
+      "eps_curr": 10.731,
+      "eps_chg_pct": -9.8,
+      "rev_chg_pct": 0.13,
+      "analysts_prev": 21,
+      "analysts_curr": 17,
+      "analysts_delta": -4,
+      "score_adj": -11,
+      "flags": [
+        "EPS consensus \u21939.8% (11.90\u219210.73)",
+        "Analistas: -4 (21\u219217)"
+      ]
+    },
+    {
+      "ticker": "ITRK.L",
+      "company_name": "Intertek Group plc",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 3.613,
+      "eps_curr": 3.392,
+      "eps_chg_pct": -6.11,
+      "rev_chg_pct": -0.27,
+      "analysts_prev": 13,
+      "analysts_curr": 0,
+      "analysts_delta": -13,
+      "score_adj": -11,
+      "flags": [
+        "EPS consensus \u21936.1% (3.61\u21923.39)",
+        "Analistas: -13 (13\u21920)"
+      ]
+    },
+    {
+      "ticker": "ETN",
+      "company_name": "Eaton Corporation plc",
+      "direction": "UP",
+      "eps_prev": 13.134,
+      "eps_curr": 13.426,
+      "eps_chg_pct": 2.23,
+      "rev_chg_pct": 6.09,
+      "analysts_prev": 18,
+      "analysts_curr": 23,
+      "analysts_delta": 5,
+      "score_adj": 9,
+      "flags": [
+        "EPS consensus \u21912.2% (13.13\u219213.43)",
+        "Revenue estimate \u21916.1%",
+        "Analistas: +5 (18\u219223)"
+      ]
+    },
+    {
+      "ticker": "CLPBY",
+      "company_name": "Coloplast A/S",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 0.506,
+      "eps_curr": 0.414,
+      "eps_chg_pct": -18.15,
+      "rev_chg_pct": 1.74,
+      "analysts_prev": 2,
+      "analysts_curr": 1,
+      "analysts_delta": -1,
+      "score_adj": -8,
+      "flags": [
+        "EPS consensus \u219318.1% (0.51\u21920.41)",
+        "Revenue estimate \u21911.7%"
+      ]
+    },
+    {
+      "ticker": "IT",
+      "company_name": "Gartner, Inc.",
+      "direction": "STRONG_UP",
+      "eps_prev": 18.087,
+      "eps_curr": 22.207,
+      "eps_chg_pct": 22.78,
+      "rev_chg_pct": -0.19,
+      "analysts_prev": 15,
+      "analysts_curr": 15,
+      "analysts_delta": 0,
+      "score_adj": 8,
+      "flags": [
+        "EPS consensus \u219122.8% (18.09\u219222.21)"
+      ]
+    },
+    {
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 13.961,
+      "eps_curr": 12.933,
+      "eps_chg_pct": -7.36,
+      "rev_chg_pct": 1.82,
+      "analysts_prev": 12,
+      "analysts_curr": 12,
+      "analysts_delta": 0,
+      "score_adj": -8,
+      "flags": [
+        "EPS consensus \u21937.4% (13.96\u219212.93)",
+        "Revenue estimate \u21911.8%"
+      ]
+    },
+    {
+      "ticker": "EQIX",
+      "company_name": "Equinix, Inc.",
+      "direction": "UP",
+      "eps_prev": 42.514,
+      "eps_curr": 43.904,
+      "eps_chg_pct": 3.27,
+      "rev_chg_pct": 0.26,
+      "analysts_prev": 0,
+      "analysts_curr": 3,
+      "analysts_delta": 3,
+      "score_adj": 7,
+      "flags": [
+        "EPS consensus \u21913.3% (42.51\u219243.90)",
+        "Analistas: +3 (0\u21923)"
+      ]
+    },
+    {
+      "ticker": "GWW",
+      "company_name": "W.W. Grainger, Inc.",
+      "direction": "STRONG_UP",
+      "eps_prev": 45.497,
+      "eps_curr": 50.408,
+      "eps_chg_pct": 10.79,
+      "rev_chg_pct": 4.41,
+      "analysts_prev": 19,
+      "analysts_curr": 0,
+      "analysts_delta": -19,
+      "score_adj": 7,
+      "flags": [
+        "EPS consensus \u219110.8% (45.50\u219250.41)",
+        "Revenue estimate \u21914.4%",
+        "Analistas: -19 (19\u21920)"
+      ]
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "direction": "DOWN",
+      "eps_prev": 20.561,
+      "eps_curr": 19.87,
+      "eps_chg_pct": -3.36,
+      "rev_chg_pct": 0.13,
+      "analysts_prev": 35,
+      "analysts_curr": 0,
+      "analysts_delta": -35,
+      "score_adj": -7,
+      "flags": [
+        "EPS consensus \u21933.4% (20.56\u219219.87)",
+        "Analistas: -35 (35\u21920)"
+      ]
+    },
+    {
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
+      "direction": "UP",
+      "eps_prev": 147.35,
+      "eps_curr": 151.368,
+      "eps_chg_pct": 2.73,
+      "rev_chg_pct": 5.89,
+      "analysts_prev": 5,
+      "analysts_curr": 6,
+      "analysts_delta": 1,
+      "score_adj": 6,
+      "flags": [
+        "EPS consensus \u21912.7% (147.35\u2192151.37)",
+        "Revenue estimate \u21915.9%"
+      ]
+    },
+    {
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 15.412,
+      "eps_curr": 13.561,
+      "eps_chg_pct": -12.01,
+      "rev_chg_pct": 0.36,
+      "analysts_prev": 0,
+      "analysts_curr": 27,
+      "analysts_delta": 27,
+      "score_adj": -5,
+      "flags": [
+        "EPS consensus \u219312.0% (15.41\u219213.56)",
+        "Analistas: +27 (0\u219227)"
+      ]
+    },
+    {
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 5.247,
+      "eps_curr": 4.918,
+      "eps_chg_pct": -6.26,
+      "rev_chg_pct": 0.12,
+      "analysts_prev": 0,
+      "analysts_curr": 12,
+      "analysts_delta": 12,
+      "score_adj": -5,
+      "flags": [
+        "EPS consensus \u21936.3% (5.25\u21924.92)",
+        "Analistas: +12 (0\u219212)"
+      ]
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "direction": "UP",
+      "eps_prev": 15.201,
+      "eps_curr": 15.679,
+      "eps_chg_pct": 3.15,
+      "rev_chg_pct": 0.41,
+      "analysts_prev": 38,
+      "analysts_curr": 39,
+      "analysts_delta": 1,
+      "score_adj": 4,
+      "flags": [
+        "EPS consensus \u21913.1% (15.20\u219215.68)"
+      ]
+    },
+    {
+      "ticker": "MTD",
+      "company_name": "Mettler-Toledo International Inc.",
+      "direction": "UP",
+      "eps_prev": 54.35,
+      "eps_curr": 56.025,
+      "eps_chg_pct": 3.08,
+      "rev_chg_pct": 1.27,
+      "analysts_prev": 0,
+      "analysts_curr": 0,
+      "analysts_delta": 0,
+      "score_adj": 4,
+      "flags": [
+        "EPS consensus \u21913.1% (54.35\u219256.03)"
+      ]
+    },
+    {
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "direction": "UP",
+      "eps_prev": 6.576,
+      "eps_curr": 6.87,
+      "eps_chg_pct": 4.47,
+      "rev_chg_pct": 1.35,
+      "analysts_prev": 0,
+      "analysts_curr": 0,
+      "analysts_delta": 0,
+      "score_adj": 4,
+      "flags": [
+        "EPS consensus \u21914.5% (6.58\u21926.87)"
+      ]
+    },
+    {
+      "ticker": "FAST",
+      "company_name": "Fastenal Company",
+      "direction": "FLAT",
+      "eps_prev": 1.173,
+      "eps_curr": 1.188,
+      "eps_chg_pct": 1.28,
+      "rev_chg_pct": 0.19,
+      "analysts_prev": 17,
+      "analysts_curr": 0,
+      "analysts_delta": -17,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -17 (17\u21920)"
+      ]
+    },
+    {
+      "ticker": "MSI",
+      "company_name": "Motorola Solutions, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 18.88,
+      "eps_curr": 18.957,
+      "eps_chg_pct": 0.41,
+      "rev_chg_pct": 2.54,
+      "analysts_prev": 13,
+      "analysts_curr": 0,
+      "analysts_delta": -13,
+      "score_adj": -3,
+      "flags": [
+        "Revenue estimate \u21912.5%",
+        "Analistas: -13 (13\u21920)"
+      ]
+    },
+    {
+      "ticker": "ISRG",
+      "company_name": "Intuitive Surgical, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 14.315,
+      "eps_curr": 14.315,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 27,
+      "analysts_delta": 27,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +27 (0\u219227)"
+      ]
+    },
+    {
+      "ticker": "CNI",
+      "company_name": "Centuria Capital Group",
+      "direction": "FLAT",
+      "eps_prev": 0.175,
+      "eps_curr": 0.175,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 10,
+      "analysts_curr": 0,
+      "analysts_delta": -10,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -10 (10\u21920)"
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "direction": "FLAT",
+      "eps_prev": 27.541,
+      "eps_curr": 27.541,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.11,
+      "analysts_prev": 30,
+      "analysts_curr": 0,
+      "analysts_delta": -30,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -30 (30\u21920)"
+      ]
+    },
+    {
+      "ticker": "AUTO.L",
+      "company_name": "Autotrader Group plc",
+      "direction": "FLAT",
+      "eps_prev": 0.39,
+      "eps_curr": 0.389,
+      "eps_chg_pct": -0.1,
+      "rev_chg_pct": -0.04,
+      "analysts_prev": 0,
+      "analysts_curr": 14,
+      "analysts_delta": 14,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +14 (0\u219214)"
+      ]
+    },
+    {
+      "ticker": "ZTS",
+      "company_name": "Zoetis Inc.",
+      "direction": "FLAT",
+      "eps_prev": 7.779,
+      "eps_curr": 7.922,
+      "eps_chg_pct": 1.83,
+      "rev_chg_pct": -0.22,
+      "analysts_prev": 17,
+      "analysts_curr": 13,
+      "analysts_delta": -4,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -4 (17\u219213)"
+      ]
+    },
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "direction": "FLAT",
+      "eps_prev": 20.656,
+      "eps_curr": 20.656,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.02,
+      "analysts_prev": 0,
+      "analysts_curr": 24,
+      "analysts_delta": 24,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +24 (0\u219224)"
+      ]
+    },
+    {
+      "ticker": "CME",
+      "company_name": "CME Group Inc.",
+      "direction": "FLAT",
+      "eps_prev": 12.242,
+      "eps_curr": 12.242,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.25,
+      "analysts_prev": 15,
+      "analysts_curr": 0,
+      "analysts_delta": -15,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -15 (15\u21920)"
+      ]
+    },
+    {
+      "ticker": "ITW",
+      "company_name": "Illinois Tool Works Inc.",
+      "direction": "FLAT",
+      "eps_prev": 12.908,
+      "eps_curr": 12.705,
+      "eps_chg_pct": -1.57,
+      "rev_chg_pct": 0.17,
+      "analysts_prev": 12,
+      "analysts_curr": 0,
+      "analysts_delta": -12,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -12 (12\u21920)"
+      ]
+    },
+    {
+      "ticker": "DHR",
+      "company_name": "Danaher Corporation",
+      "direction": "FLAT",
+      "eps_prev": 10.221,
+      "eps_curr": 10.371,
+      "eps_chg_pct": 1.47,
+      "rev_chg_pct": -0.04,
+      "analysts_prev": 0,
+      "analysts_curr": 24,
+      "analysts_delta": 24,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +24 (0\u219224)"
+      ]
+    },
+    {
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 4.556,
+      "eps_curr": 4.542,
+      "eps_chg_pct": -0.31,
+      "rev_chg_pct": -0.28,
+      "analysts_prev": 17,
+      "analysts_curr": 0,
+      "analysts_delta": -17,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -17 (17\u21920)"
+      ]
+    },
+    {
+      "ticker": "PEP",
+      "company_name": "PepsiCo, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 10.987,
+      "eps_curr": 10.987,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 22,
+      "analysts_curr": 0,
+      "analysts_delta": -22,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -22 (22\u21920)"
+      ]
+    },
+    {
+      "ticker": "AI.PA",
+      "company_name": "C3.ai, Inc.",
+      "direction": "FLAT",
+      "eps_prev": -1.021,
+      "eps_curr": -1.021,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.35,
+      "analysts_prev": 14,
+      "analysts_curr": 0,
+      "analysts_delta": -14,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -14 (14\u21920)"
+      ]
+    },
+    {
+      "ticker": "ROL",
+      "company_name": "Rollins, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 1.795,
+      "eps_curr": 1.795,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.05,
+      "analysts_prev": 17,
+      "analysts_curr": 0,
+      "analysts_delta": -17,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -17 (17\u21920)"
+      ]
+    },
+    {
+      "ticker": "VLTO",
+      "company_name": "Veralto Corporation",
+      "direction": "FLAT",
+      "eps_prev": 4.551,
+      "eps_curr": 4.551,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.14,
+      "analysts_prev": 16,
+      "analysts_curr": 0,
+      "analysts_delta": -16,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -16 (16\u21920)"
+      ]
+    },
+    {
+      "ticker": "MCD",
+      "company_name": "McDonald's Corporation",
+      "direction": "FLAT",
+      "eps_prev": 16.543,
+      "eps_curr": 16.741,
+      "eps_chg_pct": 1.2,
+      "rev_chg_pct": 0.62,
+      "analysts_prev": 36,
+      "analysts_curr": 0,
+      "analysts_delta": -36,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -36 (36\u21920)"
+      ]
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 13.553,
+      "eps_curr": 13.553,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.15,
+      "analysts_prev": 14,
+      "analysts_curr": 16,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (14\u219216)"
+      ]
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 6.317,
+      "eps_curr": 6.317,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 18,
+      "analysts_delta": 18,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +18 (0\u219218)"
+      ]
+    },
+    {
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "direction": "FLAT",
+      "eps_prev": 5.13,
+      "eps_curr": 5.139,
+      "eps_chg_pct": 0.18,
+      "rev_chg_pct": 0.94,
+      "analysts_prev": 39,
+      "analysts_curr": 0,
+      "analysts_delta": -39,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -39 (39\u21920)"
+      ]
+    },
+    {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "direction": "FLAT",
+      "eps_prev": 10.472,
+      "eps_curr": 10.472,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.06,
+      "analysts_prev": 15,
+      "analysts_curr": 17,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (15\u219217)"
+      ]
+    },
+    {
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 1.879,
+      "eps_curr": 1.879,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.28,
+      "analysts_prev": 0,
+      "analysts_curr": 12,
+      "analysts_delta": 12,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +12 (0\u219212)"
+      ]
+    },
+    {
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "direction": "FLAT",
+      "eps_prev": 18.047,
+      "eps_curr": 18.014,
+      "eps_chg_pct": -0.18,
+      "rev_chg_pct": 0.04,
+      "analysts_prev": 23,
+      "analysts_curr": 0,
+      "analysts_delta": -23,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -23 (23\u21920)"
+      ]
+    },
+    {
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
+      "direction": "FLAT",
+      "eps_prev": 18.003,
+      "eps_curr": 18.098,
+      "eps_chg_pct": 0.53,
+      "rev_chg_pct": 0.21,
+      "analysts_prev": 22,
+      "analysts_curr": 26,
+      "analysts_delta": 4,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +4 (22\u219226)"
+      ]
+    },
+    {
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "direction": "FLAT",
+      "eps_prev": 6.756,
+      "eps_curr": 6.756,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.02,
+      "analysts_prev": 22,
+      "analysts_curr": 0,
+      "analysts_delta": -22,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -22 (22\u21920)"
+      ]
+    },
+    {
+      "ticker": "VEEV",
+      "company_name": "Veeva Systems Inc.",
+      "direction": "FLAT",
+      "eps_prev": 9.28,
+      "eps_curr": 9.28,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 28,
+      "analysts_delta": 28,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +28 (0\u219228)"
+      ]
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 7.995,
+      "eps_curr": 8.002,
+      "eps_chg_pct": 0.08,
+      "rev_chg_pct": -0.22,
+      "analysts_prev": 11,
+      "analysts_curr": 13,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (11\u219213)"
+      ]
+    },
+    {
+      "ticker": "AZO",
+      "company_name": "AutoZone, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 213.554,
+      "eps_curr": 213.554,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.02,
+      "analysts_prev": 0,
+      "analysts_curr": 21,
+      "analysts_delta": 21,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +21 (0\u219221)"
+      ]
+    },
+    {
+      "ticker": "PG",
+      "company_name": "The Procter & Gamble Company",
+      "direction": "FLAT",
+      "eps_prev": 8.274,
+      "eps_curr": 8.274,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.02,
+      "analysts_prev": 22,
+      "analysts_curr": 0,
+      "analysts_delta": -22,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -22 (22\u21920)"
+      ]
+    },
+    {
+      "ticker": "JNJ",
+      "company_name": "Johnson & Johnson",
+      "direction": "FLAT",
+      "eps_prev": 12.303,
+      "eps_curr": 12.303,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.01,
+      "analysts_prev": 25,
+      "analysts_curr": 0,
+      "analysts_delta": -25,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -25 (25\u21920)"
+      ]
+    },
+    {
+      "ticker": "TJX",
+      "company_name": "The TJX Companies, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 6.601,
+      "eps_curr": 6.607,
+      "eps_chg_pct": 0.09,
+      "rev_chg_pct": 0.03,
+      "analysts_prev": 0,
+      "analysts_curr": 20,
+      "analysts_delta": 20,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +20 (0\u219220)"
+      ]
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "direction": "FLAT",
+      "eps_prev": 24.833,
+      "eps_curr": 24.833,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.03,
+      "analysts_prev": 17,
+      "analysts_curr": 0,
+      "analysts_delta": -17,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -17 (17\u21920)"
+      ]
+    },
+    {
+      "ticker": "ORLY",
+      "company_name": "O'Reilly Automotive, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 4.093,
+      "eps_curr": 4.112,
+      "eps_chg_pct": 0.49,
+      "rev_chg_pct": 0.11,
+      "analysts_prev": 26,
+      "analysts_curr": 0,
+      "analysts_delta": -26,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -26 (26\u21920)"
+      ]
+    },
+    {
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "direction": "FLAT",
+      "eps_prev": 3.37,
+      "eps_curr": 3.37,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.06,
+      "analysts_prev": 21,
+      "analysts_curr": 23,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (21\u219223)"
+      ]
+    },
+    {
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "direction": "FLAT",
+      "eps_prev": 13.482,
+      "eps_curr": 13.482,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.01,
+      "analysts_prev": 8,
+      "analysts_curr": 0,
+      "analysts_delta": -8,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -8 (8\u21920)"
+      ]
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 9.956,
+      "eps_curr": 9.947,
+      "eps_chg_pct": -0.09,
+      "rev_chg_pct": 0.2,
+      "analysts_prev": 8,
+      "analysts_curr": 0,
+      "analysts_delta": -8,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -8 (8\u21920)"
+      ]
+    },
+    {
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc.",
+      "direction": "FLAT",
+      "eps_prev": 27.047,
+      "eps_curr": 26.906,
+      "eps_chg_pct": -0.52,
+      "rev_chg_pct": -0.06,
+      "analysts_prev": 21,
+      "analysts_curr": 24,
+      "analysts_delta": 3,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +3 (21\u219224)"
+      ]
+    },
+    {
+      "ticker": "COST",
+      "company_name": "Costco Wholesale Corporation",
+      "direction": "FLAT",
+      "eps_prev": 38.448,
+      "eps_curr": 38.448,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.39,
+      "analysts_prev": 26,
+      "analysts_curr": 0,
+      "analysts_delta": -26,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -26 (26\u21920)"
+      ]
+    },
+    {
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "direction": "FLAT",
+      "eps_prev": 4.951,
+      "eps_curr": 4.874,
+      "eps_chg_pct": -1.56,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 12,
+      "analysts_curr": 0,
+      "analysts_delta": -12,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -12 (12\u21920)"
+      ]
+    },
+    {
+      "ticker": "RSG",
+      "company_name": "Republic Services, Inc.",
+      "direction": "UP",
+      "eps_prev": 14.633,
+      "eps_curr": 15.046,
+      "eps_chg_pct": 2.82,
+      "rev_chg_pct": 1.52,
+      "analysts_prev": 26,
+      "analysts_curr": 0,
+      "analysts_delta": -26,
+      "score_adj": 1,
+      "flags": [
+        "EPS consensus \u21912.8% (14.63\u219215.05)",
+        "Revenue estimate \u21911.5%",
+        "Analistas: -26 (26\u21920)"
+      ]
+    },
+    {
+      "ticker": "LSEG.L",
+      "company_name": "London Stock Exchange Group plc",
+      "direction": "UP",
+      "eps_prev": 7.956,
+      "eps_curr": 8.254,
+      "eps_chg_pct": 3.75,
+      "rev_chg_pct": 1.6,
+      "analysts_prev": 12,
+      "analysts_curr": 0,
+      "analysts_delta": -12,
+      "score_adj": 1,
+      "flags": [
+        "EPS consensus \u21913.7% (7.96\u21928.25)",
+        "Revenue estimate \u21911.6%",
+        "Analistas: -12 (12\u21920)"
+      ]
+    },
+    {
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "direction": "UP",
+      "eps_prev": 16.703,
+      "eps_curr": 17.257,
+      "eps_chg_pct": 3.32,
+      "rev_chg_pct": 2.18,
+      "analysts_prev": 14,
+      "analysts_curr": 0,
+      "analysts_delta": -14,
+      "score_adj": 1,
+      "flags": [
+        "EPS consensus \u21913.3% (16.70\u219217.26)",
+        "Revenue estimate \u21912.2%",
+        "Analistas: -14 (14\u21920)"
+      ]
+    }
+  ]
+}

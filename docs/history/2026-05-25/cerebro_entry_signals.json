@@ -1,0 +1,177 @@
+{
+  "generated_at": "2026-05-25",
+  "total": 3,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 3,
+  "wait": 0,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 70.85499999999999,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 29.5,
+      "fcf_yield_pct": 3.66,
+      "risk_reward_ratio": null,
+      "days_in_value": 3,
+      "streak_days": 6,
+      "entry_score": 43,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226570",
+        "Upside \u226520%",
+        "Options flow alcista",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 69
+    },
+    {
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 72.04,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 21.0,
+      "fcf_yield_pct": 42.99,
+      "risk_reward_ratio": null,
+      "days_in_value": 5,
+      "streak_days": 1,
+      "entry_score": 38,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226570",
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 56
+    },
+    {
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 67.54499999999999,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 31.7,
+      "fcf_yield_pct": 6.12,
+      "risk_reward_ratio": null,
+      "days_in_value": 3,
+      "streak_days": 1,
+      "entry_score": 33,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 61
+    }
+  ]
+}

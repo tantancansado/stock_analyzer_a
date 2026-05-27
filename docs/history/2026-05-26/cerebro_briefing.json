@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-05-26",
+  "regime": "NEUTRAL",
+  "narrative": "**Briefing Matutino - 26 de mayo de 2026**\n\nEl mercado sigue en un r\u00e9gimen neutral, sin recomendaciones de compra fuerte ni moderada. Las convergencias destacadas son MSFT, MA y ADP, mientras que AAL.L, ADP y ADS.DE tienen se\u00f1ales de alerta alta.\n\n**Acciones a seguir:**\n\n* Vigila a ADP, ya que tiene una se\u00f1al de alerta alta y es parte de la convergencia.\n* Considera la compra de MSFT y MA, que son parte de la convergencia.\n* Evita a DECK y PRU.L, ya que han perdido se\u00f1ales de convicci\u00f3n.\n\n**Macro:**\n\n* El petr\u00f3leo (WTI) est\u00e1 bajo presi\u00f3n, lo que podr\u00eda afectar a las econom\u00edas mundiales.",
+  "sections": {
+    "regime": "NEUTRAL",
+    "strong_buy_count": 0,
+    "buy_count": 0,
+    "top_entries": [],
+    "top_convergences": [
+      [
+        "MSFT",
+        61
+      ],
+      [
+        "MA",
+        61
+      ],
+      [
+        "ADP",
+        61
+      ]
+    ],
+    "high_alerts": [
+      [
+        "AAL.L",
+        "INSIDER_BUYING"
+      ],
+      [
+        "ADP",
+        "STREAK"
+      ],
+      [
+        "ADS.DE",
+        "INSIDER_BUYING"
+      ]
+    ],
+    "traps_warning": [],
+    "exit_warnings": [
+      [
+        "DECK",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota; Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "",
+        76.12,
+        null
+      ],
+      [
+        "PRU.L",
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota; Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "",
+        74.4,
+        null
+      ],
+      [
+        "G24.DE",
+        "Score cay\u00f3 29pts (73 \u2192 44); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "La puntuaci\u00f3n fundamental de nuestra base de datos es 67.8/100, lo que sugiere que la empresa sigue teniendo una base s\u00f3lida.",
+        72.955,
+        44.1
+      ]
+    ],
+    "smart_money": [
+      [
+        "MA",
+        1
+      ],
+      [
+        "UBER",
+        1
+      ],
+      [
+        "KVUE",
+        1
+      ]
+    ],
+    "macro_stress": [
+      {
+        "market": "Petr\u00f3leo (WTI)",
+        "score": 81.2,
+        "regime": "DISLOCATED",
+        "exposed": [
+          "USO",
+          "XLE",
+          "XOM",
+          "CVX"
+        ]
+      }
+    ]
+  }
+}

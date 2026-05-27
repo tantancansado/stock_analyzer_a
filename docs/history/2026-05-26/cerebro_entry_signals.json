@@ -1,0 +1,120 @@
+{
+  "generated_at": "2026-05-26",
+  "total": 2,
+  "strong_buy": 0,
+  "buy": 0,
+  "monitor": 2,
+  "wait": 0,
+  "narrative": null,
+  "signals": [
+    {
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "region": "EU",
+      "sector": "Industrials",
+      "value_score": 61.7,
+      "conviction_grade": "",
+      "current_price": 2591.0,
+      "analyst_upside_pct": 51.7,
+      "fcf_yield_pct": 3.9,
+      "risk_reward_ratio": 6.46,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 48,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Insider buying",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 170
+    },
+    {
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 72.04,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 22.0,
+      "fcf_yield_pct": 43.33,
+      "risk_reward_ratio": null,
+      "days_in_value": 6,
+      "streak_days": 1,
+      "entry_score": 38,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226570",
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 53
+    }
+  ]
+}
