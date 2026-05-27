@@ -1,9 +1,10 @@
 name: System Health Monitor
 
 on:
-  schedule:
-    # Corre a las 9, 15, 21 UTC (después del pipeline diario a las 5:23)
-    - cron: '0 9,15,21 * * 1-5'
+  # PAUSADO: health checks 3x/día
+  # schedule:
+  #  # Corre a las 9, 15, 21 UTC (después del pipeline diario a las 5:23)
+  #  - cron: '0 9,15,21 * * 1-5'
   workflow_dispatch:
     inputs:
       force:

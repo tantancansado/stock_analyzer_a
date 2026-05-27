@@ -1,9 +1,10 @@
 name: Intraday Bounce Scanner
 
 on:
-  schedule:
-    # Cada 30 min Lun-Vie 13:30-20:30 UTC (9:30am-4:30pm ET)
-    - cron: '*/30 13-20 * * 1-5'
+  # PAUSADO: cada 30 min en horario mercado
+  # schedule:
+  #  # Cada 30 min Lun-Vie 13:30-20:30 UTC (9:30am-4:30pm ET)
+  #  - cron: '*/30 13-20 * * 1-5'
   workflow_dispatch:  # Trigger manual para testing
 
 jobs:

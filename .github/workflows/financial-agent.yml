@@ -1,9 +1,10 @@
 name: Financial Expert Agent
 
 on:
-  schedule:
-    # Briefing matutino: 8:30 AM ET (12:30 UTC) Lun-Vie
-    - cron: '30 12 * * 1-5'
+  # PAUSADO: briefing diario — no útil sin posiciones
+  # schedule:
+  #  # Briefing matutino: 8:30 AM ET (12:30 UTC) Lun-Vie
+  #  - cron: '30 12 * * 1-5'
   workflow_dispatch:
     inputs:
       flow_only:
