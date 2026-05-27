@@ -62,6 +62,7 @@ class PortfolioTracker:
             'price_7d', 'price_14d', 'price_30d',
             'win_7d', 'win_14d', 'win_30d',
             'max_drawdown_30d', 'status',
+            'stop_loss', 'target_price', 'exit_price', 'exit_day', 'exit_reason',
             'benchmark_return_7d', 'benchmark_return_14d', 'benchmark_return_30d',
             'alpha_7d', 'alpha_14d', 'alpha_30d',
         ])
@@ -125,6 +126,8 @@ class PortfolioTracker:
                         'signal_price': float(price),
                         'value_score': row.get('value_score'),
                         'momentum_score': None,
+                        'stop_loss': float(price) * 0.92 if price else None,  # 8% standard stop
+                        'target_price': float(row.get('target_price_analyst') or (float(price) * (1 + float(row.get('analyst_upside_pct', 0) or 0) / 100))),
                         'fcf_yield_pct': row.get('fcf_yield_pct'),
                         'risk_reward_ratio': row.get('risk_reward_ratio'),
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
@@ -220,6 +223,8 @@ class PortfolioTracker:
                         'signal_price': float(price),
                         'value_score': row.get('value_score'),
                         'momentum_score': None,
+                        'stop_loss': float(price) * 0.92 if price else None,  # 8% standard stop
+                        'target_price': float(row.get('target_price_analyst') or (float(price) * (1 + float(row.get('analyst_upside_pct', 0) or 0) / 100))),
                         'fcf_yield_pct': row.get('fcf_yield_pct'),
                         'risk_reward_ratio': row.get('risk_reward_ratio'),
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
@@ -357,6 +362,33 @@ class PortfolioTracker:
                             min_price = float(window['Low'].min())
                             drawdown = ((min_price - signal_price) / signal_price) * 100
                             self.recommendations.at[idx, 'max_drawdown_30d'] = round(drawdown, 2)
+
+                    # Simulate stop/target exit (daily check for active signals)
+                    stop = rec.get('stop_loss')
+                    target = rec.get('target_price')
+                    if (pd.isna(rec.get('exit_reason')) and
+                            stop and target and not pd.isna(stop) and not pd.isna(target)):
+                        stop_f = float(stop)
+                        target_f = float(target)
+                        sim_end = min(signal_date + timedelta(days=45), today)
+                        sim_window = hist[(hist.index > signal_date) & (hist.index <= sim_end)]
+                        for sim_day, (sim_dt, sim_row) in enumerate(sim_window.iterrows(), 1):
+                            if sim_row['Low'] <= stop_f:
+                                self.recommendations.at[idx, 'exit_price'] = round(stop_f, 2)
+                                self.recommendations.at[idx, 'exit_day'] = sim_day
+                                self.recommendations.at[idx, 'exit_reason'] = 'STOP'
+                                break
+                            elif sim_row['High'] >= target_f:
+                                self.recommendations.at[idx, 'exit_price'] = round(target_f, 2)
+                                self.recommendations.at[idx, 'exit_day'] = sim_day
+                                self.recommendations.at[idx, 'exit_reason'] = 'TARGET'
+                                break
+                        else:
+                            if sim_day >= 30:
+                                last_p = float(sim_window['Close'].iloc[-1]) if not sim_window.empty else signal_price
+                                self.recommendations.at[idx, 'exit_price'] = round(last_p, 2)
+                                self.recommendations.at[idx, 'exit_day'] = sim_day
+                                self.recommendations.at[idx, 'exit_reason'] = 'TIME_30D'
 
                     # Mark completed if 30d has passed
                     if days_since >= 30 and not pd.isna(self.recommendations.at[idx, 'return_30d']):
@@ -556,6 +588,59 @@ class PortfolioTracker:
         self._save_summary(summary)
         self.generate_calibration()
         return summary
+
+    def generate_exit_stats(self) -> dict:
+        """Compute stop/target/time-exit statistics for all completed signals with exit data."""
+        df = self.recommendations.copy()
+        has_exit = df[df['exit_reason'].notna() & df['exit_price'].notna()].copy()
+        if has_exit.empty:
+            return {'total': 0, 'note': 'No exit data yet — runs after 30d'}
+
+        has_exit['exit_pnl_pct'] = (
+            (has_exit['exit_price'].astype(float) - has_exit['signal_price'].astype(float))
+            / has_exit['signal_price'].astype(float) * 100
+        )
+
+        def bucket(subset, label):
+            if subset.empty:
+                return {}
+            p = subset['exit_pnl_pct']
+            wins = (p > 0).sum()
+            return {
+                'n': int(len(subset)),
+                'win_rate': round(float(wins / len(subset) * 100), 1),
+                'avg_pnl': round(float(p.mean()), 2),
+                'median_pnl': round(float(p.median()), 2),
+                'avg_days': round(float(subset['exit_day'].mean()), 1) if 'exit_day' in subset.columns else None,
+            }
+
+        by_reason = {}
+        for reason in ['STOP', 'TARGET', 'TIME_30D']:
+            sub = has_exit[has_exit['exit_reason'] == reason]
+            by_reason[reason] = bucket(sub, reason)
+
+        by_strategy = {}
+        for strat in has_exit['strategy'].unique():
+            sub = has_exit[has_exit['strategy'] == strat]
+            by_strategy[strat] = bucket(sub, strat)
+
+        # R:R buckets
+        rr_buckets = {}
+        if 'risk_reward_ratio' in has_exit.columns:
+            for lo, hi, label in [(0, 2, '<2x'), (2, 3, '2-3x'), (3, 5, '3-5x'), (5, 99, '>=5x')]:
+                sub = has_exit[
+                    has_exit['risk_reward_ratio'].apply(lambda x: lo <= (float(x) if x and str(x) != 'nan' else -1) < hi)
+                ]
+                if not sub.empty:
+                    rr_buckets[label] = bucket(sub, label)
+
+        return {
+            'total': int(len(has_exit)),
+            'by_exit_reason': by_reason,
+            'by_strategy': by_strategy,
+            'by_rr': rr_buckets,
+            'generated_at': pd.Timestamp.now().isoformat(),
+        }
 
     def generate_calibration(self):
         """Compute score/regime/sector calibration — does a higher score actually predict better returns?"""
