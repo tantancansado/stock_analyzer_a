@@ -1,151 +1,151 @@
 {
-  "generated_at": "2026-05-26",
+  "generated_at": "2026-05-27",
   "alerts": [
+    {
+      "type": "SCORE_UP",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 85.9,
+      "score_prev": 59.9,
+      "delta": 26.0,
+      "grade": "🟢 Elite"
+    },
     {
       "type": "SCORE_UP",
       "ticker": "ICE",
       "company_name": "Intercontinental Exchange Inc.",
       "sector": "Financial Services",
-      "score_today": 49.0,
-      "score_prev": 33.0,
+      "score_today": 65.0,
+      "score_prev": 49.0,
       "delta": 16.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "sector": "Healthcare",
+      "score_today": 55.3,
+      "score_prev": 39.3,
+      "delta": 16.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 36.4,
+      "score_prev": 25.4,
+      "delta": 11.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "TNE.AX",
-      "company_name": "TECH ONE FPO [TNE]",
-      "sector": "Technology",
-      "score_today": 34.3,
-      "score_prev": 29.0,
-      "delta": 5.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporati",
-      "sector": "Financial Services",
-      "score_today": 35.5,
-      "score_prev": 42.4,
-      "delta": -7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
-      "sector": "Industrials",
-      "score_today": 30.1,
-      "score_prev": 37.1,
-      "delta": -7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CNI",
-      "company_name": "Canadian National Railway Compa",
-      "sector": "Industrials",
-      "score_today": 28.5,
-      "score_prev": 36.5,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AUTO.L",
-      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "ticker": "CHTR",
+      "company_name": "Charter Communications, Inc.",
       "sector": "Communication Services",
-      "score_today": 48.6,
-      "score_prev": 57.6,
-      "delta": -9.0,
-      "grade": "🟡 Average"
+      "score_today": 39.0,
+      "score_prev": 31.0,
+      "delta": 8.0,
+      "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "sector": "Industrials",
-      "score_today": 58.4,
-      "score_prev": 67.5,
-      "delta": -9.2,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
+      "type": "SCORE_UP",
       "ticker": "INTU",
       "company_name": "Intuit Inc.",
       "sector": "Technology",
-      "score_today": 25.6,
-      "score_prev": 34.9,
-      "delta": -9.3,
+      "score_today": 33.6,
+      "score_prev": 25.6,
+      "delta": 8.0,
       "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "sector": "Industrials",
+      "score_today": 46.6,
+      "score_prev": 39.6,
+      "delta": 7.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "score_today": 37.4,
+      "score_prev": 31.4,
+      "delta": 6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "score_today": 30.6,
+      "score_prev": 24.6,
+      "delta": 6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "KO",
+      "company_name": "Coca-Cola Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 57.2,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "LSEG.L",
       "company_name": "LONDON STOCK EXCHANGE GROUP PLC",
       "sector": "Financial Services",
-      "score_today": 42.0,
-      "score_prev": 52.0,
-      "delta": -10.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DBOEY",
-      "company_name": "Deutsche Boerse AG",
-      "sector": "Financial Services",
-      "score_today": 26.5,
-      "score_prev": 37.5,
-      "delta": -11.0,
+      "score_today": 33.5,
+      "score_prev": 42.0,
+      "delta": -8.5,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "FAST",
-      "company_name": "Fastenal Company",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
       "sector": "Industrials",
-      "score_today": 27.7,
-      "score_prev": 38.7,
+      "score_today": 61.0,
+      "score_prev": 72.0,
       "delta": -11.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 59.9,
-      "score_prev": 70.9,
-      "delta": -11.0,
-      "grade": "🟡 Average"
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "TEVA",
       "company_name": "Teva Pharmaceutical Industries ",
       "sector": "Healthcare",
-      "score_today": 41.8,
-      "score_prev": 57.8,
+      "score_today": 25.8,
+      "score_prev": 41.8,
       "delta": -16.0,
-      "grade": "🟡 Average"
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
       "sector": "Industrials",
-      "score_today": 24.6,
-      "score_prev": 51.5,
-      "delta": -27.0,
+      "score_today": 25.2,
+      "score_prev": 41.2,
+      "delta": -16.0,
       "grade": "🔴 Weak"
     }
   ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
-    "score_up": 2,
-    "score_down": 12
+    "score_up": 9,
+    "score_down": 4
   }
 }
