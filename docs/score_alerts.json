@@ -1,151 +1,131 @@
 {
-  "generated_at": "2026-05-27",
+  "generated_at": "2026-05-28",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 85.9,
-      "score_prev": 59.9,
-      "delta": 26.0,
-      "grade": "🟢 Elite"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange Inc.",
-      "sector": "Financial Services",
-      "score_today": 65.0,
-      "score_prev": 49.0,
-      "delta": 16.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "UNH",
-      "company_name": "UnitedHealth Group Incorporated",
-      "sector": "Healthcare",
-      "score_today": 55.3,
-      "score_prev": 39.3,
-      "delta": 16.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 36.4,
-      "score_prev": 25.4,
-      "delta": 11.0,
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 50.6,
+      "score_prev": 40.4,
+      "delta": 10.2,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CHTR",
-      "company_name": "Charter Communications, Inc.",
-      "sector": "Communication Services",
-      "score_today": 39.0,
-      "score_prev": 31.0,
-      "delta": 8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": 33.6,
-      "score_prev": 25.6,
-      "delta": 8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
       "sector": "Industrials",
-      "score_today": 46.6,
-      "score_prev": 39.6,
-      "delta": 7.0,
-      "grade": "🟡 Average"
+      "score_today": 69.0,
+      "score_prev": 61.0,
+      "delta": 8.0,
+      "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_UP",
       "ticker": "AON",
       "company_name": "Aon plc",
       "sector": "Financial Services",
-      "score_today": 37.4,
-      "score_prev": 31.4,
+      "score_today": 44.4,
+      "score_prev": 37.4,
+      "delta": 7.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza Inc",
+      "sector": "Consumer Cyclical",
+      "score_today": 30.3,
+      "score_prev": 24.1,
+      "delta": 6.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "sector": "Communication Services",
+      "score_today": 57.6,
+      "score_prev": 51.6,
+      "delta": 6.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange Inc.",
+      "sector": "Financial Services",
+      "score_today": 71.0,
+      "score_prev": 65.0,
+      "delta": 6.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "TNE.AX",
+      "company_name": "TECH ONE FPO [TNE]",
+      "sector": "Technology",
+      "score_today": 44.0,
+      "score_prev": 38.0,
       "delta": 6.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "score_today": 30.6,
-      "score_prev": 24.6,
-      "delta": 6.0,
+      "ticker": "KR",
+      "company_name": "Kroger Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 48.0,
+      "score_prev": 42.8,
+      "delta": 5.2,
       "grade": "🔴 Weak"
     },
     {
-      "type": "NEW_ENTRY",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 57.2,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Average"
+      "type": "SCORE_DOWN",
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc",
+      "sector": "Technology",
+      "score_today": 36.9,
+      "score_prev": 41.9,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "LSEG.L",
       "company_name": "LONDON STOCK EXCHANGE GROUP PLC",
       "sector": "Financial Services",
-      "score_today": 33.5,
-      "score_prev": 42.0,
-      "delta": -8.5,
+      "score_today": 27.1,
+      "score_prev": 33.5,
+      "delta": -6.5,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
+      "ticker": "RELX",
+      "company_name": "RELX PLC PLC",
       "sector": "Industrials",
-      "score_today": 61.0,
-      "score_prev": 72.0,
-      "delta": -11.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "score_today": 25.8,
-      "score_prev": 41.8,
-      "delta": -16.0,
+      "score_today": 24.2,
+      "score_prev": 31.2,
+      "delta": -7.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "score_today": 25.2,
-      "score_prev": 41.2,
-      "delta": -16.0,
-      "grade": "🔴 Weak"
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 77.1,
+      "score_prev": 85.9,
+      "delta": -8.8,
+      "grade": "🟢 Excellent"
     }
   ],
   "counts": {
-    "new_entries": 1,
+    "new_entries": 0,
     "exited": 0,
-    "score_up": 9,
+    "score_up": 8,
     "score_down": 4
   }
 }
