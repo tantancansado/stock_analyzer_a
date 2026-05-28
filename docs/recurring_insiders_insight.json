@@ -1,27 +1,11 @@
 {
-  "date": "2026-05-27",
-  "timestamp": "2026-05-27T09:20:42.359151",
-  "narrative": "Se observa un patr\u00f3n de compra recurrente en varios tickers, destacando la actividad en el sector europeo. La presencia de m\u00faltiples insiders comprando en el mismo ticker en un corto per\u00edodo sugiere una confianza corporativa alta. Esto puede ser una se\u00f1al adicional para inversores value/GARP, indicando potencial para crecimiento a largo plazo. La diversificaci\u00f3n sectorial es notable, aunque se observa una concentraci\u00f3n en el sector energ\u00e9tico y financiero.",
+  "date": "2026-05-28",
+  "timestamp": "2026-05-28T09:33:55.598542",
+  "narrative": "Se observa un patr\u00f3n de compra recurrente en tickers europeos, principalmente en el sector financiero y de bienes de consumo. La participaci\u00f3n de m\u00faltiples insiders en un mismo ticker en un corto per\u00edodo sugiere una confianza significativa en la empresa. Para un inversor value/GARP, esta informaci\u00f3n puede ser una se\u00f1al adicional para considerar en su an\u00e1lisis, aunque no debe ser la \u00fanica base para tomar decisiones de inversi\u00f3n. La actividad de los insiders puede indicar una oportunidad de crecimiento a largo plazo.",
   "total_tickers": 13,
   "total_us": 5,
   "total_eu": 8,
   "top_picks": [
-    {
-      "ticker": "VRSK",
-      "market": "US",
-      "purchase_count": 6,
-      "unique_insiders": 1,
-      "confidence_score": 130.0,
-      "days_span": 1
-    },
-    {
-      "ticker": "TYL",
-      "market": "US",
-      "purchase_count": 5,
-      "unique_insiders": 2,
-      "confidence_score": 120.0,
-      "days_span": 4
-    },
     {
       "ticker": "AAL.L",
       "market": "EU",
@@ -45,6 +29,22 @@
       "unique_insiders": 5,
       "confidence_score": 100.0,
       "days_span": 4
+    },
+    {
+      "ticker": "BARC.L",
+      "market": "EU",
+      "purchase_count": 10,
+      "unique_insiders": 8,
+      "confidence_score": 100.0,
+      "days_span": 28
+    },
+    {
+      "ticker": "BATS.L",
+      "market": "EU",
+      "purchase_count": 33,
+      "unique_insiders": 12,
+      "confidence_score": 100.0,
+      "days_span": 65
     }
   ]
 }
