@@ -287,10 +287,10 @@ export default function CorrupcionInstitucional() {
   const [filterType, setFilterType] = useState<string>('ALL')
 
   const { data: trumpData, loading: trumpLoading, error: trumpError } =
-    useApi(() => apiClient.get<TrumpSignal[]>('/api/trump-signals?limit=100').then(r => r.data), [])
+    useApi(() => apiClient.get<TrumpSignal[]>('/api/trump-signals?limit=100'), [])
 
   const { data: politicalData, loading: polLoading, error: polError } =
-    useApi(() => apiClient.get<PoliticalSignal[]>('/api/political-signals?limit=200').then(r => r.data), [])
+    useApi(() => apiClient.get<PoliticalSignal[]>('/api/political-signals?limit=200'), [])
 
   const trumpSignals = trumpData ?? []
   const politicalSignals = politicalData ?? []
