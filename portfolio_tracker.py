@@ -94,23 +94,31 @@ class PortfolioTracker:
         if cooldown_tickers:
             print(f"  Cooldown active for {len(cooldown_tickers)} tickers (signalled in last {COOLDOWN_DAYS}d)")
 
-        # Record VALUE opportunities — zona dorada (data-driven from 681 signals)
-        # score>=60 + RR 2-3.5 + upside 10-35% → 78.7% win rate, +5.8% avg
+        # Record VALUE opportunities
+        # Filtros calibrados con 767 señales reales (feb-may 2026):
+        #   score 50-65: WR 62-67%, avg +2-3% — score >65 es peor (34% WR, -1.7%)
+        #   R:R 2-3x: WR 75%, avg +4.9% — sweet spot empírico
+        #   R:R >=5x: WR 31%, avg -2% — targets demasiado ambiciosos, evitar
+        #   Sectores excluidos: Technology (WR 25%, -3.6%), Real Estate (WR 44%, -3.9%)
+        #   Solo CONFIRMED_UPTREND: WR 56% vs 44% en CORRECTION
+        _EXCLUDED_SECTORS_VALUE = {'Technology', 'Real Estate'}
         value_path = Path('docs/value_opportunities.csv')
         if value_path.exists():
             vdf = pd.read_csv(value_path)
             if not vdf.empty:
-                if 'value_score' in vdf.columns:
-                    vdf = vdf[pd.to_numeric(vdf['value_score'], errors='coerce') >= 60]
+                _score = pd.to_numeric(vdf.get('value_score', pd.Series(dtype=float)), errors='coerce')
+                vdf = vdf[_score.between(50.0, 65.0)]
                 if 'risk_reward_ratio' in vdf.columns:
                     _rr = pd.to_numeric(vdf['risk_reward_ratio'], errors='coerce')
-                    vdf = vdf[_rr >= 2.0]
+                    vdf = vdf[_rr.between(2.0, 3.5)]
                 if 'analyst_upside_pct' in vdf.columns:
                     _up = pd.to_numeric(vdf['analyst_upside_pct'], errors='coerce')
-                    vdf = vdf[_up.between(10.0, 55.0)]
-                if 'conviction_grade' in vdf.columns:
-                    vdf = vdf[vdf['conviction_grade'].isin(['A', 'B'])]
-                vdf = vdf.head(6)  # max 6 picks per day
+                    vdf = vdf[_up.between(10.0, 45.0)]
+                if 'sector' in vdf.columns:
+                    vdf = vdf[~vdf['sector'].isin(_EXCLUDED_SECTORS_VALUE)]
+                if 'market_regime' in vdf.columns:
+                    vdf = vdf[vdf['market_regime'] == 'CONFIRMED_UPTREND']
+                vdf = vdf.head(5)  # max 5 picks/día — calidad > cantidad
                 for _, row in vdf.iterrows():
                     ticker = str(row['ticker']).upper().strip()
                     if ticker in cooldown_tickers:
@@ -187,62 +195,13 @@ class PortfolioTracker:
                     mom_recorded += 1
                 print(f"  Recorded {mom_recorded} MOMENTUM signals")
 
-        # Record EUROPEAN VALUE opportunities — only high-conviction signals (score ≥ 55, grade A/B)
-        eu_recorded = 0
-        for eu_path in [Path('docs/european_value_conviction.csv'), Path('docs/european_value_opportunities_filtered.csv')]:
-            if eu_path.exists():
-                break
-        if eu_path.exists():
-            edf = pd.read_csv(eu_path)
-            if not edf.empty:
-                if 'value_score' in edf.columns:
-                    edf = edf[edf['value_score'] >= 55]
-                if 'conviction_grade' in edf.columns:
-                    edf = edf[edf['conviction_grade'].isin(['A', 'B'])]
-                # EU hard filters — same as conviction_filter.py eu_mode
-                _EU_EXCL = {'Consumer Cyclical', 'Healthcare'}
-                if 'sector' in edf.columns:
-                    edf = edf[~edf['sector'].isin(_EU_EXCL)]
-                if 'fcf_yield_pct' in edf.columns:
-                    import numpy as np
-                    _fcf = pd.to_numeric(edf['fcf_yield_pct'], errors='coerce')
-                    edf = edf[_fcf >= 3.0]
-                edf = edf.head(6)
-                for _, row in edf.iterrows():
-                    ticker = str(row['ticker']).upper().strip()
-                    if ticker in cooldown_tickers:
-                        continue
-                    price = row.get('current_price', 0)
-                    if not price or pd.isna(price) or float(price) <= 0:
-                        continue
-                    rec = {
-                        'ticker': row['ticker'],
-                        'company_name': str(row.get('company_name') or row['ticker']),
-                        'strategy': 'EU_VALUE',
-                        'signal_date': today,
-                        'signal_price': float(price),
-                        'value_score': row.get('value_score'),
-                        'momentum_score': None,
-                        'stop_loss': float(price) * 0.92 if price else None,  # 8% standard stop
-                        'target_price': float(row.get('target_price_analyst') or (float(price) * (1 + float(row.get('analyst_upside_pct', 0) or 0) / 100))),
-                        'fcf_yield_pct': row.get('fcf_yield_pct'),
-                        'risk_reward_ratio': row.get('risk_reward_ratio'),
-                        'analyst_upside_pct': row.get('analyst_upside_pct'),
-                        'sector': row.get('sector', 'N/A'),
-                        'market_regime': row.get('market_regime', 'N/A'),
-                        'return_7d': None, 'return_14d': None, 'return_30d': None,
-                        'price_7d': None, 'price_14d': None, 'price_30d': None,
-                        'win_7d': None, 'win_14d': None, 'win_30d': None,
-                        'max_drawdown_30d': None,
-                        'status': 'ACTIVE'
-                    }
-                    self.recommendations = pd.concat(
-                        [self.recommendations, pd.DataFrame([rec])],
-                        ignore_index=True
-                    )
-                    cooldown_tickers.add(ticker)
-                    eu_recorded += 1
-                print(f"  Recorded {eu_recorded} EU_VALUE signals")
+        # EU_VALUE pausado: WR 16%, avg -5.9%, alpha -6.6% en 738 señales (feb-may 2026)
+        # El modelo europeo no tiene edge real — requiere revisión de scoring antes de reactivar
+        # Para reactivar: cambiar EU_VALUE_PAUSED = False
+        EU_VALUE_PAUSED = True
+        if not EU_VALUE_PAUSED:
+            pass  # reactivar aquí cuando el scoring EU esté calibrado
+        print("  EU_VALUE pausado (WR 16% en backtest — sin edge)")
 
         total = signals_recorded + mom_recorded + eu_recorded
         print(f"  Total new signals recorded: {total}")
