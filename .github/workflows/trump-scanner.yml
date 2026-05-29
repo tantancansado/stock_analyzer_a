@@ -26,12 +26,13 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install requests feedparser yfinance groq
+        run: pip install requests feedparser yfinance anthropic
 
       - name: Run Trump Stock Scanner
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
           if [ "${{ github.event.inputs.show_recent }}" = "yes" ]; then

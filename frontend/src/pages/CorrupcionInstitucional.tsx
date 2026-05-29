@@ -13,16 +13,23 @@ interface TrumpSignal {
   id: string
   source: string
   title: string
+  full_text?: string
   link: string
   published: string
   scanned_at: string
+  is_repost?: boolean
+  market_relevant?: boolean
   tickers: string[]
+  sectors?: string[]
   signal_type: string
   signal_strength: string
+  sentiment?: string
+  engagement?: { replies: number; reposts: number; likes: number }
   analysis?: {
     reasoning?: string
     expected_move_pct?: number | null
     companies?: string[]
+    sectors?: string[]
   }
 }
 
@@ -285,6 +292,7 @@ function EoCard({ signal }: { signal: PoliticalSignal }) {
 export default function CorrupcionInstitucional() {
   const [activeTab, setActiveTab] = useState<TabId>('trump')
   const [filterType, setFilterType] = useState<string>('ALL')
+  const [showAllPosts, setShowAllPosts] = useState(false)
 
   const { data: trumpData, loading: trumpLoading, error: trumpError } =
     useApi(() => apiClient.get<TrumpSignal[]>('/api/trump-signals?limit=100'), [])
@@ -307,8 +315,9 @@ export default function CorrupcionInstitucional() {
   }
 
   // Trump tab type filter
-  const trumpTypes = ['ALL', ...Array.from(new Set(trumpSignals.map(s => s.signal_type)))]
-  const filteredTrump = filterType === 'ALL' ? trumpSignals : trumpSignals.filter(s => s.signal_type === filterType)
+  const relevantTrump = showAllPosts ? trumpSignals : trumpSignals.filter(s => s.market_relevant)
+  const trumpTypes = ['ALL', ...Array.from(new Set(relevantTrump.map(s => s.signal_type).filter(t => t !== 'NEUTRAL')))]
+  const filteredTrump = filterType === 'ALL' ? relevantTrump : relevantTrump.filter(s => s.signal_type === filterType)
 
   const isLoading = trumpLoading || polLoading
   const hasError  = trumpError || polError
@@ -360,22 +369,36 @@ export default function CorrupcionInstitucional() {
       {/* Trump tab */}
       {!isLoading && activeTab === 'trump' && (
         <div className="space-y-3">
-          {trumpTypes.length > 2 && (
-            <div className="flex flex-wrap gap-2">
-              {trumpTypes.map(t => (
-                <button key={t} onClick={() => setFilterType(t)}
-                  className={cn('px-3 py-1 rounded-full text-xs font-medium border transition-all',
-                    filterType === t
-                      ? 'bg-red-500/15 text-red-400 border-red-500/30'
-                      : 'border-border/40 text-muted-foreground hover:text-foreground'
-                  )}>
-                  {t === 'ALL' ? 'Todos' : (SIGNAL_TYPE_LABELS[t] ?? t)}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Controls row */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={() => { setShowAllPosts(v => !v); setFilterType('ALL') }}
+              className={cn('px-3 py-1 rounded-full text-xs font-medium border transition-all',
+                showAllPosts
+                  ? 'border-border/40 text-muted-foreground hover:text-foreground'
+                  : 'bg-orange-500/15 text-orange-400 border-orange-500/30'
+              )}>
+              {showAllPosts ? '📋 Feed completo' : `🎯 Solo relevantes (${trumpSignals.filter(s => s.market_relevant).length})`}
+            </button>
+            {trumpTypes.slice(0, 4).map(t => (
+              <button key={t} onClick={() => setFilterType(t)}
+                className={cn('px-3 py-1 rounded-full text-xs font-medium border transition-all',
+                  filterType === t
+                    ? 'bg-red-500/15 text-red-400 border-red-500/30'
+                    : 'border-border/40 text-muted-foreground hover:text-foreground'
+                )}>
+                {t === 'ALL' ? 'Todos' : (SIGNAL_TYPE_LABELS[t] ?? t)}
+              </button>
+            ))}
+          </div>
+          <p className="text-[0.7rem] text-muted-foreground/50 italic">
+            {showAllPosts
+              ? `${filteredTrump.length} posts · feed completo de Truth Social + RSS`
+              : `${filteredTrump.length} posts con impacto de mercado detectado por IA`
+            }
+          </p>
           {filteredTrump.length === 0
-            ? <Empty text="No hay señales Trump registradas todavía." />
+            ? <Empty text="No hay señales registradas todavía." />
             : filteredTrump.map(s => <TrumpCard key={s.id} signal={s} />)
           }
         </div>
