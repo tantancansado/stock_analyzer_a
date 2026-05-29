@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-28",
+  "generated_at": "2026-05-29",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -42,8 +42,8 @@
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
-      "reason": "R:R alto mejora WR +10.0pp. Aumentar peso R:R.",
-      "n": 584
+      "reason": "R:R alto mejora WR +9.9pp. Aumentar peso R:R.",
+      "n": 586
     },
     {
       "factor": "score_threshold_note",
@@ -52,6 +52,6 @@
       "n": 5
     }
   ],
-  "expected_impact": "Based on 1521 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando el peso de las se\u00f1ales de FCF (Free Cash Flow) y R:R (Risk-Reward) para reflejar su impacto positivo en la tasa de victorias (WR). \n\nEstos cambios podr\u00edan llevar a un aumento en la precisi\u00f3n de las predicciones, especialmente para aquellas con un score de 80 o m\u00e1s, que tendr\u00edan una tasa de victorias del 60% en lugar del 27% base."
+  "expected_impact": "Based on 1523 historical signals",
+  "narrative": "Estos ajustes en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de victorias (WR) en un 7.4% y un 9.9% respectivamente, gracias a la mayor importancia asignada a los factores FCF alto y R:R alto.\n\nAl elevar la barrera de puntuaci\u00f3n m\u00ednima a 70+, se espera que la precisi\u00f3n de las predicciones se mejore a\u00fan m\u00e1s, con una tasa de victorias del 60% en las predicciones con puntuaci\u00f3n de 80 o m\u00e1s, en comparaci\u00f3n con el 27% de la base."
 }
