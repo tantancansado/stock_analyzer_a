@@ -4557,6 +4557,29 @@ def get_trump_signals():
 
 
 
+@app.route('/api/political-signals')
+def get_political_signals():
+    """Devuelve señales políticas: trades del Congreso, contratos gov, EOs."""
+    path = DOCS / 'political_signals.json'
+    if not path.exists():
+        return jsonify([])
+    try:
+        signals = json.loads(path.read_text())
+        source_type = request.args.get('source_type')
+        if source_type:
+            signals = [s for s in signals if s.get('source_type') == source_type.upper()]
+        sig_type = request.args.get('type')
+        if sig_type:
+            signals = [s for s in signals if s.get('signal_type') == sig_type.upper()]
+        ticker = request.args.get('ticker', '').upper()
+        if ticker:
+            signals = [s for s in signals if ticker in (s.get('tickers') or [])]
+        limit = int(request.args.get('limit', 100))
+        return jsonify(signals[:limit])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 if __name__ == '__main__':
     import sys
     port = int(os.environ.get('PORT', sys.argv[1] if len(sys.argv) > 1 else 5002))
