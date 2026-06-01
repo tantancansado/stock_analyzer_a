@@ -1,7 +1,7 @@
 {
-  "date": "2026-05-29",
-  "timestamp": "2026-05-29T09:25:00.170296",
-  "narrative": "Se observa un patr\u00f3n de compra recurrente en tickers europeos, principalmente en el sector financiero y de bienes de consumo. La compra simult\u00e1nea por parte de m\u00faltiples insiders en un mismo ticker sugiere una confianza alta en la empresa. Esto puede ser una se\u00f1al adicional para inversores value/GARP, indicando que la empresa puede tener un potencial de crecimiento no reflejado en su valoraci\u00f3n actual. Es importante considerar esta informaci\u00f3n como una se\u00f1al adicional, no como una garant\u00eda de \u00e9xito.",
+  "date": "2026-06-01",
+  "timestamp": "2026-06-01T11:06:04.234469",
+  "narrative": "Se observa un patr\u00f3n de compra recurrente en varios tickers europeos, principalmente en el sector financiero y de bienes de consumo. La compra simult\u00e1nea por parte de m\u00faltiples insiders en un mismo ticker sugiere una confianza alta en la empresa. Para un inversor value/GARP, esta se\u00f1al adicional puede indicar oportunidades de inversi\u00f3n atractivas, aunque no debe considerarse como una garant\u00eda de \u00e9xito. Es importante analizar otros factores antes de tomar decisiones de inversi\u00f3n.",
   "total_tickers": 11,
   "total_us": 3,
   "total_eu": 8,
@@ -23,14 +23,6 @@
       "days_span": 59
     },
     {
-      "ticker": "BAS.DE",
-      "market": "EU",
-      "purchase_count": 5,
-      "unique_insiders": 5,
-      "confidence_score": 100.0,
-      "days_span": 4
-    },
-    {
       "ticker": "BARC.L",
       "market": "EU",
       "purchase_count": 10,
@@ -41,10 +33,18 @@
     {
       "ticker": "BATS.L",
       "market": "EU",
-      "purchase_count": 33,
-      "unique_insiders": 12,
+      "purchase_count": 36,
+      "unique_insiders": 13,
       "confidence_score": 100.0,
-      "days_span": 65
+      "days_span": 55
+    },
+    {
+      "ticker": "BAS.DE",
+      "market": "EU",
+      "purchase_count": 5,
+      "unique_insiders": 5,
+      "confidence_score": 100.0,
+      "days_span": 4
     }
   ]
 }
