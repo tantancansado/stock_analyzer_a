@@ -1,141 +1,121 @@
 {
-  "generated_at": "2026-05-29",
+  "generated_at": "2026-06-01",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 94.1,
-      "score_prev": 77.1,
-      "delta": 17.0,
-      "grade": "🔥 Legendary"
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc",
+      "sector": "Technology",
+      "score_today": 46.4,
+      "score_prev": 36.7,
+      "delta": 9.7,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 66.2,
-      "score_prev": 54.9,
-      "delta": 11.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 43.4,
-      "score_prev": 33.4,
-      "delta": 10.0,
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "sector": "Industrials",
+      "score_today": 45.1,
+      "score_prev": 39.1,
+      "delta": 6.0,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "ZTS",
-      "company_name": "Zoetis Inc.",
-      "sector": "Healthcare",
-      "score_today": 40.7,
-      "score_prev": 31.7,
-      "delta": 9.0,
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "score_today": 30.4,
+      "score_prev": 25.2,
+      "delta": 5.3,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "AUTO.L",
-      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
-      "sector": "Communication Services",
-      "score_today": 65.6,
-      "score_prev": 57.6,
-      "delta": 8.0,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 41.6,
-      "score_prev": 35.1,
-      "delta": 6.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "AON",
       "company_name": "Aon plc",
       "sector": "Financial Services",
-      "score_today": 39.4,
-      "score_prev": 44.4,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 45.6,
-      "score_prev": 50.6,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 52.8,
-      "score_prev": 58.8,
-      "delta": -6.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "score_today": 47.8,
-      "score_prev": 53.8,
-      "delta": -6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CSU.TO",
-      "company_name": "CONSTELLATION SOFTWARE INC.",
-      "sector": "Technology",
-      "score_today": 24.6,
-      "score_prev": 31.4,
-      "delta": -6.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "sector": "Industrials",
-      "score_today": 50.5,
-      "score_prev": 58.4,
-      "delta": -7.8,
+      "score_today": 44.4,
+      "score_prev": 39.4,
+      "delta": 5.0,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CHTR",
-      "company_name": "Charter Communications, Inc.",
-      "sector": "Communication Services",
-      "score_today": 31.0,
-      "score_prev": 39.0,
-      "delta": -8.0,
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 36.8,
+      "score_prev": 41.8,
+      "delta": -5.0,
       "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BRK-B",
+      "company_name": "Berkshire Hathaway Inc. New",
+      "sector": "Financial Services",
+      "score_today": 30.7,
+      "score_prev": 35.7,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KR",
+      "company_name": "Kroger Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 43.0,
+      "score_prev": 48.0,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NYT",
+      "company_name": "New York Times Company (The)",
+      "sector": "Communication Services",
+      "score_today": 28.9,
+      "score_prev": 33.9,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 53.0,
+      "score_prev": 58.0,
+      "delta": -5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 33.4,
+      "score_prev": 43.4,
+      "delta": -10.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 70.1,
+      "score_prev": 94.1,
+      "delta": -24.0,
+      "grade": "🟡 Good"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 6,
+    "score_up": 4,
     "score_down": 7
   }
 }
