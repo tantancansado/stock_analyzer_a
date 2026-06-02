@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-01",
+  "generated_at": "2026-06-02",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1524 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que aumentar el peso de FCF y R:R podr\u00eda llevar a una mayor tasa de acierto. Adem\u00e1s, elevar el umbral m\u00ednimo de puntuaci\u00f3n a 70+ podr\u00eda ayudar a filtrar las selecciones de menor calidad y aumentar la tasa de acierto general."
+  "narrative": "Estos ajustes en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de victorias (WR) en un 7.4% y un 9.9% respectivamente, gracias a la inclusi\u00f3n de factores como el FCF (Free Cash Flow) y la relaci\u00f3n riesgo-recompensa (Risk-Reward Bonus)."
 }
