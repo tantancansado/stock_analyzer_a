@@ -203,7 +203,7 @@ class PortfolioTracker:
             pass  # reactivar aquí cuando el scoring EU esté calibrado
         print("  EU_VALUE pausado (WR 16% en backtest — sin edge)")
 
-        total = signals_recorded + mom_recorded + eu_recorded
+        total = signals_recorded + mom_recorded
         print(f"  Total new signals recorded: {total}")
         self._save_recommendations()
 

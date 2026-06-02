@@ -2,8 +2,9 @@ name: Daily Market Analysis - Full Pipeline
 
 on:
   schedule:
-    # Run Monday-Friday ~06:00 UTC (hora irregular: reduce fingerprint en logs de TIKR)
-    - cron: '23 5 * * 1-5'
+    # Run Monday-Friday 04:00 UTC (6:00 España verano / 5:00 invierno)
+    # Margen de 3h para terminar antes de las 9:00 España
+    - cron: '0 4 * * 1-5'
   workflow_dispatch:  # Manual trigger
 
 # ══════════════════════════════════════════════════════════════════════════════
