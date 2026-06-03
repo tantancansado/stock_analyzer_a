@@ -2,20 +2,20 @@
   "generated_at": "2026-06-03",
   "total": 3,
   "high_count": 0,
-  "narrative": "Aqu\u00ed te presento dos posibles explicaciones en espa\u00f1ol sobre por qu\u00e9 estos tickers podr\u00edan ser value traps:\n\n1. \"A pesar de tener una valuaci\u00f3n barata, estos tickers presentan flujos de efectivo negativos, lo que indica que est\u00e1n quemando sus reservas de efectivo. Esto sugiere que la empresa puede estar experimentando dificultades financieras y que su situaci\u00f3n no es tan atractiva como parece a primera vista.\"\n\n2. \"La combinaci\u00f3n de flujos de efectivo negativos y valuaci\u00f3n barata puede ser un indicador de un value trap. En este caso, la empresa podr\u00eda estar experimentando problemas de liquidez y no tener la capacidad de generar suf",
+  "narrative": "Aqu\u00ed te presento dos posibles explicaciones en espa\u00f1ol sobre por qu\u00e9 estos tickers podr\u00edan ser value traps:\n\n1. \"A pesar de tener una valuaci\u00f3n barata, estos tickers presentan flujos de efectivo libre negativos, lo que sugiere que est\u00e1n quemando caja para mantener sus operaciones. Esto puede ser un signo de que la empresa est\u00e1 en problemas financieros y que su valuaci\u00f3n actual no refleja su verdadero valor intr\u00ednseco.\"\n2. \"La combinaci\u00f3n de flujos de efectivo libre negativos y valuaci\u00f3n barata en estos tickers puede ser un indicador de que se est\u00e1n convirtiendo en value traps. Esto significa que los inversores",
   "traps": [
     {
       "ticker": "NOVO-B.CO",
       "company_name": "Novo Nordisk B A/S",
       "severity": "MEDIUM",
       "trap_score": 3,
-      "value_score": 58.0,
+      "value_score": 57.6,
       "flags": [
         "FCF negativo (-1.0%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 5.0,
-      "fcf_yield_pct": -0.97,
-      "fundamental_score": 80.1
+      "fcf_yield_pct": -0.98,
+      "fundamental_score": 78.9
     },
     {
       "ticker": "HEXA-B.ST",
@@ -27,7 +27,7 @@
         "FCF negativo (-2.6%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 6.0,
-      "fcf_yield_pct": -2.56,
+      "fcf_yield_pct": -2.63,
       "fundamental_score": 65.5
     },
     {
@@ -35,13 +35,13 @@
       "company_name": "SAFRAN",
       "severity": "MEDIUM",
       "trap_score": 3,
-      "value_score": 33.0,
+      "value_score": 32.8,
       "flags": [
         "FCF negativo (-1.4%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 7.0,
-      "fcf_yield_pct": -1.38,
-      "fundamental_score": 57.5
+      "fcf_yield_pct": -1.4,
+      "fundamental_score": 54.5
     }
   ]
 }

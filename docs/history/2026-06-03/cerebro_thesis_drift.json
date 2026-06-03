@@ -2,26 +2,10 @@
   "generated_at": "2026-06-03",
   "baseline_date": "2026-04-26",
   "days_tracked": 38,
-  "total": 40,
+  "total": 44,
   "high_count": 0,
-  "narrative": "Aqu\u00ed te presento 2 frases en espa\u00f1ol que podr\u00edan describir la diferencia clave entre ruido temporal y deterioro estructural real de una tesis VALUE:\n\n1. \"El deterioro estructural se caracteriza por una disminuci\u00f3n persistente en la confianza de los inversores y una erosi\u00f3n de la fundamentaci\u00f3n de la tesis, mientras que el ruido temporal es un movimiento aleatorio y transitorio que no tiene un impacto significativo en la valoraci\u00f3n a largo plazo de la empresa.\"\n2. \"La clave para distinguir entre ruido temporal y deterioro estructural es analizar la direcci\u00f3n y la velocidad de la disminuci\u00f3n en la confianza de los inversores, as\u00ed como la respuesta de la empresa a los desaf\u00edos y oportunidades que enfrenta, para determinar si la tesis VALUE sigue siendo s\u00f3lida o si se est\u00e1 deteriorando de manera estructural.\"",
+  "narrative": "Aqu\u00ed te presento dos posibles frases en espa\u00f1ol que describen la diferencia clave entre ruido temporal y deterioro estructural real de una tesis VALUE:\n\n1. \"La clave para distinguir entre ruido temporal y deterioro estructural real radica en la persistencia y consistencia de los indicadores de valor, m\u00e1s que en cambios a corto plazo.\"\n2. \"El deterioro estructural real de una tesis VALUE se caracteriza por una disminuci\u00f3n sostenida y significativa en los indicadores de valor, a diferencia del ruido temporal, que es m\u00e1s vol\u00e1til y no muestra un patr\u00f3n claro de deterioro.\"",
   "drifts": [
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 35.9,
-      "value_score_prev": 48.8,
-      "drift_flags": [
-        "Score cay\u00f3 13pts en 38d (49\u219236)",
-        "Upside analistas cay\u00f3 13pp (55%\u219242%)"
-      ],
-      "improvements": []
-    },
     {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions,",
@@ -30,11 +14,11 @@
       "drift_score": 5,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 27.4,
+      "value_score_now": 30.6,
       "value_score_prev": 61.2,
       "drift_flags": [
-        "Score cay\u00f3 34pts en 38d (61\u219227)",
-        "Upside analistas cay\u00f3 29pp (58%\u219229%)"
+        "Score cay\u00f3 31pts en 38d (61\u219231)",
+        "Upside analistas cay\u00f3 24pp (58%\u219233%)"
       ],
       "improvements": []
     },
@@ -46,11 +30,11 @@
       "drift_score": 5,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 29.6,
+      "value_score_now": 32.6,
       "value_score_prev": 54.3,
       "drift_flags": [
-        "Score cay\u00f3 25pts en 38d (54\u219230)",
-        "Upside analistas cay\u00f3 37pp (68%\u219231%)"
+        "Score cay\u00f3 22pts en 38d (54\u219233)",
+        "Upside analistas cay\u00f3 33pp (68%\u219234%)"
       ],
       "improvements": []
     },
@@ -66,7 +50,7 @@
       "value_score_prev": 44.5,
       "drift_flags": [
         "Score cay\u00f3 20pts en 38d (45\u219225)",
-        "Upside analistas cay\u00f3 13pp (37%\u219224%)"
+        "Upside analistas cay\u00f3 10pp (37%\u219227%)"
       ],
       "improvements": []
     },
@@ -78,43 +62,11 @@
       "drift_score": 5,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 23.2,
+      "value_score_now": 23.9,
       "value_score_prev": 50.0,
       "drift_flags": [
-        "Score cay\u00f3 27pts en 38d (50\u219223)",
-        "Upside analistas cay\u00f3 17pp (49%\u219232%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "SAP.DE",
-      "company_name": "SAP SE                        I",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 49.9,
-      "value_score_prev": 63.1,
-      "drift_flags": [
-        "Score cay\u00f3 13pts en 38d (63\u219250)",
-        "Upside analistas cay\u00f3 24pp (49%\u219226%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "SGE.L",
-      "company_name": "THE SAGE GROUP PLC ORD 1 4/77P",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 46.6,
-      "value_score_prev": 57.2,
-      "drift_flags": [
-        "Score cay\u00f3 11pts en 38d (57\u219247)",
-        "Upside analistas cay\u00f3 8pp (29%\u219221%)"
+        "Score cay\u00f3 26pts en 38d (50\u219224)",
+        "Upside analistas cay\u00f3 9pp (49%\u219239%)"
       ],
       "improvements": []
     },
@@ -126,10 +78,10 @@
       "drift_score": 3,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 42.6,
+      "value_score_now": 44.6,
       "value_score_prev": 62.2,
       "drift_flags": [
-        "Score cay\u00f3 20pts en 38d (62\u219243)"
+        "Score cay\u00f3 18pts en 38d (62\u219245)"
       ],
       "improvements": []
     },
@@ -141,43 +93,28 @@
       "drift_score": 3,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 41.4,
+      "value_score_now": 39.4,
       "value_score_prev": 54.2,
       "drift_flags": [
-        "Score cay\u00f3 13pts en 38d (54\u219241)"
+        "Score cay\u00f3 15pts en 38d (54\u219239)"
       ],
       "improvements": []
     },
     {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange Inc.",
+      "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 40.2,
-      "value_score_prev": 66.5,
+      "value_score_now": 37.3,
+      "value_score_prev": 50.0,
       "drift_flags": [
-        "Score cay\u00f3 26pts en 38d (66\u219240)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 38.4,
-      "value_score_prev": 52.4,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 38d (52\u219238)"
+        "Score cay\u00f3 13pts en 38d (50\u219237)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 6pp"
+        "Upside analistas subi\u00f3 14pp"
       ]
     },
     {
@@ -194,8 +131,8 @@
         "Score cay\u00f3 21pts en 38d (54\u219233)"
       ],
       "improvements": [
-        "FCF yield mejor\u00f3 2.6pp",
-        "Upside analistas subi\u00f3 17pp"
+        "FCF yield mejor\u00f3 3.4pp",
+        "Upside analistas subi\u00f3 23pp"
       ]
     },
     {
@@ -212,7 +149,7 @@
         "Score cay\u00f3 23pts en 38d (53\u219230)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 7pp"
+        "Upside analistas subi\u00f3 8pp"
       ]
     },
     {
@@ -228,23 +165,8 @@
       "drift_flags": [
         "Score cay\u00f3 17pts en 38d (51\u219233)"
       ],
-      "improvements": []
-    },
-    {
-      "ticker": "ATLKY",
-      "company_name": "Atlas Copco AB",
-      "sector": "Industrials",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 40.4,
-      "value_score_prev": 44.0,
-      "drift_flags": [
-        "FCF yield cay\u00f3 4.1pp (27.5%\u219223.5%)"
-      ],
       "improvements": [
-        "Upside analistas subi\u00f3 12pp"
+        "Upside analistas subi\u00f3 6pp"
       ]
     },
     {
@@ -263,6 +185,38 @@
       "improvements": []
     },
     {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 28.7,
+      "value_score_prev": 58.6,
+      "drift_flags": [
+        "Score cay\u00f3 30pts en 38d (59\u219229)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "sector": "Healthcare",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 28.3,
+      "value_score_prev": 40.5,
+      "drift_flags": [
+        "Score cay\u00f3 12pts en 38d (41\u219228)"
+      ],
+      "improvements": [
+        "Upside analistas subi\u00f3 13pp"
+      ]
+    },
+    {
       "ticker": "JKHY",
       "company_name": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
@@ -275,40 +229,55 @@
       "drift_flags": [
         "Score cay\u00f3 37pts en 38d (65\u219228)"
       ],
+      "improvements": [
+        "Upside analistas subi\u00f3 7pp"
+      ]
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 30.7,
+      "value_score_prev": 46.0,
+      "drift_flags": [
+        "Score cay\u00f3 15pts en 38d (46\u219231)"
+      ],
       "improvements": []
     },
     {
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "sector": "Industrials",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 42.0,
+      "value_score_prev": 44.0,
+      "drift_flags": [
+        "FCF yield cay\u00f3 5.1pp (27.5%\u219222.4%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
       "sector": "Financial Services",
       "severity": "MEDIUM",
       "drift_score": 3,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 30.8,
-      "value_score_prev": 47.2,
+      "value_score_now": 28.8,
+      "value_score_prev": 44.8,
       "drift_flags": [
-        "Score cay\u00f3 16pts en 38d (47\u219231)"
+        "Score cay\u00f3 16pts en 38d (45\u219229)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 17pp"
-      ]
-    },
-    {
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 26.3,
-      "value_score_prev": 40.5,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 38d (41\u219226)"
-      ],
-      "improvements": [
-        "Upside analistas subi\u00f3 7pp"
+        "Upside analistas subi\u00f3 19pp"
       ]
     },
     {
@@ -342,6 +311,23 @@
       "improvements": []
     },
     {
+      "ticker": "RELX",
+      "company_name": "RELX PLC PLC",
+      "sector": "Industrials",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 35.2,
+      "value_score_prev": 55.4,
+      "drift_flags": [
+        "Score cay\u00f3 20pts en 38d (55\u219235)"
+      ],
+      "improvements": [
+        "Upside analistas subi\u00f3 12pp"
+      ]
+    },
+    {
       "ticker": "LSEG.L",
       "company_name": "LONDON STOCK EXCHANGE GROUP PLC",
       "sector": "Financial Services",
@@ -355,38 +341,87 @@
         "Score cay\u00f3 22pts en 38d (48\u219226)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 7pp"
+        "Upside analistas subi\u00f3 12pp"
       ]
     },
     {
-      "ticker": "RELX",
-      "company_name": "RELX PLC PLC",
-      "sector": "Industrials",
+      "ticker": "DHR",
+      "company_name": "Danaher Corporation",
+      "sector": "Healthcare",
       "severity": "MEDIUM",
       "drift_score": 3,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 34.2,
-      "value_score_prev": 55.4,
+      "value_score_now": 26.1,
+      "value_score_prev": 39.8,
       "drift_flags": [
-        "Score cay\u00f3 21pts en 38d (55\u219234)"
+        "Score cay\u00f3 14pts en 38d (40\u219226)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "TW",
+      "company_name": "Tradeweb Markets Inc.",
+      "sector": "Financial Services",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 25.8,
+      "value_score_prev": 47.2,
+      "drift_flags": [
+        "Score cay\u00f3 21pts en 38d (47\u219226)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 6pp"
+        "Upside analistas subi\u00f3 20pp"
       ]
     },
     {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
+      "ticker": "TJX",
+      "company_name": "TJX Companies, Inc. (The)",
       "sector": "Consumer Cyclical",
       "severity": "MEDIUM",
       "drift_score": 3,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 22.1,
-      "value_score_prev": 35.1,
+      "value_score_now": 38.8,
+      "value_score_prev": 53.2,
       "drift_flags": [
-        "Score cay\u00f3 13pts en 38d (35\u219222)"
+        "Score cay\u00f3 14pts en 38d (53\u219239)"
+      ],
+      "improvements": [
+        "Upside analistas subi\u00f3 7pp"
+      ]
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "sector": "Industrials",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 25.2,
+      "value_score_prev": 66.5,
+      "drift_flags": [
+        "Score cay\u00f3 41pts en 38d (66\u219225)"
+      ],
+      "improvements": [
+        "Upside analistas subi\u00f3 11pp"
+      ]
+    },
+    {
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "sector": "Healthcare",
+      "severity": "MEDIUM",
+      "drift_score": 3,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 22.0,
+      "value_score_prev": 41.9,
+      "drift_flags": [
+        "Score cay\u00f3 20pts en 38d (42\u219222)"
       ],
       "improvements": []
     },
@@ -398,10 +433,10 @@
       "drift_score": 3,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 35.4,
+      "value_score_now": 36.2,
       "value_score_prev": 49.3,
       "drift_flags": [
-        "Score cay\u00f3 14pts en 38d (49\u219235)"
+        "Score cay\u00f3 13pts en 38d (49\u219236)"
       ],
       "improvements": []
     },
@@ -419,7 +454,7 @@
         "Score cay\u00f3 11pts en 38d (48\u219238)"
       ],
       "improvements": [
-        "Upside analistas subi\u00f3 7pp"
+        "Upside analistas subi\u00f3 12pp"
       ]
     },
     {
@@ -430,13 +465,13 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 57.8,
+      "value_score_now": 56.8,
       "value_score_prev": 45.3,
       "drift_flags": [
-        "Upside analistas cay\u00f3 24pp (29%\u21925%)"
+        "Upside analistas cay\u00f3 23pp (29%\u21927%)"
       ],
       "improvements": [
-        "Score mejor\u00f3 12pts (45\u219258)"
+        "Score mejor\u00f3 11pts (45\u219257)"
       ]
     },
     {
@@ -447,27 +482,10 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 53.8,
+      "value_score_now": 52.6,
       "value_score_prev": 45.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 14pp (36%\u219222%)"
-      ],
-      "improvements": [
-        "Score mejor\u00f3 9pts (45\u219254)"
-      ]
-    },
-    {
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc",
-      "sector": "Technology",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 44.4,
-      "value_score_prev": 41.8,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 13pp (40%\u219226%)"
+        "Upside analistas cay\u00f3 9pp (36%\u219227%)"
       ],
       "improvements": []
     },
@@ -479,10 +497,40 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 34.3,
+      "value_score_now": 33.5,
       "value_score_prev": 38.3,
       "drift_flags": [
-        "Upside analistas cay\u00f3 17pp (32%\u219215%)"
+        "Upside analistas cay\u00f3 16pp (32%\u219215%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "VEEV",
+      "company_name": "Veeva Systems Inc.",
+      "sector": "Healthcare",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 30.8,
+      "value_score_prev": 40.1,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 27pp (70%\u219244%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 38.4,
+      "value_score_prev": 41.8,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 10pp (40%\u219230%)"
       ],
       "improvements": []
     },
@@ -494,25 +542,10 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 30.6,
+      "value_score_now": 27.6,
       "value_score_prev": 31.3,
       "drift_flags": [
-        "Upside analistas cay\u00f3 35pp (69%\u219234%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "sector": "Technology",
-      "severity": "LOW",
-      "drift_score": 2,
-      "days_tracked": 38,
-      "baseline_date": "2026-04-26",
-      "value_score_now": 30.0,
-      "value_score_prev": 33.8,
-      "drift_flags": [
-        "Upside analistas cay\u00f3 44pp (63%\u219219%)"
+        "Upside analistas cay\u00f3 33pp (69%\u219236%)"
       ],
       "improvements": []
     },
@@ -524,10 +557,25 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 34.5,
+      "value_score_now": 37.9,
       "value_score_prev": 30.7,
       "drift_flags": [
-        "Upside analistas cay\u00f3 69pp (74%\u21924%)"
+        "Upside analistas cay\u00f3 63pp (74%\u219211%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "PAYX",
+      "company_name": "Paychex, Inc.",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 33.7,
+      "value_score_prev": 35.5,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 12pp (12%\u21921%)"
       ],
       "improvements": []
     },
@@ -539,8 +587,23 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 52.5,
+      "value_score_now": 52.1,
       "value_score_prev": 50.0,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 10pp (49%\u219239%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "SAP.DE",
+      "company_name": "SAP SE                        I",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 38,
+      "baseline_date": "2026-04-26",
+      "value_score_now": 55.1,
+      "value_score_prev": 63.1,
       "drift_flags": [
         "Upside analistas cay\u00f3 17pp (49%\u219232%)"
       ],
@@ -554,10 +617,10 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 53.4,
+      "value_score_now": 55.0,
       "value_score_prev": 48.6,
       "drift_flags": [
-        "Upside analistas cay\u00f3 17pp (37%\u219220%)"
+        "Upside analistas cay\u00f3 12pp (37%\u219224%)"
       ],
       "improvements": []
     },
@@ -572,22 +635,22 @@
       "value_score_now": 45.7,
       "value_score_prev": 42.4,
       "drift_flags": [
-        "Upside analistas cay\u00f3 16pp (36%\u219220%)"
+        "Upside analistas cay\u00f3 17pp (36%\u219219%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "DSY.PA",
-      "company_name": "DASSAULT SYSTEMES",
-      "sector": "Technology",
+      "ticker": "ITX.MC",
+      "company_name": "INDUSTRIA DE DISE...O TEXTIL S.",
+      "sector": "Consumer Cyclical",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 38.0,
-      "value_score_prev": 36.5,
+      "value_score_now": 40.6,
+      "value_score_prev": 43.9,
       "drift_flags": [
-        "Upside analistas cay\u00f3 11pp (24%\u219213%)"
+        "Upside analistas cay\u00f3 11pp (16%\u21925%)"
       ],
       "improvements": []
     },
@@ -599,10 +662,10 @@
       "drift_score": 2,
       "days_tracked": 38,
       "baseline_date": "2026-04-26",
-      "value_score_now": 33.0,
+      "value_score_now": 32.8,
       "value_score_prev": 32.4,
       "drift_flags": [
-        "Upside analistas cay\u00f3 14pp (29%\u219215%)"
+        "Upside analistas cay\u00f3 12pp (29%\u219217%)"
       ],
       "improvements": []
     },
@@ -617,7 +680,7 @@
       "value_score_now": 29.7,
       "value_score_prev": 31.3,
       "drift_flags": [
-        "Upside analistas cay\u00f3 14pp (25%\u219212%)"
+        "Upside analistas cay\u00f3 12pp (25%\u219214%)"
       ],
       "improvements": []
     },

@@ -26,6 +26,6 @@
       "n": 586
     }
   ],
-  "narrative": "Seg\u00fan las recomendaciones de calibraci\u00f3n, los ajustes m\u00e1s urgentes son:\n\n- Aumentar el peso de [BOOST] Score 60-70, ya que mejora la WR en +13.3pp sobre la base.\n- Aumentar el peso de [BOOST] FCF Yield \u22655% y [BOOST] R:R \u22653, ya que ambos mejoran la WR en +7.4pp y +9.9pp respectivamente.\n\nEstos ajustes son m\u00e1s urgentes porque ofrecen un aumento significativo en la WR (40.7% a 54% o m\u00e1s) y pueden mejorar la precisi\u00f3n del modelo.",
+  "narrative": "Seg\u00fan las recomendaciones de calibraci\u00f3n, los ajustes m\u00e1s urgentes son:\n\n- **Priorizar el rango de Score 60-70 en [BOOST]**: Esto se debe a que este rango tiene un WR (tasa de win) de 40.7%, lo que es un aumento significativo (+13.3pp) sobre la base. Ajustar este par\u00e1metro puede mejorar la precisi\u00f3n del modelo.\n\n- **Pausar se\u00f1ales en [REGIME_FILTER] R\u00e9gimen UPTREND_PRESSURE**: Con solo un 11.7% de WR en este r\u00e9gimen, es probable que el modelo est\u00e9 sobrecomercializando. Pausar se\u00f1ales en este r\u00e9gimen puede ayudar a reducir la cantidad de se\u00f1ales falsas y mejorar la calidad de las recomendaciones.",
   "total_recommendations": 4
 }

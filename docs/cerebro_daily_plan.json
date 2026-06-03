@@ -1,11 +1,11 @@
 {
   "generated_at": "2026-06-03",
   "macro_regime": "CALM",
-  "composite_score": 11.5,
-  "sesgo": "ALCISTA",
+  "composite_score": 10.5,
+  "sesgo": "DEFENSIVO",
   "confianza": 60,
-  "situacion": "Mercado en calma con se\u00f1ales mixtas, pero tendencia alcista",
-  "narrativa": "El mercado est\u00e1 influenciado por se\u00f1ales contradictorias, con bancos regionales y riesgo de cola en declive, pero cobre/oro y defensa vs mercado en alza. Esto sugiere una tendencia alcista, pero con riesgos sist\u00e9micos bajos.",
+  "situacion": "Mercado en calma, pero con se\u00f1ales de riesgo creciente",
+  "narrativa": "El mercado est\u00e1 en un r\u00e9gimen CALM, pero la presencia de se\u00f1ales negativas en bancos regionales, SKEW Index y petr\u00f3leo, junto con se\u00f1ales positivas en cobre/oro, defensa vs mercado y amplitud mercado, sugiere que el mercado est\u00e1 en un estado de equilibrio precario. Los inversores VALUE deben estar atentos a la evoluci\u00f3n de estos indicadores y ajustar sus estrategias en consecuencia.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
@@ -14,16 +14,16 @@
       "razon": "Yield 30yr en zona hist\u00f3ricamente atractiva para bonos largos",
       "catalizador": "Macro Plays Rule-Based",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "Cambio en la tendencia del mercado"
+      "invalidacion": "Cambio en la tendencia del yield 30yr"
     },
     {
       "prioridad": 2,
-      "accion": "COMPRAR",
-      "instrumento": "VEEV",
-      "razon": "Earnings pr\u00f3ximos en 1 d\u00eda",
-      "catalizador": "Earnings pr\u00f3ximos",
+      "accion": "VENDER",
+      "instrumento": "KRE",
+      "razon": "Score -2.0 y valor en percentil 10.9",
+      "catalizador": "Se\u00f1ales negativas en bancos regionales",
       "size_hint": "media (3-4%)",
-      "invalidacion": "Malos resultados de earnings"
+      "invalidacion": "Mejora en la situaci\u00f3n de los bancos regionales"
     }
   ],
   "macro_plays": [
@@ -43,13 +43,13 @@
       }
     }
   ],
-  "macro_plays_commentary": "TLT/VGLT LONG en zona hist\u00f3ricamente atractiva para bonos largos",
+  "macro_plays_commentary": "La zona hist\u00f3ricamente atractiva para bonos largos es un buen catalizador para TLT",
   "value_en_entorno": [],
-  "value_en_entorno_razon": "Los tickers VALUE encajan en el r\u00e9gimen actual debido a la tendencia alcista y la zona hist\u00f3ricamente atractiva para bonos largos",
+  "value_en_entorno_razon": "Los tickers VALUE encajan en el r\u00e9gimen actual debido a la presencia de se\u00f1ales positivas en cobre/oro, defensa vs mercado y amplitud mercado",
   "evitar": [
     {
       "ticker": "CLPBY",
-      "razon": "Se\u00f1al negativa"
+      "razon": "Se\u00f1ales negativas"
     }
   ],
   "agenda_semana": [
@@ -57,10 +57,10 @@
       "fecha": "2026-06-05",
       "evento": "Non-Farm Payrolls",
       "impacto": "ALTO",
-      "accion_sugerida": "Vigilar el mercado"
+      "accion_sugerida": "Vigilar el mercado y ajustar estrategias en consecuencia"
     }
   ],
-  "frase_del_dia": "El mercado es un lugar donde la gente va a perder dinero, pero tambi\u00e9n es un lugar donde la gente puede ganar dinero.",
-  "mensaje_telegram": "\ud83d\udcc8 Mercado en calma, pero tendencia alcista. Comprar TLT y VEEV. Vigilar Non-Farm Payrolls.",
+  "frase_del_dia": "El mercado es un lugar donde los hombres van a perder dinero, pero no es un lugar donde los hombres van a ganar dinero, a menos que sean muy inteligentes.",
+  "mensaje_telegram": "\ud83d\udcc8 Mercado en calma, pero con se\u00f1ales de riesgo creciente. Comprar TLT y vender KRE.",
   "ai_powered": true
 }

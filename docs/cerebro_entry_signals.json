@@ -1,76 +1,180 @@
 {
   "generated_at": "2026-06-03",
-  "total": 2,
+  "total": 4,
   "strong_buy": 0,
   "buy": 0,
-  "monitor": 2,
+  "monitor": 4,
   "wait": 0,
   "narrative": null,
   "signals": [
-    {
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "region": "US",
-      "sector": "Industrials",
-      "value_score": 65.04,
-      "conviction_grade": "",
-      "current_price": null,
-      "analyst_upside_pct": 24.3,
-      "fcf_yield_pct": 44.16,
-      "risk_reward_ratio": null,
-      "days_in_value": 12,
-      "streak_days": 1,
-      "entry_score": 33,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "FCF yield \u22655%",
-        "Upside \u226520%",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
-      ],
-      "signals_pts": [
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "R:R <2",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 45
-    },
     {
       "ticker": "AUTO.L",
       "company_name": "AUTOTRADER GROUP PLC ORD 1P",
       "region": "US",
       "sector": "Communication Services",
-      "value_score": 62.42,
+      "value_score": 84.62,
       "conviction_grade": "",
       "current_price": null,
-      "analyst_upside_pct": 26.0,
-      "fcf_yield_pct": 6.66,
+      "analyst_upside_pct": 32.7,
+      "fcf_yield_pct": 7.01,
       "risk_reward_ratio": null,
-      "days_in_value": 4,
+      "days_in_value": 5,
+      "streak_days": 1,
+      "entry_score": 43,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226580",
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 155
+    },
+    {
+      "ticker": "DB1.DE",
+      "company_name": "DEUTSCHE BOERSE AG            N",
+      "region": "EU",
+      "sector": "Financial Services",
+      "value_score": 63.8,
+      "conviction_grade": "",
+      "current_price": 243.1,
+      "analyst_upside_pct": 18.3,
+      "fcf_yield_pct": null,
+      "risk_reward_ratio": 2.29,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 40,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "R:R \u22652",
+        "Insider buying",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Upside <20%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 49
+    },
+    {
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 63.44499999999999,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 34.9,
+      "fcf_yield_pct": 6.39,
+      "risk_reward_ratio": null,
+      "days_in_value": 1,
+      "streak_days": 2,
+      "entry_score": 38,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "Upside \u226520%",
+        "Options flow alcista",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 48
+    },
+    {
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 62.040000000000006,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 24.0,
+      "fcf_yield_pct": 44.06,
+      "risk_reward_ratio": null,
+      "days_in_value": 13,
       "streak_days": 1,
       "entry_score": 33,
       "signal": "MONITOR",
@@ -109,7 +213,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 156
+      "days_to_earnings": 44
     }
   ]
 }

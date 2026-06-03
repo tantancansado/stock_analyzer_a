@@ -1,11 +1,25 @@
 {
   "generated_at": "2026-06-03",
-  "total": 15,
+  "total": 16,
   "tier1": 0,
-  "tier2": 1,
+  "tier2": 2,
   "tier3": 14,
-  "narrative": "La confluencia de capital inteligente, tambi\u00e9n conocida como \"smart money convergence\", se refiere a la situaci\u00f3n en la que varios grupos de inversores experimentados y bien informados, como los insiders (directivos y empleados de la empresa) y los fondos de inversi\u00f3n de alta frecuencia (HF), est\u00e1n comprando o vendiendo una acci\u00f3n de manera simult\u00e1nea.\n\nEn este caso, parece que los insiders de EXPN.L est\u00e1n comprando la acci\u00f3n, lo que sugiere que tienen confianza en el futuro de la empresa. Por otro lado, los fondos de inversi\u00f3n de alta frecuencia (HF) est\u00e1n comprando acciones de varias empresas, incluyendo MA, UBER, KVUE y",
+  "narrative": "La confluencia de capital inteligente se refiere a la coincidencia de se\u00f1ales de compra de varios inversores inteligentes, como los insiders (directivos y propietarios de la empresa) y los hedge funds (fondos de cobertura). En este caso, hay 16 se\u00f1ales de compra que convergen, lo que sugiere que la mayor\u00eda de los inversores inteligentes est\u00e1n comprando la acci\u00f3n.\n\nEsto puede ser una se\u00f1al positiva para los inversores, ya que sugiere que la empresa tiene un gran potencial de crecimiento y que los inversores con experiencia y conocimiento est\u00e1n tomando posiciones en ella. Sin embargo, es importante recordar que la confluencia de capital intelig",
   "signals": [
+    {
+      "ticker": "DB1.DE",
+      "company_name": "DEUTSCHE BOERSE AG            N",
+      "sector": "Financial Services",
+      "value_score": 63.8,
+      "tier": 2,
+      "tier_label": "Strong Insiders",
+      "n_hedge_funds": 0,
+      "hedge_funds": [],
+      "n_insiders": 7,
+      "insider_purchases": 7,
+      "convergence_score": 89,
+      "in_value": true
+    },
     {
       "ticker": "EXPN.L",
       "company_name": "EXPERIAN PLC ORD USD0.10",
@@ -24,7 +38,7 @@
       "ticker": "MA",
       "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "value_score": 58.095,
+      "value_score": 56.095,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -56,7 +70,7 @@
       "ticker": "KVUE",
       "company_name": "Kenvue Inc.",
       "sector": "Consumer Defensive",
-      "value_score": 50.78,
+      "value_score": 49.28,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -69,26 +83,10 @@
       "in_value": true
     },
     {
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "value_score": 46.89500000000001,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 29,
-      "in_value": true
-    },
-    {
       "ticker": "KR",
       "company_name": "Kroger Company (The)",
       "sector": "Consumer Defensive",
-      "value_score": 44.32,
+      "value_score": 43.36,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -117,38 +115,6 @@
       "in_value": true
     },
     {
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
-      "sector": "Healthcare",
-      "value_score": 36.44,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 26,
-      "in_value": true
-    },
-    {
-      "ticker": "UNH",
-      "company_name": "UnitedHealth Group Incorporated",
-      "sector": "Healthcare",
-      "value_score": 38.22,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 26,
-      "in_value": true
-    },
-    {
       "ticker": "THC",
       "company_name": "Tenet Healthcare Corporation",
       "sector": "Healthcare",
@@ -165,10 +131,26 @@
       "in_value": true
     },
     {
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "value_score": 29.6,
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "value_score": 30.655,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 24,
+      "in_value": true
+    },
+    {
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "value_score": 28.44,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -197,6 +179,22 @@
       "in_value": true
     },
     {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "value_score": 28.69999999999999,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 24,
+      "in_value": true
+    },
+    {
       "ticker": "CHTR",
       "company_name": "Charter Communications, Inc.",
       "sector": "Communication Services",
@@ -213,10 +211,26 @@
       "in_value": true
     },
     {
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza Inc",
+      "sector": "Consumer Cyclical",
+      "value_score": 25.28,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 23,
+      "in_value": true
+    },
+    {
       "ticker": "TEVA",
       "company_name": "Teva Pharmaceutical Industries ",
       "sector": "Healthcare",
-      "value_score": 26.33,
+      "value_score": 28.33,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -229,10 +243,10 @@
       "in_value": true
     },
     {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
-      "sector": "Consumer Cyclical",
-      "value_score": 22.120000000000005,
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "sector": "Healthcare",
+      "value_score": 22.02,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,

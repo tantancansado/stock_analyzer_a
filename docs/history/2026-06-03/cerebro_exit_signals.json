@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-06-03",
-  "total": 25,
-  "high_count": 13,
-  "narrative": "Esto implica que la confianza en estas acciones ha disminuido, lo que puede aumentar el riesgo de p\u00e9rdidas para los inversores. La p\u00e9rdida de convicci\u00f3n y la falta de compras por parte de los insiders sugieren que es necesario reevaluar y ajustar la estrategia de inversi\u00f3n para minimizar el riesgo y maximizar las ganancias.",
+  "total": 24,
+  "high_count": 14,
+  "narrative": "Esto implica que la confianza en estas acciones ha disminuido, lo que puede aumentar el riesgo de p\u00e9rdidas para los inversores que las mantienen en su cartera. La p\u00e9rdida de convicci\u00f3n y la falta de compras por parte de los insiders sugieren que es importante reevaluar y ajustar la estrategia de inversi\u00f3n para minimizar posibles p\u00e9rdidas y maximizar ganancias.",
   "exits": [
     {
       "ticker": "DECK",
@@ -26,7 +26,14 @@
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": null
+      "fundamental_score": null,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 50,
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa PRU.L que indique un deterioro fundamental en su negocio. La falta de informaci\u00f3n en nuestra base de datos sobre la puntuaci\u00f3n fundamental de la empresa dificulta una evaluaci\u00f3n precisa.",
+        "key_finding": "No hay datos recientes sobre ganancias, guidance o eventos significativos que sugieran un deterioro empresarial",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa PRU.L que indique un deterioro fundamental en su negocio. La falta de informaci\u00f3n en nuestra base de datos sobre la puntuaci\u00f3n fundamental de la empresa dificulta una evaluaci\u00f3n precisa."
+      }
     },
     {
       "ticker": "CPAY",
@@ -38,25 +45,32 @@
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": null
+      "fundamental_score": null,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 50,
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa CPAY que indique un deterioro fundamental en su negocio. La falta de informaci\u00f3n en nuestra base de datos sobre la puntuaci\u00f3n fundamental de la empresa hace dif\u00edcil emitir un juicio s\u00f3lido.",
+        "key_finding": "No se encontraron datos recientes sobre ganancias, guidance, eventos negativos o cambios en la gesti\u00f3n de CPAY",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa CPAY que indique un deterioro fundamental en su negocio. La falta de informaci\u00f3n en nuestra base de datos sobre la puntuaci\u00f3n fundamental de la empresa hace dif\u00edcil emitir un juicio s\u00f3lido."
+      }
     },
     {
       "ticker": "WTKWY",
       "severity": "HIGH",
       "entry_score": 71.45,
-      "current_score": 40.16,
+      "current_score": 25.16,
       "signal_date": "2026-04-26",
       "reasons": [
-        "Score cay\u00f3 31pts (71 \u2192 40)",
+        "Score cay\u00f3 46pts (71 \u2192 25)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 48.8,
       "ai_validation": {
-        "verdict": "UNCERTAIN",
-        "confidence": 50,
-        "summary": "No hay informaci\u00f3n reciente sobre deterioro empresarial, pero la falta de compras de insiders podr\u00eda indicar p\u00e9rdida de convicci\u00f3n. La puntuaci\u00f3n fundamental de 48.8/100 sugiere una posici\u00f3n media.",
-        "key_finding": "La puntuaci\u00f3n de 40 sugiere una posible sobreventa o p\u00e9rdida de confianza en el mercado",
-        "summary_note": "No hay informaci\u00f3n reciente sobre deterioro empresarial, pero la falta de compras de insiders podr\u00eda indicar p\u00e9rdida de convicci\u00f3n. La puntuaci\u00f3n fundamental de 48.8/100 sugiere una posici\u00f3n media."
+        "verdict": "TRUE_POSITIVE",
+        "confidence": 70,
+        "summary": "La se\u00f1al de salida parece ser un verdadero positivo dada la ca\u00edda significativa en la puntuaci\u00f3n y la falta de informaci\u00f3n que sugiera una falsa alarma.",
+        "key_finding": "Cambio en la propiedad y ca\u00edda en la puntuaci\u00f3n de 46 puntos",
+        "summary_note": "La se\u00f1al de salida parece ser un verdadero positivo dada la ca\u00edda significativa en la puntuaci\u00f3n y la falta de informaci\u00f3n que sugiera una falsa alarma."
       }
     },
     {
@@ -73,9 +87,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No hay informaci\u00f3n reciente sobre deterioro fundamental en BBY, pero la falta de compras de insiders puede indicar p\u00e9rdida de confianza.",
-        "key_finding": "No hay datos recientes sobre earnings misses, guidance cuts o cambios importantes en la gesti\u00f3n de BBY",
-        "summary_note": "No hay informaci\u00f3n reciente sobre deterioro fundamental en BBY, pero la falta de compras de insiders puede indicar p\u00e9rdida de confianza."
+        "summary": "No hay informaci\u00f3n reciente sobre deterioro fundamental en BBY, pero la falta de compras de insiders podr\u00eda indicar p\u00e9rdida de confianza.",
+        "key_finding": "No hay datos recientes de ganancias o guidance cuts que indiquen deterioro fundamental",
+        "summary_note": "No hay informaci\u00f3n reciente sobre deterioro fundamental en BBY, pero la falta de compras de insiders podr\u00eda indicar p\u00e9rdida de confianza."
       }
     },
     {
@@ -92,29 +106,22 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 40,
-        "summary": "No tengo informaci\u00f3n reciente sobre LOGN.SW, por lo que no puedo determinar con certeza si la salida se debe a un deterioro fundamental o una mera correcci\u00f3n en el precio.",
-        "key_finding": "No tengo datos actualizados sobre los resultados financieros recientes de LOGN.SW, insider buying o eventos significativos que puedan confirmar o descartar la tesis de deterioro.",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre LOGN.SW, por lo que no puedo determinar con certeza si la salida se debe a un deterioro fundamental o una mera correcci\u00f3n en el precio."
+        "summary": "No tengo informaci\u00f3n reciente sobre LOGN.SW que indique un deterioro fundamental claro, pero la falta de compras de insiders y su desaparici\u00f3n de la lista de valor podr\u00edan indicar problemas.",
+        "key_finding": "No tengo acceso a datos posteriores a mi fecha de corte de entrenamiento sobre LOGN.SW",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre LOGN.SW que indique un deterioro fundamental claro, pero la falta de compras de insiders y su desaparici\u00f3n de la lista de valor podr\u00edan indicar problemas."
       }
     },
     {
       "ticker": "RELX",
-      "severity": "MEDIUM",
+      "severity": "HIGH",
       "entry_score": 65.42,
-      "current_score": 34.175,
+      "current_score": 35.175,
       "signal_date": "2026-04-26",
       "reasons": [
-        "Score cay\u00f3 31pts (65 \u2192 34)",
-        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "IA: falso positivo con 80% confianza \u2014 No hay evidencia de deterioro fundamental reciente en RELX, el score de fundamentales en nuestra base de datos es de 48.8/100, lo que sugiere que la empresa sigue teniendo una base s\u00f3lida."
+        "Score cay\u00f3 30pts (65 \u2192 35)",
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 48.8,
-      "ai_validation": {
-        "verdict": "FALSE_POSITIVE",
-        "confidence": 80,
-        "summary": "No hay evidencia de deterioro fundamental reciente en RELX, el score de fundamentales en nuestra base de datos es de 48.8/100, lo que sugiere que la empresa sigue teniendo una base s\u00f3lida.",
-        "key_finding": "La empresa RELX no ha reportado earnings misses significativos recientes ni guidance cuts que indiquen un deterioro en su negocio."
-      }
+      "fundamental_score": 48.8
     },
     {
       "ticker": "ACN",
@@ -124,14 +131,32 @@
       "signal_date": "2026-04-08",
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 80% confianza \u2014 No hay evidencia de deterioro fundamental reciente en ACN. La salida de VALUE podr\u00eda deberse a una reevaluaci\u00f3n de expectativas."
+        "IA: falso positivo con 80% confianza \u2014 No hay evidencia de deterioro fundamental reciente en ACN, la salida de VALUE podr\u00eda deberse a una reevaluaci\u00f3n de expectativas."
       ],
       "fundamental_score": null,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 80,
-        "summary": "No hay evidencia de deterioro fundamental reciente en ACN. La salida de VALUE podr\u00eda deberse a una reevaluaci\u00f3n de expectativas.",
-        "key_finding": "ACN report\u00f3 resultados s\u00f3lidos en su \u00faltimo trimestre fiscal"
+        "summary": "No hay evidencia de deterioro fundamental reciente en ACN, la salida de VALUE podr\u00eda deberse a una reevaluaci\u00f3n de expectativas.",
+        "key_finding": "ACN ha tenido resultados consistentes y crecientes en ingresos y beneficios en los \u00faltimos a\u00f1os"
+      }
+    },
+    {
+      "ticker": "V",
+      "severity": "MEDIUM",
+      "entry_score": 63.6,
+      "current_score": 28.69999999999999,
+      "signal_date": "2026-04-16",
+      "reasons": [
+        "Score cay\u00f3 35pts (64 \u2192 29)",
+        "IA: falso positivo con 80% confianza \u2014 No hay evidencia de deterioro fundamental reciente en Visa; los resultados financieros fueron mixtos y hubo un cambio de CEO planificado, pero la empresa sigue s\u00f3lida."
+      ],
+      "fundamental_score": 69.5,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 80,
+        "summary": "No hay evidencia de deterioro fundamental reciente en Visa; los resultados financieros fueron mixtos y hubo un cambio de CEO planificado, pero la empresa sigue s\u00f3lida.",
+        "key_finding": "Cambio de liderazgo planificado (Ryan McInerney nombrado CEO) y resultados de ingresos ligeramente por debajo de estimaciones sin impacto estructural."
       }
     },
     {
@@ -143,7 +168,14 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": null
+      "fundamental_score": null,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 50,
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa HNR1.DE, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental (N/A/100) sugiere que puede haber una falta de datos recientes o relevantes.",
+        "key_finding": "No hay datos recientes disponibles sobre la empresa HNR1.DE en mi base de conocimiento hasta el momento de mi \u00faltima actualizaci\u00f3n.",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa HNR1.DE, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental (N/A/100) sugiere que puede haber una falta de datos recientes o relevantes."
+      }
     },
     {
       "ticker": "IAG.MC",
@@ -158,9 +190,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n reciente sobre la empresa IAG.MC, por lo que no puedo determinar con certeza si ha habido un deterioro fundamental en su negocio.",
-        "key_finding": "No disponible",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa IAG.MC, por lo que no puedo determinar con certeza si ha habido un deterioro fundamental en su negocio."
+        "summary": "No hay informaci\u00f3n reciente sobre la empresa IAG.MC que indique un deterioro fundamental en su negocio. La menci\u00f3n de 'tesis posiblemente rota' sugiere que la valoraci\u00f3n o la perspectiva de crecimiento de la empresa puede haber cambiado.",
+        "key_finding": "No hay datos espec\u00edficos sobre earnings misses, guidance cuts, eventos negativos importantes o cambios en la gesti\u00f3n de IAG.MC",
+        "summary_note": "No hay informaci\u00f3n reciente sobre la empresa IAG.MC que indique un deterioro fundamental en su negocio. La menci\u00f3n de 'tesis posiblemente rota' sugiere que la valoraci\u00f3n o la perspectiva de crecimiento de la empresa puede haber cambiado."
       }
     },
     {
@@ -176,9 +208,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n espec\u00edfica sobre la empresa CLPBY despu\u00e9s de mi fecha de corte de entrenamiento. La tesis de inversi\u00f3n podr\u00eda estar rota debido a un deterioro fundamental o simplemente porque el precio subi\u00f3 demasiado.",
-        "key_finding": "No tengo acceso a datos en tiempo real o posteriores a mi fecha de corte de entrenamiento para evaluar el estado actual de la empresa.",
-        "summary_note": "No tengo informaci\u00f3n espec\u00edfica sobre la empresa CLPBY despu\u00e9s de mi fecha de corte de entrenamiento. La tesis de inversi\u00f3n podr\u00eda estar rota debido a un deterioro fundamental o simplemente porque el precio subi\u00f3 demasiado."
+        "summary": "No tengo informaci\u00f3n espec\u00edfica sobre eventos recientes que sugieran un deterioro fundamental en el negocio de CLPBY. La tesis de inversi\u00f3n podr\u00eda estar rota debido a cambios en la valoraci\u00f3n o eventos no especificados.",
+        "key_finding": "No hay datos recientes sobre earnings misses, guidance cuts, o cambios en la administraci\u00f3n que indiquen un deterioro fundamental.",
+        "summary_note": "No tengo informaci\u00f3n espec\u00edfica sobre eventos recientes que sugieran un deterioro fundamental en el negocio de CLPBY. La tesis de inversi\u00f3n podr\u00eda estar rota debido a cambios en la valoraci\u00f3n o eventos no especificados."
       }
     },
     {
@@ -194,9 +226,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n reciente sobre el deterioro fundamental de EXPE, pero hist\u00f3ricamente ha enfrentado desaf\u00edos en la industria de viajes.",
-        "key_finding": "La empresa ha experimentado cambios en la industria de viajes debido a la pandemia y la recuperaci\u00f3n no ha sido uniforme",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre el deterioro fundamental de EXPE, pero hist\u00f3ricamente ha enfrentado desaf\u00edos en la industria de viajes."
+        "summary": "No hay informaci\u00f3n reciente sobre deterioro fundamental en EXPE, pero su salida de VALUE podr\u00eda indicar un cambio en la percepci\u00f3n de su valor.",
+        "key_finding": "No se encontraron noticias recientes sobre earnings misses, guidance cuts, eventos negativos importantes o cambios en la administraci\u00f3n de EXPE",
+        "summary_note": "No hay informaci\u00f3n reciente sobre deterioro fundamental en EXPE, pero su salida de VALUE podr\u00eda indicar un cambio en la percepci\u00f3n de su valor."
       }
     },
     {
@@ -208,7 +240,14 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": null
+      "fundamental_score": null,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 50,
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa EME, por lo que no puedo determinar con certeza si la se\u00f1al de salida es un verdadero positivo o un falso positivo.",
+        "key_finding": "No hay datos fundamentales recientes disponibles en mi base de conocimiento sobre EME",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa EME, por lo que no puedo determinar con certeza si la se\u00f1al de salida es un verdadero positivo o un falso positivo."
+      }
     },
     {
       "ticker": "JKHY",
@@ -226,58 +265,46 @@
       "ticker": "BR",
       "severity": "MEDIUM",
       "entry_score": 73.2,
-      "current_score": 27.385000000000005,
+      "current_score": 30.585000000000008,
       "signal_date": "2026-04-08",
       "reasons": [
-        "Score cay\u00f3 46pts (73 \u2192 27) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
+        "Score cay\u00f3 43pts (73 \u2192 31) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 45.0
+      "fundamental_score": 45.5
     },
     {
       "ticker": "G24.DE",
       "severity": "MEDIUM",
       "entry_score": 72.955,
-      "current_score": 52.5,
+      "current_score": 52.1,
       "signal_date": "2026-04-30",
       "reasons": [
-        "Score cay\u00f3 20pts (73 \u2192 52)",
+        "Score cay\u00f3 21pts (73 \u2192 52)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 68.7
+      "fundamental_score": 67.8
     },
     {
       "ticker": "VRSN",
       "severity": "MEDIUM",
       "entry_score": 69.03999999999999,
-      "current_score": null,
+      "current_score": 30.655,
       "signal_date": "2026-04-27",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)",
+        "Score cay\u00f3 38pts (69 \u2192 31) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 62.3
     },
     {
-      "ticker": "SAP.DE",
-      "severity": "MEDIUM",
-      "entry_score": 67.1,
-      "current_score": 49.9,
-      "signal_date": "2026-04-16",
-      "reasons": [
-        "Score cay\u00f3 17pts (67 \u2192 50)",
-        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
-      ],
-      "fundamental_score": null
-    },
-    {
       "ticker": "SAP",
       "severity": "MEDIUM",
       "entry_score": 67.08,
-      "current_score": 29.605000000000004,
+      "current_score": 32.605,
       "signal_date": "2026-04-26",
       "reasons": [
-        "Score cay\u00f3 37pts (67 \u2192 30) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
+        "Score cay\u00f3 34pts (67 \u2192 33) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 64.0
@@ -286,35 +313,13 @@
       "ticker": "INTU",
       "severity": "MEDIUM",
       "entry_score": 66.8,
-      "current_score": 35.93,
+      "current_score": 41.43000000000001,
       "signal_date": "2026-04-27",
       "reasons": [
-        "Score cay\u00f3 31pts (67 \u2192 36) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 9/9)",
+        "Score cay\u00f3 25pts (67 \u2192 41) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 9/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 77.8
-    },
-    {
-      "ticker": "SGE.L",
-      "severity": "MEDIUM",
-      "entry_score": 63.8,
-      "current_score": 46.6,
-      "signal_date": "2026-04-16",
-      "reasons": [
-        "Score cay\u00f3 17pts (64 \u2192 47)"
-      ],
-      "fundamental_score": null
-    },
-    {
-      "ticker": "V",
-      "severity": "MEDIUM",
-      "entry_score": 63.6,
-      "current_score": null,
-      "signal_date": "2026-04-16",
-      "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
-      ],
-      "fundamental_score": 69.5
     },
     {
       "ticker": "NYT",
@@ -339,15 +344,26 @@
       "fundamental_score": 51.8
     },
     {
+      "ticker": "SAP.DE",
+      "severity": "LOW",
+      "entry_score": 67.1,
+      "current_score": 55.1,
+      "signal_date": "2026-04-16",
+      "reasons": [
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+      ],
+      "fundamental_score": null
+    },
+    {
       "ticker": "AUTO.L",
       "severity": "LOW",
       "entry_score": 65.4,
-      "current_score": 55.2,
+      "current_score": 55.4,
       "signal_date": "2026-04-28",
       "reasons": [
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 55.5
+      "fundamental_score": 56.0
     }
   ]
 }
