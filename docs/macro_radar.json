@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-03T07:55:54.898656",
+  "timestamp": "2026-06-03T09:21:19.641076",
   "date": "2026-06-03",
   "regime": {
     "name": "CALM",
@@ -11,11 +11,11 @@
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 16.04,
-      "percentile": 22.4,
+      "current": 16.07,
+      "percentile": 22.7,
       "score": 0.5,
-      "change_5d": -1.5,
-      "interpretation": "VIX 16.0 (bajo)",
+      "change_5d": -1.4,
+      "interpretation": "VIX 16.1 (bajo)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
@@ -58,12 +58,12 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 95.95,
+      "current": 96.07,
       "percentile": 88.1,
       "score": -1,
-      "change_5d": 8.2,
-      "change_20d": -6.2,
-      "interpretation": "Petroleo $95.9 (subida rapida)",
+      "change_5d": 8.3,
+      "change_20d": -6.1,
+      "interpretation": "Petroleo $96.1 (subida rapida)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
     },
@@ -78,22 +78,22 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 99.27,
-      "percentile": 76.2,
+      "current": 99.35,
+      "percentile": 78.3,
       "score": 0.5,
-      "change_5d": 0.06,
-      "change_20d": 0.8,
-      "interpretation": "DXY 99.3 (ligeramente fuerte)",
+      "change_5d": 0.14,
+      "change_20d": 0.89,
+      "interpretation": "DXY 99.4 (ligeramente fuerte)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 159.66,
-      "percentile": 96.5,
+      "current": 159.79,
+      "percentile": 98.2,
       "score": 1,
-      "change_5d": 0.26,
-      "change_20d": 1.26,
-      "interpretation": "USD/JPY 159.7 (yen debil (risk-on))",
+      "change_5d": 0.34,
+      "change_20d": 1.34,
+      "interpretation": "USD/JPY 159.8 (yen debil (risk-on))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
     },
@@ -159,7 +159,7 @@
     }
   },
   "errors": [],
-  "ai_narrative": "El r\u00e9gimen de mercado actual es CALM, con se\u00f1ales positivas en volatilidad, curva de tipos y cr\u00e9dito. El principal riesgo es la subida del petr\u00f3leo. Recomendamos un posicionamiento moderadamente alcista, aprovechando la tendencia alcista fuerte del mercado.",
+  "ai_narrative": "**R\u00e9gimen de mercado actual:**\n\nEl r\u00e9gimen de mercado actual se caracteriza por un entorno de riesgo elevado, con una puntuaci\u00f3n compuesta de 10,5/20, lo que indica un r\u00e9gimen CALM. Las se\u00f1ales m\u00e1s relevantes son la subida del cobre/oro, la defensa rezagada vs mercado y la amplitud del mercado, lo que sugiere una tendencia alcista fuerte. Sin embargo, la volatilidad es baja y los spreads de cr\u00e9dito est\u00e1n apretados, lo que podr\u00eda indicar un entorno de sobrecompra.\n\n**Principal riesgo o catalizador a vigilar:**\n\nEl principal riesgo a vigilar es una posible correcci\u00f3n del mercado, especialmente si la volatilidad sube y los spreads de cr\u00e9dito se ampl\u00edan.\n\n**Recomendaci\u00f3n de posicionamiento general:**\n\nEn este entorno de riesgo elevado, se recomienda",
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
