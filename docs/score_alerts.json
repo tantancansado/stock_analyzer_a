@@ -1,84 +1,104 @@
 {
-  "generated_at": "2026-06-03",
+  "generated_at": "2026-06-04",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 63.4,
-      "score_prev": 43.4,
-      "delta": 20.0,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
+      "ticker": "RELX",
+      "company_name": "RELX PLC PLC",
       "sector": "Industrials",
-      "score_today": 52.5,
-      "score_prev": 36.5,
-      "delta": 16.0,
-      "grade": "🟡 Average"
+      "score_today": 47.2,
+      "score_prev": 35.2,
+      "delta": 12.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "AUTO.L",
-      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "sector": "Healthcare",
+      "score_today": 38.4,
+      "score_prev": 28.4,
+      "delta": 10.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE                    N",
       "sector": "Communication Services",
-      "score_today": 84.6,
-      "score_prev": 69.4,
-      "delta": 15.2,
-      "grade": "🟢 Elite"
+      "score_today": 29.9,
+      "score_prev": 23.9,
+      "delta": 6.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
       "ticker": "NDAQ",
       "company_name": "Nasdaq, Inc.",
       "sector": "Financial Services",
-      "score_today": 49.8,
-      "score_prev": 36.8,
-      "delta": 13.0,
-      "grade": "🔴 Weak"
+      "score_today": 55.8,
+      "score_prev": 49.8,
+      "delta": 6.0,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
       "sector": "Industrials",
-      "score_today": 58.5,
-      "score_prev": 48.5,
-      "delta": 10.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "UBER",
-      "company_name": "Uber Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 53.0,
-      "score_prev": 45.0,
-      "delta": 8.0,
-      "grade": "🟡 Average"
+      "score_today": 67.0,
+      "score_prev": 62.0,
+      "delta": 5.0,
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
       "ticker": "ATLKY",
       "company_name": "Atlas Copco AB",
       "sector": "Industrials",
-      "score_today": 42.0,
-      "score_prev": 34.4,
-      "delta": 7.6,
+      "score_today": 47.0,
+      "score_prev": 42.0,
+      "delta": 5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "KR",
-      "company_name": "Kroger Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 43.4,
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "sector": "Communication Services",
+      "score_today": 89.6,
+      "score_prev": 84.6,
+      "delta": 5.0,
+      "grade": "🟢 Elite"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "sector": "Industrials",
+      "score_today": 46.5,
+      "score_prev": 41.5,
+      "delta": 5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "GVDNY",
+      "company_name": "Givaudan SA",
+      "sector": "Basic Materials",
+      "score_today": 41.3,
       "score_prev": 36.3,
-      "delta": 7.0,
+      "delta": 5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "HESAY",
+      "company_name": "Hermes International SA",
+      "sector": "Consumer Cyclical",
+      "score_today": 41.8,
+      "score_prev": 36.8,
+      "delta": 5.0,
       "grade": "🔴 Weak"
     },
     {
@@ -86,179 +106,49 @@
       "ticker": "NOW",
       "company_name": "ServiceNow, Inc.",
       "sector": "Technology",
-      "score_today": 37.9,
-      "score_prev": 30.9,
-      "delta": 7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "PGR",
-      "company_name": "Progressive Corporation (The)",
-      "sector": "Financial Services",
-      "score_today": 42.6,
-      "score_prev": 35.9,
-      "delta": 6.7,
+      "score_today": 42.9,
+      "score_prev": 37.9,
+      "delta": 5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 39.4,
-      "score_prev": 44.4,
-      "delta": -5.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CSU.TO",
-      "company_name": "CONSTELLATION SOFTWARE INC.",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "score_today": 27.6,
-      "score_prev": 32.6,
+      "score_today": 47.6,
+      "score_prev": 52.6,
       "delta": -5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "LSEG.L",
-      "company_name": "LONDON STOCK EXCHANGE GROUP PLC",
-      "sector": "Financial Services",
-      "score_today": 26.4,
-      "score_prev": 31.4,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SAP",
-      "company_name": "SAP  SE",
-      "sector": "Technology",
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "sector": "Consumer Defensive",
       "score_today": 32.6,
-      "score_prev": 37.6,
-      "delta": -5.0,
+      "score_prev": 40.6,
+      "delta": -8.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 33.4,
-      "score_prev": 38.4,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VLTO",
-      "company_name": "Veralto Corp",
-      "sector": "Industrials",
-      "score_today": 25.4,
-      "score_prev": 30.4,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc",
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
       "sector": "Technology",
-      "score_today": 38.4,
-      "score_prev": 44.4,
-      "delta": -6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
-      "sector": "Industrials",
-      "score_today": 44.6,
-      "score_prev": 51.6,
-      "delta": -7.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "G24.DE",
-      "company_name": "Scout24 SE                    N",
-      "sector": "Communication Services",
-      "score_today": 23.9,
-      "score_prev": 30.9,
-      "delta": -7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CHTR",
-      "company_name": "Charter Communications, Inc.",
-      "sector": "Communication Services",
-      "score_today": 26.0,
-      "score_prev": 34.0,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
-      "sector": "Consumer Cyclical",
-      "score_today": 25.3,
-      "score_prev": 33.3,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "sector": "Technology",
-      "score_today": 27.9,
-      "score_prev": 35.9,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "NYT",
-      "company_name": "New York Times Company (The)",
-      "sector": "Communication Services",
-      "score_today": 30.4,
-      "score_prev": 38.4,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "score_today": 25.2,
-      "score_prev": 33.2,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 56.8,
-      "score_prev": 66.8,
-      "delta": -10.0,
+      "score_today": 54.4,
+      "score_prev": 63.4,
+      "delta": -9.0,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "AJG",
-      "company_name": "Arthur J. Gallagher & Co.",
-      "sector": "Financial Services",
-      "score_today": 29.6,
-      "score_prev": 40.1,
-      "delta": -10.5,
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "score_today": 31.4,
+      "score_prev": 41.4,
+      "delta": -10.0,
       "grade": "🔴 Weak"
     },
     {
@@ -266,56 +156,26 @@
       "ticker": "MA",
       "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 56.1,
-      "score_prev": 67.1,
-      "delta": -11.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 30.7,
-      "score_prev": 42.7,
-      "delta": -12.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 25.6,
-      "score_prev": 41.6,
-      "delta": -16.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "UNH",
-      "company_name": "UnitedHealth Group Incorporated",
-      "sector": "Healthcare",
-      "score_today": 22.0,
-      "score_prev": 41.0,
-      "delta": -19.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange Inc.",
-      "sector": "Financial Services",
-      "score_today": 37.3,
-      "score_prev": 62.3,
-      "delta": -25.0,
+      "score_today": 46.1,
+      "score_prev": 56.1,
+      "delta": -10.0,
       "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PG",
+      "company_name": "Procter & Gamble Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 41.1,
+      "score_prev": 51.1,
+      "delta": -10.0,
+      "grade": "🔴 Weak"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 10,
-    "score_down": 21
+    "score_up": 11,
+    "score_down": 6
   }
 }

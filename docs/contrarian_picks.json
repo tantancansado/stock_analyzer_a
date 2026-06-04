@@ -1,8 +1,28 @@
 {
-  "generated_at": "2026-06-03T10:04:52Z",
+  "generated_at": "2026-06-04T09:21:32Z",
   "count": 12,
   "contrarian_buys": 12,
   "picks": [
+    {
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "current_price": 163.6,
+      "drawdown_from_52w": -33.8,
+      "analyst_upside_pct": 49.5,
+      "analyst_count": 21.0,
+      "piotroski_score": 6.0,
+      "roe_pct": 30.3,
+      "fcf_yield_pct": 21.72,
+      "profit_margin_pct": null,
+      "debt_to_equity": 1.49,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 85,
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain intact.",
+      "is_circumstantial": true,
+      "recovery_thesis": "The company's solid fundamentals, including a 30.3% ROE and 21.7% FCF Yield, suggest that the price drop is a buying opportunity, as the market has overreacted to temporary headwinds.",
+      "key_risks": "A prolonged decline in the healthcare sector or a significant increase in competition could impact the company's profitability and break the contrarian thesis."
+    },
     {
       "ticker": "ZTS",
       "company_name": "Zoetis Inc.",
@@ -18,10 +38,10 @@
       "debt_to_equity": 2.86,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "Sector rotation and macro fear likely contributed to the sharp decline in ZTS's stock price.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong and the decline is significant enough to create a buying opportunity.",
       "is_circumstantial": true,
-      "recovery_thesis": "ZTS's solid fundamentals, including a high ROE and FCF yield, suggest the company's business model remains intact, and the stock price should recover as investor sentiment improves.",
-      "key_risks": "A significant decline in pet health spending or increased competition from generic veterinary products could undermine ZTS's profitability and break the contrarian thesis."
+      "recovery_thesis": "Zoetis' solid fundamentals, including a high ROE and FCF yield, suggest that the company's business model remains intact, and the price should recover as investors reassess the value of the stock.",
+      "key_risks": "The main risk is that the sector rotation persists and investors continue to favor other healthcare stocks, potentially leading to further declines in ZTS's stock price."
     },
     {
       "ticker": "INTU",
@@ -38,10 +58,30 @@
       "debt_to_equity": 0.33,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong and the decline is not accompanied by any significant deterioration in its business model.",
       "is_circumstantial": true,
-      "recovery_thesis": "INTU's solid fundamentals, including a high Piotroski F-Score and strong operating margin, suggest that the company's business model remains intact, and the price should recover as the market sentiment improves.",
-      "key_risks": "A significant decline in consumer spending on tax preparation and accounting software could break the thesis."
+      "recovery_thesis": "INTU's solid fundamentals, including a high Piotroski F-Score and a low debt-to-equity ratio, suggest that the company's underlying business remains healthy, and the price drop presents a contrarian buying opportunity.",
+      "key_risks": "A significant decline in consumer spending or a failure to adapt to changing market trends could undermine INTU's growth prospects and break the recovery thesis."
+    },
+    {
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "sector": "Industrials",
+      "current_price": 2578.0,
+      "drawdown_from_52w": -37.1,
+      "analyst_upside_pct": 51.9,
+      "analyst_count": 18.0,
+      "piotroski_score": 5.0,
+      "roe_pct": 28.3,
+      "fcf_yield_pct": 3.93,
+      "profit_margin_pct": 17.8,
+      "debt_to_equity": 1.0,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 80,
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain intact.",
+      "is_circumstantial": true,
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE and stable FCF yield, suggest that the price drop is a buying opportunity, and the fundamentals will drive a recovery.",
+      "key_risks": "A significant decline in consumer credit demand or a major disruption in the company's data analytics business could break the thesis."
     },
     {
       "ticker": "TYL",
@@ -60,28 +100,8 @@
       "confidence": 80,
       "drop_reason": "The sharp drop is likely due to sector rotation and macro fear, as the company's fundamentals remain intact.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including an 8.9% ROE, 4.2% FCF Yield, and 17.0% Operating Margin, suggest that the price drop is an overcorrection, and the stock should recover as market sentiment improves.",
-      "key_risks": "A significant decline in government IT spending could impact the company's revenue and profitability."
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
-      "sector": "Industrials",
-      "current_price": 2604.0,
-      "drawdown_from_52w": -36.5,
-      "analyst_upside_pct": 50.2,
-      "analyst_count": 18.0,
-      "piotroski_score": 5.0,
-      "roe_pct": 28.3,
-      "fcf_yield_pct": 3.89,
-      "profit_margin_pct": 17.8,
-      "debt_to_equity": 1.0,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
-      "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE and FCF yield, suggest that the price drop is an overcorrection, and the stock should recover as the market regains confidence.",
-      "key_risks": "A significant deterioration in the company's credit profile or a major disruption to its business model could break the thesis."
+      "recovery_thesis": "Tyler Technologies' solid fundamentals, including a high Piotroski F-Score and 0.0 debt-to-equity ratio, suggest that the company's business model remains strong, and the price should recover as the market sentiment improves.",
+      "key_risks": "A significant decline in government spending or a major disruption in the company's software services could break the thesis."
     },
     {
       "ticker": "POOL",
@@ -98,30 +118,10 @@
       "debt_to_equity": 1.4,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain strong.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of Pool Corporation remain intact.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE and FCF yield, suggest that the price drop is a buying opportunity. As the market stabilizes, the company's quality and growth prospects should drive a recovery in its stock price.",
-      "key_risks": "A prolonged economic downturn could further exacerbate the sector rotation and impact the company's sales and profitability."
-    },
-    {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "current_price": 163.6,
-      "drawdown_from_52w": -33.8,
-      "analyst_upside_pct": 49.5,
-      "analyst_count": 21.0,
-      "piotroski_score": 6.0,
-      "roe_pct": 30.3,
-      "fcf_yield_pct": 21.72,
-      "profit_margin_pct": null,
-      "debt_to_equity": 1.49,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals remain intact and the company's business model has not been broken.",
-      "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE and FCF yield, suggest that the price drop is a buying opportunity. As the market sentiment improves, the stock price should recover.",
-      "key_risks": "A significant deterioration in the company's operating margin or a major disruption in the healthcare sector could break the thesis."
+      "recovery_thesis": "The company's strong ROE, FCF Yield, and Operating Margin indicate a solid business model, and the analyst target upside suggests a potential recovery as the market adjusts to the current valuation.",
+      "key_risks": "A prolonged economic downturn could exacerbate the decline in demand for swimming pool equipment and supplies."
     },
     {
       "ticker": "VEEV",
@@ -138,10 +138,10 @@
       "debt_to_equity": 0.01,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "Sector rotation and macro fear likely contributed to the sharp decline in VEEV's stock price.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as VEEV is a quality company with a strong business model and no debt.",
       "is_circumstantial": true,
-      "recovery_thesis": "VEEV's solid fundamentals, including a high Piotroski F-Score and 0.0 debt-to-equity ratio, suggest that the company's business model remains intact and is poised for a recovery as the market stabilizes.",
-      "key_risks": "A significant decline in the demand for VEEV's cloud-based software solutions could impact the company's growth prospects and undermine the contrarian thesis."
+      "recovery_thesis": "VEEV's fundamentals remain intact, with a high ROE, strong FCF yield, and a solid Piotroski F-Score, indicating a high likelihood of price recovery as the market adjusts to the current sentiment.",
+      "key_risks": "A significant decline in the healthcare sector or a major disruption to VEEV's business model could break the thesis."
     },
     {
       "ticker": "HESAY",
@@ -158,10 +158,10 @@
       "debt_to_equity": 0.12,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of HESAY remain strong.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and high profit margins, suggest that the price drop is a buying opportunity. As the market sentiment improves, HESAY's stock price should recover.",
-      "key_risks": "A significant decline in consumer spending or a major disruption to HESAY's business model could break the thesis."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and high profit margins, suggest that the price drop is an overreaction and the company is poised for a recovery.",
+      "key_risks": "A significant deterioration in the global consumer cyclical sector could lead to further declines in the company's stock price."
     },
     {
       "ticker": "CLPBY",
@@ -178,10 +178,30 @@
       "debt_to_equity": 1.89,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of Coloplast remain intact.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's strong ROE, high FCF yield, and solid operating margin suggest that the business model is still intact, and the price should recover as the market sentiment improves.",
-      "key_risks": "A significant decline in the healthcare sector or a major disruption in Coloplast's business could break the thesis."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and high operating margin, suggest that the price drop is a buying opportunity. The company's quality and competitive moat are likely to drive a recovery in the stock price.",
+      "key_risks": "A significant decline in demand for the company's products or a major disruption to its supply chain could break the thesis."
+    },
+    {
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE                    N",
+      "sector": "Communication Services",
+      "current_price": 74.1,
+      "drawdown_from_52w": -39.7,
+      "analyst_upside_pct": 39.8,
+      "analyst_count": 16.0,
+      "piotroski_score": 6.0,
+      "roe_pct": 17.7,
+      "fcf_yield_pct": null,
+      "profit_margin_pct": null,
+      "debt_to_equity": 0.25,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 80,
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain intact.",
+      "is_circumstantial": true,
+      "recovery_thesis": "The company's solid fundamentals, including a high operating margin and low debt-to-equity ratio, suggest that the price drop is a buying opportunity.",
+      "key_risks": "A significant decline in the online classifieds market could impact Scout24's business model and profitability."
     },
     {
       "ticker": "UBER",
@@ -198,30 +218,10 @@
       "debt_to_equity": 0.48,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain strong.",
+      "drop_reason": "Sector rotation and macro fear likely contributed to the drop, as the company's fundamentals remain intact.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE and FCF Yield, suggest that the price drop is a buying opportunity. As the market sentiment improves, the stock price should recover.",
-      "key_risks": "A significant decline in the company's core ride-hailing business could break the thesis."
-    },
-    {
-      "ticker": "G24.DE",
-      "company_name": "Scout24 SE                    N",
-      "sector": "Communication Services",
-      "current_price": 74.4,
-      "drawdown_from_52w": -39.4,
-      "analyst_upside_pct": 39.2,
-      "analyst_count": 16.0,
-      "piotroski_score": 6.0,
-      "roe_pct": 17.7,
-      "fcf_yield_pct": null,
-      "profit_margin_pct": null,
-      "debt_to_equity": 0.25,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
-      "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high operating margin and low debt-to-equity ratio, suggest that the price drop is a buying opportunity.",
-      "key_risks": "A significant decline in the company's core business, such as a decrease in online real estate demand, could break the thesis."
+      "recovery_thesis": "Uber's solid fundamentals, including a 35.3% ROE and 4.5% FCF Yield, suggest the company's business model remains intact, and the price should recover as the market adjusts to the current sentiment.",
+      "key_risks": "A significant decline in the ride-hailing market or increased competition could break the thesis and lead to a further decline in the stock price."
     },
     {
       "ticker": "CSU.TO",
@@ -229,7 +229,7 @@
       "sector": "Technology",
       "current_price": 2885.04,
       "drawdown_from_52w": -43.0,
-      "analyst_upside_pct": 36.1,
+      "analyst_upside_pct": 36.2,
       "analyst_count": 12.0,
       "piotroski_score": 7.0,
       "roe_pct": 19.7,
@@ -238,10 +238,10 @@
       "debt_to_equity": 1.21,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The company's sharp drop is likely due to sector rotation and macro fear, as the technology sector has been impacted by broader market volatility.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "Despite the recent decline, the company's fundamentals remain intact, with a high ROE, strong FCF yield, and a solid Piotroski F-Score, indicating a high quality business with a durable moat.",
-      "key_risks": "A significant increase in competition or a decline in the company's operating margin could undermine the thesis and lead to further price declines."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE and FCF Yield, suggest that the price drop is an overcorrection, and the stock should recover as the market sentiment improves.",
+      "key_risks": "A significant decline in the company's operating margin or a major disruption to its business model could break the thesis."
     }
   ]
 }
