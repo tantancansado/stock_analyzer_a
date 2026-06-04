@@ -1,79 +1,79 @@
 {
-  "date": "2026-06-03",
-  "timestamp": "2026-06-03T09:26:52.530692",
-  "narrative": "An\u00e1lisis de rotaci\u00f3n sectorial:\n\nLa tendencia de rotaci\u00f3n sectorial actual es hacia los sectores c\u00edclicos, liderados por los ferrocarriles, atenci\u00f3n m\u00e9dica y maquinaria industrial especializada. Estos sectores han demostrado una fuerte recuperaci\u00f3n en t\u00e9rminos de Relative Strength (RS), lo que sugiere un mayor potencial de crecimiento.\n\nEsta tendencia es consistente con el r\u00e9gimen macro actual de CALM (Calm After the Storm), donde la econom\u00eda muestra signos de estabilidad y crecimiento moderado. Los sectores c\u00edclicos tienden a beneficiarse en este entorno, ya que la demanda de bienes y servicios industriales aumenta.\n\nEn este momento, es recomendable concentrar las b\u00fasquedas en los sectores c\u00edclicos, como Industriales, Healthcare y Tecnolog\u00eda, especialmente en subsectores como ferrocarriles, atenci\u00f3n m\u00e9dica especializada y software de infraestructura. Por otro lado",
+  "date": "2026-06-04",
+  "timestamp": "2026-06-04T08:52:39.296934",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos y c\u00edclicos industriales, con Industrials y Healthcare liderando el ranking. Esto es consistente con el r\u00e9gimen macro CALM, que suele favorecer a sectores m\u00e1s estables. Se recomienda concentrar las b\u00fasquedas en sectores como Industrials y Healthcare, y evitar sectores como Financial Services y Consumer Defensive, que se encuentran en los \u00faltimos lugares del ranking.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 52.1,
+      "avg_rs_percentile": 49.9,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 40.0,
+      "avg_rs_percentile": 45.7,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 34.8,
+      "avg_rs_percentile": 36.5,
       "num_tickers": 7,
       "label": "Top 10%"
     },
     {
       "industry": "Drug Manufacturers - Specialty & Generic",
       "sector": "Healthcare",
-      "avg_rs_percentile": 33.8,
+      "avg_rs_percentile": 34.4,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Software - Infrastructure",
-      "sector": "Technology",
-      "avg_rs_percentile": 30.2,
-      "num_tickers": 2,
+      "industry": "Industrial Distribution",
+      "sector": "Industrials",
+      "avg_rs_percentile": 30.3,
+      "num_tickers": 3,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Auto Parts",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 2.0,
+      "industry": "Medical Devices",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 3.3,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Discount Stores",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 2.0,
-      "num_tickers": 2,
+      "industry": "Information Technology Services",
+      "sector": "Technology",
+      "avg_rs_percentile": 3.2,
+      "num_tickers": 4,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Credit Services",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 1.1,
+      "num_tickers": 5,
       "label": "Bottom 25%"
     },
     {
       "industry": "Insurance Brokers",
       "sector": "Financial Services",
-      "avg_rs_percentile": 1.3,
+      "avg_rs_percentile": 1.0,
       "num_tickers": 4,
       "label": "Bottom 25%"
     },
     {
       "industry": "Packaged Foods",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 0.2,
+      "avg_rs_percentile": 0.5,
       "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Waste Management",
-      "sector": "Industrials",
-      "avg_rs_percentile": 0.2,
-      "num_tickers": 3,
       "label": "Bottom 25%"
     }
   ],
