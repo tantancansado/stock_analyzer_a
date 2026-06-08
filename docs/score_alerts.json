@@ -1,141 +1,161 @@
 {
-  "generated_at": "2026-06-05",
+  "generated_at": "2026-06-08",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "VEEV",
-      "company_name": "Veeva Systems Inc.",
-      "sector": "Healthcare",
-      "score_today": 35.8,
-      "score_prev": 27.8,
+      "ticker": "PG",
+      "company_name": "Procter & Gamble Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 51.1,
+      "score_prev": 41.9,
+      "delta": 9.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "RELX",
+      "company_name": "RELX PLC PLC",
+      "sector": "Industrials",
+      "score_today": 48.2,
+      "score_prev": 40.2,
+      "delta": 8.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 39.4,
+      "score_prev": 31.4,
       "delta": 8.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": 38.9,
-      "score_prev": 31.4,
-      "delta": 7.5,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc",
-      "sector": "Technology",
-      "score_today": 42.4,
-      "score_prev": 35.4,
-      "delta": 7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NOW",
-      "company_name": "ServiceNow, Inc.",
-      "sector": "Technology",
-      "score_today": 49.9,
-      "score_prev": 42.9,
-      "delta": 7.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 59.8,
-      "score_prev": 54.4,
-      "delta": 5.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 30.9,
-      "score_prev": 25.6,
-      "delta": 5.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 54.5,
-      "score_prev": 49.3,
-      "delta": 5.2,
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "sector": "Industrials",
+      "score_today": 51.5,
+      "score_prev": 46.5,
+      "delta": 5.0,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CME",
-      "company_name": "CME Group Inc.",
-      "sector": "Financial Services",
-      "score_today": 26.1,
-      "score_prev": 31.1,
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
+      "score_today": 62.0,
+      "score_prev": 67.0,
+      "delta": -5.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE                    N",
+      "sector": "Communication Services",
+      "score_today": 24.9,
+      "score_prev": 29.9,
       "delta": -5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
+      "ticker": "HESAY",
+      "company_name": "Hermes International SA",
+      "sector": "Consumer Cyclical",
+      "score_today": 36.8,
+      "score_prev": 41.8,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 45.8,
+      "score_prev": 50.8,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NYT",
+      "company_name": "New York Times Company (The)",
+      "sector": "Communication Services",
+      "score_today": 25.4,
+      "score_prev": 30.4,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
+      "score_today": 25.6,
+      "score_prev": 30.9,
+      "delta": -5.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NOW",
+      "company_name": "ServiceNow, Inc.",
+      "sector": "Technology",
+      "score_today": 43.9,
+      "score_prev": 49.9,
+      "delta": -6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "VEEV",
+      "company_name": "Veeva Systems Inc.",
       "sector": "Healthcare",
-      "score_today": 27.1,
-      "score_prev": 32.5,
-      "delta": -5.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "COST",
-      "company_name": "Costco Wholesale Corporation",
-      "sector": "Consumer Defensive",
-      "score_today": 32.0,
-      "score_prev": 38.0,
-      "delta": -6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "sector": "Industrials",
-      "score_today": 52.5,
-      "score_prev": 58.5,
-      "delta": -6.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "RELX",
-      "company_name": "RELX PLC PLC",
-      "sector": "Industrials",
-      "score_today": 40.2,
-      "score_prev": 47.2,
+      "score_today": 28.8,
+      "score_prev": 35.8,
       "delta": -7.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
+      "ticker": "LRLCY",
+      "company_name": "L'Oreal Co.",
       "sector": "Consumer Defensive",
-      "score_today": 23.2,
-      "score_prev": 30.3,
-      "delta": -7.1,
+      "score_today": 34.8,
+      "score_prev": 42.8,
+      "delta": -8.0,
       "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "sector": "Communication Services",
+      "score_today": 76.4,
+      "score_prev": 86.4,
+      "delta": -10.0,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 46.8,
+      "score_prev": 59.8,
+      "delta": -13.0,
+      "grade": "🟡 Average"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 7,
-    "score_down": 6
+    "score_up": 4,
+    "score_down": 11
   }
 }
