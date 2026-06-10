@@ -37,7 +37,7 @@ describe('AuthContext', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     getSessionMock.mockResolvedValue({ data: { session: null } })
-    onAuthStateChangeMock.mockImplementation((_cb: (event: string, session: { user?: { id: string } } | null) => void) => {
+    onAuthStateChangeMock.mockImplementation(() => {
       return { data: { subscription: { unsubscribe: unsubscribeMock } } }
     })
     signInWithPasswordMock.mockResolvedValue({ error: null })

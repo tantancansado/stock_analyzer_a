@@ -560,7 +560,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
       })
       const { data: json } = await apiClient.get(`/api/options-chain/${result.ticker}?${params}`)
       setData(json)
-    } catch (e) {
+    } catch {
       setErr('Error de red')
     }
     setLoading(false)

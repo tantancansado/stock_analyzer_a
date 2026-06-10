@@ -85,6 +85,7 @@ def groq_chat(
 
 CLAUDE_HAIKU   = "claude-haiku-4-5"
 CLAUDE_SONNET  = "claude-sonnet-4-6"
+CLAUDE_OPUS    = "claude-opus-4-8"
 
 _anthropic_client = None
 
@@ -120,21 +121,31 @@ def claude_chat(
 
     messages: list of {"role": "user"|"assistant", "content": "..."}
     system:   optional system prompt (Anthropic separates it from messages)
+
+    Opus 4.7+ removed `temperature` (returns 400) and only supports adaptive
+    thinking. We detect Opus by model id and switch the request surface so the
+    same helper works for Haiku/Sonnet (temperature) and Opus (adaptive thinking).
     """
     client = _get_anthropic_client()
     if client is None:
         return None
+    is_opus = "opus" in model.lower()
     try:
         kwargs: dict[str, Any] = {
             "model": model,
             "max_tokens": max_tokens,
-            "temperature": temperature,
             "messages": messages,
         }
+        if is_opus:
+            kwargs["thinking"] = {"type": "adaptive"}  # Opus: no temperature
+        else:
+            kwargs["temperature"] = temperature
         if system:
             kwargs["system"] = system
         resp = client.messages.create(**kwargs)
-        return resp.content[0].text if resp.content else None
+        # Opus may return thinking blocks first — pick the text block.
+        text = next((b.text for b in resp.content if getattr(b, "type", None) == "text"), None)
+        return text
     except Exception as exc:
         logger.warning("claude_chat(%s): %s", model, exc)
         raise

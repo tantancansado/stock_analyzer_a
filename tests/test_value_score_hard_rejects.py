@@ -62,11 +62,15 @@ def apply_negative_roe_hard_reject(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def apply_analyst_upside_reject(df: pd.DataFrame) -> pd.DataFrame:
-    """super_score_integrator.py:1089-1095 — analyst_upside_pct < 0 → value_score = 0."""
+    """super_score_integrator.py — analyst_upside_pct < 0 → value_score = 0,
+    and analyst_upside_pct >= 30 → value_score = 0 (value trap)."""
     df = df.copy()
     if 'analyst_upside_pct' in df.columns:
-        overvalued = df['analyst_upside_pct'].notna() & (df['analyst_upside_pct'] < 0)
+        up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
+        overvalued = up.notna() & (up < 0)
+        value_trap = up.notna() & (up >= 30)
         df.loc[overvalued, 'value_score'] = 0.0
+        df.loc[value_trap, 'value_score'] = 0.0
     return df
 
 
@@ -199,6 +203,51 @@ class TestAnalystUpsideOvervalued:
         })
         result = apply_analyst_upside_reject(df)
         assert result['value_score'].iloc[0] == pytest.approx(60.0)
+
+
+# ── Rule 5: analyst_upside_pct >= 30 → value_score = 0 (value trap) ───────────
+
+class TestAnalystUpsideValueTrap:
+    """Backtest: upside ≥30% tuvo 0% win en 55 señales reales → falling knife."""
+
+    def test_upside_30_zeroes_value_score(self):
+        df = pd.DataFrame({
+            'ticker': ['TRAP'],
+            'analyst_upside_pct': [30.0],
+            'value_score': [75.0],
+        })
+        result = apply_analyst_upside_reject(df)
+        assert result['value_score'].iloc[0] == 0.0, \
+            "upside≥30% es value trap (0% win en backtest) → out of VALUE"
+
+    def test_upside_55_zeroes_value_score(self):
+        df = pd.DataFrame({
+            'ticker': ['BIGTRAP'],
+            'analyst_upside_pct': [55.0],
+            'value_score': [80.0],
+        })
+        result = apply_analyst_upside_reject(df)
+        assert result['value_score'].iloc[0] == 0.0
+
+    def test_golden_zone_upside_preserved(self):
+        """Zona dorada [10,25): no rechazar (+4.73% / 83% win)."""
+        df = pd.DataFrame({
+            'ticker': ['GOLDEN'],
+            'analyst_upside_pct': [18.0],
+            'value_score': [70.0],
+        })
+        result = apply_analyst_upside_reject(df)
+        assert result['value_score'].iloc[0] == pytest.approx(70.0)
+
+    def test_upside_just_below_30_preserved(self):
+        """Boundary: 29.9% no se rechaza (el corte duro es exactamente 30)."""
+        df = pd.DataFrame({
+            'ticker': ['EDGE'],
+            'analyst_upside_pct': [29.9],
+            'value_score': [65.0],
+        })
+        result = apply_analyst_upside_reject(df)
+        assert result['value_score'].iloc[0] == pytest.approx(65.0)
 
 
 # ── Integration: regla combinada con super_score_integrator real ─────────────

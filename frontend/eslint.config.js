@@ -19,5 +19,11 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Co-exporting a component with a hook/helper/constant is idiomatic in our
+      // shadcn ui/ wrappers and context providers. It only affects Fast Refresh
+      // in dev, not runtime correctness — keep it visible as a warning, not an error.
+      'react-refresh/only-export-components': 'warn',
+    },
   },
 ])

@@ -247,10 +247,24 @@ class TestSourceCodeAlignment:
         from pathlib import Path
         import super_score_integrator as ssi
         src = Path(ssi.__file__).read_text()
-        # A/D penalties
-        assert "'STRONG_DISTRIBUTION'" in src and "+= 15" in src
-        assert "'DISTRIBUTION'" in src and "+= 10" in src
+        # A/D penalties (recalibrated: STRONG_DISTRIBUTION +8, DISTRIBUTION +5)
+        assert "'STRONG_DISTRIBUTION', 'filter_penalty'] += 8" in src
+        assert "'DISTRIBUTION', 'filter_penalty'] += 5" in src
         assert "'MEGA_FLOAT'" in src and "+= 3" in src
+
+    def test_upside_golden_zone_not_inverted(self):
+        """Guards the upside recalibration: golden zone [10,25) must be rewarded
+        and the >=30% value-trap tier penalized — never the reverse (the old bug)."""
+        from pathlib import Path
+        import super_score_integrator as ssi
+        src = Path(ssi.__file__).read_text()
+        # Golden zone bonus is positive, trap zone is a penalty.
+        assert "mask_golden" in src and "(_up >= 10) & (_up < 25)" in src
+        assert "df.loc[mask_golden, 'upside_bonus'] =  5.0" in src
+        assert "mask_trap" in src and "(_up >= 30)" in src
+        assert "df.loc[mask_trap,   'upside_bonus'] = -5.0" in src
+        # R:R bonus must NOT reward R:R>=3 (upside>=24%, the losing tier).
+        assert "risk_reward_ratio'] >= 3.0" not in src
 
     def test_rs_line_bonus_weights_in_source(self):
         from pathlib import Path

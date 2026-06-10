@@ -121,8 +121,8 @@ export default function GlobalValue() {
   useEffect(() => {
     setSearchParams(p => {
       const n = new URLSearchParams(p)
-      filterMarket !== 'ALL' ? n.set('market', filterMarket) : n.delete('market')
-      filterGrade !== 'ALL' ? n.set('grade', filterGrade) : n.delete('grade')
+      if (filterMarket !== 'ALL') n.set('market', filterMarket); else n.delete('market')
+      if (filterGrade !== 'ALL') n.set('grade', filterGrade); else n.delete('grade')
       return n
     }, { replace: true })
   }, [filterMarket, filterGrade, setSearchParams])

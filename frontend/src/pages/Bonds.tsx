@@ -76,7 +76,7 @@ function useStickyState<T>(defaultValue: T, key: string): [T, React.Dispatch<Rea
   useEffect(() => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value))
-    } catch {}
+    } catch { /* ignore */ }
   }, [key, value])
   return [value, setValue]
 }

@@ -59,15 +59,24 @@ class TestScoreValueTrap:
         assert score == 0
 
     def test_fundamental_near_default(self):
+        # Flag only fires when Piotroski is NOT strong (≥7): a high-Piotroski
+        # company with missing fundamental data is missing data, not a trap.
         for s in [48, 50, 53]:
-            score, flags = score_value_trap(**_base(fundamental_score=s))
+            score, flags = score_value_trap(**_base(fundamental_score=s, piotroski=5))
             assert score == 2, f"fund_s={s} should flag"
             assert any("cerca de default" in f for f in flags)
 
+    def test_fundamental_near_default_suppressed_when_piotroski_strong(self):
+        # Piotroski ≥7 overrides the missing-data trap indicator.
+        for s in [48, 50, 53]:
+            score, flags = score_value_trap(**_base(fundamental_score=s, piotroski=7))
+            assert score == 0, f"fund_s={s} should NOT flag with strong Piotroski"
+            assert not any("cerca de default" in f for f in flags)
+
     def test_fundamental_outside_default_band(self):
-        score, _ = score_value_trap(**_base(fundamental_score=47))
+        score, _ = score_value_trap(**_base(fundamental_score=47, piotroski=5))
         assert score == 0
-        score, _ = score_value_trap(**_base(fundamental_score=54))
+        score, _ = score_value_trap(**_base(fundamental_score=54, piotroski=5))
         assert score == 0
 
     def test_no_analyst_coverage_high_score(self):

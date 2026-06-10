@@ -351,7 +351,7 @@ export default function ThesisBody({ text }: { text: string }) {
 
   const processed = text
     .replace(/\s+(\*\*[A-ZÁÉÍÓÚÑ][^*]*:\*\*)/g, '\n\n$1')
-    .replace(/\s+(\*\*[A-ZÁÉÍÓÚÑ][a-záéíóúñüä\s\-\/]+\*\*)(\s*[\(:])/g, '\n\n$1$2')
+    .replace(/\s+(\*\*[A-ZÁÉÍÓÚÑ][a-záéíóúñüä\s/-]+\*\*)(\s*[(:])/g, '\n\n$1$2')
 
   const paragraphs = processed.split('\n\n').map(p => p.trim()).filter(Boolean)
 
