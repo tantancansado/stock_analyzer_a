@@ -156,6 +156,15 @@ class MarketRegimeDetector:
             ma_200_20d_ago = hist['Close'].rolling(200).mean().iloc[-20]
             ma_200_slope = ((ma_200 - ma_200_20d_ago) / ma_200_20d_ago * 100)
 
+            # Data-quality gate: if price/MAs are NaN (partial or rate-limited
+            # yfinance data), DO NOT invent a CORRECTION verdict from NaN — every
+            # `price > ma` comparison silently becomes False, faking 0/5 checks.
+            # Per CLAUDE.md: missing data → no score, never a fabricated number.
+            import math
+            if any(math.isnan(x) for x in (current_price, ma_50, ma_150, ma_200, ma_200_slope)):
+                print(f"   ⚠️  {symbol}: precio/MAs NaN (datos insuficientes o rate-limit) — sin veredicto")
+                return {'status': 'ERROR', 'reason': 'NaN in price/MA data'}
+
             # Check criteria
             above_50 = current_price > ma_50
             above_150 = current_price > ma_150
@@ -278,6 +287,17 @@ class MarketRegimeDetector:
             qqq == 'CORRECTION'
         ])
 
+        # Data-quality gate: if BOTH indices failed to produce a verdict (ERROR),
+        # we have no basis to call the regime. Report UNKNOWN rather than faking a
+        # CORRECTION out of missing data — and never let that abort the pipeline.
+        if spy == 'ERROR' and qqq == 'ERROR':
+            return {
+                'regime': 'UNKNOWN',
+                'recommendation': 'CAUTION',
+                'confidence': 'NONE',
+                'explanation': 'No se pudieron obtener datos de SPY/QQQ (rate-limit o fallo de red). Régimen indeterminado — no se asume corrección.'
+            }
+
         # Determine regime
         if strong_count == 2 and vix_value < 30:
             regime = 'CONFIRMED_UPTREND'
@@ -347,20 +367,24 @@ class MarketRegimeDetector:
 
 
 def main():
-    """Run standalone market regime detection"""
+    """Run standalone market regime detection.
+
+    This step is INFORMATIONAL: it writes docs/market_regime.json and the
+    recommendation gates signals downstream. It must never abort the pipeline —
+    "AVOID" is a verdict to act on, not a build failure. Always exit 0; a non-zero
+    exit only signals an actual crash (unhandled exception).
+    """
     detector = MarketRegimeDetector()
     regime = detector.detect_regime()
 
-    # Return exit code based on recommendation
-    if regime['recommendation'] == 'AVOID':
+    rec = regime['recommendation']
+    if rec == 'AVOID':
         print("\n⚠️  WARNING: Market in correction - avoid new trades")
-        return 1
-    elif regime['recommendation'] == 'CAUTION':
+    elif rec == 'CAUTION':
         print("\n⚠️  CAUTION: Market under pressure - be selective")
-        return 0
     else:
         print("\n✅ GREEN LIGHT: Market in confirmed uptrend - safe to trade")
-        return 0
+    return 0
 
 
 if __name__ == '__main__':

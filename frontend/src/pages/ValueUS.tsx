@@ -240,7 +240,7 @@ export default function ValueUS() {
     [rows]
   )
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const filtered = useMemo(() => rows.filter(r => {
     if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
     if (filterSector !== 'ALL' && r.sector !== filterSector) return false
@@ -253,7 +253,7 @@ export default function ValueUS() {
     if (onlyOwned && !isOwned(r.ticker)) return false
     if (onlyHf && (r.hedge_fund_count ?? 0) < 1) return false
     return true
-  }), [rows, filterGrade, filterSector, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf, cerebro.trapMap, cerebro.exitMap, isOwned]) // eslint-disable-line react-hooks/exhaustive-deps
+  }), [rows, filterGrade, filterSector, deferredMinScore, deferredMinFcf, deferredMinRr, hideEarnings, hideTraps, hideExits, onlyOwned, onlyHf, cerebro.trapMap, cerebro.exitMap, isOwned])
 
   const sorted = useMemo(() => [...filtered].sort((a, b) => {
     const av = a[sortKey] ?? 0

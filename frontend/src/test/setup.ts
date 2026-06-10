@@ -1,4 +1,10 @@
 import '@testing-library/jest-dom'
+import { vi } from 'vitest'
+
+// Supabase env vars aren't loaded in the test env; stub them so createClient()
+// in src/lib/supabase.ts doesn't throw "supabaseUrl is required" at import time.
+vi.stubEnv('VITE_SUPABASE_URL', 'http://localhost:54321')
+vi.stubEnv('VITE_SUPABASE_ANON_KEY', 'test-anon-key')
 
 // Vitest 4.x persistent localStorage feature can provide a broken localStorage
 // when --localstorage-file has no valid path. Ensure a full in-memory implementation.

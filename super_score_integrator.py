@@ -1144,18 +1144,32 @@ class SuperScoreIntegrator:
                 print(f"🚫 Rejected from VALUE (analyst upside < 0%): {overvalued_tickers}")
                 df.loc[overvalued, 'value_score'] = 0.0
 
-            # Winners have median upside 25.9% vs losers 16.1% → tiered bonus/penalty
-            # Upside < 15%: weak signal, penalize (-5pts); ≥30%: strong conviction (+5pts); ≥20%: mild (+2pts)
+            # VALUE-TRAP HARD REJECT: upside >= 30% is a falling knife, not a bargain.
+            # Real data (86 clean signals): the >=30% tier had 0% win across 55 signals
+            # and -8.28% avg 30d. A huge analyst gap means the price collapsed for a
+            # reason the model doesn't see. Consistent with "0 signals > false signals".
+            value_trap = _up.notna() & (_up >= 30)
+            if value_trap.sum() > 0:
+                trap_tickers = df[value_trap]['ticker'].tolist()
+                print(f"🚫 Rejected from VALUE (upside ≥30% — value trap, 0% win in backtest): {trap_tickers}")
+                df.loc[value_trap, 'value_score'] = 0.0
+
+            # Recalibrated on 86 real clean-period VALUE signals (2026-04-08+):
+            # analyst upside is a VALUE-TRAP indicator, not a conviction signal.
+            #   upside [10,25)  → +4.73% / 83% win  (golden zone)
+            #   upside  >=25    → -7.56% /  4% win  (trap: price fell for a reason)
+            # The previous calibration rewarded ≥30% upside — exactly the losers.
+            # Note: golden-zone n is small (6); the ≥25% trap is robust (74 signals).
             df['upside_bonus'] = 0.0
-            mask_weak   = _up.notna() & (_up >= 0) & (_up < 15)
-            mask_decent = _up.notna() & (_up >= 20) & (_up < 30)
-            mask_strong = _up.notna() & (_up >= 30)
-            df.loc[mask_weak,   'upside_bonus'] = -5.0
-            df.loc[mask_decent, 'upside_bonus'] =  2.0
-            df.loc[mask_strong, 'upside_bonus'] =  5.0
+            mask_golden = _up.notna() & (_up >= 10) & (_up < 25)   # golden zone
+            mask_mild   = _up.notna() & (_up >= 0)  & (_up < 10)   # too tight to matter
+            mask_trap   = _up.notna() & (_up >= 30)                # value trap
+            df.loc[mask_golden, 'upside_bonus'] =  5.0
+            df.loc[mask_mild,   'upside_bonus'] = -3.0
+            df.loc[mask_trap,   'upside_bonus'] = -5.0
             df['value_score'] += df['upside_bonus']
-            n_weak = int(mask_weak.sum()); n_strong = int(mask_strong.sum())
-            print(f"   📐 Upside tiers: {n_weak} weak <15% (-5pts) · {n_strong} strong ≥30% (+5pts)")
+            n_golden = int(mask_golden.sum()); n_trap = int(mask_trap.sum())
+            print(f"   📐 Upside tiers: {n_golden} golden [10,25) (+5pts) · {n_trap} trap ≥30% (-5pts)")
             df.drop(columns=['upside_bonus', '_up'], inplace=True, errors='ignore')
 
         # RISK/REWARD CHECK: Calculate R:R ratio and penalize poor risk/reward
@@ -1163,10 +1177,11 @@ class SuperScoreIntegrator:
             stop_loss_pct = 8.0  # Standard 8% stop loss (Minervini/Lynch)
             df['_upside'] = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
             df['risk_reward_ratio'] = (df['_upside'] / stop_loss_pct).round(2)
-            # Bonus for R:R >= 3 (+3pts), >= 2 (+1pt), penalty < 1 (-3pts)
+            # R:R is upside/8%, so R:R≥3 ⇒ upside≥24% — i.e. the value-trap zone.
+            # Cap the bonus at the golden R:R band [1.25, 3.0) (upside 10-24%); do NOT
+            # reward R:R≥3, which the real data shows is the losing tier.
             df['rr_bonus'] = 0.0
-            df.loc[df['risk_reward_ratio'] >= 3.0, 'rr_bonus'] = 3.0
-            df.loc[(df['risk_reward_ratio'] >= 2.0) & (df['risk_reward_ratio'] < 3.0), 'rr_bonus'] = 1.0
+            df.loc[(df['risk_reward_ratio'] >= 1.25) & (df['risk_reward_ratio'] < 3.0), 'rr_bonus'] = 2.0
             df.loc[(df['risk_reward_ratio'] < 1.0) & df['risk_reward_ratio'].notna(), 'rr_bonus'] = -3.0
             df['value_score'] += df['rr_bonus']
             good_rr = int((df['risk_reward_ratio'] >= 2.0).sum())

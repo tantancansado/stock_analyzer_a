@@ -55,7 +55,9 @@ def _make_rec(
     **kwargs,
 ) -> dict:
     if signal_date is None:
-        signal_date = pd.Timestamp('2026-01-01')
+        # Must be >= portfolio_tracker.CLEAN_FROM (2026-04-08): generate_summary
+        # only counts the clean post-recalibration period.
+        signal_date = pd.Timestamp('2026-04-15')
     return {
         'ticker': ticker,
         'company_name': ticker,
@@ -622,12 +624,14 @@ class TestGenerateSummary:
         assert summary['completed_signals'] == 2
 
     def test_score_correlation_in_summary(self, tmp_path):
+        # score_correlation is computed over the golden-zone slice (value_score>=60)
+        # using return_30d.
         recs = [
-            _make_rec(ticker='A', strategy='VALUE', value_score=55, return_14d=1.0, win_14d=True),
-            _make_rec(ticker='B', strategy='VALUE', value_score=60, return_14d=2.0, win_14d=True),
-            _make_rec(ticker='C', strategy='VALUE', value_score=65, return_14d=3.0, win_14d=True),
-            _make_rec(ticker='D', strategy='VALUE', value_score=70, return_14d=4.0, win_14d=True),
-            _make_rec(ticker='E', strategy='VALUE', value_score=75, return_14d=5.0, win_14d=True),
+            _make_rec(ticker='A', strategy='VALUE', value_score=60, return_30d=1.0, win_14d=True),
+            _make_rec(ticker='B', strategy='VALUE', value_score=64, return_30d=2.0, win_14d=True),
+            _make_rec(ticker='C', strategy='VALUE', value_score=68, return_30d=3.0, win_14d=True),
+            _make_rec(ticker='D', strategy='VALUE', value_score=72, return_30d=4.0, win_14d=True),
+            _make_rec(ticker='E', strategy='VALUE', value_score=76, return_30d=5.0, win_14d=True),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
@@ -667,11 +671,11 @@ class TestGenerateSummary:
         """Two signals for same ticker → top picks the best one."""
         recs = [
             _make_rec(ticker='AAPL', strategy='VALUE', return_14d=5.0, win_14d=True,
-                      signal_date=pd.Timestamp('2026-01-01')),
+                      signal_date=pd.Timestamp('2026-04-15')),
             _make_rec(ticker='AAPL', strategy='VALUE', return_14d=15.0, win_14d=True,
-                      signal_date=pd.Timestamp('2026-02-01')),
+                      signal_date=pd.Timestamp('2026-05-01')),
             _make_rec(ticker='MSFT', strategy='VALUE', return_14d=3.0, win_14d=True,
-                      signal_date=pd.Timestamp('2026-01-01')),
+                      signal_date=pd.Timestamp('2026-04-15')),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
@@ -891,10 +895,12 @@ class TestSectorPerformance:
         # Only 1 signal in Tech → not in sector_performance
         assert 'Tech' not in summary.get('sector_performance', {})
 
+    # sector_performance is computed over the golden-zone slice using return_30d
+    # (avg_14d / win_rate_14d keys keep their historical names).
     def test_sector_appears_with_2_signals(self, tmp_path):
         recs = [
-            _make_rec(ticker='A', strategy='VALUE', sector='Tech', return_14d=5.0, win_14d=True),
-            _make_rec(ticker='B', strategy='VALUE', sector='Tech', return_14d=3.0, win_14d=True),
+            _make_rec(ticker='A', strategy='VALUE', sector='Tech', return_30d=5.0, win_14d=True),
+            _make_rec(ticker='B', strategy='VALUE', sector='Tech', return_30d=3.0, win_14d=True),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
@@ -902,8 +908,8 @@ class TestSectorPerformance:
 
     def test_sector_avg_return(self, tmp_path):
         recs = [
-            _make_rec(ticker='A', strategy='VALUE', sector='Finance', return_14d=10.0, win_14d=True),
-            _make_rec(ticker='B', strategy='VALUE', sector='Finance', return_14d=6.0, win_14d=True),
+            _make_rec(ticker='A', strategy='VALUE', sector='Finance', return_30d=10.0, win_14d=True),
+            _make_rec(ticker='B', strategy='VALUE', sector='Finance', return_30d=6.0, win_14d=True),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
@@ -913,8 +919,8 @@ class TestSectorPerformance:
 
     def test_sector_mixed_win_rate(self, tmp_path):
         recs = [
-            _make_rec(ticker='A', strategy='VALUE', sector='Energy', return_14d=5.0, win_14d=True),
-            _make_rec(ticker='B', strategy='VALUE', sector='Energy', return_14d=-5.0, win_14d=False),
+            _make_rec(ticker='A', strategy='VALUE', sector='Energy', return_30d=5.0, win_14d=True),
+            _make_rec(ticker='B', strategy='VALUE', sector='Energy', return_30d=-5.0, win_14d=False),
         ]
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()

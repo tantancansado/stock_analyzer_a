@@ -20,7 +20,7 @@ function isImportError(error: Error | null): boolean {
 function clearImportErrorReloadFlag() {
   try {
     sessionStorage.removeItem(IMPORT_ERROR_RELOAD_KEY)
-  } catch {}
+  } catch { /* best-effort, ignore */ }
 }
 
 async function recoverAppShell() {
@@ -29,14 +29,14 @@ async function recoverAppShell() {
       const regs = await navigator.serviceWorker.getRegistrations()
       await Promise.all(regs.map(reg => reg.unregister()))
     }
-  } catch {}
+  } catch { /* best-effort, ignore */ }
 
   try {
     if ('caches' in window) {
       const keys = await caches.keys()
       await Promise.all(keys.map(key => caches.delete(key)))
     }
-  } catch {}
+  } catch { /* best-effort, ignore */ }
 
   window.location.reload()
 }
@@ -68,7 +68,7 @@ export default class ErrorBoundary extends Component<Props, State> {
           return
         }
         clearImportErrorReloadFlag()
-      } catch {}
+      } catch { /* best-effort, ignore */ }
     }
   }
 

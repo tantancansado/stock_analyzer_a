@@ -131,8 +131,9 @@ jobs:
           pip install groq pyyaml
 
       # ── TIER A: CRÍTICOS — deben pasar o el job falla (no continue-on-error) ──
-      - name: Market Regime Detector [CRITICAL]
-        run: python3 market_regime_detector.py
+      - name: Market Regime Detector (informational — gates signals, never aborts)
+        continue-on-error: true
+        run: python3 market_regime_detector.py || echo "Market regime detection failed"
 
       - name: Sector Rotation Scan
         continue-on-error: true
@@ -219,6 +220,13 @@ jobs:
 
       - name: Portfolio Tracker (record signals + update performance) [CRITICAL]
         run: python3 portfolio_tracker.py --all --backfill-alpha
+
+      - name: Thesis Drift Monitor (alerta tesis rotas en posiciones abiertas)
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 thesis_drift_monitor.py || echo "Thesis drift monitor failed"
 
       - name: Entry Verdict Agent (¿Entro hoy? per ticker)
         continue-on-error: true

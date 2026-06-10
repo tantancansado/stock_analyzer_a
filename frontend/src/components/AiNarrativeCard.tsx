@@ -29,7 +29,7 @@ function parseNarrative(text: string) {
       continue
     }
     // Bullet points
-    const bulletMatch = trimmed.match(/^[•\-]\s+(.+)/)
+    const bulletMatch = trimmed.match(/^[•-]\s+(.+)/)
     if (bulletMatch) {
       elements.push({ type: 'point', content: bulletMatch[1] })
       continue
