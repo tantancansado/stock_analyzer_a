@@ -4,7 +4,7 @@
   "tier1": 0,
   "tier2": 2,
   "tier3": 13,
-  "narrative": "La confluencia de capital inteligente se refiere a la acumulaci\u00f3n de se\u00f1ales de inversi\u00f3n de diferentes fuentes, como insiders (directivos y empleados de la empresa) y fondos de inversi\u00f3n de alto rendimiento (HF), que apuntan hacia una oportunidad de inversi\u00f3n atractiva. En este caso, la confluencia de 15 se\u00f1ales, incluyendo 2 se\u00f1ales de insiders fuertes y 13 se\u00f1ales de HF en valor, sugiere que estos inversores experimentados est\u00e1n apostando por las acciones de las empresas mencionadas, lo que podr\u00eda indicar un potencial de crecimiento y valorizaci\u00f3n en el mercado.",
+  "narrative": "La \"confluencia de capital inteligente\" se refiere a la coincidencia de varias se\u00f1ales de compra de acciones en un mismo momento. En este caso, hay 15 se\u00f1ales de compra que convergen en 5 acciones espec\u00edficas.\n\nEstas se\u00f1ales pueden ser interpretadas de varias maneras, pero en general, indican que los inversores institucionales y los fondos de inversi\u00f3n de alta frecuencia (HF) est\u00e1n comprando estas acciones, lo que sugiere que pueden tener un potencial de crecimiento a futuro.\n\nSin embargo, es importante tener en cuenta que la confluencia de se\u00f1ales no es una garant\u00eda de \u00e9xito, y siempre es importante investigar y analizar las acciones antes",
   "signals": [
     {
       "ticker": "DB1.DE",
@@ -131,10 +131,10 @@
       "in_value": true
     },
     {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "value_score": 35.64,
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "value_score": 37.375,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -147,10 +147,10 @@
       "in_value": true
     },
     {
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "value_score": 37.375,
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "value_score": 35.64,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -195,22 +195,6 @@
       "in_value": true
     },
     {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "sector": "Healthcare",
-      "value_score": 27.12,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Appaloosa (Tepper)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 23,
-      "in_value": true
-    },
-    {
       "ticker": "KO",
       "company_name": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
@@ -220,6 +204,22 @@
       "n_hedge_funds": 1,
       "hedge_funds": [
         "Berkshire Hathaway (Buffett)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 23,
+      "in_value": true
+    },
+    {
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "sector": "Healthcare",
+      "value_score": 27.12,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Appaloosa (Tepper)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,

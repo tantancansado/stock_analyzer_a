@@ -1,68 +1,8 @@
 {
   "generated_at": "2026-06-10",
-  "total_convergences": 16,
+  "total_convergences": 6,
   "triple_or_more": 0,
   "convergences": [
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 65,
-      "value_score": 75.055,
-      "conviction_grade": "",
-      "analyst_upside_pct": 33.2,
-      "fcf_yield_pct": 3.76,
-      "current_price": null,
-      "streak_days": 9,
-      "earnings_warning": false,
-      "days_to_earnings": 51.0,
-      "analysis": "La convergencia de 9 d\u00edas consecutivos en las estrategias VALUE y OPTIONS para el ticker MA (Mastercard Incorporated) es significativa porque indica una fuerte se\u00f1al de compra, ya que ambas estrategias est\u00e1n apuntando en la misma direcci\u00f3n. Sin embargo, es importante tener precauci\u00f3n y considerar otros factores fundamentales y t\u00e9cnicos antes de tomar una decisi\u00f3n de inversi\u00f3n, ya que la convergencia no garantiza un resultado positivo. Es recomendable analizar la salud financiera de la empresa, el sector y el mercado en general para evitar sorpresas desagradables."
-    },
-    {
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 61,
-      "value_score": 57.75,
-      "conviction_grade": "",
-      "analyst_upside_pct": 7.7,
-      "fcf_yield_pct": 5.19,
-      "current_price": null,
-      "streak_days": 18,
-      "earnings_warning": false,
-      "days_to_earnings": 50.0,
-      "analysis": "La convergencia de 18 d\u00edas consecutivos en las estrategias VALUE y OPTIONS para el ticker ADP es significativa porque indica una alineaci\u00f3n de factores fundamentales y t\u00e9cnicos que sugieren un potencial aumento en el valor de las acciones. Sin embargo, es importante tener precauci\u00f3n y considerar otros factores que puedan influir en el mercado, como cambios en la econom\u00eda o la industria, ya que la convergencia no garantiza un resultado seguro. Es recomendable analizar otros indicadores y realizar una evaluaci\u00f3n exhaustiva antes de tomar cualquier decisi\u00f3n de inversi\u00f3n."
-    },
-    {
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 61,
-      "value_score": 57.515,
-      "conviction_grade": "",
-      "analyst_upside_pct": 22.3,
-      "fcf_yield_pct": 2.17,
-      "current_price": null,
-      "streak_days": 7,
-      "earnings_warning": false,
-      "days_to_earnings": 37.0,
-      "analysis": "La convergencia de 7 d\u00edas consecutivos en la estrategia VALUE y OPTIONS para CTAS (Cintas Corporation) es significativa porque indica una alta probabilidad de que el precio de la acci\u00f3n se mueva en la direcci\u00f3n prevista. Sin embargo, es importante tener precauciones y considerar otros factores fundamentales y t\u00e9cnicos antes de tomar una decisi\u00f3n de inversi\u00f3n, ya que la convergencia no garantiza resultados. Es recomendable analizar la salud financiera de la empresa, el sector y el mercado en general para evitar sorpresas desagradables."
-    },
     {
       "ticker": "WMT",
       "company_name": "Walmart Inc.",
@@ -81,7 +21,7 @@
       "streak_days": 6,
       "earnings_warning": false,
       "days_to_earnings": 72.0,
-      "analysis": null
+      "analysis": "La convergencia de 6 d\u00edas consecutivos en las estrategias VALUE y OPTIONS para WMT es significativa, ya que indica una alineaci\u00f3n de factores fundamentales y t\u00e9cnicos que podr\u00edan impulsar el precio de la acci\u00f3n hacia arriba. Sin embargo, es importante tener precauci\u00f3n y considerar que el score VALUE de 40.0 y el FCF de 0.72% pueden no ser lo suficientemente altos como para garantizar un movimiento sostenido al alza. Por lo tanto, es recomendable analizar otros factores y mantener una visi\u00f3n cr\u00edtica antes de tomar una decisi\u00f3n de inversi\u00f3n."
     },
     {
       "ticker": "MSFT",
@@ -101,67 +41,7 @@
       "streak_days": 25,
       "earnings_warning": false,
       "days_to_earnings": 50.0,
-      "analysis": null
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 57,
-      "value_score": 37.43000000000001,
-      "conviction_grade": "",
-      "analyst_upside_pct": 60.8,
-      "fcf_yield_pct": 6.26,
-      "current_price": null,
-      "streak_days": 14,
-      "earnings_warning": false,
-      "days_to_earnings": 72.0,
-      "analysis": null
-    },
-    {
-      "ticker": "VEEV",
-      "company_name": "Veeva Systems Inc.",
-      "sector": "Healthcare",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 57,
-      "value_score": 35.150000000000006,
-      "conviction_grade": "",
-      "analyst_upside_pct": 48.5,
-      "fcf_yield_pct": 4.64,
-      "current_price": null,
-      "streak_days": 6,
-      "earnings_warning": false,
-      "days_to_earnings": 85.0,
-      "analysis": null
-    },
-    {
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 57,
-      "value_score": 37.375,
-      "conviction_grade": "",
-      "analyst_upside_pct": 8.1,
-      "fcf_yield_pct": 3.13,
-      "current_price": null,
-      "streak_days": 3,
-      "earnings_warning": false,
-      "days_to_earnings": 44.0,
-      "analysis": null
+      "analysis": "La convergencia de 25 d\u00edas consecutivos en la estrategia de opciones de MSFT es un indicador significativo de que el mercado est\u00e1 esperando una estabilizaci\u00f3n o un posible aumento en el precio de la acci\u00f3n. Esto podr\u00eda ser debido a una mejora en la confianza de los inversores en la empresa o a una expectativa de futuras ganancias.\n\nSin embargo, es importante tener en cuenta algunas precauciones antes de tomar una decisi\u00f3n de inversi\u00f3n. La convergencia de opciones no es una garant\u00eda de un aumento en el precio de la acci\u00f3n, y los riesgos de p\u00e9rdida siempre est\u00e1n presentes. Adem\u00e1s, es fundamental analizar otros indicadores y factores que puedan"
     },
     {
       "ticker": "WM",
@@ -181,67 +61,7 @@
       "streak_days": 3,
       "earnings_warning": false,
       "days_to_earnings": 48.0,
-      "analysis": null
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": 50.69999999999999,
-      "conviction_grade": "",
-      "analyst_upside_pct": 24.7,
-      "fcf_yield_pct": 3.43,
-      "current_price": null,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 49.0,
-      "analysis": null
-    },
-    {
-      "ticker": "PG",
-      "company_name": "Procter & Gamble Company (The)",
-      "sector": "Consumer Defensive",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 48,
-      "value_score": 44.65,
-      "conviction_grade": "",
-      "analyst_upside_pct": 12.9,
-      "fcf_yield_pct": 3.77,
-      "current_price": null,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 50.0,
-      "analysis": null
-    },
-    {
-      "ticker": "AJG",
-      "company_name": "Arthur J. Gallagher & Co.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 46,
-      "value_score": 33.58,
-      "conviction_grade": "",
-      "analyst_upside_pct": 25.1,
-      "fcf_yield_pct": 1.98,
-      "current_price": null,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": 51.0,
-      "analysis": null
+      "analysis": "La convergencia de estrategias VALUE y OPTIONS en 3 d\u00edas consecutivos en la acci\u00f3n de Waste Management, Inc. (WM) puede ser un indicador de un posible cambio en la tendencia del precio. Esto se debe a que la convergencia de estas estrategias puede sugerir que los inversores est\u00e1n ajustando sus expectativas y estrategias de inversi\u00f3n en funci\u00f3n de la valoraci\u00f3n actual de la acci\u00f3n.\n\nSin embargo, es importante tener en cuenta que la convergencia de estrategias no es un indicador infalible y no debe ser tomada como una se\u00f1al de compra o venta en s\u00ed misma. Es importante analizar otros indicadores y factores que puedan influir en"
     },
     {
       "ticker": "LIN",
@@ -264,23 +84,23 @@
       "analysis": null
     },
     {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
-      "sector": "Technology",
+      "ticker": "SBGSY",
+      "company_name": "Schneider Electric SE",
+      "sector": "Industrials",
       "strategies": [
         "VALUE",
-        "OPTIONS"
+        "MR"
       ],
       "strategy_count": 2,
-      "convergence_score": 46,
-      "value_score": 31.785,
+      "convergence_score": 45,
+      "value_score": 25.0,
       "conviction_grade": "",
-      "analyst_upside_pct": 38.6,
-      "fcf_yield_pct": 6.89,
+      "analyst_upside_pct": 18.1,
+      "fcf_yield_pct": 2.28,
       "current_price": null,
       "streak_days": 1,
       "earnings_warning": false,
-      "days_to_earnings": 56.0,
+      "days_to_earnings": 51.0,
       "analysis": null
     },
     {
@@ -301,26 +121,6 @@
       "streak_days": 1,
       "earnings_warning": false,
       "days_to_earnings": 42.0,
-      "analysis": null
-    },
-    {
-      "ticker": "VRSK",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "MR",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 40,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": null,
       "analysis": null
     }
   ]

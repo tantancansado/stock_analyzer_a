@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-10",
   "regime": "NEUTRAL",
-  "narrative": "Buenos d\u00edas, hoy el r\u00e9gimen de mercado es neutral. Debemos vigilar las entradas de DB1.DE con un score de 50 y las convergencias de MA, ADP y CTAS. Es importante evitar las trampas detectadas, aunque en este caso no hay ninguna. Tambi\u00e9n debemos estar atentos a las se\u00f1ales de salida de PRU.L, WTKWY y LOGN.SW, que han perdido convicci\u00f3n y ya no aparecen en nuestra lista de valor. Mantengamos un ojo en el precio del petr\u00f3leo (WTI) que se encuentra en 82.5.",
+  "narrative": "**Briefing Matutino 10 de junio de 2026**\n\nLa situaci\u00f3n en el mercado es neutral, lo que sugiere una oportunidad para ser cautelosos en nuestras decisiones de inversi\u00f3n. Hoy, solo tenemos una recomendaci\u00f3n de compra, DB1.DE, con un score de 50. Es importante vigilar las se\u00f1ales de salida, como PRU.L, WTKWY y LOGN.SW, que han perdido convicci\u00f3n debido a la falta de insider buying activo. En cuanto a las trampas, no hemos detectado ninguna. Por lo tanto, nuestra recomendaci\u00f3n es mantener una postura defensiva y esperar a que se presenten oportunidades m\u00e1s s\u00f3lidas.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
@@ -14,16 +14,16 @@
     ],
     "top_convergences": [
       [
-        "MA",
-        65
+        "WMT",
+        58
       ],
       [
-        "ADP",
-        61
+        "MSFT",
+        57
       ],
       [
-        "CTAS",
-        61
+        "WM",
+        56
       ]
     ],
     "high_alerts": [
@@ -32,12 +32,12 @@
         "INSIDER_BUYING"
       ],
       [
-        "ADP",
-        "STREAK"
-      ],
-      [
         "AON",
         "SCORE_DRIFT"
+      ],
+      [
+        "BA.L",
+        "INSIDER_BUYING"
       ]
     ],
     "traps_warning": [],
@@ -59,7 +59,7 @@
       [
         "LOGN.SW",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota; Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "No hay datos recientes de ganancias o eventos negativos significativos",
+        "",
         66.0,
         null
       ]

@@ -2,26 +2,14 @@
   "generated_at": "2026-06-10",
   "regime_current": "CALM",
   "composite_now": 11.5,
-  "composite_delta_5d": 3.5,
+  "composite_delta_5d": 0.0,
   "composite_delta_20d": 5.0,
-  "composite_trajectory": "IMPROVING",
-  "direction": "DEEPENING_BULL",
-  "transition_probability": 20,
-  "alert_level": "WATCH",
-  "signals_turning": [
-    {
-      "signal": "Composite score",
-      "detail": "Subi\u00f3 3.5pts en 5d (8.0\u219211.5)",
-      "severity": "MEDIUM"
-    }
-  ],
+  "composite_trajectory": "MIXED",
+  "direction": "STABLE",
+  "transition_probability": 10,
+  "alert_level": "CLEAR",
+  "signals_turning": [],
   "turning_bearish": [],
-  "turning_bullish": [
-    {
-      "signal": "Composite score",
-      "detail": "Subi\u00f3 3.5pts en 5d (8.0\u219211.5)",
-      "severity": "MEDIUM"
-    }
-  ],
-  "narrative": "Como inversor de valor, cuando el r\u00e9gimen amenaza con cambiar, es importante **revisar y ajustar la cartera de inversi\u00f3n** para minimizar los riesgos y aprovechar las oportunidades que se presentan en un nuevo entorno econ\u00f3mico. Esto puede incluir **reducir la exposici\u00f3n a activos sensibles a la volatilidad** y buscar oportunidades de inversi\u00f3n en sectores o empresas que puedan beneficiarse de las condiciones cambiantes del mercado."
+  "turning_bullish": [],
+  "narrative": null
 }

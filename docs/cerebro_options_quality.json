@@ -1,30 +1,10 @@
 {
   "generated_at": "2026-06-10",
-  "total": 26,
+  "total": 9,
   "tier1": 0,
-  "tier2": 1,
-  "tier3": 10,
-  "noise_filtered": 15,
-  "actionable": [
-    {
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
-      "sentiment": "BULLISH",
-      "tier": "TIER2",
-      "quality_score": 45,
-      "value_score": 31.8,
-      "fcf_yield": 6.89,
-      "insider_confirmation": false,
-      "in_value": true,
-      "quality_factors": [
-        "VALUE weak (32pts)",
-        "FCF 6.9%",
-        "DIRECTIONAL (100% calls)"
-      ],
-      "flow_score": 60.0,
-      "total_premium": 105000.0,
-      "detected_date": "2026-06-10"
-    }
-  ],
-  "narrative": "Las opciones solo confirman cuando hay alineaci\u00f3n con fundamentales porque esto indica que el mercado est\u00e1 reflejando la verdadera valoraci\u00f3n de la empresa. La alineaci\u00f3n entre las opciones y los fundamentales, como se ve en el caso de BR con un TIER2 y una direcci\u00f3n clara (100% calls), sugiere que los inversores est\u00e1n tomando decisiones informadas basadas en la salud financiera y el potencial de crecimiento de la empresa, en lugar de simplemente seguir tendencias o especulaciones."
+  "tier2": 0,
+  "tier3": 3,
+  "noise_filtered": 6,
+  "actionable": [],
+  "narrative": null
 }

@@ -3,7 +3,7 @@
   "systemic_risk": "LOW",
   "correlation_score": 2,
   "universe_breadth_pct": 1.9,
-  "breadth_change": -1.6,
+  "breadth_change": -1.4,
   "signals": [
     {
       "type": "EXIT_SIGNAL_SURGE",
@@ -11,5 +11,5 @@
       "detail": "7 se\u00f1ales salida HIGH \u2192 posible contagio"
     }
   ],
-  "narrative": "Cuando todos los picks se mueven juntos, significa que el riesgo de correlaci\u00f3n sist\u00e9mica para VALUE es bajo, lo que indica que los movimientos de los activos no est\u00e1n altamente sincronizados. Sin embargo, la se\u00f1al de salida \"EXIT_SIGNAL_SURGE\" con 7 se\u00f1ales activas sugiere que puede haber un posible contagio, lo que podr\u00eda afectar negativamente a VALUE si no se toman medidas adecuadas."
+  "narrative": "Aqu\u00ed te explico lo que significa:\n\n1. Cuando todos los picks se mueven juntos, se refiere a que la correlaci\u00f3n sist\u00e9mica del universo VALUE es baja (LOW), lo que significa que no hay una gran conexi\u00f3n entre los diferentes activos o picks. Sin embargo, si todos se mueven juntos, puede ser un signo de que hay un contagio o una tendencia general en el mercado.\n\n2. En este caso, la se\u00f1al EXIT_SIGNAL_SURGE indica que hay 7 se\u00f1ales de salida HIGH, lo que sugiere que los activos est\u00e1n experimentando una fuerte tendencia hacia arriba. Esto podr\u00eda ser un indicio de que el contagio est\u00e1 afectando a todos los picks, lo que podr\u00eda ser una se\u00f1al de alarma para el universo VALUE."
 }

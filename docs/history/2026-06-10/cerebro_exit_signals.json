@@ -2,7 +2,7 @@
   "generated_at": "2026-06-10",
   "total": 18,
   "high_count": 8,
-  "narrative": "Esto implica que la confianza en estas acciones ha disminuido, lo que puede aumentar el riesgo de p\u00e9rdidas para los inversores que las mantienen en su cartera. La p\u00e9rdida de convicci\u00f3n y la ca\u00edda en los scores sugiere que es necesario reevaluar y ajustar la estrategia de inversi\u00f3n para minimizar el riesgo y maximizar las ganancias.",
+  "narrative": "Esto implica que las acciones mencionadas han perdido su credibilidad y confiabilidad como inversiones, lo que puede aumentar el riesgo de p\u00e9rdidas para los inversores. La falta de insider buying (compras por parte de directivos o empleados del empresa) y la disminuci\u00f3n del score de valoraci\u00f3n pueden ser se\u00f1ales de que la empresa est\u00e1 experimentando problemas financieros o de gesti\u00f3n.\n\nEn t\u00e9rminos de gesti\u00f3n de riesgo, esto podr\u00eda implicar:\n\n* Reducir o eliminar la exposici\u00f3n a estas acciones en el portafolio.\n* Revisar la estrategia de inversi\u00f3n y considerar opciones alternativas.\n* Incrementar la diversificaci\u00f3n del portaf",
   "exits": [
     {
       "ticker": "PRU.L",
@@ -38,14 +38,7 @@
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": null,
-      "ai_validation": {
-        "verdict": "UNCERTAIN",
-        "confidence": 50,
-        "summary": "No tengo informaci\u00f3n reciente sobre LOGN.SW que indique un deterioro fundamental claro. La falta de compra de insiders y la salida de la tesis de valor pueden ser se\u00f1ales de alerta, pero no son concluyentes.",
-        "key_finding": "No hay datos recientes de ganancias o eventos negativos significativos",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre LOGN.SW que indique un deterioro fundamental claro. La falta de compra de insiders y la salida de la tesis de valor pueden ser se\u00f1ales de alerta, pero no son concluyentes."
-      }
+      "fundamental_score": null
     },
     {
       "ticker": "RELX",
@@ -56,14 +49,14 @@
       "reasons": [
         "Score cay\u00f3 28pts (65 \u2192 37)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "IA: falso positivo con 70% confianza \u2014 No hay evidencia de deterioro fundamental reciente en RELX, el score cay\u00f3 posiblemente por toma de ganancias o ajuste en expectativas."
+        "IA: falso positivo con 80% confianza \u2014 No hay evidencia de deterioro fundamental reciente en RELX, el score cay\u00f3 posiblemente por toma de ganancias o ajuste en expectativas"
       ],
       "fundamental_score": 48.8,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 70,
-        "summary": "No hay evidencia de deterioro fundamental reciente en RELX, el score cay\u00f3 posiblemente por toma de ganancias o ajuste en expectativas.",
-        "key_finding": "RELX report\u00f3 resultados s\u00f3lidos en 2022 y 2023, con crecimiento en ingresos y beneficios"
+        "confidence": 80,
+        "summary": "No hay evidencia de deterioro fundamental reciente en RELX, el score cay\u00f3 posiblemente por toma de ganancias o ajuste en expectativas",
+        "key_finding": "RELX report\u00f3 un crecimiento de ingresos del 4% en 2022 y un aumento del 7% en el beneficio operativo"
       }
     },
     {
@@ -78,10 +71,10 @@
       "fundamental_score": null,
       "ai_validation": {
         "verdict": "UNCERTAIN",
-        "confidence": 50,
-        "summary": "No tengo informaci\u00f3n actualizada sobre la empresa HNR1.DE, por lo que no puedo determinar con certeza si la tesis de inversi\u00f3n se ha roto.",
-        "key_finding": "No hay datos fundamentales recientes disponibles en mi base de conocimiento sobre HNR1.DE",
-        "summary_note": "No tengo informaci\u00f3n actualizada sobre la empresa HNR1.DE, por lo que no puedo determinar con certeza si la tesis de inversi\u00f3n se ha roto."
+        "confidence": 40,
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa HNR1.DE, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental (N/A/100) sugiere una posible falta de visibilidad en su situaci\u00f3n actual.",
+        "key_finding": "Desconocido",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa HNR1.DE, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental (N/A/100) sugiere una posible falta de visibilidad en su situaci\u00f3n actual."
       }
     },
     {
@@ -97,9 +90,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n reciente sobre la empresa IAG.MC, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental actual limita mi capacidad para emitir un juicio s\u00f3lido.",
-        "key_finding": "No disponible",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa IAG.MC, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental actual limita mi capacidad para emitir un juicio s\u00f3lido."
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa IAG.MC, por lo que no puedo determinar con certeza si su negocio ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental hace que sea dif\u00edcil emitir un juicio s\u00f3lido.",
+        "key_finding": "No hay informaci\u00f3n disponible",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa IAG.MC, por lo que no puedo determinar con certeza si su negocio ha deteriorado fundamentalmente. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental hace que sea dif\u00edcil emitir un juicio s\u00f3lido."
       }
     },
     {
@@ -115,9 +108,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si la tesis de inversi\u00f3n est\u00e1 rota.",
-        "key_finding": "No hay datos recientes sobre deterioro empresarial",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si la tesis de inversi\u00f3n est\u00e1 rota."
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n sobre eventos recientes como ganancias decepcionantes, recortes de orientaci\u00f3n o cambios en la administraci\u00f3n hace que sea dif\u00edcil evaluar la se\u00f1al de salida.",
+        "key_finding": "No se encontraron datos recientes sobre eventos negativos significativos que afecten la empresa CLPBY",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si su negocio se ha deteriorado fundamentalmente. La falta de informaci\u00f3n sobre eventos recientes como ganancias decepcionantes, recortes de orientaci\u00f3n o cambios en la administraci\u00f3n hace que sea dif\u00edcil evaluar la se\u00f1al de salida."
       }
     },
     {
@@ -133,9 +126,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n reciente sobre la empresa EME que indique un deterioro fundamental claro en su negocio. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental hace dif\u00edcil emitir un juicio s\u00f3lido.",
-        "key_finding": "No se encontraron datos recientes de deterioro empresarial como p\u00e9rdidas de ganancias, recortes de orientaci\u00f3n, eventos negativos importantes o cambios en la gesti\u00f3n.",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa EME que indique un deterioro fundamental claro en su negocio. La falta de informaci\u00f3n en nuestra base de datos sobre su puntuaci\u00f3n fundamental hace dif\u00edcil emitir un juicio s\u00f3lido."
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa EME que indique un deterioro fundamental claro. La falta de datos en nuestra base de datos sobre el puntaje fundamental hace dif\u00edcil emitir un juicio definitivo.",
+        "key_finding": "No hay datos disponibles sobre el puntaje fundamental de EME en nuestra base de datos",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa EME que indique un deterioro fundamental claro. La falta de datos en nuestra base de datos sobre el puntaje fundamental hace dif\u00edcil emitir un juicio definitivo."
       }
     },
     {

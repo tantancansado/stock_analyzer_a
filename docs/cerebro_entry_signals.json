@@ -3,9 +3,9 @@
   "total": 4,
   "strong_buy": 0,
   "buy": 1,
-  "monitor": 3,
-  "wait": 0,
-  "narrative": "Las mejores oportunidades de entrada de hoy, como DB1.DE (DEUTSCHE BOERSE AG), se destacan por su puntuaci\u00f3n de entrada de 50, lo que indica un potencial atractivo para inversores que buscan valor. La presencia de varias se\u00f1ales favorables, como la relaci\u00f3n riesgo-recompensa (R:R) \u22652, la compra de acciones por parte de insiders y la revisi\u00f3n al alza de los analistas, confirma la se\u00f1al de entrada y sugiere que la acci\u00f3n tiene un buen potencial de crecimiento. Adem\u00e1s, el hecho de que la acci\u00f3n haya estado en una tendencia de valor (En VALUE) durante al menos 3 d\u00edas agrega confianza a la se\u00f1al de entrada, lo que la convierte en una oportunidad atractiva para inversores que buscan aprovechar el valor a largo plazo.",
+  "monitor": 2,
+  "wait": 1,
+  "narrative": "Las tres mejores oportunidades de entrada de hoy en VALUE investing son:\n\n* DB1.DE (DEUTSCHE BOERSE AG) con un puntaje de entrada de 50, confirmada por la se\u00f1al de R:R \u22652, la compra de acciones por parte de los inversores internos, una revisi\u00f3n de an\u00e1lisis positiva y una duraci\u00f3n en el valor de al menos 3 d\u00edas.\n\nEstas entradas son consideradas las mejores porque presentan una combinaci\u00f3n de se\u00f1ales s\u00f3lidas que sugieren un potencial de crecimiento a corto plazo, incluyendo una relaci\u00f3n de precio a rendimiento (R:R) favorable, la participaci\u00f3n de inversores internos y un an\u00e1lisis positivo de los analistas.",
   "signals": [
     {
       "ticker": "DB1.DE",
@@ -18,7 +18,7 @@
       "analyst_upside_pct": 17.7,
       "fcf_yield_pct": null,
       "risk_reward_ratio": 2.21,
-      "days_in_value": 6,
+      "days_in_value": 7,
       "streak_days": 1,
       "entry_score": 50,
       "signal": "BUY",
@@ -70,7 +70,7 @@
       "analyst_upside_pct": 25.0,
       "fcf_yield_pct": 6.67,
       "risk_reward_ratio": null,
-      "days_in_value": 10,
+      "days_in_value": 11,
       "streak_days": 1,
       "entry_score": 33,
       "signal": "MONITOR",
@@ -112,59 +112,6 @@
       "days_to_earnings": 149
     },
     {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 75.055,
-      "conviction_grade": "",
-      "current_price": null,
-      "analyst_upside_pct": 33.2,
-      "fcf_yield_pct": 3.76,
-      "risk_reward_ratio": null,
-      "days_in_value": 1,
-      "streak_days": 9,
-      "entry_score": 33,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "Value score \u226570",
-        "Upside \u226520%",
-        "Options flow alcista",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Options flow alcista",
-          "pts": 15
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "R:R <2",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 51
-    },
-    {
       "ticker": "ASAZY",
       "company_name": "Assa Abloy AB",
       "region": "US",
@@ -175,7 +122,7 @@
       "analyst_upside_pct": 28.0,
       "fcf_yield_pct": 45.46,
       "risk_reward_ratio": null,
-      "days_in_value": 18,
+      "days_in_value": 19,
       "streak_days": 1,
       "entry_score": 33,
       "signal": "MONITOR",
@@ -215,6 +162,55 @@
       "rsi": null,
       "earnings_warning": false,
       "days_to_earnings": 38
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 75.055,
+      "conviction_grade": "",
+      "current_price": null,
+      "analyst_upside_pct": 33.2,
+      "fcf_yield_pct": 3.76,
+      "risk_reward_ratio": null,
+      "days_in_value": 2,
+      "streak_days": 1,
+      "entry_score": 18,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Value score \u226570",
+        "Upside \u226520%",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226570",
+          "pts": 5
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "R:R <2",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 2d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 51
     }
   ]
 }

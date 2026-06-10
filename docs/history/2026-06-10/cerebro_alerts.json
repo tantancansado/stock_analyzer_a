@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-10",
-  "total": 61,
-  "high_count": 49,
+  "total": 50,
+  "high_count": 44,
   "alerts": [
     {
       "ticker": "AAL.L",
@@ -13,21 +13,6 @@
       "data": {
         "purchase_count": 37.0,
         "unique_insiders": 12.0
-      }
-    },
-    {
-      "ticker": "ADP",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "ADP \u2014 18 d\u00edas en convergencia",
-      "message": "Lleva 18 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-06-10",
-      "data": {
-        "streak_days": 18,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
       }
     },
     {
@@ -138,21 +123,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 4.0
-      }
-    },
-    {
-      "ticker": "CTAS",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "CTAS \u2014 7 d\u00edas en convergencia",
-      "message": "Lleva 7 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-06-10",
-      "data": {
-        "streak_days": 7,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
       }
     },
     {
@@ -279,21 +249,6 @@
       }
     },
     {
-      "ticker": "INTU",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "INTU \u2014 14 d\u00edas en convergencia",
-      "message": "Lleva 14 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-06-10",
-      "data": {
-        "streak_days": 14,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
       "ticker": "JKHY",
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
@@ -328,21 +283,6 @@
       "data": {
         "purchase_count": 16.0,
         "unique_insiders": 9.0
-      }
-    },
-    {
-      "ticker": "MA",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "MA \u2014 9 d\u00edas en convergencia",
-      "message": "Lleva 9 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-06-10",
-      "data": {
-        "streak_days": 9,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
       }
     },
     {
@@ -578,21 +518,6 @@
       }
     },
     {
-      "ticker": "VEEV",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "VEEV \u2014 6 d\u00edas en convergencia",
-      "message": "Lleva 6 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-06-10",
-      "data": {
-        "streak_days": 6,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
       "ticker": "VRSN",
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
@@ -621,21 +546,6 @@
       }
     },
     {
-      "ticker": "BR",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: BR",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 46.",
-      "date": "2026-06-10",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 46
-      }
-    },
-    {
       "ticker": "EXPN.L",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
@@ -649,36 +559,6 @@
       }
     },
     {
-      "ticker": "KO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: KO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 45.",
-      "date": "2026-06-10",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 45
-      }
-    },
-    {
-      "ticker": "LIN",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: LIN",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 46.",
-      "date": "2026-06-10",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 46
-      }
-    },
-    {
       "ticker": "MSFT",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
@@ -689,21 +569,6 @@
         "original_score": 53.6,
         "current_score": 35.8,
         "drop": 17.8
-      }
-    },
-    {
-      "ticker": "PG",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: PG",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-06-10",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
       }
     },
     {
@@ -730,36 +595,6 @@
         "original_score": 67.1,
         "current_score": 48.6,
         "drop": 18.5
-      }
-    },
-    {
-      "ticker": "V",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: V",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 50.",
-      "date": "2026-06-10",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 50
-      }
-    },
-    {
-      "ticker": "VRSN",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "VRSN \u2014 3 d\u00edas en convergencia",
-      "message": "Lleva 3 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-06-10",
-      "data": {
-        "streak_days": 3,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
       }
     },
     {
