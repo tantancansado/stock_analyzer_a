@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-10T11:21:22",
-  "positions_checked": 12,
-  "total": 11,
-  "high_count": 8,
+  "generated_at": "2026-06-10T15:32:36",
+  "positions_checked": 6,
+  "total": 3,
+  "high_count": 2,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -11,78 +11,6 @@
       "signal_date": "2026-03-24",
       "type": "STOP_BREACHED",
       "reason": "Precio 7914.00 por debajo del stop 8140.16",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-29",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 39% \u2014 value trap (0% win hist\u00f3rico)",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-29",
-      "type": "FUND_DETERIORATING",
-      "reason": "fundamental_score cay\u00f3 10pts (69\u219259) desde la recomendaci\u00f3n",
-      "severity": "MEDIUM"
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-29",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 51% \u2014 value trap (0% win hist\u00f3rico)",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-29",
-      "type": "STOP_BREACHED",
-      "reason": "Precio 66.96 por debajo del stop 71.57",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-29",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 64% \u2014 value trap (0% win hist\u00f3rico)",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-29",
-      "type": "FUND_DETERIORATING",
-      "reason": "fundamental_score cay\u00f3 15pts (63\u219249) desde la recomendaci\u00f3n",
-      "severity": "MEDIUM"
-    },
-    {
-      "ticker": "G24.DE",
-      "company_name": "Scout24 SE                    N",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-30",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 44% \u2014 value trap (0% win hist\u00f3rico)",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "NYT",
-      "company_name": "New York Times Company (The)",
-      "strategy": "VALUE",
-      "signal_date": "2026-05-07",
-      "type": "STOP_BREACHED",
-      "reason": "Precio 74.26 por debajo del stop 76.99",
       "severity": "HIGH"
     },
     {
