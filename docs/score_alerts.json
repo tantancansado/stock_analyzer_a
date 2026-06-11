@@ -1,201 +1,141 @@
 {
-  "generated_at": "2026-06-10",
+  "generated_at": "2026-06-11",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 75.1,
-      "score_prev": 59.1,
-      "delta": 16.0,
+      "score_today": 74.7,
+      "score_prev": 50.7,
+      "delta": 24.0,
       "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "score_today": 58.5,
-      "score_prev": 43.5,
-      "delta": 15.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "sector": "Industrials",
-      "score_today": 43.2,
-      "score_prev": 29.2,
-      "delta": 14.0,
-      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
       "ticker": "VRSN",
       "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 37.4,
-      "score_prev": 26.8,
-      "delta": 10.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 40.0,
-      "score_prev": 30.0,
-      "delta": 10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SAP",
-      "company_name": "SAP  SE",
-      "sector": "Technology",
-      "score_today": 48.6,
-      "score_prev": 39.6,
-      "delta": 9.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 57.8,
-      "score_prev": 49.8,
-      "delta": 8.0,
+      "score_today": 50.7,
+      "score_prev": 37.4,
+      "delta": 13.3,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 41.6,
-      "score_prev": 33.6,
-      "delta": 8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "DHR",
-      "company_name": "Danaher Corporation",
+      "ticker": "7741.T",
+      "company_name": "HOYA CORP",
       "sector": "Healthcare",
-      "score_today": 42.8,
-      "score_prev": 34.8,
-      "delta": 8.0,
+      "score_today": 44.0,
+      "score_prev": 36.5,
+      "delta": 7.5,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
-      "sector": "Healthcare",
-      "score_today": 44.9,
-      "score_prev": 36.9,
-      "delta": 8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CSU.TO",
-      "company_name": "CONSTELLATION SOFTWARE INC.",
-      "sector": "Technology",
-      "score_today": 37.6,
-      "score_prev": 31.6,
-      "delta": 6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AON",
-      "company_name": "Aon plc",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
       "sector": "Financial Services",
-      "score_today": 37.4,
-      "score_prev": 32.4,
-      "delta": 5.0,
-      "grade": "🟡 Average"
+      "score_today": 41.4,
+      "score_prev": 35.6,
+      "delta": 5.8,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CPRT",
-      "company_name": "Copart, Inc.",
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
       "sector": "Industrials",
-      "score_today": 59.5,
-      "score_prev": 54.5,
+      "score_today": 37.2,
+      "score_prev": 32.2,
       "delta": 5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "sector": "Industrials",
+      "score_today": 40.0,
+      "score_prev": 45.0,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "FAST",
+      "company_name": "Fastenal Company",
+      "sector": "Industrials",
+      "score_today": 37.7,
+      "score_prev": 43.0,
+      "delta": -5.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "score_today": 51.2,
+      "score_prev": 57.5,
+      "delta": -6.3,
       "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 31.0,
+      "score_prev": 40.0,
+      "delta": -9.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "ASAZY",
       "company_name": "Assa Abloy AB",
       "sector": "Industrials",
-      "score_today": 60.8,
-      "score_prev": 65.8,
-      "delta": -5.0,
-      "grade": "🟡 Good"
+      "score_today": 50.8,
+      "score_prev": 60.8,
+      "delta": -10.0,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "AUTO.L",
       "company_name": "AUTOTRADER GROUP PLC ORD 1P",
       "sector": "Communication Services",
-      "score_today": 68.4,
-      "score_prev": 76.4,
-      "delta": -8.0,
+      "score_today": 39.4,
+      "score_prev": 68.4,
+      "delta": -29.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "sector": "Industrials",
+      "score_today": null,
+      "score_prev": 59.5,
+      "delta": null,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": null,
+      "score_prev": 75.1,
+      "delta": null,
       "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "HEI",
-      "company_name": "Heico Corporation",
-      "sector": "Industrials",
-      "score_today": 25.5,
-      "score_prev": 35.0,
-      "delta": -9.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 35.8,
-      "score_prev": 45.8,
-      "delta": -10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "sector": "Industrials",
-      "score_today": 35.5,
-      "score_prev": 45.5,
-      "delta": -10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": 37.4,
-      "score_prev": 48.4,
-      "delta": -11.0,
-      "grade": "🔴 Weak"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 0,
-    "score_up": 13,
+    "exited": 2,
+    "score_up": 5,
     "score_down": 6
   }
 }
