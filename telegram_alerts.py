@@ -33,8 +33,10 @@ def _send(text: str):
                   'disable_web_page_preview': 'true'},
             timeout=10,
         )
-        r.raise_for_status()
-        print('  Telegram message sent')
+        if r.ok:
+            print('  Telegram message sent')
+        else:
+            print(f'  Telegram send failed: {r.status_code} {r.text}')
     except Exception as e:
         print(f'  Telegram send failed: {e}')
 

@@ -67,8 +67,10 @@ def _send_telegram(text: str) -> None:
                   'disable_web_page_preview': 'true'},
             timeout=10,
         )
-        r.raise_for_status()
-        print('  Telegram message sent')
+        if r.ok:
+            print('  Telegram message sent')
+        else:
+            print(f'  Telegram send failed: {r.status_code} {r.text}')
     except Exception as e:
         # Network best-effort: log and continue, never crash the monitor.
         print(f'  Telegram send failed: {e}')
@@ -144,7 +146,7 @@ def _fundamental_findings(position: dict, fund: dict) -> list[dict]:
     if fund_now is not None and fund_now < FUND_COLLAPSE:
         findings.append({
             'type': 'THESIS_BROKEN',
-            'reason': f'fundamental_score colapsó a {fund_now:.0f} (<{FUND_COLLAPSE:.0f})',
+            'reason': f'fundamental_score colapsó a {fund_now:.0f} (mín {FUND_COLLAPSE:.0f})',
             'severity': 'HIGH',
         })
     if upside_now is not None and upside_now < 0:

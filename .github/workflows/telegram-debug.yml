@@ -1,0 +1,37 @@
+name: Telegram Debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - name: getMe (identidad del bot)
+        run: |
+          curl -s "https://api.telegram.org/bot${TOKEN}/getMe"
+          echo ""
+
+      - name: getChat (valida el chat_id)
+        run: |
+          curl -s "https://api.telegram.org/bot${TOKEN}/getChat" -d "chat_id=${CHAT_ID}"
+          echo ""
+
+      - name: sendMessage texto plano (sin parse_mode)
+        run: |
+          curl -s "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+            -d "chat_id=${CHAT_ID}" \
+            --data-urlencode "text=Test diagnóstico Stock Analyzer (texto plano)"
+          echo ""
+
+      - name: sendMessage HTML (como los scripts)
+        run: |
+          curl -s "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+            -d "chat_id=${CHAT_ID}" \
+            -d "parse_mode=HTML" \
+            --data-urlencode "text=<b>Test diagnóstico</b> Stock Analyzer (HTML)"
+          echo ""

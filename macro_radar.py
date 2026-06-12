@@ -1298,15 +1298,18 @@ def _send_telegram_breakout_alert(scan_result: dict) -> None:
     text = '\n'.join(lines)
     try:
         import requests as _req
-        _req.post(
+        _r = _req.post(
             f'https://api.telegram.org/bot{bot_token}/sendMessage',
             json={'chat_id': chat_id, 'text': text, 'parse_mode': 'HTML',
                   'disable_web_page_preview': True},
             timeout=10,
         )
-        n_fresh = len(fresh)
-        n_spec  = len(specials)
-        print(f"  Telegram breakout alert: {n_fresh} fresh crosses + {n_spec} special events")
+        if _r.ok:
+            n_fresh = len(fresh)
+            n_spec  = len(specials)
+            print(f"  Telegram breakout alert: {n_fresh} fresh crosses + {n_spec} special events")
+        else:
+            print(f"  Telegram breakout alert failed: {_r.status_code} {_r.text}")
     except Exception as e:
         print(f"  Telegram breakout alert failed: {e}")
 

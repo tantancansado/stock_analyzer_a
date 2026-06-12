@@ -6,6 +6,7 @@ Sends alert only for tickers that are NEW (not in yesterday) with grade A/B.
 """
 import json
 import os
+import urllib.error
 import urllib.request
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -36,6 +37,9 @@ def _send_telegram(text: str) -> bool:
         req = urllib.request.Request(url, data=payload, headers={'Content-Type': 'application/json'})
         urllib.request.urlopen(req, timeout=10)
         return True
+    except urllib.error.HTTPError as e:
+        print(f"  Telegram send failed: {e} — {e.read().decode('utf-8', 'replace')}")
+        return False
     except Exception as e:
         print(f"  Telegram send failed: {e}")
         return False

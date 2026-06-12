@@ -51,6 +51,8 @@ def _send(token: str, chat_id: str, text: str) -> bool:
                   'disable_web_page_preview': True},
             timeout=10
         )
+        if not r.ok:
+            print(f'  ❌ Telegram error: {r.status_code} {r.text}')
         return r.ok
     except Exception as e:
         print(f'  ❌ Telegram error: {e}')

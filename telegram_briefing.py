@@ -84,7 +84,7 @@ def _earnings_soon() -> str:
         if soon.empty:
             return ''
         tickers = ', '.join(soon['ticker'].tolist()[:4])
-        return f"⚠️ Earnings <10d: {tickers}"
+        return f"⚠️ Earnings &lt;10d: {tickers}"
     except Exception:
         return ''
 
