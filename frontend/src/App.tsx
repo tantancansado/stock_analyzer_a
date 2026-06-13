@@ -24,6 +24,7 @@ const Value            = lazy(() => import('./pages/Value'))
 const EntrySetups      = lazy(() => import('./pages/EntrySetups'))
 const Insiders         = lazy(() => import('./pages/Insiders'))
 const OptionsFlow      = lazy(() => import('./pages/OptionsFlow'))
+const Leaps            = lazy(() => import('./pages/Leaps'))
 const Sectors          = lazy(() => import('./pages/Sectors'))
 const MyPortfolio      = lazy(() => import('./pages/MyPortfolio'))
 const Backtest         = lazy(() => import('./pages/Backtest'))
@@ -283,6 +284,7 @@ export default function App() {
                   <Route path="/momentum"       element={<Navigate to="/entry-setups?tab=momentum" replace />} />
                   <Route path="/insiders"       element={<Insiders />} />
                   <Route path="/options"        element={<OptionsFlow />} />
+                  <Route path="/leaps"          element={<Leaps />} />
                   <Route path="/mean-reversion" element={<Navigate to="/entry-setups?tab=mean-reversion" replace />} />
                   <Route path="/sectors"        element={<Sectors />} />
                   <Route path="/portfolio"      element={<Navigate to="/my-portfolio?tab=signals" replace />} />

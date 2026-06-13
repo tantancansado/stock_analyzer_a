@@ -2067,3 +2067,82 @@ export async function fetchMlWinProbability(): Promise<MlWinProbabilityData | nu
     return null
   }
 }
+
+// ── LEAPS (deep-ITM long-dated calls como sustituto apalancado de acciones) ───
+export interface LeapsContract {
+  expiry: string
+  dte: number
+  t_years: number
+  strike: number
+  bid: number
+  ask: number
+  mid: number
+  cost_per_contract: number
+  iv_pct: number
+  open_interest: number
+  volume: number
+  spread_pct: number
+  contract_score: number
+  delta: number | null
+  intrinsic: number
+  extrinsic: number
+  extrinsic_pct: number | null
+  annual_carry_pct: number | null
+  leverage: number | null
+  breakeven: number
+  breakeven_move_pct: number | null
+}
+
+export interface LeapsProfitAtTarget {
+  target_price: number
+  stock_return_pct: number
+  option_return_pct: number
+  leverage_realized: number | null
+}
+
+export interface LeapsOpportunity {
+  ticker: string
+  company_name: string
+  sector?: string | null
+  spot: number
+  quality_score: number | null
+  timing_score: number
+  analyst_upside_pct: number | null
+  conviction_grade?: string | null
+  opportunity_score: number
+  recommended_contract: LeapsContract
+  profit_at_target?: LeapsProfitAtTarget | null
+  in_value_list: boolean
+  ai_narrative?: string
+  generated_at?: string
+  risk_free_rate_pct?: number
+  error?: string
+}
+
+export interface LeapsData {
+  generated_at: string
+  risk_free_rate_pct: number
+  universe_size: number
+  analyzed: number
+  methodology: {
+    delta_band: [number, number]
+    min_dte: number
+    max_carry_pct: number
+    note: string
+  }
+  opportunities: LeapsOpportunity[]
+}
+
+export async function fetchLeaps(): Promise<LeapsData | null> {
+  try {
+    const res = await apiClient.get<LeapsData>('/api/leaps')
+    return res.data
+  } catch {
+    return null
+  }
+}
+
+export async function fetchLeapsTicker(ticker: string): Promise<LeapsOpportunity> {
+  const res = await apiClient.get<LeapsOpportunity>(`/api/leaps/${encodeURIComponent(ticker)}`)
+  return res.data
+}

@@ -429,6 +429,12 @@ jobs:
         continue-on-error: true
         run: python3 options_flow_detector.py || echo "Options flow detector failed"
 
+      - name: LEAPS Analyzer (deep-ITM long-dated calls)
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 leaps_analyzer.py || echo "LEAPS analyzer failed"
+
       - name: Send Telegram Alerts
         continue-on-error: true
         env:

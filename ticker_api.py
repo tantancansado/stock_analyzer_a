@@ -1217,6 +1217,44 @@ def options_flow():
     ])
 
 
+@app.route('/api/leaps')
+def leaps_opportunities():
+    """Ranking precalculado de oportunidades LEAPS deep-ITM (scan diario)."""
+    data = _load_json(DOCS / 'leaps_opportunities.json')
+    if not data:
+        return jsonify({"error": "No LEAPS data available", "opportunities": []}), 404
+    return jsonify(data)
+
+
+@app.route('/api/leaps/<ticker>')
+def leaps_ticker(ticker: str):
+    """Análisis LEAPS deep-ITM en vivo para un ticker concreto (on-demand).
+
+    Calcula la cadena de opciones largas, el mejor contrato deep-ITM y la
+    narrativa AI. Lento (~3-6s) porque consulta yfinance en directo.
+    """
+    ticker = ticker.upper().strip()[:10]
+    try:
+        import leaps_analyzer as _la
+        signals = _la.load_app_signals()
+        sig = signals.get(ticker, {})
+        rate = _la.get_risk_free_rate()
+        opp = _la.analyze_ticker_leaps(ticker, sig, rate)
+        if not opp:
+            return jsonify({
+                "error": f"{ticker} no tiene LEAPS deep-ITM líquidos que cumplan los criterios "
+                         f"(delta {_la.DELTA_MIN}-{_la.DELTA_MAX}, vencimiento >{_la.MIN_DTE}d, "
+                         f"carry <{_la.MAX_CARRY_PCT}%/año)."
+            }), 404
+        if request.args.get('ai', '1') != '0':
+            _la.add_ai_narrative(opp)
+        opp['risk_free_rate_pct'] = round(rate * 100, 2)
+        opp['generated_at'] = datetime.now().isoformat()
+        return jsonify(opp)
+    except Exception as e:
+        return jsonify({"error": f"Error analizando LEAPS de {ticker}: {e}"}), 500
+
+
 @app.route('/api/micro-cap')
 def micro_cap():
     return _csv_to_json_response([

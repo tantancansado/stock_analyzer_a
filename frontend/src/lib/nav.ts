@@ -4,6 +4,7 @@ import {
   Ruler, Star, Radar, CalendarDays, AlertTriangle,
   DollarSign, Wallet, Bell, Brain,
   Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2, Wheat,
+  Rocket,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -32,6 +33,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
       { path: '/entry-setups',    icon: TrendingUp,    label: 'Entry setups',    color: '#f97316', keywords: ['momentum', 'vcp', 'mean reversion', 'rebote', 'oversold', 'tendencia'] },
       { path: '/bounce',         icon: Crosshair,       label: 'Rebotes técnicos', color: '#f97316', logo: 'llama-shield.png',      keywords: ['bounce', 'rebote', 'corto plazo', 'oversold', 'rsi extremo'] },
       { path: '/options',         icon: Activity,      label: 'Options flow',    color: '#ec4899', keywords: ['options', 'opciones', 'flujo', 'institucional'] },
+      { path: '/leaps',           icon: Rocket,        label: 'LEAPS',           color: '#a855f7', keywords: ['leaps', 'opciones largas', 'deep itm', 'call', 'apalancamiento', 'sustituto acciones', '2028'] },
       { path: '/sectors',         icon: PieChart,      label: 'Sectores',        color: '#6366f1', keywords: ['sector', 'rotacion', 'sectorial'] },
       { path: '/insiders',       icon: Users,           label: 'Insiders',       color: '#8b5cf6', logo: 'llama-bags.png',          keywords: ['insiders', 'directivos', 'compras'] },
     ]
