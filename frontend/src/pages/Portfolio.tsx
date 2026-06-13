@@ -723,6 +723,58 @@ export default function Portfolio() {
         </div>
       )}
 
+      {/* ── US vs EU (mismo periodo limpio, comparable) ── */}
+      {(pf.value_strategy?.['7d']?.count ?? 0) >= 10 && (pf.eu_value_strategy?.['7d']?.count ?? 0) >= 10 && (
+        <div className="mt-6 animate-fade-in-up">
+          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30 mb-1">
+            VALUE US vs EU
+          </h2>
+          <p className="text-xs text-muted-foreground/60 mb-4">
+            Señales desde el corte limpio (abr-2026) — misma base, comparación directa
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {([
+              { label: 'VALUE US', strat: pf.value_strategy, badge: 'US' },
+              { label: 'VALUE EU', strat: pf.eu_value_strategy, badge: 'EU' },
+            ] as const).map(({ label, strat, badge }) => {
+              const otherStrat = badge === 'US' ? pf.eu_value_strategy : pf.value_strategy
+              const wr7 = strat?.['7d']?.win_rate ?? 0
+              const otherWr7 = otherStrat?.['7d']?.win_rate ?? 0
+              const leads = wr7 > otherWr7
+              return (
+                <Card key={badge} className={`glass border ${leads ? 'border-primary/40' : 'border-border/20'}`}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-bold tracking-wide">{label}</span>
+                      {leads && <Badge variant="blue" className="text-[0.65rem]">↑ MEJOR WIN RATE</Badge>}
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      {(['7d', '14d'] as const).map(period => {
+                        const s = strat?.[period]
+                        if (!s?.count) return null
+                        const wr = s.win_rate ?? 0
+                        return (
+                          <div key={period}>
+                            <div className="text-[0.65rem] uppercase tracking-widest text-muted-foreground/60 mb-1">{period}</div>
+                            <div className={`text-2xl font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
+                              {wr.toFixed(1)}%
+                            </div>
+                            <div className="text-xs text-muted-foreground mt-1">
+                              avg {s.avg_return != null ? `${s.avg_return > 0 ? '+' : ''}${s.avg_return.toFixed(2)}%` : '—'}
+                              <span className="text-muted-foreground/50"> · {s.count} señales</span>
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ── Estadísticas del sistema ── */}
       {calibData && (
         <div className="mt-8 space-y-4 animate-fade-in-up">

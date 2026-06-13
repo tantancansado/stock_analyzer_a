@@ -241,6 +241,8 @@ export interface PortfolioSummary {
     '14d': { count: number; win_rate: number; avg_return: number }
     '30d': { count: number; win_rate: number; avg_return: number }
   }
+  value_strategy?: StrategyStats
+  eu_value_strategy?: StrategyStats
   top_performers?: Array<Record<string, unknown>>
   worst_performers?: Array<Record<string, unknown>>
   recent_signals?: Array<Record<string, unknown>>
@@ -251,6 +253,23 @@ export interface PortfolioSummary {
     '14d': AlphaStat
     '7d':  AlphaStat
   }
+}
+
+export interface StrategyPeriodStats {
+  count?: number
+  win_rate?: number | null
+  avg_return?: number | null
+  median_return?: number | null
+  best?: number | null
+  worst?: number | null
+  basis?: string
+}
+
+export interface StrategyStats {
+  count?: number
+  '7d'?: StrategyPeriodStats
+  '14d'?: StrategyPeriodStats
+  '30d'?: StrategyPeriodStats
 }
 
 export interface AlphaStat {

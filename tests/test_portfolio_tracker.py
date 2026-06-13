@@ -895,8 +895,7 @@ class TestSectorPerformance:
         # Only 1 signal in Tech → not in sector_performance
         assert 'Tech' not in summary.get('sector_performance', {})
 
-    # sector_performance is computed over the golden-zone slice using return_30d
-    # (avg_14d / win_rate_14d keys keep their historical names).
+    # sector_performance is computed over the golden-zone slice using return_30d.
     def test_sector_appears_with_2_signals(self, tmp_path):
         recs = [
             _make_rec(ticker='A', strategy='VALUE', sector='Tech', return_30d=5.0, win_14d=True),
@@ -914,8 +913,8 @@ class TestSectorPerformance:
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
         sp = summary['sector_performance']
-        assert sp['Finance']['avg_14d'] == pytest.approx(8.0)
-        assert sp['Finance']['win_rate_14d'] == 100.0
+        assert sp['Finance']['avg_30d'] == pytest.approx(8.0)
+        assert sp['Finance']['win_rate_30d'] == 100.0
 
     def test_sector_mixed_win_rate(self, tmp_path):
         recs = [
@@ -925,7 +924,7 @@ class TestSectorPerformance:
         tracker = _make_tracker(_make_df(*recs))
         summary = tracker.generate_summary()
         sp = summary['sector_performance']
-        assert sp['Energy']['win_rate_14d'] == 50.0
+        assert sp['Energy']['win_rate_30d'] == 50.0
 
 
 # ─────────────────────────────────────────────────────────────────────────────

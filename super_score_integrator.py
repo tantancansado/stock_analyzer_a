@@ -1407,34 +1407,41 @@ class SuperScoreIntegrator:
                 print(f"⚠️  Cerebro CSV load failed (skipping): {e}")
         # ──────────────────────────────────────────────────────────────────────
 
-        # ── SECTOR WIN-RATE WEIGHTING (ML-derived, dynamic) ───────────────────
-        # sector_win_rates from ml_model_report.json (retrained daily).
-        # Sectors with ≥50% historical win rate → mild bonus.
-        # Sectors with <25% → penalty. Stays within ±6pts to avoid dominating.
-        # Base win rate (global average) anchors neutrality so we only adjust
-        # for sectors that materially differ from the mean.
-        ml_report_path = Path('docs/ml_model_report.json')
-        if ml_report_path.exists() and 'sector' in df.columns:
+        # ── SECTOR WIN-RATE WEIGHTING (tracker-derived, dynamic) ──────────────
+        # Source: docs/portfolio_tracker/summary.json → sector_performance
+        # (golden-zone historical, real 30d returns, regenerated daily by the
+        # pipeline; 1-day lag vs today's run). Replaces the old ml_model_report
+        # source, which went stale (Apr-30) and zeroed out the two strongest
+        # signals in the data (Technology 15% win, Financial Services 74%).
+        # Absolute win-rate thresholds (the user goal is hit rate, not
+        # relative-to-mean), min 15 completed signals per sector, asymmetric:
+        # penalties stronger than bonuses (prefer 0 signals over false ones).
+        tracker_summary_path = Path('docs/portfolio_tracker/summary.json')
+        if tracker_summary_path.exists() and 'sector' in df.columns:
             try:
-                _ml_rep = json.loads(ml_report_path.read_text())
-                _sec_wr = _ml_rep.get('sector_win_rates', {})
-                _base_wr = _ml_rep.get('win_rate_base', 0.35)
-                if _sec_wr:
-                    def _sector_adj(sector: str) -> float:
-                        wr = _sec_wr.get(sector)
-                        if wr is None:
-                            return 0.0
-                        delta = wr - _base_wr          # how much above/below avg
-                        if delta >= 0.20:              # sector wr >> avg (Energy 71%)
-                            return 6.0
-                        elif delta >= 0.10:            # clearly above avg
-                            return 3.0
-                        elif delta <= -0.20:           # sector wr << avg (Consumer Cyc 9%)
-                            return -6.0
-                        elif delta <= -0.10:           # below avg
-                            return -3.0
-                        return 0.0                     # near avg → neutral
+                _sec_perf = json.loads(tracker_summary_path.read_text()).get('sector_performance', {})
+                _MIN_SAMPLE = 15
 
+                def _sector_adj(sector: str) -> float:
+                    sp = _sec_perf.get(sector)
+                    if not sp or sp.get('count', 0) < _MIN_SAMPLE:
+                        return 0.0                 # sin muestra suficiente → neutral
+                    wr = sp.get('win_rate_30d')
+                    if wr is None:
+                        return 0.0
+                    if wr < 20:                    # Technology 15% → casi todo pierde
+                        return -12.0
+                    elif wr < 30:
+                        return -8.0
+                    elif wr < 40:                  # Industrials 35% → flojo
+                        return -3.0
+                    elif wr >= 65:                 # Financial Services 74%
+                        return 5.0
+                    elif wr >= 55:
+                        return 3.0
+                    return 0.0
+
+                if _sec_perf:
                     df['sector_wr_adj'] = df['sector'].map(_sector_adj).fillna(0.0)
                     df['value_score'] = (df['value_score'] + df['sector_wr_adj']).clip(lower=0, upper=100)
 
@@ -1443,8 +1450,10 @@ class SuperScoreIntegrator:
                     if up_n or down_n:
                         best  = df.loc[df['sector_wr_adj'] > 0, 'sector'].value_counts().index[:2].tolist()
                         worst = df.loc[df['sector_wr_adj'] < 0, 'sector'].value_counts().index[:2].tolist()
-                        print(f"   📈 Sector win-rate adj: {up_n} boosted {best} · {down_n} penalized {worst}")
+                        print(f"   📈 Sector win-rate adj (tracker 30d): {up_n} boosted {best} · {down_n} penalized {worst}")
                     df.drop(columns=['sector_wr_adj'], inplace=True, errors='ignore')
+                else:
+                    print("   ⚠️  Sector win-rate adj skipped: no sector_performance in tracker summary")
             except Exception as _e:
                 print(f"   ⚠️  Sector win-rate adj skipped: {_e}")
         # ──────────────────────────────────────────────────────────────────────

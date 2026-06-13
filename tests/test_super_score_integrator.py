@@ -654,3 +654,91 @@ class TestRejectOrderIntegration:
         df = clip_value_score(df)
         assert (df['value_score'] >= 0).all(), "value_score went negative"
         assert (df['value_score'] <= 100).all(), "value_score exceeded 100"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SECTOR WIN-RATE ADJUSTMENT (tracker-derived)
+# Réplica de _sector_adj en super_score_integrator.py — fuente:
+# docs/portfolio_tracker/summary.json → sector_performance (golden zone, 30d).
+# ─────────────────────────────────────────────────────────────────────────────
+
+MIN_SECTOR_SAMPLE = 15
+
+
+def sector_wr_adjustment(sector_perf: dict, sector: str) -> float:
+    sp = sector_perf.get(sector)
+    if not sp or sp.get('count', 0) < MIN_SECTOR_SAMPLE:
+        return 0.0
+    wr = sp.get('win_rate_30d')
+    if wr is None:
+        return 0.0
+    if wr < 20:
+        return -12.0
+    elif wr < 30:
+        return -8.0
+    elif wr < 40:
+        return -3.0
+    elif wr >= 65:
+        return 5.0
+    elif wr >= 55:
+        return 3.0
+    return 0.0
+
+
+class TestSectorWinRateAdjustment:
+    PERF = {
+        'Technology':         {'count': 46, 'avg_30d': -5.72, 'win_rate_30d': 15.2},
+        'Financial Services': {'count': 69, 'avg_30d': 5.17,  'win_rate_30d': 73.9},
+        'Industrials':        {'count': 48, 'avg_30d': -0.48, 'win_rate_30d': 35.4},
+        'Basic Materials':    {'count': 9,  'avg_30d': 7.69,  'win_rate_30d': 100.0},
+        'Energy':             {'count': 4,  'avg_30d': 10.84, 'win_rate_30d': 75.0},
+    }
+
+    def test_low_winrate_big_sample_strong_penalty(self):
+        assert sector_wr_adjustment(self.PERF, 'Technology') == -12.0
+
+    def test_high_winrate_big_sample_bonus(self):
+        assert sector_wr_adjustment(self.PERF, 'Financial Services') == 5.0
+
+    def test_mediocre_winrate_mild_penalty(self):
+        assert sector_wr_adjustment(self.PERF, 'Industrials') == -3.0
+
+    def test_small_sample_neutral_even_if_perfect(self):
+        # 100% win con 9 señales NO da bonus — guardia de muestra mínima
+        assert sector_wr_adjustment(self.PERF, 'Basic Materials') == 0.0
+        assert sector_wr_adjustment(self.PERF, 'Energy') == 0.0
+
+    def test_unknown_sector_neutral(self):
+        assert sector_wr_adjustment(self.PERF, 'Utilities') == 0.0
+        assert sector_wr_adjustment(self.PERF, '') == 0.0
+
+    def test_missing_winrate_key_neutral(self):
+        # summary.json antiguo (claves win_rate_14d) → neutral, no crash
+        old = {'Technology': {'count': 46, 'avg_14d': -5.72, 'win_rate_14d': 15.2}}
+        assert sector_wr_adjustment(old, 'Technology') == 0.0
+
+    def test_boundaries(self):
+        perf = {s: {'count': 20, 'win_rate_30d': wr} for s, wr in
+                [('A', 19.9), ('B', 20.0), ('C', 29.9), ('D', 39.9), ('E', 40.0),
+                 ('F', 54.9), ('G', 55.0), ('H', 64.9), ('I', 65.0)]}
+        assert sector_wr_adjustment(perf, 'A') == -12.0
+        assert sector_wr_adjustment(perf, 'B') == -8.0
+        assert sector_wr_adjustment(perf, 'C') == -8.0
+        assert sector_wr_adjustment(perf, 'D') == -3.0
+        assert sector_wr_adjustment(perf, 'E') == 0.0
+        assert sector_wr_adjustment(perf, 'F') == 0.0
+        assert sector_wr_adjustment(perf, 'G') == 3.0
+        assert sector_wr_adjustment(perf, 'H') == 3.0
+        assert sector_wr_adjustment(perf, 'I') == 5.0
+
+    def test_source_in_sync(self):
+        """Si cambian los umbrales en super_score_integrator, saltará aquí."""
+        from pathlib import Path
+        import super_score_integrator as ssi
+        src = Path(ssi.__file__).read_text()
+        assert "docs/portfolio_tracker/summary.json" in src, \
+            "El integrador ya no lee el summary del tracker — actualiza estos tests"
+        assert "win_rate_30d" in src, "La clave win_rate_30d desapareció del source"
+        assert "_MIN_SAMPLE = 15" in src, "La muestra mínima cambió en el source"
+        for needle in ("-12.0", "-8.0", "-3.0", "5.0", "3.0"):
+            assert needle in src, f"Umbral {needle} cambió en el source"

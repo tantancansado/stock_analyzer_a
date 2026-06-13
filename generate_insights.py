@@ -434,10 +434,10 @@ def generate_portfolio_insight() -> None:
     best_sector = None
     best_sector_return = None
     if sector_perf:
-        by_return = sorted(sector_perf.items(), key=lambda x: x[1].get('avg_14d', 0), reverse=True)
+        by_return = sorted(sector_perf.items(), key=lambda x: x[1].get('avg_30d', 0), reverse=True)
         if by_return:
             best_sector, bs_data = by_return[0]
-            best_sector_return = bs_data.get('avg_14d')
+            best_sector_return = bs_data.get('avg_30d')
 
     top_performers = summary.get('top_performers', [])[:3]
     top_text = '\n'.join([
@@ -449,11 +449,11 @@ def generate_portfolio_insight() -> None:
 
 Historial de señales:
 - Total señales: {total} · Activas: {summary.get('active_signals', 0)} · Completadas: {summary.get('completed_signals', 0)}
-- 7d: {d7.get('count', 0)} completadas, win rate {d7.get('win_rate', 0) * 100:.0f}%, retorno medio {d7.get('avg_return', 0):+.2f}%
-- 14d: {d14.get('count', 0)} completadas, win rate {d14.get('win_rate', 0) * 100:.0f}%, retorno medio {d14.get('avg_return', 0):+.2f}%
-- 30d: {d30.get('count', 0)} completadas, win rate {d30.get('win_rate', 0) * 100:.0f}%, retorno medio {d30.get('avg_return', 0):+.2f}%
+- 7d: {d7.get('count', 0)} completadas, win rate {d7.get('win_rate', 0) or 0:.0f}%, retorno medio {d7.get('avg_return', 0) or 0:+.2f}%
+- 14d: {d14.get('count', 0)} completadas, win rate {d14.get('win_rate', 0) or 0:.0f}%, retorno medio {d14.get('avg_return', 0) or 0:+.2f}%
+- 30d: {d30.get('count', 0)} completadas, win rate {d30.get('win_rate', 0) or 0:.0f}%, retorno medio {d30.get('avg_return', 0) or 0:+.2f}%
 - Score-retorno correlación: {f"{corr:.2f}" if corr else "insuficiente (pocas muestras)"}
-{f"- Mejor sector (14d): {best_sector} ({best_sector_return:+.2f}%)" if best_sector and best_sector_return is not None else ""}
+{f"- Mejor sector (30d): {best_sector} ({best_sector_return:+.2f}%)" if best_sector and best_sector_return is not None else ""}
 
 Mejores posiciones cerradas (14d):
 {top_text}

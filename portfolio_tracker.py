@@ -431,8 +431,8 @@ class PortfolioTracker:
             if len(sdf) >= 2:
                 sector_perf[sector] = {
                     'count': len(sdf),
-                    'avg_14d': round(sdf['return_30d'].mean(), 2),
-                    'win_rate_14d': round((sdf['return_30d'] > 0).sum() / len(sdf) * 100, 1)
+                    'avg_30d': round(sdf['return_30d'].mean(), 2),
+                    'win_rate_30d': round((sdf['return_30d'] > 0).sum() / len(sdf) * 100, 1)
                 }
 
         # Score correlation — golden zone historical (score variance is meaningful here)
@@ -488,7 +488,21 @@ class PortfolioTracker:
                 '30d': win_stats('return_30d', 'win_30d'),
             },
 
-            # High-conviction only (score ≥ 55)
+            # Mixed bases below — legend for JSON consumers (counts differ on purpose)
+            'stats_basis': {
+                'clean_period': f'señales VALUE+EU_VALUE desde {CLEAN_FROM.date()} (filtrado correcto)',
+                'golden_zone_hist': 'histórico US VALUE retroactivo: score>=60, RR>=2, upside 10-55% (único con datos 30d)',
+                'sections': {
+                    'overall': 'clean_period',
+                    'conviction': 'golden_zone_hist',
+                    'value_strategy.7d/14d': 'clean_period',
+                    'value_strategy.30d': 'golden_zone_hist',
+                    'sector_performance': 'golden_zone_hist',
+                    'score_correlation': 'golden_zone_hist',
+                },
+            },
+
+            # Golden zone historical slice (see stats_basis)
             'conviction': {
                 '7d': (lambda d: {
                     'count': 0, 'win_rate': None, 'avg_return': None
@@ -496,15 +510,16 @@ class PortfolioTracker:
                     'count': int(d['return_7d'].notna().sum()),
                     'win_rate': round((d[d['win_7d'] == True]['return_7d'].notna().sum()) / d['return_7d'].notna().sum() * 100, 1),
                     'avg_return': round(d['return_7d'].dropna().mean(), 2),
+                    'basis': 'golden_zone_hist',
                 })(conviction_df),
             },
 
             'value_strategy': {
                 'count': len(value_df),
                 # 7d/14d: clean signals (apr+). 30d: golden zone historical (has completed data)
-                '7d':  win_stats('return_7d',  'win_7d',  value_df) if not value_df.empty else {},
-                '14d': win_stats('return_14d', 'win_14d', value_df) if not value_df.empty else {},
-                '30d': win_stats('return_30d', 'win_30d', golden_hist) if not golden_hist.empty else {},
+                '7d':  {**win_stats('return_7d',  'win_7d',  value_df), 'basis': 'clean_period'} if not value_df.empty else {},
+                '14d': {**win_stats('return_14d', 'win_14d', value_df), 'basis': 'clean_period'} if not value_df.empty else {},
+                '30d': {**win_stats('return_30d', 'win_30d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
             },
 
             'eu_value_strategy': {
