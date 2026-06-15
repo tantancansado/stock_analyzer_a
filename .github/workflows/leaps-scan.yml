@@ -48,8 +48,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/leaps_opportunities.json docs/leaps_positions_status.json docs/.leaps_alerts_sent.json 2>/dev/null || true
-          # Commit ANTES de pull para no perder los cambios en el autostash
+          # Cada add por separado: si un fichero no existe (p.ej. sin alertas),
+          # no debe abortar el add de los demás.
+          git add docs/leaps_opportunities.json || true
+          git add docs/leaps_positions_status.json 2>/dev/null || true
+          git add docs/.leaps_alerts_sent.json 2>/dev/null || true
+          # Commit ANTES de pull para no perder cambios en el autostash
           git diff --cached --quiet || git commit -m "chore: LEAPS scan + monitor $(date -u +%Y-%m-%d)"
           git pull --rebase origin main || true
           git push || true
