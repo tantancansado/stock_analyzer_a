@@ -642,7 +642,7 @@ Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
   "thesis_break": "Qué rompería la tesis y obligaría a cerrar aunque pierdas: señal fundamental concreta."
 }}"""
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=620, temperature=0.3)
+                      model=CLAUDE_SONNET, max_tokens=1100, temperature=0.3)
     if not txt:
         return
     import re as _re
