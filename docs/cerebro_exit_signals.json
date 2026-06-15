@@ -2,7 +2,7 @@
   "generated_at": "2026-06-15",
   "total": 15,
   "high_count": 7,
-  "narrative": "Esto implica que cinco acciones (JKHY, WTKWY, BR, RELX y MA) han perdido su se\u00f1al de convicci\u00f3n, lo que puede ser un indicio de que su valoraci\u00f3n en el mercado ha cambiado y que pueden no ser tan atractivas como antes para la inversi\u00f3n. En t\u00e9rminos de gesti\u00f3n de riesgo, esto significa que es posible que deban reevaluar su exposici\u00f3n a estas acciones y considerar la posibilidad de reducir o eliminar su participaci\u00f3n en ellas para minimizar el riesgo.\n\nEn el caso de MA, aunque se considera que la tesis de inversi\u00f3n podr\u00eda estar rota, no hay evidencia de deterioro fundamental reciente",
+  "narrative": "Esto implica que algunas acciones que anteriormente se consideraban buenas oportunidades de inversi\u00f3n ya no est\u00e1n disponibles y es posible que sus tesis de inversi\u00f3n est\u00e9n rotas. Adem\u00e1s, la falta de compra de acciones por parte de los inversores internos (insider buying) sugiere que los propietarios de la empresa ya no creen en su valor a largo plazo.\n\nEn cuanto a la gesti\u00f3n de riesgo, esto significa que es importante revisar y actualizar las estrategias de inversi\u00f3n para evitar mantener posiciones en acciones que ya no son atractivas. Tambi\u00e9n es importante considerar la posibilidad de diversificar la cartera para reducir el riesgo y buscar nuevas oportunidades de inversi\u00f3n",
   "exits": [
     {
       "ticker": "JKHY",
@@ -26,7 +26,14 @@
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 48.8
+      "fundamental_score": 48.8,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 40,
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa WTKWY, por lo que no puedo confirmar si su negocio ha deteriorado fundamentalmente. La falta de compras de insiders y su salida de la lista de valor pueden ser se\u00f1ales de alerta, pero no tengo datos concretos para determinar si se trata de un verdadero positivo o un falso positivo.",
+        "key_finding": "No tengo acceso a datos recientes sobre WTKWY m\u00e1s all\u00e1 de mi fecha l\u00edmite de entrenamiento.",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa WTKWY, por lo que no puedo confirmar si su negocio ha deteriorado fundamentalmente. La falta de compras de insiders y su salida de la lista de valor pueden ser se\u00f1ales de alerta, pero no tengo datos concretos para determinar si se trata de un verdadero positivo o un falso positivo."
+      }
     },
     {
       "ticker": "BR",
@@ -38,25 +45,32 @@
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
-      "fundamental_score": 46.5
+      "fundamental_score": 46.5,
+      "ai_validation": {
+        "verdict": "UNCERTAIN",
+        "confidence": 50,
+        "summary": "No hay informaci\u00f3n reciente sobre el deterioro fundamental de la empresa BR, pero la falta de compras de insiders puede indicar una p\u00e9rdida de confianza.",
+        "key_finding": "La tesis de inversi\u00f3n original puede estar rota debido a la desaparici\u00f3n de la empresa en la categor\u00eda de VALUE",
+        "summary_note": "No hay informaci\u00f3n reciente sobre el deterioro fundamental de la empresa BR, pero la falta de compras de insiders puede indicar una p\u00e9rdida de confianza."
+      }
     },
     {
       "ticker": "RELX",
-      "severity": "HIGH",
+      "severity": "MEDIUM",
       "entry_score": 65.42,
       "current_score": null,
       "signal_date": "2026-04-26",
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
+        "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "IA: falso positivo con 70% confianza \u2014 No hay evidencia de deterioro fundamental reciente en RELX, el negocio parece s\u00f3lido con crecimiento estable."
       ],
       "fundamental_score": 48.8,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
-        "confidence": 60,
-        "summary": "No hay evidencia de deterioro fundamental reciente en RELX, pero la tesis de valor ya no es atractiva.",
-        "key_finding": "RELX report\u00f3 resultados consistentes en los \u00faltimos a\u00f1os, con crecimiento en ingresos y beneficios",
-        "summary_note": "No hay evidencia de deterioro fundamental reciente en RELX, pero la tesis de valor ya no es atractiva."
+        "confidence": 70,
+        "summary": "No hay evidencia de deterioro fundamental reciente en RELX, el negocio parece s\u00f3lido con crecimiento estable.",
+        "key_finding": "RELX report\u00f3 un crecimiento de ingresos del 4% en 2022 y un aumento del 7% en su beneficio operativo"
       }
     },
     {
@@ -67,14 +81,14 @@
       "signal_date": "2026-04-17",
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 80% confianza \u2014 No hay evidencia de deterioro fundamental reciente en Mastercard (MA). La tesis de inversi\u00f3n podr\u00eda estar rota debido a una reevaluaci\u00f3n de su valoraci\u00f3n en relaci\u00f3n con su valor."
+        "IA: falso positivo con 80% confianza \u2014 La salida de la se\u00f1al de alto no parece estar relacionada con un deterioro fundamental reciente en el negocio de Mastercard (MA). La empresa sigue siendo un l\u00edder en el sector de pagos electr\u00f3nicos."
       ],
-      "fundamental_score": 56.7,
+      "fundamental_score": 54.3,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 80,
-        "summary": "No hay evidencia de deterioro fundamental reciente en Mastercard (MA). La tesis de inversi\u00f3n podr\u00eda estar rota debido a una reevaluaci\u00f3n de su valoraci\u00f3n en relaci\u00f3n con su valor.",
-        "key_finding": "No se encontraron anuncios recientes de ganancias descepcionantes, recortes de gu\u00eda, eventos negativos importantes o cambios en la administraci\u00f3n que sugieran un deterioro fundamental en el negocio de Mastercard."
+        "summary": "La salida de la se\u00f1al de alto no parece estar relacionada con un deterioro fundamental reciente en el negocio de Mastercard (MA). La empresa sigue siendo un l\u00edder en el sector de pagos electr\u00f3nicos.",
+        "key_finding": "No se encontraron noticias recientes de deterioro significativo en las ganancias, gu\u00edas de crecimiento, eventos negativos importantes o cambios en la administraci\u00f3n de MA"
       }
     },
     {
@@ -90,9 +104,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si la salida de la se\u00f1al de alto es un verdadero positivo o un falso positivo.",
-        "key_finding": "No hay datos recientes disponibles",
-        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si la salida de la se\u00f1al de alto es un verdadero positivo o un falso positivo."
+        "summary": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si su negocio ha deteriorado fundamentalmente. La ausencia de la empresa en la lista de VALUE no necesariamente implica una tesis rota.",
+        "key_finding": "No se encontraron datos recientes sobre deterioro empresarial",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre la empresa CLPBY, por lo que no puedo determinar con certeza si su negocio ha deteriorado fundamentalmente. La ausencia de la empresa en la lista de VALUE no necesariamente implica una tesis rota."
       }
     },
     {
@@ -108,9 +122,9 @@
       "ai_validation": {
         "verdict": "UNCERTAIN",
         "confidence": 50,
-        "summary": "No tengo informaci\u00f3n actualizada sobre la empresa EME, por lo que no puedo determinar con certeza si la tesis de inversi\u00f3n se ha roto.",
-        "key_finding": "No hay datos recientes disponibles sobre la empresa EME en mi base de conocimiento",
-        "summary_note": "No tengo informaci\u00f3n actualizada sobre la empresa EME, por lo que no puedo determinar con certeza si la tesis de inversi\u00f3n se ha roto."
+        "summary": "No tengo informaci\u00f3n reciente sobre EME para determinar si su negocio ha deteriorado fundamentalmente. La falta de datos en nuestra base de datos sobre su valoraci\u00f3n y puntaje fundamental (N/A/100) limita mi capacidad para emitir un juicio s\u00f3lido.",
+        "key_finding": "No hay informaci\u00f3n disponible",
+        "summary_note": "No tengo informaci\u00f3n reciente sobre EME para determinar si su negocio ha deteriorado fundamentalmente. La falta de datos en nuestra base de datos sobre su valoraci\u00f3n y puntaje fundamental (N/A/100) limita mi capacidad para emitir un juicio s\u00f3lido."
       }
     },
     {
@@ -129,10 +143,10 @@
       "ticker": "VRSN",
       "severity": "MEDIUM",
       "entry_score": 69.03999999999999,
-      "current_score": 50.375,
+      "current_score": 35.375,
       "signal_date": "2026-04-27",
       "reasons": [
-        "Score cay\u00f3 19pts (69 \u2192 50)",
+        "Score cay\u00f3 34pts (69 \u2192 35) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 61.6
@@ -177,12 +191,12 @@
       "ticker": "NYT",
       "severity": "MEDIUM",
       "entry_score": 58.3,
-      "current_score": 38.9,
+      "current_score": 31.8,
       "signal_date": "2026-05-07",
       "reasons": [
-        "Score cay\u00f3 19pts (58 \u2192 39)"
+        "Score cay\u00f3 26pts (58 \u2192 32) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)"
       ],
-      "fundamental_score": 62.5
+      "fundamental_score": 62.0
     },
     {
       "ticker": "EXPN.L",

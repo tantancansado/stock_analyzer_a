@@ -1,38 +1,33 @@
 {
   "generated_at": "2026-06-15",
-  "total": 4,
+  "total": 3,
   "strong_buy": 0,
-  "buy": 1,
+  "buy": 0,
   "monitor": 1,
   "wait": 2,
-  "narrative": "Las tres mejores oportunidades de entrada de hoy para el valor inversi\u00f3n se basan en la siguiente informaci\u00f3n:\n\nLas acciones de DB1.DE (DEUTSCHE BOERSE AG) presentan una puntuaci\u00f3n de entrada de 50, lo que indica un nivel moderado de potencial de crecimiento. La se\u00f1al se confirma por varias razones: \n\n- El ratio de resistencia a resistencia (R:R) es \u22652, lo que sugiere un potencial de crecimiento significativo.\n- Hay compras de acciones por parte de inversores internos, lo que puede indicar confianza en la empresa.\n- La revisi\u00f3n de los analistas ha aumentado, lo que puede reflejar una mejor percepci\u00f3n del valor de la empresa.\n- La acci\u00f3n ha estado en el valor durante al menos 3 d\u00edas, lo que puede indicar una oportunidad de compra a un precio m\u00e1s atractivo.",
+  "narrative": null,
   "signals": [
     {
       "ticker": "DB1.DE",
       "company_name": "DEUTSCHE BOERSE AG            N",
       "region": "EU",
       "sector": "Financial Services",
-      "value_score": 64.3,
+      "value_score": 63.3,
       "conviction_grade": "",
-      "current_price": 244.6,
-      "analyst_upside_pct": 16.9,
+      "current_price": 248.0,
+      "analyst_upside_pct": 15.4,
       "fcf_yield_pct": null,
-      "risk_reward_ratio": 2.11,
-      "days_in_value": 10,
+      "risk_reward_ratio": 1.92,
+      "days_in_value": 11,
       "streak_days": 1,
-      "entry_score": 50,
-      "signal": "BUY",
+      "entry_score": 40,
+      "signal": "MONITOR",
       "signals_fired": [
-        "R:R \u22652",
         "Insider buying",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
         {
           "name": "Insider buying",
           "pts": 25
@@ -49,6 +44,7 @@
       "signals_missing": [
         "Value score <80",
         "FCF yield <5%",
+        "R:R <2",
         "Upside <20%",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
@@ -57,77 +53,20 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 40
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 75.69999999999999,
-      "conviction_grade": "",
-      "current_price": null,
-      "analyst_upside_pct": 25.0,
-      "fcf_yield_pct": 3.43,
-      "risk_reward_ratio": null,
-      "days_in_value": 3,
-      "streak_days": 3,
-      "entry_score": 43,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "Value score \u226570",
-        "Upside \u226520%",
-        "Options flow alcista",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Options flow alcista",
-          "pts": 15
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "R:R <2",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 46
+      "days_to_earnings": 37
     },
     {
       "ticker": "TEVA",
       "company_name": "Teva Pharmaceutical Industries ",
       "region": "US",
       "sector": "Healthcare",
-      "value_score": 62.31,
+      "value_score": 62.06,
       "conviction_grade": "",
       "current_price": null,
-      "analyst_upside_pct": 19.4,
-      "fcf_yield_pct": 6.49,
+      "analyst_upside_pct": 18.1,
+      "fcf_yield_pct": 6.48,
       "risk_reward_ratio": null,
-      "days_in_value": 1,
+      "days_in_value": 2,
       "streak_days": 1,
       "entry_score": 15,
       "signal": "WAIT",
@@ -154,26 +93,26 @@
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 47
+      "days_to_earnings": 44
     },
     {
-      "ticker": "AXP",
-      "company_name": "American Express Company",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 60.0,
+      "value_score": 66.785,
       "conviction_grade": "",
       "current_price": null,
-      "analyst_upside_pct": 13.6,
-      "fcf_yield_pct": null,
+      "analyst_upside_pct": 19.7,
+      "fcf_yield_pct": 3.1,
       "risk_reward_ratio": null,
       "days_in_value": 1,
       "streak_days": 1,
-      "entry_score": 0,
+      "entry_score": 5,
       "signal": "WAIT",
       "signals_fired": [
         "Analyst revision \u2191"
@@ -198,7 +137,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 42
+      "days_to_earnings": 38
     }
   ]
 }

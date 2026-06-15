@@ -2,7 +2,7 @@
   "generated_at": "2026-06-15",
   "total": 4,
   "high_count": 0,
-  "narrative": "Aqu\u00ed te presento dos posibles explicaciones en espa\u00f1ol sobre por qu\u00e9 estos tickers podr\u00edan ser value traps:\n\n1. \"Estos tickers podr\u00edan ser value traps debido a su baja rentabilidad operativa y generaci\u00f3n de flujos de efectivo negativos, lo que sugiere que la empresa est\u00e1 quemando caja y no est\u00e1 generando valor a largo plazo. A pesar de su valuaci\u00f3n barata, la situaci\u00f3n financiera de estas empresas no es saludable, lo que aumenta el riesgo de que sean atrapados en un value trap.\"\n2. \"Los indicadores financieros de estos tickers no reflejan una situaci\u00f3n saludable, lo que sugiere que podr\u00edan ser value",
+  "narrative": "Aqu\u00ed te presento dos posibles explicaciones en espa\u00f1ol sobre por qu\u00e9 estos tickers podr\u00edan ser value traps:\n\n1. \"Estos tickers podr\u00edan ser value traps debido a la combinaci\u00f3n de una valuaci\u00f3n barata y una situaci\u00f3n financiera d\u00e9bil. A pesar de que sus precios de mercado son atractivos, sus flujos de efectivo libre (FCF) negativos sugieren que est\u00e1n quemando caja, lo que puede ser un indicio de problemas financieros a largo plazo. Esto podr\u00eda llevar a una revaluaci\u00f3n negativa en el futuro, convirtiendo a estas acciones en trampas de valor.\"\n2. \"Los tickers EL.PA, NOVO-B.CO,",
   "traps": [
     {
       "ticker": "EL.PA",
@@ -15,7 +15,7 @@
         "Fundamental score cerca de default (50) \u2014 datos poco fiables"
       ],
       "piotroski": 4.0,
-      "fcf_yield_pct": 3.83,
+      "fcf_yield_pct": 3.82,
       "fundamental_score": 48.8
     },
     {
@@ -25,10 +25,10 @@
       "trap_score": 3,
       "value_score": 57.6,
       "flags": [
-        "FCF negativo (-1.0%) \u2014 quema caja pese a valuaci\u00f3n barata"
+        "FCF negativo (-0.9%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 5.0,
-      "fcf_yield_pct": -0.96,
+      "fcf_yield_pct": -0.95,
       "fundamental_score": 78.9
     },
     {
@@ -41,7 +41,7 @@
         "FCF negativo (-2.8%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 6.0,
-      "fcf_yield_pct": -2.82,
+      "fcf_yield_pct": -2.81,
       "fundamental_score": 65.5
     },
     {
@@ -49,12 +49,12 @@
       "company_name": "SAFRAN",
       "severity": "MEDIUM",
       "trap_score": 3,
-      "value_score": 33.3,
+      "value_score": 30.3,
       "flags": [
         "FCF negativo (-1.3%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 7.0,
-      "fcf_yield_pct": -1.32,
+      "fcf_yield_pct": -1.28,
       "fundamental_score": 58.2
     }
   ]

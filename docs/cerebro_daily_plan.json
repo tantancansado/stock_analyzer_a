@@ -1,29 +1,29 @@
 {
   "generated_at": "2026-06-15",
   "macro_regime": "CALM",
-  "composite_score": 8.5,
-  "sesgo": "DEFENSIVO",
+  "composite_score": 12.5,
+  "sesgo": "OPORTUNIDAD",
   "confianza": 60,
-  "situacion": "Mercado en calma, pero con se\u00f1ales de riesgo creciente",
-  "narrativa": "El mercado est\u00e1 en un r\u00e9gimen CALM, pero la SKEW Index y la Defensa vs Mercado muestran se\u00f1ales negativas. El D\u00f3lar tambi\u00e9n est\u00e1 debilitado. Esto sugiere que el mercado podr\u00eda estar sobrevalorado y que los inversores deben estar preparados para una posible correcci\u00f3n.",
+  "situacion": "Mercado en calma, pero con se\u00f1ales de alarma crecientes.",
+  "narrativa": "El mercado est\u00e1 en un r\u00e9gimen CALM, pero la SKEW Index y la defensa vs mercado est\u00e1n mostrando se\u00f1ales de alarma. Esto podr\u00eda indicar un cambio en la tendencia.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
-      "accion": "VENDER",
-      "instrumento": "BR",
-      "razon": "Se\u00f1al negativa en Defensa vs Mercado",
-      "catalizador": "Fed Meeting el 17 de junio",
+      "accion": "COMPRAR",
+      "instrumento": "TLT",
+      "razon": "La curva de tipos y el yield 30yr est\u00e1n en una zona hist\u00f3ricamente atractiva para bonos largos.",
+      "catalizador": "La Fed Meeting del 17 de junio",
       "size_hint": "peque\u00f1a (1-2%)",
-      "invalidacion": "Si el mercado sigue subiendo sin problemas"
+      "invalidacion": "Un aumento en la inflaci\u00f3n o un cambio en la pol\u00edtica monetaria de la Fed"
     },
     {
       "prioridad": 2,
-      "accion": "COMPRAR",
-      "instrumento": "TLT",
-      "razon": "Yield 30yr en zona hist\u00f3ricamente atractiva",
-      "catalizador": "Macro Plays Rule-Based",
+      "accion": "VENDER",
+      "instrumento": "BR",
+      "razon": "La defensa vs mercado y la SKEW Index est\u00e1n mostrando se\u00f1ales de alarma.",
+      "catalizador": "La SKEW Index y la defensa vs mercado",
       "size_hint": "media (3-4%)",
-      "invalidacion": "Si el mercado comienza a subir significativamente"
+      "invalidacion": "Un cambio en la tendencia del mercado"
     }
   ],
   "macro_plays": [
@@ -43,13 +43,13 @@
       }
     }
   ],
-  "macro_plays_commentary": "La curva de tipos 2s10s sigue siendo positiva, lo que sugiere que el mercado sigue siendo favorable a los bonos largos",
+  "macro_plays_commentary": "La curva de tipos y el yield 30yr est\u00e1n en una zona hist\u00f3ricamente atractiva para bonos largos.",
   "value_en_entorno": [],
-  "value_en_entorno_razon": "Los tickers VALUE encajan en el r\u00e9gimen actual porque est\u00e1n protegidos contra la posible correcci\u00f3n del mercado",
+  "value_en_entorno_razon": "Los tickers VALUE encajan en el r\u00e9gimen actual porque est\u00e1n relacionados con la defensa vs mercado y la SKEW Index.",
   "evitar": [
     {
       "ticker": "CLPBY",
-      "razon": "Se\u00f1al negativa en Defensa vs Mercado"
+      "razon": "La defensa vs mercado y la SKEW Index est\u00e1n mostrando se\u00f1ales de alarma."
     }
   ],
   "agenda_semana": [
@@ -57,10 +57,10 @@
       "fecha": "2026-06-17",
       "evento": "Fed Meeting",
       "impacto": "ALTO",
-      "accion_sugerida": "Vender antes del anuncio"
+      "accion_sugerida": "Vigilar el mercado y estar preparado para cambios"
     }
   ],
-  "frase_del_dia": "El mercado es un gran libro de historia, y los que no la leen est\u00e1n condenados a repetirla.",
-  "mensaje_telegram": "\ud83d\udea8 Mercado en calma, pero con se\u00f1ales de riesgo creciente. Vender BR y comprar TLT.",
+  "frase_del_dia": "El mercado es un gran juego de cartas, y a veces debes jugar con la mala mano.",
+  "mensaje_telegram": "\ud83d\udea8 Mercado en calma, pero con se\u00f1ales de alarma crecientes. \ud83d\udea8 Comprar TLT y vender BR.",
   "ai_powered": true
 }

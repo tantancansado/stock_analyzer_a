@@ -1,29 +1,24 @@
 {
   "generated_at": "2026-06-15",
   "regime": "NEUTRAL",
-  "narrative": "\"Buenos d\u00edas, inversores. El mercado se mantiene en un r\u00e9gimen neutro, lo que sugiere una cautela en las decisiones de inversi\u00f3n. Hoy, debemos vigilar las se\u00f1ales de alerta de AAL.L, AON y AUTO.L, ya que muestran un comportamiento anormal. En cuanto a las entradas, DB1.DE sigue siendo una opci\u00f3n a considerar, aunque con un score moderado. Es importante evitar las salidas de JKHY, WTKWY y BR, ya que sus tesis han perdido convicci\u00f3n. En resumen, es hora de ser cautelosos y esperar a que la situaci\u00f3n se aclare.\"",
+  "narrative": "**Briefing Matutino**\n\nBuenos d\u00edas. El mercado sigue en r\u00e9gimen neutral, sin entradas fuertes ni compras recomendadas. Es importante vigilar las convergencias en ADP, LIN y WMT, as\u00ed como las alertas de compra de AAL.L, AUTO.L y BA.L. Evita las trampas detectadas en JKHY, WTKWY y BR, ya que su tesis de inversi\u00f3n puede estar rota. En cuanto a la macro, el precio del petr\u00f3leo (WTI) sigue en un nivel cr\u00edtico de 83.7.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 1,
-    "top_entries": [
-      [
-        "DB1.DE",
-        50
-      ]
-    ],
+    "buy_count": 0,
+    "top_entries": [],
     "top_convergences": [
       [
-        "V",
-        65
-      ],
-      [
         "ADP",
-        64
+        61
       ],
       [
-        "COST",
-        60
+        "LIN",
+        57
+      ],
+      [
+        "WMT",
+        48
       ]
     ],
     "high_alerts": [
@@ -32,12 +27,12 @@
         "INSIDER_BUYING"
       ],
       [
-        "AON",
+        "AUTO.L",
         "SCORE_DRIFT"
       ],
       [
-        "AUTO.L",
-        "SCORE_DRIFT"
+        "BA.L",
+        "INSIDER_BUYING"
       ]
     ],
     "traps_warning": [],
@@ -52,14 +47,14 @@
       [
         "WTKWY",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota; Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "",
+        "No tengo acceso a datos recientes sobre WTKWY m\u00e1s all\u00e1 de mi fecha l\u00edmite de entrenamiento.",
         71.45,
         null
       ],
       [
         "BR",
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota; Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "",
+        "La tesis de inversi\u00f3n original puede estar rota debido a la desaparici\u00f3n de la empresa en la categor\u00eda de VALUE",
         71.2,
         null
       ]
@@ -74,14 +69,14 @@
         0
       ],
       [
-        "V",
+        "TEVA",
         1
       ]
     ],
     "macro_stress": [
       {
         "market": "Petr\u00f3leo (WTI)",
-        "score": 87.7,
+        "score": 83.7,
         "regime": "DISLOCATED",
         "exposed": [
           "USO",
