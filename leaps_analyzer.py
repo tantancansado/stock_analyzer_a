@@ -633,22 +633,25 @@ CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
 {f"  Si la acción llega al target ${pat.get('target_price')}: la opción rinde {pat.get('option_return_pct')}% vs {pat.get('stock_return_pct')}% la acción ({pat.get('leverage_realized')}x)" if pat else ""}
 
 Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
+IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
 {{
   "verdict": "OPORTUNIDAD | RAZONABLE | EVITAR",
-  "verdict_reason": "1-2 frases HONESTAS: ¿por qué está a este precio? Identifica la causa (externa/cíclica vs deterioro real) y si los fundamentales aguantan. Si NO es una buena oportunidad value, dilo claramente.",
-  "narrative": "Máx 100 palabras: qué significa este contrato y por qué este strike/vencimiento, y el riesgo real (máximo = la prima; a qué precio empieza a doler).",
-  "take_profit": "Cuándo tomar beneficios: condición concreta de precio/ganancia.",
-  "roll": "Cuándo rolar a un vencimiento más largo: regla concreta.",
-  "thesis_break": "Qué rompería la tesis y obligaría a cerrar aunque pierdas: señal fundamental concreta."
+  "verdict_reason": "HONESTO, máx 2 frases: ¿por qué está a este precio? Causa (externa/cíclica vs deterioro) y si los fundamentales aguantan. Si NO es buena oportunidad value, dilo.",
+  "narrative": "Máx 60 palabras: qué significa este contrato y el riesgo real (máximo = la prima).",
+  "take_profit": "1 frase: cuándo tomar beneficios (precio/ganancia concreta).",
+  "roll": "1 frase: cuándo rolar a vencimiento más largo.",
+  "thesis_break": "1 frase: qué rompería la tesis y obligaría a cerrar."
 }}"""
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=1100, temperature=0.3)
+                      model=CLAUDE_SONNET, max_tokens=1500, temperature=0.3)
     if not txt:
         return
     import re as _re
-    m = _re.search(r'\{[\s\S]*\}', txt)
+    # Claude a veces envuelve en ```json … ```; quítalo antes de parsear
+    cleaned = _re.sub(r'(?:^```(?:json)?|```$)', '', txt.strip(), flags=_re.MULTILINE).strip()
+    m = _re.search(r'\{[\s\S]*\}', cleaned)
     if not m:
-        opp['ai_narrative'] = txt.strip()      # fallback: texto plano
+        opp['ai_narrative'] = cleaned       # fallback: texto plano
         return
     try:
         data = json.loads(m.group(0))
