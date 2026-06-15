@@ -1,7 +1,7 @@
 {
   "date": "2026-06-15",
-  "timestamp": "2026-06-15T08:39:57.554379",
-  "narrative": "El win rate actual del sistema de se\u00f1ales es preocupante, especialmente en el plazo de 30 d\u00edas, donde solo un 24% de las se\u00f1ales han sido exitosas. Los resultados muestran un patr\u00f3n temporal negativo, con un retorno medio decreciente a medida que aumenta el plazo de tiempo. El sector energ\u00e9tico ha sido el \u00fanico que ha mostrado un desempe\u00f1o positivo en los \u00faltimos 30 d\u00edas. Bas\u00e1ndome en estos datos, recomendar\u00eda ajustar el posicionamiento para reducir la exposici\u00f3n a sectores con mal desempe\u00f1o y aumentar la exposici\u00f3n al sector energ\u00e9tico.",
+  "timestamp": "2026-06-15T10:54:28.407985",
+  "narrative": "Comentario:\n\nEl sistema de se\u00f1ales ha mostrado un rendimiento mixto en los \u00faltimos 30 d\u00edas, con un win rate del 24% y un retorno medio de -4.62%. El win rate actual del 37% en el per\u00edodo de 14 d\u00edas no es particularmente alto, lo que sugiere que la calidad del sistema en este entorno de mercado es moderada. La correlaci\u00f3n entre el score de la se\u00f1al y el retorno obtenido es baja (-0.17), lo que indica que el modelo de se\u00f1alizaci\u00f3n no est\u00e1 capturando con precisi\u00f3n la informaci\u00f3n relevante.\n\nEn cuanto a patrones temporales, se observa que el rendimiento del sistema se deteriora a medida que se ampl\u00eda el per\u00edodo de an\u00e1lisis. Esto podr\u00eda indicar que el sistema est\u00e1 sufriendo de \"overfitting\" o que la informaci\u00f3n relevante se est\u00e1 perdiendo a medida que se ampl\u00eda el per\u00edodo de an\u00e1lisis.\n\nEn cuanto a patrones sectoriales, se destaca el sector Energy, que ha mostrado un retorno signific",
   "total_signals": 139,
   "win_rate_7d": 49.6,
   "win_rate_14d": 37.4,

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-06-15T08:34:18.499641",
+  "timestamp": "2026-06-15T10:48:55.078384",
   "date": "2026-06-15",
   "regime": {
     "name": "CALM",
@@ -11,11 +11,11 @@
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 16.72,
-      "percentile": 38.4,
+      "current": 16.76,
+      "percentile": 39.9,
       "score": 0.5,
-      "change_5d": -11.6,
-      "interpretation": "VIX 16.7 (bajo)",
+      "change_5d": -11.4,
+      "interpretation": "VIX 16.8 (bajo)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
@@ -58,12 +58,12 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 80.71,
+      "current": 80.41,
       "percentile": 74.3,
       "score": 0,
-      "change_5d": -11.6,
-      "change_20d": -23.4,
-      "interpretation": "Petroleo $80.7 (rango normal)",
+      "change_5d": -11.9,
+      "change_20d": -23.7,
+      "interpretation": "Petroleo $80.4 (rango normal)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
     },
@@ -78,11 +78,11 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 99.51,
-      "percentile": 80.8,
+      "current": 99.47,
+      "percentile": 80.4,
       "score": 0.5,
-      "change_5d": -0.54,
-      "change_20d": 0.24,
+      "change_5d": -0.58,
+      "change_20d": 0.2,
       "interpretation": "DXY 99.5 (ligeramente fuerte)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "El r\u00e9gimen de mercado actual es CALM, con se\u00f1ales como la volatilidad baja y la curva de tipos normal. El principal riesgo es la alta demanda de opciones put OTM (SKEW 143). Recomiendo un posicionamiento moderadamente alcista, aprovechando la tendencia alcista fuerte (SPY +8.4% vs MA200) y la debilidad del yen (USD/JPY 160.1), pero con precauci\u00f3n ante posibles correcciones.",
+  "ai_narrative": "**R\u00e9gimen de mercado actual:**\n\nEl r\u00e9gimen de mercado actual se caracteriza por una tendencia alcista fuerte, con una puntuaci\u00f3n compuesta de 12.5/20, lo que indica un r\u00e9gimen CALM (Calm). Las se\u00f1ales m\u00e1s relevantes son la baja volatilidad (VIX 16.8), la curva tipos normal (2s10s 87bps), la subida del cobre/oro (+5.2% 5d) y la alta amplitud del mercado (SPY +8.4% vs MA200).\n\n**Principal riesgo o catalizador a vigilar:**\n\nEl principal riesgo es una posible correcci\u00f3n en el mercado, ya que la SKEW Index (Tail Risk) muestra una alta demanda de opciones put OTM, lo que puede indicar una mayor incertidumbre en el mercado.\n\n**Recomendaci\u00f3n de posicionamiento general:**",
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 63.7,
+      "similarity": 63.9,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -189,7 +189,7 @@
       "name": "Mercado Bajista 2022",
       "date": "Ene-Dic 2022",
       "duration_days": 280,
-      "similarity": 58.0,
+      "similarity": 58.1,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -18,
@@ -212,7 +212,7 @@
       "name": "Desaceleraci\u00f3n China",
       "date": "Ago 2015",
       "duration_days": 45,
-      "similarity": 54.6,
+      "similarity": 54.8,
       "outcome": {
         "spy_30d": -11,
         "spy_90d": -5,
