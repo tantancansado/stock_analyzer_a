@@ -1,101 +1,151 @@
 {
-  "generated_at": "2026-06-12",
+  "generated_at": "2026-06-15",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "sector": "Industrials",
-      "score_today": 55.8,
-      "score_prev": 50.8,
-      "delta": 5.0,
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 50.4,
+      "score_prev": 23.9,
+      "delta": 26.5,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 73.8,
+      "score_prev": 53.8,
+      "delta": 20.0,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "sector": "Financial Services",
+      "score_today": 60.0,
+      "score_prev": 41.2,
+      "delta": 18.8,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "COST",
+      "company_name": "Costco Wholesale Corporation",
+      "sector": "Consumer Defensive",
+      "score_today": 54.1,
+      "score_prev": 40.9,
+      "delta": 13.3,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "score_today": 63.8,
-      "score_prev": 58.8,
-      "delta": 5.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "7741.T",
-      "company_name": "HOYA CORP",
-      "sector": "Healthcare",
-      "score_today": 39.0,
-      "score_prev": 44.0,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 32.4,
-      "score_prev": 37.4,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "score_today": 56.8,
-      "score_prev": 62.7,
-      "delta": -5.9,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 53.8,
-      "score_prev": 60.0,
-      "delta": -6.2,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "score_today": 41.2,
-      "score_prev": 51.2,
-      "delta": -10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "V",
       "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 64.7,
-      "score_prev": 74.7,
-      "delta": -10.0,
-      "grade": "🟡 Good"
+      "score_today": 75.7,
+      "score_prev": 64.7,
+      "delta": 11.0,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "score_today": 51.2,
+      "score_prev": 41.2,
+      "delta": 10.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "sector": "Healthcare",
+      "score_today": 62.3,
+      "score_prev": 56.8,
+      "delta": 5.5,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "7741.T",
+      "company_name": "HOYA CORP",
+      "sector": "Healthcare",
+      "score_today": 44.3,
+      "score_prev": 39.0,
+      "delta": 5.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "NYT",
+      "company_name": "New York Times Company (The)",
+      "sector": "Communication Services",
+      "score_today": 38.9,
+      "score_prev": 33.8,
+      "delta": 5.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "PGR",
+      "company_name": "Progressive Corporation (The)",
+      "sector": "Financial Services",
+      "score_today": 48.4,
+      "score_prev": 43.4,
+      "delta": 5.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 23.9,
-      "score_prev": 50.7,
-      "delta": -26.8,
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "score_today": 37.2,
+      "score_prev": 42.2,
+      "delta": -5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "sector": "Financial Services",
+      "score_today": 58.8,
+      "score_prev": 63.8,
+      "delta": -5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
+      "score_today": 49.8,
+      "score_prev": 55.8,
+      "delta": -6.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "sector": "Communication Services",
+      "score_today": 28.4,
+      "score_prev": 36.0,
+      "delta": -7.6,
       "grade": "🔴 Weak"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 2,
-    "score_down": 7
+    "score_up": 10,
+    "score_down": 4
   }
 }
