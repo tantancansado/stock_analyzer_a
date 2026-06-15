@@ -48,7 +48,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase --autostash origin main || true
           git add docs/leaps_opportunities.json docs/leaps_positions_status.json docs/.leaps_alerts_sent.json 2>/dev/null || true
+          # Commit ANTES de pull para no perder los cambios en el autostash
           git diff --cached --quiet || git commit -m "chore: LEAPS scan + monitor $(date -u +%Y-%m-%d)"
+          git pull --rebase origin main || true
           git push || true
