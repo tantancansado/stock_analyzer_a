@@ -26,7 +26,8 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install pandas numpy scipy yfinance requests
+        # anthropic → narrativa de Claude (claude_chat); sin él se salta en silencio
+        run: pip install pandas numpy scipy yfinance requests anthropic
 
       - name: Run LEAPS Analyzer (mercado abierto)
         env:
