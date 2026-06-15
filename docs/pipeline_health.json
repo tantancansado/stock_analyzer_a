@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-06-15T09:04:02Z",
+  "generated_at": "2026-06-15T11:27:46Z",
   "pipeline_date": "2026-06-15",
-  "ok_count": 14,
+  "ok_count": 15,
   "total": 18,
   "modules": {
     "value_us": {
@@ -9,7 +9,7 @@
       "date": "2026-06-15",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 41,
+      "rows": 40,
       "min_rows": 20
     },
     "value_eu": {
@@ -25,7 +25,7 @@
       "date": "2026-06-15",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 32,
+      "rows": 31,
       "min_rows": 5
     },
     "fundamental": {
@@ -41,7 +41,7 @@
       "date": "2026-06-15",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 118,
+      "rows": 116,
       "min_rows": 30
     },
     "cerebro": {
@@ -57,9 +57,9 @@
       "stale_threshold_days": 3
     },
     "macro": {
-      "status": "stale",
-      "date": "2026-06-12",
-      "days_ago": 3,
+      "status": "ok",
+      "date": "2026-06-15",
+      "days_ago": 0,
       "stale_threshold_days": 2
     },
     "insiders": {
@@ -107,7 +107,7 @@
       "date": "2026-06-15",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 24,
+      "rows": 16,
       "min_rows": 1
     },
     "bounce_broad": {
