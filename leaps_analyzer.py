@@ -218,21 +218,61 @@ def timing_score(sig: dict) -> float:
     return round(max(0.0, min(100.0, score)), 1)
 
 
+def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
+                       fundamental_score: Optional[float], upside_pct: Optional[float],
+                       health_score: Optional[float], negative_roe: bool = False) -> str:
+    """¿Por qué está a este precio? Clasifica la situación (filosofía del usuario):
+    comprar buenas empresas baratas por circunstancia/ciclo, NO por deterioro.
+
+      CAIDA_CIRCUNSTANCIAL → caída fuerte desde máximos pero fundamentales intactos
+                             y con upside: la oportunidad que el usuario busca.
+      CALIDAD_RAZONABLE    → no se ha disparado, negocio sólido, precio razonable.
+      DIP_GANADOR          → ha subido mucho en el año y solo corrige.
+      DETERIORO            → señales de que el negocio empeora (no es ciclo).
+    """
+    # Dato ausente: fundamental_score == 50.0 (regla del proyecto)
+    fs = None if (fundamental_score is None or abs(fundamental_score - 50.0) < 0.1) else fundamental_score
+    deterioration = negative_roe or (fs is not None and fs < 45) or \
+                    (health_score is not None and not math.isnan(health_score) and health_score < 40)
+    if deterioration:
+        return 'DETERIORO'
+    fundamentals_ok = fs is None or fs >= 55
+    drop = pct_from_high if pct_from_high is not None else 0.0
+    ran_up = ytd_pct is not None and ytd_pct >= 15
+    has_upside = upside_pct is not None and upside_pct > 8
+    # Caída circunstancial: bajada relevante desde máximos, negocio intacto, con recorrido
+    if drop <= -15 and fundamentals_ok and has_upside and not ran_up:
+        return 'CAIDA_CIRCUNSTANCIAL'
+    if ran_up and drop <= -8:
+        return 'DIP_GANADOR'
+    return 'CALIDAD_RAZONABLE'
+
+
+_SITUATION_BONUS = {
+    'CAIDA_CIRCUNSTANCIAL': 8.0,   # lo que el usuario busca → arriba
+    'CALIDAD_RAZONABLE':    3.0,
+    'DIP_GANADOR':         -6.0,   # ya subió mucho → abajo
+    'DETERIORO':          -15.0,
+}
+
+
 def opportunity_score(q: Optional[float], timing: float, contract: float,
-                      target_return_pct: Optional[float] = None) -> float:
+                      target_return_pct: Optional[float] = None,
+                      situation: Optional[str] = None) -> float:
     """Score global de la oportunidad LEAPS (0-100).
 
     Sin calidad medible NO hay oportunidad (regla del proyecto: no inventar).
     El reward principal es el rendimiento APALANCADO en el escenario alcista
-    (precio objetivo del analista): un LEAPS solo compensa si la tesis paga.
+    (precio objetivo del analista) y la SITUACIÓN (barata por ciclo, no deterioro).
     """
     if q is None:
         return 0.0
     target_pts = 0.0
     if target_return_pct is not None and not math.isnan(target_return_pct) and target_return_pct > 0:
         target_pts = min(15.0, target_return_pct / 4)   # +60% al target → +15 pts
+    situation_pts = _SITUATION_BONUS.get(situation or '', 0.0)
     base = 0.34 * q + 0.28 * timing + 0.38 * contract
-    return round(min(100.0, base + target_pts), 1)
+    return round(max(0.0, min(100.0, base + target_pts + situation_pts)), 1)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -359,6 +399,23 @@ def _get_spot(t: 'yf.Ticker') -> Optional[float]:
     except Exception:
         pass
     return None
+
+
+def _get_price_context(t: 'yf.Ticker') -> tuple[Optional[float], Optional[float]]:
+    """(% desde el máximo de 52 semanas, % YTD). Para clasificar la situación."""
+    try:
+        h = t.history(period='1y')
+        if h is None or h.empty:
+            return None, None
+        cur = float(h['Close'].iloc[-1])
+        hi = float(h['Close'].max())
+        pct_from_high = (cur - hi) / hi * 100 if hi else None
+        ytd = h[h.index >= f'{date.today().year}-01-01']['Close']
+        ytd_pct = (cur - float(ytd.iloc[0])) / float(ytd.iloc[0]) * 100 if len(ytd) else None
+        return (round(pct_from_high, 1) if pct_from_high is not None else None,
+                round(ytd_pct, 1) if ytd_pct is not None else None)
+    except Exception:
+        return None, None
 
 
 def _get_analyst_target(t: 'yf.Ticker', sig: dict) -> Optional[float]:
@@ -508,7 +565,13 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'leverage_realized': round(ret_pct / stock_ret, 1) if stock_ret else None,
         }
 
-        opp = opportunity_score(q, timing, best['contract_score'], ret_pct)
+        # Situación: ¿por qué está a este precio? (filosofía value aplicada a LEAPS)
+        pct_from_high, ytd_pct = _get_price_context(t)
+        situation = classify_situation(
+            pct_from_high, ytd_pct, sig.get('fundamental_score'), upside,
+            sig.get('financial_health_score'))
+
+        opp = opportunity_score(q, timing, best['contract_score'], ret_pct, situation)
 
         return {
             'ticker': ticker,
@@ -520,6 +583,9 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'analyst_upside_pct': round(upside, 1) if upside is not None else None,
             'conviction_grade': sig.get('conviction_grade'),
             'opportunity_score': opp,
+            'situation': situation,
+            'pct_from_52w_high': pct_from_high,
+            'ytd_pct': ytd_pct,
             'recommended_contract': best,
             'alternative_contracts': alternatives,
             'profit_at_target': profit_at_target,
@@ -547,28 +613,36 @@ def add_ai_narrative(opp: dict) -> None:
 
     c = opp['recommended_contract']
     pat = opp.get('profit_at_target') or {}
-    prompt = f"""Eres un asesor de opciones que explica una idea LEAPS deep-ITM (sustituto apalancado de la acción) de forma clara y accionable, en español. El usuario es inversor value/GARP, NO trader especulativo.
+    _sit_label = {
+        'CAIDA_CIRCUNSTANCIAL': 'caída desde máximos con fundamentales aparentemente intactos',
+        'CALIDAD_RAZONABLE': 'calidad a precio razonable (no se ha disparado)',
+        'DIP_GANADOR': 'ha subido mucho en el año y ahora corrige',
+        'DETERIORO': 'posibles señales de deterioro',
+    }.get(opp.get('situation', ''), 'n/d')
+    prompt = f"""Eres un asesor de inversión value/GARP que evalúa una idea LEAPS deep-ITM (sustituto apalancado de la acción) en español. Filosofía del usuario: comprar BUENAS empresas baratas por circunstancias externas o ciclos, NUNCA por deterioro real del negocio. Tu trabajo es ser HONESTO: si la caída es por deterioro, dilo aunque rompa la tesis.
 
 EMPRESA: {opp['company_name']} ({opp['ticker']}) — sector {opp.get('sector') or 'n/d'}
-Precio acción: ${opp['spot']:.2f} · Calidad: {opp['quality_score']}/100 · Momento: {opp['timing_score']}/100 · Upside analistas: {opp.get('analyst_upside_pct')}%
+Precio acción: ${opp['spot']:.2f} · Calidad fundamental: {opp['quality_score']}/100 · Upside analistas: {opp.get('analyst_upside_pct')}%
+Contexto de precio: {opp.get('pct_from_52w_high')}% desde máximos de 52 semanas · YTD {opp.get('ytd_pct')}% · clasificación previa: {_sit_label}
 
 CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
   COMPRAR 1x CALL {opp['ticker']} strike ${c['strike']:.0f} vencimiento {c['expiry']} ({c['t_years']} años)
   Prima ≈ ${c['mid']:.2f}/acción (${c['cost_per_contract']:.0f} por contrato de 100)
   Delta {c['delta']} · Leverage {c['leverage']}x · Carry {c['annual_carry_pct']}%/año
   Break-even ${c['breakeven']:.2f} ({c['breakeven_move_pct']:+.1f}% sobre el precio actual)
-  Extrínseco (prima temporal) {c['extrinsic_pct']}% del spot
 {f"  Si la acción llega al target ${pat.get('target_price')}: la opción rinde {pat.get('option_return_pct')}% vs {pat.get('stock_return_pct')}% la acción ({pat.get('leverage_realized')}x)" if pat else ""}
 
-Responde SOLO con JSON válido (sin markdown, sin texto extra), en español, con esta forma:
+Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
 {{
-  "narrative": "Máx 110 palabras: 1) por qué esta empresa es buena candidata a LEAPS AHORA (calidad+momento), 2) qué significa este contrato y por qué este strike/vencimiento, 3) el riesgo real (máximo = la prima; a qué precio empieza a doler).",
-  "take_profit": "Cuándo tomar beneficios: condición concreta de precio/ganancia (ej. 'si {opp['ticker']} alcanza ~$X o el LEAPS sube +Y%, asegura parte').",
-  "roll": "Cuándo rolar a un vencimiento más largo: regla concreta (ej. 'si quedan <9 meses y sigues alcista, rola a 2029 antes de que el valor temporal se acelere').",
-  "thesis_break": "Qué rompería la tesis y obligaría a cerrar aunque pierdas: señal fundamental concreta (no un susto de precio)."
+  "verdict": "OPORTUNIDAD | RAZONABLE | EVITAR",
+  "verdict_reason": "1-2 frases HONESTAS: ¿por qué está a este precio? Identifica la causa (externa/cíclica vs deterioro real) y si los fundamentales aguantan. Si NO es una buena oportunidad value, dilo claramente.",
+  "narrative": "Máx 100 palabras: qué significa este contrato y por qué este strike/vencimiento, y el riesgo real (máximo = la prima; a qué precio empieza a doler).",
+  "take_profit": "Cuándo tomar beneficios: condición concreta de precio/ganancia.",
+  "roll": "Cuándo rolar a un vencimiento más largo: regla concreta.",
+  "thesis_break": "Qué rompería la tesis y obligaría a cerrar aunque pierdas: señal fundamental concreta."
 }}"""
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=520, temperature=0.3)
+                      model=CLAUDE_SONNET, max_tokens=620, temperature=0.3)
     if not txt:
         return
     import re as _re
@@ -580,6 +654,10 @@ Responde SOLO con JSON válido (sin markdown, sin texto extra), en español, con
         data = json.loads(m.group(0))
         if data.get('narrative'):
             opp['ai_narrative'] = str(data['narrative']).strip()
+        verdict = str(data.get('verdict', '')).strip().upper()
+        if verdict in ('OPORTUNIDAD', 'RAZONABLE', 'EVITAR'):
+            opp['situation_verdict'] = {'verdict': verdict,
+                                        'reason': str(data.get('verdict_reason', '')).strip()}
         exit_plan = {k: str(data[k]).strip() for k in ('take_profit', 'roll', 'thesis_break')
                      if data.get(k)}
         if exit_plan:

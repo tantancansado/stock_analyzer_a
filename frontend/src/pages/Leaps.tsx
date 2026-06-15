@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract } from '../api/client'
+import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract, type LeapsSituation } from '../api/client'
 import PageHeader from '../components/PageHeader'
 import TickerLogo from '../components/TickerLogo'
 import Loading, { ErrorState } from '../components/Loading'
@@ -19,6 +19,19 @@ const scoreColor = (s: number) =>
 
 const carryColor = (c: number | null) =>
   c == null ? 'text-muted-foreground' : c <= 5 ? 'text-emerald-400' : c <= 9 ? 'text-amber-400' : 'text-red-400'
+
+const SITUATION_CONFIG: Record<LeapsSituation, { label: string; cls: string }> = {
+  CAIDA_CIRCUNSTANCIAL: { label: '🎯 Caída circunstancial', cls: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' },
+  CALIDAD_RAZONABLE:    { label: '💎 Calidad a buen precio', cls: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/25' },
+  DIP_GANADOR:          { label: '📈 Dip de ganador', cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
+  DETERIORO:            { label: '⚠️ Posible deterioro', cls: 'text-red-300 bg-red-500/10 border-red-500/30' },
+}
+
+const VERDICT_CONFIG: Record<string, { label: string; cls: string }> = {
+  OPORTUNIDAD: { label: 'OPORTUNIDAD', cls: 'text-emerald-400 bg-emerald-500/15 border-emerald-500/40' },
+  RAZONABLE:   { label: 'RAZONABLE',   cls: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30' },
+  EVITAR:      { label: 'EVITAR',      cls: 'text-red-400 bg-red-500/15 border-red-500/40' },
+}
 
 function Metric({ label, value, hint, className }: { label: string; value: React.ReactNode; hint?: string; className?: string }) {
   return (
@@ -106,12 +119,24 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             )}
             <TickerLogo ticker={o.ticker} size="md" />
             <div className="min-w-0">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-extrabold tracking-tight">{o.ticker}</span>
                 {o.in_value_list && <Badge variant="green" className="text-[0.6rem]">VALUE</Badge>}
                 {o.conviction_grade && <Badge variant="blue" className="text-[0.6rem]">{o.conviction_grade}</Badge>}
+                {o.situation && SITUATION_CONFIG[o.situation] && (
+                  <span className={cn('text-[0.6rem] font-semibold px-1.5 py-0.5 rounded border', SITUATION_CONFIG[o.situation].cls)}>
+                    {SITUATION_CONFIG[o.situation].label}
+                  </span>
+                )}
               </div>
               <div className="text-xs text-muted-foreground truncate">{o.company_name}</div>
+              {(o.pct_from_52w_high != null || o.ytd_pct != null) && (
+                <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">
+                  {o.pct_from_52w_high != null && <span>{o.pct_from_52w_high.toFixed(0)}% desde máx. 52s</span>}
+                  {o.pct_from_52w_high != null && o.ytd_pct != null && <span> · </span>}
+                  {o.ytd_pct != null && <span>YTD {o.ytd_pct >= 0 ? '+' : ''}{o.ytd_pct.toFixed(0)}%</span>}
+                </div>
+              )}
             </div>
           </div>
           <div className="text-right shrink-0">
@@ -121,6 +146,18 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/50">score</div>
           </div>
         </div>
+
+        {/* Claude's honest verdict: ¿oportunidad value real o no? */}
+        {o.situation_verdict && VERDICT_CONFIG[o.situation_verdict.verdict] && (
+          <div className={cn('rounded-md border px-3 py-2 mb-3', VERDICT_CONFIG[o.situation_verdict.verdict].cls)}>
+            <div className="flex items-center gap-1.5 text-[0.7rem] font-extrabold tracking-wide mb-0.5">
+              <Brain className="w-3 h-3" /> VEREDICTO: {VERDICT_CONFIG[o.situation_verdict.verdict].label}
+            </div>
+            {o.situation_verdict.reason && (
+              <div className="text-xs opacity-90 leading-snug">{o.situation_verdict.reason}</div>
+            )}
+          </div>
+        )}
 
         {/* The recommended order — the headline */}
         <div className="rounded-md bg-primary/5 border border-primary/20 px-3 py-2.5 mb-3">
@@ -251,6 +288,7 @@ export default function Leaps() {
   const [onDemand, setOnDemand] = useState<LeapsOpportunity | null>(null)
   const [odLoading, setOdLoading] = useState(false)
   const [odError, setOdError] = useState<string | null>(null)
+  const [sitFilter, setSitFilter] = useState<LeapsSituation | 'ALL'>('ALL')
 
   useEffect(() => {
     let cancelled = false
@@ -289,8 +327,9 @@ export default function Leaps() {
       <div className="rounded-lg bg-muted/10 border border-border/30 px-4 py-3 mb-5 text-xs text-muted-foreground leading-relaxed">
         Un <strong className="text-foreground">LEAPS deep-in-the-money</strong> (delta ~0.80) replica casi 1:1 el
         movimiento de la acción con ~2x apalancamiento y menos capital, pagando una pequeña prima temporal
-        (<em>carry</em>). Solo tiene sentido sobre negocios buenos con tesis intacta. El ranking cruza calidad
-        fundamental + momento técnico + métricas del contrato (carry barato, delta sano, liquidez).
+        (<em>carry</em>). Es la <strong className="text-foreground">filosofía value aplicada a LEAPS</strong>: buenas
+        empresas baratas por circunstancia o ciclo (no por deterioro). Claude da un veredicto honesto por cada una
+        — y el ranking premia justo ese tipo de oportunidad.
       </div>
 
       {/* On-demand search */}
@@ -329,7 +368,7 @@ export default function Leaps() {
       {data && (
         <>
           <StaleDataBanner dataDate={data.generated_at?.slice(0, 10)} />
-          <div className="flex items-center justify-between mb-3 mt-1">
+          <div className="flex items-center justify-between mb-2 mt-1">
             <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/60">
               Mejores oportunidades ({data.opportunities.length})
             </h2>
@@ -337,17 +376,37 @@ export default function Leaps() {
               tipo libre de riesgo {data.risk_free_rate_pct}% · {data.analyzed} analizadas de {data.universe_size}
             </span>
           </div>
-          {data.opportunities.length === 0 ? (
-            <div className="text-sm text-muted-foreground text-center py-10">
-              No hay oportunidades LEAPS que cumplan los criterios hoy. Vuelve tras el próximo scan diario.
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {data.opportunities.map((o, i) => (
-                <OpportunityCard key={o.ticker} o={o} rank={i + 1} />
-              ))}
-            </div>
-          )}
+
+          {/* Filtro por situación (tu filosofía value) */}
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {([['ALL', 'Todas'], ['CAIDA_CIRCUNSTANCIAL', '🎯 Caída circunstancial'], ['CALIDAD_RAZONABLE', '💎 Calidad a buen precio'], ['DIP_GANADOR', '📈 Dip de ganador']] as const).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setSitFilter(key as LeapsSituation | 'ALL')}
+                className={cn(
+                  'text-[0.65rem] font-semibold px-2.5 py-1 rounded-full border transition-colors',
+                  sitFilter === key ? 'border-primary/50 text-primary bg-primary/10' : 'border-border/40 text-muted-foreground hover:border-primary/30'
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {(() => {
+            const shown = sitFilter === 'ALL' ? data.opportunities : data.opportunities.filter(o => o.situation === sitFilter)
+            if (data.opportunities.length === 0) {
+              return <div className="text-sm text-muted-foreground text-center py-10">No hay oportunidades LEAPS que cumplan los criterios hoy. Vuelve tras el próximo scan diario.</div>
+            }
+            if (shown.length === 0) {
+              return <div className="text-sm text-muted-foreground text-center py-10">Ninguna oportunidad de este tipo hoy. Prueba otro filtro.</div>
+            }
+            return (
+              <div className="space-y-3">
+                {shown.map((o, i) => <OpportunityCard key={o.ticker} o={o} rank={i + 1} />)}
+              </div>
+            )
+          })()}
         </>
       )}
     </div>

@@ -2107,6 +2107,13 @@ export interface LeapsExitPlan {
   thesis_break?: string
 }
 
+export type LeapsSituation = 'CAIDA_CIRCUNSTANCIAL' | 'CALIDAD_RAZONABLE' | 'DIP_GANADOR' | 'DETERIORO'
+
+export interface LeapsVerdict {
+  verdict: 'OPORTUNIDAD' | 'RAZONABLE' | 'EVITAR'
+  reason: string
+}
+
 export interface LeapsOpportunity {
   ticker: string
   company_name: string
@@ -2117,11 +2124,15 @@ export interface LeapsOpportunity {
   analyst_upside_pct: number | null
   conviction_grade?: string | null
   opportunity_score: number
+  situation?: LeapsSituation
+  pct_from_52w_high?: number | null
+  ytd_pct?: number | null
   recommended_contract: LeapsContract
   alternative_contracts?: LeapsContract[]
   profit_at_target?: LeapsProfitAtTarget | null
   in_value_list: boolean
   ai_narrative?: string
+  situation_verdict?: LeapsVerdict
   exit_plan?: LeapsExitPlan
   generated_at?: string
   risk_free_rate_pct?: number

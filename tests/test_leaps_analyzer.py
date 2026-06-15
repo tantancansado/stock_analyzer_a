@@ -186,11 +186,44 @@ class TestOpportunityScore:
         cap  = la.opportunity_score(70, 60, 70, 60)
         assert huge == cap
 
+    def test_situation_shifts_score(self):
+        # Filosofía value: caída circunstancial sube, dip de ganador baja
+        caida = la.opportunity_score(70, 60, 70, 30, 'CAIDA_CIRCUNSTANCIAL')
+        base  = la.opportunity_score(70, 60, 70, 30, None)
+        dip   = la.opportunity_score(70, 60, 70, 30, 'DIP_GANADOR')
+        assert caida > base > dip
+
     def test_weighted_combination_in_range(self):
         s = la.opportunity_score(80, 80, 80, None)
         assert 0 <= s <= 100
         # 0.34*80 + 0.28*80 + 0.38*80 = 80
         assert s == pytest.approx(80.0, abs=0.5)
+
+
+# ── Clasificador de situación (filosofía value aplicada a LEAPS) ─────────────
+
+class TestClassifySituation:
+    def test_caida_circunstancial(self):
+        # Caída fuerte desde máximos, fundamentales intactos, con upside, sin haber subido en el año
+        assert la.classify_situation(-30, 2, 70, 20, 65) == 'CAIDA_CIRCUNSTANCIAL'
+
+    def test_calidad_razonable(self):
+        # No se ha disparado ni hundido, negocio sólido
+        assert la.classify_situation(-8, -5, 70, 25, 65) == 'CALIDAD_RAZONABLE'
+
+    def test_dip_de_ganador(self):
+        # Subió mucho en el año y ahora corrige
+        assert la.classify_situation(-13, 18, 62, 16, 60) == 'DIP_GANADOR'
+
+    def test_deterioro_por_fundamental(self):
+        assert la.classify_situation(-25, -10, 40, 20, 35) == 'DETERIORO'
+
+    def test_deterioro_por_negative_roe(self):
+        assert la.classify_situation(-25, -5, 70, 20, 65, negative_roe=True) == 'DETERIORO'
+
+    def test_fundamental_50_es_dato_ausente(self):
+        # 50.0 exacto = dato ausente → no cuenta como deterioro ni como calidad fuerte
+        assert la.classify_situation(-30, 2, 50.0, 20, None) == 'CAIDA_CIRCUNSTANCIAL'
 
 
 # ── Sincronización con el source (umbrales críticos) ─────────────────────────
