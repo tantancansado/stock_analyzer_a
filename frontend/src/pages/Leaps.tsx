@@ -6,8 +6,10 @@ import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Rocket, Search, Brain, TrendingUp, Info, Layers, ChevronDown, ChevronUp, Target, RefreshCw, AlertTriangle } from 'lucide-react'
+import { Rocket, Search, Brain, TrendingUp, Info, Layers, ChevronDown, ChevronUp, Target, RefreshCw, AlertTriangle, Bell, BellRing, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useAuth } from '@/context/AuthContext'
+import { supabase } from '@/lib/supabase'
 
 const fmtUsd = (n: number, d = 2) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: d }).format(n)
@@ -72,12 +74,27 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
   )
 }
 
+type TrackState = 'idle' | 'saving' | 'done' | 'login' | 'error'
+
 function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
   const c = o.recommended_contract
   const pat = o.profit_at_target
   const ex = o.exit_plan
   const alts = o.alternative_contracts ?? []
   const [showStrikes, setShowStrikes] = useState(false)
+  const { user } = useAuth()
+  const [track, setTrack] = useState<TrackState>('idle')
+
+  async function followLeaps() {
+    if (!user) { setTrack('login'); return }
+    setTrack('saving')
+    const { error } = await supabase.from('personal_portfolio_positions').insert({
+      user_id: user.id, ticker: o.ticker, shares: 1, avg_price: c.mid, currency: 'USD',
+      asset_type: 'option', option_type: 'call', option_strike: c.strike, option_expiry: c.expiry,
+    })
+    setTrack(error ? 'error' : 'done')
+  }
+
   return (
     <Card className="glass border border-border/40 hover:border-primary/30 transition-colors">
       <CardContent className="p-4">
@@ -107,8 +124,27 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
 
         {/* The recommended order — the headline */}
         <div className="rounded-md bg-primary/5 border border-primary/20 px-3 py-2.5 mb-3">
-          <div className="text-[0.62rem] uppercase tracking-widest text-primary/70 mb-1 flex items-center gap-1">
-            <Rocket className="w-3 h-3" /> Contrato recomendado
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <div className="text-[0.62rem] uppercase tracking-widest text-primary/70 flex items-center gap-1">
+              <Rocket className="w-3 h-3" /> Contrato recomendado
+            </div>
+            <button
+              onClick={followLeaps}
+              disabled={track === 'saving' || track === 'done'}
+              className={cn(
+                'flex items-center gap-1 text-[0.62rem] font-semibold px-2 py-1 rounded border transition-colors',
+                track === 'done'
+                  ? 'border-emerald-500/40 text-emerald-400 bg-emerald-500/10'
+                  : 'border-primary/30 text-primary hover:bg-primary/15'
+              )}
+              title="Guardar este LEAPS y recibir alertas (rolar, tomar beneficios, tesis rota)"
+            >
+              {track === 'done'
+                ? (<><Check className="w-3 h-3" /> Siguiendo</>)
+                : track === 'saving'
+                  ? (<><BellRing className="w-3 h-3 animate-pulse" /> Guardando…</>)
+                  : (<><Bell className="w-3 h-3" /> Seguir</>)}
+            </button>
           </div>
           <div className="font-bold text-sm leading-snug">
             COMPRAR 1× CALL <span className="text-primary">{o.ticker} ${c.strike.toFixed(0)}</span> · exp {c.expiry}
@@ -118,6 +154,9 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             {' '}<span className="text-foreground font-semibold">{fmtUsd(c.cost_per_contract, 0)}</span> por contrato (100 acc.) ·
             {' '}límite sugerido ≤ {fmtUsd(c.ask)}
           </div>
+          {track === 'login' && <div className="text-[0.65rem] text-amber-400 mt-1">Inicia sesión para guardar y recibir alertas de esta posición.</div>}
+          {track === 'error' && <div className="text-[0.65rem] text-red-400 mt-1">No se pudo guardar. Inténtalo de nuevo.</div>}
+          {track === 'done' && <div className="text-[0.65rem] text-emerald-400 mt-1">Guardado en tu cartera. Te avisaré por Telegram si toca rolar, tomar beneficios o la tesis se rompe.</div>}
         </div>
 
         {/* Metrics grid */}

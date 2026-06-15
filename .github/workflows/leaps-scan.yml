@@ -34,11 +34,21 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 leaps_analyzer.py
 
-      - name: Commit LEAPS opportunities
+      - name: Run LEAPS Monitor (posiciones guardadas → alertas Telegram)
+        continue-on-error: true
+        env:
+          SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_MONITOR_USER_ID:  ${{ secrets.SUPABASE_MONITOR_USER_ID }}
+          TELEGRAM_BOT_TOKEN:        ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:          ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python3 leaps_monitor.py || echo "LEAPS monitor failed"
+
+      - name: Commit LEAPS outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase --autostash origin main || true
-          git add docs/leaps_opportunities.json
-          git diff --cached --quiet || git commit -m "chore: LEAPS scan $(date -u +%Y-%m-%d)"
+          git add docs/leaps_opportunities.json docs/leaps_positions_status.json docs/.leaps_alerts_sent.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: LEAPS scan + monitor $(date -u +%Y-%m-%d)"
           git push || true
