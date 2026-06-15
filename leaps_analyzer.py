@@ -54,6 +54,9 @@ DELTA_SWEET      = 0.80     # centro ideal para stock-replacement
 MIN_OPEN_INT     = 50       # liquidez mínima del contrato
 MAX_SPREAD_PCT   = 20.0     # spread bid/ask máximo tolerable (%)
 MAX_CARRY_PCT    = 14.0     # carry anualizado por encima → demasiado caro
+MIN_TARGET_RETURN_PCT = 10.0  # el LEAPS debe rendir al menos esto en el escenario
+                              # alcista (target del analista); si ni así compensa,
+                              # el apalancamiento no vale el riesgo → se descarta
 FALLBACK_RF      = 0.043    # tipo libre de riesgo fallback si falla ^IRX
 MAX_EXPIRIES     = 2        # nº de vencimientos LEAPS a analizar por ticker (los más largos)
 TOP_N            = 12       # oportunidades en el output final
@@ -216,19 +219,20 @@ def timing_score(sig: dict) -> float:
 
 
 def opportunity_score(q: Optional[float], timing: float, contract: float,
-                      upside_pct: Optional[float]) -> float:
+                      target_return_pct: Optional[float] = None) -> float:
     """Score global de la oportunidad LEAPS (0-100).
 
     Sin calidad medible NO hay oportunidad (regla del proyecto: no inventar).
+    El reward principal es el rendimiento APALANCADO en el escenario alcista
+    (precio objetivo del analista): un LEAPS solo compensa si la tesis paga.
     """
     if q is None:
         return 0.0
-    # Bonus de upside del analista, pero la zona >=30% es value-trap (descartada antes)
-    upside_pts = 0.0
-    if upside_pct is not None and not math.isnan(upside_pct) and 8 <= upside_pct < 30:
-        upside_pts = min(10.0, (upside_pct - 8) / 2)
+    target_pts = 0.0
+    if target_return_pct is not None and not math.isnan(target_return_pct) and target_return_pct > 0:
+        target_pts = min(15.0, target_return_pct / 4)   # +60% al target → +15 pts
     base = 0.34 * q + 0.28 * timing + 0.38 * contract
-    return round(min(100.0, base + upside_pts), 1)
+    return round(min(100.0, base + target_pts), 1)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -357,6 +361,24 @@ def _get_spot(t: 'yf.Ticker') -> Optional[float]:
     return None
 
 
+def _get_analyst_target(t: 'yf.Ticker', sig: dict) -> Optional[float]:
+    """Precio objetivo medio de analistas: pipeline primero, luego yfinance live.
+
+    Necesario para validar que el LEAPS rinde en el escenario alcista. Para
+    nombres fuera de la lista value (sin target en el pipeline) lo trae en vivo.
+    """
+    target = sig.get('target_price_analyst')
+    if target and target > 0:
+        return float(target)
+    try:
+        tgt = t.info.get('targetMeanPrice')
+        if tgt and tgt > 0:
+            return float(tgt)
+    except Exception:
+        pass
+    return None
+
+
 def _fetch_with_retry(fn, *args, retries=3):
     for attempt in range(retries):
         try:
@@ -393,6 +415,19 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         leaps_exp.sort()
         leaps_exp = leaps_exp[:MAX_EXPIRIES]
 
+        # ── Tesis alcista (target del analista) — necesaria ANTES de elegir contrato ──
+        # Un LEAPS deep-ITM solo tiene sentido si la acción sube por encima del
+        # break-even. Usamos el target del analista como escenario alcista y
+        # exigimos un rendimiento mínimo apalancado a CADA contrato candidato,
+        # para quedarnos con el mejor contrato VÁLIDO (no descartar el nombre
+        # porque el de mayor score técnico no llegue al umbral).
+        target = _get_analyst_target(t, sig)
+        if not target or target <= 0:
+            return None                       # sin tesis de upside validable
+        upside = (target - spot) / spot * 100
+        if upside >= 30:
+            return None                       # value-trap (regla del proyecto)
+
         best = None
         for dte, exp in leaps_exp:
             t_years = dte / 365.0
@@ -425,6 +460,10 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                     continue
                 if m['annual_carry_pct'] is None or m['annual_carry_pct'] > MAX_CARRY_PCT:
                     continue
+                # Rendimiento apalancado en el escenario alcista (target analista)
+                ret_pct = (max(target - strike, 0.0) - mid) / mid * 100
+                if ret_pct < MIN_TARGET_RETURN_PCT:
+                    continue                  # este contrato no compensa ni al target
                 cscore = score_contract(m, oi, spread_pct)
                 contract = {
                     'expiry': exp,
@@ -440,6 +479,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                     'volume': int(row.get('volume', 0) or 0),
                     'spread_pct': round(spread_pct, 1),
                     'contract_score': cscore,
+                    'target_return_pct': round(ret_pct, 1),
                     **m,
                 }
                 if best is None or cscore > best['contract_score']:
@@ -447,26 +487,20 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             time.sleep(0.4)   # cortesía con yfinance
 
         if best is None:
-            return None
+            return None                       # ningún contrato válido (liquidez/umbral)
 
         q = quality_score(sig)
         timing = timing_score(sig)
-        upside = sig.get('analyst_upside_pct')
-        opp = opportunity_score(q, timing, best['contract_score'], upside)
+        ret_pct = best['target_return_pct']
+        stock_ret = upside
+        profit_at_target = {
+            'target_price': round(target, 2),
+            'stock_return_pct': round(stock_ret, 1),
+            'option_return_pct': round(ret_pct, 1),
+            'leverage_realized': round(ret_pct / stock_ret, 1) if stock_ret else None,
+        }
 
-        # Proyección a precio objetivo del analista (si existe y no es value-trap)
-        target = sig.get('target_price_analyst')
-        profit_at_target = None
-        if target and target > best['strike'] and upside is not None and upside < 30:
-            opt_value_at_target = target - best['strike']     # valor intrínseco al vencimiento
-            ret_pct = (opt_value_at_target - best['mid']) / best['mid'] * 100
-            stock_ret = (target - spot) / spot * 100
-            profit_at_target = {
-                'target_price': round(target, 2),
-                'stock_return_pct': round(stock_ret, 1),
-                'option_return_pct': round(ret_pct, 1),
-                'leverage_realized': round(ret_pct / stock_ret, 1) if stock_ret else None,
-            }
+        opp = opportunity_score(q, timing, best['contract_score'], ret_pct)
 
         return {
             'ticker': ticker,

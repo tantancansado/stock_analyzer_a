@@ -429,11 +429,8 @@ jobs:
         continue-on-error: true
         run: python3 options_flow_detector.py || echo "Options flow detector failed"
 
-      - name: LEAPS Analyzer (deep-ITM long-dated calls)
-        continue-on-error: true
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 leaps_analyzer.py || echo "LEAPS analyzer failed"
+      # LEAPS se analiza en su propio workflow (leaps-scan.yml) en horario de
+      # mercado USA — de madrugada las opciones largas no tienen bid/ask.
 
       - name: Send Telegram Alerts
         continue-on-error: true

@@ -2134,9 +2134,12 @@ export interface LeapsData {
 }
 
 export async function fetchLeaps(): Promise<LeapsData | null> {
+  // El ranking precalculado vive en GitHub Pages (output del pipeline diario).
+  // Railway solo tiene el snapshot del último deploy → quedaría desactualizado.
   try {
-    const res = await apiClient.get<LeapsData>('/api/leaps')
-    return res.data
+    const res = await fetch(`${STATIC_DATA_BASE}/leaps_opportunities.json`, { cache: 'no-store' })
+    if (!res.ok) return null
+    return await res.json() as LeapsData
   } catch {
     return null
   }

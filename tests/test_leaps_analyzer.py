@@ -168,16 +168,23 @@ class TestOpportunityScore:
         # Regla del proyecto: sin calidad medible no inventamos score
         assert la.opportunity_score(None, 80, 90, 20) == 0.0
 
-    def test_golden_upside_adds_bonus(self):
-        no_up = la.opportunity_score(70, 60, 70, None)
-        golden = la.opportunity_score(70, 60, 70, 20)   # upside en [8,30)
-        assert golden > no_up
+    def test_target_return_adds_bonus(self):
+        # El reward escala con el rendimiento apalancado en el escenario alcista
+        no_ret = la.opportunity_score(70, 60, 70, None)
+        with_ret = la.opportunity_score(70, 60, 70, 40)   # +40% al target
+        assert with_ret > no_ret
 
-    def test_value_trap_upside_no_bonus(self):
-        # upside >= 30 no debería sumar (de hecho se filtra antes), aquí: sin bonus
-        trap = la.opportunity_score(70, 60, 70, 45)
+    def test_negative_target_return_no_bonus(self):
+        # Rendimiento <=0 al target no suma (esas oportunidades se filtran antes)
+        neg = la.opportunity_score(70, 60, 70, -13)
         base = la.opportunity_score(70, 60, 70, None)
-        assert trap == base
+        assert neg == base
+
+    def test_target_bonus_capped(self):
+        # El bonus por rendimiento al target está topado en 15 pts (+60% → 15)
+        huge = la.opportunity_score(70, 60, 70, 200)
+        cap  = la.opportunity_score(70, 60, 70, 60)
+        assert huge == cap
 
     def test_weighted_combination_in_range(self):
         s = la.opportunity_score(80, 80, 80, None)
@@ -194,3 +201,7 @@ class TestSourceConstants:
         assert la.DELTA_MAX == 0.92
         assert la.MAX_CARRY_PCT == 14.0
         assert la.MIN_DTE >= 365   # LEAPS = >1 año
+
+    def test_min_target_return_filter_exists(self):
+        # Debe exigirse un rendimiento mínimo positivo en el escenario alcista
+        assert la.MIN_TARGET_RETURN_PCT > 0
