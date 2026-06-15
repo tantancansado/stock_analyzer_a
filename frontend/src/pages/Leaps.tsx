@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity } from '../api/client'
+import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract } from '../api/client'
 import PageHeader from '../components/PageHeader'
 import TickerLogo from '../components/TickerLogo'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Rocket, Search, Brain, TrendingUp, Info } from 'lucide-react'
+import { Rocket, Search, Brain, TrendingUp, Info, Layers, ChevronDown, ChevronUp, Target, RefreshCw, AlertTriangle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const fmtUsd = (n: number, d = 2) =>
@@ -29,9 +29,55 @@ function Metric({ label, value, hint, className }: { label: string; value: React
   )
 }
 
+function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[]; bestStrike: number }) {
+  const rows = [...contracts].sort((a, b) => a.strike - b.strike)
+  return (
+    <div className="mt-3 overflow-x-clip rounded-md border border-border/30">
+      <table className="w-full text-[0.68rem] tabular-nums">
+        <thead>
+          <tr className="text-muted-foreground/60 text-left">
+            <th className="font-normal px-2 py-1.5">Strike</th>
+            <th className="font-normal px-2 py-1.5">Δ</th>
+            <th className="font-normal px-2 py-1.5">Lev</th>
+            <th className="font-normal px-2 py-1.5">Carry</th>
+            <th className="font-normal px-2 py-1.5">B/E</th>
+            <th className="font-normal px-2 py-1.5">@target</th>
+            <th className="font-normal px-2 py-1.5">Coste</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(r => {
+            const isBest = r.strike === bestStrike
+            return (
+              <tr key={`${r.expiry}-${r.strike}`} className={cn('border-t border-border/20', isBest && 'bg-primary/10')}>
+                <td className="px-2 py-1.5 font-bold">
+                  ${r.strike.toFixed(0)}
+                  {isBest && <span className="ml-1.5 text-[0.55rem] text-primary font-extrabold">★ MEJOR</span>}
+                </td>
+                <td className="px-2 py-1.5 text-cyan-300">{r.delta?.toFixed(2) ?? '—'}</td>
+                <td className="px-2 py-1.5">{r.leverage ? `${r.leverage.toFixed(1)}x` : '—'}</td>
+                <td className={cn('px-2 py-1.5', carryColor(r.annual_carry_pct))}>{r.annual_carry_pct != null ? `${r.annual_carry_pct.toFixed(1)}%` : '—'}</td>
+                <td className="px-2 py-1.5">{r.breakeven_move_pct != null ? `${r.breakeven_move_pct >= 0 ? '+' : ''}${r.breakeven_move_pct.toFixed(1)}%` : '—'}</td>
+                <td className="px-2 py-1.5 text-emerald-400 font-semibold">+{r.target_return_pct?.toFixed(0)}%</td>
+                <td className="px-2 py-1.5 text-muted-foreground">{fmtUsd(r.cost_per_contract, 0)}</td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+      <div className="px-2 py-1.5 text-[0.6rem] text-muted-foreground/50 border-t border-border/20">
+        Mismo vencimiento ({rows[0]?.expiry}). Más deep (strike bajo) = menos carry/riesgo, menos leverage. La marcada ★ es la de mejor equilibrio.
+      </div>
+    </div>
+  )
+}
+
 function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
   const c = o.recommended_contract
   const pat = o.profit_at_target
+  const ex = o.exit_plan
+  const alts = o.alternative_contracts ?? []
+  const [showStrikes, setShowStrikes] = useState(false)
   return (
     <Card className="glass border border-border/40 hover:border-primary/30 transition-colors">
       <CardContent className="p-4">
@@ -112,6 +158,45 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
               <Brain className="w-3 h-3" />
             </span>
             {o.ai_narrative}
+          </div>
+        )}
+
+        {/* Exit plan (Claude): cuándo vender / rolar / qué rompe la tesis */}
+        {ex && (ex.take_profit || ex.roll || ex.thesis_break) && (
+          <div className="mt-3 grid gap-2 sm:grid-cols-3 text-[0.7rem] leading-snug">
+            {ex.take_profit && (
+              <div className="rounded-md bg-emerald-500/5 border border-emerald-500/20 px-2.5 py-2">
+                <div className="flex items-center gap-1 text-emerald-400 font-semibold mb-0.5"><Target className="w-3 h-3" /> Tomar beneficios</div>
+                <div className="text-muted-foreground/90">{ex.take_profit}</div>
+              </div>
+            )}
+            {ex.roll && (
+              <div className="rounded-md bg-cyan-500/5 border border-cyan-500/20 px-2.5 py-2">
+                <div className="flex items-center gap-1 text-cyan-400 font-semibold mb-0.5"><RefreshCw className="w-3 h-3" /> Cuándo rolar</div>
+                <div className="text-muted-foreground/90">{ex.roll}</div>
+              </div>
+            )}
+            {ex.thesis_break && (
+              <div className="rounded-md bg-red-500/5 border border-red-500/20 px-2.5 py-2">
+                <div className="flex items-center gap-1 text-red-400 font-semibold mb-0.5"><AlertTriangle className="w-3 h-3" /> Tesis rota</div>
+                <div className="text-muted-foreground/90">{ex.thesis_break}</div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Strike comparator */}
+        {alts.length > 0 && (
+          <div className="mt-3 border-t border-border/30 pt-2.5">
+            <button
+              onClick={() => setShowStrikes(v => !v)}
+              className="flex items-center gap-1.5 text-[0.7rem] font-semibold text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Layers className="w-3 h-3" />
+              Comparar strikes ({alts.length + 1})
+              {showStrikes ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
+            {showStrikes && <StrikeComparator contracts={[c, ...alts]} bestStrike={c.strike} />}
           </div>
         )}
       </CardContent>

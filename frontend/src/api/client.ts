@@ -2083,6 +2083,7 @@ export interface LeapsContract {
   volume: number
   spread_pct: number
   contract_score: number
+  target_return_pct: number
   delta: number | null
   intrinsic: number
   extrinsic: number
@@ -2100,6 +2101,12 @@ export interface LeapsProfitAtTarget {
   leverage_realized: number | null
 }
 
+export interface LeapsExitPlan {
+  take_profit?: string
+  roll?: string
+  thesis_break?: string
+}
+
 export interface LeapsOpportunity {
   ticker: string
   company_name: string
@@ -2111,9 +2118,11 @@ export interface LeapsOpportunity {
   conviction_grade?: string | null
   opportunity_score: number
   recommended_contract: LeapsContract
+  alternative_contracts?: LeapsContract[]
   profit_at_target?: LeapsProfitAtTarget | null
   in_value_list: boolean
   ai_narrative?: string
+  exit_plan?: LeapsExitPlan
   generated_at?: string
   risk_free_rate_pct?: number
   error?: string

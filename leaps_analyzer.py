@@ -428,7 +428,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         if upside >= 30:
             return None                       # value-trap (regla del proyecto)
 
-        best = None
+        candidates: list[dict] = []
         for dte, exp in leaps_exp:
             t_years = dte / 365.0
             chain = _fetch_with_retry(lambda e=exp: t.option_chain(e))
@@ -465,7 +465,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                 if ret_pct < MIN_TARGET_RETURN_PCT:
                     continue                  # este contrato no compensa ni al target
                 cscore = score_contract(m, oi, spread_pct)
-                contract = {
+                candidates.append({
                     'expiry': exp,
                     'dte': dte,
                     't_years': round(t_years, 2),
@@ -481,13 +481,21 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                     'contract_score': cscore,
                     'target_return_pct': round(ret_pct, 1),
                     **m,
-                }
-                if best is None or cscore > best['contract_score']:
-                    best = contract
+                })
             time.sleep(0.4)   # cortesía con yfinance
 
-        if best is None:
+        if not candidates:
             return None                       # ningún contrato válido (liquidez/umbral)
+
+        # El mejor contrato (mayor score) es el recomendado. Las alternativas son
+        # otros strikes del MISMO vencimiento, para comparar la profundidad ITM
+        # (más deep = menos leverage/carry/riesgo; menos deep = más leverage).
+        candidates.sort(key=lambda c: -c['contract_score'])
+        best = candidates[0]
+        alternatives = [c for c in candidates
+                        if c['expiry'] == best['expiry'] and c['strike'] != best['strike']]
+        alternatives.sort(key=lambda c: c['strike'])      # de más deep a menos deep
+        alternatives = alternatives[:4]
 
         q = quality_score(sig)
         timing = timing_score(sig)
@@ -513,6 +521,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'conviction_grade': sig.get('conviction_grade'),
             'opportunity_score': opp,
             'recommended_contract': best,
+            'alternative_contracts': alternatives,
             'profit_at_target': profit_at_target,
             'in_value_list': bool(sig.get('in_value_list')),
         }
@@ -526,7 +535,11 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
 # ═════════════════════════════════════════════════════════════════════════════
 
 def add_ai_narrative(opp: dict) -> None:
-    """Genera explicación clara + instrucción de orden para una oportunidad top."""
+    """Interpretación de Claude + plan de salida estructurado para una oportunidad.
+
+    Rellena opp['ai_narrative'] (por qué/qué/riesgo) y opp['exit_plan'] con
+    cuándo tomar beneficios, cuándo rolar y qué rompería la tesis.
+    """
     try:
         from groq_utils import claude_chat, CLAUDE_SONNET
     except Exception:
@@ -540,21 +553,38 @@ EMPRESA: {opp['company_name']} ({opp['ticker']}) — sector {opp.get('sector') o
 Precio acción: ${opp['spot']:.2f} · Calidad: {opp['quality_score']}/100 · Momento: {opp['timing_score']}/100 · Upside analistas: {opp.get('analyst_upside_pct')}%
 
 CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
-  COMPRAR 1x CALL {opp['ticker']} strike ${c['strike']:.0f} vencimiento {c['expiry']} ({c['t_years']}años)
+  COMPRAR 1x CALL {opp['ticker']} strike ${c['strike']:.0f} vencimiento {c['expiry']} ({c['t_years']} años)
   Prima ≈ ${c['mid']:.2f}/acción (${c['cost_per_contract']:.0f} por contrato de 100)
   Delta {c['delta']} · Leverage {c['leverage']}x · Carry {c['annual_carry_pct']}%/año
   Break-even ${c['breakeven']:.2f} ({c['breakeven_move_pct']:+.1f}% sobre el precio actual)
   Extrínseco (prima temporal) {c['extrinsic_pct']}% del spot
 {f"  Si la acción llega al target ${pat.get('target_price')}: la opción rinde {pat.get('option_return_pct')}% vs {pat.get('stock_return_pct')}% la acción ({pat.get('leverage_realized')}x)" if pat else ""}
 
-Escribe (máx 130 palabras, sin markdown, tono honesto sin hype):
-1. Por qué esta empresa es buena candidata a LEAPS AHORA (calidad + momento).
-2. Qué significa este contrato en práctica y por qué este strike/vencimiento.
-3. El riesgo real: máximo que se pierde (la prima) y a qué precio el LEAPS empieza a doler.
-"""
+Responde SOLO con JSON válido (sin markdown, sin texto extra), en español, con esta forma:
+{{
+  "narrative": "Máx 110 palabras: 1) por qué esta empresa es buena candidata a LEAPS AHORA (calidad+momento), 2) qué significa este contrato y por qué este strike/vencimiento, 3) el riesgo real (máximo = la prima; a qué precio empieza a doler).",
+  "take_profit": "Cuándo tomar beneficios: condición concreta de precio/ganancia (ej. 'si {opp['ticker']} alcanza ~$X o el LEAPS sube +Y%, asegura parte').",
+  "roll": "Cuándo rolar a un vencimiento más largo: regla concreta (ej. 'si quedan <9 meses y sigues alcista, rola a 2029 antes de que el valor temporal se acelere').",
+  "thesis_break": "Qué rompería la tesis y obligaría a cerrar aunque pierdas: señal fundamental concreta (no un susto de precio)."
+}}"""
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=320, temperature=0.3)
-    if txt:
+                      model=CLAUDE_SONNET, max_tokens=520, temperature=0.3)
+    if not txt:
+        return
+    import re as _re
+    m = _re.search(r'\{[\s\S]*\}', txt)
+    if not m:
+        opp['ai_narrative'] = txt.strip()      # fallback: texto plano
+        return
+    try:
+        data = json.loads(m.group(0))
+        if data.get('narrative'):
+            opp['ai_narrative'] = str(data['narrative']).strip()
+        exit_plan = {k: str(data[k]).strip() for k in ('take_profit', 'roll', 'thesis_break')
+                     if data.get(k)}
+        if exit_plan:
+            opp['exit_plan'] = exit_plan
+    except Exception:
         opp['ai_narrative'] = txt.strip()
 
 
