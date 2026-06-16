@@ -63,7 +63,7 @@ EXPENSIVE_PE  = 30.0          # forward P/E por encima → múltiplo caro: NO es
 FALLBACK_RF      = 0.043    # tipo libre de riesgo fallback si falla ^IRX
 MAX_EXPIRIES     = 2        # nº de vencimientos LEAPS a analizar por ticker (los más largos)
 TOP_N            = 12       # oportunidades en el output final
-AI_NARRATIVE_N   = 6        # a cuántas top se les genera narrativa AI
+AI_NARRATIVE_N   = 12       # Claude verifica datos + veredicto en TODAS las mostradas
 
 # Universo curado de large-caps USA con LEAPS líquidos (Jan-2027/2028 negociables).
 # Calidad + nombres "comprables a largo": el scan los cruza con las señales de la
@@ -438,6 +438,17 @@ def _get_forward_pe(t: 'yf.Ticker') -> Optional[float]:
     return None
 
 
+def _get_trailing_pe(t: 'yf.Ticker') -> Optional[float]:
+    """Trailing P/E — para cruzar con el forward y detectar datos dudosos."""
+    try:
+        pe = t.info.get('trailingPE')
+        if pe and pe > 0:
+            return float(pe)
+    except Exception:
+        pass
+    return None
+
+
 def _get_analyst_target(t: 'yf.Ticker', sig: dict) -> Optional[float]:
     """Precio objetivo medio de analistas: pipeline primero, luego yfinance live.
 
@@ -614,6 +625,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'pct_from_52w_high': pct_from_high,
             'ytd_pct': ytd_pct,
             'forward_pe': round(forward_pe, 1) if forward_pe else None,
+            'trailing_pe': round(_get_trailing_pe(t), 1) if _get_trailing_pe(t) else None,
             'recommended_contract': best,
             'alternative_contracts': alternatives,
             'profit_at_target': profit_at_target,
@@ -651,8 +663,9 @@ def add_ai_narrative(opp: dict) -> None:
 
 EMPRESA: {opp['company_name']} ({opp['ticker']}) — sector {opp.get('sector') or 'n/d'}
 Precio acción: ${opp['spot']:.2f} · Calidad fundamental: {opp['quality_score']}/100 · Upside analistas: {opp.get('analyst_upside_pct')}%
-Contexto de precio: {opp.get('pct_from_52w_high')}% desde máximos de 52 semanas · YTD {opp.get('ytd_pct')}% · forward P/E: {opp.get('forward_pe') or 'n/d'} · clasificación previa: {_sit_label}
+Contexto de precio: {opp.get('pct_from_52w_high')}% desde máximos de 52 semanas · YTD {opp.get('ytd_pct')}% · forward P/E: {opp.get('forward_pe') or 'n/d'} · trailing P/E: {opp.get('trailing_pe') or 'n/d'} · clasificación previa: {_sit_label}
 REGLA DE VALORACIÓN: estar en máximos NO es malo per se. Juzga el MÚLTIPLO, no solo el gráfico: una empresa excelente en máximos a P/E razonable sigue siendo comprable; solo es 'cara' si el múltiplo está estirado para su crecimiento.
+VERIFICACIÓN DE DATOS: estas cifras vienen de una fuente automática (yfinance) que a veces falla. Con tu conocimiento de la empresa, comprueba si son PLAUSIBLES y COHERENTES (precio, forward/trailing P/E, caída, target). Ejemplo de dato sospechoso: un forward P/E anormalmente bajo para una empresa de crecimiento de calidad (p.ej. ServiceNow a P/E 20), o forward y trailing muy divergentes, o un target/upside inconsistente. Si algo no cuadra, AVISA.
 
 CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
   COMPRAR 1x CALL {opp['ticker']} strike ${c['strike']:.0f} vencimiento {c['expiry']} ({c['t_years']} años)
@@ -664,6 +677,7 @@ CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
 Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
 IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
 {{
+  "data_check": "OK si las cifras son plausibles y coherentes. Si NO, qué dato parece erróneo y el valor que esperarías (1 frase). Empieza SIEMPRE por 'OK' o por 'OJO'.",
   "verdict": "OPORTUNIDAD | RAZONABLE | EVITAR",
   "verdict_reason": "HONESTO, máx 2 frases: ¿por qué está a este precio? Causa (externa/cíclica vs deterioro) y si los fundamentales aguantan. Si NO es buena oportunidad value, dilo.",
   "narrative": "Máx 60 palabras: qué significa este contrato y el riesgo real (máximo = la prima).",
@@ -672,7 +686,7 @@ IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
   "thesis_break": "1 frase: qué rompería la tesis y obligaría a cerrar."
 }}"""
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=1500, temperature=0.3)
+                      model=CLAUDE_SONNET, max_tokens=1700, temperature=0.3)
     if not txt:
         return
     import re as _re
@@ -690,6 +704,10 @@ IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
         if verdict in ('OPORTUNIDAD', 'RAZONABLE', 'EVITAR'):
             opp['situation_verdict'] = {'verdict': verdict,
                                         'reason': str(data.get('verdict_reason', '')).strip()}
+        # Verificación de datos: guardar solo si Claude detecta algo dudoso
+        dc = str(data.get('data_check', '')).strip()
+        if dc and not dc.upper().startswith('OK'):
+            opp['data_warning'] = dc
         exit_plan = {k: str(data[k]).strip() for k in ('take_profit', 'roll', 'thesis_break')
                      if data.get(k)}
         if exit_plan:
@@ -732,7 +750,7 @@ def main():
     results.sort(key=lambda x: -x['opportunity_score'])
     top = results[:TOP_N]
 
-    # Narrativa AI solo para las mejores (coste/tiempo)
+    # Claude: verificación de datos + veredicto + plan de salida en cada mostrada
     for opp in top[:AI_NARRATIVE_N]:
         add_ai_narrative(opp)
 

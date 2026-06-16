@@ -148,6 +148,14 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           </div>
         </div>
 
+        {/* Aviso de datos dudosos (verificación de Claude) */}
+        {o.data_warning && (
+          <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-xs text-amber-300 flex items-start gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+            <span><strong>Datos a verificar:</strong> {o.data_warning}</span>
+          </div>
+        )}
+
         {/* Claude's honest verdict: ¿oportunidad value real o no? */}
         {o.situation_verdict && VERDICT_CONFIG[o.situation_verdict.verdict] && (
           <div className={cn('rounded-md border px-3 py-2 mb-3', VERDICT_CONFIG[o.situation_verdict.verdict].cls)}>
