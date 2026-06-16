@@ -57,6 +57,8 @@ MAX_CARRY_PCT    = 14.0     # carry anualizado por encima → demasiado caro
 MIN_TARGET_RETURN_PCT = 10.0  # el LEAPS debe rendir al menos esto en el escenario
                               # alcista (target del analista); si ni así compensa,
                               # el apalancamiento no vale el riesgo → se descarta
+NEAR_HIGH_PCT = -3.0          # a menos de 3% del máximo de 52s → "en máximos"
+                              # (precio completo, sin descuento): se penaliza el ranking
 FALLBACK_RF      = 0.043    # tipo libre de riesgo fallback si falla ^IRX
 MAX_EXPIRIES     = 2        # nº de vencimientos LEAPS a analizar por ticker (los más largos)
 TOP_N            = 12       # oportunidades en el output final
@@ -226,7 +228,8 @@ def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
 
       CAIDA_CIRCUNSTANCIAL → caída fuerte desde máximos pero fundamentales intactos
                              y con upside: la oportunidad que el usuario busca.
-      CALIDAD_RAZONABLE    → no se ha disparado, negocio sólido, precio razonable.
+      CALIDAD_RAZONABLE    → no se ha disparado, negocio sólido, precio con algo de descuento.
+      EN_MAXIMOS           → pegada al máximo de 52s, sin descuento (precio completo).
       DIP_GANADOR          → ha subido mucho en el año y solo corrige.
       DETERIORO            → señales de que el negocio empeora (no es ciclo).
     """
@@ -240,6 +243,9 @@ def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
     drop = pct_from_high if pct_from_high is not None else 0.0
     ran_up = ytd_pct is not None and ytd_pct >= 15
     has_upside = upside_pct is not None and upside_pct > 8
+    # En máximos / precio completo: a menos de 3% del máximo, sin descuento real
+    if drop > NEAR_HIGH_PCT:
+        return 'EN_MAXIMOS'
     # Caída circunstancial: bajada relevante desde máximos, negocio intacto, con recorrido
     if drop <= -15 and fundamentals_ok and has_upside and not ran_up:
         return 'CAIDA_CIRCUNSTANCIAL'
@@ -252,6 +258,7 @@ _SITUATION_BONUS = {
     'CAIDA_CIRCUNSTANCIAL': 8.0,   # lo que el usuario busca → arriba
     'CALIDAD_RAZONABLE':    3.0,
     'DIP_GANADOR':         -6.0,   # ya subió mucho → abajo
+    'EN_MAXIMOS':          -8.0,   # precio completo, sin descuento → abajo
     'DETERIORO':          -15.0,
 }
 

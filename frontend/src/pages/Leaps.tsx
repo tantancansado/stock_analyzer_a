@@ -23,6 +23,7 @@ const carryColor = (c: number | null) =>
 const SITUATION_CONFIG: Record<LeapsSituation, { label: string; cls: string }> = {
   CAIDA_CIRCUNSTANCIAL: { label: '🎯 Caída circunstancial', cls: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' },
   CALIDAD_RAZONABLE:    { label: '💎 Calidad a buen precio', cls: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/25' },
+  EN_MAXIMOS:           { label: '🔺 En máximos / precio completo', cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
   DIP_GANADOR:          { label: '📈 Dip de ganador', cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
   DETERIORO:            { label: '⚠️ Posible deterioro', cls: 'text-red-300 bg-red-500/10 border-red-500/30' },
 }
@@ -379,7 +380,7 @@ export default function Leaps() {
 
           {/* Filtro por situación (tu filosofía value) */}
           <div className="flex flex-wrap gap-1.5 mb-3">
-            {([['ALL', 'Todas'], ['CAIDA_CIRCUNSTANCIAL', '🎯 Caída circunstancial'], ['CALIDAD_RAZONABLE', '💎 Calidad a buen precio'], ['DIP_GANADOR', '📈 Dip de ganador']] as const).map(([key, label]) => (
+            {([['ALL', 'Todas'], ['CAIDA_CIRCUNSTANCIAL', '🎯 Caída circunstancial'], ['CALIDAD_RAZONABLE', '💎 Calidad a buen precio'], ['DIP_GANADOR', '📈 Dip de ganador'], ['EN_MAXIMOS', '🔺 En máximos']] as const).map(([key, label]) => (
               <button
                 key={key}
                 onClick={() => setSitFilter(key as LeapsSituation | 'ALL')}

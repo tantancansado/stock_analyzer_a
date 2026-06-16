@@ -211,8 +211,18 @@ class TestClassifySituation:
         # No se ha disparado ni hundido, negocio sólido
         assert la.classify_situation(-8, -5, 70, 25, 65) == 'CALIDAD_RAZONABLE'
 
+    def test_en_maximos(self):
+        # Pegada al máximo de 52s (sin descuento) → precio completo, aunque sea de calidad
+        assert la.classify_situation(-0.7, 1.5, 69, 14, 60) == 'EN_MAXIMOS'
+
+    def test_en_maximos_penaliza_ranking(self):
+        # En máximos baja en el ranking frente a un descuento real (calidad razonable)
+        maximos = la.opportunity_score(70, 60, 70, 25, 'EN_MAXIMOS')
+        descuento = la.opportunity_score(70, 60, 70, 25, 'CALIDAD_RAZONABLE')
+        assert descuento > maximos
+
     def test_dip_de_ganador(self):
-        # Subió mucho en el año y ahora corrige
+        # Subió mucho en el año y ahora corrige (pero no pegada al máximo)
         assert la.classify_situation(-13, 18, 62, 16, 60) == 'DIP_GANADOR'
 
     def test_deterioro_por_fundamental(self):
