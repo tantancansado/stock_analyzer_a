@@ -57,10 +57,9 @@ MAX_CARRY_PCT    = 14.0     # carry anualizado por encima → demasiado caro
 MIN_TARGET_RETURN_PCT = 10.0  # el LEAPS debe rendir al menos esto en el escenario
                               # alcista (target del analista); si ni así compensa,
                               # el apalancamiento no vale el riesgo → se descarta
-NEAR_HIGH_PCT = -3.0          # a menos de 3% del máximo de 52s → "en máximos"
-EXPENSIVE_PE  = 30.0          # forward P/E por encima → múltiplo caro. En máximos
-                              # SOLO se penaliza si además el múltiplo es caro; un
-                              # buen negocio en máximos a múltiplo razonable NO se penaliza.
+EXPENSIVE_PE  = 30.0          # forward P/E por encima → múltiplo caro: NO es value,
+                              # se descarta del todo (ni se muestra). Cuanto compras
+                              # con apalancamiento, el margen de seguridad importa más.
 FALLBACK_RF      = 0.043    # tipo libre de riesgo fallback si falla ^IRX
 MAX_EXPIRIES     = 2        # nº de vencimientos LEAPS a analizar por ticker (los más largos)
 TOP_N            = 12       # oportunidades en el output final
@@ -224,17 +223,17 @@ def timing_score(sig: dict) -> float:
 
 def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
                        fundamental_score: Optional[float], upside_pct: Optional[float],
-                       health_score: Optional[float], negative_roe: bool = False,
-                       forward_pe: Optional[float] = None) -> str:
+                       health_score: Optional[float], negative_roe: bool = False) -> str:
     """¿Por qué está a este precio? Clasifica la situación (filosofía del usuario):
     comprar buenas empresas baratas por circunstancia/ciclo, NO por deterioro.
 
+    Nota: los múltiplos caros (forward P/E > EXPENSIVE_PE) se descartan ANTES de
+    llegar aquí — no se muestran. Aquí solo entran nombres a valoración razonable.
+
       CAIDA_CIRCUNSTANCIAL → caída fuerte desde máximos pero fundamentales intactos
                              y con upside: la oportunidad que el usuario busca.
-      CALIDAD_RAZONABLE    → negocio sólido a precio razonable (con descuento, o en
-                             máximos pero a múltiplo razonable: no se penaliza).
-      EN_MAXIMOS           → pegada al máximo de 52s Y múltiplo caro (precio completo,
-                             sin margen de seguridad) → se penaliza.
+      CALIDAD_RAZONABLE    → negocio sólido a precio razonable (con descuento o en
+                             máximos, pero a múltiplo sano).
       DIP_GANADOR          → ha subido mucho en el año y solo corrige.
       DETERIORO            → señales de que el negocio empeora (no es ciclo).
     """
@@ -248,11 +247,6 @@ def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
     drop = pct_from_high if pct_from_high is not None else 0.0
     ran_up = ytd_pct is not None and ytd_pct >= 15
     has_upside = upside_pct is not None and upside_pct > 8
-    # En máximos: a menos de 3% del máximo. Pero SOLO penaliza si además el
-    # múltiplo es caro — un buen negocio en máximos a múltiplo razonable es válido.
-    if drop > NEAR_HIGH_PCT:
-        expensive = forward_pe is not None and forward_pe > EXPENSIVE_PE
-        return 'EN_MAXIMOS' if expensive else 'CALIDAD_RAZONABLE'
     # Caída circunstancial: bajada relevante desde máximos, negocio intacto, con recorrido
     if drop <= -15 and fundamentals_ok and has_upside and not ran_up:
         return 'CAIDA_CIRCUNSTANCIAL'
@@ -265,7 +259,6 @@ _SITUATION_BONUS = {
     'CAIDA_CIRCUNSTANCIAL': 8.0,   # lo que el usuario busca → arriba
     'CALIDAD_RAZONABLE':    3.0,
     'DIP_GANADOR':         -6.0,   # ya subió mucho → abajo
-    'EN_MAXIMOS':          -8.0,   # precio completo, sin descuento → abajo
     'DETERIORO':          -15.0,
 }
 
@@ -512,6 +505,12 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         if upside >= 30:
             return None                       # value-trap (regla del proyecto)
 
+        # Filtro de valoración: un múltiplo caro no es value — ni se muestra.
+        forward_pe = _get_forward_pe(t)
+        if forward_pe is not None and forward_pe > EXPENSIVE_PE:
+            print(f"  {ticker}: descartado por múltiplo caro (forward P/E {forward_pe:.0f})")
+            return None
+
         candidates: list[dict] = []
         for dte, exp in leaps_exp:
             t_years = dte / 365.0
@@ -593,11 +592,11 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         }
 
         # Situación: ¿por qué está a este precio? (filosofía value aplicada a LEAPS)
+        # forward_pe ya validado arriba (los caros ni llegan aquí).
         pct_from_high, ytd_pct = _get_price_context(t)
-        forward_pe = _get_forward_pe(t)
         situation = classify_situation(
             pct_from_high, ytd_pct, sig.get('fundamental_score'), upside,
-            sig.get('financial_health_score'), forward_pe=forward_pe)
+            sig.get('financial_health_score'))
 
         opp = opportunity_score(q, timing, best['contract_score'], ret_pct, situation)
 

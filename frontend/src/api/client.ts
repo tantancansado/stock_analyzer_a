@@ -2107,7 +2107,7 @@ export interface LeapsExitPlan {
   thesis_break?: string
 }
 
-export type LeapsSituation = 'CAIDA_CIRCUNSTANCIAL' | 'CALIDAD_RAZONABLE' | 'EN_MAXIMOS' | 'DIP_GANADOR' | 'DETERIORO'
+export type LeapsSituation = 'CAIDA_CIRCUNSTANCIAL' | 'CALIDAD_RAZONABLE' | 'DIP_GANADOR' | 'DETERIORO'
 
 export interface LeapsVerdict {
   verdict: 'OPORTUNIDAD' | 'RAZONABLE' | 'EVITAR'

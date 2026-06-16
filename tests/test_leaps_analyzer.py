@@ -211,23 +211,9 @@ class TestClassifySituation:
         # No se ha disparado ni hundido, negocio sólido
         assert la.classify_situation(-8, -5, 70, 25, 65) == 'CALIDAD_RAZONABLE'
 
-    def test_en_maximos_y_caro(self):
-        # En máximos Y múltiplo caro → precio completo sin margen → EN_MAXIMOS
-        assert la.classify_situation(-0.7, 1.5, 69, 14, 60, forward_pe=38) == 'EN_MAXIMOS'
-
-    def test_en_maximos_pero_multiplo_razonable_no_penaliza(self):
-        # En máximos pero P/E razonable (ej. un banco a 12) → NO se penaliza
-        assert la.classify_situation(-0.7, 1.5, 69, 14, 60, forward_pe=12) == 'CALIDAD_RAZONABLE'
-
-    def test_en_maximos_pe_desconocido_no_penaliza(self):
-        # Sin dato de múltiplo no asumimos que esté cara (no inventar)
-        assert la.classify_situation(-0.7, 1.5, 69, 14, 60, forward_pe=None) == 'CALIDAD_RAZONABLE'
-
-    def test_en_maximos_penaliza_ranking(self):
-        # En máximos baja en el ranking frente a un descuento real (calidad razonable)
-        maximos = la.opportunity_score(70, 60, 70, 25, 'EN_MAXIMOS')
-        descuento = la.opportunity_score(70, 60, 70, 25, 'CALIDAD_RAZONABLE')
-        assert descuento > maximos
+    def test_en_maximos_multiplo_sano_es_calidad(self):
+        # En máximos pero a múltiplo razonable (el caro se filtra antes) → no se penaliza
+        assert la.classify_situation(-0.7, 1.5, 69, 14, 60) == 'CALIDAD_RAZONABLE'
 
     def test_dip_de_ganador(self):
         # Subió mucho en el año y ahora corrige (pero no pegada al máximo)
