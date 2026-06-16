@@ -2127,6 +2127,7 @@ export interface LeapsOpportunity {
   situation?: LeapsSituation
   pct_from_52w_high?: number | null
   ytd_pct?: number | null
+  forward_pe?: number | null
   recommended_contract: LeapsContract
   alternative_contracts?: LeapsContract[]
   profit_at_target?: LeapsProfitAtTarget | null

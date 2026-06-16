@@ -58,7 +58,9 @@ MIN_TARGET_RETURN_PCT = 10.0  # el LEAPS debe rendir al menos esto en el escenar
                               # alcista (target del analista); si ni así compensa,
                               # el apalancamiento no vale el riesgo → se descarta
 NEAR_HIGH_PCT = -3.0          # a menos de 3% del máximo de 52s → "en máximos"
-                              # (precio completo, sin descuento): se penaliza el ranking
+EXPENSIVE_PE  = 30.0          # forward P/E por encima → múltiplo caro. En máximos
+                              # SOLO se penaliza si además el múltiplo es caro; un
+                              # buen negocio en máximos a múltiplo razonable NO se penaliza.
 FALLBACK_RF      = 0.043    # tipo libre de riesgo fallback si falla ^IRX
 MAX_EXPIRIES     = 2        # nº de vencimientos LEAPS a analizar por ticker (los más largos)
 TOP_N            = 12       # oportunidades en el output final
@@ -222,14 +224,17 @@ def timing_score(sig: dict) -> float:
 
 def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
                        fundamental_score: Optional[float], upside_pct: Optional[float],
-                       health_score: Optional[float], negative_roe: bool = False) -> str:
+                       health_score: Optional[float], negative_roe: bool = False,
+                       forward_pe: Optional[float] = None) -> str:
     """¿Por qué está a este precio? Clasifica la situación (filosofía del usuario):
     comprar buenas empresas baratas por circunstancia/ciclo, NO por deterioro.
 
       CAIDA_CIRCUNSTANCIAL → caída fuerte desde máximos pero fundamentales intactos
                              y con upside: la oportunidad que el usuario busca.
-      CALIDAD_RAZONABLE    → no se ha disparado, negocio sólido, precio con algo de descuento.
-      EN_MAXIMOS           → pegada al máximo de 52s, sin descuento (precio completo).
+      CALIDAD_RAZONABLE    → negocio sólido a precio razonable (con descuento, o en
+                             máximos pero a múltiplo razonable: no se penaliza).
+      EN_MAXIMOS           → pegada al máximo de 52s Y múltiplo caro (precio completo,
+                             sin margen de seguridad) → se penaliza.
       DIP_GANADOR          → ha subido mucho en el año y solo corrige.
       DETERIORO            → señales de que el negocio empeora (no es ciclo).
     """
@@ -243,9 +248,11 @@ def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
     drop = pct_from_high if pct_from_high is not None else 0.0
     ran_up = ytd_pct is not None and ytd_pct >= 15
     has_upside = upside_pct is not None and upside_pct > 8
-    # En máximos / precio completo: a menos de 3% del máximo, sin descuento real
+    # En máximos: a menos de 3% del máximo. Pero SOLO penaliza si además el
+    # múltiplo es caro — un buen negocio en máximos a múltiplo razonable es válido.
     if drop > NEAR_HIGH_PCT:
-        return 'EN_MAXIMOS'
+        expensive = forward_pe is not None and forward_pe > EXPENSIVE_PE
+        return 'EN_MAXIMOS' if expensive else 'CALIDAD_RAZONABLE'
     # Caída circunstancial: bajada relevante desde máximos, negocio intacto, con recorrido
     if drop <= -15 and fundamentals_ok and has_upside and not ran_up:
         return 'CAIDA_CIRCUNSTANCIAL'
@@ -425,6 +432,19 @@ def _get_price_context(t: 'yf.Ticker') -> tuple[Optional[float], Optional[float]
         return None, None
 
 
+def _get_forward_pe(t: 'yf.Ticker') -> Optional[float]:
+    """Forward P/E (fallback trailing) — proxy del múltiplo de valoración.
+    yfinance cachea t.info, así que no añade llamada de red extra."""
+    try:
+        info = t.info
+        pe = info.get('forwardPE') or info.get('trailingPE')
+        if pe and pe > 0:
+            return float(pe)
+    except Exception:
+        pass
+    return None
+
+
 def _get_analyst_target(t: 'yf.Ticker', sig: dict) -> Optional[float]:
     """Precio objetivo medio de analistas: pipeline primero, luego yfinance live.
 
@@ -574,9 +594,10 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
 
         # Situación: ¿por qué está a este precio? (filosofía value aplicada a LEAPS)
         pct_from_high, ytd_pct = _get_price_context(t)
+        forward_pe = _get_forward_pe(t)
         situation = classify_situation(
             pct_from_high, ytd_pct, sig.get('fundamental_score'), upside,
-            sig.get('financial_health_score'))
+            sig.get('financial_health_score'), forward_pe=forward_pe)
 
         opp = opportunity_score(q, timing, best['contract_score'], ret_pct, situation)
 
@@ -593,6 +614,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'situation': situation,
             'pct_from_52w_high': pct_from_high,
             'ytd_pct': ytd_pct,
+            'forward_pe': round(forward_pe, 1) if forward_pe else None,
             'recommended_contract': best,
             'alternative_contracts': alternatives,
             'profit_at_target': profit_at_target,
@@ -630,7 +652,8 @@ def add_ai_narrative(opp: dict) -> None:
 
 EMPRESA: {opp['company_name']} ({opp['ticker']}) — sector {opp.get('sector') or 'n/d'}
 Precio acción: ${opp['spot']:.2f} · Calidad fundamental: {opp['quality_score']}/100 · Upside analistas: {opp.get('analyst_upside_pct')}%
-Contexto de precio: {opp.get('pct_from_52w_high')}% desde máximos de 52 semanas · YTD {opp.get('ytd_pct')}% · clasificación previa: {_sit_label}
+Contexto de precio: {opp.get('pct_from_52w_high')}% desde máximos de 52 semanas · YTD {opp.get('ytd_pct')}% · forward P/E: {opp.get('forward_pe') or 'n/d'} · clasificación previa: {_sit_label}
+REGLA DE VALORACIÓN: estar en máximos NO es malo per se. Juzga el MÚLTIPLO, no solo el gráfico: una empresa excelente en máximos a P/E razonable sigue siendo comprable; solo es 'cara' si el múltiplo está estirado para su crecimiento.
 
 CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
   COMPRAR 1x CALL {opp['ticker']} strike ${c['strike']:.0f} vencimiento {c['expiry']} ({c['t_years']} años)

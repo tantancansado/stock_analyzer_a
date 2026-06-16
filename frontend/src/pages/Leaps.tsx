@@ -23,7 +23,7 @@ const carryColor = (c: number | null) =>
 const SITUATION_CONFIG: Record<LeapsSituation, { label: string; cls: string }> = {
   CAIDA_CIRCUNSTANCIAL: { label: '🎯 Caída circunstancial', cls: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' },
   CALIDAD_RAZONABLE:    { label: '💎 Calidad a buen precio', cls: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/25' },
-  EN_MAXIMOS:           { label: '🔺 En máximos / precio completo', cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
+  EN_MAXIMOS:           { label: '🔺 En máximos y caro', cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
   DIP_GANADOR:          { label: '📈 Dip de ganador', cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
   DETERIORO:            { label: '⚠️ Posible deterioro', cls: 'text-red-300 bg-red-500/10 border-red-500/30' },
 }
@@ -131,11 +131,12 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
                 )}
               </div>
               <div className="text-xs text-muted-foreground truncate">{o.company_name}</div>
-              {(o.pct_from_52w_high != null || o.ytd_pct != null) && (
+              {(o.pct_from_52w_high != null || o.ytd_pct != null || o.forward_pe != null) && (
                 <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">
                   {o.pct_from_52w_high != null && <span>{o.pct_from_52w_high.toFixed(0)}% desde máx. 52s</span>}
                   {o.pct_from_52w_high != null && o.ytd_pct != null && <span> · </span>}
                   {o.ytd_pct != null && <span>YTD {o.ytd_pct >= 0 ? '+' : ''}{o.ytd_pct.toFixed(0)}%</span>}
+                  {o.forward_pe != null && <span> · P/E {o.forward_pe.toFixed(0)}</span>}
                 </div>
               )}
             </div>
@@ -330,7 +331,8 @@ export default function Leaps() {
         movimiento de la acción con ~2x apalancamiento y menos capital, pagando una pequeña prima temporal
         (<em>carry</em>). Es la <strong className="text-foreground">filosofía value aplicada a LEAPS</strong>: buenas
         empresas baratas por circunstancia o ciclo (no por deterioro). Claude da un veredicto honesto por cada una
-        — y el ranking premia justo ese tipo de oportunidad.
+        — y el ranking premia justo ese tipo de oportunidad. Estar en máximos solo penaliza si además el
+        <strong className="text-foreground"> múltiplo es caro</strong>: un buen negocio en máximos a P/E razonable no se castiga.
       </div>
 
       {/* On-demand search */}
