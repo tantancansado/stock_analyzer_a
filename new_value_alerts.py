@@ -72,11 +72,13 @@ def run_new_value_alerts():
     print("=== NEW VALUE ALERTS ===")
     today = datetime.now().strftime('%Y-%m-%d')
 
-    # ── Load today's data ────────────────────────────────────────────────
-    today_path = DOCS / 'value_opportunities.csv'
+    # ── Load today's data (filtered = what the app shows) ───────────────
+    today_path = DOCS / 'value_opportunities_filtered.csv'
+    if not today_path.exists():
+        today_path = DOCS / 'value_opportunities.csv'  # fallback
     today_df = _load_value_df(today_path)
     if today_df.empty:
-        print("No value_opportunities.csv found, skipping")
+        print("No value_opportunities_filtered.csv found, skipping")
         return
 
     today_quality = today_df[today_df.get('value_score', pd.Series()).ge(SCORE_THRESHOLD)].copy() \
