@@ -1,7 +1,7 @@
 {
-  "date": "2026-06-16",
-  "timestamp": "2026-06-16T09:57:06.458152",
-  "narrative": "Se observa un clustering sectorial notable en el sector financiero y energ\u00e9tico, con tickers como BARC.L, BP.L y DGE.L. La compra simult\u00e1nea de m\u00faltiples insiders en un mismo ticker sugiere una confianza significativa en la empresa. Para un inversor value/GARP, esta se\u00f1al adicional puede indicar oportunidades de inversi\u00f3n atractivas, ya que la confianza de los insiders puede ser un indicador de un desempe\u00f1o futuro positivo. Sin embargo, es importante considerar otros factores antes de tomar decisiones de inversi\u00f3n.",
+  "date": "2026-06-17",
+  "timestamp": "2026-06-17T09:32:44.913840",
+  "narrative": "Se observa un patr\u00f3n de compra recurrente de insiders en el sector financiero y energ\u00e9tico, con tickers como BARC.L, BATS.L y BP.L mostrando una alta actividad. La compra simult\u00e1nea por parte de m\u00faltiples insiders en un mismo ticker sugiere una confianza significativa en el futuro de la empresa. Para un inversor value/GARP, esta se\u00f1al adicional puede ser \u00fatil para identificar oportunidades de inversi\u00f3n atractivas, aunque no debe considerarse como una garant\u00eda de \u00e9xito.",
   "total_tickers": 9,
   "total_us": 1,
   "total_eu": 8,
@@ -17,18 +17,10 @@
     {
       "ticker": "BA.L",
       "market": "EU",
-      "purchase_count": 46,
-      "unique_insiders": 13,
+      "purchase_count": 34,
+      "unique_insiders": 12,
       "confidence_score": 100.0,
-      "days_span": 78
-    },
-    {
-      "ticker": "BMW.DE",
-      "market": "EU",
-      "purchase_count": 6,
-      "unique_insiders": 6,
-      "confidence_score": 100.0,
-      "days_span": 0
+      "days_span": 52
     },
     {
       "ticker": "BARC.L",
@@ -45,6 +37,14 @@
       "unique_insiders": 5,
       "confidence_score": 100.0,
       "days_span": 4
+    },
+    {
+      "ticker": "BATS.L",
+      "market": "EU",
+      "purchase_count": 46,
+      "unique_insiders": 13,
+      "confidence_score": 100.0,
+      "days_span": 65
     }
   ]
 }
