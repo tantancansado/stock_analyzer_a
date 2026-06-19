@@ -1,134 +1,154 @@
 {
-  "generated_at": "2026-06-18",
+  "generated_at": "2026-06-19",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "IDXX",
-      "company_name": "IDEXX Laboratories, Inc.",
-      "sector": "Healthcare",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "score_today": 32.2,
+      "score_prev": 24.2,
+      "delta": 8.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "GVDNY",
+      "company_name": "Givaudan SA",
+      "sector": "Basic Materials",
+      "score_today": 40.3,
+      "score_prev": 32.3,
+      "delta": 8.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "HESAY",
+      "company_name": "Hermes International SA",
+      "sector": "Consumer Cyclical",
       "score_today": 41.4,
-      "score_prev": 31.4,
-      "delta": 10.0,
+      "score_prev": 35.4,
+      "delta": 6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AME",
+      "company_name": "AMETEK, Inc.",
+      "sector": "Industrials",
+      "score_today": 28.3,
+      "score_prev": 22.5,
+      "delta": 5.8,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "HEI",
+      "company_name": "Heico Corporation",
+      "sector": "Industrials",
+      "score_today": 36.3,
+      "score_prev": 30.7,
+      "delta": 5.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "score_today": 38.3,
+      "score_prev": 33.1,
+      "delta": 5.2,
       "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 43.2,
+      "score_prev": 38.2,
+      "delta": 5.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
       "ticker": "WST",
       "company_name": "West Pharmaceutical Services, I",
       "sector": "Healthcare",
-      "score_today": 32.0,
-      "score_prev": 24.1,
-      "delta": 7.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CME",
-      "company_name": "CME Group Inc.",
-      "sector": "Financial Services",
-      "score_today": 44.0,
-      "score_prev": 36.5,
-      "delta": 7.5,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 36.2,
-      "score_prev": 28.7,
-      "delta": 7.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "COST",
-      "company_name": "Costco Wholesale Corporation",
-      "sector": "Consumer Defensive",
-      "score_today": 58.1,
-      "score_prev": 52.9,
-      "delta": 5.3,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "JNJ",
-      "company_name": "Johnson & Johnson",
-      "sector": "Healthcare",
-      "score_today": 46.2,
-      "score_prev": 40.9,
-      "delta": 5.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 41.8,
-      "score_prev": 36.8,
+      "score_today": 37.0,
+      "score_prev": 32.0,
       "delta": 5.0,
       "grade": "🔴 Weak"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 68.9,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "sector": "Industrials",
-      "score_today": 46.8,
-      "score_prev": 51.8,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CB",
-      "company_name": "Chubb Limited",
-      "sector": "Financial Services",
-      "score_today": 54.4,
-      "score_prev": 59.4,
-      "delta": -5.0,
-      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "CBOE",
       "company_name": "Cboe Global Markets, Inc.",
       "sector": "Financial Services",
-      "score_today": 40.1,
-      "score_prev": 45.2,
-      "delta": -5.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "sector": "Financial Services",
-      "score_today": 33.1,
-      "score_prev": 38.3,
-      "delta": -5.2,
+      "score_today": 35.1,
+      "score_prev": 40.1,
+      "delta": -5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "LRLCY",
-      "company_name": "L'Oreal Co.",
+      "ticker": "CHD",
+      "company_name": "Church & Dwight Company, Inc.",
       "sector": "Consumer Defensive",
-      "score_today": 45.6,
-      "score_prev": 51.1,
-      "delta": -5.4,
+      "score_today": 36.4,
+      "score_prev": 41.4,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "sector": "Healthcare",
+      "score_today": 36.4,
+      "score_prev": 41.4,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "sector": "Financial Services",
+      "score_today": 61.8,
+      "score_prev": 66.8,
+      "delta": -5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "sector": "Healthcare",
+      "score_today": 55.9,
+      "score_prev": 60.9,
+      "delta": -5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 33.8,
+      "score_prev": 41.8,
+      "delta": -8.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
+      "sector": "Communication Services",
+      "score_today": 27.4,
+      "score_prev": 35.4,
+      "delta": -8.0,
       "grade": "🔴 Weak"
     },
     {
@@ -136,86 +156,36 @@
       "ticker": "BAC",
       "company_name": "Bank of America Corporation",
       "sector": "Financial Services",
-      "score_today": 38.2,
-      "score_prev": 46.0,
-      "delta": -7.8,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "GVDNY",
-      "company_name": "Givaudan SA",
-      "sector": "Basic Materials",
-      "score_today": 32.3,
-      "score_prev": 40.1,
-      "delta": -7.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AI.PA",
-      "company_name": "AIR LIQUIDE",
-      "sector": "Basic Materials",
-      "score_today": 40.6,
-      "score_prev": 48.6,
+      "score_today": 30.2,
+      "score_prev": 38.2,
       "delta": -8.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International",
-      "sector": "Consumer Cyclical",
-      "score_today": 43.9,
-      "score_prev": 51.9,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "7741.T",
-      "company_name": "HOYA CORP",
-      "sector": "Healthcare",
-      "score_today": 42.3,
-      "score_prev": 50.8,
-      "delta": -8.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 31.4,
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 30.3,
       "score_prev": 40.4,
-      "delta": -9.0,
+      "delta": -10.0,
       "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "LIN",
-      "company_name": "Linde plc",
-      "sector": "Basic Materials",
-      "score_today": 35.5,
-      "score_prev": 45.8,
-      "delta": -10.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
+      "type": "EXITED",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 49.6,
-      "score_prev": 62.8,
-      "delta": -13.2,
-      "grade": "🟡 Average"
+      "score_today": null,
+      "score_prev": 68.9,
+      "delta": null,
+      "grade": "🟡 Good"
     }
   ],
   "counts": {
-    "new_entries": 1,
-    "exited": 0,
-    "score_up": 7,
-    "score_down": 13
+    "new_entries": 0,
+    "exited": 1,
+    "score_up": 8,
+    "score_down": 9
   }
 }
