@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-06-19T09:30:35.137874",
-  "date": "2026-06-19",
+  "timestamp": "2026-06-22T09:45:30.122940",
+  "date": "2026-06-22",
   "regime": {
     "name": "CALM",
     "color": "#10b981",
@@ -11,19 +11,19 @@
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 16.87,
-      "percentile": 43.0,
+      "current": 17.48,
+      "percentile": 54.5,
       "score": 0.5,
-      "change_5d": -4.6,
-      "interpretation": "VIX 16.9 (bajo)",
+      "change_5d": -1.1,
+      "interpretation": "VIX 17.5 (bajo)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
     "yield_curve": {
-      "current": 86.9,
-      "percentile": 94.5,
+      "current": 79.3,
+      "percentile": 86.8,
       "score": 1.5,
-      "interpretation": "Spread 2s10s: 87bps (normal)",
+      "interpretation": "Spread 2s10s: 79bps (normal)",
       "label": "Curva Tipos (2s10s)",
       "description": "87.5% recession accuracy since 1968. Inversion = -2"
     },
@@ -33,7 +33,7 @@
       "score": 1,
       "change_5d": 0.1,
       "change_20d": -0.7,
-      "interpretation": "HYG/LQD ratio en p91 (spreads apretados)",
+      "interpretation": "HYG/LQD ratio en p90 (spreads apretados)",
       "label": "Cr\u00e9dito HY/IG",
       "description": "HY spread >400bps = systemic stress. Ratio compression = risk-off"
     },
@@ -43,56 +43,56 @@
       "score": 2,
       "change_5d": 1.6,
       "change_20d": 9.3,
-      "interpretation": "Cobre/Oro en p91, subiendo (+1.6% 5d)",
+      "interpretation": "Cobre/Oro en p90, subiendo (+1.6% 5d)",
       "label": "Cobre/Oro (Dr. Copper)",
       "description": "Falling = recession pessimism. Most underappreciated indicator"
     },
     "gold_spy": {
       "current": 0.5184,
-      "percentile": 22.9,
+      "percentile": 22.3,
       "score": 2,
       "change_5d": -1.3,
       "change_20d": -8.2,
-      "interpretation": "Oro rezagado vs SPY (p23)",
+      "interpretation": "Oro rezagado vs SPY (p22)",
       "label": "Oro vs Mercado",
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 75.67,
-      "percentile": 72.9,
+      "current": 75.32,
+      "percentile": 72.7,
       "score": 0,
-      "change_5d": -10.9,
-      "change_20d": -21.5,
-      "interpretation": "Petroleo $75.7 (rango normal)",
+      "change_5d": -11.3,
+      "change_20d": -21.8,
+      "interpretation": "Petroleo $75.3 (rango normal)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
     },
     "defense": {
       "current": 0.32,
-      "percentile": 68.7,
+      "percentile": 68.5,
       "score": -1,
       "change_5d": -0.2,
       "change_20d": 6.1,
-      "interpretation": "Defensa (ITA) superando vs SPY (p69)",
+      "interpretation": "Defensa (ITA) superando vs SPY (p68)",
       "label": "Defensa vs Mercado",
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 100.78,
-      "percentile": 98.6,
+      "current": 100.88,
+      "percentile": 99.6,
       "score": -1,
-      "change_5d": 1.03,
-      "change_20d": 1.6,
-      "interpretation": "DXY 100.8 (dolar muy fuerte)",
+      "change_5d": 1.14,
+      "change_20d": 1.71,
+      "interpretation": "DXY 100.9 (dolar muy fuerte)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 161.27,
+      "current": 161.29,
       "percentile": 99.6,
       "score": 1,
-      "change_5d": 0.71,
-      "change_20d": 1.42,
+      "change_5d": 0.72,
+      "change_20d": 1.43,
       "interpretation": "USD/JPY 161.3 (yen debil (risk-on))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
@@ -111,7 +111,7 @@
     },
     "skew": {
       "current": 146.72,
-      "percentile": 61.1,
+      "percentile": 60.8,
       "score": -2,
       "change_5d": 2.6,
       "interpretation": "SKEW 147 (crash insurance extremo)",
@@ -129,7 +129,7 @@
     },
     "regional_banks": {
       "current": 0.096,
-      "percentile": 45.1,
+      "percentile": 45.4,
       "score": 0,
       "change_5d": -2.3,
       "change_20d": 2.7,
@@ -149,7 +149,7 @@
     },
     "real_yields": {
       "current": 1.261,
-      "percentile": 41.8,
+      "percentile": 42.1,
       "score": 0,
       "change_5d": -1.1,
       "change_20d": -3.4,
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "El r\u00e9gimen de mercado actual se caracteriza por una tendencia alcista fuerte, con se\u00f1ales como la amplitud del mercado y el \u00edndice de peque\u00f1as capitalizaciones vs grandes capitalizaciones (IWM) apuntando a un entorno de \"risk-on\". El principal riesgo es la volatilidad extremadamente baja (VIX 16.9). Se recomienda un posicionamiento cauteloso, considerando la posibilidad de una correcci\u00f3n.",
+  "ai_narrative": "El r\u00e9gimen de mercado actual se caracteriza por una tendencia alcista fuerte, con se\u00f1ales como la amplitud del mercado y el \u00edndice de cobre/oro en p90. El principal riesgo es el SKEW Index, que indica un alto riesgo de ca\u00edda. Recomiendo una posici\u00f3n cautelosa, con un enfoque en activos de crecimiento y una cobertura contra posibles correcciones.",
   "historical_analogs": [
     {
       "id": "bear_market_2022",
       "name": "Mercado Bajista 2022",
       "date": "Ene-Dic 2022",
       "duration_days": 280,
-      "similarity": 65.6,
+      "similarity": 66.7,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -18,
@@ -176,8 +176,8 @@
       "key_difference": "Impulsado por yields reales al alza. Las growth stocks sufrieron m\u00e1s.",
       "closest_signals": [
         "regional_banks",
-        "defense",
-        "oil"
+        "vix",
+        "defense"
       ],
       "diverging_signals": [
         "credit",
@@ -189,7 +189,7 @@
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 64.0,
+      "similarity": 65.2,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -199,8 +199,8 @@
       "key_difference": "Geopol\u00edtica + inflaci\u00f3n estructural. No fue shock temporal \u2014 dio paso al ciclo bajista completo.",
       "closest_signals": [
         "regional_banks",
-        "oil",
-        "vix"
+        "vix",
+        "oil"
       ],
       "diverging_signals": [
         "small_cap",
@@ -212,7 +212,7 @@
       "name": "Desaceleraci\u00f3n China",
       "date": "Ago 2015",
       "duration_days": 45,
-      "similarity": 60.3,
+      "similarity": 61.5,
       "outcome": {
         "spy_30d": -11,
         "spy_90d": -5,

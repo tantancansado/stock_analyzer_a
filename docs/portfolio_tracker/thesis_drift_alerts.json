@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-19T09:36:12",
-  "positions_checked": 4,
-  "total": 3,
-  "high_count": 2,
+  "generated_at": "2026-06-22T09:51:12",
+  "positions_checked": 2,
+  "total": 1,
+  "high_count": 1,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -12,24 +12,6 @@
       "type": "STOP_BREACHED",
       "reason": "Precio 7914.00 por debajo del stop 8140.16",
       "severity": "HIGH"
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
-      "strategy": "EU_VALUE",
-      "signal_date": "2026-05-21",
-      "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 54% \u2014 value trap (0% win hist\u00f3rico)",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
-      "strategy": "EU_VALUE",
-      "signal_date": "2026-05-21",
-      "type": "FUND_DETERIORATING",
-      "reason": "fundamental_score cay\u00f3 18pts (67\u219249) desde la recomendaci\u00f3n",
-      "severity": "MEDIUM"
     }
   ]
 }
