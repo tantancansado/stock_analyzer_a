@@ -1,36 +1,36 @@
 {
-  "generated_at": "2026-06-22T10:54:16Z",
-  "pipeline_date": "2026-06-22",
-  "ok_count": 14,
+  "generated_at": "2026-06-23T08:51:29Z",
+  "pipeline_date": "2026-06-23",
+  "ok_count": 15,
   "total": 18,
   "modules": {
     "value_us": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 48,
+      "rows": 47,
       "min_rows": 20
     },
     "value_eu": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 43,
+      "rows": 44,
       "min_rows": 10
     },
     "value_global": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 30,
+      "rows": 32,
       "min_rows": 5
     },
     "fundamental": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "rows": 136,
@@ -38,33 +38,33 @@
     },
     "technical": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 121,
+      "rows": 123,
       "min_rows": 30
     },
     "cerebro": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3
     },
     "mean_reversion": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3
     },
     "macro": {
-      "status": "stale",
-      "date": "2026-06-19",
-      "days_ago": 3,
+      "status": "ok",
+      "date": "2026-06-22",
+      "days_ago": 1,
       "stale_threshold_days": 2
     },
     "insiders": {
       "status": "empty",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "rows": 1,
@@ -72,7 +72,7 @@
     },
     "portfolio": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "rows": 1539,
@@ -81,50 +81,50 @@
     "earnings": {
       "status": "ok",
       "date": "2026-06-21",
-      "days_ago": 1,
+      "days_ago": 2,
       "stale_threshold_days": 7
     },
     "theses": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 7
     },
     "catalysts": {
       "status": "stale",
       "date": "2026-04-07",
-      "days_ago": 76,
+      "days_ago": 77,
       "stale_threshold_days": 7
     },
     "economic_cal": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 7
     },
     "options_flow": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 32,
+      "rows": 34,
       "min_rows": 1
     },
     "bounce_broad": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3
     },
     "strategies": {
       "status": "stale",
       "date": "2026-05-10",
-      "days_ago": 43,
+      "days_ago": 44,
       "stale_threshold_days": 3
     },
     "earnings_opts": {
       "status": "ok",
-      "date": "2026-06-22",
+      "date": "2026-06-23",
       "days_ago": 0,
       "stale_threshold_days": 3
     }
