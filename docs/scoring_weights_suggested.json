@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22",
+  "generated_at": "2026-06-23",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1524 historical signals",
-  "narrative": "Estos ajustes en el sistema de scoring VALUE buscan mejorar la precisi\u00f3n de las predicciones al aumentar el peso de factores como la FCF (Free Cash Flow) y el Risk-Reward (R:R), que han demostrado tener un impacto significativo en el rendimiento de las acciones.\n\nCon estos ajustes, se espera que el sistema de scoring sea m\u00e1s efectivo en identificar oportunidades de inversi\u00f3n con un alto potencial de crecimiento, lo que podr\u00eda llevar a una mejora en la tasa de victorias (WR) de las predicciones."
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que:\n\n- Un mayor peso en FCF (Flujo de Efectivo Libre) podr\u00eda mejorar la precisi\u00f3n en un 7.4% porcentual.\n- Un mayor peso en R:R (Riesgo-Reward) podr\u00eda mejorar la precisi\u00f3n en un 9.9% porcentual.\n\nEstos cambios podr\u00edan llevar a una mayor precisi\u00f3n en las predicciones, especialmente si se aplica un umbral m\u00ednimo de 70 o m\u00e1s para las predicciones publicadas."
 }
