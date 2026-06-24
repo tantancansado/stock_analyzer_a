@@ -47,7 +47,7 @@ function Metric({ label, value, hint, className }: { label: string; value: React
 function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[]; bestStrike: number }) {
   const rows = [...contracts].sort((a, b) => a.strike - b.strike)
   return (
-    <div className="mt-3 overflow-x-clip rounded-md border border-border/30">
+    <div className="mt-3 overflow-x-auto rounded-md border border-border/30">
       <table className="w-full text-[0.68rem] tabular-nums">
         <thead>
           <tr className="text-muted-foreground/60 text-left">

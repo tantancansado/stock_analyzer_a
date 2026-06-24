@@ -1655,6 +1655,77 @@ tr[class*="cursor-pointer"]:hover td:first-child {
   border-left: 2px solid hsl(194 100% 42% / 0.50);
 }
 
+/* ── Liquid glass — steel/cyan chamfer (light) ───────────────────
+   The dark .liquid-glass relies on white highlights popping against a
+   near-black card; on a near-white card (210 14% 99%) those same white
+   highlights wash out completely. Same recipe, inverted contrast logic:
+   opacity raised (matches .glass light's 0.62) so the panel doesn't
+   disappear into the page, depth comes from a darker steel drop shadow
+   instead of a brighter glow, and the cyan accent carries the "glass"
+   read where white no longer can. */
+:root:not(.dark) .liquid-glass {
+  background:
+    linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.55)   0%,
+      hsl(194 60% 92% / 0.25) 50%,
+      hsl(210 20% 96% / 0.10) 100%
+    ),
+    hsl(210 20% 100% / 0.58);
+  border: 1px solid hsl(210 25% 65% / 0.65);
+  box-shadow:
+    0 16px 40px hsl(210 25% 15% / 0.18),
+    0  5px 14px hsl(210 25% 15% / 0.11),
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.95),
+    inset 1.5px 0 0 hsl(0 0% 100% / 0.55),
+    inset 0 -1.5px 0 hsl(210 25% 30% / 0.22),
+    inset -1.5px 0 0 hsl(210 25% 30% / 0.14),
+    inset 0 0 20px hsl(194 100% 48% / 0.05);
+}
+
+:root:not(.dark) .liquid-glass:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 48px hsl(210 25% 15% / 0.22),
+    0  7px 18px hsl(210 25% 15% / 0.14),
+    0  0   28px hsl(194 100% 48% / 0.10),
+    inset 0  1.5px 0 hsl(0 0% 100% / 0.98),
+    inset 1.5px 0 0 hsl(0 0% 100% / 0.60),
+    inset 0 -1.5px 0 hsl(210 25% 30% / 0.24),
+    inset -1.5px 0 0 hsl(210 25% 30% / 0.16),
+    inset 0 0 24px hsl(194 100% 48% / 0.06);
+}
+
+/* Specular sweep — dark mode brightens (overlay + white stops); on a light
+   card overlay-with-white is invisible, so the sweep is built from darker
+   steel + cyan stops instead — overlay darkens/saturates them on a light
+   base the same way white stops brighten a dark one. */
+:root:not(.dark) .liquid-glass::before {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    hsl(210 25% 35% / 0.16) 18%,
+    hsl(210 20% 50% / 0.05) 32%,
+    transparent 48%,
+    transparent 72%,
+    hsl(194 100% 45% / 0.10) 92%,
+    hsl(194 100% 38% / 0.22) 100%
+  );
+}
+
+/* Cursor-tracked spotlight — screen blend (dark) has nothing to lighten
+   against an already-light card, so this drops mix-blend-mode and just
+   tints with cyan directly, same as .glass::after's light override. */
+:root:not(.dark) .liquid-glass::after {
+  background:
+    radial-gradient(
+      420px circle at var(--mouse-x, -999px) var(--mouse-y, -999px),
+      hsl(194 100% 48% / 0.10) 0%,
+      transparent 70%
+    );
+  mix-blend-mode: normal;
+}
+
 /* ── Gradient title — dark steel chrome shimmer (light) ──────── */
 :root:not(.dark) .gradient-title {
   background: linear-gradient(
@@ -2165,5 +2236,16 @@ select:focus {
   /* Better filter bar scrolling on mobile */
   .glass .flex.flex-wrap {
     gap: 0.5rem;
+  }
+
+  /* Tap target floor for small interactive pills/links. The text-size floor
+     above (lines 128-142) fixes legibility, not thumb room — a 10px badge
+     with 2px padding is still a ~16px target. Only touches <a>/<button>,
+     not purely decorative badges, and only bumps padding (no min-height/
+     display change) to avoid bloating dense tables. */
+  a[class*="text-[0.5"], a[class*="text-[0.6"],
+  button[class*="text-[0.5"], button[class*="text-[0.6"] {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
   }
 }

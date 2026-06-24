@@ -32,8 +32,17 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 - **NUNCA usar `overflow: hidden` en `.glass`** — usar `overflow: clip`
   - `overflow: hidden` crea un scroll container que rompe `position: sticky` en los thead
   - `overflow: clip` tiene idéntico efecto visual pero NO crea scroll container
+- **`.liquid-glass` (refracción real vía SVG `feDisplacementMap`, `index.css`) solo en elementos hero**: modales, tarjeta líder de una página, toolbars/barras siempre visibles. **NUNCA en listas o tablas** — el filtro SVG se repinta cada frame, es caro. Para todo lo demás usar `.glass` (blur plano, sin distorsión)
+  - Si un elemento `.liquid-glass` necesita scroll interno (ej. una barra horizontal), el `overflow-x-auto`/`overflow-y-auto` va en un div INTERNO, nunca en el propio `.liquid-glass` — este ya fija `overflow: clip` para sus pseudo-elementos y lo pisaría
+  - Tiene piel propia para modo claro (`:root:not(.dark) .liquid-glass` en la sección Cybertruck Light) — los highlights blancos del modo oscuro se lavan sobre fondo claro, ahí se usan tonos acero/cian en su lugar
 - Las tablas usan `thead th` con `position: sticky; top: var(--topbar-height, 50px)`
+- **Un dato → un único dispositivo de énfasis.** El kit de la app tiene 8 formas de marcar "esto importa" (borde de color, badge bg+border+texto, ring/glow, `.glow-border` rotatorio, text-shadow glow, barra de acento, clases `.grade-A/B/C/D`, punto pulsante). Para un mismo dato (ej. "este pick es bueno"), usar SOLO UNO — nunca apilar borde de Card + badge del mismo color + icono del mismo color + barra de progreso del mismo color encima. Si ya hay un ring/glow o un badge marcando el dato, la tarjeta que lo contiene va neutra (`.glass` sin borde de color)
 - Tema: dark glassmorphism + Cybertruck skin (cyan eléctrico `194 100% 48%`, esquinas afiladas `--radius: 0.25rem`)
+- **Mobile-first, el usuario usa la app sobre todo en el móvil**:
+  - Todo `grid-cols-N` nuevo (N≥2) empieza en `grid-cols-1` salvo que el contenido de cada celda ya sea compacto de forma demostrable (texto ≤0.75rem, ≤2 líneas) — entonces puede ir fijo en 2-3 columnas sin prefijo
+  - Toda fila `flex` con 3+ hermanos (badges, filtros, stats) lleva `flex-wrap`
+  - Elementos clicables (no decorativos) con texto `text-[0.5rem]` a `text-[0.68rem]` necesitan padding suficiente para un área de toque razonable — ver el bloque `@media (max-width: 640px)` en `index.css` (tap targets, overflow de StatCards, gap de filter bars)
+  - El suelo de tamaño de fuente en `index.css:128-142` (`text-[0.5rem]`–`text-[0.68rem]` → mínimo legible en mobile) ya existe — no hace falta repetirlo por página
 
 ### Frontend (React)
 - CSVs en producción vienen de GitHub Pages (`VITE_CSV_BASE`), NO de Railway

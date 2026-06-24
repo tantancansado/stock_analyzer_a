@@ -978,7 +978,7 @@ export default function Cerebro() {
             <>
               <AiNarrativeCard narrative={briefingData.narrative} label={`Briefing diario · ${briefingData.generated_at} · Régimen ${briefingData.regime}`} />
               {portfolioEarnings.length > 0 && (
-                <Card className="glass border-amber-500/20">
+                <Card className="glass">
                   <CardContent className="p-3">
                     <div className="flex items-center gap-2 mb-2">
                       <CalendarDays size={12} className="text-amber-400" />
@@ -1051,7 +1051,7 @@ export default function Cerebro() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               {/* Top entries */}
               {briefingSections.top_entries.length > 0 && (
-                <Card className="glass border-emerald-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '60ms' }}>
+                <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '60ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Zap size={13} className="text-emerald-400" />
@@ -1078,7 +1078,7 @@ export default function Cerebro() {
 
               {/* Smart money */}
               {briefingSections.smart_money.length > 0 && (
-                <Card className="glass border-purple-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '120ms' }}>
+                <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '120ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Building2 size={13} className="text-purple-400" />
@@ -1099,7 +1099,7 @@ export default function Cerebro() {
 
               {/* Macro stress */}
               {briefingSections.macro_stress.length > 0 && (
-                <Card className="glass border-orange-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+                <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Activity size={13} className="text-orange-300" />
@@ -1131,7 +1131,7 @@ export default function Cerebro() {
 
               {/* Exits + traps */}
               {(briefingSections.exit_warnings.length > 0 || briefingSections.traps_warning.length > 0) && (
-                <Card className="glass border-red-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '180ms' }}>
+                <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '180ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <ShieldAlert size={13} className="text-red-400" />
@@ -1165,7 +1165,7 @@ export default function Cerebro() {
 
               {/* Convergences */}
               {briefingSections.top_convergences.length > 0 && (
-                <Card className="glass border-cyan-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '240ms' }}>
+                <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '240ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Crosshair size={13} className="text-cyan-400" />
@@ -1186,7 +1186,7 @@ export default function Cerebro() {
 
               {/* Portfolio earnings */}
               {portfolioEarnings.length > 0 && (
-                <Card className="glass border-violet-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '270ms' }}>
+                <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '270ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Bell size={13} className="text-violet-400" />
@@ -1216,7 +1216,7 @@ export default function Cerebro() {
 
               {/* Alerts */}
               {briefingSections.high_alerts.length > 0 && (
-                <Card className="glass border-amber-500/20 hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+                <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Bell size={13} className="text-amber-400" />

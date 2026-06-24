@@ -950,33 +950,38 @@ function LivePricesBar() {
   const heatBg = vixValue < 15 ? 'bg-emerald-500/20' : vixValue < 20 ? 'bg-blue-500/20' : vixValue < 25 ? 'bg-orange-500/20' : 'bg-red-500/20'
 
   return (
-    <div className="flex items-center gap-0 mb-4 rounded-lg border border-primary/20 bg-background/50 backdrop-blur-md shadow-[0_0_15px_rgba(0,255,255,0.05)] overflow-x-auto scrollbar-none animate-fade-in-up">
-      {/* Status pill */}
-      <div className="flex items-center gap-1.5 px-3 py-2 border-r border-primary/10 shrink-0">
-        <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground/30'}`} />
-        <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/60">
-          {isOpen ? 'Live' : 'Closed'}
-        </span>
-      </div>
-
-      {/* Market Heat */}
-      <div className="flex items-center gap-2 px-3 border-r border-primary/10 shrink-0">
-        <div className="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Heat</div>
-        <div className={cn("px-1.5 py-0.5 rounded text-[0.6rem] font-bold tracking-widest", heatColor, heatBg)}>
-          {heatLevel}
+    <div className="liquid-glass mb-4 rounded-lg animate-fade-in-up">
+      {/* overflow-x-auto lives on this inner row, not on .liquid-glass itself —
+          .liquid-glass sets overflow:clip for its specular pseudo-elements,
+          which would otherwise kill horizontal scroll of the price ticker. */}
+      <div className="flex items-center gap-0 overflow-x-auto scrollbar-none">
+        {/* Status pill */}
+        <div className="flex items-center gap-1.5 px-3 py-2 border-r border-primary/10 shrink-0">
+          <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground/30'}`} />
+          <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/60">
+            {isOpen ? 'Live' : 'Closed'}
+          </span>
         </div>
-      </div>
 
-      {/* Prices */}
-      {LIVE_ORDER.map(id => {
-        const p = data.prices[id]
-        if (!p) return null
-        return <LivePriceItem key={id} id={id} price={p} />
-      })}
+        {/* Market Heat */}
+        <div className="flex items-center gap-2 px-3 border-r border-primary/10 shrink-0">
+          <div className="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Heat</div>
+          <div className={cn("px-1.5 py-0.5 rounded text-[0.6rem] font-bold tracking-widest", heatColor, heatBg)}>
+            {heatLevel}
+          </div>
+        </div>
 
-      {/* Freshness */}
-      <div className={`ml-auto px-3 text-[0.68rem] tabular-nums shrink-0 ${freshness}`}>
-        {secsAgo < 5 ? 'ahora' : `${secsAgo}s`}
+        {/* Prices */}
+        {LIVE_ORDER.map(id => {
+          const p = data.prices[id]
+          if (!p) return null
+          return <LivePriceItem key={id} id={id} price={p} />
+        })}
+
+        {/* Freshness */}
+        <div className={`ml-auto px-3 text-[0.68rem] tabular-nums shrink-0 ${freshness}`}>
+          {secsAgo < 5 ? 'ahora' : `${secsAgo}s`}
+        </div>
       </div>
     </div>
   )
@@ -1724,8 +1729,7 @@ export default function Dashboard() {
           {/* Setup del día — hero card */}
           {bestPick && (
             <Link to="/value" className="block mb-6 group">
-              <div className="glass rounded-2xl overflow-clip border border-emerald-500/25 animate-fade-in-up transition-all duration-200 group-hover:border-emerald-500/50 group-hover:bg-emerald-500/6">
-                <div className="h-0.5 bg-gradient-to-r from-emerald-500/60 via-emerald-400/80 to-emerald-500/20" />
+              <div className="glass rounded-2xl overflow-clip animate-fade-in-up transition-all duration-200 group-hover:bg-emerald-500/6">
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-[0.68rem] font-bold tracking-[0.18em] text-emerald-400/60 uppercase">Setup del día</span>
