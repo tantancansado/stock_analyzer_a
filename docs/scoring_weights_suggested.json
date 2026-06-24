@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-23",
+  "generated_at": "2026-06-24",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -36,22 +36,22 @@
     {
       "factor": "fcf_yield_bonus",
       "change": "+3",
-      "reason": "FCF alto mejora WR +7.4pp. Aumentar peso FCF.",
+      "reason": "FCF alto mejora WR +7.3pp. Aumentar peso FCF.",
       "n": 420
     },
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
-      "reason": "R:R alto mejora WR +9.9pp. Aumentar peso R:R.",
+      "reason": "R:R alto mejora WR +9.8pp. Aumentar peso R:R.",
       "n": 586
     },
     {
       "factor": "score_threshold_note",
       "change": "Consider raising minimum threshold to 70+ for published picks",
-      "reason": "Score 80+ has 60.0% WR vs 27% base",
+      "reason": "Score 80+ has 60.0% WR vs 28% base",
       "n": 5
     }
   ],
-  "expected_impact": "Based on 1524 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que:\n\n- Un mayor peso en FCF (Flujo de Efectivo Libre) podr\u00eda mejorar la precisi\u00f3n en un 7.4% porcentual.\n- Un mayor peso en R:R (Riesgo-Reward) podr\u00eda mejorar la precisi\u00f3n en un 9.9% porcentual.\n\nEstos cambios podr\u00edan llevar a una mayor precisi\u00f3n en las predicciones, especialmente si se aplica un umbral m\u00ednimo de 70 o m\u00e1s para las predicciones publicadas."
+  "expected_impact": "Based on 1525 historical signals",
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando el rendimiento de las acciones con FCF alto (Flujo de Efectivo Libre) y R:R alto (Riesgo-Reward)."
 }

@@ -1,74 +1,44 @@
 {
-  "generated_at": "2026-06-23",
+  "generated_at": "2026-06-24",
   "alerts": [
     {
       "type": "SCORE_UP",
       "ticker": "V",
       "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 53.7,
-      "score_prev": 34.7,
-      "delta": 19.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 59.8,
-      "score_prev": 43.8,
-      "delta": 16.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 42.2,
-      "score_prev": 32.2,
-      "delta": 10.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 36.4,
-      "score_prev": 26.4,
-      "delta": 10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FDS",
-      "company_name": "FactSet Research Systems Inc.",
-      "sector": "Financial Services",
-      "score_today": 35.7,
-      "score_prev": 26.2,
-      "delta": 9.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "score_today": 46.2,
-      "score_prev": 38.2,
-      "delta": 8.0,
-      "grade": "🟡 Average"
+      "score_today": 71.7,
+      "score_prev": 53.7,
+      "delta": 18.0,
+      "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_UP",
       "ticker": "PGR",
       "company_name": "Progressive Corporation (The)",
       "sector": "Financial Services",
-      "score_today": 45.4,
-      "score_prev": 37.4,
-      "delta": 8.0,
+      "score_today": 61.4,
+      "score_prev": 45.4,
+      "delta": 16.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc",
+      "sector": "Healthcare",
+      "score_today": 54.5,
+      "score_prev": 38.5,
+      "delta": 16.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "sector": "Industrials",
+      "score_today": 47.7,
+      "score_prev": 34.7,
+      "delta": 13.0,
       "grade": "🔴 Weak"
     },
     {
@@ -76,68 +46,58 @@
       "ticker": "KO",
       "company_name": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
-      "score_today": 42.2,
-      "score_prev": 36.2,
-      "delta": 6.0,
-      "grade": "🔴 Weak"
+      "score_today": 53.2,
+      "score_prev": 42.2,
+      "delta": 11.0,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "score_today": 62.8,
-      "score_prev": 57.8,
-      "delta": 5.0,
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sector": "Healthcare",
+      "score_today": 45.3,
+      "score_prev": 35.3,
+      "delta": 10.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "PG",
+      "company_name": "Procter & Gamble Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 57.6,
+      "score_prev": null,
+      "delta": null,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "BRK-B",
-      "company_name": "Berkshire Hathaway Inc. New",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
+      "score_today": 46.8,
+      "score_prev": 51.8,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
       "sector": "Financial Services",
-      "score_today": 32.0,
-      "score_prev": 37.7,
-      "delta": -5.7,
-      "grade": "🔴 Weak"
+      "score_today": 39.3,
+      "score_prev": 47.3,
+      "delta": -8.0,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 26.6,
-      "score_prev": 33.6,
-      "delta": -7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CHD",
-      "company_name": "Church & Dwight Company, Inc.",
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
       "sector": "Consumer Defensive",
-      "score_today": 32.5,
-      "score_prev": 40.5,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "sector": "Financial Services",
-      "score_today": 22.0,
-      "score_prev": 30.0,
-      "delta": -8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AJG",
-      "company_name": "Arthur J. Gallagher & Co.",
-      "sector": "Financial Services",
-      "score_today": 27.6,
-      "score_prev": 37.6,
+      "score_today": 31.4,
+      "score_prev": 41.4,
       "delta": -10.0,
       "grade": "🔴 Weak"
     },
@@ -146,9 +106,9 @@
       "ticker": "QSR",
       "company_name": "Restaurant Brands International",
       "sector": "Consumer Cyclical",
-      "score_today": 35.5,
-      "score_prev": 51.5,
-      "delta": -16.0,
+      "score_today": 22.5,
+      "score_prev": 35.5,
+      "delta": -13.0,
       "grade": "🔴 Weak"
     },
     {
@@ -156,26 +116,16 @@
       "ticker": "TEVA",
       "company_name": "Teva Pharmaceutical Industries ",
       "sector": "Healthcare",
-      "score_today": 39.9,
-      "score_prev": 55.9,
+      "score_today": 23.9,
+      "score_prev": 39.9,
       "delta": -16.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "COST",
-      "company_name": "Costco Wholesale Corporation",
-      "sector": "Consumer Defensive",
-      "score_today": 22.9,
-      "score_prev": 41.9,
-      "delta": -19.0,
       "grade": "🔴 Weak"
     }
   ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
-    "score_up": 9,
-    "score_down": 8
+    "score_up": 6,
+    "score_down": 5
   }
 }
