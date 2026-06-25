@@ -153,17 +153,33 @@ export default function App() {
   }, [user])
 
 
-  // Cursor spotlight — feeds --mouse-x/y to .glass::after radial gradient
+  // Cursor spotlight — feeds --mouse-x/y to .glass::after radial gradient.
+  // Throttled to one getBoundingClientRect()+style write per animation frame
+  // instead of per mousemove event (which can fire 100-240+ times/sec) —
+  // the spotlight is purely visual, it doesn't need to run faster than paint.
   useEffect(() => {
-    const handleMove = (e: MouseEvent) => {
+    let pending: MouseEvent | null = null
+    let rafId = 0
+    const apply = () => {
+      rafId = 0
+      const e = pending
+      pending = null
+      if (!e) return
       const el = (e.target as Element).closest<HTMLElement>('.glass')
       if (!el) return
       const rect = el.getBoundingClientRect()
       el.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`)
       el.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`)
     }
+    const handleMove = (e: MouseEvent) => {
+      pending = e
+      if (!rafId) rafId = requestAnimationFrame(apply)
+    }
     document.addEventListener('mousemove', handleMove, { passive: true })
-    return () => document.removeEventListener('mousemove', handleMove)
+    return () => {
+      document.removeEventListener('mousemove', handleMove)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [])
 
   const openCmd = useCallback(() => setCmdOpen(true), [])

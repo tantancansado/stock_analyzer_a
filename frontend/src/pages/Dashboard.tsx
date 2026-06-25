@@ -876,25 +876,43 @@ function useLivePrices(intervalMs = 60_000) {
   const [data, setData]           = React.useState<LivePricesData | null>(null)
   const [loading, setLoading]     = React.useState(true)
   const [lastUpdate, setLastUpdate] = React.useState<Date | null>(null)
-  const [secsAgo, setSecsAgo]     = React.useState(0)
 
   React.useEffect(() => {
     let cancelled = false
     const doFetch = async () => {
       try {
         const res = await fetchLivePrices()
-        if (!cancelled) { setData(res.data); setLastUpdate(new Date()); setSecsAgo(0) }
+        if (!cancelled) { setData(res.data); setLastUpdate(new Date()) }
       } catch { /* silent */ } finally {
         if (!cancelled) setLoading(false)
       }
     }
     doFetch()
     const fetchId = setInterval(doFetch, intervalMs)
-    const tickId  = setInterval(() => setSecsAgo(s => s + 1), 1000)
-    return () => { cancelled = true; clearInterval(fetchId); clearInterval(tickId) }
+    return () => { cancelled = true; clearInterval(fetchId) }
   }, [intervalMs])
 
-  return { data, loading, lastUpdate, secsAgo }
+  return { data, loading, lastUpdate }
+}
+
+// Ticks every 1s in its own leaf component so the 1s update doesn't
+// re-render (and force the .liquid-glass backdrop-filter to repaint) the
+// whole LivePricesBar — only this small text node repaints.
+function LiveFreshness({ lastUpdate }: { lastUpdate: Date | null }) {
+  const [secsAgo, setSecsAgo] = React.useState(0)
+
+  React.useEffect(() => {
+    setSecsAgo(0)
+    const tickId = setInterval(() => setSecsAgo(s => s + 1), 1000)
+    return () => clearInterval(tickId)
+  }, [lastUpdate])
+
+  const freshness = secsAgo < 90 ? 'text-emerald-400' : secsAgo < 180 ? 'text-amber-400' : 'text-muted-foreground/40'
+  return (
+    <div className={`ml-auto px-3 text-[0.68rem] tabular-nums shrink-0 ${freshness}`}>
+      {secsAgo < 5 ? 'ahora' : `${secsAgo}s`}
+    </div>
+  )
 }
 
 function LivePriceItem({ id, price }: { id: string; price: { label: string; kind: string; current: number | null; change_pct: number | null } }) {
@@ -933,7 +951,7 @@ function LivePriceItem({ id, price }: { id: string; price: { label: string; kind
 }
 
 function LivePricesBar() {
-  const { data, loading, secsAgo } = useLivePrices(60_000)
+  const { data, loading, lastUpdate } = useLivePrices(60_000)
 
   if (loading) return (
     <div className="flex items-center gap-2 mb-4 px-3 py-2 rounded-lg border border-border/20 bg-muted/5 animate-pulse h-9" />
@@ -941,7 +959,6 @@ function LivePricesBar() {
   if (!data) return null
 
   const isOpen   = data.market_open
-  const freshness = secsAgo < 90 ? 'text-emerald-400' : secsAgo < 180 ? 'text-amber-400' : 'text-muted-foreground/40'
 
   // Market Heat Indicator based on VIX
   const vixValue = data.prices['vix']?.current ?? 20
@@ -978,10 +995,7 @@ function LivePricesBar() {
           return <LivePriceItem key={id} id={id} price={p} />
         })}
 
-        {/* Freshness */}
-        <div className={`ml-auto px-3 text-[0.68rem] tabular-nums shrink-0 ${freshness}`}>
-          {secsAgo < 5 ? 'ahora' : `${secsAgo}s`}
-        </div>
+        <LiveFreshness lastUpdate={lastUpdate} />
       </div>
     </div>
   )

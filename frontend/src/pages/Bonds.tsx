@@ -1186,7 +1186,7 @@ export default function Bonds() {
             <div className="text-2xl font-bold text-foreground">{bonds.length}</div>
           </CardContent>
         </Card>
-        <Card className="glass border-emerald-500/20">
+        <Card className="glass border-border/30">
           <CardContent className="p-4">
             <div className="text-xs text-muted-foreground mb-1">Atractivos</div>
             <div className="text-2xl font-bold text-emerald-400">{atractivos.length}</div>

@@ -129,6 +129,7 @@ function Pill({ tone, children }: { tone: 'green' | 'amber' | 'red' | 'blue' | '
 export default function Manual() {
   const [active, setActive] = useState<string>(SECTIONS[0].id)
   const [query, setQuery] = useState('')
+  const [jumpTo, setJumpTo] = useState('')
 
   // IntersectionObserver for active TOC highlight
   useEffect(() => {
@@ -167,6 +168,28 @@ export default function Manual() {
         <p className="text-sm text-muted-foreground">
           Cómo funciona cada sección, qué hace cada agente y cómo interpretar los datos. Pensado para empezar de cero.
         </p>
+      </div>
+
+      {/* Mobile section jump — el TOC con buscador de abajo solo se ve desde lg */}
+      <div className="lg:hidden mb-5">
+        <select
+          value={jumpTo}
+          onChange={e => {
+            const id = e.target.value
+            document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            setJumpTo('')
+          }}
+          className="w-full px-3 py-2.5 text-sm rounded-md bg-muted/20 border border-border/40 focus:border-primary/60 focus:outline-none transition-colors"
+        >
+          <option value="" disabled>Saltar a una sección…</option>
+          {(['intro', 'pages', 'agents', 'concepts'] as const).map(g => (
+            <optgroup key={g} label={GROUP_LABELS[g]}>
+              {SECTIONS.filter(s => s.group === g).map(s => (
+                <option key={s.id} value={s.id}>{s.title}</option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
       </div>
 
       <div className="flex gap-8">
