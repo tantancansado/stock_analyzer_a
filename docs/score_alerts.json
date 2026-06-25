@@ -1,84 +1,64 @@
 {
-  "generated_at": "2026-06-24",
+  "generated_at": "2026-06-25",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
+      "ticker": "AON",
+      "company_name": "Aon plc",
       "sector": "Financial Services",
-      "score_today": 71.7,
-      "score_prev": 53.7,
-      "delta": 18.0,
+      "score_today": 58.4,
+      "score_prev": 47.4,
+      "delta": 11.0,
       "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "PGR",
-      "company_name": "Progressive Corporation (The)",
-      "sector": "Financial Services",
-      "score_today": 61.4,
-      "score_prev": 45.4,
-      "delta": 16.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TMO",
-      "company_name": "Thermo Fisher Scientific Inc",
-      "sector": "Healthcare",
-      "score_today": 54.5,
-      "score_prev": 38.5,
-      "delta": 16.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ATLKY",
-      "company_name": "Atlas Copco AB",
-      "sector": "Industrials",
-      "score_today": 47.7,
-      "score_prev": 34.7,
-      "delta": 13.0,
-      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
       "ticker": "KO",
       "company_name": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
-      "score_today": 53.2,
-      "score_prev": 42.2,
-      "delta": 11.0,
-      "grade": "🟡 Average"
+      "score_today": 64.0,
+      "score_prev": 53.2,
+      "delta": 10.8,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 42.0,
+      "score_prev": 31.4,
+      "delta": 10.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "KR",
+      "company_name": "Kroger Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 45.3,
+      "score_prev": 39.4,
+      "delta": 6.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
       "ticker": "SYK",
       "company_name": "Stryker Corporation",
       "sector": "Healthcare",
-      "score_today": 45.3,
-      "score_prev": 35.3,
-      "delta": 10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "PG",
-      "company_name": "Procter & Gamble Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 57.6,
-      "score_prev": null,
-      "delta": null,
+      "score_today": 51.0,
+      "score_prev": 45.3,
+      "delta": 5.7,
       "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "sector": "Industrials",
-      "score_today": 46.8,
-      "score_prev": 51.8,
-      "delta": -5.0,
+      "type": "SCORE_UP",
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "sector": "Healthcare",
+      "score_today": 29.4,
+      "score_prev": 23.9,
+      "delta": 5.5,
       "grade": "🔴 Weak"
     },
     {
@@ -86,45 +66,65 @@
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "sector": "Financial Services",
-      "score_today": 39.3,
-      "score_prev": 47.3,
-      "delta": -8.0,
+      "score_today": 33.3,
+      "score_prev": 39.3,
+      "delta": -6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 64.7,
+      "score_prev": 71.7,
+      "delta": -7.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 38.9,
+      "score_prev": 46.2,
+      "delta": -7.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PGR",
+      "company_name": "Progressive Corporation (The)",
+      "sector": "Financial Services",
+      "score_today": 54.0,
+      "score_prev": 61.4,
+      "delta": -7.4,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 43.8,
+      "score_prev": 60.0,
+      "delta": -16.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "PG",
+      "company_name": "Procter & Gamble Company (The)",
       "sector": "Consumer Defensive",
-      "score_today": 31.4,
-      "score_prev": 41.4,
-      "delta": -10.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International",
-      "sector": "Consumer Cyclical",
-      "score_today": 22.5,
-      "score_prev": 35.5,
-      "delta": -13.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "score_today": 23.9,
-      "score_prev": 39.9,
-      "delta": -16.0,
-      "grade": "🔴 Weak"
+      "score_today": null,
+      "score_prev": 57.6,
+      "delta": null,
+      "grade": "🟡 Average"
     }
   ],
   "counts": {
-    "new_entries": 1,
-    "exited": 0,
+    "new_entries": 0,
+    "exited": 1,
     "score_up": 6,
     "score_down": 5
   }
