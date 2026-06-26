@@ -126,6 +126,16 @@ class TestParseHealth:
         assert result["roe_pct"] == 25.0
         assert result["debt_to_equity"] == 0.5
 
+    def test_python_repr_string(self):
+        # Real format written by the pipeline: str(dict) via pandas to_csv,
+        # single-quoted — NOT valid JSON. json.loads() alone fails on this;
+        # this is the format every row in fundamental_scores.csv actually has.
+        row = pd.Series({"health_details": "{'roe_pct': 5.9, 'debt_to_equity': 0.37, 'operating_margin_pct': 39.8}"})
+        result = _parse_health(row)
+        assert result["roe_pct"] == 5.9
+        assert result["debt_to_equity"] == 0.37
+        assert result["operating_margin_pct"] == 39.8
+
     def test_missing_column_returns_empty(self):
         row = pd.Series({"ticker": "AAPL"})
         assert _parse_health(row) == {}

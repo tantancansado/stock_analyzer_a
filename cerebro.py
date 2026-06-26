@@ -39,7 +39,7 @@ TODAY = date.today().isoformat()
 # ── helpers ───────────────────────────────────────────────────────────────────
 # Pure I/O helpers live in cerebro_lib.io; re-imported here so the existing
 # scan_* functions below can keep using the short names unchanged.
-from cerebro_lib.io import load_csv as _load_csv_raw, load_json, save_json, sf  # noqa: E402
+from cerebro_lib.io import load_csv as _load_csv_raw, load_json, save_json, sf, parse_health_details as _parse_health  # noqa: E402
 from cerebro_lib.patterns import compute_stats, tier_column  # noqa: E402
 
 
@@ -59,6 +59,57 @@ def load_csv(path):
 def _reset_csv_cache() -> None:
     """Clear the per-run cache — used by tests and when rerunning main()."""
     _CSV_CACHE.clear()
+
+
+def _enrich_value_with_extras(df: pd.DataFrame) -> pd.DataFrame:
+    """Añade/rellena current_price, risk_reward_ratio y conviction_grade.
+
+    El US (value_opportunities.csv) no trae current_price limpio (quedó como
+    current_price_x/_y por un merge previo en otro script) ni risk_reward_ratio
+    en absoluto. El EU (european_value_opportunities.csv) SÍ trae ambos limpios
+    de forma nativa — por eso esto rellena huecos (fillna vía ticker→valor) en
+    vez de hacer un merge ciego: un merge normal colisiona porque pandas intenta
+    sufijar "current_price" y ya existe un "current_price_x" literal en el US.
+    conviction_grade no existe en ninguno de los dos — viene de *_conviction.csv,
+    el gate final de convicción (cobertura estrecha por diseño, no bug: la
+    mayoría de tickers nunca llega a ese gate).
+
+    Sin esto, scan_entry_signals nunca suma el bonus "R:R ≥2" para tickers US,
+    y el gate "grade in (A,B)" de scan_daily_plan / scan_options_signal_quality
+    no pasaba nunca (value_en_entorno salía vacío todos los días).
+    """
+    if df.empty or "ticker" not in df.columns:
+        return df
+    df = df.copy()
+    df["ticker"] = df["ticker"].astype(str).str.upper()
+    df = df.drop(columns=[c for c in ("current_price_x", "current_price_y") if c in df.columns])
+
+    filtered = pd.concat([
+        load_csv(DOCS / "value_opportunities_filtered.csv"),
+        load_csv(DOCS / "european_value_opportunities_filtered.csv"),
+    ], ignore_index=True)
+    if not filtered.empty and "ticker" in filtered.columns:
+        filtered = filtered.assign(ticker=filtered["ticker"].astype(str).str.upper())
+        for col in ("current_price", "risk_reward_ratio"):
+            if col not in filtered.columns:
+                continue
+            lookup = filtered.drop_duplicates(subset="ticker").set_index("ticker")[col]
+            filled = df["ticker"].map(lookup)
+            df[col] = df[col].fillna(filled) if col in df.columns else filled
+
+    conv = pd.concat([
+        load_csv(DOCS / "value_conviction.csv"),
+        load_csv(DOCS / "european_value_conviction.csv"),
+    ], ignore_index=True)
+    if not conv.empty and "ticker" in conv.columns and "conviction_grade" in conv.columns:
+        conv = conv.assign(ticker=conv["ticker"].astype(str).str.upper())
+        gmap = conv.drop_duplicates(subset="ticker").set_index("ticker")["conviction_grade"]
+        filled = df["ticker"].map(gmap)
+        df["conviction_grade"] = df["conviction_grade"].fillna(filled) if "conviction_grade" in df.columns else filled
+
+    return df
+
+
 from cerebro_lib.scoring import (  # noqa: E402
     compute_convergence_score,
     score_value_trap,
@@ -193,7 +244,7 @@ def scan_convergence() -> dict:
     print("\n[2/5] Convergence scan...")
 
     dfs = {
-        "VALUE":    pd.concat([load_csv(DOCS/"value_opportunities.csv"), load_csv(DOCS/"european_value_opportunities.csv")], ignore_index=True),
+        "VALUE":    _enrich_value_with_extras(pd.concat([load_csv(DOCS/"value_opportunities.csv"), load_csv(DOCS/"european_value_opportunities.csv")], ignore_index=True)),
         "INSIDERS": load_csv(DOCS/"recurring_insiders.csv"),
         "MR":       load_csv(DOCS/"mean_reversion_opportunities.csv"),
         "OPTIONS":  load_csv(DOCS/"options_flow.csv"),
@@ -573,8 +624,8 @@ def scan_entry_signals(convergence: dict) -> dict:
     print("[6/6] Entry signal scan...")
 
     # ── Load all data sources ──────────────────────────────────────────────────
-    value_df    = load_csv(DOCS / "value_opportunities.csv")
-    value_eu_df = load_csv(DOCS / "european_value_opportunities.csv")
+    value_df    = _enrich_value_with_extras(load_csv(DOCS / "value_opportunities.csv"))
+    value_eu_df = _enrich_value_with_extras(load_csv(DOCS / "european_value_opportunities.csv"))
     insiders_df = load_csv(DOCS / "recurring_insiders.csv")
     eu_ins_df   = load_csv(DOCS / "eu_recurring_insiders.csv")
     mr_df       = load_csv(DOCS / "mean_reversion_opportunities.csv")
@@ -1022,9 +1073,16 @@ def scan_value_traps() -> dict:
         an_cnt = sf(row.get("analyst_count"))
         an_rec = str(row.get("analyst_recommendation","")).lower()
         fund_s = sf(row.get("fundamental_score"))
-        debt   = sf(row.get("debt_to_equity"))
-        op_mar = sf(row.get("operating_margin_pct"))
         company= str(row.get("company_name", t))
+
+        # debt_to_equity / operating_margin_pct NO existen como columnas planas en
+        # value_opportunities.csv — viven dentro del JSON health_details de
+        # fundamental_scores.csv. Leerlas de `row` (como antes) siempre daba None
+        # y el flag de "deuda alta + margen bajo" de score_value_trap nunca disparaba.
+        fund_row = fund_map.get(t)
+        health   = _parse_health(fund_row) if fund_row is not None else {}
+        debt     = sf(health.get("debt_to_equity"))
+        op_mar   = sf(health.get("operating_margin_pct"))
 
         trap_score, flags = score_value_trap(
             piotroski=piotr, fcf_yield_pct=fcf, fundamental_score=fund_s,
@@ -1707,9 +1765,6 @@ def scan_short_squeeze() -> dict:
 # ══════════════════════════════════════════════════════════════════════════════
 # 15. QUALITY DECAY EARLY WARNING — deterioro silencioso antes del Piotroski
 # ══════════════════════════════════════════════════════════════════════════════
-
-from cerebro_lib.io import parse_health_details as _parse_health  # noqa: E402
-
 
 def scan_quality_decay() -> dict:
     """
@@ -2779,7 +2834,7 @@ def scan_competitor_displacement() -> dict:
     print("[22] Competitor displacement analyzer...")
     value_df  = load_csv(DOCS / "value_opportunities.csv")
     eu_df     = load_csv(DOCS / "european_value_opportunities.csv")
-    all_curr  = pd.concat([value_df, eu_df], ignore_index=True) if not value_df.empty else eu_df
+    all_curr  = _enrich_value_with_extras(pd.concat([value_df, eu_df], ignore_index=True) if not value_df.empty else eu_df)
     exit_data = load_json(DOCS / "cerebro_exit_signals.json")
 
     if all_curr.empty:
@@ -2983,7 +3038,7 @@ def scan_options_signal_quality() -> dict:
         return dict(generated_at=TODAY, total=0, tier1=0, tier2=0,
                     tier3=0, noise_filtered=0, actionable=[], narrative=None)
 
-    all_value = pd.concat([value_df, eu_df], ignore_index=True) if not value_df.empty else eu_df
+    all_value = _enrich_value_with_extras(pd.concat([value_df, eu_df], ignore_index=True) if not value_df.empty else eu_df)
 
     value_map: dict[str, dict] = {}
     if not all_value.empty and "ticker" in all_value.columns:
@@ -3566,7 +3621,7 @@ def scan_daily_plan(exit_sigs: dict, value_traps: dict, smart_money: dict, squee
     macro_plays.sort(key=lambda x: -x["score"])
 
     # ── VALUE picks filtered by macro regime ──────────────────────────────────
-    all_value = pd.concat([value_df, eu_df], ignore_index=True) if not value_df.empty else eu_df
+    all_value = _enrich_value_with_extras(pd.concat([value_df, eu_df], ignore_index=True) if not value_df.empty else eu_df)
     value_en_entorno: list[dict] = []
 
     if not all_value.empty:

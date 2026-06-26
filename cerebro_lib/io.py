@@ -44,14 +44,28 @@ def sf(v: Any) -> float | None:
 def parse_health_details(row) -> dict:
     """Extract health_details dict from a DataFrame row.
 
-    Accepts either a dict (already parsed) or a JSON string. Returns {} on
-    any parse failure or non-dict payload.
+    Accepts either a dict (already parsed) or a string. The CSV pipeline writes
+    this column via Python's str(dict) — single-quoted repr, NOT JSON — so
+    json.loads() alone fails on every real row (it requires double quotes).
+    Try JSON first (in case the format ever changes), fall back to
+    ast.literal_eval for the actual single-quoted format. Returns {} on any
+    parse failure or non-dict payload.
     """
     raw = row.get("health_details")
     if not raw:
         return {}
+    if isinstance(raw, dict):
+        return raw
+    if not isinstance(raw, str):
+        return {}
     try:
-        d = json.loads(raw) if isinstance(raw, str) else raw
+        d = json.loads(raw)
+        return d if isinstance(d, dict) else {}
+    except Exception:
+        pass
+    try:
+        import ast
+        d = ast.literal_eval(raw)
         return d if isinstance(d, dict) else {}
     except Exception:
         return {}
