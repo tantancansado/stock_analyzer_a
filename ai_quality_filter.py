@@ -215,6 +215,56 @@ Respond ONLY with JSON:
         # Fallback to rule-based
         return fallback_analysis(ticker_data, strategy)
 
+def claude_data_check(ticker_data: dict) -> str | None:
+    """Claude (Sonnet) audita la PLAUSIBILIDAD de los datos de un pick VALUE ya
+    filtrado por Groq — mismo patrón que leaps_analyzer.add_ai_narrative.
+
+    Groq decide BUY/HOLD/AVOID dado el dato; esto comprueba si el dato en sí
+    es creíble (precio/target/upside/ROE coherentes con lo que se sabe de la
+    empresa). Solo se llama sobre los supervivientes del filtro Groq — pasar
+    el universo entero por Claude saldría caro.
+
+    Devuelve None si todo parece coherente, o el texto de aviso si Claude
+    detecta algo dudoso.
+    """
+    try:
+        from groq_utils import claude_chat, CLAUDE_SONNET
+    except Exception:
+        return None
+
+    def _nd(v, suffix=''):
+        if v is None or (isinstance(v, float) and np.isnan(v)):
+            return 'n/d'
+        return f'{v}{suffix}'
+
+    prompt = f"""Eres un auditor de datos para un sistema de inversión value/GARP. Tu única tarea es comprobar si estas cifras (de una fuente automática, yfinance, que a veces falla) son PLAUSIBLES y COHERENTES entre sí para esta empresa concreta, usando tu propio conocimiento. NO evalúes si es buena compra — eso ya lo decidió otro filtro.
+
+{ticker_data['ticker']} ({ticker_data.get('company_name', '')}) — sector {_nd(ticker_data.get('sector'))}
+Precio: ${_nd(ticker_data.get('current_price'))} · Target analistas: ${_nd(ticker_data.get('target_price_analyst'))} ({_nd(ticker_data.get('analyst_count'))} analistas) · Upside: {_nd(ticker_data.get('analyst_upside_pct'), '%')}
+ROE: {_nd(ticker_data.get('roe'), '%')} · Margen neto: {_nd(ticker_data.get('profit_margin'), '%')} · Deuda/Capital: {_nd(ticker_data.get('debt_to_equity'))}
+Crecimiento ingresos YoY: {_nd(ticker_data.get('rev_growth'), '%')} · FCF yield: {_nd(ticker_data.get('fcf_yield_pct'), '%')} · Distancia máx. 52 sem: {_nd(ticker_data.get('pct_from_52w_high'), '%')}
+
+Ejemplos de lo que buscas: un ROE o margen absurdo para el sector, un upside/target inconsistente con el precio, una caída del 52w-high que no cuadra con fundamentales "intactos", deuda/capital imposible para el tipo de empresa.
+
+Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible, o si NO, qué dato parece erróneo y por qué (máx 2 frases, español)"}}"""
+
+    txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
+                      model=CLAUDE_SONNET, max_tokens=300, temperature=0.2)
+    if not txt:
+        return None
+    import re as _re
+    cleaned = _re.sub(r'(?:^```(?:json)?|```$)', '', txt.strip(), flags=_re.MULTILINE).strip()
+    m = _re.search(r'\{[\s\S]*\}', cleaned)
+    try:
+        data = json.loads(m.group(0)) if m else {}
+        dc = str(data.get('data_check', '')).strip()
+    except Exception:
+        dc = cleaned
+    if dc and not dc.upper().startswith('OK'):
+        return dc
+    return None
+
+
 def fallback_analysis(ticker_data: dict, strategy: str = "VALUE") -> dict:
     """
     Advanced rule-based quality analysis
@@ -630,6 +680,22 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
 
     # Sort by confidence
     df_filtered = df_filtered.sort_values('ai_confidence', ascending=False)
+
+    # Claude audita la PLAUSIBILIDAD de los datos — solo VALUE (eje central de
+    # la app junto a LEAPS) y solo sobre los YA filtrados por Groq, para no
+    # disparar el coste pasando el universo entero por Claude.
+    if strategy_name == 'VALUE' and not df_filtered.empty:
+        print(f"\n🔎 Claude data-check sobre {len(df_filtered)} picks filtrados...")
+        warnings_count = 0
+        data_warnings = []
+        for _, row in df_filtered.iterrows():
+            dc = claude_data_check(row.to_dict())
+            data_warnings.append(dc)
+            if dc:
+                warnings_count += 1
+                print(f"  ⚠️  {row['ticker']}: {dc[:90]}")
+        df_filtered['data_warning'] = data_warnings
+        print(f"   {warnings_count}/{len(df_filtered)} con aviso de datos dudosos")
 
     print("\n" + "=" * 100)
     print("FILTERING RESULTS")

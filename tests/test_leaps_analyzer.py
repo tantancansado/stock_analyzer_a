@@ -47,6 +47,20 @@ class TestBsDelta:
         d_high = la.bs_call_delta(100, 90, 1.5, 0.04, 0.4)
         assert d_low > d_high
 
+    def test_dividend_yield_lowers_delta(self):
+        # Una dividendera (q>0) tiene menos delta que la misma call sin dividendo —
+        # el forward price es más bajo, así que ITM real es menor de lo que parece.
+        d_no_div = la.bs_call_delta(100, 70, 1.5, 0.04, 0.35, div_yield=0.0)
+        d_with_div = la.bs_call_delta(100, 70, 1.5, 0.04, 0.35, div_yield=0.04)
+        assert d_with_div < d_no_div
+
+    def test_dividend_yield_defaults_to_zero(self):
+        # Omitir div_yield debe dar exactamente el mismo resultado que pasar 0.0
+        # (no debe romper ninguna llamada existente que no conozca el dividendo)
+        d_default = la.bs_call_delta(100, 70, 1.5, 0.04, 0.35)
+        d_explicit_zero = la.bs_call_delta(100, 70, 1.5, 0.04, 0.35, div_yield=0.0)
+        assert d_default == d_explicit_zero
+
 
 # ── Métricas del contrato ────────────────────────────────────────────────────
 
@@ -81,6 +95,14 @@ class TestLeapsMetrics:
         m = la.leaps_metrics(spot=100, strike=70, t_years=1.0, premium=28, iv=0.4)
         assert m['extrinsic'] == 0.0
         assert m['annual_carry_pct'] == 0.0
+
+    def test_dividend_yield_lowers_reported_leverage(self):
+        # Una dividendera reporta menos leverage que la misma call sin dividendo —
+        # antes de este fix, el leverage de bancos/energía salía sobreestimado.
+        no_div = la.leaps_metrics(spot=100, strike=70, t_years=1.5, premium=35, iv=0.35, div_yield=0.0)
+        with_div = la.leaps_metrics(spot=100, strike=70, t_years=1.5, premium=35, iv=0.35, div_yield=0.04)
+        assert with_div['delta'] < no_div['delta']
+        assert with_div['leverage'] < no_div['leverage']
 
 
 # ── Scoring del contrato ─────────────────────────────────────────────────────

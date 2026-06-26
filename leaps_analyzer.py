@@ -87,21 +87,26 @@ LEAPS_UNIVERSE = [
 # ═════════════════════════════════════════════════════════════════════════════
 
 def bs_call_delta(spot: float, strike: float, t_years: float,
-                  rate: float, iv: float) -> float:
-    """Delta Black-Scholes de una call. Rango (0,1); deep ITM → cerca de 1."""
+                  rate: float, iv: float, div_yield: float = 0.0) -> float:
+    """Delta Black-Scholes de una call con dividendo continuo. Rango (0,1); deep ITM → cerca de 1.
+
+    div_yield (decimal, ej. 0.023 = 2.3%) reduce el delta: a más dividendo y más
+    plazo, más se aleja el forward price del spot. Sin este ajuste el delta de
+    LEAPS largos sobre dividenderas (bancos, energía) sale sobreestimado.
+    """
     if iv <= 0 or t_years <= 0 or spot <= 0 or strike <= 0:
         return float('nan')
-    d1 = (math.log(spot / strike) + (rate + 0.5 * iv * iv) * t_years) / (iv * math.sqrt(t_years))
-    return float(norm.cdf(d1))
+    d1 = (math.log(spot / strike) + (rate - div_yield + 0.5 * iv * iv) * t_years) / (iv * math.sqrt(t_years))
+    return float(math.exp(-div_yield * t_years) * norm.cdf(d1))
 
 
 def leaps_metrics(spot: float, strike: float, t_years: float, premium: float,
-                  iv: float, rate: float = FALLBACK_RF) -> dict:
+                  iv: float, rate: float = FALLBACK_RF, div_yield: float = 0.0) -> dict:
     """Métricas de un contrato LEAPS call para uso como sustituto de acciones.
 
     premium = precio medio del contrato (mid bid/ask), por acción.
     """
-    delta = bs_call_delta(spot, strike, t_years, rate, iv)
+    delta = bs_call_delta(spot, strike, t_years, rate, iv, div_yield)
     intrinsic = max(spot - strike, 0.0)
     extrinsic = max(premium - intrinsic, 0.0)
     extrinsic_pct = extrinsic / spot * 100 if spot > 0 else float('nan')
@@ -438,6 +443,18 @@ def _get_forward_pe(t: 'yf.Ticker') -> Optional[float]:
     return None
 
 
+def _get_dividend_yield(t: 'yf.Ticker') -> float:
+    """Dividend yield en decimal (0.023 = 2.3%) para el ajuste de delta. 0.0 si no hay/falla.
+    yfinance devuelve dividendYield ya en % (2.3 = 2.3%), NO en decimal — regla del proyecto."""
+    try:
+        dy = t.info.get('dividendYield')
+        if dy and dy > 0:
+            return float(dy) / 100.0
+    except Exception:
+        pass
+    return 0.0
+
+
 def _get_trailing_pe(t: 'yf.Ticker') -> Optional[float]:
     """Trailing P/E — para cruzar con el forward y detectar datos dudosos."""
     try:
@@ -522,6 +539,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             print(f"  {ticker}: descartado por múltiplo caro (forward P/E {forward_pe:.0f})")
             return None
 
+        div_yield = _get_dividend_yield(t)
         candidates: list[dict] = []
         for dte, exp in leaps_exp:
             t_years = dte / 365.0
@@ -544,7 +562,7 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                 oi = int(row.get('openInterest', 0) or 0)
                 if iv <= 0 or mid <= 0:
                     continue
-                m = leaps_metrics(spot, strike, t_years, mid, iv, rate)
+                m = leaps_metrics(spot, strike, t_years, mid, iv, rate, div_yield)
                 if m['delta'] is None or not (DELTA_MIN <= m['delta'] <= DELTA_MAX):
                     continue
                 if oi < MIN_OPEN_INT:

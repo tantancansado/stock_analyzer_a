@@ -110,6 +110,8 @@ export interface ValueOpportunity {
   ai_reasoning?: string | null
   ai_verdict?: string | null
   ai_confidence?: number | null
+  // Claude data-check (ai_quality_filter.py — plausibilidad de los datos, no veredicto)
+  data_warning?: string | null
   // Owner Earnings AI validator (owner_earnings_validator.py)
   oe_ai_adjustment?: number | null
   oe_ai_verdict?: string | null
