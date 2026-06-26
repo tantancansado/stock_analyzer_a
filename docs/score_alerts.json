@@ -1,131 +1,81 @@
 {
-  "generated_at": "2026-06-25",
+  "generated_at": "2026-06-26",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 58.4,
-      "score_prev": 47.4,
-      "delta": 11.0,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 64.0,
-      "score_prev": 53.2,
-      "delta": 10.8,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 42.0,
-      "score_prev": 31.4,
-      "delta": 10.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KR",
-      "company_name": "Kroger Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 45.3,
-      "score_prev": 39.4,
-      "delta": 6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 51.0,
-      "score_prev": 45.3,
-      "delta": 5.7,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "score_today": 29.4,
-      "score_prev": 23.9,
-      "delta": 5.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "sector": "Financial Services",
-      "score_today": 33.3,
-      "score_prev": 39.3,
-      "delta": -6.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "V",
       "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 64.7,
-      "score_prev": 71.7,
-      "delta": -7.0,
-      "grade": "🟡 Good"
+      "score_today": 80.7,
+      "score_prev": 64.7,
+      "delta": 16.0,
+      "grade": "🟢 Elite"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "score_today": 38.9,
-      "score_prev": 46.2,
-      "delta": -7.4,
+      "type": "SCORE_UP",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "score_today": 45.0,
+      "score_prev": 39.6,
+      "delta": 5.4,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "PGR",
-      "company_name": "Progressive Corporation (The)",
-      "sector": "Financial Services",
-      "score_today": 54.0,
-      "score_prev": 61.4,
-      "delta": -7.4,
-      "grade": "🟡 Average"
+      "ticker": "HEI",
+      "company_name": "Heico Corporation",
+      "sector": "Industrials",
+      "score_today": 26.5,
+      "score_prev": 31.5,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 43.8,
-      "score_prev": 60.0,
-      "delta": -16.2,
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sector": "Healthcare",
+      "score_today": 42.0,
+      "score_prev": 51.0,
+      "delta": -9.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "score_today": 48.4,
+      "score_prev": 58.4,
+      "delta": -10.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "sector": "Financial Services",
+      "score_today": 32.2,
+      "score_prev": 42.9,
+      "delta": -10.6,
       "grade": "🔴 Weak"
     },
     {
       "type": "EXITED",
-      "ticker": "PG",
-      "company_name": "Procter & Gamble Company (The)",
-      "sector": "Consumer Defensive",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "sector": "Financial Services",
       "score_today": null,
-      "score_prev": 57.6,
+      "score_prev": 65.8,
       "delta": null,
-      "grade": "🟡 Average"
+      "grade": "🟡 Good"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 1,
-    "score_up": 6,
-    "score_down": 5
+    "score_up": 2,
+    "score_down": 4
   }
 }
