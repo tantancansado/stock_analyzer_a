@@ -331,6 +331,8 @@ jobs:
           pip install pandas numpy yfinance requests beautifulsoup4 lxml
           pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
           pip install groq pyyaml
+          # anthropic → Claude Sonnet en cerebro.py (exit validation + daily plan); sin él cae siempre al fallback Groq
+          pip install anthropic
 
       - name: Bond Scanner (ETF + corporate bond opportunities)
         continue-on-error: true
