@@ -3933,30 +3933,36 @@ def scan_daily_plan(exit_sigs: dict, value_traps: dict, smart_money: dict, squee
         ai_powered=ai_powered,
     )
 
-    # ── Telegram notification ──────────────────────────────────────────────────
+    # ── Telegram notification — un único resumen diario enfocado en lo que el
+    # usuario realmente opera (VALUE + LEAPS), no en las ~14 estrategias que
+    # Cerebro rastrea internamente para otros fines (smart money, squeeze, etc.)
     tg_token = os.getenv("TELEGRAM_BOT_TOKEN")
     tg_chat  = os.getenv("TELEGRAM_CHAT_ID")
     if tg_token and tg_chat:
         try:
-            acciones_list = plan["acciones_inmediatas"]
-            action_lines = "\n".join(
-                f"{i+1}. {a.get('accion','?')} {a.get('instrumento','?')}: {str(a.get('razon',''))[:60]}"
-                for i, a in enumerate(acciones_list[:3])
-            )
-            value_tks = " ".join(v["ticker"] for v in value_en_entorno[:3]) or "—"
-            evitar_tks= " ".join(e["ticker"] for e in plan["evitar"][:3]) or "—"
-            agenda_next= "; ".join(
-                f"{ev.get('fecha','')} {ev.get('evento','')[:30]}"
-                for ev in plan["agenda_semana"][:2]
-            ) or "—"
+            value_lines = "\n".join(
+                f"  {v['ticker']} ({v['score']:.0f}pts, {v.get('sector','')})"
+                for v in value_en_entorno[:5]
+            ) or "  —"
+
+            leaps_line = "—"
+            leaps_top = (load_json(DOCS / "leaps_opportunities.json").get("opportunities") or [])[:1]
+            if leaps_top:
+                lt = leaps_top[0]
+                c  = lt.get("recommended_contract", {})
+                leaps_line = (
+                    f"{lt['ticker']} CALL ${c.get('strike','?')} {c.get('expiry','')} "
+                    f"(score {lt.get('opportunity_score','?')}, Δ{c.get('delta','?')})"
+                )
+
+            evitar_tks = ", ".join(a["ticker"] for a in avoid_list[:3]) or "—"
 
             tg_text = (
-                f"🧠 CEREBRO — Plan del Día {TODAY}\n"
+                f"🧠 Plan del Día {TODAY}\n"
                 f"Régimen: {regime_name} ({composite:+.1f}/30) · Sesgo: {plan['sesgo']}\n\n"
-                f"{action_lines}\n\n"
-                f"💎 VALUE en este entorno: {value_tks}\n"
-                f"⚠️ Evitar: {evitar_tks}\n\n"
-                f"📅 Próx: {agenda_next}"
+                f"💎 VALUE en este entorno:\n{value_lines}\n\n"
+                f"🚀 LEAPS — mejor oportunidad:\n  {leaps_line}\n\n"
+                f"⚠️ Evitar: {evitar_tks}"
             )
 
             import urllib.request
