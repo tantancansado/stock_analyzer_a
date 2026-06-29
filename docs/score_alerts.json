@@ -1,81 +1,121 @@
 {
-  "generated_at": "2026-06-26",
+  "generated_at": "2026-06-29",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": 80.7,
-      "score_prev": 64.7,
-      "delta": 16.0,
-      "grade": "🟢 Elite"
+      "ticker": "SXYAY",
+      "company_name": "SIKA AG",
+      "sector": "Basic Materials",
+      "score_today": 66.3,
+      "score_prev": 49.7,
+      "delta": 16.6,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 53.8,
+      "score_prev": 43.8,
+      "delta": 10.0,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
       "ticker": "WM",
       "company_name": "Waste Management, Inc.",
       "sector": "Industrials",
-      "score_today": 45.0,
-      "score_prev": 39.6,
-      "delta": 5.4,
+      "score_today": 53.0,
+      "score_prev": 45.0,
+      "delta": 8.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "TJX",
+      "company_name": "TJX Companies, Inc. (The)",
+      "sector": "Consumer Cyclical",
+      "score_today": 53.2,
+      "score_prev": 46.0,
+      "delta": 7.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporat",
+      "sector": "Consumer Defensive",
+      "score_today": 29.0,
+      "score_prev": 23.2,
+      "delta": 5.7,
       "grade": "🔴 Weak"
     },
     {
+      "type": "SCORE_UP",
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sector": "Healthcare",
+      "score_today": 47.0,
+      "score_prev": 42.0,
+      "delta": 5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc",
+      "sector": "Healthcare",
+      "score_today": 58.1,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Average"
+    },
+    {
       "type": "SCORE_DOWN",
-      "ticker": "HEI",
-      "company_name": "Heico Corporation",
-      "sector": "Industrials",
-      "score_today": 26.5,
-      "score_prev": 31.5,
+      "ticker": "LRLCY",
+      "company_name": "L'Oreal Co.",
+      "sector": "Consumer Defensive",
+      "score_today": 36.4,
+      "score_prev": 41.4,
       "delta": -5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 42.0,
-      "score_prev": 51.0,
-      "delta": -9.0,
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 69.3,
+      "score_prev": 80.7,
+      "delta": -11.4,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AJG",
+      "company_name": "Arthur J. Gallagher & Co.",
+      "sector": "Financial Services",
+      "score_today": 27.6,
+      "score_prev": 40.6,
+      "delta": -13.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 48.4,
-      "score_prev": 58.4,
-      "delta": -10.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 32.2,
-      "score_prev": 42.9,
-      "delta": -10.6,
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 31.4,
+      "score_prev": 45.0,
+      "delta": -13.6,
       "grade": "🔴 Weak"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 65.8,
-      "delta": null,
-      "grade": "🟡 Good"
     }
   ],
   "counts": {
-    "new_entries": 0,
-    "exited": 1,
-    "score_up": 2,
+    "new_entries": 1,
+    "exited": 0,
+    "score_up": 6,
     "score_down": 4
   }
 }
