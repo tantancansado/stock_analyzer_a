@@ -53,6 +53,9 @@ UNIVERSE = [
     # ── High Yield ────────────────────────────────────────────────────────────
     ("HYG",     "iShares HY Corporate Bond",      "HY_Corp",    4.0,  "USD"),
     ("JNK",     "SPDR Bloomberg HY Bond",         "HY_Corp",    3.8,  "USD"),
+    # ── USD UCITS (domiciliado en Irlanda — comprable en IBKR Ireland/UE;
+    #    SGOV/BIL/SHV son ETFs de EEUU, bloqueados para minoristas UE por PRIIPS/KID) ──
+    ("IB01.L",  "iShares $ Treasury Bond 0-1yr UCITS", "T_Bill", 0.5, "USD"),
     # ── EUR Ultracorto / Govt ─────────────────────────────────────────────────
     ("XEON.DE", "Xtrackers EUR Overnight Rate",   "EUR_Cash",   0.1,  "EUR"),
     ("IBTS.MI", "iShares EUR Govt 1-3yr",         "EUR_Govt",   1.9,  "EUR"),
@@ -84,6 +87,7 @@ HIST_AVG_YIELD = {
     "LQD":     4.8,
     "HYG":     7.0,
     "JNK":     7.2,
+    "IB01.L":  3.5,   # 0-1yr USD Treasury UCITS — mismo subyacente que SGOV/BIL
     "XEON.DE": 2.0,
     "IBTS.MI": 2.5,
     "IEAG.MI": 3.0,
@@ -186,6 +190,19 @@ def _fetch_bond_data(ticker: str, duration_hint: float, currency: str) -> dict |
             yield_pct = round(raw_yield, 2)
         else:
             yield_pct = None
+
+        # Fondos UCITS acumulativos (ej. IB01.L) no reparten dividendo — el
+        # rendimiento se ve en el crecimiento del precio, no en los campos de
+        # yield de yfinance (vienen a 0/None). Proxy: retorno de precio a 1 año.
+        if not yield_pct:
+            try:
+                hist = t.history(period="1y")
+                if len(hist) > 30:
+                    start, end = float(hist["Close"].iloc[0]), float(hist["Close"].iloc[-1])
+                    if start > 0:
+                        yield_pct = round((end / start - 1) * 100, 2)
+            except Exception:
+                pass
 
         # Duration: ETFs don't expose duration in yfinance.
         # We use our curated hint + a price-movement proxy if we have enough data.
