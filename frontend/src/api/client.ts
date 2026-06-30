@@ -1739,6 +1739,10 @@ export interface PreferredStock {
   risk_tier: string
   value_rating: string
   recommendation: string
+  avg_volume_3m: number | null
+  spread_pct: number | null
+  liquidity_rating: string
+  liquidity_note: string
   currency: string
   generated_at: string
 }
@@ -1765,6 +1769,10 @@ export async function fetchPreferredStocks(): Promise<PreferredStock[]> {
       risk_tier:      row.risk_tier ?? '',
       value_rating:   row.value_rating ?? '',
       recommendation: row.recommendation ?? '',
+      avg_volume_3m:    row.avg_volume_3m ? parseFloat(row.avg_volume_3m) : null,
+      spread_pct:       row.spread_pct ? parseFloat(row.spread_pct) : null,
+      liquidity_rating: row.liquidity_rating ?? '',
+      liquidity_note:   row.liquidity_note ?? '',
       currency:       row.currency ?? 'USD',
       generated_at:   row.generated_at ?? '',
     }))
@@ -1802,6 +1810,10 @@ export interface BondOpportunity {
   expense_ratio_pct: number | null
   value_rating: string
   recommendation: string
+  avg_volume_3m: number | null
+  spread_pct: number | null
+  liquidity_rating: string
+  liquidity_note: string
   generated_at: string
 }
 
@@ -1829,6 +1841,10 @@ export async function fetchBonds(): Promise<BondOpportunity[]> {
       expense_ratio_pct:   row.expense_ratio_pct ? parseFloat(row.expense_ratio_pct) : null,
       value_rating:        row.value_rating ?? '',
       recommendation:      row.recommendation ?? '',
+      avg_volume_3m:       row.avg_volume_3m ? parseFloat(row.avg_volume_3m) : null,
+      spread_pct:          row.spread_pct ? parseFloat(row.spread_pct) : null,
+      liquidity_rating:    row.liquidity_rating ?? '',
+      liquidity_note:      row.liquidity_note ?? '',
       generated_at:        row.generated_at ?? '',
     }))
   }

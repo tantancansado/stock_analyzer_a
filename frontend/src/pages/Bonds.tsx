@@ -34,6 +34,13 @@ const TYPE_COLORS: Record<string, string> = {
   UK_Gilt:   'text-red-300 bg-red-500/10 border-red-500/25',
 }
 
+const LIQUIDITY_COLORS: Record<string, string> = {
+  ALTA:     'text-emerald-400',
+  MEDIA:    'text-amber-400',
+  BAJA:     'text-red-400',
+  SIN_DATO: 'text-muted-foreground',
+}
+
 const RATING_CONFIG = {
   MUY_ATRACTIVO: { label: 'MUY ATRACTIVO', bg: 'bg-emerald-500/15 border-emerald-500/30', text: 'text-emerald-400', dot: 'bg-emerald-400' },
   ATRACTIVO:     { label: 'ATRACTIVO',     bg: 'bg-green-500/10 border-green-500/25',     text: 'text-green-400',   dot: 'bg-green-400'   },
@@ -585,6 +592,12 @@ function fmt(n: number | null | undefined, dec = 2, suffix = '') {
   return `${n.toFixed(dec)}${suffix}`
 }
 
+function fmtVolume(n: number) {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
+  if (n >= 1_000) return `${(n / 1_000).toFixed(0)}K`
+  return `${n}`
+}
+
 function YieldVsAvg({ val }: { val: number | null | undefined }) {
   if (val == null) return <span className="text-muted-foreground">—</span>
   const color = val >= 0.3 ? 'text-emerald-400' : val >= 0 ? 'text-green-400' : val >= -0.3 ? 'text-yellow-400' : 'text-red-400'
@@ -705,10 +718,22 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
                 <div className="text-muted-foreground/60 mb-0.5">Divisa</div>
                 <div className="font-mono">{bond.currency}</div>
               </div>
+              <div>
+                <div className="text-muted-foreground/60 mb-0.5">Liquidez</div>
+                <div className={cn('font-mono font-semibold', LIQUIDITY_COLORS[bond.liquidity_rating] ?? 'text-muted-foreground')}>
+                  {bond.liquidity_rating || '—'}
+                  {bond.avg_volume_3m != null && <span className="text-muted-foreground/50 font-normal"> ({fmtVolume(bond.avg_volume_3m)}/d)</span>}
+                </div>
+              </div>
             </div>
             <div className={cn('text-xs px-3 py-2 rounded-lg border', ratingCfg.bg, ratingCfg.text)}>
               {bond.recommendation}
             </div>
+            {bond.liquidity_note && (
+              <div className="text-[0.68rem] text-muted-foreground/70 mt-1.5 px-3">
+                💧 {bond.liquidity_note}
+              </div>
+            )}
           </td>
         </tr>
       )}
@@ -990,6 +1015,13 @@ function PreferredRow({ p }: { p: PreferredStock }) {
                 <div className="text-muted-foreground/60 mb-0.5">Máx / Mín 52s</div>
                 <div className="font-mono">${p.week52_high?.toFixed(2)} / ${p.week52_low?.toFixed(2)}</div>
               </div>
+              <div>
+                <div className="text-muted-foreground/60 mb-0.5">Liquidez</div>
+                <div className={cn('font-mono font-semibold', LIQUIDITY_COLORS[p.liquidity_rating] ?? 'text-muted-foreground')}>
+                  {p.liquidity_rating || '—'}
+                  {p.avg_volume_3m != null && <span className="text-muted-foreground/50 font-normal"> ({fmtVolume(p.avg_volume_3m)}/d)</span>}
+                </div>
+              </div>
             </div>
             {/* Explicación clara */}
             <div className="text-xs space-y-1 mb-3 text-muted-foreground/80">
@@ -1007,6 +1039,11 @@ function PreferredRow({ p }: { p: PreferredStock }) {
             <div className={cn('text-xs px-3 py-2 rounded-lg border', ratingCfg.bg, ratingCfg.text)}>
               {p.recommendation}
             </div>
+            {p.liquidity_note && (
+              <div className="text-[0.68rem] text-muted-foreground/70 mt-1.5 px-3">
+                💧 {p.liquidity_note}
+              </div>
+            )}
           </td>
         </tr>
       )}

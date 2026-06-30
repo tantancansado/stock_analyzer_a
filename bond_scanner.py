@@ -99,6 +99,46 @@ HIST_AVG_YIELD = {
 DISLOCATION_THRESHOLD = -8.0   # below this → potentially attractive
 OVERVALUED_THRESHOLD  = -1.0   # above this (near high) → expensive
 
+# Liquidity thresholds — volumen medio diario (3 meses). ETFs grandes mueven
+# millones/día; preferentes individuales decenas-cientos de miles. Por debajo
+# de BAJA, una orden de mercado puede mover el precio significativamente.
+LIQUIDITY_ALTA_MIN  = 1_000_000
+LIQUIDITY_MEDIA_MIN = 100_000
+
+
+def _liquidity(info: dict) -> dict:
+    """Volumen medio (3m) + spread bid/ask desde el mismo .info ya descargado
+    (sin llamada extra a yfinance). Rating ALTA/MEDIA/BAJA + nota de ejecución."""
+    avg_vol = _safe(info.get("averageVolume") or info.get("averageDailyVolume3Month"))
+    bid = _safe(info.get("bid"))
+    ask = _safe(info.get("ask"))
+    spread_pct = None
+    if bid and ask and bid > 0 and ask > 0:
+        spread_pct = round((ask - bid) / ((ask + bid) / 2) * 100, 2)
+
+    if avg_vol is None:
+        rating = "SIN_DATO"
+    elif avg_vol >= LIQUIDITY_ALTA_MIN:
+        rating = "ALTA"
+    elif avg_vol >= LIQUIDITY_MEDIA_MIN:
+        rating = "MEDIA"
+    else:
+        rating = "BAJA"
+
+    note = {
+        "ALTA":  "Entra y sale sin fricción, spread mínimo",
+        "MEDIA": "Liquidez aceptable — usa orden límite, no market",
+        "BAJA":  "Poco volumen — orden límite obligatoria, no muevas cantidades grandes de golpe",
+        "SIN_DATO": "Sin dato de volumen",
+    }[rating]
+
+    return {
+        "avg_volume_3m": int(avg_vol) if avg_vol is not None else None,
+        "spread_pct": spread_pct,
+        "liquidity_rating": rating,
+        "liquidity_note": note,
+    }
+
 
 def _safe(val, default=None):
     if val is None:
@@ -184,6 +224,7 @@ def _fetch_bond_data(ticker: str, duration_hint: float, currency: str) -> dict |
             "expense_ratio_pct": expense_ratio,
             "short_name": short_name,
             "currency": currency,
+            **_liquidity(info),
         }
 
     except Exception as e:
@@ -311,6 +352,10 @@ def scan() -> pd.DataFrame:
             "expense_ratio_pct": data["expense_ratio_pct"],
             "value_rating":      rating,
             "recommendation":    rec,
+            "avg_volume_3m":     data["avg_volume_3m"],
+            "spread_pct":        data["spread_pct"],
+            "liquidity_rating":  data["liquidity_rating"],
+            "liquidity_note":    data["liquidity_note"],
             "generated_at":      datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         })
 
@@ -390,6 +435,7 @@ def _fetch_preferred(ticker: str, par: float, fixed_div_pct: float) -> dict | No
             "annual_div":     round(annual_div, 4),
             "current_yield":  current_yield,
             "stated_div_pct": fixed_div_pct,
+            **_liquidity(info),
         }
     except Exception as e:
         print(f"  [ERROR] {ticker}: {e}")
@@ -479,6 +525,10 @@ def scan_preferred() -> pd.DataFrame:
             "risk_tier":       PREFERRED_RISK.get(sector, "MEDIO"),
             "value_rating":    rating,
             "recommendation":  rec,
+            "avg_volume_3m":   data["avg_volume_3m"],
+            "spread_pct":      data["spread_pct"],
+            "liquidity_rating": data["liquidity_rating"],
+            "liquidity_note":  data["liquidity_note"],
             "currency":        "USD",
             "generated_at":    datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         })
