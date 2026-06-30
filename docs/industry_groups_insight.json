@@ -1,78 +1,78 @@
 {
-  "date": "2026-06-29",
-  "timestamp": "2026-06-29T09:34:16.286692",
-  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos y c\u00edclicos industriales, liderados por Railroads y Medical Care Facilities. Esto es consistente con el r\u00e9gimen macro CALM, que sugiere una econom\u00eda estable. Se recomienda concentrar las b\u00fasquedas en sectores industriales y de salud, mientras que se deben evitar sectores financieros y tecnol\u00f3gicos, que se encuentran en los \u00faltimos lugares del ranking.",
+  "date": "2026-06-30",
+  "timestamp": "2026-06-30T08:25:28.658282",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial muestra una preferencia por sectores defensivos y c\u00edclicos de baja volatilidad, como Industrials y Healthcare. Esto es consistente con el r\u00e9gimen macro CALM actual, que sugiere una econom\u00eda estable pero sin un crecimiento explosivo. Se recomienda concentrar las b\u00fasquedas en sectores como Industrials y evitar aquellos con baja Relative Strength, como Technology y Consumer Cyclical.",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 73.0,
+      "avg_rs_percentile": 63.8,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 65.6,
+      "avg_rs_percentile": 63.0,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Banks - Regional",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 51.6,
-      "num_tickers": 2,
+      "industry": "Specialty Industrial Machinery",
+      "sector": "Industrials",
+      "avg_rs_percentile": 47.8,
+      "num_tickers": 7,
       "label": "Top 10%"
     },
     {
       "industry": "Industrial Distribution",
       "sector": "Industrials",
-      "avg_rs_percentile": 49.9,
+      "avg_rs_percentile": 46.2,
       "num_tickers": 3,
       "label": "Top 25%"
     },
     {
-      "industry": "Specialty Industrial Machinery",
-      "sector": "Industrials",
-      "avg_rs_percentile": 49.8,
-      "num_tickers": 7,
+      "industry": "Banks - Regional",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 45.7,
+      "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Insurance Brokers",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 17.4,
-      "num_tickers": 4,
-      "label": "Bottom 25%"
-    },
-    {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 16.1,
+      "avg_rs_percentile": 11.3,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Auto Parts",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 15.6,
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 10.8,
       "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Restaurants",
+      "sector": "Consumer Cyclical",
+      "avg_rs_percentile": 9.8,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Financial Data & Stock Exchanges",
       "sector": "Financial Services",
-      "avg_rs_percentile": 11.3,
+      "avg_rs_percentile": 8.2,
       "num_tickers": 10,
       "label": "Bottom 25%"
     },
     {
       "industry": "Information Technology Services",
       "sector": "Technology",
-      "avg_rs_percentile": 5.8,
+      "avg_rs_percentile": 4.6,
       "num_tickers": 4,
       "label": "Bottom 25%"
     }
