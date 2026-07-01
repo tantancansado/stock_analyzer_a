@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-29",
+  "generated_at": "2026-07-01",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1525 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la relaci\u00f3n de recompensa y riesgo (R:R) y la tasa de flujo de efectivo libre (FCF) en la f\u00f3rmula de puntuaci\u00f3n.\n\nEstos ajustes podr\u00edan llevar a un mejor desempe\u00f1o general, con un aumento en la tasa de victorias (WR) y una mayor precisi\u00f3n en las predicciones."
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de victorias en un 7.3% y un 9.8% respectivamente, gracias al aumento del peso de la FCF y la R:R.\n\nEstos cambios podr\u00edan llevar a una mayor precisi\u00f3n en las predicciones, especialmente al elevar la tasa de victorias en los juegos con un score de 80 o m\u00e1s, que actualmente tiene un 60.0% de tasa de victorias en comparaci\u00f3n con un 28% base."
 }

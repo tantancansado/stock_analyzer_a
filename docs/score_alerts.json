@@ -1,121 +1,171 @@
 {
-  "generated_at": "2026-06-29",
+  "generated_at": "2026-07-01",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "SXYAY",
-      "company_name": "SIKA AG",
-      "sector": "Basic Materials",
-      "score_today": 66.3,
-      "score_prev": 49.7,
-      "delta": 16.6,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "score_today": 53.8,
-      "score_prev": 43.8,
-      "delta": 10.0,
+      "score_today": 42.4,
+      "score_prev": 25.4,
+      "delta": 17.0,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "score_today": 53.0,
-      "score_prev": 45.0,
-      "delta": 8.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TJX",
-      "company_name": "TJX Companies, Inc. (The)",
-      "sector": "Consumer Cyclical",
-      "score_today": 53.2,
-      "score_prev": 46.0,
-      "delta": 7.2,
-      "grade": "🟡 Average"
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "score_today": 47.3,
+      "score_prev": 32.3,
+      "delta": 15.0,
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
       "ticker": "MKC",
       "company_name": "McCormick & Company, Incorporat",
       "sector": "Consumer Defensive",
-      "score_today": 29.0,
-      "score_prev": 23.2,
-      "delta": 5.7,
+      "score_today": 36.8,
+      "score_prev": 29.0,
+      "delta": 7.8,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 47.0,
-      "score_prev": 42.0,
-      "delta": 5.0,
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
+      "score_today": 51.8,
+      "score_prev": 44.8,
+      "delta": 7.0,
       "grade": "🟡 Average"
     },
     {
       "type": "NEW_ENTRY",
-      "ticker": "TMO",
-      "company_name": "Thermo Fisher Scientific Inc",
-      "sector": "Healthcare",
-      "score_today": 58.1,
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 77.9,
       "score_prev": null,
       "delta": null,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "LRLCY",
-      "company_name": "L'Oreal Co.",
-      "sector": "Consumer Defensive",
-      "score_today": 36.4,
-      "score_prev": 41.4,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": 69.3,
-      "score_prev": 80.7,
-      "delta": -11.4,
       "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "AJG",
-      "company_name": "Arthur J. Gallagher & Co.",
+      "ticker": "HEI",
+      "company_name": "Heico Corporation",
+      "sector": "Industrials",
+      "score_today": 23.2,
+      "score_prev": 29.2,
+      "delta": -6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "FDS",
+      "company_name": "FactSet Research Systems Inc.",
       "sector": "Financial Services",
-      "score_today": 27.6,
-      "score_prev": 40.6,
+      "score_today": 28.2,
+      "score_prev": 34.9,
+      "delta": -6.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CB",
+      "company_name": "Chubb Limited",
+      "sector": "Financial Services",
+      "score_today": 42.5,
+      "score_prev": 51.4,
+      "delta": -8.9,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 41.8,
+      "score_prev": 53.8,
+      "delta": -12.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PGR",
+      "company_name": "Progressive Corporation (The)",
+      "sector": "Financial Services",
+      "score_today": 41.0,
+      "score_prev": 54.0,
       "delta": -13.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 31.4,
-      "score_prev": 45.0,
-      "delta": -13.6,
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "score_today": 23.5,
+      "score_prev": 39.7,
+      "delta": -16.2,
       "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "sector": "Industrials",
+      "score_today": 23.9,
+      "score_prev": 43.9,
+      "delta": -20.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
+      "score_today": 29.1,
+      "score_prev": 49.6,
+      "delta": -20.5,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "score_today": 29.4,
+      "score_prev": 53.0,
+      "delta": -23.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SXYAY",
+      "company_name": "SIKA AG",
+      "sector": "Basic Materials",
+      "score_today": 25.0,
+      "score_prev": 66.3,
+      "delta": -41.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc",
+      "sector": "Healthcare",
+      "score_today": null,
+      "score_prev": 58.1,
+      "delta": null,
+      "grade": "🟡 Average"
     }
   ],
   "counts": {
     "new_entries": 1,
-    "exited": 0,
-    "score_up": 6,
-    "score_down": 4
+    "exited": 1,
+    "score_up": 4,
+    "score_down": 10
   }
 }
