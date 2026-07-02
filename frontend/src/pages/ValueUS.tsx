@@ -412,7 +412,7 @@ export default function ValueUS() {
           { label: 'Grado A+B', value: stats.gradeA + stats.gradeB, sub: `${stats.gradeA} A, ${stats.gradeB} B`, color: 'text-emerald-400', idx: 3 },
           { label: 'Mejor Upside', value: `+${stats.bestUpside.toFixed(0)}%`, sub: 'potencial analistas', color: 'text-emerald-400', idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass glow-border p-5 stagger-${idx}`}>
+          <Card key={label} className={`glass p-5 stagger-${idx}`}>
             <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
@@ -429,7 +429,7 @@ export default function ValueUS() {
       )}
 
       {clearMode ? (
-        <Card className="glass mb-3 px-4 py-3 animate-fade-in-up">
+        <Card className="liquid-glass mb-3 px-4 py-3 animate-fade-in-up rounded-xl">
           <div className="flex flex-wrap items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold text-foreground">Vista recomendada activa</p>
@@ -449,7 +449,10 @@ export default function ValueUS() {
           </div>
         </Card>
       ) : (
-      <Card className="glass px-4 py-3 mb-3 animate-fade-in-up">
+      // Toolbar estilo Apple: la barra de filtros es la superficie "hero" de la
+      // página (liquid-glass); tabla y stat cards quedan en .glass plano — un
+      // foco, resto quieto. NO sticky: chocaría con el thead sticky de la tabla.
+      <Card className="liquid-glass px-4 py-3 mb-3 animate-fade-in-up rounded-xl">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
 
           {/* Min Score */}

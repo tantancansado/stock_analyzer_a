@@ -334,7 +334,7 @@ export default function Portfolio() {
             <h3 className="text-sm font-semibold">Correlación de Señales</h3>
             <span className="text-[0.6rem] text-muted-foreground/50">{corrData.days}d · {corrData.as_of}</span>
           </div>
-          <div className="overflow-x-auto">
+          <div className="table-x-wrap">
             <table className="text-[0.6rem] tabular-nums">
               <thead>
                 <tr>
@@ -621,7 +621,7 @@ export default function Portfolio() {
             Riesgo de concentración oculto — correlación &gt;0.7 significa que los picks se mueven juntos
           </p>
           <Card className="glass border border-border/40">
-            <CardContent className="p-3 overflow-x-auto">
+            <CardContent className="p-3 table-x-wrap">
               <table className="text-[0.62rem] border-collapse w-full">
                 <thead>
                   <tr>

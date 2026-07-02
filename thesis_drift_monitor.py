@@ -215,8 +215,41 @@ def build_alerts() -> dict:
     }
 
 
+def _held_tickers() -> set[str] | None:
+    """Tickers de la cartera REAL del usuario (Supabase). None = no configurado.
+
+    El JSON de salida siempre lleva TODAS las alertas (la página Thesis Drift
+    las muestra); pero el Telegram solo avisa de posiciones que el usuario
+    tiene de verdad — avisar de señales del tracker que nunca compró es ruido
+    (feedback del usuario: 'me llega todos los días y ni la tengo, sobra').
+    """
+    base = os.environ.get('SUPABASE_URL', '').rstrip('/')
+    key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
+    user = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
+    if not base or not key:
+        return None
+    url = f"{base}/rest/v1/personal_portfolio_positions?select=ticker"
+    if user:
+        url += f"&user_id=eq.{user}"
+    try:
+        r = requests.get(url, headers={'apikey': key, 'Authorization': f'Bearer {key}'}, timeout=10)
+        r.raise_for_status()
+        return {str(row.get('ticker', '')).upper() for row in r.json() if row.get('ticker')}
+    except Exception as e:
+        print(f'  Supabase portfolio load failed: {e} — sin filtro de cartera')
+        return None
+
+
 def _notify_new(alerts: list[dict]) -> None:
     """Send Telegram only for alerts not sent within DEDUP_DAYS."""
+    held = _held_tickers()
+    if held is not None:
+        before = len(alerts)
+        alerts = [a for a in alerts if a['ticker'] in held]
+        print(f'  Filtro cartera real: {len(alerts)}/{before} alertas son de posiciones que el usuario tiene')
+        if not alerts:
+            return
+
     log = _load_sent_log()
     cutoff = date.today() - timedelta(days=DEDUP_DAYS)
     fresh = []

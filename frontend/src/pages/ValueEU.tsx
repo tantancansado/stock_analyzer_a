@@ -366,7 +366,7 @@ export default function ValueEU() {
           { label: 'Dividendo Medio', value: `${avgDivYield.toFixed(1)}%`, sub: `${avgDiv.length} con dividendo`, color: 'text-emerald-400', idx: 3 },
           { label: 'Mejor Upside', value: `+${bestUpside.toFixed(0)}%`, sub: 'potencial analistas', color: 'text-emerald-400', idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
-          <Card key={label} className={`glass glow-border p-5 stagger-${idx}`}>
+          <Card key={label} className={`glass p-5 stagger-${idx}`}>
             <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
             <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
@@ -404,7 +404,7 @@ export default function ValueEU() {
           </div>
         </Card>
       ) : (
-      <Card className="glass px-4 py-3 mb-3 animate-fade-in-up">
+      <Card className="liquid-glass px-4 py-3 mb-3 animate-fade-in-up rounded-xl">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
 
           {/* Min Score */}

@@ -230,6 +230,10 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # Supabase → filtra el Telegram a la cartera REAL del usuario
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
         run: python3 thesis_drift_monitor.py || echo "Thesis drift monitor failed"
 
       - name: Entry Verdict Agent (¿Entro hoy? per ticker)

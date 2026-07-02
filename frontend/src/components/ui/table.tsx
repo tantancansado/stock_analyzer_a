@@ -3,7 +3,11 @@ import { cn } from '@/lib/utils'
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
   ({ className, ...props }, ref) => (
-    <div className="relative w-full" style={{ overflowX: 'auto', overflowY: 'visible' }}>
+    // table-x-wrap (index.css): desktop overflow-x clip → el thead sticky
+    // funciona contra el viewport; móvil overflow-x auto + thead estático.
+    // Un overflow-x:auto incondicional captura el sticky y desplaza el header
+    // sobre las primeras filas (regla #1 de CLAUDE.md).
+    <div className="relative w-full table-x-wrap">
       <table ref={ref} className={cn('w-full caption-bottom text-sm', className)} {...props} />
     </div>
   )

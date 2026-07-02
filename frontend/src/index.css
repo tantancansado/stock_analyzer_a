@@ -2249,3 +2249,26 @@ select:focus {
     padding-bottom: 0.35rem;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   TABLE X-WRAP — scroll horizontal en móvil SIN romper el sticky thead
+   Un ancestro con overflow-x:auto se convierte en scroll container y
+   captura el position:sticky del thead (regla #1 de este proyecto): el
+   header se desplaza var(--topbar-height) y tapa las primeras filas.
+   Solución determinista: desktop clip (sticky funciona contra viewport,
+   las tablas caben), móvil auto + thead estático (scrollea, no tapa).
+════════════════════════════════════════════════════════════════════ */
+.table-x-wrap {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+@media (max-width: 767px) {
+  .table-x-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-x-wrap table thead th {
+    position: static;
+  }
+}
