@@ -754,36 +754,34 @@ export default function Manual() {
             <p className="text-sm text-muted-foreground">Alimenta el widget "Portfolio win rate" del Dashboard. También la pestaña Historial de señales.</p>
           </Card>
 
-          <SectionHeader id="agente-ml-scorer" icon={Bot} title="ML Scorer" />
+          <SectionHeader id="agente-ml-scorer" icon={Bot} title="ML Win Predictor" />
           <Card>
-            <p className="mb-2"><b>Qué hace:</b> entrena un modelo Gradient Boosting cada día sobre el historial completo de señales del Portfolio Tracker (1.367+ señales con outcome verificado a 30 días) y predice la probabilidad de win para cada ticker del universo VALUE.</p>
-            <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/ml_scores.csv</code> — alimenta el campo <code className="bg-muted/30 px-1 rounded">ml_score</code> del Super Score Integrador.</p>
+            <p className="mb-2"><b>Qué hace:</b> entrena un modelo XGBoost calibrado (isotonic) cada día sobre el historial completo de señales VALUE del Portfolio Tracker (1.497+ señales con outcome verificado) y predice la probabilidad real de ganar para cada ticker del universo.</p>
+            <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/ml_win_probability.json</code> — alimenta <code className="bg-muted/30 px-1 rounded">ml_win_probability</code>/<code className="bg-muted/30 px-1 rounded">ml_win_label</code> y el campo <code className="bg-muted/30 px-1 rounded">ml_score</code> (0-100) del Super Score Integrador.</p>
             <div className="mt-3 space-y-2 text-sm">
               <p className="font-semibold text-foreground/80">Rendimiento del modelo (cross-validation 5-fold):</p>
               <div className="grid grid-cols-2 gap-2">
                 <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
-                  <div className="text-emerald-400 font-bold text-lg">82.3%</div>
-                  <div className="text-muted-foreground text-xs">Accuracy</div>
+                  <div className="text-emerald-400 font-bold text-lg">0.88</div>
+                  <div className="text-muted-foreground text-xs">ROC-AUC</div>
                 </div>
                 <div className="bg-emerald-500/10 border border-emerald-500/20 rounded p-2 text-center">
-                  <div className="text-emerald-400 font-bold text-lg">0.912</div>
-                  <div className="text-muted-foreground text-xs">ROC-AUC</div>
+                  <div className="text-emerald-400 font-bold text-lg">0.13</div>
+                  <div className="text-muted-foreground text-xs">Brier Score (calibración)</div>
                 </div>
               </div>
               <p className="font-semibold text-foreground/80 mt-3">Features por orden de importancia:</p>
               <ul className="space-y-1 text-muted-foreground">
-                <li><span className="text-cyan-400 font-medium">1. FCF Yield %</span> — 26.8% · el más predictivo: empresas con caja real ganan</li>
-                <li><span className="text-cyan-400 font-medium">2. Value Score</span> — 20.1% · el score compuesto sí predice, pero menos de lo esperado</li>
-                <li><span className="text-cyan-400 font-medium">3. Strategy (US vs EU)</span> — 18.9% · VALUE US 66% win rate vs EU_VALUE 27%</li>
-                <li><span className="text-cyan-400 font-medium">4. Analyst Upside %</span> — 12.9% · el consenso de analistas tiene peso real</li>
-                <li><span className="text-cyan-400 font-medium">5. Risk/Reward ratio</span> — 11.1% · R:R predice mejor que el sector</li>
+                <li><span className="text-cyan-400 font-medium">1. Régimen × Sector</span> — 12.5% · el régimen de mercado no afecta igual a todos los sectores</li>
+                <li><span className="text-cyan-400 font-medium">2. Régimen de mercado</span> — 12.4% · CONFIRMED_UPTREND vs UPTREND_PRESSURE marca la diferencia</li>
+                <li><span className="text-cyan-400 font-medium">3. Win rate del sector</span> — 8.8% · historial de acierto por sector, no solo el sector en sí</li>
+                <li><span className="text-cyan-400 font-medium">4. FCF Yield %</span> — 8.1% · empresas con caja real ganan más</li>
+                <li><span className="text-cyan-400 font-medium">5. Analyst Upside %</span> — 7.9% · el consenso de analistas tiene peso real</li>
               </ul>
-              <p className="font-semibold text-foreground/80 mt-3">Hallazgos estadísticos clave:</p>
+              <p className="font-semibold text-foreground/80 mt-3">Win rate histórico por sector:</p>
               <ul className="space-y-1 text-muted-foreground">
-                <li>• <b>CONFIRMED_UPTREND</b>: 59.1% win rate · <b>UPTREND_PRESSURE</b>: 30.6% — el régimen importa mucho</li>
-                <li>• Value Score top 50%: 58-65% win rate · bottom 50%: solo 32%</li>
-                <li>• Sectores ganadores: Communication Services 65%, Financial Services 59%</li>
-                <li>• Sectores perdedores: Consumer Cyclical 16%, Consumer Defensive 15% — el modelo los penaliza automáticamente</li>
+                <li>• Sectores ganadores: Energy 71%, Communication Services 48%, Technology 35%</li>
+                <li>• Sectores perdedores: Consumer Cyclical 9%, Basic Materials 12% — el modelo los penaliza automáticamente</li>
               </ul>
             </div>
           </Card>

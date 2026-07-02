@@ -168,7 +168,11 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
                 <MetricRow label="Vs media 2a" value={item.pct_vs_2y_avg !== null ? `${item.pct_vs_2y_avg > 0 ? '+' : ''}${item.pct_vs_2y_avg.toFixed(1)}%` : '—'} color={item.pct_vs_2y_avg !== null ? (item.pct_vs_2y_avg < 0 ? 'text-emerald-400' : 'text-red-400') : undefined} />
                 <MetricRow label="Vol ratio" value={item.vol_ratio !== null ? `${item.vol_ratio.toFixed(2)}×` : '—'} />
                 <MetricRow label="Dist. yield" value={item.dist_yield_pct !== null && item.dist_yield_pct > 0 ? `${item.dist_yield_pct.toFixed(2)}%` : '—'} />
-                <MetricRow label="IBKR Ireland" value={item.ibkr_ireland ? '✓ Sí' : '✗ No'} color={item.ibkr_ireland ? 'text-emerald-400' : 'text-red-400'} />
+                <MetricRow
+                  label="IBKR Ireland"
+                  value={item.ibkr_ireland ? '✓ Sí' : (item.eu_alternative ? `✗ usar ${item.eu_alternative}` : '✗ No')}
+                  color={item.ibkr_ireland ? 'text-emerald-400' : item.eu_alternative ? 'text-amber-400' : 'text-red-400'}
+                />
                 <MetricRow label="Expense ratio" value={item.expense_ratio_pct ? `${item.expense_ratio_pct.toFixed(2)}%` : '—'} />
               </div>
 
@@ -221,7 +225,9 @@ function SummaryCards({ data }: { data: CommodityOpportunity[] }) {
   const attractive = data.filter(d => d.value_rating === 'MUY_ATRACTIVO' || d.value_rating === 'ATRACTIVO').length
   const oversold   = data.filter(d => d.momentum_signal === 'SOBREVENDIDO').length
   const seasonal   = data.filter(d => d.seasonality === 'bullish').length
-  const ibkr       = data.filter(d => d.ibkr_ireland).length
+  // Todos los tickers del universo son ETFs de EEUU (bloqueados PRIIPS/KID en
+  // IBKR Ireland) — lo comprable es su alternativa UCITS, no el ticker en sí
+  const withEuAlt  = data.filter(d => d.ibkr_ireland || d.eu_alternative).length
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -229,7 +235,7 @@ function SummaryCards({ data }: { data: CommodityOpportunity[] }) {
         { label: 'Atractivos',    value: attractive, color: '#22c55e' },
         { label: 'Sobrevendidos', value: oversold,   color: '#22d3ee' },
         { label: 'Estacional ↑',  value: seasonal,   color: '#f59e0b' },
-        { label: 'Acc. IBKR IE',  value: ibkr,       color: '#8b5cf6' },
+        { label: 'Con alt. UCITS', value: withEuAlt, color: '#8b5cf6' },
       ].map(({ label, value, color }) => (
         <Card key={label} className="glass">
           <CardContent className="p-4 text-center">
@@ -279,7 +285,7 @@ export default function Commodities() {
         <div>
           <h1 className="text-2xl font-bold text-white">Materias Primas</h1>
           <p className="text-sm text-white/40 mt-1">
-            {data.length} ETFs · VALUE rating vs media histórica 2 años · accesibles desde IBKR Ireland
+            {data.length} ETFs (EEUU) · VALUE rating vs media histórica 2 años · ver alternativa UCITS por fila para IBKR Ireland
             {generatedAt && <span className="ml-2">· actualizado {generatedAt}</span>}
           </p>
         </div>

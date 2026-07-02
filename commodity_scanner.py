@@ -12,7 +12,11 @@ Universe:
   Agrícolas: WEAT (trigo), CORN (maíz), SOYB (soja), JO (café), NIB (cacao), BAL (algodón), CANE (azúcar)
   Diversificados: DJP, DBC, PDBC (sin rollover cost), GSG
 
-Accesibles desde IBKR Ireland (EU equivalents donde aplique).
+Todos los tickers del universo son ETFs domiciliados en EEUU — PRIIPS/KID
+los bloquea para minoristas UE (igual que SGOV en bonos), IBKR Ireland
+incluido. `ibkr_ireland` refleja eso (False para todos). `eu_alternative`
+apunta al ETC UCITS equivalente verificado (yfinance, precio real) que SÍ es
+comprable — mismo patrón que IB01.L en bond_scanner.py.
 """
 from __future__ import annotations
 
@@ -30,32 +34,36 @@ DOCS   = Path("docs")
 OUTPUT = DOCS / "commodity_opportunities.csv"
 
 # ─── Universe ────────────────────────────────────────────────────────────────
-# (ticker, display_name, commodity_type, sector, currency, ibkr_ireland_ok)
+# (ticker, display_name, commodity_type, sector, currency, eu_alternative)
+# eu_alternative: ETC UCITS verificado por yfinance (precio real, ver commit),
+# comprable en IBKR Ireland. None si no se encontró equivalente líquido.
 UNIVERSE = [
     # ── Metales preciosos ─────────────────────────────────────────────────────
-    ("GLD",     "SPDR Gold Shares",               "Precious_Metal", "Oro",            "USD", True),
-    ("SLV",     "iShares Silver Trust",            "Precious_Metal", "Plata",          "USD", True),
-    ("PPLT",    "Aberdeen Platinum ETF",           "Precious_Metal", "Platino",        "USD", True),
-    ("PALL",    "Aberdeen Palladium ETF",          "Precious_Metal", "Paladio",        "USD", True),
+    ("GLD",     "SPDR Gold Shares",               "Precious_Metal", "Oro",            "USD", "SGLN.L"),
+    ("SLV",     "iShares Silver Trust",            "Precious_Metal", "Plata",          "USD", "PHAG.L"),
+    ("PPLT",    "Aberdeen Platinum ETF",           "Precious_Metal", "Platino",        "USD", "PHPT.L"),
+    ("PALL",    "Aberdeen Palladium ETF",          "Precious_Metal", "Paladio",        "USD", "PHPD.L"),
     # ── Energía ───────────────────────────────────────────────────────────────
-    ("USO",     "United States Oil Fund",          "Energy",         "Petróleo WTI",  "USD", True),
-    ("BNO",     "United States Brent Oil",         "Energy",         "Petróleo Brent","USD", True),
-    ("UNG",     "United States Natural Gas",       "Energy",         "Gas Natural",   "USD", True),
+    ("USO",     "United States Oil Fund",          "Energy",         "Petróleo WTI",  "USD", "CRUD.L"),
+    ("BNO",     "United States Brent Oil",         "Energy",         "Petróleo Brent","USD", "BRNT.L"),
+    ("UNG",     "United States Natural Gas",       "Energy",         "Gas Natural",   "USD", "NGAS.L"),
     # ── Metales industriales ──────────────────────────────────────────────────
-    ("COPX",    "Global X Copper Miners ETF",      "Industrial",     "Cobre",          "USD", True),
-    ("DBB",     "Invesco DB Base Metals Fund",     "Industrial",     "Metales Base",   "USD", True),
+    # COPX es equity de mineras de cobre, no cobre físico — COPA.L (físico) es
+    # el proxy UCITS más líquido disponible; no es exposición idéntica.
+    ("COPX",    "Global X Copper Miners ETF",      "Industrial",     "Cobre",          "USD", "COPA.L"),
+    ("DBB",     "Invesco DB Base Metals Fund",     "Industrial",     "Metales Base",   "USD", "AIGI.L"),
     # ── Agrícolas ─────────────────────────────────────────────────────────────
-    ("WEAT",    "Teucrium Wheat Fund",             "Agricultural",   "Trigo",          "USD", True),
-    ("CORN",    "Teucrium Corn Fund",              "Agricultural",   "Maíz",           "USD", True),
-    ("SOYB",    "Teucrium Soybean Fund",           "Agricultural",   "Soja",           "USD", True),
-    ("JO",      "iPath Bloomberg Coffee ETN",      "Agricultural",   "Café",           "USD", True),
-    ("NIB",     "iPath Bloomberg Cocoa ETN",       "Agricultural",   "Cacao",          "USD", True),
-    ("BAL",     "iPath Bloomberg Cotton ETN",      "Agricultural",   "Algodón",        "USD", True),
-    ("CANE",    "Teucrium Sugar Fund",             "Agricultural",   "Azúcar",         "USD", True),
+    ("WEAT",    "Teucrium Wheat Fund",             "Agricultural",   "Trigo",          "USD", "WEAT.L"),
+    ("CORN",    "Teucrium Corn Fund",              "Agricultural",   "Maíz",           "USD", "CORN.L"),
+    ("SOYB",    "Teucrium Soybean Fund",           "Agricultural",   "Soja",           "USD", "SOYB.L"),
+    ("JO",      "iPath Bloomberg Coffee ETN",      "Agricultural",   "Café",           "USD", "COFF.L"),
+    ("NIB",     "iPath Bloomberg Cocoa ETN",       "Agricultural",   "Cacao",          "USD", "COCO.L"),
+    ("BAL",     "iPath Bloomberg Cotton ETN",      "Agricultural",   "Algodón",        "USD", "COTN.L"),
+    ("CANE",    "Teucrium Sugar Fund",             "Agricultural",   "Azúcar",         "USD", "SUGA.L"),
     # ── Diversificados ────────────────────────────────────────────────────────
-    ("PDBC",    "Invesco Optimum Yield Diversified","Diversified",   "Diversificado",  "USD", True),
-    ("DBC",     "Invesco DB Commodity Index",      "Diversified",    "Diversificado",  "USD", True),
-    ("GSG",     "iShares GSCI Commodity ETF",      "Diversified",    "Diversificado",  "USD", True),
+    ("PDBC",    "Invesco Optimum Yield Diversified","Diversified",   "Diversificado",  "USD", "CMOD.L"),
+    ("DBC",     "Invesco DB Commodity Index",      "Diversified",    "Diversificado",  "USD", "AIGC.L"),
+    ("GSG",     "iShares GSCI Commodity ETF",      "Diversified",    "Diversificado",  "USD", "CMOD.L"),
 ]
 
 # Yield histórico de precio medio a 5 años (precio medio aprox en USD)
@@ -359,7 +367,7 @@ def scan() -> pd.DataFrame:
     print(f"Commodity Scanner — {now.strftime('%Y-%m-%d %H:%M UTC')}")
     print(f"{'='*60}")
 
-    for ticker, name, commodity_type, sector, currency, ibkr_ok in UNIVERSE:
+    for ticker, name, commodity_type, sector, currency, eu_alt in UNIVERSE:
         print(f"  Fetching {ticker:8s} ({sector})...", end=" ")
         data = _fetch_commodity_data(ticker)
         time.sleep(0.5)  # rate limit
@@ -405,7 +413,8 @@ def scan() -> pd.DataFrame:
             "commodity_type":    commodity_type,
             "sector":            sector,
             "currency":          currency,
-            "ibkr_ireland":      ibkr_ok,
+            "ibkr_ireland":      False,   # ticker US, bloqueado PRIIPS — ver eu_alternative
+            "eu_alternative":    eu_alt or "",
             "price":             data["price"],
             "week52_high":       data["week52_high"],
             "week52_low":        data["week52_low"],

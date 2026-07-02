@@ -358,7 +358,7 @@ export async function fetchStaticOrApi<T>(staticFile: string, apiPath: string): 
 }
 
 // Simple quoted-CSV parser (handles commas inside "..." fields)
-function parseCsvRows(text: string): Record<string, string>[] {
+export function parseCsvRows(text: string): Record<string, string>[] {
   const lines = text.trim().split('\n')
   if (lines.length < 2) return []
   const splitRow = (line: string): string[] => {
@@ -1860,6 +1860,7 @@ export interface CommodityOpportunity {
   sector: string
   currency: string
   ibkr_ireland: boolean
+  eu_alternative: string
   price: number | null
   week52_high: number | null
   week52_low: number | null
@@ -1890,13 +1891,12 @@ export async function fetchCommodities(): Promise<CommodityOpportunity[]> {
     const res = await fetch(url, { cache: 'no-store' })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const text = await res.text()
-    const lines = text.trim().split('\n')
-    if (lines.length < 2) return []
-    const headers = lines[0].split(',')
-    return lines.slice(1).map(line => {
-      const vals = line.split(',')
-      const row: Record<string, string> = {}
-      headers.forEach((h, i) => { row[h.trim()] = (vals[i] ?? '').trim() })
+    // parseCsvRows (no un split(',') ingenuo): recommendation/cycle_bullish/
+    // cycle_bearish siempre contienen comas dentro de comillas — un split
+    // naive desplazaba TODAS las columnas desde recommendation en adelante
+    // en TODAS las filas (cycle_bullish/bearish vienen de un diccionario fijo
+    // que siempre lleva coma).
+    return parseCsvRows(text).map(row => {
       return {
         ticker:           row.ticker ?? '',
         name:             row.name ?? '',
@@ -1905,6 +1905,7 @@ export async function fetchCommodities(): Promise<CommodityOpportunity[]> {
         sector:           row.sector ?? '',
         currency:         row.currency ?? '',
         ibkr_ireland:     row.ibkr_ireland === 'True',
+        eu_alternative:   row.eu_alternative ?? '',
         price:            row.price ? parseFloat(row.price) : null,
         week52_high:      row.week52_high ? parseFloat(row.week52_high) : null,
         week52_low:       row.week52_low ? parseFloat(row.week52_low) : null,

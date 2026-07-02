@@ -131,6 +131,11 @@ jobs:
           pip install groq pyyaml
           # anthropic → Claude data-check en ai_quality_filter.py (VALUE); sin él se salta en silencio
           pip install anthropic
+          # xgboost → ml_win_predictor.py (import a nivel de función); sin él el
+          # step falla con ModuleNotFoundError, oculto por continue-on-error —
+          # confirmado roto en CI desde el 30-abr (docs/ml_win_probability.json
+          # nunca se regeneró pese a que el step "corría" cada día)
+          pip install xgboost
 
       # ── TIER A: CRÍTICOS — deben pasar o el job falla (no continue-on-error) ──
       - name: Market Regime Detector (informational — gates signals, never aborts)
@@ -457,6 +462,14 @@ jobs:
       - name: Options Flow Detector
         continue-on-error: true
         run: python3 options_flow_detector.py || echo "Options flow detector failed"
+
+      # unusual_flow_scanner.py (docs/unusual_flow.json) nunca estuvo en ningún
+      # workflow — huérfano desde que se escribió. Confluencia.tsx lo consume
+      # para la señal "Flow alcista" (fetchUnusualFlow); llevaba ~35 días
+      # congelado. Distinto de options_flow_detector.py (options_flow.csv).
+      - name: Unusual Options Flow Scanner
+        continue-on-error: true
+        run: python3 unusual_flow_scanner.py || echo "Unusual flow scanner failed"
 
       # LEAPS se analiza en su propio workflow (leaps-scan.yml) en horario de
       # mercado USA — de madrugada las opciones largas no tienen bid/ask.

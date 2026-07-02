@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { fetchMeanReversion, fetchUnusualFlow } from '../api/client'
+import { fetchMeanReversion, fetchUnusualFlow, parseCsvRows } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
 import Loading from '../components/Loading'
@@ -80,16 +80,12 @@ function useCsvRows(filename: string): Record<string, string>[] {
     const res = await fetch(url)
     if (!res.ok) return { data: null }
     const text = await res.text()
-    const lines = text.trim().split('\n')
-    if (lines.length < 2) return { data: null }
-    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''))
-    const rows = lines.slice(1).map(line => {
-      const vals = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''))
-      const obj: Record<string, string> = {}
-      headers.forEach((h, i) => { obj[h] = vals[i] ?? '' })
-      return obj
-    })
-    return { data: rows }
+    // parseCsvRows respeta comillas — un split(',') ingenuo desalineaba TODA
+    // fila cuyo company_name llevara coma ("X, Inc.") o cuyos health_details/
+    // earnings_details (siempre comillados con comas) precedieran a value_score:
+    // UBER con value_score real 68.0 se leía como 0.0 y quedaba descartado del
+    // todo por el filtro `score < 50` — confirmado con datos reales.
+    return { data: parseCsvRows(text) }
   }, [url])
   const inner = (data as { data: Record<string, string>[] | null } | null)
   return inner?.data ?? []

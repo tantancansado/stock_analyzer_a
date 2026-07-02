@@ -598,6 +598,10 @@ def main():
 
     # 5. Dividendos
     print("\n[5/5] Buscando ex-dividend dates...")
+    # value_tickers nunca se asignaba (load_value_tickers() existe pero no se
+    # llamaba) — NameError silenciado por continue-on-error en el workflow,
+    # catalysts.json llevaba 86 días sin regenerarse.
+    value_tickers = load_value_tickers()
     div_tickers = list(set(BROAD_UNIVERSE + value_tickers))
     div_events = load_dividend_events(div_tickers)
     all_events.extend(div_events)

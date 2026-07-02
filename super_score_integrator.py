@@ -182,23 +182,34 @@ class SuperScoreIntegrator:
         return df[available_cols]
 
     def _load_ml_scores(self) -> pd.DataFrame:
-        """Carga scores del ML predictor"""
-        ml_path = Path('docs/ml_scores.csv')
+        """Carga ml_score (0-100) desde ml_win_predictor.py (docs/ml_win_probability.json).
+
+        Migrado desde el antiguo ml_scorer.py/docs/ml_scores.csv (GradientBoosting,
+        retirado — su step salió del workflow el 30-abr-2026 al introducir este
+        modelo, pero super_score_integrator.py seguía leyendo el CSV huérfano y
+        nadie lo notó: 2 meses de ml_score congelado alimentando value_score y
+        super_score_ultimate). ml_win_predictor.py es XGBoost calibrado
+        (isotonic), CV ROC-AUC ~0.88, entrenado sobre el historial completo de
+        señales VALUE — reemplazo directo, mismo contrato de columnas
+        (ticker, ml_score 0-100) para no tocar nada río abajo.
+        """
+        ml_path = Path('docs/ml_win_probability.json')
 
         if not ml_path.exists():
-            print("⚠️  No se encontró ML scores, usando fallback vacío")
+            print("⚠️  No se encontró ML win probability, usando fallback vacío")
             return pd.DataFrame()
 
-        df = pd.read_csv(ml_path)
+        data = json.loads(ml_path.read_text())
+        preds = data.get('predictions', {})
+        if not preds:
+            return pd.DataFrame()
 
-        # Renombrar para consistencia
-        df = df.rename(columns={'ml_score': 'ml_score'})
-
-        # Seleccionar columnas relevantes
-        cols = ['ticker', 'ml_score', 'momentum_score', 'trend_score', 'volume_score']
-        available_cols = [col for col in cols if col in df.columns]
-
-        return df[available_cols]
+        rows = [
+            {'ticker': t, 'ml_score': round(p.get('probability', 0.5) * 100, 1)}
+            for t, p in preds.items()
+            if p.get('probability') is not None
+        ]
+        return pd.DataFrame(rows)
 
     def _load_fundamental_scores(self) -> pd.DataFrame:
         """Carga scores del fundamental analyzer"""
