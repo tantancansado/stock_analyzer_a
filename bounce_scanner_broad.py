@@ -10,16 +10,20 @@ Filtros MUY estrictos, multi-confirmación: sólo pasa un ticker si TODOS los
 criterios se cumplen simultáneamente. "Menos es más" — si hay 0 setups un
 día, es el resultado correcto.
 
-Criterios (todos deben cumplirse):
-  1. RSI(2) ≤ 10 (oversold agresivo corto plazo)
-  2. RSI(14) ≤ 35 (confirmación de oversold no sólo por ruido)
+Criterios (todos deben cumplirse). El oversold se mide en la vela de AYER y la
+reversión en la de HOY — medir ambos en la misma vela era contradictorio (la vela
+verde de hoy saca al RSI(2) del extremo: 0 setups en 4.794 ticker-días de backtest):
+  1. RSI(2) de AYER ≤ 15 (el pánico fue ayer)
+  2. RSI(14) de AYER ≤ 40 (oversold confirmado, no solo ruido de 2 días)
   3. Precio por encima de SMA200 (trend alcista largo intacto — no cazamos caídos)
-  4. Precio dentro del 5% de la SMA20 o toca SMA50 (pullback, no colapso)
+  4. Precio dentro del 7% de la SMA20 (pullback, no colapso)
   5. Close > close(-1) (vela de reversión: ya hay rebote hoy, no 'intentamos agarrar un cuchillo')
   6. Volumen último día ≥ 1.3× media(20) (conviction)
   7. ATR(14) / precio entre 1.5% y 6% (tradeable, no es chicharro ni inmóvil)
-  8. Distancia al soporte 20d ≤ 2% (entrada cerca de soporte estructural)
-  9. Drawdown desde máximo(20d) entre -5% y -15% (pullback sano, no crash)
+  8. El LOW de hoy testeó el soporte 20d de ayer (entre -3% y +2.5%)
+  9. Drawdown desde máximo(20d) entre -4% y -15% (pullback sano, no crash)
+
+Frecuencia esperada (backtest 1 año, 90 tickers, escalado a 407): ~1 setup/semana.
 
 Target: +3% a +6% en 1-5 días. Stop: -2.5%.
 Risk/reward mínimo: 1.5:1.
@@ -46,15 +50,17 @@ DOCS = Path('docs')
 DOCS.mkdir(exist_ok=True)
 
 # ── Parámetros estrictos ─────────────────────────────────────────────────────
-RSI2_MAX            = 10.0
-RSI14_MAX           = 35.0
-PULLBACK_MAX_PCT    = 5.0    # % de distancia a SMA20 para considerar 'pullback'
+# RSI medidos en la vela de AYER (el día del pánico); la reversión es HOY.
+RSI2_MAX            = 15.0
+RSI14_MAX           = 40.0
+PULLBACK_MAX_PCT    = 7.0    # % de distancia a SMA20 para considerar 'pullback'
 VOL_RATIO_MIN       = 1.3
 ATR_PCT_MIN         = 1.5
 ATR_PCT_MAX         = 6.0
-SUPPORT_DIST_MAX    = 2.0    # % hasta soporte 20d
+SUPPORT_TEST_MIN    = -3.0   # LOW de hoy vs soporte 20d de ayer: puede perforar hasta -3%
+SUPPORT_TEST_MAX    = 2.5    # ... o quedarse hasta a +2.5% sin tocarlo
 DRAWDOWN_MIN        = -15.0
-DRAWDOWN_MAX        = -5.0
+DRAWDOWN_MAX        = -4.0
 TARGET_PCT          = 4.0    # objetivo conservador
 STOP_PCT            = -2.5
 MIN_RR              = 1.5
@@ -129,19 +135,23 @@ def _compute_metrics(df: pd.DataFrame) -> dict | None:
 
     avg_vol20 = float(vol.rolling(20).mean().iloc[-1])
     last_vol  = float(vol.iloc[-1])
-    support20 = float(low.rolling(20).min().iloc[-1])
-    max20     = float(high.rolling(20).max().iloc[-1])
+    # Soporte de AYER (sin la vela de hoy) — el LOW de hoy lo testea
+    support_prev = float(low.rolling(20).min().iloc[-2])
+    max20        = float(high.rolling(20).max().iloc[-1])
+    today_low    = float(low.iloc[-1])
 
     return {
         'price':    price,
         'prev':     prev,
         's20':      s20,
         's200':     s200,
-        'r2':       float(rsi2.iloc[-1]),
-        'r14':      float(rsi14.iloc[-1]),
+        # Oversold medido AYER: la vela verde de hoy ya resetea el RSI(2) de hoy,
+        # exigir ambos en la misma vela hacía el filtro incumplible
+        'r2':       float(rsi2.iloc[-2]),
+        'r14':      float(rsi14.iloc[-2]),
         'atr_pct':  atr / price * 100 if price else 0,
         'vol_ratio': last_vol / avg_vol20 if avg_vol20 else 0,
-        'dist_sup': (price - support20) / support20 * 100 if support20 else 999,
+        'sup_test': (today_low - support_prev) / support_prev * 100 if support_prev else 999,
         'drawdown': (price - max20) / max20 * 100 if max20 else 0,
         'pullback': (price - s20) / s20 * 100 if s20 else 0,
     }
@@ -149,14 +159,14 @@ def _compute_metrics(df: pd.DataFrame) -> dict | None:
 
 def _passes_filters(m: dict) -> bool:
     return (
-        m['r2'] <= RSI2_MAX
-        and m['r14'] <= RSI14_MAX
+        m['r2'] <= RSI2_MAX                        # pánico AYER
+        and m['r14'] <= RSI14_MAX                  # oversold confirmado AYER
         and m['price'] > m['s200']
         and abs(m['pullback']) <= PULLBACK_MAX_PCT
-        and m['price'] > m['prev']
+        and m['price'] > m['prev']                 # reversión verde HOY
         and m['vol_ratio'] >= VOL_RATIO_MIN
         and ATR_PCT_MIN <= m['atr_pct'] <= ATR_PCT_MAX
-        and m['dist_sup'] <= SUPPORT_DIST_MAX
+        and SUPPORT_TEST_MIN <= m['sup_test'] <= SUPPORT_TEST_MAX
         and DRAWDOWN_MIN <= m['drawdown'] <= DRAWDOWN_MAX
     )
 
@@ -185,7 +195,7 @@ def _eval_ticker(ticker: str, df: pd.DataFrame) -> dict | None:
         'rsi14':          round(m['r14'], 1),
         'atr_pct':        round(m['atr_pct'], 2),
         'vol_ratio':      round(m['vol_ratio'], 2),
-        'dist_support':   round(m['dist_sup'], 2),
+        'dist_support':   round(m['sup_test'], 2),
         'drawdown_20d':   round(m['drawdown'], 2),
         'sma20_distance': round(m['pullback'], 2),
         'above_sma200':   True,
@@ -255,7 +265,8 @@ def main() -> None:
             'vol_ratio_min':      VOL_RATIO_MIN,
             'atr_pct_range':      [ATR_PCT_MIN, ATR_PCT_MAX],
             'drawdown_range':     [DRAWDOWN_MIN, DRAWDOWN_MAX],
-            'support_distance':   SUPPORT_DIST_MAX,
+            'support_test_range': [SUPPORT_TEST_MIN, SUPPORT_TEST_MAX],
+            'oversold_measured':  'previous bar (panic yesterday, green reversal today)',
             'target_pct':         TARGET_PCT,
             'stop_pct':           STOP_PCT,
             'min_rr':             MIN_RR,

@@ -127,6 +127,12 @@ class MeanReversionDetector:
             except YFClientError:
                 return None  # data missing / other
 
+            # Ticker handle para metadata (calendar, market cap, rangos 52s).
+            # OJO: esta variable se perdió en un refactor y los usos de abajo
+            # lanzaban NameError dentro de try/except — el de market cap hacía
+            # `return None` y rechazaba EL 100% de los candidatos en silencio.
+            stock = yf.Ticker(ticker)
+
             # Calcular indicadores
             current_price = hist['Close'].iloc[-1]
             rsi = self.calculate_rsi(hist['Close'])
