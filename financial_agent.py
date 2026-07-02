@@ -99,39 +99,21 @@ def _load_open_positions() -> list[dict]:
     Carga posiciones abiertas desde Supabase (personal_portfolio_positions).
     Devuelve lista de {ticker, shares, avg_price}.
     """
-    supabase_url = os.environ.get('SUPABASE_URL', '').rstrip('/')
-    service_key  = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
-    user_id      = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
-
-    if not supabase_url or not service_key:
+    from supabase_positions import fetch_position_rows
+    rows = fetch_position_rows('ticker,shares,avg_price,entry_date')
+    if rows is None:
         return []
-
-    url = f"{supabase_url}/rest/v1/personal_portfolio_positions?select=ticker,shares,avg_price,entry_date"
-    if user_id:
-        url += f"&user_id=eq.{user_id}"
-
-    req = urllib.request.Request(url, headers={
-        'apikey': service_key,
-        'Authorization': f'Bearer {service_key}',
-        'Content-Type': 'application/json',
-    })
-    try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            rows = json.loads(resp.read().decode())
-            positions = [
-                {
-                    'ticker':     r['ticker'],
-                    'shares':     r.get('shares'),
-                    'avg_price':  r.get('avg_price'),
-                    'entry_date': r.get('entry_date', ''),
-                }
-                for r in rows if r.get('ticker')
-            ]
-            print(f"  Supabase: {len(positions)} posiciones abiertas")
-            return positions
-    except Exception as e:
-        print(f"  Supabase no disponible: {e}")
-        return []
+    positions = [
+        {
+            'ticker':     r['ticker'],
+            'shares':     r.get('shares'),
+            'avg_price':  r.get('avg_price'),
+            'entry_date': r.get('entry_date', ''),
+        }
+        for r in rows if r.get('ticker')
+    ]
+    print(f"  Supabase: {len(positions)} posiciones abiertas")
+    return positions
 
 
 # ── Signal loading ────────────────────────────────────────────────────────────

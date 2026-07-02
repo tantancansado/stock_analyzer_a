@@ -395,11 +395,14 @@ PREFERRED_UNIVERSE = [
     ("ALL-PB",  "Allstate Preferred B",   "Allstate",        "Insurance", 25.0, 6.625),
     # ── Utilities (reguladas, flujo de caja predecible) ───────────────────────
     ("DUK-PA",  "Duke Energy Pref A",     "Duke Energy",     "Utility",   25.0, 5.75),
-    ("AEP-PA",  "AEP Preferred A",        "Am. Elec. Power", "Utility",   25.0, 6.125),
+    # AEP-PA y O-PA retirados: no resuelven en yfinance (delisted/inexistentes),
+    # llevaban meses saliendo como [SKIP] en cada scan. Sustitutos verificados
+    # con dividendRate real de yfinance (cupón = dividendRate/par):
+    ("SCHW-PD", "Charles Schwab Pref D",  "Charles Schwab",  "Bank",      25.0, 5.95),
     # ── REITs (inmobiliario) ──────────────────────────────────────────────────
     ("PSA-PH",  "Public Storage Pref H",  "Public Storage",  "REIT",      25.0, 5.60),
     ("PSA-PK",  "Public Storage Pref K",  "Public Storage",  "REIT",      25.0, 5.875),
-    ("O-PA",    "Realty Income Pref A",   "Realty Income",   "REIT",      25.0, 6.00),
+    ("PSA-PL",  "Public Storage Pref L",  "Public Storage",  "REIT",      25.0, 4.625),
 ]
 
 # Risk tier por sector (para la explicación al usuario)

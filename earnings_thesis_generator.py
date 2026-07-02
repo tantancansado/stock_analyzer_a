@@ -42,40 +42,22 @@ def _log(msg: str) -> None:
 
 
 def _load_positions_from_supabase() -> list[dict]:
-    supabase_url = os.environ.get('SUPABASE_URL', '').rstrip('/')
-    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
-    user_id = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
-
-    if not supabase_url or not service_key:
+    from supabase_positions import fetch_position_rows
+    rows = fetch_position_rows('ticker,shares,avg_price')
+    if rows is None:
         return []
-
-    url = f"{supabase_url}/rest/v1/personal_portfolio_positions?select=ticker,shares,avg_price"
-    if user_id:
-        url += f"&user_id=eq.{user_id}"
-
-    req = urllib.request.Request(url, headers={
-        'apikey': service_key,
-        'Authorization': f'Bearer {service_key}',
-        'Content-Type': 'application/json',
-    })
-    try:
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            rows = json.loads(resp.read().decode())
-        out = []
-        for r in rows:
-            t = (r.get('ticker') or '').strip().upper()
-            if not t:
-                continue
-            out.append({
-                'ticker': t,
-                'shares': float(r['shares']) if r.get('shares') is not None else None,
-                'avg_price': float(r['avg_price']) if r.get('avg_price') is not None else None,
-            })
-        _log(f"[supabase] {len(out)} positions loaded")
-        return out
-    except Exception as e:
-        _log(f"[supabase] load failed: {e}")
-        return []
+    out = []
+    for r in rows:
+        t = (r.get('ticker') or '').strip().upper()
+        if not t:
+            continue
+        out.append({
+            'ticker': t,
+            'shares': float(r['shares']) if r.get('shares') is not None else None,
+            'avg_price': float(r['avg_price']) if r.get('avg_price') is not None else None,
+        })
+    _log(f"[supabase] {len(out)} positions loaded")
+    return out
 
 
 def _load_positions_from_snapshot() -> list[dict]:

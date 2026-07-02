@@ -132,44 +132,28 @@ def _load_portfolio_from_supabase() -> list | None:
     Load tickers from Supabase personal_portfolio_positions via REST API.
     Returns list (possibly empty) if Supabase responded, None if unavailable.
     Callers must treat None as "use fallback" and [] as "portfolio is empty".
+
+    Reusado también por strategy_agent y earnings_options_snapshot — el fix
+    del fallback sin user_id (supabase_positions) sana los tres a la vez.
     """
-    supabase_url = os.environ.get('SUPABASE_URL', '').rstrip('/')
-    service_key  = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
-    user_id      = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
-
-    if not supabase_url or not service_key:
+    from supabase_positions import fetch_position_rows
+    rows = fetch_position_rows('ticker,shares,avg_price')
+    if rows is None:
         return None
-
-    import urllib.request
-    url = f"{supabase_url}/rest/v1/personal_portfolio_positions?select=ticker,shares,avg_price"
-    if user_id:
-        url += f"&user_id=eq.{user_id}"
-
-    req = urllib.request.Request(url, headers={
-        'apikey': service_key,
-        'Authorization': f'Bearer {service_key}',
-        'Content-Type': 'application/json',
-    })
-    try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            rows = json.loads(resp.read().decode())
-            positions = []
-            for r in rows:
-                if not r.get('ticker'):
-                    continue
-                avg = r.get('avg_price')
-                shares = r.get('shares')
-                positions.append({
-                    'ticker': r['ticker'],
-                    'avg_price': float(avg) if avg else None,
-                    'shares': float(shares) if shares else None,
-                    'notes': f"{shares or '?'}sh @ {avg or '?'}",
-                })
-            print(f"  Supabase: {len(positions)} positions loaded")
-            return positions
-    except Exception as e:
-        print(f"  Supabase load failed: {e}")
-        return None
+    positions = []
+    for r in rows:
+        if not r.get('ticker'):
+            continue
+        avg = r.get('avg_price')
+        shares = r.get('shares')
+        positions.append({
+            'ticker': r['ticker'],
+            'avg_price': float(avg) if avg else None,
+            'shares': float(shares) if shares else None,
+            'notes': f"{shares or '?'}sh @ {avg or '?'}",
+        })
+    print(f"  Supabase: {len(positions)} positions loaded")
+    return positions
 
 
 # P&L thresholds

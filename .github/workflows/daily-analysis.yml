@@ -375,6 +375,15 @@ jobs:
         continue-on-error: true
         run: python3 analyze_recurring_insiders.py || echo "Recurring insiders failed"
 
+      # Retirado del workflow en abr-2026 pero sus consumidores (cerebro
+      # scan_smart_money, badge "N FONDOS" de ValueUS via super_score_integrator)
+      # nunca se retiraron — mostraban 13F del 7-mar como si fueran actuales.
+      # El tracker funciona (verificado 2-jul); 13F es trimestral, correr a
+      # diario solo refresca cuando la SEC publica algo nuevo.
+      - name: Hedge Fund 13F Tracker
+        continue-on-error: true
+        run: python3 hedge_fund_tracker.py || echo "Hedge fund tracker failed"
+
       - name: Backtest Engine
         continue-on-error: true
         run: python3 backtest_engine.py || echo "Backtest engine failed"

@@ -176,28 +176,13 @@ def _load_active_tickers() -> set[str] | None:
     Returns set of uppercase ticker strings, or None if unavailable (no env vars).
     Used to filter strategy alerts to only positions still held.
     """
-    supabase_url = os.environ.get('SUPABASE_URL', '').rstrip('/')
-    service_key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
-    user_id = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
-    if not supabase_url or not service_key:
+    from supabase_positions import fetch_position_rows
+    rows = fetch_position_rows('ticker')
+    if rows is None:
         return None
-    try:
-        import urllib.request
-        url = f"{supabase_url}/rest/v1/personal_portfolio_positions?select=ticker"
-        if user_id:
-            url += f"&user_id=eq.{user_id}"
-        req = urllib.request.Request(url, headers={
-            'apikey': service_key,
-            'Authorization': f'Bearer {service_key}',
-        })
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            rows = json.loads(resp.read().decode())
-            tickers = {r['ticker'].upper().strip() for r in rows if r.get('ticker')}
-            print(f'  Supabase active tickers: {sorted(tickers) or "(empty portfolio)"}')
-            return tickers
-    except Exception as exc:
-        print(f'  Supabase ticker load failed: {exc} — skipping filter')
-        return None
+    tickers = {r['ticker'].upper().strip() for r in rows if r.get('ticker')}
+    print(f'  Supabase active tickers: {sorted(tickers) or "(empty portfolio)"}')
+    return tickers
 
 
 def run_alerts() -> dict:

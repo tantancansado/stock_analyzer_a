@@ -46,24 +46,11 @@ CHAT_ID   = os.environ.get('TELEGRAM_CHAT_ID', '')
 
 def load_option_positions() -> list[dict]:
     """Lee las posiciones de opciones (calls) del usuario desde Supabase."""
-    base = os.environ.get('SUPABASE_URL', '').rstrip('/')
-    key  = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
-    user = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
-    if not base or not key:
-        print('  Supabase no configurado — nada que vigilar')
-        return []
+    from supabase_positions import fetch_position_rows
     cols = 'ticker,shares,avg_price,asset_type,option_type,option_strike,option_expiry'
-    url = f"{base}/rest/v1/personal_portfolio_positions?select={cols}&asset_type=eq.option"
-    if user:
-        url += f"&user_id=eq.{user}"
-    req = urllib.request.Request(url, headers={
-        'apikey': key, 'Authorization': f'Bearer {key}', 'Content-Type': 'application/json',
-    })
-    try:
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            rows = json.loads(resp.read().decode())
-    except Exception as e:
-        print(f'  Supabase load failed: {e}')
+    rows = fetch_position_rows(cols, extra_filter='&asset_type=eq.option')
+    if rows is None:
+        print('  Supabase no configurado / no responde — nada que vigilar')
         return []
     out = []
     for r in rows:

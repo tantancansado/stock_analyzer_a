@@ -223,21 +223,11 @@ def _held_tickers() -> set[str] | None:
     tiene de verdad — avisar de señales del tracker que nunca compró es ruido
     (feedback del usuario: 'me llega todos los días y ni la tengo, sobra').
     """
-    base = os.environ.get('SUPABASE_URL', '').rstrip('/')
-    key = os.environ.get('SUPABASE_SERVICE_ROLE_KEY', '')
-    user = os.environ.get('SUPABASE_MONITOR_USER_ID', '')
-    if not base or not key:
+    from supabase_positions import fetch_position_rows
+    rows = fetch_position_rows('ticker')
+    if rows is None:
         return None
-    url = f"{base}/rest/v1/personal_portfolio_positions?select=ticker"
-    if user:
-        url += f"&user_id=eq.{user}"
-    try:
-        r = requests.get(url, headers={'apikey': key, 'Authorization': f'Bearer {key}'}, timeout=10)
-        r.raise_for_status()
-        return {str(row.get('ticker', '')).upper() for row in r.json() if row.get('ticker')}
-    except Exception as e:
-        print(f'  Supabase portfolio load failed: {e} — sin filtro de cartera')
-        return None
+    return {str(row.get('ticker', '')).upper() for row in rows if row.get('ticker')}
 
 
 def _notify_new(alerts: list[dict]) -> None:
@@ -273,7 +263,8 @@ def _notify_new(alerts: list[dict]) -> None:
     lines = ['⚠️ <b>DRIFT DE TESIS — posiciones abiertas</b>', '']
     for a in sorted(fresh, key=lambda x: 0 if x['severity'] == 'HIGH' else 1):
         lines.append(f"{icon.get(a['severity'], '⚪')} <b>{a['ticker']}</b> — {a['reason']}")
-    lines += ['', f'<a href="{APP_URL}#/thesis-drift">Ver detalle →</a>']
+    # La sección standalone /thesis-drift se retiró — el análisis vive como tab de Cerebro
+    lines += ['', f'<a href="{APP_URL}#/cerebro?tab=thesis">Ver detalle →</a>']
     _send_telegram('\n'.join(lines))
     _save_sent_log(log)
 
