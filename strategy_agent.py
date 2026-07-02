@@ -486,7 +486,20 @@ def generate_strategies(
 
     if not positions:
         print("No hay posiciones reales — nada que planificar.")
-        return {'count': 0, 'strategies': {}}
+        # Escribir el estado vacío con timestamp fresco (mismo patrón que
+        # leaps_monitor): si no, el JSON conserva la fecha de la última vez
+        # que HUBO posiciones y pipeline_health lo marca "stale" para siempre
+        # aunque el agente corra bien cada día (cartera vacía != módulo roto).
+        out = {
+            'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+            'scan_date':    datetime.now().strftime('%Y-%m-%d'),
+            'count':        0,
+            'strategies':   {},
+        }
+        if positions_override is None and user_id is None:
+            (DOCS / 'portfolio_strategies.json').write_text(
+                json.dumps(out, indent=2, ensure_ascii=False))
+        return out
 
     print(f"Generando estrategias para {len(positions)} posiciones"
           f"{f' (user {user_id[:8]}…)' if user_id else ''}...")
