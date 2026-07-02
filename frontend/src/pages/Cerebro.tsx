@@ -251,7 +251,7 @@ function CerebroCoachPanel({
   onOpenTab: (tab: CerebroTab) => void
 }) {
   return (
-    <Card className="glass mb-5 overflow-clip border-primary/20 animate-fade-in-up">
+    <Card className="liquid-glass mb-5 overflow-clip animate-fade-in-up rounded-xl">
       <CardContent className="p-0">
         <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="relative p-5 md:p-6">

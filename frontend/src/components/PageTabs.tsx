@@ -28,7 +28,9 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
 
   return (
     <div>
-      <div className="page-tabs-shell flex gap-1 mb-5 p-1 rounded-xl bg-white/5 border border-border/30 w-fit">
+      {/* Segmented control sobre material (patrón Apple): liquid-glass como
+          toolbar siempre visible — propaga a todas las secciones con tabs */}
+      <div className="page-tabs-shell liquid-glass flex gap-1 mb-5 p-1 rounded-xl w-fit">
         {tabs.map(tab => (
           <button
             key={tab.id}

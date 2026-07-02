@@ -308,7 +308,7 @@ export default function MeanReversion() {
         const myMR = filtered.filter(r => ownedTickers.has(r.ticker))
         if (myMR.length === 0) return null
         return (
-          <Card className="glass border border-primary/20 mb-5 animate-fade-in-up">
+          <Card className="liquid-glass mb-5 animate-fade-in-up rounded-xl">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={14} className="text-primary" />

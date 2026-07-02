@@ -9,7 +9,6 @@ import {
   fetchMacroRadar, fetchDailyBriefing, fetchMarketBreadth, fetchCerebroConvergence, fetchCerebroAlerts,
   fetchCerebroEntrySignals, fetchCerebroDailyPlan, fetchLivePrices, fetchPortfolioNews, fetchPortfolioPrices,
   fetchCerebroSmartMoney, type SmartMoneySignal,
-  fetchCerebroThesisDrift, type ThesisDrift,
   fetchCerebroEarningsRevisions, type EarningsRevision,
   type ValueOpportunity, type InsiderData, type PortfolioSummary, type BreadthData, type CerebroAlert,
   type DailyPlan, type DailyPlanAction, type MacroPlay, type LivePricesData, type PortfolioNewsItem,
@@ -91,7 +90,7 @@ function StatCard({
     </Card>
   )
   return (
-    <Card className="glass glow-border p-5">
+    <Card className="glass p-5">
       <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
       <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
       {sub && <div className="text-[0.78rem] text-muted-foreground">{sub}</div>}
@@ -707,52 +706,6 @@ function EntrySignalsMini({ data, loading }: {
                 </div>
                 <div className="flex items-center shrink-0">
                   <ScoreRing score={s.entry_score} size="sm" showLabel />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
-}
-
-function ThesisDriftMini({ data, loading }: {
-  data: { total: number; high_count: number; drifts: ThesisDrift[] } | null
-  loading: boolean
-}) {
-  const top = (data?.drifts ?? []).filter(d => d.severity === 'HIGH' || d.severity === 'MEDIUM').slice(0, 5)
-  const SEV: Record<string, string> = {
-    HIGH:   'bg-red-500/20 text-red-400 border-red-500/30',
-    MEDIUM: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-    LOW:    'bg-muted/20 text-muted-foreground border-border/30',
-  }
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <AlertTriangle size={11} /> Thesis Drift
-        </span>
-        <Link to="/thesis-drift" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          {!loading && data && <span className="mr-0.5">{data.high_count} HIGH</span>}
-          <ChevronRight size={11} />
-        </Link>
-      </div>
-      <Card className="glass p-4">
-        {loading ? (
-          <div className="space-y-2">{['a','b','c'].map(k => <Skeleton key={k} className="h-4 w-full" />)}</div>
-        ) : top.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Sin degradación detectada</p>
-        ) : (
-          <div className="space-y-2">
-            {top.map(d => (
-              <div key={d.ticker} className="flex items-center justify-between gap-2">
-                <Link to={`/search?q=${d.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline shrink-0">
-                  {d.ticker}
-                </Link>
-                <div className="flex items-center gap-1 flex-wrap justify-end">
-                  <span className={`text-[0.5rem] font-bold px-1 py-0 rounded border ${SEV[d.severity]}`}>{d.severity}</span>
-                  <span className="text-[0.58rem] text-muted-foreground tabular-nums">−{Math.round(d.value_score_prev - d.value_score_now)}pts</span>
                 </div>
               </div>
             ))}
@@ -1399,7 +1352,6 @@ export default function Dashboard() {
   const { data: cerebroAlertsRaw, loading: loadingAlerts } = useApi(() => fetchCerebroAlerts(), [])
   const { data: cerebroEntry, loading: loadingEntry } = useApi(() => fetchCerebroEntrySignals(), [])
   const { data: smartMoneyRaw, loading: loadingSmartMoney } = useApi(() => fetchCerebroSmartMoney(), [])
-  const { data: thesisDriftRaw, loading: loadingThesisDrift } = useApi(() => fetchCerebroThesisDrift(), [])
   const { data: earningsRevRaw, loading: loadingEarningsRev } = useApi(() => fetchCerebroEarningsRevisions(), [])
   const { data: dailyPlanRaw, loading: loadingDailyPlan } = useApi(() => fetchCerebroDailyPlan(), [])
   const { data: portfolioNewsRaw, loading: loadingPortfolioNews } = useApi(() => fetchPortfolioNews(), [])
@@ -1819,8 +1771,7 @@ export default function Dashboard() {
             />
           </div>
           {/* Cerebro widgets — row 2 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mb-6">
-            <ThesisDriftMini data={thesisDriftRaw} loading={loadingThesisDrift} />
+          <div className="grid grid-cols-1 gap-4 mb-6">
             <EarningsRevMini data={earningsRevRaw} loading={loadingEarningsRev} />
           </div>
 

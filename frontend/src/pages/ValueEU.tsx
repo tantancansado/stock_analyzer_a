@@ -384,7 +384,7 @@ export default function ValueEU() {
 
       {/* Filter Bar */}
       {clearMode ? (
-        <Card className="glass mb-3 px-4 py-3 animate-fade-in-up">
+        <Card className="liquid-glass mb-3 px-4 py-3 animate-fade-in-up rounded-xl">
           <div className="flex flex-wrap items-center gap-3">
             <div className="min-w-0 flex-1">
               <p className="text-sm font-semibold text-foreground">Vista recomendada activa</p>

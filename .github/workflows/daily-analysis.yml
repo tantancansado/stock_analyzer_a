@@ -354,6 +354,18 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python3 check_alerts.py || echo "Alert checker failed"
 
+      # El scraper de OpenInsider quedó huérfano al retirar sistema_principal.py
+      # (abr-2026) — sin él, analyze_recurring_insiders se quedó sin datos US
+      # desde ~jun-10 (la ventana de 90d se vació). El formato de
+      # reports/insiders_daily.csv es idéntico al data.csv histórico.
+      - name: US Insider Scraper (OpenInsider)
+        continue-on-error: true
+        run: |
+          python3 insiders/openinsider_scraper.py || echo "OpenInsider scraper failed"
+          D="docs/reports/daily/report_$(date +%Y-%m-%d)"
+          mkdir -p "$D"
+          [ -f reports/insiders_daily.csv ] && cp reports/insiders_daily.csv "$D/data.csv" && echo "Archived to $D/data.csv"
+
       - name: Recurring Insiders
         continue-on-error: true
         run: python3 analyze_recurring_insiders.py || echo "Recurring insiders failed"
@@ -713,6 +725,7 @@ jobs:
 
           git add docs/*.json docs/*.csv || true
           git add docs/history/ docs/portfolio_tracker/ docs/theses.json || true
+          git add docs/reports/daily/ || true
           git add data/ || true
           # Excluir app/ y status files (estos van por GitHub API, no por git push)
           git reset HEAD -- docs/app/ 2>/dev/null || true

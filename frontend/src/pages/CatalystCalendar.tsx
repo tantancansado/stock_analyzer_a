@@ -267,7 +267,7 @@ export default function CatalystCalendar() {
           { label: 'Alto impacto', value: highImpact, sub: 'FOMC, earnings clave', color: 'text-red-400' },
           { label: 'Earnings', value: earningsCount, sub: 'resultados próximos', color: 'text-emerald-400' },
         ].map(({ label, value, sub, color }) => (
-          <Card key={label} className="glass glow-border p-5">
+          <Card key={label} className="glass p-5">
             <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{value}</div>
             <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
@@ -276,7 +276,7 @@ export default function CatalystCalendar() {
       </div>
 
       {/* Filter bar */}
-      <Card className="glass px-4 py-3 mb-4">
+      <Card className="liquid-glass px-4 py-3 mb-4 rounded-xl">
         <div className="flex flex-wrap gap-x-4 gap-y-2 items-center">
           <div className="flex items-center gap-1">
             <span className="filter-label mr-0.5">Tipo</span>

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check, Landmark, Star } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
-import { apiClient, fetchMacroStress, fetchAnalystRevisions, fetchPortfolioAlerts, refreshUserArtifacts, type MacroStressMarket, type AnalystRevision, type PortfolioAlert } from '@/api/client'
+import { apiClient, fetchMacroStress, fetchAnalystRevisions, fetchPortfolioAlerts, fetchThesisDriftAlerts, refreshUserArtifacts, type MacroStressMarket, type AnalystRevision, type PortfolioAlert, type ThesisDriftAlert } from '@/api/client'
 import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
@@ -914,7 +914,7 @@ function PriceAlertBadge({ alert }: { alert: PortfolioAlert }) {
   )
 }
 
-function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings, priceAlert, coveredCall }: {
+function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings, priceAlert, coveredCall, driftAlert }: {
   result?: PositionResult
   pos: Position
   userId: string
@@ -925,6 +925,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   macroWarnings: MacroExposureWarning[]
   priceAlert?: PortfolioAlert
   coveredCall?: Position
+  driftAlert?: ThesisDriftAlert
 }) {
   const [expanded, setExpanded] = useState(false)
   const [editing, setEditing]   = useState(false)
@@ -941,7 +942,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
   const trap   = cerebro.trapMap[ticker]
   const sm     = cerebro.smMap[ticker]
   const div    = cerebro.divMap[ticker]
-  const hasCerebro = !!(exit || trap || sm || div)
+  const hasCerebro = !!(exit || trap || sm || div) || Boolean(driftAlert)
 
   const overweight  = result && result.portfolio_pct > (result.optimal_size_pct ?? 100) * 1.5
   const underweight = result && result.portfolio_pct < (result.optimal_size_pct ?? 0) * 0.5 && (result.optimal_size_pct ?? 0) > 0
@@ -1127,6 +1128,11 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           {exit && (
             <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${exit.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
               <Brain size={9} />EXIT {exit.severity} · {exit.reasons[0]}
+            </span>
+          )}
+          {driftAlert && !exit && (
+            <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${driftAlert.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
+              <Brain size={9} />DRIFT · {driftAlert.reason}
             </span>
           )}
           {trap && !exit && (
@@ -1390,6 +1396,16 @@ export default function PersonalPortfolio() {
   const { data: macroStressData }    = useApi(() => fetchMacroStress(), [])
   const { data: revisionsData }      = useApi(() => fetchAnalystRevisions(), [])
   const { data: portAlertsData }     = useApi(() => fetchPortfolioAlerts().then(d => ({ data: d })), [])
+  const { data: driftAlertsData }    = useApi(() => fetchThesisDriftAlerts().then(d => ({ data: d })), [])
+  // Drift del monitor de tesis (backend) — la alerta más severa por ticker
+  const driftMap = useMemo<Record<string, ThesisDriftAlert>>(() => {
+    const m: Record<string, ThesisDriftAlert> = {}
+    for (const a of (driftAlertsData ?? [])) {
+      const t = a.ticker.toUpperCase()
+      if (!m[t] || (a.severity === 'HIGH' && m[t].severity !== 'HIGH')) m[t] = a
+    }
+    return m
+  }, [driftAlertsData])
   const priceAlertMap = useMemo<Record<string, PortfolioAlert>>(() => {
     const alerts = portAlertsData?.alerts ?? []
     return Object.fromEntries(alerts.map(a => [a.ticker.toUpperCase(), a]))
@@ -2030,6 +2046,7 @@ export default function PersonalPortfolio() {
                             macroWarnings={macroWarningsByTicker[pos.ticker] ?? []}
                             priceAlert={priceAlertMap[pos.ticker.toUpperCase()]}
                             coveredCall={ccByTicker.get(pos.ticker)}
+                            driftAlert={driftMap[pos.ticker.toUpperCase()]}
                           />
                         </div>
                       ))}

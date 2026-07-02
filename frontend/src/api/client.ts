@@ -2174,6 +2174,26 @@ export interface LeapsData {
   opportunities: LeapsOpportunity[]
 }
 
+export interface ThesisDriftAlert {
+  ticker: string
+  type: string        // THESIS_BROKEN | FUND_DETERIORATING | STOP_BREACHED
+  reason: string
+  severity: string    // HIGH | MEDIUM
+}
+
+// Output de thesis_drift_monitor.py (backend) — la sección standalone se retiró;
+// esto alimenta el badge de drift en las tarjetas de Mi cartera.
+export async function fetchThesisDriftAlerts(): Promise<ThesisDriftAlert[]> {
+  try {
+    const res = await fetch(`${STATIC_DATA_BASE}/portfolio_tracker/thesis_drift_alerts.json`, { cache: 'no-store' })
+    if (!res.ok) return []
+    const data = await res.json()
+    return (data?.alerts ?? []) as ThesisDriftAlert[]
+  } catch {
+    return []
+  }
+}
+
 export async function fetchLeaps(): Promise<LeapsData | null> {
   // El ranking precalculado vive en GitHub Pages (output del pipeline diario).
   // Railway solo tiene el snapshot del último deploy → quedaría desactualizado.
