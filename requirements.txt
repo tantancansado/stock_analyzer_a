@@ -33,3 +33,14 @@ cryptography>=42.0.0
 # Macro Stress Radar — declarative driver configs
 pyyaml>=6.0
 anthropic>=0.25.0
+# Pipeline CI — antes se instalaban a mano en cada job de daily-analysis.yml,
+# lo que causó 2 bugs de "dep faltante" silenciados por continue-on-error
+# (xgboost en ml_win_predictor, anthropic en cerebro/ai_quality_filter).
+# requirements.txt es ahora la fuente única: los jobs hacen pip install -r.
+lxml>=4.9.0
+scipy>=1.10.0
+plotly>=5.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+openpyxl>=3.1.0
+mplfinance>=0.12.10b0

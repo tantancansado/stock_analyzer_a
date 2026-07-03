@@ -27,7 +27,7 @@ jobs:
 
       - name: Install dependencies
         # anthropic → narrativa de Claude (claude_chat); sin él se salta en silencio
-        run: pip install pandas numpy scipy yfinance requests anthropic
+        run: pip install -r requirements.txt
 
       - name: Run LEAPS Analyzer (mercado abierto)
         env:

@@ -1,0 +1,61 @@
+name: Tests
+
+# Corre la suite completa (Python + frontend) en cada push que toque código.
+# Motivo: 650+ tests Python y 280+ de frontend existían pero SOLO corrían a
+# mano — varios bugs de esta semana (NameError silenciados, deps faltantes)
+# habrían saltado aquí antes de llegar a producción.
+#
+# paths: solo código — los commits diarios del pipeline (docs/*.csv, *.json)
+# no disparan la suite (serían ~10 corridas/día sin valor).
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.py'
+      - 'frontend/src/**'
+      - 'frontend/package*.json'
+      - 'requirements.txt'
+      - '.github/workflows/tests.yml'
+  workflow_dispatch:
+
+jobs:
+  python-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run pytest
+        run: python3 -m pytest tests/ -q
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: cd frontend && npm ci
+
+      - name: Type check
+        run: cd frontend && npx tsc -b
+
+      - name: Run vitest
+        run: cd frontend && npm run test -- --run

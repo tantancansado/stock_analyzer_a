@@ -496,11 +496,18 @@ def main():
     total = 0
 
     if not args.european_only:
-        # US VALUE
+        # US VALUE — igualado al patrón EU: conservar TODOS los tickers graduados
+        # (A/B/C/D) y dejar que cada consumidor filtre por grado (verificado que
+        # todos lo hacen: leaps A/B, daily plan A/B, bounce value>=55, etc.).
+        # Antes cortaba en >=B y tiraba el resto: value_conviction.csv quedaba
+        # con 1-2 filas, la columna GRADE de ValueUS salía "—" para casi todo y
+        # el gate grade in (A,B) del Plan del Día solo veía nombres EU. Los hard
+        # filters previos (score>=60, RR>=2, upside 10-55%) siguen intactos —
+        # definen quién merece grado; el grado dice cuál es su calidad.
         us_result = filter_by_conviction(
             'docs/value_opportunities_filtered.csv',
             output_path='docs/value_conviction.csv',
-            min_grade=args.min_grade
+            min_grade='D'
         )
         if us_result:
             total += us_result

@@ -51,7 +51,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy yfinance requests beautifulsoup4 lxml scipy
+          pip install -r requirements.txt
 
       - name: VCP Scanner (S&P 500 — universo ampliado de patrones técnicos)
         run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP scanner failed"
@@ -126,16 +126,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy yfinance requests beautifulsoup4 lxml
-          pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
-          pip install groq pyyaml
-          # anthropic → Claude data-check en ai_quality_filter.py (VALUE); sin él se salta en silencio
-          pip install anthropic
-          # xgboost → ml_win_predictor.py (import a nivel de función); sin él el
-          # step falla con ModuleNotFoundError, oculto por continue-on-error —
-          # confirmado roto en CI desde el 30-abr (docs/ml_win_probability.json
-          # nunca se regeneró pese a que el step "corría" cada día)
-          pip install xgboost
+          pip install -r requirements.txt
 
       # ── TIER A: CRÍTICOS — deben pasar o el job falla (no continue-on-error) ──
       - name: Market Regime Detector (informational — gates signals, never aborts)
@@ -337,11 +328,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pandas numpy yfinance requests beautifulsoup4 lxml
-          pip install plotly matplotlib seaborn scikit-learn scipy openpyxl
-          pip install groq pyyaml
-          # anthropic → Claude Sonnet en cerebro.py (exit validation + daily plan); sin él cae siempre al fallback Groq
-          pip install anthropic
+          pip install -r requirements.txt
 
       - name: Bond Scanner (ETF + corporate bond opportunities)
         continue-on-error: true
