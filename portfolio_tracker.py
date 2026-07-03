@@ -59,13 +59,14 @@ class PortfolioTracker:
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
             'analyst_upside_pct', 'sector', 'market_regime',
-            'return_7d', 'return_14d', 'return_30d',
-            'price_7d', 'price_14d', 'price_30d',
-            'win_7d', 'win_14d', 'win_30d',
+            'return_7d', 'return_14d', 'return_30d', 'return_90d', 'return_180d',
+            'price_7d', 'price_14d', 'price_30d', 'price_90d', 'price_180d',
+            'win_7d', 'win_14d', 'win_30d', 'win_90d', 'win_180d',
             'max_drawdown_30d', 'status',
             'stop_loss', 'target_price', 'exit_price', 'exit_day', 'exit_reason',
             'benchmark_return_7d', 'benchmark_return_14d', 'benchmark_return_30d',
-            'alpha_7d', 'alpha_14d', 'alpha_30d',
+            'benchmark_return_90d', 'benchmark_return_180d',
+            'alpha_7d', 'alpha_14d', 'alpha_30d', 'alpha_90d', 'alpha_180d',
         ])
 
     def record_signals(self):
@@ -221,7 +222,17 @@ class PortfolioTracker:
         # SPY = benchmark for VALUE US / MOMENTUM
         # VGK = benchmark for EU_VALUE (Vanguard FTSE Europe)
         bench_hists: dict[str, pd.DataFrame] = {}
-        active_all = self.recommendations[self.recommendations['status'] == 'ACTIVE'].copy()
+        # Además de las ACTIVE, backfillea horizontes largos (90/180d) en las
+        # COMPLETED: una tesis value se juzga a trimestres, no a 30 días —
+        # medir solo 7/14/30d es puntuar value picks con regla de trader.
+        _recs = self.recommendations
+        _needs_long = pd.Series(False, index=_recs.index)
+        for _col in ('return_90d', 'return_180d'):
+            if _col in _recs.columns:
+                _needs_long |= pd.to_numeric(_recs[_col], errors='coerce').isna()
+            else:
+                _needs_long |= True
+        active_all = _recs[(_recs['status'] == 'ACTIVE') | _needs_long].copy()
         if not active_all.empty:
             earliest = pd.Timestamp(active_all['signal_date'].min()) - timedelta(days=1)
             bench_end = (today + timedelta(days=1)).strftime('%Y-%m-%d')
@@ -244,10 +255,7 @@ class PortfolioTracker:
         print(f"  Checking {len(tickers_to_check)} tickers for performance updates...")
 
         for ticker in tickers_to_check:
-            ticker_recs = self.recommendations[
-                (self.recommendations['ticker'] == ticker) &
-                (self.recommendations['status'] == 'ACTIVE')
-            ]
+            ticker_recs = active_all[active_all['ticker'] == ticker]
 
             # Fetch price history
             try:
@@ -270,11 +278,14 @@ class PortfolioTracker:
                     signal_price = float(rec['signal_price'])
                     days_since = (today - signal_date).days
 
-                    # Get prices at 7d, 14d, 30d checkpoints
+                    # Get prices at 7d..180d checkpoints (90/180d = horizonte
+                    # real de una tesis value; 7-30d mide ruido/momentum)
                     for period, col_return, col_price, col_win in [
                         (7, 'return_7d', 'price_7d', 'win_7d'),
                         (14, 'return_14d', 'price_14d', 'win_14d'),
                         (30, 'return_30d', 'price_30d', 'win_30d'),
+                        (90, 'return_90d', 'price_90d', 'win_90d'),
+                        (180, 'return_180d', 'price_180d', 'win_180d'),
                     ]:
                         if days_since >= period and pd.isna(rec.get(col_return)):
                             check_date = signal_date + timedelta(days=period)
@@ -406,6 +417,9 @@ class PortfolioTracker:
         # Win rates by period
         def win_stats(col_return, col_win, subset=None):
             d = subset if subset is not None else value_core
+            if col_return not in d.columns:   # 90/180d aún sin backfillear
+                return {'count': 0, 'win_rate': None, 'avg_return': None,
+                        'median_return': None, 'best': None, 'worst': None}
             valid = d[d[col_return].notna()]
             if valid.empty:
                 return {'count': 0, 'win_rate': None, 'avg_return': None,
@@ -490,6 +504,10 @@ class PortfolioTracker:
                 '7d': win_stats('return_7d', 'win_7d'),
                 '14d': win_stats('return_14d', 'win_14d'),
                 '30d': win_stats('return_30d', 'win_30d'),
+                # Horizontes de tesis value — 7-30d mide momentum/ruido; el
+                # veredicto real del sistema son estos dos
+                '90d': win_stats('return_90d', 'win_90d'),
+                '180d': win_stats('return_180d', 'win_180d'),
             },
 
             # Mixed bases below — legend for JSON consumers (counts differ on purpose)
@@ -524,6 +542,8 @@ class PortfolioTracker:
                 '7d':  {**win_stats('return_7d',  'win_7d',  value_df), 'basis': 'clean_period'} if not value_df.empty else {},
                 '14d': {**win_stats('return_14d', 'win_14d', value_df), 'basis': 'clean_period'} if not value_df.empty else {},
                 '30d': {**win_stats('return_30d', 'win_30d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
+                '90d': {**win_stats('return_90d', 'win_90d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
+                '180d': {**win_stats('return_180d', 'win_180d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
             },
 
             'eu_value_strategy': {
@@ -547,15 +567,19 @@ class PortfolioTracker:
 
             # ── Alpha vs benchmark (SPY for VALUE US, VGK for EU_VALUE) ──────
             'alpha': {
+                '180d': _alpha_stats(value_core, 'alpha_180d', 'return_180d'),
+                '90d': _alpha_stats(value_core, 'alpha_90d', 'return_90d'),
                 '30d': _alpha_stats(value_core, 'alpha_30d', 'return_30d'),
                 '14d': _alpha_stats(value_core, 'alpha_14d', 'return_14d'),
                 '7d':  _alpha_stats(value_core, 'alpha_7d',  'return_7d'),
             },
             'alpha_us': {
+                '90d': _alpha_stats(value_df, 'alpha_90d', 'return_90d'),
                 '30d': _alpha_stats(value_df, 'alpha_30d', 'return_30d'),
                 '14d': _alpha_stats(value_df, 'alpha_14d', 'return_14d'),
             },
             'alpha_eu': {
+                '90d': _alpha_stats(eu_df, 'alpha_90d', 'return_90d'),
                 '30d': _alpha_stats(eu_df, 'alpha_30d', 'return_30d'),
                 '14d': _alpha_stats(eu_df, 'alpha_14d', 'return_14d'),
             },
@@ -723,7 +747,7 @@ class PortfolioTracker:
             if not data:
                 continue
             print(f"\n  --- {label} ---")
-            for period in ['7d', '14d', '30d']:
+            for period in ['7d', '14d', '30d', '90d', '180d']:
                 stats = data.get(period, {})
                 if not stats or stats.get('count', 0) == 0:
                     continue

@@ -28,6 +28,22 @@
       "median_return": -5.24,
       "best": 16.08,
       "worst": -22.28
+    },
+    "90d": {
+      "count": 0,
+      "win_rate": null,
+      "avg_return": null,
+      "median_return": null,
+      "best": null,
+      "worst": null
+    },
+    "180d": {
+      "count": 0,
+      "win_rate": null,
+      "avg_return": null,
+      "median_return": null,
+      "best": null,
+      "worst": null
     }
   },
   "stats_basis": {
@@ -44,9 +60,9 @@
   },
   "conviction": {
     "7d": {
-      "count": 195,
+      "count": 99,
       "win_rate": 33.3,
-      "avg_return": -1.14,
+      "avg_return": -0.75,
       "basis": "golden_zone_hist"
     }
   },
@@ -71,12 +87,30 @@
       "basis": "clean_period"
     },
     "30d": {
-      "count": 195,
-      "win_rate": 50.3,
-      "avg_return": 0.7,
-      "median_return": 0.16,
-      "best": 30.21,
-      "worst": -22.28,
+      "count": 99,
+      "win_rate": 66.7,
+      "avg_return": 3.41,
+      "median_return": 5.15,
+      "best": 23.44,
+      "worst": -14.5,
+      "basis": "golden_zone_hist"
+    },
+    "90d": {
+      "count": 79,
+      "win_rate": 73.4,
+      "avg_return": 9.71,
+      "median_return": 11.35,
+      "best": 53.61,
+      "worst": -37.59,
+      "basis": "golden_zone_hist"
+    },
+    "180d": {
+      "count": 0,
+      "win_rate": null,
+      "avg_return": null,
+      "median_return": null,
+      "best": null,
+      "worst": null,
       "basis": "golden_zone_hist"
     }
   },
@@ -111,20 +145,15 @@
     "count": 17
   },
   "sector_performance": {
-    "Technology": {
-      "count": 46,
-      "avg_30d": -5.72,
-      "win_rate_30d": 15.2
-    },
     "Financial Services": {
-      "count": 69,
-      "avg_30d": 5.17,
-      "win_rate_30d": 73.9
+      "count": 58,
+      "avg_30d": 5.1,
+      "win_rate_30d": 75.9
     },
     "Industrials": {
-      "count": 48,
-      "avg_30d": -0.48,
-      "win_rate_30d": 35.4
+      "count": 10,
+      "avg_30d": 2.71,
+      "win_rate_30d": 50.0
     },
     "Basic Materials": {
       "count": 9,
@@ -136,28 +165,28 @@
       "avg_30d": 10.84,
       "win_rate_30d": 75.0
     },
-    "Healthcare": {
-      "count": 5,
-      "avg_30d": 2.34,
-      "win_rate_30d": 80.0
-    },
-    "Communication Services": {
-      "count": 8,
-      "avg_30d": -7.74,
-      "win_rate_30d": 25.0
-    },
     "Real Estate": {
       "count": 2,
       "avg_30d": 2.02,
       "win_rate_30d": 100.0
     },
+    "Technology": {
+      "count": 10,
+      "avg_30d": -5.99,
+      "win_rate_30d": 10.0
+    },
     "Consumer Cyclical": {
-      "count": 4,
-      "avg_30d": -0.1,
-      "win_rate_30d": 75.0
+      "count": 3,
+      "avg_30d": -0.64,
+      "win_rate_30d": 66.7
+    },
+    "Communication Services": {
+      "count": 3,
+      "avg_30d": -13.45,
+      "win_rate_30d": 0.0
     }
   },
-  "score_correlation": -0.174,
+  "score_correlation": -0.073,
   "top_performers": [
     {
       "ticker": "EXPE",
@@ -245,6 +274,20 @@
   "recent_signals": [],
   "avg_max_drawdown": -2.76,
   "alpha": {
+    "180d": {
+      "count": 0,
+      "avg_alpha": null,
+      "positive_alpha_rate": null,
+      "avg_signal_return": null,
+      "avg_benchmark_return": null
+    },
+    "90d": {
+      "count": 0,
+      "avg_alpha": null,
+      "positive_alpha_rate": null,
+      "avg_signal_return": null,
+      "avg_benchmark_return": null
+    },
     "30d": {
       "count": 75,
       "avg_alpha": -11.13,
@@ -274,6 +317,13 @@
     }
   },
   "alpha_us": {
+    "90d": {
+      "count": 0,
+      "avg_alpha": null,
+      "positive_alpha_rate": null,
+      "avg_signal_return": null,
+      "avg_benchmark_return": null
+    },
     "30d": {
       "count": 69,
       "avg_alpha": -11.94,
@@ -294,6 +344,13 @@
     }
   },
   "alpha_eu": {
+    "90d": {
+      "count": 0,
+      "avg_alpha": null,
+      "positive_alpha_rate": null,
+      "avg_signal_return": null,
+      "avg_benchmark_return": null
+    },
     "30d": {
       "count": 6,
       "avg_alpha": -1.79,
@@ -313,5 +370,5 @@
       "worst_alpha": -12.84
     }
   },
-  "generated_at": "2026-07-03T07:55:14.562393"
+  "generated_at": "2026-07-03T16:13:10.256847"
 }
