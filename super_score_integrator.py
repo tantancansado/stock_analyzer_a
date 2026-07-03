@@ -34,6 +34,40 @@ from float_filter import FloatFilter
 # Rate limit delay between yfinance API calls (seconds)
 YFINANCE_RATE_DELAY = 0.5
 
+
+def add_upside_triangulation(df: pd.DataFrame) -> pd.DataFrame:
+    """Triangula el upside de analistas con los modelos propios (DCF y P/E).
+
+    Solo informativo — NO toca el score. Motivación: el score ancla en el
+    target de analistas, pero a veces los modelos propios dicen lo contrario
+    (UBER 3-jul-2026: analistas +36%, DCF propio -38%, P/E -48%) y nada lo
+    reconciliaba. Columnas nuevas:
+      upside_triangulated_pct — mediana de las tres estimaciones disponibles
+      upside_divergence_pts   — analistas menos la mediana de DCF/P/E
+      upside_divergence       — ALTA (>=40pts) / MEDIA (>=20) / '' — cuánto
+                                se separa el sell-side de tus propios modelos
+    """
+    if 'analyst_upside_pct' not in df.columns:
+        return df
+    _an = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
+    _dcf = (pd.to_numeric(df['target_price_dcf_upside_pct'], errors='coerce')
+            if 'target_price_dcf_upside_pct' in df.columns
+            else pd.Series(np.nan, index=df.index))
+    _pe = (pd.to_numeric(df['target_price_pe_upside_pct'], errors='coerce')
+           if 'target_price_pe_upside_pct' in df.columns
+           else pd.Series(np.nan, index=df.index))
+    df['upside_triangulated_pct'] = pd.concat([_an, _dcf, _pe], axis=1).median(axis=1, skipna=True).round(1)
+    own = pd.concat([_dcf, _pe], axis=1).median(axis=1, skipna=True)
+    gap = _an - own
+    df['upside_divergence_pts'] = gap.round(1)
+    df['upside_divergence'] = np.select([gap >= 40, gap >= 20], ['ALTA', 'MEDIA'], default='')
+    df.loc[gap.isna(), 'upside_divergence'] = ''
+    n_alta = int((df['upside_divergence'] == 'ALTA').sum())
+    if n_alta:
+        print(f"   ⚠️  Divergencia ALTA analistas-vs-modelos-propios en {n_alta} tickers")
+    return df
+
+
 class SuperScoreIntegrator:
     """Integra VCP, ML y Fundamental scores en Super Score Ultimate"""
 
@@ -1614,6 +1648,9 @@ class SuperScoreIntegrator:
         momentum_avg = df['momentum_score'].mean()
         print(f"✅ Momentum score ≥60: {momentum_top}/{len(df)} ({momentum_top/len(df)*100:.1f}%)")
         print(f"📊 Average momentum score: {momentum_avg:.1f}/100")
+
+        # Triangulación analistas vs DCF/P/E (informativo, no toca el score)
+        df = add_upside_triangulation(df)
 
         print("\n✅ Advanced filters + dual scoring completed")
         print("="*70)

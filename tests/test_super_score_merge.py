@@ -63,6 +63,37 @@ def test_fundamental_price_wins_and_vcp_fills_gaps():
     assert result.loc['CCC', 'current_price'] == 30.0
 
 
+def test_upside_triangulation_flags_divergence():
+    """Caso real UBER 3-jul-2026: analistas +36.3, DCF -38.4, P/E -47.5 —
+    los modelos propios contradecían al sell-side y nada lo señalaba."""
+    from super_score_integrator import add_upside_triangulation
+    df = pd.DataFrame({
+        'ticker': ['UBER', 'KO', 'NODCF'],
+        'analyst_upside_pct': [36.3, 15.0, 12.0],
+        'target_price_dcf_upside_pct': [-38.4, 10.0, None],
+        'target_price_pe_upside_pct': [-47.5, 18.0, None],
+    })
+    out = add_upside_triangulation(df).set_index('ticker')
+
+    assert out.loc['UBER', 'upside_divergence'] == 'ALTA'
+    assert out.loc['UBER', 'upside_triangulated_pct'] == -38.4  # mediana de las 3
+    # KO: analistas 15 vs mediana propia 14 → sin divergencia
+    assert out.loc['KO', 'upside_divergence'] == ''
+    # Sin modelos propios → sin flag (no inventar)
+    assert out.loc['NODCF', 'upside_divergence'] == ''
+
+
+def test_entry_readiness_classifier():
+    from technical_filter import _entry_readiness
+
+    assert _entry_readiness('stage4', 'downtrend', -30)[0] == 'ESPERAR'
+    assert _entry_readiness('stage1', 'downtrend', 5)[0] == 'ESPERAR'   # trend manda
+    assert _entry_readiness('stage2', 'uptrend', 5)[0] == 'ENTRADA'
+    assert _entry_readiness('stage2', 'uptrend', -30)[0] == 'VIGILAR'   # RS débil
+    assert _entry_readiness('stage3', 'uptrend', 10)[0] == 'VIGILAR'    # extendida
+    assert _entry_readiness('stage1', 'sideways', None)[0] == 'VIGILAR' # base
+
+
 def test_collision_coalesce_belt_and_braces():
     """Si otro loader vuelve a colisionar en current_price, el coalesce lo salva."""
     integ = _integrator()

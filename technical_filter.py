@@ -33,6 +33,7 @@ TECH_COLS = [
     "is_stage2", "ma_score", "atr_ratio", "volume_dryup",
     "pct_from_52w_high", "pct_from_52w_low", "relative_strength_6m",
     "trend_direction", "tech_stage",
+    "entry_readiness", "entry_readiness_reason",
 ]
 
 
@@ -182,6 +183,29 @@ def _compute_tech_stage(
         return "unknown"
 
 
+def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None) -> tuple[str, str]:
+    """Timing de entrada para un pick VALUE: que aparezca barato en el screen
+    no significa que sea el día de comprarlo.
+
+    Motivación (tracker real): comprar el día que entra en el screen dio
+    alpha -11.9% a 30d — cuchillos cayendo. La misma zona dorada a 90d da
+    73% win: la tesis es buena, la entrada era mala. Esto separa ambas cosas:
+      ESPERAR  → sigue cayendo (stage 4 / bajo MAs descendentes)
+      VIGILAR  → construyendo base o extendida — en el radar, aún no
+      ENTRADA  → stage 2 Weinstein: suelo confirmado, tendencia a favor
+    """
+    rs_weak = rs_6m is not None and rs_6m < -25
+    if tech_stage == "stage4" or trend == "downtrend":
+        return "ESPERAR", "En caída (bajo MA200 descendente) — espera a que haga suelo"
+    if tech_stage == "stage2":
+        if rs_weak:
+            return "VIGILAR", "Tendencia OK pero muy débil vs SPY (RS 6m < -25) — que confirme fuerza"
+        return "ENTRADA", "Stage 2: sobre MA200 ascendente sin sobreextensión — suelo confirmado"
+    if tech_stage == "stage3":
+        return "VIGILAR", "Extendida cerca de máximos — espera un pullback"
+    return "VIGILAR", "Construyendo base (lateral) — espera la reconquista de las medias"
+
+
 # ─── Main signal computation ───────────────────────────────────────────────────
 
 def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
@@ -197,6 +221,8 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
         "relative_strength_6m": None,
         "trend_direction": "sideways",
         "tech_stage": "unknown",
+        "entry_readiness": None,
+        "entry_readiness_reason": None,
         "computed_at": _now_utc(),
         "error": None,
     }
@@ -229,6 +255,8 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     base["relative_strength_6m"] = _compute_rs(close, price, spy_6m_return)
     base["trend_direction"] = _compute_trend(close, price)
     base["tech_stage"] = _compute_tech_stage(close, price, ma200_4wk, pct_hi, pct_lo)
+    base["entry_readiness"], base["entry_readiness_reason"] = _entry_readiness(
+        base["tech_stage"], base["trend_direction"], base["relative_strength_6m"])
 
     return base
 
