@@ -1,7 +1,27 @@
 {
   "generated_at": "2026-07-03",
-  "total": 0,
+  "total": 1,
   "high_count": 0,
-  "narrative": null,
-  "decays": []
+  "narrative": "Aqu\u00ed te dejo dos frases en espa\u00f1ol:\n\n1. La compresi\u00f3n de m\u00e1rgenes es una se\u00f1al m\u00e1s temprana que el Piotroski porque indica un deterioro en la capacidad de la empresa para generar ingresos y cubrir sus costos, lo que puede llevar a una disminuci\u00f3n en la rentabilidad y la estabilidad financiera.\n2. La compresi\u00f3n de m\u00e1rgenes es una se\u00f1al m\u00e1s temprana que el Piotroski porque refleja una disminuci\u00f3n en la eficiencia operativa de la empresa, lo que puede ser un indicador de problemas subyacentes que pueden afectar la rentabilidad y la estabilidad financiera en el futuro.",
+  "decays": [
+    {
+      "ticker": "FDS",
+      "company_name": "FactSet Research Systems Inc.",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 26.020000000000003,
+      "snapshot_date": "2026-07-01",
+      "piotr_prev": 6.0,
+      "piotr_curr": 6.0,
+      "fcf_prev": 6.94,
+      "fcf_curr": 6.57,
+      "health_prev": 85.0,
+      "health_curr": 70.0,
+      "margin_prev": 29.8,
+      "margin_curr": 26.7,
+      "flags": [
+        "Salud financiera cay\u00f3 15pts (85 \u2192 70/100)"
+      ]
+    }
+  ]
 }

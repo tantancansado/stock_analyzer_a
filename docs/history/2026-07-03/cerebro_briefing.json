@@ -1,12 +1,16 @@
 {
   "generated_at": "2026-07-03",
   "regime": "NEUTRAL",
-  "narrative": "**Briefing Matutino 03 de julio de 2026**\n\nEl mercado se mantiene en un r\u00e9gimen neutro, sin se\u00f1ales fuertes para entrar o salir. La \u00fanica entrada recomendada es DB1.DE, con un score de 50. Es importante vigilar las convergencias en V, KO y MA, as\u00ed como los alertas de AAL.L, ADP y AUTO.L. Evita cualquier se\u00f1al de salida y mant\u00e9n una mirada atenta a las acciones de DB1.DE, KO y QSR, que est\u00e1n siendo compradas por instituciones de inversi\u00f3n.",
+  "narrative": "**Breve briefing matutino**\n\nHoy, el mercado se mantiene en un r\u00e9gimen neutro, lo que significa que no hay presi\u00f3n para tomar decisiones de inversi\u00f3n apresuradas. Las entradas recomendadas son DB1.DE y MA, con un score de 50. Es importante vigilar las convergencias con V, KO y MA, y estar atento a las alertas de AAL.L, ADP y AON. En cuanto a las trampas, no se han detectado ninguna. En resumen, hoy es un buen d\u00eda para mantener una postura neutral y esperar a que se presenten oportunidades claras.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 1,
+    "buy_count": 2,
     "top_entries": [
+      [
+        "MA",
+        50
+      ],
       [
         "DB1.DE",
         50
@@ -15,11 +19,11 @@
     "top_convergences": [
       [
         "V",
-        64
+        63
       ],
       [
         "KO",
-        60
+        61
       ],
       [
         "MA",
@@ -36,8 +40,8 @@
         "SCORE_DRIFT"
       ],
       [
-        "AUTO.L",
-        "VALUE_CONTRADICTION"
+        "AON",
+        "SCORE_DRIFT"
       ]
     ],
     "traps_warning": [],
@@ -59,7 +63,7 @@
     "macro_stress": [
       {
         "market": "Petr\u00f3leo (WTI)",
-        "score": 79.4,
+        "score": 75.8,
         "regime": "DISLOCATED",
         "exposed": [
           "USO",

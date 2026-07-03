@@ -26,6 +26,6 @@
       "n": 586
     }
   ],
-  "narrative": "Seg\u00fan las recomendaciones de calibraci\u00f3n, los ajustes m\u00e1s urgentes son:\n\n* Aumentar el peso de [BOOST] Score 60\u201370, ya que se espera un aumento de 13.2 puntos porcentuales en la WR (tasa de \u00e9xito) en comparaci\u00f3n con la base.\n* Aumentar el peso de [BOOST] R:R \u22653, ya que se espera un aumento de 9.8 puntos porcentuales en la WR en comparaci\u00f3n con la base.\n\nEstos ajustes son m\u00e1s urgentes porque ofrecen una mejora significativa en la tasa de \u00e9xito, lo que puede ayudar a mejorar la precisi\u00f3n y eficacia del sistema VALUE.",
+  "narrative": "Seg\u00fan las recomendaciones de calibraci\u00f3n, los ajustes m\u00e1s urgentes son:\n\n- Aumentar el peso de [BOOST] Score 60\u201370, ya que prioriza este rango y puede mejorar la WR en +13.2pp sobre la base.\n- Aumentar el peso de [BOOST] R:R \u22653, ya que mejora la WR en +9.8pp.\n- Considerar pausar se\u00f1ales en [REGIME_FILTER] R\u00e9gimen UPTREND_PRESSURE, ya que solo tiene un 11.7% de WR en este r\u00e9gimen.\n\nEstos ajustes son urgentes porque pueden mejorar significativamente la eficiencia del sistema VALUE y reducir la cantidad de se\u00f1ales falsas.",
   "total_recommendations": 4
 }

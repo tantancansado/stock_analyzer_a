@@ -6,79 +6,49 @@
       "ticker": "MA",
       "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 94.9,
+      "score_today": 91.8,
       "score_prev": 77.9,
-      "delta": 17.0,
-      "grade": "🔥 Legendary"
+      "delta": 13.9,
+      "grade": "🟢 Elite"
     },
     {
       "type": "SCORE_UP",
       "ticker": "QSR",
       "company_name": "Restaurant Brands International",
       "sector": "Consumer Cyclical",
-      "score_today": 48.5,
+      "score_today": 52.7,
       "score_prev": 40.1,
-      "delta": 8.4,
+      "delta": 12.6,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 42.2,
-      "score_prev": 35.2,
-      "delta": 7.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": 72.3,
-      "score_prev": 65.3,
-      "delta": 7.0,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FDS",
-      "company_name": "FactSet Research Systems Inc.",
-      "sector": "Financial Services",
-      "score_today": 34.7,
-      "score_prev": 28.2,
-      "delta": 6.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 48.4,
-      "score_prev": 42.4,
-      "delta": 6.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "PGR",
-      "company_name": "Progressive Corporation (The)",
-      "sector": "Financial Services",
-      "score_today": 46.2,
-      "score_prev": 41.0,
-      "delta": 5.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ABT",
-      "company_name": "Abbott Laboratories",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
       "sector": "Healthcare",
-      "score_today": 42.0,
-      "score_prev": 47.0,
-      "delta": -5.0,
+      "score_today": 40.1,
+      "score_prev": 29.6,
+      "delta": 10.5,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "score_today": 29.4,
+      "score_prev": 23.5,
+      "delta": 5.9,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "sector": "Healthcare",
+      "score_today": 34.6,
+      "score_prev": 28.9,
+      "delta": 5.7,
       "grade": "🔴 Weak"
     },
     {
@@ -86,39 +56,29 @@
       "ticker": "7741.T",
       "company_name": "HOYA CORP",
       "sector": "Healthcare",
-      "score_today": 42.0,
+      "score_today": 44.8,
       "score_prev": 50.5,
-      "delta": -8.5,
+      "delta": -5.7,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "NUE",
-      "company_name": "Nucor Corporation",
-      "sector": "Basic Materials",
-      "score_today": 37.0,
-      "score_prev": 48.5,
-      "delta": -11.5,
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "score_today": 22.2,
+      "score_prev": 29.4,
+      "delta": -7.2,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
+      "ticker": "AON",
+      "company_name": "Aon plc",
       "sector": "Financial Services",
-      "score_today": 35.1,
-      "score_prev": 47.3,
-      "delta": -12.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 29.0,
-      "score_prev": 41.8,
-      "delta": -12.8,
+      "score_today": 34.4,
+      "score_prev": 44.4,
+      "delta": -10.0,
       "grade": "🔴 Weak"
     },
     {
@@ -126,16 +86,46 @@
       "ticker": "KO",
       "company_name": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
-      "score_today": 54.0,
+      "score_today": 57.9,
       "score_prev": 69.4,
-      "delta": -15.4,
+      "delta": -11.5,
       "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "NUE",
+      "company_name": "Nucor Corporation",
+      "sector": "Basic Materials",
+      "score_today": 33.2,
+      "score_prev": 48.5,
+      "delta": -15.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "score_today": 31.7,
+      "score_prev": 47.3,
+      "delta": -15.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 26.0,
+      "score_prev": 41.8,
+      "delta": -15.7,
+      "grade": "🔴 Weak"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 7,
-    "score_down": 6
+    "score_up": 5,
+    "score_down": 7
   }
 }

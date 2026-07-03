@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-07-03",
-  "total": 1,
+  "total": 2,
   "high_count": 0,
-  "narrative": "Un short squeeze en un valor fundamentalmente s\u00f3lido puede ser especialmente explosivo debido a la combinaci\u00f3n de una posici\u00f3n corta significativa y una mejora en los fundamentales, lo que puede provocar una r\u00e1pida subida del precio y una gran ganancia para los inversores que est\u00e1n comprando.\n\nCuando un valor tiene una posici\u00f3n corta alta y los fundamentales est\u00e1n mejorando, los inversores que est\u00e1n comprando pueden sentir que est\u00e1n comprando a un precio bajo y que el precio puede subir r\u00e1pidamente, lo que puede provocar una especie de efecto de bola de nieve que lleva a una subida explosiva del precio.",
+  "narrative": "Un short squeeze en un valor fundamentalmente s\u00f3lido puede ser especialmente explosivo porque los inversores que han tomado posiciones cortas en la empresa est\u00e1n obligados a comprar acciones a un precio cada vez m\u00e1s alto para cubrir sus posiciones, lo que puede generar una demanda adicional y un aumento en el precio de la acci\u00f3n.\n\nAdem\u00e1s, cuando una empresa tiene fundamentos s\u00f3lidos, como un buen historial financiero y un crecimiento potencial, los inversores que han tomado posiciones cortas pueden sentirse cada vez m\u00e1s presionados para cubrir sus posiciones, lo que puede llevar a una especie de \"efecto domin\u00f3\" que puede hacer que el precio de la acci\u00f3n sub",
   "setups": [
     {
       "ticker": "FDS",
@@ -12,12 +12,28 @@
       "squeeze_score": 40,
       "short_pct_float": 16.9,
       "piotroski": 6.0,
-      "value_score": 34.735,
+      "value_score": 26.020000000000003,
       "insider_buying": false,
       "hf_present": false,
       "flags": [
         "Short elevado (16.9% del float)",
         "Piotroski 6/9 \u2014 calidad mejorando"
+      ]
+    },
+    {
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza Inc",
+      "sector": "Consumer Cyclical",
+      "severity": "MEDIUM",
+      "squeeze_score": 25,
+      "short_pct_float": 14.6,
+      "piotroski": 8.0,
+      "value_score": 22.120000000000005,
+      "insider_buying": false,
+      "hf_present": false,
+      "flags": [
+        "Short moderado (14.6% del float)",
+        "Piotroski 8/9 \u2014 calidad mejorando"
       ]
     }
   ]

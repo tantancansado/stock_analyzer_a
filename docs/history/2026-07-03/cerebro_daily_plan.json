@@ -11,7 +11,7 @@
       "prioridad": 1,
       "accion": "COMPRAR",
       "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 4.99% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "razon": "Yield 30yr en 4.98% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "size_hint": "peque\u00f1a (1-2%)",
       "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
@@ -20,7 +20,7 @@
       "prioridad": 2,
       "accion": "VENDER",
       "instrumento": "AUTO.L",
-      "razon": "Thesis drift HIGH (43d): Upside analistas cay\u00f3 15pp (34%\u219219%) | Mejor FCF en Com",
+      "razon": "Thesis drift HIGH (45d): Upside analistas cay\u00f3 19pp (34%\u219215%) | Mejor FCF en Com",
       "catalizador": "Se\u00f1al AVOID activa en Cerebro",
       "size_hint": "grande (5%+)",
       "invalidacion": "Score Cerebro mejora a neutral"
@@ -30,7 +30,7 @@
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 4.99% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 4.98% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -49,14 +49,14 @@
       "ticker": "AMS.MC",
       "score": 58.2,
       "sector": "Technology",
-      "fcf_yield_pct": 4.96,
+      "fcf_yield_pct": 4.94,
       "grade": "B"
     },
     {
       "ticker": "SAP.DE",
       "score": 55.1,
       "sector": "Technology",
-      "fcf_yield_pct": 4.97,
+      "fcf_yield_pct": 4.98,
       "grade": "B"
     }
   ],
@@ -64,7 +64,7 @@
   "evitar": [
     {
       "ticker": "AUTO.L",
-      "razon": "Thesis drift HIGH (43d): Upside analistas cay\u00f3 15pp (34%\u219219%) | Mejor FCF en Com"
+      "razon": "Thesis drift HIGH (45d): Upside analistas cay\u00f3 19pp (34%\u219215%) | Mejor FCF en Com"
     }
   ],
   "agenda_semana": [],

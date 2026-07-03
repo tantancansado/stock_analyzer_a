@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-03",
-  "total": 45,
-  "high_count": 39,
+  "total": 46,
+  "high_count": 41,
   "alerts": [
     {
       "ticker": "AAL.L",
@@ -20,12 +20,25 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: ADP",
-      "message": "Score baj\u00f3 35 pts (de 64 \u2192 29). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 38 pts (de 64 \u2192 26). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
         "original_score": 63.5,
-        "current_score": 29.0,
-        "drop": 34.6
+        "current_score": 26.0,
+        "drop": 37.5
+      }
+    },
+    {
+      "ticker": "AON",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: AON",
+      "message": "Score baj\u00f3 32 pts (de 66 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-07-03",
+      "data": {
+        "original_score": 66.4,
+        "current_score": 34.4,
+        "drop": 32.0
       }
     },
     {
@@ -33,14 +46,14 @@
       "type": "VALUE_CONTRADICTION",
       "severity": "HIGH",
       "title": "Contradicci\u00f3n IA: AUTO.L en VALUE pero Cerebro dice AVOID",
-      "message": "Score VALUE 52 (Grado ?) \u2014 pero Cerebro detecta trampa de valor (adj -7pts). Raz\u00f3n: Thesis drift HIGH (43d): Upside analistas cay\u00f3 15pp (34%\u219219%).",
+      "message": "Score VALUE 52 (Grado ?) \u2014 pero Cerebro detecta trampa de valor (adj -7pts). Raz\u00f3n: Thesis drift HIGH (45d): Upside analistas cay\u00f3 19pp (34%\u219215%).",
       "date": "2026-07-03",
       "data": {
-        "value_score": 52.2,
+        "value_score": 52.0,
         "conviction_grade": "",
         "cerebro_signal": "AVOID",
         "cerebro_score_adj": -7,
-        "cerebro_reason": "Thesis drift HIGH (43d): Upside analistas cay\u00f3 15pp (34%\u219219%) | Mejor FCF en Communication Services (6.3% vs media sector 5.2%)"
+        "cerebro_reason": "Thesis drift HIGH (45d): Upside analistas cay\u00f3 19pp (34%\u219215%) | Mejor FCF en Communication Services (6.1% vs media sector 5.0%)"
       }
     },
     {
@@ -48,12 +61,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: AXP",
-      "message": "Score baj\u00f3 27 pts (de 53 \u2192 26). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 26 pts (de 53 \u2192 26). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
         "original_score": 52.6,
-        "current_score": 25.8,
-        "drop": 26.8
+        "current_score": 26.2,
+        "drop": 26.4
       }
     },
     {
@@ -145,12 +158,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: CTAS",
-      "message": "Score baj\u00f3 34 pts (de 57 \u2192 24). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 30 pts (de 57 \u2192 27). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
         "original_score": 57.4,
-        "current_score": 23.6,
-        "drop": 33.7
+        "current_score": 27.0,
+        "drop": 30.4
       }
     },
     {
@@ -175,6 +188,19 @@
       "data": {
         "purchase_count": 32.0,
         "unique_insiders": 12.0
+      }
+    },
+    {
+      "ticker": "DPZ",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: DPZ",
+      "message": "Score baj\u00f3 40 pts (de 62 \u2192 22). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-07-03",
+      "data": {
+        "original_score": 62.2,
+        "current_score": 22.1,
+        "drop": 40.1
       }
     },
     {
@@ -330,12 +356,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: NYT",
-      "message": "Score baj\u00f3 34 pts (de 58 \u2192 24). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 32 pts (de 58 \u2192 26). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
         "original_score": 58.3,
-        "current_score": 24.1,
-        "drop": 34.2
+        "current_score": 25.9,
+        "drop": 32.4
       }
     },
     {
@@ -486,31 +512,29 @@
       }
     },
     {
-      "ticker": "AON",
+      "ticker": "BRO",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Tesis en riesgo: AON",
-      "message": "Score baj\u00f3 22 pts (de 66 \u2192 44). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "title": "Tesis en riesgo: BRO",
+      "message": "Score baj\u00f3 19 pts (de 43 \u2192 24). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
-        "original_score": 66.4,
-        "current_score": 44.2,
-        "drop": 22.2
+        "original_score": 43.0,
+        "current_score": 24.3,
+        "drop": 18.6
       }
     },
     {
-      "ticker": "CTAS",
-      "type": "NEW_CONVERGENCE",
+      "ticker": "FDS",
+      "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Nueva convergencia: CTAS",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 44.",
+      "title": "Tesis en riesgo: FDS",
+      "message": "Score baj\u00f3 20 pts (de 46 \u2192 26). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 44
+        "original_score": 45.7,
+        "current_score": 26.0,
+        "drop": 19.6
       }
     },
     {
@@ -518,27 +542,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: G24.DE",
-      "message": "Score baj\u00f3 19 pts (de 73 \u2192 54). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 21 pts (de 73 \u2192 52). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
         "original_score": 73.0,
-        "current_score": 54.1,
-        "drop": 18.9
-      }
-    },
-    {
-      "ticker": "TMO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: TMO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 48.",
-      "date": "2026-07-03",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 48
+        "current_score": 52.1,
+        "drop": 20.9
       }
     },
     {
@@ -546,12 +555,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: VRSN",
-      "message": "Score baj\u00f3 21 pts (de 69 \u2192 48). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 23 pts (de 69 \u2192 46). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-07-03",
       "data": {
         "original_score": 69.0,
-        "current_score": 48.4,
-        "drop": 20.6
+        "current_score": 46.1,
+        "drop": 23.0
       }
     },
     {

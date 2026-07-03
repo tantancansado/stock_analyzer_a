@@ -2,11 +2,67 @@
   "generated_at": "2026-07-03",
   "total": 3,
   "strong_buy": 0,
-  "buy": 1,
-  "monitor": 1,
+  "buy": 2,
+  "monitor": 0,
   "wait": 1,
-  "narrative": "Las tres mejores oportunidades de entrada de hoy en valor invertido son DB1.DE (DEUTSCHE BOERSE AG) debido a su alta puntuaci\u00f3n de entrada (50) y varias se\u00f1ales positivas. Estas incluyen una relaci\u00f3n de riesgo y recompensa (R:R) superior a 2, lo que sugiere un potencial de crecimiento significativo, as\u00ed como compras de acciones por parte de los inversores internos, una revisi\u00f3n de los analistas hacia arriba y una duraci\u00f3n en valor de al menos 3 d\u00edas, lo que indica una estabilidad a largo plazo.",
+  "narrative": "Las tres mejores oportunidades de entrada de hoy en VALUE investing son MA (Mastercard Incorporated) y DB1.DE (DEUTSCHE BOERSE AG) debido a su alta puntuaci\u00f3n de entrada (entry_score=50) y la presencia de se\u00f1ales s\u00f3lidas que confirman la compra. En espec\u00edfico, MA cuenta con un valor score superior a 80, un R:R (ratio de riesgo-recompensa) superior a 2 y un flujo de opciones alcista, mientras que DB1.DE tiene un R:R superior a 2, compra de acciones por parte de insiders y una revisi\u00f3n de analistas positiva.",
   "signals": [
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 91.775,
+      "conviction_grade": "C",
+      "current_price": 500.94,
+      "analyst_upside_pct": 19.3,
+      "fcf_yield_pct": 3.39,
+      "risk_reward_ratio": 3.69,
+      "days_in_value": 3,
+      "streak_days": 2,
+      "entry_score": 50,
+      "signal": "BUY",
+      "signals_fired": [
+        "Value score \u226580",
+        "R:R \u22652",
+        "Options flow alcista",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Options flow alcista",
+          "pts": 15
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "FCF yield <5%",
+        "Upside <20%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 27
+    },
     {
       "ticker": "DB1.DE",
       "company_name": "DEUTSCHE BOERSE AG            N",
@@ -14,11 +70,11 @@
       "sector": "Financial Services",
       "value_score": 63.9,
       "conviction_grade": "nan",
-      "current_price": 240.7,
-      "analyst_upside_pct": 18.9,
+      "current_price": 246.6,
+      "analyst_upside_pct": 16.0,
       "fcf_yield_pct": null,
-      "risk_reward_ratio": 2.36,
-      "days_in_value": 7,
+      "risk_reward_ratio": 2.0,
+      "days_in_value": 8,
       "streak_days": 1,
       "entry_score": 50,
       "signal": "BUY",
@@ -57,90 +113,29 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 20
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 94.855,
-      "conviction_grade": "nan",
-      "current_price": 500.94,
-      "analyst_upside_pct": 23.2,
-      "fcf_yield_pct": 3.5,
-      "risk_reward_ratio": 3.69,
-      "days_in_value": 2,
-      "streak_days": 2,
-      "entry_score": 48,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "Value score \u226580",
-        "R:R \u22652",
-        "Upside \u226520%",
-        "Options flow alcista",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226580",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Options flow alcista",
-          "pts": 15
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "FCF yield <5%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 2d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 28
+      "days_to_earnings": 19
     },
     {
       "ticker": "V",
       "company_name": "Visa Inc.",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 72.34,
+      "value_score": 67.09,
       "conviction_grade": "nan",
       "current_price": 321.28,
-      "analyst_upside_pct": 13.6,
-      "fcf_yield_pct": 3.12,
+      "analyst_upside_pct": 10.1,
+      "fcf_yield_pct": 3.03,
       "risk_reward_ratio": 3.0,
-      "days_in_value": 6,
+      "days_in_value": 7,
       "streak_days": 12,
-      "entry_score": 25,
+      "entry_score": 20,
       "signal": "WAIT",
       "signals_fired": [
-        "Value score \u226570",
         "R:R \u22652",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
         {
           "name": "R:R \u22652",
           "pts": 10
@@ -166,7 +161,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 26
+      "days_to_earnings": 25
     }
   ]
 }
