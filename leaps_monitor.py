@@ -37,6 +37,9 @@ TAKE_PROFIT_PCT = 50.0
 STOP_PCT        = -40.0
 DEDUP_DAYS      = 5
 FUND_COLLAPSE   = 45.0    # fundamental_score por debajo → deterioro
+DELTA_FLOOR     = 0.65    # delta por debajo → ya no es stock-replacement,
+                          # es apuesta direccional (el subyacente cayó hacia
+                          # el strike); decide: añadir, rolar de strike o cerrar
 
 BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', '')
 CHAT_ID   = os.environ.get('TELEGRAM_CHAT_ID', '')
@@ -72,23 +75,24 @@ def load_option_positions() -> list[dict]:
 # ── Precio en vivo del contrato ──────────────────────────────────────────────
 
 def current_option_price(ticker: str, strike: float, expiry: str):
-    """Devuelve (mid, bid, ask, last) del contrato concreto, o (None,...)."""
+    """Devuelve (mid, bid, ask, last, iv) del contrato concreto, o (None,...)."""
     import yfinance as yf
     try:
         t = yf.Ticker(ticker)
         chain = la._fetch_with_retry(lambda: t.option_chain(expiry))
         if chain is None or chain.calls is None or chain.calls.empty:
-            return None, None, None, None
+            return None, None, None, None, None
         row = chain.calls[chain.calls['strike'] == strike]
         if row.empty:
-            return None, None, None, None
+            return None, None, None, None, None
         r = row.iloc[0]
         bid = float(r['bid'] or 0); ask = float(r['ask'] or 0); last = float(r['lastPrice'] or 0)
         mid = (bid + ask) / 2 if (bid > 0 and ask > 0) else last
-        return mid, bid, ask, last
+        iv = float(r.get('impliedVolatility', 0) or 0) or None
+        return mid, bid, ask, last, iv
     except Exception as e:
         print(f'    {ticker}: error precio opción — {e}')
-        return None, None, None, None
+        return None, None, None, None, None
 
 
 # ── Análisis de una posición ─────────────────────────────────────────────────
@@ -97,8 +101,18 @@ def analyze_position(pos: dict, signals: dict) -> dict:
     import yfinance as yf
     t = yf.Ticker(pos['ticker'])
     spot = la._get_spot(t)
-    mid, bid, ask, last = current_option_price(pos['ticker'], pos['strike'], pos['expiry'])
+    mid, bid, ask, last, iv = current_option_price(pos['ticker'], pos['strike'], pos['expiry'])
     dte = (datetime.strptime(pos['expiry'], '%Y-%m-%d').date() - date.today()).days
+
+    # Delta actual: si cayó bajo DELTA_FLOOR ya no replica la acción
+    delta = None
+    if spot and iv and dte > 0:
+        try:
+            delta = la.bs_call_delta(spot, pos['strike'], dte / 365.0,
+                                     la.FALLBACK_RF, iv,
+                                     la._get_dividend_yield(t))
+        except Exception:
+            delta = None
     avg = pos['avg_price']
     pnl_pct = ((mid - avg) / avg * 100) if (mid and avg) else None
     breakeven = pos['strike'] + avg if avg else None
@@ -118,6 +132,10 @@ def analyze_position(pos: dict, signals: dict) -> dict:
         alerts.append(('THESIS_BREAK', f'el target del analista (${target:.0f}) ya no supera tu break-even (${breakeven:.2f}) — sin recorrido'))
     if not fund_ok:
         alerts.append(('THESIS_BREAK', f'fundamental_score se ha deteriorado a {fund:.0f} — vigila el negocio'))
+    if delta is not None and delta < DELTA_FLOOR:
+        alerts.append(('DELTA_DRIFT',
+                       f'delta {delta:.2f} < {DELTA_FLOOR} — el LEAPS ya no replica la acción, '
+                       f'es apuesta direccional: añade, rola de strike o cierra'))
 
     return {
         'ticker': pos['ticker'], 'strike': pos['strike'], 'expiry': pos['expiry'],
@@ -125,6 +143,7 @@ def analyze_position(pos: dict, signals: dict) -> dict:
         'spot': round(spot, 2) if spot else None,
         'current_price': round(mid, 2) if mid else None,
         'pnl_pct': round(pnl_pct, 1) if pnl_pct is not None else None,
+        'delta': round(delta, 3) if delta is not None else None,
         'dte': dte, 'breakeven': round(breakeven, 2) if breakeven else None,
         'analyst_target': round(target, 2) if target else None,
         'alerts': alerts,

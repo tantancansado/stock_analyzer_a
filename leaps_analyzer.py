@@ -72,7 +72,9 @@ LEAPS_UNIVERSE = [
     # Mega-cap tech / compounders
     'GOOGL', 'AMZN', 'MSFT', 'AAPL', 'META', 'NVDA', 'AVGO', 'CRM', 'ADBE', 'ORCL',
     # Growth de calidad
-    'UBER', 'SHOP', 'NFLX', 'DIS', 'PYPL', 'ABNB', 'SQ', 'COIN', 'PLTR', 'AMD',
+    # (SQ → XYZ: Block cambió de ticker en NYSE en enero 2025; 'SQ' ya no
+    # resuelve en yfinance y moría en silencio en cada scan)
+    'UBER', 'SHOP', 'NFLX', 'DIS', 'PYPL', 'ABNB', 'XYZ', 'COIN', 'PLTR', 'AMD',
     # Financieras / pagos
     'V', 'MA', 'JPM', 'BAC', 'GS', 'AXP', 'SCHW',
     # Salud / industria / consumo de calidad
@@ -112,6 +114,11 @@ def leaps_metrics(spot: float, strike: float, t_years: float, premium: float,
     extrinsic_pct = extrinsic / spot * 100 if spot > 0 else float('nan')
     # Carry anualizado: coste temporal por año como % del spot
     annual_carry_pct = extrinsic_pct / t_years if t_years > 0 else float('nan')
+    # Coste REAL de tener el LEAPS en vez de la acción: al carry hay que
+    # sumarle el dividendo al que renuncias (la call no lo cobra). En
+    # dividenderas (CVX ~4.5%) el carry "0.8%/año" son en realidad ~5.3%/año.
+    total_annual_cost_pct = (annual_carry_pct + div_yield * 100
+                             if not math.isnan(annual_carry_pct) else float('nan'))
     # Apalancamiento efectivo: exposición controlada / capital invertido
     leverage = (spot * delta) / premium if premium > 0 else float('nan')
     breakeven = strike + premium
@@ -122,6 +129,8 @@ def leaps_metrics(spot: float, strike: float, t_years: float, premium: float,
         'extrinsic': round(extrinsic, 2),
         'extrinsic_pct': round(extrinsic_pct, 2) if not math.isnan(extrinsic_pct) else None,
         'annual_carry_pct': round(annual_carry_pct, 2) if not math.isnan(annual_carry_pct) else None,
+        'forgone_dividend_pct': round(div_yield * 100, 2),
+        'total_annual_cost_pct': round(total_annual_cost_pct, 2) if not math.isnan(total_annual_cost_pct) else None,
         'leverage': round(leverage, 2) if not math.isnan(leverage) else None,
         'breakeven': round(breakeven, 2),
         'breakeven_move_pct': round(breakeven_move_pct, 2) if not math.isnan(breakeven_move_pct) else None,
@@ -413,21 +422,29 @@ def _get_spot(t: 'yf.Ticker') -> Optional[float]:
     return None
 
 
-def _get_price_context(t: 'yf.Ticker') -> tuple[Optional[float], Optional[float]]:
-    """(% desde el máximo de 52 semanas, % YTD). Para clasificar la situación."""
+def _get_price_context(t: 'yf.Ticker') -> tuple[Optional[float], Optional[float], Optional[float]]:
+    """(% desde el máximo de 52 semanas, % YTD, vol realizada 1y en %).
+
+    La vol realizada anualizada permite juzgar si la IV del contrato está
+    cara o barata ANTES de comprar 2+ años de vega: IV/HV > ~1.15 = pagas
+    volatilidad que la acción no está mostrando.
+    """
     try:
         h = t.history(period='1y')
         if h is None or h.empty:
-            return None, None
+            return None, None, None
         cur = float(h['Close'].iloc[-1])
         hi = float(h['Close'].max())
         pct_from_high = (cur - hi) / hi * 100 if hi else None
         ytd = h[h.index >= f'{date.today().year}-01-01']['Close']
         ytd_pct = (cur - float(ytd.iloc[0])) / float(ytd.iloc[0]) * 100 if len(ytd) else None
+        rets = np.log(h['Close'] / h['Close'].shift(1)).dropna()
+        hv_pct = float(rets.std() * math.sqrt(252) * 100) if len(rets) >= 60 else None
         return (round(pct_from_high, 1) if pct_from_high is not None else None,
-                round(ytd_pct, 1) if ytd_pct is not None else None)
+                round(ytd_pct, 1) if ytd_pct is not None else None,
+                round(hv_pct, 1) if hv_pct is not None else None)
     except Exception:
-        return None, None
+        return None, None, None
 
 
 def _get_forward_pe(t: 'yf.Ticker') -> Optional[float]:
@@ -453,6 +470,19 @@ def _get_dividend_yield(t: 'yf.Ticker') -> float:
     except Exception:
         pass
     return 0.0
+
+
+def _get_days_to_earnings(t: 'yf.Ticker') -> Optional[int]:
+    """Días hasta el próximo earnings (None si no hay dato)."""
+    try:
+        cal = t.calendar
+        dates = cal.get('Earnings Date') if isinstance(cal, dict) else None
+        if not dates:
+            return None
+        nxt = min(d for d in dates if d is not None)
+        return (nxt - date.today()).days
+    except Exception:
+        return None
 
 
 def _get_trailing_pe(t: 'yf.Ticker') -> Optional[float]:
@@ -590,6 +620,10 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
                     'open_interest': oi,
                     'volume': int(row.get('volume', 0) or 0),
                     'spread_pct': round(spread_pct, 1),
+                    # Lo que te cuesta cruzar el spread (entrar al ask, salir
+                    # al bid), en $ por contrato — con volumen ~0 este número
+                    # manda más que el open interest
+                    'roundtrip_spread_usd': round((ask - bid) * 100, 0),
                     'contract_score': cscore,
                     'target_return_pct': round(ret_pct, 1),
                     **m,
@@ -622,7 +656,26 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
 
         # Situación: ¿por qué está a este precio? (filosofía value aplicada a LEAPS)
         # forward_pe ya validado arriba (los caros ni llegan aquí).
-        pct_from_high, ytd_pct = _get_price_context(t)
+        pct_from_high, ytd_pct, hv_1y_pct = _get_price_context(t)
+
+        # IV vs vol realizada: ¿estás pagando la volatilidad cara o barata?
+        def _iv_tag(c: dict) -> None:
+            if hv_1y_pct and hv_1y_pct > 0 and c.get('iv_pct'):
+                ratio = c['iv_pct'] / hv_1y_pct
+                c['iv_vs_hv'] = round(ratio, 2)
+                c['iv_richness'] = ('barata' if ratio < 0.9
+                                    else 'normal' if ratio <= 1.15 else 'cara')
+            else:
+                c['iv_vs_hv'] = None
+                c['iv_richness'] = None
+        _iv_tag(best)
+        for alt in alternatives:
+            _iv_tag(alt)
+
+        # Earnings próximos: comprar un LEAPS justo antes de earnings es pagar
+        # IV inflada — mejor esperar a que pase el evento
+        days_to_earnings = _get_days_to_earnings(t)
+        earnings_warning = (days_to_earnings is not None and 0 <= days_to_earnings <= 14)
         situation = classify_situation(
             pct_from_high, ytd_pct, sig.get('fundamental_score'), upside,
             sig.get('financial_health_score'))
@@ -642,6 +695,9 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             'situation': situation,
             'pct_from_52w_high': pct_from_high,
             'ytd_pct': ytd_pct,
+            'hv_1y_pct': hv_1y_pct,
+            'days_to_earnings': days_to_earnings,
+            'earnings_warning': earnings_warning,
             'forward_pe': round(forward_pe, 1) if forward_pe else None,
             'trailing_pe': round(_get_trailing_pe(t), 1) if _get_trailing_pe(t) else None,
             'recommended_contract': best,
@@ -689,7 +745,11 @@ CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
   COMPRAR 1x CALL {opp['ticker']} strike ${c['strike']:.0f} vencimiento {c['expiry']} ({c['t_years']} años)
   Prima ≈ ${c['mid']:.2f}/acción (${c['cost_per_contract']:.0f} por contrato de 100)
   Delta {c['delta']} · Leverage {c['leverage']}x · Carry {c['annual_carry_pct']}%/año
+  Coste REAL de holding: {c.get('total_annual_cost_pct') or c['annual_carry_pct']}%/año (carry + {c.get('forgone_dividend_pct', 0)}% de dividendo renunciado — la call no cobra el dividendo)
+  IV {c['iv_pct']}% vs vol realizada 1y {opp.get('hv_1y_pct') or 'n/d'}% → volatilidad {c.get('iv_richness') or 'n/d'} (ratio {c.get('iv_vs_hv') or 'n/d'})
+  Coste de cruzar el spread ida+vuelta: ${c.get('roundtrip_spread_usd') or 'n/d'} por contrato (volumen diario: {c.get('volume', 0)})
   Break-even ${c['breakeven']:.2f} ({c['breakeven_move_pct']:+.1f}% sobre el precio actual)
+{f"  ⚠️ EARNINGS EN {opp.get('days_to_earnings')} DÍAS: la IV estará inflada — valora esperar a después del evento" if opp.get('earnings_warning') else ""}
 {f"  Si la acción llega al target ${pat.get('target_price')}: la opción rinde {pat.get('option_return_pct')}% vs {pat.get('stock_return_pct')}% la acción ({pat.get('leverage_realized')}x)" if pat else ""}
 
 Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:

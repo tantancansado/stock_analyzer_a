@@ -104,6 +104,17 @@ class TestLeapsMetrics:
         assert with_div['delta'] < no_div['delta']
         assert with_div['leverage'] < no_div['leverage']
 
+    def test_total_annual_cost_includes_forgone_dividend(self):
+        # El coste real de holding = carry + dividendo renunciado. En una
+        # dividendera al 4%, un carry del ~3% es en realidad ~7%/año.
+        no_div = la.leaps_metrics(spot=100, strike=70, t_years=1.5, premium=35, iv=0.35, div_yield=0.0)
+        with_div = la.leaps_metrics(spot=100, strike=70, t_years=1.5, premium=35, iv=0.35, div_yield=0.04)
+        assert no_div['forgone_dividend_pct'] == 0.0
+        assert no_div['total_annual_cost_pct'] == no_div['annual_carry_pct']
+        assert with_div['forgone_dividend_pct'] == 4.0
+        assert abs(with_div['total_annual_cost_pct']
+                   - (with_div['annual_carry_pct'] + 4.0)) < 0.01
+
 
 # ── Scoring del contrato ─────────────────────────────────────────────────────
 
