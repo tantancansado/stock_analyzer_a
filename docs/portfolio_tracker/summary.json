@@ -1,8 +1,8 @@
 {
-  "total_signals": 139,
-  "unique_tickers": 27,
-  "date_range": "2026-04-08 to 2026-05-21",
-  "active_signals": 0,
+  "total_signals": 144,
+  "unique_tickers": 32,
+  "date_range": "2026-04-08 to 2026-07-03",
+  "active_signals": 5,
   "completed_signals": 139,
   "overall": {
     "7d": {
@@ -67,7 +67,7 @@
     }
   },
   "value_strategy": {
-    "count": 86,
+    "count": 91,
     "7d": {
       "count": 86,
       "win_rate": 38.4,
@@ -271,7 +271,63 @@
       "return_14d": -8.12
     }
   ],
-  "recent_signals": [],
+  "recent_signals": [
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03",
+      "signal_price": 439.89,
+      "sector": "Financial Services",
+      "value_score": 60.78,
+      "days_active": 0,
+      "first_result_date": "2026-07-10"
+    },
+    {
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03",
+      "signal_price": 203.72,
+      "sector": "Healthcare",
+      "value_score": 57.30000000000001,
+      "days_active": 0,
+      "first_result_date": "2026-07-10"
+    },
+    {
+      "ticker": "CME",
+      "company_name": "CME Group Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03",
+      "signal_price": 236.6,
+      "sector": "Financial Services",
+      "value_score": 52.620000000000005,
+      "days_active": 0,
+      "first_result_date": "2026-07-10"
+    },
+    {
+      "ticker": "VLTO",
+      "company_name": "Veralto Corp",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03",
+      "signal_price": 92.55,
+      "sector": "Industrials",
+      "value_score": 52.56500000000001,
+      "days_active": 0,
+      "first_result_date": "2026-07-10"
+    },
+    {
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03",
+      "signal_price": 34.64,
+      "sector": "Healthcare",
+      "value_score": 52.56,
+      "days_active": 0,
+      "first_result_date": "2026-07-10"
+    }
+  ],
   "avg_max_drawdown": -2.76,
   "alpha": {
     "180d": {
@@ -370,5 +426,5 @@
       "worst_alpha": -12.84
     }
   },
-  "generated_at": "2026-07-03T16:13:10.256847"
+  "generated_at": "2026-07-03T21:12:45.909073"
 }
