@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 import json
 import time
 import argparse
+from value_bands import UPSIDE_MIN, UPSIDE_HARD_REJECT
 
 
 TRACKER_DIR = Path('docs/portfolio_tracker')
@@ -113,7 +114,7 @@ class PortfolioTracker:
                     vdf = vdf[_rr.between(2.0, 3.5)]
                 if 'analyst_upside_pct' in vdf.columns:
                     _up = pd.to_numeric(vdf['analyst_upside_pct'], errors='coerce')
-                    vdf = vdf[_up.between(10.0, 45.0)]
+                    vdf = vdf[(_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)]
                 if 'sector' in vdf.columns:
                     vdf = vdf[~vdf['sector'].isin(_EXCLUDED_SECTORS_VALUE)]
                 if 'market_regime' in vdf.columns:
@@ -386,13 +387,16 @@ class PortfolioTracker:
         value_core = value_core_all[value_core_all['signal_date'] >= CLEAN_FROM].copy()
 
         # For 30d completed stats, clean signals don't have 30d yet (too recent).
-        # Use VALUE US golden zone applied retroactively: score>=60, RR>=2, upside 10-55%.
-        # This gives 126 signals with real 30d data (73% win rate, +5.1% avg).
+        # Golden zone retroactiva: score>=60, RR>=2 y la banda canónica de
+        # value_bands — así el histórico mide la MISMA población que las
+        # señales de hoy (antes usaba upside 10-55 y las stats describían una
+        # banda que ya nadie emite).
         _hist_us = value_core_all[value_core_all['strategy'] == 'VALUE'].copy()
         _score = pd.to_numeric(_hist_us['value_score'], errors='coerce')
         _rr    = pd.to_numeric(_hist_us['risk_reward_ratio'], errors='coerce')
         _up    = pd.to_numeric(_hist_us['analyst_upside_pct'], errors='coerce')
-        golden_hist = _hist_us[(_score >= 60) & (_rr >= 2.0) & (_up.between(10, 55))].copy()
+        golden_hist = _hist_us[(_score >= 60) & (_rr >= 2.0)
+                               & (_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)].copy()
 
         # Overall stats (VALUE core only)
         total = len(value_core)

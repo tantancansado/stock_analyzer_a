@@ -24,6 +24,7 @@ from pathlib import Path
 import ast
 import argparse
 from datetime import datetime
+from value_bands import UPSIDE_MIN, UPSIDE_HARD_REJECT
 
 
 def extract_health_metrics(row) -> dict:
@@ -410,8 +411,10 @@ def filter_by_conviction(input_path: str, output_path: str = None, min_grade: st
             df = df[_rr >= 2.0].copy()
         if 'analyst_upside_pct' in df.columns:
             _up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
-            df = df[_up.between(10.0, 55.0)].copy()
-        print(f"  US hard filters (score>=60, RR>=2, upside 10-55%): {n_before} -> {len(df)}")
+            # Banda canónica de value_bands (antes 10-55 aquí, 10-45 en el
+            # tracker y ≥30 hard-reject en el integrator — tres verdades)
+            df = df[(_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)].copy()
+        print(f"  US hard filters (score>=60, RR>=2, upside {UPSIDE_MIN:.0f}-{UPSIDE_HARD_REJECT:.0f}%): {n_before} -> {len(df)}")
 
     # ── EU hard filters (data-driven: based on 30d portfolio tracker performance) ──
     # FCF ≥ 3%: win rate 47%+ vs <25% below. Consumer Cyclical/Healthcare EU: <10% win rate.

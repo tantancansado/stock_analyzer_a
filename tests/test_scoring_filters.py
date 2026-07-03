@@ -257,14 +257,27 @@ class TestSourceCodeAlignment:
         and the >=30% value-trap tier penalized — never the reverse (the old bug)."""
         from pathlib import Path
         import super_score_integrator as ssi
+        from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT
+        # La banda canónica vive en value_bands — estos valores vienen del
+        # backtest (golden [10,25) = 83% win; >=30 = 0% win). Si cambian,
+        # que sea a propósito.
+        assert UPSIDE_MIN == 10.0
+        assert UPSIDE_GOLDEN_MAX == 25.0
+        assert UPSIDE_HARD_REJECT == 30.0
         src = Path(ssi.__file__).read_text()
-        # Golden zone bonus is positive, trap zone is a penalty.
-        assert "mask_golden" in src and "(_up >= 10) & (_up < 25)" in src
+        # Golden zone bonus is positive, trap zone is a penalty, via constants.
+        assert "mask_golden" in src and "(_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)" in src
         assert "df.loc[mask_golden, 'upside_bonus'] =  5.0" in src
-        assert "mask_trap" in src and "(_up >= 30)" in src
+        assert "mask_trap" in src and "(_up >= UPSIDE_HARD_REJECT)" in src
         assert "df.loc[mask_trap,   'upside_bonus'] = -5.0" in src
         # R:R bonus must NOT reward R:R>=3 (upside>=24%, the losing tier).
         assert "risk_reward_ratio'] >= 3.0" not in src
+        # Y los otros dos consumidores usan las mismas constantes (antes cada
+        # uno tenía su propia banda: tracker 10-45, conviction 10-55).
+        import portfolio_tracker, conviction_filter
+        for mod in (portfolio_tracker, conviction_filter):
+            msrc = Path(mod.__file__).read_text()
+            assert "UPSIDE_HARD_REJECT" in msrc, f"{mod.__name__} no usa value_bands"
 
     def test_rs_line_bonus_weights_in_source(self):
         from pathlib import Path

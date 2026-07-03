@@ -25,6 +25,7 @@ import json
 import time
 import argparse
 from opportunity_validator import OpportunityValidator
+from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT
 from market_regime_detector import MarketRegimeDetector
 from moving_average_filter import MovingAverageFilter
 from accumulation_distribution_filter import AccumulationDistributionFilter
@@ -1185,7 +1186,7 @@ class SuperScoreIntegrator:
             # Real data (86 clean signals): the >=30% tier had 0% win across 55 signals
             # and -8.28% avg 30d. A huge analyst gap means the price collapsed for a
             # reason the model doesn't see. Consistent with "0 signals > false signals".
-            value_trap = _up.notna() & (_up >= 30)
+            value_trap = _up.notna() & (_up >= UPSIDE_HARD_REJECT)
             if value_trap.sum() > 0:
                 trap_tickers = df[value_trap]['ticker'].tolist()
                 print(f"🚫 Rejected from VALUE (upside ≥30% — value trap, 0% win in backtest): {trap_tickers}")
@@ -1198,9 +1199,9 @@ class SuperScoreIntegrator:
             # The previous calibration rewarded ≥30% upside — exactly the losers.
             # Note: golden-zone n is small (6); the ≥25% trap is robust (74 signals).
             df['upside_bonus'] = 0.0
-            mask_golden = _up.notna() & (_up >= 10) & (_up < 25)   # golden zone
-            mask_mild   = _up.notna() & (_up >= 0)  & (_up < 10)   # too tight to matter
-            mask_trap   = _up.notna() & (_up >= 30)                # value trap
+            mask_golden = _up.notna() & (_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)
+            mask_mild   = _up.notna() & (_up >= 0) & (_up < UPSIDE_MIN)   # too tight to matter
+            mask_trap   = _up.notna() & (_up >= UPSIDE_HARD_REJECT)       # value trap
             df.loc[mask_golden, 'upside_bonus'] =  5.0
             df.loc[mask_mild,   'upside_bonus'] = -3.0
             df.loc[mask_trap,   'upside_bonus'] = -5.0
