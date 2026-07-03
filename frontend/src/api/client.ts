@@ -128,6 +128,15 @@ export interface ValueOpportunity {
   // ML Win Predictor (ml_win_predictor.py → docs/ml_win_probability.json)
   ml_win_probability?: number | null
   ml_win_label?: string | null
+  // Triangulación de upside (super_score_integrator.add_upside_triangulation)
+  upside_triangulated_pct?: number | null
+  upside_divergence_pts?: number | null
+  upside_divergence?: 'ALTA' | 'MEDIA' | ''
+  // Timing de entrada (technical_filter._entry_readiness)
+  entry_readiness?: 'ESPERAR' | 'VIGILAR' | 'ENTRADA'
+  entry_readiness_reason?: string
+  tech_stage?: string
+  relative_strength_6m?: number | null
   // IV vs Realized Volatility (options pricing signal)
   hv_30d?: number | null
   atm_iv?: number | null
@@ -403,6 +412,7 @@ export const VALUE_NUMERIC = new Set([
   'cerebro_score_adj','hedge_fund_count',
   'hv_30d','atm_iv','iv_ratio','iv_premium_pts',
   'ml_win_probability','ml_score',
+  'upside_triangulated_pct','upside_divergence_pts','relative_strength_6m',
 ])
 
 const VALUE_BOOLEAN = new Set([
@@ -1736,6 +1746,8 @@ export interface PreferredStock {
   week52_low: number | null
   pct_from_high: number | null
   current_yield: number | null
+  yield_to_call_1y_pct: number | null
+  call_risk: string
   risk_tier: string
   value_rating: string
   recommendation: string
@@ -1766,6 +1778,8 @@ export async function fetchPreferredStocks(): Promise<PreferredStock[]> {
       week52_low:     row.week52_low ? parseFloat(row.week52_low) : null,
       pct_from_high:  row.pct_from_high ? parseFloat(row.pct_from_high) : null,
       current_yield:  row.current_yield ? parseFloat(row.current_yield) : null,
+      yield_to_call_1y_pct: row.yield_to_call_1y_pct ? parseFloat(row.yield_to_call_1y_pct) : null,
+      call_risk:      row.call_risk ?? '',
       risk_tier:      row.risk_tier ?? '',
       value_rating:   row.value_rating ?? '',
       recommendation: row.recommendation ?? '',
@@ -2108,6 +2122,11 @@ export interface LeapsContract {
   extrinsic: number
   extrinsic_pct: number | null
   annual_carry_pct: number | null
+  forgone_dividend_pct?: number
+  total_annual_cost_pct?: number | null
+  roundtrip_spread_usd?: number
+  iv_vs_hv?: number | null
+  iv_richness?: 'barata' | 'normal' | 'cara' | null
   leverage: number | null
   breakeven: number
   breakeven_move_pct: number | null
@@ -2148,6 +2167,9 @@ export interface LeapsOpportunity {
   ytd_pct?: number | null
   forward_pe?: number | null
   trailing_pe?: number | null
+  hv_1y_pct?: number | null
+  days_to_earnings?: number | null
+  earnings_warning?: boolean
   data_warning?: string
   recommended_contract: LeapsContract
   alternative_contracts?: LeapsContract[]

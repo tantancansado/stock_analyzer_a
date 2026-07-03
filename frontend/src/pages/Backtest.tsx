@@ -24,6 +24,8 @@ interface Signal {
   return_7d: number | null
   return_14d: number | null
   return_30d: number | null
+  return_90d: number | null
+  return_180d: number | null
 }
 
 interface MRSetup {
@@ -70,6 +72,7 @@ function parseSignalsCSV(text: string): Signal[] {
       signal_price: parseFloat(get('signal_price')) || 0,
       value_score: num('value_score'), sector: get('sector'),
       return_7d: num('return_7d'), return_14d: num('return_14d'), return_30d: num('return_30d'),
+      return_90d: num('return_90d'), return_180d: num('return_180d'),
     }
   }).filter(s => s.ticker)
 
@@ -106,15 +109,18 @@ function parseMRCSV(text: string): MRSetup[] {
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
-type Period = '7d' | '14d' | '30d'
+type Period = '7d' | '14d' | '30d' | '90d' | '180d'
 const PERIODS: { key: Period; label: string }[] = [
   { key: '7d',  label: '+7 días' },
   { key: '14d', label: '+14 días' },
   { key: '30d', label: '+30 días' },
+  { key: '90d', label: '+90 días' },
+  { key: '180d', label: '+180 días' },
 ]
 
 function retOf(s: Signal, p: Period) {
-  return p === '7d' ? s.return_7d : p === '14d' ? s.return_14d : s.return_30d
+  return p === '7d' ? s.return_7d : p === '14d' ? s.return_14d
+    : p === '30d' ? s.return_30d : p === '90d' ? s.return_90d : s.return_180d
 }
 
 function pct(v: number | null, d = 1) {
@@ -191,8 +197,8 @@ export default function Backtest() {
         fetch(`${API_BASE}/api/portfolio-tracker/signals`)
           .then(r => r.json())
           .then((j: {data?:Record<string,unknown>[]}) =>
-            ['ticker,company_name,strategy,signal_date,signal_price,value_score,sector,return_7d,return_14d,return_30d',
-             ...(j.data??[]).map(r => [r.ticker,r.company_name,r.strategy,r.signal_date,r.signal_price,r.value_score,r.sector,r.return_7d,r.return_14d,r.return_30d].join(','))
+            ['ticker,company_name,strategy,signal_date,signal_price,value_score,sector,return_7d,return_14d,return_30d,return_90d,return_180d',
+             ...(j.data??[]).map(r => [r.ticker,r.company_name,r.strategy,r.signal_date,r.signal_price,r.value_score,r.sector,r.return_7d,r.return_14d,r.return_30d,r.return_90d,r.return_180d].join(','))
             ].join('\n')
           )
       ),

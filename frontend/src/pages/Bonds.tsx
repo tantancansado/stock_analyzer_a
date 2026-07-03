@@ -954,7 +954,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
             {p.sector}
           </Badge>
         </td>
-        {/* Yield actual */}
+        {/* Yield actual (+ aviso de call si el YTC lo desmiente) */}
         <td className="px-3 py-2.5 text-right">
           <span className={cn('font-mono font-bold text-sm',
             (p.current_yield ?? 0) >= 6.5 ? 'text-emerald-400' :
@@ -962,6 +962,14 @@ function PreferredRow({ p }: { p: PreferredStock }) {
           )}>
             {p.current_yield != null ? `${p.current_yield.toFixed(2)}%` : '—'}
           </span>
+          {p.call_risk === 'ALTO' && p.yield_to_call_1y_pct != null && (
+            <div
+              className="text-[0.6rem] font-semibold text-orange-400"
+              title={`Cotiza sobre par: si la llaman a $${p.par_value} en ~1 año, tu retorno real sería ${p.yield_to_call_1y_pct.toFixed(1)}%, no el ${p.current_yield?.toFixed(1)}% del cupón`}
+            >
+              YTC {p.yield_to_call_1y_pct.toFixed(1)}%
+            </div>
+          )}
         </td>
         {/* Dividendo fijo */}
         <td className="px-3 py-2.5 text-right">
@@ -1010,6 +1018,14 @@ function PreferredRow({ p }: { p: PreferredStock }) {
               <div>
                 <div className="text-muted-foreground/60 mb-0.5">Yield actual</div>
                 <div className="font-mono font-semibold text-emerald-400">{p.current_yield?.toFixed(2)}%</div>
+              </div>
+              <div>
+                <div className="text-muted-foreground/60 mb-0.5">Yield si la llaman en 1 año</div>
+                <div className={cn('font-mono font-semibold',
+                  p.call_risk === 'ALTO' ? 'text-orange-400' :
+                  (p.yield_to_call_1y_pct ?? 0) > (p.current_yield ?? 0) ? 'text-emerald-400' : 'text-foreground/80')}>
+                  {p.yield_to_call_1y_pct != null ? `${p.yield_to_call_1y_pct.toFixed(2)}%` : '—'}
+                </div>
               </div>
               <div>
                 <div className="text-muted-foreground/60 mb-0.5">Máx / Mín 52s</div>

@@ -23,6 +23,7 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 - `analyst_upside_pct < 0` → `value_score = 0` (sobrevalorado)
 - `analyst_upside_pct >= 30` → `value_score = 0` (HARD REJECT — value trap: 0% win en 55 señales reales; gap enorme del target = el precio se desplomó por algo que el modelo no ve)
 - Zona dorada de upside: **[10, 25)** (+4.73% / 83% win en backtest). Premiar esta banda, NO el upside alto
+- Las bandas de upside viven en `value_bands.py` (UPSIDE_MIN/GOLDEN_MAX/HARD_REJECT) — integrator, tracker y conviction las importan de ahí; NUNCA hardcodear una banda inline
 - `dividendYield` en yfinance ya viene en porcentaje (0.38 = 0.38%), NO decimal
 - `profit_margin_pct` está en `earnings_details`, NO en `health_details`
 - MA filter: si falla por rate-limit ("Too Many Requests"), NO penalizar (-20pts se salta)

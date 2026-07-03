@@ -837,7 +837,12 @@ export default function ValueUS() {
               !d.earnings_warning &&
               (d.days_to_earnings == null || d.days_to_earnings > 7) &&
               d.cerebro_signal !== 'EXIT' &&
-              d.cerebro_signal !== 'TRAP'
+              d.cerebro_signal !== 'TRAP' &&
+              // Overlay value+timing: barata NO significa "cómprala hoy" — si
+              // sigue en caída (stage 4), no está lista por buena que sea la
+              // tesis (tracker real: comprar el día del screen = alpha -12% 30d)
+              d.entry_readiness !== 'ESPERAR' &&
+              d.upside_divergence !== 'ALTA'
             return (
               <TableRow
                 key={d.ticker}
@@ -871,6 +876,22 @@ export default function ValueUS() {
                         {d.proximity_to_52w_high != null && d.proximity_to_52w_high > -5 && (
                           <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25" title={`A ${Math.abs(d.proximity_to_52w_high).toFixed(1)}% del máximo 52 semanas — posible entrada en techo`}>
                             TECHO
+                          </span>
+                        )}
+                        {d.entry_readiness === 'ESPERAR' && (
+                          <span
+                            className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/25"
+                            title={d.entry_readiness_reason || 'Aún en caída — espera a que haga suelo antes de entrar'}
+                          >
+                            ⏳ ESPERA
+                          </span>
+                        )}
+                        {d.entry_readiness === 'ENTRADA' && !isReady && (
+                          <span
+                            className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-cyan-500/15 text-cyan-400 border border-cyan-500/25"
+                            title={d.entry_readiness_reason || 'Suelo técnico confirmado (stage 2)'}
+                          >
+                            SUELO OK
                           </span>
                         )}
                         <AnalystRevisionBadge
@@ -937,6 +958,14 @@ export default function ValueUS() {
                     {d.analyst_upside_pct != null && (
                       <span className={`ml-1.5 text-xs font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
+                      </span>
+                    )}
+                    {(d.upside_divergence === 'ALTA' || d.upside_divergence === 'MEDIA') && (
+                      <span
+                        className={`ml-1 text-[0.6rem] font-bold ${d.upside_divergence === 'ALTA' ? 'text-red-400' : 'text-amber-400'}`}
+                        title={`Los modelos propios (DCF/P-E) no respaldan el target de analistas — se separan ${d.upside_divergence_pts?.toFixed(0) ?? '?'}pts. Upside triangulado (mediana de las 3 estimaciones): ${d.upside_triangulated_pct != null ? `${d.upside_triangulated_pct > 0 ? '+' : ''}${d.upside_triangulated_pct.toFixed(0)}%` : 'n/d'}`}
+                      >
+                        ⚠︎
                       </span>
                     )}
                   </TableCell>

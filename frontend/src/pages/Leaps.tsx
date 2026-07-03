@@ -54,7 +54,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
             <th className="font-normal px-2 py-1.5">Strike</th>
             <th className="font-normal px-2 py-1.5">Δ</th>
             <th className="font-normal px-2 py-1.5">Lev</th>
-            <th className="font-normal px-2 py-1.5">Carry</th>
+            <th className="font-normal px-2 py-1.5">Coste/a</th>
             <th className="font-normal px-2 py-1.5">B/E</th>
             <th className="font-normal px-2 py-1.5">@target</th>
             <th className="font-normal px-2 py-1.5">Coste</th>
@@ -71,7 +71,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
                 </td>
                 <td className="px-2 py-1.5 text-cyan-300">{r.delta?.toFixed(2) ?? '—'}</td>
                 <td className="px-2 py-1.5">{r.leverage ? `${r.leverage.toFixed(1)}x` : '—'}</td>
-                <td className={cn('px-2 py-1.5', carryColor(r.annual_carry_pct))}>{r.annual_carry_pct != null ? `${r.annual_carry_pct.toFixed(1)}%` : '—'}</td>
+                <td className={cn('px-2 py-1.5', carryColor(r.total_annual_cost_pct ?? r.annual_carry_pct))}>{(r.total_annual_cost_pct ?? r.annual_carry_pct) != null ? `${(r.total_annual_cost_pct ?? r.annual_carry_pct)!.toFixed(1)}%` : '—'}</td>
                 <td className="px-2 py-1.5">{r.breakeven_move_pct != null ? `${r.breakeven_move_pct >= 0 ? '+' : ''}${r.breakeven_move_pct.toFixed(1)}%` : '—'}</td>
                 <td className="px-2 py-1.5 text-emerald-400 font-semibold">+{r.target_return_pct?.toFixed(0)}%</td>
                 <td className="px-2 py-1.5 text-muted-foreground">{fmtUsd(r.cost_per_contract, 0)}</td>
@@ -148,6 +148,14 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           </div>
         </div>
 
+        {/* Earnings inminentes: la IV está inflada — mejor esperar al evento */}
+        {o.earnings_warning && (
+          <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-xs text-amber-300 flex items-start gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+            <span><strong>Earnings en {o.days_to_earnings} días</strong> — la IV suele estar inflada antes del evento; comprar el LEAPS ahora es pagar de más. Valora esperar a después.</span>
+          </div>
+        )}
+
         {/* Aviso de datos dudosos (verificación de Claude) */}
         {o.data_warning && (
           <div className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 mb-3 text-xs text-amber-300 flex items-start gap-1.5">
@@ -210,7 +218,12 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           <Metric label="Acción" value={fmtUsd(o.spot)} />
           <Metric label="Delta" value={c.delta?.toFixed(2) ?? '—'} hint="Cuánto sigue a la acción (1.0 = idéntico)" className="text-cyan-300" />
           <Metric label="Leverage" value={c.leverage ? `${c.leverage.toFixed(1)}x` : '—'} hint="Exposición controlada ÷ capital invertido" />
-          <Metric label="Carry/año" value={c.annual_carry_pct != null ? `${c.annual_carry_pct.toFixed(1)}%` : '—'} hint="Coste temporal anualizado del apalancamiento" className={carryColor(c.annual_carry_pct)} />
+          <Metric
+            label="Coste/año"
+            value={(c.total_annual_cost_pct ?? c.annual_carry_pct) != null ? `${(c.total_annual_cost_pct ?? c.annual_carry_pct)!.toFixed(1)}%` : '—'}
+            hint={`Coste REAL de tener la call en vez de la acción: carry ${c.annual_carry_pct?.toFixed(1) ?? '?'}% + dividendo renunciado ${c.forgone_dividend_pct?.toFixed(1) ?? '0'}% (la call no cobra el dividendo)`}
+            className={carryColor(c.total_annual_cost_pct ?? c.annual_carry_pct)}
+          />
           <Metric label="Break-even" value={fmtUsd(c.breakeven)} hint="Precio al que empatas al vencimiento" />
           <Metric label="B/E move" value={c.breakeven_move_pct != null ? `${c.breakeven_move_pct >= 0 ? '+' : ''}${c.breakeven_move_pct.toFixed(1)}%` : '—'} hint="Cuánto debe subir la acción para empatar" />
         </div>
@@ -220,8 +233,21 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           <Metric label="Momento" value={o.timing_score.toFixed(0)} className={scoreColor(o.timing_score)} />
           <Metric label="Upside" value={o.analyst_upside_pct != null ? `${o.analyst_upside_pct.toFixed(0)}%` : '—'} />
           <Metric label="Extrínseco" value={c.extrinsic_pct != null ? `${c.extrinsic_pct.toFixed(1)}%` : '—'} hint="Prima temporal sobre el precio de la acción" />
-          <Metric label="IV" value={`${c.iv_pct.toFixed(0)}%`} hint="Volatilidad implícita" />
-          <Metric label="Liquidez" value={`OI ${c.open_interest} · ${c.spread_pct.toFixed(0)}%`} hint="Open interest y spread bid/ask" />
+          <Metric
+            label="IV vs real"
+            value={c.iv_richness ? (
+              <span className={c.iv_richness === 'cara' ? 'text-red-400' : c.iv_richness === 'barata' ? 'text-emerald-400' : ''}>
+                {c.iv_pct.toFixed(0)}% · {c.iv_richness}
+              </span>
+            ) : `${c.iv_pct.toFixed(0)}%`}
+            hint={`IV ${c.iv_pct.toFixed(0)}% vs volatilidad realizada 1a ${o.hv_1y_pct?.toFixed(0) ?? '?'}% (ratio ${c.iv_vs_hv ?? '?'}). Compras 2+ años de vega: si la IV está cara, pagas volatilidad que la acción no muestra`}
+          />
+          <Metric
+            label="Salida (spread)"
+            value={c.roundtrip_spread_usd != null ? fmtUsd(c.roundtrip_spread_usd, 0) : `${c.spread_pct.toFixed(0)}%`}
+            hint={`Coste de cruzar el spread ida+vuelta por contrato (OI ${c.open_interest}, volumen diario ${c.volume ?? 0}, spread ${c.spread_pct.toFixed(1)}%). Con volumen ~0 este número manda más que el OI`}
+            className={c.roundtrip_spread_usd != null && c.roundtrip_spread_usd > 300 ? 'text-amber-400' : ''}
+          />
         </div>
 
         {/* Profit scenario at analyst target */}
