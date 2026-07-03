@@ -44,14 +44,20 @@ def _safe_float(v: Any) -> Optional[float]:
 
 
 def _load_positions() -> list[dict]:
-    """Reusa el loader de portfolio_news_monitor."""
+    """Reusa el loader de portfolio_news_monitor.
+
+    None (Supabase no disponible) → fallback a portfolio_watch.json.
+    [] (cartera realmente vacía) → NO caer al watch file: generaría
+    análisis de opciones para tickers que no son posiciones.
+    """
     try:
         from portfolio_news_monitor import _load_portfolio_from_supabase
         positions = _load_portfolio_from_supabase()
     except Exception:
-        positions = []
+        positions = None
 
-    if not positions:
+    if positions is None:
+        positions = []
         cfg = DOCS / 'portfolio_watch.json'
         if cfg.exists():
             try:
