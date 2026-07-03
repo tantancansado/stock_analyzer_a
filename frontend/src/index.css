@@ -2271,4 +2271,14 @@ select:focus {
   .table-x-wrap table thead th {
     position: static;
   }
+  /* Columna congelada en scroll horizontal (Comparador: la columna de
+     métricas debe seguir visible o pierdes qué fila estás comparando).
+     Especificidad > que el static de arriba para el th del thead. */
+  .table-x-wrap th.freeze-col,
+  .table-x-wrap td.freeze-col {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: hsl(var(--card));
+  }
 }

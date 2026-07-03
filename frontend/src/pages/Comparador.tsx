@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { Fragment, useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { GitCompare, Plus, X, Loader2, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { searchTickers, type SearchResult } from '../api/client'
@@ -100,7 +100,7 @@ function Cell({ metric, data, allData }: { metric: Metric; data: TickerData; all
   const isGrowth = metric.key === 'revenue_growth' || metric.key === 'roe' || metric.key === 'roic_greenblatt'
 
   return (
-    <td className="px-4 py-2.5 text-center text-sm tabular-nums">
+    <td className="px-3 sm:px-4 py-2.5 text-center text-sm tabular-nums">
       <span className={`font-semibold ${cls || 'text-foreground/80'} flex items-center justify-center gap-1`}>
         {(isUpside || isGrowth) && num != null && (
           num > 0 ? <TrendingUp size={11} /> : num < 0 ? <TrendingDown size={11} /> : <Minus size={11} />
@@ -299,7 +299,7 @@ export default function Comparador() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-border/30 bg-muted/20">
-                  <th className="px-4 py-3 text-left text-[0.65rem] font-bold uppercase tracking-widest text-muted-foreground w-40">
+                  <th className="freeze-col px-3 sm:px-4 py-3 text-left text-[0.65rem] font-bold uppercase tracking-widest text-muted-foreground w-40">
                     Métrica
                   </th>
                   {loadedTickers.map(t => {
@@ -327,10 +327,10 @@ export default function Comparador() {
               </thead>
               <tbody>
                 {sections.map(section => (
-                  <>
-                    <tr key={`section-${section.title}`} className="bg-muted/10">
-                      <td colSpan={loadedTickers.length + 1} className="px-4 py-1.5 text-[0.58rem] font-bold uppercase tracking-widest text-muted-foreground/50">
-                        {section.title}
+                  <Fragment key={section.title}>
+                    <tr className="bg-muted/10">
+                      <td colSpan={loadedTickers.length + 1} className="px-3 sm:px-4 py-1.5 text-[0.58rem] font-bold uppercase tracking-widest text-muted-foreground/50">
+                        <span className="sticky left-3 inline-block">{section.title}</span>
                       </td>
                     </tr>
                     {section.metrics.map((metric, mi) => {
@@ -339,7 +339,7 @@ export default function Comparador() {
                       if (!hasAny) return null
                       return (
                         <tr key={metric.key} className={`border-b border-border/10 ${mi % 2 === 0 ? '' : 'bg-muted/5'}`}>
-                          <td className="px-4 py-2.5 text-[0.72rem] text-muted-foreground font-medium whitespace-nowrap">
+                          <td className="freeze-col px-3 sm:px-4 py-2.5 text-[0.72rem] text-muted-foreground font-medium whitespace-nowrap">
                             {metric.label}
                           </td>
                           {loadedTickers.map(t => (
@@ -348,7 +348,7 @@ export default function Comparador() {
                         </tr>
                       )
                     })}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
