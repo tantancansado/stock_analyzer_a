@@ -1,24 +1,24 @@
 {
   "generated_at": "2026-07-03",
-  "total": 3,
+  "total": 7,
   "strong_buy": 0,
-  "buy": 2,
-  "monitor": 0,
-  "wait": 1,
-  "narrative": "Las tres mejores oportunidades de entrada de hoy en VALUE investing son MA (Mastercard Incorporated) y DB1.DE (DEUTSCHE BOERSE AG) debido a su alta puntuaci\u00f3n de entrada (entry_score=50) y la presencia de se\u00f1ales s\u00f3lidas que confirman la compra. En espec\u00edfico, MA cuenta con un valor score superior a 80, un R:R (ratio de riesgo-recompensa) superior a 2 y un flujo de opciones alcista, mientras que DB1.DE tiene un R:R superior a 2, compra de acciones por parte de insiders y una revisi\u00f3n de analistas positiva.",
+  "buy": 1,
+  "monitor": 3,
+  "wait": 3,
+  "narrative": "Las tres mejores oportunidades de entrada de hoy seg\u00fan el VALUE investing son:\n\n1. **MA (Mastercard Incorporated)**: con un puntaje de entrada de 50, esta acci\u00f3n se considera una buena oportunidad debido a su valor score superior a 80, lo que indica un precio atractivo, y una relaci\u00f3n riesgo-recompensa (R:R) de al menos 2, lo que sugiere un potencial de crecimiento significativo. Adem\u00e1s, el flujo de opciones es alcista y hay revisiones de analistas positivas.\n\n2. **Valor score superior a 80**: esto indica que el precio de la acci\u00f3n es atractivo en comparaci\u00f3n con su valor intr\u00ednseco, lo que puede generar un potencial de crecimiento en el futuro.\n\n3. **Relaci\u00f3n riesgo-recompensa (R:R) \u22652**: esto significa que el potencial de crecimiento de la acci\u00f3n es al menos dos veces mayor que el",
   "signals": [
     {
       "ticker": "MA",
       "company_name": "Mastercard Incorporated",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 91.775,
+      "value_score": 87.04499999999999,
       "conviction_grade": "C",
-      "current_price": 500.94,
+      "current_price": 539.39,
       "analyst_upside_pct": 19.3,
       "fcf_yield_pct": 3.39,
-      "risk_reward_ratio": 3.69,
-      "days_in_value": 3,
+      "risk_reward_ratio": 2.41,
+      "days_in_value": 4,
       "streak_days": 2,
       "entry_score": 50,
       "signal": "BUY",
@@ -61,34 +61,81 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 27
+      "days_to_earnings": 26
     },
     {
-      "ticker": "DB1.DE",
-      "company_name": "DEUTSCHE BOERSE AG            N",
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE                    N",
       "region": "EU",
-      "sector": "Financial Services",
-      "value_score": 63.9,
+      "sector": "Communication Services",
+      "value_score": 60.1,
       "conviction_grade": "nan",
-      "current_price": 246.6,
-      "analyst_upside_pct": 16.0,
+      "current_price": 73.0,
+      "analyst_upside_pct": 42.1,
       "fcf_yield_pct": null,
-      "risk_reward_ratio": 2.0,
-      "days_in_value": 8,
+      "risk_reward_ratio": 5.26,
+      "days_in_value": 1,
       "streak_days": 1,
-      "entry_score": 50,
-      "signal": "BUY",
+      "entry_score": 48,
+      "signal": "MONITOR",
       "signals_fired": [
         "R:R \u22652",
+        "Upside \u226520%",
         "Insider buying",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
+        "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
           "name": "R:R \u22652",
           "pts": 10
         },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 33
+    },
+    {
+      "ticker": "DB1.DE",
+      "company_name": "DEUTSCHE BOERSE AG            N",
+      "region": "EU",
+      "sector": "Financial Services",
+      "value_score": 62.7,
+      "conviction_grade": "nan",
+      "current_price": 249.8,
+      "analyst_upside_pct": 14.5,
+      "fcf_yield_pct": null,
+      "risk_reward_ratio": 1.81,
+      "days_in_value": 9,
+      "streak_days": 1,
+      "entry_score": 35,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Insider buying",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
         {
           "name": "Insider buying",
           "pts": 25
@@ -105,6 +152,7 @@
       "signals_missing": [
         "Value score <80",
         "FCF yield <5%",
+        "R:R <2",
         "Upside <20%",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
@@ -113,33 +161,176 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 19
+      "days_to_earnings": 18
     },
     {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
       "region": "US",
-      "sector": "Financial Services",
-      "value_score": 67.09,
+      "sector": "Industrials",
+      "value_score": 66.14,
       "conviction_grade": "nan",
-      "current_price": 321.28,
-      "analyst_upside_pct": 10.1,
-      "fcf_yield_pct": 3.03,
-      "risk_reward_ratio": 3.0,
-      "days_in_value": 7,
-      "streak_days": 12,
-      "entry_score": 20,
+      "current_price": 17.69,
+      "analyst_upside_pct": 23.7,
+      "fcf_yield_pct": 43.94,
+      "risk_reward_ratio": 2.96,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 33,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "FCF yield \u22655%",
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 13
+    },
+    {
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 62.265,
+      "conviction_grade": "nan",
+      "current_price": 256.43,
+      "analyst_upside_pct": 21.7,
+      "fcf_yield_pct": 3.46,
+      "risk_reward_ratio": 2.71,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 23,
       "signal": "WAIT",
       "signals_fired": [
         "R:R \u22652",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
+        "Upside \u226520%",
+        "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
           "name": "R:R \u22652",
           "pts": 10
         },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 19
+    },
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 60.78,
+      "conviction_grade": "B",
+      "current_price": 439.89,
+      "analyst_upside_pct": 20.3,
+      "fcf_yield_pct": 4.07,
+      "risk_reward_ratio": 2.54,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 23,
+      "signal": "WAIT",
+      "signals_fired": [
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 26
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 62.615,
+      "conviction_grade": "nan",
+      "current_price": 362.13,
+      "analyst_upside_pct": 10.1,
+      "fcf_yield_pct": 3.03,
+      "risk_reward_ratio": 1.26,
+      "days_in_value": 8,
+      "streak_days": 12,
+      "entry_score": 10,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
         {
           "name": "Analyst revision \u2191",
           "pts": 5
@@ -152,6 +343,7 @@
       "signals_missing": [
         "Value score <80",
         "FCF yield <5%",
+        "R:R <2",
         "Upside <20%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
@@ -161,7 +353,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 25
+      "days_to_earnings": 24
     }
   ]
 }

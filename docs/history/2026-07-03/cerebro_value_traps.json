@@ -2,19 +2,19 @@
   "generated_at": "2026-07-03",
   "total": 2,
   "high_count": 0,
-  "narrative": "Aqu\u00ed te presento dos posibles razones por las que estos tickers podr\u00edan ser value traps:\n\n1. \"A pesar de tener una valuaci\u00f3n barata, HEXA-B.ST y NUE presentan flujos de efectivo negativos, lo que sugiere que est\u00e1n quemando caja y no est\u00e1n generando suficientes beneficios para pagar sus deudas. Esto podr\u00eda ser un signo de que la empresa est\u00e1 en dificultades y no es una buena inversi\u00f3n a largo plazo.\"\n2. \"La combinaci\u00f3n de flujos de efectivo negativos y valuaci\u00f3n barata en HEXA-B.ST y NUE podr\u00eda ser un indicio de que estos tickers son value traps. Esto",
+  "narrative": "Aqu\u00ed te presento dos frases que explican por qu\u00e9 estos tickers podr\u00edan ser value traps:\n\n1. \"A pesar de tener una valuaci\u00f3n barata, HEXA-B.ST y NUE presentan flujos de efectivo negativos, lo que sugiere que est\u00e1n quemando caja y no generando beneficios suficientes para justificar su precio actual. Esto podr\u00eda indicar que estos valores est\u00e1n en una trampa de valor, donde la baja valuaci\u00f3n no es suficiente para compensar la falta de crecimiento y estabilidad financiera.\"\n2. \"La combinaci\u00f3n de flujos de efectivo negativos y valuaci\u00f3n barata en HEXA-B.ST y NUE podr\u00eda ser un indic",
   "traps": [
     {
       "ticker": "HEXA-B.ST",
       "company_name": "Hexagon AB ser. B",
       "severity": "MEDIUM",
       "trap_score": 3,
-      "value_score": 47.2,
+      "value_score": 46.2,
       "flags": [
-        "FCF negativo (-2.8%) \u2014 quema caja pese a valuaci\u00f3n barata"
+        "FCF negativo (-2.7%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],
       "piotroski": 6.0,
-      "fcf_yield_pct": -2.77,
+      "fcf_yield_pct": -2.74,
       "fundamental_score": 65.5
     },
     {
@@ -22,7 +22,7 @@
       "company_name": "Nucor Corporation",
       "severity": "MEDIUM",
       "trap_score": 3,
-      "value_score": 33.16,
+      "value_score": 33.275,
       "flags": [
         "FCF negativo (-0.8%) \u2014 quema caja pese a valuaci\u00f3n barata"
       ],

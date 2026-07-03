@@ -2,40 +2,25 @@
   "generated_at": "2026-07-03",
   "baseline_date": "2026-05-19",
   "days_tracked": 45,
-  "total": 36,
+  "total": 40,
   "high_count": 1,
-  "narrative": "Aqu\u00ed te presento 2 frases en espa\u00f1ol que podr\u00edan describir la diferencia clave entre ruido temporal y deterioro estructural real de una tesis VALUE:\n\n1. \"El ruido temporal es un cambio repentino en la tendencia, mientras que el deterioro estructural es un cambio persistente y sostenido en la fundamentaci\u00f3n de la empresa.\"\n2. \"La diferencia entre ruido temporal y deterioro estructural radica en la duraci\u00f3n y la consistencia del cambio, donde el deterioro estructural implica un declive sostenido y prolongado en la calidad de la empresa, en lugar de un simple ajuste temporal.\"",
+  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que resumen la diferencia clave entre ruido temporal y deterioro estructural real de una tesis VALUE:\n\n1. \"El deterioro estructural se caracteriza por una disminuci\u00f3n persistente y significativa de la confianza de los analistas en el crecimiento futuro de la empresa, mientras que el ruido temporal es una fluctuaci\u00f3n transitoria en la opini\u00f3n de los analistas.\"\n2. \"La tesis VALUE se debilita cuando la disminuci\u00f3n del upside analista es acompa\u00f1ada de una ca\u00edda persistente en el score, mientras que el ruido temporal puede ser un simple ajuste en la estimaci\u00f3n de crecimiento a corto plazo.\"",
   "drifts": [
     {
       "ticker": "AUTO.L",
       "company_name": "AUTOTRADER GROUP PLC ORD 1P",
       "sector": "Communication Services",
       "severity": "HIGH",
-      "drift_score": 6,
+      "drift_score": 9,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 52.0,
+      "value_score_now": 49.2,
       "value_score_prev": 59.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 20pp (34%\u219214%)",
+        "Score cay\u00f3 10pts en 45d (59\u219249)",
+        "Upside analistas cay\u00f3 18pp (34%\u219216%)",
         "Deuda/equity subi\u00f3 420% (0.1\u21920.5x)",
         "Piotroski cay\u00f3 3pts en 45d"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 45,
-      "baseline_date": "2026-05-19",
-      "value_score_now": 27.0,
-      "value_score_prev": 43.6,
-      "drift_flags": [
-        "Score cay\u00f3 17pts en 45d (44\u219227)",
-        "Upside analistas cay\u00f3 11pp (26%\u219215%)"
       ],
       "improvements": []
     },
@@ -47,104 +32,11 @@
       "drift_score": 5,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 26.0,
+      "value_score_now": 42.0,
       "value_score_prev": 56.8,
       "drift_flags": [
-        "Score cay\u00f3 31pts en 45d (57\u219226)",
+        "Score cay\u00f3 15pts en 45d (57\u219242)",
         "Upside analistas cay\u00f3 12pp (14%\u21922%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 45,
-      "baseline_date": "2026-05-19",
-      "value_score_now": 24.3,
-      "value_score_prev": 35.1,
-      "drift_flags": [
-        "Score cay\u00f3 11pts en 45d (35\u219224)",
-        "Upside analistas cay\u00f3 23pp (26%\u21924%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 45,
-      "baseline_date": "2026-05-19",
-      "value_score_now": 26.2,
-      "value_score_prev": 40.0,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 45d (40\u219226)",
-        "Upside analistas cay\u00f3 10pp (14%\u21924%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "AJG",
-      "company_name": "Arthur J. Gallagher & Co.",
-      "sector": "Financial Services",
-      "severity": "MEDIUM",
-      "drift_score": 5,
-      "days_tracked": 45,
-      "baseline_date": "2026-05-19",
-      "value_score_now": 25.3,
-      "value_score_prev": 44.8,
-      "drift_flags": [
-        "Score cay\u00f3 19pts en 45d (45\u219225)",
-        "Upside analistas cay\u00f3 26pp (31%\u21926%)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 45,
-      "baseline_date": "2026-05-19",
-      "value_score_now": 34.6,
-      "value_score_prev": 45.8,
-      "drift_flags": [
-        "Score cay\u00f3 11pts en 45d (46\u219235)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "NYT",
-      "company_name": "New York Times Company (The)",
-      "sector": "Communication Services",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 45,
-      "baseline_date": "2026-05-19",
-      "value_score_now": 25.9,
-      "value_score_prev": 39.5,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 45d (40\u219226)"
-      ],
-      "improvements": []
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
-      "sector": "Consumer Cyclical",
-      "severity": "MEDIUM",
-      "drift_score": 3,
-      "days_tracked": 45,
-      "baseline_date": "2026-05-19",
-      "value_score_now": 22.1,
-      "value_score_prev": 35.8,
-      "drift_flags": [
-        "Score cay\u00f3 14pts en 45d (36\u219222)"
       ],
       "improvements": []
     },
@@ -156,13 +48,13 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 91.8,
+      "value_score_now": 87.0,
       "value_score_prev": 54.1,
       "drift_flags": [
         "Upside analistas cay\u00f3 12pp (31%\u219219%)"
       ],
       "improvements": [
-        "Score mejor\u00f3 38pts (54\u219292)"
+        "Score mejor\u00f3 33pts (54\u219287)"
       ]
     },
     {
@@ -173,13 +65,13 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 67.1,
+      "value_score_now": 62.6,
       "value_score_prev": 30.7,
       "drift_flags": [
         "Upside analistas cay\u00f3 12pp (22%\u219210%)"
       ],
       "improvements": [
-        "Score mejor\u00f3 36pts (31\u219267)"
+        "Score mejor\u00f3 32pts (31\u219263)"
       ]
     },
     {
@@ -190,30 +82,115 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 53.3,
+      "value_score_now": 60.8,
       "value_score_prev": 35.6,
       "drift_flags": [
         "Upside analistas cay\u00f3 12pp (32%\u219220%)"
       ],
       "improvements": [
-        "Score mejor\u00f3 18pts (36\u219253)"
+        "Score mejor\u00f3 25pts (36\u219261)"
       ]
     },
     {
-      "ticker": "7741.T",
-      "company_name": "HOYA CORP",
+      "ticker": "AON",
+      "company_name": "Aon plc",
+      "sector": "Financial Services",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 60.1,
+      "value_score_prev": 34.4,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 15pp (22%\u21927%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 26pts (34\u219260)"
+      ]
+    },
+    {
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 59.0,
+      "value_score_prev": 43.6,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 11pp (26%\u219215%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 15pts (44\u219259)"
+      ]
+    },
+    {
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc",
       "sector": "Healthcare",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 44.8,
-      "value_score_prev": 36.5,
+      "value_score_now": 58.0,
+      "value_score_prev": 29.6,
       "drift_flags": [
-        "Margen op. cay\u00f3 19.4pp (46.7%\u219227.3%)"
+        "Upside analistas cay\u00f3 26pp (40%\u219214%)"
       ],
       "improvements": [
-        "Score mejor\u00f3 8pts (36\u219245)"
+        "Score mejor\u00f3 28pts (30\u219258)"
+      ]
+    },
+    {
+      "ticker": "VLTO",
+      "company_name": "Veralto Corp",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 52.6,
+      "value_score_prev": 26.9,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 11pp (28%\u219217%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 26pts (27\u219253)"
+      ]
+    },
+    {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "sector": "Financial Services",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 50.3,
+      "value_score_prev": 26.3,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 16pp (25%\u21929%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 24pts (26\u219250)"
+      ]
+    },
+    {
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
+      "sector": "Consumer Cyclical",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 50.3,
+      "value_score_prev": 31.9,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 10pp (25%\u219215%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 18pts (32\u219250)"
       ]
     },
     {
@@ -224,7 +201,7 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 40.1,
+      "value_score_now": 49.5,
       "value_score_prev": 45.8,
       "drift_flags": [
         "Upside analistas cay\u00f3 17pp (26%\u21929%)"
@@ -232,32 +209,64 @@
       "improvements": []
     },
     {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "sector": "Financial Services",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "sector": "Technology",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 31.7,
-      "value_score_prev": 26.3,
+      "value_score_now": 47.3,
+      "value_score_prev": 35.6,
       "drift_flags": [
-        "Upside analistas cay\u00f3 16pp (25%\u21929%)"
+        "Upside analistas cay\u00f3 8pp (35%\u219226%)"
+      ],
+      "improvements": [
+        "Score mejor\u00f3 12pts (36\u219247)"
+      ]
+    },
+    {
+      "ticker": "7741.T",
+      "company_name": "HOYA CORP",
+      "sector": "Healthcare",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 40.8,
+      "value_score_prev": 36.5,
+      "drift_flags": [
+        "Margen op. cay\u00f3 19.4pp (46.7%\u219227.3%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
+      "ticker": "HEI",
+      "company_name": "Heico Corporation",
+      "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 34.4,
-      "value_score_prev": 34.4,
+      "value_score_now": 39.9,
+      "value_score_prev": 33.5,
       "drift_flags": [
-        "Upside analistas cay\u00f3 15pp (22%\u21927%)"
+        "Upside analistas cay\u00f3 9pp (15%\u21927%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "sector": "Technology",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 38.8,
+      "value_score_prev": 38.4,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 17pp (41%\u219224%)"
       ],
       "improvements": []
     },
@@ -269,29 +278,59 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 36.5,
+      "value_score_now": 37.4,
       "value_score_prev": 29.1,
       "drift_flags": [
         "Upside analistas cay\u00f3 31pp (53%\u219222%)"
       ],
-      "improvements": []
+      "improvements": [
+        "Score mejor\u00f3 8pts (29\u219237)"
+      ]
     },
     {
-      "ticker": "TMO",
-      "company_name": "Thermo Fisher Scientific Inc",
-      "sector": "Healthcare",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "sector": "Financial Services",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 43.9,
-      "value_score_prev": 29.6,
+      "value_score_now": 37.2,
+      "value_score_prev": 40.0,
       "drift_flags": [
-        "Upside analistas cay\u00f3 26pp (40%\u219214%)"
+        "Upside analistas cay\u00f3 10pp (14%\u21924%)"
       ],
-      "improvements": [
-        "Score mejor\u00f3 14pts (30\u219244)"
-      ]
+      "improvements": []
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 36.9,
+      "value_score_prev": 35.1,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 20pp (37%\u219217%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 36.4,
+      "value_score_prev": 35.1,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 23pp (26%\u21924%)"
+      ],
+      "improvements": []
     },
     {
       "ticker": "COF",
@@ -301,7 +340,7 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 41.9,
+      "value_score_now": 36.1,
       "value_score_prev": 45.5,
       "drift_flags": [
         "Upside analistas cay\u00f3 11pp (36%\u219225%)"
@@ -309,17 +348,17 @@
       "improvements": []
     },
     {
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 25.4,
-      "value_score_prev": 31.9,
+      "value_score_now": 35.9,
+      "value_score_prev": 43.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 10pp (25%\u219215%)"
+        "Upside analistas cay\u00f3 22pp (42%\u219220%)"
       ],
       "improvements": []
     },
@@ -331,7 +370,7 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 32.0,
+      "value_score_now": 31.8,
       "value_score_prev": 34.2,
       "drift_flags": [
         "Upside analistas cay\u00f3 13pp (15%\u21922%)"
@@ -339,17 +378,17 @@
       "improvements": []
     },
     {
-      "ticker": "VLTO",
-      "company_name": "Veralto Corp",
+      "ticker": "POOL",
+      "company_name": "Pool Corporation",
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 26.9,
-      "value_score_prev": 26.9,
+      "value_score_now": 31.7,
+      "value_score_prev": 25.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 11pp (28%\u219217%)"
+        "Upside analistas cay\u00f3 33pp (49%\u219216%)"
       ],
       "improvements": []
     },
@@ -361,7 +400,7 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 30.2,
+      "value_score_now": 30.6,
       "value_score_prev": 33.9,
       "drift_flags": [
         "Upside analistas cay\u00f3 21pp (49%\u219229%)"
@@ -376,10 +415,10 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 52.8,
+      "value_score_now": 54.8,
       "value_score_prev": 55.0,
       "drift_flags": [
-        "Upside analistas cay\u00f3 17pp (41%\u219224%)"
+        "Upside analistas cay\u00f3 16pp (41%\u219225%)"
       ],
       "improvements": []
     },
@@ -391,10 +430,10 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 43.7,
+      "value_score_now": 51.7,
       "value_score_prev": 47.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 8pp (57%\u219248%)"
+        "Upside analistas cay\u00f3 10pp (57%\u219247%)"
       ],
       "improvements": [
         "Piotroski mejor\u00f3 4pts"
@@ -425,10 +464,10 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 47.2,
+      "value_score_now": 46.8,
       "value_score_prev": 47.4,
       "drift_flags": [
-        "Upside analistas cay\u00f3 24pp (35%\u219211%)"
+        "Upside analistas cay\u00f3 23pp (35%\u219212%)"
       ],
       "improvements": []
     },
@@ -443,7 +482,7 @@
       "value_score_now": 40.6,
       "value_score_prev": 48.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 15pp (19%\u21924%)"
+        "Upside analistas cay\u00f3 16pp (19%\u21923%)"
       ],
       "improvements": []
     },
@@ -458,7 +497,7 @@
       "value_score_now": 39.9,
       "value_score_prev": 40.9,
       "drift_flags": [
-        "Upside analistas cay\u00f3 12pp (34%\u219222%)"
+        "Upside analistas cay\u00f3 13pp (34%\u219220%)"
       ],
       "improvements": []
     },
@@ -473,7 +512,7 @@
       "value_score_now": 39.4,
       "value_score_prev": 43.4,
       "drift_flags": [
-        "Upside analistas cay\u00f3 15pp (32%\u219217%)"
+        "Upside analistas cay\u00f3 16pp (32%\u219216%)"
       ],
       "improvements": []
     },
@@ -485,10 +524,10 @@
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
-      "value_score_now": 35.2,
+      "value_score_now": 34.9,
       "value_score_prev": 34.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 22pp (33%\u219212%)"
+        "Upside analistas cay\u00f3 21pp (33%\u219212%)"
       ],
       "improvements": []
     },
@@ -503,7 +542,7 @@
       "value_score_now": 34.0,
       "value_score_prev": 41.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 22pp (27%\u21926%)"
+        "Upside analistas cay\u00f3 21pp (27%\u21926%)"
       ],
       "improvements": []
     },
@@ -523,6 +562,21 @@
       "improvements": []
     },
     {
+      "ticker": "GEBN.SW",
+      "company_name": "GEBERIT N",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 31.5,
+      "value_score_prev": 31.7,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 11pp (14%\u21923%)"
+      ],
+      "improvements": []
+    },
+    {
       "ticker": "SIKA.SW",
       "company_name": "SIKA N",
       "sector": "Basic Materials",
@@ -533,22 +587,22 @@
       "value_score_now": 29.9,
       "value_score_prev": 38.0,
       "drift_flags": [
-        "Upside analistas cay\u00f3 25pp (32%\u21928%)"
+        "Upside analistas cay\u00f3 25pp (32%\u21927%)"
       ],
       "improvements": []
     },
     {
-      "ticker": "GEBN.SW",
-      "company_name": "GEBERIT N",
+      "ticker": "DSV.CO",
+      "company_name": "DSV A/S",
       "sector": "Industrials",
       "severity": "LOW",
       "drift_score": 2,
       "days_tracked": 45,
       "baseline_date": "2026-05-19",
       "value_score_now": 29.9,
-      "value_score_prev": 31.7,
+      "value_score_prev": 28.2,
       "drift_flags": [
-        "Upside analistas cay\u00f3 11pp (14%\u21923%)"
+        "Upside analistas cay\u00f3 8pp (32%\u219224%)"
       ],
       "improvements": []
     },
@@ -563,7 +617,22 @@
       "value_score_now": 28.0,
       "value_score_prev": 30.1,
       "drift_flags": [
-        "Upside analistas cay\u00f3 25pp (29%\u21924%)"
+        "Upside analistas cay\u00f3 27pp (29%\u21922%)"
+      ],
+      "improvements": []
+    },
+    {
+      "ticker": "INDT.ST",
+      "company_name": "Indutrade AB",
+      "sector": "Industrials",
+      "severity": "LOW",
+      "drift_score": 2,
+      "days_tracked": 45,
+      "baseline_date": "2026-05-19",
+      "value_score_now": 25.5,
+      "value_score_prev": 29.9,
+      "drift_flags": [
+        "Upside analistas cay\u00f3 22pp (38%\u219216%)"
       ],
       "improvements": []
     }

@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-07-03",
-  "total": 44,
+  "total": 54,
   "improving": 0,
-  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que explican por qu\u00e9 la mejora de Piotroski puede se\u00f1alar un posible re-rating:\n\n1. \"La mejora de Piotroski en estos tickers sugiere una mejor\u00eda en la calidad financiera de las empresas, lo que puede llevar a un reevaluaci\u00f3n positiva por parte de los inversores y, como resultado, un aumento en su precio de cotizaci\u00f3n.\"\n2. \"La estabilidad y mejora en la F-score de Piotroski en estos tickers indican una consolidaci\u00f3n financiera s\u00f3lida, lo que puede ser interpretado como un indicador de crecimiento a largo plazo y, por lo tanto, un posible",
+  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que explican por qu\u00e9 la mejora de Piotroski puede se\u00f1alar un posible re-rating:\n\n1. \"La mejora de Piotroski en estos tickers sugiere un mejoramiento en la calidad financiera, lo que puede llevar a un reevaluaci\u00f3n positiva por parte de los inversores y, en consecuencia, un aumento en la cotizaci\u00f3n de la acci\u00f3n.\"\n2. \"La mejora en la puntuaci\u00f3n de Piotroski de estos tickers indica una mejor situaci\u00f3n financiera, lo que puede generar expectativas de crecimiento y mejorar la percepci\u00f3n de los inversores, lo que a su vez puede llevar a un re-rating de la",
   "candidates": [
     {
       "ticker": "MA",
@@ -12,7 +12,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 91.775
+      "value_score": 87.04499999999999
     },
     {
       "ticker": "NDAQ",
@@ -22,7 +22,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 28.695
+      "value_score": 52.075
     },
     {
       "ticker": "RACE",
@@ -32,7 +32,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 25.385000000000005
+      "value_score": 50.260000000000005
+    },
+    {
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "piotroski_current": 9.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 47.25999999999999
+    },
+    {
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
+      "piotroski_current": 9.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 37.6
     },
     {
       "ticker": "EXPN.L",
@@ -42,7 +62,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 43.7
+      "value_score": 51.7
     },
     {
       "ticker": "RACE.MI",
@@ -52,7 +72,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 47.2
+      "value_score": 46.8
     },
     {
       "ticker": "ASAZY",
@@ -62,7 +82,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 56.405
+      "value_score": 66.14
     },
     {
       "ticker": "VRSN",
@@ -72,47 +92,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.06
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 40.185
-    },
-    {
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 34.585
-    },
-    {
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 32.7
-    },
-    {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 31.66
+      "value_score": 62.265
     },
     {
       "ticker": "AON",
@@ -122,7 +102,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 34.395
+      "value_score": 60.065
+    },
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 59.22999999999999
     },
     {
       "ticker": "CTAS",
@@ -132,27 +122,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 26.950000000000003
+      "value_score": 59.01499999999999
     },
     {
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 26.02500000000001
-    },
-    {
-      "ticker": "NYT",
-      "company_name": "New York Times Company (The)",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 25.915
+      "value_score": 52.56
     },
     {
       "ticker": "WM",
@@ -162,7 +142,57 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 22.245000000000005
+      "value_score": 47.465
+    },
+    {
+      "ticker": "NYT",
+      "company_name": "New York Times Company (The)",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 44.675
+    },
+    {
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 44.0
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 42.025000000000006
+    },
+    {
+      "ticker": "HEI",
+      "company_name": "Heico Corporation",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 39.92
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 37.255
     },
     {
       "ticker": "HESAY",
@@ -172,17 +202,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 30.15000000000001
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 22.120000000000005
+      "value_score": 30.56
     },
     {
       "ticker": "SAP.DE",
@@ -192,7 +212,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 55.1
+      "value_score": 58.1
     },
     {
       "ticker": "ASSA-B.ST",
@@ -232,7 +252,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 32.2
+      "value_score": 34.2
     },
     {
       "ticker": "DPLM.L",
@@ -255,6 +275,16 @@
       "value_score": 28.0
     },
     {
+      "ticker": "INDT.ST",
+      "company_name": "Indutrade AB",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 25.5
+    },
+    {
       "ticker": "SPGI",
       "company_name": "S&P Global Inc.",
       "piotroski_current": 7.0,
@@ -262,7 +292,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 53.255
+      "value_score": 60.78
     },
     {
       "ticker": "KO",
@@ -272,17 +302,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.900000000000006
-    },
-    {
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 34.64
+      "value_score": 55.165000000000006
     },
     {
       "ticker": "ETN",
@@ -292,7 +312,37 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 32.955
+      "value_score": 46.88
+    },
+    {
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 45.245
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 36.900000000000006
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 35.92
     },
     {
       "ticker": "KR",
@@ -302,7 +352,37 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 24.92
+      "value_score": 35.42
+    },
+    {
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 34.84
+    },
+    {
+      "ticker": "TJX",
+      "company_name": "TJX Companies, Inc. (The)",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 33.55
+    },
+    {
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 32.28
     },
     {
       "ticker": "AI.PA",
@@ -312,7 +392,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 32.010000000000005
+      "value_score": 31.75
+    },
+    {
+      "ticker": "CP",
+      "company_name": "Canadian Pacific Kansas City Li",
+      "piotroski_current": 7.0,
+      "piotroski_prev": null,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 30.120000000000005
     },
     {
       "ticker": "AMS.MC",
@@ -362,7 +452,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 37.6
+      "value_score": 42.6
     },
     {
       "ticker": "ITX.MC",
@@ -392,7 +482,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 35.2
+      "value_score": 34.9
     },
     {
       "ticker": "LIFCO-B.ST",
@@ -415,6 +505,16 @@
       "value_score": 31.7
     },
     {
+      "ticker": "GEBN.SW",
+      "company_name": "GEBERIT N",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 31.5
+    },
+    {
       "ticker": "SIKA.SW",
       "company_name": "SIKA N",
       "piotroski_current": 7.0,
@@ -435,14 +535,14 @@
       "value_score": 29.9
     },
     {
-      "ticker": "GEBN.SW",
-      "company_name": "GEBERIT N",
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
       "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
+      "piotroski_prev": 8.0,
+      "delta": -1.0,
+      "trend": "SLIGHT_DOWN",
       "signal": "STRONG",
-      "value_score": 29.9
+      "value_score": 50.345000000000006
     }
   ]
 }

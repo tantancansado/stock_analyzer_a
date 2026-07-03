@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-07-03",
-  "total": 3,
+  "total": 2,
   "high_count": 1,
-  "narrative": "Aqu\u00ed te presento dos posibles frases en espa\u00f1ol que resumen la situaci\u00f3n y su implicaci\u00f3n para la gesti\u00f3n de riesgo:\n\n1. \"La ca\u00edda en las se\u00f1ales de revisi\u00f3n y la p\u00e9rdida de convicci\u00f3n en las acciones como EXPN.L y NYT sugiere un aumento en el riesgo de inversi\u00f3n, por lo que es importante reevaluar la estrategia de gesti\u00f3n de riesgo y considerar la posibilidad de diversificar o reducir la exposici\u00f3n a estas acciones.\"\n2. \"La salida de se\u00f1ales de revisi\u00f3n en VALUE y la ca\u00edda en los scores de EXPN.L y NYT indican una posible reversi\u00f3n en el mercado, lo que podr\u00eda afectar",
+  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que resumen la situaci\u00f3n:\n\n1. \"La salida del radar VALUE de EMCOR Group (EME) y la ca\u00edda del Score de EXPN.L sugieren una p\u00e9rdida de convicci\u00f3n en la gesti\u00f3n de riesgo, lo que puede llevar a una mayor exposici\u00f3n a riesgos no deseados.\"\n2. \"La falta de se\u00f1ales de compra por parte de los insiders en EXPN.L y la posible rotura de la tesis en EME pueden ser se\u00f1ales de alerta para la gesti\u00f3n de riesgo, recomendando una revisi\u00f3n de la estrategia de inversi\u00f3n y una posible reducci\u00f3n de la exposici\u00f3n a estos activos.\"",
   "exits": [
     {
       "ticker": "EME",
@@ -12,38 +12,27 @@
       "signal_date": "2026-05-21",
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
-        "IA: falso positivo con 82% confianza \u2014 EMCOR Group (EME) no muestra deterioro fundamental reciente; al contrario, ha reportado resultados s\u00f3lidos con crecimiento en ingresos y m\u00e1rgenes, impulsado por la demanda en construcci\u00f3n de data centers, manufactura y proyectos de infraestructura. La salida de se\u00f1ales VALUE probablemente se debe a que el precio subi\u00f3 significativamente (la acci\u00f3n se multiplic\u00f3 varias veces desde 2022), reduciendo el margen de seguridad y el upside value."
+        "IA: falso positivo con 82% confianza \u2014 EMCOR Group (EME) no muestra deterioro fundamental reciente; al contrario, ha reportado resultados s\u00f3lidos con crecimiento en ingresos y m\u00e1rgenes, impulsado por la demanda en construcci\u00f3n de data centers, manufactura y proyectos de infraestructura. La salida del radar VALUE probablemente se debe a que el precio de la acci\u00f3n subi\u00f3 significativamente, comprimiendo el margen de seguridad y eliminando el upside de valor."
       ],
       "fundamental_score": null,
       "ai_validation": {
         "verdict": "FALSE_POSITIVE",
         "confidence": 82,
-        "summary": "EMCOR Group (EME) no muestra deterioro fundamental reciente; al contrario, ha reportado resultados s\u00f3lidos con crecimiento en ingresos y m\u00e1rgenes, impulsado por la demanda en construcci\u00f3n de data centers, manufactura y proyectos de infraestructura. La salida de se\u00f1ales VALUE probablemente se debe a que el precio subi\u00f3 significativamente (la acci\u00f3n se multiplic\u00f3 varias veces desde 2022), reduciendo el margen de seguridad y el upside value.",
-        "key_finding": "EME ha experimentado una expansi\u00f3n masiva de m\u00faltiplos y precio (de ~$80 en 2022 a m\u00e1s de $400 en 2024), con fundamentales intactos o mejorando, lo que explica que salga de screeners VALUE por valoraci\u00f3n elevada, no por deterioro del negocio."
+        "summary": "EMCOR Group (EME) no muestra deterioro fundamental reciente; al contrario, ha reportado resultados s\u00f3lidos con crecimiento en ingresos y m\u00e1rgenes, impulsado por la demanda en construcci\u00f3n de data centers, manufactura y proyectos de infraestructura. La salida del radar VALUE probablemente se debe a que el precio de la acci\u00f3n subi\u00f3 significativamente, comprimiendo el margen de seguridad y eliminando el upside de valor.",
+        "key_finding": "EME ha experimentado una apreciaci\u00f3n de precio muy fuerte (>100% en 2023-2024), lo que reduce su atractivo como acci\u00f3n VALUE aunque los fundamentales del negocio siguen siendo robustos con backlog r\u00e9cord y expansi\u00f3n de m\u00e1rgenes operativos."
       }
     },
     {
       "ticker": "EXPN.L",
       "severity": "MEDIUM",
       "entry_score": 67.0,
-      "current_score": 43.7,
+      "current_score": 51.7,
       "signal_date": "2026-05-21",
       "reasons": [
-        "Score cay\u00f3 23pts (67 \u2192 44)",
+        "Score cay\u00f3 15pts (67 \u2192 52)",
         "Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida"
       ],
       "fundamental_score": 51.8
-    },
-    {
-      "ticker": "NYT",
-      "severity": "MEDIUM",
-      "entry_score": 58.3,
-      "current_score": 25.915,
-      "signal_date": "2026-05-07",
-      "reasons": [
-        "Score cay\u00f3 32pts (58 \u2192 26) \u2014 ca\u00edda t\u00e9cnica/momentum, balance s\u00f3lido (Piotroski 8/9)"
-      ],
-      "fundamental_score": 60.0
     }
   ]
 }

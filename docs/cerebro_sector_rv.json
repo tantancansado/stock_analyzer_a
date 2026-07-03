@@ -1,9 +1,22 @@
 {
   "generated_at": "2026-07-03",
-  "total": 36,
+  "total": 48,
   "rerate_sectors": 0,
-  "narrative": "Aqu\u00ed te dejo dos frases en espa\u00f1ol que resumen la ventaja de ser el m\u00e1s barato dentro de un sector s\u00f3lido:\n\n1. \"Ser el m\u00e1s asequible dentro de un sector con fuerte desempe\u00f1o es una ventaja significativa, ya que permite atraer a inversores y aprovechar oportunidades de crecimiento\".\n2. \"La condici\u00f3n de ser el m\u00e1s barato dentro de un sector s\u00f3lido es una ventaja diferencial que puede llevar a una mayor liquidez y atractivo para los inversores, lo que a su vez puede generar un mayor potencial de crecimiento\".\n\nEn ambos casos, la idea es que ser el m\u00e1s asequible dentro de un",
+  "narrative": "Aqu\u00ed te dejo dos frases en espa\u00f1ol que resumen la ventaja de ser el m\u00e1s barato dentro de un sector s\u00f3lido:\n\n1. \"Ser el m\u00e1s barato dentro de un sector s\u00f3lido es como tener una ventaja competitiva, ya que permite a los inversores aprovechar las oportunidades de crecimiento sin pagar un precio excesivo.\"\n2. \"El ser el m\u00e1s asequible dentro de un sector con s\u00f3lidas perspectivas de crecimiento es una ventaja significativa, ya que permite a los inversores maximizar sus retornos sin asumir demasiado riesgo.\"",
   "standouts": [
+    {
+      "ticker": "KD",
+      "company_name": "Kyndryl Holdings, Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 100.0,
+      "fcf_rank": 1,
+      "fcf_rank_of": 14,
+      "value_score": 33.6,
+      "analyst_upside_pct": 15.1,
+      "sector_avg_fcf": 11.2,
+      "peers_in_sector": 14
+    },
     {
       "ticker": "ASAZY",
       "company_name": "Assa Abloy AB",
@@ -11,11 +24,24 @@
       "label": "BEST_IN_SECTOR",
       "fcf_yield_pct": 43.94,
       "fcf_rank": 1,
-      "fcf_rank_of": 19,
-      "value_score": 56.405,
+      "fcf_rank_of": 30,
+      "value_score": 66.14,
       "analyst_upside_pct": 23.7,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
+    },
+    {
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "sector": "Industrials",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 21.92,
+      "fcf_rank": 2,
+      "fcf_rank_of": 30,
+      "value_score": 40.120000000000005,
+      "analyst_upside_pct": 27.2,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "THC",
@@ -24,11 +50,50 @@
       "label": "BEST_IN_SECTOR",
       "fcf_yield_pct": 17.45,
       "fcf_rank": 1,
-      "fcf_rank_of": 7,
-      "value_score": 40.06,
+      "fcf_rank_of": 9,
+      "value_score": 57.30000000000001,
       "analyst_upside_pct": 19.4,
-      "sector_avg_fcf": 5.4,
-      "peers_in_sector": 7
+      "sector_avg_fcf": 4.79,
+      "peers_in_sector": 9
+    },
+    {
+      "ticker": "IT",
+      "company_name": "Gartner, Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 11.66,
+      "fcf_rank": 2,
+      "fcf_rank_of": 14,
+      "value_score": 43.4,
+      "analyst_upside_pct": 21.0,
+      "sector_avg_fcf": 11.2,
+      "peers_in_sector": 14
+    },
+    {
+      "ticker": "STZ",
+      "company_name": "Constellation Brands, Inc.",
+      "sector": "Consumer Defensive",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 9.41,
+      "fcf_rank": 1,
+      "fcf_rank_of": 10,
+      "value_score": 41.96,
+      "analyst_upside_pct": 27.0,
+      "sector_avg_fcf": 4.33,
+      "peers_in_sector": 10
+    },
+    {
+      "ticker": "SGE.L",
+      "company_name": "THE SAGE GROUP PLC ORD 1 4/77P",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 8.45,
+      "fcf_rank": 3,
+      "fcf_rank_of": 14,
+      "value_score": 50.6,
+      "analyst_upside_pct": 29.4,
+      "sector_avg_fcf": 11.2,
+      "peers_in_sector": 14
     },
     {
       "ticker": "KR",
@@ -36,63 +101,50 @@
       "sector": "Consumer Defensive",
       "label": "BEST_IN_SECTOR",
       "fcf_yield_pct": 8.4,
-      "fcf_rank": 1,
-      "fcf_rank_of": 8,
-      "value_score": 24.92,
-      "analyst_upside_pct": 22.7,
-      "sector_avg_fcf": 3.78,
-      "peers_in_sector": 8
-    },
-    {
-      "ticker": "SGE.L",
-      "company_name": "THE SAGE GROUP PLC ORD 1 4/77P",
-      "sector": "Technology",
-      "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 8.39,
-      "fcf_rank": 1,
-      "fcf_rank_of": 7,
-      "value_score": 50.6,
-      "analyst_upside_pct": 28.5,
-      "sector_avg_fcf": 4.15,
-      "peers_in_sector": 7
-    },
-    {
-      "ticker": "WKL.AS",
-      "company_name": "WOLTERS KLUWER",
-      "sector": "Industrials",
-      "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 7.67,
       "fcf_rank": 2,
-      "fcf_rank_of": 19,
-      "value_score": 56.2,
-      "analyst_upside_pct": 72.7,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "fcf_rank_of": 10,
+      "value_score": 35.42,
+      "analyst_upside_pct": 22.7,
+      "sector_avg_fcf": 4.33,
+      "peers_in_sector": 10
     },
     {
       "ticker": "PGHN.SW",
       "company_name": "PARTNERS GROUP N",
       "sector": "Financial Services",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 7.66,
+      "fcf_yield_pct": 7.69,
       "fcf_rank": 1,
       "fcf_rank_of": 14,
       "value_score": 48.3,
-      "analyst_upside_pct": 42.2,
-      "sector_avg_fcf": 4.3,
+      "analyst_upside_pct": 42.7,
+      "sector_avg_fcf": 4.46,
       "peers_in_sector": 14
+    },
+    {
+      "ticker": "WKL.AS",
+      "company_name": "WOLTERS KLUWER",
+      "sector": "Industrials",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 7.66,
+      "fcf_rank": 3,
+      "fcf_rank_of": 30,
+      "value_score": 56.2,
+      "analyst_upside_pct": 72.4,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "FDS",
       "company_name": "FactSet Research Systems Inc.",
       "sector": "Financial Services",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 6.57,
+      "fcf_yield_pct": 6.98,
       "fcf_rank": 2,
       "fcf_rank_of": 14,
-      "value_score": 26.020000000000003,
+      "value_score": 50.68,
       "analyst_upside_pct": 0.2,
-      "sector_avg_fcf": 4.3,
+      "sector_avg_fcf": 4.46,
       "peers_in_sector": 14
     },
     {
@@ -102,11 +154,11 @@
       "label": "BEST_IN_SECTOR",
       "fcf_yield_pct": 6.47,
       "fcf_rank": 2,
-      "fcf_rank_of": 7,
-      "value_score": 34.585,
+      "fcf_rank_of": 9,
+      "value_score": 52.56,
       "analyst_upside_pct": 18.1,
-      "sector_avg_fcf": 5.4,
-      "peers_in_sector": 7
+      "sector_avg_fcf": 4.79,
+      "peers_in_sector": 9
     },
     {
       "ticker": "BRO",
@@ -116,9 +168,9 @@
       "fcf_yield_pct": 6.42,
       "fcf_rank": 3,
       "fcf_rank_of": 14,
-      "value_score": 24.305,
+      "value_score": 36.36,
       "analyst_upside_pct": 3.5,
-      "sector_avg_fcf": 4.3,
+      "sector_avg_fcf": 4.46,
       "peers_in_sector": 14
     },
     {
@@ -126,26 +178,39 @@
       "company_name": "IMCD",
       "sector": "Basic Materials",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 6.25,
+      "fcf_yield_pct": 6.16,
       "fcf_rank": 1,
-      "fcf_rank_of": 5,
-      "value_score": 31.8,
-      "analyst_upside_pct": 36.7,
-      "sector_avg_fcf": 2.48,
-      "peers_in_sector": 5
+      "fcf_rank_of": 6,
+      "value_score": 33.0,
+      "analyst_upside_pct": 34.7,
+      "sector_avg_fcf": 2.37,
+      "peers_in_sector": 6
     },
     {
       "ticker": "AUTO.L",
       "company_name": "AUTOTRADER GROUP PLC ORD 1P",
       "sector": "Communication Services",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 6.08,
+      "fcf_yield_pct": 6.15,
       "fcf_rank": 1,
       "fcf_rank_of": 3,
-      "value_score": 52.0,
-      "analyst_upside_pct": 14.3,
-      "sector_avg_fcf": 5.02,
+      "value_score": 49.2,
+      "analyst_upside_pct": 15.7,
+      "sector_avg_fcf": 5.05,
       "peers_in_sector": 3
+    },
+    {
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "sector": "Technology",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 5.9,
+      "fcf_rank": 4,
+      "fcf_rank_of": 14,
+      "value_score": 38.8,
+      "analyst_upside_pct": 24.0,
+      "sector_avg_fcf": 11.2,
+      "peers_in_sector": 14
     },
     {
       "ticker": "BRK-B",
@@ -155,9 +220,9 @@
       "fcf_yield_pct": 5.59,
       "fcf_rank": 4,
       "fcf_rank_of": 14,
-      "value_score": 33.489999999999995,
+      "value_score": 37.38999999999999,
       "analyst_upside_pct": 2.5,
-      "sector_avg_fcf": 4.3,
+      "sector_avg_fcf": 4.46,
       "peers_in_sector": 14
     },
     {
@@ -165,78 +230,26 @@
       "company_name": "DSV A/S",
       "sector": "Industrials",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 5.51,
-      "fcf_rank": 3,
-      "fcf_rank_of": 19,
+      "fcf_yield_pct": 5.47,
+      "fcf_rank": 4,
+      "fcf_rank_of": 30,
       "value_score": 29.9,
-      "analyst_upside_pct": 24.9,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
-    },
-    {
-      "ticker": "DSY.PA",
-      "company_name": "DASSAULT SYSTEMES",
-      "sector": "Technology",
-      "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 5.13,
-      "fcf_rank": 2,
-      "fcf_rank_of": 7,
-      "value_score": 41.8,
-      "analyst_upside_pct": 22.2,
-      "sector_avg_fcf": 4.15,
-      "peers_in_sector": 7
-    },
-    {
-      "ticker": "LEN",
-      "company_name": "Lennar Corporation",
-      "sector": "Consumer Cyclical",
-      "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 5.07,
-      "fcf_rank": 1,
-      "fcf_rank_of": 10,
-      "value_score": 45.125,
-      "analyst_upside_pct": 0.4,
-      "sector_avg_fcf": 3.52,
-      "peers_in_sector": 10
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
-      "sector": "Consumer Cyclical",
-      "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 5.06,
-      "fcf_rank": 2,
-      "fcf_rank_of": 10,
-      "value_score": 22.120000000000005,
-      "analyst_upside_pct": 28.1,
-      "sector_avg_fcf": 3.52,
-      "peers_in_sector": 10
+      "analyst_upside_pct": 24.0,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "HEIA.AS",
       "company_name": "HEINEKEN",
       "sector": "Consumer Defensive",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 5.03,
-      "fcf_rank": 2,
-      "fcf_rank_of": 8,
-      "value_score": 35.2,
-      "analyst_upside_pct": 11.5,
-      "sector_avg_fcf": 3.78,
-      "peers_in_sector": 8
-    },
-    {
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporat",
-      "sector": "Consumer Defensive",
-      "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 4.97,
+      "fcf_yield_pct": 5.04,
       "fcf_rank": 3,
-      "fcf_rank_of": 8,
-      "value_score": 33.72999999999999,
-      "analyst_upside_pct": 12.7,
-      "sector_avg_fcf": 3.78,
-      "peers_in_sector": 8
+      "fcf_rank_of": 10,
+      "value_score": 34.9,
+      "analyst_upside_pct": 11.8,
+      "sector_avg_fcf": 4.33,
+      "peers_in_sector": 10
     },
     {
       "ticker": "QSR",
@@ -244,11 +257,24 @@
       "sector": "Consumer Cyclical",
       "label": "BEST_IN_SECTOR",
       "fcf_yield_pct": 4.83,
-      "fcf_rank": 3,
+      "fcf_rank": 1,
       "fcf_rank_of": 10,
-      "value_score": 52.685,
+      "value_score": 59.58000000000001,
       "analyst_upside_pct": 14.9,
-      "sector_avg_fcf": 3.52,
+      "sector_avg_fcf": 3.06,
+      "peers_in_sector": 10
+    },
+    {
+      "ticker": "MC.PA",
+      "company_name": "LVMH",
+      "sector": "Consumer Cyclical",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 4.78,
+      "fcf_rank": 2,
+      "fcf_rank_of": 10,
+      "value_score": 39.4,
+      "analyst_upside_pct": 16.3,
+      "sector_avg_fcf": 3.06,
       "peers_in_sector": 10
     },
     {
@@ -257,25 +283,38 @@
       "sector": "Industrials",
       "label": "BEST_IN_SECTOR",
       "fcf_yield_pct": 4.53,
-      "fcf_rank": 4,
-      "fcf_rank_of": 19,
+      "fcf_rank": 5,
+      "fcf_rank_of": 30,
       "value_score": 47.6,
       "analyst_upside_pct": 17.5,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
+    },
+    {
+      "ticker": "MONC.MI",
+      "company_name": "MONCLER",
+      "sector": "Consumer Cyclical",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 4.38,
+      "fcf_rank": 3,
+      "fcf_rank_of": 10,
+      "value_score": 46.2,
+      "analyst_upside_pct": 20.9,
+      "sector_avg_fcf": 3.06,
+      "peers_in_sector": 10
     },
     {
       "ticker": "SIKA.SW",
       "company_name": "SIKA N",
       "sector": "Basic Materials",
       "label": "BEST_IN_SECTOR",
-      "fcf_yield_pct": 4.21,
+      "fcf_yield_pct": 4.18,
       "fcf_rank": 2,
-      "fcf_rank_of": 5,
+      "fcf_rank_of": 6,
       "value_score": 29.9,
-      "analyst_upside_pct": 7.7,
-      "sector_avg_fcf": 2.48,
-      "peers_in_sector": 5
+      "analyst_upside_pct": 7.0,
+      "sector_avg_fcf": 2.37,
+      "peers_in_sector": 6
     },
     {
       "ticker": "ITRK.L",
@@ -283,12 +322,64 @@
       "sector": "Industrials",
       "label": "BEST_IN_SECTOR",
       "fcf_yield_pct": 4.06,
-      "fcf_rank": 5,
-      "fcf_rank_of": 19,
-      "value_score": 33.8,
-      "analyst_upside_pct": 0.6,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "fcf_rank": 6,
+      "fcf_rank_of": 30,
+      "value_score": 34.315,
+      "analyst_upside_pct": 0.4,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
+    },
+    {
+      "ticker": "ITRK.L",
+      "company_name": "INTERTEK GROUP PLC ORD 1P",
+      "sector": "Industrials",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 4.06,
+      "fcf_rank": 7,
+      "fcf_rank_of": 30,
+      "value_score": 41.8,
+      "analyst_upside_pct": 0.4,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
+    },
+    {
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "sector": "Industrials",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 3.88,
+      "fcf_rank": 8,
+      "fcf_rank_of": 30,
+      "value_score": 51.7,
+      "analyst_upside_pct": 46.6,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
+    },
+    {
+      "ticker": "ABT",
+      "company_name": "Abbott Laboratories",
+      "sector": "Healthcare",
+      "label": "BEST_IN_SECTOR",
+      "fcf_yield_pct": 3.82,
+      "fcf_rank": 3,
+      "fcf_rank_of": 9,
+      "value_score": 42.165,
+      "analyst_upside_pct": 22.3,
+      "sector_avg_fcf": 4.79,
+      "peers_in_sector": 9
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 3.03,
+      "fcf_rank": 12,
+      "fcf_rank_of": 14,
+      "value_score": 62.615,
+      "analyst_upside_pct": 10.1,
+      "sector_avg_fcf": 4.46,
+      "peers_in_sector": 14
     },
     {
       "ticker": "MSCI",
@@ -296,11 +387,11 @@
       "sector": "Financial Services",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 2.75,
-      "fcf_rank": 12,
+      "fcf_rank": 13,
       "fcf_rank_of": 14,
-      "value_score": 40.185,
+      "value_score": 37.255,
       "analyst_upside_pct": 14.5,
-      "sector_avg_fcf": 4.3,
+      "sector_avg_fcf": 4.46,
       "peers_in_sector": 14
     },
     {
@@ -309,12 +400,51 @@
       "sector": "Financial Services",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 2.64,
-      "fcf_rank": 13,
+      "fcf_rank": 14,
       "fcf_rank_of": 14,
-      "value_score": 31.66,
+      "value_score": 50.345000000000006,
       "analyst_upside_pct": 9.4,
-      "sector_avg_fcf": 4.3,
+      "sector_avg_fcf": 4.46,
       "peers_in_sector": 14
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 2.48,
+      "fcf_rank": 12,
+      "fcf_rank_of": 14,
+      "value_score": 35.92,
+      "analyst_upside_pct": 20.3,
+      "sector_avg_fcf": 11.2,
+      "peers_in_sector": 14
+    },
+    {
+      "ticker": "CP",
+      "company_name": "Canadian Pacific Kansas City Li",
+      "sector": "Industrials",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 2.44,
+      "fcf_rank": 24,
+      "fcf_rank_of": 30,
+      "value_score": 30.120000000000005,
+      "analyst_upside_pct": 3.6,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
+    },
+    {
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 2.31,
+      "fcf_rank": 25,
+      "fcf_rank_of": 30,
+      "value_score": 47.465,
+      "analyst_upside_pct": 11.1,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "SBGSY",
@@ -322,12 +452,12 @@
       "sector": "Industrials",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 2.25,
-      "fcf_rank": 16,
-      "fcf_rank_of": 19,
-      "value_score": 39.185,
+      "fcf_rank": 26,
+      "fcf_rank_of": 30,
+      "value_score": 41.185,
       "analyst_upside_pct": 19.4,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "CTAS",
@@ -335,12 +465,12 @@
       "sector": "Industrials",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 2.08,
-      "fcf_rank": 17,
-      "fcf_rank_of": 19,
-      "value_score": 26.950000000000003,
+      "fcf_rank": 27,
+      "fcf_rank_of": 30,
+      "value_score": 59.01499999999999,
       "analyst_upside_pct": 15.1,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "7741.T",
@@ -348,12 +478,25 @@
       "sector": "Healthcare",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 1.96,
-      "fcf_rank": 7,
-      "fcf_rank_of": 7,
-      "value_score": 44.815,
+      "fcf_rank": 8,
+      "fcf_rank_of": 9,
+      "value_score": 40.795,
       "analyst_upside_pct": 17.2,
-      "sector_avg_fcf": 5.4,
-      "peers_in_sector": 7
+      "sector_avg_fcf": 4.79,
+      "peers_in_sector": 9
+    },
+    {
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "sector": "Healthcare",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 1.79,
+      "fcf_rank": 9,
+      "fcf_rank_of": 9,
+      "value_score": 44.0,
+      "analyst_upside_pct": 27.1,
+      "sector_avg_fcf": 4.79,
+      "peers_in_sector": 9
     },
     {
       "ticker": "HLMA.L",
@@ -361,12 +504,12 @@
       "sector": "Industrials",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 1.72,
-      "fcf_rank": 18,
-      "fcf_rank_of": 19,
+      "fcf_rank": 28,
+      "fcf_rank_of": 30,
       "value_score": 35.9,
       "analyst_upside_pct": 9.5,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "ETN",
@@ -374,37 +517,37 @@
       "sector": "Industrials",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 1.71,
-      "fcf_rank": 19,
-      "fcf_rank_of": 19,
-      "value_score": 32.955,
+      "fcf_rank": 29,
+      "fcf_rank_of": 30,
+      "value_score": 46.88,
       "analyst_upside_pct": 14.4,
-      "sector_avg_fcf": 5.41,
-      "peers_in_sector": 19
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "RACE.MI",
       "company_name": "FERRARI",
       "sector": "Consumer Cyclical",
       "label": "PRICEY_VS_PEERS",
-      "fcf_yield_pct": 1.68,
+      "fcf_yield_pct": 1.69,
       "fcf_rank": 9,
       "fcf_rank_of": 10,
-      "value_score": 47.2,
-      "analyst_upside_pct": 11.1,
-      "sector_avg_fcf": 3.52,
+      "value_score": 46.8,
+      "analyst_upside_pct": 12.0,
+      "sector_avg_fcf": 3.06,
       "peers_in_sector": 10
     },
     {
-      "ticker": "AJG",
-      "company_name": "Arthur J. Gallagher & Co.",
-      "sector": "Financial Services",
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
+      "sector": "Technology",
       "label": "PRICEY_VS_PEERS",
-      "fcf_yield_pct": 1.67,
-      "fcf_rank": 14,
+      "fcf_yield_pct": 1.46,
+      "fcf_rank": 13,
       "fcf_rank_of": 14,
-      "value_score": 25.325,
-      "analyst_upside_pct": 5.5,
-      "sector_avg_fcf": 4.3,
+      "value_score": 34.84,
+      "analyst_upside_pct": 4.2,
+      "sector_avg_fcf": 11.2,
       "peers_in_sector": 14
     },
     {
@@ -415,10 +558,23 @@
       "fcf_yield_pct": 1.46,
       "fcf_rank": 10,
       "fcf_rank_of": 10,
-      "value_score": 25.385000000000005,
-      "analyst_upside_pct": 14.8,
-      "sector_avg_fcf": 3.52,
+      "value_score": 50.260000000000005,
+      "analyst_upside_pct": 14.6,
+      "sector_avg_fcf": 3.06,
       "peers_in_sector": 10
+    },
+    {
+      "ticker": "HEI",
+      "company_name": "Heico Corporation",
+      "sector": "Industrials",
+      "label": "PRICEY_VS_PEERS",
+      "fcf_yield_pct": 1.4,
+      "fcf_rank": 30,
+      "fcf_rank_of": 30,
+      "value_score": 39.92,
+      "analyst_upside_pct": 6.6,
+      "sector_avg_fcf": 5.15,
+      "peers_in_sector": 30
     },
     {
       "ticker": "KO",
@@ -426,12 +582,12 @@
       "sector": "Consumer Defensive",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 0.86,
-      "fcf_rank": 7,
-      "fcf_rank_of": 8,
-      "value_score": 57.900000000000006,
+      "fcf_rank": 9,
+      "fcf_rank_of": 10,
+      "value_score": 55.165000000000006,
       "analyst_upside_pct": 2.2,
-      "sector_avg_fcf": 3.78,
-      "peers_in_sector": 8
+      "sector_avg_fcf": 4.33,
+      "peers_in_sector": 10
     },
     {
       "ticker": "WMT",
@@ -439,12 +595,12 @@
       "sector": "Consumer Defensive",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": 0.77,
-      "fcf_rank": 8,
-      "fcf_rank_of": 8,
-      "value_score": 34.64,
+      "fcf_rank": 10,
+      "fcf_rank_of": 10,
+      "value_score": 45.245,
       "analyst_upside_pct": 23.9,
-      "sector_avg_fcf": 3.78,
-      "peers_in_sector": 8
+      "sector_avg_fcf": 4.33,
+      "peers_in_sector": 10
     },
     {
       "ticker": "NUE",
@@ -452,51 +608,37 @@
       "sector": "Basic Materials",
       "label": "PRICEY_VS_PEERS",
       "fcf_yield_pct": -0.76,
-      "fcf_rank": 5,
-      "fcf_rank_of": 5,
-      "value_score": 33.16,
+      "fcf_rank": 6,
+      "fcf_rank_of": 6,
+      "value_score": 33.275,
       "analyst_upside_pct": 18.1,
-      "sector_avg_fcf": 2.48,
-      "peers_in_sector": 5
+      "sector_avg_fcf": 2.37,
+      "peers_in_sector": 6
     },
     {
       "ticker": "HEXA-B.ST",
       "company_name": "Hexagon AB ser. B",
       "sector": "Technology",
       "label": "PRICEY_VS_PEERS",
-      "fcf_yield_pct": -2.77,
-      "fcf_rank": 7,
-      "fcf_rank_of": 7,
-      "value_score": 47.2,
-      "analyst_upside_pct": 17.0,
-      "sector_avg_fcf": 4.15,
-      "peers_in_sector": 7
+      "fcf_yield_pct": -2.74,
+      "fcf_rank": 14,
+      "fcf_rank_of": 14,
+      "value_score": 46.2,
+      "analyst_upside_pct": 15.5,
+      "sector_avg_fcf": 11.2,
+      "peers_in_sector": 14
     }
   ],
   "sector_summary": [
     {
-      "sector": "Technology",
-      "count": 7,
-      "avg_value_score": 46.4,
-      "avg_fcf_yield": 4.15,
-      "rerate_potential": false,
-      "tickers": [
-        "AMS.MC",
-        "SAP.DE",
-        "SGE.L",
-        "HEXA-B.ST",
-        "VRSN"
-      ]
-    },
-    {
       "sector": "Communication Services",
       "count": 4,
-      "avg_value_score": 45.7,
-      "avg_fcf_yield": 5.02,
+      "avg_value_score": 52.2,
+      "avg_fcf_yield": 5.05,
       "rerate_potential": false,
       "tickers": [
-        "RMV.L",
         "G24.DE",
+        "RMV.L",
         "AUTO.L",
         "NYT"
       ]
@@ -504,85 +646,99 @@
     {
       "sector": "Financial Services",
       "count": 21,
-      "avg_value_score": 40.0,
-      "avg_fcf_yield": 4.3,
+      "avg_value_score": 50.2,
+      "avg_fcf_yield": 4.46,
       "rerate_potential": false,
       "tickers": [
         "MA",
-        "V",
         "DB1.DE",
+        "V",
         "SPGI",
-        "PGHN.SW"
+        "AON"
+      ]
+    },
+    {
+      "sector": "Technology",
+      "count": 14,
+      "avg_value_score": 45.2,
+      "avg_fcf_yield": 11.2,
+      "rerate_potential": false,
+      "tickers": [
+        "VRSN",
+        "AMS.MC",
+        "SAP.DE",
+        "SGE.L",
+        "JKHY"
+      ]
+    },
+    {
+      "sector": "Healthcare",
+      "count": 9,
+      "avg_value_score": 45.2,
+      "avg_fcf_yield": 4.79,
+      "rerate_potential": false,
+      "tickers": [
+        "TMO",
+        "THC",
+        "TEVA",
+        "SYK",
+        "IDXX"
       ]
     },
     {
       "sector": "Consumer Cyclical",
       "count": 11,
-      "avg_value_score": 39.3,
-      "avg_fcf_yield": 3.52,
+      "avg_value_score": 42.1,
+      "avg_fcf_yield": 3.06,
       "rerate_potential": false,
       "tickers": [
         "QSR",
+        "RACE",
         "RACE.MI",
         "MONC.MI",
-        "LEN",
         "CPG.L"
       ]
     },
     {
-      "sector": "Healthcare",
-      "count": 7,
-      "avg_value_score": 38.8,
-      "avg_fcf_yield": 5.4,
-      "rerate_potential": false,
-      "tickers": [
-        "7741.T",
-        "ABT",
-        "TMO",
-        "THC",
-        "DHR"
-      ]
-    },
-    {
-      "sector": "Consumer Defensive",
-      "count": 8,
-      "avg_value_score": 36.7,
-      "avg_fcf_yield": 3.78,
-      "rerate_potential": false,
-      "tickers": [
-        "KO",
-        "OR.PA",
-        "LRLCY",
-        "HEIA.AS",
-        "WMT"
-      ]
-    },
-    {
       "sector": "Industrials",
-      "count": 20,
-      "avg_value_score": 36.2,
-      "avg_fcf_yield": 5.41,
+      "count": 31,
+      "avg_value_score": 40.7,
+      "avg_fcf_yield": 5.15,
       "rerate_potential": false,
       "tickers": [
         "ASAZY",
+        "CTAS",
         "WKL.AS",
-        "LR.PA",
-        "ASSA-B.ST",
+        "VLTO",
         "EXPN.L"
       ]
     },
     {
-      "sector": "Basic Materials",
-      "count": 5,
-      "avg_value_score": 31.7,
-      "avg_fcf_yield": 2.48,
+      "sector": "Consumer Defensive",
+      "count": 10,
+      "avg_value_score": 40.7,
+      "avg_fcf_yield": 4.33,
       "rerate_potential": false,
       "tickers": [
+        "MKC",
+        "KO",
+        "WMT",
+        "STZ",
+        "LRLCY"
+      ]
+    },
+    {
+      "sector": "Basic Materials",
+      "count": 6,
+      "avg_value_score": 32.4,
+      "avg_fcf_yield": 2.37,
+      "rerate_potential": false,
+      "tickers": [
+        "ECL",
         "NUE",
-        "AI.PA",
         "IMCD.AS",
         "AI.PA",
-        "SIKA.SW"
+        "AI.PA"
       ]
     }
   ]

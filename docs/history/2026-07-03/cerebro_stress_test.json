@@ -1,41 +1,51 @@
 {
   "generated_at": "2026-07-03",
-  "total_positions": 6,
+  "total_positions": 11,
   "risks": [
     {
       "type": "GEO_CONCENTRATION",
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 6,
+        "us": 11,
         "eu": 0
       }
     }
   ],
-  "narrative": "Aqu\u00ed te presento dos opciones para mitigar el riesgo de concentraci\u00f3n en tu portfolio:\n\n1. **Diversificar geogr\u00e1ficamente**: Considera invertir en acciones de empresas de diferentes pa\u00edses y regiones para reducir la dependencia de un solo mercado. Esto puede incluir inversiones en mercados emergentes, como Latinoam\u00e9rica, Asia o \u00c1frica, o en pa\u00edses europeos como Alemania o Francia.\n2. **Invertir en fondos de inversi\u00f3n global**: Los fondos de inversi\u00f3n global pueden ofrecer una forma de diversificar tu portfolio sin necesidad de elegir individualmente acciones de empresas de diferentes pa\u00edses. Estos fondos a menudo est\u00e1n compuestos por una cartera de",
+  "narrative": "Para mitigar los riesgos de concentraci\u00f3n en el mercado US, te recomiendo las siguientes acciones:\n\n1. **Diversificar geogr\u00e1ficamente**: Considera invertir en empresas o fondos que operen en otros mercados, como Europa, Asia o Am\u00e9rica Latina. Esto te permitir\u00e1 reducir la dependencia de la econom\u00eda estadounidense y diversificar tus riesgos.\n2. **Invertir en sectores no relacionados con la tecnolog\u00eda**: La concentraci\u00f3n en el mercado US se debe en gran medida a la fuerte presencia de empresas de tecnolog\u00eda. Considera invertir en sectores como la salud, la energ\u00eda, la agricultura o la construcci\u00f3n, que pueden ofrecer una mayor",
   "sector_breakdown": [
     {
       "sector": "Communication Services",
       "count": 2,
-      "pct": 33
+      "pct": 18
+    },
+    {
+      "sector": "Industrials",
+      "count": 2,
+      "pct": 18
     },
     {
       "sector": "Technology",
       "count": 2,
-      "pct": 33
+      "pct": 18
+    },
+    {
+      "sector": "Financial Services",
+      "count": 2,
+      "pct": 18
+    },
+    {
+      "sector": "Healthcare",
+      "count": 2,
+      "pct": 18
     },
     {
       "sector": "Unknown",
       "count": 1,
-      "pct": 17
-    },
-    {
-      "sector": "Industrials",
-      "count": 1,
-      "pct": 17
+      "pct": 9
     }
   ],
   "region_breakdown": {
-    "US": 6
+    "US": 11
   }
 }

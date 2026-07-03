@@ -20,7 +20,7 @@
       "prioridad": 2,
       "accion": "VENDER",
       "instrumento": "AUTO.L",
-      "razon": "Thesis drift HIGH (45d): Upside analistas cay\u00f3 19pp (34%\u219215%) | Mejor FCF en Com",
+      "razon": "Thesis drift HIGH (45d): Upside analistas cay\u00f3 20pp (34%\u219214%) | Mejor FCF en Com",
       "catalizador": "Se\u00f1al AVOID activa en Cerebro",
       "size_hint": "grande (5%+)",
       "invalidacion": "Score Cerebro mejora a neutral"
@@ -46,6 +46,13 @@
   "macro_plays_commentary": "1 plays macro rule-based generadas sin IA.",
   "value_en_entorno": [
     {
+      "ticker": "SPGI",
+      "score": 60.8,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 4.07,
+      "grade": "B"
+    },
+    {
       "ticker": "AMS.MC",
       "score": 58.2,
       "sector": "Technology",
@@ -54,9 +61,9 @@
     },
     {
       "ticker": "SAP.DE",
-      "score": 55.1,
+      "score": 58.1,
       "sector": "Technology",
-      "fcf_yield_pct": 4.98,
+      "fcf_yield_pct": 5.0,
       "grade": "B"
     }
   ],
@@ -64,11 +71,11 @@
   "evitar": [
     {
       "ticker": "AUTO.L",
-      "razon": "Thesis drift HIGH (45d): Upside analistas cay\u00f3 19pp (34%\u219215%) | Mejor FCF en Com"
+      "razon": "Thesis drift HIGH (45d): Upside analistas cay\u00f3 20pp (34%\u219214%) | Mejor FCF en Com"
     }
   ],
   "agenda_semana": [],
   "frase_del_dia": "El precio es lo que pagas. El valor es lo que obtienes. \u2014 Warren Buffett",
-  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-07-03 | CALM (+9.5) | ALCISTA | VALUE: AMS.MC SAP.DE | Evitar: AUTO.L",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-07-03 | CALM (+9.5) | ALCISTA | VALUE: SPGI AMS.MC SAP.DE | Evitar: AUTO.L",
   "ai_powered": false
 }

@@ -1,10 +1,10 @@
 {
-  "timestamp": "2026-07-03T21:39:21.711142",
+  "timestamp": "2026-07-03T23:01:54.574924",
   "date": "2026-07-03",
   "total_scanned": 108,
-  "traps_high": 4,
+  "traps_high": 5,
   "traps_medium": 11,
-  "safe_count": 93,
+  "safe_count": 92,
   "traps": [
     {
       "ticker": "HRI",
@@ -54,11 +54,30 @@
       "payout_ratio": 49.0,
       "fcf_yield": -2.29,
       "fundamental_score": 47.2,
-      "trap_score": 58,
+      "trap_score": 63,
       "reasons": [
         "FCF yield negativo (-2.3%) \u2014 empresa consume caja",
         "Deuda/equity 1.6x \u2014 moderado",
-        "Interest coverage 1.3x \u2014 earnings apenas cubren deuda"
+        "Interest coverage 1.3x \u2014 earnings apenas cubren deuda",
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
+      "risk_level": "HIGH"
+    },
+    {
+      "ticker": "KR",
+      "company": "Kroger Company (The)",
+      "sector": "Consumer Defensive",
+      "current_price": 58.22,
+      "dividend_yield": 2.47,
+      "payout_ratio": 80.1,
+      "fcf_yield": 8.4,
+      "fundamental_score": 64.8,
+      "trap_score": 50,
+      "reasons": [
+        "Payout 80% \u2014 poco margen de seguridad",
+        "Deuda/equity 3.7x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
+        "Margen operativo 3.2% \u2014 muy comprimido",
+        "Earnings decelerando \u2014 tendencia negativa"
       ],
       "risk_level": "HIGH"
     },
@@ -79,19 +98,19 @@
       "risk_level": "HIGH"
     },
     {
-      "ticker": "KR",
-      "company": "Kroger Company (The)",
-      "sector": "Consumer Defensive",
-      "current_price": 58.22,
-      "dividend_yield": 2.47,
-      "payout_ratio": 80.1,
-      "fcf_yield": 8.4,
-      "fundamental_score": 64.8,
-      "trap_score": 45,
+      "ticker": "CLPBY",
+      "company": "Coloplast AS",
+      "sector": "Healthcare",
+      "current_price": 6.04,
+      "dividend_yield": 5.96,
+      "payout_ratio": 244.9,
+      "fcf_yield": 30.88,
+      "fundamental_score": 45.1,
+      "trap_score": 48,
       "reasons": [
-        "Payout 80% \u2014 poco margen de seguridad",
-        "Deuda/equity 3.7x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
-        "Margen operativo 3.2% \u2014 muy comprimido"
+        "Payout 245% \u2014 dividendo > beneficios (insostenible)",
+        "Deuda/equity 1.9x \u2014 moderado",
+        "Earnings decelerando \u2014 tendencia negativa"
       ],
       "risk_level": "MEDIUM"
     },
@@ -128,18 +147,19 @@
       "risk_level": "MEDIUM"
     },
     {
-      "ticker": "CLPBY",
-      "company": "Coloplast AS",
-      "sector": "Healthcare",
-      "current_price": 6.04,
-      "dividend_yield": 5.96,
-      "payout_ratio": 244.9,
-      "fcf_yield": 30.88,
-      "fundamental_score": 45.1,
-      "trap_score": 43,
+      "ticker": "PEP",
+      "company": "Pepsico, Inc.",
+      "sector": "Consumer Defensive",
+      "current_price": 144.22,
+      "dividend_yield": 4.1,
+      "payout_ratio": 89.3,
+      "fcf_yield": 4.44,
+      "fundamental_score": 53.6,
+      "trap_score": 40,
       "reasons": [
-        "Payout 245% \u2014 dividendo > beneficios (insostenible)",
-        "Deuda/equity 1.9x \u2014 moderado"
+        "Payout 89% \u2014 poco margen de seguridad",
+        "Deuda/equity 2.5x \u2014 apalancamiento alto, presi\u00f3n en dividendo",
+        "Earnings decelerando \u2014 tendencia negativa"
       ],
       "risk_level": "MEDIUM"
     },
@@ -192,18 +212,20 @@
       "risk_level": "MEDIUM"
     },
     {
-      "ticker": "PEP",
-      "company": "Pepsico, Inc.",
-      "sector": "Consumer Defensive",
-      "current_price": 144.22,
-      "dividend_yield": 4.1,
-      "payout_ratio": 89.3,
-      "fcf_yield": 4.44,
-      "fundamental_score": 53.6,
-      "trap_score": 35,
+      "ticker": "GPK",
+      "company": "Graphic Packaging Holding Compa",
+      "sector": "Consumer Cyclical",
+      "current_price": 10.85,
+      "dividend_yield": 4.06,
+      "payout_ratio": 47.8,
+      "fcf_yield": 5.84,
+      "fundamental_score": 39.5,
+      "trap_score": 33,
       "reasons": [
-        "Payout 89% \u2014 poco margen de seguridad",
-        "Deuda/equity 2.5x \u2014 apalancamiento alto, presi\u00f3n en dividendo"
+        "Deuda/equity 1.8x \u2014 moderado",
+        "Interest coverage 2.6x \u2014 ajustado",
+        "Margen operativo 4.1% \u2014 muy comprimido",
+        "Earnings decelerando \u2014 tendencia negativa"
       ],
       "risk_level": "MEDIUM"
     },
@@ -230,7 +252,7 @@
       "dividend_yield": 2.62,
       "payout_ratio": 58.7,
       "fcf_yield": -7.1,
-      "fundamental_score": 51.5,
+      "fundamental_score": 54.0,
       "trap_score": 30,
       "reasons": [
         "FCF yield negativo (-7.1%) \u2014 empresa consume caja"
@@ -238,19 +260,18 @@
       "risk_level": "MEDIUM"
     },
     {
-      "ticker": "GPK",
-      "company": "Graphic Packaging Holding Compa",
-      "sector": "Consumer Cyclical",
-      "current_price": 10.85,
-      "dividend_yield": 4.06,
-      "payout_ratio": 47.8,
-      "fcf_yield": 5.84,
-      "fundamental_score": 39.5,
-      "trap_score": 28,
+      "ticker": "CME",
+      "company": "CME Group Inc.",
+      "sector": "Financial Services",
+      "current_price": 236.6,
+      "dividend_yield": 2.2,
+      "payout_ratio": 95.6,
+      "fcf_yield": 3.54,
+      "fundamental_score": 67.8,
+      "trap_score": 25,
       "reasons": [
-        "Deuda/equity 1.8x \u2014 moderado",
-        "Interest coverage 2.6x \u2014 ajustado",
-        "Margen operativo 4.1% \u2014 muy comprimido"
+        "Payout 96% \u2014 poco margen de seguridad",
+        "Earnings decelerando \u2014 tendencia negativa"
       ],
       "risk_level": "MEDIUM"
     }
@@ -265,9 +286,10 @@
       "payout_ratio": 70.7,
       "fcf_yield": 11.47,
       "fundamental_score": 53.1,
-      "trap_score": 8,
+      "trap_score": 13,
       "reasons": [
-        "Payout 71% \u2014 moderadamente elevado"
+        "Payout 71% \u2014 moderadamente elevado",
+        "Earnings decelerando \u2014 tendencia negativa"
       ],
       "risk_level": "LOW"
     },
@@ -325,8 +347,10 @@
       "payout_ratio": 30.9,
       "fcf_yield": 4.97,
       "fundamental_score": 53.8,
-      "trap_score": 0,
-      "reasons": [],
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
       "risk_level": "LOW"
     },
     {
@@ -338,15 +362,17 @@
       "payout_ratio": 39.0,
       "fcf_yield": 9.41,
       "fundamental_score": 44.9,
-      "trap_score": 0,
-      "reasons": [],
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
       "risk_level": "LOW"
     },
     {
       "ticker": "ITRK.L",
       "company": "INTERTEK GROUP PLC ORD 1P",
       "sector": "Industrials",
-      "current_price": 5815.0,
+      "current_price": 5820.0,
       "dividend_yield": 2.84,
       "payout_ratio": 74.0,
       "fcf_yield": 4.06,
@@ -422,8 +448,10 @@
       "payout_ratio": 56.2,
       "fcf_yield": 21.92,
       "fundamental_score": 50.3,
-      "trap_score": 0,
-      "reasons": [],
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
       "risk_level": "LOW"
     },
     {
@@ -435,8 +463,10 @@
       "payout_ratio": 40.7,
       "fcf_yield": 7.13,
       "fundamental_score": 46.5,
-      "trap_score": 0,
-      "reasons": [],
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
       "risk_level": "LOW"
     },
     {
@@ -448,8 +478,10 @@
       "payout_ratio": 31.2,
       "fcf_yield": null,
       "fundamental_score": 61.5,
-      "trap_score": 0,
-      "reasons": [],
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
       "risk_level": "LOW"
     },
     {
@@ -474,8 +506,10 @@
       "payout_ratio": 59.9,
       "fcf_yield": 2.99,
       "fundamental_score": 45.6,
-      "trap_score": 0,
-      "reasons": [],
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
       "risk_level": "LOW"
     },
     {
@@ -487,9 +521,10 @@
       "payout_ratio": 67.2,
       "fcf_yield": 3.82,
       "fundamental_score": 47.5,
-      "trap_score": 8,
+      "trap_score": 13,
       "reasons": [
-        "Payout 67% \u2014 moderadamente elevado"
+        "Payout 67% \u2014 moderadamente elevado",
+        "Earnings decelerando \u2014 tendencia negativa"
       ],
       "risk_level": "LOW"
     },
@@ -502,8 +537,10 @@
       "payout_ratio": 41.5,
       "fcf_yield": 5.06,
       "fundamental_score": 52.8,
-      "trap_score": 0,
-      "reasons": [],
+      "trap_score": 5,
+      "reasons": [
+        "Earnings decelerando \u2014 tendencia negativa"
+      ],
       "risk_level": "LOW"
     },
     {

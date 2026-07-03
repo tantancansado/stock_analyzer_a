@@ -1,25 +1,21 @@
 {
   "generated_at": "2026-07-03",
   "regime": "NEUTRAL",
-  "narrative": "**Breve briefing matutino**\n\nHoy, el mercado se mantiene en un r\u00e9gimen neutro, lo que significa que no hay presi\u00f3n para tomar decisiones de inversi\u00f3n apresuradas. Las entradas recomendadas son DB1.DE y MA, con un score de 50. Es importante vigilar las convergencias con V, KO y MA, y estar atento a las alertas de AAL.L, ADP y AON. En cuanto a las trampas, no se han detectado ninguna. En resumen, hoy es un buen d\u00eda para mantener una postura neutral y esperar a que se presenten oportunidades claras.",
+  "narrative": "**Briefing Matutino 2026-07-03**\n\nHoy, el mercado se mantiene en neutralidad, lo que sugiere una oportunidad para evaluar nuestras posiciones. Considero que es momento de mantener una postura defensiva y evitar tomar riesgos excesivos. Me recomiendo vigilar a V y KO, que han mostrado convergencia en su estrategia de inversi\u00f3n. Adem\u00e1s, es importante estar atento a los alertas de AAL.L y AUTO.L, que han presentado se\u00f1ales de compra y contradicci\u00f3n en su valor respectivamente. Evita tomar posiciones en BA.L por ahora, ya que ha mostrado se\u00f1ales de compra por parte de los inversores internos.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 2,
+    "buy_count": 1,
     "top_entries": [
       [
         "MA",
-        50
-      ],
-      [
-        "DB1.DE",
         50
       ]
     ],
     "top_convergences": [
       [
         "V",
-        63
+        62
       ],
       [
         "KO",
@@ -27,7 +23,7 @@
       ],
       [
         "MA",
-        58
+        57
       ]
     ],
     "high_alerts": [
@@ -36,12 +32,12 @@
         "INSIDER_BUYING"
       ],
       [
-        "ADP",
-        "SCORE_DRIFT"
+        "AUTO.L",
+        "VALUE_CONTRADICTION"
       ],
       [
-        "AON",
-        "SCORE_DRIFT"
+        "BA.L",
+        "INSIDER_BUYING"
       ]
     ],
     "traps_warning": [],
@@ -52,7 +48,7 @@
         0
       ],
       [
-        "KO",
+        "VRSN",
         1
       ],
       [
@@ -63,7 +59,7 @@
     "macro_stress": [
       {
         "market": "Petr\u00f3leo (WTI)",
-        "score": 75.8,
+        "score": 73.4,
         "regime": "DISLOCATED",
         "exposed": [
           "USO",
