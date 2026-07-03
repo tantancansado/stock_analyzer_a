@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-07-03T21:39:50Z",
+  "generated_at": "2026-07-03T23:02:20Z",
   "pipeline_date": "2026-07-03",
-  "ok_count": 17,
+  "ok_count": 18,
   "total": 19,
   "modules": {
     "value_us": {
@@ -9,15 +9,15 @@
       "date": "2026-07-03",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 46,
+      "rows": 69,
       "min_rows": 20
     },
     "value_filtered": {
-      "status": "stale",
-      "date": "2026-05-08",
-      "days_ago": 56,
+      "status": "ok",
+      "date": "2026-07-03",
+      "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 28,
+      "rows": 47,
       "min_rows": 10
     },
     "value_eu": {
@@ -25,7 +25,7 @@
       "date": "2026-07-03",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 37,
+      "rows": 38,
       "min_rows": 10
     },
     "value_global": {
@@ -83,7 +83,7 @@
       "date": "2026-07-03",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 1539,
+      "rows": 1544,
       "min_rows": 1
     },
     "earnings": {
