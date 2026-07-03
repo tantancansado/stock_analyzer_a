@@ -442,9 +442,14 @@ def _fetch_preferred(ticker: str, par: float, fixed_div_pct: float) -> dict | No
         annual_div = par * fixed_div_pct / 100
         current_yield = round(annual_div / price * 100, 2)
 
-        # Premium/discount to par — affects effective yield and call risk
-        # If trading above par → callable risk (company redeems at par, you lose premium)
-        # If trading below par → extra yield, price upside if called
+        # Yield-to-call a 1 año (supuesto conservador: la llaman a par en 1
+        # año — la mayoría de estas series ya son callable o lo serán pronto).
+        # La trampa retail clásica: current yield 5.9% cotizando a $26 → si
+        # la llaman cobras $25 y el retorno real es ~1-2%. Este número la
+        # desenmascara sin necesitar el calendario exacto de calls.
+        yield_to_call_1y = round((annual_div + (par - price)) / price * 100, 2)
+        call_risk = "ALTO" if (price > par * 1.01
+                               and yield_to_call_1y < current_yield - 1.5) else ""
 
         return {
             "price":          price,
@@ -454,6 +459,8 @@ def _fetch_preferred(ticker: str, par: float, fixed_div_pct: float) -> dict | No
             "pct_from_high":  pct_from_high,
             "annual_div":     round(annual_div, 4),
             "current_yield":  current_yield,
+            "yield_to_call_1y_pct": yield_to_call_1y,
+            "call_risk":      call_risk,
             "stated_div_pct": fixed_div_pct,
             **_liquidity(info),
         }
@@ -506,7 +513,8 @@ def _preferred_recommendation(sector: str, rating: str, pct_from_par: float,
     if rating in ("MUY_ATRACTIVO", "ATRACTIVO"):
         base = f"Yield {current_yield:.1f}% fijo, riesgo {risk}"
         if above:
-            return f"{base} — cotiza sobre par, cuidado con llamada anticipada"
+            return (f"{base} — cotiza sobre par: si la llaman cobras $25, "
+                    f"mira el yield-to-call antes que el current yield")
         if pct_from_par <= -3:
             return f"{base} — bajo par: yield alto + potencial de precio si la empresa la llama"
         return f"{base} — precio justo, cupón atractivo vs T-Bills"

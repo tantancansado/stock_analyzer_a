@@ -129,6 +129,14 @@ def analyze_recurring_purchases(df):
             # Número de insiders únicos
             unique_insiders = len(data['insiders'])
 
+            # Cluster buy: >=3 insiders DISTINTOS comprando en <=30 días — la
+            # señal con respaldo empírico. Compras repetidas del mismo insider
+            # apenas predicen; el consenso de varios sí. Por eso el score pesa
+            # más los insiders únicos que el nº bruto de compras.
+            cluster_buy = unique_insiders >= 3 and days_span <= 30
+            confidence = min(100, data['count'] * 10 + unique_insiders * 25
+                             + (30 if cluster_buy else 0))
+
             recurring_tickers.append({
                 'ticker': ticker,
                 'company': data['company'],
@@ -138,7 +146,8 @@ def analyze_recurring_purchases(df):
                 'first_purchase': dates[0],
                 'last_purchase': dates[-1],
                 'total_qty': data['total_qty'],
-                'confidence_score': data['count'] * 20 + unique_insiders * 10  # Score simple
+                'cluster_buy': cluster_buy,
+                'confidence_score': confidence,
             })
 
     # Ordenar por score de confianza
