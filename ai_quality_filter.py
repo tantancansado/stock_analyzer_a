@@ -597,6 +597,17 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
     if df.empty:
         print(f"⚠️  {input_path.name} has no rows - skipping {strategy_name} (0 setups)")
         return None
+
+    # Fail-fast de esquema: si falta una columna crítica, error claro AHORA —
+    # no un KeyError a mitad de loop tras quemar llamadas a Groq. (El merge
+    # collision current_price_x/_y congeló el filtered.csv 8 semanas así.)
+    _required = ['ticker', 'company_name', 'sector', 'current_price']
+    _missing = [c for c in _required if c not in df.columns]
+    if _missing:
+        print(f"❌ {input_path.name}: faltan columnas críticas {_missing} — "
+              f"revisa los merges del integrator. Abortando {strategy_name} sin tocar el CSV filtrado.")
+        return None
+
     print(f"\n📊 Input: {len(df)} {strategy_name} opportunities")
 
     if score_field in df.columns:

@@ -618,6 +618,11 @@ jobs:
           # stale_threshold: how many days old before status flips to 'stale' (ok if <= threshold)
           MODULES = {
             'value_us':       ('docs/value_opportunities.csv',                  None, 20, 2),
+            # date_key en un CSV = columna de timestamp: la frescura se mide por
+            # CONTENIDO, no por mtime (en CI el checkout hace que todo parezca
+            # de hoy). Detecta el patron 'ai_quality_filter crashea y el CSV
+            # que ve la app se congela' — paso 8-may a 3-jul-2026 sin señal.
+            'value_filtered': ('docs/value_opportunities_filtered.csv', 'score_timestamp', 10, 2),
             'value_eu':       ('docs/european_value_opportunities.csv',          None, 10, 3),
             'value_global':   ('docs/global_value_opportunities.csv',            None,  5, 3),
             'fundamental':    ('docs/fundamental_scores.csv',                    None, 50, 2),
@@ -659,6 +664,14 @@ jobs:
                       if isinstance(d, dict):
                           v = d.get(date_key)
                           if v: file_date = str(v)[:10]
+                  except Exception:
+                      pass
+              elif path.endswith('.csv') and date_key:
+                  try:
+                      import csv as _csv
+                      with open(path) as fh:
+                          vals = [r.get(date_key) for r in _csv.DictReader(fh) if r.get(date_key)]
+                      if vals: file_date = max(vals)[:10]
                   except Exception:
                       pass
               if not file_date:

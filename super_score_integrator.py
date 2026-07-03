@@ -172,11 +172,15 @@ class SuperScoreIntegrator:
             'quality':              'vcp_quality',
             'etapa_analisis':       'stage',
             'profundidad_base':     'consolidation_quality',
-            'precio':               'current_price',
+            # OJO: NO renombrar a 'current_price' — fundamental_df ya trae esa
+            # columna y el merge dejaría current_price_x/_y sin current_price:
+            # ai_quality_filter crashea (KeyError) y R:R/tracker pierden el
+            # precio. Pasó del 8-may al 3-jul-2026 sin que nadie lo viera.
+            'precio':               'vcp_price',
         })
 
         # Seleccionar columnas relevantes
-        cols = ['ticker', 'vcp_score', 'vcp_quality', 'stage', 'consolidation_quality', 'current_price']
+        cols = ['ticker', 'vcp_score', 'vcp_quality', 'stage', 'consolidation_quality', 'vcp_price']
         available_cols = [col for col in cols if col in df.columns]
 
         return df[available_cols]
@@ -382,6 +386,28 @@ class SuperScoreIntegrator:
         # Merge 5D data (insiders/institutional)
         if not data_5d.empty:
             result = result.merge(data_5d, on='ticker', how='left')
+
+        # current_price: el de fundamental_scores manda; vcp_price solo rellena
+        # tickers VCP-only que no estén en fundamentals
+        if 'vcp_price' in result.columns:
+            vcp_px = pd.to_numeric(result['vcp_price'], errors='coerce')
+            if 'current_price' in result.columns:
+                result['current_price'] = pd.to_numeric(
+                    result['current_price'], errors='coerce').fillna(vcp_px)
+            else:
+                result['current_price'] = vcp_px
+            result.drop(columns=['vcp_price'], inplace=True)
+
+        # Cinturón y tirantes: si un merge futuro vuelve a duplicar una columna
+        # crítica (suffixes _x/_y), coalescer en vez de dejar el CSV sin ella
+        for base in ['current_price', 'sector', 'company_name']:
+            bx, by = f'{base}_x', f'{base}_y'
+            if bx in result.columns or by in result.columns:
+                sx = result[bx] if bx in result.columns else pd.Series(index=result.index, dtype=object)
+                sy = result[by] if by in result.columns else pd.Series(index=result.index, dtype=object)
+                result[base] = sy.combine_first(sx)
+                result.drop(columns=[c for c in (bx, by) if c in result.columns], inplace=True)
+                print(f"⚠️  Merge collision en '{base}' resuelta por coalesce — revisa los loaders")
 
         # Fill NaN: vcp_score=0 for non-VCP tickers (won't qualify for momentum)
         # ml_score and fundamental_score stay NaN (handled in scoring by default detection)
