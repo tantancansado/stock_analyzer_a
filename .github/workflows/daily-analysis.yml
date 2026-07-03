@@ -76,7 +76,9 @@ jobs:
   # ════════════════════════════════════════════════════════════════════════════
   core-scoring:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    # 75: el run de la mañana ya tardaba 59m54s — a 60 el margen era cero y
+    # el dispatch del 3-jul (28682078892) murió cancelado a los 60:00 exactos
+    timeout-minutes: 75
 
     steps:
       - name: Checkout repository

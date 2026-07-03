@@ -225,13 +225,18 @@ class PortfolioTracker:
         # Además de las ACTIVE, backfillea horizontes largos (90/180d) en las
         # COMPLETED: una tesis value se juzga a trimestres, no a 30 días —
         # medir solo 7/14/30d es puntuar value picks con regla de trader.
+        # SOLO filas con edad suficiente para llenar el checkpoint que les
+        # falta — sin este gate se re-escaneaban ~190 tickers/día esperando
+        # su 180d y el job core-scoring reventó su timeout de 60 min
+        # (run 28682078892, cancelado a los 60:00 exactos el 3-jul).
         _recs = self.recommendations
+        _age_days = (today - pd.to_datetime(_recs['signal_date'])).dt.days
         _needs_long = pd.Series(False, index=_recs.index)
-        for _col in ('return_90d', 'return_180d'):
-            if _col in _recs.columns:
-                _needs_long |= pd.to_numeric(_recs[_col], errors='coerce').isna()
-            else:
-                _needs_long |= True
+        for _col, _min_age in (('return_90d', 90), ('return_180d', 180)):
+            _missing = (pd.to_numeric(_recs[_col], errors='coerce').isna()
+                        if _col in _recs.columns
+                        else pd.Series(True, index=_recs.index))
+            _needs_long |= _missing & (_age_days >= _min_age)
         active_all = _recs[(_recs['status'] == 'ACTIVE') | _needs_long].copy()
         if not active_all.empty:
             earliest = pd.Timestamp(active_all['signal_date'].min()) - timedelta(days=1)
