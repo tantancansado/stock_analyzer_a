@@ -16,6 +16,9 @@ Ejecutar:
 Env vars requeridos para Supabase:
   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_MONITOR_USER_ID (opcional)
 """
+# Permite anotaciones `list | None` bajo Python 3.9 (el Mac local del usuario);
+# CI usa 3.11 donde ya funcionan de forma nativa
+from __future__ import annotations
 
 import json
 import os
@@ -553,7 +556,25 @@ def _send_telegram(alerts: list, portfolio_labels: dict,
 def run_portfolio_news_monitor() -> dict:
     portfolio = _load_portfolio()
     if not portfolio:
-        return {'items': [], 'count': 0}
+        # Estado vacío con timestamp fresco (patrón strategy_agent/leaps_monitor):
+        # sin esto portfolio_news.json conservaba la fecha de la última vez que
+        # HUBO posiciones (congelado desde 19-may) y el widget de noticias del
+        # Dashboard mostraba noticias de hace 6 semanas como si fueran de hoy.
+        empty = {
+            'scan_date':   datetime.now().strftime('%Y-%m-%d'),
+            'scan_time':   datetime.now().strftime('%H:%M'),
+            'tickers':     [],
+            'count':       0,
+            'alta_count':  0,
+            'media_count': 0,
+            'new_alerts':  0,
+            'items':       [],
+        }
+        out_path = DOCS / 'portfolio_news.json'
+        with open(out_path, 'w', encoding='utf-8') as f:
+            json.dump(empty, f, indent=2, ensure_ascii=False)
+        print('  Cartera vacía — escrito estado vacío fresco')
+        return empty
 
     seen_ids   = _load_seen_ids()
     seen_ts    = {k: datetime.now(timezone.utc).isoformat() for k in seen_ids}

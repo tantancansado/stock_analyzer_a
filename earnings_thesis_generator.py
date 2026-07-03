@@ -509,6 +509,17 @@ def main(
 
     if not positions:
         _log('[info] no portfolio positions available; nothing to do')
+        # Estado vacío con timestamp fresco (patrón strategy_agent/leaps_monitor):
+        # sin esto el JSON conserva la fecha de la última vez que HUBO posiciones
+        # y parece un módulo roto/congelado en vez de una cartera vacía.
+        if user_id is None and positions_override is None:
+            DOCS.mkdir(exist_ok=True)
+            OUTPUT_PATH.write_text(json.dumps({
+                'generated_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+                'horizon_days': HORIZON_DAYS,
+                'total': 0,
+                'theses': {},
+            }, indent=2))
         return 0
 
     # ── Cargar tesis previas para preservar cuando Groq rate-limita ──────────
