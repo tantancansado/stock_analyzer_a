@@ -635,7 +635,7 @@ jobs:
             'insiders':       ('docs/recurring_insiders.csv',                    None,  5, 3),
             'portfolio':      ('docs/portfolio_tracker/recommendations.csv',     None,  1, 2),
             'earnings':       ('docs/tikr_earnings_data.json',                   'generated_at', None, 7),
-            'theses':         ('docs/theses.json',                                None,  None, 7),
+            'theses':         ('docs/theses.json',                                'generated_at', None, 7),
             'catalysts':      ('docs/catalysts.json',                            'generated_at', None, 7),
             'economic_cal':   ('docs/economic_calendar.json',                    'generated_at', None, 7),
             'options_flow':   ('docs/options_flow.csv',                          None,  1, 3),

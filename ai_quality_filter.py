@@ -4,6 +4,8 @@ AI-powered quality filter for VALUE + MOMENTUM opportunities
 Uses Groq (free) to analyze fundamentals and reject low-quality opportunities
 BONUS: Insider buying + Institutional ownership increase confidence
 """
+from __future__ import annotations
+
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -700,7 +702,24 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
         warnings_count = 0
         data_warnings = []
         for _, row in df_filtered.iterrows():
-            dc = claude_data_check(row.to_dict())
+            # Aplanar lo que claude_data_check espera como claves simples:
+            # roe/margen/deuda viven DENTRO del string health_details/
+            # earnings_details — pasarle la fila cruda hacía que Claude viera
+            # 'n/d' en casi todo y marcara "fallo de extracción" en cada pick
+            row_d = row.to_dict()
+            _roe, _pm, _dte = extract_fundamentals(row_d)
+
+            def _fill(key, value):
+                cur = row_d.get(key)
+                if cur is None or (isinstance(cur, float) and np.isnan(cur)):
+                    row_d[key] = value
+
+            _fill('roe', _roe)
+            _fill('profit_margin', _pm)
+            _fill('debt_to_equity', _dte)
+            _fill('rev_growth', row_d.get('rev_growth_yoy'))
+            _fill('pct_from_52w_high', row_d.get('proximity_to_52w_high'))
+            dc = claude_data_check(row_d)
             data_warnings.append(dc)
             if dc:
                 warnings_count += 1

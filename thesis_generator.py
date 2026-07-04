@@ -68,9 +68,15 @@ class ThesisGenerator:
             print("❌ CSV 5D no encontrado")
             return False
 
-        # Cargar VCP data (buscar el scan más reciente)
+        # Cargar VCP data — el pipeline actual escribe docs/reports/vcp/latest.csv
+        # (los directorios vcp_scan_* son el formato antiguo: el único que queda
+        # es de jul-2025 y este loader estuvo un año usándolo sin que se notara)
         vcp_dir = Path("docs/reports/vcp")
-        if vcp_dir.exists():
+        vcp_latest = vcp_dir / "latest.csv"
+        if vcp_latest.exists():
+            self.vcp_data = pd.read_csv(vcp_latest)
+            print(f"✅ VCP data cargado: {len(self.vcp_data)} tickers (latest.csv)")
+        elif vcp_dir.exists():
             scan_dirs = sorted([d for d in vcp_dir.iterdir() if d.is_dir() and d.name.startswith("vcp_scan_")])
             if scan_dirs:
                 latest_scan = scan_dirs[-1]
@@ -1205,12 +1211,24 @@ def main():
     theses = {}
     for idx, ticker in enumerate(top_n, 1):
         print(f"\n🔍 [{idx}/{num_stocks}] Generando tesis para {ticker}...", end=" ")
-        thesis = gen.generate_thesis(ticker)
+        # Aislamiento por ticker: un fallo no puede matar el archivo entero
+        try:
+            thesis = gen.generate_thesis(ticker)
+        except Exception as e:
+            print(f"❌ {ticker}: {e}")
+            continue
         theses[ticker] = thesis
 
-        # Mostrar resumen
+        # Mostrar resumen — defensivo: rating['technical'/'fundamental'] es None
+        # cuando falta el dato (regla del proyecto) y '⭐' * None crasheaba aquí.
+        # Este print de LOG mató el generador entero en el ticker 3/50 cada día
+        # desde el 8-abr (bajo '|| echo failed'): theses.json congelado 3 meses.
         if 'error' not in thesis:
-            print(f"✅ Score: {thesis['overview']['score_5d']:.1f} | Tech: {'⭐' * thesis['rating']['technical']} | Fund: {'⭐' * thesis['rating']['fundamental']}")
+            _r = thesis.get('rating') or {}
+            _stars = lambda v: '⭐' * v if v else 'n/d'  # noqa: E731
+            _sc = (thesis.get('overview') or {}).get('score_5d')
+            _sc_txt = f"{_sc:.1f}" if isinstance(_sc, (int, float)) else 'n/d'
+            print(f"✅ Score: {_sc_txt} | Tech: {_stars(_r.get('technical'))} | Fund: {_stars(_r.get('fundamental'))}")
         else:
             print(f"❌ {thesis['error']}")
 
@@ -1256,18 +1274,23 @@ def main():
                 if not vcp_match.empty:
                     vcp_row = vcp_match.iloc[0].to_dict()
 
-            rec_dict = rec.to_dict()
-            rec_dict['_source'] = source_key
-            row_dict = gen._normalize_value_row(rec_dict, fund_row)
-            thesis = gen.generate_thesis_from_row(row_dict, vcp_row)
+            try:
+                rec_dict = rec.to_dict()
+                rec_dict['_source'] = source_key
+                row_dict = gen._normalize_value_row(rec_dict, fund_row)
+                thesis = gen.generate_thesis_from_row(row_dict, vcp_row)
+            except Exception as e:
+                print(f"  ❌ [{label}] {ticker}: {e}")
+                continue
             # Guardar con clave específica por fuente (TICKER__value, TICKER__momentum)
             # para que cada tabla tenga su propia narrativa adaptada
             theses[f"{ticker}__{source_key}"] = thesis
             # Si no existe ya como 5D, guardar también como clave simple
             if ticker not in theses:
                 theses[ticker] = thesis
-            score = row_dict['super_score_5d']
-            print(f"  ✅ [{label}] {ticker} → score {score:.1f}")
+            score = row_dict.get('super_score_5d')
+            _sc_txt = f"{score:.1f}" if isinstance(score, (int, float)) else 'n/d'
+            print(f"  ✅ [{label}] {ticker} → score {_sc_txt}")
 
     # ── Guardar JSON (convertir NaN a null para compatibilidad con JavaScript) ─
     import numpy as np
@@ -1284,6 +1307,10 @@ def main():
         return obj
 
     theses_clean = convert_nan_to_none(theses)
+    # Clave top-level para pipeline_health (frescura por contenido, el mtime
+    # miente en CI). El frontend hace lookups por ticker, no itera claves.
+    from datetime import timezone as _tz
+    theses_clean['generated_at'] = datetime.now(_tz.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
 
     output_file = Path("docs/theses.json")
     with open(output_file, 'w') as f:
@@ -1294,7 +1321,8 @@ def main():
     print(f"📊 Tamaño del archivo: {output_file.stat().st_size / 1024:.1f} KB")
 
     # Stats
-    ratings = [t['rating']['overall'] for t in theses.values() if 'error' not in t]
+    ratings = [r for t in theses.values() if 'error' not in t
+               for r in [(t.get('rating') or {}).get('overall')] if r is not None]
     if ratings:
         print(f"\n📈 Rating promedio: {sum(ratings)/len(ratings):.1f}/5")
         print(f"⭐ Mejor rating: {max(ratings):.1f}/5")
