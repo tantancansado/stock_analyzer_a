@@ -627,11 +627,16 @@ class SuperScoreIntegrator:
         # Market regime penalty (global)
         df['filter_penalty'] += market_penalty
 
-        # MA filter penalty (skip if failed due to rate limiting - not a real failure)
-        rate_limited = df['ma_filter_reason'].str.contains(
-            'Too Many Requests|rate limit|Rate limit|429', case=False, na=False
+        # MA filter penalty: -20 SOLO cuando evaluamos la tendencia y falló de
+        # verdad (bajista). "No se pudo evaluar" (rate-limit, historial vacío o
+        # error de red) NO es bajista → no se penaliza (regla del proyecto).
+        # yfinance rate-limitea de dos formas: excepción "Too Many Requests" y,
+        # más sigiloso, devolviendo historial vacío → reason "Insufficient data";
+        # ambas cuentan como no-evaluado.
+        not_evaluated = df['ma_filter_reason'].str.contains(
+            'Too Many Requests|rate limit|Rate limit|429|Insufficient data|Error:', case=False, na=False
         )
-        df.loc[(df['ma_filter_pass'] == False) & (~rate_limited), 'filter_penalty'] += 20
+        df.loc[(df['ma_filter_pass'] == False) & (~not_evaluated), 'filter_penalty'] += 20
         df.loc[(df['ma_filter_pass'] == True) & (df['ma_filter_score'] < 80), 'filter_penalty'] += 5
 
         # A/D filter penalty — halved vs original: distribution is a momentum signal,

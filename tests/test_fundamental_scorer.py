@@ -84,14 +84,15 @@ def _no_analyst_coverage_penalty(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def _ma_filter_penalty(df: pd.DataFrame) -> pd.DataFrame:
-    """super_score_integrator.py:555-559 — skip -20pts when rate-limited."""
+    """super_score_integrator — -20pts SOLO en fallo evaluado (bajista real);
+    'no se pudo evaluar' (rate-limit, historial vacío, error) no penaliza."""
     df = df.copy()
     if 'ma_filter_pass' not in df.columns:
         return df
-    rate_limited = df['ma_filter_reason'].str.contains(
-        'Too Many Requests|rate limit|Rate limit|429', case=False, na=False
+    not_evaluated = df['ma_filter_reason'].str.contains(
+        'Too Many Requests|rate limit|Rate limit|429|Insufficient data|Error:', case=False, na=False
     )
-    df.loc[(df['ma_filter_pass'] == False) & (~rate_limited), 'filter_penalty'] += 20  # noqa
+    df.loc[(df['ma_filter_pass'] == False) & (~not_evaluated), 'filter_penalty'] += 20  # noqa
     return df
 
 
@@ -550,6 +551,14 @@ class TestMAFilterRateLimitSkip:
         assert result['filter_penalty'].iloc[0] == pytest.approx(20.0), \
             "Real MA filter failure must add 20pts penalty"
 
+    def test_insufficient_data_no_penalty(self):
+        """yfinance rate-limitea a veces devolviendo historial vacío →
+        reason 'Insufficient data'. No es bajista, no se penaliza."""
+        df = self._make_df(False, 'Insufficient data')
+        result = _ma_filter_penalty(df)
+        assert result['filter_penalty'].iloc[0] == pytest.approx(0.0), \
+            "'Insufficient data' (no evaluado) no debe penalizar -20pts"
+
     def test_ma_pass_adds_no_penalty(self):
         df = self._make_df(True, 'Passed all MA criteria')
         result = _ma_filter_penalty(df)
@@ -564,8 +573,10 @@ class TestMAFilterRateLimitSkip:
     def test_source_skips_rate_limit_pattern(self):
         import super_score_integrator as ssi
         src = __import__('pathlib').Path(ssi.__file__).read_text()
-        assert 'Too Many Requests' in src and 'rate_limited' in src, \
-            "SSI source must contain rate-limit exclusion logic for MA filter"
+        assert 'Too Many Requests' in src and 'not_evaluated' in src, \
+            "SSI source must contain not-evaluated exclusion logic for MA filter"
+        assert 'Insufficient data' in src, \
+            "SSI debe excluir 'Insufficient data' (rate-limit sigiloso) del penalty"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
