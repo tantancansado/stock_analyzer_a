@@ -727,7 +727,7 @@ function EntrySignalCard({ sig }: Readonly<{ sig: EntrySignal }>) {
 
 // ── Main page ─────────────────────────────────────────────────────────────────
 
-export default function Cerebro() {
+export default function Cerebro({ embedded = false }: { embedded?: boolean } = {}) {
   const { data: insights,    loading: loadingI }   = useApi(() => fetchCerebroInsights(), [])
   const { data: convergence, loading: loadingC }   = useApi(() => fetchCerebroConvergence(), [])
   const { data: alertsData,  loading: loadingA }   = useApi(() => fetchCerebroAlerts(), [])
@@ -911,16 +911,18 @@ export default function Cerebro() {
   return (
     <>
       <StaleDataBanner module="cerebro" />
-      {/* Header */}
-      <div className="mb-7 animate-fade-in-up">
-        <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title flex items-center gap-2">
-          <Brain size={22} className="text-violet-400" />
-          Cerebro — IA Proactiva
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Te resume lo importante primero. El detalle técnico sigue debajo cuando lo necesites.
-        </p>
-      </div>
+      {/* Header — se oculta cuando Cerebro va embebido como pestaña del Dashboard */}
+      {!embedded && (
+        <div className="mb-7 animate-fade-in-up">
+          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title flex items-center gap-2">
+            <Brain size={22} className="text-violet-400" />
+            Cerebro — IA Proactiva
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Te resume lo importante primero. El detalle técnico sigue debajo cuando lo necesites.
+          </p>
+        </div>
+      )}
 
       <IdeasHoy signals={entrySignals} onVerDetalle={() => scrollToTabs('entry')} />
 

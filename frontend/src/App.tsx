@@ -35,7 +35,6 @@ const Macro            = lazy(() => import('./pages/Macro'))
 const Calendar         = lazy(() => import('./pages/Calendar'))
 const DividendTraps    = lazy(() => import('./pages/DividendTraps'))
 const Comparador       = lazy(() => import('./pages/Comparador'))
-const Cerebro          = lazy(() => import('./pages/Cerebro'))
 const Alerts           = lazy(() => import('./pages/Alerts'))
 const BounceTrader     = lazy(() => import('./pages/BounceTrader'))
 const Calibration      = lazy(() => import('./pages/Calibration'))
@@ -49,6 +48,16 @@ const Commodities      = lazy(() => import('./pages/Commodities'))
 const CorrupcionInstitucional = lazy(() => import('./pages/CorrupcionInstitucional'))
 
 function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) {
+  const location = useLocation()
+  // Items que comparten pathname pero difieren en ?tab= (Centro de mando vs
+  // Cerebro IA, ambos /dashboard): decidir el activo por el query, no solo
+  // por el pathname, para que no se resalten los dos a la vez.
+  const [itemPath, itemQuery] = item.path.split('?')
+  const tabAware = itemPath === '/dashboard'
+  const currentTab = new URLSearchParams(location.search).get('tab') ?? ''
+  const itemTab = itemQuery ? new URLSearchParams(itemQuery).get('tab') ?? '' : ''
+  const forcedActive = tabAware && location.pathname === '/dashboard' && currentTab === itemTab
+
   return (
     <NavLink
       to={item.path}
@@ -57,7 +66,7 @@ function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) 
       className={({ isActive }) => cn(
         'nav-link flex items-center gap-2.5 px-3 py-2 lg:py-[9px] rounded-lg text-[0.98rem] lg:text-[1.04rem] font-medium transition-all mb-0.5 relative',
         'text-muted-foreground',
-        isActive
+        (tabAware ? forcedActive : isActive)
           ? 'nav-link-active bg-[color-mix(in_srgb,var(--nav-color)_12%,transparent)] text-foreground'
           : 'hover:bg-[color-mix(in_srgb,var(--nav-color)_8%,transparent)] hover:text-foreground'
       )}
@@ -313,7 +322,8 @@ export default function App() {
                   <Route path="/dividend-traps"   element={<DividendTraps />} />
                   <Route path="/my-portfolio"  element={<MyPortfolio />} />
                   <Route path="/compare"        element={<Comparador />} />
-                  <Route path="/cerebro"        element={<Cerebro />} />
+                  {/* Cerebro se unificó dentro del Dashboard como pestaña */}
+                  <Route path="/cerebro"        element={<Navigate to="/dashboard?tab=cerebro" replace />} />
                   <Route path="/alerts"         element={<Alerts />} />
                   <Route path="/bounce"         element={<BounceTrader />} />
                   <Route path="/bonds"          element={<Bonds />} />

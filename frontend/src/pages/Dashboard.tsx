@@ -1,16 +1,14 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect, lazy, Suspense } from 'react'
 import { motion } from 'motion/react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import StaleDataBanner from '../components/StaleDataBanner'
 import PipelineFreshnessBanner from '../components/PipelineFreshnessBanner'
 import {
   fetchMarketRegime, fetchValueOpportunities, fetchEUValueOpportunities,
   fetchPortfolioTracker, fetchRecurringInsiders, fetchOptionsFlow, fetchMeanReversion,
-  fetchMacroRadar, fetchDailyBriefing, fetchMarketBreadth, fetchCerebroConvergence, fetchCerebroAlerts,
+  fetchMacroRadar, fetchDailyBriefing, fetchCerebroConvergence, fetchCerebroAlerts,
   fetchCerebroEntrySignals, fetchCerebroDailyPlan, fetchLivePrices, fetchPortfolioNews, fetchPortfolioPrices,
-  fetchCerebroSmartMoney, type SmartMoneySignal,
-  fetchCerebroEarningsRevisions, type EarningsRevision,
-  type ValueOpportunity, type InsiderData, type PortfolioSummary, type BreadthData,
+  type ValueOpportunity, type InsiderData, type PortfolioSummary,
   type DailyPlan, type DailyPlanAction, type MacroPlay, type LivePricesData, type PortfolioNewsItem,
 } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
@@ -26,10 +24,13 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { LogoChartPeak } from '../components/BrandLogos'
-import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Crosshair, BarChart3, Brain, Target, ChevronDown, ChevronUp, Sparkles } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Brain, Target, ChevronDown, ChevronUp, Sparkles, LayoutDashboard } from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
 import { cn } from '@/lib/utils'
+
+// Cerebro se carga solo cuando se abre su pestaña (no penaliza el Resumen)
+const Cerebro = lazy(() => import('./Cerebro'))
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -492,279 +493,6 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
   )
 }
 
-const STRATEGY_TAG: Record<string, string> = {
-  VALUE: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-  INSIDERS: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
-  MOMENTUM: 'bg-orange-500/15 text-orange-400 border-orange-500/30',
-}
-function strategyTag(s: string) {
-  return STRATEGY_TAG[s.toUpperCase()] ?? 'bg-purple-500/15 text-purple-400 border-purple-500/30'
-}
-
-function ConvergenciaMini({ loading, data }: {
-  loading: boolean
-  data: { convergences: Array<{ ticker: string; strategies: string[]; strategy_count: number; convergence_score: number; conviction_grade?: string; streak_days?: number; analysis?: string | null }> } | null
-}) {
-  const items = data?.convergences ?? []
-  const sorted = [...items].sort((a, b) => b.convergence_score - a.convergence_score).slice(0, 6)
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <Crosshair size={11} /> Convergencia
-        </span>
-        <Link to="/cerebro" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          {!loading && <span className="mr-0.5">{items.length} tickers</span>}
-          <ChevronRight size={11} />
-        </Link>
-      </div>
-      <Card className="glass p-4">
-        {loading ? (
-          <div className="space-y-2">{['a','b','c'].map(k => <Skeleton key={k} className="h-4 w-full" />)}</div>
-        ) : sorted.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Sin convergencias</p>
-        ) : (
-          <div className="space-y-2">
-            {sorted.map(item => (
-              <div key={item.ticker} className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <Link to={`/search?q=${item.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">
-                    {item.ticker}
-                  </Link>
-                  {(item.streak_days ?? 0) >= 3 && (
-                    <span className="text-[0.5rem] font-bold px-1 py-0 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30" title={`${item.streak_days} días consecutivos`}>
-                      🔥{item.streak_days}d
-                    </span>
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-0.5 justify-end">
-                  {item.strategy_count >= 3 && (
-                    <span className="text-[0.5rem] font-bold px-1 py-0 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">TRIPLE</span>
-                  )}
-                  {item.strategies.map(s => (
-                    <span key={s} className={`text-[0.5rem] font-bold px-1 py-0 rounded border ${strategyTag(s)}`}>{s}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
-}
-
-function BreadthMini({ data, loading }: { data: { us: BreadthData; eu: BreadthData } | undefined; loading: boolean }) {
-  const us = data?.us
-  const eu = data?.eu
-
-  function BreadthRow({ label, pct, n, total }: { label: string; pct?: number; n?: number; total: number }) {
-    if (pct == null) return null
-    const color = pct >= 50 ? 'bg-emerald-500' : pct >= 30 ? 'bg-amber-500' : 'bg-red-500'
-    return (
-      <div>
-        <div className="flex justify-between text-[0.6rem] mb-0.5">
-          <span className="text-muted-foreground">{label}</span>
-          <span className="tabular-nums font-semibold">{n ?? 0}/{total} <span className="text-muted-foreground/60">({pct}%)</span></span>
-        </div>
-        <div className="h-1 w-full rounded-full bg-muted/30 overflow-hidden">
-          <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <BarChart3 size={11} /> Breadth
-        </span>
-        <Link to="/industry-groups" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          Grupos <ChevronRight size={11} />
-        </Link>
-      </div>
-      <Card className="glass p-4">
-        {loading ? (
-          <div className="space-y-3">{['a','b'].map(k => <div key={k}><Skeleton className="h-2 w-full mb-1" /><Skeleton className="h-1 w-full" /></div>)}</div>
-        ) : !us ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Sin datos</p>
-        ) : (
-          <div className="space-y-2.5">
-            <div className="text-[0.58rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-1">US · {us.total} tickers</div>
-            <BreadthRow label="En tendencia alcista" pct={us.trend_pass_pct} n={us.trend_pass} total={us.total} />
-            <BreadthRow label="Upside positivo" pct={us.positive_upside_pct} n={us.positive_upside} total={us.total} />
-            {eu && eu.total > 0 && (
-              <>
-                <div className="text-[0.58rem] font-bold uppercase tracking-widest text-muted-foreground/50 mt-2 mb-1">EU · {eu.total} tickers</div>
-                <BreadthRow label="En tendencia alcista" pct={eu.trend_pass_pct} n={eu.trend_pass} total={eu.total} />
-                <BreadthRow label="Upside positivo" pct={eu.positive_upside_pct} n={eu.positive_upside} total={eu.total} />
-              </>
-            )}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
-}
-
-const ENTRY_SIGNAL_COLOR: Record<string, string> = {
-  STRONG_BUY: 'text-emerald-400',
-  BUY:        'text-amber-400',
-  MONITOR:    'text-blue-400',
-  WAIT:       'text-muted-foreground',
-}
-const ENTRY_SIGNAL_LABEL: Record<string, string> = {
-  STRONG_BUY: '🟢 STRONG BUY', BUY: '🟡 BUY', MONITOR: '🔵 MONITOR', WAIT: '⚪ WAIT',
-}
-
-function EntrySignalsMini({ data, loading }: {
-  data: { strong_buy: number; buy: number; signals: Array<{ ticker: string; signal: string; entry_score: number; signals_fired: string[]; signals_missing: string[] }> } | null
-  loading: boolean
-}) {
-  const top = (data?.signals ?? []).filter(s => s.signal !== 'WAIT').slice(0, 4)
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <Zap size={11} /> Señales de Entrada
-        </span>
-        <Link to="/cerebro" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          {!loading && <span className="mr-0.5">{(data?.strong_buy ?? 0) + (data?.buy ?? 0)} activas</span>}
-          <ChevronRight size={11} />
-        </Link>
-      </div>
-      <Card className="glass p-4">
-        {loading ? (
-          <div className="space-y-2">{['a','b','c','d'].map(k => <Skeleton key={k} className="h-4 w-full" />)}</div>
-        ) : top.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Sin señales claras hoy</p>
-        ) : (
-          <div className="space-y-2">
-            {top.map(s => (
-              <div key={s.ticker} className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{s.ticker}</Link>
-                  <span className={`text-[0.58rem] font-bold tabular-nums ${ENTRY_SIGNAL_COLOR[s.signal]}`}>{ENTRY_SIGNAL_LABEL[s.signal]}</span>
-                </div>
-                <div className="flex items-center shrink-0">
-                  <ScoreRing score={s.entry_score} size="sm" showLabel />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
-}
-
-function EarningsRevMini({ data, loading }: {
-  data: { total: number; upgrades: number; downgrades: number; revisions: EarningsRevision[]; note?: string } | null
-  loading: boolean
-}) {
-  const top = (data?.revisions ?? [])
-    .filter(r => r.direction === 'STRONG_UP' || r.direction === 'UP')
-    .slice(0, 5)
-  const DIR: Record<string, string> = {
-    STRONG_UP:   'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
-    UP:          'bg-teal-500/20 text-teal-400 border-teal-500/30',
-    DOWN:        'bg-amber-500/20 text-amber-400 border-amber-500/30',
-    STRONG_DOWN: 'bg-red-500/20 text-red-400 border-red-500/30',
-  }
-  const noData = data?.note === 'awaiting_tikr_refresh' && (data?.total ?? 0) === 0
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <TrendingUp size={11} /> Est. Revisions
-        </span>
-        <Link to="/cerebro" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          {!loading && !noData && <span className="mr-0.5">↑{data?.upgrades ?? 0} ↓{data?.downgrades ?? 0}</span>}
-          <ChevronRight size={11} />
-        </Link>
-      </div>
-      <Card className="glass p-4">
-        {loading ? (
-          <div className="space-y-2">{['a','b','c'].map(k => <Skeleton key={k} className="h-4 w-full" />)}</div>
-        ) : noData ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Pendiente refresh TIKR</p>
-        ) : top.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Sin revisiones alcistas</p>
-        ) : (
-          <div className="space-y-2">
-            {top.map(r => (
-              <div key={r.ticker} className="flex items-center justify-between gap-2">
-                <Link to={`/search?q=${r.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline shrink-0">
-                  {r.ticker}
-                </Link>
-                <div className="flex items-center gap-1 flex-wrap justify-end">
-                  <span className={`text-[0.5rem] font-bold px-1 py-0 rounded border ${DIR[r.direction]}`}>{r.direction.replace('_', ' ')}</span>
-                  <span className="text-[0.58rem] text-muted-foreground tabular-nums">EPS+{r.eps_chg_pct.toFixed(0)}%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
-}
-
-function SmartMoneyMini({ data, loading }: {
-  data: { total: number; signals: SmartMoneySignal[] } | null
-  loading: boolean
-}) {
-  const top = (data?.signals ?? []).slice(0, 6)
-
-  function tierLabel(s: SmartMoneySignal) {
-    if (s.n_hedge_funds > 0 && s.n_insiders > 0) return { label: 'HF+INS', style: 'bg-amber-500/20 text-amber-400 border-amber-500/30' }
-    if (s.n_insiders >= 3 && s.in_value) return { label: 'INSIDER', style: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' }
-    return { label: 'HF', style: 'bg-blue-500/20 text-blue-400 border-blue-500/30' }
-  }
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <Sparkles size={11} /> Smart Money
-        </span>
-        <Link to="/cerebro" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          {!loading && <span className="mr-0.5">{data?.total ?? 0} señales</span>}
-          <ChevronRight size={11} />
-        </Link>
-      </div>
-      <Card className="glass p-4">
-        {loading ? (
-          <div className="space-y-2">{['a','b','c'].map(k => <Skeleton key={k} className="h-4 w-full" />)}</div>
-        ) : top.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Sin confluencia smart money</p>
-        ) : (
-          <div className="space-y-2">
-            {top.map(s => {
-              const { label, style } = tierLabel(s)
-              return (
-                <div key={s.ticker} className="flex items-center justify-between gap-2">
-                  <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline shrink-0">
-                    {s.ticker}
-                  </Link>
-                  <div className="flex items-center gap-1 flex-wrap justify-end">
-                    <span className={`text-[0.5rem] font-bold px-1 py-0 rounded border ${style}`}>{label}</span>
-                    {s.value_score != null && (
-                      <span className="text-[0.58rem] text-muted-foreground tabular-nums">V{Math.round(s.value_score)}</span>
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
-}
 
 // ── LivePricesBar ─────────────────────────────────────────────────────────────
 
@@ -1283,6 +1011,19 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
 export default function Dashboard() {
   const [showDetails, setShowDetails] = React.useState(false)
 
+  // Command center: Resumen (overview) | Cerebro (agente IA), en una sola
+  // pantalla. Antes eran dos entradas de menú con contenido solapado.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeTab: 'resumen' | 'cerebro' = searchParams.get('tab') === 'cerebro' ? 'cerebro' : 'resumen'
+  const setActiveTab = (t: 'resumen' | 'cerebro') => {
+    setSearchParams(p => {
+      const next = new URLSearchParams(p)
+      if (t === 'resumen') next.delete('tab')
+      else next.set('tab', t)
+      return next
+    }, { replace: true })
+  }
+
   const { data: regime, loading: loadingRegime } = useApi(() => fetchMarketRegime(), [])
   const { data: valueUS, loading: loadingUS } = useApi(() => fetchValueOpportunities(), [])
   const { data: valueEU, loading: loadingEU } = useApi(() => fetchEUValueOpportunities(), [])
@@ -1292,12 +1033,9 @@ export default function Dashboard() {
   const { data: mrRaw, loading: loadingMR } = useApi(() => fetchMeanReversion(), [])
   const { data: macroRaw, loading: loadingMacro } = useApi(() => fetchMacroRadar(), [])
   const { data: briefingRaw } = useApi(() => fetchDailyBriefing(), [])
-  const { data: breadthRaw, loading: loadingBreadth } = useApi(() => fetchMarketBreadth(), [])
   const { data: cerebroConv, loading: loadingConv } = useApi(() => fetchCerebroConvergence(), [])
   const { data: cerebroAlertsRaw, loading: loadingAlerts } = useApi(() => fetchCerebroAlerts(), [])
   const { data: cerebroEntry, loading: loadingEntry } = useApi(() => fetchCerebroEntrySignals(), [])
-  const { data: smartMoneyRaw, loading: loadingSmartMoney } = useApi(() => fetchCerebroSmartMoney(), [])
-  const { data: earningsRevRaw, loading: loadingEarningsRev } = useApi(() => fetchCerebroEarningsRevisions(), [])
   const { data: dailyPlanRaw, loading: loadingDailyPlan } = useApi(() => fetchCerebroDailyPlan(), [])
   const { data: portfolioNewsRaw, loading: loadingPortfolioNews } = useApi(() => fetchPortfolioNews(), [])
 
@@ -1404,16 +1142,48 @@ export default function Dashboard() {
   return (
     <>
       {/* Header */}
-      <div className="mb-7 animate-fade-in-up flex items-start justify-between gap-4">
+      <div className="mb-4 animate-fade-in-up flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Dashboard</h2>
+          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h2>
           <p className="text-[1rem] text-muted-foreground">
-            Resumen ejecutivo · Actualización diaria automática
+            {activeTab === 'resumen'
+              ? 'Resumen ejecutivo · Actualización diaria automática'
+              : 'Cerebro · el agente IA te resume lo importante primero'}
           </p>
         </div>
         <LogoChartPeak size={56} className="shrink-0 opacity-80 hidden sm:block" />
       </div>
 
+      {/* Pestañas: Resumen | Cerebro (antes eran dos entradas de menú) */}
+      <div className="flex gap-1 p-1 mb-5 bg-muted/20 rounded-lg border border-border/30 w-fit animate-fade-in-up">
+        {([
+          { id: 'resumen' as const, label: 'Resumen', icon: LayoutDashboard },
+          { id: 'cerebro' as const, label: 'Cerebro IA', icon: Brain },
+        ]).map(({ id, label, icon: Icon }) => (
+          <button
+            key={id}
+            onClick={() => setActiveTab(id)}
+            className={cn(
+              'flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-semibold transition-all',
+              activeTab === id
+                ? 'bg-background text-foreground shadow-sm border border-border/40'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            <Icon size={14} className={activeTab === id ? (id === 'cerebro' ? 'text-violet-400' : 'text-primary') : ''} />
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === 'cerebro' && (
+        <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-40 flex items-center justify-center text-sm text-muted-foreground">Cargando Cerebro…</div>}>
+          <Cerebro embedded />
+        </Suspense>
+      )}
+
+      {activeTab === 'resumen' && (
+      <>
       <div className="mb-4 animate-fade-in-up">
         <PipelineFreshnessBanner />
       </div>
@@ -1701,17 +1471,9 @@ export default function Dashboard() {
             <MeanReversionMini data={mrRaw} loading={loadingMR} />
           </div>
 
-          {/* Cerebro widgets — row 1 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            <EntrySignalsMini data={cerebroEntry} loading={loadingEntry} />
-            <ConvergenciaMini loading={loadingConv} data={cerebroConv} />
-            <SmartMoneyMini data={smartMoneyRaw} loading={loadingSmartMoney} />
-            <BreadthMini data={breadthRaw ?? undefined} loading={loadingBreadth} />
-          </div>
-          {/* Cerebro widgets — row 2 */}
-          <div className="grid grid-cols-1 gap-4 mb-6">
-            <EarningsRevMini data={earningsRevRaw} loading={loadingEarningsRev} />
-          </div>
+          {/* Los widgets de Cerebro (señales de entrada, convergencias, smart
+              money, breadth, revisiones) viven ahora en la pestaña Cerebro, en
+              su versión completa — aquí ya no se duplican. */}
 
           {/* Portfolio News */}
           <div className="mb-6">
@@ -1719,6 +1481,8 @@ export default function Dashboard() {
           </div>
       </div>
       </div>
+      </>
+      )}
 
     </>
   )
