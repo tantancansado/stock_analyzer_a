@@ -46,7 +46,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
       { path: '/earnings',        icon: CalendarDays,  label: 'Calendario',      color: '#f59e0b', keywords: ['earnings', 'resultados', 'calendario', 'catalyst', 'catalizador', 'fda', 'pdufa'] },
       { path: '/dividend-traps',  icon: AlertTriangle, label: 'Dividend traps',  color: '#ef4444', keywords: ['dividendo', 'trampa', 'yield trap'] },
       { path: '/compare',         icon: Shuffle,       label: 'Comparar',        color: '#0ea5e9', keywords: ['comparar', 'comparador', 'compare'] },
-      { path: '/corrupcion',    icon: AlertTriangle, label: 'Corrupción inst.', color: '#ef4444', keywords: ['trump', 'corrupcion', 'contrato', 'gobierno', 'señal', 'politica'] },
+      { path: '/corrupcion',    icon: AlertTriangle, label: 'Corrupción inst.', color: '#ef4444', keywords: ['corrupcion', 'contrato', 'gobierno', 'señal', 'politica', 'congreso'] },
     ]
   },
   {

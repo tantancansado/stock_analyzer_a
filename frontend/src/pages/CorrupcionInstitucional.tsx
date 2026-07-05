@@ -9,30 +9,6 @@ import { cn } from '@/lib/utils'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-interface TrumpSignal {
-  id: string
-  source: string
-  title: string
-  full_text?: string
-  link: string
-  published: string
-  scanned_at: string
-  is_repost?: boolean
-  market_relevant?: boolean
-  tickers: string[]
-  sectors?: string[]
-  signal_type: string
-  signal_strength: string
-  sentiment?: string
-  engagement?: { replies: number; reposts: number; likes: number }
-  analysis?: {
-    reasoning?: string
-    expected_move_pct?: number | null
-    companies?: string[]
-    sectors?: string[]
-  }
-}
-
 interface PoliticalSignal {
   id: string
   source_type: 'CONGRESS_TRADE' | 'GOVERNMENT_CONTRACT' | 'EXECUTIVE_ORDER'
@@ -69,25 +45,12 @@ interface PoliticalSignal {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const TABS = [
-  { id: 'trump',     label: 'Trump',          icon: AlertTriangle, color: 'text-red-400',    desc: 'Truth Social & noticias' },
   { id: 'congress',  label: 'Congreso',        icon: Building2,     color: 'text-orange-400', desc: 'Trades de senadores y representantes' },
   { id: 'contracts', label: 'Contratos gov.',  icon: FileText,      color: 'text-yellow-400', desc: 'USASpending.gov — $10M+' },
   { id: 'eo',        label: 'Executive Orders', icon: Scroll,       color: 'text-purple-400', desc: 'Federal Register' },
 ] as const
 
 type TabId = typeof TABS[number]['id']
-
-const SIGNAL_TYPE_LABELS: Record<string, string> = {
-  CONTRACT_AWARD:    'Contrato gov.',
-  BUY_SIGNAL:        'Recomendación directa',
-  CONGRESS_BUY:      'Compra política',
-  CONGRESS_SELL:     'Venta política',
-  EXECUTIVE_ORDER:   'Executive Order',
-  REGULATORY_CHANGE: 'Cambio regulatorio',
-  TARIFF:            'Arancel',
-  TRADE_DEAL:        'Acuerdo comercial',
-  NEUTRAL:           'Neutral',
-}
 
 const STRENGTH_STYLE: Record<string, string> = {
   HIGH:   'bg-red-500/15 text-red-400 border-red-500/30',
@@ -129,40 +92,6 @@ function StrengthBadge({ strength }: { strength: string }) {
 }
 
 // ─── Card variants ────────────────────────────────────────────────────────────
-
-function TrumpCard({ signal }: { signal: TrumpSignal }) {
-  return (
-    <Card className="glass border-border/30 hover:border-border/60 transition-colors">
-      <CardContent className="p-4 space-y-2">
-        <div className="flex items-start gap-2">
-          <a href={signal.link} target="_blank" rel="noopener noreferrer"
-            className="text-sm font-medium leading-snug hover:text-primary transition-colors line-clamp-2 flex-1">
-            {signal.title}
-          </a>
-          {signal.link && (
-            <a href={signal.link} target="_blank" rel="noopener noreferrer"
-              className="shrink-0 mt-0.5 text-muted-foreground/40 hover:text-muted-foreground transition-colors">
-              <ExternalLink size={12} />
-            </a>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center gap-1.5 text-xs">
-          {signal.tickers.map(t => <TickerChip key={t} ticker={t} />)}
-          <Badge variant="outline" className="text-[0.68rem] py-0 px-1.5 border-border/40 gap-1">
-            <FileText size={11} />
-            {SIGNAL_TYPE_LABELS[signal.signal_type] ?? signal.signal_type}
-          </Badge>
-          <StrengthBadge strength={signal.signal_strength} />
-          {signal.analysis?.expected_move_pct != null && (
-            <span className="text-emerald-400 font-medium">+{signal.analysis.expected_move_pct}% est.</span>
-          )}
-          <span className="ml-auto text-muted-foreground/40 text-[0.68rem]">{fmtDate(signal.published || signal.scanned_at)}</span>
-        </div>
-        <div className="text-[0.7rem] text-muted-foreground/40 truncate">{signal.source}</div>
-      </CardContent>
-    </Card>
-  )
-}
 
 function CongressCard({ signal }: { signal: PoliticalSignal }) {
   const isBuy = signal.signal_type === 'CONGRESS_BUY'
@@ -290,17 +219,11 @@ function EoCard({ signal }: { signal: PoliticalSignal }) {
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function CorrupcionInstitucional() {
-  const [activeTab, setActiveTab] = useState<TabId>('trump')
-  const [filterType, setFilterType] = useState<string>('ALL')
-  const [showAllPosts, setShowAllPosts] = useState(false)
+  const [activeTab, setActiveTab] = useState<TabId>('congress')
 
-  const { data: trumpData, loading: trumpLoading, error: trumpError } =
-    useApi(() => apiClient.get<TrumpSignal[]>('/api/trump-signals?limit=100'), [])
-
-  const { data: politicalData, loading: polLoading, error: polError } =
+  const { data: politicalData, loading: isLoading, error: hasError } =
     useApi(() => apiClient.get<PoliticalSignal[]>('/api/political-signals?limit=200'), [])
 
-  const trumpSignals = trumpData ?? []
   const politicalSignals = politicalData ?? []
 
   const congressSignals = politicalSignals.filter(s => s.source_type === 'CONGRESS_TRADE')
@@ -308,19 +231,10 @@ export default function CorrupcionInstitucional() {
   const eoSignals       = politicalSignals.filter(s => s.source_type === 'EXECUTIVE_ORDER')
 
   const counts: Record<TabId, number> = {
-    trump:     trumpSignals.length,
     congress:  congressSignals.length,
     contracts: contractSignals.length,
     eo:        eoSignals.length,
   }
-
-  // Trump tab type filter
-  const relevantTrump = showAllPosts ? trumpSignals : trumpSignals.filter(s => s.market_relevant)
-  const trumpTypes = ['ALL', ...Array.from(new Set(relevantTrump.map(s => s.signal_type).filter(t => t !== 'NEUTRAL')))]
-  const filteredTrump = filterType === 'ALL' ? relevantTrump : relevantTrump.filter(s => s.signal_type === filterType)
-
-  const isLoading = trumpLoading || polLoading
-  const hasError  = trumpError || polError
 
   return (
     <div className="space-y-6 p-4 md:p-6 max-w-5xl mx-auto">
@@ -343,7 +257,7 @@ export default function CorrupcionInstitucional() {
           return (
             <button
               key={tab.id}
-              onClick={() => { setActiveTab(tab.id); setFilterType('ALL') }}
+              onClick={() => setActiveTab(tab.id)}
               className={cn(
                 'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all flex-1 justify-center',
                 activeTab === tab.id
@@ -365,44 +279,6 @@ export default function CorrupcionInstitucional() {
 
       {isLoading && <Loading />}
       {!isLoading && hasError && <ErrorState message="No se pudieron cargar las señales" />}
-
-      {/* Trump tab */}
-      {!isLoading && activeTab === 'trump' && (
-        <div className="space-y-3">
-          {/* Controls row */}
-          <div className="flex items-center gap-3 flex-wrap">
-            <button
-              onClick={() => { setShowAllPosts(v => !v); setFilterType('ALL') }}
-              className={cn('px-3 py-1 rounded-full text-xs font-medium border transition-all',
-                showAllPosts
-                  ? 'border-border/40 text-muted-foreground hover:text-foreground'
-                  : 'bg-orange-500/15 text-orange-400 border-orange-500/30'
-              )}>
-              {showAllPosts ? '📋 Feed completo' : `🎯 Solo relevantes (${trumpSignals.filter(s => s.market_relevant).length})`}
-            </button>
-            {trumpTypes.slice(0, 4).map(t => (
-              <button key={t} onClick={() => setFilterType(t)}
-                className={cn('px-3 py-1 rounded-full text-xs font-medium border transition-all',
-                  filterType === t
-                    ? 'bg-red-500/15 text-red-400 border-red-500/30'
-                    : 'border-border/40 text-muted-foreground hover:text-foreground'
-                )}>
-                {t === 'ALL' ? 'Todos' : (SIGNAL_TYPE_LABELS[t] ?? t)}
-              </button>
-            ))}
-          </div>
-          <p className="text-[0.7rem] text-muted-foreground/50 italic">
-            {showAllPosts
-              ? `${filteredTrump.length} posts · feed completo de Truth Social + RSS`
-              : `${filteredTrump.length} posts con impacto de mercado detectado por IA`
-            }
-          </p>
-          {filteredTrump.length === 0
-            ? <Empty text="No hay señales registradas todavía." />
-            : filteredTrump.map(s => <TrumpCard key={s.id} signal={s} />)
-          }
-        </div>
-      )}
 
       {/* Congress tab */}
       {!isLoading && activeTab === 'congress' && (

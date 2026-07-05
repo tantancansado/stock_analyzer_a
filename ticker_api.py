@@ -4576,24 +4576,6 @@ def admin_usage():
 
 # ─────────────────────────────────────────────────────────────────────────────
 
-@app.route('/api/trump-signals')
-def get_trump_signals():
-    """Devuelve histórico de señales Trump detectadas."""
-    path = DOCS / 'trump_signals.json'
-    if not path.exists():
-        return jsonify([])
-    try:
-        signals = json.loads(path.read_text())
-        # Optional filter by signal_type
-        sig_type = request.args.get('type')
-        if sig_type:
-            signals = [s for s in signals if s.get('signal_type') == sig_type.upper()]
-        limit = int(request.args.get('limit', 50))
-        return jsonify(signals[:limit])
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
 
 @app.route('/api/political-signals')
 def get_political_signals():

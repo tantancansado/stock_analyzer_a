@@ -515,7 +515,7 @@ Clasifica los documentos en 3 categorías:
       },
       "reports": {
         "earnings_releases": [{"form_name": "Earnings Release", "period_end": "2025-12-31", ...}],
-        "sec_filings": [{"form_type": "10-Q", "period_end": "2025-12-31", ...}],
+        "sec_filings": [{"form_type": "10-Q", "period_end": "2025-12-31", ...al}],
         "presentations": [...]
       },
       "fetched_at": "2026-04-13T06:15:32Z"
