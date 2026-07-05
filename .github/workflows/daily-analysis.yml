@@ -61,12 +61,18 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions Bot"
+          # yfinance escribe un cache sqlite (_cookieschema) en el árbol de
+          # trabajo → deja cambios sin stagear → `git rebase` se negaba con
+          # "You have unstaged changes" y el push del VCP fallaba EN SILENCIO
+          # (echo non-critical). Resultado: latest.csv congelado desde
+          # mar-2026 y core-scoring sincronizando VCP de hace 3 meses cada día.
+          # Fix: rebase --autostash aparta esa basura durante el rebase.
           git add docs/reports/vcp/ || true
           git diff --cached --quiet && echo "No VCP changes" || \
             git commit -m "chore(vcp): S&P500 scan - $(date +%Y-%m-%d)"
           for i in 1 2 3; do
             git fetch origin main
-            git rebase origin/main && git push && echo "VCP push OK" && break
+            git rebase --autostash origin/main && git push && echo "VCP push OK" && break
             git rebase --abort 2>/dev/null || true
             sleep $((i * 5))
           done || echo "VCP push failed (non-critical)"
@@ -625,6 +631,10 @@ jobs:
             # de hoy). Detecta el patron 'ai_quality_filter crashea y el CSV
             # que ve la app se congela' — paso 8-may a 3-jul-2026 sin señal.
             'value_filtered': ('docs/value_opportunities_filtered.csv', 'score_timestamp', 10, 2),
+            # VCP se sincroniza desde el job paralelo vía commit; si su push
+            # falla, latest.csv se congela (pasó 3 meses). Vigilar por el
+            # sidecar latest_meta.json (frescura por contenido, no mtime).
+            'vcp':            ('docs/reports/vcp/latest_meta.json',      'generated_at', None, 3),
             'value_eu':       ('docs/european_value_opportunities.csv',          None, 10, 3),
             'value_global':   ('docs/global_value_opportunities.csv',            None,  5, 3),
             'fundamental':    ('docs/fundamental_scores.csv',                    None, 50, 2),

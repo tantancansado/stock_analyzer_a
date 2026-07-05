@@ -1887,6 +1887,15 @@ if __name__ == "__main__":
             shutil.copy(str(csv_path), str(latest_csv))
             shutil.copy(str(html_path), str(latest_html))
 
+            # Sidecar con timestamp para vigilar frescura por CONTENIDO en
+            # pipeline_health (el mtime miente en CI). Sin esto, latest.csv
+            # se congeló 3 meses sin que nadie lo detectara (push fallido).
+            import json as _json
+            (output_dir / "latest_meta.json").write_text(_json.dumps({
+                "generated_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "patterns": len(results),
+            }, indent=2))
+
             # Also update docs/vcp_scanner.html as main entry point
             import shutil
             shutil.copy(str(html_path), "docs/vcp_scanner.html")

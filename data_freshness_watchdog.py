@@ -62,6 +62,7 @@ CRITICAL_MODULES = {
 MODULE_LABELS = {
     "value_us": "Value US (raw)",
     "value_filtered": "Value US (filtrado — lo que ves en la app)",
+    "vcp": "VCP scanner (patrones técnicos / momentum)",
     "value_eu": "Value EU",
     "fundamental": "Fundamentales",
     "portfolio": "Portfolio tracker",
