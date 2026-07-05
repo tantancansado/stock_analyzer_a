@@ -367,7 +367,7 @@ export default function Manual() {
               <li><b>Calidad decayendo:</b> ROE o márgenes que empeoran — revisar tesis.</li>
               <li><b>Short squeeze potential:</b> alta short interest + accumulation.</li>
             </ul>
-            <OpenLink to="/cerebro" />
+            <OpenLink to="/dashboard?tab=cerebro" />
           </Card>
 
           <SectionHeader id="value" icon={DollarSign} title="Value (US / EU / Global)"

@@ -1204,7 +1204,7 @@ export default function Dashboard() {
         return (
           <div className="mb-5 animate-fade-in-up">
             <Link
-              to="/cerebro"
+              to="/dashboard?tab=cerebro"
               className="flex items-center gap-4 glass rounded-xl p-4 border border-primary/20 hover:border-primary/40 transition-colors group"
             >
               <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20 shrink-0">

@@ -10,8 +10,7 @@ import { fetchCerebroAlerts, fetchPipelineStatus, type PipelineStatus as Pipelin
 import { useApi } from '../hooks/useApi'
 
 const ROUTE_TITLES: Record<string, string> = {
-  '/dashboard':       'Dashboard',
-  '/cerebro':         'Cerebro',
+  '/dashboard':       'Centro de mando',
   '/value':           'Value',
   '/macro-radar':     'Macro',
   '/insiders':        'Insiders',
@@ -140,7 +139,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
 
         {/* Cerebro alert bell — ping only when there are real alerts */}
         <Link
-          to="/cerebro"
+          to="/dashboard?tab=cerebro"
           className="topbar-action relative flex items-center justify-center h-8 w-8 rounded-lg border border-border/50 hover:bg-accent/10 transition-colors"
           title="Cerebro"
         >
