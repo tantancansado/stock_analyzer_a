@@ -24,7 +24,11 @@ class MeanReversionDetector:
     """Detector de oportunidades de reversión a la media"""
 
     def __init__(self):
-        self.lookback_days = 180  # 6 meses de historia
+        # 300 días de calendario ≈ 205 sesiones — necesario para SMA200 real.
+        # Con 180 (el valor anterior) solo había ~124 sesiones y la SMA200 del
+        # bull-flag caía SIEMPRE a SMA50: el criterio de tendencia mayor (lo que
+        # DEFINE un bull flag) nunca se evaluaba y el trend salía siempre Bearish.
+        self.lookback_days = 300
         self.results = []
         self._market_regime_cache: Dict = {}  # caché para no repetir llamadas
 
@@ -558,9 +562,30 @@ class MeanReversionDetector:
             if avg_dollar_volume_bf < 1_000_000:
                 return None
 
+            # Un bull flag se DEFINE por la tendencia mayor alcista (SMA50>SMA200).
+            # Sin 200 sesiones no se puede confirmar → no es un setup válido, no
+            # inventamos una SMA200 falsa (regla del proyecto: 0 señales > falsas).
+            if len(hist) < 200:
+                return None
+
             # Calcular medias móviles
             sma_50 = hist['Close'].rolling(window=50).mean().iloc[-1]
-            sma_200 = hist['Close'].rolling(window=200).mean().iloc[-1] if len(hist) >= 200 else sma_50
+            sma_200 = hist['Close'].rolling(window=200).mean().iloc[-1]
+
+            # RSI diario (informativo en el bull flag; el trigger es el pullback)
+            rsi_series = self.calculate_rsi(hist['Close'])
+            _last_rsi = rsi_series.iloc[-1] if len(rsi_series) >= 14 else None
+            current_rsi_bf = round(float(_last_rsi), 1) if _last_rsi is not None and not pd.isna(_last_rsi) else None
+            if current_rsi_bf is None:
+                rsi_tier_bf = None
+            elif current_rsi_bf < 20:
+                rsi_tier_bf = 'EXTREMO'
+            elif current_rsi_bf < 30:
+                rsi_tier_bf = 'ALTO'
+            elif current_rsi_bf < 40:
+                rsi_tier_bf = 'MEDIO'
+            else:
+                rsi_tier_bf = 'NEUTRAL'
 
             # Buscar rally previo (últimos 60 días)
             low_60d = hist['Close'].tail(60).min()
@@ -606,8 +631,8 @@ class MeanReversionDetector:
                 'company_name': company_name or ticker,
                 'strategy': 'Bull Flag Pullback',
                 'current_price': round(current_price, 2),
-                'rsi': None,
-                'rsi_tier': None,
+                'rsi': current_rsi_bf,
+                'rsi_tier': rsi_tier_bf,
                 'rally_pct': round(rally_pct, 1),
                 'pullback_pct': round(pullback_pct, 1),
                 'sma_50': round(sma_50, 2),
