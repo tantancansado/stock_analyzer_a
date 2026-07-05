@@ -1,19 +1,24 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Search, Calculator, LineChart, Activity, Briefcase, Zap, Radar, BookOpen } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { NAV_CATEGORIES } from '@/lib/nav'
 
-const NAVIGATION = [
-  { id: 'dash', title: 'Dashboard', icon: <Activity size={16} />, path: '/' },
-  { id: 'macro', title: 'Macro Radar', icon: <Radar size={16} />, path: '/macro-radar' },
-  { id: 'port', title: 'Portfolio Tracker', icon: <Briefcase size={16} />, path: '/portfolio-tracker' },
-  { id: 'val', title: 'Value Picks', icon: <LineChart size={16} />, path: '/value' },
-  { id: 'mom', title: 'Momentum', icon: <Zap size={16} />, path: '/momentum' },
-  { id: 'opt', title: 'Opciones & Flujos', icon: <LineChart size={16} />, path: '/options' },
-  { id: 'bonds', title: 'Bonos & Preferentes', icon: <Calculator size={16} />, path: '/bonds' },
-  { id: 'cerebro', title: 'Cerebro AI', icon: <BookOpen size={16} />, path: '/cerebro' },
-  { id: 'owner-earnings', title: 'Owner Earnings', icon: <Calculator size={16} />, path: '/owner-earnings', keywords: ['buffett', 'lynch', 'graham', 'intrinsic', 'value'] },
-]
+// El palette se alimenta de la MISMA fuente que el menú (nav.ts). Antes tenía
+// 9 items hardcodeados de 40+ páginas, algunos con paths obsoletos (p.ej.
+// /portfolio-tracker, que no existe): navegar con Cmd+K a media app fallaba.
+// Ahora cubre todo y no se puede desincronizar.
+const NAVIGATION = NAV_CATEGORIES.flatMap(cat =>
+  cat.items
+    .filter(it => !it.adminOnly)
+    .map(it => ({
+      id: it.path,
+      title: it.label,
+      icon: <it.icon size={16} />,
+      path: it.path,
+      keywords: it.keywords ?? [],
+    })),
+)
 
 export default function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState('')

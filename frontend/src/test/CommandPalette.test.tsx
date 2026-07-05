@@ -61,10 +61,11 @@ describe('CommandPalette', () => {
     const user = userEvent.setup()
     renderPalette()
 
+    // 'buffett' es keyword de la página de Valoración (owner earnings) en nav.ts
     await user.type(screen.getByPlaceholderText(/ticker/i), 'buffett')
 
-    expect(screen.getByText('Owner Earnings')).toBeInTheDocument()
-    expect(screen.queryByText('Dashboard')).not.toBeInTheDocument()
+    expect(screen.getByText('Valoración')).toBeInTheDocument()
+    expect(screen.queryByText('Centro de mando')).not.toBeInTheDocument()
   })
 
   it('shows an empty state when there are no matches and no ticker shortcut', async () => {
