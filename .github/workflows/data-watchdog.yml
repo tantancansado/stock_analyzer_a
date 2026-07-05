@@ -1,0 +1,53 @@
+name: Data Freshness Watchdog
+
+# Vigila que los datos que ve la app estén frescos y avisa por Telegram si no.
+# SEPARADO del pipeline diario a propósito: si el pipeline entero cae, un paso
+# dentro de él no podría avisar — este workflow independiente sí.
+# Nace del incidente del 8-may→3-jul-2026 (value_filtered congelado 8 semanas).
+
+on:
+  schedule:
+    # L-V a las 06:30 UTC — 2.5h después de que arranque el pipeline (04:00),
+    # tiempo de sobra para que termine (core-scoring tarda hasta ~75 min)
+    - cron: '30 6 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Forzar alerta aunque no haya cambios (yes/no)'
+        default: 'no'
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run watchdog
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "yes" ]; then
+            python3 data_freshness_watchdog.py --force
+          else
+            python3 data_freshness_watchdog.py
+          fi
+
+      - name: Commit watchdog state (anti-spam dedup)
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/.data_watchdog_state.json 2>/dev/null || true
+          git diff --cached --quiet || git commit -m "chore: watchdog state [skip ci]"
+          git push || true
