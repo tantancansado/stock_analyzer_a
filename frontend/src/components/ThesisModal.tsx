@@ -8,7 +8,6 @@ import GradeBadge from './GradeBadge'
 import ThesisBody from './ThesisBody'
 import TickerLogo from './TickerLogo'
 import PriceChart from './PriceChart'
-import WatchlistButton from './WatchlistButton'
 import ScoreBreakdown from './ScoreBreakdown'
 import type { ValueOpportunity, TechnicalSignal } from '../api/client'
 import { useTechnicalSignals } from '../hooks/useTechnicalSignals'
@@ -261,16 +260,6 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   )}
                 </div>
               )}
-              <WatchlistButton
-                ticker={row.ticker}
-                company_name={row.company_name}
-                sector={row.sector}
-                current_price={row.current_price}
-                value_score={row.value_score}
-                conviction_grade={row.conviction_grade}
-                analyst_upside_pct={row.analyst_upside_pct}
-                fcf_yield_pct={row.fcf_yield_pct}
-              />
               <button onClick={copyTicker} className="p-1.5 rounded-lg text-muted-foreground/50 hover:bg-muted/40 hover:text-foreground transition-colors" title="Copiar ticker">
                 {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
               </button>

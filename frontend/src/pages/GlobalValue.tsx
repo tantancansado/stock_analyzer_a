@@ -30,7 +30,6 @@ import { Card } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import ThesisBody from '../components/ThesisBody'
 import CsvDownload from '../components/CsvDownload'
-import WatchlistButton from '../components/WatchlistButton'
 import InfoTooltip from '../components/InfoTooltip'
 import OwnedBadge from '../components/OwnedBadge'
 
@@ -396,7 +395,6 @@ export default function GlobalValue() {
                     {!compact && <Th k="roe_pct" label="ROE%" />}
                     <Th k="pct_from_52w_high" label="vs Max" tooltip="Distancia al máximo de 52 semanas. Negativo = caído del máximo → posible oportunidad de entrada." />
                     <TableHead className="text-[0.68rem] font-semibold uppercase tracking-wider">Téc</TableHead>
-                    <TableHead className="w-8" />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -481,9 +479,6 @@ export default function GlobalValue() {
                           </TableCell>
                           <TableCell>
                             <TechBiasCell t={techMap[row.ticker]} />
-                          </TableCell>
-                          <TableCell onClick={e => e.stopPropagation()}>
-                            <WatchlistButton ticker={row.ticker} />
                           </TableCell>
                         </TableRow>
                         {isExpanded && expandedRow && (

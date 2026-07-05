@@ -31,7 +31,6 @@ const Backtest         = lazy(() => import('./pages/Backtest'))
 const TickerSearch     = lazy(() => import('./pages/TickerSearch'))
 const Datos            = lazy(() => import('./pages/Datos'))
 const PositionSizing   = lazy(() => import('./pages/PositionSizing'))
-const Watchlist        = lazy(() => import('./pages/Watchlist'))
 const Macro            = lazy(() => import('./pages/Macro'))
 const Calendar         = lazy(() => import('./pages/Calendar'))
 const DividendTraps    = lazy(() => import('./pages/DividendTraps'))
@@ -306,7 +305,6 @@ export default function App() {
                   <Route path="/calibration"   element={<Calibration />} />
                   <Route path="/backtest"       element={<Backtest />} />
                   <Route path="/position-sizing" element={<PositionSizing />} />
-                  <Route path="/watchlist"      element={<Watchlist />} />
                   <Route path="/search"         element={<TickerSearch />} />
                   <Route path="/macro-radar"       element={<Macro />} />
                   <Route path="/macro-countries"  element={<Navigate to="/macro-radar?tab=countries" replace />} />

@@ -357,7 +357,7 @@ function buildCoachActions({
       ticker: highTrap.ticker,
       icon: AlertOctagon,
       title: `${highTrap.ticker} parece barato, pero no limpio.`,
-      body: 'Puede ser una trampa de valor. Si está en cartera o watchlist, merece una revisión fría.',
+      body: 'Puede ser una trampa de valor. Si está en cartera, merece una revisión fría.',
       meta: `Riesgo ${highTrap.trap_score}/10 · ${highTrap.flags.slice(0, 2).join(' · ')}`,
     })
   }

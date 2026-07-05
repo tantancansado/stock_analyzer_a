@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import {
   BookOpen, Compass, Workflow, Bot, Shield, HelpCircle, Search,
   LayoutDashboard, Brain, DollarSign, Radar, Users, Crosshair,
-  Wallet, Calculator, TrendingUp, Activity, PieChart, Star,
+  Wallet, Calculator, TrendingUp, Activity, PieChart,
   Bell, CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -39,7 +39,6 @@ const SECTIONS: Section[] = [
   { id: 'entry-setups',       title: 'Entry setups',          icon: TrendingUp,      group: 'pages' },
   { id: 'options',            title: 'Options flow',          icon: Activity,        group: 'pages' },
   { id: 'sectores',           title: 'Sectores',              icon: PieChart,        group: 'pages' },
-  { id: 'watchlist',          title: 'Watchlist',             icon: Star,            group: 'pages' },
   { id: 'alertas',            title: 'Alertas',               icon: Bell,            group: 'pages' },
   { id: 'calendario',         title: 'Calendario earnings',   icon: CalendarDays,    group: 'pages' },
   { id: 'dividend-traps',     title: 'Dividend traps',        icon: AlertTriangle,   group: 'pages' },
@@ -387,7 +386,6 @@ export default function Manual() {
             <p className="text-sm mb-3">
               <b>Expandir una fila</b> muestra la <i>conviction panel</i>: positivos (ej. "ROE 22%, FCF 8%, insider buying"), red flags (ej. "analyst revisions cayendo") y la tesis generada por IA.
             </p>
-            <p className="text-sm"><b>Estrella ★:</b> añade a tu watchlist (persiste en este navegador).</p>
             <div className="mt-3"><OpenLink to="/value" /></div>
           </Card>
 
@@ -507,15 +505,6 @@ export default function Manual() {
             <OpenLink to="/sectors" />
           </Card>
 
-          <SectionHeader id="watchlist" icon={Star} title="Watchlist"
-            subtitle="Tu lista de seguimiento — persiste en el navegador." />
-          <Card>
-            <p className="mb-3">
-              Añade tickers con la <Pill tone="amber">★</Pill> que aparece en VALUE, Insiders, Buscar, etc. Se guarda en <code className="bg-muted/30 px-1 rounded">localStorage</code>.
-            </p>
-            <OpenLink to="/watchlist" />
-          </Card>
-
           <SectionHeader id="alertas" icon={Bell} title="Alertas"
             subtitle="Configura notificaciones por email cuando se cumplan condiciones." />
           <Card>
@@ -530,7 +519,7 @@ export default function Manual() {
           </Card>
 
           <SectionHeader id="calendario" icon={CalendarDays} title="Calendario earnings + catalizadores"
-            subtitle="Cuándo presentan resultados tus posiciones y watchlist." />
+            subtitle="Cuándo presentan resultados tus posiciones." />
           <Card>
             <p className="mb-3">
               Dos pestañas: <b>Earnings</b> (próximos 30 días) y <b>Catalysts</b> (FDA, PDUFA, M&amp;A, spin-offs conocidos).
@@ -849,8 +838,8 @@ export default function Manual() {
                 <p className="text-muted-foreground">El pipeline completo corre cada madrugada (UTC). Algunos subsistemas (portfolio news) se refrescan cada 6h. Si el banner "Datos en vivo" no aparece hoy, el pipeline ha fallado.</p>
               </div>
               <div>
-                <p className="font-bold mb-1">¿Dónde se guarda mi watchlist / cartera?</p>
-                <p className="text-muted-foreground">En tu navegador (<code className="bg-muted/30 px-1 rounded">localStorage</code>). No se sincroniza entre dispositivos. Si limpias la caché, la pierdes — hazte copia manual.</p>
+                <p className="font-bold mb-1">¿Dónde se guarda mi cartera?</p>
+                <p className="text-muted-foreground">Tu cartera personal se sincroniza con tu cuenta (Supabase). Las preferencias locales (modo, filtros) viven en el navegador y no se sincronizan entre dispositivos.</p>
               </div>
               <div>
                 <p className="font-bold mb-1">¿Qué hago si encuentro un error?</p>

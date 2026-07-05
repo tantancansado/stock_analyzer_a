@@ -10,7 +10,7 @@ import {
   fetchCerebroEntrySignals, fetchCerebroDailyPlan, fetchLivePrices, fetchPortfolioNews, fetchPortfolioPrices,
   fetchCerebroSmartMoney, type SmartMoneySignal,
   fetchCerebroEarningsRevisions, type EarningsRevision,
-  type ValueOpportunity, type InsiderData, type PortfolioSummary, type BreadthData, type CerebroAlert,
+  type ValueOpportunity, type InsiderData, type PortfolioSummary, type BreadthData,
   type DailyPlan, type DailyPlanAction, type MacroPlay, type LivePricesData, type PortfolioNewsItem,
 } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
@@ -28,7 +28,6 @@ import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { LogoChartPeak } from '../components/BrandLogos'
 import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Crosshair, BarChart3, Brain, Target, ChevronDown, ChevronUp, Sparkles } from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
-import { useWatchlist } from '../hooks/useWatchlist'
 import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
 import { cn } from '@/lib/utils'
 
@@ -546,60 +545,6 @@ function ConvergenciaMini({ loading, data }: {
                   {item.strategies.map(s => (
                     <span key={s} className={`text-[0.5rem] font-bold px-1 py-0 rounded border ${strategyTag(s)}`}>{s}</span>
                   ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </Card>
-    </div>
-  )
-}
-
-function alertSeverityStyle(severity: string) {
-  if (severity === 'HIGH') return 'text-red-400 bg-red-500/10 border-red-500/30'
-  if (severity === 'MEDIUM') return 'text-amber-400 bg-amber-500/10 border-amber-500/30'
-  return 'text-blue-400 bg-blue-500/10 border-blue-500/30'
-}
-
-function WatchlistAlertsMini({ alerts, watchlistTickers, loading }: {
-  alerts: CerebroAlert[] | undefined
-  watchlistTickers: Set<string>
-  loading: boolean
-}) {
-  const filtered = (alerts ?? [])
-    .filter(a => a.ticker ? watchlistTickers.has(a.ticker.toUpperCase()) : false)
-    .sort((a, b) => {
-      const sev = { HIGH: 0, MEDIUM: 1, LOW: 2 }
-      return (sev[a.severity] ?? 2) - (sev[b.severity] ?? 2)
-    })
-    .slice(0, 5)
-
-  if (!loading && watchlistTickers.size === 0) return null
-
-  return (
-    <div>
-      <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <Brain size={11} /> Alertas Watchlist
-        </span>
-        <Link to="/cerebro" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          Ver todas <ChevronRight size={11} />
-        </Link>
-      </div>
-      <Card className="glass p-4">
-        {loading ? (
-          <div className="space-y-2">{['a','b','c'].map(k => <Skeleton key={k} className="h-4 w-full" />)}</div>
-        ) : filtered.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-1">Sin alertas para tu watchlist</p>
-        ) : (
-          <div className="space-y-1.5">
-            {filtered.map((a, i) => (
-              <div key={i} className={`flex items-start gap-2 px-2 py-1.5 rounded-md border ${alertSeverityStyle(a.severity)}`}>
-                <span className="text-[0.55rem] font-bold uppercase mt-0.5 shrink-0">{a.severity}</span>
-                <div className="flex-1 min-w-0">
-                  <span className="font-mono font-bold text-[0.75rem] mr-1">{a.ticker}</span>
-                  <span className="text-[0.68rem]">{a.title}</span>
                 </div>
               </div>
             ))}
@@ -1357,8 +1302,6 @@ export default function Dashboard() {
   const { data: portfolioNewsRaw, loading: loadingPortfolioNews } = useApi(() => fetchPortfolioNews(), [])
 
   const { positions: myPositions } = usePersonalPortfolio()
-  const { entries: watchlistEntries } = useWatchlist()
-  const watchlistTickers = new Set(watchlistEntries.map(e => e.ticker?.toUpperCase() ?? '').filter(Boolean))
   const myTickers = new Set(myPositions.map(p => p.ticker?.toUpperCase() ?? '').filter(Boolean))
 
   // Portfolio P&L widget — fetched once per session
@@ -1759,16 +1702,11 @@ export default function Dashboard() {
           </div>
 
           {/* Cerebro widgets — row 1 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <EntrySignalsMini data={cerebroEntry} loading={loadingEntry} />
             <ConvergenciaMini loading={loadingConv} data={cerebroConv} />
             <SmartMoneyMini data={smartMoneyRaw} loading={loadingSmartMoney} />
             <BreadthMini data={breadthRaw ?? undefined} loading={loadingBreadth} />
-            <WatchlistAlertsMini
-              alerts={cerebroAlertsRaw?.alerts}
-              watchlistTickers={watchlistTickers}
-              loading={loadingAlerts}
-            />
           </div>
           {/* Cerebro widgets — row 2 */}
           <div className="grid grid-cols-1 gap-4 mb-6">

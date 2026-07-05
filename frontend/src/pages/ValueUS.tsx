@@ -12,7 +12,6 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import CsvDownload from '../components/CsvDownload'
-import WatchlistButton from '../components/WatchlistButton'
 import PaginationBar from '../components/PaginationBar'
 import InfoTooltip from '../components/InfoTooltip'
 import ThesisModal from '../components/ThesisModal'
@@ -702,7 +701,6 @@ export default function ValueUS() {
                   <TableHead>Lectura simple</TableHead>
                   <TableHead>Potencial</TableHead>
                   <TableHead>Precio</TableHead>
-                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -740,9 +738,6 @@ export default function ValueUS() {
                         ) : <span className="text-muted-foreground">—</span>}
                       </TableCell>
                       <TableCell className="tabular-nums">${d.current_price?.toFixed(2)}</TableCell>
-                      <TableCell>
-                        <WatchlistButton ticker={d.ticker} company_name={d.company_name} sector={d.sector} current_price={d.current_price} value_score={d.value_score} conviction_grade={d.conviction_grade} analyst_upside_pct={d.analyst_upside_pct} fcf_yield_pct={d.fcf_yield_pct} />
-                      </TableCell>
                     </TableRow>
                   )
                 })}
@@ -826,7 +821,6 @@ export default function ValueUS() {
                 P(win)
                 <InfoTooltip text="Probabilidad de ganar en 14 días según modelo XGBoost entrenado con 1.300+ señales históricas VALUE. Verde ≥45%, ámbar 30-45%, gris <30%. Basado en value_score, FCF, R:R, sector y régimen de mercado." align="right" />
               </TableHead>
-              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -987,9 +981,6 @@ export default function ValueUS() {
                   </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
                     <MlWinBadge pred={mlMap[d.ticker?.toUpperCase() ?? '']} />
-                  </TableCell>
-                  <TableCell>
-                    <WatchlistButton ticker={d.ticker} company_name={d.company_name} sector={d.sector} current_price={d.current_price} value_score={d.value_score} conviction_grade={d.conviction_grade} analyst_upside_pct={d.analyst_upside_pct} fcf_yield_pct={d.fcf_yield_pct} />
                   </TableCell>
               </TableRow>
             )

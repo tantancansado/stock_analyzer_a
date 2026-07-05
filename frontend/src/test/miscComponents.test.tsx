@@ -3,29 +3,10 @@ import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Loading, { ErrorState } from '@/components/Loading'
 import ScrollToTop from '@/components/ScrollToTop'
-import WatchlistButton from '@/components/WatchlistButton'
-
-const useWatchlistMock = vi.fn()
-const useToastMock = vi.fn()
-
-vi.mock('@/hooks/useWatchlist', () => ({
-  useWatchlist: () => useWatchlistMock(),
-}))
-
-vi.mock('@/components/Toast', () => ({
-  useToast: () => useToastMock(),
-}))
 
 describe('misc components', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    useWatchlistMock.mockReturnValue({
-      has: vi.fn(() => false),
-      toggle: vi.fn(),
-    })
-    useToastMock.mockReturnValue({
-      toast: vi.fn(),
-    })
     window.scrollTo = vi.fn()
     Object.defineProperty(window, 'scrollY', { value: 0, writable: true })
   })
@@ -60,34 +41,5 @@ describe('misc components', () => {
 
     await user.click(button)
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
-  })
-
-  it('toggles the watchlist and shows a success toast when inactive', async () => {
-    const user = userEvent.setup()
-    const toggle = vi.fn()
-    const toast = vi.fn()
-    useWatchlistMock.mockReturnValue({ has: vi.fn(() => false), toggle })
-    useToastMock.mockReturnValue({ toast })
-
-    render(<WatchlistButton ticker="AAPL" />)
-
-    await user.click(screen.getByRole('button'))
-
-    expect(toggle).toHaveBeenCalledWith({ ticker: 'AAPL' })
-    expect(toast).toHaveBeenCalledWith('AAPL añadido a watchlist', 'success')
-  })
-
-  it('shows an info toast when removing an active watchlist entry', async () => {
-    const user = userEvent.setup()
-    const toggle = vi.fn()
-    const toast = vi.fn()
-    useWatchlistMock.mockReturnValue({ has: vi.fn(() => true), toggle })
-    useToastMock.mockReturnValue({ toast })
-
-    render(<WatchlistButton ticker="AAPL" />)
-
-    await user.click(screen.getByRole('button'))
-
-    expect(toast).toHaveBeenCalledWith('AAPL eliminado', 'info')
   })
 })

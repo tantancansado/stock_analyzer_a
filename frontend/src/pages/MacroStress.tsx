@@ -342,7 +342,7 @@ function ExposurePanel({ market }: { market: MacroStressMarket }) {
       </div>
       <p className="mt-4 text-[0.72rem] leading-relaxed text-muted-foreground/65">
         {isRed
-          ? 'Mercado en rojo: estas equities son las primeras candidatas a revisar en cartera y watchlist.'
+          ? 'Mercado en rojo: estas equities son las primeras candidatas a revisar en cartera.'
           : 'Mapa curado para traducir el stress de commodity a nombres operables en equity.'}
       </p>
     </div>

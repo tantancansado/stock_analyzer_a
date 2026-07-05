@@ -22,7 +22,6 @@ const ROUTE_TITLES: Record<string, string> = {
   '/entry-setups':    'Entry setups',
   '/options':         'Options flow',
   '/sectors':         'Sectores',
-  '/watchlist':       'Watchlist',
   '/alerts':          'Alertas',
   '/earnings':        'Calendario',
   '/dividend-traps':  'Dividend traps',
