@@ -247,11 +247,8 @@ export interface PortfolioSummary {
   date_range?: string
   active_signals?: number
   completed_signals?: number
-  overall?: {
-    '7d': { count: number; win_rate: number; avg_return: number }
-    '14d': { count: number; win_rate: number; avg_return: number }
-    '30d': { count: number; win_rate: number; avg_return: number }
-  }
+  overall?: Partial<Record<'7d' | '14d' | '30d' | '90d' | '180d' | '365d',
+    { count: number; win_rate: number | null; avg_return: number | null }>>
   value_strategy?: StrategyStats
   eu_value_strategy?: StrategyStats
   top_performers?: Array<Record<string, unknown>>
@@ -259,11 +256,9 @@ export interface PortfolioSummary {
   recent_signals?: Array<Record<string, unknown>>
   avg_max_drawdown?: number
   score_correlation?: number
-  alpha?: {
-    '30d': AlphaStat
-    '14d': AlphaStat
-    '7d':  AlphaStat
-  }
+  alpha?: Partial<Record<'7d' | '14d' | '30d' | '90d' | '180d' | '365d', AlphaStat>>
+  alpha_us?: Partial<Record<'14d' | '30d' | '90d' | '180d' | '365d', AlphaStat>>
+  alpha_eu?: Partial<Record<'14d' | '30d' | '90d' | '180d' | '365d', AlphaStat>>
 }
 
 export interface StrategyPeriodStats {
@@ -281,6 +276,9 @@ export interface StrategyStats {
   '7d'?: StrategyPeriodStats
   '14d'?: StrategyPeriodStats
   '30d'?: StrategyPeriodStats
+  '90d'?: StrategyPeriodStats
+  '180d'?: StrategyPeriodStats
+  '365d'?: StrategyPeriodStats
 }
 
 export interface AlphaStat {

@@ -59,14 +59,14 @@ class PortfolioTracker:
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
             'analyst_upside_pct', 'sector', 'market_regime',
-            'return_7d', 'return_14d', 'return_30d', 'return_90d', 'return_180d',
-            'price_7d', 'price_14d', 'price_30d', 'price_90d', 'price_180d',
-            'win_7d', 'win_14d', 'win_30d', 'win_90d', 'win_180d',
+            'return_7d', 'return_14d', 'return_30d', 'return_90d', 'return_180d', 'return_365d',
+            'price_7d', 'price_14d', 'price_30d', 'price_90d', 'price_180d', 'price_365d',
+            'win_7d', 'win_14d', 'win_30d', 'win_90d', 'win_180d', 'win_365d',
             'max_drawdown_30d', 'status',
             'stop_loss', 'target_price', 'exit_price', 'exit_day', 'exit_reason',
             'benchmark_return_7d', 'benchmark_return_14d', 'benchmark_return_30d',
-            'benchmark_return_90d', 'benchmark_return_180d',
-            'alpha_7d', 'alpha_14d', 'alpha_30d', 'alpha_90d', 'alpha_180d',
+            'benchmark_return_90d', 'benchmark_return_180d', 'benchmark_return_365d',
+            'alpha_7d', 'alpha_14d', 'alpha_30d', 'alpha_90d', 'alpha_180d', 'alpha_365d',
         ])
 
     def record_signals(self):
@@ -232,7 +232,7 @@ class PortfolioTracker:
         _recs = self.recommendations
         _age_days = (today - pd.to_datetime(_recs['signal_date'])).dt.days
         _needs_long = pd.Series(False, index=_recs.index)
-        for _col, _min_age in (('return_90d', 90), ('return_180d', 180)):
+        for _col, _min_age in (('return_90d', 90), ('return_180d', 180), ('return_365d', 365)):
             _missing = (pd.to_numeric(_recs[_col], errors='coerce').isna()
                         if _col in _recs.columns
                         else pd.Series(True, index=_recs.index))
@@ -283,7 +283,7 @@ class PortfolioTracker:
                     signal_price = float(rec['signal_price'])
                     days_since = (today - signal_date).days
 
-                    # Get prices at 7d..180d checkpoints (90/180d = horizonte
+                    # Get prices at 7d..365d checkpoints (90/180/365d = horizonte
                     # real de una tesis value; 7-30d mide ruido/momentum)
                     for period, col_return, col_price, col_win in [
                         (7, 'return_7d', 'price_7d', 'win_7d'),
@@ -291,6 +291,7 @@ class PortfolioTracker:
                         (30, 'return_30d', 'price_30d', 'win_30d'),
                         (90, 'return_90d', 'price_90d', 'win_90d'),
                         (180, 'return_180d', 'price_180d', 'win_180d'),
+                        (365, 'return_365d', 'price_365d', 'win_365d'),
                     ]:
                         if days_since >= period and pd.isna(rec.get(col_return)):
                             check_date = signal_date + timedelta(days=period)
@@ -414,6 +415,15 @@ class PortfolioTracker:
         golden_hist = _hist_us[(_score >= 60) & (_rr >= 2.0)
                                & (_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)].copy()
 
+        # EU: mismo problema con los horizontes largos — las señales del clean
+        # period aún no cumplen 90d. Usamos TODO el histórico EU (no hay zona
+        # dorada definida para EU) para que 90d tenga base real ya (~674
+        # señales); 180/365d se llenan al envejecer.
+        eu_hist = value_core_all[value_core_all['strategy'] == 'EU_VALUE'].copy()
+
+        # Combinado para el win rate global a horizonte largo (overall 90d+)
+        long_hist = pd.concat([golden_hist, eu_hist], ignore_index=True)
+
         # Overall stats (VALUE core only)
         total = len(value_core)
         unique_tickers = value_core['ticker'].nunique()
@@ -509,10 +519,12 @@ class PortfolioTracker:
                 '7d': win_stats('return_7d', 'win_7d'),
                 '14d': win_stats('return_14d', 'win_14d'),
                 '30d': win_stats('return_30d', 'win_30d'),
-                # Horizontes de tesis value — 7-30d mide momentum/ruido; el
-                # veredicto real del sistema son estos dos
-                '90d': win_stats('return_90d', 'win_90d'),
-                '180d': win_stats('return_180d', 'win_180d'),
+                # Horizontes de tesis value — 7-30d mide ruido; el veredicto real
+                # es 90d+. El clean period aún no cumple 90d, así que estos usan
+                # el histórico combinado (golden US + eu_hist), donde SÍ hay datos.
+                '90d': win_stats('return_90d', 'win_90d', long_hist),
+                '180d': win_stats('return_180d', 'win_180d', long_hist),
+                '365d': win_stats('return_365d', 'win_365d', long_hist),
             },
 
             # Mixed bases below — legend for JSON consumers (counts differ on purpose)
@@ -543,19 +555,28 @@ class PortfolioTracker:
 
             'value_strategy': {
                 'count': len(value_df),
-                # 7d/14d: clean signals (apr+). 30d: golden zone historical (has completed data)
+                # 7d/14d: clean signals (apr+). 30d+: golden zone historical (más
+                # datos completados). 90d es el horizonte con base sólida HOY
+                # (180/365d se llenan conforme envejecen las señales — el tracking
+                # empezó feb-2026, así que 180d ~ago-2026, 365d ~feb-2027).
                 '7d':  {**win_stats('return_7d',  'win_7d',  value_df), 'basis': 'clean_period'} if not value_df.empty else {},
                 '14d': {**win_stats('return_14d', 'win_14d', value_df), 'basis': 'clean_period'} if not value_df.empty else {},
                 '30d': {**win_stats('return_30d', 'win_30d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
                 '90d': {**win_stats('return_90d', 'win_90d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
                 '180d': {**win_stats('return_180d', 'win_180d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
+                '365d': {**win_stats('return_365d', 'win_365d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
             },
 
             'eu_value_strategy': {
                 'count': len(eu_df),
-                '7d':  win_stats('return_7d',  'win_7d',  eu_df) if not eu_df.empty else {},
-                '14d': win_stats('return_14d', 'win_14d', eu_df) if not eu_df.empty else {},
-                '30d': win_stats('return_30d', 'win_30d', eu_df) if not eu_df.empty else {},
+                # 7d/14d: clean period. 30d+: histórico EU completo (como US con
+                # golden_hist) para tener base a horizonte largo desde ya.
+                '7d':  {**win_stats('return_7d',  'win_7d',  eu_df), 'basis': 'clean_period'} if not eu_df.empty else {},
+                '14d': {**win_stats('return_14d', 'win_14d', eu_df), 'basis': 'clean_period'} if not eu_df.empty else {},
+                '30d': {**win_stats('return_30d', 'win_30d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
+                '90d': {**win_stats('return_90d', 'win_90d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
+                '180d': {**win_stats('return_180d', 'win_180d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
+                '365d': {**win_stats('return_365d', 'win_365d', eu_hist), 'basis': 'eu_full_hist'} if not eu_hist.empty else {},
             },
 
             'momentum_strategy': {
@@ -572,19 +593,27 @@ class PortfolioTracker:
 
             # ── Alpha vs benchmark (SPY for VALUE US, VGK for EU_VALUE) ──────
             'alpha': {
+                '365d': _alpha_stats(value_core, 'alpha_365d', 'return_365d'),
                 '180d': _alpha_stats(value_core, 'alpha_180d', 'return_180d'),
                 '90d': _alpha_stats(value_core, 'alpha_90d', 'return_90d'),
                 '30d': _alpha_stats(value_core, 'alpha_30d', 'return_30d'),
                 '14d': _alpha_stats(value_core, 'alpha_14d', 'return_14d'),
                 '7d':  _alpha_stats(value_core, 'alpha_7d',  'return_7d'),
             },
+            # Horizontes largos (90/180/365) desde el histórico completo
+            # (golden_hist US / eu_hist EU), igual que value_strategy — el clean
+            # period aún no cumple 90d. 14/30d desde el clean period (más limpio).
             'alpha_us': {
-                '90d': _alpha_stats(value_df, 'alpha_90d', 'return_90d'),
+                '365d': _alpha_stats(golden_hist, 'alpha_365d', 'return_365d'),
+                '180d': _alpha_stats(golden_hist, 'alpha_180d', 'return_180d'),
+                '90d': _alpha_stats(golden_hist, 'alpha_90d', 'return_90d'),
                 '30d': _alpha_stats(value_df, 'alpha_30d', 'return_30d'),
                 '14d': _alpha_stats(value_df, 'alpha_14d', 'return_14d'),
             },
             'alpha_eu': {
-                '90d': _alpha_stats(eu_df, 'alpha_90d', 'return_90d'),
+                '365d': _alpha_stats(eu_hist, 'alpha_365d', 'return_365d'),
+                '180d': _alpha_stats(eu_hist, 'alpha_180d', 'return_180d'),
+                '90d': _alpha_stats(eu_hist, 'alpha_90d', 'return_90d'),
                 '30d': _alpha_stats(eu_df, 'alpha_30d', 'return_30d'),
                 '14d': _alpha_stats(eu_df, 'alpha_14d', 'return_14d'),
             },
@@ -834,11 +863,17 @@ def backfill_alpha(tracker: 'PortfolioTracker') -> int:
     if df.empty:
         return 0
 
-    # Rows that have a return but no alpha yet
-    needs = df[
-        df['return_7d'].notna() &
-        (df['alpha_7d'].isna() | (df['alpha_7d'] == ''))
-    ].copy()
+    # Rows that have a return but no alpha yet — en CUALQUIER horizonte
+    # (antes solo miraba alpha_7d, así que las filas con alpha corto pero sin
+    # alpha_90d/180d/365d no se rellenaban nunca → alpha largo siempre vacío)
+    _missing_any = pd.Series(False, index=df.index)
+    for _h in ('7d', '14d', '30d', '90d', '180d', '365d'):
+        _rc, _ac = f'return_{_h}', f'alpha_{_h}'
+        if _rc in df.columns:
+            _has_ret = df[_rc].notna()
+            _no_alpha = df[_ac].isna() if _ac in df.columns else True
+            _missing_any |= _has_ret & _no_alpha
+    needs = df[_missing_any].copy()
 
     if needs.empty:
         print("  No rows need alpha backfill.")
@@ -880,6 +915,9 @@ def backfill_alpha(tracker: 'PortfolioTracker') -> int:
             (7,  'return_7d',  'benchmark_return_7d',  'alpha_7d'),
             (14, 'return_14d', 'benchmark_return_14d', 'alpha_14d'),
             (30, 'return_30d', 'benchmark_return_30d', 'alpha_30d'),
+            (90, 'return_90d', 'benchmark_return_90d', 'alpha_90d'),
+            (180, 'return_180d', 'benchmark_return_180d', 'alpha_180d'),
+            (365, 'return_365d', 'benchmark_return_365d', 'alpha_365d'),
         ]:
             sig_return = row.get(col_ret)
             if pd.isna(sig_return):

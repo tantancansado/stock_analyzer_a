@@ -119,7 +119,9 @@ export default function Portfolio() {
     )
   }
 
-  const periods = ['7d', '14d', '30d'] as const
+  // Lidera con el horizonte value (90d+); 30d se mantiene como contraste del
+  // ruido de corto plazo, pero 7d/14d fuera — no dicen nada útil para value.
+  const periods = ['30d', '90d', '180d', '365d'] as const
   const overall = pf.overall || {} as Record<string, { count: number; win_rate: number; avg_return: number }>
 
   const bestPeriod = periods.reduce((best, p) => {
@@ -156,7 +158,7 @@ export default function Portfolio() {
       {/* Win Rate Animation */}
       {hasReturns && (() => {
         const statsData = {
-          periods: (['7d', '14d', '30d'] as const)
+          periods: (['30d', '90d', '180d', '365d'] as const)
             .map(p => {
               const d = (overall as Record<string, { count: number; win_rate: number; avg_return: number }>)[p]
               if (!d || d.count === 0) return null
@@ -724,44 +726,87 @@ export default function Portfolio() {
       )}
 
       {/* ── US vs EU (mismo periodo limpio, comparable) ── */}
-      {(pf.value_strategy?.['7d']?.count ?? 0) >= 10 && (pf.eu_value_strategy?.['7d']?.count ?? 0) >= 10 && (
+      {((pf.value_strategy?.['90d']?.count ?? 0) >= 10 || (pf.eu_value_strategy?.['90d']?.count ?? 0) >= 10) && (
         <div className="mt-6 animate-fade-in-up">
           <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30 mb-1">
-            VALUE US vs EU
+            VALUE US vs EU — horizonte de tesis
           </h2>
           <p className="text-xs text-muted-foreground/60 mb-4">
-            Señales desde el corte limpio (abr-2026) — misma base, comparación directa
+            Una tesis value se juega en trimestres, no en semanas. Estas son las cifras a 90d /
+            6 meses / 1 año — el 7-30d mide ruido de corto plazo y no dice nada útil aquí.
+            180d y 365d se llenan conforme envejecen las señales (el tracking empezó en feb-2026).
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {([
-              { label: 'VALUE US', strat: pf.value_strategy, badge: 'US' },
-              { label: 'VALUE EU', strat: pf.eu_value_strategy, badge: 'EU' },
-            ] as const).map(({ label, strat, badge }) => {
-              const otherStrat = badge === 'US' ? pf.eu_value_strategy : pf.value_strategy
-              const wr7 = strat?.['7d']?.win_rate ?? 0
-              const otherWr7 = otherStrat?.['7d']?.win_rate ?? 0
-              const leads = wr7 > otherWr7
+              { label: 'VALUE US', strat: pf.value_strategy, alpha: pf.alpha_us, badge: 'US', bench: 'SPY' },
+              { label: 'VALUE EU', strat: pf.eu_value_strategy, alpha: pf.alpha_eu, badge: 'EU', bench: 'VGK' },
+            ] as const).map(({ label, strat, alpha, badge, bench }) => {
+              const s90 = strat?.['90d']
+              const a90 = alpha?.['90d']
+              const wr = s90?.win_rate ?? null
+              const otherWr = (badge === 'US' ? pf.eu_value_strategy : pf.value_strategy)?.['90d']?.win_rate ?? -1
+              const leads = wr != null && wr > otherWr
               return (
                 <Card key={badge} className={`glass border ${leads ? 'border-primary/40' : 'border-border/20'}`}>
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm font-bold tracking-wide">{label}</span>
-                      {leads && <Badge variant="blue" className="text-[0.65rem]">↑ MEJOR WIN RATE</Badge>}
+                      {leads && <Badge variant="blue" className="text-[0.65rem]">↑ MEJOR A 90D</Badge>}
                     </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      {(['7d', '14d'] as const).map(period => {
-                        const s = strat?.[period]
-                        if (!s?.count) return null
-                        const wr = s.win_rate ?? 0
-                        return (
-                          <div key={period}>
-                            <div className="text-[0.65rem] uppercase tracking-widest text-muted-foreground/60 mb-1">{period}</div>
-                            <div className={`text-2xl font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
-                              {wr.toFixed(1)}%
+
+                    {/* 90d — la cifra principal */}
+                    {wr != null && s90?.count ? (
+                      <div className="mb-3">
+                        <div className="text-[0.65rem] uppercase tracking-widest text-muted-foreground/60 mb-1">90 días · win rate</div>
+                        <div className={`text-3xl font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
+                          {wr.toFixed(1)}%
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1.5">
+                          retorno medio {s90.avg_return != null ? `${s90.avg_return > 0 ? '+' : ''}${s90.avg_return.toFixed(2)}%` : '—'}
+                          <span className="text-muted-foreground/50"> · {s90.count} señales</span>
+                        </div>
+                        {a90?.avg_alpha != null && (
+                          <div className="text-xs mt-1">
+                            <span className="text-muted-foreground/60">vs {bench}: </span>
+                            <span className={a90.avg_alpha >= 0 ? 'text-emerald-400 font-semibold' : 'text-red-400 font-semibold'}>
+                              {a90.avg_alpha > 0 ? '+' : ''}{a90.avg_alpha.toFixed(1)}% alpha
+                            </span>
+                            <span className="text-muted-foreground/50">
+                              {' '}(señal {a90.avg_signal_return != null ? `${a90.avg_signal_return > 0 ? '+' : ''}${a90.avg_signal_return.toFixed(1)}%` : '—'} vs índice {a90.avg_benchmark_return != null ? `${a90.avg_benchmark_return > 0 ? '+' : ''}${a90.avg_benchmark_return.toFixed(1)}%` : '—'})
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="mb-3 text-sm text-muted-foreground/60">Aún sin datos a 90 días.</div>
+                    )}
+
+                    {/* 180d / 365d — acumulando */}
+                    <div className="grid grid-cols-2 gap-3 pt-3 border-t border-border/20">
+                      {([
+                        { p: '180d' as const, label: '6 meses', eta: 'ago-2026' },
+                        { p: '365d' as const, label: '1 año', eta: 'feb-2027' },
+                      ]).map(({ p, label: plabel, eta }) => {
+                        const sp = strat?.[p]
+                        if (sp?.count && sp.win_rate != null) {
+                          const w = sp.win_rate
+                          return (
+                            <div key={p}>
+                              <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
+                              <div className={`text-xl font-extrabold tabular-nums leading-none ${w >= 55 ? 'text-emerald-400' : w >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
+                                {w.toFixed(1)}%
+                              </div>
+                              <div className="text-[0.68rem] text-muted-foreground mt-1">
+                                avg {sp.avg_return != null ? `${sp.avg_return > 0 ? '+' : ''}${sp.avg_return.toFixed(1)}%` : '—'} · {sp.count}
+                              </div>
                             </div>
-                            <div className="text-xs text-muted-foreground mt-1">
-                              avg {s.avg_return != null ? `${s.avg_return > 0 ? '+' : ''}${s.avg_return.toFixed(2)}%` : '—'}
-                              <span className="text-muted-foreground/50"> · {s.count} señales</span>
+                          )
+                        }
+                        return (
+                          <div key={p}>
+                            <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
+                            <div className="text-sm text-muted-foreground/40 leading-tight mt-1.5">
+                              Acumulando<br /><span className="text-[0.68rem]">~{eta}</span>
                             </div>
                           </div>
                         )
