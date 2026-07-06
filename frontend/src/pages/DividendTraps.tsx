@@ -340,7 +340,7 @@ export default function DividendTraps() {
               <button
                 key={r}
                 onClick={() => setRiskFilter(r)}
-                className={`text-[0.68rem] px-2.5 py-0.5 rounded-full border transition-colors ${riskFilter === r ? 'border-primary/60 bg-primary/15 text-primary' : 'border-border/40 text-muted-foreground hover:text-foreground'}`}
+                className={`filter-btn ${riskFilter === r ? 'active' : ''}`}
               >
                 {r === 'ALL' ? 'Todos' : r}
               </button>

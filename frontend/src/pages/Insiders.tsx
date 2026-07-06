@@ -185,31 +185,21 @@ export default function Insiders() {
           <button
             key={m}
             onClick={() => setFilterMarket(m)}
-            className={`text-xs px-3 py-1 rounded-full border transition-colors ${filterMarket === m ? 'bg-primary text-primary-foreground border-primary' : 'border-border/50 text-muted-foreground hover:text-foreground'}`}
+            className={`filter-btn ${filterMarket === m ? 'active' : ''}`}
           >
             {m === 'ALL' ? `Todos (${allRows.length})` : m === 'US' ? `US (${usRows.length})` : `EU (${euRows.length})`}
           </button>
         ))}
         <button
           onClick={() => setCompact(v => !v)}
-          className={`text-[0.68rem] px-2.5 py-0.5 rounded border transition-colors ${compact ? 'border-primary/60 bg-primary/15 text-primary' : 'border-border/40 text-muted-foreground hover:border-border/70 hover:text-foreground'}`}
+          className={`filter-btn ${compact ? 'active' : ''}`}
           title="Alternar entre vista compacta y completa"
         >
           {compact ? '⊟ Compacta' : '⊞ Completa'}
         </button>
         <div className="ml-auto flex gap-2">
-          <button
-            onClick={() => downloadCsv('insiders')}
-            className="text-xs px-3 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
-          >
-            ↓ CSV US
-          </button>
-          <button
-            onClick={() => downloadCsv('insiders-eu')}
-            className="text-xs px-3 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
-          >
-            ↓ CSV EU
-          </button>
+          <button onClick={() => downloadCsv('insiders')} className="filter-btn">↓ CSV US</button>
+          <button onClick={() => downloadCsv('insiders-eu')} className="filter-btn">↓ CSV EU</button>
         </div>
       </div>
 

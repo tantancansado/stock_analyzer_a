@@ -92,15 +92,12 @@ export default function Momentum() {
         <div className="flex items-center gap-2 mt-1 shrink-0">
           <button
             onClick={() => setCompact(v => !v)}
-            className={`text-[0.68rem] px-2.5 py-0.5 rounded border transition-colors ${compact ? 'border-primary/60 bg-primary/15 text-primary' : 'border-border/40 text-muted-foreground hover:border-border/70 hover:text-foreground'}`}
+            className={`filter-btn ${compact ? 'active' : ''}`}
             title="Alternar entre vista compacta y completa"
           >
             {compact ? '⊟ Compacta' : '⊞ Completa'}
           </button>
-          <button
-            onClick={() => downloadCsv('momentum')}
-            className="text-xs px-3 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary transition-colors"
-          >↓ CSV</button>
+          <button onClick={() => downloadCsv('momentum')} className="filter-btn">↓ CSV</button>
         </div>
       </div>
 

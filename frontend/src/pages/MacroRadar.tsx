@@ -446,11 +446,7 @@ function IndexBreakoutsPanel({
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`text-[0.6rem] font-bold px-2 py-0.5 rounded border transition-colors ${
-                  activeTab === tab
-                    ? 'bg-primary/15 text-primary border-primary/30'
-                    : 'border-border/30 text-muted-foreground/60 hover:text-foreground'
-                }`}
+                className={`filter-btn ${activeTab === tab ? 'active' : ''}`}
               >
                 {tab === 'overview' ? 'Overview' : tab === 'breakouts' ? 'Medias' : 'Eventos'}
               </button>

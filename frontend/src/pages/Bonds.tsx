@@ -387,12 +387,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
                   <button
                     key={v}
                     onClick={() => { setCapital(v); setRawCapital(String(v)) }}
-                    className={cn(
-                      'text-xs px-2.5 py-1 rounded-lg border transition-all',
-                      capital === v
-                        ? 'bg-primary/20 border-primary/50 text-primary'
-                        : 'border-white/10 text-foreground/40 hover:text-foreground/70 hover:border-white/20'
-                    )}
+                    className={`filter-btn ${capital === v ? 'active' : ''}`}
                   >
                     {fmtEur(v)}
                   </button>
@@ -465,12 +460,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
                 <button
                   key={v}
                   onClick={() => { setCapital(v); setRawCapital(String(v)) }}
-                  className={cn(
-                    'text-[0.65rem] px-2 py-1 rounded border transition-all',
-                    capital === v
-                      ? 'bg-primary/20 border-primary/50 text-primary'
-                      : 'border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
-                  )}
+                  className={`filter-btn ${capital === v ? 'active' : ''}`}
                 >
                   {v >= 1000 ? `${v / 1000}k` : v}
                 </button>
@@ -486,12 +476,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
                 <button
                   key={m}
                   onClick={() => setMonths(m)}
-                  className={cn(
-                    'text-xs px-2.5 py-1.5 rounded-lg border transition-all font-medium',
-                    months === m
-                      ? 'bg-primary/20 border-primary/50 text-primary'
-                      : 'border-border/40 text-muted-foreground hover:border-border/60 hover:text-foreground'
-                  )}
+                  className={`filter-btn ${months === m ? 'active' : ''}`}
                 >
                   {m < 12 ? `${m}m` : `${m / 12}a`}
                 </button>
@@ -790,12 +775,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
                 <button
                   key={v}
                   onClick={() => { setCapital(v); setRawCapital(String(v)) }}
-                  className={cn(
-                    'text-[0.65rem] px-2 py-1 rounded border transition-all',
-                    capital === v
-                      ? 'bg-primary/20 border-primary/50 text-primary'
-                      : 'border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
-                  )}
+                  className={`filter-btn ${capital === v ? 'active' : ''}`}
                 >
                   {v >= 1000 ? `${v / 1000}k` : v}
                 </button>
@@ -811,12 +791,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
                 <button
                   key={m}
                   onClick={() => setMonths(m)}
-                  className={cn(
-                    'text-xs px-2.5 py-1.5 rounded-lg border transition-all font-medium',
-                    months === m
-                      ? 'bg-primary/20 border-primary/50 text-primary'
-                      : 'border-border/40 text-muted-foreground hover:border-border/60 hover:text-foreground'
-                  )}
+                  className={`filter-btn ${months === m ? 'active' : ''}`}
                 >
                   {m < 12 ? `${m}m` : `${m / 12}a`}
                 </button>
@@ -1280,12 +1255,7 @@ export default function Bonds() {
           <button
             key={f.key}
             onClick={() => setTypeFilter(f.key)}
-            className={cn(
-              'text-xs px-3 py-1.5 rounded-lg border transition-all font-medium',
-              typeFilter === f.key
-                ? 'bg-primary/20 border-primary/50 text-primary'
-                : 'border-border/40 text-muted-foreground hover:border-border/60 hover:text-foreground'
-            )}
+            className={`filter-btn ${typeFilter === f.key ? 'active' : ''}`}
           >
             {f.label}
           </button>

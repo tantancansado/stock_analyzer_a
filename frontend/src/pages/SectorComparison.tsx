@@ -219,11 +219,7 @@ export default function SectorComparison() {
               <button
                 key={l}
                 onClick={() => setLabelFilter(l)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-                  labelFilter === l
-                    ? 'bg-primary/15 border-primary/30 text-primary'
-                    : 'bg-muted/20 border-border/30 text-muted-foreground hover:text-foreground'
-                }`}
+                className={`filter-btn ${labelFilter === l ? 'active' : ''}`}
               >
                 {labelButtonText(l)}
               </button>

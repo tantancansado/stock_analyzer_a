@@ -171,11 +171,7 @@ export default function MeanReversion() {
         <div className="flex items-center gap-2 mt-1 shrink-0">
           <button
             onClick={() => setCompact(c => !c)}
-            className={`text-[0.65rem] font-bold px-2.5 py-1 rounded border transition-colors hidden sm:block ${
-              compact
-                ? 'bg-primary/20 border-primary/50 text-primary'
-                : 'bg-muted/20 border-border/30 text-muted-foreground hover:text-foreground hover:border-border/60'
-            }`}
+            className={`filter-btn hidden sm:inline-flex ${compact ? 'active' : ''}`}
           >
             Compacto
           </button>
@@ -289,11 +285,7 @@ export default function MeanReversion() {
             <button
               key={opt.value}
               onClick={() => setFilterQuality(opt.value)}
-              className={`text-[0.7rem] font-bold px-3 py-1 rounded border transition-colors ${
-                active
-                  ? 'bg-primary/20 border-primary/50 text-primary'
-                  : 'bg-muted/20 border-border/30 text-muted-foreground hover:text-foreground hover:border-border/60'
-              }`}
+              className={`filter-btn ${active ? 'active' : ''}`}
             >
               {opt.label} <span className="opacity-60 font-normal ml-0.5">{count}</span>
             </button>

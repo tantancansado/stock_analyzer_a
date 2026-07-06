@@ -419,10 +419,7 @@ export default function Leaps() {
               <button
                 key={key}
                 onClick={() => setSitFilter(key as LeapsSituation | 'ALL')}
-                className={cn(
-                  'text-[0.65rem] font-semibold px-2.5 py-1 rounded-full border transition-colors',
-                  sitFilter === key ? 'border-primary/50 text-primary bg-primary/10' : 'border-border/40 text-muted-foreground hover:border-primary/30'
-                )}
+                className={`filter-btn ${sitFilter === key ? 'active' : ''}`}
               >
                 {label}
               </button>

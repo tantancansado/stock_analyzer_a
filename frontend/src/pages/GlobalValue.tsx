@@ -275,8 +275,7 @@ export default function GlobalValue() {
       {/* Filters */}
       <div className="flex flex-wrap gap-2 mb-4 items-center">
         {(['ALL', 'A', 'B', 'C'] as string[]).map(g => (
-          <button key={g} onClick={() => setFilterGrade(g)}
-            className={`text-xs px-3 py-1 rounded-full border transition-colors ${filterGrade === g ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:border-primary/50'}`}>
+          <button key={g} onClick={() => setFilterGrade(g)} className={`filter-btn ${filterGrade === g ? 'active' : ''}`}>
             {g === 'ALL' ? 'Todos' : `Grado ${g}`}
           </button>
         ))}
@@ -291,16 +290,10 @@ export default function GlobalValue() {
           onChange={e => setMinRr(e.target.value)}
           className="w-20 text-xs px-2 py-1 rounded-md border border-border bg-background text-foreground"
         />
-        <button
-          onClick={() => setHideRisky(h => !h)}
-          className={`text-xs px-3 py-1 rounded-full border transition-colors ${hideRisky ? 'bg-red-500/20 text-red-400 border-red-500/40' : 'border-border text-muted-foreground hover:border-red-500/40'}`}
-        >
+        <button onClick={() => setHideRisky(h => !h)} className={`filter-btn ${hideRisky ? 'active-red' : ''}`}>
           {hideRisky ? '🚫 Ocultar RISKY' : 'Mostrar todos'}
         </button>
-        <button
-          onClick={() => setCompact(v => !v)}
-          className={`text-[0.68rem] px-2.5 py-0.5 rounded border transition-colors ${compact ? 'border-primary/60 bg-primary/15 text-primary' : 'border-border/40 text-muted-foreground hover:border-border/70 hover:text-foreground'}`}
-        >
+        <button onClick={() => setCompact(v => !v)} className={`filter-btn ${compact ? 'active' : ''}`}>
           {compact ? '⊟ Compacta' : '⊞ Completa'}
         </button>
         <span className="text-xs text-muted-foreground ml-auto">{filtered.length} resultados</span>

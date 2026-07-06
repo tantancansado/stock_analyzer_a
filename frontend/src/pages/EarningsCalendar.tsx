@@ -260,12 +260,7 @@ export default function EarningsCalendar() {
         />
         <div className="flex gap-1.5 flex-wrap">
           {(['all', 'portfolio', 'warning', 'catalyst'] as FilterMode[]).map(f => (
-            <button key={f} onClick={() => setFilter(f)}
-              className={`text-[0.68rem] font-semibold px-3 py-1 rounded-full border transition-colors ${
-                filter === f
-                  ? 'border-primary/60 bg-primary/15 text-primary'
-                  : 'border-border/40 text-muted-foreground hover:border-border/70 hover:text-foreground'
-              }`}>
+            <button key={f} onClick={() => setFilter(f)} className={`filter-btn ${filter === f ? 'active' : ''}`}>
               {filterLabel(f, data?.earnings?.length ?? 0)}
             </button>
           ))}

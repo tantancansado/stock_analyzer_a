@@ -483,7 +483,7 @@ export default function Portfolio() {
                   <button
                     key={f}
                     onClick={() => { setSigFilter(f); setSigPage(1) }}
-                    className={`text-[0.65rem] px-2 py-0.5 rounded border transition-colors ${sigFilter === f ? 'border-primary/60 bg-primary/15 text-primary' : 'border-border/40 text-muted-foreground hover:border-border/70 hover:text-foreground'}`}
+                    className={`filter-btn ${sigFilter === f ? 'active' : ''}`}
                   >
                     {f === 'ALL' ? 'Todas' : f === 'ACTIVE' ? 'Activas' : 'Completadas'}
                   </button>
