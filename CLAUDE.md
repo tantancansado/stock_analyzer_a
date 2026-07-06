@@ -44,6 +44,8 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   - Toda fila `flex` con 3+ hermanos (badges, filtros, stats) lleva `flex-wrap`
   - Elementos clicables (no decorativos) con texto `text-[0.5rem]` a `text-[0.68rem]` necesitan padding suficiente para un área de toque razonable — ver el bloque `@media (max-width: 640px)` en `index.css` (tap targets, overflow de StatCards, gap de filter bars)
   - El suelo de tamaño de fuente en `index.css:128-142` (`text-[0.5rem]`–`text-[0.68rem]` → mínimo legible en mobile) ya existe — no hace falta repetirlo por página
+- **Convención de tamaño de icono** (lucide-react `size={N}`): 3 pasos, no valores sueltos — `12` (micro, inline junto a texto `text-[0.6-0.68rem]`: badges, pills de filtro, stats compactas), `16` (estándar, la mayoría de iconos de UI: botones, filas de lista, `PageHeader`), `20-22` (hero, solo títulos de página o tarjetas líder). No introducir tamaños intermedios (14, 18) en código nuevo
+- **Componentes canon a preferir sobre reimplementar a mano**: `PageHeader` (título+subtítulo de página), `EmptyState` (icono+título+subtítulo centrado para "sin datos"), `.filter-btn`/`.filter-label` (pills de filtro con estado activo, variantes `.active`/`.active-red`/`.active-amber`), `.table-x-wrap` (scroll horizontal de tablas sin romper sticky thead), `Button` (shadcn, solo para CTAs reales — no para pills de filtro/tab, que fuerza `h-9`+`[&_svg]:size-4` y agranda controles pensados para ser compactos)
 
 ### Frontend (React)
 - CSVs en producción vienen de GitHub Pages (`VITE_CSV_BASE`), NO de Railway
