@@ -2,7 +2,7 @@ import {
   TrendingUp, Users, Activity,
   PieChart, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Radar, CalendarDays, AlertTriangle,
-  DollarSign, Wallet, Bell, Brain,
+  DollarSign, Wallet, Bell,
   Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2, Wheat,
   Rocket,
 } from 'lucide-react'
@@ -15,8 +15,7 @@ export const NAV_CATEGORIES: NavCategory[] = [
   {
     name: 'Portfolio',
     items: [
-      { path: '/dashboard',      icon: LayoutDashboard, label: 'Centro de mando', color: '#6366f1', logo: 'llama-charts.png',        keywords: ['inicio', 'home', 'resumen', 'dashboard', 'centro de mando'] },
-      { path: '/dashboard?tab=cerebro', icon: Brain,    label: 'Cerebro IA',     color: '#8b5cf6', logo: 'llama-magnify.png',       keywords: ['cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'alertas', 'entrada'] },
+      { path: '/dashboard',      icon: LayoutDashboard, label: 'Centro de mando', color: '#6366f1', logo: 'llama-charts.png',        keywords: ['inicio', 'home', 'resumen', 'dashboard', 'centro de mando', 'cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'entrada'] },
       { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: '#10b981', logo: 'llama-safe.png',          keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
       { path: '/alerts',          icon: Bell,          label: 'Alertas',         color: '#f59e0b', keywords: ['alertas', 'email', 'notificaciones', 'precio'] },
       { path: '/portfolio',        icon: BarChart2,      label: 'Portfolio tracker', color: '#10b981', keywords: ['portfolio', 'tracker', 'señales', 'rendimiento', 'win rate', 'estadísticas'] },

@@ -48,16 +48,6 @@ const Commodities      = lazy(() => import('./pages/Commodities'))
 const CorrupcionInstitucional = lazy(() => import('./pages/CorrupcionInstitucional'))
 
 function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) {
-  const location = useLocation()
-  // Items que comparten pathname pero difieren en ?tab= (Centro de mando vs
-  // Cerebro IA, ambos /dashboard): decidir el activo por el query, no solo
-  // por el pathname, para que no se resalten los dos a la vez.
-  const [itemPath, itemQuery] = item.path.split('?')
-  const tabAware = itemPath === '/dashboard'
-  const currentTab = new URLSearchParams(location.search).get('tab') ?? ''
-  const itemTab = itemQuery ? new URLSearchParams(itemQuery).get('tab') ?? '' : ''
-  const forcedActive = tabAware && location.pathname === '/dashboard' && currentTab === itemTab
-
   return (
     <NavLink
       to={item.path}
@@ -66,7 +56,7 @@ function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) 
       className={({ isActive }) => cn(
         'nav-link flex items-center gap-2.5 px-3 py-2 lg:py-[9px] rounded-lg text-[0.98rem] lg:text-[1.04rem] font-medium transition-all mb-0.5 relative',
         'text-muted-foreground',
-        (tabAware ? forcedActive : isActive)
+        isActive
           ? 'nav-link-active bg-[color-mix(in_srgb,var(--nav-color)_12%,transparent)] text-foreground'
           : 'hover:bg-[color-mix(in_srgb,var(--nav-color)_8%,transparent)] hover:text-foreground'
       )}
