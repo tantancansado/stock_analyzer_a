@@ -239,7 +239,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
     const isNeg = val < 0
     return (
       <div className="flex items-center gap-2 text-xs">
-        <span className="w-28 text-white/40 shrink-0">{label}</span>
+        <span className="w-28 text-foreground/40 shrink-0">{label}</span>
         <div className="flex-1 h-2 rounded-full" style={{ background: 'rgba(255,255,255,0.06)' }}>
           <div className="h-2 rounded-full transition-all" style={{
             width: `${pct}%`,
@@ -249,7 +249,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
         <span className="w-20 text-right font-mono shrink-0" style={{ color: isNeg ? '#ef4444' : color }}>
           {isNeg ? '' : '+'}{val >= 0 ? fmtEur(val) : fmtEur(val)}
         </span>
-        <span className="w-12 text-right font-mono text-white/40 text-[10px] shrink-0">
+        <span className="w-12 text-right font-mono text-foreground/40 text-[10px] shrink-0">
           {isNeg ? '' : '+'}{((val / capital) * 100).toFixed(1)}%
         </span>
       </div>
@@ -279,11 +279,11 @@ function AdvisorCard({ label, rec, capital }: {
         <div className="flex items-start justify-between gap-2">
           <div>
             <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: rec.color }}>{label}</div>
-            <div className="text-sm font-semibold text-white leading-tight">{rec.ticker}</div>
-            <div className="text-xs text-white/40 mt-0.5">{rec.name}</div>
+            <div className="text-sm font-semibold text-foreground leading-tight">{rec.ticker}</div>
+            <div className="text-xs text-foreground/40 mt-0.5">{rec.name}</div>
           </div>
           <div className="text-right shrink-0">
-            <div className="text-xl font-bold font-mono text-white">{fmtEur(rec.gainBase)}</div>
+            <div className="text-xl font-bold font-mono text-foreground">{fmtEur(rec.gainBase)}</div>
             <div className="text-xs font-mono mt-0.5" style={{ color: pctBase >= 0 ? '#10b981' : '#ef4444' }}>
               +{pctBase.toFixed(2)}% total
             </div>
@@ -295,13 +295,13 @@ function AdvisorCard({ label, rec, capital }: {
           <span className="text-xs px-2 py-0.5 rounded-full font-mono" style={{ background: `${rec.color}18`, color: rec.color, border: `1px solid ${rec.color}30` }}>
             {rec.yieldPct.toFixed(1)}% anual
           </span>
-          <span className="text-xs px-2 py-0.5 rounded-full text-white/40" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <span className="text-xs px-2 py-0.5 rounded-full text-foreground/40" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
             {rec.currency} · IBKR Ireland ✓
           </span>
         </div>
 
         {/* Tesis */}
-        <p className="text-xs text-white/60 leading-relaxed">{rec.tesis}</p>
+        <p className="text-xs text-foreground/60 leading-relaxed">{rec.tesis}</p>
 
         {/* Scenarios bar */}
         <GainBar base={rec.gainBase} rateCut={rec.gainRateCut} rateHike={rec.gainRateHike} capital={capital} />
@@ -309,7 +309,7 @@ function AdvisorCard({ label, rec, capital }: {
         {/* Expandible */}
         <button
           onClick={() => setExpanded(v => !v)}
-          className="flex items-center gap-1 text-xs text-white/30 hover:text-white/60 transition-colors mt-1"
+          className="flex items-center gap-1 text-xs text-foreground/30 hover:text-foreground/60 transition-colors mt-1"
         >
           {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
           {expanded ? 'Menos detalle' : 'Más detalle'}
@@ -319,11 +319,11 @@ function AdvisorCard({ label, rec, capital }: {
           <div className="space-y-2 pt-1 border-t border-white/5">
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
               <span className="text-red-400 font-medium">⚠️ Riesgo: </span>
-              <span className="text-white/60">{rec.riskNote}</span>
+              <span className="text-foreground/60">{rec.riskNote}</span>
             </div>
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
               <span className="text-emerald-400 font-medium">📉 Si bajan tipos: </span>
-              <span className="text-white/60">{rec.rateCutNote}</span>
+              <span className="text-foreground/60">{rec.rateCutNote}</span>
             </div>
           </div>
         )}
@@ -363,9 +363,9 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
             {/* Capital input */}
             <div className="flex flex-wrap items-center gap-4">
               <div>
-                <label className="text-xs text-white/40 block mb-1">Tu capital disponible</label>
+                <label className="text-xs text-foreground/40 block mb-1">Tu capital disponible</label>
                 <div className="flex items-center gap-2">
-                  <span className="text-white/50 text-sm">€</span>
+                  <span className="text-foreground/50 text-sm">€</span>
                   <input
                     type="text"
                     inputMode="numeric"
@@ -377,7 +377,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
                       if (!isNaN(n) && n >= 100) setCapital(n)
                     }}
                     onBlur={() => setRawCapital(String(capital))}
-                    className="w-36 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm font-mono text-white focus:outline-none focus:border-primary/50"
+                    className="w-36 bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm font-mono text-foreground focus:outline-none focus:border-primary/50"
                   />
                 </div>
               </div>
@@ -390,14 +390,14 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
                       'text-xs px-2.5 py-1 rounded-lg border transition-all',
                       capital === v
                         ? 'bg-primary/20 border-primary/50 text-primary'
-                        : 'border-white/10 text-white/40 hover:text-white/70 hover:border-white/20'
+                        : 'border-white/10 text-foreground/40 hover:text-foreground/70 hover:border-white/20'
                     )}
                   >
                     {fmtEur(v)}
                   </button>
                 ))}
               </div>
-              <div className="text-xs text-white/30 ml-auto">Cuenta IBKR Ireland · todos accesibles desde EU</div>
+              <div className="text-xs text-foreground/30 ml-auto">Cuenta IBKR Ireland · todos accesibles desde EU</div>
             </div>
 
             {/* Cards por horizonte */}
@@ -408,7 +408,7 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
             </div>
 
             {/* Nota disclaimer */}
-            <p className="text-[10px] text-white/20 text-center">
+            <p className="text-[10px] text-foreground/20 text-center">
               Proyecciones basadas en yields actuales del scanner diario · No es asesoramiento financiero · Rendimientos pasados no garantizan futuros
             </p>
           </CardContent>

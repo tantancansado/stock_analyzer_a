@@ -15,13 +15,13 @@ const TABS: { id: Tab; label: string }[] = [
 ]
 
 function ReturnBadge({ v }: { v: number | null }) {
-  if (v === null || v === undefined) return <span className="text-white/30 text-xs">—</span>
+  if (v === null || v === undefined) return <span className="text-foreground/30 text-xs">—</span>
   const color = v > 0 ? '#10b981' : v > -2 ? '#f59e0b' : '#ef4444'
   return <span className="text-xs font-mono" style={{ color }}>{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
 }
 
 function WinBadge({ v }: { v: number | null }) {
-  if (v === null || v === undefined) return <span className="text-white/30 text-xs">—</span>
+  if (v === null || v === undefined) return <span className="text-foreground/30 text-xs">—</span>
   const color = v >= 50 ? '#10b981' : v >= 35 ? '#f59e0b' : '#ef4444'
   return <span className="text-xs font-mono font-semibold" style={{ color }}>{v.toFixed(1)}%</span>
 }
@@ -33,7 +33,7 @@ function MiniBar({ value, max, color = '#22d3ee' }: { value: number; max: number
       <div className="w-16 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
         <div className="h-1.5 rounded-full" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <span className="text-xs font-mono text-white/60">{value}</span>
+      <span className="text-xs font-mono text-foreground/60">{value}</span>
     </div>
   )
 }
@@ -72,19 +72,19 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-white/10 text-left">
-            <th className="pb-2 text-xs text-white/40 font-medium w-28">Período</th>
-            <th className="pb-2 text-xs text-white/40 font-medium">Señales</th>
-            <th className="pb-2 text-xs text-white/40 font-medium pl-3">Win 14d</th>
-            <th className="pb-2 text-xs text-white/40 font-medium pl-3">Win 30d</th>
-            <th className="pb-2 text-xs text-white/40 font-medium text-right">Ret. 14d</th>
-            <th className="pb-2 text-xs text-white/40 font-medium text-right">Ret. 30d</th>
-            {showStrategy && <th className="pb-2 text-xs text-white/40 font-medium text-right">US/EU</th>}
+            <th className="pb-2 text-xs text-foreground/40 font-medium w-28">Período</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium">Señales</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win 14d</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium pl-3">Win 30d</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. 14d</th>
+            <th className="pb-2 text-xs text-foreground/40 font-medium text-right">Ret. 30d</th>
+            {showStrategy && <th className="pb-2 text-xs text-foreground/40 font-medium text-right">US/EU</th>}
           </tr>
         </thead>
         <tbody>
           {rows.map(row => (
             <tr key={row.label} className="border-b border-white/5 hover:bg-white/5 transition-colors">
-              <td className="py-2.5 text-white font-medium text-xs">{fmtLabel(tab, row.label)}</td>
+              <td className="py-2.5 text-foreground font-medium text-xs">{fmtLabel(tab, row.label)}</td>
               <td className="py-2.5">
                 <MiniBar value={row.signals} max={maxSignals} />
               </td>
@@ -99,7 +99,7 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
               {showStrategy && (
                 <td className="py-2.5 text-right">
                   <span className="text-xs font-mono text-emerald-400">{row.value_us ?? 0}</span>
-                  <span className="text-white/30 mx-1">/</span>
+                  <span className="text-foreground/30 mx-1">/</span>
                   <span className="text-xs font-mono text-blue-400">{row.value_eu ?? 0}</span>
                 </td>
               )}
@@ -129,12 +129,12 @@ function StrategyCard({ row }: { row: StrategyRow }) {
     <Card className="glass">
       <CardContent className="p-5">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-semibold text-white">{name}</span>
-          <span className="text-xs font-mono text-white/40">{row.signals} señales</span>
+          <span className="text-sm font-semibold text-foreground">{name}</span>
+          <span className="text-xs font-mono text-foreground/40">{row.signals} señales</span>
         </div>
         <div className="space-y-2.5">
           <div>
-            <div className="flex justify-between text-xs text-white/40 mb-1">
+            <div className="flex justify-between text-xs text-foreground/40 mb-1">
               <span>Win Rate 14d</span>
               <WinBadge v={row.win_rate_14d} />
             </div>
@@ -146,7 +146,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
             </div>
           </div>
           <div>
-            <div className="flex justify-between text-xs text-white/40 mb-1">
+            <div className="flex justify-between text-xs text-foreground/40 mb-1">
               <span>Win Rate 30d</span>
               <WinBadge v={row.win_rate_30d} />
             </div>
@@ -159,15 +159,15 @@ function StrategyCard({ row }: { row: StrategyRow }) {
           </div>
           <div className="flex justify-between pt-1 border-t border-white/5">
             <div className="text-center">
-              <div className="text-xs text-white/40 mb-0.5">Ret. 14d</div>
+              <div className="text-xs text-foreground/40 mb-0.5">Ret. 14d</div>
               <ReturnBadge v={row.avg_return_14d} />
             </div>
             <div className="text-center">
-              <div className="text-xs text-white/40 mb-0.5">Ret. 30d</div>
+              <div className="text-xs text-foreground/40 mb-0.5">Ret. 30d</div>
               <ReturnBadge v={row.avg_return_30d} />
             </div>
             <div className="text-center">
-              <div className="text-xs text-white/40 mb-0.5">Drawdown</div>
+              <div className="text-xs text-foreground/40 mb-0.5">Drawdown</div>
               <span className="text-xs font-mono text-red-400">{row.avg_drawdown.toFixed(1)}%</span>
             </div>
           </div>
@@ -191,7 +191,7 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
           <div className="space-y-2">
             {best.map(r => (
               <div key={r.label} className="flex items-center justify-between">
-                <span className="text-sm text-white">{fmtLabel(tab, r.label)}</span>
+                <span className="text-sm text-foreground">{fmtLabel(tab, r.label)}</span>
                 <div className="flex items-center gap-3">
                   <WinBadge v={r.win_rate_14d} />
                   <ReturnBadge v={r.avg_return_14d} />
@@ -207,7 +207,7 @@ function BestWorstRows({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
           <div className="space-y-2">
             {worst.map(r => (
               <div key={r.label} className="flex items-center justify-between">
-                <span className="text-sm text-white">{fmtLabel(tab, r.label)}</span>
+                <span className="text-sm text-foreground">{fmtLabel(tab, r.label)}</span>
                 <div className="flex items-center gap-3">
                   <WinBadge v={r.win_rate_14d} />
                   <ReturnBadge v={r.avg_return_14d} />
@@ -241,8 +241,8 @@ export default function SignalStats() {
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Estadísticas de señales</h1>
-        <p className="text-sm text-white/40 mt-1">
+        <h1 className="text-2xl font-bold text-foreground">Estadísticas de señales</h1>
+        <p className="text-sm text-foreground/40 mt-1">
           {data.total_completed.toLocaleString()} señales completadas · {data.date_range.from} → {data.date_range.to}
         </p>
       </div>
@@ -251,8 +251,8 @@ export default function SignalStats() {
       <div className="grid grid-cols-3 gap-4">
         <Card className="glass">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold font-mono text-white">{data.total_completed.toLocaleString()}</div>
-            <div className="text-xs text-white/40 mt-0.5">Señales completadas</div>
+            <div className="text-2xl font-bold font-mono text-foreground">{data.total_completed.toLocaleString()}</div>
+            <div className="text-xs text-foreground/40 mt-0.5">Señales completadas</div>
           </CardContent>
         </Card>
         <Card className="glass">
@@ -260,20 +260,20 @@ export default function SignalStats() {
             <div className="text-2xl font-bold font-mono" style={{ color: avgWin14 >= 50 ? '#10b981' : '#f59e0b' }}>
               {avgWin14.toFixed(1)}%
             </div>
-            <div className="text-xs text-white/40 mt-0.5">Win rate global 14d</div>
+            <div className="text-xs text-foreground/40 mt-0.5">Win rate global 14d</div>
           </CardContent>
         </Card>
         <Card className="glass">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold font-mono text-white">{data.by_strategy.length}</div>
-            <div className="text-xs text-white/40 mt-0.5">Estrategias activas</div>
+            <div className="text-2xl font-bold font-mono text-foreground">{data.by_strategy.length}</div>
+            <div className="text-xs text-foreground/40 mt-0.5">Estrategias activas</div>
           </CardContent>
         </Card>
       </div>
 
       {/* Por estrategia */}
       <div>
-        <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-3">Por estrategia</h2>
+        <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wider mb-3">Por estrategia</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {data.by_strategy.map(s => <StrategyCard key={s.strategy} row={s} />)}
         </div>
@@ -282,7 +282,7 @@ export default function SignalStats() {
       {/* Tabla temporal */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider">Evolución temporal</h2>
+          <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wider">Evolución temporal</h2>
           <div className="flex gap-1 p-1 rounded-lg" style={{ background: 'rgba(255,255,255,0.05)' }}>
             {TABS.map(t => (
               <button
@@ -292,7 +292,7 @@ export default function SignalStats() {
                   'px-3 py-1.5 rounded-md text-xs font-medium transition-all',
                   tab === t.id
                     ? 'bg-cyan-500/20 text-cyan-400'
-                    : 'text-white/40 hover:text-white/70',
+                    : 'text-foreground/40 hover:text-foreground/70',
                 )}
               >
                 {t.label}
@@ -311,13 +311,13 @@ export default function SignalStats() {
       {/* Mejores / peores */}
       {tab !== 'weekday' && (
         <div>
-          <h2 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-3">Ranking de períodos</h2>
+          <h2 className="text-sm font-semibold text-foreground/60 uppercase tracking-wider mb-3">Ranking de períodos</h2>
           <BestWorstRows rows={rows} tab={tab} />
         </div>
       )}
 
       {/* Nota */}
-      <p className="text-xs text-white/25 text-center pb-4">
+      <p className="text-xs text-foreground/25 text-center pb-4">
         Solo señales completadas · mín. 5 señales para ranking · win rate = retorno positivo a vencimiento
       </p>
     </div>

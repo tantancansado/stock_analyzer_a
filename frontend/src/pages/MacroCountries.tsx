@@ -133,7 +133,7 @@ function CountryCard({ c }: { c: CountryData }) {
           <div className="flex items-center gap-2">
             <span className="text-2xl">{c.flag}</span>
             <div>
-              <div className="font-semibold text-sm text-white leading-tight">{c.name}</div>
+              <div className="font-semibold text-sm text-foreground leading-tight">{c.name}</div>
               <div className="text-[0.65rem] text-slate-500">{c.region}</div>
             </div>
           </div>
@@ -149,12 +149,12 @@ function CountryCard({ c }: { c: CountryData }) {
         <div className="space-y-1.5 mb-3">
           <div className="flex items-center justify-between text-[0.6rem] text-slate-400">
             <span>Macro salud</span>
-            <span className="text-white font-mono">{c.macro_score.toFixed(0)}/100</span>
+            <span className="text-foreground font-mono">{c.macro_score.toFixed(0)}/100</span>
           </div>
           <ScoreBar value={c.macro_score} color="#22d3ee" />
           <div className="flex items-center justify-between text-[0.6rem] text-slate-400">
             <span>Oportunidad mercado</span>
-            <span className="text-white font-mono">{c.market_score.toFixed(0)}/100</span>
+            <span className="text-foreground font-mono">{c.market_score.toFixed(0)}/100</span>
           </div>
           <ScoreBar value={c.market_score} color="#a78bfa" />
         </div>
@@ -213,11 +213,11 @@ function CountryCard({ c }: { c: CountryData }) {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Inflación (IPC)</span>
-                <span className="font-mono font-semibold text-white">{c.inflation.toFixed(1)}%</span>
+                <span className="font-mono font-semibold text-foreground">{c.inflation.toFixed(1)}%</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Desempleo</span>
-                <span className="font-mono font-semibold text-white">{c.unemployment.toFixed(1)}%</span>
+                <span className="font-mono font-semibold text-foreground">{c.unemployment.toFixed(1)}%</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">C/A % GDP</span>
@@ -225,7 +225,7 @@ function CountryCard({ c }: { c: CountryData }) {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Tipos banco central</span>
-                <span className="font-mono font-semibold text-white">{c.policy_rate.toFixed(2)}%</span>
+                <span className="font-mono font-semibold text-foreground">{c.policy_rate.toFixed(2)}%</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-400">Dirección tipos</span>
@@ -284,11 +284,11 @@ function CountryCard({ c }: { c: CountryData }) {
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Precio actual</span>
-                  <span className="font-mono font-semibold text-white">{mkt.current.toLocaleString()}</span>
+                  <span className="font-mono font-semibold text-foreground">{mkt.current.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">MA 200</span>
-                  <span className="font-mono font-semibold text-white">{mkt.ma200.toLocaleString()}</span>
+                  <span className="font-mono font-semibold text-foreground">{mkt.ma200.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">vs 200MA</span>
@@ -296,7 +296,7 @@ function CountryCard({ c }: { c: CountryData }) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Rango 52s</span>
-                  <span className="font-mono text-white">{mkt.position_in_range.toFixed(0)}% del rango</span>
+                  <span className="font-mono text-foreground">{mkt.position_in_range.toFixed(0)}% del rango</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">YTD</span>
@@ -385,7 +385,7 @@ export default function MacroCountries() {
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <Globe className="h-6 w-6 text-cyan-400" />
             Análisis Macro Global
           </h1>
@@ -429,7 +429,7 @@ export default function MacroCountries() {
             <button
               key={r}
               onClick={() => setRegion(r)}
-              className={`px-3 py-1 rounded-md text-xs transition-colors ${region === r ? 'bg-white/15 text-white font-semibold' : 'text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1 rounded-md text-xs transition-colors ${region === r ? 'bg-white/15 text-foreground font-semibold' : 'text-slate-400 hover:text-foreground'}`}
             >
               {r}
             </button>
@@ -451,7 +451,7 @@ export default function MacroCountries() {
             <button
               key={k}
               onClick={() => setSortBy(k)}
-              className={`px-3 py-1 rounded-md text-xs transition-colors ${sortBy === k ? 'bg-white/15 text-white font-semibold' : 'text-slate-400 hover:text-white'}`}
+              className={`px-3 py-1 rounded-md text-xs transition-colors ${sortBy === k ? 'bg-white/15 text-foreground font-semibold' : 'text-slate-400 hover:text-foreground'}`}
             >
               {l}
             </button>
