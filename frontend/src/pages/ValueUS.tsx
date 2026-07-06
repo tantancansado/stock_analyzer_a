@@ -243,7 +243,13 @@ export default function ValueUS() {
   const filtered = useMemo(() => rows.filter(r => {
     if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
     if (filterSector !== 'ALL' && r.sector !== filterSector) return false
-    if (deferredMinScore !== '' && (r.value_score == null || r.value_score < Number(deferredMinScore))) return false
+    // El umbral de score mira value_score (métrica rápida), pero conviction_grade
+    // sale de un análisis más profundo (ROE, deuda, DCF, R:R) que puede discrepar
+    // — un A/B de alta convicción no debe desaparecer solo porque el value_score
+    // simple cae un par de puntos por debajo del mínimo (caso real: CBOE,
+    // value_score 52.6 bajo el corte de 55 pero grade A con 8 positivos/0 red flags).
+    const highConviction = r.conviction_grade === 'A' || r.conviction_grade === 'B'
+    if (deferredMinScore !== '' && !highConviction && (r.value_score == null || r.value_score < Number(deferredMinScore))) return false
     if (deferredMinFcf !== '' && (r.fcf_yield_pct == null || r.fcf_yield_pct < Number(deferredMinFcf))) return false
     if (deferredMinRr !== '' && (r.risk_reward_ratio == null || r.risk_reward_ratio < Number(deferredMinRr))) return false
     if (hideEarnings && r.earnings_warning) return false

@@ -223,7 +223,11 @@ export default function ValueEU() {
     if (filterGrade !== 'ALL' && r.conviction_grade !== filterGrade) return false
     if (filterSector !== 'ALL' && r.sector !== filterSector) return false
     if (filterMarket !== 'ALL' && r.market !== filterMarket) return false
-    if (minScore !== '' && (r.value_score == null || r.value_score < Number(minScore))) return false
+    // Mismo criterio que ValueUS: un A/B de conviction (análisis profundo:
+    // ROE, deuda, DCF, R:R) no debe ocultarse solo porque value_score (métrica
+    // rápida) cae un par de puntos bajo el corte del slider.
+    const highConviction = r.conviction_grade === 'A' || r.conviction_grade === 'B'
+    if (minScore !== '' && !highConviction && (r.value_score == null || r.value_score < Number(minScore))) return false
     if (deferredMinFcf !== '' && (r.fcf_yield_pct == null || r.fcf_yield_pct < Number(deferredMinFcf))) return false
     if (deferredMinRr !== '' && (r.risk_reward_ratio == null || r.risk_reward_ratio < Number(deferredMinRr))) return false
     if (hideTraps && cerebro.trapMap[r.ticker]?.severity === 'HIGH') return false

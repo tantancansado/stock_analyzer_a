@@ -210,6 +210,28 @@ jobs:
       - name: Calculate Entry/Exit Prices (all strategies) [CRITICAL]
         run: python3 add_entry_exit_to_opportunities.py --all
 
+      # Owner Earnings va ANTES de Conviction Filter a propósito: antes corría
+      # después, así que apply_oe_ai_adjustment.py rebajaba value_score (p.ej.
+      # -8 por un veredicto RELIABLE/AVOID) DESPUÉS de que Conviction ya hubiera
+      # graduado con el score sin ajustar — un ticker podía lucir "grade A"
+      # con un value_score ya por debajo del propio umbral (>=60) que se usó
+      # para dárselo (caso real: CBOE, graduado A a ~60+, parcheado a 52.6
+      # acto seguido). Ahora el ajuste llega antes del filtro final, así que
+      # el grade siempre refleja el score definitivo.
+      - name: Owner Earnings Batch (pre-compute for GitHub Pages)
+        continue-on-error: true
+        run: python3 owner_earnings.py || echo "Owner earnings batch failed"
+
+      - name: Owner Earnings AI Validator
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python3 owner_earnings_validator.py || echo "Owner earnings AI validator failed"
+
+      - name: Apply Owner Earnings AI Adjustment
+        continue-on-error: true
+        run: python3 apply_oe_ai_adjustment.py || echo "Owner earnings AI patch failed"
+
       - name: Conviction Filter (final quality gate) [CRITICAL]
         run: python3 conviction_filter.py
 
@@ -245,20 +267,6 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 entry_verdict_agent.py --llm-budget 30 || echo "Entry verdict agent failed"
-
-      - name: Owner Earnings Batch (pre-compute for GitHub Pages)
-        continue-on-error: true
-        run: python3 owner_earnings.py || echo "Owner earnings batch failed"
-
-      - name: Owner Earnings AI Validator
-        continue-on-error: true
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python3 owner_earnings_validator.py || echo "Owner earnings AI validator failed"
-
-      - name: Apply Owner Earnings AI Adjustment
-        continue-on-error: true
-        run: python3 apply_oe_ai_adjustment.py || echo "Owner earnings AI patch failed"
 
       - name: Technical Signal Analyzer
         continue-on-error: true
