@@ -629,12 +629,12 @@ function LivePricesBar() {
 
 // ── DailyPlanCard ────────────────────────────────────────────────────────────
 
-const SESGO_STYLES: Record<string, { border: string; text: string; bg: string; badge: string }> = {
-  ALCISTA:     { border: 'border-l-emerald-500',  text: 'text-emerald-400',  bg: 'bg-emerald-500/8',  badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' },
-  BAJISTA:     { border: 'border-l-red-500',       text: 'text-red-400',      bg: 'bg-red-500/8',      badge: 'bg-red-500/20 text-red-300 border-red-500/40' },
-  DEFENSIVO:   { border: 'border-l-amber-500',     text: 'text-amber-400',    bg: 'bg-amber-500/8',    badge: 'bg-amber-500/20 text-amber-300 border-amber-500/40' },
-  OPORTUNIDAD: { border: 'border-l-cyan-500',      text: 'text-cyan-400',     bg: 'bg-cyan-500/8',     badge: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' },
-  NEUTRO:      { border: 'border-l-blue-500',      text: 'text-blue-400',     bg: 'bg-blue-500/8',     badge: 'bg-blue-500/20 text-blue-300 border-blue-500/40' },
+const SESGO_STYLES: Record<string, { badge: string }> = {
+  ALCISTA:     { badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' },
+  BAJISTA:     { badge: 'bg-red-500/20 text-red-300 border-red-500/40' },
+  DEFENSIVO:   { badge: 'bg-amber-500/20 text-amber-300 border-amber-500/40' },
+  OPORTUNIDAD: { badge: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' },
+  NEUTRO:      { badge: 'bg-blue-500/20 text-blue-300 border-blue-500/40' },
 }
 
 const ACCION_STYLES: Record<string, string> = {
@@ -743,11 +743,11 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
   const ss = SESGO_STYLES[sesgoKey] ?? SESGO_STYLES.NEUTRO
 
   return (
-    <Card className={`liquid-glass border-l-4 ${ss.border} ${ss.bg} p-5 mb-5 animate-fade-in-up`}>
+    <Card className="liquid-glass p-5 mb-5 animate-fade-in-up">
       {/* Header */}
       <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <Target size={16} className={ss.text} />
+          <Target size={16} className="text-muted-foreground" />
           <span className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
             Plan del Día — Cerebro IA
           </span>
@@ -770,7 +770,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
       {/* Situacion */}
       {data.situacion && (
-        <div className={`text-[0.98rem] font-semibold mb-1 ${ss.text}`}>{data.situacion}</div>
+        <div className="text-[0.98rem] font-semibold mb-1 text-foreground">{data.situacion}</div>
       )}
 
       {/* Narrativa */}

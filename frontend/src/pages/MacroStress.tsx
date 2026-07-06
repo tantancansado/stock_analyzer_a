@@ -23,31 +23,11 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 
-const BAND_THEME: Record<string, { tile: string; ring: string; glow: string; label: string }> = {
-  green: {
-    tile: 'border-emerald-500/25 bg-[linear-gradient(140deg,rgba(16,185,129,0.14),rgba(6,78,59,0.08))]',
-    ring: 'bg-emerald-400',
-    glow: 'shadow-[0_0_0_1px_rgba(16,185,129,0.25),0_18px_40px_rgba(16,185,129,0.08)]',
-    label: 'Verde',
-  },
-  amber: {
-    tile: 'border-amber-500/25 bg-[linear-gradient(140deg,rgba(245,158,11,0.16),rgba(120,53,15,0.1))]',
-    ring: 'bg-amber-400',
-    glow: 'shadow-[0_0_0_1px_rgba(245,158,11,0.25),0_18px_40px_rgba(245,158,11,0.08)]',
-    label: 'Ámbar',
-  },
-  red: {
-    tile: 'border-red-500/25 bg-[linear-gradient(140deg,rgba(239,68,68,0.18),rgba(127,29,29,0.12))]',
-    ring: 'bg-red-400',
-    glow: 'shadow-[0_0_0_1px_rgba(239,68,68,0.25),0_18px_40px_rgba(239,68,68,0.10)]',
-    label: 'Rojo',
-  },
-  unknown: {
-    tile: 'border-white/10 bg-white/[0.03]',
-    ring: 'bg-slate-400',
-    glow: 'shadow-[0_0_0_1px_rgba(255,255,255,0.08)]',
-    label: 'Parcial',
-  },
+const BAND_THEME: Record<string, { ring: string; label: string }> = {
+  green:   { ring: 'bg-emerald-400', label: 'Verde' },
+  amber:   { ring: 'bg-amber-400',   label: 'Ámbar' },
+  red:     { ring: 'bg-red-400',     label: 'Rojo' },
+  unknown: { ring: 'bg-slate-400',   label: 'Parcial' },
 }
 
 function fmt(value: number | null | undefined, digits = 0) {
@@ -120,7 +100,7 @@ function HeatTile({
   return (
     <button
       onClick={onClick}
-      className={`relative rounded-[24px] border p-4 text-left transition-all duration-300 ${theme.tile} ${theme.glow} ${
+      className={`relative rounded-[24px] border border-white/10 bg-white/[0.03] p-4 text-left transition-all duration-300 ${
         active ? 'scale-[1.01] border-white/30' : 'hover:-translate-y-0.5 hover:border-white/20'
       }`}
     >
