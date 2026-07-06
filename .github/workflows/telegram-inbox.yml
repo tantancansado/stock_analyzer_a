@@ -96,7 +96,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/.telegram_offset.json docs/.telegram_inbox.json 2>/dev/null || true
+          # git add con varios paths falla ENTERO si alguno no existe (p.ej.
+          # inbox.json solo se crea cuando hay mensajes nuevos) — se comprobó
+          # en el primer run real: el offset nunca llegaba a commitearse.
+          # Un add por archivo evita que uno bloquee al otro.
+          [ -f docs/.telegram_offset.json ] && git add docs/.telegram_offset.json
+          [ -f docs/.telegram_inbox.json ] && git add docs/.telegram_inbox.json
           git diff --cached --quiet && echo "Sin cambios" || git commit -m "chore(telegram-inbox): mensajes nuevos [skip ci]"
           git pull --rebase --autostash origin main 2>/dev/null || true
           git push || true
