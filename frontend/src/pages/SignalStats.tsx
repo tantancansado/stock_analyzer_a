@@ -69,7 +69,7 @@ function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
   const showStrategy = tab !== 'weekday'
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full text-sm no-sticky-thead">
         <thead>
           <tr className="border-b border-white/10 text-left">
             <th className="pb-2 text-xs text-white/40 font-medium w-28">Período</th>

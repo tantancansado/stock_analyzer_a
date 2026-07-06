@@ -27,7 +27,7 @@ function ReturnBadge({ value }: { value: number | null | undefined }) {
 function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full text-sm no-sticky-thead">
         <thead>
           <tr className="border-b border-white/10 text-left">
             <th className="pb-2 text-xs text-white/50 font-medium">Score</th>
@@ -62,7 +62,7 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
 function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full text-sm no-sticky-thead">
         <thead>
           <tr className="border-b border-white/10 text-left">
             <th className="pb-2 text-xs text-white/50 font-medium">Régimen</th>
@@ -93,7 +93,7 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
 function SectorTable({ rows }: { rows: CalibrationSector[] }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full text-sm no-sticky-thead">
         <thead>
           <tr className="border-b border-white/10 text-left">
             <th className="pb-2 text-xs text-white/50 font-medium">Sector</th>

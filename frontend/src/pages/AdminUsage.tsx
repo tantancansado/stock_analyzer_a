@@ -181,7 +181,7 @@ export default function AdminUsage() {
             Todos los usuarios ({data.total_users})
           </h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm no-sticky-thead">
               <thead>
                 <tr className="border-b border-white/10 text-left">
                   <th className="pb-2 text-xs text-white/40 font-medium">Email</th>

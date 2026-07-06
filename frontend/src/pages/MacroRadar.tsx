@@ -647,7 +647,7 @@ function IndexBreakoutsPanel({
                 <div className="flex-1 h-px bg-border/20" />
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[520px] text-[0.66rem]">
+                <table className="w-full min-w-[520px] text-[0.66rem] no-sticky-thead">
                   <thead>
                     <tr className="border-b border-border/20">
                       <th className="text-left font-medium text-muted-foreground/50 pb-1.5 pr-2">Índice</th>
