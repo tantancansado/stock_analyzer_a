@@ -4,6 +4,7 @@ import { GitCompare, Plus, X, Loader2, TrendingUp, TrendingDown, Minus } from 'l
 import { searchTickers, type SearchResult } from '../api/client'
 import TickerLogo from '../components/TickerLogo'
 import PageHeader from '../components/PageHeader'
+import { Button } from '@/components/ui/button'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
@@ -249,14 +250,10 @@ export default function Comparador() {
                   placeholder="AAPL o Apple..."
                   className="w-40 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/40 text-sm font-bold text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
                 />
-                <button
-                  onClick={addTicker}
-                  disabled={!input.trim()}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 disabled:opacity-50 transition-colors"
-                >
+                <Button size="sm" onClick={addTicker} disabled={!input.trim()}>
                   <Plus size={13} />
                   Añadir
-                </button>
+                </Button>
               </div>
               {showSugg && suggestions.length > 0 && (
                 <ul className="absolute top-full left-0 mt-1 z-50 w-72 bg-card border border-border rounded-lg shadow-xl overflow-hidden">

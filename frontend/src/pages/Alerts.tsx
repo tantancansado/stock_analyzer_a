@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
 import { useToast } from '../components/Toast'
 import PageHeader from '../components/PageHeader'
+import { Button } from '@/components/ui/button'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -146,14 +147,10 @@ function AddAlertForm({ onAdd, userEmail }: { onAdd: () => void; userEmail: stri
           />
         </div>
 
-        <button
-          onClick={submit}
-          disabled={saving}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 disabled:opacity-50 transition-colors"
-        >
+        <Button onClick={submit} disabled={saving}>
           {saving ? <Loader2 size={13} className="animate-spin" /> : <Bell size={13} />}
           Crear alerta
-        </button>
+        </Button>
       </div>
 
       {error && <p className="text-xs text-red-400">{error}</p>}

@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 export default function Login() {
   const { user, loading, signIn } = useAuth()
@@ -79,13 +80,9 @@ export default function Login() {
                 </p>
               )}
 
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full py-2 rounded-md bg-primary text-primary-foreground text-sm font-semibold transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
-              >
+              <Button type="submit" disabled={submitting} className="w-full mt-2">
                 {submitting ? 'Entrando…' : 'Entrar'}
-              </button>
+              </Button>
             </form>
           </CardContent>
         </Card>

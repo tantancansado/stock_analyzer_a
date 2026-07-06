@@ -11,6 +11,7 @@ import { useCerebroSignals, type CerebroMaps } from '../hooks/useCerebroSignals'
 import { usePortfolioConfluence, type ConfluenceSignals } from '../hooks/usePortfolioConfluence'
 import { useApi } from '../hooks/useApi'
 import PageHeader from '../components/PageHeader'
+import { Button } from '@/components/ui/button'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -482,11 +483,10 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       )}
 
       <div className="flex items-center gap-3">
-        <button onClick={submit} disabled={saving}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 active:scale-[0.98] transition-all disabled:opacity-50">
+        <Button onClick={submit} disabled={saving}>
           {saving ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} strokeWidth={2.5} />}
           Añadir
-        </button>
+        </Button>
         {error && <p className="text-xs text-red-400">{error}</p>}
       </div>
     </div>
@@ -1926,13 +1926,10 @@ export default function PersonalPortfolio() {
       {positions.length > 0 && (
         <div className="space-y-4">
           {!analyzed && !analyzing && (
-            <button
-              onClick={() => analyze()}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
-            >
+            <Button onClick={() => analyze()} className="w-full h-auto py-3 rounded-xl">
               <RefreshCw size={14} />
               Analizar cartera con IA
-            </button>
+            </Button>
           )}
 
           {analyzing && (() => {
