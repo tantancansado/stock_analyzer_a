@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-05T21:58:04+00:00",
+  "generated_at": "2026-07-06T08:51:27+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -4.87,
+          "value": -4.88,
           "percentile": 73.4,
           "z": null,
           "score": 73.4,
           "contribution": 18.4,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 68.78,
-            "deferred_price": 72.13
+            "front_price": 68.24,
+            "deferred_price": 71.57
           },
           "history_ready": true
         },
@@ -86,7 +86,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -4.87%",
+      "narrative": "backwardation -4.88%",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -112,11 +112,6 @@
       "history_ready": false,
       "history_note": "No hay suficiente hist\u00f3rico de se\u00f1ales para buscar an\u00e1logos todav\u00eda.",
       "chart_series": [
-        {
-          "date": "2021-07-16",
-          "price": 71.81,
-          "stress_score": null
-        },
         {
           "date": "2021-07-23",
           "price": 72.07,
@@ -1409,7 +1404,12 @@
         },
         {
           "date": "2026-07-03",
-          "price": 68.78,
+          "price": 68.69,
+          "stress_score": null
+        },
+        {
+          "date": "2026-07-10",
+          "price": 68.23,
           "stress_score": null
         }
       ],
