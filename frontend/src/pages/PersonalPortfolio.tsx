@@ -713,8 +713,8 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                   {exp.covered_calls.length > 0 && (
                     <div className="mb-3">
                       <div className="text-[0.62rem] font-semibold text-amber-400 mb-1.5">Covered Calls disponibles</div>
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-[0.7rem] border-collapse no-sticky-thead">
+                      <div className="table-x-wrap">
+                        <table className="w-full text-[0.7rem] border-collapse">
                           <thead>
                             <tr className="border-b border-border/30">
                               {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Yield anual', 'Vol', 'IV%'].map(h => (
@@ -744,8 +744,8 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                   {exp.protective_puts.length > 0 && (
                     <div>
                       <div className="text-[0.62rem] font-semibold text-blue-400 mb-1.5">Protective Puts disponibles</div>
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-[0.7rem] border-collapse no-sticky-thead">
+                      <div className="table-x-wrap">
+                        <table className="w-full text-[0.7rem] border-collapse">
                           <thead>
                             <tr className="border-b border-border/30">
                               {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Coste %', 'Vol', 'IV%'].map(h => (

@@ -585,8 +585,8 @@ function DetailView({
                 <span className="text-muted-foreground/60">Sin estimaciones de analistas en TIKR — FCF proyectado desde NTM × CAGR histórico. Datos pueden diferir del consenso real.</span>
               </div>
             )}
-            <div className="overflow-x-auto">
-              <table className="w-full text-[0.7rem] no-sticky-thead">
+            <div className="table-x-wrap">
+              <table className="w-full text-[0.7rem]">
                 <thead>
                   <tr className="border-b border-border/20">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-36">Consenso TIKR</th>
@@ -679,8 +679,8 @@ function DetailView({
 
         {fwdMode && fwdYears.length > 0 && (
           <Card className="border border-orange-500/15 bg-orange-500/3 overflow-clip">
-            <div className="overflow-x-auto">
-              <table className="w-full text-[0.7rem] no-sticky-thead">
+            <div className="table-x-wrap">
+              <table className="w-full text-[0.7rem]">
                 <thead>
                   <tr className="border-b border-orange-500/20">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-40">Supuesto</th>
@@ -802,8 +802,8 @@ function DetailView({
         <div>
           <p className="text-xs font-semibold mb-2">1. Income Statement</p>
           <Card className="glass overflow-clip">
-            <div className="overflow-x-auto">
-              <table className="w-full text-[0.7rem] no-sticky-thead">
+            <div className="table-x-wrap">
+              <table className="w-full text-[0.7rem]">
                 <thead>
                   <tr className="border-b border-border/30">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
@@ -911,8 +911,8 @@ function DetailView({
         <div>
           <p className="text-xs font-semibold mb-2">2. Cash Flow — FCF = EBITDA − CapEx<sub>m</sub> − Interés − Impuestos + ΔCT</p>
           <Card className="glass overflow-clip">
-            <div className="overflow-x-auto">
-              <table className="w-full text-[0.7rem] no-sticky-thead">
+            <div className="table-x-wrap">
+              <table className="w-full text-[0.7rem]">
                 <thead>
                   <tr className="border-b border-border/30">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
@@ -1045,8 +1045,8 @@ function DetailView({
 
             {hasMultiples && (
               <Card className="glass overflow-clip">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-[0.7rem] no-sticky-thead">
+                <div className="table-x-wrap">
+                  <table className="w-full text-[0.7rem]">
                     <thead>
                       <tr className="border-b border-border/30">
                         <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-36">Ratio</th>
@@ -1283,8 +1283,8 @@ function DetailView({
             )}
             {hasBS && (
               <Card className="glass overflow-clip">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-[0.7rem] no-sticky-thead">
+                <div className="table-x-wrap">
+                  <table className="w-full text-[0.7rem]">
                     <thead>
                       <tr className="border-b border-border/30">
                         <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones / por acción)</th>
@@ -1401,8 +1401,8 @@ function DetailView({
             )}
             {hasRoic && (
               <Card className="glass overflow-clip">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-[0.7rem] no-sticky-thead">
+                <div className="table-x-wrap">
+                  <table className="w-full text-[0.7rem]">
                     <thead>
                       <tr className="border-b border-border/30">
                         <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>

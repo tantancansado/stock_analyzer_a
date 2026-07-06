@@ -512,8 +512,8 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
         })()}
 
         {/* Results table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs no-sticky-thead">
+        <div className="table-x-wrap">
+          <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border/20 text-[0.65rem] text-muted-foreground/50 uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">ETF</th>
@@ -837,8 +837,8 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
         })()}
 
         {/* Results table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs no-sticky-thead">
+        <div className="table-x-wrap">
+          <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border/20 text-[0.65rem] text-muted-foreground/50 uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">Ticker</th>
@@ -1138,8 +1138,8 @@ function PreferredSection() {
       {/* Tabla */}
       <Card className="glass border-border/30">
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm no-sticky-thead">
+          <div className="table-x-wrap">
+            <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border/30 text-[0.7rem] text-muted-foreground/60 uppercase tracking-wider">
                   <th className="px-3 py-2.5 text-left">Ticker</th>
@@ -1315,7 +1315,7 @@ export default function Bonds() {
       {/* Table */}
       <Card className="glass border-border/30">
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
+          <div className="table-x-wrap">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border/30 text-[0.7rem] text-muted-foreground/60 uppercase tracking-wider">

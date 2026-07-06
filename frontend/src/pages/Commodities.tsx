@@ -336,8 +336,8 @@ export default function Commodities() {
       {/* Table */}
       <Card className="glass">
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm no-sticky-thead">
+          <div className="table-x-wrap">
+            <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/10 text-left">
                   <th className="px-4 py-3 text-xs text-white/40 font-medium">Ticker</th>
