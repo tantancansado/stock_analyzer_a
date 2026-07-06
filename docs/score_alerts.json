@@ -1,601 +1,141 @@
 {
-  "generated_at": "2026-07-05",
+  "generated_at": "2026-07-06",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "sector": "Industrials",
-      "score_today": 80.8,
-      "score_prev": 66.1,
-      "delta": 14.6,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ETN",
-      "company_name": "Eaton Corporation, PLC",
-      "sector": "Industrials",
-      "score_today": 58.0,
-      "score_prev": 46.9,
-      "delta": 11.2,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SBGSY",
-      "company_name": "Schneider Electric SE",
-      "sector": "Industrials",
-      "score_today": 49.9,
-      "score_prev": 41.2,
-      "delta": 8.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "DBOEY",
-      "company_name": "Deutsche Boerse AG",
-      "sector": "Financial Services",
-      "score_today": 57.1,
-      "score_prev": 48.5,
-      "delta": 8.6,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 55.6,
-      "score_prev": 47.0,
-      "delta": 8.6,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "LRLCY",
-      "company_name": "L'Oreal Co.",
-      "sector": "Consumer Defensive",
-      "score_today": 44.0,
-      "score_prev": 35.8,
-      "delta": 8.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AI.PA",
-      "company_name": "AIR LIQUIDE",
-      "sector": "Basic Materials",
-      "score_today": 39.7,
-      "score_prev": 31.8,
-      "delta": 8.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 94.8,
-      "score_prev": 87.0,
-      "delta": 7.7,
-      "grade": "🔥 Legendary"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporati",
-      "sector": "Financial Services",
-      "score_today": 43.6,
-      "score_prev": 36.1,
-      "delta": 7.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 62.7,
-      "score_prev": 55.2,
-      "delta": 7.5,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BRK-B",
-      "company_name": "Berkshire Hathaway Inc. New",
-      "sector": "Financial Services",
-      "score_today": 43.1,
-      "score_prev": 37.4,
-      "delta": 5.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TMO",
-      "company_name": "Thermo Fisher Scientific Inc",
-      "sector": "Healthcare",
-      "score_today": 63.2,
-      "score_prev": 58.0,
-      "delta": 5.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AME",
-      "company_name": "AMETEK, Inc.",
-      "sector": "Industrials",
-      "score_today": 39.6,
-      "score_prev": 44.9,
-      "delta": -5.2,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CME",
-      "company_name": "CME Group Inc.",
-      "sector": "Financial Services",
-      "score_today": 47.0,
-      "score_prev": 52.6,
-      "delta": -5.6,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "sector": "Technology",
-      "score_today": 41.6,
-      "score_prev": 47.3,
-      "delta": -5.6,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 33.2,
-      "score_prev": 38.8,
-      "delta": -5.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "KD",
-      "company_name": "Kyndryl Holdings, Inc.",
-      "sector": "Technology",
-      "score_today": 27.9,
-      "score_prev": 33.6,
-      "delta": -5.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VLTO",
-      "company_name": "Veralto Corp",
-      "sector": "Industrials",
-      "score_today": 46.7,
-      "score_prev": 52.6,
-      "delta": -5.8,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "sector": "Industrials",
-      "score_today": 53.1,
-      "score_prev": 59.0,
-      "delta": -5.9,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "IT",
-      "company_name": "Gartner, Inc.",
-      "sector": "Technology",
-      "score_today": 37.3,
-      "score_prev": 43.4,
-      "delta": -6.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "score_today": 46.0,
-      "score_prev": 52.1,
-      "delta": -6.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSI",
-      "company_name": "Motorola Solutions, Inc.",
-      "sector": "Technology",
-      "score_today": 33.7,
-      "score_prev": 40.0,
-      "delta": -6.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "sector": "Financial Services",
-      "score_today": 52.7,
-      "score_prev": 59.2,
-      "delta": -6.5,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "POOL",
-      "company_name": "Pool Corporation",
-      "sector": "Industrials",
-      "score_today": 25.2,
-      "score_prev": 31.7,
-      "delta": -6.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "RSG",
-      "company_name": "Republic Services, Inc.",
-      "sector": "Industrials",
-      "score_today": 32.7,
-      "score_prev": 39.3,
-      "delta": -6.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporat",
-      "sector": "Consumer Defensive",
-      "score_today": 51.9,
-      "score_prev": 58.6,
-      "delta": -6.7,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "ATLKY",
       "company_name": "Atlas Copco AB",
       "sector": "Industrials",
-      "score_today": 33.4,
-      "score_prev": 40.1,
-      "delta": -6.8,
-      "grade": "🔴 Weak"
+      "score_today": 54.6,
+      "score_prev": 33.4,
+      "delta": 21.3,
+      "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
+      "type": "SCORE_UP",
       "ticker": "TEVA",
       "company_name": "Teva Pharmaceutical Industries ",
       "sector": "Healthcare",
-      "score_today": 45.7,
-      "score_prev": 52.6,
-      "delta": -6.8,
+      "score_today": 61.2,
+      "score_prev": 45.7,
+      "delta": 15.5,
       "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
-      "sector": "Industrials",
-      "score_today": 30.8,
-      "score_prev": 37.6,
-      "delta": -6.8,
+      "type": "SCORE_UP",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
+      "score_today": 34.9,
+      "score_prev": 22.8,
+      "delta": 12.1,
       "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "HEI",
-      "company_name": "Heico Corporation",
-      "sector": "Industrials",
-      "score_today": 33.0,
-      "score_prev": 39.9,
-      "delta": -6.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "IDXX",
-      "company_name": "IDEXX Laboratories, Inc.",
-      "sector": "Healthcare",
-      "score_today": 37.1,
-      "score_prev": 44.0,
-      "delta": -6.9,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
+      "type": "SCORE_UP",
+      "ticker": "IT",
+      "company_name": "Gartner, Inc.",
       "sector": "Technology",
-      "score_today": 28.9,
-      "score_prev": 35.9,
-      "delta": -7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CDNS",
-      "company_name": "Cadence Design Systems, Inc.",
-      "sector": "Technology",
-      "score_today": 27.8,
-      "score_prev": 34.8,
-      "delta": -7.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "NYT",
-      "company_name": "New York Times Company (The)",
-      "sector": "Communication Services",
-      "score_today": 37.5,
-      "score_prev": 44.7,
-      "delta": -7.1,
+      "score_today": 48.3,
+      "score_prev": 37.3,
+      "delta": 11.0,
       "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "sector": "Industrials",
-      "score_today": 29.8,
-      "score_prev": 36.9,
-      "delta": -7.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
+      "type": "SCORE_UP",
       "ticker": "STZ",
       "company_name": "Constellation Brands, Inc.",
       "sector": "Consumer Defensive",
-      "score_today": 34.8,
-      "score_prev": 42.0,
-      "delta": -7.2,
-      "grade": "🔴 Weak"
+      "score_today": 44.2,
+      "score_prev": 34.8,
+      "delta": 9.4,
+      "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "ECL",
-      "company_name": "Ecolab Inc.",
-      "sector": "Basic Materials",
-      "score_today": 27.2,
-      "score_prev": 34.5,
-      "delta": -7.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "EQIX",
-      "company_name": "Equinix, Inc.",
-      "sector": "Real Estate",
-      "score_today": 23.5,
-      "score_prev": 30.9,
-      "delta": -7.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
+      "type": "SCORE_UP",
       "ticker": "WM",
       "company_name": "Waste Management, Inc.",
       "sector": "Industrials",
-      "score_today": 40.0,
-      "score_prev": 47.5,
-      "delta": -7.4,
+      "score_today": 47.4,
+      "score_prev": 40.0,
+      "delta": 7.3,
       "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
+      "type": "SCORE_UP",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "score_today": 35.4,
+      "score_prev": 28.9,
+      "delta": 6.5,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
       "sector": "Industrials",
-      "score_today": 24.7,
-      "score_prev": 32.3,
-      "delta": -7.6,
-      "grade": "🔴 Weak"
+      "score_today": 59.2,
+      "score_prev": 53.1,
+      "delta": 6.1,
+      "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ALLY",
-      "company_name": "Ally Financial Inc.",
-      "sector": "Financial Services",
-      "score_today": 31.4,
-      "score_prev": 39.1,
-      "delta": -7.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
-      "score_today": 42.6,
-      "score_prev": 50.3,
-      "delta": -7.7,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CP",
-      "company_name": "Canadian Pacific Kansas City Li",
-      "sector": "Industrials",
-      "score_today": 22.3,
-      "score_prev": 30.1,
-      "delta": -7.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ITW",
-      "company_name": "Illinois Tool Works Inc.",
-      "sector": "Industrials",
-      "score_today": 35.0,
-      "score_prev": 42.8,
-      "delta": -7.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MCD",
-      "company_name": "McDonald's Corporation",
-      "sector": "Consumer Cyclical",
-      "score_today": 23.4,
-      "score_prev": 31.2,
-      "delta": -7.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 29.5,
-      "score_prev": 37.3,
-      "delta": -7.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PG",
-      "company_name": "Procter & Gamble Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 22.9,
-      "score_prev": 30.7,
-      "delta": -7.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
+      "ticker": "DHR",
+      "company_name": "Danaher Corporation",
       "sector": "Healthcare",
-      "score_today": 49.5,
-      "score_prev": 57.3,
-      "delta": -7.8,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "TJX",
-      "company_name": "TJX Companies, Inc. (The)",
-      "sector": "Consumer Cyclical",
-      "score_today": 25.7,
-      "score_prev": 33.5,
-      "delta": -7.8,
+      "score_today": 32.5,
+      "score_prev": 37.5,
+      "delta": -5.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": 29.4,
-      "score_prev": 37.2,
-      "delta": -7.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ITRK.L",
-      "company_name": "INTERTEK GROUP PLC ORD 1P",
+      "ticker": "SBGSY",
+      "company_name": "Schneider Electric SE",
       "sector": "Industrials",
-      "score_today": 26.3,
-      "score_prev": 34.3,
-      "delta": -8.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 33.8,
-      "score_prev": 42.0,
-      "delta": -8.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
-      "sector": "Financial Services",
-      "score_today": 36.2,
-      "score_prev": 44.4,
-      "delta": -8.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 51.8,
-      "score_prev": 60.1,
-      "delta": -8.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "KR",
-      "company_name": "Kroger Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 27.1,
-      "score_prev": 35.4,
-      "delta": -8.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 54.0,
-      "score_prev": 62.3,
-      "delta": -8.3,
-      "grade": "🟡 Good"
+      "score_today": 38.8,
+      "score_prev": 49.9,
+      "delta": -11.0,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "SPGI",
       "company_name": "S&P Global Inc.",
       "sector": "Financial Services",
-      "score_today": 49.9,
-      "score_prev": 60.8,
-      "delta": -10.9,
+      "score_today": 36.8,
+      "score_prev": 49.9,
+      "delta": -13.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KO",
+      "company_name": "Coca-Cola Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 47.2,
+      "score_prev": 62.7,
+      "delta": -15.5,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 22.8,
-      "score_prev": 36.4,
-      "delta": -13.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FDS",
-      "company_name": "FactSet Research Systems Inc.",
-      "sector": "Financial Services",
-      "score_today": 34.4,
-      "score_prev": 50.7,
-      "delta": -16.3,
-      "grade": "🔴 Weak"
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International",
+      "sector": "Consumer Cyclical",
+      "score_today": 45.6,
+      "score_prev": 61.3,
+      "delta": -15.7,
+      "grade": "🟡 Average"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 12,
-    "score_down": 47
+    "score_up": 8,
+    "score_down": 5
   }
 }

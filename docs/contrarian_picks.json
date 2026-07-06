@@ -1,28 +1,8 @@
 {
-  "generated_at": "2026-07-05T22:45:43Z",
+  "generated_at": "2026-07-06T09:45:44Z",
   "count": 12,
   "contrarian_buys": 12,
   "picks": [
-    {
-      "ticker": "G24.DE",
-      "company_name": "Scout24 SE                    N",
-      "sector": "Communication Services",
-      "current_price": 73.0,
-      "drawdown_from_52w": -40.6,
-      "analyst_upside_pct": 42.1,
-      "analyst_count": 17.0,
-      "piotroski_score": 6.0,
-      "roe_pct": 17.7,
-      "fcf_yield_pct": null,
-      "profit_margin_pct": 37.4,
-      "debt_to_equity": 0.25,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 85,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of Scout24 SE remain intact.",
-      "is_circumstantial": true,
-      "recovery_thesis": "The company's strong ROE, high profit margin, and EPS growth YoY indicate a solid business model, which should recover as the market sentiment improves.",
-      "key_risks": "A significant decline in the online classifieds market or increased competition could break the thesis."
-    },
     {
       "ticker": "ZTS",
       "company_name": "Zoetis Inc.",
@@ -37,11 +17,11 @@
       "profit_margin_pct": 28.0,
       "debt_to_equity": 2.86,
       "verdict": "CONTRARIAN_BUY",
-      "confidence": 80,
-      "drop_reason": "The sharp drop in ZTS is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
+      "confidence": 85,
+      "drop_reason": "The sharp drop in ZTS is likely due to sector rotation and macro fear, as the company's fundamentals remain intact.",
       "is_circumstantial": true,
-      "recovery_thesis": "ZTS's solid fundamentals, including a high ROE, strong FCF yield, and high profit margins, suggest that the company's business model remains intact and is poised for a recovery.",
-      "key_risks": "A prolonged decline in the animal health market or increased competition from generic or biosimilar products could undermine ZTS's recovery thesis."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE and FCF yield, suggest that the price drop is a buying opportunity, and the stock should recover as the market sentiment improves.",
+      "key_risks": "The main risk is that the company's EPS growth remains negative, which could indicate underlying structural issues if not addressed."
     },
     {
       "ticker": "SAP",
@@ -49,7 +29,7 @@
       "sector": "Technology",
       "current_price": 162.59,
       "drawdown_from_52w": -48.1,
-      "analyst_upside_pct": 56.4,
+      "analyst_upside_pct": 53.1,
       "analyst_count": 12.0,
       "piotroski_score": 8.0,
       "roe_pct": 16.4,
@@ -57,11 +37,31 @@
       "profit_margin_pct": 19.6,
       "debt_to_equity": 0.17,
       "verdict": "CONTRARIAN_BUY",
-      "confidence": 80,
-      "drop_reason": "The sharp drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
+      "confidence": 85,
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong and the decline is not accompanied by any significant deterioration in its business model.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including high ROE, FCF yield, and profit margins, suggest that the price drop is a buying opportunity. As sentiment improves and sector rotation stabilizes, the stock price should recover.",
-      "key_risks": "A significant decline in IT spending or a major disruption to the company's business model could break the thesis."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and consistent EPS growth, suggest that the price drop is a buying opportunity. As the market sentiment improves, the stock price should recover.",
+      "key_risks": "A significant decline in the company's operating margin due to increased competition or a major disruption in its business model could break the thesis."
+    },
+    {
+      "ticker": "CLPBY",
+      "company_name": "Coloplast AS",
+      "sector": "Healthcare",
+      "current_price": 6.04,
+      "drawdown_from_52w": -39.8,
+      "analyst_upside_pct": 37.4,
+      "analyst_count": 4.0,
+      "piotroski_score": 7.0,
+      "roe_pct": 14.1,
+      "fcf_yield_pct": 30.88,
+      "profit_margin_pct": 7.5,
+      "debt_to_equity": 1.89,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 85,
+      "drop_reason": "Sector rotation and macro fear likely contributed to the sharp decline in CLPBY's stock price.",
+      "is_circumstantial": true,
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and robust profit margins, suggest that the decline is circumstantial and the stock price should recover as investor sentiment improves.",
+      "key_risks": "A prolonged period of sector rotation or macroeconomic weakness could further erode investor confidence and prolong the recovery."
     },
     {
       "ticker": "BR",
@@ -80,8 +80,8 @@
       "confidence": 80,
       "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and high Piotroski F-Score, suggest that the price drop is an overcorrection, and the stock should recover as the market regains confidence.",
-      "key_risks": "A significant decline in the company's core business or a major disruption to its operations could break the thesis."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE and FCF yield, suggest that the price drop is an overreaction and the stock should recover as the market sentiment improves.",
+      "key_risks": "A significant decline in the company's core business or a failure to adapt to changing market trends could undermine the recovery thesis."
     },
     {
       "ticker": "CSU.TO",
@@ -89,7 +89,7 @@
       "sector": "Technology",
       "current_price": 2806.05,
       "drawdown_from_52w": -44.6,
-      "analyst_upside_pct": 43.0,
+      "analyst_upside_pct": 42.7,
       "analyst_count": 12.0,
       "piotroski_score": 6.0,
       "roe_pct": 19.7,
@@ -98,10 +98,10 @@
       "debt_to_equity": 1.21,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The sharp drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals remain intact and the company's business model has not been broken.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong EPS growth, and a high Piotroski F-Score, suggest that the price drop is an opportunity to buy into a quality business at a discount.",
-      "key_risks": "A significant decline in the company's software sales or a major disruption to its business model could undermine the recovery thesis."
+      "recovery_thesis": "The company's strong fundamentals, including a high ROE and EPS growth, suggest that the price drop is an overcorrection, and the stock should recover as the market sentiment improves.",
+      "key_risks": "The main risk is that the company's high debt-to-equity ratio could become a concern if the market downturn persists, potentially affecting its ability to maintain its profit margins."
     },
     {
       "ticker": "EXPN.L",
@@ -113,15 +113,15 @@
       "analyst_count": 18.0,
       "piotroski_score": 9.0,
       "roe_pct": 28.3,
-      "fcf_yield_pct": 3.88,
+      "fcf_yield_pct": 3.89,
       "profit_margin_pct": 17.8,
       "debt_to_equity": 1.0,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
       "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and high Piotroski F-Score, suggest that the price drop is an overreaction, and the stock should recover as the market sentiment improves.",
-      "key_risks": "A significant decline in consumer credit demand or a major disruption in the company's data analytics business could break the thesis."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE and Piotroski F-Score, suggest that the price drop is an overreaction, and the stock should recover as the market sentiment improves.",
+      "key_risks": "A significant deterioration in the company's credit profile or a major disruption to its business model could break this thesis."
     },
     {
       "ticker": "TYL",
@@ -138,10 +138,30 @@
       "debt_to_equity": 0.01,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to a sector rotation and macro fear, as the company's fundamentals remain strong and the decline is not reflective of a structural issue.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high Piotroski F-Score and 0.0 debt-to-equity ratio, suggest that the price drop is an overreaction, and the stock should recover as the market sentiment improves.",
-      "key_risks": "The main risk is that the company's EPS growth YoY remains negative, which could indicate underlying issues that are not immediately apparent from the other fundamental metrics."
+      "recovery_thesis": "The company's solid fundamentals, including high ROE, FCF yield, and Piotroski F-Score, suggest that the price drop is an overcorrection, and the stock should recover as the market sentiment improves.",
+      "key_risks": "A significant decline in government IT spending or a major disruption to the company's business model could break the thesis."
+    },
+    {
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE                    N",
+      "sector": "Communication Services",
+      "current_price": 73.0,
+      "drawdown_from_52w": -40.6,
+      "analyst_upside_pct": 42.1,
+      "analyst_count": 17.0,
+      "piotroski_score": 6.0,
+      "roe_pct": 17.7,
+      "fcf_yield_pct": null,
+      "profit_margin_pct": 37.4,
+      "debt_to_equity": 0.25,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 80,
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
+      "is_circumstantial": true,
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong EPS growth, and low debt-to-equity ratio, suggest that the price drop is a buying opportunity.",
+      "key_risks": "A significant decline in the housing market could impact the company's revenue and profitability."
     },
     {
       "ticker": "ROL",
@@ -160,8 +180,8 @@
       "confidence": 80,
       "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain intact.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's strong fundamentals, including a high ROE of 38.7% and a Piotroski F-Score of 6.0/9, suggest that the price drop is a buying opportunity. As the market recovers, the company's quality and growth prospects should be revalued.",
-      "key_risks": "A persistent decline in consumer spending or a significant increase in competition could break the thesis."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE and strong profit margins, suggest that the price drop is an overreaction, and the stock should recover as the market sentiment improves.",
+      "key_risks": "A significant decline in the pest control industry or a major disruption to Rollins' business model could break the thesis."
     },
     {
       "ticker": "ICE",
@@ -178,10 +198,10 @@
       "debt_to_equity": 0.71,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong and the decline is not accompanied by any significant deterioration in its business model.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "ICE's solid fundamentals, including a high ROE, strong FCF yield, and high profit margins, suggest that the company is well-positioned to recover as the market sentiment improves. The analyst target upside also indicates a high degree of confidence in the company's growth prospects.",
-      "key_risks": "A significant decline in trading volumes or a failure to adapt to changing market conditions could undermine the company's growth prospects and break the thesis."
+      "recovery_thesis": "ICE's solid fundamentals, including a high ROE, strong FCF yield, and high profit margins, suggest that the company's business model remains intact and is poised for a recovery.",
+      "key_risks": "A significant increase in competition or a decline in the company's core business could undermine the recovery thesis."
     },
     {
       "ticker": "CPRT",
@@ -198,30 +218,10 @@
       "debt_to_equity": 0.01,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the company's fundamentals remain strong.",
+      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain strong.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a 17.6% ROE and 37.5% operating margin, suggest that the price drop is a buying opportunity. As the market recovers, CPRT's quality business model and strong financials should drive the stock price back up.",
-      "key_risks": "A significant decline in the used car market or a major disruption to CPRT's business model could break the thesis."
-    },
-    {
-      "ticker": "CLPBY",
-      "company_name": "Coloplast AS",
-      "sector": "Healthcare",
-      "current_price": 6.04,
-      "drawdown_from_52w": -39.8,
-      "analyst_upside_pct": 37.4,
-      "analyst_count": 4.0,
-      "piotroski_score": 7.0,
-      "roe_pct": 14.1,
-      "fcf_yield_pct": 30.88,
-      "profit_margin_pct": 7.5,
-      "debt_to_equity": 1.89,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 80,
-      "drop_reason": "The sharp drop is likely due to sector rotation and macro fear, as the company's fundamentals remain intact.",
-      "is_circumstantial": true,
-      "recovery_thesis": "CLPBY's solid fundamentals, including a high ROE, strong FCF yield, and high operating margin, suggest that the company's business model remains intact and is poised for recovery.",
-      "key_risks": "A prolonged macroeconomic downturn could further exacerbate the sector rotation and impact the company's revenue and profitability."
+      "recovery_thesis": "The company's solid fundamentals, including a high ROE, strong FCF yield, and high profit margins, suggest that the price drop is a buying opportunity. As the market regains confidence, CPRT's stock price should recover.",
+      "key_risks": "A significant decline in the used car market or increased competition could negatively impact the company's business model."
     },
     {
       "ticker": "MSFT",
@@ -238,10 +238,10 @@
       "debt_to_equity": 0.3,
       "verdict": "CONTRARIAN_BUY",
       "confidence": 80,
-      "drop_reason": "The drop is likely due to sector rotation and macro fear, as the fundamentals of the company remain strong.",
+      "drop_reason": "The drop appears to be driven by sector rotation and macro fear, with the tech sector experiencing a correction.",
       "is_circumstantial": true,
-      "recovery_thesis": "The company's solid fundamentals, including a high ROE and strong EPS growth, suggest that the price drop is a buying opportunity, and the fundamentals will drive the stock price back up.",
-      "key_risks": "The main risk is that the sector rotation persists and the company's growth slows down, breaking the thesis."
+      "recovery_thesis": "Microsoft's strong fundamentals, including a high ROE, stable FCF yield, and consistent EPS growth, suggest that the company's underlying business remains intact and should recover as the market stabilizes.",
+      "key_risks": "The main risk is that the tech sector continues to underperform, potentially leading to further declines in Microsoft's stock price."
     }
   ]
 }
