@@ -4,6 +4,7 @@ import { fetchBounceBroad, type BounceBroadSetup } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
+import EmptyState from '../components/EmptyState'
 
 function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
   const potentialLoss = Math.abs(s.stop_pct)
@@ -84,13 +85,11 @@ export default function BroadBounceView() {
       </div>
 
       {setups.length === 0 ? (
-        <div className="text-center py-16 text-muted-foreground/50 border border-dashed border-border/30 rounded-2xl">
-          <div className="text-4xl mb-3 opacity-20">🎯</div>
-          <div className="text-sm font-medium">Sin setups de alta fiabilidad hoy</div>
-          <div className="text-xs mt-1 opacity-60">
-            Ningún ticker del universo ampliado cumple los filtros estrictos — menos es más.
-          </div>
-        </div>
+        <EmptyState
+          icon="🎯"
+          title="Sin setups de alta fiabilidad hoy"
+          subtitle="Ningún ticker del universo ampliado cumple los filtros estrictos — menos es más."
+        />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {setups.map(s => <Card key={s.ticker} s={s} />)}

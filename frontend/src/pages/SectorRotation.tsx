@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Briefcase, AlertTriangle, CheckCircle } from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
+import EmptyState from '../components/EmptyState'
 
 // Map yfinance sector names → rotation sector names
 const SECTOR_MAP: Record<string, string> = {
@@ -286,9 +287,8 @@ export default function SectorRotation() {
 
       {results.length === 0 && (
         <Card className="glass">
-          <CardContent className="py-16 text-center">
-            <div className="text-4xl mb-4 opacity-20">🔄</div>
-            <p className="font-medium text-muted-foreground">Sin datos de rotacion sectorial</p>
+          <CardContent className="p-0">
+            <EmptyState icon="🔄" title="Sin datos de rotacion sectorial" />
           </CardContent>
         </Card>
       )}

@@ -9,6 +9,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import { Badge } from '@/components/ui/badge'
 import InfoTooltip from '../components/InfoTooltip'
 import TickerLogo from '../components/TickerLogo'
+import EmptyState from '../components/EmptyState'
 
 interface PositionRow {
   ticker: string
@@ -131,10 +132,12 @@ export default function PositionSizing() {
 
       {rows.length === 0 ? (
         <Card className="glass">
-          <CardContent className="py-16 text-center">
-            <div className="text-4xl mb-4 opacity-20">📐</div>
-            <p className="font-medium text-muted-foreground">Sin datos de position sizing disponibles</p>
-            <p className="text-xs text-muted-foreground/60 mt-2">Ejecuta position_sizer.py para generar</p>
+          <CardContent className="p-0">
+            <EmptyState
+              icon="📐"
+              title="Sin datos de position sizing disponibles"
+              subtitle="Ejecuta position_sizer.py para generar"
+            />
           </CardContent>
         </Card>
       ) : (

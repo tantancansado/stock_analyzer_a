@@ -16,6 +16,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Wallet } from 'lucide-react'
 import PaginationBar from '../components/PaginationBar'
+import EmptyState from '../components/EmptyState'
 
 type InsiderRow = InsiderData & { market?: string }
 type SortKey = keyof InsiderRow
@@ -256,10 +257,7 @@ export default function Insiders() {
           )
         })}
         {allRows.length === 0 && (
-          <div className="py-16 text-center">
-            <div className="text-4xl mb-4 opacity-20">👤</div>
-            <p className="font-medium text-muted-foreground">Sin datos de insiders disponibles</p>
-          </div>
+          <EmptyState icon="👤" title="Sin datos de insiders disponibles" />
         )}
       </div>
 
@@ -361,9 +359,8 @@ export default function Insiders() {
               </TableBody>
             </Table>
           {allRows.length === 0 && (
-            <CardContent className="py-16 text-center">
-              <div className="text-4xl mb-4 opacity-20">👤</div>
-              <p className="font-medium text-muted-foreground">Sin datos de insiders disponibles</p>
+            <CardContent className="p-0">
+              <EmptyState icon="👤" title="Sin datos de insiders disponibles" />
             </CardContent>
           )}
           {sorted.length > 0 && (

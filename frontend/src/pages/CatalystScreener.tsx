@@ -7,6 +7,7 @@ import GradeBadge from '../components/GradeBadge'
 import TickerLogo from '../components/TickerLogo'
 import InfoTooltip from '../components/InfoTooltip'
 import { Card } from '@/components/ui/card'
+import EmptyState from '../components/EmptyState'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 // ── Catalyst definitions ──────────────────────────────────────────────────────
@@ -262,10 +263,12 @@ export default function CatalystScreener() {
 
       {/* Results table */}
       {loading ? <Loading /> : results.length === 0 ? (
-        <Card className="py-16 text-center">
-          <p className="text-4xl mb-3 opacity-20">🔍</p>
-          <p className="text-sm text-muted-foreground">Ningún ticker cumple todos los catalizadores ahora mismo</p>
-          <p className="text-xs text-muted-foreground/50 mt-1">Prueba otro setup o vuelve cuando el pipeline actualice</p>
+        <Card>
+          <EmptyState
+            icon="🔍"
+            title="Ningún ticker cumple todos los catalizadores ahora mismo"
+            subtitle="Prueba otro setup o vuelve cuando el pipeline actualice"
+          />
         </Card>
       ) : (
         <div className="rounded-xl border border-border/40 overflow-clip">

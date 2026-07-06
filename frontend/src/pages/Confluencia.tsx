@@ -5,6 +5,7 @@ import TickerLogo from '../components/TickerLogo'
 import Loading from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
+import EmptyState from '../components/EmptyState'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -246,14 +247,12 @@ export default function Confluencia() {
 
       {confluence.length === 0 ? (
         <Card className="glass">
-          <CardContent className="py-16 text-center">
-            <div className="text-4xl mb-4 opacity-20">🔭</div>
-            <p className="font-medium text-muted-foreground">Sin confluencia de señales ahora mismo</p>
-            <p className="text-xs text-muted-foreground/60 mt-2 max-w-sm mx-auto">
-              La sección requiere que ≥2 sistemas coincidan en el mismo ticker
-              (Bounce RSI&lt;30 + Value score≥50 + Options flow alcista).
-              Con VIX elevado o mercado en corrección, el bounce scanner apenas genera setups.
-            </p>
+          <CardContent className="p-0">
+            <EmptyState
+              icon="🔭"
+              title="Sin confluencia de señales ahora mismo"
+              subtitle="La sección requiere que ≥2 sistemas coincidan en el mismo ticker (Bounce RSI<30 + Value score≥50 + Options flow alcista). Con VIX elevado o mercado en corrección, el bounce scanner apenas genera setups."
+            />
           </CardContent>
         </Card>
       ) : (

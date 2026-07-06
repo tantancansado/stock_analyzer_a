@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
 import { Card, CardContent } from '@/components/ui/card'
+import EmptyState from '../components/EmptyState'
 import { fetchPortfolioStrategies, type PortfolioStrategy, type StrategyAction } from '../api/client'
 
 const ACTION_META: Record<StrategyAction, { label: string; bg: string; icon: typeof Brain }> = {
@@ -209,13 +210,12 @@ export default function Strategies() {
   if (strategies.length === 0) {
     return (
       <Card className="glass">
-        <CardContent className="py-16 text-center">
-          <Brain size={40} strokeWidth={1.25} className="text-muted-foreground/20 mx-auto mb-4" />
-          <p className="font-medium text-muted-foreground mb-2">No hay estrategias generadas todavía</p>
-          <p className="text-xs text-muted-foreground/60 max-w-md mx-auto leading-relaxed">
-            Añade posiciones reales (con coste medio y acciones) en Mis Posiciones.
-            El agente IA generará un plan diario por cada una en el próximo run del pipeline.
-          </p>
+        <CardContent className="p-0">
+          <EmptyState
+            icon="🧠"
+            title="No hay estrategias generadas todavía"
+            subtitle="Añade posiciones reales (con coste medio y acciones) en Mis Posiciones. El agente IA generará un plan diario por cada una en el próximo run del pipeline."
+          />
         </CardContent>
       </Card>
     )
