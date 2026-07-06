@@ -1,0 +1,102 @@
+name: Telegram Inbox
+
+# Parte 1 de "hablar con Claude desde Telegram": vigila el grupo y guarda los
+# mensajes nuevos como pendientes en docs/.telegram_inbox.json. Este workflow
+# NO ejecuta las instrucciones — solo las recoge (barato, sin agente IA de
+# por medio). La parte 2 (una rutina programada que lee este inbox y hace el
+# trabajo) se configura aparte porque implica coste recurrente.
+#
+# Autorización: solo procesa mensajes del chat_id configurado en el secret
+# TELEGRAM_CHAT_ID (el grupo del usuario) — cualquier otro chat se ignora.
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Poll Telegram getUpdates and queue new messages
+        env:
+          TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python3 <<'PYEOF'
+          import json, os, urllib.request, urllib.parse
+          from pathlib import Path
+          from datetime import datetime, timezone
+
+          TOKEN = os.environ["TOKEN"]
+          CHAT_ID = str(os.environ["CHAT_ID"])
+          OFFSET_PATH = Path("docs/.telegram_offset.json")
+          INBOX_PATH = Path("docs/.telegram_inbox.json")
+
+          def load_json(path, default):
+              try:
+                  return json.loads(path.read_text()) if path.exists() else default
+              except Exception:
+                  return default
+
+          offset_state = load_json(OFFSET_PATH, {"last_update_id": 0})
+          inbox = load_json(INBOX_PATH, [])
+
+          url = f"https://api.telegram.org/bot{TOKEN}/getUpdates?offset={offset_state['last_update_id'] + 1}&timeout=0"
+          with urllib.request.urlopen(url, timeout=20) as resp:
+              data = json.loads(resp.read())
+
+          if not data.get("ok"):
+              print("getUpdates no OK:", data)
+              raise SystemExit(0)
+
+          updates = data.get("result", [])
+          new_count = 0
+          max_update_id = offset_state["last_update_id"]
+
+          for u in updates:
+              max_update_id = max(max_update_id, u["update_id"])
+              msg = u.get("message") or u.get("edited_message")
+              if not msg:
+                  continue
+              chat = msg.get("chat", {})
+              if str(chat.get("id")) != CHAT_ID:
+                  continue  # solo el chat autorizado
+              text = msg.get("text")
+              if not text:
+                  continue
+              inbox.append({
+                  "update_id": u["update_id"],
+                  "message_id": msg.get("message_id"),
+                  "from": (msg.get("from") or {}).get("first_name", "?"),
+                  "text": text,
+                  "received_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                  "status": "pending",
+              })
+              new_count += 1
+
+          offset_state["last_update_id"] = max_update_id
+          OFFSET_PATH.write_text(json.dumps(offset_state, indent=2))
+          if new_count:
+              INBOX_PATH.write_text(json.dumps(inbox, indent=2, ensure_ascii=False))
+              print(f"{new_count} mensaje(s) nuevo(s) encolado(s)")
+          else:
+              print("Sin mensajes nuevos")
+          PYEOF
+
+      - name: Commit inbox state
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/.telegram_offset.json docs/.telegram_inbox.json 2>/dev/null || true
+          git diff --cached --quiet && echo "Sin cambios" || git commit -m "chore(telegram-inbox): mensajes nuevos [skip ci]"
+          git pull --rebase --autostash origin main 2>/dev/null || true
+          git push || true
