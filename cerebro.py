@@ -1615,7 +1615,10 @@ def generate_personal_briefing(entry_sigs: dict, convergence: dict, alerts: dict
             )
             for e in exits_high
         ],
-        "smart_money":      [(s["ticker"], s["n_hedge_funds"]) for s in smart_top],
+        # (ticker, n_hedge_funds, n_insiders): las señales tier-2 son solo
+        # insiders (0 HF) — con solo n_hedge_funds el frontend mostraba "0 HF".
+        # Pasando ambos, muestra la métrica que corresponde.
+        "smart_money":      [(s["ticker"], s["n_hedge_funds"], s.get("n_insiders", 0)) for s in smart_top],
         "macro_stress":     stressed_markets,
     }
 

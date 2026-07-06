@@ -915,7 +915,7 @@ export interface CerebroBriefing {
     high_alerts: [string, string][]
     traps_warning: [string, number][]
     exit_warnings: [string, string][]
-    smart_money: [string, number][]
+    smart_money: [string, number, number?][]  // [ticker, n_hedge_funds, n_insiders?]
     macro_stress: Array<{ market: string; score: number; regime: string; exposed: string[] }>
   }
 }

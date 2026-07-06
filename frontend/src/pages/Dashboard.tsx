@@ -1123,16 +1123,17 @@ export default function Dashboard() {
   const usRegime = regime?.us as Record<string, unknown> | undefined
   const euRegime = regime?.eu as Record<string, unknown> | undefined
 
-  const conviction = (pf as Record<string, unknown>).conviction as Record<string, { count: number; win_rate: number; avg_return: number }> | undefined
-  const winRate7d = conviction?.['7d']?.count ? conviction['7d'] : overall?.['7d']
-  const winRateIsConviction = !!conviction?.['7d']?.count
+  // Win rate al horizonte de tesis (90d). El 7/30d no dice nada para value:
+  // un pick recién señalado tiene mal momentum por construcción. A 90d el
+  // sistema cierra casi el gap con el índice.
+  const winRateValue = overall?.['90d']
   const totalSignals = pf.total_signals ?? 0
   const activeSignals = pf.active_signals ?? totalSignals
 
   function winRateColor() {
-    if (winRate7d?.win_rate == null) return 'text-muted-foreground'
-    if (winRate7d.win_rate >= 55) return 'text-emerald-400'
-    if (winRate7d.win_rate >= 45) return 'text-amber-400'
+    if (winRateValue?.win_rate == null) return 'text-muted-foreground'
+    if (winRateValue.win_rate >= 55) return 'text-emerald-400'
+    if (winRateValue.win_rate >= 45) return 'text-amber-400'
     return 'text-red-400'
   }
 
@@ -1284,21 +1285,19 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Win Rate — always visible */}
-      {winRate7d?.win_rate != null && (
+      {/* Win Rate al horizonte de tesis (90d) — always visible */}
+      {winRateValue?.win_rate != null && (
         <div className="mb-4 animate-fade-in-up">
           <Link to="/portfolio" className="flex items-center gap-4 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <div className="flex items-center gap-2 min-w-0 flex-1">
-              <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Win Rate 7d</span>
+              <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Win Rate 90d</span>
               <span className={`text-xl font-extrabold tabular-nums ${winRateColor()}`}>
-                {winRate7d.win_rate.toFixed(1)}%
+                {winRateValue.win_rate.toFixed(1)}%
               </span>
-              {winRateIsConviction && (
-                <span className="text-[0.64rem] font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">≥55pts</span>
-              )}
+              <span className="text-[0.64rem] font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">horizonte value</span>
               <span className="text-[0.78rem] text-muted-foreground/50 hidden sm:inline">
-                · avg <span className={winRate7d.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{winRate7d.avg_return >= 0 ? '+' : ''}{winRate7d.avg_return.toFixed(1)}%</span>
-                {' '}· {winRate7d.count} señales
+                {winRateValue.avg_return != null && <>· avg <span className={winRateValue.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{winRateValue.avg_return >= 0 ? '+' : ''}{winRateValue.avg_return.toFixed(1)}%</span></>}
+                {' '}· {winRateValue.count} señales
               </span>
             </div>
             <ChevronRight size={13} className="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0" />
@@ -1378,18 +1377,18 @@ export default function Dashboard() {
             </motion.div>
             <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
             <StatCard
-              label={winRateIsConviction ? 'Win Rate 7d (≥55pts)' : 'Win Rate 7d (base)'}
-              value={winRate7d?.win_rate != null ? `${winRate7d.win_rate.toFixed(1)}%` : '—'}
-              countTo={winRate7d?.win_rate ?? undefined}
+              label="Win Rate 90d (horizonte value)"
+              value={winRateValue?.win_rate != null ? `${winRateValue.win_rate.toFixed(1)}%` : '—'}
+              countTo={winRateValue?.win_rate ?? undefined}
               countDecimals={1}
               countSuffix="%"
-              sub={winRate7d ? (
+              sub={winRateValue?.win_rate != null ? (
                 <span>
-                  Avg <span className={winRate7d.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>
-                    {pct(winRate7d.avg_return)}
-                  </span> · {winRate7d.count} señales
+                  Avg <span className={(winRateValue.avg_return ?? 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                    {pct(winRateValue.avg_return)}
+                  </span> · {winRateValue.count} señales
                 </span>
-              ) : 'Sin datos de retorno aún'}
+              ) : 'Acumulando datos a 90d'}
               color={winRateColor()}
               loading={false}
             />

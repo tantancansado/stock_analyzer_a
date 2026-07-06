@@ -1087,11 +1087,13 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Smart Money</span>
                     </div>
                     <div className="space-y-1.5">
-                      {briefingSections.smart_money.map(([ticker, nHF]) => (
+                      {briefingSections.smart_money.map(([ticker, nHF, nInsiders]) => (
                         <div key={ticker} className="flex items-center gap-2">
                           <TickerLogo ticker={ticker} size="xs" className="shrink-0" />
                           <Link to={`/search?q=${ticker}`} className="font-mono font-bold text-primary text-[0.8rem] hover:underline">{ticker}</Link>
-                          <span className="ml-auto text-[0.65rem] text-purple-400">{nHF} HF</span>
+                          <span className="ml-auto text-[0.65rem] text-purple-400">
+                            {nHF > 0 ? `${nHF} HF` : `${nInsiders ?? 0} insiders`}
+                          </span>
                         </div>
                       ))}
                     </div>
