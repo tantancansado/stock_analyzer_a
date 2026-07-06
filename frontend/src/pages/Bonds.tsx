@@ -257,7 +257,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
   }
   return (
     <div className="space-y-1.5 mt-3">
-      {bar(rateCut, '#22c55e', '📉 Tipos bajan')}
+      {bar(rateCut, '#10b981', '📉 Tipos bajan')}
       {bar(base,    '#22d3ee', '➡️ Escenario base')}
       {bar(rateHike,'#f59e0b', '📈 Tipos suben')}
     </div>
@@ -284,7 +284,7 @@ function AdvisorCard({ label, rec, capital }: {
           </div>
           <div className="text-right shrink-0">
             <div className="text-xl font-bold font-mono text-white">{fmtEur(rec.gainBase)}</div>
-            <div className="text-xs font-mono mt-0.5" style={{ color: pctBase >= 0 ? '#22c55e' : '#ef4444' }}>
+            <div className="text-xs font-mono mt-0.5" style={{ color: pctBase >= 0 ? '#10b981' : '#ef4444' }}>
               +{pctBase.toFixed(2)}% total
             </div>
           </div>

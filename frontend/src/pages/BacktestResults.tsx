@@ -179,7 +179,7 @@ export default function BacktestResults() {
   )
 
   const cumFinal = weekly.at(-1)?.cum ?? 0
-  const cumColor = cumFinal >= 0 ? '#22c55e' : '#ef4444'
+  const cumColor = cumFinal >= 0 ? '#10b981' : '#ef4444'
 
   return (
     <div className="space-y-6">
@@ -256,7 +256,7 @@ export default function BacktestResults() {
                 />
                 <Bar dataKey="avg" radius={[0, 4, 4, 0]}>
                   {regimeStats.map((r, i) => (
-                    <Cell key={i} fill={r.avg >= 0 ? '#22c55e' : '#ef4444'} fillOpacity={0.8} />
+                    <Cell key={i} fill={r.avg >= 0 ? '#10b981' : '#ef4444'} fillOpacity={0.8} />
                   ))}
                 </Bar>
               </BarChart>
@@ -282,7 +282,7 @@ export default function BacktestResults() {
                 />
                 <Bar dataKey="avg" radius={[4, 4, 0, 0]}>
                   {scoreQuartiles.map((q, i) => (
-                    <Cell key={i} fill={q.avg! >= 0 ? '#22c55e' : '#ef4444'} fillOpacity={0.7 + i * 0.075} />
+                    <Cell key={i} fill={q.avg! >= 0 ? '#10b981' : '#ef4444'} fillOpacity={0.7 + i * 0.075} />
                   ))}
                 </Bar>
               </BarChart>
@@ -311,7 +311,7 @@ export default function BacktestResults() {
                 />
                 <Bar dataKey="avg" radius={[0, 4, 4, 0]}>
                   {sectorStats.map((s, i) => (
-                    <Cell key={i} fill={s.avg >= 0 ? '#22c55e' : '#ef4444'} fillOpacity={0.75} />
+                    <Cell key={i} fill={s.avg >= 0 ? '#10b981' : '#ef4444'} fillOpacity={0.75} />
                   ))}
                 </Bar>
               </BarChart>

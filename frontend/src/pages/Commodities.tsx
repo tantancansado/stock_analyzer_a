@@ -48,7 +48,7 @@ const ALL_TYPES = ['Precious_Metal', 'Energy', 'Industrial', 'Agricultural']
 function RangeBar({ position }: { position: number | null }) {
   if (position === null) return <span className="text-white/25 text-xs">—</span>
   const pct = Math.min(Math.max(position * 100, 0), 100)
-  const color = position < 0.3 ? '#22c55e' : position > 0.7 ? '#ef4444' : '#f59e0b'
+  const color = position < 0.3 ? '#10b981' : position > 0.7 ? '#ef4444' : '#f59e0b'
   return (
     <div className="flex items-center gap-2 min-w-[90px]">
       <div className="flex-1 h-1.5 rounded-full bg-white/10 relative">
@@ -62,7 +62,7 @@ function RangeBar({ position }: { position: number | null }) {
 function PctBadge({ v, inverse = false }: { v: number | null; inverse?: boolean }) {
   if (v === null) return <span className="text-white/25 text-xs">—</span>
   const positive = inverse ? v < 0 : v > 0
-  const color = positive ? '#22c55e' : v === 0 ? '#94a3b8' : '#ef4444'
+  const color = positive ? '#10b981' : v === 0 ? '#94a3b8' : '#ef4444'
   return (
     <span className="text-xs font-mono" style={{ color }}>
       {v > 0 ? '+' : ''}{v.toFixed(1)}%
@@ -232,7 +232,7 @@ function SummaryCards({ data }: { data: CommodityOpportunity[] }) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {[
-        { label: 'Atractivos',    value: attractive, color: '#22c55e' },
+        { label: 'Atractivos',    value: attractive, color: '#10b981' },
         { label: 'Sobrevendidos', value: oversold,   color: '#22d3ee' },
         { label: 'Estacional ↑',  value: seasonal,   color: '#f59e0b' },
         { label: 'Con alt. UCITS', value: withEuAlt, color: '#8b5cf6' },

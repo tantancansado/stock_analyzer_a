@@ -16,13 +16,13 @@ const TABS: { id: Tab; label: string }[] = [
 
 function ReturnBadge({ v }: { v: number | null }) {
   if (v === null || v === undefined) return <span className="text-white/30 text-xs">—</span>
-  const color = v > 0 ? '#22c55e' : v > -2 ? '#f59e0b' : '#ef4444'
+  const color = v > 0 ? '#10b981' : v > -2 ? '#f59e0b' : '#ef4444'
   return <span className="text-xs font-mono" style={{ color }}>{v > 0 ? '+' : ''}{v.toFixed(2)}%</span>
 }
 
 function WinBadge({ v }: { v: number | null }) {
   if (v === null || v === undefined) return <span className="text-white/30 text-xs">—</span>
-  const color = v >= 50 ? '#22c55e' : v >= 35 ? '#f59e0b' : '#ef4444'
+  const color = v >= 50 ? '#10b981' : v >= 35 ? '#f59e0b' : '#ef4444'
   return <span className="text-xs font-mono font-semibold" style={{ color }}>{v.toFixed(1)}%</span>
 }
 
@@ -41,7 +41,7 @@ function MiniBar({ value, max, color = '#22d3ee' }: { value: number; max: number
 function WinBar({ value, max = 80 }: { value: number | null; max?: number }) {
   const v = value ?? 0
   const pct = Math.min((v / max) * 100, 100)
-  const color = v >= 50 ? '#22c55e' : v >= 35 ? '#f59e0b' : '#ef4444'
+  const color = v >= 50 ? '#10b981' : v >= 35 ? '#f59e0b' : '#ef4444'
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.07)' }}>
@@ -257,7 +257,7 @@ export default function SignalStats() {
         </Card>
         <Card className="glass">
           <CardContent className="p-4 text-center">
-            <div className="text-2xl font-bold font-mono" style={{ color: avgWin14 >= 50 ? '#22c55e' : '#f59e0b' }}>
+            <div className="text-2xl font-bold font-mono" style={{ color: avgWin14 >= 50 ? '#10b981' : '#f59e0b' }}>
               {avgWin14.toFixed(1)}%
             </div>
             <div className="text-xs text-white/40 mt-0.5">Win rate global 14d</div>
