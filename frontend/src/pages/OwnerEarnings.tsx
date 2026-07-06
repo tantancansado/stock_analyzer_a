@@ -10,6 +10,7 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@
 import { ArrowLeft, Calculator, ChevronDown, ChevronUp, RefreshCw, Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { nlValuation } from '@/lib/nl'
+import PageHeader from '../components/PageHeader'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -1859,19 +1860,10 @@ export default function OwnerEarnings() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-5">
-      {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2.5 mb-1">
-            <Calculator size={18} className="text-cyan-400" />
-            <h1 className="text-xl font-bold tracking-tight">Owner Earnings</h1>
-          </div>
-          <p className="text-xs text-muted-foreground">
-            Modelo de valoración Buffett — precio de compra para retorno anual objetivo.
-            FCF = CFO − CapEx mantenimiento. Datos TIKR Pro.
-          </p>
-        </div>
-
+      <PageHeader
+        title={<span className="flex items-center gap-2.5"><Calculator size={18} className="text-cyan-400" />Owner Earnings</span>}
+        subtitle="Modelo de valoración Buffett — precio de compra para retorno anual objetivo. FCF = CFO − CapEx mantenimiento. Datos TIKR Pro."
+      >
         <Button
           size="sm"
           variant="outline"
@@ -1882,7 +1874,7 @@ export default function OwnerEarnings() {
           <RefreshCw size={12} className={cn(loadingBatch || detailLoading ? 'animate-spin' : '')} />
           Actualizar
         </Button>
-      </div>
+      </PageHeader>
 
       {/* Content */}
       {selected && renderDetail()}

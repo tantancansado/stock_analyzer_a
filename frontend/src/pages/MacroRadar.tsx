@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import StaleDataBanner from '../components/StaleDataBanner'
+import PageHeader from '../components/PageHeader'
 
 const RegimeSweepPlayer = lazy(() =>
   import('../components/RegimeSweepVideo').then(m => ({ default: m.RegimeSweepPlayer }))
@@ -921,14 +922,10 @@ export default function MacroRadar() {
     <div className="max-w-6xl mx-auto space-y-6">
       <StaleDataBanner module="macro" />
 
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold gradient-title mb-1">Macro Radar</h1>
-          <p className="text-sm text-muted-foreground">
-            Sistema de alerta temprana — detecta cambios de régimen antes de que ocurran
-          </p>
-        </div>
+      <PageHeader
+        title="Macro Radar"
+        subtitle="Sistema de alerta temprana — detecta cambios de régimen antes de que ocurran"
+      >
         <div className="text-right flex flex-col items-end gap-2">
           <span
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-bold ${regimeBadgeVariant(regime.name)}`}
@@ -938,7 +935,7 @@ export default function MacroRadar() {
           </span>
           <span className="text-xs text-muted-foreground">{date}</span>
         </div>
-      </div>
+      </PageHeader>
 
       {/* Hero regime card */}
       <Card className="glass border border-border/50 animate-fade-in-up">

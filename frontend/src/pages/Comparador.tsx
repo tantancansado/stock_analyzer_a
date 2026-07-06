@@ -3,6 +3,7 @@ import axios from 'axios'
 import { GitCompare, Plus, X, Loader2, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import { searchTickers, type SearchResult } from '../api/client'
 import TickerLogo from '../components/TickerLogo'
+import PageHeader from '../components/PageHeader'
 
 const API_BASE = import.meta.env.VITE_API_URL || ''
 
@@ -202,16 +203,10 @@ export default function Comparador() {
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-extrabold text-foreground flex items-center gap-2">
-          <GitCompare size={22} className="text-primary" />
-          Comparador de Acciones
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Compara hasta 4 tickers en paralelo con métricas clave. Verde = mejor, rojo = peor.
-        </p>
-      </div>
+      <PageHeader
+        title={<span className="flex items-center gap-2"><GitCompare size={22} className="text-primary" />Comparador de Acciones</span>}
+        subtitle="Compara hasta 4 tickers en paralelo con métricas clave. Verde = mejor, rojo = peor."
+      />
 
       {/* Input */}
       <div className="glass rounded-2xl p-5">

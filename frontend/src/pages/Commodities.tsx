@@ -4,6 +4,7 @@ import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from 'lucide-react'
+import PageHeader from '../components/PageHeader'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -280,16 +281,10 @@ export default function Commodities() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground">Materias Primas</h1>
-          <p className="text-sm text-foreground/40 mt-1">
-            {data.length} ETFs (EEUU) · VALUE rating vs media histórica 2 años · ver alternativa UCITS por fila para IBKR Ireland
-            {generatedAt && <span className="ml-2">· actualizado {generatedAt}</span>}
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        title="Materias Primas"
+        subtitle={<>{data.length} ETFs (EEUU) · VALUE rating vs media histórica 2 años · ver alternativa UCITS por fila para IBKR Ireland{generatedAt && <span className="ml-2">· actualizado {generatedAt}</span>}</>}
+      />
 
       <SummaryCards data={data} />
 

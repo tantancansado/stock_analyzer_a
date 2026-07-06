@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
 import { useToast } from '../components/Toast'
+import PageHeader from '../components/PageHeader'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -246,16 +247,10 @@ export default function Alerts() {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-extrabold text-foreground flex items-center gap-2">
-          <Bell size={22} className="text-primary" />
-          Alertas por Email
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          El pipeline diario comprueba tus alertas cada mañana y te envía un email cuando se cumple la condición.
-        </p>
-      </div>
+      <PageHeader
+        title={<span className="flex items-center gap-2"><Bell size={22} className="text-primary" />Alertas por Email</span>}
+        subtitle="El pipeline diario comprueba tus alertas cada mañana y te envía un email cuando se cumple la condición."
+      />
 
       {/* Info banner */}
       <div className="flex items-start gap-3 p-4 rounded-xl bg-blue-500/8 border border-blue-500/20">

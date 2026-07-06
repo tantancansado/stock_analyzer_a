@@ -2,6 +2,7 @@ import { useState, useEffect, lazy, Suspense } from 'react'
 import { FlaskConical, Info, ArrowLeftRight } from 'lucide-react'
 import Loading from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
+import PageHeader from '../components/PageHeader'
 
 const BacktestResults = lazy(() => import('./BacktestResults'))
 
@@ -240,14 +241,10 @@ export default function Backtest() {
 
   return (
     <div className="space-y-5 max-w-5xl">
-      <div>
-        <h1 className="text-2xl font-extrabold text-foreground flex items-center gap-2">
-          <FlaskConical size={22} className="text-primary" /> Backtest — Señales Reales
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          {signals.length} tickers únicos · {dateRange} · resultados forward-looking
-        </p>
-      </div>
+      <PageHeader
+        title={<span className="flex items-center gap-2"><FlaskConical size={22} className="text-primary" />Backtest — Señales Reales</span>}
+        subtitle={`${signals.length} tickers únicos · ${dateRange} · resultados forward-looking`}
+      />
 
       <div className="flex items-start gap-3 p-3.5 rounded-xl bg-primary/5 border border-primary/20">
         <Info size={13} className="text-primary mt-0.5 shrink-0" />

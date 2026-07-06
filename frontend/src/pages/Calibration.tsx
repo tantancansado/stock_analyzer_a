@@ -3,6 +3,7 @@ import { fetchCalibration, type CalibrationBucket, type CalibrationRegime, type 
 import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import PageHeader from '../components/PageHeader'
 
 function WinBar({ value, max = 80 }: { value: number | null | undefined; max?: number }) {
   const v = value ?? 0
@@ -152,13 +153,10 @@ export default function Calibration() {
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div>
-        <h1 className="text-xl font-semibold text-foreground">Calibración del Sistema</h1>
-        <p className="text-sm text-foreground/50 mt-1">
-          ¿Cuándo predice bien el sistema? Análisis sobre {data.total_completed.toLocaleString()} señales completadas.
-        </p>
-      </div>
+      <PageHeader
+        title="Calibración del Sistema"
+        subtitle={`¿Cuándo predice bien el sistema? Análisis sobre ${data.total_completed.toLocaleString()} señales completadas.`}
+      />
 
       {/* Summary KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">

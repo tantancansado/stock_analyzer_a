@@ -10,6 +10,7 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
 import { Search, AlertCircle } from 'lucide-react'
+import PageHeader from '../components/PageHeader'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -197,10 +198,10 @@ export default function TickerSearch() {
 
   return (
     <>
-      <div className="mb-7 animate-fade-in-up">
-        <h1 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Buscar Ticker</h1>
-        <p className="text-sm text-muted-foreground">Analisis completo de cualquier ticker — datos del pipeline o yfinance live</p>
-      </div>
+      <PageHeader
+        title="Buscar Ticker"
+        subtitle="Analisis completo de cualquier ticker — datos del pipeline o yfinance live"
+      />
 
       {/* Search box with autocomplete */}
       <div className="relative z-50 mb-6 animate-fade-in-up" style={{ animationDelay: '60ms' }} ref={wrapRef}>

@@ -9,6 +9,7 @@ import { AlertTriangle, ShieldCheck, ChevronDown, ChevronUp, Briefcase, Zap, Cal
 import { Badge } from '@/components/ui/badge'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
+import PageHeader from '../components/PageHeader'
 
 type Tab = 'traps' | 'safe' | 'timing'
 
@@ -197,16 +198,12 @@ export default function DividendTraps() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-5">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 animate-fade-in-up">
-        <div>
-          <h1 className="text-2xl font-bold gradient-title mb-1">Dividend Trap Radar</h1>
-          <p className="text-sm text-muted-foreground">
-            Análisis de sostenibilidad de dividendos · detecta trampas antes de que recorten
-          </p>
-        </div>
-        <span className="text-xs text-muted-foreground self-start">{data.date} · {data.total_scanned} tickers analizados</span>
-      </div>
+      <PageHeader
+        title="Dividend Trap Radar"
+        subtitle="Análisis de sostenibilidad de dividendos · detecta trampas antes de que recorten"
+      >
+        <span className="text-xs text-muted-foreground">{data.date} · {data.total_scanned} tickers analizados</span>
+      </PageHeader>
 
       {/* Portfolio alert */}
       {myPositions.length > 0 && (myTraps.length > 0 || mySafe.length > 0) && (

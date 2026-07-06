@@ -9,6 +9,7 @@ import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
 import { AlertTriangle, TrendingDown, Zap, Star, Target } from 'lucide-react'
 import { nlBounceSetup, nlBounceConfidence } from '@/lib/nl'
+import PageHeader from '../components/PageHeader'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -394,20 +395,10 @@ export default function BounceTrader() {
       {mode === 'broad' && <BroadBounceView />}
 
       {mode === 'curated' && <>
-      {/* Header */}
-      <div className="mb-6 animate-fade-in-up">
-        <div className="flex items-start justify-between gap-4 mb-1">
-          <div>
-            <h1 className="text-2xl font-extrabold tracking-tight gradient-title flex items-center gap-2">
-              <Zap size={20} className="text-orange-400" />
-              Bounce Trader
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
-              Rebotes técnicos de 1–3 días · Oversold extremo + confirmación multi-indicador
-              {scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}
-            </p>
-          </div>
-        </div>
+      <PageHeader
+        title={<span className="flex items-center gap-2"><Zap size={20} className="text-orange-400" />Bounce Trader</span>}
+        subtitle={<>Rebotes técnicos de 1–3 días · Oversold extremo + confirmación multi-indicador{scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}</>}
+      />
 
         {/* Summary pills */}
         <div className="flex flex-wrap gap-2 mt-3">
@@ -426,7 +417,6 @@ export default function BounceTrader() {
             </div>
           )}
         </div>
-      </div>
 
       {/* Filters */}
       <div className="flex flex-wrap items-center gap-2 mb-6">

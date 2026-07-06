@@ -11,6 +11,7 @@ import {
   LogoSeed,
   LogoSonar,
 } from '../components/BrandLogos'
+import PageHeader from '../components/PageHeader'
 
 type LogoDef = {
   key: string
@@ -37,10 +38,10 @@ export default function LogoPreview() {
 
   return (
     <>
-      <div className="mb-7 animate-fade-in-up">
-        <h1 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Sistema de logos animados</h1>
-        <p className="text-sm text-muted-foreground">10 SVGs animados · uno principal (Orbit) + 9 temáticos por sección. Click en cualquiera para ver el mock.</p>
-      </div>
+      <PageHeader
+        title="Sistema de logos animados"
+        subtitle="10 SVGs animados · uno principal (Orbit) + 9 temáticos por sección. Click en cualquiera para ver el mock."
+      />
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
         {LOGOS.map(({ key, name, usage, Comp }) => (

@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Calculator, Brain } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import PageHeader from '../components/PageHeader'
 
 const BOND_TYPE_LABELS: Record<string, string> = {
   T_Bill:    'T-Bill <1a',
@@ -1222,14 +1223,10 @@ export default function Bonds() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-foreground tracking-tight">Bonos &amp; Renta Fija</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          ETFs de renta fija con análisis VALUE — yield vs histórico, duración y dislocation de precio
-          {generatedAt && <span className="ml-2 opacity-60">· {new Date(generatedAt).toLocaleDateString('es-ES')}</span>}
-        </p>
-      </div>
+      <PageHeader
+        title="Bonos & Renta Fija"
+        subtitle={<>ETFs de renta fija con análisis VALUE — yield vs histórico, duración y dislocation de precio{generatedAt && <span className="ml-2 opacity-60">· {new Date(generatedAt).toLocaleDateString('es-ES')}</span>}</>}
+      />
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

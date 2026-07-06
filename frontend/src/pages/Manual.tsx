@@ -7,6 +7,7 @@ import {
   Bell, CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import PageHeader from '../components/PageHeader'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -160,14 +161,10 @@ export default function Manual() {
 
   return (
     <div className="mb-7 animate-fade-in-up">
-      <div className="mb-6">
-        <h1 className="text-2xl font-extrabold tracking-tight mb-2">
-          <span className="gradient-title">Manual de usuario</span>
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Cómo funciona cada sección, qué hace cada agente y cómo interpretar los datos. Pensado para empezar de cero.
-        </p>
-      </div>
+      <PageHeader
+        title="Manual de usuario"
+        subtitle="Cómo funciona cada sección, qué hace cada agente y cómo interpretar los datos. Pensado para empezar de cero."
+      />
 
       {/* Mobile section jump — el TOC con buscador de abajo solo se ve desde lg */}
       <div className="lg:hidden mb-5">

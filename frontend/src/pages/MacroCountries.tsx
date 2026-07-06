@@ -4,6 +4,7 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { ChevronDown, ChevronUp, Globe } from 'lucide-react'
+import PageHeader from '../components/PageHeader'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -382,22 +383,15 @@ export default function MacroCountries() {
     <div className="space-y-6 p-4 md:p-6 max-w-7xl mx-auto">
       <StaleDataBanner dataDate={data.generated_at} />
 
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-            <Globe className="h-6 w-6 text-cyan-400" />
-            Análisis Macro Global
-          </h1>
-          <p className="text-sm text-slate-400 mt-0.5">
-            {data.countries.length} países · macro {data.macro_source.split(' ').slice(-2).join(' ')} · mercado tiempo real
-          </p>
-        </div>
+      <PageHeader
+        title={<span className="flex items-center gap-2"><Globe className="h-6 w-6 text-cyan-400" />Análisis Macro Global</span>}
+        subtitle={`${data.countries.length} países · macro ${data.macro_source.split(' ').slice(-2).join(' ')} · mercado tiempo real`}
+      >
         <div className="text-right text-[0.65rem] text-slate-500">
           <div>Actualizado: {data.generated_at}</div>
           <div className="text-slate-600">Macro: {data.macro_source}</div>
         </div>
-      </div>
+      </PageHeader>
 
       {/* Signal summary pills */}
       <div className="flex flex-wrap gap-2">

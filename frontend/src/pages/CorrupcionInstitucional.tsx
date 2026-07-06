@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { ExternalLink, AlertTriangle, TrendingUp, TrendingDown, FileText, Scroll, Building2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import PageHeader from '../components/PageHeader'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -238,16 +239,10 @@ export default function CorrupcionInstitucional() {
 
   return (
     <div className="space-y-6 p-4 md:p-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <div className="space-y-1">
-        <div className="flex items-center gap-2.5">
-          <AlertTriangle size={20} className="text-red-400" strokeWidth={1.75} />
-          <h1 className="text-xl font-bold tracking-tight">Corrupción Institucional</h1>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          Señales de mercado derivadas de contratos gubernamentales, trades del Congreso y Executive Orders.
-        </p>
-      </div>
+      <PageHeader
+        title={<span className="flex items-center gap-2.5"><AlertTriangle size={20} className="text-red-400" strokeWidth={1.75} />Corrupción Institucional</span>}
+        subtitle="Señales de mercado derivadas de contratos gubernamentales, trades del Congreso y Executive Orders."
+      />
 
       {/* Tabs */}
       <div className="flex gap-1 p-1 bg-muted/20 rounded-lg border border-border/30 flex-wrap">

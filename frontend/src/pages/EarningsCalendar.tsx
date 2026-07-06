@@ -9,6 +9,7 @@ import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import EarningsThesisModal from '../components/EarningsThesisModal'
+import PageHeader from '../components/PageHeader'
 
 type FilterMode = 'all' | 'warning' | 'catalyst' | 'portfolio'
 
@@ -132,18 +133,12 @@ export default function EarningsCalendar() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-5">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
-        <div>
-          <h1 className="text-2xl font-bold mb-1 gradient-title">Earnings Calendar</h1>
-          <p className="text-sm text-muted-foreground">
-            Próximos reportes de resultados — evita entrar antes de earnings sin catalizador
-          </p>
-        </div>
-        <span className="text-xs text-muted-foreground self-start sm:self-center">
-          {data.total} tickers · {data.as_of}
-        </span>
-      </div>
+      <PageHeader
+        title="Earnings Calendar"
+        subtitle="Próximos reportes de resultados — evita entrar antes de earnings sin catalizador"
+      >
+        <span className="text-xs text-muted-foreground">{data.total} tickers · {data.as_of}</span>
+      </PageHeader>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">

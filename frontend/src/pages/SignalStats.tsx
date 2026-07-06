@@ -4,6 +4,7 @@ import { fetchTimeseries, type TimeseriesRow, type StrategyRow } from '../api/cl
 import Loading, { ErrorState } from '@/components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import PageHeader from '@/components/PageHeader'
 
 type Tab = 'week' | 'month' | 'quarter' | 'weekday'
 
@@ -239,13 +240,10 @@ export default function SignalStats() {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-foreground">Estadísticas de señales</h1>
-        <p className="text-sm text-foreground/40 mt-1">
-          {data.total_completed.toLocaleString()} señales completadas · {data.date_range.from} → {data.date_range.to}
-        </p>
-      </div>
+      <PageHeader
+        title="Estadísticas de señales"
+        subtitle={`${data.total_completed.toLocaleString()} señales completadas · ${data.date_range.from} → ${data.date_range.to}`}
+      />
 
       {/* KPIs globales */}
       <div className="grid grid-cols-3 gap-4">

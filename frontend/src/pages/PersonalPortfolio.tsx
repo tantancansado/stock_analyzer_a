@@ -10,6 +10,7 @@ import PriceChart from '../components/PriceChart'
 import { useCerebroSignals, type CerebroMaps } from '../hooks/useCerebroSignals'
 import { usePortfolioConfluence, type ConfluenceSignals } from '../hooks/usePortfolioConfluence'
 import { useApi } from '../hooks/useApi'
+import PageHeader from '../components/PageHeader'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -1657,16 +1658,10 @@ export default function PersonalPortfolio() {
 
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="animate-fade-in-up">
-        <h1 className="gradient-title text-2xl font-extrabold flex items-center gap-2">
-          <Wallet size={22} className="text-primary" />
-          Mi Cartera Personal
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Tus posiciones se guardan en la nube. El análisis IA se actualiza en cada visita.
-        </p>
-      </div>
+      <PageHeader
+        title={<span className="flex items-center gap-2"><Wallet size={22} className="text-primary" />Mi Cartera Personal</span>}
+        subtitle="Tus posiciones se guardan en la nube. El análisis IA se actualiza en cada visita."
+      />
 
       {/* Summary (after analysis) */}
       {result && (
