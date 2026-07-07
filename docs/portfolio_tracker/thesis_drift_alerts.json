@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-06T09:13:13",
-  "positions_checked": 12,
-  "total": 1,
-  "high_count": 1,
+  "generated_at": "2026-07-07T08:47:51",
+  "positions_checked": 14,
+  "total": 2,
+  "high_count": 2,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -11,6 +11,15 @@
       "signal_date": "2026-03-24",
       "type": "STOP_BREACHED",
       "reason": "Precio 7914.00 por debajo del stop 8140.16",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "STZ",
+      "company_name": "Constellation Brands, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-06",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside salt\u00f3 a 31% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     }
   ]

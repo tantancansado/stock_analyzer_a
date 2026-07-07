@@ -1,42 +1,42 @@
 {
-  "date": "2026-07-06",
-  "timestamp": "2026-07-06T09:13:04.728499",
-  "narrative": "An\u00e1lisis de rotaci\u00f3n sectorial:\n\nLa tendencia de rotaci\u00f3n sectorial que estoy viendo es una rotaci\u00f3n hacia sectores c\u00edclicos, liderados por Medical Care Facilities, Railroads e Industrial Distribution, que han demostrado una gran fuerza relativa en el mercado. Por otro lado, los sectores defensivos como Residential Construction, Software - Infrastructure y Discount Stores se encuentran en la parte inferior del ranking por RS, lo que sugiere una debilidad relativa en este momento.\n\nEsta tendencia de rotaci\u00f3n es consistente con el r\u00e9gimen macro actual (CALM), ya que los inversores est\u00e1n buscando sectores que puedan beneficiarse de una recuperaci\u00f3n econ\u00f3mica en un entorno de calma macroecon\u00f3mica.\n\nEn este momento, recomiendo concentrar las b\u00fasquedas en sectores c\u00edclicos como Healthcare, Industriales y Basic Materials, que han demostrado una gran fuerza relativa en el mercado. Por otro lado, es recomend",
+  "date": "2026-07-07",
+  "timestamp": "2026-07-07T08:47:16.852561",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial que estoy viendo es una rotaci\u00f3n hacia sectores m\u00e1s c\u00edclicos y menos defensivos. Los l\u00edderes en Relative Strength est\u00e1n concentrados en sectores como Healthcare, Industriales y Financial Services, que suelen ser m\u00e1s sensibles a la econom\u00eda y a la actividad empresarial.\n\nEsta tendencia es consistente con el r\u00e9gimen macro actual (CALM), ya que se espera una recuperaci\u00f3n econ\u00f3mica moderada en el futuro cercano. Los sectores c\u00edclicos y de crecimiento est\u00e1n mejor posicionados para aprovechar esta recuperaci\u00f3n.\n\nEn este momento, deber\u00edamos concentrar nuestras b\u00fasquedas en sectores como:\n\n- Medical Care Facilities (Healthcare)\n- Railroads (Industriales)\n- Insurance - Property & Casualty (Financial Services)\n- Industrial Distribution (Industriales)\n- Banks - Regional (Financial Services)\n\nPor otro lado, deber\u00edamos evitar sectores como:\n\n- Residential Construction (Consumer Cyclical)\n- Restaurants",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 70.6,
+      "avg_rs_percentile": 70.4,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 67.8,
+      "avg_rs_percentile": 65.6,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Insurance - Property & Casualty",
       "sector": "Financial Services",
-      "avg_rs_percentile": 57.6,
+      "avg_rs_percentile": 53.2,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Industrial Distribution",
       "sector": "Industrials",
-      "avg_rs_percentile": 47.9,
+      "avg_rs_percentile": 46.7,
       "num_tickers": 3,
       "label": "Top 25%"
     },
     {
-      "industry": "Specialty Chemicals",
-      "sector": "Basic Materials",
-      "avg_rs_percentile": 47.7,
-      "num_tickers": 6,
+      "industry": "Banks - Regional",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 45.6,
+      "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
@@ -44,36 +44,36 @@
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 16.4,
+      "avg_rs_percentile": 14.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Software - Infrastructure",
+      "industry": "Restaurants",
+      "sector": "Consumer Cyclical",
+      "avg_rs_percentile": 11.7,
+      "num_tickers": 3,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Information Technology Services",
       "sector": "Technology",
-      "avg_rs_percentile": 16.0,
+      "avg_rs_percentile": 8.4,
+      "num_tickers": 4,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 4.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 13.2,
+      "avg_rs_percentile": 0.8,
       "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Discount Stores",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 9.4,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Information Technology Services",
-      "sector": "Technology",
-      "avg_rs_percentile": 9.1,
-      "num_tickers": 4,
       "label": "Bottom 25%"
     }
   ],
