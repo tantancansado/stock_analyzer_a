@@ -121,7 +121,7 @@ export default function Portfolio() {
 
   // Lidera con el horizonte value (90d+); 30d se mantiene como contraste del
   // ruido de corto plazo, pero 7d/14d fuera — no dicen nada útil para value.
-  const periods = ['30d', '90d', '180d', '365d'] as const
+  const periods = ['90d', '180d', '365d', '30d'] as const
   const overall = pf.overall || {} as Record<string, { count: number; win_rate: number; avg_return: number }>
 
   const bestPeriod = periods.reduce((best, p) => {
@@ -130,7 +130,7 @@ export default function Portfolio() {
     if (!d) return best
     if (!bD) return p
     return d.win_rate > bD.win_rate ? p : best
-  }, '7d' as string)
+  }, periods[0] as string)
 
   const recentSignals = (pf as Record<string, unknown>).recent_signals as RecentSignal[] | undefined
   const hasReturns = (pf.overall as Record<string, { count: number }>)?.['7d']?.count > 0
@@ -669,17 +669,17 @@ export default function Portfolio() {
       )}
 
       {/* ── Alpha vs benchmark ── */}
-      {pf.alpha?.['30d']?.count != null && pf.alpha['30d'].count >= 3 && (
+      {pf.alpha?.['90d']?.count != null && pf.alpha['90d'].count >= 3 && (
         <div className="mt-6 animate-fade-in-up">
           <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30 mb-4">
             Alpha vs benchmark
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {(['30d', '14d', '7d'] as const).map(period => {
+            {(['90d', '180d', '365d'] as const).map(period => {
               const a = pf.alpha![period]
               if (!a || a.count < 3) return null
               const alphaColor = (a.avg_alpha ?? 0) > 0 ? 'text-emerald-400' : 'text-red-400'
-              const bench = period === '30d' ? 'SPY/VGK' : period === '14d' ? 'SPY/VGK' : 'SPY/VGK'
+              const bench = 'SPY/VGK'
               return (
                 <Card key={period} className="glass border-border/20">
                   <CardContent className="p-4">
