@@ -187,9 +187,9 @@ function TopPicksTable({
             {rows.map((r) => (
               <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
                 <TickerLogo ticker={r.ticker} size="md" className="flex-shrink-0" />
-                <div className="w-[4rem] shrink-0">
-                  <div className="font-mono font-bold text-primary text-[0.92rem] tracking-wide">{r.ticker}</div>
-                  <div className="flex items-center gap-1 mt-0.5">
+                <div className="w-20 shrink-0">
+                  <div className="font-mono font-bold text-primary text-[0.92rem] tracking-wide truncate">{r.ticker}</div>
+                  <div className="flex flex-wrap items-center gap-1 mt-0.5">
                     {r.conviction_grade && (
                       <GradeBadge grade={r.conviction_grade} score={r.conviction_score} />
                     )}
