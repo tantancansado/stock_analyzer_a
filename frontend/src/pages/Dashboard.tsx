@@ -722,12 +722,13 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
   if (loading) {
     return (
-      <Card className="glass border-l-4 border-l-primary/40 p-5 mb-5">
+      <Card className="liquid-glass border-t-2 border-t-primary/40 p-6 sm:p-7 mb-5">
         <div className="flex items-center gap-3 mb-4">
           <Skeleton className="h-5 w-5 rounded" />
           <Skeleton className="h-4 w-48" />
           <Skeleton className="h-5 w-16 ml-auto rounded-full" />
         </div>
+        <Skeleton className="h-7 w-3/4 mb-3" />
         <Skeleton className="h-3 w-full mb-2" />
         <Skeleton className="h-3 w-4/5 mb-4" />
         <div className="space-y-3">
@@ -743,12 +744,12 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
   const ss = SESGO_STYLES[sesgoKey] ?? SESGO_STYLES.NEUTRO
 
   return (
-    <Card className="liquid-glass p-5 mb-5 animate-fade-in-up">
+    <Card className="liquid-glass border-t-2 border-t-primary/40 p-6 sm:p-7 mb-5 animate-fade-in-up">
       {/* Header */}
-      <div className="flex items-start justify-between gap-3 mb-3 flex-wrap">
+      <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
         <div className="flex items-center gap-2.5">
-          <Target size={16} className="text-muted-foreground" />
-          <span className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+          <Target size={16} className="text-primary/70" />
+          <span className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-primary/70">
             Plan del Día — Cerebro IA
           </span>
           <span className="text-[0.72rem] text-muted-foreground/50">{data.generated_at}</span>
@@ -768,9 +769,9 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
         </div>
       </div>
 
-      {/* Situacion */}
+      {/* Situacion — la frase que resume el día, tratamiento de titular */}
       {data.situacion && (
-        <div className="text-[0.98rem] font-semibold mb-1 text-foreground">{data.situacion}</div>
+        <div className="text-xl sm:text-2xl font-bold tracking-tight mb-1.5 text-foreground leading-snug">{data.situacion}</div>
       )}
 
       {/* Narrativa */}
@@ -1143,16 +1144,16 @@ export default function Dashboard() {
   return (
     <>
       {/* Header */}
-      <div className="mb-4 animate-fade-in-up flex items-start justify-between gap-4">
+      <div className="mb-6 animate-fade-in-up flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h2>
           <p className="text-[1rem] text-muted-foreground">
             {activeTab === 'resumen'
               ? 'Resumen ejecutivo · Actualización diaria automática'
               : 'Cerebro · el agente IA te resume lo importante primero'}
           </p>
         </div>
-        <LogoChartPeak size={56} className="shrink-0 opacity-80 hidden sm:block" />
+        <LogoChartPeak size={72} className="shrink-0 opacity-90 hidden sm:block" />
       </div>
 
       {/* Pestañas: Resumen | Cerebro (antes eran dos entradas de menú) */}
