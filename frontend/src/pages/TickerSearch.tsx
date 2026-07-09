@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { analyzeTicker, analyzeTickerAI, searchTickers, fetchScoreHistory } from '../api/client'
-import type { SearchResult, ScoreHistoryPoint } from '../api/client'
+import { analyzeTicker, analyzeTickerAI, searchTickers, fetchScoreHistory, fetchOwnerEarningsBatch, fetchOwnerEarningsAiValidated } from '../api/client'
+import type { SearchResult, ScoreHistoryPoint, OeAiValidation } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import PriceChart from '../components/PriceChart'
 import Loading, { ErrorState } from '../components/Loading'
@@ -9,13 +9,18 @@ import ScoreBar from '../components/ScoreBar'
 import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
-import { Search, AlertCircle } from 'lucide-react'
+import { Search, AlertCircle, Bell, Loader2 } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
+import { getTickerDecision, type OeModelInput, type TickerDecision } from '@/lib/tickerDecision'
+import { useAuth } from '@/context/AuthContext'
+import { useToast } from '../components/Toast'
+import { supabase } from '@/lib/supabase'
 
 // ── Recent searches hook (inline) ────────────────────────────────────────────
 const RECENT_KEY = 'sa-recent-searches'
@@ -67,6 +72,142 @@ function Metric({ label, value, quality = 'neutral' }: { label: string; value: s
   )
 }
 
+// ── Ficha de decisión — síntesis Owner Earnings + validador IA ────────────────
+
+function DecisionCard({
+  decision, ticker, currentPrice, aiReasoning,
+}: {
+  decision: TickerDecision
+  ticker: string
+  currentPrice: number | null
+  aiReasoning?: string | null
+}) {
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const [saving, setSaving] = useState(false)
+  const [alertSet, setAlertSet] = useState(false)
+
+  const buy = decision.buyPrice
+  const margin = decision.safetyMarginPct
+
+  const createAlert = async () => {
+    if (!user || buy == null) return
+    setSaving(true)
+    try {
+      const { data: existing } = await supabase
+        .from('price_alerts')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('ticker', ticker)
+        .eq('alert_type', 'price_below')
+        .eq('active', true)
+        .limit(1)
+      if (existing && existing.length > 0) {
+        setAlertSet(true)
+        toast(`Ya tienes una alerta de precio activa para ${ticker}`, 'info')
+        return
+      }
+      const { error } = await supabase.from('price_alerts').insert({
+        user_id: user.id,
+        ticker,
+        alert_type: 'price_below',
+        threshold: buy,
+        email: user.email,
+        active: true,
+      })
+      if (error) { toast(error.message, 'error'); return }
+      setAlertSet(true)
+      toast(`Te avisaré por email si ${ticker} baja a $${buy.toFixed(2)}`, 'success')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  return (
+    <Card className="liquid-glass border-t-2 border-t-primary/40 p-5 sm:p-6 animate-fade-in-up">
+      <div className="flex items-center justify-between gap-3 flex-wrap mb-3">
+        <span className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-primary/70">
+          Decisión — Owner Earnings + validador IA
+        </span>
+        <span className={`text-[0.9rem] font-extrabold px-3 py-1 rounded border ${decision.badgeClass}`}>
+          {decision.label}
+        </span>
+      </div>
+
+      <p className="text-[0.95rem] font-semibold text-foreground leading-snug mb-4">{decision.headline}</p>
+
+      {buy != null && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+          <div className="rounded-lg border border-border/30 bg-muted/10 px-3 py-2.5">
+            <div className="text-xl sm:text-2xl font-extrabold tabular-nums leading-none text-foreground">${buy.toFixed(2)}</div>
+            <div className="text-[0.55rem] uppercase tracking-widest text-muted-foreground/50 mt-1.5">Precio compra ({decision.targetReturnPct}%/año)</div>
+          </div>
+          <div className="rounded-lg border border-border/30 bg-muted/10 px-3 py-2.5">
+            <div className="text-xl sm:text-2xl font-extrabold tabular-nums leading-none text-foreground/80">{currentPrice != null ? `$${currentPrice.toFixed(2)}` : '—'}</div>
+            <div className="text-[0.55rem] uppercase tracking-widest text-muted-foreground/50 mt-1.5">Precio actual</div>
+          </div>
+          <div className="rounded-lg border border-border/30 bg-muted/10 px-3 py-2.5">
+            {/* Con datos no fiables el margen NO lleva color semántico — sería
+                invitar a confiar justo en la cifra que estamos desacreditando */}
+            <div className={`text-xl sm:text-2xl font-extrabold tabular-nums leading-none ${
+              decision.kind === 'no_fiable' ? 'text-foreground/40 line-through'
+              : margin != null ? (margin >= 0 ? 'text-emerald-400' : 'text-red-400')
+              : 'text-foreground/60'
+            }`}>
+              {margin != null ? `${margin >= 0 ? '+' : ''}${margin.toFixed(0)}%` : '—'}
+            </div>
+            <div className="text-[0.55rem] uppercase tracking-widest text-muted-foreground/50 mt-1.5">Margen de seguridad</div>
+          </div>
+          <div className="rounded-lg border border-border/30 bg-muted/10 px-3 py-2.5">
+            <div className="text-xl sm:text-2xl font-extrabold tabular-nums leading-none text-foreground/80">{decision.exitPrice != null ? `$${decision.exitPrice.toFixed(0)}` : '—'}</div>
+            <div className="text-[0.55rem] uppercase tracking-widest text-muted-foreground/50 mt-1.5">Salida est. {decision.exitYear ?? ''}</div>
+          </div>
+        </div>
+      )}
+
+      {decision.dataFlags.length > 0 && (
+        <ul className="mb-4 space-y-1">
+          {decision.dataFlags.map(f => (
+            <li key={f} className="text-[0.78rem] text-orange-300 leading-snug">⚠ {f}</li>
+          ))}
+        </ul>
+      )}
+
+      {(decision.reasons.length > 0 || decision.blockers.length > 0) && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 mb-4">
+          {decision.reasons.length > 0 && (
+            <ul className="space-y-1">
+              {decision.reasons.map(x => (
+                <li key={x} className="text-[0.78rem] text-foreground/80 leading-snug"><span className="text-emerald-400 font-bold">✓</span> {x}</li>
+              ))}
+            </ul>
+          )}
+          {decision.blockers.length > 0 && (
+            <ul className="space-y-1">
+              {decision.blockers.map(x => (
+                <li key={x} className="text-[0.78rem] text-foreground/80 leading-snug"><span className="text-red-400 font-bold">✗</span> {x}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+
+      {aiReasoning && decision.kind !== 'sin_modelo' && (
+        <p className="text-[0.75rem] text-muted-foreground/70 italic leading-relaxed mb-4" title={aiReasoning}>
+          {aiReasoning}
+        </p>
+      )}
+
+      {decision.kind === 'espera' && buy != null && (
+        <Button size="sm" variant="outline" onClick={createAlert} disabled={saving || alertSet} className="gap-1.5">
+          {saving ? <Loader2 size={12} className="animate-spin" /> : <Bell size={12} />}
+          {alertSet ? 'Alerta creada' : `Avísame si baja a $${buy.toFixed(2)}`}
+        </Button>
+      )}
+    </Card>
+  )
+}
+
 export default function TickerSearch() {
   const [searchParams] = useSearchParams()
   const [ticker, setTicker] = useState(() => searchParams.get('q') ?? '')
@@ -80,6 +221,25 @@ export default function TickerSearch() {
   const [aiNarrative, setAiNarrative] = useState<string | null>(null)
   const wrapRef = useRef<HTMLDivElement>(null)
   const { recents, add: addRecent, remove: removeRecent } = useRecentSearches()
+
+  // Datos de Owner Earnings para la ficha de decisión — se cargan una vez, en
+  // la primera búsqueda (el batch pesa; no penalizar la carga de la página).
+  const [oeBatch, setOeBatch] = useState<Map<string, OeModelInput> | null>(null)
+  const [oeAi, setOeAi] = useState<Record<string, OeAiValidation> | null>(null)
+  const oeRequested = useRef(false)
+  const ensureOeData = useCallback(() => {
+    if (oeRequested.current) return
+    oeRequested.current = true
+    fetchOwnerEarningsBatch()
+      .then(r => {
+        const rows = ((r.data as { results?: (OeModelInput & { ticker: string })[] })?.results) ?? []
+        setOeBatch(new Map(rows.map(x => [String(x.ticker).toUpperCase(), x])))
+      })
+      .catch(() => setOeBatch(new Map()))
+    fetchOwnerEarningsAiValidated()
+      .then(r => setOeAi(r.data?.results ?? {}))
+      .catch(() => setOeAi({}))
+  }, [])
 
   // Auto-search if ?q= param on mount
   useEffect(() => {
@@ -124,6 +284,7 @@ export default function TickerSearch() {
   const doSearch = useCallback(async (sym: string) => {
     const t = sym.trim().toUpperCase()
     if (!t) return
+    ensureOeData()
     setShowSuggestions(false)
     setLoading(true)
     setError(null)
@@ -141,7 +302,7 @@ export default function TickerSearch() {
     } finally {
       setLoading(false)
     }
-  }, [addRecent])
+  }, [addRecent, ensureOeData])
 
   const onSearch = () => {
     // If input looks like a company name (has spaces or >6 chars with lowercase),
@@ -315,6 +476,34 @@ export default function TickerSearch() {
           </CardContent>
         </Card>
       )}
+
+      {r && !notFound && (() => {
+        const tk = (ss('ticker') ?? '').toUpperCase()
+        if (oeBatch == null) {
+          return (
+            <div className="mb-6">
+              <Skeleton className="h-24 w-full rounded-xl" />
+            </div>
+          )
+        }
+        const decision = getTickerDecision({
+          oe: oeBatch.get(tk),
+          oeAi: oeAi?.[tk] ?? null,
+          currentPrice: sf('current_price'),
+          analystUpsidePct: sf('analyst_upside_pct'),
+          daysToEarnings: sf('days_to_earnings'),
+        })
+        return (
+          <div className="mb-6">
+            <DecisionCard
+              decision={decision}
+              ticker={tk}
+              currentPrice={sf('current_price')}
+              aiReasoning={oeAi?.[tk]?.reasoning}
+            />
+          </div>
+        )
+      })()}
 
       {r && !notFound && (
         <Card className="glass animate-fade-in-up hover:border-border/60 transition-colors" style={{ overflow: 'clip' }}>

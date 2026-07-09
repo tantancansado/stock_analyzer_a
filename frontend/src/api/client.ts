@@ -656,6 +656,23 @@ export const fetchOwnerEarningsBatch = (targetReturn = 15) =>
     `/api/owner-earnings-batch?target_return=${targetReturn / 100}`,
   )
 
+// Validador IA del modelo Owner Earnings (owner_earnings_validator.py):
+// dict keyed por ticker con data_quality, thesis_verdict, reasoning, confidence.
+export interface OeAiValidation {
+  data_quality?: string
+  thesis_verdict?: string
+  reasoning?: string
+  confidence?: number
+  score_adjustment?: number
+  oe_ai_verdict?: string
+}
+
+export const fetchOwnerEarningsAiValidated = () =>
+  fetchStaticOrApi<{ results?: Record<string, OeAiValidation> }>(
+    'owner_earnings_ai_validated.json',
+    '/api/owner-earnings-ai',
+  )
+
 export const fetchRecurringInsiders = () =>
   apiClient.get<{ data: InsiderData[]; count: number; source: string }>('/api/recurring-insiders')
 

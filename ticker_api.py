@@ -3487,6 +3487,15 @@ def owner_earnings_batch():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/api/owner-earnings-ai')
+def owner_earnings_ai():
+    """Validador IA del batch de Owner Earnings (dict keyed por ticker)."""
+    data = _load_json(DOCS / 'owner_earnings_ai_validated.json')
+    if not data:
+        return jsonify({"error": "No data available"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/theses/<ticker>')
 def theses(ticker):
     ticker = ticker.upper().strip()
