@@ -1,221 +1,231 @@
 {
-  "generated_at": "2026-07-08",
+  "generated_at": "2026-07-09",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "KO",
-      "company_name": "Coca-Cola Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 50.9,
-      "score_prev": 30.8,
-      "delta": 20.1,
-      "grade": "🟡 Good"
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 50.4,
+      "score_prev": 36.7,
+      "delta": 13.7,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
+      "ticker": "CME",
+      "company_name": "CME Group Inc.",
       "sector": "Financial Services",
-      "score_today": 81.7,
-      "score_prev": 71.6,
-      "delta": 10.1,
-      "grade": "🟢 Elite"
+      "score_today": 58.5,
+      "score_prev": 45.9,
+      "delta": 12.6,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "score_today": 39.1,
+      "score_prev": 27.4,
+      "delta": 11.6,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
       "ticker": "MSCI",
       "company_name": "MSCI Inc.",
       "sector": "Financial Services",
-      "score_today": 39.0,
-      "score_prev": 29.0,
-      "delta": 10.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CDNS",
-      "company_name": "Cadence Design Systems, Inc.",
-      "sector": "Technology",
-      "score_today": 46.1,
-      "score_prev": 37.1,
-      "delta": 9.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KD",
-      "company_name": "Kyndryl Holdings, Inc.",
-      "sector": "Technology",
-      "score_today": 36.3,
-      "score_prev": 27.7,
-      "delta": 8.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 51.8,
-      "score_prev": 43.8,
-      "delta": 8.0,
+      "score_today": 48.9,
+      "score_prev": 39.0,
+      "delta": 9.9,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "sector": "Industrials",
+      "score_today": 32.3,
+      "score_prev": 23.6,
+      "delta": 8.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "sector": "Financial Services",
+      "score_today": 52.6,
+      "score_prev": 45.6,
+      "delta": 7.1,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "7741.T",
+      "company_name": "HOYA CORP",
+      "sector": "Healthcare",
+      "score_today": 43.6,
+      "score_prev": 38.5,
+      "delta": 5.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "sector": "Healthcare",
+      "score_today": 39.5,
+      "score_prev": 34.5,
+      "delta": 5.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporati",
+      "sector": "Financial Services",
+      "score_today": 39.2,
+      "score_prev": 44.3,
+      "delta": -5.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "LRLCY",
+      "company_name": "L'Oreal Co.",
+      "sector": "Consumer Defensive",
+      "score_today": 39.5,
+      "score_prev": 44.8,
+      "delta": -5.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sector": "Healthcare",
+      "score_today": 44.8,
+      "score_prev": 50.4,
+      "delta": -5.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "score_today": 49.9,
+      "score_prev": 56.1,
+      "delta": -6.2,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
+      "score_today": 76.5,
+      "score_prev": 83.5,
+      "delta": -7.0,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_DOWN",
       "ticker": "MSI",
       "company_name": "Motorola Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 41.4,
-      "score_prev": 33.4,
-      "delta": 8.0,
-      "grade": "🟡 Average"
+      "score_today": 34.3,
+      "score_prev": 41.4,
+      "delta": -7.1,
+      "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_UP",
+      "type": "SCORE_DOWN",
       "ticker": "ROP",
       "company_name": "Roper Technologies, Inc.",
       "sector": "Technology",
-      "score_today": 40.8,
-      "score_prev": 33.1,
-      "delta": 7.7,
+      "score_today": 33.7,
+      "score_prev": 40.8,
+      "delta": -7.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 42.5,
+      "score_prev": 49.6,
+      "delta": -7.2,
       "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_UP",
-      "ticker": "FDS",
-      "company_name": "FactSet Research Systems Inc.",
-      "sector": "Financial Services",
-      "score_today": 52.7,
-      "score_prev": 45.4,
-      "delta": 7.3,
-      "grade": "🟡 Good"
+      "type": "SCORE_DOWN",
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "score_today": 44.2,
+      "score_prev": 51.8,
+      "delta": -7.5,
+      "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_UP",
+      "type": "SCORE_DOWN",
       "ticker": "JKHY",
       "company_name": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
-      "score_today": 52.1,
-      "score_prev": 44.8,
-      "delta": 7.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "score_today": 64.4,
-      "score_prev": 57.0,
-      "delta": 7.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "DBOEY",
-      "company_name": "Deutsche Boerse AG",
-      "sector": "Financial Services",
-      "score_today": 64.1,
-      "score_prev": 58.2,
-      "delta": 5.9,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": 32.0,
-      "score_prev": 26.2,
-      "delta": 5.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 45.1,
-      "score_prev": 39.3,
-      "delta": 5.8,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ABT",
-      "company_name": "Abbott Laboratories",
-      "sector": "Healthcare",
-      "score_today": 55.1,
-      "score_prev": 50.1,
-      "delta": 5.0,
+      "score_today": 44.4,
+      "score_prev": 52.1,
+      "delta": -7.7,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
-      "score_today": 27.7,
-      "score_prev": 33.6,
-      "delta": -5.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 36.7,
-      "score_prev": 43.7,
-      "delta": -7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 43.4,
-      "score_prev": 50.4,
-      "delta": -7.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "sector": "Financial Services",
-      "score_today": 41.9,
-      "score_prev": 49.9,
+      "ticker": "KD",
+      "company_name": "Kyndryl Holdings, Inc.",
+      "sector": "Technology",
+      "score_today": 28.2,
+      "score_prev": 36.3,
       "delta": -8.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
       "sector": "Industrials",
-      "score_today": 22.3,
-      "score_prev": 30.5,
-      "delta": -8.2,
-      "grade": "🔴 Weak"
+      "score_today": 52.9,
+      "score_prev": 64.4,
+      "delta": -11.5,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "score_today": 38.8,
-      "score_prev": 51.8,
-      "delta": -13.0,
-      "grade": "🟡 Average"
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
+      "sector": "Technology",
+      "score_today": 27.2,
+      "score_prev": 46.1,
+      "delta": -18.9,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "sector": "Industrials",
+      "score_today": null,
+      "score_prev": 63.3,
+      "delta": null,
+      "grade": "🟡 Good"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 0,
-    "score_up": 15,
-    "score_down": 6
+    "exited": 1,
+    "score_up": 8,
+    "score_down": 13
   }
 }
