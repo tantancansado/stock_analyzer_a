@@ -673,6 +673,57 @@ export const fetchOwnerEarningsAiValidated = () =>
     '/api/owner-earnings-ai',
   )
 
+// ── Smart Money por ticker (13F fondos famosos + insiders OpenInsider) ────────
+
+export interface HedgeFundHolding {
+  fund: string
+  filing_date: string
+  ticker: string
+  name?: string
+  value_usd?: number
+  shares?: number
+  portfolio_pct?: number
+}
+
+export const fetchHedgeFundHoldings = async (): Promise<HedgeFundHolding[]> => {
+  const csvBase = import.meta.env.VITE_CSV_BASE as string | undefined
+  if (csvBase) {
+    const res = await apiClient.get<string>(`${csvBase}/hedge_fund_holdings.csv`, {
+      transformResponse: [(d) => d],
+    })
+    return parseCsvRows(res.data).map(r => ({
+      fund: r.fund,
+      filing_date: r.filing_date,
+      ticker: r.ticker,
+      name: r.name || undefined,
+      value_usd: r.value_usd ? Number(r.value_usd) : undefined,
+      shares: r.shares ? Number(r.shares) : undefined,
+      portfolio_pct: r.portfolio_pct ? Number(r.portfolio_pct) : undefined,
+    }))
+  }
+  const res = await apiClient.get<{ data: HedgeFundHolding[] }>('/api/hedge-fund-holdings')
+  return res.data.data
+}
+
+export interface InsiderTxn {
+  date: string
+  company?: string
+  insider?: string
+  type: string
+  price?: number
+  qty?: number
+}
+
+export interface InsiderIndexEntry {
+  total: number
+  purchases: number
+  sales: number
+  transactions: InsiderTxn[]
+}
+
+export const fetchInsiderIndex = () =>
+  fetchStaticOrApi<Record<string, InsiderIndexEntry>>('insider_index.json', '/api/insider-index')
+
 export const fetchRecurringInsiders = () =>
   apiClient.get<{ data: InsiderData[]; count: number; source: string }>('/api/recurring-insiders')
 

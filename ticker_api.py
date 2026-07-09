@@ -3496,6 +3496,23 @@ def owner_earnings_ai():
     return jsonify(data)
 
 
+@app.route('/api/hedge-fund-holdings')
+def hedge_fund_holdings_endpoint():
+    """Posiciones 13F de los fondos famosos trackeados (hedge_fund_tracker.py)."""
+    return _csv_to_json_response([
+        (DOCS / 'hedge_fund_holdings.csv', 'hedge_fund_tracker'),
+    ])
+
+
+@app.route('/api/insider-index')
+def insider_index_endpoint():
+    """Índice de transacciones de insiders por ticker (build_insider_index.py)."""
+    data = _load_json(DOCS / 'insider_index.json')
+    if not data:
+        return jsonify({"error": "No data available"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/theses/<ticker>')
 def theses(ticker):
     ticker = ticker.upper().strip()

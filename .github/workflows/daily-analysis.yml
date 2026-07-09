@@ -378,6 +378,14 @@ jobs:
         continue-on-error: true
         run: python3 analyze_recurring_insiders.py || echo "Recurring insiders failed"
 
+      # Índice de insiders POR TICKER (docs/insider_index.json) — lo consume la
+      # sección Smart Money de Buscar Ticker. Se generó una vez a mano en feb-2026
+      # y quedó huérfano (datos congelados 5 meses); regenerarlo aquí lo mantiene
+      # al día con los data.csv que archiva el paso del scraper (~2s).
+      - name: Build Insider Index (per-ticker)
+        continue-on-error: true
+        run: python3 build_insider_index.py || echo "Insider index failed"
+
       # Retirado del workflow en abr-2026 pero sus consumidores (cerebro
       # scan_smart_money, badge "N FONDOS" de ValueUS via super_score_integrator)
       # nunca se retiraron — mostraban 13F del 7-mar como si fueran actuales.

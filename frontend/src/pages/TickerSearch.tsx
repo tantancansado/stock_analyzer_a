@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { analyzeTicker, analyzeTickerAI, searchTickers, fetchScoreHistory, fetchOwnerEarningsBatch, fetchOwnerEarningsAiValidated } from '../api/client'
-import type { SearchResult, ScoreHistoryPoint, OeAiValidation } from '../api/client'
+import { analyzeTicker, analyzeTickerAI, searchTickers, fetchScoreHistory, fetchOwnerEarningsBatch, fetchOwnerEarningsAiValidated, fetchHedgeFundHoldings, fetchInsiderIndex } from '../api/client'
+import type { SearchResult, ScoreHistoryPoint, OeAiValidation, HedgeFundHolding, InsiderIndexEntry } from '../api/client'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import PriceChart from '../components/PriceChart'
 import Loading, { ErrorState } from '../components/Loading'
@@ -208,6 +208,113 @@ function DecisionCard({
   )
 }
 
+// ── Smart Money por ticker — 13F de fondos famosos + insiders ────────────────
+
+const TRACKED_FUNDS_HINT = 'Buffett, Ackman, Loeb, Tepper, Klarman, Lone Pine, Viking y Coatue'
+
+function fmtBigUsd(v: number | undefined): string {
+  if (v == null) return '—'
+  if (v >= 1e9) return `$${(v / 1e9).toFixed(1)}B`
+  if (v >= 1e6) return `$${(v / 1e6).toFixed(0)}M`
+  if (v >= 1e3) return `$${(v / 1e3).toFixed(0)}K`
+  return `$${v.toFixed(0)}`
+}
+
+function SmartMoneyCard({
+  ticker, holdings, insiders,
+}: {
+  ticker: string
+  holdings: HedgeFundHolding[]
+  insiders: InsiderIndexEntry | null
+}) {
+  const txns = insiders?.transactions ?? []
+  const recent = [...txns].sort((a, b) => (b.date > a.date ? 1 : -1)).slice(0, 5)
+
+  // El 13F puede traer varias filas por fondo (clases de acciones distintas
+  // en el mismo filing) — agregarlas para no listar el mismo fondo 3 veces.
+  const byFund = new Map<string, HedgeFundHolding>()
+  for (const h of holdings) {
+    const prev = byFund.get(h.fund)
+    if (!prev) {
+      byFund.set(h.fund, { ...h })
+    } else {
+      prev.value_usd = (prev.value_usd ?? 0) + (h.value_usd ?? 0)
+      prev.portfolio_pct = (prev.portfolio_pct ?? 0) + (h.portfolio_pct ?? 0)
+    }
+  }
+  const funds = [...byFund.values()].sort((a, b) => (b.portfolio_pct ?? 0) - (a.portfolio_pct ?? 0))
+
+  return (
+    <Card className="glass animate-fade-in-up" style={{ overflow: 'clip' }}>
+      <CardContent className="p-5">
+        <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-3">
+          Smart Money
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Fondos famosos (13F) */}
+          <div>
+            <div className="text-[0.62rem] uppercase tracking-widest text-muted-foreground/50 mb-2">Fondos famosos (13F)</div>
+            {funds.length === 0 ? (
+              <p className="text-[0.78rem] text-muted-foreground/70 leading-relaxed">
+                Ninguno de los 8 fondos seguidos ({TRACKED_FUNDS_HINT}) declara posición en {ticker}.
+              </p>
+            ) : (
+              <ul className="space-y-1.5">
+                {funds.map(h => (
+                  <li key={h.fund} className="flex items-baseline justify-between gap-3 text-[0.8rem]">
+                    <span className="text-foreground/85 truncate">{h.fund}</span>
+                    <span className="shrink-0 tabular-nums text-muted-foreground">
+                      {h.portfolio_pct != null && <span className="text-emerald-400 font-semibold">{h.portfolio_pct.toFixed(1)}%</span>}
+                      <span className="ml-2">{fmtBigUsd(h.value_usd)}</span>
+                      <span className="ml-2 text-[0.65rem] text-muted-foreground/50">{h.filing_date}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Insiders (OpenInsider, últimos ~12 meses) */}
+          <div>
+            <div className="text-[0.62rem] uppercase tracking-widest text-muted-foreground/50 mb-2">Insiders (12 meses)</div>
+            {!insiders || txns.length === 0 ? (
+              <p className="text-[0.78rem] text-muted-foreground/70 leading-relaxed">
+                Sin transacciones de insiders registradas para {ticker} (OpenInsider).
+              </p>
+            ) : (
+              <>
+                <div className="flex gap-2 mb-2">
+                  <span className="text-[0.68rem] font-bold px-1.5 py-0.5 rounded border bg-emerald-500/10 text-emerald-400 border-emerald-500/25">
+                    {insiders.purchases} compras
+                  </span>
+                  <span className="text-[0.68rem] font-bold px-1.5 py-0.5 rounded border bg-red-500/10 text-red-400 border-red-500/25">
+                    {insiders.sales} ventas
+                  </span>
+                </div>
+                <ul className="space-y-1">
+                  {recent.map((t, i) => {
+                    const isBuy = t.type.startsWith('P')
+                    return (
+                      <li key={`${t.date}-${i}`} className="flex items-baseline justify-between gap-3 text-[0.76rem]">
+                        <span className="text-muted-foreground/70 tabular-nums shrink-0">{t.date}</span>
+                        <span className="text-foreground/75 truncate">{t.insider || '—'}</span>
+                        <span className={`shrink-0 font-semibold tabular-nums ${isBuy ? 'text-emerald-400' : 'text-red-400'}`}>
+                          {isBuy ? 'C' : 'V'} {t.price != null && t.qty != null ? fmtBigUsd(t.price * t.qty) : ''}
+                        </span>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </>
+            )}
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
 export default function TickerSearch() {
   const [searchParams] = useSearchParams()
   const [ticker, setTicker] = useState(() => searchParams.get('q') ?? '')
@@ -226,6 +333,8 @@ export default function TickerSearch() {
   // la primera búsqueda (el batch pesa; no penalizar la carga de la página).
   const [oeBatch, setOeBatch] = useState<Map<string, OeModelInput> | null>(null)
   const [oeAi, setOeAi] = useState<Record<string, OeAiValidation> | null>(null)
+  const [hfHoldings, setHfHoldings] = useState<HedgeFundHolding[] | null>(null)
+  const [insiderIdx, setInsiderIdx] = useState<Record<string, InsiderIndexEntry> | null>(null)
   const oeRequested = useRef(false)
   const ensureOeData = useCallback(() => {
     if (oeRequested.current) return
@@ -239,6 +348,12 @@ export default function TickerSearch() {
     fetchOwnerEarningsAiValidated()
       .then(r => setOeAi(r.data?.results ?? {}))
       .catch(() => setOeAi({}))
+    fetchHedgeFundHoldings()
+      .then(setHfHoldings)
+      .catch(() => setHfHoldings([]))
+    fetchInsiderIndex()
+      .then(r => setInsiderIdx(r.data ?? {}))
+      .catch(() => setInsiderIdx({}))
   }, [])
 
   // Auto-search if ?q= param on mount
@@ -494,13 +609,20 @@ export default function TickerSearch() {
           daysToEarnings: sf('days_to_earnings'),
         })
         return (
-          <div className="mb-6">
+          <div className="mb-6 space-y-4">
             <DecisionCard
               decision={decision}
               ticker={tk}
               currentPrice={sf('current_price')}
               aiReasoning={oeAi?.[tk]?.reasoning}
             />
+            {hfHoldings != null && insiderIdx != null && (
+              <SmartMoneyCard
+                ticker={tk}
+                holdings={hfHoldings.filter(h => h.ticker?.toUpperCase() === tk)}
+                insiders={insiderIdx[tk] ?? null}
+              />
+            )}
           </div>
         )
       })()}
