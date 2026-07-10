@@ -1,7 +1,7 @@
 {
-  "date": "2026-07-09",
-  "timestamp": "2026-07-09T08:43:46.636338",
-  "narrative": "Se observa un patr\u00f3n de compra recurrente de insiders en varios tickers europeos, principalmente en el sector de servicios y recursos naturales. La concentraci\u00f3n de compras en un corto per\u00edodo sugiere una confianza creciente en el desempe\u00f1o futuro de estas empresas. Para un inversor value/GARP, esta se\u00f1al adicional puede indicar oportunidades de inversi\u00f3n atractivas, aunque no debe considerarse como una garant\u00eda de \u00e9xito. Es importante analizar otros factores fundamentales antes de tomar decisiones de inversi\u00f3n.",
+  "date": "2026-07-10",
+  "timestamp": "2026-07-10T08:49:14.285473",
+  "narrative": "Se observa un patr\u00f3n de compra recurrente en el sector de la industria y la energ\u00eda, con tickers como AAL.L, BA.L, BATS.L y BP.L mostrando una alta actividad de compra por parte de los insiders. La participaci\u00f3n de m\u00faltiples insiders en la compra de un mismo ticker en un corto per\u00edodo de tiempo sugiere una confianza significativa en el desempe\u00f1o futuro de la empresa. Para un inversor value/GARP, esta se\u00f1al adicional puede ser \u00fatil para identificar oportunidades de inversi\u00f3n atractivas, aunque no debe considerarse como una garant\u00eda de \u00e9xito.",
   "total_tickers": 9,
   "total_us": 1,
   "total_eu": 8,
@@ -15,36 +15,36 @@
       "days_span": 70
     },
     {
-      "ticker": "RR.L",
+      "ticker": "BA.L",
       "market": "EU",
-      "purchase_count": 22,
-      "unique_insiders": 6,
+      "purchase_count": 47,
+      "unique_insiders": 12,
       "confidence_score": 100.0,
-      "days_span": 45
+      "days_span": 62
     },
     {
-      "ticker": "MUV2.DE",
+      "ticker": "BAS.DE",
       "market": "EU",
       "purchase_count": 5,
       "unique_insiders": 5,
       "confidence_score": 100.0,
-      "days_span": 6
+      "days_span": 4
     },
     {
-      "ticker": "NG.L",
+      "ticker": "BATS.L",
+      "market": "EU",
+      "purchase_count": 39,
+      "unique_insiders": 13,
+      "confidence_score": 100.0,
+      "days_span": 30
+    },
+    {
+      "ticker": "BMW.DE",
       "market": "EU",
       "purchase_count": 6,
-      "unique_insiders": 3,
+      "unique_insiders": 6,
       "confidence_score": 100.0,
-      "days_span": 39
-    },
-    {
-      "ticker": "NWG.L",
-      "market": "EU",
-      "purchase_count": 17,
-      "unique_insiders": 9,
-      "confidence_score": 100.0,
-      "days_span": 57
+      "days_span": 0
     }
   ]
 }
