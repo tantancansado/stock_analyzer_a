@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { fetchMeanReversion } from '../api/client'
+import { fetchMeanReversion, fetchMeanReversionRecent, type MeanReversionRecentEntry } from '../api/client'
 import StaleDataBanner from '../components/StaleDataBanner'
 import PaginationBar from '../components/PaginationBar'
 import AiNarrativeCard from '../components/AiNarrativeCard'
@@ -17,6 +17,50 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Wallet } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
+
+// ── Estado de posiciones fuera del escaneo del día ────────────────────────────
+// Un "Oversold Bounce" sale de la lista en cuanto el RSI deja la sobreventa,
+// pero si ya estabas dentro la pregunta no es "¿entro?" sino "¿sigo dentro?".
+
+const STATUS_META: Record<MeanReversionRecentEntry['status'], { label: string; cls: string }> = {
+  EN_VENTANA:          { label: 'En ventana (1-3 días)', cls: 'bg-amber-500/10 border-amber-500/25 text-amber-400' },
+  VENTANA_EXPIRADA:    { label: 'Ventana expirada',      cls: 'bg-orange-500/10 border-orange-500/25 text-orange-400' },
+  OBJETIVO_ALCANZADO:  { label: 'Objetivo alcanzado',    cls: 'bg-emerald-500/10 border-emerald-500/25 text-emerald-400' },
+  STOP_ALCANZADO:      { label: 'Stop alcanzado',        cls: 'bg-red-500/10 border-red-500/25 text-red-400' },
+}
+
+function RecentPositionRow({ d }: { d: MeanReversionRecentEntry }) {
+  const meta = STATUS_META[d.status]
+  return (
+    <div className="rounded-xl border border-border/25 bg-muted/5 p-3">
+      <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
+        <div className="flex items-center gap-1.5">
+          <TickerLogo ticker={d.ticker} size="xs" />
+          <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</span>
+          <span className="text-[0.68rem] text-muted-foreground/60">día {d.days_since_signal} de {d.window_days}</span>
+        </div>
+        <span className={`text-[0.62rem] font-bold px-2 py-0.5 rounded border ${meta.cls}`}>{meta.label}</span>
+      </div>
+      <div className="grid grid-cols-3 gap-1.5 text-center mb-2">
+        <div className="rounded bg-muted/15 px-1.5 py-1">
+          <div className="text-[0.58rem] text-muted-foreground/50 leading-none mb-0.5">Precio hoy</div>
+          <div className="text-[0.74rem] font-bold text-foreground leading-none">{d.current_price != null ? `$${d.current_price.toFixed(2)}` : '—'}</div>
+        </div>
+        <div className="rounded bg-emerald-500/8 px-1.5 py-1">
+          <div className="text-[0.58rem] text-muted-foreground/50 leading-none mb-0.5">Target</div>
+          <div className="text-[0.74rem] font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(2)}` : '—'}</div>
+        </div>
+        <div className="rounded bg-red-500/6 px-1.5 py-1">
+          <div className="text-[0.58rem] text-muted-foreground/50 leading-none mb-0.5">Stop</div>
+          <div className="text-[0.74rem] font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(2)}` : '—'}</div>
+        </div>
+      </div>
+      {d.ai_note && (
+        <p className="text-[0.72rem] text-muted-foreground/80 leading-relaxed italic">{d.ai_note}</p>
+      )}
+    </div>
+  )
+}
 
 interface MRItem {
   ticker: string
@@ -57,6 +101,7 @@ const MR_PAGE_SIZE = 30
 
 export default function MeanReversion() {
   const { data, loading, error } = useApi(() => fetchMeanReversion(), [])
+  const { data: recentData } = useApi(() => fetchMeanReversionRecent(), [])
   const { positions: myPositions } = usePersonalPortfolio()
   const verdicts = useEntryVerdicts()
   const [sortKey, setSortKey] = useState<string>('reversion_score')
@@ -342,6 +387,33 @@ export default function MeanReversion() {
                   ))}
                 </TableBody>
               </Table>
+            </CardContent>
+          </Card>
+        )
+      })()}
+
+      {/* My positions that left today's scan (RSI no longer oversold) but are
+          still within the setup's window or already resolved */}
+      {(() => {
+        const ownedTickers = new Set(myPositions.map(p => p.ticker))
+        const recent = Object.values(recentData?.tickers ?? {})
+          .filter(d => ownedTickers.has(d.ticker))
+        if (recent.length === 0) return null
+        return (
+          <Card className="liquid-glass mb-5 animate-fade-in-up rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Wallet size={14} className="text-primary" />
+                <span className="text-[0.62rem] font-bold uppercase tracking-widest text-primary/70">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
+                <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{recent.length}</span>
+              </div>
+              <p className="text-[0.7rem] text-muted-foreground/60 mb-3 leading-relaxed">
+                El RSI ya no está en sobreventa, así que no aparecen como setup nuevo — pero
+                si ya estabas dentro, esto es lo que ha pasado con la posición.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {recent.map(d => <RecentPositionRow key={d.ticker} d={d} />)}
+              </div>
             </CardContent>
           </Card>
         )

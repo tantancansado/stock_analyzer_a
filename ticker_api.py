@@ -3513,6 +3513,16 @@ def insider_index_endpoint():
     return jsonify(data)
 
 
+@app.route('/api/mean-reversion-recent')
+def mean_reversion_recent_endpoint():
+    """Estado de señales Oversold Bounce recientes ya fuera del escaneo del día
+    (mean_reversion_recent.py) — para posiciones abiertas, no para entradas nuevas."""
+    data = _load_json(DOCS / 'mean_reversion_recent.json')
+    if not data:
+        return jsonify({"error": "No data available"}), 404
+    return jsonify(data)
+
+
 @app.route('/api/theses/<ticker>')
 def theses(ticker):
     ticker = ticker.upper().strip()

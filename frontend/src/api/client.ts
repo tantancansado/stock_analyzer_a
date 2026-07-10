@@ -724,6 +724,36 @@ export interface InsiderIndexEntry {
 export const fetchInsiderIndex = () =>
   fetchStaticOrApi<Record<string, InsiderIndexEntry>>('insider_index.json', '/api/insider-index')
 
+// ── Mean Reversion — estado de posiciones recientes fuera del escaneo ────────
+// (mean_reversion_recent.py): un "Oversold Bounce" sale del escaneo del día en
+// cuanto el RSI deja la sobreventa, pero si ya estabas dentro sigue siendo
+// relevante saber si está en ventana (1-3 días), la ventana expiró, o llegó a
+// target/stop. Vive en Mean Reversion, no en Thesis Drift (eso es solo VALUE).
+export type MeanReversionRecentStatus = 'EN_VENTANA' | 'VENTANA_EXPIRADA' | 'OBJETIVO_ALCANZADO' | 'STOP_ALCANZADO'
+
+export interface MeanReversionRecentEntry {
+  ticker: string
+  company_name?: string
+  strategy: string
+  quality?: string
+  signal_date: string
+  days_since_signal: number
+  window_days: number
+  entry_zone?: string
+  target: number | null
+  stop_loss: number | null
+  rsi_at_signal: number | null
+  current_price: number | null
+  status: MeanReversionRecentStatus
+  ai_note: string | null
+}
+
+export const fetchMeanReversionRecent = () =>
+  fetchStaticOrApi<{ generated_at: string; tickers: Record<string, MeanReversionRecentEntry> }>(
+    'mean_reversion_recent.json',
+    '/api/mean-reversion-recent',
+  )
+
 export const fetchRecurringInsiders = () =>
   apiClient.get<{ data: InsiderData[]; count: number; source: string }>('/api/recurring-insiders')
 

@@ -421,6 +421,17 @@ jobs:
         run: |
           python3 mean_reversion_detector.py || echo "Mean reversion detector failed"
           python3 mean_reversion_backtester.py || echo "Mean reversion backtest failed"
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+
+      # Posiciones "Oversold Bounce" recientes que ya salieron del escaneo de
+      # hoy (RSI ya no en sobreventa) pero siguen dentro de su ventana 1-3 días
+      # o de la posición del usuario — ver docs/mean_reversion_recent.json.
+      - name: Mean Reversion — Recent Positions Status
+        continue-on-error: true
+        run: python3 mean_reversion_recent.py || echo "Mean reversion recent status failed"
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
       - name: Bounce Scanner (Universo Ampliado — SP500 minus curated)
         continue-on-error: true
