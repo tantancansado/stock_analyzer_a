@@ -1,37 +1,21 @@
 {
-  "generated_at": "2026-07-10T17:29:53.934386",
+  "generated_at": "2026-07-13T08:12:39.118013",
   "tickers": {
-    "CVX": {
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "strategy": "Oversold Bounce",
-      "quality": "MODERADA",
-      "signal_date": "2026-07-05",
-      "days_since_signal": 5,
-      "window_days": 3,
-      "entry_zone": "$160.78 - $167.34",
-      "target": 190.68,
-      "stop_loss": 158.26,
-      "rsi_at_signal": 24.6,
-      "current_price": 174.22000122070312,
-      "status": "VENTANA_EXPIRADA",
-      "ai_note": null
-    },
     "WMT": {
       "ticker": "WMT",
       "company_name": "Walmart Inc.",
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
-      "signal_date": "2026-07-07",
-      "days_since_signal": 3,
+      "signal_date": "2026-07-08",
+      "days_since_signal": 5,
       "window_days": 3,
       "entry_zone": "$109.53 - $114.0",
       "target": 121.04,
       "stop_loss": 107.33,
-      "rsi_at_signal": 25.6,
-      "current_price": 113.72000122070312,
-      "status": "EN_VENTANA",
-      "ai_note": null
+      "rsi_at_signal": 28.9,
+      "current_price": 113.9000015258789,
+      "status": "VENTANA_EXPIRADA",
+      "ai_note": "El estado actual es VENTANA_EXPIRADA. La ventaja estad\u00edstica de la sobreventa ya se ha disipado, por lo que la posici\u00f3n se convierte en una operaci\u00f3n normal, sin la ventaja de un rebote t\u00e9cnico."
     },
     "TECK": {
       "ticker": "TECK",
@@ -39,15 +23,31 @@
       "strategy": "Oversold Bounce",
       "quality": "\u2b50\u2b50 MUY BUENA",
       "signal_date": "2026-07-09",
-      "days_since_signal": 1,
+      "days_since_signal": 4,
       "window_days": 3,
       "entry_zone": "$43.23 - $44.99",
       "target": 63.99,
       "stop_loss": 41.91,
       "rsi_at_signal": 23.1,
-      "current_price": 58.494998931884766,
+      "current_price": 59.81999969482422,
+      "status": "VENTANA_EXPIRADA",
+      "ai_note": "Estado actual: VENTANA_EXPIRADA. La ventaja estad\u00edstica de la sobreventa ya se ha disipado, por lo que ahora se trata de una posici\u00f3n normal, sin la ventaja del rebote t\u00e9cnico."
+    },
+    "7741.T": {
+      "ticker": "7741.T",
+      "company_name": "HOYA CORP",
+      "strategy": "Oversold Bounce",
+      "quality": "\u2b50\u2b50 MUY BUENA",
+      "signal_date": "2026-07-10",
+      "days_since_signal": 3,
+      "window_days": 3,
+      "entry_zone": "$24774.4 - $25785.6",
+      "target": 27868.95,
+      "stop_loss": 24056.43,
+      "rsi_at_signal": 28.7,
+      "current_price": 25480.0,
       "status": "EN_VENTANA",
-      "ai_note": null
+      "ai_note": "Si el estado es EN_VENTANA, toca esperar sin novedad. Si es VENTANA_EXPIRADA, la ventaja estad\u00edstica de la sobreventa ya se disip\u00f3, ahora es una posici\u00f3n normal. Si es OBJETIVO_ALCANZADO o STOP_ALCANZADO, se ha alcanzado el objetivo o se ha activado el stop."
     }
   }
 }
