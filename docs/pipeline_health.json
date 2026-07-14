@@ -1,34 +1,34 @@
 {
-  "generated_at": "2026-07-13T08:19:29Z",
-  "pipeline_date": "2026-07-13",
-  "ok_count": 17,
+  "generated_at": "2026-07-14T07:36:02Z",
+  "pipeline_date": "2026-07-14",
+  "ok_count": 19,
   "total": 20,
   "modules": {
     "value_us": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 74,
+      "rows": 73,
       "min_rows": 20
     },
     "value_filtered": {
-      "status": "stale",
-      "date": "2026-07-10",
-      "days_ago": 3,
+      "status": "ok",
+      "date": "2026-07-13",
+      "days_ago": 1,
       "stale_threshold_days": 2,
-      "rows": 48,
+      "rows": 47,
       "min_rows": 10
     },
     "vcp": {
       "status": "ok",
-      "date": "2026-07-10",
-      "days_ago": 3,
+      "date": "2026-07-13",
+      "days_ago": 1,
       "stale_threshold_days": 3
     },
     "value_eu": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "rows": 39,
@@ -36,7 +36,7 @@
     },
     "value_global": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "rows": 33,
@@ -44,7 +44,7 @@
     },
     "fundamental": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "rows": 136,
@@ -52,33 +52,33 @@
     },
     "technical": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 136,
+      "rows": 145,
       "min_rows": 30
     },
     "cerebro": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3
     },
     "mean_reversion": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3
     },
     "macro": {
-      "status": "stale",
-      "date": "2026-07-10",
-      "days_ago": 3,
+      "status": "ok",
+      "date": "2026-07-13",
+      "days_ago": 1,
       "stale_threshold_days": 2
     },
     "insiders": {
       "status": "empty",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3,
       "rows": 1,
@@ -86,7 +86,7 @@
     },
     "portfolio": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 2,
       "rows": 1553,
@@ -95,50 +95,50 @@
     "earnings": {
       "status": "ok",
       "date": "2026-07-12",
-      "days_ago": 1,
+      "days_ago": 2,
       "stale_threshold_days": 7
     },
     "theses": {
       "status": "ok",
-      "date": "2026-07-10",
-      "days_ago": 3,
+      "date": "2026-07-13",
+      "days_ago": 1,
       "stale_threshold_days": 7
     },
     "catalysts": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 7
     },
     "economic_cal": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 7
     },
     "options_flow": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 20,
+      "rows": 25,
       "min_rows": 1
     },
     "bounce_broad": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3
     },
     "strategies": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3
     },
     "earnings_opts": {
       "status": "ok",
-      "date": "2026-07-13",
+      "date": "2026-07-14",
       "days_ago": 0,
       "stale_threshold_days": 3
     }
