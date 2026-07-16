@@ -1,9 +1,9 @@
 {
-  "date": "2026-07-14",
-  "timestamp": "2026-07-14T07:23:24.624178",
-  "narrative": "Comentario sobre el rendimiento del sistema de se\u00f1ales:\n\nEl win rate actual del 50% en los \u00faltimos 7 d\u00edas sugiere que el sistema est\u00e1 funcionando de manera moderadamente efectiva en este entorno de mercado. Sin embargo, el win rate disminuye a medida que se ampl\u00eda el per\u00edodo de tiempo, lo que indica una posible tendencia a la p\u00e9rdida a largo plazo. La correlaci\u00f3n entre el score y el retorno es baja (-0.07), lo que sugiere que el sistema no est\u00e1 capturando con precisi\u00f3n la calidad de las se\u00f1ales.\n\nEn cuanto a patrones temporales, los resultados sugieren que el sistema puede estar sufriendo de una tendencia a la p\u00e9rdida en los per\u00edodos m\u00e1s largos (14d y 30d). En cuanto a patrones sectoriales, el mejor sector en los \u00faltimos 30 d\u00edas ha sido Energy, lo que podr\u00eda ser una oportunidad para ajustar la posici\u00f3n en este sector.\n\nEn funci\u00f3n de estos datos, recomendar\u00eda ajustar la posici\u00f3n para reducir la",
-  "total_signals": 153,
-  "win_rate_7d": 50.0,
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T07:31:30.744467",
+  "narrative": "Comentario sobre el rendimiento del sistema de se\u00f1ales:\n\nEl win rate actual del 50% en las se\u00f1ales de 7 d\u00edas sugiere que el sistema est\u00e1 funcionando de manera moderadamente efectiva en este entorno de mercado. Sin embargo, la disminuci\u00f3n del win rate a medida que se ampl\u00eda la ventana de tiempo (37% en 14 d\u00edas y 24% en 30 d\u00edas) indica que el sistema puede estar sufriendo de sobre-optimizaci\u00f3n o sesgo en el modelo.\n\nNo se observan patrones claros de correlaci\u00f3n entre el score y el retorno, lo que sugiere que el modelo puede no estar capturando las relaciones subyacentes entre las variables. El mejor sector en 30 d\u00edas es Energy, lo que podr\u00eda ser un indicador de que el sistema est\u00e1 respondiendo a factores de mercado espec\u00edficos.\n\nEn cuanto a las mejores posiciones cerradas en 14 d\u00edas, EXPE, CPAY y LOGN.SW han mostrado retornos significativos, pero es importante tener en cuenta que estos resultados",
+  "total_signals": 155,
+  "win_rate_7d": 50.3,
   "win_rate_14d": 37.4,
   "score_correlation": -0.073
 }
