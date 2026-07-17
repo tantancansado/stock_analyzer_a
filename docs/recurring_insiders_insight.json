@@ -1,7 +1,7 @@
 {
-  "date": "2026-07-16",
-  "timestamp": "2026-07-16T07:31:24.199444",
-  "narrative": "Se observa un patr\u00f3n de compra recurrente de insiders en varios tickers europeos, principalmente en el sector financiero y de materias primas. La concentraci\u00f3n de compras en un corto per\u00edodo de tiempo por parte de m\u00faltiples insiders sugiere una confianza creciente en la empresa. Esto puede ser una se\u00f1al adicional para inversores value/GARP, indicando que la empresa puede estar en un punto de inflexi\u00f3n positivo. Sin embargo, es importante considerar otros factores antes de tomar decisiones de inversi\u00f3n.",
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T07:23:35.596628",
+  "narrative": "Se observa un patr\u00f3n de compra recurrente de insiders en varios tickers europeos, destacando AAL.L, BA.L y PRU.L con altos niveles de confianza. La concentraci\u00f3n de compras en un corto per\u00edodo sugiere una visi\u00f3n optimista de los insiders sobre el desempe\u00f1o futuro de estas empresas. Para un inversor value/GARP, esta informaci\u00f3n puede ser una se\u00f1al adicional para considerar estas acciones, aunque no debe ser la \u00fanica base para la toma de decisiones. La actividad de los insiders puede indicar una oportunidad de inversi\u00f3n atractiva.",
   "total_tickers": 9,
   "total_us": 1,
   "total_eu": 8,
@@ -23,6 +23,14 @@
       "days_span": 32
     },
     {
+      "ticker": "MNDI.L",
+      "market": "EU",
+      "purchase_count": 5,
+      "unique_insiders": 3,
+      "confidence_score": 100.0,
+      "days_span": 39
+    },
+    {
       "ticker": "MUV2.DE",
       "market": "EU",
       "purchase_count": 5,
@@ -37,14 +45,6 @@
       "unique_insiders": 3,
       "confidence_score": 100.0,
       "days_span": 61
-    },
-    {
-      "ticker": "NWG.L",
-      "market": "EU",
-      "purchase_count": 17,
-      "unique_insiders": 9,
-      "confidence_score": 100.0,
-      "days_span": 57
     }
   ]
 }

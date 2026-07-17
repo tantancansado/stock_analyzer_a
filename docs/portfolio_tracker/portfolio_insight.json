@@ -1,9 +1,9 @@
 {
-  "date": "2026-07-16",
-  "timestamp": "2026-07-16T07:31:30.744467",
-  "narrative": "Comentario sobre el rendimiento del sistema de se\u00f1ales:\n\nEl win rate actual del 50% en las se\u00f1ales de 7 d\u00edas sugiere que el sistema est\u00e1 funcionando de manera moderadamente efectiva en este entorno de mercado. Sin embargo, la disminuci\u00f3n del win rate a medida que se ampl\u00eda la ventana de tiempo (37% en 14 d\u00edas y 24% en 30 d\u00edas) indica que el sistema puede estar sufriendo de sobre-optimizaci\u00f3n o sesgo en el modelo.\n\nNo se observan patrones claros de correlaci\u00f3n entre el score y el retorno, lo que sugiere que el modelo puede no estar capturando las relaciones subyacentes entre las variables. El mejor sector en 30 d\u00edas es Energy, lo que podr\u00eda ser un indicador de que el sistema est\u00e1 respondiendo a factores de mercado espec\u00edficos.\n\nEn cuanto a las mejores posiciones cerradas en 14 d\u00edas, EXPE, CPAY y LOGN.SW han mostrado retornos significativos, pero es importante tener en cuenta que estos resultados",
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T07:24:25.865243",
+  "narrative": "Comentario sobre el rendimiento del sistema de se\u00f1ales:\n\nEl win rate actual del 51% en el per\u00edodo de 7 d\u00edas sugiere que el sistema de se\u00f1ales est\u00e1 funcionando de manera moderadamente efectiva en este entorno de mercado. Sin embargo, el declive en el win rate a medida que se ampl\u00eda el per\u00edodo de tiempo (37% en 14 d\u00edas y 24% en 30 d\u00edas) indica que el sistema puede estar experimentando dificultades para mantener su desempe\u00f1o en per\u00edodos m\u00e1s largos.\n\nLos resultados sectoriales sugieren que el sistema ha tenido un desempe\u00f1o m\u00e1s fuerte en el sector de la energ\u00eda, con un retorno promedio de +10.84% en el per\u00edodo de 30 d\u00edas. Por otro lado, el Score-retorno correlaci\u00f3n de -0.07 sugiere una relaci\u00f3n d\u00e9bil entre el score del sistema y el retorno real, lo que podr\u00eda indicar que el sistema no est\u00e1 capturando con precisi\u00f3n la informaci\u00f3n relevante para tomar decisiones de inversi\u00f3n.\n\nEn cuanto",
   "total_signals": 155,
-  "win_rate_7d": 50.3,
+  "win_rate_7d": 51.0,
   "win_rate_14d": 37.4,
   "score_correlation": -0.073
 }
