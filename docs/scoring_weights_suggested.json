@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-16",
+  "generated_at": "2026-07-17",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -36,13 +36,13 @@
     {
       "factor": "fcf_yield_bonus",
       "change": "+3",
-      "reason": "FCF alto mejora WR +7.0pp. Aumentar peso FCF.",
+      "reason": "FCF alto mejora WR +6.9pp. Aumentar peso FCF.",
       "n": 424
     },
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
-      "reason": "R:R alto mejora WR +9.7pp. Aumentar peso R:R.",
+      "reason": "R:R alto mejora WR +9.5pp. Aumentar peso R:R.",
       "n": 590
     },
     {
@@ -52,6 +52,6 @@
       "n": 5
     }
   ],
-  "expected_impact": "Based on 1535 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE pueden mejorar significativamente la precisi\u00f3n de las predicciones, ya que se espera que un FCF alto aumente el WR en +7.0 puntos porcentuales y un R:R alto mejore el WR en +9.7 puntos porcentuales.\n\nAdem\u00e1s, considerar un umbral m\u00ednimo de score de 70+ para las predicciones publicadas podr\u00eda mejorar la precisi\u00f3n de las predicciones, ya que un score de 80+ tiene un WR del 60.0% en comparaci\u00f3n con el 28% base."
+  "expected_impact": "Based on 1539 historical signals",
+  "narrative": "Estos ajustes en el sistema de scoring VALUE esperan mejorar la precisi\u00f3n de las predicciones al aumentar el peso de las se\u00f1ales de FCF (Free Cash Flow) y R:R (Risk-Reward), que han demostrado tener un impacto significativo en la tasa de victorias.\n\nAdem\u00e1s, se espera que la modificaci\u00f3n del umbral m\u00ednimo de puntuaci\u00f3n de 70+ mejore la calidad de las predicciones al eliminar las selecciones con puntuaciones m\u00e1s bajas, lo que podr\u00eda llevar a una tasa de victorias m\u00e1s alta."
 }

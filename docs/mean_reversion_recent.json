@@ -1,4 +1,21 @@
 {
-  "generated_at": "2026-07-16T07:38:33.294524",
-  "tickers": {}
+  "generated_at": "2026-07-17T07:32:54.340360",
+  "tickers": {
+    "TJX": {
+      "ticker": "TJX",
+      "company_name": "TJX Companies, Inc. (The)",
+      "strategy": "Oversold Bounce",
+      "quality": "MODERADA",
+      "signal_date": "2026-07-13",
+      "days_since_signal": 4,
+      "window_days": 3,
+      "entry_zone": "$143.63 - $149.49",
+      "target": 159.21,
+      "stop_loss": 140.77,
+      "rsi_at_signal": 28.1,
+      "current_price": 154.7899932861328,
+      "status": "VENTANA_EXPIRADA",
+      "ai_note": "El estado actual es VENTANA_EXPIRADA. La ventaja estad\u00edstica del rebote t\u00e9cnico ya se ha disipado, por lo que la posici\u00f3n se convierte en una operaci\u00f3n normal."
+    }
+  }
 }
