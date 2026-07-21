@@ -1,9 +1,13 @@
 name: Political Scanner
 
 on:
-  schedule:
-    # Una vez al día a las 14:00 UTC (10:00 ET — mercado abierto, datos frescos)
-    - cron: '0 14 * * 1-5'
+  # Pausado 2026-07-21: seguía mandando alertas de contratos/Congreso/EOs a
+  # Telegram en horario de mercado pese a que el usuario lo daba por pausado
+  # (solo se había eliminado el scanner de noticias Trump, ver bc19ccd4 — este
+  # es otra fuente que se mantuvo activa a propósito). Reactivar descomentando
+  # el cron de abajo.
+  # schedule:
+  #   - cron: '0 14 * * 1-5'
   workflow_dispatch:
     inputs:
       show_recent:
