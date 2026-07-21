@@ -71,6 +71,50 @@ def _capex_maintenance(ebitda: float, ebit: float, capex: float) -> float:
     return min(abs(capex), dna)
 
 
+# Fuera de esta banda, la cap. de mercado que TIKR reporta (price.mc, en
+# millones de la divisa en la que TIKR guarda los fundamentales) y la cap.
+# de mercado implícita (precio de cotización real x acciones) no reconcilian
+# ni de lejos. Encontrado con ASAZY (ADR no patrocinado de Assa Abloy):
+# ratio ~19x — SEK vs USD sin convertir. El caso HESAY/ABT/DBOEY (ver memoria
+# de sesión) sugiere que no es un caso aislado en ADRs extranjeros.
+PRICE_CONSISTENCY_MIN_RATIO = 0.4
+PRICE_CONSISTENCY_MAX_RATIO = 3.0
+
+
+def check_price_consistency(
+    current_price: Optional[float],
+    market_cap: Optional[float],
+    shares_diluted_latest: Optional[float],
+) -> Optional[dict]:
+    """
+    Detecta si el precio de cotización y los fundamentales de un ticker están
+    en divisas (o bases de acciones) distintas sin convertir — típico de ADRs
+    no patrocinados donde TIKR guarda los fundamentales en la divisa nativa
+    de la empresa pero el precio se cotiza en USD. Si el market cap implícito
+    (precio x acciones) no cuadra ni de lejos con el market cap que TIKR
+    reporta, NINGÚN ratio derivado (FCF yield, DCF, buy_price) es de fiar —
+    da igual la causa exacta (divisa, ratio de ADR, clase de acciones).
+
+    Devuelve None si son consistentes; si no, un dict con las cifras para
+    que la IA (owner_earnings_validator.py) haga un análisis a fondo.
+    """
+    if current_price is None or market_cap is None or not shares_diluted_latest:
+        return None
+    if current_price <= 0 or shares_diluted_latest <= 0:
+        return None
+    implied_mc = current_price * shares_diluted_latest
+    if implied_mc <= 0:
+        return None
+    ratio = market_cap / implied_mc
+    if PRICE_CONSISTENCY_MIN_RATIO <= ratio <= PRICE_CONSISTENCY_MAX_RATIO:
+        return None
+    return {
+        "implied_mc": round(implied_mc, 1),
+        "stated_mc": round(market_cap, 1),
+        "ratio": round(ratio, 2),
+    }
+
+
 def _template_components(
     interest_tikr: Optional[float],
     income_tax_tikr: Optional[float],
@@ -606,6 +650,20 @@ def calculate(
             red_flags.append({"code": "DILUTION", "severity": "medium",
                 "msg": f"Dilución de acciones: +{dil_cagr*100:.1f}% anual ({years[-1]}→{years[0]})"})
 
+    # 5b. Precio vs fundamentales en divisas/bases distintas sin convertir
+    # (ver check_price_consistency) — invalida CUALQUIER ratio derivado.
+    price_consistency_issue = check_price_consistency(current_price, market_cap, sh_new)
+    if price_consistency_issue is not None:
+        red_flags.append({
+            "code": "PRICE_MC_MISMATCH", "severity": "high",
+            "msg": (
+                f"Cap. de mercado implícita (precio×acciones, ${price_consistency_issue['implied_mc']:,.0f}M) "
+                f"no cuadra con la cap. de mercado de TIKR (${price_consistency_issue['stated_mc']:,.0f}M) "
+                f"— ratio {price_consistency_issue['ratio']}x. Posible desajuste de divisa o ratio de ADR: "
+                "ningún ratio derivado (FCF yield, DCF, buy_price) es de fiar tal cual."
+            ),
+        })
+
     # 6. Conversión FCF/EBITDA < 40% últimos 2 años
     low_conv_years = []
     for yr in years[:3]:
@@ -667,13 +725,18 @@ def calculate(
             for yr_str in forward_fcf
         },
         "price_targets": price_targets,
-        "buy_price": buy_price,
-        "exit_price": exit_price,
+        # Si hay desajuste de precio/divisa, ningún ratio derivado de aquí es
+        # de fiar tal cual — no inventamos un número, lo dejamos en None y el
+        # validador IA (owner_earnings_validator.py) hace el análisis a fondo
+        # sobre price_consistency_issue en su lugar.
+        "buy_price": buy_price if price_consistency_issue is None else None,
+        "exit_price": exit_price if price_consistency_issue is None else None,
         "exit_year": exit_year,
         "years_to_exit": years_to_exit,
-        "upside_pct": upside_pct,
-        "safety_margin_pct": safety_margin_pct,
-        "signal": _signal(upside_pct),
+        "upside_pct": upside_pct if price_consistency_issue is None else None,
+        "safety_margin_pct": safety_margin_pct if price_consistency_issue is None else None,
+        "signal": _signal(upside_pct) if price_consistency_issue is None else "DATA_INCONSISTENT",
+        "price_consistency_issue": price_consistency_issue,
     }
 
 

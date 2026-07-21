@@ -71,7 +71,7 @@ export function getTickerDecision({
 }: TickerDecisionInput): TickerDecision {
   const targetReturnPct = oe?.target_return_pct ?? 15
 
-  if (!oe || oe.buy_price == null || oe.buy_price <= 0) {
+  if (!oe) {
     return {
       kind: 'sin_modelo',
       label: 'SIN MODELO',
@@ -88,14 +88,22 @@ export function getTickerDecision({
     }
   }
 
-  const buy = oe.buy_price
+  // buy_price puede venir a null aposta (no "faltaba", se anuló) cuando el
+  // pipeline detecta que precio y fundamentales no reconcilian (ver
+  // price_consistency_issue / red_flag PRICE_MC_MISMATCH, owner_earnings.py)
+  // — en ese caso el ticker SÍ está en el batch, así que el mensaje correcto
+  // es "datos no fiables" (con el porqué exacto vía red_flags), no "sin
+  // modelo". Por eso el chequeo de dataFlags va antes del de buy_price.
   const price = currentPrice ?? oe.current_price
   const exitPrice = oe.exit_price ?? null
   const exitYear = oe.exit_year ?? null
 
   // Margen de seguridad con el precio más fresco disponible (misma fórmula
-  // que el pipeline: relativo al buy_price).
-  const margin = price != null && price > 0 ? ((buy - price) / buy) * 100 : oe.safety_margin_pct
+  // que el pipeline: relativo al buy_price). Sin buy_price fiable (p.ej.
+  // price_consistency_issue lo anuló) no hay ratio que calcular.
+  const margin = oe.buy_price != null && price != null && price > 0
+    ? ((oe.buy_price - price) / oe.buy_price) * 100
+    : oe.safety_margin_pct
 
   // ── Banderas de calidad de datos (casos HESAY/ASAZY: números atractivos
   //    sobre datos rotos — sin datos fiables no hay veredicto) ────────────────
@@ -123,7 +131,7 @@ export function getTickerDecision({
       reasons: [],
       blockers: [],
       dataFlags,
-      buyPrice: buy,
+      buyPrice: oe.buy_price ?? null,
       exitPrice,
       exitYear,
       safetyMarginPct: margin,
@@ -131,6 +139,26 @@ export function getTickerDecision({
       badgeClass: BADGE.no_fiable,
     }
   }
+
+  // Sin red flags pero tampoco buy_price (forward estimates insuficientes,
+  // por ejemplo) — esto sí es genuinamente "sin modelo".
+  if (oe.buy_price == null || oe.buy_price <= 0) {
+    return {
+      kind: 'sin_modelo',
+      label: 'SIN MODELO',
+      headline: 'No hay precio de compra calculado para este ticker (faltan estimaciones forward).',
+      reasons: [],
+      blockers: [],
+      dataFlags: [],
+      buyPrice: null,
+      exitPrice,
+      exitYear,
+      safetyMarginPct: null,
+      targetReturnPct,
+      badgeClass: BADGE.sin_modelo,
+    }
+  }
+  const buy = oe.buy_price
 
   // ── Razones y bloqueos ────────────────────────────────────────────────────
   const reasons: string[] = []

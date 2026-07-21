@@ -123,11 +123,42 @@ def build_prompt(oe: dict) -> str:
 
     implied_signal = oe.get("signal") or _signal_from_upside(up)
 
+    pci = oe.get("price_consistency_issue")
+    consistency_block = ""
+    if pci:
+        consistency_block = f"""
+⚠ ANÁLISIS A FONDO REQUERIDO — INCONSISTENCIA DE PRECIO/CAPITALIZACIÓN
+
+La cap. de mercado implícita (precio de cotización × acciones en circulación)
+es ${pci.get('implied_mc'):,.0f}M, pero TIKR reporta la cap. de mercado de la
+empresa en ${pci.get('stated_mc'):,.0f}M — un ratio de {pci.get('ratio')}x
+entre ambas. Esto no es un matiz menor: significa que el precio de cotización
+y los datos fundamentales (FCF, EPS, etc. de más arriba) casi con toda
+seguridad están en bases distintas — divisa no convertida (típico en ADRs no
+patrocinados, donde TIKR guarda los fundamentales en la divisa nativa de la
+empresa pero cotiza en USD), un ratio de ADR sin resolver (ej. 1 ADR = X
+acciones ordinarias), o una clase de acciones distinta a la que cotiza.
+
+Antes de evaluar nada más, razona en tu campo "reasoning":
+1. ¿Cuál es la causa más probable del ratio {pci.get('ratio')}x (divisa,
+   ratio de ADR, clase de acciones, otra)? Si puedes, estima el factor de
+   conversión aproximado que explicaría el ratio.
+2. Con esa lectura, ¿el negocio subyacente (fundamentales, no las cifras de
+   valoración ya anuladas) parece sólido en su divisa nativa, o hay señales
+   de deterioro real más allá del problema de datos?
+
+Por este motivo, buy_price/upside_pct/safety_margin_pct del modelo se han
+puesto a null — no hay cifra de valoración que evaluar, solo la fiabilidad
+del dato. data_quality debe ser UNRELIABLE salvo que tengas una razón de
+peso para pensar que, pese al ratio, el resto de cifras SÍ son coherentes
+entre sí (explica por qué en ese caso). thesis_verdict debe ser INSUFFICIENT.
+"""
+
     return f"""Eres un analista VALUE/GARP (estilo Lynch). Valida un modelo de Owner Earnings (FCF-based) para determinar SI el dato es fiable y SI la tesis implícita es correcta.
 
 TICKER: {ticker} — {company}
 Precio actual: {_fmt(price)} | Market cap: {_fmt(mc, 0)}M | TEV: {_fmt(tev, 0)}M
-
+{consistency_block}
 FCF histórico (M):
 {hist_fcf_str}
 
@@ -157,7 +188,7 @@ EVALÚA DOS COSAS INDEPENDIENTES:
 1. data_quality — ¿Es fiable el dato subyacente?
    - RELIABLE: FCF coherente, shares razonables, histórico ≥3 años, red flags leves
    - MIXED: algún dato dudoso (FCF volátil, forward sin consenso, sector difícil de modelar por FCF)
-   - UNRELIABLE: dato sospechoso o inadecuado para este modelo (bancos/REITs/ADRs con FCF extraño, histórico <2 años, FCF negativo persistente sin contexto). Si UNRELIABLE el modelo NO sirve para decidir.
+   - UNRELIABLE: dato sospechoso o inadecuado para este modelo (bancos/REITs/ADRs con FCF extraño, histórico <2 años, FCF negativo persistente sin contexto, o la inconsistencia de precio/capitalización de arriba si aplica). Si UNRELIABLE el modelo NO sirve para decidir.
 
 2. thesis_verdict — Dado el dato, ¿la tesis {implied_signal} es correcta?
    - BUY: upside sólido con margen de seguridad y fundamentales que lo respaldan
@@ -166,7 +197,7 @@ EVALÚA DOS COSAS INDEPENDIENTES:
    - INSUFFICIENT: no hay suficiente información para opinar
 
 Responde SOLO con JSON (sin markdown):
-{{"data_quality": "RELIABLE"|"MIXED"|"UNRELIABLE", "thesis_verdict": "BUY"|"WATCH"|"AVOID"|"INSUFFICIENT", "reasoning": "2-3 frases en español", "confidence": 0-100}}"""
+{{"data_quality": "RELIABLE"|"MIXED"|"UNRELIABLE", "thesis_verdict": "BUY"|"WATCH"|"AVOID"|"INSUFFICIENT", "reasoning": "{'4-6 frases en español: causa probable del ratio + estado del negocio en su divisa nativa' if pci else '2-3 frases en español'}", "confidence": 0-100}}"""
 
 
 def _default_result() -> dict:
@@ -180,13 +211,17 @@ def _default_result() -> dict:
 
 def validate_one(client: Groq, oe: dict) -> dict:
     prompt = build_prompt(oe)
+    # Análisis a fondo: cuando hay inconsistencia de precio/capitalización el
+    # razonamiento pedido es más largo (causa probable + estado del negocio
+    # en su divisa nativa), no las 2-3 frases estándar — dale más margen.
+    max_tokens = 500 if oe.get("price_consistency_issue") else 300
     try:
         from groq_utils import groq_chat as _groq_chat
         resp = _groq_chat(
             client,
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2,
-            max_tokens=300,
+            max_tokens=max_tokens,
             response_format={"type": "json_object"},
         )
         text = resp.choices[0].message.content.strip()
