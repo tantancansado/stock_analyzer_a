@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-20T07:58:17",
+  "generated_at": "2026-07-21T07:38:40",
   "positions_checked": 18,
-  "total": 1,
-  "high_count": 1,
+  "total": 3,
+  "high_count": 3,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -11,6 +11,24 @@
       "signal_date": "2026-03-24",
       "type": "STOP_BREACHED",
       "reason": "Precio 7914.00 por debajo del stop 8140.16",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside salt\u00f3 a 32% \u2014 value trap (0% win hist\u00f3rico)",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-06",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside salt\u00f3 a 30% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     }
   ]
