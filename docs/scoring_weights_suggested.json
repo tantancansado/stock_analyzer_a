@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22",
+  "generated_at": "2026-07-23",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -42,7 +42,7 @@
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
-      "reason": "R:R alto mejora WR +9.6pp. Aumentar peso R:R.",
+      "reason": "R:R alto mejora WR +9.5pp. Aumentar peso R:R.",
       "n": 590
     },
     {
@@ -52,6 +52,6 @@
       "n": 5
     }
   ],
-  "expected_impact": "Based on 1540 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente el rendimiento general, aumentando la ponderaci\u00f3n de los factores FCF (Free Cash Flow) y R:R (Risk Reward) y elevando el umbral m\u00ednimo de puntuaci\u00f3n a 70+ para selecciones publicadas."
+  "expected_impact": "Based on 1541 historical signals",
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que:\n\n- Mejorar el peso del FCF (flujo de efectivo libre) podr\u00eda aumentar la precisi\u00f3n en un 6,8% y mejorar la relaci\u00f3n riesgo-recompensa.\n- Aumentar el peso de la relaci\u00f3n riesgo-recompensa (R:R) podr\u00eda mejorar la precisi\u00f3n en un 9,5% y mejorar la relaci\u00f3n riesgo-recompensa.\n\nEstos ajustes podr\u00edan llevar a un mejor desempe\u00f1o del sistema, especialmente en los casos donde el flujo de efectivo libre y la relaci\u00f3n riesgo-recompensa son altos"
 }

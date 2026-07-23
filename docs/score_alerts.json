@@ -1,214 +1,264 @@
 {
-  "generated_at": "2026-07-22",
+  "generated_at": "2026-07-23",
   "alerts": [
+    {
+      "type": "SCORE_UP",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
+      "score_today": 51.5,
+      "score_prev": 32.1,
+      "delta": 19.4,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CME",
+      "company_name": "CME Group Inc.",
+      "sector": "Financial Services",
+      "score_today": 47.5,
+      "score_prev": 33.1,
+      "delta": 14.4,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 63.5,
+      "score_prev": 49.7,
+      "delta": 13.8,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "COST",
+      "company_name": "Costco Wholesale Corporation",
+      "sector": "Consumer Defensive",
+      "score_today": 51.0,
+      "score_prev": 40.8,
+      "delta": 10.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FAST",
+      "company_name": "Fastenal Company",
+      "sector": "Industrials",
+      "score_today": 39.9,
+      "score_prev": 30.2,
+      "delta": 9.7,
+      "grade": "🔴 Weak"
+    },
     {
       "type": "SCORE_UP",
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "sector": "Financial Services",
-      "score_today": 54.2,
-      "score_prev": 35.1,
-      "delta": 19.1,
-      "grade": "🟡 Good"
+      "score_today": 63.9,
+      "score_prev": 54.2,
+      "delta": 9.7,
+      "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "sector": "Financial Services",
-      "score_today": 67.5,
-      "score_prev": 50.3,
-      "delta": 17.2,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "PG",
-      "company_name": "Procter & Gamble Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 55.7,
-      "score_prev": 38.7,
-      "delta": 17.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 60.9,
-      "score_prev": 44.6,
-      "delta": 16.3,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "score_today": 49.9,
-      "score_prev": 39.2,
-      "delta": 10.7,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 52.1,
-      "score_prev": 41.8,
-      "delta": 10.2,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "NYT",
-      "company_name": "New York Times Company (The)",
-      "sector": "Communication Services",
-      "score_today": 41.0,
-      "score_prev": 31.1,
-      "delta": 9.9,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ERIE",
-      "company_name": "Erie Indemnity Company",
-      "sector": "Financial Services",
-      "score_today": 39.6,
-      "score_prev": 31.2,
-      "delta": 8.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
-      "sector": "Financial Services",
-      "score_today": 40.1,
-      "score_prev": 31.7,
-      "delta": 8.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "RSG",
-      "company_name": "Republic Services, Inc.",
+      "ticker": "SBGSY",
+      "company_name": "Schneider Electric SE",
       "sector": "Industrials",
-      "score_today": 30.8,
-      "score_prev": 23.1,
-      "delta": 7.7,
+      "score_today": 43.0,
+      "score_prev": 34.8,
+      "delta": 8.2,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "VEEV",
-      "company_name": "Veeva Systems Inc.",
-      "sector": "Healthcare",
-      "score_today": 46.0,
-      "score_prev": 39.3,
-      "delta": 6.7,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CLPBY",
-      "company_name": "Coloplast AS",
-      "sector": "Healthcare",
-      "score_today": 49.4,
-      "score_prev": 44.0,
-      "delta": 5.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BRK-B",
-      "company_name": "Berkshire Hathaway Inc. New",
-      "sector": "Financial Services",
-      "score_today": 42.7,
-      "score_prev": 37.5,
-      "delta": 5.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "sector": "Industrials",
-      "score_today": 40.6,
-      "score_prev": 35.5,
-      "delta": 5.2,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporat",
-      "sector": "Consumer Defensive",
-      "score_today": 33.5,
-      "score_prev": 38.5,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "COST",
-      "company_name": "Costco Wholesale Corporation",
-      "sector": "Consumer Defensive",
-      "score_today": 40.8,
-      "score_prev": 46.2,
-      "delta": -5.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CDNS",
-      "company_name": "Cadence Design Systems, Inc.",
-      "sector": "Technology",
-      "score_today": 42.7,
-      "score_prev": 48.8,
-      "delta": -6.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "KO",
       "company_name": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
-      "score_today": 33.4,
-      "score_prev": 42.0,
-      "delta": -8.6,
-      "grade": "🔴 Weak"
+      "score_today": 40.3,
+      "score_prev": 33.4,
+      "delta": 6.9,
+      "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
+      "type": "SCORE_UP",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
+      "score_today": 85.5,
+      "score_prev": 79.8,
+      "delta": 5.7,
+      "grade": "🟢 Elite"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
       "sector": "Technology",
-      "score_today": 28.8,
-      "score_prev": 38.1,
-      "delta": -9.3,
-      "grade": "🔴 Weak"
+      "score_today": 48.0,
+      "score_prev": 42.7,
+      "delta": 5.3,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "sector": "Technology",
+      "score_today": 57.8,
+      "score_prev": 52.7,
+      "delta": 5.2,
+      "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "TJX",
-      "company_name": "TJX Companies, Inc. (The)",
+      "ticker": "HESAY",
+      "company_name": "Hermes International SA",
       "sector": "Consumer Cyclical",
-      "score_today": 22.4,
-      "score_prev": 32.6,
-      "delta": -10.2,
+      "score_today": 32.6,
+      "score_prev": 37.7,
+      "delta": -5.1,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International",
+      "sector": "Consumer Cyclical",
+      "score_today": 28.3,
+      "score_prev": 34.6,
+      "delta": -6.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "AJG",
+      "company_name": "Arthur J. Gallagher & Co.",
       "sector": "Financial Services",
-      "score_today": 26.9,
-      "score_prev": 40.4,
-      "delta": -13.6,
+      "score_today": 30.4,
+      "score_prev": 37.1,
+      "delta": -6.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 46.6,
+      "score_prev": 54.2,
+      "delta": -7.6,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CNI",
+      "company_name": "Canadian National Railway Compa",
+      "sector": "Industrials",
+      "score_today": 26.5,
+      "score_prev": 34.1,
+      "delta": -7.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "7741.T",
+      "company_name": "HOYA CORP",
+      "sector": "Healthcare",
+      "score_today": 43.6,
+      "score_prev": 52.3,
+      "delta": -8.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "sector": "Healthcare",
+      "score_today": 28.5,
+      "score_prev": 37.4,
+      "delta": -8.9,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "WST",
+      "company_name": "West Pharmaceutical Services, I",
+      "sector": "Healthcare",
+      "score_today": 26.0,
+      "score_prev": 36.3,
+      "delta": -10.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "score_today": 30.1,
+      "score_prev": 40.6,
+      "delta": -10.5,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KR",
+      "company_name": "Kroger Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 36.4,
+      "score_prev": 48.1,
+      "delta": -11.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 31.6,
+      "score_prev": 44.2,
+      "delta": -12.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ETN",
+      "company_name": "Eaton Corporation, PLC",
+      "sector": "Industrials",
+      "score_today": 41.8,
+      "score_prev": 56.4,
+      "delta": -14.6,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "VEEV",
+      "company_name": "Veeva Systems Inc.",
+      "sector": "Healthcare",
+      "score_today": 30.2,
+      "score_prev": 46.0,
+      "delta": -15.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 42.5,
+      "score_prev": 60.5,
+      "delta": -18.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 29.3,
+      "score_prev": 52.1,
+      "delta": -22.7,
       "grade": "🔴 Weak"
     },
     {
@@ -216,46 +266,16 @@
       "ticker": "UNH",
       "company_name": "UnitedHealth Group Incorporated",
       "sector": "Healthcare",
-      "score_today": 47.5,
-      "score_prev": 61.4,
-      "delta": -13.9,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 34.2,
-      "score_prev": 54.9,
-      "delta": -20.7,
+      "score_today": 23.4,
+      "score_prev": 47.5,
+      "delta": -24.0,
       "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 49.7,
-      "score_prev": 79.8,
-      "delta": -30.1,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "sector": "Healthcare",
-      "score_today": null,
-      "score_prev": 56.1,
-      "delta": null,
-      "grade": "🟡 Good"
     }
   ],
   "counts": {
     "new_entries": 0,
-    "exited": 1,
-    "score_up": 14,
-    "score_down": 10
+    "exited": 0,
+    "score_up": 11,
+    "score_down": 16
   }
 }
