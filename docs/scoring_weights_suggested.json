@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-27",
+  "generated_at": "2026-07-28",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1541 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de victorias (WR) en un 6.8% y un 9.5% respectivamente, gracias a la incorporaci\u00f3n de factores como el FCF alto y el R:R alto.\n\nEstos ajustes tambi\u00e9n podr\u00edan permitir una selecci\u00f3n m\u00e1s precisa de las predicciones, ya que un m\u00ednimo de 80 puntos en el sistema de scoring podr\u00eda corresponder a una tasa de victorias del 60%, en comparaci\u00f3n con el 28% de la base."
+  "narrative": "Estos ajustes en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que aumentar el peso de la FCF (Free Cash Flow) y el R:R (Risk Reward) podr\u00eda llevar a un mejor rendimiento en la clasificaci\u00f3n (WR) de +6.8pp y +9.5pp, respectivamente.\n\nAdem\u00e1s, considerar un umbral m\u00ednimo de score de 70+ podr\u00eda ayudar a filtrar las predicciones m\u00e1s confiables, ya que un score de 80+ tiene un rendimiento en la clasificaci\u00f3n (WR) del 60.0% frente al 28% de base."
 }

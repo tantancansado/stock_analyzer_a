@@ -1,207 +1,21 @@
 {
-  "generated_at": "2026-07-27T08:52:12Z",
-  "scan_date": "2026-07-27",
+  "generated_at": "2026-07-28T07:45:40Z",
+  "scan_date": "2026-07-28",
   "horizon_days": 90,
-  "total_events": 121,
+  "total_events": 118,
   "by_category": {
-    "EARNINGS": 96,
+    "EARNINGS": 93,
     "MACRO": 12,
     "DIVIDEND": 10,
     "OPTIONS_EXPIRY": 3
   },
   "events": [
     {
-      "id": "earnings-BRO-2026-07-27",
-      "category": "EARNINGS",
-      "type": "EARNINGS",
-      "date": "2026-07-27",
-      "days_away": 0,
-      "title": "BRO \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.8% sorpresa media)",
-      "impact": "HIGH",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 5.8,
-      "affected_tickers": [
-        "BRO"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "yfinance",
-      "ticker": "BRO",
-      "company": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "current_price": 67.66,
-      "market_cap": 22933211136,
-      "eps_estimate": 1.07,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 5.8,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 0.99,
-            "eps_act": 1.03,
-            "surprise_pct": 4.6,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 0.93,
-            "eps_act": 1.05,
-            "surprise_pct": 12.9,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 0.9,
-            "eps_act": 0.93,
-            "surprise_pct": 3.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.36,
-            "eps_act": 1.39,
-            "surprise_pct": 2.3,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": true
-    },
-    {
-      "id": "earnings-CDNS-2026-07-27",
-      "category": "EARNINGS",
-      "type": "EARNINGS",
-      "date": "2026-07-27",
-      "days_away": 0,
-      "title": "CDNS \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.5% sorpresa media)",
-      "impact": "HIGH",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 5.5,
-      "affected_tickers": [
-        "CDNS"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "yfinance",
-      "ticker": "CDNS",
-      "company": "Cadence Design Systems, Inc.",
-      "sector": "Technology",
-      "current_price": 326.24,
-      "market_cap": 89982205952,
-      "eps_estimate": 2.06,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 5.5,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 1.56,
-            "eps_act": 1.65,
-            "surprise_pct": 6.0,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.79,
-            "eps_act": 1.93,
-            "surprise_pct": 7.8,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.91,
-            "eps_act": 1.99,
-            "surprise_pct": 4.1,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.89,
-            "eps_act": 1.96,
-            "surprise_pct": 4.0,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": true
-    },
-    {
-      "id": "earnings-NUE-2026-07-27",
-      "category": "EARNINGS",
-      "type": "EARNINGS",
-      "date": "2026-07-27",
-      "days_away": 0,
-      "title": "NUE \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 75% del tiempo (+8.0% sorpresa media)",
-      "impact": "HIGH",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 8.0,
-      "affected_tickers": [
-        "NUE"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "yfinance",
-      "ticker": "NUE",
-      "company": "Nucor Corporation",
-      "sector": "Basic Materials",
-      "current_price": 247.56,
-      "market_cap": 56379547648,
-      "eps_estimate": 4.53,
-      "earnings_history": {
-        "beat_count": 3,
-        "miss_count": 1,
-        "total_quarters": 4,
-        "avg_surprise_pct": 8.0,
-        "beat_rate": 75.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 2.64,
-            "eps_act": 2.65,
-            "surprise_pct": 0.3,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 2.17,
-            "eps_act": 2.63,
-            "surprise_pct": 21.3,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.81,
-            "eps_act": 1.73,
-            "surprise_pct": -4.4,
-            "beat": "False"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 2.82,
-            "eps_act": 3.23,
-            "surprise_pct": 14.7,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": true
-    },
-    {
       "id": "earnings-WM-2026-07-28",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "WM \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "HIGH",
@@ -216,8 +30,8 @@
       "ticker": "WM",
       "company": "Waste Management, Inc.",
       "sector": "Industrials",
-      "current_price": 238.75,
-      "market_cap": 95876210688,
+      "current_price": 237.9,
+      "market_cap": 95534866432,
       "eps_estimate": 1.98,
       "earnings_history": {
         "beat_count": 2,
@@ -263,12 +77,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "V \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 3.2,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "V"
       ],
@@ -278,46 +92,10 @@
       "ticker": "V",
       "company": "Visa Inc.",
       "sector": "Financial Services",
-      "current_price": 355.74,
-      "market_cap": 676526292992,
+      "current_price": 362.53,
+      "market_cap": null,
       "eps_estimate": 3.23,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 3.2,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 2.85,
-            "eps_act": 2.98,
-            "surprise_pct": 4.7,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 2.97,
-            "eps_act": 2.98,
-            "surprise_pct": 0.3,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 3.14,
-            "eps_act": 3.17,
-            "surprise_pct": 0.9,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 3.1,
-            "eps_act": 3.31,
-            "surprise_pct": 6.8,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -325,7 +103,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "SPGI \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "HIGH",
@@ -340,8 +118,8 @@
       "ticker": "SPGI",
       "company": "S&P Global Inc.",
       "sector": "Financial Services",
-      "current_price": 426.4,
-      "market_cap": 126214397952,
+      "current_price": 439.83,
+      "market_cap": 130189672448,
       "eps_estimate": 5.0,
       "earnings_history": {
         "beat_count": 3,
@@ -387,7 +165,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "AI.PA \u2014 Earnings Q",
       "description": "Sin historial disponible",
       "impact": "HIGH",
@@ -402,8 +180,8 @@
       "ticker": "AI.PA",
       "company": "AIR LIQUIDE",
       "sector": "Basic Materials",
-      "current_price": 176.24,
-      "market_cap": 112065544192,
+      "current_price": 173.54,
+      "market_cap": 110348689408,
       "eps_estimate": 3.22,
       "earnings_history": {},
       "earnings_warning": true
@@ -413,12 +191,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "KO \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 4.4,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "KO"
       ],
@@ -428,46 +206,10 @@
       "ticker": "KO",
       "company": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
-      "current_price": 82.25,
-      "market_cap": 353879195648,
+      "current_price": 84.07,
+      "market_cap": null,
       "eps_estimate": 0.93,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 4.4,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 0.84,
-            "eps_act": 0.87,
-            "surprise_pct": 3.9,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 0.78,
-            "eps_act": 0.82,
-            "surprise_pct": 5.3,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 0.56,
-            "eps_act": 0.58,
-            "surprise_pct": 2.7,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 0.81,
-            "eps_act": 0.86,
-            "surprise_pct": 5.9,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -475,7 +217,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "VLTO \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.5% sorpresa media)",
       "impact": "HIGH",
@@ -490,8 +232,8 @@
       "ticker": "VLTO",
       "company": "Veralto Corp",
       "sector": "Industrials",
-      "current_price": 92.02,
-      "market_cap": 22600042496,
+      "current_price": 94.28,
+      "market_cap": 23155097600,
       "eps_estimate": 1.01,
       "earnings_history": {
         "beat_count": 4,
@@ -537,7 +279,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "SHW \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "HIGH",
@@ -552,8 +294,8 @@
       "ticker": "SHW",
       "company": "Sherwin-Williams Company (The)",
       "sector": "Basic Materials",
-      "current_price": 317.51,
-      "market_cap": 78309277696,
+      "current_price": 327.27,
+      "market_cap": 80716431360,
       "eps_estimate": 3.52,
       "earnings_history": {
         "beat_count": 3,
@@ -599,7 +341,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "ECL \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "HIGH",
@@ -614,8 +356,8 @@
       "ticker": "ECL",
       "company": "Ecolab Inc.",
       "sector": "Basic Materials",
-      "current_price": 268.75,
-      "market_cap": 75636326400,
+      "current_price": 271.38,
+      "market_cap": 76376514560,
       "eps_estimate": 2.08,
       "earnings_history": {
         "beat_count": 2,
@@ -661,7 +403,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-28",
-      "days_away": 1,
+      "days_away": 0,
       "title": "ITW \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "HIGH",
@@ -676,8 +418,8 @@
       "ticker": "ITW",
       "company": "Illinois Tool Works Inc.",
       "sector": "Industrials",
-      "current_price": 283.02,
-      "market_cap": 81424850944,
+      "current_price": 284.82,
+      "market_cap": 81942716416,
       "eps_estimate": 2.8,
       "earnings_history": {
         "beat_count": 4,
@@ -723,7 +465,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "VRSK \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+6.2% sorpresa media)",
       "impact": "HIGH",
@@ -738,8 +480,8 @@
       "ticker": "VRSK",
       "company": "Verisk Analytics, Inc.",
       "sector": "Industrials",
-      "current_price": 201.34,
-      "market_cap": 26379937792,
+      "current_price": 206.66,
+      "market_cap": 27076974592,
       "eps_estimate": 1.93,
       "earnings_history": {
         "beat_count": 4,
@@ -785,7 +527,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "ADP \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "HIGH",
@@ -800,8 +542,8 @@
       "ticker": "ADP",
       "company": "Automatic Data Processing, Inc.",
       "sector": "Technology",
-      "current_price": 250.09,
-      "market_cap": 99969540096,
+      "current_price": 254.98,
+      "market_cap": 101924241408,
       "eps_estimate": 2.6,
       "earnings_history": {
         "beat_count": 4,
@@ -847,7 +589,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "MSFT \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+7.8% sorpresa media)",
       "impact": "HIGH",
@@ -862,8 +604,8 @@
       "ticker": "MSFT",
       "company": "Microsoft Corporation",
       "sector": "Technology",
-      "current_price": 381.7,
-      "market_cap": 2835433652224,
+      "current_price": 389.1,
+      "market_cap": 2890404200448,
       "eps_estimate": 4.24,
       "earnings_history": {
         "beat_count": 4,
@@ -909,12 +651,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "PG \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 3.1,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "PG"
       ],
@@ -924,46 +666,10 @@
       "ticker": "PG",
       "company": "Procter & Gamble Company (The)",
       "sector": "Consumer Defensive",
-      "current_price": 147.41,
-      "market_cap": 343258791936,
+      "current_price": 148.63,
+      "market_cap": null,
       "eps_estimate": 1.41,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 3.1,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 1.42,
-            "eps_act": 1.48,
-            "surprise_pct": 4.1,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.9,
-            "eps_act": 1.99,
-            "surprise_pct": 4.9,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.86,
-            "eps_act": 1.88,
-            "surprise_pct": 1.2,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.56,
-            "eps_act": 1.59,
-            "surprise_pct": 2.2,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -971,7 +677,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "AON \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "HIGH",
@@ -986,8 +692,8 @@
       "ticker": "AON",
       "company": "Aon plc",
       "sector": "Financial Services",
-      "current_price": 361.7,
-      "market_cap": 77250781184,
+      "current_price": 367.17,
+      "market_cap": 78419050496,
       "eps_estimate": 3.8,
       "earnings_history": {
         "beat_count": 4,
@@ -1033,12 +739,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "TYL \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 75% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 2.0,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "TYL"
       ],
@@ -1048,46 +754,10 @@
       "ticker": "TYL",
       "company": "Tyler Technologies, Inc.",
       "sector": "Technology",
-      "current_price": 297.15,
-      "market_cap": 12224915456,
+      "current_price": 315.88,
+      "market_cap": null,
       "eps_estimate": 3.08,
-      "earnings_history": {
-        "beat_count": 3,
-        "miss_count": 1,
-        "total_quarters": 4,
-        "avg_surprise_pct": 2.0,
-        "beat_rate": 75.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 2.78,
-            "eps_act": 2.91,
-            "surprise_pct": 4.8,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 2.86,
-            "eps_act": 2.97,
-            "surprise_pct": 3.9,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 2.73,
-            "eps_act": 2.64,
-            "surprise_pct": -3.3,
-            "beat": "False"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 3.01,
-            "eps_act": 3.09,
-            "surprise_pct": 2.7,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -1095,7 +765,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "FICO \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+8.5% sorpresa media)",
       "impact": "HIGH",
@@ -1110,8 +780,8 @@
       "ticker": "FICO",
       "company": "Fair Isaac Corporation",
       "sector": "Technology",
-      "current_price": 1237.37,
-      "market_cap": 28695732224,
+      "current_price": 1280.57,
+      "market_cap": 29697576960,
       "eps_estimate": 11.78,
       "earnings_history": {
         "beat_count": 4,
@@ -1157,7 +827,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "ORLY \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "HIGH",
@@ -1172,8 +842,8 @@
       "ticker": "ORLY",
       "company": "O'Reilly Automotive, Inc.",
       "sector": "Consumer Cyclical",
-      "current_price": 87.4,
-      "market_cap": 72429699072,
+      "current_price": 90.59,
+      "market_cap": 75073298432,
       "eps_estimate": 0.86,
       "earnings_history": {
         "beat_count": 2,
@@ -1219,7 +889,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "EQIX \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "HIGH",
@@ -1234,8 +904,8 @@
       "ticker": "EQIX",
       "company": "Equinix, Inc.",
       "sector": "Real Estate",
-      "current_price": 1084.24,
-      "market_cap": 106932355072,
+      "current_price": 1046.79,
+      "market_cap": 103238877184,
       "eps_estimate": 4.79,
       "earnings_history": {
         "beat_count": 2,
@@ -1281,12 +951,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "AWK \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente decepciona \u2014 bate solo 25% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "BEARISH",
-      "avg_move_pct": 2.4,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "AWK"
       ],
@@ -1296,46 +966,10 @@
       "ticker": "AWK",
       "company": "American Water Works Company, I",
       "sector": "Utilities",
-      "current_price": 134.66,
-      "market_cap": 26296475648,
+      "current_price": 134.56,
+      "market_cap": null,
       "eps_estimate": 1.55,
-      "earnings_history": {
-        "beat_count": 1,
-        "miss_count": 3,
-        "total_quarters": 4,
-        "avg_surprise_pct": -2.4,
-        "beat_rate": 25.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 1.53,
-            "eps_act": 1.48,
-            "surprise_pct": -3.1,
-            "beat": "False"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.88,
-            "eps_act": 1.94,
-            "surprise_pct": 3.0,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.27,
-            "eps_act": 1.24,
-            "surprise_pct": -2.3,
-            "beat": "False"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.09,
-            "eps_act": 1.01,
-            "surprise_pct": -7.4,
-            "beat": "False"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -1343,7 +977,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "CP \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente decepciona \u2014 bate solo 0% del tiempo",
       "impact": "HIGH",
@@ -1358,8 +992,8 @@
       "ticker": "CP",
       "company": "Canadian Pacific Kansas City Li",
       "sector": "Industrials",
-      "current_price": 92.36,
-      "market_cap": 81991335936,
+      "current_price": 91.4,
+      "market_cap": 81139105792,
       "eps_estimate": 1.24,
       "earnings_history": {
         "beat_count": 0,
@@ -1405,7 +1039,7 @@
       "category": "MACRO",
       "type": "FED",
       "date": "2026-07-29",
-      "days_away": 2,
+      "days_away": 1,
       "title": "Fed Meeting",
       "description": "FOMC \u2014 decisi\u00f3n de tipos, declaraci\u00f3n y conferencia de prensa Powell",
       "impact": "HIGH",
@@ -1439,12 +1073,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "MA \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.3% sorpresa media)",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 5.3,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "MA"
       ],
@@ -1454,46 +1088,10 @@
       "ticker": "MA",
       "company": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "current_price": 539.66,
-      "market_cap": 476834856960,
+      "current_price": 551.71,
+      "market_cap": null,
       "eps_estimate": 4.78,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 5.3,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 4.02,
-            "eps_act": 4.15,
-            "surprise_pct": 3.1,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 4.31,
-            "eps_act": 4.38,
-            "surprise_pct": 1.5,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 4.24,
-            "eps_act": 4.76,
-            "surprise_pct": 12.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 4.41,
-            "eps_act": 4.6,
-            "surprise_pct": 4.2,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -1501,7 +1099,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "SYK \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "HIGH",
@@ -1516,8 +1114,8 @@
       "ticker": "SYK",
       "company": "Stryker Corporation",
       "sector": "Healthcare",
-      "current_price": 330.25,
-      "market_cap": 126604894208,
+      "current_price": 336.74,
+      "market_cap": 129092902912,
       "eps_estimate": 3.49,
       "earnings_history": {
         "beat_count": 3,
@@ -1563,12 +1161,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "TW \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 2.7,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "TW"
       ],
@@ -1578,46 +1176,10 @@
       "ticker": "TW",
       "company": "Tradeweb Markets Inc.",
       "sector": "Financial Services",
-      "current_price": 99.83,
-      "market_cap": 21765537792,
+      "current_price": 102.02,
+      "market_cap": null,
       "eps_estimate": 0.95,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 2.7,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 0.86,
-            "eps_act": 0.87,
-            "surprise_pct": 1.3,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 0.83,
-            "eps_act": 0.87,
-            "surprise_pct": 4.9,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 0.84,
-            "eps_act": 0.87,
-            "surprise_pct": 3.0,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.06,
-            "eps_act": 1.08,
-            "surprise_pct": 1.5,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -1625,7 +1187,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "ERIE \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "HIGH",
@@ -1640,8 +1202,8 @@
       "ticker": "ERIE",
       "company": "Erie Indemnity Company",
       "sector": "Financial Services",
-      "current_price": 223.55,
-      "market_cap": 11689400320,
+      "current_price": 228.26,
+      "market_cap": 11935684608,
       "eps_estimate": 3.35,
       "earnings_history": {
         "beat_count": 2,
@@ -1687,12 +1249,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "AJG \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 1.8,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "AJG"
       ],
@@ -1702,46 +1264,10 @@
       "ticker": "AJG",
       "company": "Arthur J. Gallagher & Co.",
       "sector": "Financial Services",
-      "current_price": 247.77,
-      "market_cap": 63662522368,
+      "current_price": 253.36,
+      "market_cap": null,
       "eps_estimate": 2.82,
-      "earnings_history": {
-        "beat_count": 2,
-        "miss_count": 2,
-        "total_quarters": 4,
-        "avg_surprise_pct": -1.8,
-        "beat_rate": 50.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 2.36,
-            "eps_act": 2.33,
-            "surprise_pct": -1.2,
-            "beat": "False"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 2.54,
-            "eps_act": 2.32,
-            "surprise_pct": -8.5,
-            "beat": "False"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 2.35,
-            "eps_act": 2.38,
-            "surprise_pct": 1.4,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 4.43,
-            "eps_act": 4.47,
-            "surprise_pct": 1.0,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -1749,12 +1275,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "ICE \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 3.7,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "ICE"
       ],
@@ -1764,46 +1290,10 @@
       "ticker": "ICE",
       "company": "Intercontinental Exchange Inc.",
       "sector": "Financial Services",
-      "current_price": 145.79,
-      "market_cap": 82446065664,
+      "current_price": 148.73,
+      "market_cap": null,
       "eps_estimate": 1.84,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 3.7,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 1.77,
-            "eps_act": 1.81,
-            "surprise_pct": 2.3,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.61,
-            "eps_act": 1.71,
-            "surprise_pct": 6.4,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.67,
-            "eps_act": 1.71,
-            "surprise_pct": 2.2,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 2.26,
-            "eps_act": 2.35,
-            "surprise_pct": 3.9,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -1811,12 +1301,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "MTD \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 4.1,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "MTD"
       ],
@@ -1826,46 +1316,10 @@
       "ticker": "MTD",
       "company": "Mettler-Toledo International, I",
       "sector": "Healthcare",
-      "current_price": 1327.18,
-      "market_cap": 26819123200,
+      "current_price": 1336.29,
+      "market_cap": null,
       "eps_estimate": 10.8,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 4.1,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 9.6,
-            "eps_act": 10.09,
-            "surprise_pct": 5.1,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 10.66,
-            "eps_act": 11.15,
-            "surprise_pct": 4.6,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 12.81,
-            "eps_act": 13.36,
-            "surprise_pct": 4.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 8.71,
-            "eps_act": 8.91,
-            "surprise_pct": 2.3,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -1873,7 +1327,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "RACE \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "HIGH",
@@ -1888,8 +1342,8 @@
       "ticker": "RACE",
       "company": "Ferrari N.V.",
       "sector": "Consumer Cyclical",
-      "current_price": 360.14,
-      "market_cap": 63325073408,
+      "current_price": 380.01,
+      "market_cap": 66796945408,
       "eps_estimate": 2.45,
       "earnings_history": {
         "beat_count": 2,
@@ -1935,7 +1389,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "TT \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "HIGH",
@@ -1950,8 +1404,8 @@
       "ticker": "TT",
       "company": "Trane Technologies plc",
       "sector": "Industrials",
-      "current_price": 480.99,
-      "market_cap": 106325467136,
+      "current_price": 483.34,
+      "market_cap": 106844954624,
       "eps_estimate": 4.26,
       "earnings_history": {
         "beat_count": 4,
@@ -1997,7 +1451,7 @@
       "category": "MACRO",
       "type": "GDP",
       "date": "2026-07-30",
-      "days_away": 3,
+      "days_away": 2,
       "title": "GDP Advance",
       "description": "Primera estimaci\u00f3n del PIB trimestral",
       "impact": "MEDIUM",
@@ -2028,7 +1482,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "LIN \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "HIGH",
@@ -2043,8 +1497,8 @@
       "ticker": "LIN",
       "company": "Linde plc",
       "sector": "Basic Materials",
-      "current_price": 512.28,
-      "market_cap": 236851281920,
+      "current_price": 507.02,
+      "market_cap": 234419322880,
       "eps_estimate": 4.49,
       "earnings_history": {
         "beat_count": 4,
@@ -2090,7 +1544,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "7741.T \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "HIGH",
@@ -2105,8 +1559,8 @@
       "ticker": "7741.T",
       "company": "HOYA CORP",
       "sector": "Healthcare",
-      "current_price": 24725.0,
-      "market_cap": 8270969831424,
+      "current_price": 23685.0,
+      "market_cap": 7923070664704,
       "eps_estimate": null,
       "earnings_history": {
         "beat_count": 2,
@@ -2152,12 +1606,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "CHD \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+6.1% sorpresa media)",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 6.1,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "CHD"
       ],
@@ -2167,46 +1621,10 @@
       "ticker": "CHD",
       "company": "Church & Dwight Company, Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 97.64,
-      "market_cap": 23135172608,
+      "current_price": 98.7,
+      "market_cap": null,
       "eps_estimate": 0.9,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 6.1,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 0.86,
-            "eps_act": 0.94,
-            "surprise_pct": 9.5,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 0.74,
-            "eps_act": 0.81,
-            "surprise_pct": 9.9,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 0.83,
-            "eps_act": 0.86,
-            "surprise_pct": 3.0,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 0.93,
-            "eps_act": 0.95,
-            "surprise_pct": 2.2,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -2214,12 +1632,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "ETN \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 1.2,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "ETN"
       ],
@@ -2229,46 +1647,10 @@
       "ticker": "ETN",
       "company": "Eaton Corporation, PLC",
       "sector": "Industrials",
-      "current_price": 404.07,
-      "market_cap": 156900376576,
+      "current_price": 398.64,
+      "market_cap": null,
       "eps_estimate": 3.08,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 1.2,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 2.92,
-            "eps_act": 2.95,
-            "surprise_pct": 0.9,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 3.05,
-            "eps_act": 3.07,
-            "surprise_pct": 0.5,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 3.32,
-            "eps_act": 3.33,
-            "surprise_pct": 0.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 2.73,
-            "eps_act": 2.81,
-            "surprise_pct": 2.9,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -2276,12 +1658,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "CL \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 3.0,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "CL"
       ],
@@ -2291,46 +1673,10 @@
       "ticker": "CL",
       "company": "Colgate-Palmolive Company",
       "sector": "Consumer Defensive",
-      "current_price": 90.75,
-      "market_cap": 72617181184,
+      "current_price": 91.98,
+      "market_cap": null,
       "eps_estimate": 0.95,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 3.0,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 0.89,
-            "eps_act": 0.92,
-            "surprise_pct": 2.8,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 0.89,
-            "eps_act": 0.91,
-            "surprise_pct": 2.4,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 0.91,
-            "eps_act": 0.95,
-            "surprise_pct": 4.2,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 0.94,
-            "eps_act": 0.97,
-            "surprise_pct": 2.7,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": true
     },
     {
@@ -2338,7 +1684,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "CBOE \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.0% sorpresa media)",
       "impact": "HIGH",
@@ -2353,8 +1699,8 @@
       "ticker": "CBOE",
       "company": "Cboe Global Markets, Inc.",
       "sector": "Financial Services",
-      "current_price": 285.07,
-      "market_cap": 29833654272,
+      "current_price": 288.87,
+      "market_cap": 30231339008,
       "eps_estimate": 3.49,
       "earnings_history": {
         "beat_count": 4,
@@ -2400,7 +1746,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "CVX \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+15.2% sorpresa media)",
       "impact": "HIGH",
@@ -2415,8 +1761,8 @@
       "ticker": "CVX",
       "company": "Chevron Corporation",
       "sector": "Energy",
-      "current_price": 194.79,
-      "market_cap": 387943301120,
+      "current_price": 190.0,
+      "market_cap": 378403553280,
       "eps_estimate": 5.57,
       "earnings_history": {
         "beat_count": 4,
@@ -2462,7 +1808,7 @@
       "category": "MACRO",
       "type": "PCE",
       "date": "2026-07-31",
-      "days_away": 4,
+      "days_away": 3,
       "title": "PCE Inflation",
       "description": "Indicador de inflaci\u00f3n favorito del Fed \u2014 Personal Consumption Expenditures",
       "impact": "HIGH",
@@ -2486,78 +1832,16 @@
       "company": null
     },
     {
-      "id": "earnings-BRK-B-2026-08-01",
-      "category": "EARNINGS",
-      "type": "EARNINGS",
-      "date": "2026-08-01",
-      "days_away": 5,
-      "title": "BRK-B \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 75% del tiempo",
-      "impact": "HIGH",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 1.8,
-      "affected_tickers": [
-        "BRK-B"
-      ],
-      "bullish_sectors": [],
-      "bearish_sectors": [],
-      "source": "yfinance",
-      "ticker": "BRK-B",
-      "company": "Berkshire Hathaway Inc. New",
-      "sector": "Financial Services",
-      "current_price": 494.93,
-      "market_cap": 1067491590144,
-      "eps_estimate": 5.05,
-      "earnings_history": {
-        "beat_count": 3,
-        "miss_count": 1,
-        "total_quarters": 4,
-        "avg_surprise_pct": 1.8,
-        "beat_rate": 75.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 5.04,
-            "eps_act": 5.17,
-            "surprise_pct": 2.7,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 5.73,
-            "eps_act": 6.25,
-            "surprise_pct": 9.0,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 5.17,
-            "eps_act": 4.73,
-            "surprise_pct": -8.5,
-            "beat": "False"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 5.05,
-            "eps_act": 5.26,
-            "surprise_pct": 4.2,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": true
-    },
-    {
       "id": "earnings-BR-2026-08-04",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-04",
-      "days_away": 8,
+      "days_away": 7,
       "title": "BR \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+11.0% sorpresa media)",
-      "impact": "MEDIUM",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 11.0,
+      "description": "Sin historial disponible",
+      "impact": "HIGH",
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "BR"
       ],
@@ -2567,57 +1851,21 @@
       "ticker": "BR",
       "company": "Broadridge Financial Solutions,",
       "sector": "Technology",
-      "current_price": 148.92,
-      "market_cap": 17223833600,
+      "current_price": 152.78,
+      "market_cap": null,
       "eps_estimate": 3.76,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 11.0,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 3.5,
-            "eps_act": 3.55,
-            "surprise_pct": 1.5,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.25,
-            "eps_act": 1.51,
-            "surprise_pct": 21.2,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.36,
-            "eps_act": 1.59,
-            "surprise_pct": 16.8,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 2.6,
-            "eps_act": 2.72,
-            "surprise_pct": 4.4,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": false
+      "earnings_history": {},
+      "earnings_warning": true
     },
     {
       "id": "earnings-IDXX-2026-08-04",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-04",
-      "days_away": 8,
+      "days_away": 7,
       "title": "IDXX \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+6.2% sorpresa media)",
-      "impact": "MEDIUM",
+      "impact": "HIGH",
       "direction_bias": "BULLISH",
       "avg_move_pct": 6.2,
       "affected_tickers": [
@@ -2629,8 +1877,8 @@
       "ticker": "IDXX",
       "company": "IDEXX Laboratories, Inc.",
       "sector": "Healthcare",
-      "current_price": 544.32,
-      "market_cap": 42937593856,
+      "current_price": 556.2,
+      "market_cap": 43874725888,
       "eps_estimate": 3.93,
       "earnings_history": {
         "beat_count": 4,
@@ -2669,19 +1917,19 @@
           }
         ]
       },
-      "earnings_warning": false
+      "earnings_warning": true
     },
     {
       "id": "earnings-MCD-2026-08-04",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-04",
-      "days_away": 8,
+      "days_away": 7,
       "title": "MCD \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 75% del tiempo",
-      "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 0.8,
+      "description": "Sin historial disponible",
+      "impact": "HIGH",
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "MCD"
       ],
@@ -2691,57 +1939,21 @@
       "ticker": "MCD",
       "company": "McDonald's Corporation",
       "sector": "Consumer Cyclical",
-      "current_price": 264.76,
-      "market_cap": 188113534976,
+      "current_price": 270.67,
+      "market_cap": null,
       "eps_estimate": 3.32,
-      "earnings_history": {
-        "beat_count": 3,
-        "miss_count": 1,
-        "total_quarters": 4,
-        "avg_surprise_pct": 0.8,
-        "beat_rate": 75.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 3.15,
-            "eps_act": 3.19,
-            "surprise_pct": 1.4,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 3.33,
-            "eps_act": 3.22,
-            "surprise_pct": -3.4,
-            "beat": "False"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 3.05,
-            "eps_act": 3.12,
-            "surprise_pct": 2.2,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 2.74,
-            "eps_act": 2.83,
-            "surprise_pct": 3.1,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": false
+      "earnings_history": {},
+      "earnings_warning": true
     },
     {
       "id": "earnings-IT-2026-08-04",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-04",
-      "days_away": 8,
+      "days_away": 7,
       "title": "IT \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+11.6% sorpresa media)",
-      "impact": "MEDIUM",
+      "impact": "HIGH",
       "direction_bias": "BULLISH",
       "avg_move_pct": 11.6,
       "affected_tickers": [
@@ -2753,8 +1965,8 @@
       "ticker": "IT",
       "company": "Gartner, Inc.",
       "sector": "Technology",
-      "current_price": 140.5,
-      "market_cap": 9406740480,
+      "current_price": 147.45,
+      "market_cap": 9872055296,
       "eps_estimate": 3.73,
       "earnings_history": {
         "beat_count": 4,
@@ -2793,17 +2005,17 @@
           }
         ]
       },
-      "earnings_warning": false
+      "earnings_warning": true
     },
     {
       "id": "earnings-AME-2026-08-04",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-04",
-      "days_away": 8,
+      "days_away": 7,
       "title": "AME \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.0% sorpresa media)",
-      "impact": "MEDIUM",
+      "impact": "HIGH",
       "direction_bias": "BULLISH",
       "avg_move_pct": 5.0,
       "affected_tickers": [
@@ -2815,8 +2027,8 @@
       "ticker": "AME",
       "company": "AMETEK, Inc.",
       "sector": "Industrials",
-      "current_price": 241.97,
-      "market_cap": 55460253696,
+      "current_price": 243.12,
+      "market_cap": 55723835392,
       "eps_estimate": 1.99,
       "earnings_history": {
         "beat_count": 4,
@@ -2855,19 +2067,19 @@
           }
         ]
       },
-      "earnings_warning": false
+      "earnings_warning": true
     },
     {
       "id": "earnings-GWW-2026-08-04",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-04",
-      "days_away": 8,
+      "days_away": 7,
       "title": "GWW \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
-      "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 3.9,
+      "description": "Sin historial disponible",
+      "impact": "HIGH",
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "GWW"
       ],
@@ -2877,57 +2089,21 @@
       "ticker": "GWW",
       "company": "W.W. Grainger, Inc.",
       "sector": "Industrials",
-      "current_price": 1382.6,
-      "market_cap": 65276858368,
+      "current_price": 1398.95,
+      "market_cap": null,
       "eps_estimate": 11.3,
-      "earnings_history": {
-        "beat_count": 2,
-        "miss_count": 2,
-        "total_quarters": 4,
-        "avg_surprise_pct": 3.9,
-        "beat_rate": 50.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 10.07,
-            "eps_act": 9.97,
-            "surprise_pct": -1.0,
-            "beat": "False"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 9.95,
-            "eps_act": 10.21,
-            "surprise_pct": 2.6,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 9.46,
-            "eps_act": 9.44,
-            "surprise_pct": -0.2,
-            "beat": "False"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 10.21,
-            "eps_act": 11.65,
-            "surprise_pct": 14.1,
-            "beat": "True"
-          }
-        ]
-      },
-      "earnings_warning": false
+      "earnings_history": {},
+      "earnings_warning": true
     },
     {
       "id": "earnings-DVA-2026-08-04",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-04",
-      "days_away": 8,
+      "days_away": 7,
       "title": "DVA \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
-      "impact": "MEDIUM",
+      "impact": "HIGH",
       "direction_bias": "VOLATILE",
       "avg_move_pct": 4.0,
       "affected_tickers": [
@@ -2939,8 +2115,8 @@
       "ticker": "DVA",
       "company": "DaVita Inc.",
       "sector": "Healthcare",
-      "current_price": 235.44,
-      "market_cap": 15111716864,
+      "current_price": 236.31,
+      "market_cap": 15167557632,
       "eps_estimate": 3.88,
       "earnings_history": {
         "beat_count": 3,
@@ -2979,14 +2155,14 @@
           }
         ]
       },
-      "earnings_warning": false
+      "earnings_warning": true
     },
     {
       "id": "earnings-MSI-2026-08-05",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-05",
-      "days_away": 9,
+      "days_away": 8,
       "title": "MSI \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.2% sorpresa media)",
       "impact": "MEDIUM",
@@ -3001,8 +2177,8 @@
       "ticker": "MSI",
       "company": "Motorola Solutions, Inc.",
       "sector": "Technology",
-      "current_price": 417.83,
-      "market_cap": 69357936640,
+      "current_price": 423.8,
+      "market_cap": 70348922880,
       "eps_estimate": 3.85,
       "earnings_history": {
         "beat_count": 4,
@@ -3048,7 +2224,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-05",
-      "days_away": 9,
+      "days_away": 8,
       "title": "OXY \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+52.9% sorpresa media)",
       "impact": "MEDIUM",
@@ -3063,8 +2239,8 @@
       "ticker": "OXY",
       "company": "Occidental Petroleum Corporatio",
       "sector": "Energy",
-      "current_price": 57.3,
-      "market_cap": 56992567296,
+      "current_price": 54.93,
+      "market_cap": 54635282432,
       "eps_estimate": 1.88,
       "earnings_history": {
         "beat_count": 4,
@@ -3110,7 +2286,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-05",
-      "days_away": 9,
+      "days_away": 8,
       "title": "KHC \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+9.7% sorpresa media)",
       "impact": "MEDIUM",
@@ -3125,8 +2301,8 @@
       "ticker": "KHC",
       "company": "The Kraft Heinz Company",
       "sector": "Consumer Defensive",
-      "current_price": 25.67,
-      "market_cap": 30438912000,
+      "current_price": 26.22,
+      "market_cap": 31091089408,
       "eps_estimate": 0.53,
       "earnings_history": {
         "beat_count": 4,
@@ -3172,12 +2348,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-06",
-      "days_away": 10,
+      "days_away": 9,
       "title": "RSG \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 4.8,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "RSG"
       ],
@@ -3187,46 +2363,10 @@
       "ticker": "RSG",
       "company": "Republic Services, Inc.",
       "sector": "Industrials",
-      "current_price": 216.91,
-      "market_cap": 66735419392,
+      "current_price": 216.9,
+      "market_cap": null,
       "eps_estimate": 1.82,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 4.8,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 1.76,
-            "eps_act": 1.77,
-            "surprise_pct": 0.8,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.78,
-            "eps_act": 1.9,
-            "surprise_pct": 6.5,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.63,
-            "eps_act": 1.76,
-            "surprise_pct": 7.9,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.64,
-            "eps_act": 1.7,
-            "surprise_pct": 3.8,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -3234,12 +2374,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-06",
-      "days_away": 10,
+      "days_away": 9,
       "title": "ZTS \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 75% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 3.6,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "ZTS"
       ],
@@ -3249,46 +2389,10 @@
       "ticker": "ZTS",
       "company": "Zoetis Inc.",
       "sector": "Healthcare",
-      "current_price": 75.35,
-      "market_cap": 31588839424,
+      "current_price": 76.92,
+      "market_cap": null,
       "eps_estimate": 1.85,
-      "earnings_history": {
-        "beat_count": 3,
-        "miss_count": 1,
-        "total_quarters": 4,
-        "avg_surprise_pct": 3.6,
-        "beat_rate": 75.0,
-        "last_quarters": [
-          {
-            "date": "2025-06-30",
-            "eps_est": 1.61,
-            "eps_act": 1.76,
-            "surprise_pct": 9.2,
-            "beat": "True"
-          },
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.62,
-            "eps_act": 1.7,
-            "surprise_pct": 4.8,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.4,
-            "eps_act": 1.48,
-            "surprise_pct": 5.5,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.62,
-            "eps_act": 1.53,
-            "surprise_pct": -5.3,
-            "beat": "False"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -3296,12 +2400,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-06",
-      "days_away": 10,
+      "days_away": 9,
       "title": "G24.DE \u2014 Earnings Q",
-      "description": "Sin historial disponible",
+      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "MEDIUM",
-      "direction_bias": "UNKNOWN",
-      "avg_move_pct": null,
+      "direction_bias": "VOLATILE",
+      "avg_move_pct": 2.4,
       "affected_tickers": [
         "G24.DE"
       ],
@@ -3311,10 +2415,25 @@
       "ticker": "G24.DE",
       "company": "Scout24 SE                    N",
       "sector": "Communication Services",
-      "current_price": 69.8,
-      "market_cap": 4935940608,
+      "current_price": 73.1,
+      "market_cap": 5169301504,
       "eps_estimate": 0.99,
-      "earnings_history": {},
+      "earnings_history": {
+        "beat_count": 1,
+        "miss_count": 0,
+        "total_quarters": 1,
+        "avg_surprise_pct": 2.4,
+        "beat_rate": 100.0,
+        "last_quarters": [
+          {
+            "date": "2025-06-30",
+            "eps_est": 0.85,
+            "eps_act": 0.87,
+            "surprise_pct": 2.4,
+            "beat": "True"
+          }
+        ]
+      },
       "earnings_warning": false
     },
     {
@@ -3322,7 +2441,7 @@
       "category": "MACRO",
       "type": "NFP",
       "date": "2026-08-07",
-      "days_away": 11,
+      "days_away": 10,
       "title": "Non-Farm Payrolls",
       "description": "Situaci\u00f3n del empleo \u2014 payrolls, tasa de paro, earnings/hr",
       "impact": "HIGH",
@@ -3336,11 +2455,73 @@
       "company": null
     },
     {
+      "id": "earnings-BRK-B-2026-08-08",
+      "category": "EARNINGS",
+      "type": "EARNINGS",
+      "date": "2026-08-08",
+      "days_away": 11,
+      "title": "BRK-B \u2014 Earnings Q",
+      "description": "Resultados mixtos \u2014 bate 75% del tiempo",
+      "impact": "MEDIUM",
+      "direction_bias": "VOLATILE",
+      "avg_move_pct": 1.8,
+      "affected_tickers": [
+        "BRK-B"
+      ],
+      "bullish_sectors": [],
+      "bearish_sectors": [],
+      "source": "yfinance",
+      "ticker": "BRK-B",
+      "company": "Berkshire Hathaway Inc. New",
+      "sector": "Financial Services",
+      "current_price": 497.18,
+      "market_cap": 1072344530944,
+      "eps_estimate": 5.05,
+      "earnings_history": {
+        "beat_count": 3,
+        "miss_count": 1,
+        "total_quarters": 4,
+        "avg_surprise_pct": 1.8,
+        "beat_rate": 75.0,
+        "last_quarters": [
+          {
+            "date": "2025-06-30",
+            "eps_est": 5.04,
+            "eps_act": 5.17,
+            "surprise_pct": 2.7,
+            "beat": "True"
+          },
+          {
+            "date": "2025-09-30",
+            "eps_est": 5.73,
+            "eps_act": 6.25,
+            "surprise_pct": 9.0,
+            "beat": "True"
+          },
+          {
+            "date": "2025-12-31",
+            "eps_est": 5.17,
+            "eps_act": 4.73,
+            "surprise_pct": -8.5,
+            "beat": "False"
+          },
+          {
+            "date": "2026-03-31",
+            "eps_est": 5.05,
+            "eps_act": 5.26,
+            "surprise_pct": 4.2,
+            "beat": "True"
+          }
+        ]
+      },
+      "earnings_warning": false
+    },
+    {
       "id": "earnings-CSU.TO-2026-08-11",
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-11",
-      "days_away": 15,
+      "days_away": 14,
       "title": "CSU.TO \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente decepciona \u2014 bate solo 25% del tiempo",
       "impact": "MEDIUM",
@@ -3355,8 +2536,8 @@
       "ticker": "CSU.TO",
       "company": "CONSTELLATION SOFTWARE INC.",
       "sector": "Technology",
-      "current_price": 2667.24,
-      "market_cap": 56522895360,
+      "current_price": 2837.32,
+      "market_cap": 60127154176,
       "eps_estimate": 26.92,
       "earnings_history": {
         "beat_count": 1,
@@ -3402,7 +2583,7 @@
       "category": "MACRO",
       "type": "CPI",
       "date": "2026-08-12",
-      "days_away": 16,
+      "days_away": 15,
       "title": "CPI August",
       "description": "\u00cdndice de Precios al Consumidor \u2014 dato clave para decisiones Fed",
       "impact": "HIGH",
@@ -3436,7 +2617,7 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-08-13",
-      "days_away": 17,
+      "days_away": 16,
       "title": "TJX \u2014 Ex-Dividend (124.0% yield)",
       "description": "TJX Companies, Inc. (The) \u2014 Fecha ex-dividendo. Dividend: $1.92/a\u00f1o (124.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
@@ -3451,8 +2632,8 @@
       "ticker": "TJX",
       "company": "TJX Companies, Inc. (The)",
       "sector": "Consumer Cyclical",
-      "current_price": 154.22,
-      "market_cap": 170367516672,
+      "current_price": 156.38,
+      "market_cap": 172753682432,
       "dividend_yield": 1.24,
       "dividend_rate": 1.92,
       "earnings_history": {},
@@ -3463,7 +2644,7 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-08-14",
-      "days_away": 18,
+      "days_away": 17,
       "title": "MCO \u2014 Ex-Dividend (87.0% yield)",
       "description": "Moody's Corporation \u2014 Fecha ex-dividendo. Dividend: $4.12/a\u00f1o (87.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
@@ -3478,8 +2659,8 @@
       "ticker": "MCO",
       "company": "Moody's Corporation",
       "sector": "Financial Services",
-      "current_price": 471.5,
-      "market_cap": 81654841344,
+      "current_price": 485.96,
+      "market_cap": 84159037440,
       "dividend_yield": 0.87,
       "dividend_rate": 4.12,
       "earnings_history": {},
@@ -3490,7 +2671,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-18",
-      "days_away": 22,
+      "days_away": 21,
       "title": "JKHY \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+11.1% sorpresa media)",
       "impact": "MEDIUM",
@@ -3505,8 +2686,8 @@
       "ticker": "JKHY",
       "company": "Jack Henry & Associates, Inc.",
       "sector": "Technology",
-      "current_price": 150.58,
-      "market_cap": 10698826752,
+      "current_price": 152.98,
+      "market_cap": 10869348352,
       "eps_estimate": 1.44,
       "earnings_history": {
         "beat_count": 4,
@@ -3552,7 +2733,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-19",
-      "days_away": 23,
+      "days_away": 22,
       "title": "NDSN \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -3567,8 +2748,8 @@
       "ticker": "NDSN",
       "company": "Nordson Corporation",
       "sector": "Industrials",
-      "current_price": 295.77,
-      "market_cap": 16479696896,
+      "current_price": 297.39,
+      "market_cap": 16569961472,
       "eps_estimate": 3.06,
       "earnings_history": {
         "beat_count": 3,
@@ -3614,7 +2795,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-19",
-      "days_away": 23,
+      "days_away": 22,
       "title": "TJX \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+11.4% sorpresa media)",
       "impact": "MEDIUM",
@@ -3629,8 +2810,8 @@
       "ticker": "TJX",
       "company": "TJX Companies, Inc. (The)",
       "sector": "Consumer Cyclical",
-      "current_price": 154.22,
-      "market_cap": 170367516672,
+      "current_price": 156.38,
+      "market_cap": 172753682432,
       "eps_estimate": 1.19,
       "earnings_history": {
         "beat_count": 4,
@@ -3676,7 +2857,7 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-08-20",
-      "days_away": 24,
+      "days_away": 23,
       "title": "MSFT \u2014 Ex-Dividend (95.0% yield)",
       "description": "Microsoft Corporation \u2014 Fecha ex-dividendo. Dividend: $3.64/a\u00f1o (95.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
@@ -3691,8 +2872,8 @@
       "ticker": "MSFT",
       "company": "Microsoft Corporation",
       "sector": "Technology",
-      "current_price": 381.7,
-      "market_cap": 2835433652224,
+      "current_price": 389.1,
+      "market_cap": 2890404200448,
       "dividend_yield": 0.95,
       "dividend_rate": 3.64,
       "earnings_history": {},
@@ -3703,7 +2884,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-20",
-      "days_away": 24,
+      "days_away": 23,
       "title": "INTU \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+6.5% sorpresa media)",
       "impact": "MEDIUM",
@@ -3718,8 +2899,8 @@
       "ticker": "INTU",
       "company": "Intuit Inc.",
       "sector": "Technology",
-      "current_price": 296.33,
-      "market_cap": 81057210368,
+      "current_price": 303.91,
+      "market_cap": 83130630144,
       "eps_estimate": 3.59,
       "earnings_history": {
         "beat_count": 4,
@@ -3765,7 +2946,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-20",
-      "days_away": 24,
+      "days_away": 23,
       "title": "WMT \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -3780,8 +2961,8 @@
       "ticker": "WMT",
       "company": "Walmart Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 109.47,
-      "market_cap": 871170899968,
+      "current_price": 111.74,
+      "market_cap": 889235701760,
       "eps_estimate": 0.74,
       "earnings_history": {
         "beat_count": 3,
@@ -3827,9 +3008,9 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-08-21",
-      "days_away": 25,
-      "title": "WMT \u2014 Ex-Dividend (91.0% yield)",
-      "description": "Walmart Inc. \u2014 Fecha ex-dividendo. Dividend: $0.99/a\u00f1o (91.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
+      "days_away": 24,
+      "title": "WMT \u2014 Ex-Dividend (90.0% yield)",
+      "description": "Walmart Inc. \u2014 Fecha ex-dividendo. Dividend: $0.99/a\u00f1o (90.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
       "direction_bias": "BULLISH",
       "avg_move_pct": -0.2475,
@@ -3842,9 +3023,9 @@
       "ticker": "WMT",
       "company": "Walmart Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 109.47,
-      "market_cap": 871170899968,
-      "dividend_yield": 0.91,
+      "current_price": 111.74,
+      "market_cap": 889235701760,
+      "dividend_yield": 0.9,
       "dividend_rate": 0.99,
       "earnings_history": {},
       "earnings_warning": false
@@ -3854,7 +3035,7 @@
       "category": "OPTIONS_EXPIRY",
       "type": "OPEX",
       "date": "2026-08-21",
-      "days_away": 25,
+      "days_away": 24,
       "title": "OpEx August 2026",
       "description": "Vencimiento mensual de opciones. Mayor volatilidad intraday, especialmente el jueves-viernes previo.",
       "impact": "MEDIUM",
@@ -3876,7 +3057,7 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-08-25",
-      "days_away": 29,
+      "days_away": 28,
       "title": "JNJ \u2014 Ex-Dividend (203.0% yield)",
       "description": "Johnson & Johnson \u2014 Fecha ex-dividendo. Dividend: $5.36/a\u00f1o (203.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
@@ -3891,8 +3072,8 @@
       "ticker": "JNJ",
       "company": "Johnson & Johnson",
       "sector": "Healthcare",
-      "current_price": 263.4,
-      "market_cap": 634767278080,
+      "current_price": 265.95,
+      "market_cap": 640912523264,
       "dividend_yield": 2.03,
       "dividend_rate": 5.36,
       "earnings_history": {},
@@ -3903,12 +3084,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-08-25",
-      "days_away": 29,
+      "days_away": 28,
       "title": "HEI \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+12.2% sorpresa media)",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 12.2,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "HEI"
       ],
@@ -3918,46 +3099,10 @@
       "ticker": "HEI",
       "company": "Heico Corporation",
       "sector": "Industrials",
-      "current_price": 349.61,
-      "market_cap": 48853700608,
+      "current_price": 357.15,
+      "market_cap": null,
       "eps_estimate": 1.5,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 12.2,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-07-31",
-            "eps_est": 1.14,
-            "eps_act": 1.26,
-            "surprise_pct": 10.8,
-            "beat": "True"
-          },
-          {
-            "date": "2025-10-31",
-            "eps_est": 1.22,
-            "eps_act": 1.33,
-            "surprise_pct": 9.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-01-31",
-            "eps_est": 1.29,
-            "eps_act": 1.35,
-            "surprise_pct": 4.7,
-            "beat": "True"
-          },
-          {
-            "date": "2026-04-30",
-            "eps_est": 1.34,
-            "eps_act": 1.66,
-            "surprise_pct": 24.2,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -3965,9 +3110,9 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-08-26",
-      "days_away": 30,
-      "title": "SPGI \u2014 Ex-Dividend (92.0% yield)",
-      "description": "S&P Global Inc. \u2014 Fecha ex-dividendo. Dividend: $3.88/a\u00f1o (92.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
+      "days_away": 29,
+      "title": "SPGI \u2014 Ex-Dividend (91.0% yield)",
+      "description": "S&P Global Inc. \u2014 Fecha ex-dividendo. Dividend: $3.88/a\u00f1o (91.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
       "direction_bias": "BULLISH",
       "avg_move_pct": -0.97,
@@ -3980,9 +3125,9 @@
       "ticker": "SPGI",
       "company": "S&P Global Inc.",
       "sector": "Financial Services",
-      "current_price": 426.4,
-      "market_cap": 126214397952,
-      "dividend_yield": 0.92,
+      "current_price": 439.83,
+      "market_cap": 130189672448,
+      "dividend_yield": 0.91,
       "dividend_rate": 3.88,
       "earnings_history": {},
       "earnings_warning": false
@@ -3992,7 +3137,7 @@
       "category": "MACRO",
       "type": "PCE",
       "date": "2026-08-28",
-      "days_away": 32,
+      "days_away": 31,
       "title": "PCE Inflation",
       "description": "Indicador de inflaci\u00f3n favorito del Fed \u2014 Personal Consumption Expenditures",
       "impact": "HIGH",
@@ -4020,7 +3165,7 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-09-01",
-      "days_away": 36,
+      "days_away": 35,
       "title": "MCD \u2014 Ex-Dividend (281.0% yield)",
       "description": "McDonald's Corporation \u2014 Fecha ex-dividendo. Dividend: $7.44/a\u00f1o (281.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
@@ -4035,8 +3180,8 @@
       "ticker": "MCD",
       "company": "McDonald's Corporation",
       "sector": "Consumer Cyclical",
-      "current_price": 264.76,
-      "market_cap": 188113534976,
+      "current_price": 270.67,
+      "market_cap": null,
       "dividend_yield": 2.81,
       "dividend_rate": 7.44,
       "earnings_history": {},
@@ -4047,7 +3192,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-02",
-      "days_away": 37,
+      "days_away": 36,
       "title": "VEEV \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.2% sorpresa media)",
       "impact": "MEDIUM",
@@ -4062,8 +3207,8 @@
       "ticker": "VEEV",
       "company": "Veeva Systems Inc.",
       "sector": "Healthcare",
-      "current_price": 186.24,
-      "market_cap": 30253441024,
+      "current_price": 194.46,
+      "market_cap": 31588724736,
       "eps_estimate": 2.22,
       "earnings_history": {
         "beat_count": 4,
@@ -4109,7 +3254,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-02",
-      "days_away": 37,
+      "days_away": 36,
       "title": "DSGX \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente decepciona \u2014 bate solo 0% del tiempo",
       "impact": "MEDIUM",
@@ -4124,8 +3269,8 @@
       "ticker": "DSGX",
       "company": "The Descartes Systems Group Inc",
       "sector": "Technology",
-      "current_price": 68.18,
-      "market_cap": 5842400256,
+      "current_price": 71.08,
+      "market_cap": 6090904064,
       "eps_estimate": 0.69,
       "earnings_history": {
         "beat_count": 0,
@@ -4171,7 +3316,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-03",
-      "days_away": 38,
+      "days_away": 37,
       "title": "CPRT \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -4186,8 +3331,8 @@
       "ticker": "CPRT",
       "company": "Copart, Inc.",
       "sector": "Industrials",
-      "current_price": 27.94,
-      "market_cap": 26914838528,
+      "current_price": 29.79,
+      "market_cap": 27579924480,
       "eps_estimate": 0.39,
       "earnings_history": {
         "beat_count": 3,
@@ -4233,7 +3378,7 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-09-04",
-      "days_away": 39,
+      "days_away": 38,
       "title": "BAC \u2014 Ex-Dividend (206.0% yield)",
       "description": "Bank of America Corporation \u2014 Fecha ex-dividendo. Dividend: $1.28/a\u00f1o (206.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
@@ -4248,8 +3393,8 @@
       "ticker": "BAC",
       "company": "Bank of America Corporation",
       "sector": "Financial Services",
-      "current_price": 62.05,
-      "market_cap": 435464896512,
+      "current_price": 62.13,
+      "market_cap": null,
       "dividend_yield": 2.06,
       "dividend_rate": 1.28,
       "earnings_history": {},
@@ -4260,7 +3405,7 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-09-04",
-      "days_away": 39,
+      "days_away": 38,
       "title": "PEP \u2014 Ex-Dividend (433.0% yield)",
       "description": "Pepsico, Inc. \u2014 Fecha ex-dividendo. Dividend: $5.92/a\u00f1o (433.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
@@ -4275,8 +3420,8 @@
       "ticker": "PEP",
       "company": "Pepsico, Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 136.64,
-      "market_cap": 186650247168,
+      "current_price": 139.79,
+      "market_cap": 190953127936,
       "dividend_yield": 4.33,
       "dividend_rate": 5.92,
       "earnings_history": {},
@@ -4287,7 +3432,7 @@
       "category": "MACRO",
       "type": "NFP",
       "date": "2026-09-04",
-      "days_away": 39,
+      "days_away": 38,
       "title": "Non-Farm Payrolls",
       "description": "Situaci\u00f3n del empleo \u2014 payrolls, tasa de paro, earnings/hr",
       "impact": "HIGH",
@@ -4305,12 +3450,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-10",
-      "days_away": 45,
+      "days_away": 44,
       "title": "KR \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 75% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 2.9,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "KR"
       ],
@@ -4320,46 +3465,10 @@
       "ticker": "KR",
       "company": "Kroger Company (The)",
       "sector": "Consumer Defensive",
-      "current_price": 56.87,
-      "market_cap": 34841251840,
+      "current_price": 57.98,
+      "market_cap": null,
       "eps_estimate": 1.05,
-      "earnings_history": {
-        "beat_count": 3,
-        "miss_count": 1,
-        "total_quarters": 4,
-        "avg_surprise_pct": 2.9,
-        "beat_rate": 75.0,
-        "last_quarters": [
-          {
-            "date": "2025-07-31",
-            "eps_est": 1.0,
-            "eps_act": 1.04,
-            "surprise_pct": 4.2,
-            "beat": "True"
-          },
-          {
-            "date": "2025-10-31",
-            "eps_est": 1.03,
-            "eps_act": 1.05,
-            "surprise_pct": 1.7,
-            "beat": "True"
-          },
-          {
-            "date": "2026-01-31",
-            "eps_est": 1.2,
-            "eps_act": 1.28,
-            "surprise_pct": 6.5,
-            "beat": "True"
-          },
-          {
-            "date": "2026-04-30",
-            "eps_est": 1.59,
-            "eps_act": 1.58,
-            "surprise_pct": -0.8,
-            "beat": "False"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -4367,7 +3476,7 @@
       "category": "MACRO",
       "type": "CPI",
       "date": "2026-09-11",
-      "days_away": 46,
+      "days_away": 45,
       "title": "CPI September",
       "description": "\u00cdndice de Precios al Consumidor \u2014 dato clave para decisiones Fed",
       "impact": "HIGH",
@@ -4401,9 +3510,9 @@
       "category": "DIVIDEND",
       "type": "EX_DIVIDEND",
       "date": "2026-09-15",
-      "days_away": 50,
-      "title": "KO \u2014 Ex-Dividend (261.0% yield)",
-      "description": "Coca-Cola Company (The) \u2014 Fecha ex-dividendo. Dividend: $2.12/a\u00f1o (261.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
+      "days_away": 49,
+      "title": "KO \u2014 Ex-Dividend (258.0% yield)",
+      "description": "Coca-Cola Company (The) \u2014 Fecha ex-dividendo. Dividend: $2.12/a\u00f1o (258.0% yield). Comprar antes de esta fecha para cobrar dividendo.",
       "impact": "LOW",
       "direction_bias": "BULLISH",
       "avg_move_pct": -0.53,
@@ -4416,9 +3525,9 @@
       "ticker": "KO",
       "company": "Coca-Cola Company (The)",
       "sector": "Consumer Defensive",
-      "current_price": 82.25,
-      "market_cap": 353879195648,
-      "dividend_yield": 2.61,
+      "current_price": 84.07,
+      "market_cap": null,
+      "dividend_yield": 2.58,
       "dividend_rate": 2.12,
       "earnings_history": {},
       "earnings_warning": false
@@ -4428,7 +3537,7 @@
       "category": "MACRO",
       "type": "FED",
       "date": "2026-09-16",
-      "days_away": 51,
+      "days_away": 50,
       "title": "Fed Meeting",
       "description": "FOMC \u2014 decisi\u00f3n de tipos, declaraci\u00f3n y conferencia de prensa Powell",
       "impact": "HIGH",
@@ -4462,7 +3571,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-17",
-      "days_away": 52,
+      "days_away": 51,
       "title": "FDS \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -4477,8 +3586,8 @@
       "ticker": "FDS",
       "company": "FactSet Research Systems Inc.",
       "sector": "Financial Services",
-      "current_price": 254.36,
-      "market_cap": 9046452224,
+      "current_price": 265.9,
+      "market_cap": 9456877568,
       "eps_estimate": 4.34,
       "earnings_history": {
         "beat_count": 3,
@@ -4524,7 +3633,7 @@
       "category": "OPTIONS_EXPIRY",
       "type": "OPEX",
       "date": "2026-09-18",
-      "days_away": 53,
+      "days_away": 52,
       "title": "OpEx September 2026",
       "description": "Vencimiento mensual de opciones. Mayor volatilidad intraday, especialmente el jueves-viernes previo.",
       "impact": "MEDIUM",
@@ -4546,12 +3655,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-22",
-      "days_away": 57,
+      "days_away": 56,
       "title": "AZO \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 50% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 0.4,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "AZO"
       ],
@@ -4561,46 +3670,10 @@
       "ticker": "AZO",
       "company": "AutoZone, Inc.",
       "sector": "Consumer Cyclical",
-      "current_price": 2957.41,
-      "market_cap": 48280768512,
+      "current_price": 3075.26,
+      "market_cap": null,
       "eps_estimate": 54.5,
-      "earnings_history": {
-        "beat_count": 2,
-        "miss_count": 2,
-        "total_quarters": 4,
-        "avg_surprise_pct": -0.4,
-        "beat_rate": 50.0,
-        "last_quarters": [
-          {
-            "date": "2025-08-31",
-            "eps_est": 50.68,
-            "eps_act": 48.71,
-            "surprise_pct": -3.9,
-            "beat": "False"
-          },
-          {
-            "date": "2025-11-30",
-            "eps_est": 32.35,
-            "eps_act": 31.04,
-            "surprise_pct": -4.0,
-            "beat": "False"
-          },
-          {
-            "date": "2026-02-28",
-            "eps_est": 27.29,
-            "eps_act": 27.63,
-            "surprise_pct": 1.2,
-            "beat": "True"
-          },
-          {
-            "date": "2026-05-31",
-            "eps_est": 36.17,
-            "eps_act": 38.07,
-            "surprise_pct": 5.3,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -4608,7 +3681,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-23",
-      "days_away": 58,
+      "days_away": 57,
       "title": "CTAS \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "MEDIUM",
@@ -4623,8 +3696,8 @@
       "ticker": "CTAS",
       "company": "Cintas Corporation",
       "sector": "Industrials",
-      "current_price": 205.91,
-      "market_cap": 82394275840,
+      "current_price": 210.98,
+      "market_cap": 84423016448,
       "eps_estimate": 1.34,
       "earnings_history": {
         "beat_count": 4,
@@ -4670,7 +3743,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-24",
-      "days_away": 59,
+      "days_away": 58,
       "title": "COST \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "MEDIUM",
@@ -4685,8 +3758,8 @@
       "ticker": "COST",
       "company": "Costco Wholesale Corporation",
       "sector": "Consumer Defensive",
-      "current_price": 935.03,
-      "market_cap": 414665998336,
+      "current_price": 951.58,
+      "market_cap": 422005571584,
       "eps_estimate": 6.55,
       "earnings_history": {
         "beat_count": 4,
@@ -4732,7 +3805,7 @@
       "category": "MACRO",
       "type": "PCE",
       "date": "2026-09-25",
-      "days_away": 60,
+      "days_away": 59,
       "title": "PCE Inflation",
       "description": "Indicador de inflaci\u00f3n favorito del Fed \u2014 Personal Consumption Expenditures",
       "impact": "HIGH",
@@ -4760,7 +3833,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-09-29",
-      "days_away": 64,
+      "days_away": 63,
       "title": "PAYX \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "MEDIUM",
@@ -4775,8 +3848,8 @@
       "ticker": "PAYX",
       "company": "Paychex, Inc.",
       "sector": "Technology",
-      "current_price": 113.55,
-      "market_cap": 40387788800,
+      "current_price": 115.48,
+      "market_cap": 41074257920,
       "eps_estimate": 1.32,
       "earnings_history": {
         "beat_count": 4,
@@ -4822,7 +3895,7 @@
       "category": "MACRO",
       "type": "NFP",
       "date": "2026-10-02",
-      "days_away": 67,
+      "days_away": 66,
       "title": "Non-Farm Payrolls",
       "description": "Situaci\u00f3n del empleo \u2014 payrolls, tasa de paro, earnings/hr",
       "impact": "HIGH",
@@ -4840,7 +3913,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-05",
-      "days_away": 70,
+      "days_away": 69,
       "title": "STZ \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+10.2% sorpresa media)",
       "impact": "MEDIUM",
@@ -4855,8 +3928,8 @@
       "ticker": "STZ",
       "company": "Constellation Brands, Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 130.16,
-      "market_cap": 22231896064,
+      "current_price": 129.71,
+      "market_cap": 22155034624,
       "eps_estimate": 3.61,
       "earnings_history": {
         "beat_count": 4,
@@ -4902,7 +3975,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-06",
-      "days_away": 71,
+      "days_away": 70,
       "title": "MKC \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 75% del tiempo (+7.0% sorpresa media)",
       "impact": "MEDIUM",
@@ -4917,8 +3990,8 @@
       "ticker": "MKC",
       "company": "McCormick & Company, Incorporat",
       "sector": "Consumer Defensive",
-      "current_price": 49.96,
-      "market_cap": 13431823360,
+      "current_price": 50.61,
+      "market_cap": 13606577152,
       "eps_estimate": 0.76,
       "earnings_history": {
         "beat_count": 3,
@@ -4964,7 +4037,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-08",
-      "days_away": 73,
+      "days_away": 72,
       "title": "PEP \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -4979,8 +4052,8 @@
       "ticker": "PEP",
       "company": "Pepsico, Inc.",
       "sector": "Consumer Defensive",
-      "current_price": 136.64,
-      "market_cap": 186650247168,
+      "current_price": 139.79,
+      "market_cap": 190953127936,
       "eps_estimate": 2.3,
       "earnings_history": {
         "beat_count": 3,
@@ -5026,7 +4099,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-13",
-      "days_away": 78,
+      "days_away": 77,
       "title": "JNJ \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -5041,8 +4114,8 @@
       "ticker": "JNJ",
       "company": "Johnson & Johnson",
       "sector": "Healthcare",
-      "current_price": 263.4,
-      "market_cap": 634767278080,
+      "current_price": 265.95,
+      "market_cap": 640912523264,
       "eps_estimate": 3.05,
       "earnings_history": {
         "beat_count": 3,
@@ -5088,7 +4161,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-13",
-      "days_away": 78,
+      "days_away": 77,
       "title": "DPZ \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente decepciona \u2014 bate solo 25% del tiempo",
       "impact": "MEDIUM",
@@ -5103,8 +4176,8 @@
       "ticker": "DPZ",
       "company": "Domino's Pizza Inc",
       "sector": "Consumer Cyclical",
-      "current_price": 332.97,
-      "market_cap": 11015225344,
+      "current_price": 343.53,
+      "market_cap": 11364569088,
       "eps_estimate": 4.4,
       "earnings_history": {
         "beat_count": 1,
@@ -5150,12 +4223,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-14",
-      "days_away": 79,
+      "days_away": 78,
       "title": "ABT \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 0.8,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "ABT"
       ],
@@ -5165,46 +4238,10 @@
       "ticker": "ABT",
       "company": "Abbott Laboratories",
       "sector": "Healthcare",
-      "current_price": 103.06,
-      "market_cap": 179511263232,
+      "current_price": 104.49,
+      "market_cap": null,
       "eps_estimate": 1.42,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 0.8,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-09-30",
-            "eps_est": 1.3,
-            "eps_act": 1.3,
-            "surprise_pct": 0.0,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 1.49,
-            "eps_act": 1.5,
-            "surprise_pct": 0.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.15,
-            "eps_act": 1.15,
-            "surprise_pct": 0.3,
-            "beat": "True"
-          },
-          {
-            "date": "2026-06-30",
-            "eps_est": 1.28,
-            "eps_act": 1.31,
-            "surprise_pct": 2.6,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -5212,7 +4249,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-14",
-      "days_away": 79,
+      "days_away": 78,
       "title": "FAST \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -5227,8 +4264,8 @@
       "ticker": "FAST",
       "company": "Fastenal Company",
       "sector": "Industrials",
-      "current_price": 47.02,
-      "market_cap": 53955338240,
+      "current_price": 47.64,
+      "market_cap": 54666784768,
       "eps_estimate": 0.33,
       "earnings_history": {
         "beat_count": 3,
@@ -5274,7 +4311,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-14",
-      "days_away": 79,
+      "days_away": 78,
       "title": "PGR \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente decepciona \u2014 bate solo 75% del tiempo",
       "impact": "MEDIUM",
@@ -5289,8 +4326,8 @@
       "ticker": "PGR",
       "company": "Progressive Corporation (The)",
       "sector": "Financial Services",
-      "current_price": 213.83,
-      "market_cap": 124320759808,
+      "current_price": 215.76,
+      "market_cap": 125442859008,
       "eps_estimate": 3.65,
       "earnings_history": {
         "beat_count": 3,
@@ -5336,12 +4373,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-14",
-      "days_away": 79,
+      "days_away": 78,
       "title": "BAC \u2014 Earnings Q",
-      "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+7.7% sorpresa media)",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "BULLISH",
-      "avg_move_pct": 7.7,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "BAC"
       ],
@@ -5351,46 +4388,10 @@
       "ticker": "BAC",
       "company": "Bank of America Corporation",
       "sector": "Financial Services",
-      "current_price": 62.05,
-      "market_cap": 435464896512,
+      "current_price": 62.13,
+      "market_cap": null,
       "eps_estimate": 1.18,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 7.7,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-09-30",
-            "eps_est": 0.95,
-            "eps_act": 1.06,
-            "surprise_pct": 12.0,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 0.96,
-            "eps_act": 0.98,
-            "surprise_pct": 2.2,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 1.02,
-            "eps_act": 1.11,
-            "surprise_pct": 8.8,
-            "beat": "True"
-          },
-          {
-            "date": "2026-06-30",
-            "eps_est": 1.12,
-            "eps_act": 1.21,
-            "surprise_pct": 7.7,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -5398,7 +4399,7 @@
       "category": "MACRO",
       "type": "CPI",
       "date": "2026-10-14",
-      "days_away": 79,
+      "days_away": 78,
       "title": "CPI October",
       "description": "\u00cdndice de Precios al Consumidor \u2014 dato clave para decisiones Fed",
       "impact": "HIGH",
@@ -5432,7 +4433,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-16",
-      "days_away": 81,
+      "days_away": 80,
       "title": "ALLY \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 75% del tiempo (+9.4% sorpresa media)",
       "impact": "MEDIUM",
@@ -5447,8 +4448,8 @@
       "ticker": "ALLY",
       "company": "Ally Financial Inc.",
       "sector": "Financial Services",
-      "current_price": 42.92,
-      "market_cap": 13056249856,
+      "current_price": 43.68,
+      "market_cap": 13287442432,
       "eps_estimate": 1.45,
       "earnings_history": {
         "beat_count": 3,
@@ -5494,7 +4495,7 @@
       "category": "OPTIONS_EXPIRY",
       "type": "OPEX",
       "date": "2026-10-16",
-      "days_away": 81,
+      "days_away": 80,
       "title": "OpEx October 2026",
       "description": "Vencimiento mensual de opciones. Mayor volatilidad intraday, especialmente el jueves-viernes previo.",
       "impact": "MEDIUM",
@@ -5516,7 +4517,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-20",
-      "days_away": 85,
+      "days_away": 84,
       "title": "WCN \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.2% sorpresa media)",
       "impact": "MEDIUM",
@@ -5531,8 +4532,8 @@
       "ticker": "WCN",
       "company": "Waste Connections, Inc.",
       "sector": "Industrials",
-      "current_price": 169.61,
-      "market_cap": 42750119936,
+      "current_price": 169.35,
+      "market_cap": 42684592128,
       "eps_estimate": 1.51,
       "earnings_history": {
         "beat_count": 4,
@@ -5578,7 +4579,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-20",
-      "days_away": 85,
+      "days_away": 84,
       "title": "MSCI \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -5593,8 +4594,8 @@
       "ticker": "MSCI",
       "company": "MSCI Inc.",
       "sector": "Financial Services",
-      "current_price": 550.79,
-      "market_cap": 40042430464,
+      "current_price": 571.03,
+      "market_cap": 41513881600,
       "eps_estimate": 5.02,
       "earnings_history": {
         "beat_count": 3,
@@ -5640,7 +4641,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-20",
-      "days_away": 85,
+      "days_away": 84,
       "title": "DBOEY \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -5655,8 +4656,8 @@
       "ticker": "DBOEY",
       "company": "Deutsche Boerse AG",
       "sector": "Financial Services",
-      "current_price": 29.3,
-      "market_cap": 52824281088,
+      "current_price": 29.96,
+      "market_cap": 54014181376,
       "eps_estimate": 0.31,
       "earnings_history": {
         "beat_count": 3,
@@ -5702,7 +4703,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-20",
-      "days_away": 85,
+      "days_away": 84,
       "title": "DHR \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.8% sorpresa media)",
       "impact": "MEDIUM",
@@ -5717,8 +4718,8 @@
       "ticker": "DHR",
       "company": "Danaher Corporation",
       "sector": "Healthcare",
-      "current_price": 191.5,
-      "market_cap": 134621831168,
+      "current_price": 196.5,
+      "market_cap": 138136764416,
       "eps_estimate": 1.91,
       "earnings_history": {
         "beat_count": 4,
@@ -5764,7 +4765,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-20",
-      "days_away": 85,
+      "days_away": 84,
       "title": "ISRG \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+15.7% sorpresa media)",
       "impact": "MEDIUM",
@@ -5779,8 +4780,8 @@
       "ticker": "ISRG",
       "company": "Intuitive Surgical, Inc.",
       "sector": "Healthcare",
-      "current_price": 337.5,
-      "market_cap": 120918843392,
+      "current_price": 356.83,
+      "market_cap": 127844352000,
       "eps_estimate": 2.63,
       "earnings_history": {
         "beat_count": 4,
@@ -5826,7 +4827,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-20",
-      "days_away": 85,
+      "days_away": 84,
       "title": "COF \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "MEDIUM",
@@ -5841,8 +4842,8 @@
       "ticker": "COF",
       "company": "Capital One Financial Corporati",
       "sector": "Financial Services",
-      "current_price": 202.84,
-      "market_cap": 124442345472,
+      "current_price": 207.05,
+      "market_cap": 127025184768,
       "eps_estimate": 5.29,
       "earnings_history": {
         "beat_count": 2,
@@ -5888,7 +4889,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-21",
-      "days_away": 86,
+      "days_away": 85,
       "title": "CME \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -5903,8 +4904,8 @@
       "ticker": "CME",
       "company": "CME Group Inc.",
       "sector": "Financial Services",
-      "current_price": 255.31,
-      "market_cap": 92249309184,
+      "current_price": 255.36,
+      "market_cap": 91822161920,
       "eps_estimate": 2.94,
       "earnings_history": {
         "beat_count": 3,
@@ -5950,7 +4951,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-21",
-      "days_away": 86,
+      "days_away": 85,
       "title": "MCO \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+6.2% sorpresa media)",
       "impact": "MEDIUM",
@@ -5965,8 +4966,8 @@
       "ticker": "MCO",
       "company": "Moody's Corporation",
       "sector": "Financial Services",
-      "current_price": 471.5,
-      "market_cap": 81654841344,
+      "current_price": 485.96,
+      "market_cap": 84159037440,
       "eps_estimate": 4.26,
       "earnings_history": {
         "beat_count": 4,
@@ -6012,12 +5013,12 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-21",
-      "days_away": 86,
+      "days_away": 85,
       "title": "TMO \u2014 Earnings Q",
-      "description": "Resultados mixtos \u2014 bate 100% del tiempo",
+      "description": "Sin historial disponible",
       "impact": "MEDIUM",
-      "direction_bias": "VOLATILE",
-      "avg_move_pct": 4.2,
+      "direction_bias": "UNKNOWN",
+      "avg_move_pct": null,
       "affected_tickers": [
         "TMO"
       ],
@@ -6027,46 +5028,10 @@
       "ticker": "TMO",
       "company": "Thermo Fisher Scientific Inc",
       "sector": "Healthcare",
-      "current_price": 568.26,
-      "market_cap": 211177619456,
+      "current_price": 559.53,
+      "market_cap": null,
       "eps_estimate": 6.4,
-      "earnings_history": {
-        "beat_count": 4,
-        "miss_count": 0,
-        "total_quarters": 4,
-        "avg_surprise_pct": 4.2,
-        "beat_rate": 100.0,
-        "last_quarters": [
-          {
-            "date": "2025-09-30",
-            "eps_est": 5.5,
-            "eps_act": 5.79,
-            "surprise_pct": 5.3,
-            "beat": "True"
-          },
-          {
-            "date": "2025-12-31",
-            "eps_est": 6.45,
-            "eps_act": 6.57,
-            "surprise_pct": 1.9,
-            "beat": "True"
-          },
-          {
-            "date": "2026-03-31",
-            "eps_est": 5.24,
-            "eps_act": 5.44,
-            "surprise_pct": 3.8,
-            "beat": "True"
-          },
-          {
-            "date": "2026-06-30",
-            "eps_est": 5.71,
-            "eps_act": 6.03,
-            "surprise_pct": 5.6,
-            "beat": "True"
-          }
-        ]
-      },
+      "earnings_history": {},
       "earnings_warning": false
     },
     {
@@ -6074,7 +5039,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-21",
-      "days_away": 86,
+      "days_away": 85,
       "title": "SAP \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -6089,8 +5054,8 @@
       "ticker": "SAP",
       "company": "SAP  SE",
       "sector": "Technology",
-      "current_price": 160.0,
-      "market_cap": 188629172224,
+      "current_price": 171.01,
+      "market_cap": 201609216000,
       "eps_estimate": 2.08,
       "earnings_history": {
         "beat_count": 3,
@@ -6136,7 +5101,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-21",
-      "days_away": 86,
+      "days_away": 85,
       "title": "NVR \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 50% del tiempo",
       "impact": "MEDIUM",
@@ -6151,8 +5116,8 @@
       "ticker": "NVR",
       "company": "NVR, Inc.",
       "sector": "Consumer Cyclical",
-      "current_price": 6414.67,
-      "market_cap": 17179467776,
+      "current_price": 6311.54,
+      "market_cap": 16903270400,
       "eps_estimate": 102.72,
       "earnings_history": {
         "beat_count": 2,
@@ -6198,7 +5163,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-22",
-      "days_away": 87,
+      "days_away": 86,
       "title": "ROP \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 100% del tiempo",
       "impact": "MEDIUM",
@@ -6213,8 +5178,8 @@
       "ticker": "ROP",
       "company": "Roper Technologies, Inc.",
       "sector": "Technology",
-      "current_price": 367.34,
-      "market_cap": 36329926656,
+      "current_price": 375.02,
+      "market_cap": 37089476608,
       "eps_estimate": 5.78,
       "earnings_history": {
         "beat_count": 4,
@@ -6260,7 +5225,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-22",
-      "days_away": 87,
+      "days_away": 86,
       "title": "VRSN \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -6275,8 +5240,8 @@
       "ticker": "VRSN",
       "company": "VeriSign, Inc.",
       "sector": "Technology",
-      "current_price": 280.0,
-      "market_cap": 25312000000,
+      "current_price": 274.82,
+      "market_cap": 24843728896,
       "eps_estimate": 2.45,
       "earnings_history": {
         "beat_count": 3,
@@ -6322,7 +5287,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-22",
-      "days_away": 87,
+      "days_away": 86,
       "title": "WST \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+16.8% sorpresa media)",
       "impact": "MEDIUM",
@@ -6337,8 +5302,8 @@
       "ticker": "WST",
       "company": "West Pharmaceutical Services, I",
       "sector": "Healthcare",
-      "current_price": 328.2,
-      "market_cap": 23097325568,
+      "current_price": 331.25,
+      "market_cap": 23311970304,
       "eps_estimate": 2.18,
       "earnings_history": {
         "beat_count": 4,
@@ -6384,7 +5349,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-22",
-      "days_away": 87,
+      "days_away": 86,
       "title": "NDAQ \u2014 Earnings Q",
       "description": "Hist\u00f3ricamente bate estimaciones 100% del tiempo (+5.0% sorpresa media)",
       "impact": "MEDIUM",
@@ -6399,8 +5364,8 @@
       "ticker": "NDAQ",
       "company": "Nasdaq, Inc.",
       "sector": "Financial Services",
-      "current_price": 92.09,
-      "market_cap": 51476221952,
+      "current_price": 93.94,
+      "market_cap": 52510334976,
       "eps_estimate": 1.03,
       "earnings_history": {
         "beat_count": 4,
@@ -6446,7 +5411,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-22",
-      "days_away": 87,
+      "days_away": 86,
       "title": "POOL \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -6461,8 +5426,8 @@
       "ticker": "POOL",
       "company": "Pool Corporation",
       "sector": "Industrials",
-      "current_price": 183.77,
-      "market_cap": 6697131008,
+      "current_price": 184.61,
+      "market_cap": 6727742976,
       "eps_estimate": 3.37,
       "earnings_history": {
         "beat_count": 3,
@@ -6508,7 +5473,7 @@
       "category": "EARNINGS",
       "type": "EARNINGS",
       "date": "2026-10-23",
-      "days_away": 88,
+      "days_away": 87,
       "title": "AXP \u2014 Earnings Q",
       "description": "Resultados mixtos \u2014 bate 75% del tiempo",
       "impact": "MEDIUM",
@@ -6523,8 +5488,8 @@
       "ticker": "AXP",
       "company": "American Express Company",
       "sector": "Financial Services",
-      "current_price": 326.17,
-      "market_cap": 222554439680,
+      "current_price": 335.39,
+      "market_cap": 226492170240,
       "eps_estimate": 4.57,
       "earnings_history": {
         "beat_count": 3,
