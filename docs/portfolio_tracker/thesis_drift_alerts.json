@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-29T07:40:01",
+  "generated_at": "2026-07-30T07:35:35",
   "positions_checked": 23,
-  "total": 1,
-  "high_count": 1,
+  "total": 2,
+  "high_count": 2,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -11,6 +11,15 @@
       "signal_date": "2026-03-24",
       "type": "STOP_BREACHED",
       "reason": "Precio 7914.00 por debajo del stop 8140.16",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-07",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside ahora -0% \u2014 sobrevalorado",
       "severity": "HIGH"
     }
   ]
