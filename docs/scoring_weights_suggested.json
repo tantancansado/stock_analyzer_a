@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-29",
+  "generated_at": "2026-07-30",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1541 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que:\n\n- Un aumento en el peso del FCF (Flujo de Efectivo Libre) podr\u00eda mejorar la tasa de victorias (WR) en un 6,8 por ciento.\n- Un aumento en el peso del R:R (Riesgo-Reward) podr\u00eda mejorar la tasa de victorias (WR) en un 9,5 por ciento.\n\nEstos ajustes podr\u00edan ser beneficiosos para mejorar la precisi\u00f3n del sistema de scoring VALUE."
+  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de victorias (WR) en un 6.8% y un 9.5% respectivamente, gracias a un mayor peso asignado a la tasa de flujo de efectivo (FCF) y la relaci\u00f3n riesgo-recompensa (R:R).\n\nEstos cambios podr\u00edan llevar a una mejora general en la calidad de las predicciones, especialmente en aquellas que superen un umbral de score de 80, donde la tasa de victorias aumentar\u00eda a un 60.0% en comparaci\u00f3n con el 28% de base"
 }
