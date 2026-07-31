@@ -20,6 +20,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from value_bands import VALUE_SCORE_MIN
+
 
 VALIDATION_JSON = Path("docs/owner_earnings_ai_validated.json")
 
@@ -93,8 +95,19 @@ def patch_csv(path: Path, by_ticker: dict) -> None:
     df["oe_ai_adjustment"] = adj_col
     df["oe_ai_verdict"] = verdict_col
 
+    # El corte de calidad se aplicaba en el integrator, ANTES de este ajuste: un
+    # ticker que la IA degradaba por debajo del umbral se quedaba en la lista
+    # igualmente (31-jul-2026: 15 de 73 por debajo de 30, KVUE con 23.6). Si el
+    # score deja de cumplir, la fila sale — el criterio es el mismo o no es criterio.
+    before = len(df)
+    df = df[pd.to_numeric(df["value_score"], errors="coerce").fillna(0) >= VALUE_SCORE_MIN]
+    dropped = before - len(df)
+
     df.to_csv(path, index=False)
-    print(f"✅ {path.name}: {touched}/{len(df)} ajustes aplicados")
+    msg = f"✅ {path.name}: {touched}/{before} ajustes aplicados"
+    if dropped:
+        msg += f" · {dropped} caen bajo el corte (score < {VALUE_SCORE_MIN:.0f}) y salen de la lista"
+    print(msg)
 
 
 def main() -> None:

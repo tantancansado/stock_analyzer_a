@@ -20,3 +20,9 @@ UPSIDE_GOLDEN_MAX = 25.0
 
 # Hard reject: >= 30% es señal de trampa, no de oportunidad
 UPSIDE_HARD_REJECT = 30.0
+
+# Score mínimo para seguir en la lista VALUE. Vive aquí por el mismo motivo que
+# las bandas de upside: el integrator lo aplicaba al ordenar y
+# apply_oe_ai_adjustment bajaba scores DESPUÉS sin re-filtrar, así que el CSV
+# publicado del 31-jul-2026 llevaba 15 tickers por debajo del propio corte.
+VALUE_SCORE_MIN = 30.0
