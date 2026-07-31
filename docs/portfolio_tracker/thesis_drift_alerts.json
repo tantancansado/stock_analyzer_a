@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-30T07:35:35",
-  "positions_checked": 23,
-  "total": 2,
-  "high_count": 2,
+  "generated_at": "2026-07-31T07:53:33",
+  "positions_checked": 24,
+  "total": 3,
+  "high_count": 3,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -14,12 +14,21 @@
       "severity": "HIGH"
     },
     {
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
       "strategy": "VALUE",
-      "signal_date": "2026-07-07",
+      "signal_date": "2026-07-03",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside ahora -0% \u2014 sobrevalorado",
+      "reason": "fundamental_score colaps\u00f3 a 44 (m\u00edn 45)",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "STZ",
+      "company_name": "Constellation Brands, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-06",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside salt\u00f3 a 31% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     }
   ]
