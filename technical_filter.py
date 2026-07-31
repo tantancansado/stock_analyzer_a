@@ -183,7 +183,8 @@ def _compute_tech_stage(
         return "unknown"
 
 
-def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None) -> tuple[str, str]:
+def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None,
+                     is_stage2: bool) -> tuple[str, str]:
     """Timing de entrada para un pick VALUE: que aparezca barato en el screen
     no significa que sea el día de comprarlo.
 
@@ -193,6 +194,13 @@ def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None) -> tuple[
       ESPERAR  → sigue cayendo (stage 4 / bajo MAs descendentes)
       VIGILAR  → construyendo base o extendida — en el radar, aún no
       ENTRADA  → stage 2 Weinstein: suelo confirmado, tendencia a favor
+
+    ENTRADA exige además `is_stage2` (el criterio estricto: precio > MA50 >
+    MA150 > MA200 y MA200 ascendente). `tech_stage` solo mira precio > MA200
+    ascendente y no comprueba el apilamiento de medias, así que los dos
+    discrepaban: MCO, TT y AI.PA salían como ENTRADA con "suelo confirmado" el
+    31-jul-2026 mientras el filtro de medias decía "150 MA below 200 MA". Con
+    dos motores en desacuerdo no hay suelo confirmado: hay desacuerdo.
     """
     rs_weak = rs_6m is not None and rs_6m < -25
     if tech_stage == "stage4" or trend == "downtrend":
@@ -200,6 +208,8 @@ def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None) -> tuple[
     if tech_stage == "stage2":
         if rs_weak:
             return "VIGILAR", "Tendencia OK pero muy débil vs SPY (RS 6m < -25) — que confirme fuerza"
+        if not is_stage2:
+            return "VIGILAR", "Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación"
         return "ENTRADA", "Stage 2: sobre MA200 ascendente sin sobreextensión — suelo confirmado"
     if tech_stage == "stage3":
         return "VIGILAR", "Extendida cerca de máximos — espera un pullback"
@@ -256,7 +266,8 @@ def compute_technical_signals(ticker: str, spy_6m_return: float) -> dict:
     base["trend_direction"] = _compute_trend(close, price)
     base["tech_stage"] = _compute_tech_stage(close, price, ma200_4wk, pct_hi, pct_lo)
     base["entry_readiness"], base["entry_readiness_reason"] = _entry_readiness(
-        base["tech_stage"], base["trend_direction"], base["relative_strength_6m"])
+        base["tech_stage"], base["trend_direction"], base["relative_strength_6m"],
+        base["is_stage2"])
 
     return base
 

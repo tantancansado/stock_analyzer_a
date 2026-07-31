@@ -98,9 +98,17 @@ def _build_features(df: pd.DataFrame, fit: bool) -> pd.DataFrame:
 
 
 def _prob_label(prob: float) -> str:
-    if prob >= 0.45:
+    """Etiqueta anclada al 50% real, no al ranking relativo del lote.
+
+    Antes ALTA empezaba en 0.45: el 31-jul-2026 NDAQ (0.476), SPGI (0.476),
+    MCO (0.459) y EXPN.L (0.492) se mostraban como "ALTA" junto al ticker, sin
+    contexto, cuando la probabilidad de ganar era peor que una moneda al aire.
+    Que 0.47 sea bueno *comparado con el resto del lote* no lo convierte en
+    alto: quien lee la app lee "alta probabilidad de acierto".
+    """
+    if prob >= 0.55:
         return 'ALTA'
-    if prob >= 0.30:
+    if prob >= 0.45:
         return 'MEDIA'
     return 'BAJA'
 

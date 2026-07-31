@@ -515,14 +515,26 @@ class PortfolioTracker:
             'active_signals': int((value_core['status'] == 'ACTIVE').sum()),
             'completed_signals': int((value_core['status'] == 'COMPLETED').sum()),
 
+            # Una sola población: las señales que el filtro de hoy sí emite.
+            # Antes 90/180/365d salían de long_hist (golden US + TODO el EU
+            # pre-abril, sin filtrar) mientras 7/14/30d salían del clean period:
+            # el salto de 30d (23.7%) a 90d (46.6%) no era la tesis madurando,
+            # era el gráfico cambiando de muestra por debajo. El histórico sigue
+            # publicado aparte, en 'long_hist_reference'.
             'overall': {
                 '7d': win_stats('return_7d', 'win_7d'),
                 '14d': win_stats('return_14d', 'win_14d'),
                 '30d': win_stats('return_30d', 'win_30d'),
-                # Horizontes de tesis value — 7-30d mide ruido; el veredicto real
-                # es 90d+. El clean period aún no cumple 90d, así que estos usan
-                # el histórico combinado (golden US + eu_hist), donde SÍ hay datos.
-                '90d': win_stats('return_90d', 'win_90d', long_hist),
+                '90d': win_stats('return_90d', 'win_90d'),
+                '180d': win_stats('return_180d', 'win_180d'),
+                '365d': win_stats('return_365d', 'win_365d'),
+            },
+
+            # Histórico largo (golden zone US + EU completo, incluye el periodo
+            # contaminado): más muestra, otra población. Sirve de contraste, NO
+            # de titular — no es comparable con 'overall'.
+            'long_hist_reference': {
+                '90d':  win_stats('return_90d', 'win_90d', long_hist),
                 '180d': win_stats('return_180d', 'win_180d', long_hist),
                 '365d': win_stats('return_365d', 'win_365d', long_hist),
             },
@@ -531,8 +543,10 @@ class PortfolioTracker:
             'stats_basis': {
                 'clean_period': f'señales VALUE+EU_VALUE desde {CLEAN_FROM.date()} (filtrado correcto)',
                 'golden_zone_hist': 'histórico US VALUE retroactivo: score>=60, RR>=2, upside 10-55% (único con datos 30d)',
+                'long_hist': 'golden zone US + histórico EU completo — incluye el periodo contaminado; más muestra, otra población',
                 'sections': {
                     'overall': 'clean_period',
+                    'long_hist_reference': 'long_hist',
                     'conviction': 'golden_zone_hist',
                     'value_strategy.7d/14d': 'clean_period',
                     'value_strategy.30d': 'golden_zone_hist',

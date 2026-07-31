@@ -81,17 +81,54 @@ def test_upside_triangulation_flags_divergence():
     assert out.loc['KO', 'upside_divergence'] == ''
     # Sin modelos propios → sin flag (no inventar)
     assert out.loc['NODCF', 'upside_divergence'] == ''
+    # ...y sin triangulado: devolver el upside del analista como si fuera la
+    # mediana de tres fuentes sería inventarse la triangulación
+    assert pd.isna(out.loc['NODCF', 'upside_triangulated_pct'])
+
+
+def test_broken_currency_models_are_discarded():
+    """ADR con divisa sin convertir: ATLKY 31-jul-2026 daba DCF +569.9% y
+    P/E -72.2% sobre el mismo precio. Ninguno de los dos vale."""
+    from super_score_integrator import add_upside_triangulation
+    df = pd.DataFrame({
+        'ticker': ['ATLKY', 'SANE'],
+        'analyst_upside_pct': [22.5, 22.5],
+        'target_price_dcf_upside_pct': [569.9, 30.0],
+        'target_price_pe_upside_pct': [-72.2, -72.2],
+    })
+    out = add_upside_triangulation(df).set_index('ticker')
+
+    # El DCF delira → se invalidan ambos modelos, no queda veredicto
+    assert out.loc['ATLKY', 'upside_divergence'] == ''
+    assert pd.isna(out.loc['ATLKY', 'upside_triangulated_pct'])
+    # El de al lado tiene los dos modelos en rango: se evalúa con normalidad
+    # (analista 22.5 vs mediana propia -21.1 → gap 43.6)
+    assert out.loc['SANE', 'upside_divergence'] == 'ALTA'
+    assert out.loc['SANE', 'upside_triangulated_pct'] == 22.5
 
 
 def test_entry_readiness_classifier():
     from technical_filter import _entry_readiness
 
-    assert _entry_readiness('stage4', 'downtrend', -30)[0] == 'ESPERAR'
-    assert _entry_readiness('stage1', 'downtrend', 5)[0] == 'ESPERAR'   # trend manda
-    assert _entry_readiness('stage2', 'uptrend', 5)[0] == 'ENTRADA'
-    assert _entry_readiness('stage2', 'uptrend', -30)[0] == 'VIGILAR'   # RS débil
-    assert _entry_readiness('stage3', 'uptrend', 10)[0] == 'VIGILAR'    # extendida
-    assert _entry_readiness('stage1', 'sideways', None)[0] == 'VIGILAR' # base
+    assert _entry_readiness('stage4', 'downtrend', -30, True)[0] == 'ESPERAR'
+    assert _entry_readiness('stage1', 'downtrend', 5, True)[0] == 'ESPERAR'   # trend manda
+    assert _entry_readiness('stage2', 'uptrend', 5, True)[0] == 'ENTRADA'
+    assert _entry_readiness('stage2', 'uptrend', -30, True)[0] == 'VIGILAR'   # RS débil
+    assert _entry_readiness('stage3', 'uptrend', 10, True)[0] == 'VIGILAR'    # extendida
+    assert _entry_readiness('stage1', 'sideways', None, True)[0] == 'VIGILAR' # base
+    # Caso MCO/TT/AI.PA 31-jul-2026: sobre MA200 pero medias sin apilar —
+    # tech_stage decía stage2 y el filtro de medias lo desmentía
+    assert _entry_readiness('stage2', 'sideways', -9.8, False)[0] == 'VIGILAR'
+
+
+def test_ml_prob_label_anchored_to_50pct():
+    """Una probabilidad por debajo del 50% no puede etiquetarse ALTA."""
+    from ml_win_predictor import _prob_label
+
+    assert _prob_label(0.476) == 'MEDIA'   # NDAQ, antes salía ALTA
+    assert _prob_label(0.492) == 'MEDIA'   # EXPN.L, antes ALTA
+    assert _prob_label(0.62) == 'ALTA'
+    assert _prob_label(0.31) == 'BAJA'     # antes MEDIA
 
 
 def test_collision_coalesce_belt_and_braces():
