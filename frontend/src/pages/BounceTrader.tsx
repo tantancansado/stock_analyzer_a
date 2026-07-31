@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { fetchMeanReversion } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import BroadBounceView from './BroadBounceView'
@@ -317,7 +318,11 @@ type TierFilter = 'ALL' | 'EXTREMO' | 'ALTO' | 'MEDIO'
 type BounceMode = 'curated' | 'broad'
 
 export default function BounceTrader() {
-  const [mode, setMode] = useState<BounceMode>('curated')
+  // ?mode=broad — las alertas de Telegram enlazan a la pestaña del setup
+  const [searchParams] = useSearchParams()
+  const [mode, setMode] = useState<BounceMode>(
+    searchParams.get('mode') === 'broad' ? 'broad' : 'curated'
+  )
   const { data: raw, loading, error } = useApi(() => fetchMeanReversion(), [])
   const [tierFilter, setTierFilter] = useState<TierFilter>('ALL')
   const [hideEarnings, setHideEarnings] = useState(true)

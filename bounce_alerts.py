@@ -30,6 +30,18 @@ DEDUP_DAYS = 3
 MAX_ALERTS = 6
 APP_URL = 'https://tantancansado.github.io/stock_analyzer_a/app/#/bounce'
 
+# Umbrales de calidad del universo curado — espejo de los filtros de la UI en
+# frontend/src/pages/BounceTrader.tsx (allSetups + hideEarnings, activo por
+# defecto). Si la app no lo pinta, no se alerta: avisar de un setup que al abrir
+# el link no aparece es peor que no avisar. Un dato ausente descarta el setup
+# igual que en la UI (`?? 0`), no se rellena con un valor inventado.
+MIN_RR              = 1.0
+MAX_RSI             = 30
+MIN_CONFIDENCE      = 30
+MIN_CONF_IF_DISTRIB = 60
+MIN_PRICE           = 1.0
+MIN_DIST_SUPPORT    = -5
+
 
 def _send_telegram(text: str) -> bool:
     bot_token = os.environ.get('TELEGRAM_BOT_TOKEN', '')
@@ -74,12 +86,65 @@ def load_broad_setups() -> list[dict]:
                 'note':    f"RSI2 ayer {s.get('rsi2')} · vol {s.get('vol_ratio')}x",
             })
         return out
-    except Exception:
+    except FileNotFoundError:
+        return []
+    except Exception as e:
+        print(f'  No se pudo leer {BROAD_JSON}: {e}')
         return []
 
 
+def _num(v):
+    """Float del CSV, o None si falta/no es número (sin inventar valores)."""
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return None
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def _truthy(v) -> bool:
+    """Flag del CSV ('True'/'False'/NaN). Ausente = sin aviso, como en la UI."""
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return False
+    if isinstance(v, str):
+        return v.strip().upper() in ('TRUE', '1', 'YES')
+    return bool(v)
+
+
+def passes_quality_filters(r) -> tuple[bool, str]:
+    """¿La UI pintaría este setup curado? Devuelve (pasa, motivo del rechazo)."""
+    rsi = _num(r.get('rsi'))
+    if rsi is None or rsi >= MAX_RSI or rsi == 0:
+        return False, f'RSI {rsi} (necesita <{MAX_RSI} y != 0)'
+
+    price = _num(r.get('current_price'))
+    if price is None or price < MIN_PRICE:
+        return False, f'precio {price} (penny stock)'
+
+    dist = _num(r.get('distance_to_support_pct'))
+    if dist is not None and dist < MIN_DIST_SUPPORT:
+        return False, f'soporte perdido ({dist}%)'
+
+    conf = _num(r.get('bounce_confidence')) or 0
+    if conf < MIN_CONFIDENCE:
+        return False, f'confianza {conf} (<{MIN_CONFIDENCE})'
+
+    if r.get('dark_pool_signal') == 'DISTRIBUTION' and conf < MIN_CONF_IF_DISTRIB:
+        return False, f'dark pool DISTRIBUTION con confianza {conf}'
+
+    rr = _num(r.get('risk_reward'))
+    if rr is not None and rr < MIN_RR:
+        return False, f'R:R {rr} (<{MIN_RR}: se arriesga más de lo que se gana)'
+
+    if _truthy(r.get('earnings_warning')):
+        return False, 'earnings dentro del horizonte del setup'
+
+    return True, ''
+
+
 def load_curated_setups() -> list[dict]:
-    """Oversold Bounce del detector curado (mean reversion)."""
+    """Oversold Bounce del detector curado (mean reversion), filtrado como la UI."""
     try:
         df = pd.read_csv(MR_CSV)
         if df.empty or 'strategy' not in df.columns:
@@ -89,6 +154,10 @@ def load_curated_setups() -> list[dict]:
         for _, r in ob.iterrows():
             t = str(r.get('ticker', '')).upper()
             if not t:
+                continue
+            ok, why = passes_quality_filters(r)
+            if not ok:
+                print(f'  {t}: descartado — {why}')
                 continue
             score = r.get('reversion_score')
             out.append({
@@ -102,7 +171,10 @@ def load_curated_setups() -> list[dict]:
                 'note':    f"RSI {r.get('rsi')} · score MR {score}" if pd.notna(score) else f"RSI {r.get('rsi')}",
             })
         return out
-    except Exception:
+    except FileNotFoundError:
+        return []
+    except Exception as e:
+        print(f'  No se pudo leer {MR_CSV}: {e}')
         return []
 
 
@@ -157,7 +229,14 @@ def build_message(setups: list[dict], today: str) -> str:
             f"   {s.get('note', '')}"
         )
         lines.append('')
-    lines.append(f'🔗 <a href="{APP_URL}">Ver en la app</a>')
+
+    # Un link por pestaña presente: la página abre en 'curado' y los BROAD viven
+    # en otra pestaña — sin el parámetro el link cae donde el setup no está.
+    sources = {s['source'] for s in setups[:MAX_ALERTS]}
+    if 'CURADO' in sources:
+        lines.append(f'🔗 <a href="{APP_URL}?mode=curated">Ver en la app — universo curado</a>')
+    if 'BROAD' in sources:
+        lines.append(f'🔗 <a href="{APP_URL}?mode=broad">Ver en la app — universo ampliado</a>')
     return '\n'.join(lines).strip()
 
 
