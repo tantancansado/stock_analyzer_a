@@ -541,6 +541,20 @@ jobs:
         continue-on-error: true
         run: python3 score_drift_detector.py || echo "Score drift detection failed"
 
+      # Qué separa a las señales que funcionan de las que no. Solo los lunes:
+      # a diario el resultado no cambia y gasta llamadas. No toca el score —
+      # devuelve hipótesis para validar con el backtest.
+      - name: Signal Post-Mortem (lunes)
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ "$(date +%u)" = "1" ]; then
+            python3 signal_postmortem.py || echo "Signal post-mortem failed"
+          else
+            echo "No es lunes — post-mortem se salta"
+          fi
+
       - name: Portfolio price alerts
         continue-on-error: true
         env:

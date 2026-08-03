@@ -28,6 +28,7 @@ from opportunity_validator import OpportunityValidator
 from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, VALUE_SCORE_MIN
 from data_integrity import filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
+from why_cheap_analyzer import analyze_picks, apply_to_dataframe
 from market_regime_detector import MarketRegimeDetector
 from moving_average_filter import MovingAverageFilter
 from accumulation_distribution_filter import AccumulationDistributionFilter
@@ -1842,6 +1843,14 @@ class SuperScoreIntegrator:
             df, blocked = apply_verdicts(df, verdicts)
             if blocked:
                 print(f"   🚫 Verificador IA saca de la lista: {blocked}")
+
+            # Por qué está barata: la pregunta que decide la compra. Una buena
+            # empresa castigada es una oportunidad; una que cae porque el
+            # negocio se rompe es una trampa, y hasta ahora nada las separaba.
+            why = analyze_picks(df.to_dict('records'))
+            df, deteriorados = apply_to_dataframe(df, why)
+            if deteriorados:
+                print(f"   🚫 Fuera por deterioro del negocio: {deteriorados}")
 
         # CSV
         csv_path = Path(f'docs/{filename}.csv')

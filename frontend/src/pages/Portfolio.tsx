@@ -121,7 +121,10 @@ export default function Portfolio() {
 
   // Lidera con el horizonte value (90d+); 30d se mantiene como contraste del
   // ruido de corto plazo, pero 7d/14d fuera — no dicen nada útil para value.
-  const periods = ['90d', '180d', '365d', '30d'] as const
+  // 180d manda: una tesis value tarda trimestres en resolverse y a 90d aún es
+  // ruido. 90d queda como referencia provisional hasta que la muestra de 180d
+  // tenga tamaño (la señal más antigua es de feb-2026).
+  const periods = ['180d', '90d', '365d', '30d'] as const
   const overall = pf.overall || {} as Record<string, { count: number; win_rate: number; avg_return: number }>
 
   const bestPeriod = periods.reduce((best, p) => {

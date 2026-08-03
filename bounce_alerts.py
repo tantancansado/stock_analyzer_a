@@ -22,6 +22,7 @@ from pathlib import Path
 import pandas as pd
 
 from data_integrity import check_row
+from bounce_catalyst_check import filter_setups
 
 DOCS = Path('docs')
 BROAD_JSON = DOCS / 'bounce_setups_broad.json'
@@ -261,6 +262,14 @@ def main() -> None:
     fresh = filter_new(setups, seen, today)
     if not fresh:
         print(f'  {len(setups)} setups pero todos avisados hace <{DEDUP_DAYS} días — sin re-aviso')
+        return
+
+    # Un RSI2 de 1.7 puede ser una goma estirada o el primer día de un desplome:
+    # desde los indicadores se ven igual. Se comprueba si hay un catalizador
+    # negativo grave detrás antes de avisar de nada (bounce_catalyst_check).
+    fresh, descartados = filter_setups(fresh)
+    if not fresh:
+        print(f'  {len(descartados)} setup(s) descartados por catalizador negativo — nada que avisar')
         return
 
     msg = build_message(fresh, today)
