@@ -161,7 +161,13 @@ jobs:
           git fetch origin main
           git checkout origin/main -- docs/reports/vcp/ 2>/dev/null && echo "VCP outputs synced" || echo "VCP sync skipped (not yet available)"
 
+      # ANTHROPIC_API_KEY es necesaria aquí: save_results() verifica la lista
+      # VALUE con Claude (ai_pick_verifier) y analiza por qué ha caído cada
+      # candidato (why_cheap_analyzer). Sin la key ambas capas se saltan en
+      # silencio — fail-open por diseño, pero sin aportar nada.
       - name: Run Super Score Integration [CRITICAL]
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 super_score_integrator.py
 
       # ── Enriquecimiento opcional (no bloquean el job) ──────────────────────
@@ -443,11 +449,14 @@ jobs:
         continue-on-error: true
         run: python3 bounce_scanner_broad.py || echo "Bounce scanner broad failed"
 
+      # ANTHROPIC_API_KEY: comprueba con Claude si la sobreventa viene de un
+      # catalizador negativo grave antes de avisar (bounce_catalyst_check)
       - name: Bounce Alerts (Telegram si hay setup — es raro, ~1/semana)
         continue-on-error: true
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 bounce_alerts.py || echo "Bounce alerts failed"
 
       - name: Macro Country Scanner

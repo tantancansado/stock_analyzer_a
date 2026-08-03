@@ -20,64 +20,51 @@ Clasifica la caída en cuatro:
 Solo DETERIORO veta. El resto informa y sube o baja convicción.
 
 Reglas del módulo, heredadas de todo el trabajo de integridad:
-  - Cada veredicto va con las URLs en las que se apoya. Sin fuentes → SIN_DATOS,
-    que no veta pero tampoco respalda.
-  - El modelo no inventa cifras: busca y cita.
+  - Las fuentes NO son lo que el modelo escriba: se leen de los bloques de
+    resultado de la herramienta de búsqueda (ver claude_research). Un modelo
+    puede escribir una URL plausible igual que escribe una cifra plausible.
+  - Sin búsquedas reales detrás → SIN_DATOS: no veta, pero tampoco respalda.
   - Si la API cae, el pick sale sin veredicto (fail-open, como ai_pick_verifier).
 """
 from __future__ import annotations
 
-import json
-import os
 from typing import Any
 
-# compound-beta trae búsqueda web integrada — mismo motor que ai_data_fetcher
-SEARCH_MODEL = 'compound-beta'
+from claude_research import ask_with_search, parse_json
 
 VEREDICTOS = ('DETERIORO', 'CICLICO', 'EVENTO', 'SENTIMIENTO', 'SIN_DATOS')
 BLOQUEANTES = ('DETERIORO',)
 
-_client = None
+# Por debajo de este score el ticker no es un candidato de compra, así que no se
+# gasta una búsqueda en explicar su caída.
+MIN_SCORE_CANDIDATO = 50.0
 
+SYSTEM = """Eres un analista value evaluando si una caída de precio es una oportunidad
+o una trampa. El criterio del inversor: comprar buenas empresas castigadas solo si el
+castigo NO es deterioro real del negocio.
 
-def _get_client():
-    global _client
-    if _client is not None:
-        return _client
-    api_key = os.getenv('GROQ_API_KEY')
-    if not api_key:
-        return None
-    try:
-        from groq import Groq
-        _client = Groq(api_key=api_key)
-        return _client
-    except Exception:
-        return None
+Busca antes de responder: resultados trimestrales, guidance y noticias de los últimos
+seis meses. No afirmes nada que no hayas encontrado buscando — si la búsqueda no da
+suficiente, el veredicto es "SIN_DATOS", que es una respuesta perfectamente válida y
+preferible a elegir una categoría por descarte.
 
+Responde SOLO con este JSON, sin markdown alrededor:
+{"veredicto": "DETERIORO|CICLICO|EVENTO|SENTIMIENTO|SIN_DATOS",
+ "resumen": "<máximo dos frases en español: qué pasó y cuándo>",
+ "confianza": 0-100}
 
-PROMPT = """Analiza por qué la acción de {company} ({ticker}) cotiza un {drop:.1f}%
-por debajo de su máximo de 52 semanas, con una fuerza relativa a 6 meses de {rs:.1f}%.
+Categorías:
+- DETERIORO: el negocio está estructuralmente peor — guidance retirada o recortada
+  varias veces, márgenes en caída sostenida, pérdida de cuota, investigación
+  regulatoria grave, deuda que aprieta.
+- CICLICO: el sector está en la parte baja de su ciclo pero el negocio aguanta.
+- EVENTO: shock puntual y acotado, ya conocido y cuantificable.
+- SENTIMIENTO: rotación, múltiplos o macro; nada específico de la empresa."""
 
-Busca resultados trimestrales, guidance y noticias de los últimos 6 meses.
+PROMPT = """{company} ({ticker}) cotiza un {drop:.1f}% por debajo de su máximo de 52
+semanas, con una fuerza relativa a 6 meses de {rs:.1f}%.
 
-Clasifica la caída en UNA de estas categorías:
-- "DETERIORO": el negocio está estructuralmente peor (guidance retirada o
-  recortada varias veces, márgenes en caída sostenida, pérdida de cuota,
-  investigación regulatoria grave, deuda que aprieta).
-- "CICLICO": el sector está en la parte baja de su ciclo pero el negocio aguanta.
-- "EVENTO": shock puntual y acotado, ya conocido y cuantificable.
-- "SENTIMIENTO": rotación sectorial, compresión de múltiplos o macro; nada
-  específico de la empresa.
-- "SIN_DATOS": no encuentras información suficiente. Úsalo sin reparos: es
-  preferible a elegir una categoría por descarte.
-
-Reglas:
-- NO inventes cifras. Cada afirmación se apoya en algo que hayas encontrado.
-- "fuentes" debe traer URLs concretas. Sin fuentes, el veredicto es "SIN_DATOS".
-- "resumen": máximo dos frases, en español, concretas (qué pasó y cuándo).
-
-Responde SOLO con este JSON:
-{{"veredicto": "...", "resumen": "...", "confianza": 0-100, "fuentes": ["url", ...]}}"""
+¿Por qué ha caído? Busca y clasifica."""
 
 
 def analyze_ticker(ticker: str, company: str, drop_pct: float,
@@ -85,45 +72,21 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
     """Devuelve {veredicto, resumen, confianza, fuentes}. SIN_DATOS si no puede."""
     vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
 
-    client = _get_client()
-    if client is None:
-        return vacio
-
-    try:
-        resp = client.chat.completions.create(
-            model=SEARCH_MODEL,
-            messages=[{'role': 'user', 'content': PROMPT.format(
-                company=company or ticker, ticker=ticker,
-                drop=abs(drop_pct or 0), rs=rs_6m or 0)}],
-            temperature=0,
-            max_tokens=700,
-        )
-        raw = (resp.choices[0].message.content or '').strip()
-    except Exception as e:
-        print(f'   ⚠️  {ticker}: análisis no disponible ({str(e)[:60]})')
-        return vacio
-
-    if '```' in raw:
-        parts = raw.split('```')
-        if len(parts) > 1:
-            raw = parts[1].lstrip('json').strip()
-    start, end = raw.find('{'), raw.rfind('}')
-    if start < 0 or end <= start:
-        return vacio
-    try:
-        data = json.loads(raw[start:end + 1])
-    except ValueError:
+    texto, fuentes = ask_with_search(
+        PROMPT.format(company=company or ticker, ticker=ticker,
+                      drop=abs(drop_pct or 0), rs=rs_6m or 0),
+        system=SYSTEM,
+    )
+    data = parse_json(texto)
+    if not data:
         return vacio
 
     veredicto = str(data.get('veredicto', '')).upper().strip()
     if veredicto not in VEREDICTOS:
         veredicto = 'SIN_DATOS'
 
-    fuentes = [u for u in (data.get('fuentes') or [])
-               if isinstance(u, str) and u.startswith(('http://', 'https://'))]
-
-    # Un veredicto sin fuentes no se sostiene: podría venir de la memoria del
-    # modelo, y ese es justo el fallo que no queremos.
+    # Las fuentes vienen de la herramienta, no del texto del modelo. Sin
+    # búsquedas detrás el veredicto podría salir de su memoria: no se acepta.
     if not fuentes:
         veredicto = 'SIN_DATOS'
 
@@ -141,24 +104,29 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
 
 
 def analyze_picks(rows: list[dict], min_drop_pct: float = 8.0,
-                  max_tickers: int = 12) -> dict[str, dict]:
-    """Analiza los picks que de verdad han caído.
+                  max_tickers: int = 8) -> dict[str, dict]:
+    """Analiza solo los candidatos reales: score de compra Y caída que explicar.
 
-    Por debajo de min_drop_pct no hay caída que explicar (y sin caída no hay
-    tesis value que perseguir), así que no se gasta una llamada.
+    Un ticker con score bajo no se va a comprar aunque la caída resulte ser
+    ruido, así que no merece una búsqueda; y sin caída no hay nada que explicar.
+    Se ordenan por score para gastar las llamadas en los mejores.
     """
     out: dict[str, dict] = {}
     candidatos = []
     for r in rows:
         try:
             drop = abs(float(r.get('proximity_to_52w_high') or 0))
+            score = float(r.get('value_score') or 0)
         except (TypeError, ValueError):
             continue
-        if drop >= min_drop_pct:
-            candidatos.append((drop, r))
+        if drop >= min_drop_pct and score >= MIN_SCORE_CANDIDATO:
+            candidatos.append((score, drop, r))
 
     candidatos.sort(key=lambda x: -x[0])
-    for drop, r in candidatos[:max_tickers]:
+    if candidatos:
+        print(f'   🔍 {len(candidatos)} candidatos con caída que explicar '
+              f'(score ≥ {MIN_SCORE_CANDIDATO:.0f}); se analizan {min(len(candidatos), max_tickers)}')
+    for _score, drop, r in candidatos[:max_tickers]:
         ticker = str(r.get('ticker', '')).upper()
         if not ticker:
             continue
