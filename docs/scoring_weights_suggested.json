@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-03",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -36,14 +36,14 @@
     {
       "factor": "fcf_yield_bonus",
       "change": "+3",
-      "reason": "FCF alto mejora WR +6.7pp. Aumentar peso FCF.",
+      "reason": "FCF alto mejora WR +6.6pp. Aumentar peso FCF.",
       "n": 425
     },
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
       "reason": "R:R alto mejora WR +9.5pp. Aumentar peso R:R.",
-      "n": 590
+      "n": 591
     },
     {
       "factor": "score_threshold_note",
@@ -52,6 +52,6 @@
       "n": 5
     }
   ],
-  "expected_impact": "Based on 1542 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE deber\u00edan aumentar la precisi\u00f3n de las predicciones, ya que:\n\n* Aumentar el peso de la Free Cash Flow (FCF) y el Risk Reward (R:R) podr\u00eda mejorar significativamente el rendimiento de las predicciones, mejorando la relaci\u00f3n entre la rentabilidad y el riesgo.\n* Establecer un umbral m\u00ednimo de score de 70+ podr\u00eda reducir la cantidad de predicciones incorrectas, ya que solo se considerar\u00e1n las predicciones con un alto nivel de confianza."
+  "expected_impact": "Based on 1544 historical signals",
+  "narrative": "Estos ajustes en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, ya que aumentar el peso del FCF (Flujo de Efectivo Libre) y del R:R (Riesgo-Reward) podr\u00eda llevar a una mejora en la tasa de victorias (WR) de +6.6pp y +9.5pp, respectivamente.\n\nAdem\u00e1s, aumentar la m\u00ednima umbral de score a 70+ podr\u00eda ayudar a reducir la cantidad de predicciones incorrectas, ya que las predicciones con un score de 80+ tienen una tasa de victoria del 60.0% en comparaci\u00f3n con el"
 }
