@@ -24,6 +24,7 @@ import argparse
 from typing import Dict, List, Optional
 
 from currency_normalizer import normalize_info
+from financial_cross_check import derive_from_statements, check_coherence
 
 try:
     from ai_data_fetcher import fetch_missing_financials as _ai_fetch
@@ -110,6 +111,13 @@ class FundamentalScorer:
             # yield contra un 2.6% real. Ver currency_normalizer.
             info, fx_meta = normalize_info(info, ticker)
 
+            # Huecos de `info` que sí están en los estados financieros: fuente
+            # primaria, misma divisa, sin preguntarle a nadie. Y cuadre contable
+            # — si acciones × precio no da la capitalización, los ratios por
+            # acción no sirven aunque la divisa esté bien (ADR).
+            info, _derived = derive_from_statements(stock, info)
+            coherence = check_coherence(info, ticker)
+
             # Obtener datos necesarios
             quarterly_earnings = self._get_quarterly_earnings(stock)
             financials = self._get_financials(stock)
@@ -162,6 +170,12 @@ class FundamentalScorer:
                 'financial_currency': fx_meta.get('financial_currency'),
                 'fx_applied':         fx_meta.get('fx_applied'),
                 'fx_reliable':        fx_meta.get('fx_reliable'),
+
+                # Cuadre contable (financial_cross_check): con per_share_reliable
+                # en False los ratios por acción y el DCF no son utilizables
+                'per_share_reliable': coherence.get('per_share_reliable'),
+                'shares_price_ratio': coherence.get('shares_price_ratio'),
+                'coherence_issues':   ' | '.join(coherence.get('issues', []))[:300],
 
                 # Componentes individuales
                 'earnings_quality_score': earnings_score['score'],
@@ -1515,7 +1529,16 @@ class FundamentalScorer:
                     if _ai_data.get('epsTrailingTwelveMonths'):
                         info['epsTrailingTwelveMonths'] = _ai_data['epsTrailingTwelveMonths']
 
-            if fcf and shares and float(shares) > 0 and growth_rate:
+            # El DCF divide el FCF entre las acciones y compara con el precio:
+            # si acciones × precio no cuadra con la capitalización, esos tres
+            # números no están en la misma unidad y el resultado es basura
+            # (ATLKY 3-ago-2026: +568.9% de upside). Mejor sin DCF que con uno
+            # falso — ver financial_cross_check.
+            _per_share_ok = check_coherence(info).get('per_share_reliable', True)
+            if not _per_share_ok:
+                print(f"   ⏭️  DCF/P·E omitidos: datos por acción incoherentes con la capitalización")
+
+            if _per_share_ok and fcf and shares and float(shares) > 0 and growth_rate:
                 fcf_ps = float(fcf) / float(shares)  # FCF per share
                 g = float(growth_rate)
                 g = max(0.03, min(g, 0.30))  # clip 3%-30%
@@ -1547,7 +1570,7 @@ class FundamentalScorer:
             eps = float(eps_fwd) if eps_fwd and float(eps_fwd) > 0 else (
                   float(eps_ttm) if eps_ttm and float(eps_ttm) > 0 else None)
 
-            if eps and eps > 0 and g_eps:
+            if _per_share_ok and eps and eps > 0 and g_eps:
                 g_annual = float(g_eps)
                 g_annual = max(0.03, min(g_annual, 0.35))
                 # Fair P/E = PEG 1.0 × growth% (e.g. 15% growth → P/E 15), capped 10-30
