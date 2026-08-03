@@ -1658,7 +1658,8 @@ const CSV_FILES: Record<string, string> = {
   'momentum':       'momentum_opportunities.csv',
   'fundamental':    'fundamental_scores.csv',
   'fundamental-eu': 'european_fundamental_scores.csv',
-  'micro-cap':      'micro_cap_opportunities.csv',
+  // 'micro-cap' fuera: ningún script generaba micro_cap_opportunities.csv, así
+  // que la descarga servía un CSV congelado desde abril-2026 sin avisar de ello
   'commodities':    'commodity_opportunities.csv',
 }
 
