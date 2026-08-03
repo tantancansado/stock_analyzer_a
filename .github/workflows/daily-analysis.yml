@@ -330,9 +330,15 @@ jobs:
     timeout-minutes: 90
 
     steps:
+      # ref: main es imprescindible — sin él checkout trae el commit que DISPARÓ
+      # el workflow, no el que core-scoring acaba de pushear, así que los CSV de
+      # scoring llegaban aquí con un día de retraso. El 3-ago-2026 la alerta de
+      # nuevos VALUE anunciaba WM con score 72.9 (el del viernes) cuando en la
+      # web ya era 37.3: por debajo incluso del umbral 55 del propio alerter.
       - name: Checkout repository (includes core-scoring outputs)
         uses: actions/checkout@v4
         with:
+          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
