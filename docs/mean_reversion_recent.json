@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-03T08:42:23.897905",
+  "generated_at": "2026-08-03T12:14:33.691448",
   "tickers": {
     "TT": {
       "ticker": "TT",
@@ -15,7 +15,7 @@
       "rsi_at_signal": 24.6,
       "current_price": 454.95001220703125,
       "status": "EN_VENTANA",
-      "ai_note": "Si el estado es EN_VENTANA, toca esperar sin novedad. Si es VENTANA_EXPIRADA, la ventaja estad\u00edstica de la sobreventa ya se disip\u00f3 y ahora es una posici\u00f3n normal. Si es OBJETIVO_ALCANZADO o STOP_ALCANZADO, el objetivo o stop se ha alcanzado."
+      "ai_note": "Si el estado es EN_VENTANA, toca esperar sin novedad. \nSi es VENTANA_EXPIRADA, la ventaja estad\u00edstica de la sobreventa ya se disip\u00f3 y ahora es una posici\u00f3n normal. \nSi es OBJETIVO_ALCANZADO, el objetivo se alcanz\u00f3 con \u00e9xito. \nSi es STOP_ALCANZADO, se alcanz\u00f3 el l\u00edmite de p\u00e9rdida."
     }
   }
 }

@@ -1,11 +1,11 @@
 {
-  "scan_date": "2026-08-03 08:42:19",
+  "scan_date": "2026-08-03 12:14:28",
   "total_opportunities": 2,
   "strategies": {
     "oversold_bounce": 1,
     "bull_flag_pullback": 1
   },
-  "ai_narrative": "La calidad general del batch es moderada, con un setup oversold bounce y otro bull flag pullback. No hay concentraci\u00f3n sectorial evidente. Para filtrar los mejores, se debe priorizar el setup con mayor puntuaci\u00f3n y relaci\u00f3n riesgo-recompensa, como LIN con un score de 75 y R:R de 2.4. Esto sugiere un potencial de reversi\u00f3n a la media m\u00e1s alto.",
+  "ai_narrative": "El batch actual presenta una calidad general moderada, con un promedio de score de 67,5 y un R:R de 1,6. La distribuci\u00f3n de los setups incluye un oversold bounce y un bull flag pullback, lo que sugiere una variedad de patrones de reversi\u00f3n a la media.\n\nNo se observa concentraci\u00f3n sectorial significativa, ya que los setups se distribuyen entre diferentes sectores.\n\nPara filtrar los mejores setups en este entorno, se recomienda priorizar aquellos con un score superior a 70 y un R:R mayor a 1,5. Adem\u00e1s, es importante considerar la fuerza del patr\u00f3n de reversi\u00f3n y la posici\u00f3n del precio en relaci\u00f3n con la media m\u00f3vil.",
   "opportunities": [
     {
       "ticker": "LIN",
@@ -55,14 +55,14 @@
       "obv_divergence": false,
       "market_regime": "ALCISTA",
       "market_ok": true,
-      "vix": 16.2,
+      "vix": 16.1,
       "days_to_earnings": null,
       "earnings_warning": false,
       "detected_date": "2026-08-03",
       "historical_win_rate": 63.2,
       "ai_confirmation": "YES",
-      "ai_confidence": 80,
-      "ai_reason": "RSI extremo, soporte claro, R:R aceptable",
+      "ai_confidence": 90,
+      "ai_reason": "RSI bajo",
       "pcr": 1.55,
       "pcr_signal": "CONTRARIAN_BULLISH",
       "short_interest_shares": 6538380,
@@ -100,9 +100,9 @@
       "risk_reward": 0.82,
       "detected_date": "2026-08-03",
       "historical_win_rate": 71.7,
-      "ai_confirmation": "CAUTION",
-      "ai_confidence": 40,
-      "ai_reason": "RSI alto, R:R bajo, soporte no claro"
+      "ai_confirmation": "NO",
+      "ai_confidence": 80,
+      "ai_reason": "RSI alto"
     }
   ]
 }

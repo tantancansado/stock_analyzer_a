@@ -1,50 +1,35 @@
 {
   "generated_at": "2026-08-03",
-  "total": 3,
+  "total": 2,
   "high_count": 0,
-  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que explican por qu\u00e9 estos tickers podr\u00edan ser trampas de valor:\n\n1. \"ASAZY podr\u00eda ser una trampa de valor debido a la falta de cobertura de analistas y la recomendaci\u00f3n de 'hold' por parte de los analistas, lo que sugiere que no hay una visi\u00f3n clara de su valor real, y su score alto podr\u00eda ser un indicador de sobrevaloraci\u00f3n.\"\n2. \"HRI y ERIE podr\u00edan ser trampas de valor debido a sus puntajes d\u00e9biles en Piotroski y sus scores fundamentales cerca de la media, lo que sugiere que sus fundamentales no son tan s\u00f3lidos como",
+  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que explican por qu\u00e9 estos tickers podr\u00edan ser value traps:\n\n1. \"EL.PA podr\u00eda ser un value trap debido a su Piotroski d\u00e9bil y un fundamental score cercano a la media, lo que sugiere que sus fundamentales no son tan s\u00f3lidos como parecen, lo que podr\u00eda llevar a una ca\u00edda en su valor a largo plazo.\"\n2. \"NOVO-B.CO podr\u00eda ser un value trap a pesar de su valuaci\u00f3n barata, ya que su flujo de efectivo libre (FCF) es negativo, lo que indica que la empresa est\u00e1 quemando caja y no est\u00e1 generando suficientes ingresos para cub",
   "traps": [
     {
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
+      "ticker": "EL.PA",
+      "company_name": "ESSILORLUXOTTICA",
       "severity": "MEDIUM",
       "trap_score": 4,
-      "value_score": 74.67500000000001,
-      "flags": [
-        "Sin cobertura de analistas \u2014 tesis sin verificar externamente",
-        "Analistas recomiendan 'hold' pese a score alto"
-      ],
-      "piotroski": 8.0,
-      "fcf_yield_pct": 44.88,
-      "fundamental_score": 66.0
-    },
-    {
-      "ticker": "HRI",
-      "company_name": "Herc Holdings Inc.",
-      "severity": "MEDIUM",
-      "trap_score": 4,
-      "value_score": 33.78,
-      "flags": [
-        "Piotroski d\u00e9bil (3/9)",
-        "Fundamental score cerca de default (50) \u2014 datos poco fiables"
-      ],
-      "piotroski": 3.0,
-      "fcf_yield_pct": 10.31,
-      "fundamental_score": 50.2
-    },
-    {
-      "ticker": "ERIE",
-      "company_name": "Erie Indemnity Company",
-      "severity": "MEDIUM",
-      "trap_score": 4,
-      "value_score": 31.762,
+      "value_score": 33.5,
       "flags": [
         "Piotroski d\u00e9bil (4/9)",
         "Fundamental score cerca de default (50) \u2014 datos poco fiables"
       ],
       "piotroski": 4.0,
-      "fcf_yield_pct": 3.66,
-      "fundamental_score": 51.8
+      "fcf_yield_pct": 4.25,
+      "fundamental_score": 48.8
+    },
+    {
+      "ticker": "NOVO-B.CO",
+      "company_name": "Novo Nordisk B A/S",
+      "severity": "MEDIUM",
+      "trap_score": 3,
+      "value_score": 48.0,
+      "flags": [
+        "FCF negativo (-0.9%) \u2014 quema caja pese a valuaci\u00f3n barata"
+      ],
+      "piotroski": 5.0,
+      "fcf_yield_pct": -0.89,
+      "fundamental_score": 74.9
     }
   ]
 }

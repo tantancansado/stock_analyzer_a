@@ -1,34 +1,89 @@
 {
   "generated_at": "2026-08-03",
-  "total": 18,
+  "total": 9,
   "strong_buy": 0,
   "buy": 1,
-  "monitor": 7,
-  "wait": 10,
-  "narrative": "Las tres mejores oportunidades de entrada de hoy en el contexto del VALUE investing son:\n\n- **ATLKY (Atlas Copco AB)**: Esta oportunidad es considerada la mejor debido a su alto valor (entry_score=53) y se\u00f1ales s\u00f3lidas, como un valor score superior a 80, un rendimiento de flujo de efectivo (FCF yield) del 5% y una relaci\u00f3n de retorno sobre la inversi\u00f3n (R:R) de al menos 2, lo que sugiere un alto potencial de crecimiento. Adem\u00e1s, se espera un upside del 20%, lo que confirma la se\u00f1al de compra.\n\nEstas se\u00f1ales confirman la oportunidad de compra de ATLKY debido a su:\n\n- Alto valor score, lo que indica un precio de compra atractivo en relaci\u00f3n con la valoraci\u00f3n de la empresa.\n- Rendimiento de flujo de efectivo (FCF yield) del 5%, lo que sug",
+  "monitor": 5,
+  "wait": 3,
+  "narrative": "Las tres mejores oportunidades de entrada de hoy seg\u00fan el VALUE investing son:\n\n- EXPN.L (EXPERIAN PLC ORD USD0.10), con un score de entrada de 58, se caracteriza por tener una relaci\u00f3n de riesgo y recompensa (R:R) de al menos 2, un potencial de crecimiento del 20% o m\u00e1s, compra de acciones por parte de los accionistas internos y una revisi\u00f3n positiva de los analistas.\n\nEstas se\u00f1ales confirman que la entrada es atractiva debido a la combinaci\u00f3n de un riesgo relativamente bajo y un potencial de crecimiento significativo, as\u00ed como la confianza de los accionistas internos y la comunidad de analistas.",
   "signals": [
     {
-      "ticker": "ATLKY",
-      "company_name": "Atlas Copco AB",
-      "region": "US",
+      "ticker": "EXPN.L",
+      "company_name": "EXPERIAN PLC ORD USD0.10",
+      "region": "EU",
       "sector": "Industrials",
-      "value_score": 81.51499999999999,
+      "value_score": 65.6,
       "conviction_grade": "B",
-      "current_price": 21.22,
-      "analyst_upside_pct": 22.5,
-      "fcf_yield_pct": 25.09,
-      "risk_reward_ratio": 2.81,
-      "days_in_value": 5,
+      "current_price": 2826.0,
+      "analyst_upside_pct": 31.2,
+      "fcf_yield_pct": 2.71,
+      "risk_reward_ratio": 3.9,
+      "days_in_value": 4,
       "streak_days": 1,
-      "entry_score": 53,
+      "entry_score": 58,
       "signal": "BUY",
       "signals_fired": [
-        "Value score \u226580",
-        "FCF yield \u22655%",
         "R:R \u22652",
         "Upside \u226520%",
+        "Insider buying",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 107
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "region": "US",
+      "sector": "Technology",
+      "value_score": 90.82999999999998,
+      "conviction_grade": "C",
+      "current_price": 464.72,
+      "analyst_upside_pct": 21.2,
+      "fcf_yield_pct": 0.47,
+      "risk_reward_ratio": 2.65,
+      "days_in_value": 2,
+      "streak_days": 1,
+      "entry_score": 48,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "Value score \u226580",
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Options flow alcista",
+        "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
@@ -36,65 +91,6 @@
           "pts": 10
         },
         {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": null
-    },
-    {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "region": "US",
-      "sector": "Technology",
-      "value_score": 74.72,
-      "conviction_grade": "C",
-      "current_price": 451.1,
-      "analyst_upside_pct": 24.5,
-      "fcf_yield_pct": 1.1,
-      "risk_reward_ratio": 3.06,
-      "days_in_value": 1,
-      "streak_days": 1,
-      "entry_score": 43,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "Value score \u226570",
-        "R:R \u22652",
-        "Upside \u226520%",
-        "Options flow alcista",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
-        {
           "name": "R:R \u22652",
           "pts": 10
         },
@@ -112,183 +108,16 @@
         }
       ],
       "signals_missing": [
-        "Value score <80",
         "FCF yield <5%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
+        "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 89
-    },
-    {
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "region": "US",
-      "sector": "Industrials",
-      "value_score": 74.67500000000001,
-      "conviction_grade": "B",
-      "current_price": 18.45,
-      "analyst_upside_pct": 17.9,
-      "fcf_yield_pct": 44.88,
-      "risk_reward_ratio": 2.24,
-      "days_in_value": 23,
-      "streak_days": 1,
-      "entry_score": 40,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "Value score \u226570",
-        "FCF yield \u22655%",
-        "R:R \u22652",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 88
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
-      "region": "US",
-      "sector": "Industrials",
-      "value_score": 79.53999999999999,
-      "conviction_grade": "B",
-      "current_price": 2898.0,
-      "analyst_upside_pct": 28.0,
-      "fcf_yield_pct": 3.56,
-      "risk_reward_ratio": 3.5,
-      "days_in_value": 3,
-      "streak_days": 1,
-      "entry_score": 38,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "Value score \u226570",
-        "R:R \u22652",
-        "Upside \u226520%",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 110
-    },
-    {
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "region": "US",
-      "sector": "Consumer Defensive",
-      "value_score": 60.82499999999999,
-      "conviction_grade": "D",
-      "current_price": 111.1,
-      "analyst_upside_pct": 24.3,
-      "fcf_yield_pct": 0.78,
-      "risk_reward_ratio": 3.04,
-      "days_in_value": 1,
-      "streak_days": 4,
-      "entry_score": 38,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "R:R \u22652",
-        "Upside \u226520%",
-        "Options flow alcista",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Options flow alcista",
-          "pts": 15
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 20
+      "days_to_earnings": 86
     },
     {
       "ticker": "SGE.L",
@@ -297,11 +126,11 @@
       "sector": "Technology",
       "value_score": 62.8,
       "conviction_grade": "D",
-      "current_price": 967.4,
-      "analyst_upside_pct": 13.7,
-      "fcf_yield_pct": 7.28,
-      "risk_reward_ratio": 1.71,
-      "days_in_value": 1,
+      "current_price": 994.8489,
+      "analyst_upside_pct": 10.6,
+      "fcf_yield_pct": 7.08,
+      "risk_reward_ratio": 1.32,
+      "days_in_value": 2,
       "streak_days": 1,
       "entry_score": 35,
       "signal": "MONITOR",
@@ -332,140 +161,41 @@
         "Sin opciones alcistas",
         "Sector no l\u00edder",
         "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 111
-    },
-    {
-      "ticker": "OTIS",
-      "company_name": "Otis Worldwide Corporation",
-      "region": "US",
-      "sector": "Industrials",
-      "value_score": 68.64,
-      "conviction_grade": "C",
-      "current_price": 71.69,
-      "analyst_upside_pct": 26.2,
-      "fcf_yield_pct": 5.26,
-      "risk_reward_ratio": 3.28,
-      "days_in_value": 2,
-      "streak_days": 1,
-      "entry_score": 33,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "FCF yield \u22655%",
-        "R:R \u22652",
-        "Upside \u226520%",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
         "Solo 2d en VALUE"
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 89
+      "days_to_earnings": 108
     },
     {
-      "ticker": "SAP.DE",
-      "company_name": "SAP SE                        I",
-      "region": "EU",
-      "sector": "Technology",
-      "value_score": 61.4,
-      "conviction_grade": "A",
-      "current_price": 155.92,
-      "analyst_upside_pct": 29.3,
-      "fcf_yield_pct": 5.05,
-      "risk_reward_ratio": 3.66,
-      "days_in_value": 1,
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
+      "region": "US",
+      "sector": "Industrials",
+      "value_score": 63.005,
+      "conviction_grade": "B",
+      "current_price": 21.25,
+      "analyst_upside_pct": 22.4,
+      "fcf_yield_pct": 2.63,
+      "risk_reward_ratio": 2.8,
+      "days_in_value": 6,
       "streak_days": 1,
       "entry_score": 33,
       "signal": "MONITOR",
       "signals_fired": [
-        "FCF yield \u22655%",
         "R:R \u22652",
         "Upside \u226520%",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "FCF yield \u22655%",
-          "pts": 10
-        },
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Upside \u226520%",
-          "pts": 8
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 82
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange Inc.",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 89.82,
-      "conviction_grade": "nan",
-      "current_price": 156.27,
-      "analyst_upside_pct": 14.2,
-      "fcf_yield_pct": 4.24,
-      "risk_reward_ratio": 1.78,
-      "days_in_value": 4,
-      "streak_days": 1,
-      "entry_score": 20,
-      "signal": "WAIT",
-      "signals_fired": [
-        "Value score \u226580",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
         {
-          "name": "Value score \u226580",
+          "name": "R:R \u22652",
           "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
         },
         {
           "name": "Analyst revision \u2191",
@@ -477,9 +207,8 @@
         }
       ],
       "signals_missing": [
+        "Value score <80",
         "FCF yield <5%",
-        "R:R <2",
-        "Upside <20%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
@@ -489,24 +218,78 @@
       "rsi": null,
       "earnings_warning": false,
       "days_to_earnings": null
+    },
+    {
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE                    N",
+      "region": "EU",
+      "sector": "Communication Services",
+      "value_score": 60.1,
+      "conviction_grade": "nan",
+      "current_price": 75.65,
+      "analyst_upside_pct": 39.2,
+      "fcf_yield_pct": 4.93,
+      "risk_reward_ratio": 4.9,
+      "days_in_value": 1,
+      "streak_days": 1,
+      "entry_score": 33,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Insider buying",
+        "Analyst revision \u2191"
+      ],
+      "signals_pts": [
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE",
+        "\u26a0 Earnings en 3d \u2014 riesgo de entrada"
+      ],
+      "rsi": null,
+      "earnings_warning": true,
+      "days_to_earnings": 3
     },
     {
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 78.035,
-      "conviction_grade": "nan",
-      "current_price": 482.26,
-      "analyst_upside_pct": 15.9,
-      "fcf_yield_pct": 3.09,
-      "risk_reward_ratio": 1.99,
-      "days_in_value": 6,
+      "value_score": 71.62,
+      "conviction_grade": "C",
+      "current_price": 478.38,
+      "analyst_upside_pct": 16.8,
+      "fcf_yield_pct": 3.11,
+      "risk_reward_ratio": 2.1,
+      "days_in_value": 7,
       "streak_days": 1,
-      "entry_score": 20,
-      "signal": "WAIT",
+      "entry_score": 30,
+      "signal": "MONITOR",
       "signals_fired": [
         "Value score \u226570",
+        "R:R \u22652",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
       ],
@@ -514,6 +297,10 @@
         {
           "name": "Value score \u226570",
           "pts": 5
+        },
+        {
+          "name": "R:R \u22652",
+          "pts": 10
         },
         {
           "name": "Analyst revision \u2191",
@@ -527,7 +314,6 @@
       "signals_missing": [
         "Value score <80",
         "FCF yield <5%",
-        "R:R <2",
         "Upside <20%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
@@ -537,33 +323,76 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 82
+      "days_to_earnings": 79
     },
     {
-      "ticker": "DBOEY",
-      "company_name": "Deutsche Boerse AG",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 75.405,
-      "conviction_grade": "nan",
-      "current_price": 30.32,
-      "analyst_upside_pct": 15.7,
-      "fcf_yield_pct": 3.99,
-      "risk_reward_ratio": 1.96,
-      "days_in_value": 6,
+      "value_score": 61.43000000000001,
+      "conviction_grade": "C",
+      "current_price": 94.19,
+      "analyst_upside_pct": 16.9,
+      "fcf_yield_pct": 3.21,
+      "risk_reward_ratio": 2.11,
+      "days_in_value": 4,
       "streak_days": 1,
-      "entry_score": 20,
+      "entry_score": 25,
       "signal": "WAIT",
       "signals_fired": [
-        "Value score \u226570",
+        "R:R \u22652",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
         {
-          "name": "Value score \u226570",
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Analyst revision \u2191",
           "pts": 5
         },
+        {
+          "name": "En VALUE \u22653 d\u00edas",
+          "pts": 10
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "FCF yield <5%",
+        "Upside <20%",
+        "Sin insider buying (espera)",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 80
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 61.31999999999999,
+      "conviction_grade": "nan",
+      "current_price": 573.1,
+      "analyst_upside_pct": 15.2,
+      "fcf_yield_pct": 3.38,
+      "risk_reward_ratio": 1.9,
+      "days_in_value": 5,
+      "streak_days": 1,
+      "entry_score": 15,
+      "signal": "WAIT",
+      "signals_fired": [
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
         {
           "name": "Analyst revision \u2191",
           "pts": 5
@@ -586,27 +415,26 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 81
+      "days_to_earnings": 87
     },
     {
-      "ticker": "UNH",
-      "company_name": "UnitedHealth Group Incorporated",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
       "region": "US",
-      "sector": "Healthcare",
-      "value_score": 63.855,
+      "sector": "Financial Services",
+      "value_score": 60.41499999999999,
       "conviction_grade": "nan",
-      "current_price": 421.47,
-      "analyst_upside_pct": 12.8,
-      "fcf_yield_pct": 5.95,
-      "risk_reward_ratio": 1.6,
-      "days_in_value": 4,
+      "current_price": 336.25,
+      "analyst_upside_pct": 11.4,
+      "fcf_yield_pct": 7.05,
+      "risk_reward_ratio": 1.42,
+      "days_in_value": 1,
       "streak_days": 1,
-      "entry_score": 20,
+      "entry_score": 10,
       "signal": "WAIT",
       "signals_fired": [
         "FCF yield \u22655%",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
+        "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
@@ -616,151 +444,10 @@
         {
           "name": "Analyst revision \u2191",
           "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
         }
       ],
       "signals_missing": [
         "Value score <80",
-        "R:R <2",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 88
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 78.375,
-      "conviction_grade": "nan",
-      "current_price": 577.35,
-      "analyst_upside_pct": 12.3,
-      "fcf_yield_pct": 3.17,
-      "risk_reward_ratio": 1.54,
-      "days_in_value": 4,
-      "streak_days": 7,
-      "entry_score": 15,
-      "signal": "WAIT",
-      "signals_fired": [
-        "Value score \u226570",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "R:R <2",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": null
-    },
-    {
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 61.92,
-      "conviction_grade": "nan",
-      "current_price": 95.16,
-      "analyst_upside_pct": 15.7,
-      "fcf_yield_pct": 3.18,
-      "risk_reward_ratio": 1.96,
-      "days_in_value": 3,
-      "streak_days": 1,
-      "entry_score": 15,
-      "signal": "WAIT",
-      "signals_fired": [
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
-      ],
-      "signals_pts": [
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "R:R <2",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 83
-    },
-    {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "region": "US",
-      "sector": "Industrials",
-      "value_score": 72.94,
-      "conviction_grade": "nan",
-      "current_price": 226.33,
-      "analyst_upside_pct": 15.2,
-      "fcf_yield_pct": 2.6,
-      "risk_reward_ratio": 1.9,
-      "days_in_value": 1,
-      "streak_days": 1,
-      "entry_score": 10,
-      "signal": "WAIT",
-      "signals_fired": [
-        "Value score \u226570",
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "Value score \u226570",
-          "pts": 5
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
         "R:R <2",
         "Upside <20%",
         "Sin insider buying (espera)",
@@ -772,126 +459,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 87
-    },
-    {
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
-      "region": "US",
-      "sector": "Industrials",
-      "value_score": 60.375,
-      "conviction_grade": "nan",
-      "current_price": 440.28,
-      "analyst_upside_pct": 19.2,
-      "fcf_yield_pct": 2.74,
-      "risk_reward_ratio": 2.4,
-      "days_in_value": 1,
-      "streak_days": 1,
-      "entry_score": 10,
-      "signal": "WAIT",
-      "signals_fired": [
-        "R:R \u22652"
-      ],
-      "signals_pts": [
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": null
-    },
-    {
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "region": "US",
-      "sector": "Technology",
-      "value_score": 64.135,
-      "conviction_grade": "nan",
-      "current_price": 286.58,
-      "analyst_upside_pct": 11.0,
-      "fcf_yield_pct": 3.21,
-      "risk_reward_ratio": 1.38,
-      "days_in_value": 1,
-      "streak_days": 1,
-      "entry_score": 0,
-      "signal": "WAIT",
-      "signals_fired": [
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "R:R <2",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 83
-    },
-    {
-      "ticker": "BAC",
-      "company_name": "Bank of America Corporation",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 60.38,
-      "conviction_grade": "nan",
-      "current_price": 61.73,
-      "analyst_upside_pct": 11.3,
-      "fcf_yield_pct": null,
-      "risk_reward_ratio": 1.41,
-      "days_in_value": 1,
-      "streak_days": 3,
-      "entry_score": 0,
-      "signal": "WAIT",
-      "signals_fired": [
-        "Analyst revision \u2191"
-      ],
-      "signals_pts": [
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "R:R <2",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sin opciones alcistas",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista",
-        "Solo 1d en VALUE"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 75
+      "days_to_earnings": 81
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "generated_at": "2026-08-03",
-  "total": 11,
-  "high_count": 4,
-  "narrative": "Esto implica que hay varios indicadores que han dejado de ser relevantes o han cambiado significativamente, lo que puede afectar la gesti\u00f3n de riesgo de una inversi\u00f3n. La aparici\u00f3n de se\u00f1ales de revisi\u00f3n (4 HIGH) en el monitor de salida sugiere que hay cambios importantes en el mercado o en la situaci\u00f3n de las acciones que pueden requerir una reevaluaci\u00f3n de la estrategia de inversi\u00f3n.\n\nEn t\u00e9rminos de gesti\u00f3n de riesgo, esto puede implicar:\n\n* Revisar y ajustar la estrategia de inversi\u00f3n para reflejar los cambios en el mercado o en la situaci\u00f3n de las acciones.\n* Reducir o eliminar la exposici\u00f3n a",
+  "total": 12,
+  "high_count": 5,
+  "narrative": "Aqu\u00ed te dejo 2 frases en espa\u00f1ol que resumen lo que implica esto para la gesti\u00f3n de riesgo:\n\n1. \"La salida de estas empresas del radar de valor puede implicar un aumento del riesgo para los inversores, ya que pueden estar sobrevaloradas y tener un margen de seguridad reducido.\"\n2. \"La gesti\u00f3n de riesgo debe considerar la posibilidad de que estas empresas hayan sido eliminadas del radar de valor debido a factores extr\u00ednsecos, como un precio elevado, en lugar de deterioro fundamental, lo que puede afectar la toma de decisiones de inversi\u00f3n.\"",
   "exits": [
     {
       "ticker": "ABT",
@@ -13,73 +13,119 @@
       "reasons": [
         "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 54.1
+      "fundamental_score": 54.1,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 68,
+        "summary": "Abbott Laboratories sigue siendo una empresa fundamentalmente s\u00f3lida con diversificaci\u00f3n en dispositivos m\u00e9dicos, diagn\u00f3sticos, nutrici\u00f3n y farmac\u00e9uticos establecidos. La salida del radar VALUE probablemente refleja que el precio subi\u00f3 reduciendo el margen de seguridad, no un deterioro real del negocio.",
+        "key_finding": "ABT normaliz\u00f3 ingresos post-COVID tras el boom de pruebas de diagn\u00f3stico COVID-19 (2021-2022), lo que gener\u00f3 comparaciones dif\u00edciles en 2023, pero el negocio subyacente (FreeStyle Libre, dispositivos card\u00edacos) mantiene crecimiento org\u00e1nico s\u00f3lido de doble d\u00edgito.",
+        "summary_note": "Abbott Laboratories sigue siendo una empresa fundamentalmente s\u00f3lida con diversificaci\u00f3n en dispositivos m\u00e9dicos, diagn\u00f3sticos, nutrici\u00f3n y farmac\u00e9uticos establecidos. La salida del radar VALUE probablemente refleja que el precio subi\u00f3 reduciendo el margen de seguridad, no un deterioro real del negocio."
+      }
     },
     {
-      "ticker": "VLTO",
+      "ticker": "TEVA",
       "severity": "HIGH",
-      "entry_score": 52.56500000000001,
-      "current_score": 24.340000000000003,
+      "entry_score": 52.56,
+      "current_score": null,
       "signal_date": "2026-07-03",
       "reasons": [
-        "Score cay\u00f3 28pts (53 \u2192 24)"
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
       ],
-      "fundamental_score": 64.1
+      "fundamental_score": 44.0,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 55,
+        "summary": "TEVA ha mostrado mejora operativa gradual bajo el liderazgo de Richard Francis, reduciendo deuda y estabilizando ingresos con AUSTEDO como motor de crecimiento, aunque sigue cargando con litigios opioides y alta deuda. La salida del universo VALUE probablemente refleja apreciaci\u00f3n del precio m\u00e1s que deterioro fundamental.",
+        "key_finding": "AUSTEDO (deutetrabenazine) ha superado expectativas de ventas convirti\u00e9ndose en un producto de crecimiento clave, mientras TEVA avanza en reestructuraci\u00f3n de deuda y acuerdos de litigios opioides, lo que reduce riesgo de cola pero tambi\u00e9n el descuento de valoraci\u00f3n que lo hac\u00eda atractivo como value play.",
+        "summary_note": "TEVA ha mostrado mejora operativa gradual bajo el liderazgo de Richard Francis, reduciendo deuda y estabilizando ingresos con AUSTEDO como motor de crecimiento, aunque sigue cargando con litigios opioides y alta deuda. La salida del universo VALUE probablemente refleja apreciaci\u00f3n del precio m\u00e1s que deterioro fundamental."
+      }
+    },
+    {
+      "ticker": "MSCI",
+      "severity": "MEDIUM",
+      "entry_score": 52.110000000000014,
+      "current_score": null,
+      "signal_date": "2026-07-23",
+      "reasons": [
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "IA: falso positivo con 72% confianza \u2014 MSCI es una empresa de alt\u00edsima calidad con modelo de negocio basado en suscripciones recurrentes, m\u00e1rgenes excepcionales y poder de fijaci\u00f3n de precios, pero su valoraci\u00f3n hist\u00f3ricamente elevada (P/E >40x) puede haber reducido el upside value sin que el negocio se haya deteriorado. La salida de VALUE probablemente refleja expansi\u00f3n de m\u00faltiplos o precio elevado, no deterioro fundamental."
+      ],
+      "fundamental_score": 56.2,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 72,
+        "summary": "MSCI es una empresa de alt\u00edsima calidad con modelo de negocio basado en suscripciones recurrentes, m\u00e1rgenes excepcionales y poder de fijaci\u00f3n de precios, pero su valoraci\u00f3n hist\u00f3ricamente elevada (P/E >40x) puede haber reducido el upside value sin que el negocio se haya deteriorado. La salida de VALUE probablemente refleja expansi\u00f3n de m\u00faltiplos o precio elevado, no deterioro fundamental.",
+        "key_finding": "MSCI mantiene retenci\u00f3n de clientes >95%, crecimiento org\u00e1nico sostenido en \u00edndices y analytics, y no ha reportado eventos negativos materiales recientes; el score de 56.2/100 sugiere valoraci\u00f3n exigente m\u00e1s que deterioro del negocio subyacente."
+      }
     },
     {
       "ticker": "COST",
-      "severity": "HIGH",
+      "severity": "MEDIUM",
       "entry_score": 51.8,
       "current_score": null,
       "signal_date": "2026-07-14",
       "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "IA: falso positivo con 85% confianza \u2014 Costco sigue siendo uno de los negocios m\u00e1s s\u00f3lidos del retail global, con membres\u00edas crecientes, m\u00e1rgenes estables y ejecuci\u00f3n operativa consistente. La salida del radar VALUE se debe casi con certeza a que el precio subi\u00f3 significativamente, comprimiendo el margen de seguridad, no a deterioro fundamental."
       ],
-      "fundamental_score": 51.5
+      "fundamental_score": 51.5,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 85,
+        "summary": "Costco sigue siendo uno de los negocios m\u00e1s s\u00f3lidos del retail global, con membres\u00edas crecientes, m\u00e1rgenes estables y ejecuci\u00f3n operativa consistente. La salida del radar VALUE se debe casi con certeza a que el precio subi\u00f3 significativamente, comprimiendo el margen de seguridad, no a deterioro fundamental.",
+        "key_finding": "COST cotiza a m\u00faltiplos elevados (P/E ~50x+), lo que la excluye de screeners de valor, pero sus fundamentos \u2014renovaci\u00f3n de membres\u00edas >90%, crecimiento de ventas comparable s\u00f3lido y expansi\u00f3n internacional\u2014 permanecen intactos."
+      }
     },
     {
       "ticker": "EME",
-      "severity": "HIGH",
+      "severity": "MEDIUM",
       "entry_score": 0,
       "current_score": null,
       "signal_date": "2026-06-12",
       "reasons": [
-        "Ya no aparece en VALUE \u2014 tesis posiblemente rota"
+        "Ya no aparece en VALUE \u2014 tesis posiblemente rota",
+        "IA: falso positivo con 78% confianza \u2014 EMCOR Group (EME) no muestra deterioro fundamental reciente; al contrario, ha reportado resultados s\u00f3lidos con crecimiento en ingresos y m\u00e1rgenes, impulsado por demanda en construcci\u00f3n de data centers, infraestructura el\u00e9ctrica y proyectos industriales. La salida de la lista VALUE probablemente se debe a que el precio subi\u00f3 significativamente, reduciendo el margen de seguridad."
       ],
-      "fundamental_score": null
+      "fundamental_score": null,
+      "ai_validation": {
+        "verdict": "FALSE_POSITIVE",
+        "confidence": 78,
+        "summary": "EMCOR Group (EME) no muestra deterioro fundamental reciente; al contrario, ha reportado resultados s\u00f3lidos con crecimiento en ingresos y m\u00e1rgenes, impulsado por demanda en construcci\u00f3n de data centers, infraestructura el\u00e9ctrica y proyectos industriales. La salida de la lista VALUE probablemente se debe a que el precio subi\u00f3 significativamente, reduciendo el margen de seguridad.",
+        "key_finding": "EME ha tenido una apreciaci\u00f3n de precio muy fuerte (~+80-100% en 2024), lo que t\u00edpicamente hace que salga de screeners de valor al cotizar a m\u00faltiplos m\u00e1s altos, no por deterioro del negocio sino por re-rating positivo del mercado."
+      }
     },
     {
-      "ticker": "SPGI",
+      "ticker": "THC",
       "severity": "MEDIUM",
-      "entry_score": 60.78,
-      "current_score": 43.53,
+      "entry_score": 57.30000000000001,
+      "current_score": null,
       "signal_date": "2026-07-03",
       "reasons": [
-        "Score cay\u00f3 17pts (61 \u2192 44)"
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 56.0
+      "fundamental_score": 78.8
     },
     {
       "ticker": "CTAS",
       "severity": "MEDIUM",
       "entry_score": 56.065,
-      "current_score": null,
+      "current_score": 33.919999999999995,
       "signal_date": "2026-07-07",
+      "reasons": [
+        "Score cay\u00f3 22pts (56 \u2192 34)"
+      ],
+      "fundamental_score": 70.8
+    },
+    {
+      "ticker": "COF",
+      "severity": "MEDIUM",
+      "entry_score": 54.28,
+      "current_score": null,
+      "signal_date": "2026-07-28",
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 71.5
-    },
-    {
-      "ticker": "SYK",
-      "severity": "MEDIUM",
-      "entry_score": 54.235,
-      "current_score": 33.64,
-      "signal_date": "2026-07-05",
-      "reasons": [
-        "Score cay\u00f3 21pts (54 \u2192 34)"
-      ],
-      "fundamental_score": 49.1
+      "fundamental_score": 62.3
     },
     {
       "ticker": "STZ",
@@ -93,37 +139,37 @@
       "fundamental_score": 60.8
     },
     {
-      "ticker": "MSCI",
+      "ticker": "CME",
       "severity": "MEDIUM",
-      "entry_score": 52.110000000000014,
-      "current_score": 27.730000000000004,
-      "signal_date": "2026-07-23",
-      "reasons": [
-        "Score cay\u00f3 24pts (52 \u2192 28)"
-      ],
-      "fundamental_score": 56.2
-    },
-    {
-      "ticker": "CBOE",
-      "severity": "MEDIUM",
-      "entry_score": 52.08,
+      "entry_score": 52.620000000000005,
       "current_score": null,
-      "signal_date": "2026-07-08",
+      "signal_date": "2026-07-03",
       "reasons": [
         "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
       ],
-      "fundamental_score": 76.3
+      "fundamental_score": 68.0
+    },
+    {
+      "ticker": "VLTO",
+      "severity": "MEDIUM",
+      "entry_score": 52.56500000000001,
+      "current_score": null,
+      "signal_date": "2026-07-03",
+      "reasons": [
+        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+      ],
+      "fundamental_score": 67.1
     },
     {
       "ticker": "7741.T",
       "severity": "MEDIUM",
       "entry_score": 51.78,
-      "current_score": null,
+      "current_score": 36.23,
       "signal_date": "2026-07-09",
       "reasons": [
-        "Ya no est\u00e1 en lista VALUE \u2014 upside reducido (fundamentales siguen s\u00f3lidos)"
+        "Score cay\u00f3 16pts (52 \u2192 36)"
       ],
-      "fundamental_score": 60.2
+      "fundamental_score": 61.2
     }
   ]
 }

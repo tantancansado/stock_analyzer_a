@@ -1,0 +1,199 @@
+{
+  "generated_at": "2026-08-03T12:22:16.124030",
+  "resumen": {
+    "n": 1489,
+    "win_rate": 55.1,
+    "retorno_medio": 3.33,
+    "horizonte": "return_90d"
+  },
+  "cortes": {
+    "sector": [
+      {
+        "grupo": "Consumer Defensive",
+        "n": 59,
+        "win_rate": 15.3,
+        "retorno_medio": -5.22
+      },
+      {
+        "grupo": "Real Estate",
+        "n": 36,
+        "win_rate": 36.1,
+        "retorno_medio": -3.11
+      },
+      {
+        "grupo": "Consumer Cyclical",
+        "n": 108,
+        "win_rate": 31.5,
+        "retorno_medio": -1.45
+      },
+      {
+        "grupo": "Healthcare",
+        "n": 73,
+        "win_rate": 49.3,
+        "retorno_medio": -0.11
+      },
+      {
+        "grupo": "Industrials",
+        "n": 218,
+        "win_rate": 42.7,
+        "retorno_medio": 0.63
+      },
+      {
+        "grupo": "Basic Materials",
+        "n": 124,
+        "win_rate": 52.4,
+        "retorno_medio": 0.95
+      },
+      {
+        "grupo": "Technology",
+        "n": 193,
+        "win_rate": 51.3,
+        "retorno_medio": 2.84
+      },
+      {
+        "grupo": "Financial Services",
+        "n": 568,
+        "win_rate": 68.5,
+        "retorno_medio": 4.58
+      },
+      {
+        "grupo": "Energy",
+        "n": 21,
+        "win_rate": 57.1,
+        "retorno_medio": 9.69
+      },
+      {
+        "grupo": "Communication Services",
+        "n": 86,
+        "win_rate": 81.4,
+        "retorno_medio": 22.71
+      }
+    ],
+    "regimen_mercado": [
+      {
+        "grupo": "UPTREND_PRESSURE",
+        "n": 536,
+        "win_rate": 44.0,
+        "retorno_medio": -0.67
+      },
+      {
+        "grupo": "CORRECTION",
+        "n": 163,
+        "win_rate": 63.8,
+        "retorno_medio": 4.56
+      },
+      {
+        "grupo": "CONFIRMED_UPTREND",
+        "n": 790,
+        "win_rate": 60.8,
+        "retorno_medio": 5.79
+      }
+    ],
+    "banda_upside": [
+      {
+        "grupo": "0-10%",
+        "n": 253,
+        "win_rate": 39.9,
+        "retorno_medio": -1.08
+      },
+      {
+        "grupo": "15-20%",
+        "n": 207,
+        "win_rate": 55.1,
+        "retorno_medio": 1.96
+      },
+      {
+        "grupo": "20-25%",
+        "n": 177,
+        "win_rate": 58.2,
+        "retorno_medio": 2.88
+      },
+      {
+        "grupo": "10-15%",
+        "n": 263,
+        "win_rate": 66.9,
+        "retorno_medio": 4.01
+      },
+      {
+        "grupo": ">=30%",
+        "n": 418,
+        "win_rate": 52.9,
+        "retorno_medio": 4.5
+      },
+      {
+        "grupo": "25-30%",
+        "n": 140,
+        "win_rate": 62.1,
+        "retorno_medio": 9.51
+      }
+    ],
+    "banda_score": [
+      {
+        "grupo": "<40",
+        "n": 234,
+        "win_rate": 46.2,
+        "retorno_medio": 0.79
+      },
+      {
+        "grupo": "40-50",
+        "n": 455,
+        "win_rate": 49.0,
+        "retorno_medio": 1.42
+      },
+      {
+        "grupo": "50-60",
+        "n": 416,
+        "win_rate": 65.1,
+        "retorno_medio": 3.98
+      },
+      {
+        "grupo": "60-70",
+        "n": 327,
+        "win_rate": 56.6,
+        "retorno_medio": 5.8
+      },
+      {
+        "grupo": ">=70",
+        "n": 57,
+        "win_rate": 57.9,
+        "retorno_medio": 10.07
+      }
+    ],
+    "banda_rr": [
+      {
+        "grupo": "<1",
+        "n": 163,
+        "win_rate": 36.8,
+        "retorno_medio": -1.88
+      },
+      {
+        "grupo": "1.5-2",
+        "n": 231,
+        "win_rate": 59.3,
+        "retorno_medio": 2.31
+      },
+      {
+        "grupo": "1-1.5",
+        "n": 160,
+        "win_rate": 58.1,
+        "retorno_medio": 2.68
+      },
+      {
+        "grupo": "2-3",
+        "n": 285,
+        "win_rate": 59.3,
+        "retorno_medio": 2.81
+      },
+      {
+        "grupo": ">=3",
+        "n": 579,
+        "win_rate": 55.1,
+        "retorno_medio": 5.65
+      }
+    ]
+  },
+  "analisis": {
+    "hipotesis": [],
+    "nota": "respuesta ilegible"
+  }
+}

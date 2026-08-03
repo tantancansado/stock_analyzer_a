@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-08-03",
-  "total": 72,
-  "high_count": 43,
+  "total": 53,
+  "high_count": 41,
   "alerts": [
     {
       "ticker": "AAL.L",
@@ -13,31 +13,6 @@
       "data": {
         "purchase_count": 38.0,
         "unique_insiders": 12.0
-      }
-    },
-    {
-      "ticker": "AMS.MC",
-      "type": "EARNINGS_WARNING",
-      "severity": "HIGH",
-      "title": "Earnings de AMS.MC en 0d",
-      "message": "Score VALUE 52. Earnings en 0 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 0.0,
-        "value_score": 52.4
-      }
-    },
-    {
-      "ticker": "AUTO.L",
-      "type": "SCORE_DRIFT",
-      "severity": "HIGH",
-      "title": "Tesis en riesgo: AUTO.L",
-      "message": "Score baj\u00f3 29 pts (de 61 \u2192 31). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-08-03",
-      "data": {
-        "original_score": 60.6,
-        "current_score": 31.2,
-        "drop": 29.4
       }
     },
     {
@@ -53,15 +28,15 @@
       }
     },
     {
-      "ticker": "BAS.DE",
+      "ticker": "BARC.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
-      "title": "Insider buying en BAS.DE",
-      "message": "5 compras por 5 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "title": "Insider buying en BARC.L",
+      "message": "11 compras por 11 directivos. Se\u00f1al de convicci\u00f3n interna.",
       "date": "2026-08-03",
       "data": {
-        "purchase_count": 5.0,
-        "unique_insiders": 5.0
+        "purchase_count": 11.0,
+        "unique_insiders": 11.0
       }
     },
     {
@@ -105,12 +80,11 @@
       "type": "STREAK",
       "severity": "HIGH",
       "title": "CME \u2014 23 d\u00edas en convergencia",
-      "message": "Lleva 23 d\u00edas consecutivos en 3 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "message": "Lleva 23 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
       "date": "2026-08-03",
       "data": {
         "streak_days": 23,
         "strategies": [
-          "VALUE",
           "INSIDERS",
           "MR"
         ]
@@ -153,28 +127,15 @@
       }
     },
     {
-      "ticker": "DPZ",
-      "type": "SCORE_DRIFT",
-      "severity": "HIGH",
-      "title": "Tesis en riesgo: DPZ",
-      "message": "Score baj\u00f3 40 pts (de 62 \u2192 23). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-08-03",
-      "data": {
-        "original_score": 62.2,
-        "current_score": 22.6,
-        "drop": 39.6
-      }
-    },
-    {
-      "ticker": "ETN",
+      "ticker": "G24.DE",
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
-      "title": "Earnings de ETN en 0d",
-      "message": "Score VALUE 39. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "title": "Earnings de G24.DE en 3d",
+      "message": "Score VALUE 60. Earnings en 3 d\u00edas \u2014 evita entrar.",
       "date": "2026-08-03",
       "data": {
-        "days_to_earnings": 0.0,
-        "value_score": 38.855
+        "days_to_earnings": 3.0,
+        "value_score": 60.1
       }
     },
     {
@@ -187,6 +148,18 @@
       "data": {
         "purchase_count": 56.0,
         "unique_insiders": 14.0
+      }
+    },
+    {
+      "ticker": "HEIA.AS",
+      "type": "EARNINGS_WARNING",
+      "severity": "HIGH",
+      "title": "Earnings de HEIA.AS en 2d",
+      "message": "Score VALUE 27. Earnings en 2 d\u00edas \u2014 evita entrar.",
+      "date": "2026-08-03",
+      "data": {
+        "days_to_earnings": 2.0,
+        "value_score": 27.2
       }
     },
     {
@@ -214,28 +187,27 @@
       }
     },
     {
-      "ticker": "ITRK.L",
+      "ticker": "IT",
       "type": "EARNINGS_WARNING",
       "severity": "HIGH",
-      "title": "Earnings de ITRK.L en 0d",
-      "message": "Score VALUE 29. Earnings en 0 d\u00edas \u2014 evita entrar.",
+      "title": "Earnings de IT en 1d",
+      "message": "Score VALUE 32. Earnings en 1 d\u00edas \u2014 evita entrar.",
       "date": "2026-08-03",
       "data": {
-        "days_to_earnings": 0.0,
-        "value_score": 29.0
+        "days_to_earnings": 1.0,
+        "value_score": 31.92
       }
     },
     {
-      "ticker": "ITW",
-      "type": "SCORE_DRIFT",
+      "ticker": "KVUE",
+      "type": "EARNINGS_WARNING",
       "severity": "HIGH",
-      "title": "Tesis en riesgo: ITW",
-      "message": "Score baj\u00f3 33 pts (de 61 \u2192 28). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "title": "Earnings de KVUE en 3d",
+      "message": "Score VALUE 48. Earnings en 3 d\u00edas \u2014 evita entrar.",
       "date": "2026-08-03",
       "data": {
-        "original_score": 61.2,
-        "current_score": 28.3,
-        "drop": 32.9
+        "days_to_earnings": 3.0,
+        "value_score": 48.205
       }
     },
     {
@@ -243,10 +215,10 @@
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
       "title": "Insider buying en LAND.L",
-      "message": "6 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "message": "4 compras por 2 directivos. Se\u00f1al de convicci\u00f3n interna.",
       "date": "2026-08-03",
       "data": {
-        "purchase_count": 6.0,
+        "purchase_count": 4.0,
         "unique_insiders": 2.0
       }
     },
@@ -260,21 +232,6 @@
       "data": {
         "purchase_count": 20.0,
         "unique_insiders": 7.0
-      }
-    },
-    {
-      "ticker": "MA",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "MA \u2014 7 d\u00edas en convergencia",
-      "message": "Lleva 7 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-08-03",
-      "data": {
-        "streak_days": 7,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
       }
     },
     {
@@ -306,11 +263,23 @@
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
       "title": "Insider buying en NG.L",
-      "message": "7 compras por 3 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "message": "9 compras por 4 directivos. Se\u00f1al de convicci\u00f3n interna.",
       "date": "2026-08-03",
       "data": {
-        "purchase_count": 7.0,
-        "unique_insiders": 3.0
+        "purchase_count": 9.0,
+        "unique_insiders": 4.0
+      }
+    },
+    {
+      "ticker": "NOVO-B.CO",
+      "type": "EARNINGS_WARNING",
+      "severity": "HIGH",
+      "title": "Earnings de NOVO-B.CO en 2d",
+      "message": "Score VALUE 48. Earnings en 2 d\u00edas \u2014 evita entrar.",
+      "date": "2026-08-03",
+      "data": {
+        "days_to_earnings": 2.0,
+        "value_score": 48.0
       }
     },
     {
@@ -318,26 +287,23 @@
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
       "title": "Insider buying en NWG.L",
-      "message": "17 compras por 9 directivos. Se\u00f1al de convicci\u00f3n interna.",
+      "message": "9 compras por 9 directivos. Se\u00f1al de convicci\u00f3n interna.",
       "date": "2026-08-03",
       "data": {
-        "purchase_count": 17.0,
+        "purchase_count": 9.0,
         "unique_insiders": 9.0
       }
     },
     {
-      "ticker": "PG",
-      "type": "STREAK",
+      "ticker": "NYT",
+      "type": "EARNINGS_WARNING",
       "severity": "HIGH",
-      "title": "PG \u2014 10 d\u00edas en convergencia",
-      "message": "Lleva 10 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
+      "title": "Earnings de NYT en 2d",
+      "message": "Score VALUE 34. Earnings en 2 d\u00edas \u2014 evita entrar.",
       "date": "2026-08-03",
       "data": {
-        "streak_days": 10,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
+        "days_to_earnings": 2.0,
+        "value_score": 34.32
       }
     },
     {
@@ -350,6 +316,18 @@
       "data": {
         "purchase_count": 37.0,
         "unique_insiders": 8.0
+      }
+    },
+    {
+      "ticker": "QSR",
+      "type": "EARNINGS_WARNING",
+      "severity": "HIGH",
+      "title": "Earnings de QSR en 3d",
+      "message": "Score VALUE 40. Earnings en 3 d\u00edas \u2014 evita entrar.",
+      "date": "2026-08-03",
+      "data": {
+        "days_to_earnings": 3.0,
+        "value_score": 40.275000000000006
       }
     },
     {
@@ -374,18 +352,6 @@
       "data": {
         "purchase_count": 5.0,
         "unique_insiders": 4.0
-      }
-    },
-    {
-      "ticker": "RMV.L",
-      "type": "EARNINGS_WARNING",
-      "severity": "HIGH",
-      "title": "Earnings de RMV.L en 0d",
-      "message": "Score VALUE 50. Earnings en 0 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 0.0,
-        "value_score": 49.8
       }
     },
     {
@@ -485,34 +451,6 @@
       }
     },
     {
-      "ticker": "V",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "V \u2014 34 d\u00edas en convergencia",
-      "message": "Lleva 34 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-08-03",
-      "data": {
-        "streak_days": 34,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
-      "ticker": "VLTO",
-      "type": "SCORE_DRIFT",
-      "severity": "HIGH",
-      "title": "Tesis en riesgo: VLTO",
-      "message": "Score baj\u00f3 28 pts (de 53 \u2192 24). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-08-03",
-      "data": {
-        "original_score": 52.6,
-        "current_score": 24.3,
-        "drop": 28.2
-      }
-    },
-    {
       "ticker": "VOD.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -522,6 +460,31 @@
       "data": {
         "purchase_count": 5.0,
         "unique_insiders": 5.0
+      }
+    },
+    {
+      "ticker": "VRSN",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: VRSN",
+      "message": "Score baj\u00f3 33 pts (de 69 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-08-03",
+      "data": {
+        "original_score": 69.0,
+        "current_score": 36.3,
+        "drop": 32.8
+      }
+    },
+    {
+      "ticker": "WKL.AS",
+      "type": "EARNINGS_WARNING",
+      "severity": "HIGH",
+      "title": "Earnings de WKL.AS en 2d",
+      "message": "Score VALUE 55. Earnings en 2 d\u00edas \u2014 evita entrar.",
+      "date": "2026-08-03",
+      "data": {
+        "days_to_earnings": 2.0,
+        "value_score": 54.8
       }
     },
     {
@@ -537,18 +500,29 @@
       }
     },
     {
-      "ticker": "ADP",
-      "type": "NEW_CONVERGENCE",
+      "ticker": "7741.T",
+      "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Nueva convergencia: ADP",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 51.",
+      "title": "Tesis en riesgo: 7741.T",
+      "message": "Score baj\u00f3 16 pts (de 52 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-08-03",
       "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 51
+        "original_score": 51.8,
+        "current_score": 36.2,
+        "drop": 15.6
+      }
+    },
+    {
+      "ticker": "AUTO.L",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: AUTO.L",
+      "message": "Score baj\u00f3 24 pts (de 61 \u2192 37). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-08-03",
+      "data": {
+        "original_score": 60.6,
+        "current_score": 37.0,
+        "drop": 23.6
       }
     },
     {
@@ -567,104 +541,41 @@
       }
     },
     {
-      "ticker": "ECL",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "ECL \u2014 3 d\u00edas en convergencia",
-      "message": "Lleva 3 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-08-03",
-      "data": {
-        "streak_days": 3,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
-      "ticker": "G24.DE",
+      "ticker": "BRK-B",
       "type": "EARNINGS_WARNING",
       "severity": "MEDIUM",
-      "title": "Earnings de G24.DE en 6d",
-      "message": "Score VALUE 50. Earnings en 6 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 6.0,
-        "value_score": 49.5
-      }
-    },
-    {
-      "ticker": "G24.DE",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: G24.DE",
-      "message": "Score baj\u00f3 23 pts (de 73 \u2192 50). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-08-03",
-      "data": {
-        "original_score": 73.0,
-        "current_score": 49.5,
-        "drop": 23.5
-      }
-    },
-    {
-      "ticker": "HEIA.AS",
-      "type": "EARNINGS_WARNING",
-      "severity": "MEDIUM",
-      "title": "Earnings de HEIA.AS en 5d",
-      "message": "Score VALUE 28. Earnings en 5 d\u00edas \u2014 evita entrar.",
+      "title": "Earnings de BRK-B en 5d",
+      "message": "Score VALUE 38. Earnings en 5 d\u00edas \u2014 evita entrar.",
       "date": "2026-08-03",
       "data": {
         "days_to_earnings": 5.0,
-        "value_score": 28.1
+        "value_score": 38.32999999999999
       }
     },
     {
-      "ticker": "IDXX",
-      "type": "EARNINGS_WARNING",
-      "severity": "MEDIUM",
-      "title": "Earnings de IDXX en 4d",
-      "message": "Score VALUE 23. Earnings en 4 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 4.0,
-        "value_score": 23.41
-      }
-    },
-    {
-      "ticker": "IT",
-      "type": "EARNINGS_WARNING",
-      "severity": "MEDIUM",
-      "title": "Earnings de IT en 4d",
-      "message": "Score VALUE 30. Earnings en 4 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 4.0,
-        "value_score": 30.42
-      }
-    },
-    {
-      "ticker": "IT",
+      "ticker": "CLPBY",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Tesis en riesgo: IT",
-      "message": "Score baj\u00f3 16 pts (de 47 \u2192 30). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "title": "Tesis en riesgo: CLPBY",
+      "message": "Score baj\u00f3 18 pts (de 59 \u2192 41). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-08-03",
       "data": {
-        "original_score": 46.7,
-        "current_score": 30.4,
-        "drop": 16.3
+        "original_score": 59.4,
+        "current_score": 41.1,
+        "drop": 18.3
       }
     },
     {
-      "ticker": "KVUE",
-      "type": "EARNINGS_WARNING",
+      "ticker": "CTAS",
+      "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Earnings de KVUE en 6d",
-      "message": "Score VALUE 24. Earnings en 6 d\u00edas \u2014 evita entrar.",
+      "title": "Tesis en riesgo: CTAS",
+      "message": "Score baj\u00f3 23 pts (de 57 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-08-03",
       "data": {
-        "days_to_earnings": 6.0,
-        "value_score": 23.595
+        "original_score": 57.4,
+        "current_score": 33.9,
+        "drop": 23.5
       }
     },
     {
@@ -678,33 +589,6 @@
         "reversion_score": 75.0,
         "rsi": 23.6,
         "quality": "\u2b50\u2b50 MUY BUENA"
-      }
-    },
-    {
-      "ticker": "LIN",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: LIN",
-      "message": "Aparece en 2 estrategias: MR, OPTIONS. Score convergencia: 40.",
-      "date": "2026-08-03",
-      "data": {
-        "strategies": [
-          "MR",
-          "OPTIONS"
-        ],
-        "convergence_score": 40
-      }
-    },
-    {
-      "ticker": "MCD",
-      "type": "EARNINGS_WARNING",
-      "severity": "MEDIUM",
-      "title": "Earnings de MCD en 4d",
-      "message": "Score VALUE 45. Earnings en 4 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 4.0,
-        "value_score": 45.405
       }
     },
     {
@@ -735,96 +619,16 @@
       }
     },
     {
-      "ticker": "MSCI",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: MSCI",
-      "message": "Score baj\u00f3 24 pts (de 52 \u2192 28). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-08-03",
-      "data": {
-        "original_score": 52.1,
-        "current_score": 27.7,
-        "drop": 24.4
-      }
-    },
-    {
-      "ticker": "MSFT",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: MSFT",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 54.",
-      "date": "2026-08-03",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 54
-      }
-    },
-    {
-      "ticker": "NYT",
-      "type": "EARNINGS_WARNING",
-      "severity": "MEDIUM",
-      "title": "Earnings de NYT en 5d",
-      "message": "Score VALUE 33. Earnings en 5 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 5.0,
-        "value_score": 33.415
-      }
-    },
-    {
       "ticker": "NYT",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: NYT",
-      "message": "Score baj\u00f3 25 pts (de 58 \u2192 33). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 24 pts (de 58 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-08-03",
       "data": {
         "original_score": 58.3,
-        "current_score": 33.4,
-        "drop": 24.9
-      }
-    },
-    {
-      "ticker": "QSR",
-      "type": "EARNINGS_WARNING",
-      "severity": "MEDIUM",
-      "title": "Earnings de QSR en 6d",
-      "message": "Score VALUE 49. Earnings en 6 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 6.0,
-        "value_score": 49.355
-      }
-    },
-    {
-      "ticker": "SYK",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: SYK",
-      "message": "Score baj\u00f3 21 pts (de 54 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-08-03",
-      "data": {
-        "original_score": 54.2,
-        "current_score": 33.6,
-        "drop": 20.6
-      }
-    },
-    {
-      "ticker": "SYK",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: SYK",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 46.",
-      "date": "2026-08-03",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 46
+        "current_score": 34.3,
+        "drop": 24.0
       }
     },
     {
@@ -832,84 +636,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: V",
-      "message": "Score baj\u00f3 19 pts (de 64 \u2192 45). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 20 pts (de 64 \u2192 44). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-08-03",
       "data": {
         "original_score": 63.6,
-        "current_score": 45.0,
-        "drop": 18.6
-      }
-    },
-    {
-      "ticker": "VEEV",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "VEEV \u2014 4 d\u00edas en convergencia",
-      "message": "Lleva 4 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-08-03",
-      "data": {
-        "streak_days": 4,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
-      "ticker": "VLTO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: VLTO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 44.",
-      "date": "2026-08-03",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 44
-      }
-    },
-    {
-      "ticker": "VRSN",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: VRSN",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 52.",
-      "date": "2026-08-03",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 52
-      }
-    },
-    {
-      "ticker": "WKL.AS",
-      "type": "EARNINGS_WARNING",
-      "severity": "MEDIUM",
-      "title": "Earnings de WKL.AS en 5d",
-      "message": "Score VALUE 54. Earnings en 5 d\u00edas \u2014 evita entrar.",
-      "date": "2026-08-03",
-      "data": {
-        "days_to_earnings": 5.0,
-        "value_score": 54.4
-      }
-    },
-    {
-      "ticker": "WMT",
-      "type": "STREAK",
-      "severity": "MEDIUM",
-      "title": "WMT \u2014 4 d\u00edas en convergencia",
-      "message": "Lleva 4 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-08-03",
-      "data": {
-        "streak_days": 4,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
+        "current_score": 43.7,
+        "drop": 19.9
       }
     },
     {

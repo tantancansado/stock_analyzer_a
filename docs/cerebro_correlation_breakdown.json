@@ -1,15 +1,20 @@
 {
   "generated_at": "2026-08-03",
-  "systemic_risk": "MODERATE",
-  "correlation_score": 4,
-  "universe_breadth_pct": 9.6,
-  "breadth_change": -4.9,
+  "systemic_risk": "HIGH",
+  "correlation_score": 6,
+  "universe_breadth_pct": 5.2,
+  "breadth_change": -8.5,
   "signals": [
+    {
+      "type": "BREADTH_DECLINE",
+      "severity": "MEDIUM",
+      "detail": "Breadth VALUE estrecho: 5% alta convicci\u00f3n (vs 14% anterior)"
+    },
     {
       "type": "MULTI_SECTOR_DECAY",
       "severity": "HIGH",
-      "detail": "Quality decay en 4 sectores: Financial Services, Healthcare, Basic Materials, Industrials"
+      "detail": "Quality decay en 4 sectores: Industrials, Financial Services, Healthcare, Consumer Defensive"
     }
   ],
-  "narrative": "Aqu\u00ed te dejo 2 frases en espa\u00f1ol que podr\u00edan explicar qu\u00e9 significa para VALUE cuando todos los picks se mueven juntos:\n\n1. \"La correlaci\u00f3n sist\u00e9mica alta en VALUE indica que todos los sectores est\u00e1n movi\u00e9ndose en la misma direcci\u00f3n, lo que puede ser un indicador de un mercado en consolidaci\u00f3n o de un posible cambio en la tendencia general.\"\n2. \"Cuando todos los picks de VALUE se mueven juntos, puede ser un signo de que el mercado est\u00e1 experimentando un per\u00edodo de consolidaci\u00f3n o de ajuste, lo que puede afectar negativamente la calidad de las inversiones en este estilo de inversi\u00f3n.\""
+  "narrative": "Aqu\u00ed te dejo dos posibles frases en espa\u00f1ol que explican el riesgo de correlaci\u00f3n sist\u00e9mica en el universo VALUE:\n\n1. \"Cuando todos los picks de VALUE se mueven juntos, es un signo de que el mercado est\u00e1 experimentando un riesgo de correlaci\u00f3n sist\u00e9mica, lo que puede llevar a una ca\u00edda generalizada en la cartera y reducir la diversificaci\u00f3n.\"\n2. \"La correlaci\u00f3n sist\u00e9mica alta en el universo VALUE significa que la mayor\u00eda de los activos est\u00e1n movi\u00e9ndose en la misma direcci\u00f3n, lo que puede aumentar el riesgo de la cartera y reducir la eficacia de la estrategia de inversi\u00f3n.\"\n\nEn ambos casos, se est\u00e1 destacando el riesgo de que todos los activos del universo VALUE se muevan en la misma direcci\u00f3n, lo"
 }

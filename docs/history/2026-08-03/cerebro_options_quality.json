@@ -1,10 +1,29 @@
 {
   "generated_at": "2026-08-03",
-  "total": 24,
+  "total": 3,
   "tier1": 0,
-  "tier2": 0,
-  "tier3": 6,
-  "noise_filtered": 18,
-  "actionable": [],
-  "narrative": null
+  "tier2": 1,
+  "tier3": 0,
+  "noise_filtered": 2,
+  "actionable": [
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sentiment": "BULLISH",
+      "tier": "TIER2",
+      "quality_score": 50,
+      "value_score": 90.8,
+      "fcf_yield": 0.47,
+      "insider_confirmation": false,
+      "in_value": true,
+      "quality_factors": [
+        "VALUE strong (91pts)",
+        "DIRECTIONAL (83% calls)"
+      ],
+      "flow_score": 70.0,
+      "total_premium": 13608465.0,
+      "detected_date": "2026-08-03"
+    }
+  ],
+  "narrative": "Aqu\u00ed te presento dos posibles frases en espa\u00f1ol que responden a la pregunta:\n\n1. \"Las opciones solo confirman cuando hay alineaci\u00f3n con fundamentales porque reflejan la percepci\u00f3n de los inversores sobre la situaci\u00f3n financiera y operativa de la empresa, lo que a su vez se refleja en la direcci\u00f3n de la tendencia del precio de la acci\u00f3n.\"\n2. \"La alineaci\u00f3n entre opciones y fundamentales es fundamental porque muestra que los inversores est\u00e1n tomando decisiones informadas basadas en la informaci\u00f3n disponible, lo que reduce el riesgo de decisiones err\u00f3neas y aumenta la confianza en la estrategia de inversi\u00f3n.\"\n\nEn cuanto a la calidad de opciones que mencionaste, parece que MSFT tiene una calidad de TIER2, lo que indica que tiene una buena relaci\u00f3n entre precio y probabilidad"
 }

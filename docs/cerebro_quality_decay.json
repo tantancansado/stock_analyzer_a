@@ -1,29 +1,45 @@
 {
   "generated_at": "2026-08-03",
-  "total": 6,
+  "total": 7,
   "high_count": 0,
-  "narrative": "Aqu\u00ed te presento 2 frases en espa\u00f1ol que responden a tu pregunta:\n\n1. La compresi\u00f3n de m\u00e1rgenes es una se\u00f1al m\u00e1s temprana que el Piotroski porque permite detectar problemas de eficiencia operativa y financiera en una empresa antes de que se reflejen en sus resultados financieros.\n2. La compresi\u00f3n de m\u00e1rgenes es una se\u00f1al m\u00e1s temprana que el Piotroski porque se basa en indicadores contables que reflejan la capacidad de una empresa para generar beneficios y cash flow, en lugar de depender \u00fanicamente de indicadores de retorno sobre la inversi\u00f3n (ROI) como el ROE.",
+  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que responden a tu pregunta:\n\n1. \"La compresi\u00f3n de m\u00e1rgenes es una se\u00f1al m\u00e1s temprana que el Piotroski porque refleja cambios en la rentabilidad operativa de una empresa antes de que se traduzcan en cambios en su salud financiera global.\"\n2. \"La compresi\u00f3n de m\u00e1rgenes puede detectar problemas de rentabilidad antes de que se conviertan en problemas de liquidez, lo que la convierte en una se\u00f1al m\u00e1s temprana y efectiva que el Piotroski para identificar empresas en declive.\"",
   "decays": [
     {
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
+      "ticker": "ATLKY",
+      "company_name": "Atlas Copco AB",
       "severity": "MEDIUM",
-      "decay_score": 9,
-      "value_score": 47.28,
-      "snapshot_date": "2026-07-30",
+      "decay_score": 3,
+      "value_score": 63.005,
+      "snapshot_date": "2026-07-31",
+      "piotr_prev": 6.0,
+      "piotr_curr": 6.0,
+      "fcf_prev": 26.55,
+      "fcf_curr": 2.63,
+      "health_prev": 80.0,
+      "health_curr": 80.0,
+      "margin_prev": null,
+      "margin_curr": null,
+      "flags": [
+        "FCF yield cay\u00f3 23.9pp (26.6% \u2192 2.6%)"
+      ]
+    },
+    {
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "severity": "MEDIUM",
+      "decay_score": 3,
+      "value_score": 57.98,
+      "snapshot_date": "2026-07-31",
       "piotr_prev": 8.0,
       "piotr_curr": 8.0,
-      "fcf_prev": 7.08,
-      "fcf_curr": 5.38,
-      "health_prev": 55.0,
-      "health_curr": 25.0,
-      "margin_prev": 19.2,
-      "margin_curr": 0.5,
+      "fcf_prev": 45.77,
+      "fcf_curr": 4.69,
+      "health_prev": 65.0,
+      "health_curr": 65.0,
+      "margin_prev": null,
+      "margin_curr": null,
       "flags": [
-        "FCF yield cay\u00f3 1.7pp (7.1% \u2192 5.4%)",
-        "Salud financiera cay\u00f3 30pts (55 \u2192 25/100)",
-        "Margen op. cay\u00f3 18.7pp (19.2% \u2192 0.5%)",
-        "Deterioro sist\u00e9mico: m\u00faltiples m\u00e9tricas en ca\u00edda simult\u00e1nea"
+        "FCF yield cay\u00f3 41.1pp (45.8% \u2192 4.7%)"
       ]
     },
     {
@@ -31,18 +47,18 @@
       "company_name": "Aon plc",
       "severity": "MEDIUM",
       "decay_score": 3,
-      "value_score": 53.495000000000005,
-      "snapshot_date": "2026-07-30",
+      "value_score": 53.61,
+      "snapshot_date": "2026-07-31",
       "piotr_prev": 8.0,
       "piotr_curr": 8.0,
-      "fcf_prev": 4.1,
-      "fcf_curr": 4.63,
+      "fcf_prev": 4.15,
+      "fcf_curr": 4.17,
       "health_prev": 80.0,
       "health_curr": 80.0,
       "margin_prev": 35.8,
-      "margin_curr": 21.6,
+      "margin_curr": 23.5,
       "flags": [
-        "Margen op. cay\u00f3 14.2pp (35.8% \u2192 21.6%)"
+        "Margen op. cay\u00f3 12.3pp (35.8% \u2192 23.5%)"
       ]
     },
     {
@@ -50,11 +66,11 @@
       "company_name": "Visa Inc.",
       "severity": "MEDIUM",
       "decay_score": 3,
-      "value_score": 44.995000000000005,
-      "snapshot_date": "2026-07-30",
+      "value_score": 43.74000000000001,
+      "snapshot_date": "2026-07-31",
       "piotr_prev": 6.0,
       "piotr_curr": 6.0,
-      "fcf_prev": 2.99,
+      "fcf_prev": 3.08,
       "fcf_curr": 2.98,
       "health_prev": 85.0,
       "health_curr": 70.0,
@@ -65,60 +81,60 @@
       ]
     },
     {
-      "ticker": "AI.PA",
-      "company_name": "AIR LIQUIDE",
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
       "severity": "MEDIUM",
       "decay_score": 3,
-      "value_score": 33.375,
-      "snapshot_date": "2026-07-30",
-      "piotr_prev": 7.0,
-      "piotr_curr": 7.0,
-      "fcf_prev": 1.38,
-      "fcf_curr": 0.24,
-      "health_prev": 70.0,
-      "health_curr": 60.0,
-      "margin_prev": 19.5,
-      "margin_curr": 20.1,
+      "value_score": 42.6,
+      "snapshot_date": "2026-07-31",
+      "piotr_prev": 8.0,
+      "piotr_curr": 8.0,
+      "fcf_prev": 3.11,
+      "fcf_curr": 2.09,
+      "health_prev": 95.0,
+      "health_curr": 100.0,
+      "margin_prev": 39.7,
+      "margin_curr": 34.6,
       "flags": [
-        "Salud financiera cay\u00f3 10pts (70 \u2192 60/100)"
+        "Margen op. cay\u00f3 5.1pp (39.7% \u2192 34.6%)"
       ]
     },
     {
-      "ticker": "AI.PA",
-      "company_name": "AIR LIQUIDE",
+      "ticker": "CLPBY",
+      "company_name": "Coloplast AS",
       "severity": "MEDIUM",
       "decay_score": 3,
-      "value_score": 33.1,
-      "snapshot_date": "2026-07-30",
+      "value_score": 41.05499999999999,
+      "snapshot_date": "2026-07-31",
       "piotr_prev": 7.0,
       "piotr_curr": 7.0,
-      "fcf_prev": 1.38,
-      "fcf_curr": 0.24,
-      "health_prev": 70.0,
-      "health_curr": 60.0,
-      "margin_prev": 19.5,
-      "margin_curr": 20.1,
+      "fcf_prev": 27.92,
+      "fcf_curr": 4.29,
+      "health_prev": 75.0,
+      "health_curr": 75.0,
+      "margin_prev": 25.7,
+      "margin_curr": 25.7,
       "flags": [
-        "Salud financiera cay\u00f3 10pts (70 \u2192 60/100)"
+        "FCF yield cay\u00f3 23.6pp (27.9% \u2192 4.3%)"
       ]
     },
     {
-      "ticker": "VLTO",
-      "company_name": "Veralto Corp",
+      "ticker": "OR.PA",
+      "company_name": "L'OREAL",
       "severity": "MEDIUM",
       "decay_score": 3,
-      "value_score": 24.340000000000003,
-      "snapshot_date": "2026-07-30",
+      "value_score": 37.6,
+      "snapshot_date": "2026-07-31",
       "piotr_prev": 6.0,
       "piotr_curr": 6.0,
-      "fcf_prev": 3.18,
-      "fcf_curr": null,
-      "health_prev": 85.0,
-      "health_curr": 65.0,
-      "margin_prev": 23.8,
-      "margin_curr": 21.4,
+      "fcf_prev": 2.9,
+      "fcf_curr": 3.08,
+      "health_prev": 80.0,
+      "health_curr": 70.0,
+      "margin_prev": 19.2,
+      "margin_curr": 21.3,
       "flags": [
-        "Salud financiera cay\u00f3 20pts (85 \u2192 65/100)"
+        "Salud financiera cay\u00f3 10pts (80 \u2192 70/100)"
       ]
     }
   ]

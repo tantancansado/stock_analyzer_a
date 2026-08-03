@@ -1,38 +1,28 @@
 {
   "generated_at": "2026-08-03",
-  "total": 62,
-  "improving": 1,
-  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que explican por qu\u00e9 la mejora de Piotroski puede se\u00f1alar un posible re-rating:\n\n1. \"La mejora en la calificaci\u00f3n de Piotroski indica que la empresa ha mejorado su calidad financiera, lo que puede llevar a un reevaluaci\u00f3n positiva por parte de los inversores y, en consecuencia, un aumento en el precio de la acci\u00f3n.\"\n2. \"Un aumento en la calificaci\u00f3n de Piotroski sugiere que la empresa ha mejorado su capacidad para generar cash flow, reducir su deuda y mejorar su liquidez, lo que puede ser un indicador de un re-rating futuro, ya que los inversores",
+  "total": 56,
+  "improving": 2,
+  "narrative": "Aqu\u00ed te presento dos frases en espa\u00f1ol que explican por qu\u00e9 la mejora de Piotroski puede se\u00f1alar un posible re-rating:\n\n1. \"La mejora en la puntuaci\u00f3n de Piotroski de CTAS y MCO sugiere una mejor\u00eda en su calidad financiera, lo que podr\u00eda llevar a un reevaluaci\u00f3n positiva por parte de los inversores y, en consecuencia, un aumento en su precio de cotizaci\u00f3n.\"\n2. \"Un aumento en la puntuaci\u00f3n de Piotroski de CTAS y MCO puede indicar una mayor estabilidad y solidez financiera, lo que podr\u00eda justificar un reevaluaci\u00f3n del precio de sus acciones y un posible",
   "candidates": [
     {
-      "ticker": "EL.PA",
-      "company_name": "ESSILORLUXOTTICA",
-      "piotroski_current": 5.0,
-      "piotroski_prev": 4.0,
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 3.0,
+      "delta": 5.0,
+      "trend": "IMPROVING",
+      "signal": "STRONG",
+      "value_score": 33.919999999999995
+    },
+    {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 7.0,
       "delta": 1.0,
       "trend": "SLIGHT_UP",
-      "signal": "NEUTRAL",
-      "value_score": 33.5
-    },
-    {
-      "ticker": "EXPN.L",
-      "company_name": "EXPERIAN PLC ORD USD0.10",
-      "piotroski_current": 9.0,
-      "piotroski_prev": 9.0,
-      "delta": 0.0,
-      "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 79.53999999999999
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "piotroski_current": 9.0,
-      "piotroski_prev": 9.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 78.375
+      "value_score": 71.62
     },
     {
       "ticker": "NDAQ",
@@ -42,17 +32,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 61.92
+      "value_score": 61.43000000000001
     },
     {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "piotroski_current": 9.0,
       "piotroski_prev": 9.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 54.97500000000001
+      "value_score": 61.31999999999999
     },
     {
       "ticker": "TT",
@@ -62,7 +52,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 60.375
+      "value_score": 48.25
+    },
+    {
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "piotroski_current": 9.0,
+      "piotroski_prev": 9.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 46.81
     },
     {
       "ticker": "RACE",
@@ -72,7 +72,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 39.005
+      "value_score": 42.98
     },
     {
       "ticker": "EXPN.L",
@@ -82,7 +82,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.0
+      "value_score": 65.6
     },
     {
       "ticker": "RACE.MI",
@@ -92,47 +92,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 48.8
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 89.82
-    },
-    {
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 64.135
-    },
-    {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 72.94
-    },
-    {
-      "ticker": "ASAZY",
-      "company_name": "Assa Abloy AB",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 74.67500000000001
+      "value_score": 53.8
     },
     {
       "ticker": "ADP",
@@ -142,7 +102,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 58.64
+      "value_score": 67.16499999999999
+    },
+    {
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 57.98
     },
     {
       "ticker": "AON",
@@ -152,7 +122,37 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 53.495000000000005
+      "value_score": 53.61
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 53.09
+    },
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 42.6
+    },
+    {
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 41.78
     },
     {
       "ticker": "FAST",
@@ -162,17 +162,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.7
+      "value_score": 38.24
     },
     {
-      "ticker": "HEI",
-      "company_name": "Heico Corporation",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 36.44999999999999
+      "value_score": 36.28
+    },
+    {
+      "ticker": "TW",
+      "company_name": "Tradeweb Markets Inc.",
+      "piotroski_current": 8.0,
+      "piotroski_prev": 8.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 35.3
     },
     {
       "ticker": "NYT",
@@ -182,47 +192,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 33.415
+      "value_score": 34.32
     },
     {
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
+      "ticker": "HEI",
+      "company_name": "Heico Corporation",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 47.28
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 27.730000000000004
-    },
-    {
-      "ticker": "IDXX",
-      "company_name": "IDEXX Laboratories, Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 23.41
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza Inc",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 22.599999999999994
+      "value_score": 31.739999999999995
     },
     {
       "ticker": "SAP.DE",
@@ -232,7 +212,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 61.4
+      "value_score": 56.4
     },
     {
       "ticker": "DSY.PA",
@@ -242,7 +222,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 53.5
+      "value_score": 52.3
     },
     {
       "ticker": "ASSA-B.ST",
@@ -252,7 +232,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 49.4
+      "value_score": 46.4
     },
     {
       "ticker": "INDT.ST",
@@ -262,7 +242,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 43.3
+      "value_score": 42.7
     },
     {
       "ticker": "RMS.PA",
@@ -272,7 +252,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 41.9
+      "value_score": 38.9
     },
     {
       "ticker": "DPLM.L",
@@ -285,16 +265,6 @@
       "value_score": 34.7
     },
     {
-      "ticker": "CPR.MI",
-      "company_name": "CAMPARI",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 33.4
-    },
-    {
       "ticker": "KNEBV.HE",
       "company_name": "KONE Corporation",
       "piotroski_current": 8.0,
@@ -305,16 +275,6 @@
       "value_score": 32.1
     },
     {
-      "ticker": "CDNS",
-      "company_name": "Cadence Design Systems, Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 54.485
-    },
-    {
       "ticker": "CNI",
       "company_name": "Canadian National Railway Compa",
       "piotroski_current": 7.0,
@@ -322,107 +282,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.77999999999999
-    },
-    {
-      "ticker": "WST",
-      "company_name": "West Pharmaceutical Services, I",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 49.66
-    },
-    {
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 60.82499999999999
-    },
-    {
-      "ticker": "VEEV",
-      "company_name": "Veeva Systems Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 42.39500000000001
-    },
-    {
-      "ticker": "CP",
-      "company_name": "Canadian Pacific Kansas City Li",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 51.92
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 43.53
-    },
-    {
-      "ticker": "CLPBY",
-      "company_name": "Coloplast AS",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 48.07
-    },
-    {
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 34.940000000000005
-    },
-    {
-      "ticker": "ETN",
-      "company_name": "Eaton Corporation, PLC",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 38.855
-    },
-    {
-      "ticker": "KR",
-      "company_name": "Kroger Company (The)",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 28.164999999999992
-    },
-    {
-      "ticker": "AI.PA",
-      "company_name": "AIR LIQUIDE",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 33.375
+      "value_score": 58.10499999999999
     },
     {
       "ticker": "KVUE",
@@ -432,7 +292,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 23.595
+      "value_score": 48.205
+    },
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 47.565
     },
     {
       "ticker": "TJX",
@@ -442,7 +312,97 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 23.27
+      "value_score": 47.175
+    },
+    {
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 44.26
+    },
+    {
+      "ticker": "CLPBY",
+      "company_name": "Coloplast AS",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 41.05499999999999
+    },
+    {
+      "ticker": "ORLY",
+      "company_name": "O'Reilly Automotive, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 40.18
+    },
+    {
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 39.53
+    },
+    {
+      "ticker": "WST",
+      "company_name": "West Pharmaceutical Services, I",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 38.845
+    },
+    {
+      "ticker": "KO",
+      "company_name": "Coca-Cola Company (The)",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 37.395
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 37.3
+    },
+    {
+      "ticker": "VEEV",
+      "company_name": "Veeva Systems Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 32.72
+    },
+    {
+      "ticker": "ETN",
+      "company_name": "Eaton Corporation, PLC",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 32.6
     },
     {
       "ticker": "WKL.AS",
@@ -452,7 +412,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 54.4
+      "value_score": 54.8
     },
     {
       "ticker": "AMS.MC",
@@ -462,7 +422,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 52.4
+      "value_score": 54.2
     },
     {
       "ticker": "MONC.MI",
@@ -472,7 +432,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 50.3
+      "value_score": 48.3
     },
     {
       "ticker": "PGHN.SW",
@@ -492,27 +452,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 38.1
+      "value_score": 43.1
     },
     {
       "ticker": "ITX.MC",
-      "company_name": "INDUSTRIA DE DISE...O TEXTIL S.",
+      "company_name": "ITX.MC",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 41.0
+      "value_score": 40.6
     },
     {
-      "ticker": "SIKA.SW",
-      "company_name": "SIKA N",
+      "ticker": "GIVN.SW",
+      "company_name": "GIVAUDAN N",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 36.9
+      "value_score": 37.5
     },
     {
       "ticker": "LIFCO-B.ST",
@@ -526,43 +486,13 @@
     },
     {
       "ticker": "HLMA.L",
-      "company_name": "HALMA PLC ORD 10P",
+      "company_name": "HLMA.L",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
       "value_score": 35.4
-    },
-    {
-      "ticker": "GIVN.SW",
-      "company_name": "GIVAUDAN N",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 34.5
-    },
-    {
-      "ticker": "AI.PA",
-      "company_name": "AIR LIQUIDE",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 33.1
-    },
-    {
-      "ticker": "SAF.PA",
-      "company_name": "SAFRAN",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 32.9
     },
     {
       "ticker": "GEBN.SW",
@@ -572,17 +502,37 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 31.5
+      "value_score": 34.8
     },
     {
-      "ticker": "HEIA.AS",
-      "company_name": "HEINEKEN",
+      "ticker": "SIKA.SW",
+      "company_name": "SIKA N",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 28.1
+      "value_score": 33.9
+    },
+    {
+      "ticker": "AI.PA",
+      "company_name": "AIR LIQUIDE",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 32.6
+    },
+    {
+      "ticker": "SAF.PA",
+      "company_name": "SAFRAN",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 29.5
     },
     {
       "ticker": "DSV.CO",
@@ -595,34 +545,24 @@
       "value_score": 27.3
     },
     {
-      "ticker": "HRI",
-      "company_name": "Herc Holdings Inc.",
-      "piotroski_current": 3.0,
-      "piotroski_prev": null,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "WEAK",
-      "value_score": 33.78
-    },
-    {
-      "ticker": "TNE.AX",
-      "company_name": "TECH ONE FPO [TNE]",
-      "piotroski_current": 3.0,
-      "piotroski_prev": 3.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "WEAK",
-      "value_score": 26.625
-    },
-    {
-      "ticker": "MCO",
-      "company_name": "Moody's Corporation",
+      "ticker": "HEIA.AS",
+      "company_name": "HEINEKEN",
       "piotroski_current": 7.0,
-      "piotroski_prev": 8.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 27.2
+    },
+    {
+      "ticker": "EL.PA",
+      "company_name": "ESSILORLUXOTTICA",
+      "piotroski_current": 4.0,
+      "piotroski_prev": 5.0,
       "delta": -1.0,
       "trend": "SLIGHT_DOWN",
-      "signal": "STRONG",
-      "value_score": 78.035
+      "signal": "NEUTRAL",
+      "value_score": 33.5
     }
   ]
 }

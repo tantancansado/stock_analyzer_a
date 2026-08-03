@@ -1,14 +1,15 @@
 {
   "generated_at": "2026-08-03",
-  "total_positions": 24,
+  "total_positions": 25,
   "risks": [
     {
-      "type": "RATE_SENSITIVITY",
+      "type": "SECTOR_CONCENTRATION",
       "severity": "MEDIUM",
-      "message": "33% expuesto a sectores sensibles a tipos de inter\u00e9s",
+      "message": "40% de se\u00f1ales en Unknown (10/25) \u2014 concentraci\u00f3n elevada",
       "detail": {
-        "count": 8,
-        "pct": 33
+        "sector": "Unknown",
+        "count": 10,
+        "pct": 40
       }
     },
     {
@@ -16,45 +17,45 @@
       "severity": "LOW",
       "message": "100% en mercado US \u2014 poca diversificaci\u00f3n geogr\u00e1fica",
       "detail": {
-        "us": 24,
+        "us": 25,
         "eu": 0
       }
     }
   ],
-  "narrative": "Para mitigar los riesgos de concentraci\u00f3n en el portfolio, se pueden implementar las siguientes estrategias:\n\n1. **Diversificaci\u00f3n geogr\u00e1fica**: Incorporar activos en mercados extranjeros, como Europa, Asia o Am\u00e9rica Latina, para reducir la exposici\u00f3n a la volatilidad de los mercados estadounidenses. Esto puede incluir la adquisici\u00f3n de acciones de empresas con operaciones en diferentes regiones o la inversi\u00f3n en fondos de inversi\u00f3n que tengan una exposici\u00f3n geogr\u00e1fica m\u00e1s diversificada.\n2. **Diversificaci\u00f3n sectorial**: Reducir la exposici\u00f3n a sectores sensibles a los tipos de inter\u00e9s, como la construcci\u00f3n o la ban",
+  "narrative": "Para mitigar estos riesgos de concentraci\u00f3n, es recomendable considerar las siguientes estrategias:\n\n1. **Diversificar las posiciones sectoriales**: Reduce la concentraci\u00f3n en el sector Unknown aumentando la participaci\u00f3n en otros sectores con una mayor representaci\u00f3n de se\u00f1ales. Esto puede ayudar a reducir el riesgo de p\u00e9rdidas en caso de una mala performance del sector Unknown.\n\n2. **Invertir en activos con exposici\u00f3n geogr\u00e1fica diversificada**: Incorpora se\u00f1ales de empresas con operaciones en diferentes mercados, como Europa, Asia o Am\u00e9rica Latina, para reducir la dependencia del mercado US y aumentar la diversificaci\u00f3n geogr\u00e1fica del portfolio. Esto puede ayudar",
   "sector_breakdown": [
     {
-      "sector": "Financial Services",
-      "count": 8,
-      "pct": 33
+      "sector": "Unknown",
+      "count": 10,
+      "pct": 40
     },
     {
-      "sector": "Unknown",
+      "sector": "Financial Services",
       "count": 7,
-      "pct": 29
+      "pct": 28
     },
     {
       "sector": "Industrials",
       "count": 4,
-      "pct": 17
+      "pct": 16
     },
     {
       "sector": "Healthcare",
-      "count": 3,
-      "pct": 12
-    },
-    {
-      "sector": "Consumer Defensive",
-      "count": 1,
-      "pct": 4
+      "count": 2,
+      "pct": 8
     },
     {
       "sector": "Communication Services",
       "count": 1,
       "pct": 4
+    },
+    {
+      "sector": "Consumer Defensive",
+      "count": 1,
+      "pct": 4
     }
   ],
   "region_breakdown": {
-    "US": 24
+    "US": 25
   }
 }

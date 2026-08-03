@@ -1,74 +1,69 @@
 ticker,cerebro_signal,cerebro_score_adj,cerebro_reason,updated_at
-7741.T,CAUTION,0,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos) | EPS revision STRONG_UP: EPS consensus ↑5.6% (931.81→983.98); Revenue estimate ↑4.4%,2026-08-03
+7741.T,CAUTION,0,Señal salida MEDIUM: Score cayó 16pts (52 → 36) | EPS revision STRONG_UP: EPS consensus ↑5.6% (931.81→983.98); Revenue estimate ↑4.4%,2026-08-03
 ABT,EXIT,-15,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-08-03
-ADP,REVISION_UP,11,Piotroski fuerte (8.0/9) | EPS revision STRONG_UP: EPS consensus ↑18.6% (11.95→14.18); Analistas: -14 (14→0),2026-08-03
-AI.PA,CAUTION,-8,Quality decay MEDIUM: Salud financiera cayó 10pts (70 → 60/100) | Caro vs peers en Basic Materials (FCF rank 6/6) | Piotroski fuerte (7.0/9),2026-08-03
+ADP,CAUTION,5,Thesis drift MEDIUM: Margen op. cayó 7.1pp (30.2%→23.1%) | Piotroski fuerte (8.0/9) | EPS revision STRONG_UP: EPS consensus ↑18.6% (11.95→14.18); Analistas: -14 (14→0),2026-08-03
+AI.PA,WATCH,0,Caro vs peers en Basic Materials (FCF rank 5/5) | Piotroski fuerte (7.0/9),2026-08-03
 AJG,WATCH,4,EPS revision UP: EPS consensus ↑3.4% (13.64→14.11); Analistas: -22 (22→0),2026-08-03
-AON,CAUTION,4,Quality decay MEDIUM: Margen op. cayó 14.2pp (35.8% → 21.6%) | Piotroski fuerte (8.0/9) | Mejor FCF en Financial Services (4.6% vs media sector 4.4%) | EPS revision UP: EPS consensus ↑2.5% (19.77→20.25),2026-08-03
-ASAZY,CAUTION,0,Value trap MEDIUM: Sin cobertura de analistas — tesis sin verificar externamente | Piotroski fuerte (8.0/9) | Mejor FCF en Industrials (44.9% vs media sector 5.6%),2026-08-03
-ATLKY,BEST,5,Mejor FCF en Industrials (25.1% vs media sector 5.6%),2026-08-03
-AUTO.L,BEST,5,Mejor FCF en Communication Services (5.9% vs media sector 5.2%),2026-08-03
+AON,CAUTION,-1,Quality decay MEDIUM: Margen op. cayó 12.3pp (35.8% → 23.5%) | Piotroski fuerte (8.0/9) | EPS revision UP: EPS consensus ↑2.5% (19.77→20.25),2026-08-03
+ASAZY,CAUTION,-6,Quality decay MEDIUM: FCF yield cayó 41.1pp (45.8% → 4.7%) | Thesis drift MEDIUM: FCF yield cayó 39.2pp (43.8%→4.7%) | Piotroski fuerte (8.0/9) | Mejor FCF en Industrials (4.7% vs media sector 3.4%),2026-08-03
+ATLKY,CAUTION,-17,Quality decay MEDIUM: FCF yield cayó 23.9pp (26.6% → 2.6%) | Thesis drift MEDIUM: FCF yield cayó 18.8pp (21.4%→2.6%) | Caro vs peers en Industrials (FCF rank 17/21),2026-08-03
+AUTO.L,BEST,5,Mejor FCF en Communication Services (5.8% vs media sector 5.5%),2026-08-03
 AWK,REVISION_UP,8,EPS revision STRONG_UP: EPS consensus ↑20.9% (9.90→11.97); Revenue estimate ↑5.1%,2026-08-03
-AXP,CONFIRM,8,Smart money: 1 HF + 0 insiders (conv 30),2026-08-03
+AXP,CONFIRM,13,Smart money: 1 HF + 0 insiders (conv 33) | Mejor FCF en Financial Services (7.0% vs media sector 5.2%),2026-08-03
 AZO,WATCH,-4,EPS revision DOWN: EPS consensus ↓4.4% (226.58→216.64); Analistas: +23 (0→23),2026-08-03
-BRK-B,BEST,5,Mejor FCF en Financial Services (5.6% vs media sector 4.4%),2026-08-03
-CB,CAUTION,-1,Thesis drift MEDIUM: Score cayó 22pts en 48d (54→33) | Mejor FCF en Financial Services (7.8% vs media sector 4.4%),2026-08-03
-CBOE,CAUTION,-4,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos) | EPS revision UP: EPS consensus ↑2.9% (14.05→14.46); Analistas: -12 (12→0),2026-08-03
-CDNS,WATCH,3,Piotroski fuerte (7.0/9),2026-08-03
+BRK-B,BEST,5,Mejor FCF en Financial Services (5.5% vs media sector 5.2%),2026-08-03
+CB,CAUTION,-1,Thesis drift MEDIUM: Score cayó 19pts en 45d (54→36) | Mejor FCF en Financial Services (7.8% vs media sector 5.2%),2026-08-03
+CBOE,CAUTION,-10,Quality decay MEDIUM: Margen op. cayó 5.1pp (39.7% → 34.6%) | Thesis drift MEDIUM: Upside analistas cayó 27pp (28%→1%) | Caro vs peers en Financial Services (FCF rank 17/17) | Piotroski fuerte (8.0/9) | EPS revision UP: EPS consensus ↑2.9% (14.05→14.46); Analistas: -12 (12→0),2026-08-03
+CDNS,WATCH,0,Caro vs peers en Technology (FCF rank 11/12) | Piotroski fuerte (7.0/9),2026-08-03
 CL,REVISION_UP,8,EPS revision STRONG_UP: EPS consensus ↑11.4% (4.30→4.79); Analistas: +11 (0→11),2026-08-03
-CLPBY,BEST,8,Piotroski fuerte (7.0/9) | Mejor FCF en Healthcare (27.6% vs media sector 6.0%),2026-08-03
-CME,WATCH,-3,Caro vs peers en Financial Services (FCF rank 14/16),2026-08-03
+CLPBY,CAUTION,0,Quality decay MEDIUM: FCF yield cayó 23.6pp (27.9% → 4.3%) | Piotroski fuerte (7.0/9) | Mejor FCF en Healthcare (4.3% vs media sector 2.9%),2026-08-03
+CME,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-08-03
 CNI,REVISION_UP,11,Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑8440.2% (0.15→12.89); Revenue estimate ↑4987.1%,2026-08-03
-COST,EXIT,-15,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-08-03
-CP,WATCH,0,Caro vs peers en Industrials (FCF rank 25/29) | Piotroski fuerte (7.0/9),2026-08-03
-CTAS,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-08-03
-DHR,CAUTION,-6,Thesis drift MEDIUM: Upside analistas cayó 10pp (26%→16%),2026-08-03
+COST,CAUTION,-8,Señal salida MEDIUM: Ya no aparece en VALUE — tesis posiblemente rota,2026-08-03
+CTAS,CAUTION,-6,"Señal salida MEDIUM: Score cayó 22pts (56 → 34) | Caro vs peers en Industrials (FCF rank 20/21) | Piotroski IMPROVING (3.0 → 8.0, Δ+5)",2026-08-03
 ECL,WATCH,4,EPS revision UP: EPS consensus ↑3.9% (11.86→12.32); Revenue estimate ↑2.5%,2026-08-03
 EQIX,WATCH,4,EPS revision UP: EPS consensus ↑4.1% (43.90→45.72); Revenue estimate ↑2.4%,2026-08-03
-ERIE,CAUTION,-8,Value trap MEDIUM: Piotroski débil (4/9),2026-08-03
 ESLOY,WATCH,4,EPS revision UP: EPS consensus ↑4.5% (6.38→6.67); Revenue estimate ↑1.7%,2026-08-03
-ETN,REVISION_UP,8,Caro vs peers en Industrials (FCF rank 27/29) | Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑5.6% (14.05→14.84); Revenue estimate ↑3.3%,2026-08-03
+ETN,CAUTION,5,Thesis drift MEDIUM: Score cayó 14pts en 45d (47→33) | Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑5.6% (14.05→14.84); Revenue estimate ↑3.3%,2026-08-03
 EXPN.L,WATCH,3,Piotroski fuerte (9.0/9),2026-08-03
-FAST,WATCH,0,Caro vs peers en Industrials (FCF rank 28/29) | Piotroski fuerte (8.0/9),2026-08-03
+FAST,WATCH,0,Caro vs peers en Industrials (FCF rank 21/21) | Piotroski fuerte (8.0/9),2026-08-03
 FICO,WATCH,4,EPS revision UP: EPS consensus ↑3.4% (50.68→52.40); Revenue estimate ↑2.8%,2026-08-03
-HEI,WATCH,0,Caro vs peers en Industrials (FCF rank 29/29) | Piotroski fuerte (8.0/9),2026-08-03
+G24.DE,WATCH,-3,Caro vs peers en Communication Services (FCF rank 4/4),2026-08-03
+HEI,WATCH,3,Piotroski fuerte (8.0/9),2026-08-03
 HESAY,WATCH,4,EPS revision UP: EPS consensus ↑4.5% (5.95→6.22); Revenue estimate ↑2.3%,2026-08-03
 ICE,WATCH,7,Piotroski fuerte (8.0/9) | EPS revision UP: EPS consensus ↑4.8% (7.86→8.23); Revenue estimate ↑2.5%,2026-08-03
-IDXX,WATCH,0,Caro vs peers en Healthcare (FCF rank 11/12) | Piotroski fuerte (8.0/9),2026-08-03
-IT,BEST,11,Short squeeze MEDIUM: 23.7% short · Short elevado (23.7% del float); Piotroski 6/9 — calidad mejorando | Mejor FCF en Technology (10.4% vs media sector 4.1%),2026-08-03
-ITW,CAUTION,-2,Thesis drift MEDIUM: Score cayó 14pts en 48d (43→28) | EPS revision UP: EPS consensus ↑3.5% (12.71→13.16); Revenue estimate ↑2.0%,2026-08-03
+IT,CAUTION,5,Thesis drift MEDIUM: Score cayó 11pts en 45d (43→32) | Short squeeze MEDIUM: 23.7% short · Short elevado (23.7% del float); Piotroski 6/9 — calidad mejorando | Mejor FCF en Technology (10.5% vs media sector 5.2%),2026-08-03
+ITW,WATCH,4,EPS revision UP: EPS consensus ↑3.5% (12.71→13.16); Revenue estimate ↑2.0%,2026-08-03
 JKHY,WATCH,3,Piotroski fuerte (9.0/9),2026-08-03
-JNJ,CAUTION,-6,Thesis drift MEDIUM: Score cayó 22pts en 48d (46→24),2026-08-03
-KO,WATCH,-8,EPS revision STRONG_DOWN: EPS consensus ↓5.3% (3.37→3.19); Analistas: -23 (23→0),2026-08-03
+KO,CONFIRM,3,EPS revision STRONG_DOWN: EPS consensus ↓5.3% (3.37→3.19); Analistas: -23 (23→0) | Smart money: 1 HF + 0 insiders (conv 26) | Piotroski fuerte (7.0/9),2026-08-03
 LIN,WATCH,4,EPS revision UP: EPS consensus ↑2.6% (24.59→25.22); Revenue estimate ↑1.6%,2026-08-03
-LSEG.L,BEST,12,Piotroski fuerte (7.0/9) | Mejor FCF en Financial Services (4.9% vs media sector 4.4%) | EPS revision UP: EPS consensus ↑3.2% (8.25→8.52); Revenue estimate ↑1.7%,2026-08-03
-MA,REVISION_UP,11,Piotroski fuerte (9.0/9) | EPS revision STRONG_UP: EPS consensus ↑10.2% (19.87→21.91); Revenue estimate ↑3.4%,2026-08-03
-MCO,CONFIRM,8,Caro vs peers en Financial Services (FCF rank 13/16) | Smart money: 1 HF + 0 insiders (conv 38) | Piotroski fuerte (7.0/9),2026-08-03
-MKC,BEST,5,Mejor FCF en Consumer Defensive (5.2% vs media sector 4.3%),2026-08-03
-MSCI,CAUTION,-8,Señal salida MEDIUM: Score cayó 24pts (52 → 28) | Caro vs peers en Financial Services (FCF rank 16/16) | Piotroski fuerte (8.0/9),2026-08-03
-MSFT,CONFIRM,13,Caro vs peers en Technology (FCF rank 12/13) | Smart money: 1 HF + 0 insiders (conv 37) | EPS revision STRONG_UP: EPS consensus ↑10.7% (27.41→30.35); Revenue estimate ↑6.1%,2026-08-03
-NDAQ,WATCH,3,Piotroski fuerte (9.0/9),2026-08-03
-ORLY,WATCH,4,EPS revision UP: EPS consensus ↑4.4% (4.11→4.29); Revenue estimate ↑1.7%,2026-08-03
-OTIS,BEST,5,Mejor FCF en Industrials (5.3% vs media sector 5.6%),2026-08-03
-PG,CAUTION,-6,Thesis drift MEDIUM: Score cayó 25pts en 48d (58→32),2026-08-03
-RACE,WATCH,4,Caro vs peers en Consumer Cyclical (FCF rank 11/11) | Piotroski fuerte (9.0/9) | EPS revision UP: EPS consensus ↑3.1% (13.04→13.45); Analistas: -11 (11→0),2026-08-03
-ROP,BEST,5,Mejor FCF en Technology (5.9% vs media sector 4.1%),2026-08-03
+LSEG.L,WATCH,7,Piotroski fuerte (7.0/9) | EPS revision UP: EPS consensus ↑3.2% (8.25→8.52); Revenue estimate ↑1.7%,2026-08-03
+MA,CAUTION,5,Thesis drift MEDIUM: Upside analistas cayó 16pp (32%→15%) | Piotroski fuerte (9.0/9) | EPS revision STRONG_UP: EPS consensus ↑10.2% (19.87→21.91); Revenue estimate ↑3.4%,2026-08-03
+MCO,CONFIRM,10,"Caro vs peers en Financial Services (FCF rank 15/17) | Smart money: 1 HF + 0 insiders (conv 36) | Piotroski SLIGHT_UP (7.0 → 8.0, Δ+1)",2026-08-03
+MKC,BEST,5,Mejor FCF en Consumer Defensive (5.2% vs media sector 3.5%),2026-08-03
+MSCI,CAUTION,-8,Señal salida MEDIUM: Ya no aparece en VALUE — tesis posiblemente rota,2026-08-03
+MSFT,CONFIRM,19,"Caro vs peers en Technology (FCF rank 12/12) | Smart money: 1 HF + 0 insiders (conv 42) | Opciones TIER2 (q=50): VALUE strong (91pts), DIRECTIONAL (83% calls) | EPS revision STRONG_UP: EPS consensus ↑10.7% (27.41→30.35); Revenue estimate ↑6.1%",2026-08-03
+NDAQ,WATCH,0,Caro vs peers en Financial Services (FCF rank 14/17) | Piotroski fuerte (9.0/9),2026-08-03
+ORLY,WATCH,7,Piotroski fuerte (7.0/9) | EPS revision UP: EPS consensus ↑4.4% (4.11→4.29); Revenue estimate ↑1.7%,2026-08-03
+OTIS,BEST,5,Mejor FCF en Industrials (5.2% vs media sector 3.4%),2026-08-03
+PGR,BEST,5,Mejor FCF en Financial Services (14.0% vs media sector 5.2%),2026-08-03
+RACE,WATCH,4,Caro vs peers en Consumer Cyclical (FCF rank 8/9) | Piotroski fuerte (9.0/9) | EPS revision UP: EPS consensus ↑3.1% (13.04→13.45); Analistas: -11 (11→0),2026-08-03
+ROP,BEST,5,Mejor FCF en Technology (5.8% vs media sector 5.2%),2026-08-03
 SAP,WATCH,4,EPS revision UP: EPS consensus ↑4.5% (11.23→11.73),2026-08-03
-SBGSY,CAUTION,2,Thesis drift MEDIUM: Score cayó 12pts en 48d (42→30) | EPS revision STRONG_UP: EPS consensus ↑10.8% (2.47→2.74); Revenue estimate ↑4.2%,2026-08-03
+SBGSY,REVISION_UP,8,EPS revision STRONG_UP: EPS consensus ↑10.8% (2.47→2.74); Revenue estimate ↑4.2%,2026-08-03
 SHW,WATCH,4,EPS revision UP: EPS consensus ↑2.7% (14.35→14.73); Revenue estimate ↑2.9%,2026-08-03
-SPGI,CAUTION,3,Señal salida MEDIUM: Score cayó 17pts (61 → 44) | Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑5.6% (19.20→20.27); Revenue estimate ↓1.9%,2026-08-03
+SPGI,REVISION_UP,11,Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑5.6% (19.20→20.27); Revenue estimate ↓1.9%,2026-08-03
 SXYAY,WATCH,4,EPS revision UP: EPS consensus ↑4.0% (1.29→1.35); Revenue estimate ↑3.1%,2026-08-03
-SYK,CAUTION,0,Señal salida MEDIUM: Score cayó 21pts (54 → 34) | EPS revision STRONG_UP: EPS consensus ↑21.3% (13.69→16.61); Revenue estimate ↑1.9%,2026-08-03
-TJX,CAUTION,-3,Thesis drift MEDIUM: Score cayó 19pts en 48d (42→23) | Piotroski fuerte (7.0/9),2026-08-03
-TNE.AX,WATCH,-3,Caro vs peers en Technology (FCF rank 11/13),2026-08-03
+SYK,REVISION_UP,8,EPS revision STRONG_UP: EPS consensus ↑21.3% (13.69→16.61); Revenue estimate ↑1.9%,2026-08-03
+TJX,WATCH,3,Piotroski fuerte (7.0/9),2026-08-03
 TT,WATCH,7,Piotroski fuerte (9.0/9) | EPS revision UP: EPS consensus ↑2.2% (18.05→18.45); Revenue estimate ↑3.7%,2026-08-03
-TW,REVISION_UP,8,EPS revision STRONG_UP: EPS consensus ↑10.4% (4.25→4.69); Revenue estimate ↑3.6%,2026-08-03
+TW,REVISION_UP,11,Piotroski fuerte (8.0/9) | EPS revision STRONG_UP: EPS consensus ↑10.4% (4.25→4.69); Revenue estimate ↑3.6%,2026-08-03
 TYL,REVISION_UP,8,EPS revision STRONG_UP: EPS consensus ↑9.9% (17.51→19.24); Revenue estimate ↑2.3%,2026-08-03
-V,CAUTION,-17,Quality decay MEDIUM: Salud financiera cayó 15pts (85 → 70/100) | Thesis drift MEDIUM: Score cayó 19pts en 48d (64→45) | Caro vs peers en Financial Services (FCF rank 15/16),2026-08-03
+V,CAUTION,-11,Quality decay MEDIUM: Salud financiera cayó 15pts (85 → 70/100) | Caro vs peers en Financial Services (FCF rank 16/17),2026-08-03
 VEEV,WATCH,3,Piotroski fuerte (7.0/9),2026-08-03
-VLTO,EXIT,-21,Quality decay MEDIUM: Salud financiera cayó 20pts (85 → 65/100) | Thesis drift MEDIUM: Score cayó 28pts en 48d (53→24) | Señal salida HIGH: Score cayó 28pts (53 → 24) | EPS revision STRONG_UP: EPS consensus ↑7.2% (4.56→4.89); Revenue estimate ↑1.7%,2026-08-03
-VRSK,REVISION_UP,11,Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑13.9% (10.59→12.06); Revenue estimate ↑1.6%,2026-08-03
-VRSN,CONFIRM,11,Smart money: 1 HF + 0 insiders (conv 34) | Piotroski fuerte (8.0/9),2026-08-03
-WM,WATCH,7,Piotroski fuerte (8.0/9) | EPS revision UP: EPS consensus ↑2.5% (16.57→16.99); Analistas: +26 (0→26),2026-08-03
-WMT,WATCH,0,Caro vs peers en Consumer Defensive (FCF rank 9/9) | Piotroski fuerte (7.0/9),2026-08-03
-WST,WATCH,4,Caro vs peers en Healthcare (FCF rank 12/12) | Piotroski fuerte (7.0/9) | EPS revision UP: EPS consensus ↑3.3% (11.37→11.75),2026-08-03
+VLTO,CAUTION,0,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos) | EPS revision STRONG_UP: EPS consensus ↑7.2% (4.56→4.89); Revenue estimate ↑1.7%,2026-08-03
+VRSK,REVISION_UP,16,Piotroski fuerte (7.0/9) | Mejor FCF en Industrials (4.2% vs media sector 3.4%) | EPS revision STRONG_UP: EPS consensus ↑13.9% (10.59→12.06); Revenue estimate ↑1.6%,2026-08-03
+VRSN,CONFIRM,11,Smart money: 1 HF + 0 insiders (conv 26) | Piotroski fuerte (8.0/9),2026-08-03
+WM,WATCH,4,Caro vs peers en Industrials (FCF rank 18/21) | Piotroski fuerte (8.0/9) | EPS revision UP: EPS consensus ↑2.5% (16.57→16.99); Analistas: +26 (0→26),2026-08-03
+WMT,WATCH,0,Caro vs peers en Consumer Defensive (FCF rank 7/7) | Piotroski fuerte (7.0/9),2026-08-03
+WST,WATCH,4,Caro vs peers en Healthcare (FCF rank 8/9) | Piotroski fuerte (7.0/9) | EPS revision UP: EPS consensus ↑3.3% (11.37→11.75),2026-08-03
