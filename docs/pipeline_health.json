@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-03T08:49:07Z",
+  "generated_at": "2026-08-03T12:22:17Z",
   "pipeline_date": "2026-08-03",
-  "ok_count": 17,
+  "ok_count": 19,
   "total": 20,
   "modules": {
     "value_us": {
@@ -9,21 +9,21 @@
       "date": "2026-08-03",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 73,
+      "rows": 56,
       "min_rows": 20
     },
     "value_filtered": {
-      "status": "stale",
-      "date": "2026-07-31",
-      "days_ago": 3,
+      "status": "ok",
+      "date": "2026-08-03",
+      "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 57,
+      "rows": 45,
       "min_rows": 10
     },
     "vcp": {
       "status": "ok",
-      "date": "2026-07-31",
-      "days_ago": 3,
+      "date": "2026-08-03",
+      "days_ago": 0,
       "stale_threshold_days": 3
     },
     "value_eu": {
@@ -39,7 +39,7 @@
       "date": "2026-08-03",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 33,
+      "rows": 32,
       "min_rows": 5
     },
     "fundamental": {
@@ -55,7 +55,7 @@
       "date": "2026-08-03",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 150,
+      "rows": 123,
       "min_rows": 30
     },
     "cerebro": {
@@ -71,9 +71,9 @@
       "stale_threshold_days": 3
     },
     "macro": {
-      "status": "stale",
-      "date": "2026-07-31",
-      "days_ago": 3,
+      "status": "ok",
+      "date": "2026-08-03",
+      "days_ago": 0,
       "stale_threshold_days": 2
     },
     "insiders": {
@@ -89,7 +89,7 @@
       "date": "2026-08-03",
       "days_ago": 0,
       "stale_threshold_days": 2,
-      "rows": 1563,
+      "rows": 1565,
       "min_rows": 1
     },
     "earnings": {
@@ -100,8 +100,8 @@
     },
     "theses": {
       "status": "ok",
-      "date": "2026-07-31",
-      "days_ago": 3,
+      "date": "2026-08-03",
+      "days_ago": 0,
       "stale_threshold_days": 7
     },
     "catalysts": {
@@ -121,7 +121,7 @@
       "date": "2026-08-03",
       "days_ago": 0,
       "stale_threshold_days": 3,
-      "rows": 24,
+      "rows": 3,
       "min_rows": 1
     },
     "bounce_broad": {
