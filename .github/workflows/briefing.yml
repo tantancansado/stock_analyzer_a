@@ -31,9 +31,21 @@ jobs:
       - name: Install dependencies
         run: pip install anthropic pandas
 
-      - name: Run briefing
+      # Dos pasos excluyentes en vez de una ternaria dentro de `env`. La forma
+      # `cond && '' || secrets.X` NO vacía la variable — el 3-ago-2026 mandó un
+      # mensaje que se había prometido no mandar. Con `if:` a nivel de paso el
+      # comportamiento es inequívoco: al paso de dry-run no se le pasan las
+      # credenciales, así que daily_briefing.py entra en su modo de solo imprimir.
+      - name: Run briefing (dry-run — solo imprime)
+        if: github.event.inputs.dry_run == 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ github.event.inputs.dry_run == 'true' && '' || secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:   ${{ github.event.inputs.dry_run == 'true' && '' || secrets.TELEGRAM_CHAT_ID }}
+        run: python3 daily_briefing.py
+
+      - name: Run briefing (envía a Telegram)
+        if: github.event.inputs.dry_run != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python3 daily_briefing.py
