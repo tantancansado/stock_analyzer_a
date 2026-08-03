@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-03T07:55:51.901432",
+  "timestamp": "2026-08-03T11:44:41.549617",
   "date": "2026-08-03",
   "regime": {
     "name": "CALM",
@@ -11,11 +11,11 @@
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 16.1,
-      "percentile": 26.1,
+      "current": 15.95,
+      "percentile": 23.6,
       "score": 0.5,
-      "change_5d": -13.8,
-      "interpretation": "VIX 16.1 (bajo)",
+      "change_5d": -14.6,
+      "interpretation": "VIX 15.9 (bajo)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
@@ -58,11 +58,11 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 79.84,
+      "current": 79.81,
       "percentile": 70.3,
       "score": 0,
       "change_5d": -3.4,
-      "change_20d": 16.5,
+      "change_20d": 16.4,
       "interpretation": "Petroleo $79.8 (rango normal)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
@@ -78,22 +78,22 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 99.79,
-      "percentile": 80.0,
+      "current": 99.81,
+      "percentile": 80.7,
       "score": 0.5,
-      "change_5d": -1.7,
-      "change_20d": -1.06,
+      "change_5d": -1.67,
+      "change_20d": -1.03,
       "interpretation": "DXY 99.8 (ligeramente fuerte)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 156.71,
-      "percentile": 53.5,
+      "current": 156.94,
+      "percentile": 57.0,
       "score": -2,
-      "change_5d": -4.21,
-      "change_20d": -2.93,
-      "interpretation": "USD/JPY 156.7 (yen fortaleciendose (miedo))",
+      "change_5d": -4.08,
+      "change_20d": -2.8,
+      "interpretation": "USD/JPY 156.9 (yen fortaleciendose (miedo))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
     },
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "El r\u00e9gimen de mercado actual es CALM, con se\u00f1ales de riesgo moderado. La curva de tipos empinada y los spreads de cr\u00e9dito apretados sugieren un entorno favorable. El principal riesgo es la volatilidad del yen. Recomiendo un posicionamiento neutral, con un enfoque en activos de crecimiento.",
+  "ai_narrative": "**R\u00e9gimen de mercado actual:**\n\nEl r\u00e9gimen de mercado actual se caracteriza por una tendencia alcista, con una puntuaci\u00f3n compuesta de 10.5/20, lo que indica un r\u00e9gimen CALM (Calm and Low Volatility Market). Las se\u00f1ales m\u00e1s relevantes son la curva tipos empinada, los spreads de cr\u00e9dito apretados, el cobre/oro en tendencia alcista y la defensa superando al mercado. Estas se\u00f1ales sugieren una econom\u00eda en crecimiento y una baja incertidumbre.\n\n**Principal riesgo o catalizador a vigilar:**\n\nEl principal riesgo a vigilar es una posible correcci\u00f3n en la volatilidad, que podr\u00eda ser desencadenada por un aumento en la incertidumbre geopol\u00edtica o econ\u00f3mica.\n\n**Recomendaci\u00f3n de posicionamiento general:**\n\nEn este r\u00e9gimen CALM, se recomienda una estrategia",
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 56.4,
+      "similarity": 56.2,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -189,7 +189,7 @@
       "name": "Mercado Bajista 2022",
       "date": "Ene-Dic 2022",
       "duration_days": 280,
-      "similarity": 50.7,
+      "similarity": 50.4,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -18,
@@ -212,7 +212,7 @@
       "name": "Desaceleraci\u00f3n China",
       "date": "Ago 2015",
       "duration_days": 45,
-      "similarity": 47.7,
+      "similarity": 47.4,
       "outcome": {
         "spy_30d": -11,
         "spy_90d": -5,
