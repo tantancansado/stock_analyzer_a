@@ -1487,25 +1487,20 @@ class FundamentalScorer:
 
             if _ai_missing and _ai_fetch:
                 company = info.get('shortName', '') or info.get('longName', '')
-                # OJO con la divisa: `info` ya viene normalizado a la divisa de
-                # cotización (currency_normalizer), pero lo que devuelva la IA
-                # NO pasa por ahí. Se le pide en la divisa de los estados
-                # financieros y se convierte con el mismo factor; sin factor, el
-                # dato se descarta antes que mezclar divisas.
+                # `info` ya viene normalizado a la divisa de cotización, pero lo
+                # que recupera la IA no pasa por ahí: cada campo declara SU
+                # divisa de origen y se convierte con ella. Lo que venga sin
+                # procedencia comprobable ya lo descarta ai_data_fetcher.
                 _fin_ccy = (info.get('financialCurrency') or currency or '').strip()
-                _ai_data = _ai_fetch(ticker or info.get('symbol', ''), _ai_missing, _fin_ccy, company)
-                _ai_fx = 1.0
-                if _fin_ccy and currency and _fin_ccy.upper() != str(currency).upper():
-                    from currency_normalizer import get_fx_rate
-                    _ai_fx = get_fx_rate(_fin_ccy, str(currency)) or 0.0
-                    if not _ai_fx:
-                        print(f'   ⚠️  {ticker}: datos de IA descartados — sin cambio {_fin_ccy}→{currency}')
-                        _ai_data = {}
-                for _k in ('freeCashflow', 'epsForwardTwelveMonths', 'epsTrailingTwelveMonths'):
-                    if _ai_data.get(_k):
-                        _ai_data[_k] = float(_ai_data[_k]) * _ai_fx
-                if _ai_data:
-                    result['ai_filled_fields'] = ','.join(sorted(_ai_data.keys()))
+                _ai_raw = _ai_fetch(ticker or info.get('symbol', ''), _ai_missing, _fin_ccy, company)
+                from ai_data_fetcher import to_scalar
+                _ai_data = to_scalar(_ai_raw, str(currency or _fin_ccy))
+                _ai_used = sorted(k for k, v in _ai_data.items() if v is not None)
+                if _ai_used:
+                    result['ai_filled_fields'] = ','.join(_ai_used)
+                    result['ai_sources'] = '; '.join(
+                        f"{k}={_ai_raw[k]['source_url']}" for k in _ai_used if _ai_raw.get(k)
+                    )[:500]
                 if not fcf and _ai_data.get('freeCashflow'):
                     fcf = _ai_data['freeCashflow']
                 if not shares and _ai_data.get('sharesOutstanding'):
