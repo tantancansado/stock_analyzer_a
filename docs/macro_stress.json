@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-31T07:14:13+00:00",
+  "generated_at": "2026-08-03T07:56:14+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -7,9 +7,9 @@
       "label": "Petr\u00f3leo (WTI)",
       "category": "energy",
       "primary_ticker": "CL=F",
-      "stress_score": 57.1,
-      "band": "amber",
-      "regime": "TIGHTENING",
+      "stress_score": 78.2,
+      "band": "red",
+      "regime": "DISLOCATED",
       "signals_used": 1,
       "coverage_pct": 25.0,
       "signals": {
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -6.29,
-          "percentile": 57.1,
+          "value": -5.15,
+          "percentile": 78.2,
           "z": null,
-          "score": 57.1,
-          "contribution": 14.3,
+          "score": 78.2,
+          "contribution": 19.6,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 82.4,
-            "deferred_price": 87.58
+            "front_price": 79.84,
+            "deferred_price": 83.95
           },
           "history_ready": true
         },
@@ -86,7 +86,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -6.29%",
+      "narrative": "backwardation -5.15%",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -112,11 +112,6 @@
       "history_ready": false,
       "history_note": "No hay suficiente hist\u00f3rico de se\u00f1ales para buscar an\u00e1logos todav\u00eda.",
       "chart_series": [
-        {
-          "date": "2021-08-13",
-          "price": 68.44,
-          "stress_score": null
-        },
         {
           "date": "2021-08-20",
           "price": 62.32,
@@ -1409,7 +1404,12 @@
         },
         {
           "date": "2026-07-31",
-          "price": 82.35,
+          "price": 84.67,
+          "stress_score": null
+        },
+        {
+          "date": "2026-08-07",
+          "price": 79.8,
           "stress_score": null
         }
       ],
@@ -1417,16 +1417,16 @@
         {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 57.1,
-          "contribution": 14.3
+          "score": 78.2,
+          "contribution": 19.6
         }
       ]
     }
   },
   "summary": {
     "markets_total": 1,
-    "markets_red": 0,
+    "markets_red": 1,
     "top_market": "crude_oil",
-    "top_stress_score": 57.1
+    "top_stress_score": 78.2
   }
 }
