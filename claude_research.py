@@ -33,7 +33,13 @@ from typing import Any
 MODEL = 'claude-sonnet-5'
 MODEL_ANALISIS_PROFUNDO = 'claude-opus-5'   # para análisis abierto, no clasificación
 WEB_SEARCH_TOOL = {'type': 'web_search_20260209', 'name': 'web_search'}
-MAX_CONTINUATIONS = 3
+MAX_CONTINUATIONS = 2
+
+# El cliente espera 10 minutos por petición si no se le dice otra cosa, y eso
+# tumbó el job de scoring el 3-ago-2026 (8 llamadas × 10 min > los 75 min del
+# job). Clasificar con búsqueda web cabe de sobra en 100 s; lo que pase de ahí
+# es una llamada atascada, no una que necesite más tiempo.
+TIMEOUT_SEG = 100.0
 
 _client = None
 
@@ -46,7 +52,7 @@ def _get_client():
         return None
     try:
         import anthropic
-        _client = anthropic.Anthropic()
+        _client = anthropic.Anthropic(timeout=TIMEOUT_SEG, max_retries=1)
         return _client
     except Exception as e:
         print(f'   ⚠️  Cliente Anthropic no disponible: {e}')
@@ -96,7 +102,9 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
                 max_tokens=max_tokens,
                 system=system,
                 tools=[tool],
-                output_config={'effort': 'high'},
+                # medium basta para clasificar en categorías cerradas y recorta
+                # mucho el tiempo por llamada — el criterio ya está en el system
+                output_config={'effort': 'medium'},
                 messages=messages,
             )
 

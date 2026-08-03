@@ -1844,13 +1844,11 @@ class SuperScoreIntegrator:
             if blocked:
                 print(f"   🚫 Verificador IA saca de la lista: {blocked}")
 
-            # Por qué está barata: la pregunta que decide la compra. Una buena
-            # empresa castigada es una oportunidad; una que cae porque el
-            # negocio se rompe es una trampa, y hasta ahora nada las separaba.
-            why = analyze_picks(df.to_dict('records'))
-            df, deteriorados = apply_to_dataframe(df, why)
-            if deteriorados:
-                print(f"   🚫 Fuera por deterioro del negocio: {deteriorados}")
+            # El "por qué está barata" NO va aquí: son búsquedas web que pueden
+            # tardar minutos cada una, y este paso es CRÍTICO — el 3-ago-2026 se
+            # llevó por delante el job entero al agotar los 75 min de timeout.
+            # Vive en enrich_why_cheap.py, que corre después y puede fallar sin
+            # tumbar el scoring.
 
         # CSV
         csv_path = Path(f'docs/{filename}.csv')

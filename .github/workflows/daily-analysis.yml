@@ -82,9 +82,12 @@ jobs:
   # ════════════════════════════════════════════════════════════════════════════
   core-scoring:
     runs-on: ubuntu-latest
-    # 75: el run de la mañana ya tardaba 59m54s — a 60 el margen era cero y
-    # el dispatch del 3-jul (28682078892) murió cancelado a los 60:00 exactos
-    timeout-minutes: 75
+    # Historial de este timeout: 60 → 75 (el dispatch del 3-jul murió cancelado
+    # a los 60:00 exactos) → 90, tras que el run 30807416759 del 3-ago volviera
+    # a morir a los 75:00 exactos. Aquel fue por meter búsquedas web de Claude
+    # dentro del paso crítico; ya viven en su propio paso con presupuesto, y
+    # estos 90 son colchón, no la solución.
+    timeout-minutes: 90
 
     steps:
       - name: Checkout repository
@@ -161,14 +164,25 @@ jobs:
           git fetch origin main
           git checkout origin/main -- docs/reports/vcp/ 2>/dev/null && echo "VCP outputs synced" || echo "VCP sync skipped (not yet available)"
 
-      # ANTHROPIC_API_KEY es necesaria aquí: save_results() verifica la lista
-      # VALUE con Claude (ai_pick_verifier) y analiza por qué ha caído cada
-      # candidato (why_cheap_analyzer). Sin la key ambas capas se saltan en
-      # silencio — fail-open por diseño, pero sin aportar nada.
+      # ANTHROPIC_API_KEY: save_results() verifica la coherencia de las fichas
+      # con Claude (ai_pick_verifier) — una sola llamada, sin búsqueda web.
+      # El análisis de POR QUÉ cae cada candidato NO va aquí: son búsquedas web
+      # que pueden tardar minutos y este paso es crítico. Ver el paso siguiente.
       - name: Run Super Score Integration [CRITICAL]
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python3 super_score_integrator.py
+
+      # Enriquecimiento opcional con presupuesto de tiempo propio (7 min). Si
+      # tarda o falla, la lista VALUE ya está publicada y solo se queda sin las
+      # columnas why_cheap — nunca puede tumbar el scoring, que es justo lo que
+      # pasó el 3-ago-2026 cuando esto vivía dentro del paso anterior.
+      - name: Why Cheap — motivo de la caída de cada candidato
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 enrich_why_cheap.py || echo "Why cheap enrichment failed"
 
       # ── Enriquecimiento opcional (no bloquean el job) ──────────────────────
       - name: AI Quality Filter
