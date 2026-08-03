@@ -13,6 +13,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from data_integrity import filter_dataframe
+
 DOCS = Path('docs')
 HISTORY = DOCS / 'history'
 
@@ -80,6 +82,11 @@ def run_new_value_alerts():
     if today_df.empty:
         print("No value_opportunities_filtered.csv found, skipping")
         return
+
+    # Guard de integridad antes de anunciar nada: un pick con datos imposibles
+    # (FCF yield del 25% por divisa sin convertir, DCF de +569%) no se manda a
+    # Telegram aunque puntúe alto. Ver data_integrity.
+    today_df, _integrity = filter_dataframe(today_df, label='new_value_alerts')
 
     today_quality = today_df[today_df.get('value_score', pd.Series()).ge(SCORE_THRESHOLD)].copy() \
         if 'value_score' in today_df.columns else pd.DataFrame()

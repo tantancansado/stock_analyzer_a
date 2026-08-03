@@ -26,6 +26,8 @@ import time
 import argparse
 from opportunity_validator import OpportunityValidator
 from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, VALUE_SCORE_MIN
+from data_integrity import filter_dataframe
+from ai_pick_verifier import verify_picks, apply_verdicts
 from market_regime_detector import MarketRegimeDetector
 from moving_average_filter import MovingAverageFilter
 from accumulation_distribution_filter import AccumulationDistributionFilter
@@ -1830,6 +1832,16 @@ class SuperScoreIntegrator:
     def save_results(self, df: pd.DataFrame, filename: str = 'super_scores_ultimate', score_column: str = 'super_score_ultimate'):
         """Guarda resultados integrados"""
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        # Doble guard antes de publicar la lista VALUE: rangos imposibles
+        # (determinista) y coherencia de la ficha (Claude). Lo que no se puede
+        # verificar no se recomienda — ver data_integrity y ai_pick_verifier.
+        if filename == 'value_opportunities' and not df.empty:
+            df, _ = filter_dataframe(df, label='value_opportunities')
+            verdicts = verify_picks(df.to_dict('records'))
+            df, blocked = apply_verdicts(df, verdicts)
+            if blocked:
+                print(f"   🚫 Verificador IA saca de la lista: {blocked}")
 
         # CSV
         csv_path = Path(f'docs/{filename}.csv')

@@ -21,6 +21,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from data_integrity import check_row
+
 DOCS = Path('docs')
 BROAD_JSON = DOCS / 'bounce_setups_broad.json'
 MR_CSV     = DOCS / 'mean_reversion_opportunities.csv'
@@ -114,6 +116,12 @@ def _truthy(v) -> bool:
 
 def passes_quality_filters(r) -> tuple[bool, str]:
     """¿La UI pintaría este setup curado? Devuelve (pasa, motivo del rechazo)."""
+    # Antes que nada, que los números sean posibles (data_integrity). Un setup
+    # no lleva value_score, así que no se le exigen los campos de VALUE.
+    integrity = check_row(dict(r), require_value_fields=False)
+    if not integrity['ok']:
+        return False, integrity['blocking'][0]['reason']
+
     rsi = _num(r.get('rsi'))
     if rsi is None or rsi >= MAX_RSI or rsi == 0:
         return False, f'RSI {rsi} (necesita <{MAX_RSI} y != 0)'

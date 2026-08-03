@@ -23,6 +23,8 @@ import random
 import argparse
 from typing import Dict, List, Optional
 
+from currency_normalizer import normalize_info
+
 try:
     from ai_data_fetcher import fetch_missing_financials as _ai_fetch
 except ImportError:
@@ -102,6 +104,12 @@ class FundamentalScorer:
                 print(f"   ❌ Error: sin datos de yfinance (rate limit persistente)")
                 return self._get_empty_result(ticker)
 
+            # Los estados financieros pueden venir en otra divisa que la
+            # cotización (ADR y bolsas europeas). Se normaliza ANTES de calcular
+            # nada: si no, los ratios mezclan divisas — ATLKY daba 25% de FCF
+            # yield contra un 2.6% real. Ver currency_normalizer.
+            info, fx_meta = normalize_info(info, ticker)
+
             # Obtener datos necesarios
             quarterly_earnings = self._get_quarterly_earnings(stock)
             financials = self._get_financials(stock)
@@ -147,6 +155,13 @@ class FundamentalScorer:
                 'fundamental_score': round(fundamental_score, 1),
                 'tier': tier,
                 'quality': quality,
+
+                # Trazabilidad de divisa — quien consuma los ratios sabe si
+                # hubo conversión y si es de fiar (ver currency_normalizer)
+                'price_currency':     fx_meta.get('price_currency'),
+                'financial_currency': fx_meta.get('financial_currency'),
+                'fx_applied':         fx_meta.get('fx_applied'),
+                'fx_reliable':        fx_meta.get('fx_reliable'),
 
                 # Componentes individuales
                 'earnings_quality_score': earnings_score['score'],
@@ -1472,7 +1487,25 @@ class FundamentalScorer:
 
             if _ai_missing and _ai_fetch:
                 company = info.get('shortName', '') or info.get('longName', '')
-                _ai_data = _ai_fetch(ticker or info.get('symbol', ''), _ai_missing, currency, company)
+                # OJO con la divisa: `info` ya viene normalizado a la divisa de
+                # cotización (currency_normalizer), pero lo que devuelva la IA
+                # NO pasa por ahí. Se le pide en la divisa de los estados
+                # financieros y se convierte con el mismo factor; sin factor, el
+                # dato se descarta antes que mezclar divisas.
+                _fin_ccy = (info.get('financialCurrency') or currency or '').strip()
+                _ai_data = _ai_fetch(ticker or info.get('symbol', ''), _ai_missing, _fin_ccy, company)
+                _ai_fx = 1.0
+                if _fin_ccy and currency and _fin_ccy.upper() != str(currency).upper():
+                    from currency_normalizer import get_fx_rate
+                    _ai_fx = get_fx_rate(_fin_ccy, str(currency)) or 0.0
+                    if not _ai_fx:
+                        print(f'   ⚠️  {ticker}: datos de IA descartados — sin cambio {_fin_ccy}→{currency}')
+                        _ai_data = {}
+                for _k in ('freeCashflow', 'epsForwardTwelveMonths', 'epsTrailingTwelveMonths'):
+                    if _ai_data.get(_k):
+                        _ai_data[_k] = float(_ai_data[_k]) * _ai_fx
+                if _ai_data:
+                    result['ai_filled_fields'] = ','.join(sorted(_ai_data.keys()))
                 if not fcf and _ai_data.get('freeCashflow'):
                     fcf = _ai_data['freeCashflow']
                 if not shares and _ai_data.get('sharesOutstanding'):
