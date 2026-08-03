@@ -104,3 +104,24 @@ class TestParseJson:
 
     def test_texto_vacio(self):
         assert cr.parse_json('') == {}
+
+
+class TestModelo:
+    def test_por_defecto_sonnet(self):
+        # La tarea es clasificar material ya recuperado, no razonar en cadena
+        # larga: Sonnet rinde igual a la mitad de precio
+        assert cr.MODEL == 'claude-sonnet-5'
+
+    def test_se_puede_pedir_opus_por_llamada(self):
+        resp = _response([_text('{"a": 1}')])
+        client = _client_returning(resp)
+        with patch.object(cr, '_get_client', return_value=client):
+            cr.ask_with_search('p', 'sys', model=cr.MODEL_ANALISIS_PROFUNDO)
+        assert client.messages.create.call_args.kwargs['model'] == 'claude-opus-5'
+
+    def test_usa_el_modelo_por_defecto_si_no_se_indica(self):
+        resp = _response([_text('{"a": 1}')])
+        client = _client_returning(resp)
+        with patch.object(cr, '_get_client', return_value=client):
+            cr.ask_with_search('p', 'sys')
+        assert client.messages.create.call_args.kwargs['model'] == cr.MODEL

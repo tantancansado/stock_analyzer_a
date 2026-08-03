@@ -10,10 +10,11 @@ igual que escribe una cifra plausible. Aquí las URLs se leen de los bloques
 el buscador entregó, no texto generado. Un veredicto sin bloques de búsqueda es
 un veredicto sin respaldo, y quien llame decide qué hacer con eso.
 
-Modelo: claude-opus-5 con adaptive thinking y effort alto. El juicio que se le
-pide — distinguir un negocio roto de una caída por sentimiento — es exactamente
-donde la capacidad del modelo se nota, y el volumen es bajo (~15 llamadas al día
-entre VALUE y rebotes).
+Modelo: claude-sonnet-5 con adaptive thinking y effort alto. La tarea es
+clasificar en categorías cerradas material que ya trajo el buscador, no razonar
+en cadena larga — ahí Sonnet rinde como Opus a la mitad de precio ($3/$15 por
+MTok frente a $5/$25). `model=` queda expuesto por si alguna llamada futura
+pide un análisis abierto, donde Opus sí se separa.
 
 Notas del contrato de la API que aquí importan:
   - Los errores de las herramientas de servidor NO lanzan excepción: llegan como
@@ -29,7 +30,8 @@ import json
 import os
 from typing import Any
 
-MODEL = 'claude-opus-5'
+MODEL = 'claude-sonnet-5'
+MODEL_ANALISIS_PROFUNDO = 'claude-opus-5'   # para análisis abierto, no clasificación
 WEB_SEARCH_TOOL = {'type': 'web_search_20260209', 'name': 'web_search'}
 MAX_CONTINUATIONS = 3
 
@@ -74,7 +76,7 @@ def _extract(response) -> tuple[str, list[str]]:
 
 
 def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
-                    max_searches: int = 6) -> tuple[str, list[str]]:
+                    max_searches: int = 6, model: str = MODEL) -> tuple[str, list[str]]:
     """Pregunta a Claude dejándole buscar. Devuelve (texto, urls consultadas).
 
     ('', []) si no hay API, si la petición es rechazada por los clasificadores
@@ -90,7 +92,7 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
     try:
         for _ in range(MAX_CONTINUATIONS):
             response = client.messages.create(
-                model=MODEL,
+                model=model,
                 max_tokens=max_tokens,
                 system=system,
                 tools=[tool],
