@@ -196,8 +196,8 @@ jobs:
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
+          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
         run: python3 macro_radar.py || echo "Macro radar failed"
 
       - name: Macro Stress Radar (commodity dislocations)
@@ -260,8 +260,8 @@ jobs:
       - name: Thesis Drift Monitor (alerta tesis rotas en posiciones abiertas)
         continue-on-error: true
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
+          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
           # Supabase → filtra el Telegram a la cartera REAL del usuario
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -474,8 +474,8 @@ jobs:
       - name: Portfolio News Monitor
         continue-on-error: true
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
+          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
@@ -500,9 +500,9 @@ jobs:
 
       - name: Strategy Alerts (trim/add level crossings to Telegram)
         continue-on-error: true
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        # env: sin variables — todas silenciadas → daily_briefing
+          # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
+          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
         run: python3 strategy_alerts.py || echo "Strategy alerts failed"
 
       - name: Options Flow Detector
@@ -522,9 +522,9 @@ jobs:
 
       - name: New VALUE Picks Alert
         continue-on-error: true
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        # env: sin variables — todas silenciadas → daily_briefing
+          # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
+          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
         run: python3 new_value_alerts.py || echo "New value alerts failed"
 
       - name: Cerebro — Proactive AI Agent
@@ -532,8 +532,8 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
+          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
         run: python3 cerebro.py || echo "Cerebro failed"
 
       - name: Dividend Trap Scanner
@@ -570,6 +570,20 @@ jobs:
           SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python3 portfolio_price_alerts.py || echo "Portfolio price alerts failed"
+
+      # ── El único mensaje del día ───────────────────────────────────────────
+      # Va al final a propósito: lee lo que han dejado todos los pasos
+      # anteriores (ya verificado por data_integrity, currency_normalizer y
+      # why_cheap) y Claude lo redacta. Los demás emisores están silenciados;
+      # solo bounce_alerts sigue avisando aparte, porque un setup de 1-5 días
+      # pierde valor si espera al briefing.
+      - name: Daily Briefing (el único mensaje del día)
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 daily_briefing.py || echo "Daily briefing failed"
 
       # ── Archive + status ───────────────────────────────────────────────────
       - name: Archive daily CSV snapshot

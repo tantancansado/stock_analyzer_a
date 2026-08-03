@@ -1,0 +1,39 @@
+name: Daily Briefing (manual)
+
+# El briefing corre solo al final de daily-analysis.yml. Este workflow lo lanza
+# a mano sobre los datos ya publicados — útil para verlo sin re-ejecutar las dos
+# horas de pipeline, o para reenviarlo si el envío falló.
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'true = solo imprime el mensaje en el log, no lo manda'
+        required: false
+        default: 'false'
+
+jobs:
+  briefing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main   # los datos del último run, no el commit que disparó esto
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install anthropic pandas
+
+      - name: Run briefing
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ github.event.inputs.dry_run == 'true' && '' || secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ github.event.inputs.dry_run == 'true' && '' || secrets.TELEGRAM_CHAT_ID }}
+        run: python3 daily_briefing.py
