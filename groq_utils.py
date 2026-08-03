@@ -84,8 +84,19 @@ def groq_chat(
 # ── Anthropic Claude helpers ──────────────────────────────────────────────────
 
 CLAUDE_HAIKU   = "claude-haiku-4-5"
-CLAUDE_SONNET  = "claude-sonnet-4-6"
-CLAUDE_OPUS    = "claude-opus-4-8"
+CLAUDE_SONNET  = "claude-sonnet-5"
+CLAUDE_OPUS    = "claude-opus-5"
+
+# Estos modelos rechazan temperature/top_p/top_k con un 400 y usan adaptive
+# thinking. No basta con mirar si pone "opus": Sonnet 5 también los rechaza, y
+# daily_briefing.py lo usa — mandarle temperature habría hecho que el briefing
+# fallara en su primer envío sin que nadie supiera por qué.
+_SIN_SAMPLING = ('opus-5', 'opus-4-8', 'opus-4-7', 'sonnet-5', 'fable-5', 'mythos-5')
+
+# Sin timeout el cliente espera 10 minutos por petición, y claude_chat corre
+# dentro de pasos críticos del pipeline (ai_pick_verifier). Ver el incidente
+# del 3-ago-2026: 75 min de job agotados por llamadas sin acotar.
+_TIMEOUT_SEG = 120.0
 
 _anthropic_client = None
 
@@ -99,7 +110,8 @@ def _get_anthropic_client():
         return None
     try:
         import anthropic
-        _anthropic_client = anthropic.Anthropic(api_key=api_key)
+        _anthropic_client = anthropic.Anthropic(
+            api_key=api_key, timeout=_TIMEOUT_SEG, max_retries=1)
         return _anthropic_client
     except ImportError:
         logger.warning("anthropic package not installed — Claude unavailable")
@@ -122,30 +134,37 @@ def claude_chat(
     messages: list of {"role": "user"|"assistant", "content": "..."}
     system:   optional system prompt (Anthropic separates it from messages)
 
-    Opus 4.7+ removed `temperature` (returns 400) and only supports adaptive
-    thinking. We detect Opus by model id and switch the request surface so the
-    same helper works for Haiku/Sonnet (temperature) and Opus (adaptive thinking).
+    Los modelos de _SIN_SAMPLING rechazan `temperature` con un 400 y usan
+    adaptive thinking; el resto (Haiku, Sonnet 4.6 y anteriores) siguen
+    aceptándola. Se decide por lista explícita y no por "¿pone opus?", porque
+    Sonnet 5 también la rechaza.
     """
     client = _get_anthropic_client()
     if client is None:
         return None
-    is_opus = "opus" in model.lower()
+    modelo = model.lower()
+    sin_sampling = any(m in modelo for m in _SIN_SAMPLING)
     try:
         kwargs: dict[str, Any] = {
             "model": model,
             "max_tokens": max_tokens,
             "messages": messages,
         }
-        if is_opus:
-            kwargs["thinking"] = {"type": "adaptive"}  # Opus: no temperature
+        if sin_sampling:
+            kwargs["thinking"] = {"type": "adaptive"}
         else:
             kwargs["temperature"] = temperature
         if system:
             kwargs["system"] = system
         resp = client.messages.create(**kwargs)
-        # Opus may return thinking blocks first — pick the text block.
+        # Con adaptive thinking los bloques de pensamiento van primero: se
+        # coge el de texto, no content[0].
         text = next((b.text for b in resp.content if getattr(b, "type", None) == "text"), None)
         return text
     except Exception as exc:
+        # Devuelve None, no propaga: quien llama (ai_pick_verifier, cerebro,
+        # daily_briefing) trata la ausencia de respuesta como "sin veredicto" y
+        # sigue. Propagar aquí haría que una caída de la API tumbase el paso
+        # crítico del pipeline, que es justo lo que pasó el 3-ago-2026.
         logger.warning("claude_chat(%s): %s", model, exc)
-        raise
+        return None
