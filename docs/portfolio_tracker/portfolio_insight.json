@@ -1,8 +1,8 @@
 {
-  "date": "2026-08-03",
-  "timestamp": "2026-08-03T08:34:28.429289",
-  "narrative": "Comentario sobre el rendimiento del sistema de se\u00f1ales:\n\nEl win rate actual del 52% en el per\u00edodo de 7 d\u00edas sugiere que el sistema est\u00e1 funcionando de manera moderadamente efectiva en este entorno de mercado. Sin embargo, el win rate disminuye significativamente en los per\u00edodos m\u00e1s largos (41% en 14 d\u00edas y 24% en 30 d\u00edas), lo que indica que el sistema puede estar sufriendo de sobre-optimismo o sesgo en los per\u00edodos m\u00e1s cortos. La correlaci\u00f3n entre el score y el retorno es baja (-0.07), lo que sugiere que el modelo de puntuaci\u00f3n no est\u00e1 capturando de manera efectiva la informaci\u00f3n relevante para tomar decisiones de inversi\u00f3n.\n\nEn cuanto a patrones temporales o sectoriales, se observa que el sector Energy ha sido el m\u00e1s rentable en el per\u00edodo de 30 d\u00edas, con un retorno del 10,84%. Sin embargo, es importante tener en cuenta que este resultado puede ser an\u00f3malo y no representativo de",
-  "total_signals": 162,
+  "date": "2026-08-04",
+  "timestamp": "2026-08-04T07:48:32.510989",
+  "narrative": "Comentario:\n\nEl sistema de se\u00f1ales muestra una tendencia a la baja en su rendimiento a medida que se ampl\u00eda el horizonte temporal, con un win rate decreciente y retornos medios negativos en los per\u00edodos de 14 y 30 d\u00edas. Esto sugiere que el sistema puede estar sufriendo de \"overfitting\" o ajuste excesivo a los patrones de mercado a corto plazo, lo que lo hace menos efectivo en per\u00edodos m\u00e1s largos.\n\nNo se observan patrones temporales claros en los resultados, aunque el sector Energy ha sido el m\u00e1s rentable en el per\u00edodo de 30 d\u00edas. Sin embargo, la correlaci\u00f3n entre el score y el retorno es baja, lo que sugiere que el sistema no est\u00e1 capturando la informaci\u00f3n relevante de manera efectiva.\n\nEn cuanto a la recomendaci\u00f3n de ajuste de posicionamiento, ser\u00eda prudente reducir la exposici\u00f3n a las se\u00f1ales a corto plazo y enfocarse en las posiciones m\u00e1s s\u00f3lidas y rentables,",
+  "total_signals": 164,
   "win_rate_7d": 51.9,
   "win_rate_14d": 40.6,
   "score_correlation": -0.073
