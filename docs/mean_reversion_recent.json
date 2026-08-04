@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-03T12:14:33.691448",
+  "generated_at": "2026-08-04T07:55:43.528226",
   "tickers": {
     "TT": {
       "ticker": "TT",
@@ -7,15 +7,15 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-07-31",
-      "days_since_signal": 3,
+      "days_since_signal": 4,
       "window_days": 3,
       "entry_zone": "$392.59 - $408.62",
       "target": 458.45,
       "stop_loss": 380.57,
       "rsi_at_signal": 24.6,
-      "current_price": 454.95001220703125,
-      "status": "EN_VENTANA",
-      "ai_note": "Si el estado es EN_VENTANA, toca esperar sin novedad. \nSi es VENTANA_EXPIRADA, la ventaja estad\u00edstica de la sobreventa ya se disip\u00f3 y ahora es una posici\u00f3n normal. \nSi es OBJETIVO_ALCANZADO, el objetivo se alcanz\u00f3 con \u00e9xito. \nSi es STOP_ALCANZADO, se alcanz\u00f3 el l\u00edmite de p\u00e9rdida."
+      "current_price": NaN,
+      "status": "VENTANA_EXPIRADA",
+      "ai_note": "La ventaja estad\u00edstica de la sobreventa se disip\u00f3, ahora es una posici\u00f3n normal."
     }
   }
 }

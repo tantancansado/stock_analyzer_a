@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-03",
+  "generated_at": "2026-08-04",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -53,5 +53,5 @@
     }
   ],
   "expected_impact": "Based on 1544 historical signals",
-  "narrative": "Los ajustes propuestos en el sistema de scoring VALUE podr\u00edan mejorar significativamente la precisi\u00f3n de las predicciones, aumentando la tasa de victorias (WR) en un 6.6% y un 9.5% respectivamente, gracias a la incorporaci\u00f3n de factores como el FCF alto y el R:R alto.\n\nEstos ajustes tambi\u00e9n podr\u00edan ayudar a reducir la frecuencia de predicciones con puntajes bajos, ya que se propone aumentar el umbral m\u00ednimo de score a 70+, lo que podr\u00eda llevar a una tasa de victorias m\u00e1s alta de un 60.0% en comparaci\u00f3n con el 28% base."
+  "narrative": "Estos ajustes en el sistema de scoring VALUE esperan mejorar la precisi\u00f3n de las predicciones al aumentar el peso de las se\u00f1ales hist\u00f3ricas de FCF (Flujo de Efectivo Libre) y R:R (Riesgo vs. Recompensa), lo que podr\u00eda llevar a una mejora en la tasa de victorias (WR) de hasta +34.1 puntos porcentuales.\n\nAdem\u00e1s, se propone aumentar el umbral m\u00ednimo de puntuaci\u00f3n a 70 o m\u00e1s, lo que podr\u00eda mejorar la precisi\u00f3n de las predicciones al eliminar las selecciones con puntuaci\u00f3n baja y aumentar la tasa de victorias de las selecciones con puntuaci\u00f3n"
 }
