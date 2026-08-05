@@ -131,6 +131,11 @@ commodity con `value_rating: CARO` no debería salir con
 `ai_narrative_veredicto: OPORTUNIDAD_ESTRUCTURAL` — la misma clase de
 contradicción que se cazó hoy entre `entry_verdicts` y `entry_readiness`.
 
+### 6b. ~~LEAPS `situation` contra `why_cheap` de VALUE~~ — HECHO 5-ago-2026
+Dos IAs contradiciéndose sobre el mismo negocio (LEAPS dice negocio intacto,
+VALUE dice DETERIORO, o viceversa). 0 contradicciones activas hoy, guard
+verificado sin falsos positivos con datos reales y tests.
+
 ### 5. Auditar el resto de scanners "hermanos" del europeo
 `european_value_scanner.py` tenía lógica de scoring duplicada y desincronizada
 de la de US. Candidatos a la misma auditoría (bandas propias, corte de calidad

@@ -135,6 +135,28 @@ def leaps_vs_why_cheap(value: list[dict], leaps: list[dict]) -> list[str]:
     return problemas
 
 
+def commodity_rating_vs_narrativa(commodities: list[dict]) -> list[str]:
+    """value_rating (determinista) contra ai_narrative_veredicto (Claude+búsqueda).
+
+    Un commodity CARO no debería salir con veredicto OPORTUNIDAD_ESTRUCTURAL,
+    ni uno MUY_ATRACTIVO/ATRACTIVO con TRAMPA_DE_VALOR — mismo modelo de
+    contradicción que ya cazaba `entry_verdicts_vs_valoracion`, aplicado a
+    `enrich_commodity_narrative.py`.
+    """
+    problemas = []
+    for r in commodities:
+        ticker = r.get('ticker') or r.get('sector') or '?'
+        rating = (r.get('value_rating') or '').upper()
+        veredicto = (r.get('ai_narrative_veredicto') or '').upper()
+        if not veredicto or veredicto == 'SIN_DATOS':
+            continue
+        if rating == 'CARO' and veredicto == 'OPORTUNIDAD_ESTRUCTURAL':
+            problemas.append(f'{ticker}: value_rating=CARO pero ai_narrative_veredicto=OPORTUNIDAD_ESTRUCTURAL')
+        elif rating in ('MUY_ATRACTIVO', 'ATRACTIVO') and veredicto == 'TRAMPA_DE_VALOR':
+            problemas.append(f'{ticker}: value_rating={rating} pero ai_narrative_veredicto=TRAMPA_DE_VALOR')
+    return problemas
+
+
 def columnas_obligatorias(value: list[dict], nombre_csv: str = 'value_opportunities.csv') -> list[str]:
     """Un scoring a medias no puede publicarse como si estuviera completo.
 
@@ -158,6 +180,7 @@ def run() -> int:
     verdicts = _rows('entry_verdicts.csv')
     leaps_data = _json('leaps_opportunities.json')
     leaps = leaps_data.get('opportunities', []) if isinstance(leaps_data, dict) else []
+    commodities = _rows('commodity_opportunities.csv')
 
     try:
         from value_bands import VALUE_SCORE_MIN
@@ -178,6 +201,7 @@ def run() -> int:
         ('columnas obligatorias (EU)',                columnas_obligatorias(value_eu, 'european_value_opportunities.csv')),
         ('LEAPS contra why_cheap de VALUE (US)',      leaps_vs_why_cheap(value, leaps)),
         ('LEAPS contra why_cheap de VALUE (EU)',      leaps_vs_why_cheap(value_eu, leaps)),
+        ('commodities: rating contra narrativa IA',   commodity_rating_vs_narrativa(commodities)),
     ]
 
     total = 0

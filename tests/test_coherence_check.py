@@ -10,8 +10,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from coherence_check import (columnas_obligatorias, entry_verdicts_vs_timing,
-                             entry_verdicts_vs_valoracion,
+from coherence_check import (columnas_obligatorias, commodity_rating_vs_narrativa,
+                             entry_verdicts_vs_timing, entry_verdicts_vs_valoracion,
                              etiqueta_ml_vs_probabilidad, leaps_vs_why_cheap,
                              ratios_imposibles, score_bajo_el_corte)
 
@@ -115,3 +115,27 @@ class TestLeapsContraWhyCheap:
     def test_ticker_no_en_value_no_rompe(self):
         leaps = [{'ticker': 'NUEVO', 'situation': 'DIP_GANADOR'}]
         assert leaps_vs_why_cheap([], leaps) == []
+
+
+class TestCommodityRatingContraNarrativa:
+    def test_caro_con_oportunidad_estructural_es_contradiccion(self):
+        commodities = [{'ticker': 'UNG', 'value_rating': 'CARO',
+                        'ai_narrative_veredicto': 'OPORTUNIDAD_ESTRUCTURAL'}]
+        problemas = commodity_rating_vs_narrativa(commodities)
+        assert len(problemas) == 1 and 'UNG' in problemas[0]
+
+    def test_atractivo_con_trampa_de_valor_es_contradiccion(self):
+        commodities = [{'ticker': 'GLD', 'value_rating': 'MUY_ATRACTIVO',
+                        'ai_narrative_veredicto': 'TRAMPA_DE_VALOR'}]
+        problemas = commodity_rating_vs_narrativa(commodities)
+        assert len(problemas) == 1 and 'GLD' in problemas[0]
+
+    def test_sin_datos_no_da_falso_positivo(self):
+        commodities = [{'ticker': 'X', 'value_rating': 'CARO',
+                        'ai_narrative_veredicto': 'SIN_DATOS'}]
+        assert commodity_rating_vs_narrativa(commodities) == []
+
+    def test_coherente_no_da_problema(self):
+        commodities = [{'ticker': 'X', 'value_rating': 'CARO',
+                        'ai_narrative_veredicto': 'TRAMPA_DE_VALOR'}]
+        assert commodity_rating_vs_narrativa(commodities) == []
