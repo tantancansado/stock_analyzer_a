@@ -22,6 +22,12 @@ encontró o probablemente esconde.
 - [x] `european_value_scanner.py` — bandas de `value_bands`, no propias y desmentidas
 - [x] `upside_triangulation.py` — extraída, ahora la usan US y EU
 - [x] `coherence_check.py` — cruza lo publicado consigo mismo, corre en el pipeline
+- [x] `commodity_scanner.py` — CYCLE_CONTEXT/SEASONALITY indexados por `commodity_type`
+      hacían que gas natural describiera el mercado del petróleo (compartían "Energy"
+      con WTI/Brent); separados por `sector` con fallback al tipo
+- [x] `commodity_narrative_analyzer.py` + `enrich_commodity_narrative.py` — narrativa
+      real por commodity con Claude+búsqueda, mismo patrón que `why_cheap_analyzer`,
+      cita si es comprable en IBKR Ireland (dato ya existía en `eu_alternative`)
 
 ## Pendiente — por prioridad
 
@@ -52,6 +58,12 @@ tickers europeos incluidos. Puede ser una decisión deliberada (todo se
 compara en la misma vara), pero no está documentada como tal. Verificar si es
 intencional; si no, el benchmark correcto para AEX/DAX/CAC sería un índice
 europeo (Euro Stoxx 50, como ya usa `detect_european_market_regime`).
+
+### 5b. `enrich_commodity_narrative.py` — extender el guard de coherencia
+Nuevo hoy, sin cobertura todavía en `coherence_check.py`. Candidato: un
+commodity con `value_rating: CARO` no debería salir con
+`ai_narrative_veredicto: OPORTUNIDAD_ESTRUCTURAL` — la misma clase de
+contradicción que se cazó hoy entre `entry_verdicts` y `entry_readiness`.
 
 ### 5. Auditar el resto de scanners "hermanos" del europeo
 `european_value_scanner.py` tenía lógica de scoring duplicada y desincronizada

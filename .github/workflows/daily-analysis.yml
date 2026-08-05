@@ -380,6 +380,16 @@ jobs:
         continue-on-error: true
         run: python3 commodity_scanner.py || echo "Commodity scanner failed"
 
+      # Presupuesto propio (5 min) y sin bloquear el pipeline si falla — igual
+      # que Why Cheap para acciones. Reemplaza el texto de ciclo fijo por lo
+      # que de verdad mueve cada commodity esta semana, con fuentes.
+      - name: Commodity Narrative — qué mueve el precio de verdad, con fuentes
+        continue-on-error: true
+        timeout-minutes: 8
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 enrich_commodity_narrative.py || echo "Commodity narrative enrichment failed"
+
       - name: Check Price Alerts (send emails via Resend)
         continue-on-error: true
         env:

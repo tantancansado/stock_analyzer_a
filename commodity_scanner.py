@@ -93,17 +93,42 @@ HIST_AVG_PRICE_RATIO = {
     "GSG":  1.0,
 }
 
-# Descripción de ciclo por tipo de commodity
+# Descripción de ciclo — clave preferente es `sector` (específico), con
+# fallback a `commodity_type` (genérico). Antes solo existía la clave genérica
+# y "Energy" cubría petróleo WTI, Brent Y gas natural con el MISMO texto: el
+# 5-ago-2026 la ficha de UNG (gas natural) describía el mercado del petróleo
+# ("OPEC+ recorta producción... acuerdo nuclear Irán") porque gas natural no
+# está sujeto a la OPEP — sus drivers son clima/calefacción, inventarios de
+# almacenamiento y exportaciones de GNL, nada que ver con crudo.
 CYCLE_CONTEXT = {
+    "Petróleo WTI": {
+        "driver":   "OPEC+, crecimiento global, inventarios EIA, geopolítica",
+        "bullish":  "OPEC+ recorta producción, demanda fuerte, tensiones Oriente Medio",
+        "bearish":  "recesión global, shale USA en máximos, acuerdo nuclear Irán",
+    },
+    "Petróleo Brent": {
+        "driver":   "OPEC+, crecimiento global, inventarios, geopolítica (prima vs WTI)",
+        "bullish":  "OPEC+ recorta producción, tensiones Oriente Medio/Rusia, demanda Asia",
+        "bearish":  "recesión global, aumento oferta no-OPEP, acuerdo nuclear Irán",
+    },
+    "Gas Natural": {
+        "driver":   "clima (calefacción/refrigeración), inventarios EIA, exportaciones GNL, producción shale",
+        "bullish":  "ola de frío/calor extremo, inventarios bajo la media 5a, demanda de exportación GNL alta",
+        "bearish":  "invierno suave, inventarios sobre la media, producción récord, mantenimiento de plantas GNL",
+    },
     "Precious_Metal": {
         "driver":   "tipos reales, dólar, riesgo geopolítico",
         "bullish":  "tipos reales bajos o negativos, dólar débil, incertidumbre macro",
         "bearish":  "tipos reales altos, dólar fuerte, risk-on prolongado",
     },
     "Energy": {
-        "driver":   "OPEC+, crecimiento global, inventarios, geopolítica",
-        "bullish":  "OPEC+ recorta producción, demanda China fuerte, tensiones Oriente Medio",
-        "bearish":  "recesión global, shale USA en máximos, acuerdo nuclear Irán",
+        # Fallback genérico — no debería usarse si el sector está en la lista
+        # de arriba. Sigue existiendo por si se añade una energía nueva sin
+        # entrada específica: mejor un texto genérico marcado como tal que uno
+        # de otro commodity haciéndose pasar por el correcto.
+        "driver":   "oferta/demanda global de energía, geopolítica, inventarios",
+        "bullish":  "recorte de oferta, demanda fuerte, tensión geopolítica",
+        "bearish":  "exceso de oferta, recesión, demanda débil",
     },
     "Industrial": {
         "driver":   "ciclo industrial global, demanda China, transición energética",
@@ -129,10 +154,31 @@ SEASONALITY = {
         5: "bullish",  6: "neutral",  7: "bearish",  8: "bearish",
         9: "neutral", 10: "neutral", 11: "neutral", 12: "neutral",
     },
-    "Energy": {
+    # Petróleo: temporada de conducción USA (verano) sube demanda de gasolina;
+    # ene/sep históricamente fuertes por reposición de inventarios/OPEP.
+    "Petróleo WTI": {
         1: "bullish",  2: "neutral",  3: "neutral",  4: "bullish",
         5: "neutral",  6: "bearish",  7: "neutral",  8: "neutral",
         9: "bullish", 10: "neutral", 11: "neutral", 12: "bearish",
+    },
+    "Petróleo Brent": {
+        1: "bullish",  2: "neutral",  3: "neutral",  4: "bullish",
+        5: "neutral",  6: "bearish",  7: "neutral",  8: "neutral",
+        9: "bullish", 10: "neutral", 11: "neutral", 12: "bearish",
+    },
+    # Gas natural: ciclo de INYECCIÓN a almacenamiento en verano (precio suele
+    # ablandarse) y RETIRADA en invierno por demanda de calefacción (precio
+    # tiende a subir hacia el pico de frío) — el opuesto casi exacto del
+    # petróleo en primavera/verano.
+    "Gas Natural": {
+        1: "bullish",  2: "bullish",  3: "neutral",  4: "bearish",
+        5: "bearish",  6: "bearish",  7: "neutral",  8: "neutral",
+        9: "neutral", 10: "bullish", 11: "bullish", 12: "bullish",
+    },
+    "Energy": {   # fallback genérico — ver nota en CYCLE_CONTEXT
+        1: "neutral",  2: "neutral",  3: "neutral",  4: "neutral",
+        5: "neutral",  6: "neutral",  7: "neutral",  8: "neutral",
+        9: "neutral", 10: "neutral", 11: "neutral", 12: "neutral",
     },
     "Precious_Metal": {
         1: "bullish",  2: "neutral",  3: "neutral",  4: "neutral",
@@ -151,6 +197,18 @@ SEASONALITY = {
 
 DISLOCATION_BUY  = -15.0   # % bajo 52w high → compra potencial
 DISLOCATION_SELL =  -2.0   # % bajo 52w high → cerca de máximos → caro
+
+
+def _cycle_context(sector: str, commodity_type: str) -> dict:
+    """Sector específico si existe (p.ej. "Gas Natural"); si no, el genérico
+    de su tipo. Nunca al revés — un texto específico de OTRO commodity es peor
+    que uno genérico honesto."""
+    return CYCLE_CONTEXT.get(sector) or CYCLE_CONTEXT.get(commodity_type, {})
+
+
+def _seasonality_signal(sector: str, commodity_type: str, month: int) -> str:
+    seas_map = SEASONALITY.get(sector) or SEASONALITY.get(commodity_type, {})
+    return seas_map.get(month, "neutral")
 
 
 def _safe(val, default=None):
@@ -340,7 +398,7 @@ def _recommendation(
     pct_vs_2y_avg: float | None,
     range_position: float | None,
 ) -> str:
-    ctx = CYCLE_CONTEXT.get(commodity_type, {})
+    ctx = _cycle_context(sector, commodity_type)
 
     if value_rating in ("MUY_ATRACTIVO", "ATRACTIVO"):
         if momentum == "SOBREVENDIDO":
@@ -376,9 +434,8 @@ def scan() -> pd.DataFrame:
             print("SKIP")
             continue
 
-        # Estacionalidad del mes actual
-        seas_map = SEASONALITY.get(commodity_type, {})
-        seasonality_signal = seas_map.get(current_month, "neutral")
+        # Estacionalidad del mes actual — sector específico si existe
+        seasonality_signal = _seasonality_signal(sector, commodity_type, current_month)
 
         value_rating = _value_rating(
             commodity_type     = commodity_type,
@@ -404,7 +461,7 @@ def scan() -> pd.DataFrame:
             range_position = data["range_position"],
         )
 
-        ctx = CYCLE_CONTEXT.get(commodity_type, {})
+        ctx = _cycle_context(sector, commodity_type)
 
         rows.append({
             "ticker":            ticker,
