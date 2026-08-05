@@ -24,6 +24,7 @@ OUTPUT_FILE = DOCS / "global_value_opportunities.csv"
 RATE_DELAY = 0.8  # seconds between yfinance calls
 
 from curated_tickers_global import CURATED_UNIVERSES
+from currency_normalizer import normalize_info
 
 # US-listed equivalents (NYSE/NASDAQ or OTC) for native tickers
 ADR_MAP = {
@@ -189,6 +190,12 @@ def _score_ticker(ticker: str, market: str):
         print(f"  ⚠️  {ticker}: yfinance error — {e}")
         return None
 
+    # financialCurrency (FCF, deuda...) difiere de currency (cotización) en casi
+    # todo Hong Kong con subyacente chino (HKD vs CNY/USD) — verificado 5-ago-2026:
+    # AIA (1299.HK) financialCurrency=USD/currency=HKD daba FCF yield 0,63% sin
+    # convertir; el real es ~4,9% (factor ~7,8x). Normaliza antes de leer freeCashflow.
+    info, fx_meta = normalize_info(info, ticker)
+
     # Basic sanity check
     price = info.get("currentPrice") or info.get("regularMarketPrice") or info.get("previousClose")
     if not price or price <= 0:
@@ -216,6 +223,11 @@ def _score_ticker(ticker: str, market: str):
     revenue_growth = info.get("revenueGrowth")  # decimal YoY
     debt_to_equity = info.get("debtToEquity")   # already x100 in yfinance
     dividend_yield = info.get("dividendYield")  # decimal
+    # Si financialCurrency ≠ currency y no hay tipo de cambio, freeCashflow
+    # sigue crudo en la divisa equivocada — mejor no puntuar que puntuar mal
+    if not fx_meta.get("fx_reliable", True):
+        info = dict(info)
+        info["freeCashflow"] = None
     payout_ratio = info.get("payoutRatio")
     free_cashflow = info.get("freeCashflow")
     target_price = info.get("targetMeanPrice")
