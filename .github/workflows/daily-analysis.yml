@@ -591,6 +591,14 @@ jobs:
       # why_cheap) y Claude lo redacta. Los demás emisores están silenciados;
       # solo bounce_alerts sigue avisando aparte, porque un setup de 1-5 días
       # pierde valor si espera al briefing.
+      # Cruza lo recién publicado consigo mismo: badge contra ficha, un motor
+      # contra el otro, columnas obligatorias. SIN continue-on-error a propósito
+      # — si algo se contradice el job sale en rojo y se ve. Los tres bugs
+      # graves del 5-ago-2026 vivían entre piezas, donde ningún test unitario
+      # mira, y estuvieron meses sin detectarse.
+      - name: Coherence Check — ¿se contradice la app consigo misma?
+        run: python3 coherence_check.py
+
       - name: Daily Briefing (el único mensaje del día)
         continue-on-error: true
         env:
