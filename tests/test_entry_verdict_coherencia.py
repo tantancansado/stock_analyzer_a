@@ -73,3 +73,14 @@ class TestVetoDeCoherencia:
     def test_sin_dato_de_timing_no_bloquea(self):
         # Un campo ausente no es un veto: solo bloquea lo que dice que no
         assert _rule_verdict(_ficha(entry_readiness=''), REGIMEN)['verdict'] == 'ENTRY'
+
+    def test_entry_readiness_es_la_unica_fuente_de_timing_tecnico(self):
+        # Hasta el 5-ago-2026 había un segundo chequeo de stage4 aquí mismo,
+        # leyendo una columna 'weinstein_stage' que no existe en ningún CSV
+        # publicado — nunca se disparaba. Quitado: entry_readiness es la
+        # única fuente de verdad para stage/tendencia. Un valor de 'stage'
+        # o 'weinstein_stage' en la fila (aunque diga stage4) ya NO debe
+        # bloquear nada por sí mismo si entry_readiness dice ENTRADA.
+        v = _rule_verdict(_ficha(stage='stage4', weinstein_stage='stage4'), REGIMEN)
+        assert v['verdict'] == 'ENTRY'
+        assert not any('Stage 4' in b for b in v['blockers'])

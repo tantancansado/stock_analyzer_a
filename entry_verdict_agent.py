@@ -132,7 +132,6 @@ def _rule_verdict(row: pd.Series, regime: str) -> dict:
 
     # Technical
     ma_passes = _safe_bool(row.get('ma_filter_pass') or row.get('ma_passes'))
-    stage = str(row.get('weinstein_stage') or row.get('stage') or '').lower()
     rs_pct = _safe_float(row.get('rs_line_percentile') or row.get('rs_percentile'))
     pct_from_high = _safe_float(row.get('pct_from_52w_high') or row.get('proximity_to_52w_high_pct'))
 
@@ -188,18 +187,6 @@ def _rule_verdict(row: pd.Series, regime: str) -> dict:
             'ambiguous': False,
         }
 
-    # ── Stage 4 (downtrend confirmado) ─────────────────────────────────
-    if 'stage4' in stage or stage == '4':
-        blockers.append('Stage 4 (downtrend)')
-        if rs_pct is not None and rs_pct < 20:
-            blockers.append(f'RS líder débil ({rs_pct:.0f}%)')
-        return {
-            'verdict': 'WAIT', 'confidence': 80,
-            'reasons': [], 'blockers': blockers,
-            'trigger': 'Espera ruptura MA50 con volumen y RS line subiendo',
-            'ambiguous': False,
-        }
-
     # ── Score / grade filter ───────────────────────────────────────────
     if score is not None and score < 30:
         blockers.append(f'score bajo ({score:.0f})')
@@ -252,6 +239,15 @@ def _rule_verdict(row: pd.Series, regime: str) -> dict:
     # ahora" con el timing en VIGILAR ("extendida cerca de máximos"), los
     # modelos propios diciéndola un 35% cara y un upside del 9,4%. Pasaba
     # porque aquí solo se miraba `ma_passes`, que es el apilamiento de medias.
+    #
+    # `entry_readiness` (technical_filter.py) es la ÚNICA fuente de verdad
+    # para stage/tendencia/RS vs benchmark — este archivo no vuelve a mirar
+    # esas señales por su cuenta. Hasta el 5-ago-2026 sí lo hacía: un chequeo
+    # de "stage4" aquí leía una columna `weinstein_stage` que no existe en
+    # ningún CSV publicado (caía a `stage`, que en realidad trae valores de
+    # otro scorer — "Stage 2 Strong", nunca "stage4") y nunca se disparaba.
+    # Quitado en vez de arreglado: dos motores mirando la misma señal por
+    # columnas distintas es la grieta que reabre este bug, no la solución.
     veto = []
 
     timing = str(row.get('entry_readiness') or '').strip()
@@ -322,8 +318,8 @@ def _llm_refine(row: pd.Series, rule_verdict: dict, regime: str) -> dict:
 CONTEXTO:
 - Regime mercado: {regime}
 - Score: {_safe_float(row.get('final_score') or row.get('value_score'))}
-- MA pass: {_safe_bool(row.get('ma_passes'))}
-- Stage: {row.get('weinstein_stage','?')}
+- MA pass: {_safe_bool(row.get('ma_filter_pass') or row.get('ma_passes'))}
+- Timing técnico: {row.get('entry_readiness') or row.get('tech_stage') or '?'}
 - RS percentile: {_safe_float(row.get('rs_line_percentile'))}
 - Upside analistas: {_safe_float(row.get('analyst_upside_pct'))}%
 - FCF yield: {_safe_float(row.get('fcf_yield_pct'))}%
