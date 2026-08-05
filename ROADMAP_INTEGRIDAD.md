@@ -167,10 +167,14 @@ verificado por grep dirigido, no una revisión superficial. El bug era
 específico de ValueUS/ValueEU; la mayoría de estas páginas ni siquiera tienen
 un filtro numérico de score que se pueda saltar.
 
-Pendiente real (no auditado hoy): `BounceTrader` tiene guard de catalizador
-negativo en `bounce_alerts.py` (backend) pero no hay comprobación de que el
-frontend respete ese mismo criterio al pintar setups — el filtro de
-`allSetups` en `BounceTrader.tsx` no consulta ese campo en absoluto.
+~~Pendiente real: `BounceTrader` tenía guard de catalizador negativo en
+`bounce_alerts.py` pero solo vivía en el paso de Telegram~~ — HECHO 5-ago-2026.
+`bounce_alerts.py` persiste el veredicto en `bounce_catalyst_flags.json`
+(expira a `DEDUP_DAYS`), `/api/bounce-catalyst-flags` lo expone,
+`BounceTrader.tsx`/`BroadBounceView.tsx` excluyen esos tickers con aviso
+visible. Un test atrapó un bug real de paso: cargaba `{'flags': {...}}`
+entero en vez de `.get('flags', {})`, así que las flags viejas nunca
+expiraban.
 
 ## Principio para lo que sigue
 
