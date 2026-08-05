@@ -117,12 +117,13 @@ empezar todavía — necesita sesión propia: primero medir qué devuelve hoy co
 fuentes reales, después decidir la mejora, después implementar con tests. No
 hacerlo de pasada.
 
-### 4. RS 6 meses en Europa usa SPY como benchmark
-`technical_filter.py` calcula `relative_strength_6m` siempre contra SPY, para
-tickers europeos incluidos. Puede ser una decisión deliberada (todo se
-compara en la misma vara), pero no está documentada como tal. Verificar si es
-intencional; si no, el benchmark correcto para AEX/DAX/CAC sería un índice
-europeo (Euro Stoxx 50, como ya usa `detect_european_market_regime`).
+### 4. ~~RS 6 meses en Europa usa SPY como benchmark~~ — HECHO 5-ago-2026
+No era deliberado: `portfolio_tracker.py` ya usaba VGK para el alpha de
+EU_VALUE, `technical_filter.py` era la pieza inconsistente. Verificado en
+vivo (SPY +13,5% vs VGK +9,9% a 6m, gap 3,6pp — cruza el umbral RS 6m < -25
+que decide ENTRADA vs VIGILAR). Fix: `fetch_benchmark_6m_return(symbol)`
+genérica, VGK para tickers de `european_value_opportunities.csv`, SPY para
+el resto. `technical_signals.json` expone ambos retornos.
 
 ### 5b. `enrich_commodity_narrative.py` — extender el guard de coherencia
 Nuevo hoy, sin cobertura todavía en `coherence_check.py`. Candidato: un
