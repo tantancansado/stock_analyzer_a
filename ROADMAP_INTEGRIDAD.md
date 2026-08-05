@@ -84,12 +84,10 @@ Sigue abierto, sin auditar: si `opportunity_score` pondera lo suficiente la
 liquidez del contrato — el 5-ago SAP puntuaba 92,2 (el más alto de 7) pese a
 tener la peor liquidez (volumen 1, OI 66) y el segundo peor breakeven.
 
-### 1. `enrich_why_cheap.py` solo procesa la lista US
-El análisis de "por qué está barata" (deterioro vs ciclo vs sentimiento, con
-fuentes reales de Claude) nunca toca `european_value_opportunities.csv`. WKL y
-SAP no tienen `why_cheap` poblado por este motivo — hoy se hizo a mano en la
-conversación. Extender `enrich_why_cheap.py` a un bucle sobre ambos CSV, igual
-que se hizo con `technical_filter.py` hoy. Mismo patrón, ya probado.
+### 1. ~~`enrich_why_cheap.py` solo procesa la lista US~~ — HECHO 5-ago-2026
+`TARGET_CSVS` itera ambos universos, mismo patrón que `technical_filter.py`.
+Presupuesto de tiempo y `MAX_TICKERS` compartidos entre ambos (no duplica
+gasto de API), candidatos de US+EU compiten juntos por `value_score`.
 
 ### 2. Dos motores de veredicto de entrada sin fusionar
 `entry_readiness` (en `technical_filter.py`) y `entry_verdict_agent.py` deciden
