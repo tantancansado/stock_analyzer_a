@@ -99,12 +99,17 @@ def etiqueta_ml_vs_probabilidad(value: list[dict]) -> list[str]:
             and (_f(r.get('ml_win_probability')) or 1) < 0.55]
 
 
-def columnas_obligatorias(value: list[dict]) -> list[str]:
-    """Un scoring a medias no puede publicarse como si estuviera completo."""
+def columnas_obligatorias(value: list[dict], nombre_csv: str = 'value_opportunities.csv') -> list[str]:
+    """Un scoring a medias no puede publicarse como si estuviera completo.
+
+    El 5-ago-2026 esto solo se comprobaba en la lista US: las 36 filas de la
+    europea llevaban meses sin entry_readiness/ma_filter_pass/tech_stage y
+    nadie lo veía porque este guard no la miraba.
+    """
     if not value:
-        return ['value_opportunities.csv está vacío']
+        return [f'{nombre_csv} está vacío']
     obligatorias = ('ticker', 'value_score', 'current_price', 'entry_readiness')
-    return [f'la columna {c} está vacía en las {len(value)} filas'
+    return [f'{nombre_csv}: la columna {c} está vacía en las {len(value)} filas'
             for c in obligatorias
             if not any((r.get(c) or '').strip() for r in value)]
 
@@ -113,6 +118,7 @@ def run() -> int:
     print('[coherence_check] Cruzando lo publicado consigo mismo...')
 
     value = _rows('value_opportunities.csv')
+    value_eu = _rows('european_value_opportunities.csv')
     verdicts = _rows('entry_verdicts.csv')
 
     try:
@@ -121,12 +127,17 @@ def run() -> int:
         VALUE_SCORE_MIN = 30.0
 
     comprobaciones = [
-        ('badge ENTRY contra el timing de la ficha', entry_verdicts_vs_timing(value, verdicts)),
-        ('badge ENTRY contra la valoración propia',  entry_verdicts_vs_valoracion(value, verdicts)),
-        ('corte de calidad',                         score_bajo_el_corte(value, VALUE_SCORE_MIN)),
-        ('ratios imposibles (divisa)',               ratios_imposibles(value)),
+        ('badge ENTRY contra el timing de la ficha (US)', entry_verdicts_vs_timing(value, verdicts)),
+        ('badge ENTRY contra el timing de la ficha (EU)', entry_verdicts_vs_timing(value_eu, verdicts)),
+        ('badge ENTRY contra la valoración propia (US)',  entry_verdicts_vs_valoracion(value, verdicts)),
+        ('badge ENTRY contra la valoración propia (EU)',  entry_verdicts_vs_valoracion(value_eu, verdicts)),
+        ('corte de calidad (US)',                    score_bajo_el_corte(value, VALUE_SCORE_MIN)),
+        ('corte de calidad (EU)',                    score_bajo_el_corte(value_eu, VALUE_SCORE_MIN)),
+        ('ratios imposibles — divisa (US)',          ratios_imposibles(value)),
+        ('ratios imposibles — divisa (EU)',          ratios_imposibles(value_eu)),
         ('etiqueta ML contra su probabilidad',       etiqueta_ml_vs_probabilidad(value)),
-        ('columnas obligatorias',                    columnas_obligatorias(value)),
+        ('columnas obligatorias (US)',                columnas_obligatorias(value, 'value_opportunities.csv')),
+        ('columnas obligatorias (EU)',                columnas_obligatorias(value_eu, 'european_value_opportunities.csv')),
     ]
 
     total = 0

@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """
 TECHNICAL FILTER — MA + ATR + Volume overlay
-Runs AFTER super_score_integrator.py.
-Reads docs/value_opportunities.csv, adds technical columns, saves back.
-Also updates docs/value_opportunities_filtered.csv if it exists.
+Runs AFTER super_score_integrator.py y european_value_scanner.py.
+Reads docs/value_opportunities.csv y docs/european_value_opportunities.csv, adds
+technical columns, saves back. Also updates the *_filtered.csv siblings.
 Saves docs/technical_signals.json for the API.
+
+Hasta el 5-ago-2026 solo procesaba el CSV US: TARGET_CSVS tenía un único par
+hardcodeado. Las 36 filas de la lista europea salían con entry_readiness,
+ma_filter_pass, tech_stage y relative_strength_6m vacíos — no porque fallara el
+cálculo, sino porque el script no sabía que ese fichero existía. SAP.DE (y toda
+Europa) llevaba meses sin timing técnico mientras la lista US sí lo tenía.
 """
 
 from __future__ import annotations
@@ -26,6 +32,14 @@ DOCS = Path("docs")
 VALUE_CSV = DOCS / "value_opportunities.csv"
 FILTERED_CSV = DOCS / "value_opportunities_filtered.csv"
 TECH_JSON = DOCS / "technical_signals.json"
+
+# Cada universo con datos técnicos propios (main, filtered). Añadir aquí un
+# universo nuevo es la única forma correcta de extenderlo — un CSV hardcodeado
+# fuera de esta lista es exactamente el bug que dejó a Europa sin timing.
+TARGET_CSVS: list[tuple[Path, Path]] = [
+    (VALUE_CSV, FILTERED_CSV),
+    (DOCS / "european_value_opportunities.csv", DOCS / "european_value_opportunities_filtered.csv"),
+]
 
 RATE_DELAY = 0.2  # seconds between yfinance calls
 
@@ -286,18 +300,29 @@ def _merge_tech_signals(df: pd.DataFrame, signals: dict) -> pd.DataFrame:
 # ─── Main runner ───────────────────────────────────────────────────────────────
 
 def run_technical_filter() -> None:
-    if not VALUE_CSV.exists():
-        log.error("Value opportunities file not found: %s", VALUE_CSV)
+    # Cargar cada universo principal (no el *_filtered — ese solo recibe el
+    # merge al final) y juntar la unión de tickers, para no pedirle su
+    # historial dos veces a yfinance si un ticker aparece en más de un universo.
+    frames: dict[Path, pd.DataFrame] = {}
+    all_tickers: set[str] = set()
+    for main_csv, _ in TARGET_CSVS:
+        if not main_csv.exists():
+            log.warning("Universo no encontrado, se omite: %s", main_csv)
+            continue
+        df = pd.read_csv(main_csv)
+        if "ticker" not in df.columns:
+            log.error("Sin columna 'ticker' en %s — se omite", main_csv)
+            continue
+        frames[main_csv] = df
+        all_tickers |= {str(t).upper().strip() for t in df["ticker"].dropna().unique()}
+
+    if not frames:
+        log.error("Ningún universo con datos válidos — nada que procesar")
         return
 
-    log.info("Loading %s …", VALUE_CSV)
-    df = pd.read_csv(VALUE_CSV)
-    if "ticker" not in df.columns:
-        log.error("No 'ticker' column in value_opportunities.csv")
-        return
-
-    tickers = [str(t).upper().strip() for t in df["ticker"].dropna().unique().tolist()]
-    log.info("Computing technical signals for %d tickers …", len(tickers))
+    tickers = sorted(all_tickers)
+    log.info("Computing technical signals for %d tickers across %d universos …",
+             len(tickers), len(frames))
 
     log.info("Fetching SPY 6m return …")
     spy_return = fetch_spy_6m_return()
@@ -318,17 +343,19 @@ def run_technical_filter() -> None:
     TECH_JSON.write_text(json.dumps(tech_json_out, indent=2, default=str))
     log.info("Saved %s", TECH_JSON)
 
-    df = _merge_tech_signals(df, signals)
-    df.to_csv(VALUE_CSV, index=False)
-    log.info("Updated %s with technical columns", VALUE_CSV)
+    for main_csv, filtered_csv in TARGET_CSVS:
+        if main_csv not in frames:
+            continue
+        df = _merge_tech_signals(frames[main_csv], signals)
+        df.to_csv(main_csv, index=False)
+        log.info("Updated %s with technical columns", main_csv)
 
-    if FILTERED_CSV.exists():
-        log.info("Updating %s …", FILTERED_CSV)
-        df_f = pd.read_csv(FILTERED_CSV)
-        if "ticker" in df_f.columns:
-            df_f = _merge_tech_signals(df_f, signals)
-            df_f.to_csv(FILTERED_CSV, index=False)
-            log.info("Updated %s", FILTERED_CSV)
+        if filtered_csv.exists():
+            df_f = pd.read_csv(filtered_csv)
+            if "ticker" in df_f.columns:
+                df_f = _merge_tech_signals(df_f, signals)
+                df_f.to_csv(filtered_csv, index=False)
+                log.info("Updated %s", filtered_csv)
 
     log.info("Technical filter complete.")
 

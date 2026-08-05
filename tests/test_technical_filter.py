@@ -742,3 +742,107 @@ class TestComputeTechnicalSignals:
         # Same ticker but higher SPY return → lower RS
         if r_low_spy["relative_strength_6m"] is not None and r_high_spy["relative_strength_6m"] is not None:
             assert r_low_spy["relative_strength_6m"] > r_high_spy["relative_strength_6m"]
+
+
+# ─── 13. run_technical_filter procesa TODOS los universos (US + EU) ───────────
+# El 5-ago-2026 el script solo tenía docs/value_opportunities.csv hardcodeado:
+# la lista europea (SAP.DE incluida) llevaba meses sin entry_readiness ni
+# ma_filter_pass, no porque fallara el cálculo sino porque el script no sabía
+# que ese CSV existía.
+
+class TestRunTechnicalFilterMultiUniverso:
+    def test_procesa_us_y_eu_por_igual(self, tmp_path, monkeypatch):
+        import technical_filter as tf
+
+        us_csv = tmp_path / "value_opportunities.csv"
+        us_filtered = tmp_path / "value_opportunities_filtered.csv"
+        eu_csv = tmp_path / "european_value_opportunities.csv"
+        eu_filtered = tmp_path / "european_value_opportunities_filtered.csv"
+
+        pd.DataFrame({"ticker": ["AAPL", "MSFT"]}).to_csv(us_csv, index=False)
+        pd.DataFrame({"ticker": ["SAP.DE", "WKL.AS"]}).to_csv(eu_csv, index=False)
+
+        monkeypatch.setattr(tf, "VALUE_CSV", us_csv)
+        monkeypatch.setattr(tf, "FILTERED_CSV", us_filtered)
+        monkeypatch.setattr(tf, "TECH_JSON", tmp_path / "technical_signals.json")
+        monkeypatch.setattr(tf, "TARGET_CSVS", [(us_csv, us_filtered), (eu_csv, eu_filtered)])
+        monkeypatch.setattr(tf, "fetch_spy_6m_return", lambda: 5.0)
+        monkeypatch.setattr(tf, "RATE_DELAY", 0)
+
+        vistos = []
+
+        def _fake_signals(ticker, spy_return):
+            vistos.append(ticker)
+            return {"ticker": ticker, "is_stage2": True, "ma_score": 3,
+                    "atr_ratio": 1.0, "volume_dryup": False,
+                    "pct_from_52w_high": -10.0, "pct_from_52w_low": 20.0,
+                    "relative_strength_6m": 5.0, "trend_direction": "uptrend",
+                    "tech_stage": "stage2", "entry_readiness": "ENTRADA",
+                    "entry_readiness_reason": "test"}
+
+        monkeypatch.setattr(tf, "compute_technical_signals", _fake_signals)
+
+        tf.run_technical_filter()
+
+        # Los cuatro tickers de los DOS universos se calcularon
+        assert set(vistos) == {"AAPL", "MSFT", "SAP.DE", "WKL.AS"}
+
+        eu_resultado = pd.read_csv(eu_csv)
+        assert eu_resultado.set_index("ticker").loc["SAP.DE", "entry_readiness"] == "ENTRADA"
+        assert bool(eu_resultado.set_index("ticker").loc["SAP.DE", "is_stage2"]) is True
+
+        us_resultado = pd.read_csv(us_csv)
+        assert us_resultado.set_index("ticker").loc["AAPL", "tech_stage"] == "stage2"
+
+    def test_ticker_compartido_no_se_pide_dos_veces(self, tmp_path, monkeypatch):
+        # Si el mismo ticker aparece en dos universos, se calcula una sola vez
+        import technical_filter as tf
+
+        a_csv = tmp_path / "a.csv"
+        b_csv = tmp_path / "b.csv"
+        pd.DataFrame({"ticker": ["AAPL"]}).to_csv(a_csv, index=False)
+        pd.DataFrame({"ticker": ["AAPL"]}).to_csv(b_csv, index=False)
+
+        monkeypatch.setattr(tf, "TARGET_CSVS", [(a_csv, tmp_path / "af.csv"),
+                                                (b_csv, tmp_path / "bf.csv")])
+        monkeypatch.setattr(tf, "TECH_JSON", tmp_path / "t.json")
+        monkeypatch.setattr(tf, "fetch_spy_6m_return", lambda: 0.0)
+        monkeypatch.setattr(tf, "RATE_DELAY", 0)
+
+        llamadas = {"n": 0}
+
+        def _fake_signals(ticker, spy_return):
+            llamadas["n"] += 1
+            return {"ticker": ticker, "is_stage2": False, "ma_score": 0,
+                    "atr_ratio": None, "volume_dryup": None,
+                    "pct_from_52w_high": None, "pct_from_52w_low": None,
+                    "relative_strength_6m": None, "trend_direction": "sideways",
+                    "tech_stage": "stage1", "entry_readiness": "VIGILAR",
+                    "entry_readiness_reason": "x"}
+
+        monkeypatch.setattr(tf, "compute_technical_signals", _fake_signals)
+        tf.run_technical_filter()
+        assert llamadas["n"] == 1
+
+    def test_universo_ausente_no_rompe_a_los_demas(self, tmp_path, monkeypatch):
+        import technical_filter as tf
+
+        existe = tmp_path / "existe.csv"
+        no_existe = tmp_path / "no_existe.csv"
+        pd.DataFrame({"ticker": ["AAPL"]}).to_csv(existe, index=False)
+
+        monkeypatch.setattr(tf, "TARGET_CSVS", [(existe, tmp_path / "ef.csv"),
+                                                (no_existe, tmp_path / "nf.csv")])
+        monkeypatch.setattr(tf, "TECH_JSON", tmp_path / "t.json")
+        monkeypatch.setattr(tf, "fetch_spy_6m_return", lambda: 0.0)
+        monkeypatch.setattr(tf, "RATE_DELAY", 0)
+        monkeypatch.setattr(tf, "compute_technical_signals",
+                            lambda t, s: {"ticker": t, "is_stage2": True, "ma_score": 1,
+                                          "atr_ratio": None, "volume_dryup": None,
+                                          "pct_from_52w_high": None, "pct_from_52w_low": None,
+                                          "relative_strength_6m": None, "trend_direction": "uptrend",
+                                          "tech_stage": "stage2", "entry_readiness": "ENTRADA",
+                                          "entry_readiness_reason": "x"})
+
+        tf.run_technical_filter()  # no debe lanzar excepción
+        assert pd.read_csv(existe)["entry_readiness"].iloc[0] == "ENTRADA"
