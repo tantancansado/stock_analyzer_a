@@ -12,9 +12,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from coherence_check import (columnas_obligatorias, commodity_rating_vs_narrativa,
                              entry_verdicts_vs_timing, entry_verdicts_vs_valoracion,
-                             etiqueta_ml_vs_probabilidad, leaps_vs_why_cheap,
-                             postmortem_vs_tracker_summary, ratios_imposibles,
-                             score_bajo_el_corte)
+                             etiqueta_ml_vs_probabilidad, leaps_precio_vs_value,
+                             leaps_vs_why_cheap, postmortem_vs_tracker_summary,
+                             ratios_imposibles, score_bajo_el_corte)
 
 
 class TestBadgeContraTiming:
@@ -170,3 +170,37 @@ class TestPostmortemContraTracker:
         postmortem = {'resumen': {'win_rate': 90.0, 'horizonte': 'algo_raro'}}
         summary = {'overall': {'90d': {'win_rate': 10.0}}}
         assert postmortem_vs_tracker_summary(postmortem, summary) == []
+
+
+class TestLeapsPrecioContraValue:
+    def test_precio_muy_distinto_es_problema(self):
+        value = [{'ticker': 'XYZ', 'current_price': '100.0'}]
+        leaps = [{'ticker': 'XYZ', 'spot': 120.0}]  # 20% de diferencia
+        problemas = leaps_precio_vs_value(value, [], leaps)
+        assert len(problemas) == 1 and 'XYZ' in problemas[0]
+
+    def test_precio_cercano_no_da_problema(self):
+        value = [{'ticker': 'XYZ', 'current_price': '100.0'}]
+        leaps = [{'ticker': 'XYZ', 'spot': 101.5}]  # 1.5%, timing normal
+        assert leaps_precio_vs_value(value, [], leaps) == []
+
+    def test_no_confunde_adr_us_con_listing_europeo(self):
+        # El caso real: SAP (ADR US, LEAPS) NO debe compararse contra
+        # SAP.DE (Fráncfort, EUR) — son divisas distintas, no el mismo dato
+        value = [{'ticker': 'SAP', 'current_price': '195.49'}]  # ADR US real
+        value_eu = [{'ticker': 'SAP.DE', 'current_price': '167.38'}]  # EUR real
+        leaps = [{'ticker': 'SAP', 'spot': 193.57}]
+        # Contra el ADR correcto: ~1% de diferencia, sin problema
+        assert leaps_precio_vs_value(value, value_eu, leaps) == []
+
+    def test_sin_ticker_exacto_en_ninguna_lista_no_compara(self):
+        # Si LEAPS solo tiene 'SAP' y la única lista es la EU con 'SAP.DE',
+        # no debe inventarse una comparación con el ticker equivocado
+        value_eu = [{'ticker': 'SAP.DE', 'current_price': '167.38'}]
+        leaps = [{'ticker': 'SAP', 'spot': 193.57}]
+        assert leaps_precio_vs_value([], value_eu, leaps) == []
+
+    def test_sin_spot_o_precio_no_rompe(self):
+        value = [{'ticker': 'XYZ', 'current_price': None}]
+        leaps = [{'ticker': 'XYZ', 'spot': None}]
+        assert leaps_precio_vs_value(value, [], leaps) == []

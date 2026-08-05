@@ -164,6 +164,36 @@ def postmortem_vs_tracker_summary(postmortem: dict | None, summary: dict | None,
     return []
 
 
+def leaps_precio_vs_value(value: list[dict], value_eu: list[dict], leaps: list[dict],
+                          umbral_pct: float = 8.0) -> list[str]:
+    """El spot de LEAPS y el current_price de VALUE deberían ser casi el mismo precio.
+
+    OJO con el ticker: LEAPS solo opera sobre el listing US con opciones
+    (p.ej. 'SAP', el ADR en NYSE) — nunca sobre el listing europeo ('SAP.DE',
+    Fráncfort, cotiza en EUR). Comparar 'SAP' de LEAPS contra 'SAP.DE' de la
+    lista EU no es un dato obsoleto, es una divisa distinta (verificado:
+    spot LEAPS 193.57 vs SAP.DE 167.38 = básicamente el tipo de cambio
+    EUR/USD, no un desajuste real). Por eso el cruce es SOLO por ticker
+    exacto — si no hay ese ticker exacto en ninguna de las dos listas
+    VALUE, no se compara nada en vez de adivinar con el ticker equivocado.
+    """
+    precio_value = {r['ticker']: _f(r.get('current_price'))
+                    for r in (value + value_eu) if r.get('ticker')}
+    problemas = []
+    for o in leaps:
+        ticker = o.get('ticker') or ''
+        spot = _f(o.get('spot'))
+        precio = precio_value.get(ticker)
+        if spot is None or precio is None or precio <= 0:
+            continue
+        diff_pct = abs(spot - precio) / precio * 100
+        if diff_pct > umbral_pct:
+            problemas.append(
+                f'{ticker}: LEAPS spot {spot:.2f} vs VALUE current_price {precio:.2f} '
+                f'({diff_pct:.1f}% de diferencia)')
+    return problemas
+
+
 def commodity_rating_vs_narrativa(commodities: list[dict]) -> list[str]:
     """value_rating (determinista) contra ai_narrative_veredicto (Claude+búsqueda).
 
@@ -234,6 +264,7 @@ def run() -> int:
         ('LEAPS contra why_cheap de VALUE (EU)',      leaps_vs_why_cheap(value_eu, leaps)),
         ('commodities: rating contra narrativa IA',   commodity_rating_vs_narrativa(commodities)),
         ('postmortem contra el win rate del tracker', postmortem_vs_tracker_summary(postmortem, tracker_summary)),
+        ('precio LEAPS contra precio VALUE',           leaps_precio_vs_value(value, value_eu, leaps)),
     ]
 
     total = 0
