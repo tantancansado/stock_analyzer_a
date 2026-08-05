@@ -1358,6 +1358,18 @@ def bounce_broad():
     ])
 
 
+@app.route('/api/bounce-catalyst-flags')
+def bounce_catalyst_flags():
+    """Tickers con catalizador negativo grave detectado por bounce_alerts.py.
+
+    bounce_alerts.py calcula esto para decidir si avisa por Telegram; sin
+    este endpoint la app seguía enseñando el mismo setup sin el aviso que sí
+    llegó por Telegram — ver bounce_catalyst_check.py.
+    """
+    data = _load_json(DOCS / 'bounce_catalyst_flags.json')
+    return jsonify(data or {'generated_at': None, 'flags': {}})
+
+
 def _get_user_artifact_for_request(kind: str) -> dict | None:
     """Si el request trae JWT válido y hay artefacto fresco en Supabase para ese
     user, devuelve su payload. Si no, None (caller cae a JSON estático).

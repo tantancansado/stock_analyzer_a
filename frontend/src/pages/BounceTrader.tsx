@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { fetchMeanReversion } from '../api/client'
+import { fetchMeanReversion, fetchBounceCatalystFlags } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import BroadBounceView from './BroadBounceView'
 import Loading, { ErrorState } from '../components/Loading'
@@ -324,8 +324,18 @@ export default function BounceTrader() {
     searchParams.get('mode') === 'broad' ? 'broad' : 'curated'
   )
   const { data: raw, loading, error } = useApi(() => fetchMeanReversion(), [])
+  const { data: catalystData } = useApi(() => fetchBounceCatalystFlags(), [])
   const [tierFilter, setTierFilter] = useState<TierFilter>('ALL')
   const [hideEarnings, setHideEarnings] = useState(true)
+
+  // bounce_alerts.py descarta un setup del aviso de Telegram si detecta un
+  // catalizador negativo grave (profit warning, investigación, fraude...) —
+  // sin esto la app seguía enseñando el mismo setup sin ese aviso.
+  const catalystFlags = catalystData?.flags ?? {}
+  const catalystExcludedCount = useMemo(() => {
+    const ops: BounceSetup[] = Array.isArray(raw?.opportunities) ? (raw.opportunities as BounceSetup[]) : []
+    return ops.filter(s => catalystFlags[s.ticker.toUpperCase()]).length
+  }, [raw, catalystFlags])
 
   const allSetups: BounceSetup[] = useMemo(() => {
     const ops: BounceSetup[] = Array.isArray(raw?.opportunities) ? (raw.opportunities as BounceSetup[]) : []
@@ -340,9 +350,11 @@ export default function BounceTrader() {
       if (s.dark_pool_signal === 'DISTRIBUTION' && (s.bounce_confidence ?? 0) < 60) return false
       // R:R mínimo 1:1
       if (s.risk_reward != null && s.risk_reward < 1.0) return false
+      // Catalizador negativo grave detectado — mismo veto que el aviso de Telegram
+      if (catalystFlags[s.ticker.toUpperCase()]) return false
       return true
     })
-  }, [raw])
+  }, [raw, catalystFlags])
 
   const filtered = useMemo(() => {
     let s = allSetups
@@ -460,6 +472,12 @@ export default function BounceTrader() {
         <div className="flex items-center gap-2 text-[0.68rem] text-muted-foreground/50 mb-4 px-1">
           <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
           {filteredOutCount} setup{filteredOutCount > 1 ? 's' : ''} descartado{filteredOutCount > 1 ? 's' : ''} por baja fiabilidad (confianza &lt;40%, DP distribución, R:R &lt;1 o penny stock)
+        </div>
+      )}
+      {catalystExcludedCount > 0 && (
+        <div className="flex items-center gap-2 text-[0.68rem] text-red-400/70 mb-4 px-1">
+          <AlertTriangle size={11} />
+          {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
         </div>
       )}
 

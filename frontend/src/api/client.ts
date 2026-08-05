@@ -754,6 +754,18 @@ export const fetchMeanReversionRecent = () =>
     '/api/mean-reversion-recent',
   )
 
+export interface BounceCatalystFlag {
+  motivo: string
+  fuentes: string[]
+  checked_at: string
+}
+
+export const fetchBounceCatalystFlags = () =>
+  fetchStaticOrApi<{ generated_at: string | null; flags: Record<string, BounceCatalystFlag> }>(
+    'bounce_catalyst_flags.json',
+    '/api/bounce-catalyst-flags',
+  )
+
 export const fetchRecurringInsiders = () =>
   apiClient.get<{ data: InsiderData[]; count: number; source: string }>('/api/recurring-insiders')
 

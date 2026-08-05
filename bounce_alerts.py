@@ -28,6 +28,7 @@ DOCS = Path('docs')
 BROAD_JSON = DOCS / 'bounce_setups_broad.json'
 MR_CSV     = DOCS / 'mean_reversion_opportunities.csv'
 SEEN_PATH  = DOCS / 'bounce_alerts_seen.json'
+CATALYST_FLAGS_PATH = DOCS / 'bounce_catalyst_flags.json'
 
 DEDUP_DAYS = 3
 MAX_ALERTS = 6
@@ -201,6 +202,34 @@ def _save_seen(seen: dict) -> None:
         print(f'  No se pudo guardar el estado de dedup: {e}')
 
 
+def _save_catalyst_flags(descartados: list[dict], today: str) -> None:
+    """Persiste los PELIGRO de hoy para que el frontend los vea — hasta ahora
+    filter_setups() los calculaba y los tiraba tras el aviso de Telegram: la
+    app seguía enseñando el mismo setup sin el aviso que sí llegó por Telegram.
+    Expira a DEDUP_DAYS, igual que el propio dedup de avisos.
+    """
+    try:
+        flags = json.loads(CATALYST_FLAGS_PATH.read_text()).get('flags', {}) if CATALYST_FLAGS_PATH.exists() else {}
+    except Exception:
+        flags = {}
+    today_d = date.fromisoformat(today)
+    flags = {
+        t: f for t, f in flags.items()
+        if f.get('checked_at') and (today_d - date.fromisoformat(f['checked_at'])).days < DEDUP_DAYS
+    }
+    for d in descartados:
+        flags[d['ticker']] = {
+            'motivo': d.get('catalyst_motivo', ''),
+            'fuentes': d.get('catalyst_fuentes', []),
+            'checked_at': today,
+        }
+    try:
+        CATALYST_FLAGS_PATH.write_text(json.dumps(
+            {'generated_at': datetime.now().isoformat(), 'flags': flags}, indent=2))
+    except Exception as e:
+        print(f'  No se pudo guardar bounce_catalyst_flags.json: {e}')
+
+
 def filter_new(setups: list[dict], seen: dict, today: str) -> list[dict]:
     """Quita tickers ya avisados hace menos de DEDUP_DAYS. Marca los nuevos en seen."""
     fresh = []
@@ -268,6 +297,8 @@ def main() -> None:
     # desde los indicadores se ven igual. Se comprueba si hay un catalizador
     # negativo grave detrás antes de avisar de nada (bounce_catalyst_check).
     fresh, descartados = filter_setups(fresh)
+    if descartados:
+        _save_catalyst_flags(descartados, today)
     if not fresh:
         print(f'  {len(descartados)} setup(s) descartados por catalizador negativo — nada que avisar')
         return

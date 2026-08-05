@@ -125,11 +125,9 @@ que decide ENTRADA vs VIGILAR). Fix: `fetch_benchmark_6m_return(symbol)`
 genérica, VGK para tickers de `european_value_opportunities.csv`, SPY para
 el resto. `technical_signals.json` expone ambos retornos.
 
-### 5b. `enrich_commodity_narrative.py` — extender el guard de coherencia
-Nuevo hoy, sin cobertura todavía en `coherence_check.py`. Candidato: un
-commodity con `value_rating: CARO` no debería salir con
-`ai_narrative_veredicto: OPORTUNIDAD_ESTRUCTURAL` — la misma clase de
-contradicción que se cazó hoy entre `entry_verdicts` y `entry_readiness`.
+### 5b. ~~`enrich_commodity_narrative.py` — extender el guard de coherencia~~ — HECHO 5-ago-2026
+`commodity_rating_vs_narrativa()` en `coherence_check.py`: CARO+OPORTUNIDAD_ESTRUCTURAL
+o MUY_ATRACTIVO/ATRACTIVO+TRAMPA_DE_VALOR. 0 falsos positivos con datos reales.
 
 ### 6b. ~~LEAPS `situation` contra `why_cheap` de VALUE~~ — HECHO 5-ago-2026
 Dos IAs contradiciéndose sobre el mismo negocio (LEAPS dice negocio intacto,
@@ -150,22 +148,29 @@ verificado sin falsos positivos con datos reales y tests.
     contexto de ciclo, no upside de analista. Sin el mismo riesgo.
 
 ### 6. `coherence_check.py` — comprobaciones que faltan
-El guard de hoy cubre 6 cruces. Candidatos para ampliarlo:
+El guard cubre 9 cruces (LEAPS vs why_cheap y commodities ya hechos, ver
+arriba). Candidatos que quedan:
   - `signal_postmortem.json` contra `portfolio_tracker/summary.json` (¿el win
     rate que reporta el postmortem coincide con el del tracker?)
-  - LEAPS (`leaps_opportunities.json`) contra VALUE: si un ticker está en LEAPS
-    con `situation: CAIDA_CIRCUNSTANCIAL` pero en VALUE con `why_cheap:
-    DETERIORO`, es una contradicción entre dos IAs que merece salir.
   - Precio: `leaps_opportunities.json` usó `spot: 193.57` para SAP mientras
     `european_value_opportunities.csv` tenía `current_price: 167.38` el mismo
     día — timestamps de fetch distintos, dentro de lo esperable, pero vale la
     pena poner un umbral de alerta (>5% de diferencia en el mismo día = sospechoso).
 
-### 7. Consumidores del frontend sin test de coherencia
-Se probó `ValueUS`/`ValueEU`. Sin auditar todavía: `Momentum.tsx`, `LeapsView`,
-`BounceTrader` (ya tiene guard en `bounce_alerts.py`, pero no en el frontend),
-`Cerebro`, `Portfolio`. Mismo método que hoy: no asumir que el filtro filtra —
-escribir el test que lo demuestre con un caso real que debería quedar fuera.
+### 7. ~~Consumidores del frontend sin test de coherencia~~ — AUDITADO 5-ago-2026
+Se probó `ValueUS`/`ValueEU` (bug real, ya arreglado). Barrido hoy de
+`Momentum.tsx`, `GlobalValue.tsx`, `BounceTrader.tsx`, `Leaps.tsx`,
+`Cerebro.tsx`, `Portfolio.tsx`, `MyPortfolio.tsx`, `PersonalPortfolio.tsx`,
+`DividendTraps.tsx`, `CatalystScreener.tsx`: ninguna tiene el patrón de bypass
+del filtro de score (`highConviction || score < min`) — resultado negativo
+verificado por grep dirigido, no una revisión superficial. El bug era
+específico de ValueUS/ValueEU; la mayoría de estas páginas ni siquiera tienen
+un filtro numérico de score que se pueda saltar.
+
+Pendiente real (no auditado hoy): `BounceTrader` tiene guard de catalizador
+negativo en `bounce_alerts.py` (backend) pero no hay comprobación de que el
+frontend respete ese mismo criterio al pintar setups — el filtro de
+`allSetups` en `BounceTrader.tsx` no consulta ese campo en absoluto.
 
 ## Principio para lo que sigue
 

@@ -104,3 +104,41 @@ class TestBuildMessage:
         setups = [_setup(f'T{i}') for i in range(10)]
         msg = ba.build_message(setups, '2026-07-02')
         assert msg.count('[BROAD]') == ba.MAX_ALERTS
+
+
+class TestSaveCatalystFlags:
+    """filter_setups() calculaba el veredicto de catalizador y lo tiraba tras
+    el aviso de Telegram — la app seguía enseñando el setup sin avisar."""
+
+    def test_descartado_se_persiste(self, tmp_path, monkeypatch):
+        flags_path = tmp_path / 'bounce_catalyst_flags.json'
+        monkeypatch.setattr(ba, 'CATALYST_FLAGS_PATH', flags_path)
+        descartados = [{**_setup('XYZ'), 'catalyst_motivo': 'Profit warning',
+                        'catalyst_fuentes': ['https://example.com']}]
+        ba._save_catalyst_flags(descartados, '2026-07-02')
+        import json
+        data = json.loads(flags_path.read_text())
+        assert data['flags']['XYZ']['motivo'] == 'Profit warning'
+        assert data['flags']['XYZ']['checked_at'] == '2026-07-02'
+
+    def test_flags_viejas_expiran_a_dedup_days(self, tmp_path, monkeypatch):
+        import json
+        flags_path = tmp_path / 'bounce_catalyst_flags.json'
+        flags_path.write_text(json.dumps({'flags': {
+            'OLD': {'motivo': 'x', 'fuentes': [], 'checked_at': '2026-06-01'},
+        }}))
+        monkeypatch.setattr(ba, 'CATALYST_FLAGS_PATH', flags_path)
+        ba._save_catalyst_flags([], '2026-07-02')  # muy por delante de DEDUP_DAYS=3
+        data = json.loads(flags_path.read_text())
+        assert 'OLD' not in data['flags']
+
+    def test_flags_recientes_sobreviven_a_una_corrida_vacia(self, tmp_path, monkeypatch):
+        import json
+        flags_path = tmp_path / 'bounce_catalyst_flags.json'
+        flags_path.write_text(json.dumps({'flags': {
+            'RECENT': {'motivo': 'x', 'fuentes': [], 'checked_at': '2026-07-01'},
+        }}))
+        monkeypatch.setattr(ba, 'CATALYST_FLAGS_PATH', flags_path)
+        ba._save_catalyst_flags([], '2026-07-02')  # 1 día después, dentro de DEDUP_DAYS
+        data = json.loads(flags_path.read_text())
+        assert 'RECENT' in data['flags']

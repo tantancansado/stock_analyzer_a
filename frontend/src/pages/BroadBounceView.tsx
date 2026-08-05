@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Zap } from 'lucide-react'
-import { fetchBounceBroad, type BounceBroadSetup } from '../api/client'
+import { fetchBounceBroad, fetchBounceCatalystFlags, type BounceBroadSetup } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
@@ -51,12 +51,19 @@ function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
 
 export default function BroadBounceView() {
   const { data, loading, error } = useApi(() => fetchBounceBroad(), [])
+  const { data: catalystData } = useApi(() => fetchBounceCatalystFlags(), [])
 
   if (loading) return <Loading />
   if (error) return <ErrorState message={error} />
 
   const resp = data
-  const setups: BounceBroadSetup[] = resp?.setups ?? []
+  const catalystFlags = catalystData?.flags ?? {}
+  // Mismo veto que bounce_alerts.py aplica antes de avisar por Telegram —
+  // sin esto la app seguía enseñando un setup con catalizador negativo grave
+  // (profit warning, investigación...) sin ese aviso.
+  const allSetups: BounceBroadSetup[] = resp?.setups ?? []
+  const setups = allSetups.filter(s => !catalystFlags[s.ticker.toUpperCase()])
+  const catalystExcludedCount = allSetups.length - setups.length
   const universeSize = resp?.universe_size ?? 0
   const scanDate = resp?.scan_date
 
@@ -82,6 +89,11 @@ export default function BroadBounceView() {
             RSI(2) &le;10 · &gt;SMA200 · Vol &ge;1.3× · R/R &ge;1.5
           </div>
         </div>
+        {catalystExcludedCount > 0 && (
+          <div className="text-[0.68rem] text-red-400/70 mt-2">
+            {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
+          </div>
+        )}
       </div>
 
       {setups.length === 0 ? (
