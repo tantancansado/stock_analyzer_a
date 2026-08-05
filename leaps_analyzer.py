@@ -434,7 +434,13 @@ def _get_price_context(t: 'yf.Ticker') -> tuple[Optional[float], Optional[float]
         if h is None or h.empty:
             return None, None, None
         cur = float(h['Close'].iloc[-1])
-        hi = float(h['Close'].max())
+        # El máximo de 52 semanas es el máximo INTRADÍA (High), no el máximo
+        # de cierres. Con Close.max() UNH salía a -6.1% de máximos el
+        # 5-ago-2026 cuando la distancia real era -11.7% — un día concreto
+        # tocó $461.62 intradía y cerró más abajo, y Close.max() nunca ve ese
+        # pico. Verificado contra yfinance: High.max()=461.62 (16-jul-2026)
+        # vs Close.max()=436.35 (21-jul-2026, un día distinto).
+        hi = float(h['High'].max()) if 'High' in h.columns else float(h['Close'].max())
         pct_from_high = (cur - hi) / hi * 100 if hi else None
         ytd = h[h.index >= f'{date.today().year}-01-01']['Close']
         ytd_pct = (cur - float(ytd.iloc[0])) / float(ytd.iloc[0]) * 100 if len(ytd) else None
@@ -739,7 +745,7 @@ EMPRESA: {opp['company_name']} ({opp['ticker']}) — sector {opp.get('sector') o
 Precio acción: ${opp['spot']:.2f} · Calidad fundamental: {opp['quality_score']}/100 · Upside analistas: {opp.get('analyst_upside_pct')}%
 Contexto de precio: {opp.get('pct_from_52w_high')}% desde máximos de 52 semanas · YTD {opp.get('ytd_pct')}% · forward P/E: {opp.get('forward_pe') or 'n/d'} · trailing P/E: {opp.get('trailing_pe') or 'n/d'} · clasificación previa: {_sit_label}
 REGLA DE VALORACIÓN: estar en máximos NO es malo per se. Juzga el MÚLTIPLO, no solo el gráfico: una empresa excelente en máximos a P/E razonable sigue siendo comprable; solo es 'cara' si el múltiplo está estirado para su crecimiento.
-VERIFICACIÓN DE DATOS: estas cifras vienen de una fuente automática (yfinance) que a veces falla. Con tu conocimiento de la empresa, comprueba si son PLAUSIBLES y COHERENTES (precio, forward/trailing P/E, caída, target). Ejemplo de dato sospechoso: un forward P/E anormalmente bajo para una empresa de crecimiento de calidad (p.ej. ServiceNow a P/E 20), o forward y trailing muy divergentes, o un target/upside inconsistente. Si algo no cuadra, AVISA.
+VERIFICACIÓN DE DATOS — LÍMITE ESTRICTO: NO tienes acceso a precios de mercado en tiempo real ni herramienta de búsqueda en esta llamada. NUNCA compares estas cifras con tu recuerdo de qué precio "debería" tener la empresa, su cierre de un año concreto o su máximo histórico — tu memoria de niveles de precio está desactualizada y de aquí ha salido ya una alucinación confirmada (Claude "corrigiendo" un YTD correcto con un cálculo inventado, comparando contra el cierre de un año equivocado). Lo único que puedes evaluar es la COHERENCIA ARITMÉTICA ENTRE LOS NÚMEROS QUE TE DOY EN ESTE PROMPT: si forward P/E y trailing P/E son incoherentes entre sí, si el % desde máximos no es compatible con el precio y el target dados, etc. Si no ves una inconsistencia interna clara entre estos números, responde "OK" — no inventes una cifra "real" que no está en el prompt.
 
 CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
   COMPRAR 1x CALL {opp['ticker']} strike ${c['strike']:.0f} vencimiento {c['expiry']} ({c['t_years']} años)
@@ -755,7 +761,7 @@ CONTRATO RECOMENDADO (deep ITM, sustituto de acciones):
 Responde SOLO con JSON válido (sin markdown, sin texto extra), en español:
 IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
 {{
-  "data_check": "OK si las cifras son plausibles y coherentes. Si NO, qué dato parece erróneo y el valor que esperarías (1 frase). Empieza SIEMPRE por 'OK' o por 'OJO'.",
+  "data_check": "OK si los números de este prompt son coherentes ENTRE SÍ. Si dos cifras del prompt se contradicen matemáticamente entre ellas, cuál y por qué (1 frase) — nunca compares contra tu memoria de precios históricos. Empieza SIEMPRE por 'OK' o por 'OJO'.",
   "verdict": "OPORTUNIDAD | RAZONABLE | EVITAR",
   "verdict_reason": "HONESTO, máx 2 frases: ¿por qué está a este precio? Causa (externa/cíclica vs deterioro) y si los fundamentales aguantan. Si NO es buena oportunidad value, dilo.",
   "narrative": "Máx 60 palabras: qué significa este contrato y el riesgo real (máximo = la prima).",

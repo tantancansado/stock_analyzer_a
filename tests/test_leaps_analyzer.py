@@ -275,3 +275,103 @@ class TestSourceConstants:
     def test_min_target_return_filter_exists(self):
         # Debe exigirse un rendimiento mínimo positivo en el escenario alcista
         assert la.MIN_TARGET_RETURN_PCT > 0
+
+
+# ─── Máximo de 52 semanas: High, no Close ──────────────────────────────────────
+# El 5-ago-2026 UNH salía a -6.1% de máximos cuando la distancia real era
+# -11.7%: el cálculo usaba h['Close'].max() en vez de h['High'].max(). Un día
+# tocó $461.62 intradía y cerró más abajo — Close.max() nunca ve ese pico.
+# Verificado contra yfinance real: High.max()=461.62 (16-jul) vs
+# Close.max()=436.35 (21-jul, día distinto).
+
+class TestGetPriceContext:
+    def test_usa_high_no_close_para_el_maximo(self):
+        import pandas as pd
+
+        class _FakeTicker:
+            def history(self, period='1y'):
+                idx = pd.date_range('2025-08-01', periods=5, freq='D')
+                return pd.DataFrame({
+                    'Close': [400.0, 410.0, 436.35, 420.0, 407.55],
+                    'High':  [405.0, 415.0, 440.0,  461.62, 412.0],
+                }, index=idx)
+
+        pct_from_high, ytd, hv = la._get_price_context(_FakeTicker())
+        # Con High.max()=461.62 y precio actual 407.55:
+        esperado = round((407.55 - 461.62) / 461.62 * 100, 1)
+        assert pct_from_high == esperado
+        assert pct_from_high < round((407.55 - 436.35) / 436.35 * 100, 1)  # más negativo que con Close
+
+    def test_sin_columna_high_cae_a_close(self):
+        import pandas as pd
+        idx = pd.date_range('2025-08-01', periods=3, freq='D')
+
+        class _FakeTicker:
+            def history(self, period='1y'):
+                return pd.DataFrame({'Close': [100.0, 110.0, 95.0]}, index=idx)
+
+        pct_from_high, _, _ = la._get_price_context(_FakeTicker())
+        assert pct_from_high == round((95.0 - 110.0) / 110.0 * 100, 1)
+
+    def test_historial_vacio_no_rompe(self):
+        import pandas as pd
+
+        class _FakeTicker:
+            def history(self, period='1y'):
+                return pd.DataFrame()
+
+        assert la._get_price_context(_FakeTicker()) == (None, None, None)
+
+
+# ─── Prompt de narrativa: sin fact-checking de memoria ─────────────────────────
+# El prompt le pedía a Claude "con tu conocimiento de la empresa, comprueba si
+# son plausibles" — sin herramienta de búsqueda, eso es pedirle que recuerde
+# precios históricos. Produjo una alucinación confirmada: UNH con YTD +23.5%
+# (correcto) "corregido" por Claude a -19% comparando contra el cierre de 2024
+# en vez del de 2025. El prompt ahora prohíbe explícitamente ese fact-checking
+# de memoria y limita data_check a coherencia aritmética entre los números que
+# se le dan.
+
+class TestPromptNoFactChecking:
+    def _build_prompt(self):
+        opp = {
+            'ticker': 'TEST', 'company_name': 'Test Co', 'sector': 'Tech',
+            'spot': 100.0, 'quality_score': 70, 'analyst_upside_pct': 15.0,
+            'pct_from_52w_high': -10.0, 'ytd_pct': 5.0, 'forward_pe': 20.0,
+            'trailing_pe': 22.0, 'situation': 'CALIDAD_RAZONABLE',
+            'recommended_contract': {
+                'strike': 90.0, 'expiry': '2028-01-01', 't_years': 1.5,
+                'mid': 15.0, 'cost_per_contract': 1500.0, 'delta': 0.8,
+                'leverage': 1.5, 'annual_carry_pct': 4.0,
+                'total_annual_cost_pct': 5.0, 'forgone_dividend_pct': 1.0,
+                'iv_pct': 30.0, 'iv_richness': 'normal', 'iv_vs_hv': 1.1,
+                'roundtrip_spread_usd': 50, 'volume': 20,
+                'breakeven': 105.0, 'breakeven_move_pct': 5.0,
+            },
+            'profit_at_target': {},
+        }
+        captured = {}
+
+        def _fake_claude_chat(messages, model=None, max_tokens=None, temperature=None):
+            captured['prompt'] = messages[0]['content']
+            return None  # no hace falta respuesta real, solo capturar el prompt
+
+        import groq_utils
+        from unittest.mock import patch
+        with patch.object(groq_utils, 'claude_chat', _fake_claude_chat):
+            la.add_ai_narrative(opp)
+        return captured.get('prompt', '')
+
+    def test_prohibe_explicitamente_el_fact_checking_de_memoria(self):
+        prompt = self._build_prompt()
+        assert 'NO tienes acceso a precios de mercado en tiempo real' in prompt
+        assert 'NUNCA compares' in prompt
+
+    def test_ya_no_invita_a_usar_conocimiento_de_la_empresa(self):
+        # La instrucción vieja que causó la alucinación no debe seguir ahí
+        prompt = self._build_prompt()
+        assert 'con tu conocimiento de la empresa, comprueba si son PLAUSIBLES' not in prompt
+
+    def test_data_check_se_limita_a_coherencia_interna(self):
+        prompt = self._build_prompt()
+        assert 'COHERENCIA ARITMÉTICA ENTRE LOS NÚMEROS QUE TE DOY' in prompt
