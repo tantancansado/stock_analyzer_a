@@ -39,6 +39,14 @@ VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'}
 MIN_GRUPO = 5          # por debajo, cualquier win rate es anécdota
 HORIZONTE = 'return_90d'
 
+# Mismo corte que portfolio_tracker.py: antes de esta fecha EU registraba el
+# universo completo (50/día) y US sin filtrar (30-80/día) — otra población,
+# no una muestra más grande de la misma. Sin este filtro el resumen leía
+# 1489 señales (55.1% acierto) contradiciendo el 35.8%/134 que publica el
+# tracker — el propio docstring de este archivo cita ese 35.8%/134 como
+# referencia y el código no lo reproducía.
+CLEAN_FROM = pd.Timestamp('2026-04-08')
+
 
 def _cortes(df: pd.DataFrame) -> dict:
     """Win rate y retorno medio por grupo. Solo grupos con muestra suficiente."""
@@ -129,6 +137,8 @@ def main() -> None:
 
     df = pd.read_csv(RECS)
     df = df[df['strategy'].isin(VALUE_STRATEGIES)]
+    df['signal_date'] = pd.to_datetime(df['signal_date'], errors='coerce')
+    df = df[df['signal_date'] >= CLEAN_FROM]
     if HORIZONTE not in df.columns:
         print(f'  Sin columna {HORIZONTE} todavía — el histórico aún no cumple el horizonte')
         return

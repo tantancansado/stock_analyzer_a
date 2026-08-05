@@ -135,6 +135,35 @@ def leaps_vs_why_cheap(value: list[dict], leaps: list[dict]) -> list[str]:
     return problemas
 
 
+def postmortem_vs_tracker_summary(postmortem: dict | None, summary: dict | None,
+                                  tolerancia_pts: float = 5.0) -> list[str]:
+    """El win rate que reporta el postmortem debe coincidir con el del tracker.
+
+    Ambos analizan, en teoría, la misma pregunta ("¿cuánto acierta el sistema
+    a este horizonte?"). El 5-ago-2026 signal_postmortem.py no aplicaba el
+    corte CLEAN_FROM que portfolio_tracker.py sí aplica en 'overall' —
+    analizaba 1489 señales (con el periodo contaminado pre-abril) y publicaba
+    55.1% de acierto, contradiciendo el 35.8%/134 oficial del tracker para la
+    misma ventana. Ver signal_postmortem.py y portfolio_tracker.py CLEAN_FROM.
+    """
+    if not postmortem or not summary:
+        return []
+    resumen = postmortem.get('resumen') or {}
+    horizonte = str(resumen.get('horizonte') or '')  # 'return_90d' → '90d'
+    if not horizonte.startswith('return_'):
+        return []
+    clave = horizonte.removeprefix('return_')
+    tracker_win = ((summary.get('overall') or {}).get(clave) or {}).get('win_rate')
+    pm_win = resumen.get('win_rate')
+    if tracker_win is None or pm_win is None:
+        return []
+    diff = abs(float(pm_win) - float(tracker_win))
+    if diff > tolerancia_pts:
+        return [f'postmortem dice {pm_win}% de acierto a {clave}, '
+                f'el tracker dice {tracker_win}% — diferencia de {diff:.1f}pts']
+    return []
+
+
 def commodity_rating_vs_narrativa(commodities: list[dict]) -> list[str]:
     """value_rating (determinista) contra ai_narrative_veredicto (Claude+búsqueda).
 
@@ -181,6 +210,8 @@ def run() -> int:
     leaps_data = _json('leaps_opportunities.json')
     leaps = leaps_data.get('opportunities', []) if isinstance(leaps_data, dict) else []
     commodities = _rows('commodity_opportunities.csv')
+    postmortem = _json('signal_postmortem.json')
+    tracker_summary = _json('portfolio_tracker/summary.json')
 
     try:
         from value_bands import VALUE_SCORE_MIN
@@ -202,6 +233,7 @@ def run() -> int:
         ('LEAPS contra why_cheap de VALUE (US)',      leaps_vs_why_cheap(value, leaps)),
         ('LEAPS contra why_cheap de VALUE (EU)',      leaps_vs_why_cheap(value_eu, leaps)),
         ('commodities: rating contra narrativa IA',   commodity_rating_vs_narrativa(commodities)),
+        ('postmortem contra el win rate del tracker', postmortem_vs_tracker_summary(postmortem, tracker_summary)),
     ]
 
     total = 0

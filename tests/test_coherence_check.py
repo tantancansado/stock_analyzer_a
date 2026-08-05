@@ -13,7 +13,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from coherence_check import (columnas_obligatorias, commodity_rating_vs_narrativa,
                              entry_verdicts_vs_timing, entry_verdicts_vs_valoracion,
                              etiqueta_ml_vs_probabilidad, leaps_vs_why_cheap,
-                             ratios_imposibles, score_bajo_el_corte)
+                             postmortem_vs_tracker_summary, ratios_imposibles,
+                             score_bajo_el_corte)
 
 
 class TestBadgeContraTiming:
@@ -139,3 +140,33 @@ class TestCommodityRatingContraNarrativa:
         commodities = [{'ticker': 'X', 'value_rating': 'CARO',
                         'ai_narrative_veredicto': 'TRAMPA_DE_VALOR'}]
         assert commodity_rating_vs_narrativa(commodities) == []
+
+
+class TestPostmortemContraTracker:
+    def test_caso_real_del_bug(self):
+        # El bug real: postmortem sin CLEAN_FROM daba 55.1%/1489 vs el
+        # 35.8%/134 oficial del tracker
+        postmortem = {'resumen': {'n': 1489, 'win_rate': 55.1, 'horizonte': 'return_90d'}}
+        summary = {'overall': {'90d': {'count': 134, 'win_rate': 35.8}}}
+        problemas = postmortem_vs_tracker_summary(postmortem, summary)
+        assert len(problemas) == 1 and '55.1' in problemas[0] and '35.8' in problemas[0]
+
+    def test_arreglado_no_da_problema(self):
+        postmortem = {'resumen': {'n': 134, 'win_rate': 35.8, 'horizonte': 'return_90d'}}
+        summary = {'overall': {'90d': {'count': 134, 'win_rate': 35.8}}}
+        assert postmortem_vs_tracker_summary(postmortem, summary) == []
+
+    def test_pequena_diferencia_dentro_de_tolerancia_no_avisa(self):
+        # Distinto timestamp de generación puede mover el número unos decimos
+        postmortem = {'resumen': {'n': 135, 'win_rate': 37.0, 'horizonte': 'return_90d'}}
+        summary = {'overall': {'90d': {'count': 134, 'win_rate': 35.8}}}
+        assert postmortem_vs_tracker_summary(postmortem, summary) == []
+
+    def test_sin_datos_no_rompe(self):
+        assert postmortem_vs_tracker_summary(None, None) == []
+        assert postmortem_vs_tracker_summary({}, {}) == []
+
+    def test_horizonte_no_return_no_rompe(self):
+        postmortem = {'resumen': {'win_rate': 90.0, 'horizonte': 'algo_raro'}}
+        summary = {'overall': {'90d': {'win_rate': 10.0}}}
+        assert postmortem_vs_tracker_summary(postmortem, summary) == []
