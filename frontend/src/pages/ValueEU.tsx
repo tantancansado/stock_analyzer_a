@@ -226,8 +226,11 @@ export default function ValueEU() {
     // Mismo criterio que ValueUS: un A/B de conviction (análisis profundo:
     // ROE, deuda, DCF, R:R) no debe ocultarse solo porque value_score (métrica
     // rápida) cae un par de puntos bajo el corte del slider.
-    const highConviction = r.conviction_grade === 'A' || r.conviction_grade === 'B'
-    if (minScore !== '' && !highConviction && (r.value_score == null || r.value_score < Number(minScore))) return false
+    // El filtro de score filtra siempre. Antes los grados A y B se lo saltaban,
+    // así que con "65+" marcado seguían apareciendo tickers de 32 y 42 puntos
+    // sin avisar de nada. Para quedarse solo con alta convicción está el filtro
+    // de GRADO, que es explícito y se ve activado.
+    if (minScore !== '' && (r.value_score == null || r.value_score < Number(minScore))) return false
     if (deferredMinFcf !== '' && (r.fcf_yield_pct == null || r.fcf_yield_pct < Number(deferredMinFcf))) return false
     if (deferredMinRr !== '' && (r.risk_reward_ratio == null || r.risk_reward_ratio < Number(deferredMinRr))) return false
     if (hideTraps && cerebro.trapMap[r.ticker]?.severity === 'HIGH') return false

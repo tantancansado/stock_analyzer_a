@@ -248,8 +248,10 @@ export default function ValueUS() {
     // — un A/B de alta convicción no debe desaparecer solo porque el value_score
     // simple cae un par de puntos por debajo del mínimo (caso real: CBOE,
     // value_score 52.6 bajo el corte de 55 pero grade A con 8 positivos/0 red flags).
-    const highConviction = r.conviction_grade === 'A' || r.conviction_grade === 'B'
-    if (deferredMinScore !== '' && !highConviction && (r.value_score == null || r.value_score < Number(deferredMinScore))) return false
+    // El filtro de score filtra siempre — ver la nota en ValueEU: los grados A
+    // y B se lo saltaban y la lista mostraba tickers por debajo del umbral
+    // elegido sin decirlo. Para alta convicción está el filtro de GRADO.
+    if (deferredMinScore !== '' && (r.value_score == null || r.value_score < Number(deferredMinScore))) return false
     if (deferredMinFcf !== '' && (r.fcf_yield_pct == null || r.fcf_yield_pct < Number(deferredMinFcf))) return false
     if (deferredMinRr !== '' && (r.risk_reward_ratio == null || r.risk_reward_ratio < Number(deferredMinRr))) return false
     if (hideEarnings && r.earnings_warning) return false
