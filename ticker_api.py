@@ -47,6 +47,7 @@ import logging
 from pathlib import Path
 from datetime import datetime
 
+from currency_normalizer import normalize_info
 from ticker_api_config import load_runtime_config
 from ticker_api_data import build_dataset_summary, load_csv_file, load_json_file, load_static_datasets
 from ticker_api_helpers import (
@@ -2561,6 +2562,9 @@ def dividend_calendar():
             if days_to > 45 or days_to < 0:
                 return None
             info = t_obj.info
+            # lastDividendValue viene en libras aunque el precio cotice en
+            # peniques (GBp) — mismo ×100 de subunidad de currency_normalizer.
+            info, _fx_meta_div = normalize_info(info, ticker)
             last_div_value = info.get('lastDividendValue')
             price = info.get('currentPrice') or info.get('previousClose')
             return {
@@ -2724,6 +2728,11 @@ def _build_earnings_expectation_snapshot(ticker: str, base_row: dict | None = No
     except Exception:
         info = {}
 
+    # GBp (peniques) vs GBP — mismo bug ya arreglado en earnings_thesis_generator.py
+    # y en _build_search_live_snapshot. thesis['expected_eps'] ya viene normalizado
+    # si procede de earnings_thesis_generator.py; el resto de fuentes de aquí no.
+    info, _fx_meta = normalize_info(info, cache_key)
+
     base_row = base_row or {}
     thesis = thesis or {}
 
@@ -2734,7 +2743,9 @@ def _build_earnings_expectation_snapshot(ticker: str, base_row: dict | None = No
     try:
         eps_est = _earnings_estimate_avg(getattr(tk, 'earnings_estimate', None))
         if eps_est is not None:
-            consensus_eps = eps_est
+            # tk.earnings_estimate es una llamada de yfinance aparte de `info`,
+            # normalize_info() no la toca.
+            consensus_eps = eps_est * _fx_meta.get('fx_to_price', 1.0)
     except Exception:
         pass
 
@@ -3022,6 +3033,14 @@ def _build_search_live_snapshot(ticker: str) -> dict:
     except Exception:
         info = {}
 
+    # Buscador de tickers: precio y EPS pueden venir en escalas distintas
+    # (GBp vs GBP) — ver currency_normalizer.py y el mismo bug ya arreglado
+    # en earnings_thesis_generator.py.
+    info, _fx_meta = normalize_info(info, cache_key)
+    if not _fx_meta.get('fx_reliable', True):
+        info = dict(info)
+        info['freeCashflow'] = None
+
     fast_info = {}
     try:
         fast_info = dict(getattr(tk, 'fast_info', {}) or {})
@@ -3095,7 +3114,10 @@ def _build_search_live_snapshot(ticker: str) -> dict:
     try:
         eps_est = _earnings_estimate_avg(getattr(tk, 'earnings_estimate', None))
         if eps_est is not None:
-            snapshot['consensus_eps'] = round(eps_est, 2)
+            # tk.earnings_estimate es una llamada de yfinance aparte de `info`,
+            # normalize_info() no la toca — mismo ×100 de subunidad manual que
+            # earnings_thesis_generator.py.
+            snapshot['consensus_eps'] = round(eps_est * _fx_meta.get('fx_to_price', 1.0), 2)
     except Exception:
         pass
 
@@ -3720,6 +3742,16 @@ def analyze_personal_portfolio():
         except Exception:
             t_obj = None
             info  = {}
+
+        # freeCashflow puede venir en financialCurrency mientras marketCap
+        # cotiza en otra divisa (ADR, ver currency_normalizer.py) — sin esto
+        # fcf_yield mezcla divisas para cualquier posición extranjera real.
+        _fx_meta_pos = {}
+        if info:
+            info, _fx_meta_pos = normalize_info(info, ticker)
+            if not _fx_meta_pos.get('fx_reliable', True):
+                info = dict(info)
+                info['freeCashflow'] = None
 
         cur_price = (info.get('currentPrice') or info.get('regularMarketPrice')
                      or info.get('previousClose') or avg_p or 0)

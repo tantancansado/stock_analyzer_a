@@ -67,6 +67,9 @@ PER_SHARE_FIELDS = (
     'bookValue',
     'revenuePerShare',
     'totalCashPerShare',
+    'dividendRate',
+    'lastDividendValue',
+    'trailingAnnualDividendRate',
 )
 
 # Divisas que se cotizan en subunidad: 1 unidad mayor = 100 subunidades
