@@ -29,6 +29,8 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
+from currency_normalizer import normalize_info
+
 DOCS = Path('docs')
 DOCS.mkdir(exist_ok=True)
 
@@ -370,6 +372,14 @@ def _score_ticker(ticker: str, fund_row: Optional[dict] = None) -> Optional[dict
     try:
         tk = yf.Ticker(ticker)
         info = tk.info or {}
+
+        # ADRs de China (BABA, JD, PDD, BIDU, LI...) cotizan en USD pero reportan en
+        # CNY; STLA en EUR. Verificado en vivo: BABA daba fcf_yield -14,1% sin
+        # convertir (real -2,1%). Normaliza freeCashflow antes de leerlo.
+        info, fx_meta = normalize_info(info, ticker)
+        if not fx_meta.get('fx_reliable', True):
+            info = dict(info)
+            info['freeCashflow'] = None
 
         # Basic filters
         price = _safe_float(info.get('currentPrice') or info.get('regularMarketPrice'))
