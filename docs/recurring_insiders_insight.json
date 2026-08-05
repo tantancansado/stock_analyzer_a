@@ -1,7 +1,7 @@
 {
-  "date": "2026-08-04",
-  "timestamp": "2026-08-04T07:48:25.788840",
-  "narrative": "Bas\u00e1ndome en los patrones de compra recurrente de insiders, puedo generar los siguientes insights:\n\n1. No se observa un clustering sectorial o tem\u00e1tico notable entre los tickers con m\u00e1s actividad. Los t\u00edtulos involucrados pertenecen a diferentes sectores, lo que sugiere que los insiders est\u00e1n comprando en funci\u00f3n de oportunidades espec\u00edficas y no debido a una tendencia sectorial en particular.\n2. La compra de m\u00faltiples insiders distintos en el mismo ticker en poco tiempo puede ser una se\u00f1al de confianza adicional. Esto sugiere que varios ejecutivos clave de la empresa creen en el potencial a largo plazo del t\u00edtulo y est\u00e1n dispuestos a invertir sus propios recursos en \u00e9l.\n3. Para un inversor value/GARP, esta informaci\u00f3n puede ser \u00fatil como una se\u00f1al adicional para considerar la compra de los t\u00edtulos involucrados. Sin embargo, es importante recordar",
+  "date": "2026-08-05",
+  "timestamp": "2026-08-05T07:46:55.274427",
+  "narrative": "Se observa un patr\u00f3n de compra recurrente entre insiders en varios tickers europeos, destacando AAL.L, RR.L y PRU.L con altos niveles de confianza. La concentraci\u00f3n de compras en un corto per\u00edodo sugiere una visi\u00f3n optimista sobre el desempe\u00f1o futuro de estas empresas. Para un inversor value/GARP, esta informaci\u00f3n puede ser una se\u00f1al adicional para considerar en su an\u00e1lisis, aunque no debe ser la \u00fanica base para tomar decisiones de inversi\u00f3n. La actividad de los insiders puede indicar una oportunidad de crecimiento.",
   "total_tickers": 10,
   "total_us": 2,
   "total_eu": 8,
@@ -15,36 +15,36 @@
       "days_span": 61
     },
     {
-      "ticker": "BA.L",
+      "ticker": "RR.L",
       "market": "EU",
-      "purchase_count": 47,
-      "unique_insiders": 12,
-      "confidence_score": 100.0,
-      "days_span": 61
-    },
-    {
-      "ticker": "BARC.L",
-      "market": "EU",
-      "purchase_count": 11,
-      "unique_insiders": 11,
-      "confidence_score": 100.0,
-      "days_span": 82
-    },
-    {
-      "ticker": "BATS.L",
-      "market": "EU",
-      "purchase_count": 40,
-      "unique_insiders": 13,
-      "confidence_score": 100.0,
-      "days_span": 55
-    },
-    {
-      "ticker": "BMW.DE",
-      "market": "EU",
-      "purchase_count": 6,
+      "purchase_count": 16,
       "unique_insiders": 6,
       "confidence_score": 100.0,
-      "days_span": 0
+      "days_span": 40
+    },
+    {
+      "ticker": "MNDI.L",
+      "market": "EU",
+      "purchase_count": 6,
+      "unique_insiders": 2,
+      "confidence_score": 100.0,
+      "days_span": 60
+    },
+    {
+      "ticker": "MUV2.DE",
+      "market": "EU",
+      "purchase_count": 5,
+      "unique_insiders": 5,
+      "confidence_score": 100.0,
+      "days_span": 6
+    },
+    {
+      "ticker": "NG.L",
+      "market": "EU",
+      "purchase_count": 8,
+      "unique_insiders": 4,
+      "confidence_score": 100.0,
+      "days_span": 63
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-04T07:49:01",
-  "positions_checked": 25,
-  "total": 3,
-  "high_count": 3,
+  "generated_at": "2026-08-05T07:47:30",
+  "positions_checked": 20,
+  "total": 2,
+  "high_count": 2,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -11,15 +11,6 @@
       "signal_date": "2026-03-24",
       "type": "STOP_BREACHED",
       "reason": "Precio 7914.00 por debajo del stop 8140.16",
-      "severity": "HIGH"
-    },
-    {
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries ",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-03",
-      "type": "THESIS_BROKEN",
-      "reason": "fundamental_score colaps\u00f3 a 44 (m\u00edn 45)",
       "severity": "HIGH"
     },
     {
