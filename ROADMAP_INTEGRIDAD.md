@@ -157,11 +157,17 @@ en el propio `signal_postmortem.py` (mismo `CLEAN_FROM`), verificado que ahora
 da 134/35,8%/-1,84% — match exacto. El JSON publicado ahora mismo sigue con
 el número viejo (corre semanalmente); se resolverá solo.
 
-Queda pendiente:
-  - Precio: `leaps_opportunities.json` usó `spot: 193.57` para SAP mientras
-    `european_value_opportunities.csv` tenía `current_price: 167.38` el mismo
-    día — timestamps de fetch distintos, dentro de lo esperable, pero vale la
-    pena poner un umbral de alerta (>5% de diferencia en el mismo día = sospechoso).
+~~Precio: leaps_opportunities.json vs current_price VALUE~~ — HECHO 5-ago-2026,
+y resultó ser una premisa equivocada: el gap SAP 193,57 vs SAP.DE 167,38 NO
+era timestamps de fetch — SAP.DE cotiza en EUR, LEAPS opera sobre el ADR "SAP"
+(NYSE, USD), son valores distintos. SAP SÍ está como entrada propia en
+`value_opportunities.csv` (el ADR US) a 195,49 — 1% de diferencia, normal.
+`leaps_precio_vs_value()` compara solo por ticker EXACTO contra ambas listas
+VALUE; si no hay ese ticker exacto en ninguna, no compara nada en vez de
+adivinar contra el listing equivocado en otra divisa. Umbral 8%, 0 falsos
+positivos verificado con datos reales.
+
+**Item 6 cerrado — los 3 candidatos hechos.**
 
 ### 7. ~~Consumidores del frontend sin test de coherencia~~ — AUDITADO 5-ago-2026
 Se probó `ValueUS`/`ValueEU` (bug real, ya arreglado). Barrido hoy de
