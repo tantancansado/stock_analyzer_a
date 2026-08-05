@@ -69,32 +69,20 @@ marketCap/currentPrice + campos de estados financieros sin `currency_normalizer`
 
 ## Pendiente — por prioridad
 
-### 0. `leaps_analyzer.py` — dos bugs encontrados el 5-ago comparando contratos
-Al comparar los 7 LEAPS publicados para responder "¿es SAP el mejor contrato?":
+### 0. ~~`leaps_analyzer.py` — dos bugs encontrados el 5-ago comparando contratos~~ — HECHO
+Ambos arreglados en una sesión anterior (este archivo de roadmap no se había
+actualizado): (a) `week52_high` daba -6,1% de máximos para UNH usando
+`Close.max()`, cuando el `High.max()` real daba -11,7% (el precio tocó
+$461,62 intradía el 16-jul-2026 y `Close.max()` nunca ve ese pico) — ahora
+usa `High.max()`, comentario en la línea ~438. (b) `ai_narrative` traía un
+"data_check" autogenerado donde Claude "corregía" un YTD +23,5% correcto a
+-19% comparando contra el cierre de un año equivocado — el prompt ahora
+prohíbe explícitamente ese fact-checking de memoria sin herramienta de
+búsqueda, bloque "VERIFICACIÓN DE DATOS — LÍMITE ESTRICTO" en la línea ~748.
 
-  a. `week52_high` para UNH publicado en $433,02 (→ pct_from_52w_high -6,1%).
-     Verificado contra yfinance en vivo: el máximo real de 365 días es $461,62
-     (16-jul-2026) → dislocación real -11,7%, casi el doble de lo publicado.
-     `t.history(period='1y')` en la línea 433 — revisar si el corte de fecha
-     está mal alineado o si hay caché stale entre el fetch y el cierre real.
-
-  b. Más interesante: el campo `ai_narrative` de esa misma ficha trae un
-     "data_check" que la propia IA generó AUTOCORRIGIÉNDOSE — y su corrección
-     está mal. Dice que el YTD +23,5% "no cuadra" y debería ser -19%,
-     comparando contra el cierre de 2024 en vez del de 2025 (el YTD de 2026 se
-     mide desde dic-2025). Verificado: el YTD real es +25,1%, así que el
-     +23,5% publicado era CORRECTO y la "corrección" de la IA era la que
-     estaba mal. También trata la exclusión de un máximo de nov-2024 (~$600)
-     como un error, cuando excluirlo de una ventana de 52 semanas es lo
-     correcto. Es la misma advertencia de todo el día — no fiarse de un
-     veredicto de IA sin verificar — aplicada al propio verificador.
-
-  Antes de tocar nada: auditar qué modelo/prompt genera `ai_narrative` en
-  `leaps_analyzer.py`, por qué no usa las fuentes de `claude_research.py`
-  (sin fuentes reales detrás, como aquí, no debería emitir un "data_check"
-  con esa confianza) y si el `opportunity_score` pondera lo suficiente la
-  liquidez del contrato — SAP puntúa 92,2 (el más alto) pese a tener la peor
-  liquidez de los 7 (volumen 1, OI 66) y el segundo peor breakeven.
+Sigue abierto, sin auditar: si `opportunity_score` pondera lo suficiente la
+liquidez del contrato — el 5-ago SAP puntuaba 92,2 (el más alto de 7) pese a
+tener la peor liquidez (volumen 1, OI 66) y el segundo peor breakeven.
 
 ### 1. `enrich_why_cheap.py` solo procesa la lista US
 El análisis de "por qué está barata" (deterioro vs ciclo vs sentimiento, con
