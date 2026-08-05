@@ -22,6 +22,8 @@ import time
 from pathlib import Path
 from typing import Any
 
+from value_bands import UPSIDE_MIN
+
 import pandas as pd
 
 try:
@@ -244,8 +246,34 @@ def _rule_verdict(row: pd.Series, regime: str) -> dict:
     strong_pros = len([r for r in reasons if r])
     hard_cons = len(blockers)
 
+    # Un ENTRY tiene que sostenerse con TODO lo que ya sabemos del valor, no
+    # solo con los fundamentales. El 5-ago-2026 los 11 ENTRY del día estaban
+    # contradichos por los propios datos de la app: KO salía "Entrada válida
+    # ahora" con el timing en VIGILAR ("extendida cerca de máximos"), los
+    # modelos propios diciéndola un 35% cara y un upside del 9,4%. Pasaba
+    # porque aquí solo se miraba `ma_passes`, que es el apilamiento de medias.
+    veto = []
+
+    timing = str(row.get('entry_readiness') or '').strip()
+    if timing and timing != 'ENTRADA':
+        veto.append(f'timing dice {timing}')
+
+    # Los modelos propios desmienten el descuento del analista
+    if str(row.get('upside_divergence') or '') == 'ALTA':
+        tri = _safe_float(row.get('upside_triangulated_pct'))
+        if tri is not None and tri < 0:
+            veto.append(f'valoración triangulada {tri:.0f}%')
+
+    # Por debajo de la banda mínima el upside no compensa el riesgo
+    up = _safe_float(row.get('analyst_upside_pct'))
+    if up is not None and up < UPSIDE_MIN:
+        veto.append(f'upside {up:.1f}% < {UPSIDE_MIN:.0f}%')
+
+    if veto:
+        blockers = veto + blockers
+
     # Clear ENTRY: solid fundamentals + technical pass + no major blockers
-    if strong_pros >= 3 and ma_passes is True and hard_cons == 0:
+    if strong_pros >= 3 and ma_passes is True and hard_cons == 0 and not veto:
         trigger = 'Entrada válida ahora'
         if days_to_earn is not None and days_to_earn <= 14:
             trigger = f'Entra con tamaño reducido (earnings en {int(days_to_earn)}d)'
