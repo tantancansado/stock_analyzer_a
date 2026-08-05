@@ -71,19 +71,24 @@ def _fetch_history(ticker: str, period: str = "1y") -> pd.DataFrame | None:
         return None
 
 
-def fetch_spy_6m_return() -> float:
-    """Fetch SPY 6-month return. Returns 0.0 on failure."""
+def fetch_benchmark_6m_return(symbol: str) -> float:
+    """Fetch un símbolo cualquiera de índice/ETF, retorno a 6 meses. 0.0 si falla."""
     try:
-        spy = yf.download("SPY", period="7mo", interval="1d", progress=False, auto_adjust=True)
-        if spy is None or spy.empty:
+        hist = yf.download(symbol, period="7mo", interval="1d", progress=False, auto_adjust=True)
+        if hist is None or hist.empty:
             return 0.0
-        close = spy["Close"].squeeze() if isinstance(spy.columns, pd.MultiIndex) else spy["Close"]
+        close = hist["Close"].squeeze() if isinstance(hist.columns, pd.MultiIndex) else hist["Close"]
         price_now = float(close.iloc[-1])
         price_6m = float(close.iloc[-126]) if len(close) >= 126 else float(close.iloc[0])
         return (price_now - price_6m) / price_6m * 100 if price_6m > 0 else 0.0
     except Exception as exc:
-        log.warning("SPY fetch failed: %s", exc)
+        log.warning("%s fetch failed: %s", symbol, exc)
         return 0.0
+
+
+def fetch_spy_6m_return() -> float:
+    """Fetch SPY 6-month return. Returns 0.0 on failure."""
+    return fetch_benchmark_6m_return("SPY")
 
 
 # ─── Signal sub-computations ───────────────────────────────────────────────────
@@ -221,7 +226,7 @@ def _entry_readiness(tech_stage: str, trend: str, rs_6m: float | None,
         return "ESPERAR", "En caída (bajo MA200 descendente) — espera a que haga suelo"
     if tech_stage == "stage2":
         if rs_weak:
-            return "VIGILAR", "Tendencia OK pero muy débil vs SPY (RS 6m < -25) — que confirme fuerza"
+            return "VIGILAR", "Tendencia OK pero muy débil vs su benchmark (RS 6m < -25) — que confirme fuerza"
         if not is_stage2:
             return "VIGILAR", "Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación"
         return "ENTRADA", "Stage 2: sobre MA200 ascendente sin sobreextensión — suelo confirmado"
@@ -305,6 +310,7 @@ def run_technical_filter() -> None:
     # historial dos veces a yfinance si un ticker aparece en más de un universo.
     frames: dict[Path, pd.DataFrame] = {}
     all_tickers: set[str] = set()
+    eu_tickers: set[str] = set()
     for main_csv, _ in TARGET_CSVS:
         if not main_csv.exists():
             log.warning("Universo no encontrado, se omite: %s", main_csv)
@@ -314,7 +320,10 @@ def run_technical_filter() -> None:
             log.error("Sin columna 'ticker' en %s — se omite", main_csv)
             continue
         frames[main_csv] = df
-        all_tickers |= {str(t).upper().strip() for t in df["ticker"].dropna().unique()}
+        csv_tickers = {str(t).upper().strip() for t in df["ticker"].dropna().unique()}
+        all_tickers |= csv_tickers
+        if main_csv.name == "european_value_opportunities.csv":
+            eu_tickers |= csv_tickers
 
     if not frames:
         log.error("Ningún universo con datos válidos — nada que procesar")
@@ -324,20 +333,35 @@ def run_technical_filter() -> None:
     log.info("Computing technical signals for %d tickers across %d universos …",
              len(tickers), len(frames))
 
+    # RS 6m se compara contra un benchmark — SPY para US, VGK (Vanguard FTSE
+    # Europe) para EU, mismo criterio que ya usa portfolio_tracker.py para el
+    # alpha de EU_VALUE. Antes del 5-ago-2026 todo el mundo se comparaba
+    # contra SPY: verificado en vivo, SPY +13,5% vs VGK +9,9% a 6m (gap de
+    # 3,6pp) — de sobra para tumbar picks EU de ENTRADA a VIGILAR (umbral
+    # RS 6m < -25) por un benchmark equivocado, no por debilidad real.
     log.info("Fetching SPY 6m return …")
     spy_return = fetch_spy_6m_return()
     log.info("SPY 6m return: %.2f%%", spy_return)
     time.sleep(RATE_DELAY)
 
+    vgk_return = spy_return
+    if eu_tickers:
+        log.info("Fetching VGK 6m return (benchmark EU) …")
+        vgk_return = fetch_benchmark_6m_return("VGK")
+        log.info("VGK 6m return: %.2f%%", vgk_return)
+        time.sleep(RATE_DELAY)
+
     signals: dict = {}
     for i, ticker in enumerate(tickers):
         log.info("  [%d/%d] %s", i + 1, len(tickers), ticker)
-        signals[ticker] = compute_technical_signals(ticker, spy_return)
+        benchmark_return = vgk_return if ticker in eu_tickers else spy_return
+        signals[ticker] = compute_technical_signals(ticker, benchmark_return)
         time.sleep(RATE_DELAY)
 
     tech_json_out = {
         "generated_at": _now_utc(),
         "spy_6m_return": round(spy_return, 2),
+        "vgk_6m_return": round(vgk_return, 2),
         "signals": signals,
     }
     TECH_JSON.write_text(json.dumps(tech_json_out, indent=2, default=str))

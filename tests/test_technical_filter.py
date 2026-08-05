@@ -19,6 +19,7 @@ Functions covered (11 total):
 No real yfinance calls are made — all data is synthetic DataFrames.
 """
 
+import json
 import os
 import sys
 from datetime import datetime, timezone
@@ -793,6 +794,48 @@ class TestRunTechnicalFilterMultiUniverso:
 
         us_resultado = pd.read_csv(us_csv)
         assert us_resultado.set_index("ticker").loc["AAPL", "tech_stage"] == "stage2"
+
+    def test_eu_usa_vgk_us_usa_spy(self, tmp_path, monkeypatch):
+        # Antes del 5-ago-2026 SPY se usaba para todo el mundo — verificado en
+        # vivo un gap de 3,6pp entre SPY y VGK, de sobra para tumbar picks EU
+        # de ENTRADA a VIGILAR por el benchmark equivocado, no por debilidad
+        # real. portfolio_tracker.py ya usa VGK para EU_VALUE.
+        import technical_filter as tf
+
+        us_csv = tmp_path / "value_opportunities.csv"
+        us_filtered = tmp_path / "value_opportunities_filtered.csv"
+        eu_csv = tmp_path / "european_value_opportunities.csv"
+        eu_filtered = tmp_path / "european_value_opportunities_filtered.csv"
+
+        pd.DataFrame({"ticker": ["AAPL"]}).to_csv(us_csv, index=False)
+        pd.DataFrame({"ticker": ["SAP.DE"]}).to_csv(eu_csv, index=False)
+
+        monkeypatch.setattr(tf, "TECH_JSON", tmp_path / "technical_signals.json")
+        monkeypatch.setattr(tf, "TARGET_CSVS", [(us_csv, us_filtered), (eu_csv, eu_filtered)])
+        monkeypatch.setattr(tf, "fetch_spy_6m_return", lambda: 13.5)
+        monkeypatch.setattr(tf, "fetch_benchmark_6m_return", lambda symbol: 9.9)
+        monkeypatch.setattr(tf, "RATE_DELAY", 0)
+
+        benchmarks_usados = {}
+
+        def _fake_signals(ticker, spy_return):
+            benchmarks_usados[ticker] = spy_return
+            return {"ticker": ticker, "is_stage2": True, "ma_score": 3,
+                    "atr_ratio": 1.0, "volume_dryup": False,
+                    "pct_from_52w_high": -10.0, "pct_from_52w_low": 20.0,
+                    "relative_strength_6m": 5.0, "trend_direction": "uptrend",
+                    "tech_stage": "stage2", "entry_readiness": "ENTRADA",
+                    "entry_readiness_reason": "test"}
+
+        monkeypatch.setattr(tf, "compute_technical_signals", _fake_signals)
+        tf.run_technical_filter()
+
+        assert benchmarks_usados["AAPL"] == 13.5    # SPY
+        assert benchmarks_usados["SAP.DE"] == 9.9    # VGK, no SPY
+
+        tech_json = json.loads((tmp_path / "technical_signals.json").read_text())
+        assert tech_json["spy_6m_return"] == 13.5
+        assert tech_json["vgk_6m_return"] == 9.9
 
     def test_ticker_compartido_no_se_pide_dos_veces(self, tmp_path, monkeypatch):
         # Si el mismo ticker aparece en dos universos, se calcula una sola vez
