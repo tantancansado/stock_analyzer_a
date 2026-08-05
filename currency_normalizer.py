@@ -15,19 +15,28 @@ Medido el 3-ago-2026 sobre la propia lista VALUE:
   ASAZY    USD / SEK    44.76% de FCF yield
   CLPBY    USD / DKK    27.84%
   DBOEY    USD / EUR    error del 8% — parecía sano y no lo estaba
-  EXPN.L   GBp / USD    dos desajustes a la vez
-  AUTO.L   GBp / GBP    PER 100x por los peniques
 
 Hay DOS conversiones distintas y confundirlas rompe la mitad de los ratios:
 
   1. Agregados (FCF, ingresos, deuda) se comparan con marketCap, que yfinance
-     da en la divisa MAYOR (libras, no peniques) → factor `fx_to_major`.
-  2. Por acción (EPS, book value) se comparan con el precio, que puede venir en
-     peniques → factor `fx_to_price`, que incluye el ×100 de GBp.
+     da en la divisa de cotización → SÍ vienen en `financialCurrency` y SÍ
+     necesitan `fx_to_major` (financialCurrency → currency).
+  2. Por acción (EPS, book value): re-verificado el 5-ago-2026 cruzando
+     price/trailingEps contra trailingPE en 9 tickers reales con
+     financialCurrency≠currency (DBOEY, ATLKY, ASAZY, JD, PDD, STLA, NIO,
+     EXPN.L, AUTO.L) — SIEMPRE cuadran ya en la divisa de cotización, pese a
+     traer financialCurrency distinto. yfinance ya los da convertidos. La
+     primera versión de este módulo aplicaba `fx_to_major` también aquí (p.ej.
+     EXPN.L financialCurrency=USD recibía ×0.79 en vez de dejar los EPS tal
+     cual) — corrompía justo lo que debía arreglar. Lo único real que hace
+     falta es el ×100 cuando el precio cotiza en subunidad (GBp/ZAc/ILA,
+     AUTO.L: PER 100x por los peniques), y ESO no depende de ningún tipo de
+     cambio — es aritmética fija, nunca falla.
 
 Regla de la casa: sin tipo de cambio no se convierte a ojo ni se deja pasar el
-dato crudo — se marca `fx_reliable=False` y quien lo consuma lo descarta. Nunca
-se inventa un número.
+dato crudo — se marca `fx_reliable=False` y quien lo consuma descarta los
+AGREGADOS (los por-acción no dependen de FX, así que no se ven afectados).
+Nunca se inventa un número.
 """
 from __future__ import annotations
 
@@ -102,9 +111,13 @@ def get_fx_rate(from_ccy: str, to_ccy: str) -> float | None:
 def normalize_info(info: dict, ticker: str = '') -> tuple[dict, dict]:
     """Devuelve (info normalizada, metadatos).
 
-    Deja `info` intacto y marca fx_reliable=False si hace falta convertir y no
-    hay tipo de cambio: es preferible que el consumidor descarte el ticker a
-    publicar un ratio que mezcla divisas.
+    Dos correcciones independientes:
+      - Por acción (EPS, book value...): solo el ×100 de subunidad (GBp).
+        No usa tipo de cambio, no puede fallar.
+      - Agregados (FCF, ingresos, deuda...): sí necesitan `financialCurrency
+        → currency` real. Si no hay tipo de cambio, se marca
+        `fx_reliable=False` y el consumidor descarta esos campos — nunca se
+        inventa un número.
     """
     price_ccy_raw = (info.get('currency') or '').strip()
     fin_ccy_raw   = (info.get('financialCurrency') or '').strip()
@@ -120,44 +133,47 @@ def normalize_info(info: dict, ticker: str = '') -> tuple[dict, dict]:
         'fx_fields_converted': [],
     }
 
-    if not price_ccy_raw or not fin_ccy_raw:
+    if not price_ccy_raw:
         return info, meta
 
-    price_major = _major(price_ccy_raw)
-    fin_major   = _major(fin_ccy_raw)
     subunit     = _is_subunit(price_ccy_raw)
-
-    # Mismo caso trivial: misma divisa mayor y el precio no está en subunidad
-    if price_major == fin_major and not subunit:
-        return info, meta
-
-    fx_to_major = get_fx_rate(fin_major, price_major)
-    if fx_to_major is None:
-        meta['fx_reliable'] = False
-        print(f'   ⚠️  {ticker}: {fin_major}→{price_major} sin tipo de cambio — ratios no fiables')
-        return info, meta
-
-    # El precio en peniques necesita los importes por acción también en peniques
-    fx_to_price = fx_to_major * (100.0 if subunit else 1.0)
+    price_major = _major(price_ccy_raw)
+    fin_major   = _major(fin_ccy_raw) if fin_ccy_raw else price_major
 
     out = dict(info)
     converted = []
-    for field in AGGREGATE_FIELDS:
-        if out.get(field) is None:
-            continue
-        try:
-            out[field] = float(out[field]) * fx_to_major
-            converted.append(field)
-        except (TypeError, ValueError):
-            continue
-    for field in PER_SHARE_FIELDS:
-        if out.get(field) is None:
-            continue
-        try:
-            out[field] = float(out[field]) * fx_to_price
-            converted.append(field)
-        except (TypeError, ValueError):
-            continue
+
+    # Por acción: yfinance ya las da en la divisa MAYOR de cotización sea cual
+    # sea financialCurrency (verificado en 9 tickers reales) — solo falta el
+    # ×100 si el precio cotiza en subunidad.
+    fx_to_price = 100.0 if subunit else 1.0
+    if subunit:
+        for field in PER_SHARE_FIELDS:
+            if out.get(field) is None:
+                continue
+            try:
+                out[field] = float(out[field]) * fx_to_price
+                converted.append(field)
+            except (TypeError, ValueError):
+                continue
+
+    # Agregados: sí vienen en financialCurrency, sí necesitan tipo de cambio.
+    fx_to_major = 1.0
+    if fin_ccy_raw and fin_major != price_major:
+        rate = get_fx_rate(fin_major, price_major)
+        if rate is None:
+            meta['fx_reliable'] = False
+            print(f'   ⚠️  {ticker}: {fin_major}→{price_major} sin tipo de cambio — agregados no fiables')
+        else:
+            fx_to_major = rate
+            for field in AGGREGATE_FIELDS:
+                if out.get(field) is None:
+                    continue
+                try:
+                    out[field] = float(out[field]) * fx_to_major
+                    converted.append(field)
+                except (TypeError, ValueError):
+                    continue
 
     meta.update({
         'fx_to_major': fx_to_major,
@@ -166,6 +182,6 @@ def normalize_info(info: dict, ticker: str = '') -> tuple[dict, dict]:
         'fx_fields_converted': converted,
     })
     if converted:
-        print(f'   💱 {ticker}: {fin_ccy_raw}→{price_ccy_raw} '
-              f'(agregados ×{fx_to_major:.4f}, por acción ×{fx_to_price:.4f}) — {len(converted)} campos')
+        print(f'   💱 {ticker}: agregados ×{fx_to_major:.4f}, por acción ×{fx_to_price:.4f} '
+              f'— {len(converted)} campos')
     return out, meta
