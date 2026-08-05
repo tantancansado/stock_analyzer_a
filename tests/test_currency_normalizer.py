@@ -97,3 +97,11 @@ class TestEdgeCases:
         info = {'currency': 'GBp', 'trailingEps': 1.21}
         out, meta = cn.normalize_info(info, 'X')
         assert out['trailingEps'] == 121.0
+
+    def test_eps_current_year_gets_subunit_correction(self):
+        # Antes fuera de PER_SHARE_FIELDS: forwardEps se corregía y
+        # epsCurrentYear no, mezclando escalas en el PEG ratio de
+        # fundamental_scorer.py (EXPN.L: 2.017 vs forwardEps ya en 170.0)
+        info = {'currency': 'GBp', 'financialCurrency': 'GBP', 'epsCurrentYear': 2.017}
+        out, meta = cn.normalize_info(info, 'EXPN.L')
+        assert out['epsCurrentYear'] == 201.7

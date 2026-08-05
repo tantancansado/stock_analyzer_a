@@ -54,10 +54,13 @@ AGGREGATE_FIELDS = (
     'totalDebt',
 )
 
-# Vienen en financialCurrency y se comparan contra el precio por acción
+# yfinance ya las da en la divisa MAYOR de cotización (nunca en
+# financialCurrency, verificado) — solo necesitan el ×100 si el precio
+# cotiza en subunidad (GBp/ZAc/ILA)
 PER_SHARE_FIELDS = (
     'trailingEps',
     'forwardEps',
+    'epsCurrentYear',
     'bookValue',
     'revenuePerShare',
     'totalCashPerShare',
