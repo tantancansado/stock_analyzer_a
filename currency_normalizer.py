@@ -60,6 +60,9 @@ AGGREGATE_FIELDS = (
 PER_SHARE_FIELDS = (
     'trailingEps',
     'forwardEps',
+    'epsForward',        # alias exacto de forwardEps — mismo valor siempre,
+                          # pero algunos consumidores lo leen primero
+    'epsTrailingTwelveMonths',  # alias exacto de trailingEps
     'epsCurrentYear',
     'bookValue',
     'revenuePerShare',

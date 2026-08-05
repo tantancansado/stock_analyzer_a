@@ -24,6 +24,8 @@ from pathlib import Path
 
 import yfinance as yf
 
+from currency_normalizer import normalize_info
+
 try:
     from groq import Groq
 except ImportError:
@@ -264,6 +266,13 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
     except Exception:
         info = {}
 
+    # GBp (peniques) para UK: precio en subunidad, EPS en libras — sin esto
+    # "Precio actual: 12184 / EPS consenso: 8.52" (AZN.L) implica PE ~1430x
+    # cuando el real es ~14x. Ver currency_normalizer.py.
+    info, _fx_meta = normalize_info(info, ticker)
+    currency = info.get('currency') or ''
+    financial_currency = info.get('financialCurrency') or currency
+
     current_price = _safe_float(info.get('currentPrice') or info.get('regularMarketPrice'))
     fifty_two_high = _safe_float(info.get('fiftyTwoWeekHigh'))
     fifty_two_low = _safe_float(info.get('fiftyTwoWeekLow'))
@@ -277,7 +286,12 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
                 row = est_df.loc['0q']
                 eps_avg = _safe_float(row.get('avg'))
                 if eps_avg is not None:
-                    expected_eps = eps_avg
+                    # tk.earnings_estimate es una llamada de yfinance aparte de
+                    # `info` — normalize_info() no la toca. Viene en la misma
+                    # escala cruda que trailingEps/forwardEps, así que necesita
+                    # el mismo ×100 de subunidad (GBp) para no romper la
+                    # coherencia con current_price ya normalizado.
+                    expected_eps = eps_avg * _fx_meta.get('fx_to_price', 1.0)
     except Exception:
         pass
 
@@ -304,6 +318,8 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
         'ticker': ticker,
         'company_name': info.get('shortName') or info.get('longName') or ticker,
         'sector': info.get('sector'),
+        'currency': currency,
+        'financial_currency': financial_currency,
         'earnings_date': edate.isoformat(),
         'days_to_earnings': days_to,
         'current_price': current_price,
@@ -327,15 +343,16 @@ POSICIÓN
 Ticker: {ticker}
 Empresa: {company_name}
 Sector: {sector}
-Precio actual: {current_price}
-Precio entrada (avg): {avg_price}
+Divisa de cotización: {currency}
+Precio actual: {current_price} {currency}
+Precio entrada (avg): {avg_price} {currency}
 P&L no realizado: {unrealized_pct}%
-52w high / low: {fifty_two_high} / {fifty_two_low}
+52w high / low: {fifty_two_high} / {fifty_two_low} {currency}
 
 EARNINGS
 Fecha: {earnings_date} (en {days_to} días)
-EPS consenso: {expected_eps}
-Revenue consenso (M$): {expected_revenue}
+EPS consenso: {expected_eps} {currency}
+Revenue consenso (M, {financial_currency}): {expected_revenue}
 Implied move (opciones ATM): {implied_move}%
 Beat rate últimos 4Q: {beat_rate}
 Histórico surprises: {history_str}
@@ -400,6 +417,8 @@ def _build_prompt(ctx: dict) -> str:
         ticker=ctx['ticker'],
         company_name=ctx.get('company_name') or ctx['ticker'],
         sector=ctx.get('sector') or 'N/A',
+        currency=ctx.get('currency') or 'N/A',
+        financial_currency=ctx.get('financial_currency') or ctx.get('currency') or 'N/A',
         current_price=ctx.get('current_price'),
         avg_price=ctx.get('avg_price'),
         unrealized_pct=ctx.get('unrealized_pct'),
