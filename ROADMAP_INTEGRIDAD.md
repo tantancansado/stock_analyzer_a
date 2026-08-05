@@ -28,6 +28,44 @@ encontró o probablemente esconde.
 - [x] `commodity_narrative_analyzer.py` + `enrich_commodity_narrative.py` — narrativa
       real por commodity con Claude+búsqueda, mismo patrón que `why_cheap_analyzer`,
       cita si es comprable en IBKR Ireland (dato ya existía en `eu_alternative`)
+- [x] `global_market_scanner.py` — mismo bug de `currency_normalizer` que ATLKY/ASAZY
+      pero nunca propagado aquí: `financialCurrency` ≠ `currency` en casi todo Hong
+      Kong con subyacente chino (Tencent, Alibaba, CNOOC, PetroChina, HSBC, AIA,
+      verificado en vivo). `fcf_yield` dividía `freeCashflow` sin convertir. Fix:
+      `normalize_info()` antes de leer el campo; sin FX disponible se descarta
+- [x] `short_scanner.py` — mismo patrón: BABA/JD/PDD/BIDU/LI (CNY) y STLA (EUR)
+      cotizan en USD. BABA daba fcf_yield -14,1% sin convertir (real -2,1%),
+      cruzando el umbral +10/+6 de `fund_score` en un scanner de posiciones EN
+      CORTO — convicción corto inflada por divisa, no por el negocio. Mismo fix
+- [x] `currency_normalizer.py` — BUG EN EL PROPIO MÓDULO: `PER_SHARE_FIELDS`
+      (trailingEps, forwardEps, bookValue...) se multiplicaban por
+      `fx_to_major` como si vinieran en `financialCurrency`. Verificado en 9
+      tickers reales: yfinance SIEMPRE los da ya en la divisa de cotización;
+      lo único real es el ×100 de subunidad (GBp), sin FX. El bug corrompía
+      justo lo que debía arreglar (EXPN.L: ×79 en vez de ×100). Consumido por
+      `fundamental_scorer.py` → `docs/fundamental_scores.csv`, pipeline
+      completo. Añadido `epsCurrentYear`/`epsForward`/`epsTrailingTwelveMonths`
+      (alias exactos que algunos consumidores leen primero) a la lista. Sin
+      tests hasta ahora pese a ser el módulo fuente — añadidos
+- [x] `earnings_thesis_generator.py` — genera tesis IA para POSICIONES REALES
+      del usuario. Tickers GBp (AZN.L, ULVR.L...) mostraban al prompt "Precio
+      actual: 12184 / EPS consenso: 8.52" — PE implícito ~1430x vs real ~14x.
+      Dos causas: `epsForward` sin normalizar (ver arriba) y
+      `tk.earnings_estimate` (consenso trimestral, llamada de yfinance aparte
+      de `info`) sobreescribía el EPS ya normalizado con el crudo. También
+      quitado el hardcode "M$" que mentía la divisa de `revenue_estimate`
+      para cualquier ticker no-USD
+- [x] `ticker_api.py` — mismo patrón en 4 sitios: `_build_search_live_snapshot`
+      (buscador de tickers), `_build_earnings_expectation_snapshot` (earnings,
+      3 llamadores), el endpoint de CARTERA REAL del usuario (`fcf_yield` por
+      posición sin normalizar) y `/api/dividend-calendar`. De paso, añadidos
+      `dividendRate`/`lastDividendValue`/`trailingAnnualDividendRate` a
+      `PER_SHARE_FIELDS` (verificado: dividendRate ×100 da 1,98% vs 2,04%
+      reportado por yfinance para AZN.L, faltaban en la lista)
+
+Con esto quedan cerrados los 4 archivos detectados por el grep de mezcla
+marketCap/currentPrice + campos de estados financieros sin `currency_normalizer`
+(short_scanner, earnings_thesis_generator, ticker_api, global_market_scanner).
 
 ## Pendiente — por prioridad
 
