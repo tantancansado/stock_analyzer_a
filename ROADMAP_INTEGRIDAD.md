@@ -89,13 +89,27 @@ tener la peor liquidez (volumen 1, OI 66) y el segundo peor breakeven.
 Presupuesto de tiempo y `MAX_TICKERS` compartidos entre ambos (no duplica
 gasto de API), candidatos de US+EU compiten juntos por `value_score`.
 
-### 2. Dos motores de veredicto de entrada sin fusionar
-`entry_readiness` (en `technical_filter.py`) y `entry_verdict_agent.py` deciden
-lo mismo con criterios parcialmente distintos. Hoy ya no se contradicen porque
-el segundo consulta al primero, pero sobra un motor. Mientras convivan, un
-cambio en uno puede reabrir la grieta que `coherence_check` detectó hoy.
-Decidir cuál es la fuente de verdad y que el otro se retire o se convierta en
-una capa fina sobre el primero.
+### 2. ~~Dos motores de veredicto de entrada sin fusionar~~ — HECHO 5-ago-2026
+No eran dos motores compitiendo por la misma pregunta: `entry_readiness`
+(technical_filter.py) responde "¿el timing técnico es bueno hoy?" (badge
+propio en las tablas VALUE) y `entry_verdict_agent.py` responde "¿debería
+entrar ya, con todo lo que sé?" (fundamentales + `entry_readiness` como veto
++ valoración). Son dos preguntas distintas con dos badges distintos en el
+frontend (ValueUS.tsx muestra ambos en la misma fila) — fusionarlas habría
+sido quitar una señal real, no arreglar un bug.
+
+Auditando la relación sí apareció un bug real: `entry_verdict_agent.py` tenía
+un SEGUNDO chequeo de stage4, independiente de `entry_readiness`, leyendo
+`row.get('weinstein_stage')` — columna que no existe en ningún CSV
+publicado — cayendo a `row.get('stage')`, que trae valores de OTRO scorer
+("Stage 2 Strong", nunca "stage4"). Nunca se disparó, para ningún ticker.
+Mismo bug en el prompt de refinamiento IA: "MA pass" y "Stage" leían
+columnas equivocadas, Groq recibía "MA pass: None" / "Stage: ?" siempre.
+Quitado el código muerto en vez de arreglar la columna — `entry_readiness`
+queda como única fuente de verdad para timing técnico, sin una segunda
+reimplementación que pueda volver a divergir en silencio. Verificado con
+los 9 tickers reales en stage4: siguen bloqueados correctamente vía el veto
+de `entry_readiness`.
 
 ### 3. Buscador de tickers (pendiente de auditar)
 El usuario pidió revisar si extrae datos bien y si usa la IA con criterio. Sin
