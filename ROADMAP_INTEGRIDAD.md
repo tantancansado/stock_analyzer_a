@@ -133,8 +133,8 @@ verificado sin falsos positivos con datos reales y tests.
     `value_bands` ni tienen bandas de upside propias — puntúan yield/liquidez/
     contexto de ciclo, no upside de analista. Sin el mismo riesgo.
 
-### 6. `coherence_check.py` — comprobaciones que faltan
-El guard cubre 10 cruces. ~~`signal_postmortem.json` contra
+### 6. ~~`coherence_check.py` — comprobaciones que faltan~~ — CERRADO 5-ago-2026
+El guard cubre 16 cruces. ~~`signal_postmortem.json` contra
 `portfolio_tracker/summary.json`~~ — HECHO 5-ago-2026, y encontró un bug real:
 `signal_postmortem.py` no aplicaba el corte `CLEAN_FROM` de
 `portfolio_tracker.py`, analizaba 1489 señales (con el periodo contaminado
