@@ -136,16 +136,18 @@ Dos IAs contradiciéndose sobre el mismo negocio (LEAPS dice negocio intacto,
 VALUE dice DETERIORO, o viceversa). 0 contradicciones activas hoy, guard
 verificado sin falsos positivos con datos reales y tests.
 
-### 5. Auditar el resto de scanners "hermanos" del europeo
-`european_value_scanner.py` tenía lógica de scoring duplicada y desincronizada
-de la de US. Candidatos a la misma auditoría (bandas propias, corte de calidad
-distinto, sin triangulación, sin `data_integrity`/`ai_pick_verifier`):
-  - `global_value_opportunities` (BR/KR/JP/HK) — ¿mismo generador o propio?
-  - `momentum_opportunities` — ¿aplica las mismas bandas donde corresponda?
-  - `micro_cap_*` (si se revive) y `bond_scanner`/`commodity_scanner`
-Metodología: para cada uno, comprobar (a) si importa `value_bands`, (b) si pasa
-por `data_integrity.filter_dataframe`, (c) si su corte de calidad coincide con
-el declarado en su propio código o está huérfano de un cambio anterior.
+### 5. ~~Auditar el resto de scanners "hermanos" del europeo~~ — CERRADO 5-ago-2026
+  - `global_value_opportunities` (`global_market_scanner.py`, BR/KR/JP/HK):
+    generador propio, no compartía `currency_normalizer` — arreglado arriba
+    (fcf_yield sin convertir en HK con subyacente chino).
+  - `momentum_opportunities`: comprobado, NO debe usar `value_bands` (el hard
+    reject de upside ≥30% es un hallazgo del backtest de VALUE, no aplica a
+    momentum). Scoring por VCP/proximidad a máximos/tendencia/institucional,
+    sin analyst_upside_pct como input — arquitectura distinta, sin el mismo
+    riesgo. Nada que arreglar.
+  - `bond_scanner.py`/`commodity_scanner.py`: comprobado, no importan
+    `value_bands` ni tienen bandas de upside propias — puntúan yield/liquidez/
+    contexto de ciclo, no upside de analista. Sin el mismo riesgo.
 
 ### 6. `coherence_check.py` — comprobaciones que faltan
 El guard de hoy cubre 6 cruces. Candidatos para ampliarlo:
