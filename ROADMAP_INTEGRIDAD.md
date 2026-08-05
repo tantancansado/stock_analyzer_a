@@ -148,10 +148,16 @@ verificado sin falsos positivos con datos reales y tests.
     contexto de ciclo, no upside de analista. Sin el mismo riesgo.
 
 ### 6. `coherence_check.py` — comprobaciones que faltan
-El guard cubre 9 cruces (LEAPS vs why_cheap y commodities ya hechos, ver
-arriba). Candidatos que quedan:
-  - `signal_postmortem.json` contra `portfolio_tracker/summary.json` (¿el win
-    rate que reporta el postmortem coincide con el del tracker?)
+El guard cubre 10 cruces. ~~`signal_postmortem.json` contra
+`portfolio_tracker/summary.json`~~ — HECHO 5-ago-2026, y encontró un bug real:
+`signal_postmortem.py` no aplicaba el corte `CLEAN_FROM` de
+`portfolio_tracker.py`, analizaba 1489 señales (con el periodo contaminado
+pre-abril) y publicaba 55,1% de acierto contra el 35,8%/134 oficial. Arreglado
+en el propio `signal_postmortem.py` (mismo `CLEAN_FROM`), verificado que ahora
+da 134/35,8%/-1,84% — match exacto. El JSON publicado ahora mismo sigue con
+el número viejo (corre semanalmente); se resolverá solo.
+
+Queda pendiente:
   - Precio: `leaps_opportunities.json` usó `spot: 193.57` para SAP mientras
     `european_value_opportunities.csv` tenía `current_price: 167.38` el mismo
     día — timestamps de fetch distintos, dentro de lo esperable, pero vale la
