@@ -28,7 +28,9 @@ from opportunity_validator import OpportunityValidator
 from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT, VALUE_SCORE_MIN
 from data_integrity import filter_dataframe
 from ai_pick_verifier import verify_picks, apply_verdicts
-from why_cheap_analyzer import analyze_picks, apply_to_dataframe
+# why_cheap_analyzer NO se importa aquí a propósito: vive en enrich_why_cheap.py,
+# que corre después. Importarlo arrastraría su dependencia al paso crítico sin
+# que este lo use para nada.
 from market_regime_detector import MarketRegimeDetector
 from moving_average_filter import MovingAverageFilter
 from accumulation_distribution_filter import AccumulationDistributionFilter

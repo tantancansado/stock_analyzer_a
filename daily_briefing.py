@@ -220,8 +220,11 @@ def build_message(facts: dict) -> str | None:
         'Escribe el briefing de hoy con estos hechos:\n\n'
         + json.dumps(facts, ensure_ascii=False, indent=1, default=str)
     )
+    # max_tokens cubre pensamiento + respuesta: con adaptive thinking (que
+    # claude_chat activa en los modelos de la generación 5) un presupuesto
+    # ajustado se lo come el pensamiento y el mensaje sale truncado.
     texto = claude_chat([{'role': 'user', 'content': prompt}],
-                        model=MODEL, system=SYSTEM, max_tokens=1200)
+                        model=MODEL, system=SYSTEM, max_tokens=4000)
     return texto.strip() if texto else None
 
 

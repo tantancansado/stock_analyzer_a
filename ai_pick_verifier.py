@@ -87,7 +87,7 @@ def verify_picks(rows: list[dict], model: str = CLAUDE_HAIKU,
 
     raw = claude_chat(
         [{'role': 'user', 'content': prompt}],
-        model=model, system=SYSTEM, max_tokens=2000, temperature=0.0,
+        model=model, system=SYSTEM, max_tokens=6000, temperature=0.0,
     )
     if not raw:
         print('   ⚠️  Verificador IA no disponible — se publica solo con el guard determinista')

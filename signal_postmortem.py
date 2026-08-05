@@ -109,7 +109,7 @@ def _hipotesis(cortes: dict, resumen: dict) -> dict:
 
     raw = claude_chat([{'role': 'user', 'content': prompt}],
                       model=CLAUDE_SONNET, system=system,
-                      max_tokens=1500, temperature=0.2)
+                      max_tokens=4000, temperature=0.2)
     if not raw:
         return {'hipotesis': [], 'nota': 'verificador no disponible'}
     try:
