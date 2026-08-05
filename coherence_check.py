@@ -38,6 +38,16 @@ def _rows(nombre: str) -> list[dict]:
         return []
 
 
+def _json(nombre: str):
+    p = DOCS / nombre
+    if not p.exists():
+        return None
+    try:
+        return json.loads(p.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
 def _f(x):
     try:
         v = float(x)
@@ -99,6 +109,32 @@ def etiqueta_ml_vs_probabilidad(value: list[dict]) -> list[str]:
             and (_f(r.get('ml_win_probability')) or 1) < 0.55]
 
 
+def leaps_vs_why_cheap(value: list[dict], leaps: list[dict]) -> list[str]:
+    """Dos IAs distintas opinando lo contrario del mismo negocio.
+
+    leaps_analyzer.py clasifica `situation` con la misma escala que
+    why_cheap_analyzer.py: DETERIORO significa "el negocio empeora, no es
+    ciclo" en ambos. Si LEAPS publica un ticker como CAIDA_CIRCUNSTANCIAL/
+    CALIDAD_RAZONABLE/DIP_GANADOR (negocio intacto) mientras VALUE, para el
+    MISMO ticker, dice why_cheap=DETERIORO, una de las dos IAs está mal o
+    trabajando con datos distintos — no debería publicarse sin más.
+    """
+    why_cheap_por_ticker = {
+        (r.get('ticker') or '').upper(): (r.get('why_cheap') or '').upper()
+        for r in value if r.get('ticker')
+    }
+    no_deterioro = {'CAIDA_CIRCUNSTANCIAL', 'CALIDAD_RAZONABLE', 'DIP_GANADOR'}
+    problemas = []
+    for o in leaps:
+        ticker = (o.get('ticker') or '').upper()
+        situation = (o.get('situation') or '').upper()
+        why_cheap = why_cheap_por_ticker.get(ticker)
+        if situation in no_deterioro and why_cheap == 'DETERIORO':
+            problemas.append(
+                f"{ticker}: LEAPS dice {situation} pero VALUE dice why_cheap=DETERIORO")
+    return problemas
+
+
 def columnas_obligatorias(value: list[dict], nombre_csv: str = 'value_opportunities.csv') -> list[str]:
     """Un scoring a medias no puede publicarse como si estuviera completo.
 
@@ -120,6 +156,8 @@ def run() -> int:
     value = _rows('value_opportunities.csv')
     value_eu = _rows('european_value_opportunities.csv')
     verdicts = _rows('entry_verdicts.csv')
+    leaps_data = _json('leaps_opportunities.json')
+    leaps = leaps_data.get('opportunities', []) if isinstance(leaps_data, dict) else []
 
     try:
         from value_bands import VALUE_SCORE_MIN
@@ -138,6 +176,8 @@ def run() -> int:
         ('etiqueta ML contra su probabilidad',       etiqueta_ml_vs_probabilidad(value)),
         ('columnas obligatorias (US)',                columnas_obligatorias(value, 'value_opportunities.csv')),
         ('columnas obligatorias (EU)',                columnas_obligatorias(value_eu, 'european_value_opportunities.csv')),
+        ('LEAPS contra why_cheap de VALUE (US)',      leaps_vs_why_cheap(value, leaps)),
+        ('LEAPS contra why_cheap de VALUE (EU)',      leaps_vs_why_cheap(value_eu, leaps)),
     ]
 
     total = 0

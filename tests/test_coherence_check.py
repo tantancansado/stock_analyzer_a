@@ -12,8 +12,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from coherence_check import (columnas_obligatorias, entry_verdicts_vs_timing,
                              entry_verdicts_vs_valoracion,
-                             etiqueta_ml_vs_probabilidad, ratios_imposibles,
-                             score_bajo_el_corte)
+                             etiqueta_ml_vs_probabilidad, leaps_vs_why_cheap,
+                             ratios_imposibles, score_bajo_el_corte)
 
 
 class TestBadgeContraTiming:
@@ -91,3 +91,27 @@ class TestColumnasObligatorias:
 
     def test_lista_vacia_es_problema(self):
         assert columnas_obligatorias([]) != []
+
+
+class TestLeapsContraWhyCheap:
+    def test_caida_circunstancial_con_deterioro_es_contradiccion(self):
+        value = [{'ticker': 'SAP', 'why_cheap': 'DETERIORO'}]
+        leaps = [{'ticker': 'SAP', 'situation': 'CAIDA_CIRCUNSTANCIAL'}]
+        problemas = leaps_vs_why_cheap(value, leaps)
+        assert len(problemas) == 1 and 'SAP' in problemas[0]
+
+    def test_deterioro_en_ambos_no_es_contradiccion(self):
+        # LEAPS también puede publicar DETERIORO (con penalización de score) —
+        # eso es coherente, no una contradicción entre IAs
+        value = [{'ticker': 'X', 'why_cheap': 'DETERIORO'}]
+        leaps = [{'ticker': 'X', 'situation': 'DETERIORO'}]
+        assert leaps_vs_why_cheap(value, leaps) == []
+
+    def test_sin_dato_de_why_cheap_no_da_falso_positivo(self):
+        value = [{'ticker': 'X', 'why_cheap': 'SIN_DATOS'}]
+        leaps = [{'ticker': 'X', 'situation': 'CALIDAD_RAZONABLE'}]
+        assert leaps_vs_why_cheap(value, leaps) == []
+
+    def test_ticker_no_en_value_no_rompe(self):
+        leaps = [{'ticker': 'NUEVO', 'situation': 'DIP_GANADOR'}]
+        assert leaps_vs_why_cheap([], leaps) == []
