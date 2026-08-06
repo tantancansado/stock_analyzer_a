@@ -441,7 +441,7 @@ export default function MacroStress() {
         <div className="space-y-5">
           <PriceStressChart market={selected} analogues={selectedAnalogues} />
 
-          <Card className="glass overflow-hidden border-white/10">
+          <Card className="glass overflow-clip border-white/10">
             <CardContent className="p-0">
               <div className="border-b border-white/10 px-5 py-4">
                 <div className="flex flex-wrap items-center gap-3">
@@ -480,7 +480,7 @@ export default function MacroStress() {
         <div className="space-y-5">
           <ExposurePanel market={selected} />
 
-          <Card className="glass overflow-hidden border-white/10">
+          <Card className="glass overflow-clip border-white/10">
             <CardContent className="p-0">
               <div className="border-b border-white/10 px-5 py-4">
                 <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
