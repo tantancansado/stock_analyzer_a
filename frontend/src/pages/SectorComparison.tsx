@@ -190,19 +190,22 @@ export default function SectorComparison() {
 
           {/* Summary stats */}
           <div className="grid grid-cols-3 gap-3">
+            {/* Número primero: los eyebrow de distinta longitud envuelven a 1 o 2
+                líneas en móvil y descolgaban los números 16px entre sí — tres
+                cifras que se comparan entre ellas tienen que compartir línea base. */}
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
-              <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Sectores</div>
-              <div className="text-2xl font-extrabold text-foreground">{sectorSummary.length}</div>
+              <div className="text-2xl font-extrabold text-foreground leading-none">{sectorSummary.length}</div>
+              <div className="text-[0.6rem] font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Sectores</div>
               <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">{data?.total ?? 0} tickers analizados</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
-              <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Mejores FCF</div>
-              <div className="text-2xl font-extrabold text-emerald-400">{bestCount}</div>
+              <div className="text-2xl font-extrabold text-emerald-400 leading-none">{bestCount}</div>
+              <div className="text-[0.6rem] font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Mejores FCF</div>
               <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">Nº 1 de su sector</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
-              <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Caro vs peers</div>
-              <div className="text-2xl font-extrabold text-red-400">{priceyCount}</div>
+              <div className="text-2xl font-extrabold text-red-400 leading-none">{priceyCount}</div>
+              <div className="text-[0.6rem] font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Caro vs peers</div>
               <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">FCF bajo vs sector</div>
             </div>
           </div>

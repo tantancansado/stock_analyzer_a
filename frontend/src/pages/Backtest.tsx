@@ -298,8 +298,12 @@ export default function Backtest() {
 
           <Stats signals={filtered} period={period} />
 
-          {/* Table */}
-          <div className="glass rounded-2xl">
+          {/* Table — las columnas son de ancho fijo y suman más que un móvil:
+              sin .table-x-wrap + min-w la fila se comprimía a la fuerza, la celda
+              del ticker (flex-1 min-w-0) colapsaba a 0px y la última columna se
+              recortaba fuera de la tarjeta sin forma de llegar a ella. */}
+          <div className="glass rounded-2xl table-x-wrap">
+            <div className="min-w-[34rem]">
             <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">
               <button onClick={() => setSort('date')} className={`w-16 shrink-0 text-left hover:text-foreground transition-colors ${sort==='date'?'text-primary':''}`}>Fecha ↕</button>
               <span className="w-8 shrink-0" />
@@ -339,6 +343,7 @@ export default function Backtest() {
                 )
               })}
             </div>
+            </div>
           </div>
         </div>
       )}
@@ -361,7 +366,8 @@ export default function Backtest() {
             </p>
           </div>
 
-          <div className="glass rounded-2xl">
+          <div className="glass rounded-2xl table-x-wrap">
+            <div className="min-w-[33rem]">
             <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">
               <span className="w-8 shrink-0" />
               <span className="flex-1 min-w-0">Ticker</span>
@@ -398,6 +404,7 @@ export default function Backtest() {
                   </span>
                 </div>
               ))}
+            </div>
             </div>
           </div>
         </div>

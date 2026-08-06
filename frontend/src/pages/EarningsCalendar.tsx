@@ -143,30 +143,30 @@ export default function EarningsCalendar() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
         <Card className="glass border border-border/50">
-          <CardContent className="p-4 flex items-center gap-3">
-            <AlertTriangle size={18} className="text-red-400 flex-shrink-0" />
-            <div>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <AlertTriangle size={16} className="text-red-400 flex-shrink-0" />
               <div className="text-xl font-bold text-red-400">{within7d}</div>
-              <div className="text-xs text-muted-foreground">Earnings en 7 días</div>
             </div>
+            <div className="text-xs text-muted-foreground mt-1">Earnings en 7 días</div>
           </CardContent>
         </Card>
         <Card className="glass border border-border/50">
-          <CardContent className="p-4 flex items-center gap-3">
-            <AlertTriangle size={18} className="text-orange-400 flex-shrink-0" />
-            <div>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <AlertTriangle size={16} className="text-orange-400 flex-shrink-0" />
               <div className="text-xl font-bold text-orange-400">{warningCount}</div>
-              <div className="text-xs text-muted-foreground">Con alerta activa</div>
             </div>
+            <div className="text-xs text-muted-foreground mt-1">Con alerta activa</div>
           </CardContent>
         </Card>
         <Card className="glass border border-border/50">
-          <CardContent className="p-4 flex items-center gap-3">
-            <Zap size={18} className="text-emerald-400 flex-shrink-0" />
-            <div>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-2">
+              <Zap size={16} className="text-emerald-400 flex-shrink-0" />
               <div className="text-xl font-bold text-emerald-400">{catalystCount}</div>
-              <div className="text-xs text-muted-foreground">Posible catalizador</div>
             </div>
+            <div className="text-xs text-muted-foreground mt-1">Posible catalizador</div>
           </CardContent>
         </Card>
       </div>
