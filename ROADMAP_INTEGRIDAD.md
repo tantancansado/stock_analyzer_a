@@ -215,3 +215,18 @@ timing, valoración): **importar la fuente única, nunca reimplementar.** Si eso
 obliga a extraer una función a un módulo propio (como hoy con
 `upside_triangulation.py`) para no arrastrar dependencias pesadas, extraerla —
 es más barato que dos copias divergiendo en silencio durante meses.
+
+## Estado: todos los items cerrados (6-ago-2026)
+
+Los 10 items de esta hoja de ruta están hechos, auditados o cerrados por no
+aplicar. Patrón que se repitió en casi todos: el bug no vivía dentro de un
+módulo bien testeado, vivía en la costura entre dos módulos que dejaron de
+estar de acuerdo sin que nada lo avisara — `coherence_check.py` es la
+respuesta estructural a eso, y ahora cubre 16 cruces. Las 15 incoherencias
+que reporta ahora mismo contra los datos publicados son todas obsoletas
+(pipeline sin re-ejecutar desde los últimos fixes), documentadas caso por
+caso arriba — se resuelven solas en la próxima corrida programada.
+
+Si aparece un nuevo hallazgo de integridad, añadirlo aquí como item nuevo con
+el mismo formato: qué se rompía, cómo se verificó contra datos reales, qué
+arregla el fix, qué test lo cubre.
