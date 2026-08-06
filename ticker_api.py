@@ -3656,10 +3656,22 @@ def search_tickers():
         if len(q) >= 3 and len(results) < 5:
             try:
                 search_results = yf.Search(q)
-                for item in (search_results.quotes or [])[:5]:
+                # Filtra ANTES de cortar a 5: si el instrumento sintético cae
+                # entre los primeros, no debe robarle sitio a un resultado
+                # real más abajo. quoteType distingue de forma fiable la
+                # acción real de un wrapper — verificado en vivo: buscar
+                # "microsoft" devolvía 'MSFTX-USD' (quoteType=CRYPTOCURRENCY,
+                # un token cripto que sigue el precio, NO la acción) como
+                # segundo resultado, justo debajo de MSFT.
+                candidatos = [
+                    item for item in (search_results.quotes or [])
+                    if (item.get('quoteType') or '').upper() in {'EQUITY', 'ETF'}
+                    and not (item.get('symbol') or '').upper().endswith('.F')
+                ]
+                for item in candidatos[:5]:
                     sym = (item.get('symbol') or '').upper()
                     name = item.get('longname') or item.get('shortname') or ''
-                    if sym and sym not in seen and not sym.endswith('.F'):
+                    if sym and sym not in seen:
                         add(sym, name, item.get('sector', ''))
             except Exception:
                 pass
