@@ -111,11 +111,31 @@ reimplementación que pueda volver a divergir en silencio. Verificado con
 los 9 tickers reales en stage4: siguen bloqueados correctamente vía el veto
 de `entry_readiness`.
 
-### 3. Buscador de tickers (pendiente de auditar)
-El usuario pidió revisar si extrae datos bien y si usa la IA con criterio. Sin
-empezar todavía — necesita sesión propia: primero medir qué devuelve hoy contra
-fuentes reales, después decidir la mejora, después implementar con tests. No
-hacerlo de pasada.
+### 3. ~~Buscador de tickers~~ — AUDITADO 6-ago-2026 (prioridad baja, usuario)
+Medido `/api/search` contra fuentes reales, dos bugs encontrados y arreglados:
+
+  a. **Datos sucios reales**: `fundamental_scorer.py` priorizaba
+     `info.get('shortName')` sobre `longName` para `company_name`. Verificado
+     en vivo que `shortName` trae basura de formato de bolsa en casi todos
+     los tickers europeos: `SAP.DE` → `'SAP SE                        I'`
+     (un campo de ancho fijo del feed de Xetra sin sanear, visible tal cual
+     en la app), `ULVR.L` → `'UNILEVER PLC ORD 3.5P'` en vez de `'Unilever
+     PLC'`. Extraído `_company_name()`, aplicado también en `ticker_api.py`
+     (cartera real) y `earnings_thesis_generator.py`. Parcheados los CSVs ya
+     publicados (46/48 EU, 50/136 US corregidos) sin re-scorear nada.
+
+  b. **Instrumentos sintéticos sin filtrar**: buscar "microsoft" devolvía
+     `MSFTX-USD` (`quoteType=CRYPTOCURRENCY`, un token que sigue el precio
+     pero no es la acción) como segundo resultado, justo debajo de MSFT —
+     confuso y arriesgado en una app de VALUE investing. Filtrado a
+     `quoteType` en `{EQUITY, ETF}` antes de recortar candidatos.
+
+No se tocó: el ranking de empates entre resultados igual de relevantes (p.ej.
+"appl" — typo de Apple — puede mostrar AppLovin antes que Apple) y algún caso
+aislado de metadata de yfinance poco fiable (un certificado estructurado de
+Nike listado como `quoteType=EQUITY`) — ninguno de los dos es un bug de datos
+verificable, son matices de ranking/UX que no encajan en el mandato de
+integridad de datos de esta sesión.
 
 ### 4. ~~RS 6 meses en Europa usa SPY como benchmark~~ — HECHO 5-ago-2026
 No era deliberado: `portfolio_tracker.py` ya usaba VGK para el alpha de
