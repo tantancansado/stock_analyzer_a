@@ -59,6 +59,7 @@ class PortfolioTracker:
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
             'analyst_upside_pct', 'sector', 'market_regime',
+            'entry_readiness', 'entry_readiness_reason',
             'return_7d', 'return_14d', 'return_30d', 'return_90d', 'return_180d', 'return_365d',
             'price_7d', 'price_14d', 'price_30d', 'price_90d', 'price_180d', 'price_365d',
             'win_7d', 'win_14d', 'win_30d', 'win_90d', 'win_180d', 'win_365d',
@@ -143,6 +144,13 @@ class PortfolioTracker:
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
                         'sector': row.get('sector', 'N/A'),
                         'market_regime': row.get('market_regime', 'N/A'),
+                        # Capturado desde 6-ago-2026: hace falta para responder la pregunta
+                        # pendiente del plan de recalibración VALUE — si comprar solo en
+                        # ENTRADA (vs VIGILAR/ESPERAR) mejora el alpha de entrada frente a
+                        # comprar el día del screen. Sin este dato en el momento de la señal
+                        # no se puede reconstruir después (el timing técnico cambia a diario).
+                        'entry_readiness': row.get('entry_readiness'),
+                        'entry_readiness_reason': row.get('entry_readiness_reason'),
                         'return_7d': None, 'return_14d': None, 'return_30d': None,
                         'price_7d': None, 'price_14d': None, 'price_30d': None,
                         'win_7d': None, 'win_14d': None, 'win_30d': None,
@@ -183,6 +191,8 @@ class PortfolioTracker:
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
                         'sector': row.get('sector', 'N/A'),
                         'market_regime': row.get('market_regime', 'N/A'),
+                        'entry_readiness': row.get('entry_readiness'),
+                        'entry_readiness_reason': row.get('entry_readiness_reason'),
                         'return_7d': None, 'return_14d': None, 'return_30d': None,
                         'price_7d': None, 'price_14d': None, 'price_30d': None,
                         'win_7d': None, 'win_14d': None, 'win_30d': None,
