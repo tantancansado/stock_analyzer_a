@@ -316,7 +316,10 @@ def _build_context(ticker: str, shares: float | None, avg_price: float | None) -
 
     return {
         'ticker': ticker,
-        'company_name': info.get('shortName') or info.get('longName') or ticker,
+        # longName primero: shortName trae basura de formato de bolsa en UK
+        # ("ASTRAZENECA PLC ORD SHS $0.25" en vez de "AstraZeneca PLC") — ver
+        # fundamental_scorer.py.
+        'company_name': str(info.get('longName') or info.get('shortName') or ticker).strip(),
         'sector': info.get('sector'),
         'currency': currency,
         'financial_currency': financial_currency,

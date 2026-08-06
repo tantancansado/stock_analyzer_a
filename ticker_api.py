@@ -3864,7 +3864,10 @@ def analyze_personal_portfolio():
             'current_price': cur_price, 'currency': currency,
             'market_value': mkt_val, 'cost_basis': cost, 'pl_pct': pl_pct,
             'pl_abs': mkt_val - cost,
-            'company_name': info.get('shortName', ticker),
+            # longName primero: shortName trae basura de formato de bolsa en
+            # tickers europeos (verificado: 'SAP SE                        I'
+            # en vez de 'SAP SE') — ver fundamental_scorer.py.
+            'company_name': str(info.get('longName') or info.get('shortName') or ticker).strip(),
             'sector': info.get('sector', ''),
             'forward_pe': info.get('forwardPE') if asset_type == 'stock' else None,
             'analyst_target': info.get('targetMeanPrice') if asset_type in ('stock', 'preferred') else None,

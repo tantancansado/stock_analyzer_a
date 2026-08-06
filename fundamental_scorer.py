@@ -60,6 +60,14 @@ def _yf_info_with_retry(stock: yf.Ticker, max_retries: int = 4) -> dict:
                 raise
     return {}
 
+def _company_name(info: dict, fallback: str) -> str:
+    """longName primero: shortName trae basura de formato de bolsa en tickers
+    europeos (verificado en vivo): 'SAP SE                        I' en vez
+    de 'SAP SE', 'UNILEVER PLC ORD 3.5P' en vez de 'Unilever PLC'. En US
+    ambos suelen coincidir, así que no hay downside."""
+    return str(info.get('longName') or info.get('shortName') or fallback).strip()
+
+
 class FundamentalScorer:
     """Sistema de scoring fundamental completo"""
 
@@ -159,7 +167,7 @@ class FundamentalScorer:
 
             result = {
                 'ticker': ticker,
-                'company_name': info.get('shortName', ticker),
+                'company_name': _company_name(info, ticker),
                 'fundamental_score': round(fundamental_score, 1),
                 'tier': tier,
                 'quality': quality,
@@ -1500,7 +1508,7 @@ class FundamentalScorer:
                 _ai_missing.append('epsTrailingTwelveMonths')
 
             if _ai_missing and _ai_fetch:
-                company = info.get('shortName', '') or info.get('longName', '')
+                company = _company_name(info, '')
                 # `info` ya viene normalizado a la divisa de cotización, pero lo
                 # que recupera la IA no pasa por ahí: cada campo declara SU
                 # divisa de origen y se convierte con ella. Lo que venga sin

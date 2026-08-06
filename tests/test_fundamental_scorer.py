@@ -718,3 +718,36 @@ class TestCombinedRules:
         df = _analyst_upside_reject(df)
         df = _no_analyst_coverage_penalty(df)
         assert df['value_score'].iloc[0] == pytest.approx(35.75)
+
+
+class TestCompanyName:
+    """longName primero: shortName trae basura de formato de bolsa en
+    tickers europeos. Verificado en vivo el 6-ago-2026:
+      SAP.DE:  shortName='SAP SE                        I' longName='SAP SE'
+      ULVR.L:  shortName='UNILEVER PLC ORD 3.5P' longName='Unilever PLC'
+    En US ambos suelen coincidir (AAPL, MSFT), así que no hay downside.
+    """
+
+    def test_prefers_long_name_over_short_name(self):
+        from fundamental_scorer import _company_name
+        info = {'shortName': 'UNILEVER PLC ORD 3.5P', 'longName': 'Unilever PLC'}
+        assert _company_name(info, 'ULVR.L') == 'Unilever PLC'
+
+    def test_caso_real_sap_de(self):
+        from fundamental_scorer import _company_name
+        info = {'shortName': 'SAP SE                        I', 'longName': 'SAP SE'}
+        assert _company_name(info, 'SAP.DE') == 'SAP SE'
+
+    def test_falls_back_to_short_name_when_no_long_name(self):
+        from fundamental_scorer import _company_name
+        info = {'shortName': 'Apple Inc.'}
+        assert _company_name(info, 'AAPL') == 'Apple Inc.'
+
+    def test_falls_back_to_ticker_when_neither_present(self):
+        from fundamental_scorer import _company_name
+        assert _company_name({}, 'XYZ') == 'XYZ'
+
+    def test_strips_whitespace(self):
+        from fundamental_scorer import _company_name
+        info = {'longName': '  Padded Corp  '}
+        assert _company_name(info, 'PAD') == 'Padded Corp'
