@@ -282,12 +282,6 @@ jobs:
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
         run: python3 thesis_drift_monitor.py || echo "Thesis drift monitor failed"
 
-      - name: Entry Verdict Agent (¿Entro hoy? per ticker)
-        continue-on-error: true
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python3 entry_verdict_agent.py --llm-budget 30 || echo "Entry verdict agent failed"
-
       - name: Technical Signal Analyzer
         continue-on-error: true
         run: python3 technical_signal_analyzer.py || echo "Technical signal analyzer failed"
@@ -295,6 +289,17 @@ jobs:
       - name: Technical Filter (Stage 2 MA + ATR + Volume)
         continue-on-error: true
         run: python3 technical_filter.py || echo "Technical filter failed"
+
+      # Va DESPUÉS de Technical Filter a propósito: lee entry_readiness de
+      # value_opportunities.csv como veto del veredicto ENTRY (ver comentario
+      # en entry_verdict_agent.py). Corriendo antes leía el entry_readiness
+      # del día anterior — coherence_check.py detectó ENTRY publicado con
+      # timing VIGILAR (SBGSY/ATLKY/DBOEY, 6-ago-2026) por este desorden.
+      - name: Entry Verdict Agent (¿Entro hoy? per ticker)
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python3 entry_verdict_agent.py --llm-budget 30 || echo "Entry verdict agent failed"
 
       - name: Pattern Detector (VCP + TA-Lib candlesticks)
         continue-on-error: true
