@@ -251,8 +251,14 @@ def classify_situation(pct_from_high: Optional[float], ytd_pct: Optional[float],
       DIP_GANADOR          → ha subido mucho en el año y solo corrige.
       DETERIORO            → señales de que el negocio empeora (no es ciclo).
     """
-    # Dato ausente: fundamental_score == 50.0 (regla del proyecto)
-    fs = None if (fundamental_score is None or abs(fundamental_score - 50.0) < 0.1) else fundamental_score
+    # Dato ausente → None explícito. Desde el 7-ago-2026 el scorer lo emite
+    # vacío (NaN al leer el CSV); se sigue aceptando el 50.0 centinela que
+    # arrastran los CSV publicados y el histórico. El NaN hay que colapsarlo a
+    # mano: NaN < 45 y NaN >= 55 son AMBAS False, así que se colaría como
+    # "fundamentales no OK" sin que nadie lo haya decidido.
+    fs = fundamental_score
+    if fs is None or math.isnan(fs) or abs(fs - 50.0) < 0.1:
+        fs = None
     deterioration = negative_roe or (fs is not None and fs < 45) or \
                     (health_score is not None and not math.isnan(health_score) and health_score < 40)
     if deterioration:

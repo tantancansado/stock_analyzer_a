@@ -754,52 +754,108 @@ class TestCompanyName:
 
 
 class TestSinDatosNoRecibeVeredicto:
-    """Sin cotización no hay dato — y sin dato no hay etiqueta de calidad.
+    """Sin cotización no hay dato — y sin dato no hay NÚMERO ni etiqueta.
 
-    Caso real (MMC, verificado en docs/fundamental_scores.csv el 6-ago-2026):
-    yfinance no devolvía nada utilizable, así que los cinco componentes caían
-    a su neutro (50.0) y el total daba exactamente 50.0 — el centinela de
-    "dato ausente" del proyecto. Pero _get_tier(50.0)/_get_quality(50.0) lo
-    etiquetaban '⭐ AVERAGE'/'🟡 Average', un veredicto de calidad inventado
-    sobre una fila con precio 0, market cap 0, sector NaN y 0 analistas.
-    Presente a diario (1-2 tickers/día durante al menos las últimas 15
-    corridas). El score se mantiene en 50.0 a propósito: el resto del
-    pipeline ya lo trata como centinela; lo que mentía era la etiqueta.
+    Caso real: MMC salía a diario en docs/fundamental_scores.csv con precio 0,
+    market cap 0, sector NaN, 0 analistas y los CINCO sub-scores en 50.0 —
+    yfinance devolvía un objeto vacío en vez de fallar, cada componente caía a
+    su neutro y la suma daba exactamente 50.0. _get_tier(50.0) lo convertía en
+    '⭐ AVERAGE': un veredicto de calidad sobre una fila sin ningún dato. 15
+    corridas seguidas. La causa de fondo resultó ser un cambio de ticker
+    (MMC → MRSH) que nadie detectó porque la fila parecía normal.
+
+    Desde el 7-ago-2026 se emite VACÍO (None → celda vacía → NaN al leer), no
+    un 50 centinela: un número que hay que saber interpretar es un número que
+    alguien interpretará mal. Los consumidores que aún aceptan el 50.0 lo
+    hacen por compatibilidad con los CSV publicados y el histórico.
     """
 
-    def _tier_quality(self, info, score=50.0):
-        """Replica el guard de score_ticker (mismo patrón que _fund_contribution)."""
+    def _evaluar(self, info, score=50.0):
+        """Replica el guard de score_ticker. Devuelve (score, tier, quality)."""
         from fundamental_scorer import FundamentalScorer
         s = FundamentalScorer()
         price = info.get('currentPrice') or info.get('regularMarketPrice') or 0
         if not price or float(price) <= 0:
-            return '❓ SIN DATOS', '⚪ Sin datos'
-        return s._get_tier(score), s._get_quality(score)
+            return None, '❓ SIN DATOS', '⚪ Sin datos'
+        return score, s._get_tier(score), s._get_quality(score)
 
-    def test_sin_precio_no_se_etiqueta_average(self):
-        tier, quality = self._tier_quality({})
-        assert 'AVERAGE' not in tier.upper(), \
-            "una fila sin cotización no puede salir como AVERAGE — es dato ausente"
+    def test_sin_precio_el_score_va_vacio(self):
+        """Lo que pidió el usuario: si no hay datos, no hay número."""
+        score, tier, _ = self._evaluar({})
+        assert score is None, "sin datos no puede haber un 50 — debe ir vacío"
+        assert 'AVERAGE' not in tier.upper()
+
+    def test_sin_precio_etiqueta_explicita(self):
+        _, tier, quality = self._evaluar({})
         assert tier == '❓ SIN DATOS' and quality == '⚪ Sin datos'
 
     def test_precio_cero_es_dato_ausente(self):
-        tier, quality = self._tier_quality({'currentPrice': 0})
-        assert tier == '❓ SIN DATOS' and quality == '⚪ Sin datos'
+        score, tier, _ = self._evaluar({'currentPrice': 0})
+        assert score is None and tier == '❓ SIN DATOS'
 
-    def test_con_precio_real_si_se_etiqueta(self):
+    def test_con_precio_real_si_se_puntua(self):
         """Un 50.0 con cotización real sigue siendo AVERAGE — no se sobre-corrige."""
-        tier, quality = self._tier_quality({'currentPrice': 69.30})
-        assert tier == '⭐ AVERAGE' and quality == '🟡 Average'
+        score, tier, quality = self._evaluar({'currentPrice': 69.30})
+        assert score == 50.0 and tier == '⭐ AVERAGE' and quality == '🟡 Average'
 
     def test_regular_market_price_tambien_vale(self):
-        tier, _ = self._tier_quality({'regularMarketPrice': 120.5}, score=85.0)
-        assert tier == '🏆 ELITE'
+        score, tier, _ = self._evaluar({'regularMarketPrice': 120.5}, score=85.0)
+        assert score == 85.0 and tier == '🏆 ELITE'
 
     def test_el_guard_sigue_en_el_fuente(self):
-        """Si alguien quita el guard, este test lo caza."""
+        """Si alguien quita el guard o vuelve a poner el 50, este test lo caza."""
         from pathlib import Path
         import fundamental_scorer as fs_mod
         src = Path(fs_mod.__file__).read_text()
-        assert "'❓ SIN DATOS'" in src, "el guard de dato ausente desapareció de score_ticker"
-        assert src.index("_price = info.get('currentPrice')") < src.index("tier = self._get_tier"), \
-            "el guard debe evaluarse ANTES de asignar tier"
+        assert "'❓ SIN DATOS'" in src, "el guard de dato ausente desapareció"
+        assert 'fundamental_score = None' in src,             "sin datos el score debe emitirse vacío, no como 50 centinela"
+        assert src.index('_sin_datos = ') < src.index('tier = self._get_tier'),             "el guard debe evaluarse ANTES de asignar tier"
+
+    def test_backoff_detecta_el_nuevo_marcador(self):
+        """El backoff de rate-limit contaba fallos por score==50.0; con el score
+        vacío tenía que dejar de mirar el 50 o no volvería a dispararse."""
+        from pathlib import Path
+        import fundamental_scorer as fs_mod
+        src = Path(fs_mod.__file__).read_text()
+        assert "is_empty = result.get('fundamental_score') is None" in src
+
+
+class TestConsumidoresAceptanVacio:
+    """Los consumidores no pueden romperse ni inventar con el score vacío.
+
+    Verificado empíricamente antes de cambiar nada: con NaN, thesis_generator
+    mandaba literalmente "nan/100" al prompt de la IA y chart_analyzer
+    "Score=nan/100" — ambos peor que el 50.0 que sustituían.
+    """
+
+    def test_thesis_generator_dice_sin_datos(self):
+        from thesis_generator import _fmt_fund_score
+        for v in (None, float('nan'), 50.0, 50, ''):
+            assert _fmt_fund_score(v) == 'SIN DATOS REALES', f'fallo con {v!r}'
+
+    def test_thesis_generator_formatea_valor_real(self):
+        from thesis_generator import _fmt_fund_score
+        assert _fmt_fund_score(72.4) == '72.4/100'
+
+    def test_leaps_trata_nan_como_ausente(self):
+        """NaN < 45 y NaN >= 55 son AMBAS False: hay que colapsarlo a None
+        o el ticker se cuela como 'fundamentales no OK' sin decidirlo nadie."""
+        leaps = pytest.importorskip('leaps_analyzer')
+        kw = dict(negative_roe=False, health_score=None,
+                  pct_from_high=-20.0, ytd_pct=2.0, upside_pct=15.0)
+        esperado = leaps.classify_situation(fundamental_score=None, **kw)
+        assert leaps.classify_situation(fundamental_score=float('nan'), **kw) == esperado
+        assert leaps.classify_situation(fundamental_score=50.0, **kw) == esperado
+
+    def test_leaps_sigue_detectando_deterioro_real(self):
+        """El colapso a None no puede tragarse un score malo de verdad."""
+        leaps = pytest.importorskip('leaps_analyzer')
+        assert leaps.classify_situation(
+            fundamental_score=30.0, negative_roe=False, health_score=None,
+            pct_from_high=-20.0, ytd_pct=2.0, upside_pct=15.0) == 'DETERIORO'
+
+    def test_super_score_excluye_el_vacio(self):
+        """NaN no debe contribuir al value_score (ya lo cubría .notna())."""
+        df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [float('nan')],
+                           'value_score': [0.0]})
+        assert _fund_contribution(df)['value_score'].iloc[0] == pytest.approx(0.0)

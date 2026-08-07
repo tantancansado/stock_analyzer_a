@@ -68,7 +68,7 @@ const TICKER_DOMAIN: Record<string, string> = {
   ALL:     'allstate.com',
   TRV:     'travelers.com',
   CB:      'chubb.com',
-  MMC:     'marsh.com',
+  MRSH:    'marsh.com',
   AON:     'aon.com',
 
   // ── US Healthcare ─────────────────────────────────────────

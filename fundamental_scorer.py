@@ -161,19 +161,28 @@ class FundamentalScorer:
                 catalyst_score['score'] * self.weights['catalyst_timing']
             )
 
-            # Determinar tier. Sin cotización no hay dato: yfinance no devolvió
-            # nada utilizable y los cinco componentes cayeron a su neutro (50),
-            # sumando un fundamental_score de 50.0 que NO significa "empresa del
-            # montón" sino "no lo sabemos". Etiquetarlo AVERAGE es inventarse un
-            # veredicto sobre una fila con precio 0, market cap 0 y todas las
-            # métricas en NaN — MMC salía así a diario (delisted/sin datos) en
-            # el CSV publicado. El score se deja en 50.0 porque el resto del
-            # pipeline ya lo usa como centinela de "dato ausente"; lo que se
-            # corrige es la etiqueta, que era lo único que mentía al usuario.
+            # Sin cotización no hay dato, y sin dato no hay número. yfinance
+            # puede responder con un objeto vacío en vez de fallar: entonces los
+            # cinco componentes caen a su neutro (50) y la suma da exactamente
+            # 50.0 sobre una fila con precio 0, market cap 0 y todo en NaN. Ese
+            # 50.0 no significa "empresa del montón", significa "no lo sabemos",
+            # y _get_tier() lo convertía en un '⭐ AVERAGE' — un veredicto de
+            # calidad inventado. Caso real: MMC, 15 corridas seguidas (resultó
+            # ser un cambio de ticker a MRSH que nadie detectó, justamente
+            # porque la fila parecía normal).
+            #
+            # Se emite vacío (None → celda vacía en el CSV, NaN al leerlo), NO
+            # un 50 centinela: un número que hay que saber interpretar es un
+            # número que alguien interpretará mal. Los sub-scores van vacíos por
+            # lo mismo — eran cinco 50 igual de inventados.
             _price = info.get('currentPrice') or info.get('regularMarketPrice') or 0
-            if not _price or float(_price) <= 0:
+            _sin_datos = not _price or float(_price) <= 0
+            if _sin_datos:
+                fundamental_score = None
                 tier = '❓ SIN DATOS'
                 quality = '⚪ Sin datos'
+                for _s in (earnings_score, growth_score, rs_score, health_score, catalyst_score):
+                    _s['score'] = None
             else:
                 tier = self._get_tier(fundamental_score)
                 quality = self._get_quality(fundamental_score)
@@ -181,7 +190,7 @@ class FundamentalScorer:
             result = {
                 'ticker': ticker,
                 'company_name': _company_name(info, ticker),
-                'fundamental_score': round(fundamental_score, 1),
+                'fundamental_score': None if fundamental_score is None else round(fundamental_score, 1),
                 'tier': tier,
                 'quality': quality,
 
@@ -1640,8 +1649,11 @@ class FundamentalScorer:
             result = self.score_ticker(ticker)
             results.append(result)
 
-            # Track consecutive failures — if all data is missing, back off harder
-            is_empty = result.get('fundamental_score', 50.0) == 50.0
+            # Track consecutive failures — if all data is missing, back off harder.
+            # El marcador de "sin datos" es ahora fundamental_score vacío (antes
+            # era un 50.0 centinela); sin este cambio el backoff dejaría de
+            # dispararse en la racha de fallos que precisamente debe detectar.
+            is_empty = result.get('fundamental_score') is None
             if is_empty:
                 consecutive_failures += 1
             else:

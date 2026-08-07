@@ -16,6 +16,7 @@ import argparse
 import base64
 import io
 import json
+import math
 import os
 import time
 from datetime import datetime, timezone
@@ -174,7 +175,10 @@ def analyze_single(ticker: str, image_bytes: bytes,
     try:
         client = _get_groq_client()
         context = ""
-        if fundamental_score is not None:
+        # NaN pasa el `is not None` y colaba "Score=nan/100" al prompt de visión:
+        # sin datos no se menciona el score en vez de inventarlo.
+        _fs_ok = fundamental_score is not None and not math.isnan(float(fundamental_score))
+        if _fs_ok:
             context = f"\nFundamental context: Grade={grade or '?'}, Score={fundamental_score:.0f}/100."
 
         result = _call_groq_vision(client, image_bytes, ANALYSIS_PROMPT + context, MODEL)

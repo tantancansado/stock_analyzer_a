@@ -493,7 +493,7 @@ def load_dividend_events(tickers: list) -> list:
         'AAPL', 'MSFT', 'JNJ', 'PG', 'KO', 'PEP', 'XOM', 'CVX', 'JPM', 'BAC',
         'WFC', 'MRK', 'ABBV', 'BMY', 'LMT', 'RTX', 'GD', 'HON', 'CAT', 'DE',
         'TJX', 'HD', 'LOW', 'MCD', 'WMT', 'COST', 'TGT', 'V', 'MA', 'AXP',
-        'BLK', 'GS', 'MS', 'CB', 'MMC', 'TRV', 'ALL', 'MCO', 'SPGI',
+        'BLK', 'GS', 'MS', 'CB', 'MRSH', 'TRV', 'ALL', 'MCO', 'SPGI',
         'BTI', 'PM', 'MO', 'DEO', 'TTE', 'SHEL', 'BRK-B',
         'XLF', 'XLE', 'XLU', 'XLP', 'TLT', 'GLD',
     }]

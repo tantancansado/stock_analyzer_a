@@ -27,7 +27,11 @@ TIER_1 = [
     'SPGI',    # S&P Global
     'COST',    # Costco
     'CPRT',    # Copart
-    'MMC',     # Marsh & McLennan (Tier 1 insurance/consulting)
+    'MRSH',    # Marsh & McLennan (Tier 1 insurance/consulting) — era 'MMC'
+               # hasta el cambio de ticker; Yahoo dejó de servir MMC ("symbol
+               # may be delisted") y la empresa estuvo 15+ corridas sin analizar
+               # sin que nada avisara. Verificado 7-ago-2026: MRSH devuelve
+               # "Marsh & McLennan Companies, Inc.", NYSE, $193,29, $92B.
     'MA',      # Mastercard
     'AI.PA',   # Air Liquide (Euronext Paris)
     'CME',     # CME Group

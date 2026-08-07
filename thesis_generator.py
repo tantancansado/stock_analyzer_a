@@ -6,8 +6,28 @@ basándose en análisis técnico, fundamental, sector, y catalizadores
 """
 import pandas as pd
 import json
+import math
 from pathlib import Path
 from datetime import datetime
+
+
+def _fmt_fund_score(val) -> str:
+    """fundamental_score para el prompt de la IA: nunca un número inventado.
+
+    Sin datos se emite vacío (None → NaN al leer el CSV). Se sigue tratando el
+    50.0 como ausente por compatibilidad: es el centinela que usaba el scorer
+    hasta el 7-ago-2026 y que arrastran los CSV ya publicados y el histórico.
+    Sin esto el prompt recibía literalmente "nan/100".
+    """
+    if val is None:
+        return 'SIN DATOS REALES'
+    try:
+        f = float(val)
+    except (TypeError, ValueError):
+        return 'SIN DATOS REALES'
+    if math.isnan(f) or abs(f - 50.0) < 0.01:
+        return 'SIN DATOS REALES'
+    return f'{val}/100'
 
 
 class ThesisGenerator:
@@ -700,7 +720,7 @@ PRECIO ACTUAL: {_fmt(row.get('current_price'), prefix='$')}
 VALUE SCORE: {_fmt(row.get('value_score'), '/100')}
 
 FUNDAMENTALES:
-- Score fundamental: {('SIN DATOS REALES (default 50.0)' if abs((row.get('fundamental_score') or 0) - 50.0) < 0.01 else _fmt(row.get('fundamental_score'), '/100'))}
+- Score fundamental: {_fmt_fund_score(row.get('fundamental_score'))}
 - ROE: {_fmt(row.get('roe_pct'), '%')}
 - Margen operativo: {_fmt(row.get('operating_margin_pct'), '%')}
 - Margen neto: {_fmt(row.get('profit_margin_pct'), '%')}
