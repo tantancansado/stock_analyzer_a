@@ -255,6 +255,17 @@ jobs:
       - name: Conviction Filter (final quality gate) [CRITICAL]
         run: python3 conviction_filter.py
 
+      # Escribe entry_readiness/tech_stage en los CSV de VALUE (US y EU) y va
+      # aquí a propósito: super_score_integrator REGENERA value_opportunities.csv
+      # desde cero cada día, así que la columna no existe hasta que corre esto.
+      # Portfolio Tracker (más abajo) la persiste en recommendations.csv — con
+      # este paso detrás, guardaba NaN en todas las señales. Nada entre este
+      # punto y el tracker reescribe los CSV de VALUE (conviction_filter escribe
+      # a *_conviction.csv aparte; thesis_generator y generate_insights solo leen).
+      - name: Technical Filter (Stage 2 MA + ATR + Volume)
+        continue-on-error: true
+        run: python3 technical_filter.py || echo "Technical filter failed"
+
       - name: Generate Investment Theses
         continue-on-error: true
         env:
@@ -286,15 +297,12 @@ jobs:
         continue-on-error: true
         run: python3 technical_signal_analyzer.py || echo "Technical signal analyzer failed"
 
-      - name: Technical Filter (Stage 2 MA + ATR + Volume)
-        continue-on-error: true
-        run: python3 technical_filter.py || echo "Technical filter failed"
-
-      # Va DESPUÉS de Technical Filter a propósito: lee entry_readiness de
-      # value_opportunities.csv como veto del veredicto ENTRY (ver comentario
-      # en entry_verdict_agent.py). Corriendo antes leía el entry_readiness
-      # del día anterior — coherence_check.py detectó ENTRY publicado con
-      # timing VIGILAR (SBGSY/ATLKY/DBOEY, 6-ago-2026) por este desorden.
+      # Va DESPUÉS de Technical Filter (ahora justo tras Conviction Filter) a
+      # propósito: lee entry_readiness de value_opportunities.csv como veto del
+      # veredicto ENTRY (ver comentario en entry_verdict_agent.py). Corriendo
+      # antes leía el entry_readiness del día anterior — coherence_check.py
+      # detectó ENTRY publicado con timing VIGILAR (SBGSY/ATLKY/DBOEY,
+      # 6-ago-2026) por este desorden.
       - name: Entry Verdict Agent (¿Entro hoy? per ticker)
         continue-on-error: true
         env:
