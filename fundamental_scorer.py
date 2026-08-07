@@ -161,9 +161,22 @@ class FundamentalScorer:
                 catalyst_score['score'] * self.weights['catalyst_timing']
             )
 
-            # Determinar tier
-            tier = self._get_tier(fundamental_score)
-            quality = self._get_quality(fundamental_score)
+            # Determinar tier. Sin cotización no hay dato: yfinance no devolvió
+            # nada utilizable y los cinco componentes cayeron a su neutro (50),
+            # sumando un fundamental_score de 50.0 que NO significa "empresa del
+            # montón" sino "no lo sabemos". Etiquetarlo AVERAGE es inventarse un
+            # veredicto sobre una fila con precio 0, market cap 0 y todas las
+            # métricas en NaN — MMC salía así a diario (delisted/sin datos) en
+            # el CSV publicado. El score se deja en 50.0 porque el resto del
+            # pipeline ya lo usa como centinela de "dato ausente"; lo que se
+            # corrige es la etiqueta, que era lo único que mentía al usuario.
+            _price = info.get('currentPrice') or info.get('regularMarketPrice') or 0
+            if not _price or float(_price) <= 0:
+                tier = '❓ SIN DATOS'
+                quality = '⚪ Sin datos'
+            else:
+                tier = self._get_tier(fundamental_score)
+                quality = self._get_quality(fundamental_score)
 
             result = {
                 'ticker': ticker,

@@ -751,3 +751,55 @@ class TestCompanyName:
         from fundamental_scorer import _company_name
         info = {'longName': '  Padded Corp  '}
         assert _company_name(info, 'PAD') == 'Padded Corp'
+
+
+class TestSinDatosNoRecibeVeredicto:
+    """Sin cotización no hay dato — y sin dato no hay etiqueta de calidad.
+
+    Caso real (MMC, verificado en docs/fundamental_scores.csv el 6-ago-2026):
+    yfinance no devolvía nada utilizable, así que los cinco componentes caían
+    a su neutro (50.0) y el total daba exactamente 50.0 — el centinela de
+    "dato ausente" del proyecto. Pero _get_tier(50.0)/_get_quality(50.0) lo
+    etiquetaban '⭐ AVERAGE'/'🟡 Average', un veredicto de calidad inventado
+    sobre una fila con precio 0, market cap 0, sector NaN y 0 analistas.
+    Presente a diario (1-2 tickers/día durante al menos las últimas 15
+    corridas). El score se mantiene en 50.0 a propósito: el resto del
+    pipeline ya lo trata como centinela; lo que mentía era la etiqueta.
+    """
+
+    def _tier_quality(self, info, score=50.0):
+        """Replica el guard de score_ticker (mismo patrón que _fund_contribution)."""
+        from fundamental_scorer import FundamentalScorer
+        s = FundamentalScorer()
+        price = info.get('currentPrice') or info.get('regularMarketPrice') or 0
+        if not price or float(price) <= 0:
+            return '❓ SIN DATOS', '⚪ Sin datos'
+        return s._get_tier(score), s._get_quality(score)
+
+    def test_sin_precio_no_se_etiqueta_average(self):
+        tier, quality = self._tier_quality({})
+        assert 'AVERAGE' not in tier.upper(), \
+            "una fila sin cotización no puede salir como AVERAGE — es dato ausente"
+        assert tier == '❓ SIN DATOS' and quality == '⚪ Sin datos'
+
+    def test_precio_cero_es_dato_ausente(self):
+        tier, quality = self._tier_quality({'currentPrice': 0})
+        assert tier == '❓ SIN DATOS' and quality == '⚪ Sin datos'
+
+    def test_con_precio_real_si_se_etiqueta(self):
+        """Un 50.0 con cotización real sigue siendo AVERAGE — no se sobre-corrige."""
+        tier, quality = self._tier_quality({'currentPrice': 69.30})
+        assert tier == '⭐ AVERAGE' and quality == '🟡 Average'
+
+    def test_regular_market_price_tambien_vale(self):
+        tier, _ = self._tier_quality({'regularMarketPrice': 120.5}, score=85.0)
+        assert tier == '🏆 ELITE'
+
+    def test_el_guard_sigue_en_el_fuente(self):
+        """Si alguien quita el guard, este test lo caza."""
+        from pathlib import Path
+        import fundamental_scorer as fs_mod
+        src = Path(fs_mod.__file__).read_text()
+        assert "'❓ SIN DATOS'" in src, "el guard de dato ausente desapareció de score_ticker"
+        assert src.index("_price = info.get('currentPrice')") < src.index("tier = self._get_tier"), \
+            "el guard debe evaluarse ANTES de asignar tier"
