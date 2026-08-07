@@ -1,131 +1,121 @@
 {
-  "generated_at": "2026-08-06",
+  "generated_at": "2026-08-07",
   "alerts": [
     {
       "type": "SCORE_UP",
       "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
+      "company_name": "Broadridge Financial Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 64.1,
-      "score_prev": 37.1,
-      "delta": 27.0,
-      "grade": "🟢 Excellent"
+      "score_today": 85.1,
+      "score_prev": 64.1,
+      "delta": 21.0,
+      "grade": "🔥 Legendary"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "sector": "Financial Services",
-      "score_today": 45.6,
-      "score_prev": 32.4,
-      "delta": 13.2,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
-      "sector": "Financial Services",
-      "score_today": 44.9,
-      "score_prev": 31.8,
-      "delta": 13.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "score_today": 63.6,
-      "score_prev": 52.5,
-      "delta": 11.1,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
-      "sector": "Technology",
-      "score_today": 71.8,
-      "score_prev": 61.7,
-      "delta": 10.1,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
+      "ticker": "KVUE",
+      "company_name": "Kenvue Inc.",
       "sector": "Consumer Defensive",
-      "score_today": 48.5,
-      "score_prev": 38.7,
-      "delta": 9.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ATLKY",
-      "company_name": "Atlas Copco AB",
-      "sector": "Industrials",
-      "score_today": 57.1,
-      "score_prev": 48.6,
-      "delta": 8.5,
+      "score_today": 60.3,
+      "score_prev": 52.3,
+      "delta": 8.0,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "PGR",
-      "company_name": "Progressive Corporation (The)",
-      "sector": "Financial Services",
-      "score_today": 63.8,
-      "score_prev": 57.1,
-      "delta": 6.8,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International",
-      "sector": "Consumer Cyclical",
-      "score_today": 49.1,
-      "score_prev": 42.8,
-      "delta": 6.3,
-      "grade": "🟡 Average"
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 83.5,
+      "score_prev": 77.8,
+      "delta": 5.7,
+      "grade": "🟢 Elite"
     },
     {
       "type": "SCORE_UP",
       "ticker": "FHN",
       "company_name": "First Horizon Corporation",
       "sector": "Financial Services",
-      "score_today": 37.5,
-      "score_prev": 31.4,
-      "delta": 6.1,
+      "score_today": 42.6,
+      "score_prev": 37.5,
+      "delta": 5.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "sector": "Technology",
+      "score_today": 87.3,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟢 Elite"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange, Inc.",
+      "sector": "Financial Services",
+      "score_today": 35.2,
+      "score_prev": 40.4,
+      "delta": -5.2,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 47.0,
-      "score_prev": 55.0,
-      "delta": -8.0,
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
+      "sector": "Technology",
+      "score_today": 32.0,
+      "score_prev": 38.0,
+      "delta": -6.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SBGSY",
+      "company_name": "Schneider Electric S.E.",
+      "sector": "Industrials",
+      "score_today": 49.9,
+      "score_prev": 56.7,
+      "delta": -6.8,
       "grade": "🟡 Average"
     },
     {
+      "type": "SCORE_DOWN",
+      "ticker": "TJX",
+      "company_name": "The TJX Companies, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 52.3,
+      "score_prev": 61.5,
+      "delta": -9.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 53.7,
+      "score_prev": 63.6,
+      "delta": -9.9,
+      "grade": "🟡 Good"
+    },
+    {
       "type": "EXITED",
-      "ticker": "SAP",
-      "company_name": "SAP  SE",
-      "sector": "Technology",
+      "ticker": "ASAZY",
+      "company_name": "Assa Abloy AB",
+      "sector": "Industrials",
       "score_today": null,
-      "score_prev": 97.7,
+      "score_prev": 69.0,
       "delta": null,
-      "grade": "🔥 Legendary"
+      "grade": "🟢 Excellent"
     }
   ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 1,
-    "score_up": 10,
-    "score_down": 1
+    "score_up": 4,
+    "score_down": 5
   }
 }

@@ -1,44 +1,134 @@
 {
-  "date": "2026-08-07",
-  "timestamp": "2026-08-07T06:52:32.929573",
-  "narrative": "En el actual r\u00e9gimen macro calmado, los inversores value pueden aprovechar oportunidades de crecimiento a precios razonables. Destacamos a MSFT, SAP y BR como nuestros picks m\u00e1s interesantes debido a su alto score y potencial de alza significativa. Recomendamos una posici\u00f3n moderada en estos activos, con un tama\u00f1o de 5-7% del portafolio y un horizonte de inversi\u00f3n a corto plazo, manteniendo un nivel de cautela debido a la volatilidad potencial del mercado.",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 93.805,
-      "analyst_upside_pct": 12.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SAP",
-      "sector": "Technology",
-      "value_score": 87.28,
-      "analyst_upside_pct": 21.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 85.125,
-      "analyst_upside_pct": 27.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "KO",
-      "sector": "Consumer Defensive",
-      "value_score": 83.53999999999999,
-      "analyst_upside_pct": 9.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "ADP",
-      "sector": "Technology",
-      "value_score": 75.28999999999999,
-      "analyst_upside_pct": 4.8,
-      "conviction_grade": null
+  "fecha": "2026-08-07",
+  "texto": "Hoy hay dos nombres en zona de entrada.\n\n<b>Kenvue (KVUE)</b>, a 19,18$: cae un 12,7% desde máximos sin deterioro aparente del negocio, con un 5% de caja libre sobre precio. Los analistas apenas le ven un 3,4% de subida, pero el modelo triangulado dispara eso a un 31,4% — vale la pena mirarlo con calma antes de entrar a fondo.\n\n<b>Chevron (CVX)</b>, a 189,23$: cae un 11,9%, analistas ven 14,5% de subida y el triangulado se va al 67,1%. Ojo: su calidad fundamental es floja (score 32) — entra por precio barato, no por convicción.\n\n<b>Cierra ya CRH.L.</b> Ha roto el stop: cotiza en 7914, por debajo del 8140,16 que tenías marcado como salida. La tesis está rota, toca vender.\n\nPara vigilar, sin prisa:\n— <b>SAP</b>: -33,4% desde máximos, castigada por un guidance de cloud flojo pese a que ingresos y caja de 2025 batieron expectativas. Barato todavía no es comprable.\n— <b>Broadridge (BR)</b>: -39,4%, penalizada por ciclos de venta más largos pese a superar expectativas; divergencia alta entre analistas y triangulado, cuidado con la trampa.\n— <b>SPGI</b> (-26%) y <b>Moody's (MCO)</b> (-13,5%) siguen cayendo sin razón identificada, aún en espera.\n— <b>Stryker (SYK)</b>, -15% y con caja libre floja (3,17%), fuera de foco por ahora.\n\nEl acierto del sistema (35,6%, retorno medio -1,99% sobre 135 señales) es solo provisional — falta muestra a 180 días. Con ese dato, posiciones pequeñas.",
+  "hechos": {
+    "fecha": "2026-08-07",
+    "total_lista": 41,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "KVUE",
+        "empresa": "Kenvue Inc.",
+        "score": 60.27,
+        "precio": 19.18,
+        "upside_analista": 3.4,
+        "upside_triangulado": 31.4,
+        "divergencia": "",
+        "fcf_yield": 5.05,
+        "del_maximo_pct": -12.7,
+        "rs_6m": -5.37,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "CVX",
+        "empresa": "Chevron Corporation",
+        "score": 32.0,
+        "precio": 189.23,
+        "upside_analista": 14.5,
+        "upside_triangulado": 67.1,
+        "divergencia": "",
+        "fcf_yield": 4.47,
+        "del_maximo_pct": -11.9,
+        "rs_6m": -6.43,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 85.125,
+        "precio": 164.75,
+        "upside_analista": 27.2,
+        "upside_triangulado": 15.7,
+        "divergencia": "ALTA",
+        "fcf_yield": 6.27,
+        "del_maximo_pct": -39.4,
+        "rs_6m": -27.85,
+        "timing": "ESPERAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "En el Q1 FY2026 (nov. 2025) Broadridge superó expectativas de ingresos y BPA y reafirmó su guía, pero el mercado castigó la acción por ciclos de venta más largos y retrasos en el c"
+      },
+      {
+        "ticker": "SYK",
+        "empresa": "Stryker Corporation",
+        "score": 53.17999999999999,
+        "precio": 337.43,
+        "upside_analista": 13.1,
+        "upside_triangulado": 13.1,
+        "divergencia": "",
+        "fcf_yield": 3.17,
+        "del_maximo_pct": -15.0,
+        "rs_6m": -20.42,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SPGI",
+        "empresa": "S&P Global Inc.",
+        "score": 53.705,
+        "precio": 405.24,
+        "upside_analista": 27.6,
+        "upside_triangulado": 22.2,
+        "divergencia": "MEDIA",
+        "fcf_yield": 4.56,
+        "del_maximo_pct": -26.0,
+        "rs_6m": -18.76,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SAP",
+        "empresa": "SAP SE",
+        "score": 87.28,
+        "precio": 199.46,
+        "upside_analista": 21.8,
+        "upside_triangulado": 21.8,
+        "divergencia": "",
+        "fcf_yield": 4.55,
+        "del_maximo_pct": -33.4,
+        "rs_6m": -11.23,
+        "timing": "VIGILAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "SAP cayó un 15% el 29-ene-2026 tras un guidance de backlog de cloud más débil de lo esperado para 2026, pese a que ingresos, beneficio operativo y flujo de caja de 2025 batieron ex"
+      },
+      {
+        "ticker": "MCO",
+        "empresa": "Moody's Corporation",
+        "score": 62.81,
+        "precio": 473.13,
+        "upside_analista": 18.5,
+        "upside_triangulado": 18.5,
+        "divergencia": "",
+        "fcf_yield": 3.15,
+        "del_maximo_pct": -13.5,
+        "rs_6m": -10.18,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 35.6,
+      "retorno_medio": -1.99,
+      "n": 135
     }
-  ]
+  }
 }
