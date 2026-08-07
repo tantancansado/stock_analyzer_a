@@ -1,78 +1,78 @@
 {
-  "date": "2026-08-06",
-  "timestamp": "2026-08-06T07:43:35.811276",
-  "narrative": "An\u00e1lisis de rotaci\u00f3n sectorial:\n\nLa tendencia de rotaci\u00f3n sectorial que estoy viendo es una rotaci\u00f3n hacia sectores defensivos y de crecimiento estable, como Healthcare y Financial Services, que est\u00e1n liderando la lista con un alto Relative Strength (RS). Por otro lado, los sectores c\u00edclicos, como Consumer Cyclical y Industriales, est\u00e1n rezagados con un RS bajo.\n\nEsta tendencia es consistente con el r\u00e9gimen macro actual (CALM), ya que los inversores est\u00e1n buscando sectores m\u00e1s estables y menos expuestos a la volatilidad.\n\nEn este momento, recomiendo concentrar las b\u00fasquedas en sectores como Healthcare, Financial Services y Communication Services, que est\u00e1n liderando la lista. Por otro lado, es recomendable evitar sectores como Consumer Cyclical y Industriales, que est\u00e1n rezagados y pueden seguir desacelerando en el corto plazo.\n\nEs importante tener en cuenta que esta es una tendencia general y",
+  "date": "2026-08-07",
+  "timestamp": "2026-08-07T06:52:35.229495",
+  "narrative": "La tendencia de rotaci\u00f3n sectorial que estoy viendo es una rotaci\u00f3n hacia sectores c\u00edclicos, liderados por Medical Care Facilities y Railroads, que han demostrado una gran fuerza relativa en el mercado. Esto sugiere que la econom\u00eda est\u00e1 comenzando a mostrar signos de recuperaci\u00f3n y que los sectores c\u00edclicos est\u00e1n en mejores condiciones para aprovechar esta tendencia.\n\nEsta rotaci\u00f3n es consistente con el r\u00e9gimen macro actual (CALM), ya que la econom\u00eda est\u00e1 en una fase de crecimiento lento pero estable, lo que beneficia a los sectores c\u00edclicos.\n\nEn este momento, deber\u00edamos concentrar nuestras b\u00fasquedas en sectores como Industriales, Healthcare y Technology, que han demostrado una gran fuerza relativa en el mercado. Por otro lado, es recomendable evitar sectores como Consumer Cyclical, que han sido rezagados en t\u00e9rminos de fuerza relativa y pueden seguir siendo afectados por la vol",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 69.6,
+      "avg_rs_percentile": 64.7,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 65.3,
+      "avg_rs_percentile": 61.5,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 62.3,
+      "avg_rs_percentile": 61.0,
       "num_tickers": 7,
       "label": "Top 10%"
     },
     {
-      "industry": "Banks - Regional",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 54.4,
+      "industry": "Software - Infrastructure",
+      "sector": "Technology",
+      "avg_rs_percentile": 51.5,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Internet Content & Information",
-      "sector": "Communication Services",
-      "avg_rs_percentile": 50.0,
+      "industry": "Banks - Regional",
+      "sector": "Financial Services",
+      "avg_rs_percentile": 50.4,
       "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
+      "industry": "Waste Management",
+      "sector": "Industrials",
+      "avg_rs_percentile": 16.3,
+      "num_tickers": 3,
+      "label": "Bottom 25%"
+    },
+    {
       "industry": "Restaurants",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 16.6,
+      "avg_rs_percentile": 13.8,
       "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 12.0,
+      "avg_rs_percentile": 12.4,
       "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Waste Management",
-      "sector": "Industrials",
-      "avg_rs_percentile": 11.3,
-      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 8.4,
+      "avg_rs_percentile": 6.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 2.9,
+      "avg_rs_percentile": 4.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }

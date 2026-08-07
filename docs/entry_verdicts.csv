@@ -1,78 +1,74 @@
 ticker,origin,verdict,confidence,reasons,blockers,trigger,source
-ETN,momentum,AVOID,75,,score bajo (27),Revisa si el score mejora tras próximo earnings,rules
-UNH,value,ENTRY,80,FCF yield 6.1% · upside +15% analistas · EPS acelerando,,Entrada válida ahora,rules
-QSR,value,WAIT,85,EPS en aceleración · upside +14%,earnings en 0d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
-KVUE,value,WAIT,85,EPS en aceleración,earnings en 0d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
-BRK-B,value,WAIT,85,,earnings en 2d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
-MSFT,value,WAIT,60,score 95/100 · ROE 34% · margen 40%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-BR,value,WAIT,60,score 64/100 · ROE 42% · margen 15%,timing dice ESPERAR · RS débil (12%),Espera confirmación técnica (MA pass + RS subiendo),rules
-KO,value,WAIT,60,score 78/100 · ROE 42% · margen 29%,timing dice VIGILAR · valoración triangulada -35%,Espera confirmación técnica (MA pass + RS subiendo),rules
-ADP,value,WAIT,60,score 72/100 · ROE 72% · margen 20%,timing dice VIGILAR · upside 6.1% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-SPGI,value,WAIT,60,score 64/100 · margen 30% · upside +26% analistas,timing dice ESPERAR · RS débil (7%),Espera confirmación técnica (MA pass + RS subiendo),rules
-ASAZY,value,WAIT,60,score 69/100 · ROE 16% · upside +13% analistas,timing dice VIGILAR · RS débil (27%),Espera confirmación técnica (MA pass + RS subiendo),rules
-MCO,value,WAIT,60,score 58/100 · ROE 77% · margen 34%,timing dice VIGILAR · RS débil (21%),Espera confirmación técnica (MA pass + RS subiendo),rules
-V,value,WAIT,60,score 53/100 · ROE 61% · margen 51%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-NDAQ,value,WAIT,60,score 67/100 · ROE 16% · margen 35%,timing dice VIGILAR · valoración triangulada -26%,Espera confirmación técnica (MA pass + RS subiendo),rules
-SBGSY,value,WAIT,60,score 57/100 · ROE 19% · upside +12% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-PGR,value,WAIT,60,score 64/100 · ROE 35% · FCF yield 12.2%,timing dice VIGILAR · upside 8.0% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-CNI,value,WAIT,60,score 59/100 · ROE 22% · margen 27%,timing dice VIGILAR · valoración triangulada -44%,Espera confirmación técnica (MA pass + RS subiendo),rules
-MA,value,WAIT,60,ROE 241% · margen 46% · upside +16% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-TJX,value,WAIT,60,score 61/100 · ROE 61% · upside +11% analistas,RS débil (21%),Espera confirmación técnica (MA pass + RS subiendo),rules
-OTIS,value,WAIT,60,FCF yield 5.2% · upside +24% analistas · EPS acelerando,timing dice VIGILAR · RS débil (7%),Espera confirmación técnica (MA pass + RS subiendo),rules
-TW,value,WAIT,60,margen 41% · upside +23% analistas · EPS acelerando,timing dice VIGILAR · RS débil (9%),Espera confirmación técnica (MA pass + RS subiendo),rules
-AXP,value,WAIT,60,ROE 34% · margen 16% · FCF yield 6.8%,timing dice VIGILAR · upside 7.3% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-CBOE,value,WAIT,60,ROE 26% · margen 27% · upside +11% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-SYK,value,WAIT,60,ROE 16% · upside +13% analistas · EPS acelerando,timing dice ESPERAR · RS débil (24%),Espera confirmación técnica (MA pass + RS subiendo),rules
-ATLKY,value,WAIT,60,score 57/100 · ROE 26% · margen 16%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+ETN,momentum,AVOID,75,,score bajo (22),Revisa si el score mejora tras próximo earnings,rules
+ITW,momentum,AVOID,75,,score bajo (21),Revisa si el score mejora tras próximo earnings,rules
+BRK-B,value,WAIT,85,,earnings en 1d,Entra post-earnings si bate + cierra sobre MA50 con volumen,rules
+BR,value,WAIT,60,score 85/100 · ROE 41% · margen 15%,timing dice ESPERAR · RS débil (14%),Espera confirmación técnica (MA pass + RS subiendo),rules
+MSFT,value,WAIT,60,score 94/100 · ROE 34% · margen 40%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+SAP,value,WAIT,60,score 87/100 · ROE 18% · margen 20%,timing dice VIGILAR · RS débil (23%),Espera confirmación técnica (MA pass + RS subiendo),rules
+KO,value,WAIT,60,score 84/100 · ROE 42% · margen 29%,timing dice VIGILAR · valoración triangulada -35%,Espera confirmación técnica (MA pass + RS subiendo),rules
+ADP,value,WAIT,60,score 75/100 · ROE 72% · margen 20%,timing dice VIGILAR · upside 4.8% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+MCO,value,WAIT,60,score 63/100 · ROE 77% · margen 34%,timing dice VIGILAR · RS débil (16%),Espera confirmación técnica (MA pass + RS subiendo),rules
+NDAQ,value,WAIT,60,score 70/100 · ROE 16% · margen 35%,timing dice VIGILAR · valoración triangulada -26%,Espera confirmación técnica (MA pass + RS subiendo),rules
+SPGI,value,WAIT,60,score 54/100 · margen 30% · upside +28% analistas,timing dice ESPERAR · RS débil (6%),Espera confirmación técnica (MA pass + RS subiendo),rules
+MA,value,WAIT,60,ROE 241% · margen 46% · upside +15% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+PGR,value,WAIT,60,score 62/100 · ROE 35% · FCF yield 12.1%,timing dice VIGILAR · upside 6.7% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+AXP,value,WAIT,60,ROE 34% · margen 16% · FCF yield 6.9%,timing dice VIGILAR · upside 9.3% < 10%,Entra si el timing técnico cambia a CONFIRMADO o si el upside aumenta a 10% o más,ai
+SYK,value,WAIT,60,score 53/100 · ROE 16% · upside +13% analistas,timing dice ESPERAR · RS débil (24%),Espera confirmación técnica (MA pass + RS subiendo),rules
+KVUE,value,WAIT,60,score 60/100 · ROE 16% · FCF yield 5.0%,upside 3.4% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+CNI,value,WAIT,60,score 54/100 · ROE 22% · margen 27%,timing dice VIGILAR · valoración triangulada -44%,Espera confirmación técnica (MA pass + RS subiendo),rules
+CBOE,value,WAIT,60,ROE 26% · margen 27% · EPS acelerando,timing dice VIGILAR · upside 9.8% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+SBGSY,value,WAIT,60,ROE 19% · upside +13% analistas · sobre MA50/150/200,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+OTIS,value,WAIT,60,FCF yield 5.1% · upside +23% analistas · EPS acelerando,timing dice VIGILAR · RS débil (9%),Espera confirmación técnica (MA pass + RS subiendo),rules
 DBOEY,value,WAIT,60,ROE 20% · margen 27% · upside +14% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-ICE,value,WAIT,60,margen 38% · upside +22% analistas · Piotroski 8/9,timing dice ESPERAR · RS débil (23%),Espera confirmación técnica (MA pass + RS subiendo),rules
-BAC,value,WAIT,60,margen 30% · EPS acelerando · sobre MA50/150/200,timing dice VIGILAR · upside 8.7% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-JKHY,value,WAIT,60,ROE 25% · margen 21% · upside +20% analistas,timing dice ESPERAR · valoración triangulada -26%,Espera confirmación técnica (MA pass + RS subiendo),rules
-AON,value,WAIT,60,ROE 45% · margen 22% · upside +12% analistas,timing dice VIGILAR · valoración triangulada -38%,Espera confirmación técnica (MA pass + RS subiendo),rules
-WM,value,WAIT,60,ROE 30% · upside +16% analistas · EPS acelerando,timing dice VIGILAR · valoración triangulada -52%,Espera confirmación técnica (MA pass + RS subiendo),rules
-MKC,value,WAIT,60,ROE 25% · margen 22% · FCF yield 5.0%,timing dice ESPERAR · RS débil (16%),Espera confirmación técnica (MA pass + RS subiendo),rules
-CSU.TO,value,WAIT,60,ROE 20% · FCF yield 5.8% · upside +25% analistas,timing dice VIGILAR · RS débil (19%),Espera confirmación técnica (MA pass + RS subiendo),rules
-7741.T,value,WAIT,60,ROE 26% · margen 27% · upside +20% analistas,timing dice ESPERAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-PEP,value,WAIT,60,ROE 52% · upside +12% analistas · EPS acelerando,timing dice ESPERAR · RS débil (1%),Espera confirmación técnica (MA pass + RS subiendo),rules
+BAC,value,WAIT,60,margen 30% · EPS acelerando · sobre MA50/150/200,timing dice VIGILAR · upside 9.2% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+PEP,value,WAIT,60,ROE 52% · upside +12% analistas · EPS acelerando,timing dice ESPERAR · RS débil (1%),Entra si el ROE supera el 55% y el RS percentile sube por encima del 20% después de los próximos earnings,ai
+JKHY,value,WAIT,60,ROE 25% · margen 21% · upside +18% analistas,timing dice ESPERAR · valoración triangulada -27%,Espera confirmación técnica (MA pass + RS subiendo),rules
+7741.T,value,WAIT,60,ROE 26% · margen 27% · upside +19% analistas,timing dice ESPERAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+TJX,value,WAIT,60,score 52/100 · ROE 61% · sobre MA50/150/200,timing dice VIGILAR · upside 9.3% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+ATLKY,value,WAIT,60,score 52/100 · ROE 26% · margen 16%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+ICE,value,WAIT,60,margen 38% · upside +24% analistas · Piotroski 8/9,timing dice ESPERAR · RS débil (23%),Espera confirmación técnica (MA pass + RS subiendo),rules
+ROP,value,WAIT,60,margen 30% · FCF yield 5.8% · upside +11% analistas,timing dice VIGILAR · RS débil (22%),Espera confirmación técnica (MA pass + RS subiendo),rules
+FHN,value,WAIT,60,margen 30% · sobre MA50/150/200,timing dice VIGILAR · upside 9.8% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+UNH,value,WAIT,60,FCF yield 6.2% · upside +18% analistas · EPS acelerando,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
 RACE,value,WAIT,60,ROE 45% · margen 22% · upside +11% analistas,timing dice VIGILAR · valoración triangulada -68%,Espera confirmación técnica (MA pass + RS subiendo),rules
-WST,value,WAIT,60,ROE 19% · margen 17% · upside +15% analistas,valoración triangulada -60%,Espera confirmación técnica (MA pass + RS subiendo),rules
+ORLY,value,WAIT,60,upside +16% analistas · EPS acelerando · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -59%,Entra si el timing técnico cambia a CONFIRMED_UPTREND o si el valoración triangulada mejora significativamente,ai
 WMT,value,WAIT,60,ROE 24% · upside +23% analistas · EPS acelerando,timing dice ESPERAR · valoración triangulada -51%,Espera confirmación técnica (MA pass + RS subiendo),rules
-CDNS,value,WAIT,60,ROE 23% · margen 24% · upside +20% analistas,timing dice VIGILAR · valoración triangulada -27%,Espera confirmación técnica (MA pass + RS subiendo),rules
-ORLY,value,WAIT,60,upside +16% analistas · EPS acelerando · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -59%,Espera confirmación técnica (MA pass + RS subiendo),rules
-FHN,value,WAIT,60,margen 30% · sobre MA50/150/200,timing dice VIGILAR · upside 6.8% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-HEI,value,WAIT,60,ROE 17% · margen 16% · EPS acelerando,timing dice VIGILAR · upside 5.4% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-FCNCA,value,WAIT,60,margen 25% · FCF yield 5.4% · sobre MA50/150/200,timing dice VIGILAR · upside 5.0% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-AUTO.L,value,WAIT,60,ROE 60% · margen 47% · FCF yield 6.0%,timing dice ESPERAR · upside 8.1% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-CB,value,WAIT,60,margen 18% · FCF yield 7.7% · EPS acelerando,timing dice VIGILAR · upside 3.6% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-DHR,value,WAIT,60,margen 16% · upside +14% analistas,timing dice ESPERAR · RS débil (30%),Espera confirmación técnica (MA pass + RS subiendo),rules
-ROL,value,WAIT,60,ROE 37% · upside +21% analistas · EPS acelerando,timing dice ESPERAR · valoración triangulada -59%,Espera confirmación técnica (MA pass + RS subiendo),rules
-SGE.L,value_eu,WAIT,60,score 68/100 · ROE 76% · FCF yield 7.0%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-DB1.DE,value_eu,WAIT,60,score 67/100 · ROE 20% · margen 27%,timing dice VIGILAR · upside 7.4% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+CDNS,value,WAIT,60,ROE 23% · margen 24% · upside +19% analistas,timing dice VIGILAR · valoración triangulada -27%,Espera confirmación técnica (MA pass + RS subiendo),rules
+CVX,value,WAIT,60,upside +14% analistas · EPS acelerando · sobre MA50/150/200,RS débil (28%),Entra si el RS supera el 50% o el precio cierra sobre MA50 con volumen tras earnings,ai
+CSU.TO,value,WAIT,60,ROE 20% · FCF yield 5.7% · upside +22% analistas,timing dice VIGILAR · RS débil (21%),Espera confirmación técnica (MA pass + RS subiendo),rules
+WST,value,WAIT,60,ROE 19% · margen 17% · upside +16% analistas,valoración triangulada -60%,Espera confirmación técnica (MA pass + RS subiendo),rules
+DSGX,value,WAIT,60,margen 23% · upside +28% analistas · EPS acelerando,timing dice VIGILAR · RS débil (15%),Espera confirmación técnica (MA pass + RS subiendo),rules
+AUTO.L,value,WAIT,60,ROE 60% · margen 47% · FCF yield 6.1%,timing dice VIGILAR · upside 9.9% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+FCNCA,value,WAIT,60,margen 25% · FCF yield 5.3% · sobre MA50/150/200,timing dice VIGILAR · upside 4.5% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+CB,value,WAIT,60,margen 18% · FCF yield 7.7% · EPS acelerando,timing dice VIGILAR · upside 3.2% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+HESAY,value,WAIT,60,ROE 26% · margen 28% · upside +22% analistas,timing dice VIGILAR · valoración triangulada -58%,Espera confirmación técnica (MA pass + RS subiendo),rules
+DB1.DE,value_eu,WAIT,60,score 65/100 · ROE 20% · margen 27%,timing dice VIGILAR · upside 7.2% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+SGE.L,value_eu,WAIT,60,score 59/100 · ROE 76% · FCF yield 6.9%,timing dice VIGILAR · upside 8.4% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
 AMS.MC,value_eu,WAIT,60,score 58/100 · ROE 26% · margen 20%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-RMV.L,value_eu,WAIT,60,score 57/100 · ROE 282% · margen 50%,timing dice ESPERAR · 43% del high 52w,Espera confirmación técnica (MA pass + RS subiendo),rules
-SAP.DE,value_eu,WAIT,60,score 55/100 · ROE 18% · margen 20%,timing dice VIGILAR · 32% del high 52w,Espera confirmación técnica (MA pass + RS subiendo),rules
-ASSA-B.ST,value_eu,WAIT,60,score 54/100 · ROE 16% · upside +11% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-ATCO-B.ST,value_eu,WAIT,60,score 54/100 · ROE 26% · margen 16%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-LR.PA,value_eu,WAIT,60,score 54/100 · ROE 18% · upside +18% analistas,timing dice VIGILAR · valoración triangulada -47%,Espera confirmación técnica (MA pass + RS subiendo),rules
-MONC.MI,value_eu,WAIT,60,score 52/100 · ROE 18% · margen 20%,timing dice ESPERAR · valoración triangulada -12%,Espera confirmación técnica (MA pass + RS subiendo),rules
-PGHN.SW,value_eu,WAIT,60,score 51/100 · ROE 55% · margen 49%,timing dice ESPERAR · 33% del high 52w,Espera confirmación técnica (MA pass + RS subiendo),rules
-RACE.MI,value_eu,WAIT,60,score 50/100 · ROE 45% · margen 22%,timing dice VIGILAR · valoración triangulada -68%,Espera confirmación técnica (MA pass + RS subiendo),rules
-DSY.PA,value_eu,WAIT,60,ROE 15% · margen 21% · EPS acelerando,timing dice VIGILAR · upside 9.9% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-CPG.L,value_eu,WAIT,60,ROE 27% · upside +15% analistas · Piotroski 6/9,timing dice VIGILAR · valoración triangulada -11%,Espera confirmación técnica (MA pass + RS subiendo),rules
-INDT.ST,value_eu,WAIT,60,ROE 16% · upside +13% analistas · EPS acelerando,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-RMS.PA,value_eu,WAIT,60,ROE 26% · margen 28% · upside +24% analistas,timing dice ESPERAR · valoración triangulada -55%,Espera confirmación técnica (MA pass + RS subiendo),rules
-NOVO-B.CO,value_eu,WAIT,60,ROE 60% · margen 35%,timing dice ESPERAR · upside 9.0% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-HEXA-B.ST,value_eu,WAIT,60,ROE 27% · Piotroski 6/9,timing dice ESPERAR · upside 0.2% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-MC.PA,value_eu,WAIT,60,ROE 17% · upside +19% analistas · Piotroski 6/9,timing dice ESPERAR · valoración triangulada -28%,Espera confirmación técnica (MA pass + RS subiendo),rules
+RMV.L,value_eu,WAIT,60,score 56/100 · ROE 282% · margen 50%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+SAP.DE,value_eu,WAIT,60,score 55/100 · ROE 18% · margen 20%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+LR.PA,value_eu,WAIT,60,score 54/100 · ROE 18% · upside +17% analistas,timing dice VIGILAR · valoración triangulada -48%,Espera confirmación técnica (MA pass + RS subiendo),rules
+ATCO-B.ST,value_eu,WAIT,60,score 53/100 · ROE 26% · margen 16%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+PGHN.SW,value_eu,WAIT,60,score 53/100 · ROE 55% · margen 49%,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+ASSA-B.ST,value_eu,WAIT,60,score 52/100 · ROE 16% · upside +11% analistas,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+MONC.MI,value_eu,WAIT,60,ROE 18% · margen 20% · upside +20% analistas,timing dice VIGILAR · valoración triangulada -13%,Espera confirmación técnica (MA pass + RS subiendo),rules
+DSY.PA,value_eu,WAIT,60,ROE 15% · margen 21% · EPS acelerando,timing dice VIGILAR · upside 8.2% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+RACE.MI,value_eu,WAIT,60,ROE 45% · margen 22% · EPS acelerando,timing dice VIGILAR · valoración triangulada -68%,Espera confirmación técnica (MA pass + RS subiendo),rules
+CPG.L,value_eu,WAIT,60,ROE 27% · upside +18% analistas · Piotroski 6/9,timing dice VIGILAR · valoración triangulada -9%,Espera confirmación técnica (MA pass + RS subiendo),rules
+MC.PA,value_eu,WAIT,60,ROE 17% · upside +18% analistas · Piotroski 6/9,timing dice VIGILAR · valoración triangulada -28%,Espera confirmación técnica (MA pass + RS subiendo),rules
+INDT.ST,value_eu,WAIT,60,ROE 16% · upside +15% analistas · EPS acelerando,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+NOVO-B.CO,value_eu,WAIT,60,ROE 60% · margen 35%,timing dice ESPERAR · upside 7.3% < 10%,Entra si el timing técnico cambia a 'COMPRAR' o si el upside aumenta a 10% o más,ai
+HEXA-B.ST,value_eu,WAIT,60,ROE 27% · Piotroski 6/9,timing dice VIGILAR · upside 1.7% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+RMS.PA,value_eu,WAIT,60,ROE 26% · margen 28% · upside +17% analistas,timing dice VIGILAR · valoración triangulada -58%,Espera confirmación técnica (MA pass + RS subiendo),rules
 ITX.MC,value_eu,WAIT,60,ROE 34% · margen 16% · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -42%,Espera confirmación técnica (MA pass + RS subiendo),rules
-HLMA.L,value_eu,WAIT,60,ROE 18% · upside +15% analistas · Piotroski 7/9,timing dice ESPERAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-SU.PA,value_eu,WAIT,60,ROE 19% · Piotroski 6/9,timing dice VIGILAR · upside 7.8% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-IMCD.AS,value_eu,WAIT,60,upside +18% analistas,timing dice VIGILAR · valoración triangulada -10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+HEIA.AS,value_eu,WAIT,60,FCF yield 7.2% · upside +12% analistas · Piotroski 7/9,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+HLMA.L,value_eu,WAIT,60,ROE 18% · upside +15% analistas · Piotroski 7/9,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+KNEBV.HE,value_eu,WAIT,60,ROE 41% · upside +18% analistas · EPS acelerando,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
+IMCD.AS,value_eu,WAIT,60,upside +16% analistas,timing dice VIGILAR · valoración triangulada -12%,Espera confirmación técnica (MA pass + RS subiendo),rules
 OR.PA,value_eu,WAIT,60,ROE 19% · Piotroski 6/9,timing dice VIGILAR · valoración triangulada -50%,Espera confirmación técnica (MA pass + RS subiendo),rules
 AI.PA,value_eu,WAIT,60,upside +13% analistas · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -68%,Espera confirmación técnica (MA pass + RS subiendo),rules
-HEIA.AS,value_eu,WAIT,60,upside +10% analistas · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -14%,Espera confirmación técnica (MA pass + RS subiendo),rules
-KNEBV.HE,value_eu,WAIT,60,ROE 41% · upside +18% analistas · EPS acelerando,timing dice VIGILAR,Espera confirmación técnica (MA pass + RS subiendo),rules
-LIFCO-B.ST,value_eu,WAIT,60,ROE 20% · Piotroski 7/9,timing dice VIGILAR · upside 5.0% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
-GIVN.SW,value_eu,WAIT,60,ROE 22% · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -69%,Espera confirmación técnica (MA pass + RS subiendo),rules
-SIKA.SW,value_eu,WAIT,60,ROE 16% · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -52%,Espera confirmación técnica (MA pass + RS subiendo),rules
-DPLM.L,value_eu,WAIT,60,ROE 19% · Piotroski 8/9,timing dice VIGILAR · upside 4.5% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+SU.PA,value_eu,WAIT,60,ROE 19% · Piotroski 6/9,timing dice VIGILAR · upside 8.1% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+LIFCO-B.ST,value_eu,WAIT,60,ROE 20% · Piotroski 7/9,timing dice VIGILAR · upside 5.7% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules
+GIVN.SW,value_eu,WAIT,60,ROE 22% · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -70%,Espera confirmación técnica (MA pass + RS subiendo),rules
+SIKA.SW,value_eu,WAIT,60,ROE 16% · Piotroski 7/9,timing dice VIGILAR · valoración triangulada -51%,Espera confirmación técnica (MA pass + RS subiendo),rules
+DPLM.L,value_eu,WAIT,60,ROE 19% · Piotroski 8/9,timing dice VIGILAR · upside 4.4% < 10%,Espera confirmación técnica (MA pass + RS subiendo),rules

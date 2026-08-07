@@ -1,9 +1,9 @@
 {
-  "total_signals": 166,
-  "unique_tickers": 48,
-  "date_range": "2026-04-08 to 2026-08-06",
-  "active_signals": 17,
-  "completed_signals": 149,
+  "total_signals": 167,
+  "unique_tickers": 49,
+  "date_range": "2026-04-08 to 2026-08-07",
+  "active_signals": 16,
+  "completed_signals": 151,
   "overall": {
     "7d": {
       "count": 161,
@@ -14,18 +14,18 @@
       "worst": -16.89
     },
     "14d": {
-      "count": 156,
-      "win_rate": 41.0,
-      "avg_return": -0.63,
-      "median_return": -0.97,
+      "count": 158,
+      "win_rate": 41.1,
+      "avg_return": -0.61,
+      "median_return": -0.9,
       "best": 17.97,
       "worst": -13.92
     },
     "30d": {
-      "count": 149,
-      "win_rate": 26.8,
-      "avg_return": -3.88,
-      "median_return": -4.98,
+      "count": 151,
+      "win_rate": 27.8,
+      "avg_return": -3.66,
+      "median_return": -4.97,
       "best": 22.71,
       "worst": -22.28
     },
@@ -103,7 +103,7 @@
     }
   },
   "value_strategy": {
-    "count": 113,
+    "count": 114,
     "7d": {
       "count": 108,
       "win_rate": 44.4,
@@ -114,10 +114,10 @@
       "basis": "clean_period"
     },
     "14d": {
-      "count": 103,
-      "win_rate": 35.0,
-      "avg_return": -1.28,
-      "median_return": -2.27,
+      "count": 105,
+      "win_rate": 35.2,
+      "avg_return": -1.24,
+      "median_return": -2.26,
       "best": 17.97,
       "worst": -13.92,
       "basis": "clean_period"
@@ -348,6 +348,17 @@
   ],
   "recent_signals": [
     {
+      "ticker": "MCO",
+      "company_name": "Moody's Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-07",
+      "signal_price": 473.13,
+      "sector": "Financial Services",
+      "value_score": 62.81,
+      "days_active": 0,
+      "first_result_date": "2026-08-14"
+    },
+    {
       "ticker": "ATLKY",
       "company_name": "Atlas Copco AB",
       "strategy": "VALUE",
@@ -355,7 +366,7 @@
       "signal_price": 22.2,
       "sector": "Industrials",
       "value_score": 57.095,
-      "days_active": 0,
+      "days_active": 1,
       "first_result_date": "2026-08-13"
     },
     {
@@ -366,19 +377,8 @@
       "signal_price": 412.53,
       "sector": "Financial Services",
       "value_score": 52.485,
-      "days_active": 1,
+      "days_active": 2,
       "first_result_date": "2026-08-12"
-    },
-    {
-      "ticker": "DBOEY",
-      "company_name": "Deutsche Boerse AG",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-03",
-      "signal_price": 30.12,
-      "sector": "Financial Services",
-      "value_score": 52.905,
-      "days_active": 3,
-      "first_result_date": "2026-08-10"
     },
     {
       "ticker": "ICE",
@@ -388,7 +388,18 @@
       "signal_price": 152.48,
       "sector": "Financial Services",
       "value_score": 57.89500000000001,
-      "days_active": 3,
+      "days_active": 4,
+      "first_result_date": "2026-08-10"
+    },
+    {
+      "ticker": "DBOEY",
+      "company_name": "Deutsche Boerse AG",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-03",
+      "signal_price": 30.12,
+      "sector": "Financial Services",
+      "value_score": 52.905,
+      "days_active": 4,
       "first_result_date": "2026-08-10"
     },
     {
@@ -399,7 +410,7 @@
       "signal_price": 440.28,
       "sector": "Industrials",
       "value_score": 60.375,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-08-07"
     },
     {
@@ -410,18 +421,7 @@
       "signal_price": 93.94,
       "sector": "Financial Services",
       "value_score": 57.72999999999999,
-      "days_active": 9,
-      "first_result_date": "2026-08-04"
-    },
-    {
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporati",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-28",
-      "signal_price": 207.05,
-      "sector": "Financial Services",
-      "value_score": 54.28,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-08-04"
     },
     {
@@ -432,19 +432,19 @@
       "signal_price": 73.19,
       "sector": "Industrials",
       "value_score": 53.2,
-      "days_active": 9,
+      "days_active": 10,
       "first_result_date": "2026-08-04"
     },
     {
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporati",
       "strategy": "VALUE",
-      "signal_date": "2026-07-23",
-      "signal_price": 109.33,
-      "sector": "Consumer Defensive",
-      "value_score": 53.64,
-      "days_active": 14,
-      "first_result_date": "2026-07-30"
+      "signal_date": "2026-07-28",
+      "signal_price": 207.05,
+      "sector": "Financial Services",
+      "value_score": 54.28,
+      "days_active": 10,
+      "first_result_date": "2026-08-04"
     },
     {
       "ticker": "MSCI",
@@ -454,7 +454,18 @@
       "signal_price": 570.95,
       "sector": "Financial Services",
       "value_score": 52.110000000000014,
-      "days_active": 14,
+      "days_active": 15,
+      "first_result_date": "2026-07-30"
+    },
+    {
+      "ticker": "WMT",
+      "company_name": "Walmart Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-23",
+      "signal_price": 109.33,
+      "sector": "Consumer Defensive",
+      "value_score": 53.64,
+      "days_active": 15,
       "first_result_date": "2026-07-30"
     },
     {
@@ -465,19 +476,8 @@
       "signal_price": 538.3,
       "sector": "Financial Services",
       "value_score": 63.5,
-      "days_active": 15,
+      "days_active": 16,
       "first_result_date": "2026-07-29"
-    },
-    {
-      "ticker": "COST",
-      "company_name": "Costco Wholesale Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-14",
-      "signal_price": 926.43,
-      "sector": "Consumer Defensive",
-      "value_score": 51.8,
-      "days_active": 23,
-      "first_result_date": "2026-07-21"
     },
     {
       "ticker": "AUTO.L",
@@ -487,7 +487,18 @@
       "signal_price": 499.7,
       "sector": "Communication Services",
       "value_score": 50.7,
-      "days_active": 23,
+      "days_active": 24,
+      "first_result_date": "2026-07-21"
+    },
+    {
+      "ticker": "COST",
+      "company_name": "Costco Wholesale Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-14",
+      "signal_price": 926.43,
+      "sector": "Consumer Defensive",
+      "value_score": 51.8,
+      "days_active": 24,
       "first_result_date": "2026-07-21"
     },
     {
@@ -498,7 +509,7 @@
       "signal_price": 24780.0,
       "sector": "Healthcare",
       "value_score": 51.78,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-07-16"
     },
     {
@@ -509,33 +520,11 @@
       "signal_price": 258.64,
       "sector": "Financial Services",
       "value_score": 52.08,
-      "days_active": 29,
+      "days_active": 30,
       "first_result_date": "2026-07-15"
-    },
-    {
-      "ticker": "ABT",
-      "company_name": "Abbott Laboratories",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-07",
-      "signal_price": 95.63,
-      "sector": "Healthcare",
-      "value_score": 55.075,
-      "days_active": 30,
-      "first_result_date": "2026-07-14"
-    },
-    {
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-07",
-      "signal_price": 178.24,
-      "sector": "Industrials",
-      "value_score": 56.065,
-      "days_active": 30,
-      "first_result_date": "2026-07-14"
     }
   ],
-  "avg_max_drawdown": -2.73,
+  "avg_max_drawdown": -2.7,
   "alpha": {
     "365d": {
       "count": 0,
@@ -561,20 +550,20 @@
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 149,
-      "avg_alpha": -7.53,
-      "avg_signal_return": -3.88,
-      "avg_benchmark_return": 3.65,
-      "positive_alpha_rate": 21.5,
+      "count": 151,
+      "avg_alpha": -7.29,
+      "avg_signal_return": -3.66,
+      "avg_benchmark_return": 3.64,
+      "positive_alpha_rate": 22.5,
       "best_alpha": 21.86,
       "worst_alpha": -27.22
     },
     "14d": {
-      "count": 156,
-      "avg_alpha": -2.03,
-      "avg_signal_return": -0.63,
-      "avg_benchmark_return": 1.41,
-      "positive_alpha_rate": 39.1,
+      "count": 158,
+      "avg_alpha": -2.05,
+      "avg_signal_return": -0.61,
+      "avg_benchmark_return": 1.44,
+      "positive_alpha_rate": 38.6,
       "best_alpha": 12.76,
       "worst_alpha": -18.24
     },
@@ -613,20 +602,20 @@
       "worst_alpha": -51.85
     },
     "30d": {
-      "count": 96,
-      "avg_alpha": -10.56,
-      "avg_signal_return": -5.32,
-      "avg_benchmark_return": 5.24,
-      "positive_alpha_rate": 12.5,
+      "count": 98,
+      "avg_alpha": -10.14,
+      "avg_signal_return": -4.94,
+      "avg_benchmark_return": 5.19,
+      "positive_alpha_rate": 14.3,
       "best_alpha": 21.86,
       "worst_alpha": -27.22
     },
     "14d": {
-      "count": 103,
-      "avg_alpha": -3.66,
-      "avg_signal_return": -1.28,
-      "avg_benchmark_return": 2.37,
-      "positive_alpha_rate": 26.2,
+      "count": 105,
+      "avg_alpha": -3.65,
+      "avg_signal_return": -1.24,
+      "avg_benchmark_return": 2.41,
+      "positive_alpha_rate": 25.7,
       "best_alpha": 12.76,
       "worst_alpha": -18.24
     }
@@ -674,5 +663,5 @@
       "worst_alpha": -12.84
     }
   },
-  "generated_at": "2026-08-06T07:44:04.590421"
+  "generated_at": "2026-08-07T06:53:02.476666"
 }
