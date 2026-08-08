@@ -34,9 +34,23 @@ TARGET_CSVS: list[Path] = [
     DOCS / 'european_value_opportunities.csv',
 ]
 
-PRESUPUESTO_SEG = 420      # 7 min como mucho para todo el enriquecimiento
+# El presupuesto es un tope REAL, no orientativo: antes se comprobaba sólo
+# "¿me he pasado ya?" antes de arrancar cada ticker, así que siempre se podía
+# desbordar por el coste entero del último. El 7-ago-2026 gastó 527s con
+# presupuesto de 420 (+25%), y el job core-scoring va a 78-84 min sobre un
+# tope de 90: ese desbordamiento sale del margen que evita que el job muera.
+# Ahora se reserva el coste estimado del siguiente antes de empezarlo.
+PRESUPUESTO_SEG = 600
+COSTE_TICKER_SEG = 175.0   # medido: BR 178s, SAP 148s, MSFT 201s (timeout)
 MAX_TICKERS = 5
-MIN_CAIDA_PCT = 8.0
+
+# Una caída del 8% no es un castigo, es ruido — y explicarla cuesta lo mismo
+# que explicar una de verdad. El 7-ago-2026 MSFT entró con -9,7% del máximo,
+# se llevó 201s de los 420 (timeout de Claude, 100s + reintento) y dejó fuera
+# a MCO (-13,5%, la única candidata que pasa zona dorada + sector + valoración
+# coherente). Este módulo existe para separar castigo de deterioro; por debajo
+# de ~12% no hay castigo que separar.
+MIN_CAIDA_PCT = 12.0
 
 
 def _candidatos(csv: Path) -> pd.DataFrame:
@@ -72,16 +86,24 @@ def main() -> None:
     inicio = time.monotonic()
     # veredictos por CSV de origen, para no mezclar tickers de US/EU al aplicar
     veredictos_por_csv: dict[str, dict] = {str(csv): {} for csv in TARGET_CSVS}
+    reserva = COSTE_TICKER_SEG   # lo que hay que dejar libre para el siguiente
     for _, r in cand.iterrows():
         gastado = time.monotonic() - inicio
-        if gastado > PRESUPUESTO_SEG:
+        # Reservar antes de empezar, no comprobar después de pasarse: si no cabe
+        # entero, no se arranca. Así el presupuesto es un techo de verdad.
+        if gastado + reserva > PRESUPUESTO_SEG:
             total = sum(len(v) for v in veredictos_por_csv.values())
-            print(f'   ⏱️  Presupuesto agotado tras {gastado:.0f}s — {total}/{len(cand)} analizados')
+            print(f'   ⏱️  Sin margen para otro ticker ({gastado:.0f}s gastados de '
+                  f'{PRESUPUESTO_SEG}s, hacen falta ~{reserva:.0f}s) — {total}/{len(cand)} analizados')
             break
         ticker = str(r['ticker']).upper()
+        t0 = time.monotonic()
         res = analyze_ticker(ticker, str(r.get('company_name', '')),
                              abs(float(r.get('proximity_to_52w_high') or 0)),
                              float(r.get('relative_strength_6m') or 0))
+        # La reserva sigue al peor caso visto en esta corrida: si un ticker se
+        # atasca, el siguiente exige más margen en vez de repetir el atasco.
+        reserva = max(reserva, time.monotonic() - t0)
         veredictos_por_csv[r['origen_csv']][ticker] = res
         icono = {'DETERIORO': '🚫', 'CICLICO': '🔄', 'EVENTO': '⚡',
                  'SENTIMIENTO': '💭', 'SIN_DATOS': '❓'}.get(res['veredicto'], '❓')

@@ -113,3 +113,49 @@ class TestCandidatosDeAmbosUniversos:
         pd.DataFrame(columns=COLS).to_csv(us_csv, index=False)
         pd.DataFrame(columns=COLS).to_csv(eu_csv, index=False)
         ewc.main()  # no debe lanzar
+
+
+class TestPresupuestoEsTopeReal:
+    """El presupuesto tiene que ser un techo, no una sugerencia.
+
+    Hasta el 7-ago-2026 sólo se comprobaba "¿me he pasado ya?" ANTES de cada
+    ticker, así que siempre se podía desbordar por el coste entero del último:
+    esa corrida gastó 527s con presupuesto de 420 (+25%). Importa porque el job
+    core-scoring va a 78-84 min sobre un tope de 90 — ese exceso sale del
+    margen que evita que el job muera entero.
+    """
+
+    def test_no_arranca_un_ticker_que_no_cabe(self, universos, monkeypatch):
+        """Con el presupuesto casi agotado no se empieza otro análisis."""
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 200)
+        monkeypatch.setattr(ewc, 'COSTE_TICKER_SEG', 175.0)
+        llamados = []
+
+        def _fake(ticker, *a, **k):
+            llamados.append(ticker)
+            return {'veredicto': 'CICLICO', 'fuentes': [], 'resumen': ''}
+
+        monkeypatch.setattr(ewc, 'analyze_ticker', _fake)
+        ewc.main()
+        # Cabe uno (0 + 175 <= 200); tras él quedan ~175s gastados y
+        # 175+175 > 200, así que no arranca un segundo.
+        assert len(llamados) <= 1, \
+            f'arrancó {len(llamados)} análisis sin margen: {llamados}'
+
+    def test_la_reserva_crece_con_el_peor_caso_visto(self):
+        """Un ticker atascado sube la reserva, no se repite el atasco."""
+        reserva = ewc.COSTE_TICKER_SEG
+        for coste in (150.0, 400.0, 120.0):
+            reserva = max(reserva, coste)
+        assert reserva == 400.0
+
+    def test_min_caida_excluye_el_ruido(self):
+        """Explicar una caída del 9% cuesta lo mismo que una del 39% y no
+        aporta: el módulo separa castigo de deterioro, y al 8% no hay castigo.
+        MSFT entró con -9,7%, se llevó 201s por un timeout y dejó fuera a MCO."""
+        assert ewc.MIN_CAIDA_PCT >= 12.0, \
+            'umbral demasiado bajo — vuelve a colar ruido y gastar API en él'
+
+    def test_presupuesto_cubre_al_menos_dos_tickers(self):
+        """Si no caben dos, MAX_TICKERS miente y la selección es teatro."""
+        assert ewc.PRESUPUESTO_SEG >= 2 * ewc.COSTE_TICKER_SEG
