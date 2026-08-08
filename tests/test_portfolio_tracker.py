@@ -1151,3 +1151,22 @@ class TestAjusteSectorialSaleDeDatosLimpios:
         src = Path(pt.__file__).read_text()
         assert "'sector_performance': 'clean_period_us_value'" in src
         assert "'clean_period_us_value':" in src, 'falta describir la base nueva'
+
+    def test_golden_hist_usa_la_banda_dorada_no_la_de_hard_reject(self):
+        """El histórico debe medir la MISMA población que se emite hoy.
+
+        Usaba [UPSIDE_MIN, UPSIDE_HARD_REJECT) = [10,30) mientras
+        record_signals emite [10,25). Además el tramo 25-30 destruye el
+        retorno: con datos limpios a 90d, [10,25) da alpha +4,55% y [10,30)
+        da -2,60%. Corregido, el golden_hist publicado pasa de alpha -2,38%
+        a +4,54% a 90d con MÁS muestra (n=103 vs 99).
+        """
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        i = src.index('golden_hist = _hist_us[')
+        expr = src[i:i + 260]
+        assert 'UPSIDE_GOLDEN_MAX' in expr, \
+            'golden_hist debe cortar en la banda dorada, no en el hard reject'
+        assert '_rr' not in expr, \
+            'el filtro R:R recorta la banda a upside>=16 por la puerta de atrás'

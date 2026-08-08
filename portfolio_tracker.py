@@ -427,16 +427,24 @@ class PortfolioTracker:
         value_core = value_core_all[value_core_all['signal_date'] >= CLEAN_FROM].copy()
 
         # For 30d completed stats, clean signals don't have 30d yet (too recent).
-        # Golden zone retroactiva: score>=60, RR>=2 y la banda canónica de
-        # value_bands — así el histórico mide la MISMA población que las
-        # señales de hoy (antes usaba upside 10-55 y las stats describían una
-        # banda que ya nadie emite).
+        # Golden zone retroactiva: score>=60 y la banda dorada de value_bands,
+        # para que el histórico mida la MISMA población que se emite hoy.
+        #
+        # Dos correcciones (7-ago-2026), ambas medidas:
+        #  · El tope pasa de UPSIDE_HARD_REJECT (30) a UPSIDE_GOLDEN_MAX (25),
+        #    que es lo que `record_signals` registra desde hoy. Además el tramo
+        #    25-30 es el que destruye el retorno: con datos LIMPIOS a 90d,
+        #    [10,25) da alpha +4,55% y [10,30) da -2,60% (sin filtro: -8,48%).
+        #    El orden se repite en el contaminado (+4,54 vs +1,48), así que no
+        #    es un artefacto de la muestra pequeña del periodo limpio.
+        #  · Fuera el filtro `_rr >= 2.0`: R:R es `analyst_upside_pct / 8.0`
+        #    (corr +1.0000 sobre 1479 señales), así que sólo recortaba la banda
+        #    a upside>=16 por la puerta de atrás, tirando el tramo 10-16.
         _hist_us = value_core_all[value_core_all['strategy'] == 'VALUE'].copy()
         _score = pd.to_numeric(_hist_us['value_score'], errors='coerce')
-        _rr    = pd.to_numeric(_hist_us['risk_reward_ratio'], errors='coerce')
         _up    = pd.to_numeric(_hist_us['analyst_upside_pct'], errors='coerce')
-        golden_hist = _hist_us[(_score >= 60) & (_rr >= 2.0)
-                               & (_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)].copy()
+        golden_hist = _hist_us[(_score >= 60)
+                               & (_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)].copy()
 
         # EU: mismo problema con los horizontes largos — las señales del clean
         # period aún no cumplen 90d. Usamos TODO el histórico EU (no hay zona
@@ -591,7 +599,10 @@ class PortfolioTracker:
                     f'US VALUE desde {CLEAN_FROM.date()} — base del ajuste sectorial del '
                     'integrator. Antes usaba golden_zone_hist (contaminado): su win-rate '
                     'sectorial no predice al limpio (corr +0,26 a 30d) y lo infla en bloque'),
-                'golden_zone_hist': 'histórico US VALUE retroactivo: score>=60, RR>=2, upside 10-55% (único con datos 30d)',
+                'golden_zone_hist': (
+                    f'histórico US VALUE retroactivo: score>=60 y upside en '
+                    f'[{UPSIDE_MIN:.0f}, {UPSIDE_GOLDEN_MAX:.0f}) — misma población que se emite hoy. '
+                    f'Incluye el periodo contaminado: es el único con datos 30d/90d suficientes'),
                 'long_hist': 'golden zone US + histórico EU completo — incluye el periodo contaminado; más muestra, otra población',
                 'sections': {
                     'overall': 'clean_period',
