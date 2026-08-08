@@ -757,7 +757,17 @@ jobs:
             'cerebro':        ('docs/cerebro_briefing.json',                     'generated_at', None, 3),
             'mean_reversion': ('docs/mean_reversion_opportunities.json',         'generated_at', None, 3),
             'macro':          ('docs/macro_radar.json',                          'date',         None, 2),
-            'insiders':       ('docs/recurring_insiders.csv',                    None,  5, 3),
+            # min_rows=1, NO 5. El 14-abr-2026 (bee62b64) se filtró este CSV al
+            # universo curado: se pasó de ~1900 tickers a 137, y con ello de
+            # ~740 filas a 17. Desde junio la tasa base real es 1-3 filas — un
+            # cluster de insiders entre 137 valores es raro por definición. El
+            # umbral 5 se quedó de la era anterior y lleva marcando 'empty'
+            # todos los días desde entonces (8 de los últimos 39 días medidos,
+            # y el 100% desde junio), con el watchdog avisando por Telegram de
+            # un problema que no existe. Un vigía que grita sin motivo enseña a
+            # ignorarlo. El scraper está sano: insider_index.json trae 1916
+            # tickers frescos; lo que es raro es el patrón recurrente, no el dato.
+            'insiders':       ('docs/recurring_insiders.csv',                    None,  1, 3),
             'portfolio':      ('docs/portfolio_tracker/recommendations.csv',     None,  1, 2),
             'earnings':       ('docs/tikr_earnings_data.json',                   'generated_at', None, 7),
             'theses':         ('docs/theses.json',                                'generated_at', None, 7),
