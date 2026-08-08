@@ -1170,3 +1170,43 @@ class TestAjusteSectorialSaleDeDatosLimpios:
             'golden_hist debe cortar en la banda dorada, no en el hard reject'
         assert '_rr' not in expr, \
             'el filtro R:R recorta la banda a upside>=16 por la puerta de atrás'
+
+
+class TestNoSeRecomiendaUnCuchilloCayendo:
+    """ESPERAR = bajo una MA200 descendente. Medido: es la mayor fuga.
+
+    entry_timing_backtest.py reconstruye el entry_readiness que habría tenido
+    cada señal histórica EN SU DÍA (solo con precios anteriores a esa fecha,
+    sin look-ahead) y lo cruza con el retorno real:
+
+        corte            ESPERAR      resto
+        30d limpio        10,3%       32,5%
+        90d limpio        20,8%       54,5%
+        90d histórico     48,4%       74,8%
+
+    Alfa de ESPERAR ~-10% en los tres. Se sostiene en ambos periodos y ambos
+    horizontes — el test de robustez que suspendió el FCF yield. Y eran el
+    62% de las señales registradas.
+    """
+
+    def test_el_tracker_descarta_esperar(self):
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
+        codigo = '\n'.join(l for l in bloque.splitlines()
+                           if not l.lstrip().startswith('#'))
+        assert "!= 'ESPERAR'" in codigo, \
+            'vuelven a registrarse señales en caída libre (alfa medido ~-10%)'
+
+    def test_no_se_exige_ENTRADA(self):
+        """Exigir ENTRADA dejaría el sistema en 0 señales y no mejora:
+        VIGILAR rinde 76,0% vs 70,2% de ENTRADA en la muestra grande."""
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
+        codigo = '\n'.join(l for l in bloque.splitlines()
+                           if not l.lstrip().startswith('#'))
+        assert "== 'ENTRADA'" not in codigo, \
+            'exigir ENTRADA deja el sistema sin señales — basta con excluir ESPERAR'

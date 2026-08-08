@@ -134,6 +134,23 @@ class PortfolioTracker:
                     vdf = vdf[~vdf['sector'].isin(_EXCLUDED_SECTORS_VALUE)]
                 if 'market_regime' in vdf.columns:
                     vdf = vdf[vdf['market_regime'] == 'CONFIRMED_UPTREND']
+                # No se recomienda un cuchillo cayendo. `entry_readiness` es
+                # ESPERAR cuando el ticker está bajo una MA200 descendente, y
+                # entry_timing_backtest.py lo midió reconstruyendo el timing
+                # histórico de cada señal con precios ANTERIORES a su fecha:
+                #     30d limpio  ESPERAR 10,3% acierto vs 32,5% el resto
+                #     90d limpio  ESPERAR 20,8%          vs 54,5%
+                #     90d todo    ESPERAR 48,4%          vs 74,8%
+                # El alfa de ESPERAR es ~-10% en los tres cortes. Se sostiene en
+                # ambos periodos y ambos horizontes, que es el test que separa
+                # una señal real del ruido. Y eran el 62% de lo que se
+                # registraba: es la mayor fuga de rendimiento medida hasta ahora.
+                # No se exige ENTRADA porque VIGILAR rinde igual o mejor
+                # (76,0% vs 70,2% en la muestra grande) y exigirla dejaría el
+                # sistema en 0 señales — el screen encuentra los valores
+                # mientras caen, no cuando ya han confirmado.
+                if 'entry_readiness' in vdf.columns:
+                    vdf = vdf[vdf['entry_readiness'] != 'ESPERAR']
                 vdf = vdf.head(5)  # max 5 picks/día — calidad > cantidad
                 for _, row in vdf.iterrows():
                     ticker = str(row['ticker']).upper().strip()
