@@ -172,11 +172,28 @@ def scrape_openinsider_data():
                 if is_purchase:
                     value_pct = clean_percentage(value_raw)
                     
+                    # OJO: los nombres de estas columnas NO describen su
+                    # contenido — 'Ticker' lleva el timestamp, 'Insider' el
+                    # ticker, 'Title' la empresa y 'Date' el cargo. Es un
+                    # desfase histórico de una posición que ya consumen
+                    # build_insider_index.py y analyze_recurring_insiders.py;
+                    # renombrarlas rompería el índice entero, así que se deja
+                    # y se documenta.
+                    #
+                    # 'InsiderName' es nueva: el nombre se venía extrayendo
+                    # (cells[5]) y tirando. Sin él, analyze_recurring_insiders
+                    # contaba insiders únicos por CARGO, así que tres directores
+                    # distintos ('Dir', 'Dir', 'Dir') contaban como UNO y el
+                    # criterio de cluster (>=3 insiders en <=30 días) no se
+                    # disparaba. Caso real: BSX 4-6 ago 2026, el CEO metió ~9M$
+                    # y dos directores más compraron — 3 personas, contadas
+                    # como 2, cluster no detectado.
                     data_row = {
                         'Ticker': current_timestamp,
                         'Insider': ticker,
                         'Title': company[:100],
                         'Date': title[:50],
+                        'InsiderName': insider_name[:80],
                         'Type': 'P - Purchase',
                         'Price': str(price_float),
                         'Qty': str(qty_int),
@@ -229,13 +246,19 @@ def save_insider_data(data):
         df = pd.DataFrame(data)
         
         # Validar estructura
-        required_columns = ['Ticker', 'Insider', 'Title', 'Date', 'Type', 'Price', 'Qty', 'Owned', 'Value', 'Source', 'ScrapedAt']
+        required_columns = ['Ticker', 'Insider', 'Title', 'Date', 'InsiderName', 'Type', 'Price', 'Qty', 'Owned', 'Value', 'Source', 'ScrapedAt']
         for col in required_columns:
             if col not in df.columns:
                 df[col] = 'N/A'
         
         # Eliminar duplicados
-        df_dedup = df.drop_duplicates(subset=['Insider', 'Price', 'Qty'], keep='first')
+        # Con 'InsiderName' en la clave, dos personas distintas que compran el
+        # mismo día al mismo precio y cantidad dejan de contarse como duplicado
+        # — era otra vía por la que se perdían insiders de un mismo cluster.
+        _dedup_cols = ['Insider', 'Price', 'Qty']
+        if 'InsiderName' in df.columns:
+            _dedup_cols.append('InsiderName')
+        df_dedup = df.drop_duplicates(subset=_dedup_cols, keep='first')
         duplicates_removed = len(df) - len(df_dedup)
         if duplicates_removed > 0:
             print(f"🔄 Eliminados {duplicates_removed} duplicados")

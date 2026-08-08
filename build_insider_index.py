@@ -43,10 +43,19 @@ def build_insider_index():
                     continue
 
                 # Crear transacción
+                # Nombres de columna desfasados una posición en origen (ver
+                # comentario en insiders/openinsider_scraper.py): 'Title' es la
+                # empresa y 'Date' el cargo del insider.
                 transaction = {
                     'date': date,
                     'company': str(row['Title']),
                     'insider': str(row['Date']),
+                    # Nombre real de la persona. Los CSV anteriores al
+                    # 8-ago-2026 no lo traen; ahí queda None y quien cuente
+                    # insiders únicos debe caer al cargo.
+                    'insider_name': (str(row['InsiderName'])
+                                     if 'InsiderName' in row and pd.notna(row['InsiderName'])
+                                     else None),
                     'type': str(row['Type']),
                     'price': float(row['Price']) if pd.notna(row['Price']) else 0,
                     'qty': int(row['Qty']) if pd.notna(row['Qty']) else 0,

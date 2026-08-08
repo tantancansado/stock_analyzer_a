@@ -109,7 +109,17 @@ def analyze_recurring_purchases(df):
 
         ticker_counts[ticker]['count'] += 1
         ticker_counts[ticker]['dates'].append(date)
-        ticker_counts[ticker]['insiders'].add(insider_title)
+        # Identidad del insider: el NOMBRE si está, el cargo si no.
+        # Contar por cargo colapsa a tres directores distintos ('Dir', 'Dir',
+        # 'Dir') en UNO, y con ello el criterio de cluster (>=3 insiders en
+        # <=30 días) no se dispara. Caso real: BSX el 4-6 ago 2026 — el CEO
+        # metió ~9M$ y compraron dos directores más; 3 personas contadas como
+        # 2, cluster no detectado. Los CSV anteriores al 8-ago-2026 no traen
+        # nombre, así que ahí se sigue cayendo al cargo (sub-cuenta conocida).
+        _nombre = row.get('InsiderName')
+        ticker_counts[ticker]['insiders'].add(
+            str(_nombre).strip() if _nombre and str(_nombre).strip() not in ('', 'nan', 'N/A')
+            else f'cargo:{insider_title}')
         ticker_counts[ticker]['company'] = company  # Guardar nombre de empresa
         try:
             ticker_counts[ticker]['total_qty'] += float(qty)
