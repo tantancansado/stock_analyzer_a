@@ -480,10 +480,32 @@ class PortfolioTracker:
         # Conviction slice: golden zone historical (126 signals, 73% win rate, +5.1% avg 30d)
         conviction_df = golden_hist
 
-        # Sector analysis — golden zone historical (meaningful 30d data)
+        # Sector analysis — PERIODO LIMPIO, US VALUE.
+        #
+        # Antes salía de `golden_hist`, que es todo el histórico (79 señales
+        # contaminadas + 24 limpias). No es un matiz académico: este dict lo
+        # consume `super_score_integrator.py` para sumar o restar hasta 12
+        # puntos al value_score de cada ticker, así que un sesgo aquí mueve
+        # la lista publicada.
+        #
+        # Contrastado sector a sector, el periodo contaminado NO predice al
+        # limpio: correlación de win-rate entre ambos +0,26 (30d) y +0,41
+        # (90d) sobre los únicos 4 sectores con n>=15 en los dos — nada con
+        # esa muestra. Y el sesgo es sistemático, no ruido: TODOS los sectores
+        # rinden peor en limpio (Communication Services 65,3%→12,5%,
+        # Technology 63,0%→24,1% a 90d), porque el periodo contaminado
+        # registraba 30-80 señales sin filtrar al día, otra población.
+        # Con eso, Financial Services cobraba +5 puntos por un 74,6% que en
+        # datos limpios es 42,9%.
+        #
+        # US VALUE porque es a lo que el integrator aplica el ajuste, y sin el
+        # corte golden porque con él ningún sector llega a muestra mínima.
+        # Donde no haya muestra limpia suficiente no habrá ajuste, que es la
+        # respuesta correcta a "no lo sé".
         sector_perf = {}
-        for sector in golden_hist['sector'].unique():
-            sdf = golden_hist[(golden_hist['sector'] == sector) & golden_hist['return_30d'].notna()]
+        _sector_base = value_core[value_core['strategy'] == 'VALUE']
+        for sector in _sector_base['sector'].unique():
+            sdf = _sector_base[(_sector_base['sector'] == sector) & _sector_base['return_30d'].notna()]
             if len(sdf) >= 2:
                 sector_perf[sector] = {
                     'count': len(sdf),
@@ -565,6 +587,10 @@ class PortfolioTracker:
             # Mixed bases below — legend for JSON consumers (counts differ on purpose)
             'stats_basis': {
                 'clean_period': f'señales VALUE+EU_VALUE desde {CLEAN_FROM.date()} (filtrado correcto)',
+                'clean_period_us_value': (
+                    f'US VALUE desde {CLEAN_FROM.date()} — base del ajuste sectorial del '
+                    'integrator. Antes usaba golden_zone_hist (contaminado): su win-rate '
+                    'sectorial no predice al limpio (corr +0,26 a 30d) y lo infla en bloque'),
                 'golden_zone_hist': 'histórico US VALUE retroactivo: score>=60, RR>=2, upside 10-55% (único con datos 30d)',
                 'long_hist': 'golden zone US + histórico EU completo — incluye el periodo contaminado; más muestra, otra población',
                 'sections': {
@@ -573,7 +599,7 @@ class PortfolioTracker:
                     'conviction': 'golden_zone_hist',
                     'value_strategy.7d/14d': 'clean_period',
                     'value_strategy.30d': 'golden_zone_hist',
-                    'sector_performance': 'golden_zone_hist',
+                    'sector_performance': 'clean_period_us_value',
                     'score_correlation': 'golden_zone_hist',
                 },
             },

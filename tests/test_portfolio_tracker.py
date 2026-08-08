@@ -1109,3 +1109,45 @@ class TestRRNoEsUnFactorIndependiente:
         STOP = 8.0
         assert 2.0 * STOP == 16.0
         assert 3.5 * STOP == 28.0
+
+
+class TestAjusteSectorialSaleDeDatosLimpios:
+    """El ajuste sectorial mueve hasta 12 puntos del value_score publicado.
+
+    Salía de `golden_hist` = todo el histórico (79 señales contaminadas + 24
+    limpias). Contrastado sector a sector, ese periodo NO predice al limpio:
+    correlación de win-rate +0,26 (30d) / +0,41 (90d) sobre los únicos 4
+    sectores con n>=15 en ambos. Y el sesgo es sistemático, no ruido: todos
+    los sectores rinden peor en limpio, porque el contaminado registraba
+    30-80 señales sin filtrar al día — otra población.
+
+    Consecuencia real: Financial Services cobraba +5 por un 74,6% que en
+    datos limpios es 42,9% (n=14, ni llega a muestra mínima).
+    """
+
+    def test_sector_perf_no_sale_de_golden_hist(self):
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        i = src.index('sector_perf = {}')
+        bloque = src[i:i + 600]
+        codigo = '\n'.join(l for l in bloque.splitlines()
+                           if not l.lstrip().startswith('#'))
+        assert 'golden_hist' not in codigo, \
+            'el ajuste sectorial vuelve a calibrarse con el periodo contaminado'
+
+    def test_sector_perf_usa_el_periodo_limpio(self):
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        i = src.index('sector_perf = {}')
+        assert 'value_core[' in src[i:i + 400], \
+            'la base del ajuste sectorial debe ser value_core (periodo limpio)'
+
+    def test_stats_basis_declara_la_base_nueva(self):
+        """El JSON publicado no puede seguir diciendo que es golden_zone_hist."""
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        assert "'sector_performance': 'clean_period_us_value'" in src
+        assert "'clean_period_us_value':" in src, 'falta describir la base nueva'
