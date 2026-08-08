@@ -1054,3 +1054,58 @@ class TestFileIO:
         loaded = pd.read_csv(pt.RECOMMENDATIONS_FILE)
         assert loaded.iloc[0]['return_14d'] == 7.5
         assert loaded.iloc[0]['ticker'] == 'MSFT'
+
+
+class TestRRNoEsUnFactorIndependiente:
+    """`risk_reward_ratio` es `analyst_upside_pct / 8.0`, no un factor propio.
+
+    super_score_integrator.py lo calcula así (stop estándar del 8%), de modo que
+    correlaciona +1.0000 exacto con el upside sobre 1479 señales reales. Filtrar
+    por R:R era, por tanto, aplicar una banda de upside encubierta:
+        R:R >= 2.0  <=>  upside >= 16
+        R:R <= 3.5  <=>  upside <= 28
+    Esa banda [16, 28] pisaba a la declarada en value_bands.py y contradecía la
+    regla de CLAUDE.md ("las bandas viven en value_bands.py, NUNCA inline").
+
+    Efecto real medido en las 12 últimas señales US: todas entre 16,6 y 26,5 de
+    upside. Nada por debajo de 16 pese a estar en zona dorada, y WMT (26,5),
+    OTIS (26,3) y SPGI (25,3) registradas estando FUERA de ella — justo el tramo
+    que peor alfa da en el periodo limpio.
+    """
+
+    def test_rr_es_upside_entre_ocho(self):
+        """Si cambia la fórmula, el resto de este razonamiento deja de valer."""
+        from pathlib import Path
+        import super_score_integrator as ssi
+        src = Path(ssi.__file__).read_text()
+        assert "df['risk_reward_ratio'] = (df['_upside'] / stop_loss_pct)" in src, \
+            'la fórmula de R:R cambió — revisar si sigue siendo colineal con upside'
+
+    def test_el_tracker_no_filtra_por_rr(self):
+        """Filtrar por R:R reintroduce la banda encubierta.
+
+        Mira solo CODIGO: el comentario que explica por que se quito menciona
+        `_rr.between` a proposito, y no debe hacer saltar el test.
+        """
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
+        codigo = '\n'.join(l for l in bloque.splitlines()
+                            if not l.lstrip().startswith('#'))
+        assert '_rr' not in codigo, \
+            'vuelve a filtrarse por R:R: es una banda de upside inline disfrazada'
+
+    def test_el_tracker_usa_la_banda_dorada_de_value_bands(self):
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
+        assert 'UPSIDE_GOLDEN_MAX' in bloque and 'UPSIDE_MIN' in bloque, \
+            'la banda de registro debe venir de value_bands.py, no inline'
+
+    def test_la_banda_encubierta_era_realmente_16_28(self):
+        """Deja constancia numérica del razonamiento, por si alguien lo revisa."""
+        STOP = 8.0
+        assert 2.0 * STOP == 16.0
+        assert 3.5 * STOP == 28.0

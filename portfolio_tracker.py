@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 import json
 import time
 import argparse
-from value_bands import UPSIDE_MIN, UPSIDE_HARD_REJECT
+from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT
 
 
 TRACKER_DIR = Path('docs/portfolio_tracker')
@@ -100,10 +100,10 @@ class PortfolioTracker:
         # Record VALUE opportunities
         # Filtros calibrados con 767 señales reales (feb-may 2026):
         #   score 50-65: WR 62-67%, avg +2-3% — score >65 es peor (34% WR, -1.7%)
-        #   R:R 2-3x: WR 75%, avg +4.9% — sweet spot empírico
-        #   R:R >=5x: WR 31%, avg -2% — targets demasiado ambiciosos, evitar
         #   Sectores excluidos: Technology (WR 25%, -3.6%), Real Estate (WR 44%, -3.9%)
         #   Solo CONFIRMED_UPTREND: WR 56% vs 44% en CORRECTION
+        #   Upside: banda dorada de value_bands.py, fuente única (ver abajo por
+        #   qué se quitó el filtro de R:R que la pisaba)
         _EXCLUDED_SECTORS_VALUE = {'Technology', 'Real Estate'}
         value_path = Path('docs/value_opportunities.csv')
         if value_path.exists():
@@ -111,12 +111,25 @@ class PortfolioTracker:
             if not vdf.empty:
                 _score = pd.to_numeric(vdf.get('value_score', pd.Series(dtype=float)), errors='coerce')
                 vdf = vdf[_score.between(50.0, 65.0)]
-                if 'risk_reward_ratio' in vdf.columns:
-                    _rr = pd.to_numeric(vdf['risk_reward_ratio'], errors='coerce')
-                    vdf = vdf[_rr.between(2.0, 3.5)]
+                # OJO: `risk_reward_ratio` NO es un factor independiente —
+                # super_score_integrator.py:1264 lo calcula como
+                # `analyst_upside_pct / 8.0` (el stop estándar del 8%). Medido
+                # sobre 1479 señales reales: corr(RR, upside) = +1.0000 exacto.
+                # El filtro `_rr.between(2.0, 3.5)` que había aquí era, por
+                # tanto, una banda de upside [16, 28] hardcodeada inline y
+                # disfrazada de otra variable — justo lo que CLAUDE.md prohíbe
+                # ("las bandas viven en value_bands.py, NUNCA inline").
+                #
+                # Y pisaba a la banda declarada: las 12 últimas señales US van
+                # todas de 16,6 a 26,5 de upside. Nada por debajo de 16 llegaba
+                # a registrarse pese a estar en zona dorada, y WMT (26,5),
+                # OTIS (26,3) y SPGI (25,3) entraron estando FUERA de ella.
+                # En el periodo limpio el alfa decae de forma monótona según
+                # sube el upside, así que se estaba tirando lo mejor de la banda
+                # y quedándose con lo peor. Fuente única, sin doble conteo:
                 if 'analyst_upside_pct' in vdf.columns:
                     _up = pd.to_numeric(vdf['analyst_upside_pct'], errors='coerce')
-                    vdf = vdf[(_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)]
+                    vdf = vdf[(_up >= UPSIDE_MIN) & (_up < UPSIDE_GOLDEN_MAX)]
                 if 'sector' in vdf.columns:
                     vdf = vdf[~vdf['sector'].isin(_EXCLUDED_SECTORS_VALUE)]
                 if 'market_regime' in vdf.columns:
