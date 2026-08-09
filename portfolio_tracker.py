@@ -151,6 +151,27 @@ class PortfolioTracker:
                 # mientras caen, no cuando ya han confirmado.
                 if 'entry_readiness' in vdf.columns:
                     vdf = vdf[vdf['entry_readiness'] != 'ESPERAR']
+                # Suelo de caída: lo que ya ha caído demasiado sigue cayendo.
+                # Reconstruidas las ~150 columnas de las 767 señales US con
+                # retorno a 90d (desde los snapshots diarios de git), la
+                # distancia al máximo de 52 semanas es el factor con MÁS señal
+                # de todos, y del mismo signo en ambos periodos (corr con alpha
+                # +0,201 contaminado / +0,478 limpio). Por tramos, en limpio:
+                #     caída >40%   n=38   7,9% acierto   alpha -12,46
+                #     caída 10-20% n= 9    100% acierto   alpha  -1,51
+                # Barrido de umbrales: el suelo en -30% es donde el alpha de lo
+                # que queda toca fondo (-2,81 vs -5,32 con suelo en -40), y lo
+                # que se descarta rinde -11,83 con 14,8% de acierto.
+                # No es el upside disfrazado: corr(distancia, upside) = -0,44, y
+                # controlando por banda dorada la señal sigue viva (+0,143).
+                # OJO, no es monótono: pegado al máximo (0-10%) también es malo
+                # (alpha -5,35, 20,2% acierto). La zona buena es 10-30% de
+                # caída — por eso esto es un SUELO, no un "cuanto más cerca del
+                # máximo mejor".
+                _CAIDA_MAX_PCT = -30.0
+                if 'proximity_to_52w_high' in vdf.columns:
+                    _prox = pd.to_numeric(vdf['proximity_to_52w_high'], errors='coerce')
+                    vdf = vdf[_prox.isna() | (_prox >= _CAIDA_MAX_PCT)]
                 vdf = vdf.head(5)  # max 5 picks/día — calidad > cantidad
                 for _, row in vdf.iterrows():
                     ticker = str(row['ticker']).upper().strip()

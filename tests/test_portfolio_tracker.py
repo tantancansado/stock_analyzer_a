@@ -1210,3 +1210,56 @@ class TestNoSeRecomiendaUnCuchilloCayendo:
                            if not l.lstrip().startswith('#'))
         assert "== 'ENTRADA'" not in codigo, \
             'exigir ENTRADA deja el sistema sin señales — basta con excluir ESPERAR'
+
+
+class TestSueloDeCaida:
+    """Lo que ya ha caído demasiado sigue cayendo.
+
+    Reconstruidas las ~150 columnas de las 767 señales US con retorno a 90d,
+    tomándolas de los snapshots diarios de value_opportunities.csv en git
+    (misma técnica que entry_timing_backtest: solo datos anteriores a la
+    señal). La distancia al máximo de 52 semanas resultó el factor con más
+    señal de todos, y del mismo signo en ambos periodos: corr con alpha
+    +0,201 contaminado / +0,478 limpio.
+
+    Por tramos, periodo limpio:
+        caída >40%    n=38    7,9% acierto   alpha -12,46
+        caída 10-20%  n= 9     100% acierto  alpha  -1,51
+
+    No es el upside disfrazado: corr(distancia, upside) = -0,44, y
+    controlando por banda dorada la señal sigue viva (+0,143).
+    """
+
+    def test_hay_suelo_de_caida(self):
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
+        codigo = '\n'.join(l for l in bloque.splitlines()
+                           if not l.lstrip().startswith('#'))
+        assert '_CAIDA_MAX_PCT' in codigo and 'proximity_to_52w_high' in codigo, \
+            'sin suelo de caída vuelven a entrar los cuchillos ya clavados'
+
+    def test_el_suelo_esta_donde_lo_puso_el_barrido(self):
+        """-30% es donde el alpha de lo que queda toca fondo (-2,81 vs -5,32
+        con el suelo en -40). Moverlo sin rehacer el barrido es adivinar."""
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        i = src.index('_CAIDA_MAX_PCT = ')
+        valor = float(src[i:i + 40].split('=')[1].split('\n')[0].strip())
+        assert -40.0 <= valor <= -25.0, \
+            f'suelo en {valor}: fuera del rango que respaldan los datos'
+
+    def test_no_es_monotono_no_se_exige_estar_en_maximos(self):
+        """Pegado al máximo (0-10% de caída) también rinde mal: alpha -5,35 y
+        20,2% de acierto. La zona buena es 10-30%, así que esto debe ser un
+        SUELO, nunca un 'cuanto más cerca del máximo, mejor'."""
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        bloque = src[src.index('def record_signals'):src.index('# Record MOMENTUM')]
+        codigo = '\n'.join(l for l in bloque.splitlines()
+                           if not l.lstrip().startswith('#'))
+        # el filtro debe ser >= suelo, no un techo tipo <= -5
+        assert '_prox >= _CAIDA_MAX_PCT' in codigo
