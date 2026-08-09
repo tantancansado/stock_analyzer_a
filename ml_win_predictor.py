@@ -113,10 +113,21 @@ def _prob_label(prob: float) -> str:
     return 'BAJA'
 
 
+# `sector_wr` y `regime_x_sector` NO están: eran FUGA DE TARGET. `sector_wr` se
+# calculaba promediando el propio TARGET por sector sobre todo el dataset
+# (_build_features, rama fit) y se usaba luego como feature, así que el modelo
+# veía el resultado medio de las filas con las que se le evaluaba. Eran, además,
+# las features nº1 y nº3 por importancia — el modelo se apoyaba justo en el
+# atajo. Medido entrenando en el periodo contaminado y probando en el limpio:
+#     con sector_wr    ROC-AUC 0,589   (moneda al aire es 0,50)
+#     sin sector_wr    ROC-AUC 0,677
+# O sea que la fuga no solo inflaba la métrica publicada: empeoraba el modelo
+# de verdad, porque los win-rates sectoriales del pasado NO transfieren (medido
+# aparte: correlación +0,26 entre el win-rate sectorial de ambos periodos).
 FEATURE_COLS = [
     'value_score', 'value_score_sq',
     'analyst_upside_pct', 'risk_reward_ratio',
-    'fcf_yield_pct', 'sector_wr', 'regime_num', 'regime_x_sector',
+    'fcf_yield_pct', 'regime_num',
     'score_gte_65', 'score_gte_75',
     'rr_gte_2', 'rr_gte_3', 'upside_gte_30',
     'fcf_positive', 'fcf_gte_5',
@@ -136,7 +147,7 @@ def _load_training_data() -> pd.DataFrame:
 def _train(df: pd.DataFrame):
     from xgboost import XGBClassifier
     from sklearn.calibration import CalibratedClassifierCV
-    from sklearn.model_selection import StratifiedKFold, cross_val_score
+    from sklearn.model_selection import cross_val_score
 
     X = _build_features(df, fit=True)[FEATURE_COLS]
     y = df[TARGET].values
@@ -156,9 +167,23 @@ def _train(df: pd.DataFrame):
     model = CalibratedClassifierCV(base, cv=3, method='isotonic')
     model.fit(X, y)
 
-    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-    cv_auc   = float(cross_val_score(model, X, y, cv=cv, scoring='roc_auc').mean())
-    cv_brier = float(-cross_val_score(model, X, y, cv=cv, scoring='neg_brier_score').mean())
+    # Validación TEMPORAL, no aleatoria. Con StratifiedKFold(shuffle=True) las
+    # señales de un mismo día caían a la vez en train y test, y como comparten
+    # el movimiento de mercado de ese día el modelo las acertaba por memorizar
+    # el día, no el valor. Eso daba un ROC-AUC de 0,877 que no existe: medido
+    # fuera de tiempo el real es 0,677.
+    #
+    # TimeSeriesSplit respeta el orden: cada fold entrena con el pasado y
+    # evalúa con el futuro, que es como se usa el modelo en producción.
+    from sklearn.model_selection import TimeSeriesSplit
+    if 'signal_date' in df.columns:
+        orden = pd.to_datetime(df['signal_date'], errors='coerce').values.argsort()
+    else:
+        orden = np.arange(len(y))
+    x_ord, y_ord = X.iloc[orden], y[orden]
+    cv = TimeSeriesSplit(n_splits=5)
+    cv_auc   = float(cross_val_score(model, x_ord, y_ord, cv=cv, scoring='roc_auc').mean())
+    cv_brier = float(-cross_val_score(model, x_ord, y_ord, cv=cv, scoring='neg_brier_score').mean())
 
     importances: dict = {}
     try:

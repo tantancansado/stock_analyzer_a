@@ -859,3 +859,49 @@ class TestConsumidoresAceptanVacio:
         df = pd.DataFrame({'ticker': ['X'], 'fundamental_score': [float('nan')],
                            'value_score': [0.0]})
         assert _fund_contribution(df)['value_score'].iloc[0] == pytest.approx(0.0)
+
+
+class TestMLSinFugaDeTarget:
+    """`sector_wr` era FUGA DE TARGET y no puede volver a ser feature.
+
+    _build_features lo calculaba promediando el propio TARGET por sector sobre
+    TODO el dataset y lo usaba como variable de entrada, así que el modelo veía
+    el resultado medio de las filas con las que se le evaluaba. Era la feature
+    nº3 por importancia, y `regime_x_sector` (su producto) la nº1.
+
+    Medido entrenando en el periodo contaminado y evaluando en el limpio:
+        con sector_wr    ROC-AUC 0,589   (0,50 = moneda al aire)
+        sin sector_wr    ROC-AUC 0,677
+    La fuga no solo inflaba la métrica publicada (0,877): empeoraba el modelo
+    real, porque los win-rates sectoriales del pasado no transfieren.
+    """
+
+    def test_sector_wr_no_es_feature(self):
+        import ml_win_predictor as ml
+        assert 'sector_wr' not in ml.FEATURE_COLS, \
+            'sector_wr se calcula del TARGET — como feature es fuga'
+        assert 'regime_x_sector' not in ml.FEATURE_COLS, \
+            'regime_x_sector es regime * sector_wr — arrastra la misma fuga'
+
+    def test_ninguna_feature_deriva_del_target(self):
+        """Red genérica: nada que se calcule del target puede ser feature."""
+        import ml_win_predictor as ml
+        from pathlib import Path
+        src = Path(ml.__file__).read_text()
+        derivadas = set()
+        for linea in src.splitlines():
+            if f"[{ml.TARGET}]" in linea or f"'{ml.TARGET}'" in linea:
+                if 'groupby' in linea and 'mean' in linea:
+                    derivadas.add('sector_wr')
+        assert not (derivadas & set(ml.FEATURE_COLS)), \
+            f'features derivadas del target: {derivadas & set(ml.FEATURE_COLS)}'
+
+    def test_validacion_es_temporal_no_aleatoria(self):
+        """Señales del mismo día comparten el movimiento de mercado: barajarlas
+        entre train y test deja que el modelo memorice el día."""
+        from pathlib import Path
+        import ml_win_predictor as ml
+        src = Path(ml.__file__).read_text()
+        assert 'TimeSeriesSplit' in src, 'la validación debe respetar el orden temporal'
+        assert 'StratifiedKFold(n_splits=5, shuffle=True' not in src, \
+            'CV barajado sobre serie temporal: infla el AUC con fuga de día'
