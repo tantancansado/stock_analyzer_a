@@ -905,3 +905,44 @@ class TestMLSinFugaDeTarget:
         assert 'TimeSeriesSplit' in src, 'la validación debe respetar el orden temporal'
         assert 'StratifiedKFold(n_splits=5, shuffle=True' not in src, \
             'CV barajado sobre serie temporal: infla el AUC con fuga de día'
+
+
+class TestScraperInsidersNoTrunca:
+    """El tope de filas tiraba compras reales de forma permanente.
+
+    `cnt=100` devolvía solo las 100 declaraciones más recientes de TODO el
+    mercado en 7 días. En una semana movida hay varios cientos, y como el
+    scraper corre una vez al día, lo que se cae no vuelve nunca.
+
+    Caso real BSX: los consejeros compraron en mayo-2026 (Habiger 2.200 acc.
+    a 56,95$, Ludwig 3.580 a 56,68$, Pegus 1.770 a 56,49$) y REPITIERON en
+    agosto a 47-48$. El índice solo tenía las de agosto — las de mayo, más
+    pequeñas, no entraron en el top-100 de su semana. Se veía una compra
+    puntual donde había una acumulación sostenida de meses, que es la señal
+    de insider más valiosa que existe.
+    """
+
+    def _src(self):
+        from pathlib import Path
+        return (Path(__file__).resolve().parent.parent /
+                'insiders' / 'openinsider_scraper.py').read_text()
+
+    def test_el_cupo_de_filas_no_es_100(self):
+        import re
+        m = re.search(r'CNT\s*=\s*(\d+)', self._src())
+        assert m, 'no se encuentra el cupo de filas'
+        assert int(m.group(1)) >= 500, \
+            f'cnt={m.group(1)}: vuelve a tirar compras pequeñas en semanas movidas'
+
+    def test_avisa_si_se_trunca(self):
+        """Un tope alcanzado en silencio es el mismo bug con otro número."""
+        src = self._src()
+        assert 'TRUNCADO' in src and '>= CNT' in src, \
+            'sin aviso de truncamiento el fallo vuelve a ser silencioso'
+
+    def test_captura_nombre_y_fecha_de_operacion(self):
+        src = self._src()
+        assert "'InsiderName': insider_name" in src, \
+            'sin nombre no se pueden contar personas distintas en un cluster'
+        assert "'TradeDate': trade_date" in src, \
+            'sin fecha de operación la deduplicación no distingue re-scrapeos'

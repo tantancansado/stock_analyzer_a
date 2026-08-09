@@ -78,8 +78,23 @@ def scrape_openinsider_data():
     print(f"📅 Fecha: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     try:
-        # URL para obtener más datos reales
-        url = "http://openinsider.com/screener?s=&o=&pl=&ph=&ll=&lh=&fd=7&fdr=&td=0&tdr=&fdlyl=&fdlyh=&daysago=&xp=1&vl=&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=0&cnt=100&page=1"
+        # `cnt` era 100, y ese tope tiraba compras reales de forma permanente.
+        # El screener devuelve las declaraciones de los ultimos 7 dias (fd=7)
+        # de TODO el mercado ordenadas por fecha: en una semana movida hay
+        # varios cientos, asi que a partir de la fila 100 se perdian — y como
+        # el scraper solo corre una vez al dia, lo que se cae no vuelve nunca.
+        #
+        # Caso real que lo destapo: BSX. Los consejeros compraron en mayo-2026
+        # (Habiger 2.200 acciones a 56,95$, Ludwig 3.580 a 56,68$, Pegus 1.770
+        # a 56,49$) y REPITIERON en agosto a 47-48$. Promediar a la baja
+        # durante meses es la señal de insider mas valiosa que existe, y el
+        # indice solo tenia las de agosto: las de mayo, mas pequeñas, no
+        # entraron en el top-100 de su semana. Se veia una compra puntual
+        # donde habia una acumulacion sostenida.
+        CNT = 1000
+        url = ("http://openinsider.com/screener?s=&o=&pl=&ph=&ll=&lh=&fd=7&fdr=&td=0&tdr="
+               "&fdlyl=&fdlyh=&daysago=&xp=1&vl=&vh=&ocl=&och=&sic1=-1&sicl=100&sich=9999"
+               f"&grp=0&nfl=&nfh=&nil=&nih=&nol=&noh=&v2l=&v2h=&oc2l=&oc2h=&sortcol=0&cnt={CNT}&page=1")
         
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -117,7 +132,15 @@ def scrape_openinsider_data():
         if len(rows) < 2:
             print("❌ Tabla sin datos")
             return None
-            
+
+        # Si volvemos con el cupo lleno, es que había MÁS y se ha cortado. Antes
+        # esto pasaba en silencio con cnt=100 y las compras que se caían no
+        # volvían nunca (el scraper corre una vez al día). Que se vea.
+        _filas_datos = len(rows) - 1
+        if _filas_datos >= CNT:
+            print(f"⚠️  TRUNCADO: OpenInsider devolvió {_filas_datos} filas con cnt={CNT}. "
+                  f"Hay declaraciones que NO se están capturando — subir CNT o paginar.")
+
         print(f"📊 Procesando {len(rows)} filas para datos reales...")
         
         data = []
