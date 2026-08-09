@@ -131,6 +131,15 @@ def scrape_openinsider_data():
             try:
                 # Usar estructura estándar de OpenInsider
                 if len(cells) >= 13:
+                    # cells[1] = Filing Date, cells[2] = Trade Date. Ninguna de
+                    # las dos se capturaba, así que la 'date' del índice era la
+                    # fecha de SCRAPEO. Como el scraper pide los últimos 7 días
+                    # (fd=7) y build_insider_index concatena todos los CSV
+                    # diarios, la MISMA operación entraba hasta 7 veces con
+                    # fechas distintas: 59,7% del índice eran duplicados
+                    # (16.868 compras registradas -> 6.794 reales).
+                    filing_date = cells[1].get_text(strip=True)[:10]
+                    trade_date = cells[2].get_text(strip=True)[:10]
                     ticker = cells[3].get_text(strip=True).upper()
                     company = cells[4].get_text(strip=True)
                     insider_name = cells[5].get_text(strip=True)
@@ -194,6 +203,8 @@ def scrape_openinsider_data():
                         'Title': company[:100],
                         'Date': title[:50],
                         'InsiderName': insider_name[:80],
+                        'TradeDate': trade_date,
+                        'FilingDate': filing_date,
                         'Type': 'P - Purchase',
                         'Price': str(price_float),
                         'Qty': str(qty_int),
@@ -246,7 +257,7 @@ def save_insider_data(data):
         df = pd.DataFrame(data)
         
         # Validar estructura
-        required_columns = ['Ticker', 'Insider', 'Title', 'Date', 'InsiderName', 'Type', 'Price', 'Qty', 'Owned', 'Value', 'Source', 'ScrapedAt']
+        required_columns = ['Ticker', 'Insider', 'Title', 'Date', 'InsiderName', 'TradeDate', 'FilingDate', 'Type', 'Price', 'Qty', 'Owned', 'Value', 'Source', 'ScrapedAt']
         for col in required_columns:
             if col not in df.columns:
                 df[col] = 'N/A'
@@ -255,9 +266,13 @@ def save_insider_data(data):
         # Con 'InsiderName' en la clave, dos personas distintas que compran el
         # mismo día al mismo precio y cantidad dejan de contarse como duplicado
         # — era otra vía por la que se perdían insiders de un mismo cluster.
+        # Identidad de una operación REAL = ticker + persona + fecha de
+        # operación + precio + cantidad. Sin TradeDate la misma compra volvía a
+        # entrar cada día que el scraper la reencontraba en su ventana de 7 días.
         _dedup_cols = ['Insider', 'Price', 'Qty']
-        if 'InsiderName' in df.columns:
-            _dedup_cols.append('InsiderName')
+        for _c in ('InsiderName', 'TradeDate'):
+            if _c in df.columns:
+                _dedup_cols.append(_c)
         df_dedup = df.drop_duplicates(subset=_dedup_cols, keep='first')
         duplicates_removed = len(df) - len(df_dedup)
         if duplicates_removed > 0:

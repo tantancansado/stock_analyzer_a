@@ -47,7 +47,18 @@ def build_insider_index():
                 # comentario en insiders/openinsider_scraper.py): 'Title' es la
                 # empresa y 'Date' el cargo del insider.
                 transaction = {
-                    'date': date,
+                    # `date` era la fecha de SCRAPEO, no la de la operación: el
+                    # scraper pide los últimos 7 días y este bucle concatena
+                    # todos los CSV diarios, así que la misma compra entraba
+                    # hasta 7 veces con fechas distintas (59,7% del índice eran
+                    # duplicados: 16.868 compras registradas, 6.794 reales).
+                    # Se usa TradeDate cuando está; los CSV anteriores al
+                    # 8-ago-2026 no la traen y ahí se cae a la de scrapeo.
+                    'date': (str(row['TradeDate'])
+                             if 'TradeDate' in row and pd.notna(row['TradeDate'])
+                             and str(row['TradeDate']).strip() not in ('', 'nan', 'N/A')
+                             else date),
+                    'scraped_date': date,
                     'company': str(row['Title']),
                     'insider': str(row['Date']),
                     # Nombre real de la persona. Los CSV anteriores al
@@ -69,6 +80,31 @@ def build_insider_index():
     # Convertir a formato JSON-friendly
     output = {}
     for ticker, transactions in index.items():
+        # Deduplicar: la misma operación aparece en cada CSV diario mientras
+        # sigue dentro de la ventana de 7 días del scraper. Identidad de una
+        # operación real = persona + fecha de operación + precio + cantidad.
+        # Sin esto el índice inflaba las compras un 59,7% y disparaba el
+        # criterio de "compras recurrentes" (>=2) con UNA sola operación
+        # rescrapeada — 562 tickers marcados sin merecerlo.
+        # La fecha NO entra en la clave a propósito: los CSV anteriores al
+        # 8-ago-2026 no traen TradeDate, así que su `date` es la de scrapeo y
+        # difiere entre copias de la misma operación — incluirla no
+        # deduplicaría nada del histórico. Persona + precio + cantidad basta:
+        # que alguien compre la misma cantidad exacta al mismo precio AL
+        # CÉNTIMO en dos días distintos es re-scrapeo, no dos compras (el
+        # precio se mueve). Se conserva la copia más reciente, que con
+        # TradeDate ya trae la fecha real de la operación.
+        vistas = set()
+        unicas = []
+        for t in transactions:
+            clave = (t.get('insider_name') or t.get('insider'),
+                     t.get('price'), t.get('qty'), t.get('type'))
+            if clave in vistas:
+                continue
+            vistas.add(clave)
+            unicas.append(t)
+        transactions = unicas
+
         # Calcular stats
         purchases = [t for t in transactions if 'P -' in t['type']]
         sales = [t for t in transactions if 'S -' in t['type']]
