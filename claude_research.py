@@ -148,7 +148,14 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
         return '', []
 
     except Exception as e:
-        print(f'   ⚠️  Claude no disponible ({str(e)[:80]})')
+        # Distinguir "sin saldo" del resto: un fallo de red se reintenta solo
+        # mañana, uno de facturación no se arregla solo y hay que avisar.
+        from claude_budget import es_error_de_credito, registrar_fallo_credito
+        if es_error_de_credito(e):
+            registrar_fallo_credito(str(e))
+            print(f'   🔴 CLAUDE SIN SALDO — se avisará en el briefing ({str(e)[:80]})')
+        else:
+            print(f'   ⚠️  Claude no disponible ({str(e)[:80]})')
         return '', []
 
 

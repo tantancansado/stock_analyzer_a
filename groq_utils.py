@@ -174,5 +174,10 @@ def claude_chat(
         # daily_briefing) trata la ausencia de respuesta como "sin veredicto" y
         # sigue. Propagar aquí haría que una caída de la API tumbase el paso
         # crítico del pipeline, que es justo lo que pasó el 3-ago-2026.
-        logger.warning("claude_chat(%s): %s", model, exc)
+        from claude_budget import es_error_de_credito, registrar_fallo_credito
+        if es_error_de_credito(exc):
+            registrar_fallo_credito(str(exc))
+            logger.error("claude_chat(%s): SIN SALDO — %s", model, exc)
+        else:
+            logger.warning("claude_chat(%s): %s", model, exc)
         return None

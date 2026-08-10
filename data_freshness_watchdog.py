@@ -127,6 +127,35 @@ def find_problems() -> tuple[list[dict], bool]:
     problems: list[dict] = []
     health_stale = False
 
+    # 0. Saldo de la API de Claude. Va aquí y no solo en el briefing porque el
+    #    briefing lo redacta la propia Claude: si el fallo es de saldo, el
+    #    aviso viajaría en el mensaje que ese fallo puede impedir. Este
+    #    watchdog es un workflow SEPARADO — es el único sitio desde el que el
+    #    aviso llega seguro.
+    try:
+        from claude_budget import estado_alerta
+        cb = estado_alerta()
+        if cb["sin_credito"]:
+            problems.append({
+                "module": "claude_saldo",
+                "status": "sin_credito",
+                "critical": True,
+                "detail": (f"La API de Claude rechaza por saldo desde "
+                           f"{(cb['sin_credito_desde'] or '')[:10]} — el análisis de por qué "
+                           f"cae cada valor sirve solo veredictos ya cacheados"),
+            })
+        elif cb["tope_alcanzado"]:
+            problems.append({
+                "module": "claude_saldo",
+                "status": "tope_mensual",
+                "critical": False,
+                "detail": (f"Tope mensual alcanzado: ${cb['gastado_usd']:.2f} de "
+                           f"${cb['tope_usd']:.0f}. No se compran análisis nuevos "
+                           f"hasta el día 1; se sirve la caché"),
+            })
+    except Exception:
+        pass   # el estado de presupuesto nunca debe impedir el resto del chequeo
+
     # 1. ¿El propio health está fresco? (el pipeline entero corrió hoy)
     gen = _parse_iso(health.get("generated_at", ""))
     if gen is None:

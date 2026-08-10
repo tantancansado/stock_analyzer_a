@@ -125,8 +125,71 @@ def registrar_uso(respuesta, modelo: str) -> float:
     if stu is not None:
         d['busquedas'] = int(d.get('busquedas', 0)) + (getattr(stu, 'web_search_requests', 0) or 0)
     d['ultima_llamada'] = datetime.now(timezone.utc).isoformat()
+    # Una llamada que cobra es la prueba de que hay saldo otra vez. Sin esto el
+    # aviso de "sin saldo" se queda pegado para siempre y miente en cuanto el
+    # usuario recarga — y un aviso que miente se aprende a ignorar.
+    d.pop('sin_credito', None)
+    d.pop('sin_credito_desde', None)
+    d.pop('sin_credito_mensaje', None)
     _escribir(d)
     return c
+
+
+def registrar_fallo_credito(mensaje: str) -> None:
+    """Marca que la API rechazó por saldo/facturación, no por otra cosa.
+
+    Sin esto el fallo es mudo: los clientes capturan la excepción y devuelven
+    vacío, el pipeline sigue con `continue-on-error` y la app publica listas sin
+    why_cheap con la misma cara de siempre. El usuario se entera semanas después.
+    """
+    d = _leer()
+    d['sin_credito'] = True
+    d['sin_credito_desde'] = d.get('sin_credito_desde') or datetime.now(timezone.utc).isoformat()
+    d['sin_credito_mensaje'] = str(mensaje)[:200]
+    _escribir(d)
+
+
+def es_error_de_credito(exc: Exception) -> bool:
+    """¿Este fallo es de saldo, o es otra cosa (red, rate limit, 500)?"""
+    m = str(exc).lower()
+    return any(s in m for s in (
+        'credit balance', 'insufficient', 'billing', 'quota',
+        'payment', 'plans & billing', 'too low',
+    ))
+
+
+def estado_alerta() -> dict:
+    """Lo que necesita saber quien avise al usuario (briefing, watchdog)."""
+    d = _leer()
+    g = float(d.get('gastado_usd', 0.0))
+    return {
+        'gastado_usd': round(g, 2),
+        'tope_usd': TOPE_USD,
+        'pct': round(100 * g / TOPE_USD, 0) if TOPE_USD else 0,
+        'tope_alcanzado': not hay_presupuesto(esencial=True),
+        'sin_credito': bool(d.get('sin_credito')),
+        'sin_credito_desde': d.get('sin_credito_desde'),
+        'llamadas': d.get('llamadas', 0),
+    }
+
+
+def linea_para_briefing() -> str | None:
+    """Una línea para el mensaje diario. None si no hay nada que contar.
+
+    Solo habla cuando importa — el usuario odia el ruido: sin saldo, tope
+    alcanzado, o por encima del 80%. En uso normal no dice nada.
+    """
+    e = estado_alerta()
+    if e['sin_credito']:
+        desde = (e['sin_credito_desde'] or '')[:10]
+        return (f"🔴 <b>Claude sin saldo</b> desde {desde} — el análisis de por qué "
+                f"cae cada valor está DESACTIVADO hasta que recargues")
+    if e['tope_alcanzado']:
+        return (f"🟠 <b>Tope de Claude alcanzado</b> (${e['gastado_usd']:.2f} de "
+                f"${e['tope_usd']:.0f} este mes) — why_cheap pausado hasta el día 1")
+    if e['pct'] >= 80:
+        return f"🟡 Claude: ${e['gastado_usd']:.2f} de ${e['tope_usd']:.0f} ({e['pct']:.0f}%)"
+    return None
 
 
 def resumen() -> str:

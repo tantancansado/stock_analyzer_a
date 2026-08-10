@@ -77,11 +77,22 @@ def _leer_cache() -> dict:
         return {}
 
 
-def _cache_vigente(entrada: dict) -> bool:
+def _cache_vigente(entrada: dict, sin_presupuesto: bool = False) -> bool:
+    """¿Sirve esta entrada de caché?
+
+    Con presupuesto: caduca a los CACHE_DIAS y se refresca.
+    SIN presupuesto: vale cualquiera. Contener el gasto es dejar de COMPRAR
+    análisis nuevos, no borrar los que ya se pagaron. Un veredicto de hace tres
+    semanas sigue explicando por qué cayó la empresa mucho mejor que una casilla
+    vacía — y el motivo de una caída no caduca a los 14 días, ese plazo es para
+    refrescar, no para invalidar.
+    """
     try:
         f = dt.date.fromisoformat(str(entrada.get('fecha', ''))[:10])
     except Exception:
         return False
+    if sin_presupuesto:
+        return True
     return (dt.date.today() - f).days < CACHE_DIAS
 
 
@@ -139,6 +150,17 @@ def main() -> None:
     cache = _leer_cache()
     orden = candidatos.sort_values('value_score', ascending=False)
 
+    # Sin presupuesto NO se apaga la sección: se deja de comprar análisis
+    # nuevos y se sirve lo ya pagado, aunque esté caducado. Contener el gasto
+    # no es romper la app un día al mes.
+    from claude_budget import hay_presupuesto, estado_alerta
+    sin_presu = not hay_presupuesto(coste_estimado=0.15)
+    if sin_presu:
+        e = estado_alerta()
+        motivo = 'SIN SALDO en la API' if e['sin_credito'] else f"tope mensual (${e['gastado_usd']:.2f}/${e['tope_usd']:.0f})"
+        print(f'[enrich_why_cheap] {motivo} — no se compran análisis nuevos; '
+              f'se sirven los {len(cache)} veredictos ya en caché')
+
     # Lo que ya está en caché y vigente se reaplica gratis; solo se compran
     # análisis de lo que falta. Esto es lo que baja el gasto sin perder nada:
     # la tesis de por qué una empresa está barata no caduca en 24 horas.
@@ -148,7 +170,7 @@ def main() -> None:
     for _, r in orden.iterrows():
         t = str(r['ticker']).upper()
         e = cache.get(t)
-        if e and _cache_vigente(e):
+        if e and _cache_vigente(e, sin_presu):
             veredictos_por_csv[r['origen_csv']][t] = {
                 'veredicto': e.get('veredicto'), 'resumen': e.get('resumen', ''),
                 'fuentes': e.get('fuentes', []),
@@ -156,7 +178,9 @@ def main() -> None:
             from_cache += 1
         else:
             pendientes.append(r)
-    cand = pd.DataFrame(pendientes[:MAX_TICKERS]) if pendientes else pd.DataFrame()
+    # Sin presupuesto no se analiza nada nuevo — solo se reaplica la caché.
+    cand = pd.DataFrame() if sin_presu else (
+        pd.DataFrame(pendientes[:MAX_TICKERS]) if pendientes else pd.DataFrame())
 
     print(f'[enrich_why_cheap] {len(orden)} candidatos · {from_cache} desde caché '
           f'(<{CACHE_DIAS}d) · {len(cand)} a analizar · presupuesto {PRESUPUESTO_SEG}s')

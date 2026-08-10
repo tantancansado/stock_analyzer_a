@@ -282,8 +282,22 @@ def main() -> None:
 
     texto = build_message(facts)
     if not texto:
-        print('  Claude no disponible — no se manda nada (el briefing sin redactar no sirve)')
+        print('  Ni Claude ni Groq disponibles — no se manda nada (el briefing sin redactar no sirve)')
         return
+
+    # Aviso de saldo/tope AL FINAL del mensaje. Va aquí y no en un canal aparte
+    # porque el briefing es lo único que el usuario lee a diario: un tope que se
+    # agota en los logs de CI es un fallo silencioso, que es el patrón nº1 de
+    # este repo. Solo habla cuando hay algo que contar (sin saldo, tope
+    # alcanzado o >80%); en uso normal no añade ruido.
+    try:
+        from claude_budget import linea_para_briefing
+        aviso = linea_para_briefing()
+        if aviso:
+            texto = f'{texto}\n\n{aviso}'
+            print(f'  ⚠️  aviso de presupuesto añadido: {aviso[:60]}')
+    except Exception as e:
+        print(f'  (no se pudo leer el estado de presupuesto: {e})')
 
     (DOCS / 'daily_briefing.json').write_text(json.dumps(
         {'fecha': facts['fecha'], 'texto': texto, 'hechos': facts},

@@ -83,3 +83,69 @@ class TestEnganchado:
         """Cada continuación reenvía el contexto entero — duplica el coste."""
         import claude_research as cr
         assert cr.MAX_CONTINUATIONS == 1
+
+
+class TestAvisar:
+    """Quedarse sin saldo tiene que NOTARSE.
+
+    El fallo real del 10-ago-2026 no fue gastar de más: fue que la app siguió
+    publicando listas con la misma cara mientras el análisis de por qué cae
+    cada valor estaba muerto. Un tope que se agota en los logs de CI es un
+    fallo silencioso — el patrón nº1 de este repo.
+    """
+
+    def test_en_uso_normal_no_dice_nada(self):
+        cb.registrar_uso(_resp(inp=1_000, out=100, busq=0), 'claude-sonnet-5')
+        assert cb.linea_para_briefing() is None
+
+    def test_avisa_al_pasar_del_80_pct(self, monkeypatch):
+        monkeypatch.setattr(cb, 'TOPE_USD', 1.0)
+        cb._escribir({'mes': cb._mes_actual(), 'gastado_usd': 0.85})
+        aviso = cb.linea_para_briefing()
+        assert aviso and '0.85' in aviso
+
+    def test_sin_saldo_manda_sobre_el_porcentaje(self):
+        """Gastado $0 pero la API rechaza por facturación: eso es lo que urge."""
+        cb.registrar_fallo_credito('credit balance is too low')
+        aviso = cb.linea_para_briefing()
+        assert aviso and 'sin saldo' in aviso.lower()
+
+    def test_el_aviso_se_apaga_al_recargar(self):
+        """Una llamada que cobra prueba que hay saldo. Un aviso que se queda
+        pegado tras recargar se aprende a ignorar, y entonces ya no avisa de nada."""
+        cb.registrar_fallo_credito('credit balance is too low')
+        assert cb.linea_para_briefing()
+        cb.registrar_uso(_resp(inp=1_000, out=100, busq=0), 'claude-sonnet-5')
+        assert cb.linea_para_briefing() is None
+
+    def test_distingue_saldo_de_un_fallo_de_red(self):
+        assert cb.es_error_de_credito(Exception('Your credit balance is too low'))
+        assert cb.es_error_de_credito(Exception('billing: quota exceeded'))
+        assert not cb.es_error_de_credito(Exception('Connection reset by peer'))
+        assert not cb.es_error_de_credito(Exception('429 rate_limit_error'))
+
+    def test_el_watchdog_tambien_mira_el_saldo(self):
+        """El briefing lo redacta la propia Claude: si el fallo es de saldo, el
+        aviso viajaría en el mensaje que ese fallo puede impedir. El watchdog
+        es un workflow aparte — la única vía que no depende de la API."""
+        from pathlib import Path
+        import data_freshness_watchdog as w
+        assert 'estado_alerta' in Path(w.__file__).read_text()
+
+
+class TestDegradarNoRomper:
+    """Contener el gasto es dejar de COMPRAR análisis, no borrar los pagados."""
+
+    def test_sin_presupuesto_la_cache_sigue_sirviendo(self):
+        import datetime as dt
+        import enrich_why_cheap as ewc
+        vieja = {'fecha': (dt.date.today() - dt.timedelta(days=60)).isoformat()}
+        assert not ewc._cache_vigente(vieja)                     # con saldo, caduca
+        assert ewc._cache_vigente(vieja, sin_presupuesto=True)   # sin saldo, vale
+
+    def test_el_briefing_no_depende_solo_de_claude(self):
+        """Es lo único que el usuario lee a diario: sin Claude lo escribe Groq."""
+        from pathlib import Path
+        import daily_briefing as db
+        src = Path(db.__file__).read_text()
+        assert 'groq_chat' in src and 'esencial=True' in src
