@@ -34,7 +34,10 @@ import os
 from datetime import datetime, timezone
 from pathlib import Path
 
-ESTADO = Path(__file__).parent / 'docs' / '.claude_budget.json'
+# Sin punto delante A PROPÓSITO: `git add docs/*.json` de los workflows no
+# expande ficheros ocultos en bash, así que como dotfile el contador nunca se
+# commiteaba, cada run de CI partía de cero y el tope no acotaba nada.
+ESTADO = Path(__file__).parent / 'docs' / 'claude_budget.json'
 
 # Tope mensual en dólares. El usuario lo fijó en ~10$/mes el 10-ago-2026,
 # hasta comprobar si las recomendaciones compensan en dinero. Subirlo es una

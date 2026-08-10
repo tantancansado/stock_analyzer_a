@@ -16,6 +16,10 @@ import pytest
 
 import claude_budget as cb
 
+# El fixture de abajo repincha ESTADO a un tmp; la ruta REAL hay que
+# capturarla ANTES, y es justo lo que comprueba TestElEstadoSobreviveACI.
+ESTADO_REAL = cb.ESTADO
+
 
 @pytest.fixture(autouse=True)
 def estado_temporal(tmp_path, monkeypatch):
@@ -149,3 +153,35 @@ class TestDegradarNoRomper:
         import daily_briefing as db
         src = Path(db.__file__).read_text()
         assert 'groq_chat' in src and 'esencial=True' in src
+
+
+class TestElEstadoSobreviveACI:
+    """El tope y la caché solo valen si PERSISTEN entre runs de GitHub Actions.
+
+    Los dos nacieron rotos y en silencio: la caché caía bajo `*_cache.json` del
+    .gitignore (nunca se commiteaba → cada run recompraba todos los análisis, o
+    sea ahorro cero) y el contador era un dotfile, que `git add docs/*.json` no
+    expande en bash (cada run partía de $0 → el techo no acotaba nada). Ninguna
+    de las dos cosas se nota mirando la app: el patrón nº1 de este repo.
+    """
+
+    RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    def test_el_contador_lo_pilla_el_git_add_de_los_workflows(self):
+        """`git add docs/*.json` es un glob de bash: no expande ficheros ocultos."""
+        import glob
+        from pathlib import Path
+        nombre = Path(ESTADO_REAL).name
+        assert not nombre.startswith('.'), \
+            f'{nombre} es un dotfile — `git add docs/*.json` no lo expande en bash'
+        publicados = {Path(p).name for p in glob.glob(f'{self.RAIZ}/docs/*.json')}
+        assert nombre in publicados, f'{nombre} no existe donde CI lo commitearía'
+
+    def test_ni_el_contador_ni_la_cache_estan_gitignorados(self):
+        import subprocess
+        for f in ('docs/claude_budget.json', 'docs/why_cheap_cache.json'):
+            r = subprocess.run(['git', 'check-ignore', f],
+                               cwd=self.RAIZ, capture_output=True)
+            assert r.returncode != 0, (
+                f'{f} está en .gitignore — CI no lo commitea y el estado se '
+                f'pierde en cada run (mismo caso que docs/ticker_data_cache.json)')
