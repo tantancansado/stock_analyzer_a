@@ -108,6 +108,14 @@ class TestAvisar:
         aviso = cb.linea_para_briefing()
         assert aviso and '0.85' in aviso
 
+    def test_el_aviso_dice_QUIEN_gasta(self):
+        """"Vas al 86%" no se puede accionar; "y se lo lleva why_cheap", sí."""
+        cb._escribir({'mes': cb._mes_actual(), 'gastado_usd': 8.6,
+                      'por_script': {'enrich_why_cheap': {'usd': 5.0, 'llamadas': 30},
+                                     'daily_briefing': {'usd': 2.6, 'llamadas': 30}}})
+        aviso = cb.linea_para_briefing()
+        assert 'enrich_why_cheap' in aviso and 'daily_briefing' not in aviso
+
     def test_sin_saldo_manda_sobre_el_porcentaje(self):
         """Gastado $0 pero la API rechaza por facturación: eso es lo que urge."""
         cb.registrar_fallo_credito('credit balance is too low')
@@ -185,3 +193,28 @@ class TestElEstadoSobreviveACI:
             assert r.returncode != 0, (
                 f'{f} está en .gitignore — CI no lo commitea y el estado se '
                 f'pierde en cada run (mismo caso que docs/ticker_data_cache.json)')
+
+
+class TestDesglosePorScript:
+    """El total no es accionable; saber quién se lo lleva, sí.
+
+    Se deduce de la pila en vez de pasarse como argumento: hay 13 sitios que
+    llaman a Claude y un parámetro nuevo se olvida justo en el que más gasta.
+    """
+
+    def test_atribuye_al_script_que_origina_la_llamada(self):
+        """La cadena real es script -> groq_utils/claude_research -> registrar_uso;
+        el intermediario no debe llevarse la atribución."""
+        import groq_utils   # noqa: F401  (es uno de los 'propios' que se saltan)
+        quien = cb._quien_llama()
+        assert quien == 'test_claude_budget', quien
+
+    def test_el_desglose_ordena_por_gasto(self):
+        cb._escribir({'mes': cb._mes_actual(), 'gastado_usd': 6.0, 'por_script': {
+            'barato': {'usd': 0.3, 'llamadas': 90},
+            'caro': {'usd': 5.7, 'llamadas': 30}}})
+        lineas = [l for l in cb.desglose().splitlines() if l.strip()]
+        assert 'caro' in lineas[0] and 'barato' in lineas[1]
+
+    def test_sin_llamadas_no_revienta(self):
+        assert 'sin llamadas' in cb.desglose()

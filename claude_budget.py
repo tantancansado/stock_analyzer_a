@@ -117,10 +117,34 @@ def coste_de(respuesta, modelo: str) -> float:
     return tin / 1e6 * p_in + tout / 1e6 * p_out + busq * PRECIO_BUSQUEDA_USD
 
 
+def _quien_llama() -> str:
+    """Script del repo que originó la llamada, subiendo por la pila.
+
+    Se deduce en vez de pasarse como argumento porque hay 13 sitios que llaman
+    y un parámetro nuevo se olvida justo en el que más gasta. Sin esto, el
+    contador dice "$8 este mes" y no de qué, que es lo único accionable:
+    saber que el postmortem se lleva la mitad vale más que el total.
+    """
+    import inspect
+    propios = {'claude_budget.py', 'groq_utils.py', 'claude_research.py'}
+    try:
+        for fr in inspect.stack()[1:]:
+            nombre = os.path.basename(fr.filename)
+            if nombre.endswith('.py') and nombre not in propios:
+                return nombre[:-3]
+    except Exception:
+        pass
+    return 'desconocido'
+
+
 def registrar_uso(respuesta, modelo: str) -> float:
     """Suma al contador del mes lo que ha costado esta llamada. Devuelve el coste."""
     c = coste_de(respuesta, modelo)
     d = _leer()
+    por_script = d.setdefault('por_script', {})
+    quien = _quien_llama()
+    prev = por_script.get(quien) or {'usd': 0.0, 'llamadas': 0}
+    por_script[quien] = {'usd': round(prev['usd'] + c, 6), 'llamadas': prev['llamadas'] + 1}
     d['gastado_usd'] = round(float(d.get('gastado_usd', 0.0)) + c, 6)
     d['llamadas'] = int(d.get('llamadas', 0)) + 1
     u = getattr(respuesta, 'usage', None)
@@ -191,8 +215,22 @@ def linea_para_briefing() -> str | None:
         return (f"🟠 <b>Tope de Claude alcanzado</b> (${e['gastado_usd']:.2f} de "
                 f"${e['tope_usd']:.0f} este mes) — why_cheap pausado hasta el día 1")
     if e['pct'] >= 80:
-        return f"🟡 Claude: ${e['gastado_usd']:.2f} de ${e['tope_usd']:.0f} ({e['pct']:.0f}%)"
+        # Con el mayor gastador: "vas al 86%" no se puede accionar, "vas al 86%
+        # y se lo lleva why_cheap" sí — dice qué recortar o si compensa subir
+        # el tope. La decisión de subirlo es del usuario, no una optimización.
+        top = _mayor_gastador()
+        extra = f" · lo que más gasta: {top}" if top else ''
+        return (f"🟡 Claude: ${e['gastado_usd']:.2f} de ${e['tope_usd']:.0f} "
+                f"({e['pct']:.0f}%){extra}")
     return None
+
+
+def _mayor_gastador() -> str | None:
+    por = _leer().get('por_script') or {}
+    if not por:
+        return None
+    nombre, v = max(por.items(), key=lambda kv: kv[1]['usd'])
+    return f"{nombre} (${v['usd']:.2f})"
 
 
 def resumen() -> str:
@@ -203,5 +241,27 @@ def resumen() -> str:
             f"{d.get('llamadas', 0)} llamadas · {d.get('busquedas', 0)} búsquedas")
 
 
+def desglose() -> str:
+    """Quién se gasta el presupuesto, de mayor a menor. Para decidir con datos
+    qué recortar en vez de a ojo."""
+    d = _leer()
+    por = d.get('por_script') or {}
+    if not por:
+        return '  (sin llamadas registradas este mes)'
+    filas = sorted(por.items(), key=lambda kv: -kv[1]['usd'])
+    total = sum(v['usd'] for _, v in filas) or 1.0
+    out = []
+    for nombre, v in filas:
+        proy = v['usd'] / max(int(d.get('dia_del_mes') or _hoy_dia()), 1) * 30
+        out.append(f"  {nombre:32s} ${v['usd']:6.2f}  {100*v['usd']/total:4.0f}%  "
+                   f"{v['llamadas']:4d} llam  →${proy:5.2f}/mes")
+    return '\n'.join(out)
+
+
+def _hoy_dia() -> int:
+    return datetime.now(timezone.utc).day
+
+
 if __name__ == '__main__':
     print(resumen())
+    print(desglose())
