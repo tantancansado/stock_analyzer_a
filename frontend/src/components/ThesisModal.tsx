@@ -147,6 +147,74 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
 
 // ── Metric chip ───────────────────────────────────────────────────────────────
 
+// ── Por qué está barata ───────────────────────────────────────────────────────
+// La pregunta que decide una compra value: el castigo del mercado ¿es
+// circunstancial o el negocio está peor? Lo responde why_cheap_analyzer con
+// Claude + búsqueda web, y las fuentes salen de los bloques de resultado de la
+// herramienta (un modelo escribe una URL plausible igual que escribe una cifra
+// plausible). Solo DETERIORO veta; el resto informa.
+const WHY_CHEAP_META: Record<string, { etiqueta: string; clase: string; nota: string }> = {
+  DETERIORO:   { etiqueta: 'Deterioro del negocio', clase: 'bg-red-500/15 text-red-400 border-red-500/30',
+                 nota: 'El negocio está peor, no solo la cotización — no es una oportunidad value' },
+  CICLICO:     { etiqueta: 'Ciclo', clase: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+                 nota: 'Parte baja del ciclo, el negocio aguanta' },
+  EVENTO:      { etiqueta: 'Evento puntual', clase: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
+                 nota: 'Shock acotado (multa, litigio, salida de un directivo)' },
+  SENTIMIENTO: { etiqueta: 'Sentimiento', clase: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
+                 nota: 'Rotación, múltiplos o macro — nada específico de la empresa' },
+  SIN_DATOS:   { etiqueta: 'Sin datos', clase: 'bg-muted/30 text-muted-foreground border-border/30',
+                 nota: 'No se pudo verificar con fuentes: ni respalda ni veta' },
+}
+
+function WhyCheap({ row }: Readonly<{ row: ValueOpportunity }>) {
+  const v = row.why_cheap
+  if (!v) return null
+  const meta = WHY_CHEAP_META[v] ?? WHY_CHEAP_META.SIN_DATOS
+  const fuentes = (row.why_cheap_fuentes ?? '')
+    .split('|').map(s => s.trim()).filter(s => s.startsWith('http'))
+
+  return (
+    <div className="mb-4">
+      <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+        Por qué está barata
+      </h4>
+      {/* Un solo dispositivo de énfasis: el color lo lleva el badge, el
+          contenedor va neutro (regla del proyecto). */}
+      <div className="rounded-lg border border-border/20 bg-muted/10 p-3">
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-1 rounded border ${meta.clase}`}>
+            {meta.etiqueta}
+          </span>
+          <span className="text-[0.65rem] text-muted-foreground/70">{meta.nota}</span>
+        </div>
+        {row.why_cheap_resumen && (
+          <p className="text-[0.78rem] leading-relaxed text-foreground/80">{row.why_cheap_resumen}</p>
+        )}
+        {fuentes.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 mt-2 pt-2 border-t border-border/15">
+            <span className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/40">
+              Fuentes
+            </span>
+            {fuentes.map((u) => (
+              <a
+                key={u}
+                href={u}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={e => e.stopPropagation()}
+                className="inline-flex items-center gap-1 text-[0.6rem] text-primary/80 hover:text-primary underline underline-offset-2"
+              >
+                <ExternalLink size={12} />
+                {new URL(u).hostname.replace('www.', '')}
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function Chip({ label, value, color }: { label: string; value: string; color?: string }) {
   const bg =
     color?.includes('emerald') ? 'bg-emerald-500/8 border-emerald-500/20' :
@@ -401,6 +469,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                     <span><strong>Datos a verificar:</strong> {row.data_warning}</span>
                   </div>
                 )}
+                <WhyCheap row={row} />
                 <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-3">Tesis de Inversión</h4>
                 <ThesisBody text={thesisText} />
               </div>

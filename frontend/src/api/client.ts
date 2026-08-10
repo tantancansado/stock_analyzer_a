@@ -137,6 +137,14 @@ export interface ValueOpportunity {
   entry_readiness_reason?: string
   tech_stage?: string
   relative_strength_6m?: number | null
+  // Por qué está barata (why_cheap_analyzer): lo genera Claude con búsqueda web
+  // y las fuentes salen de los bloques de resultado de la herramienta, no de lo
+  // que el modelo escriba. Es la pregunta que decide una compra value —
+  // castigo circunstancial vs deterioro real — y hasta el 9-ago-2026 el
+  // backend la calculaba y la app no la mostraba en ninguna parte.
+  why_cheap?: 'DETERIORO' | 'CICLICO' | 'EVENTO' | 'SENTIMIENTO' | 'SIN_DATOS'
+  why_cheap_resumen?: string
+  why_cheap_fuentes?: string
   // IV vs Realized Volatility (options pricing signal)
   hv_30d?: number | null
   atm_iv?: number | null
