@@ -1,624 +1,501 @@
 {
-  "generated_at": "2026-08-03",
-  "tikr_date": "2026-08-02",
-  "prev_date": "2026-07-26",
-  "total": 89,
-  "upgrades": 38,
-  "downgrades": 4,
-  "narrative": "Las revisiones de estimaciones de las empresas mencionadas pueden tener diferentes implicaciones para un inversor que sigue una estrategia de valor. En general, las revisiones positivas en las estimaciones de beneficio por acci\u00f3n (EPS) y las revisiones de aumento en las estimaciones de ingresos pueden ser vistas como positivas para el valor de la empresa, ya que sugieren que la empresa puede superar las expectativas de los analistas.\n\nSin embargo, tambi\u00e9n es importante considerar las revisiones negativas, como la de CVX, que puede indicar problemas en la empresa y afectar su valor. Por otro lado, la revisi\u00f3n de SPGI en la que la estimaci\u00f3n de ingresos disminuye, pero la estimaci\u00f3n de EPS aumenta, puede ser un indicio de que la empresa est\u00e1 mejorando su eficiencia y reduciendo sus costos.\n\nEn resumen, un inversor que sigue una estrategia de valor debe",
+  "generated_at": "2026-08-10",
+  "tikr_date": "2026-08-09",
+  "prev_date": "2026-08-02",
+  "total": 78,
+  "upgrades": 13,
+  "downgrades": 14,
+  "narrative": "Aqu\u00ed te presento dos posibles frases en espa\u00f1ol:\n\n1. \"Las revisiones de estimaciones positivas en empresas como MSI y IT sugieren que es un buen momento para invertir en acciones con crecimiento potencial, pero es importante mantener una estrategia de inversi\u00f3n conservadora y valorar cuidadosamente las perspectivas de cada empresa.\"\n2. \"Las revisiones de estimaciones negativas en empresas como ZTS y RELX pueden ser una se\u00f1al de alarma para los inversores VALUE, ya que pueden indicar problemas subyacentes en la empresa que pueden afectar su valor a largo plazo.\"",
   "revisions": [
     {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "MSI",
+      "company_name": "Motorola Solutions, Inc.",
       "direction": "STRONG_UP",
-      "eps_prev": 27.415,
-      "eps_curr": 30.353,
-      "eps_chg_pct": 10.72,
-      "rev_chg_pct": 6.06,
-      "analysts_prev": 24,
-      "analysts_curr": 26,
-      "analysts_delta": 2,
-      "score_adj": 13,
-      "flags": [
-        "EPS consensus \u219110.7% (27.41\u219230.35)",
-        "Revenue estimate \u21916.1%",
-        "Analistas: +2 (24\u219226)"
-      ]
-    },
-    {
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
-      "direction": "STRONG_UP",
-      "eps_prev": 4.246,
-      "eps_curr": 4.687,
-      "eps_chg_pct": 10.38,
-      "rev_chg_pct": 3.59,
+      "eps_prev": 18.957,
+      "eps_curr": 20.275,
+      "eps_chg_pct": 6.95,
+      "rev_chg_pct": 3.35,
       "analysts_prev": 0,
-      "analysts_curr": 12,
-      "analysts_delta": 12,
+      "analysts_curr": 13,
+      "analysts_delta": 13,
       "score_adj": 13,
       "flags": [
-        "EPS consensus \u219110.4% (4.25\u21924.69)",
-        "Revenue estimate \u21913.6%",
-        "Analistas: +12 (0\u219212)"
-      ]
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "direction": "STRONG_UP",
-      "eps_prev": 19.871,
-      "eps_curr": 21.906,
-      "eps_chg_pct": 10.24,
-      "rev_chg_pct": 3.41,
-      "analysts_prev": 0,
-      "analysts_curr": 34,
-      "analysts_delta": 34,
-      "score_adj": 13,
-      "flags": [
-        "EPS consensus \u219110.2% (19.87\u219221.91)",
+        "EPS consensus \u21917.0% (18.96\u219220.27)",
         "Revenue estimate \u21913.4%",
-        "Analistas: +34 (0\u219234)"
+        "Analistas: +13 (0\u219213)"
+      ]
+    },
+    {
+      "ticker": "ZTS",
+      "company_name": "Zoetis Inc.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 7.986,
+      "eps_curr": 7.385,
+      "eps_chg_pct": -7.52,
+      "rev_chg_pct": -4.24,
+      "analysts_prev": 17,
+      "analysts_curr": 14,
+      "analysts_delta": -3,
+      "score_adj": -13,
+      "flags": [
+        "EPS consensus \u21937.5% (7.99\u21927.39)",
+        "Revenue estimate \u21934.2%",
+        "Analistas: -3 (17\u219214)"
+      ]
+    },
+    {
+      "ticker": "RELX",
+      "company_name": "RELX PLC",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 2.344,
+      "eps_curr": 2.039,
+      "eps_chg_pct": -13.02,
+      "rev_chg_pct": -0.05,
+      "analysts_prev": 2,
+      "analysts_curr": 0,
+      "analysts_delta": -2,
+      "score_adj": -11,
+      "flags": [
+        "EPS consensus \u219313.0% (2.34\u21922.04)",
+        "Analistas: -2 (2\u21920)"
+      ]
+    },
+    {
+      "ticker": "IT",
+      "company_name": "Gartner, Inc.",
+      "direction": "STRONG_UP",
+      "eps_prev": 22.207,
+      "eps_curr": 26.895,
+      "eps_chg_pct": 21.11,
+      "rev_chg_pct": 1.07,
+      "analysts_prev": 0,
+      "analysts_curr": 15,
+      "analysts_delta": 15,
+      "score_adj": 11,
+      "flags": [
+        "EPS consensus \u219121.1% (22.21\u219226.89)",
+        "Analistas: +15 (0\u219215)"
+      ]
+    },
+    {
+      "ticker": "G24.DE",
+      "company_name": "Scout24 SE",
+      "direction": "STRONG_UP",
+      "eps_prev": 4.836,
+      "eps_curr": 5.091,
+      "eps_chg_pct": 5.28,
+      "rev_chg_pct": 2.79,
+      "analysts_prev": 0,
+      "analysts_curr": 13,
+      "analysts_delta": 13,
+      "score_adj": 11,
+      "flags": [
+        "EPS consensus \u21915.3% (4.84\u21925.09)",
+        "Revenue estimate \u21912.8%",
+        "Analistas: +13 (0\u219213)"
+      ]
+    },
+    {
+      "ticker": "JNJ",
+      "company_name": "Johnson & Johnson",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 12.637,
+      "eps_curr": 11.23,
+      "eps_chg_pct": -11.13,
+      "rev_chg_pct": -0.27,
+      "analysts_prev": 23,
+      "analysts_curr": 4,
+      "analysts_delta": -19,
+      "score_adj": -11,
+      "flags": [
+        "EPS consensus \u219311.1% (12.64\u219211.23)",
+        "Analistas: -19 (23\u21924)"
       ]
     },
     {
       "ticker": "CVX",
       "company_name": "Chevron Corporation",
       "direction": "STRONG_DOWN",
-      "eps_prev": 31.332,
-      "eps_curr": 29.581,
-      "eps_chg_pct": -5.59,
-      "rev_chg_pct": -4.92,
-      "analysts_prev": 24,
-      "analysts_curr": 9,
-      "analysts_delta": -15,
-      "score_adj": -13,
-      "flags": [
-        "EPS consensus \u21935.6% (31.33\u219229.58)",
-        "Revenue estimate \u21934.9%",
-        "Analistas: -15 (24\u21929)"
-      ]
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "direction": "STRONG_UP",
-      "eps_prev": 19.197,
-      "eps_curr": 20.266,
-      "eps_chg_pct": 5.57,
-      "rev_chg_pct": -1.91,
-      "analysts_prev": 11,
-      "analysts_curr": 16,
-      "analysts_delta": 5,
-      "score_adj": 11,
-      "flags": [
-        "EPS consensus \u21915.6% (19.20\u219220.27)",
-        "Revenue estimate \u21931.9%",
-        "Analistas: +5 (11\u219216)"
-      ]
-    },
-    {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "direction": "STRONG_DOWN",
-      "eps_prev": 3.37,
-      "eps_curr": 3.19,
-      "eps_chg_pct": -5.34,
-      "rev_chg_pct": 0.7,
-      "analysts_prev": 23,
+      "eps_prev": 29.581,
+      "eps_curr": 27.94,
+      "eps_chg_pct": -5.55,
+      "rev_chg_pct": 2.37,
+      "analysts_prev": 9,
       "analysts_curr": 0,
-      "analysts_delta": -23,
+      "analysts_delta": -9,
       "score_adj": -11,
       "flags": [
-        "EPS consensus \u21935.3% (3.37\u21923.19)",
-        "Analistas: -23 (23\u21920)"
+        "EPS consensus \u21935.5% (29.58\u219227.94)",
+        "Revenue estimate \u21912.4%",
+        "Analistas: -9 (9\u21920)"
+      ]
+    },
+    {
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 13.7,
+      "eps_curr": 12.954,
+      "eps_chg_pct": -5.45,
+      "rev_chg_pct": -2.15,
+      "analysts_prev": 21,
+      "analysts_curr": 0,
+      "analysts_delta": -21,
+      "score_adj": -11,
+      "flags": [
+        "EPS consensus \u21935.4% (13.70\u219212.95)",
+        "Revenue estimate \u21932.1%",
+        "Analistas: -21 (21\u21920)"
+      ]
+    },
+    {
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "direction": "STRONG_UP",
+      "eps_prev": 9.98,
+      "eps_curr": 10.551,
+      "eps_chg_pct": 5.72,
+      "rev_chg_pct": 3.06,
+      "analysts_prev": 0,
+      "analysts_curr": 0,
+      "analysts_delta": 0,
+      "score_adj": 10,
+      "flags": [
+        "EPS consensus \u21915.7% (9.98\u219210.55)",
+        "Revenue estimate \u21913.1%"
+      ]
+    },
+    {
+      "ticker": "HHH",
+      "company_name": "Howard Hughes Holdings Inc.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 7.79,
+      "eps_curr": 7.035,
+      "eps_chg_pct": -9.69,
+      "rev_chg_pct": -3.38,
+      "analysts_prev": 0,
+      "analysts_curr": 0,
+      "analysts_delta": 0,
+      "score_adj": -10,
+      "flags": [
+        "EPS consensus \u21939.7% (7.79\u21927.04)",
+        "Revenue estimate \u21933.4%"
+      ]
+    },
+    {
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 6.16,
+      "eps_curr": 5.178,
+      "eps_chg_pct": -15.93,
+      "rev_chg_pct": 3.15,
+      "analysts_prev": 34,
+      "analysts_curr": 0,
+      "analysts_delta": -34,
+      "score_adj": -9,
+      "flags": [
+        "EPS consensus \u219315.9% (6.16\u21925.18)",
+        "Revenue estimate \u21913.2%",
+        "Analistas: -34 (34\u21920)"
+      ]
+    },
+    {
+      "ticker": "WTKWY",
+      "company_name": "Wolters Kluwer N.V.",
+      "direction": "STRONG_UP",
+      "eps_prev": 8.695,
+      "eps_curr": 9.385,
+      "eps_chg_pct": 7.93,
+      "rev_chg_pct": 2.79,
+      "analysts_prev": 1,
+      "analysts_curr": 1,
+      "analysts_delta": 0,
+      "score_adj": 8,
+      "flags": [
+        "EPS consensus \u21917.9% (8.70\u21929.38)",
+        "Revenue estimate \u21912.8%"
+      ]
+    },
+    {
+      "ticker": "ITRK.L",
+      "company_name": "Intertek Group plc",
+      "direction": "STRONG_UP",
+      "eps_prev": 3.324,
+      "eps_curr": 3.528,
+      "eps_chg_pct": 6.13,
+      "rev_chg_pct": 0.07,
+      "analysts_prev": 12,
+      "analysts_curr": 12,
+      "analysts_delta": 0,
+      "score_adj": 8,
+      "flags": [
+        "EPS consensus \u21916.1% (3.32\u21923.53)"
+      ]
+    },
+    {
+      "ticker": "LPX",
+      "company_name": "Louisiana-Pacific Corporation",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 5.044,
+      "eps_curr": 4.214,
+      "eps_chg_pct": -16.45,
+      "rev_chg_pct": 2.0,
+      "analysts_prev": 13,
+      "analysts_curr": 12,
+      "analysts_delta": -1,
+      "score_adj": -8,
+      "flags": [
+        "EPS consensus \u219316.4% (5.04\u21924.21)",
+        "Revenue estimate \u21912.0%"
+      ]
+    },
+    {
+      "ticker": "KVUE",
+      "company_name": "Kenvue Inc.",
+      "direction": "STRONG_UP",
+      "eps_prev": 1.354,
+      "eps_curr": 1.556,
+      "eps_chg_pct": 14.91,
+      "rev_chg_pct": 0.45,
+      "analysts_prev": 0,
+      "analysts_curr": 0,
+      "analysts_delta": 0,
+      "score_adj": 8,
+      "flags": [
+        "EPS consensus \u219114.9% (1.35\u21921.56)"
+      ]
+    },
+    {
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International Inc.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 6.036,
+      "eps_curr": 5.63,
+      "eps_chg_pct": -6.72,
+      "rev_chg_pct": 0.34,
+      "analysts_prev": 0,
+      "analysts_curr": 0,
+      "analysts_delta": 0,
+      "score_adj": -8,
+      "flags": [
+        "EPS consensus \u21936.7% (6.04\u21925.63)"
+      ]
+    },
+    {
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "direction": "UP",
+      "eps_prev": 17.257,
+      "eps_curr": 17.962,
+      "eps_chg_pct": 4.09,
+      "rev_chg_pct": 2.58,
+      "analysts_prev": 0,
+      "analysts_curr": 12,
+      "analysts_delta": 12,
+      "score_adj": 7,
+      "flags": [
+        "EPS consensus \u21914.1% (17.26\u219217.96)",
+        "Revenue estimate \u21912.6%",
+        "Analistas: +12 (0\u219212)"
+      ]
+    },
+    {
+      "ticker": "GWW",
+      "company_name": "W.W. Grainger, Inc.",
+      "direction": "UP",
+      "eps_prev": 50.408,
+      "eps_curr": 52.903,
+      "eps_chg_pct": 4.95,
+      "rev_chg_pct": 2.71,
+      "analysts_prev": 0,
+      "analysts_curr": 17,
+      "analysts_delta": 17,
+      "score_adj": 7,
+      "flags": [
+        "EPS consensus \u21915.0% (50.41\u219252.90)",
+        "Revenue estimate \u21912.7%",
+        "Analistas: +17 (0\u219217)"
       ]
     },
     {
       "ticker": "CL",
       "company_name": "Colgate-Palmolive Company",
-      "direction": "STRONG_UP",
-      "eps_prev": 4.302,
-      "eps_curr": 4.793,
-      "eps_chg_pct": 11.43,
-      "rev_chg_pct": 0.53,
-      "analysts_prev": 0,
-      "analysts_curr": 11,
-      "analysts_delta": 11,
-      "score_adj": 11,
-      "flags": [
-        "EPS consensus \u219111.4% (4.30\u21924.79)",
-        "Analistas: +11 (0\u219211)"
-      ]
-    },
-    {
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "direction": "STRONG_UP",
-      "eps_prev": 931.814,
-      "eps_curr": 983.982,
-      "eps_chg_pct": 5.6,
-      "rev_chg_pct": 4.36,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 10,
-      "flags": [
-        "EPS consensus \u21915.6% (931.81\u2192983.98)",
-        "Revenue estimate \u21914.4%"
-      ]
-    },
-    {
-      "ticker": "ETN",
-      "company_name": "Eaton Corporation plc",
-      "direction": "STRONG_UP",
-      "eps_prev": 14.048,
-      "eps_curr": 14.839,
-      "eps_chg_pct": 5.63,
-      "rev_chg_pct": 3.32,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 10,
-      "flags": [
-        "EPS consensus \u21915.6% (14.05\u219214.84)",
-        "Revenue estimate \u21913.3%"
-      ]
-    },
-    {
-      "ticker": "SBGSY",
-      "company_name": "Schneider Electric S.E.",
-      "direction": "STRONG_UP",
-      "eps_prev": 2.474,
-      "eps_curr": 2.742,
-      "eps_chg_pct": 10.8,
-      "rev_chg_pct": 4.18,
-      "analysts_prev": 2,
-      "analysts_curr": 2,
-      "analysts_delta": 0,
-      "score_adj": 10,
-      "flags": [
-        "EPS consensus \u219110.8% (2.47\u21922.74)",
-        "Revenue estimate \u21914.2%"
-      ]
-    },
-    {
-      "ticker": "AWK",
-      "company_name": "American Water Works Company, Inc.",
-      "direction": "STRONG_UP",
-      "eps_prev": 9.903,
-      "eps_curr": 11.974,
-      "eps_chg_pct": 20.91,
-      "rev_chg_pct": 5.15,
-      "analysts_prev": 11,
-      "analysts_curr": 11,
-      "analysts_delta": 0,
-      "score_adj": 10,
-      "flags": [
-        "EPS consensus \u219120.9% (9.90\u219211.97)",
-        "Revenue estimate \u21915.1%"
-      ]
-    },
-    {
-      "ticker": "NUE",
-      "company_name": "Nucor Corporation",
-      "direction": "STRONG_UP",
-      "eps_prev": 23.838,
-      "eps_curr": 25.989,
-      "eps_chg_pct": 9.03,
-      "rev_chg_pct": 4.44,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 10,
-      "flags": [
-        "EPS consensus \u21919.0% (23.84\u219225.99)",
-        "Revenue estimate \u21914.4%"
-      ]
-    },
-    {
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "direction": "STRONG_UP",
-      "eps_prev": 13.69,
-      "eps_curr": 16.607,
-      "eps_chg_pct": 21.31,
-      "rev_chg_pct": 1.93,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 8,
-      "flags": [
-        "EPS consensus \u219121.3% (13.69\u219216.61)",
-        "Revenue estimate \u21911.9%"
-      ]
-    },
-    {
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "direction": "STRONG_UP",
-      "eps_prev": 17.51,
-      "eps_curr": 19.24,
-      "eps_chg_pct": 9.88,
-      "rev_chg_pct": 2.27,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 8,
-      "flags": [
-        "EPS consensus \u21919.9% (17.51\u219219.24)",
-        "Revenue estimate \u21912.3%"
-      ]
-    },
-    {
-      "ticker": "VLTO",
-      "company_name": "Veralto Corporation",
-      "direction": "STRONG_UP",
-      "eps_prev": 4.561,
-      "eps_curr": 4.888,
-      "eps_chg_pct": 7.16,
-      "rev_chg_pct": 1.73,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 8,
-      "flags": [
-        "EPS consensus \u21917.2% (4.56\u21924.89)",
-        "Revenue estimate \u21911.7%"
-      ]
-    },
-    {
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "direction": "STRONG_UP",
-      "eps_prev": 10.589,
-      "eps_curr": 12.063,
-      "eps_chg_pct": 13.92,
-      "rev_chg_pct": 1.6,
-      "analysts_prev": 18,
-      "analysts_curr": 19,
-      "analysts_delta": 1,
-      "score_adj": 8,
-      "flags": [
-        "EPS consensus \u219113.9% (10.59\u219212.06)",
-        "Revenue estimate \u21911.6%"
-      ]
-    },
-    {
-      "ticker": "TEVA",
-      "company_name": "Teva Pharmaceutical Industries Limited",
-      "direction": "STRONG_UP",
-      "eps_prev": 0.8,
-      "eps_curr": 1.225,
-      "eps_chg_pct": 53.02,
-      "rev_chg_pct": 1.18,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 8,
-      "flags": [
-        "EPS consensus \u219153.0% (0.80\u21921.22)"
-      ]
-    },
-    {
-      "ticker": "THC",
-      "company_name": "Tenet Healthcare Corporation",
-      "direction": "STRONG_UP",
-      "eps_prev": 18.666,
-      "eps_curr": 38.885,
-      "eps_chg_pct": 108.32,
-      "rev_chg_pct": 0.78,
-      "analysts_prev": 17,
-      "analysts_curr": 18,
-      "analysts_delta": 1,
-      "score_adj": 8,
-      "flags": [
-        "EPS consensus \u2191108.3% (18.67\u219238.88)"
-      ]
-    },
-    {
-      "ticker": "CNI",
-      "company_name": "Canadian National Railway Company",
-      "direction": "STRONG_UP",
-      "eps_prev": 0.151,
-      "eps_curr": 12.887,
-      "eps_chg_pct": 8440.23,
-      "rev_chg_pct": 4987.11,
+      "direction": "DOWN",
+      "eps_prev": 4.793,
+      "eps_curr": 4.583,
+      "eps_chg_pct": -4.39,
+      "rev_chg_pct": -0.04,
       "analysts_prev": 11,
       "analysts_curr": 0,
       "analysts_delta": -11,
-      "score_adj": 7,
+      "score_adj": -7,
       "flags": [
-        "EPS consensus \u21918440.2% (0.15\u219212.89)",
-        "Revenue estimate \u21914987.1%",
+        "EPS consensus \u21934.4% (4.79\u21924.58)",
         "Analistas: -11 (11\u21920)"
       ]
     },
     {
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "direction": "UP",
-      "eps_prev": 50.677,
-      "eps_curr": 52.404,
-      "eps_chg_pct": 3.41,
-      "rev_chg_pct": 2.83,
-      "analysts_prev": 0,
-      "analysts_curr": 18,
-      "analysts_delta": 18,
-      "score_adj": 7,
-      "flags": [
-        "EPS consensus \u21913.4% (50.68\u219252.40)",
-        "Revenue estimate \u21912.8%",
-        "Analistas: +18 (0\u219218)"
-      ]
-    },
-    {
-      "ticker": "SHW",
-      "company_name": "The Sherwin-Williams Company",
-      "direction": "UP",
-      "eps_prev": 14.354,
-      "eps_curr": 14.735,
-      "eps_chg_pct": 2.65,
-      "rev_chg_pct": 2.89,
-      "analysts_prev": 0,
-      "analysts_curr": 23,
-      "analysts_delta": 23,
-      "score_adj": 7,
-      "flags": [
-        "EPS consensus \u21912.7% (14.35\u219214.73)",
-        "Revenue estimate \u21912.9%",
-        "Analistas: +23 (0\u219223)"
-      ]
-    },
-    {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "direction": "UP",
-      "eps_prev": 16.575,
-      "eps_curr": 16.992,
-      "eps_chg_pct": 2.52,
-      "rev_chg_pct": 0.65,
-      "analysts_prev": 0,
-      "analysts_curr": 26,
-      "analysts_delta": 26,
-      "score_adj": 7,
-      "flags": [
-        "EPS consensus \u21912.5% (16.57\u219216.99)",
-        "Analistas: +26 (0\u219226)"
-      ]
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange, Inc.",
-      "direction": "UP",
-      "eps_prev": 7.855,
-      "eps_curr": 8.231,
-      "eps_chg_pct": 4.79,
-      "rev_chg_pct": 2.52,
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
+      "direction": "STRONG_DOWN",
+      "eps_prev": 13.445,
+      "eps_curr": 12.715,
+      "eps_chg_pct": -5.43,
+      "rev_chg_pct": 0.0,
       "analysts_prev": 0,
       "analysts_curr": 11,
       "analysts_delta": 11,
-      "score_adj": 7,
+      "score_adj": -5,
       "flags": [
-        "EPS consensus \u21914.8% (7.86\u21928.23)",
-        "Revenue estimate \u21912.5%",
+        "EPS consensus \u21935.4% (13.45\u219212.71)",
         "Analistas: +11 (0\u219211)"
       ]
     },
     {
-      "ticker": "SXYAY",
-      "company_name": "Sika AG",
-      "direction": "UP",
-      "eps_prev": 1.294,
-      "eps_curr": 1.346,
-      "eps_chg_pct": 4.04,
-      "rev_chg_pct": 3.15,
-      "analysts_prev": 1,
-      "analysts_curr": 1,
-      "analysts_delta": 0,
-      "score_adj": 6,
-      "flags": [
-        "EPS consensus \u21914.0% (1.29\u21921.35)",
-        "Revenue estimate \u21913.1%"
-      ]
-    },
-    {
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
+      "ticker": "KD",
+      "company_name": "Kyndryl Holdings, Inc.",
       "direction": "STRONG_UP",
-      "eps_prev": 11.953,
-      "eps_curr": 14.18,
-      "eps_chg_pct": 18.64,
-      "rev_chg_pct": 1.49,
-      "analysts_prev": 14,
+      "eps_prev": 1.92,
+      "eps_curr": 2.05,
+      "eps_chg_pct": 6.77,
+      "rev_chg_pct": -0.49,
+      "analysts_prev": 7,
       "analysts_curr": 0,
-      "analysts_delta": -14,
+      "analysts_delta": -7,
       "score_adj": 5,
       "flags": [
-        "EPS consensus \u219118.6% (11.95\u219214.18)",
-        "Analistas: -14 (14\u21920)"
+        "EPS consensus \u21916.8% (1.92\u21922.05)",
+        "Analistas: -7 (7\u21920)"
       ]
     },
     {
       "ticker": "LSEG.L",
       "company_name": "London Stock Exchange Group plc",
-      "direction": "UP",
-      "eps_prev": 8.253,
-      "eps_curr": 8.517,
-      "eps_chg_pct": 3.2,
-      "rev_chg_pct": 1.7,
+      "direction": "DOWN",
+      "eps_prev": 8.517,
+      "eps_curr": 8.303,
+      "eps_chg_pct": -2.51,
+      "rev_chg_pct": -0.17,
       "analysts_prev": 12,
-      "analysts_curr": 12,
-      "analysts_delta": 0,
-      "score_adj": 4,
-      "flags": [
-        "EPS consensus \u21913.2% (8.25\u21928.52)",
-        "Revenue estimate \u21911.7%"
-      ]
-    },
-    {
-      "ticker": "ITW",
-      "company_name": "Illinois Tool Works Inc.",
-      "direction": "UP",
-      "eps_prev": 12.709,
-      "eps_curr": 13.157,
-      "eps_chg_pct": 3.52,
-      "rev_chg_pct": 2.01,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 4,
-      "flags": [
-        "EPS consensus \u21913.5% (12.71\u219213.16)",
-        "Revenue estimate \u21912.0%"
-      ]
-    },
-    {
-      "ticker": "ESLOY",
-      "company_name": "EssilorLuxottica Soci\u00e9t\u00e9 anonyme",
-      "direction": "UP",
-      "eps_prev": 6.378,
-      "eps_curr": 6.666,
-      "eps_chg_pct": 4.52,
-      "rev_chg_pct": 1.68,
-      "analysts_prev": 0,
-      "analysts_curr": 1,
+      "analysts_curr": 13,
       "analysts_delta": 1,
-      "score_adj": 4,
+      "score_adj": -4,
       "flags": [
-        "EPS consensus \u21914.5% (6.38\u21926.67)",
-        "Revenue estimate \u21911.7%"
+        "EPS consensus \u21932.5% (8.52\u21928.30)"
       ]
     },
     {
-      "ticker": "WST",
-      "company_name": "West Pharmaceutical Services, Inc.",
-      "direction": "UP",
-      "eps_prev": 11.369,
-      "eps_curr": 11.75,
-      "eps_chg_pct": 3.35,
-      "rev_chg_pct": 0.04,
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries Limited",
+      "direction": "DOWN",
+      "eps_prev": 1.225,
+      "eps_curr": 1.19,
+      "eps_chg_pct": -2.84,
+      "rev_chg_pct": 0.0,
       "analysts_prev": 0,
       "analysts_curr": 0,
       "analysts_delta": 0,
-      "score_adj": 4,
+      "score_adj": -4,
       "flags": [
-        "EPS consensus \u21913.3% (11.37\u219211.75)"
+        "EPS consensus \u21932.8% (1.22\u21921.19)"
       ]
     },
     {
-      "ticker": "HESAY",
-      "company_name": "Herm\u00e8s International Soci\u00e9t\u00e9 en commandite par actions",
+      "ticker": "NYT",
+      "company_name": "The New York Times Company",
       "direction": "UP",
-      "eps_prev": 5.95,
-      "eps_curr": 6.221,
-      "eps_chg_pct": 4.55,
-      "rev_chg_pct": 2.26,
-      "analysts_prev": 2,
-      "analysts_curr": 2,
+      "eps_prev": 3.934,
+      "eps_curr": 4.044,
+      "eps_chg_pct": 2.8,
+      "rev_chg_pct": 2.12,
+      "analysts_prev": 9,
+      "analysts_curr": 9,
       "analysts_delta": 0,
       "score_adj": 4,
       "flags": [
-        "EPS consensus \u21914.5% (5.95\u21926.22)",
-        "Revenue estimate \u21912.3%"
+        "EPS consensus \u21912.8% (3.93\u21924.04)",
+        "Revenue estimate \u21912.1%"
       ]
     },
     {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "direction": "UP",
-      "eps_prev": 19.768,
-      "eps_curr": 20.253,
-      "eps_chg_pct": 2.45,
-      "rev_chg_pct": 1.04,
+      "ticker": "KHC",
+      "company_name": "The Kraft Heinz Company",
+      "direction": "DOWN",
+      "eps_prev": 2.769,
+      "eps_curr": 2.651,
+      "eps_chg_pct": -4.24,
+      "rev_chg_pct": 0.68,
       "analysts_prev": 0,
       "analysts_curr": 0,
       "analysts_delta": 0,
-      "score_adj": 4,
+      "score_adj": -4,
       "flags": [
-        "EPS consensus \u21912.5% (19.77\u219220.25)"
+        "EPS consensus \u21934.2% (2.77\u21922.65)"
       ]
     },
     {
-      "ticker": "EQIX",
-      "company_name": "Equinix, Inc.",
-      "direction": "UP",
-      "eps_prev": 43.904,
-      "eps_curr": 45.72,
-      "eps_chg_pct": 4.14,
-      "rev_chg_pct": 2.38,
-      "analysts_prev": 3,
-      "analysts_curr": 4,
-      "analysts_delta": 1,
-      "score_adj": 4,
-      "flags": [
-        "EPS consensus \u21914.1% (43.90\u219245.72)",
-        "Revenue estimate \u21912.4%"
-      ]
-    },
-    {
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "direction": "UP",
-      "eps_prev": 11.226,
-      "eps_curr": 11.726,
-      "eps_chg_pct": 4.45,
-      "rev_chg_pct": 0.05,
+      "ticker": "FAST",
+      "company_name": "Fastenal Company",
+      "direction": "FLAT",
+      "eps_prev": 1.307,
+      "eps_curr": 1.322,
+      "eps_chg_pct": 1.15,
+      "rev_chg_pct": 0.21,
       "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 4,
+      "analysts_curr": 18,
+      "analysts_delta": 18,
+      "score_adj": 3,
       "flags": [
-        "EPS consensus \u21914.5% (11.23\u219211.73)"
-      ]
-    },
-    {
-      "ticker": "ECL",
-      "company_name": "Ecolab Inc.",
-      "direction": "UP",
-      "eps_prev": 11.858,
-      "eps_curr": 12.323,
-      "eps_chg_pct": 3.93,
-      "rev_chg_pct": 2.55,
-      "analysts_prev": 21,
-      "analysts_curr": 20,
-      "analysts_delta": -1,
-      "score_adj": 4,
-      "flags": [
-        "EPS consensus \u21913.9% (11.86\u219212.32)",
-        "Revenue estimate \u21912.5%"
+        "Analistas: +18 (0\u219218)"
       ]
     },
     {
       "ticker": "CB",
       "company_name": "Chubb Limited",
       "direction": "FLAT",
-      "eps_prev": 28.0,
-      "eps_curr": 27.99,
-      "eps_chg_pct": -0.04,
+      "eps_prev": 27.99,
+      "eps_curr": 27.973,
+      "eps_chg_pct": -0.06,
       "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 25,
-      "analysts_delta": 25,
-      "score_adj": 3,
+      "analysts_prev": 25,
+      "analysts_curr": 0,
+      "analysts_delta": -25,
+      "score_adj": -3,
       "flags": [
-        "Analistas: +25 (0\u219225)"
+        "Analistas: -25 (25\u21920)"
       ]
     },
     {
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
+      "ticker": "CHD",
+      "company_name": "Church & Dwight Co., Inc.",
       "direction": "FLAT",
-      "eps_prev": 27.935,
-      "eps_curr": 27.9,
-      "eps_chg_pct": -0.13,
-      "rev_chg_pct": 0.01,
-      "analysts_prev": 0,
+      "eps_prev": 4.295,
+      "eps_curr": 4.295,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.16,
+      "analysts_prev": 11,
       "analysts_curr": 16,
-      "analysts_delta": 16,
+      "analysts_delta": 5,
       "score_adj": 3,
       "flags": [
-        "Analistas: +16 (0\u219216)"
+        "Analistas: +5 (11\u219216)"
+      ]
+    },
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 14.457,
+      "eps_curr": 14.525,
+      "eps_chg_pct": 0.47,
+      "rev_chg_pct": 0.43,
+      "analysts_prev": 0,
+      "analysts_curr": 11,
+      "analysts_delta": 11,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +11 (0\u219211)"
       ]
     },
     {
@@ -628,63 +505,77 @@
       "eps_prev": 14.433,
       "eps_curr": 14.433,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.11,
-      "analysts_prev": 24,
-      "analysts_curr": 26,
-      "analysts_delta": 2,
-      "score_adj": 3,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 26,
+      "analysts_curr": 0,
+      "analysts_delta": -26,
+      "score_adj": -3,
       "flags": [
-        "Analistas: +2 (24\u219226)"
+        "Analistas: -26 (26\u21920)"
       ]
     },
     {
-      "ticker": "LRLCY",
-      "company_name": "L'Or\u00e9al S.A.",
+      "ticker": "CNI",
+      "company_name": "Canadian National Railway Company",
       "direction": "FLAT",
-      "eps_prev": 3.753,
-      "eps_curr": 3.827,
-      "eps_chg_pct": 1.97,
-      "rev_chg_pct": 2.16,
+      "eps_prev": 12.887,
+      "eps_curr": 12.887,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.02,
       "analysts_prev": 0,
-      "analysts_curr": 2,
-      "analysts_delta": 2,
+      "analysts_curr": 29,
+      "analysts_delta": 29,
       "score_adj": 3,
       "flags": [
-        "Revenue estimate \u21912.2%",
-        "Analistas: +2 (0\u21922)"
+        "Analistas: +29 (0\u219229)"
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "direction": "FLAT",
+      "eps_prev": 30.353,
+      "eps_curr": 30.499,
+      "eps_chg_pct": 0.48,
+      "rev_chg_pct": 0.04,
+      "analysts_prev": 26,
+      "analysts_curr": 0,
+      "analysts_delta": -26,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -26 (26\u21920)"
+      ]
+    },
+    {
+      "ticker": "AJG",
+      "company_name": "Arthur J. Gallagher & Co.",
+      "direction": "FLAT",
+      "eps_prev": 14.113,
+      "eps_curr": 14.086,
+      "eps_chg_pct": -0.19,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 21,
+      "analysts_delta": 21,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +21 (0\u219221)"
       ]
     },
     {
       "ticker": "CP",
       "company_name": "Canadian Pacific Kansas City Limited",
       "direction": "FLAT",
-      "eps_prev": 7.478,
-      "eps_curr": 7.561,
-      "eps_chg_pct": 1.11,
-      "rev_chg_pct": 2.78,
-      "analysts_prev": 0,
-      "analysts_curr": 28,
-      "analysts_delta": 28,
-      "score_adj": 3,
+      "eps_prev": 7.561,
+      "eps_curr": 7.668,
+      "eps_chg_pct": 1.41,
+      "rev_chg_pct": -0.1,
+      "analysts_prev": 28,
+      "analysts_curr": 0,
+      "analysts_delta": -28,
+      "score_adj": -3,
       "flags": [
-        "Revenue estimate \u21912.8%",
-        "Analistas: +28 (0\u219228)"
-      ]
-    },
-    {
-      "ticker": "NOW",
-      "company_name": "ServiceNow, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 6.842,
-      "eps_curr": 6.842,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 44,
-      "analysts_delta": 44,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +44 (0\u219244)"
+        "Analistas: -28 (28\u21920)"
       ]
     },
     {
@@ -694,61 +585,110 @@
       "eps_prev": 29.803,
       "eps_curr": 29.803,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 33,
-      "analysts_curr": 0,
-      "analysts_delta": -33,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -33 (33\u21920)"
-      ]
-    },
-    {
-      "ticker": "CME",
-      "company_name": "CME Group Inc.",
-      "direction": "FLAT",
-      "eps_prev": 12.428,
-      "eps_curr": 12.428,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 15,
-      "analysts_curr": 0,
-      "analysts_delta": -15,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -15 (15\u21920)"
-      ]
-    },
-    {
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 4.522,
-      "eps_curr": 4.609,
-      "eps_chg_pct": 1.92,
-      "rev_chg_pct": 0.38,
+      "rev_chg_pct": -0.03,
       "analysts_prev": 0,
-      "analysts_curr": 19,
-      "analysts_delta": 19,
+      "analysts_curr": 33,
+      "analysts_delta": 33,
       "score_adj": 3,
       "flags": [
-        "Analistas: +19 (0\u219219)"
+        "Analistas: +33 (0\u219233)"
       ]
     },
     {
-      "ticker": "PGR",
-      "company_name": "The Progressive Corporation",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
       "direction": "FLAT",
-      "eps_prev": 16.184,
-      "eps_curr": 16.14,
-      "eps_chg_pct": -0.27,
-      "rev_chg_pct": 0.0,
+      "eps_prev": 20.266,
+      "eps_curr": 20.266,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.01,
+      "analysts_prev": 16,
+      "analysts_curr": 0,
+      "analysts_delta": -16,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -16 (16\u21920)"
+      ]
+    },
+    {
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "direction": "FLAT",
+      "eps_prev": 52.404,
+      "eps_curr": 52.404,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.29,
+      "analysts_prev": 18,
+      "analysts_curr": 0,
+      "analysts_delta": -18,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -18 (18\u21920)"
+      ]
+    },
+    {
+      "ticker": "ETN",
+      "company_name": "Eaton Corporation plc",
+      "direction": "FLAT",
+      "eps_prev": 14.839,
+      "eps_curr": 14.914,
+      "eps_chg_pct": 0.51,
+      "rev_chg_pct": 1.65,
       "analysts_prev": 0,
       "analysts_curr": 23,
       "analysts_delta": 23,
       "score_adj": 3,
       "flags": [
+        "Revenue estimate \u21911.7%",
         "Analistas: +23 (0\u219223)"
+      ]
+    },
+    {
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
+      "direction": "FLAT",
+      "eps_prev": 151.368,
+      "eps_curr": 151.368,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 6,
+      "analysts_curr": 0,
+      "analysts_delta": -6,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -6 (6\u21920)"
+      ]
+    },
+    {
+      "ticker": "CLPBY",
+      "company_name": "Coloplast A/S",
+      "direction": "FLAT",
+      "eps_prev": 0.404,
+      "eps_curr": 0.404,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.01,
+      "analysts_prev": 0,
+      "analysts_curr": 2,
+      "analysts_delta": 2,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +2 (0\u21922)"
+      ]
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "direction": "FLAT",
+      "eps_prev": 15.731,
+      "eps_curr": 15.731,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.03,
+      "analysts_prev": 38,
+      "analysts_curr": 0,
+      "analysts_delta": -38,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -38 (38\u21920)"
       ]
     },
     {
@@ -759,28 +699,12 @@
       "eps_curr": 2.912,
       "eps_chg_pct": 0.0,
       "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 17,
-      "analysts_delta": 17,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +17 (0\u219217)"
-      ]
-    },
-    {
-      "ticker": "PEP",
-      "company_name": "PepsiCo, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 11.778,
-      "eps_curr": 11.778,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 23,
+      "analysts_prev": 17,
       "analysts_curr": 0,
-      "analysts_delta": -23,
+      "analysts_delta": -17,
       "score_adj": -3,
       "flags": [
-        "Analistas: -23 (23\u21920)"
+        "Analistas: -17 (17\u21920)"
       ]
     },
     {
@@ -791,166 +715,20 @@
       "eps_curr": -0.683,
       "eps_chg_pct": 0.0,
       "rev_chg_pct": 0.0,
-      "analysts_prev": 14,
-      "analysts_curr": 0,
-      "analysts_delta": -14,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -14 (14\u21920)"
-      ]
-    },
-    {
-      "ticker": "TNE.AX",
-      "company_name": "Technology One Limited",
-      "direction": "FLAT",
-      "eps_prev": 0.956,
-      "eps_curr": 0.956,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.21,
-      "analysts_prev": 15,
-      "analysts_curr": 0,
-      "analysts_delta": -15,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -15 (15\u21920)"
-      ]
-    },
-    {
-      "ticker": "MCD",
-      "company_name": "McDonald's Corporation",
-      "direction": "FLAT",
-      "eps_prev": 16.584,
-      "eps_curr": 16.584,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.08,
       "analysts_prev": 0,
-      "analysts_curr": 29,
-      "analysts_delta": 29,
+      "analysts_curr": 14,
+      "analysts_delta": 14,
       "score_adj": 3,
       "flags": [
-        "Analistas: +29 (0\u219229)"
+        "Analistas: +14 (0\u219214)"
       ]
     },
     {
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
+      "ticker": "HEI",
+      "company_name": "HEICO Corporation",
       "direction": "FLAT",
-      "eps_prev": 10.43,
-      "eps_curr": 10.43,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 5,
-      "analysts_delta": 5,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +5 (0\u21925)"
-      ]
-    },
-    {
-      "ticker": "PAYX",
-      "company_name": "Paychex, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 7.0,
-      "eps_curr": 7.0,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 18,
-      "analysts_delta": 18,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +18 (0\u219218)"
-      ]
-    },
-    {
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "direction": "FLAT",
-      "eps_prev": 5.266,
-      "eps_curr": 5.266,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.01,
-      "analysts_prev": 0,
-      "analysts_curr": 38,
-      "analysts_delta": 38,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +38 (0\u219238)"
-      ]
-    },
-    {
-      "ticker": "CPRT",
-      "company_name": "Copart, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 1.929,
-      "eps_curr": 1.929,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 13,
-      "analysts_curr": 0,
-      "analysts_delta": -13,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -13 (13\u21920)"
-      ]
-    },
-    {
-      "ticker": "FDS",
-      "company_name": "FactSet Research Systems Inc.",
-      "direction": "FLAT",
-      "eps_prev": 25.399,
-      "eps_curr": 25.399,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 18,
-      "analysts_curr": 0,
-      "analysts_delta": -18,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -18 (18\u21920)"
-      ]
-    },
-    {
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
-      "direction": "UP",
-      "eps_prev": 18.052,
-      "eps_curr": 18.455,
-      "eps_chg_pct": 2.23,
-      "rev_chg_pct": 3.7,
-      "analysts_prev": 24,
-      "analysts_curr": 0,
-      "analysts_delta": -24,
-      "score_adj": 3,
-      "flags": [
-        "EPS consensus \u21912.2% (18.05\u219218.45)",
-        "Revenue estimate \u21913.7%",
-        "Analistas: -24 (24\u21920)"
-      ]
-    },
-    {
-      "ticker": "VEEV",
-      "company_name": "Veeva Systems Inc.",
-      "direction": "FLAT",
-      "eps_prev": 10.015,
-      "eps_curr": 10.015,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 26,
-      "analysts_delta": 26,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +26 (0\u219226)"
-      ]
-    },
-    {
-      "ticker": "TJX",
-      "company_name": "The TJX Companies, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 6.841,
-      "eps_curr": 6.841,
+      "eps_prev": 7.854,
+      "eps_curr": 7.854,
       "eps_chg_pct": 0.0,
       "rev_chg_pct": 0.0,
       "analysts_prev": 21,
@@ -962,6 +740,248 @@
       ]
     },
     {
+      "ticker": "WST",
+      "company_name": "West Pharmaceutical Services, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 11.75,
+      "eps_curr": 11.75,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.03,
+      "analysts_prev": 0,
+      "analysts_curr": 16,
+      "analysts_delta": 16,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +16 (0\u219216)"
+      ]
+    },
+    {
+      "ticker": "SBGSY",
+      "company_name": "Schneider Electric S.E.",
+      "direction": "FLAT",
+      "eps_prev": 2.742,
+      "eps_curr": 2.742,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.54,
+      "analysts_prev": 2,
+      "analysts_curr": 0,
+      "analysts_delta": -2,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -2 (2\u21920)"
+      ]
+    },
+    {
+      "ticker": "ROL",
+      "company_name": "Rollins, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 1.707,
+      "eps_curr": 1.707,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 16,
+      "analysts_delta": 16,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +16 (0\u219216)"
+      ]
+    },
+    {
+      "ticker": "HESAY",
+      "company_name": "Herm\u00e8s International Soci\u00e9t\u00e9 en commandite par actions",
+      "direction": "FLAT",
+      "eps_prev": 6.221,
+      "eps_curr": 6.221,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.02,
+      "analysts_prev": 2,
+      "analysts_curr": 0,
+      "analysts_delta": -2,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -2 (2\u21920)"
+      ]
+    },
+    {
+      "ticker": "VLTO",
+      "company_name": "Veralto Corporation",
+      "direction": "FLAT",
+      "eps_prev": 4.888,
+      "eps_curr": 4.888,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 16,
+      "analysts_delta": 16,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +16 (0\u219216)"
+      ]
+    },
+    {
+      "ticker": "ADP",
+      "company_name": "Automatic Data Processing, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 14.18,
+      "eps_curr": 14.18,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 14,
+      "analysts_delta": 14,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +14 (0\u219214)"
+      ]
+    },
+    {
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "direction": "FLAT",
+      "eps_prev": 11.726,
+      "eps_curr": 11.726,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 10,
+      "analysts_delta": 10,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +10 (0\u219210)"
+      ]
+    },
+    {
+      "ticker": "AWK",
+      "company_name": "American Water Works Company, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 11.974,
+      "eps_curr": 11.974,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.19,
+      "analysts_prev": 11,
+      "analysts_curr": 0,
+      "analysts_delta": -11,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -11 (11\u21920)"
+      ]
+    },
+    {
+      "ticker": "SHW",
+      "company_name": "The Sherwin-Williams Company",
+      "direction": "FLAT",
+      "eps_prev": 14.735,
+      "eps_curr": 14.735,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.04,
+      "analysts_prev": 23,
+      "analysts_curr": 0,
+      "analysts_delta": -23,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -23 (23\u21920)"
+      ]
+    },
+    {
+      "ticker": "FDS",
+      "company_name": "FactSet Research Systems Inc.",
+      "direction": "FLAT",
+      "eps_prev": 25.399,
+      "eps_curr": 25.399,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 18,
+      "analysts_delta": 18,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +18 (0\u219218)"
+      ]
+    },
+    {
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
+      "direction": "FLAT",
+      "eps_prev": 18.455,
+      "eps_curr": 18.682,
+      "eps_chg_pct": 1.23,
+      "rev_chg_pct": -0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 21,
+      "analysts_delta": 21,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +21 (0\u219221)"
+      ]
+    },
+    {
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "direction": "FLAT",
+      "eps_prev": 6.957,
+      "eps_curr": 6.957,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.05,
+      "analysts_prev": 22,
+      "analysts_curr": 0,
+      "analysts_delta": -22,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -22 (22\u21920)"
+      ]
+    },
+    {
+      "ticker": "PG",
+      "company_name": "The Procter & Gamble Company",
+      "direction": "FLAT",
+      "eps_prev": 8.161,
+      "eps_curr": 8.162,
+      "eps_chg_pct": 0.01,
+      "rev_chg_pct": 0.02,
+      "analysts_prev": 24,
+      "analysts_curr": 0,
+      "analysts_delta": -24,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -24 (24\u21920)"
+      ]
+    },
+    {
+      "ticker": "AME",
+      "company_name": "AMETEK, Inc.",
+      "direction": "UP",
+      "eps_prev": 9.319,
+      "eps_curr": 9.581,
+      "eps_chg_pct": 2.81,
+      "rev_chg_pct": 3.93,
+      "analysts_prev": 18,
+      "analysts_curr": 0,
+      "analysts_delta": -18,
+      "score_adj": 3,
+      "flags": [
+        "EPS consensus \u21912.8% (9.32\u21929.58)",
+        "Revenue estimate \u21913.9%",
+        "Analistas: -18 (18\u21920)"
+      ]
+    },
+    {
+      "ticker": "TJX",
+      "company_name": "The TJX Companies, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 6.841,
+      "eps_curr": 6.841,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.02,
+      "analysts_prev": 0,
+      "analysts_curr": 21,
+      "analysts_delta": 21,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +21 (0\u219221)"
+      ]
+    },
+    {
       "ticker": "MKC",
       "company_name": "McCormick & Company, Incorporated",
       "direction": "FLAT",
@@ -969,44 +989,76 @@
       "eps_curr": 4.171,
       "eps_chg_pct": 0.0,
       "rev_chg_pct": 0.0,
-      "analysts_prev": 13,
-      "analysts_curr": 0,
-      "analysts_delta": -13,
-      "score_adj": -3,
+      "analysts_prev": 0,
+      "analysts_curr": 13,
+      "analysts_delta": 13,
+      "score_adj": 3,
       "flags": [
-        "Analistas: -13 (13\u21920)"
+        "Analistas: +13 (0\u219213)"
       ]
     },
     {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
+      "ticker": "WCN",
+      "company_name": "Waste Connections, Inc.",
       "direction": "FLAT",
-      "eps_prev": 25.761,
-      "eps_curr": 25.761,
+      "eps_prev": 11.043,
+      "eps_curr": 11.043,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 16,
-      "analysts_curr": 0,
-      "analysts_delta": -16,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -16 (16\u21920)"
-      ]
-    },
-    {
-      "ticker": "ABT",
-      "company_name": "Abbott Laboratories",
-      "direction": "FLAT",
-      "eps_prev": 7.031,
-      "eps_curr": 7.031,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.01,
+      "rev_chg_pct": 0.05,
       "analysts_prev": 24,
       "analysts_curr": 0,
       "analysts_delta": -24,
       "score_adj": -3,
       "flags": [
         "Analistas: -24 (24\u21920)"
+      ]
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "direction": "FLAT",
+      "eps_prev": 21.906,
+      "eps_curr": 21.906,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": -0.0,
+      "analysts_prev": 34,
+      "analysts_curr": 0,
+      "analysts_delta": -34,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -34 (34\u21920)"
+      ]
+    },
+    {
+      "ticker": "ORLY",
+      "company_name": "O'Reilly Automotive, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 4.295,
+      "eps_curr": 4.295,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 27,
+      "analysts_delta": 27,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +27 (0\u219227)"
+      ]
+    },
+    {
+      "ticker": "TMO",
+      "company_name": "Thermo Fisher Scientific Inc.",
+      "direction": "FLAT",
+      "eps_prev": 28.218,
+      "eps_curr": 28.218,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 0,
+      "analysts_curr": 26,
+      "analysts_delta": 26,
+      "score_adj": 3,
+      "flags": [
+        "Analistas: +26 (0\u219226)"
       ]
     },
     {
@@ -1017,12 +1069,12 @@
       "eps_curr": 4.38,
       "eps_chg_pct": 0.0,
       "rev_chg_pct": 0.0,
-      "analysts_prev": 15,
-      "analysts_curr": 0,
-      "analysts_delta": -15,
-      "score_adj": -3,
+      "analysts_prev": 0,
+      "analysts_curr": 16,
+      "analysts_delta": 16,
+      "score_adj": 3,
       "flags": [
-        "Analistas: -15 (15\u21920)"
+        "Analistas: +16 (0\u219216)"
       ]
     },
     {
@@ -1032,13 +1084,13 @@
       "eps_prev": 34.666,
       "eps_curr": 34.666,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 32,
-      "analysts_curr": 0,
-      "analysts_delta": -32,
-      "score_adj": -3,
+      "rev_chg_pct": 0.05,
+      "analysts_prev": 0,
+      "analysts_curr": 32,
+      "analysts_delta": 32,
+      "score_adj": 3,
       "flags": [
-        "Analistas: -32 (32\u21920)"
+        "Analistas: +32 (0\u219232)"
       ]
     },
     {
@@ -1048,13 +1100,13 @@
       "eps_prev": 21.711,
       "eps_curr": 21.711,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.11,
-      "analysts_prev": 0,
-      "analysts_curr": 24,
-      "analysts_delta": 24,
-      "score_adj": 3,
+      "rev_chg_pct": -0.04,
+      "analysts_prev": 24,
+      "analysts_curr": 0,
+      "analysts_delta": -24,
+      "score_adj": -3,
       "flags": [
-        "Analistas: +24 (0\u219224)"
+        "Analistas: -24 (24\u21920)"
       ]
     },
     {
@@ -1062,9 +1114,41 @@
       "company_name": "Otis Worldwide Corporation",
       "direction": "FLAT",
       "eps_prev": 4.729,
-      "eps_curr": 4.729,
+      "eps_curr": 4.698,
+      "eps_chg_pct": -0.66,
+      "rev_chg_pct": 0.0,
+      "analysts_prev": 11,
+      "analysts_curr": 0,
+      "analysts_delta": -11,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -11 (11\u21920)"
+      ]
+    },
+    {
+      "ticker": "DVA",
+      "company_name": "DaVita Inc.",
+      "direction": "FLAT",
+      "eps_prev": 25.722,
+      "eps_curr": 25.745,
+      "eps_chg_pct": 0.09,
+      "rev_chg_pct": 0.27,
+      "analysts_prev": 6,
+      "analysts_curr": 0,
+      "analysts_delta": -6,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -6 (6\u21920)"
+      ]
+    },
+    {
+      "ticker": "NUE",
+      "company_name": "Nucor Corporation",
+      "direction": "FLAT",
+      "eps_prev": 25.989,
+      "eps_curr": 25.989,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.41,
+      "rev_chg_pct": -0.65,
       "analysts_prev": 0,
       "analysts_curr": 11,
       "analysts_delta": 11,
@@ -1074,259 +1158,51 @@
       ]
     },
     {
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
+      "ticker": "CHTR",
+      "company_name": "Charter Communications, Inc.",
       "direction": "FLAT",
-      "eps_prev": 6.872,
-      "eps_curr": 6.872,
+      "eps_prev": 125.473,
+      "eps_curr": 125.473,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 7,
-      "analysts_curr": 0,
-      "analysts_delta": -7,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -7 (7\u21920)"
-      ]
-    },
-    {
-      "ticker": "NVR",
-      "company_name": "NVR, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 435.383,
-      "eps_curr": 435.383,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.39,
-      "analysts_prev": 5,
-      "analysts_curr": 0,
-      "analysts_delta": -5,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -5 (5\u21920)"
-      ]
-    },
-    {
-      "ticker": "LPX",
-      "company_name": "Louisiana-Pacific Corporation",
-      "direction": "FLAT",
-      "eps_prev": 5.044,
-      "eps_curr": 5.044,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.24,
+      "rev_chg_pct": 0.03,
       "analysts_prev": 0,
       "analysts_curr": 13,
       "analysts_delta": 13,
       "score_adj": 3,
       "flags": [
         "Analistas: +13 (0\u219213)"
-      ]
-    },
-    {
-      "ticker": "DVA",
-      "company_name": "DaVita Inc.",
-      "direction": "FLAT",
-      "eps_prev": 25.722,
-      "eps_curr": 25.722,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 6,
-      "analysts_delta": 6,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +6 (0\u21926)"
-      ]
-    },
-    {
-      "ticker": "KD",
-      "company_name": "Kyndryl Holdings, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 1.92,
-      "eps_curr": 1.92,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.02,
-      "analysts_prev": 0,
-      "analysts_curr": 7,
-      "analysts_delta": 7,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +7 (0\u21927)"
-      ]
-    },
-    {
-      "ticker": "UBER",
-      "company_name": "Uber Technologies, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 6.208,
-      "eps_curr": 6.16,
-      "eps_chg_pct": -0.78,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 32,
-      "analysts_curr": 34,
-      "analysts_delta": 2,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +2 (32\u219234)"
-      ]
-    },
-    {
-      "ticker": "FCNCA",
-      "company_name": "First Citizens BancShares, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 187.256,
-      "eps_curr": 187.225,
-      "eps_chg_pct": -0.02,
-      "rev_chg_pct": 0.49,
-      "analysts_prev": 0,
-      "analysts_curr": 9,
-      "analysts_delta": 9,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +9 (0\u21929)"
       ]
     },
     {
       "ticker": "BAC",
       "company_name": "Bank of America Corporation",
       "direction": "FLAT",
-      "eps_prev": 4.941,
-      "eps_curr": 4.953,
-      "eps_chg_pct": 0.24,
-      "rev_chg_pct": 0.04,
-      "analysts_prev": 17,
-      "analysts_curr": 0,
-      "analysts_delta": -17,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -17 (17\u21920)"
-      ]
-    },
-    {
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "direction": "FLAT",
-      "eps_prev": 1.354,
-      "eps_curr": 1.354,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 15,
-      "analysts_curr": 0,
-      "analysts_delta": -15,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -15 (15\u21920)"
-      ]
-    },
-    {
-      "ticker": "NYT",
-      "company_name": "The New York Times Company",
-      "direction": "FLAT",
-      "eps_prev": 3.934,
-      "eps_curr": 3.934,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
+      "eps_prev": 4.953,
+      "eps_curr": 4.983,
+      "eps_chg_pct": 0.6,
+      "rev_chg_pct": 0.53,
       "analysts_prev": 0,
-      "analysts_curr": 9,
-      "analysts_delta": 9,
+      "analysts_curr": 19,
+      "analysts_delta": 19,
       "score_adj": 3,
       "flags": [
-        "Analistas: +9 (0\u21929)"
+        "Analistas: +19 (0\u219219)"
       ]
     },
     {
-      "ticker": "LEN",
-      "company_name": "Lennar Corporation",
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
       "direction": "FLAT",
-      "eps_prev": 6.521,
-      "eps_curr": 6.521,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
+      "eps_prev": 2.166,
+      "eps_curr": 2.171,
+      "eps_chg_pct": 0.23,
+      "rev_chg_pct": 0.01,
       "analysts_prev": 0,
-      "analysts_curr": 8,
-      "analysts_delta": 8,
+      "analysts_curr": 16,
+      "analysts_delta": 16,
       "score_adj": 3,
       "flags": [
-        "Analistas: +8 (0\u21928)"
-      ]
-    },
-    {
-      "ticker": "UNH",
-      "company_name": "UnitedHealth Group Incorporated",
-      "direction": "FLAT",
-      "eps_prev": 26.151,
-      "eps_curr": 26.151,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 0,
-      "analysts_curr": 25,
-      "analysts_delta": 25,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +25 (0\u219225)"
-      ]
-    },
-    {
-      "ticker": "POOL",
-      "company_name": "Pool Corporation",
-      "direction": "FLAT",
-      "eps_prev": 19.315,
-      "eps_curr": 19.315,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": -0.02,
-      "analysts_prev": 0,
-      "analysts_curr": 13,
-      "analysts_delta": 13,
-      "score_adj": 3,
-      "flags": [
-        "Analistas: +13 (0\u219213)"
-      ]
-    },
-    {
-      "ticker": "KHC",
-      "company_name": "The Kraft Heinz Company",
-      "direction": "FLAT",
-      "eps_prev": 2.769,
-      "eps_curr": 2.769,
-      "eps_chg_pct": 0.0,
-      "rev_chg_pct": 0.02,
-      "analysts_prev": 19,
-      "analysts_curr": 0,
-      "analysts_delta": -19,
-      "score_adj": -3,
-      "flags": [
-        "Analistas: -19 (19\u21920)"
-      ]
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "direction": "FLAT",
-      "eps_prev": 15.775,
-      "eps_curr": 15.731,
-      "eps_chg_pct": -0.28,
-      "rev_chg_pct": 3.17,
-      "analysts_prev": 39,
-      "analysts_curr": 38,
-      "analysts_delta": -1,
-      "score_adj": 2,
-      "flags": [
-        "Revenue estimate \u21913.2%"
-      ]
-    },
-    {
-      "ticker": "CDNS",
-      "company_name": "Cadence Design Systems, Inc.",
-      "direction": "FLAT",
-      "eps_prev": 9.149,
-      "eps_curr": 8.992,
-      "eps_chg_pct": -1.71,
-      "rev_chg_pct": 4.94,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 2,
-      "flags": [
-        "Revenue estimate \u21914.9%"
+        "Analistas: +16 (0\u219216)"
       ]
     },
     {
@@ -1336,150 +1212,78 @@
       "eps_prev": 11.263,
       "eps_curr": 11.263,
       "eps_chg_pct": 0.0,
-      "rev_chg_pct": 5.9,
-      "analysts_prev": 0,
-      "analysts_curr": 0,
-      "analysts_delta": 0,
-      "score_adj": 2,
-      "flags": [
-        "Revenue estimate \u21915.9%"
-      ]
-    },
-    {
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "direction": "UP",
-      "eps_prev": 14.053,
-      "eps_curr": 14.457,
-      "eps_chg_pct": 2.87,
-      "rev_chg_pct": 1.11,
-      "analysts_prev": 12,
-      "analysts_curr": 0,
-      "analysts_delta": -12,
-      "score_adj": 1,
-      "flags": [
-        "EPS consensus \u21912.9% (14.05\u219214.46)",
-        "Analistas: -12 (12\u21920)"
-      ]
-    },
-    {
-      "ticker": "AJG",
-      "company_name": "Arthur J. Gallagher & Co.",
-      "direction": "UP",
-      "eps_prev": 13.643,
-      "eps_curr": 14.113,
-      "eps_chg_pct": 3.45,
-      "rev_chg_pct": 1.46,
-      "analysts_prev": 22,
-      "analysts_curr": 0,
-      "analysts_delta": -22,
-      "score_adj": 1,
-      "flags": [
-        "EPS consensus \u21913.4% (13.64\u219214.11)",
-        "Analistas: -22 (22\u21920)"
-      ]
-    },
-    {
-      "ticker": "LIN",
-      "company_name": "Linde plc",
-      "direction": "UP",
-      "eps_prev": 24.587,
-      "eps_curr": 25.218,
-      "eps_chg_pct": 2.57,
-      "rev_chg_pct": 1.59,
-      "analysts_prev": 27,
-      "analysts_curr": 25,
-      "analysts_delta": -2,
-      "score_adj": 1,
-      "flags": [
-        "EPS consensus \u21912.6% (24.59\u219225.22)",
-        "Revenue estimate \u21911.6%",
-        "Analistas: -2 (27\u219225)"
-      ]
-    },
-    {
-      "ticker": "AZO",
-      "company_name": "AutoZone, Inc.",
-      "direction": "DOWN",
-      "eps_prev": 226.583,
-      "eps_curr": 216.636,
-      "eps_chg_pct": -4.39,
       "rev_chg_pct": 0.0,
       "analysts_prev": 0,
-      "analysts_curr": 23,
-      "analysts_delta": 23,
-      "score_adj": -1,
+      "analysts_curr": 18,
+      "analysts_delta": 18,
+      "score_adj": 3,
       "flags": [
-        "EPS consensus \u21934.4% (226.58\u2192216.64)",
-        "Analistas: +23 (0\u219223)"
+        "Analistas: +18 (0\u219218)"
       ]
     },
     {
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "direction": "UP",
-      "eps_prev": 13.035,
-      "eps_curr": 13.445,
-      "eps_chg_pct": 3.15,
-      "rev_chg_pct": 0.0,
-      "analysts_prev": 11,
-      "analysts_curr": 0,
-      "analysts_delta": -11,
-      "score_adj": 1,
-      "flags": [
-        "EPS consensus \u21913.1% (13.04\u219213.45)",
-        "Analistas: -11 (11\u21920)"
-      ]
-    },
-    {
-      "ticker": "ORLY",
-      "company_name": "O'Reilly Automotive, Inc.",
-      "direction": "UP",
-      "eps_prev": 4.112,
-      "eps_curr": 4.295,
-      "eps_chg_pct": 4.44,
-      "rev_chg_pct": 1.72,
-      "analysts_prev": 27,
-      "analysts_curr": 0,
-      "analysts_delta": -27,
-      "score_adj": 1,
-      "flags": [
-        "EPS consensus \u21914.4% (4.11\u21924.29)",
-        "Revenue estimate \u21911.7%",
-        "Analistas: -27 (27\u21920)"
-      ]
-    },
-    {
-      "ticker": "DPZ",
-      "company_name": "Domino's Pizza, Inc.",
-      "direction": "DOWN",
-      "eps_prev": 24.446,
-      "eps_curr": 23.868,
-      "eps_chg_pct": -2.36,
-      "rev_chg_pct": -0.02,
-      "analysts_prev": 0,
-      "analysts_curr": 28,
-      "analysts_delta": 28,
-      "score_adj": -1,
-      "flags": [
-        "EPS consensus \u21932.4% (24.45\u219223.87)",
-        "Analistas: +28 (0\u219228)"
-      ]
-    },
-    {
-      "ticker": "CHD",
-      "company_name": "Church & Dwight Co., Inc.",
+      "ticker": "THC",
+      "company_name": "Tenet Healthcare Corporation",
       "direction": "FLAT",
-      "eps_prev": 4.367,
-      "eps_curr": 4.295,
-      "eps_chg_pct": -1.63,
-      "rev_chg_pct": 1.5,
-      "analysts_prev": 11,
-      "analysts_curr": 11,
+      "eps_prev": 38.885,
+      "eps_curr": 38.885,
+      "eps_chg_pct": 0.0,
+      "rev_chg_pct": 0.18,
+      "analysts_prev": 18,
+      "analysts_curr": 0,
+      "analysts_delta": -18,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -18 (18\u21920)"
+      ]
+    },
+    {
+      "ticker": "ALLY",
+      "company_name": "Ally Financial Inc.",
+      "direction": "FLAT",
+      "eps_prev": 5.967,
+      "eps_curr": 5.986,
+      "eps_chg_pct": 0.32,
+      "rev_chg_pct": 0.26,
+      "analysts_prev": 16,
+      "analysts_curr": 0,
+      "analysts_delta": -16,
+      "score_adj": -3,
+      "flags": [
+        "Analistas: -16 (16\u21920)"
+      ]
+    },
+    {
+      "ticker": "EQIX",
+      "company_name": "Equinix, Inc.",
+      "direction": "UP",
+      "eps_prev": 45.72,
+      "eps_curr": 47.484,
+      "eps_chg_pct": 3.86,
+      "rev_chg_pct": 0.04,
+      "analysts_prev": 4,
+      "analysts_curr": 0,
+      "analysts_delta": -4,
+      "score_adj": 1,
+      "flags": [
+        "EPS consensus \u21913.9% (45.72\u219247.48)",
+        "Analistas: -4 (4\u21920)"
+      ]
+    },
+    {
+      "ticker": "RSG",
+      "company_name": "Republic Services, Inc.",
+      "direction": "FLAT",
+      "eps_prev": 15.046,
+      "eps_curr": 15.28,
+      "eps_chg_pct": 1.55,
+      "rev_chg_pct": 1.57,
+      "analysts_prev": 0,
+      "analysts_curr": 0,
       "analysts_delta": 0,
       "score_adj": 0,
       "flags": [
-        "Revenue estimate \u21911.5%"
+        "Revenue estimate \u21911.6%"
       ]
     }
   ]
