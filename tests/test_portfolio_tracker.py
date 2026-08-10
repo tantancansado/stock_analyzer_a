@@ -1263,3 +1263,52 @@ class TestSueloDeCaida:
                            if not l.lstrip().startswith('#'))
         # el filtro debe ser >= suelo, no un techo tipo <= -5
         assert '_prox >= _CAIDA_MAX_PCT' in codigo
+
+
+class TestBaseEstadistica:
+    """El resumen tiene que describir a las señales que el sistema emite HOY.
+
+    `golden_zone_hist` incluye el tramo contaminado y es otra población: a 30d
+    publicaba 76,9% de acierto y +5,05% cuando las señales del periodo limpio
+    van al 21,0% y −4,68%. Se eligió esa base porque al montar el tracker el
+    limpio no tenía señales vencidas a 30d; cuando las tuvo (100), nadie
+    revisó la elección y quedó el titular inflado. `stats_basis` lo documentaba,
+    pero nadie lee la letra pequeña de un 76,9%.
+    """
+
+    @staticmethod
+    def _win_stats(ret, win, d):
+        if ret not in d.columns:
+            return {'count': 0, 'win_rate': None, 'avg_return': None}
+        v = d[ret].dropna()
+        if v.empty:
+            return {'count': 0, 'win_rate': None, 'avg_return': None}
+        return {'count': int(len(v)), 'win_rate': round(100 * (v > 0).mean(), 1),
+                'avg_return': round(float(v.mean()), 2)}
+
+    def _df(self, n, retorno):
+        import pandas as pd
+        return pd.DataFrame({'return_30d': [retorno] * n, 'win_30d': [retorno > 0] * n})
+
+    def test_con_muestra_limpia_manda_el_limpio(self):
+        from portfolio_tracker import MIN_MUESTRA_LIMPIA, _mejor_base
+        r = _mejor_base('30d', self._df(MIN_MUESTRA_LIMPIA, -4.7),
+                        self._df(500, +5.0), self._win_stats)
+        assert r['basis'] == 'clean_period'
+        assert r['avg_return'] == -4.7, 'se coló el histórico teniendo muestra limpia'
+        assert 'nota' not in r
+
+    def test_sin_muestra_limpia_cae_al_historico_pero_lo_DICE(self):
+        from portfolio_tracker import MIN_MUESTRA_LIMPIA, _mejor_base
+        r = _mejor_base('30d', self._df(MIN_MUESTRA_LIMPIA - 1, -4.7),
+                        self._df(500, +5.0), self._win_stats)
+        assert r['basis'] == 'golden_zone_hist'
+        assert 'nota' in r and 'otra población' in r['nota']
+
+    def test_un_horizonte_aun_sin_columna_no_revienta(self):
+        """180d/365d no existen hasta que las señales envejecen."""
+        import pandas as pd
+        from portfolio_tracker import _mejor_base
+        r = _mejor_base('365d', pd.DataFrame({'return_30d': [1.0]}),
+                        pd.DataFrame({'return_30d': [1.0]}), self._win_stats)
+        assert r.get('count') == 0

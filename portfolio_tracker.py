@@ -18,6 +18,38 @@ from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT
 
 TRACKER_DIR = Path('docs/portfolio_tracker')
 
+# Señales vencidas mínimas para dar por bueno el periodo limpio en un horizonte.
+# Por debajo de esto el win rate es ruido y sale peor que usar el histórico.
+MIN_MUESTRA_LIMPIA = 30
+
+
+def _mejor_base(horizonte: str, limpio: pd.DataFrame, historico: pd.DataFrame,
+                win_stats) -> dict:
+    """Estadísticas de un horizonte, prefiriendo SIEMPRE el periodo limpio.
+
+    El histórico (golden_zone_hist) incluye el tramo contaminado y describe otra
+    población: a 30d daba 76,9% de acierto y +5,05% cuando las señales que el
+    sistema emite hoy van al 21,0% y −4,68%. Se eligió como base porque cuando se
+    montó el tracker el periodo limpio aún no tenía señales vencidas a 30d; ya
+    tiene 100, así que la sustitución dejó de estar justificada y solo quedaba el
+    titular inflado. El respaldo está en `stats_basis`, pero nadie lee la letra
+    pequeña de un 76,9%.
+
+    Se cae al histórico únicamente mientras el limpio no llegue a
+    MIN_MUESTRA_LIMPIA, y en ese caso `basis` lo dice.
+    """
+    ret, win = f'return_{horizonte}', f'win_{horizonte}'
+    n_limpio = int(limpio[ret].notna().sum()) if (not limpio.empty and ret in limpio) else 0
+    if n_limpio >= MIN_MUESTRA_LIMPIA:
+        return {**win_stats(ret, win, limpio), 'basis': 'clean_period'}
+    if historico.empty:
+        return {}
+    return {**win_stats(ret, win, historico), 'basis': 'golden_zone_hist',
+            'nota': (f'periodo limpio aún sin muestra a {horizonte} '
+                     f'({n_limpio} de {MIN_MUESTRA_LIMPIA} necesarias) — '
+                     f'este dato viene del histórico, que incluye el tramo '
+                     f'contaminado y describe otra población')}
+
 
 def _alpha_stats(df: pd.DataFrame, alpha_col: str, return_col: str) -> dict:
     """Alpha = señal return - benchmark return en el mismo período."""
@@ -647,7 +679,10 @@ class PortfolioTracker:
                     'long_hist_reference': 'long_hist',
                     'conviction': 'golden_zone_hist',
                     'value_strategy.7d/14d': 'clean_period',
-                    'value_strategy.30d': 'golden_zone_hist',
+                    'value_strategy.30d+': (
+                        'clean_period en cuanto hay >=30 señales vencidas; '
+                        'golden_zone_hist solo mientras no las haya, y entonces '
+                        'la propia sección lo dice en "nota"'),
                     'sector_performance': 'clean_period_us_value',
                     'score_correlation': 'golden_zone_hist',
                 },
@@ -667,16 +702,13 @@ class PortfolioTracker:
 
             'value_strategy': {
                 'count': len(value_df),
-                # 7d/14d: clean signals (apr+). 30d+: golden zone historical (más
-                # datos completados). 90d es el horizonte con base sólida HOY
-                # (180/365d se llenan conforme envejecen las señales — el tracking
-                # empezó feb-2026, así que 180d ~ago-2026, 365d ~feb-2027).
+                # 7d/14d siempre del periodo limpio. Para 30d+ se prefiere TAMBIÉN
+                # el limpio en cuanto tiene muestra, y solo se cae al histórico
+                # cuando no la hay — ver _mejor_base.
                 '7d':  {**win_stats('return_7d',  'win_7d',  value_df), 'basis': 'clean_period'} if not value_df.empty else {},
                 '14d': {**win_stats('return_14d', 'win_14d', value_df), 'basis': 'clean_period'} if not value_df.empty else {},
-                '30d': {**win_stats('return_30d', 'win_30d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
-                '90d': {**win_stats('return_90d', 'win_90d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
-                '180d': {**win_stats('return_180d', 'win_180d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
-                '365d': {**win_stats('return_365d', 'win_365d', golden_hist), 'basis': 'golden_zone_hist'} if not golden_hist.empty else {},
+                **{h: _mejor_base(h, value_df, golden_hist, win_stats)
+                   for h in ('30d', '90d', '180d', '365d')},
             },
 
             'eu_value_strategy': {
