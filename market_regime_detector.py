@@ -229,6 +229,16 @@ class MarketRegimeDetector:
             current_vix = hist['Close'].iloc[-1]
             avg_vix_30d = hist['Close'].tail(30).mean()
 
+            # Un NaN falla TODAS las comparaciones `<` de abajo y cae al else:
+            # el dato ausente se convertía en 'HIGH — High fear, market stress',
+            # el veredicto más alarmista de los cuatro. Mismo fallo que ya se
+            # tapó en _analyze_index (precio/MAs), que dejó fuera esta rama.
+            # Por CLAUDE.md: dato ausente → sin veredicto, nunca uno inventado.
+            import math
+            if math.isnan(current_vix):
+                print('   ⚠️  VIX: dato NaN (rate-limit o histórico incompleto) — sin veredicto')
+                return {'level': 'UNKNOWN', 'value': None}
+
             # VIX interpretation
             if current_vix < 15:
                 level = 'LOW'  # Complacency
@@ -271,9 +281,12 @@ class MarketRegimeDetector:
         spy = spy_status.get('status', 'ERROR')
         qqq = qqq_status.get('status', 'ERROR')
         vix_value = vix_level.get('value')
-        # Handle None case (VIX data not available)
-        if vix_value is None:
-            vix_value = 20  # Assume normal volatility if no data
+        # None y NaN son el mismo caso: "no hay dato". Comprobar solo None dejaba
+        # pasar el NaN, que después falla toda comparación (`< 30` es False) y
+        # tuerce el régimen en silencio sin que nada lo delate.
+        import math
+        if vix_value is None or (isinstance(vix_value, float) and math.isnan(vix_value)):
+            vix_value = 20  # sin dato → se asume volatilidad normal, no pánico
 
         # Count strong uptrends
         strong_count = sum([

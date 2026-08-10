@@ -65,3 +65,35 @@ class TestRegimeNeverAbortsPipeline:
                           'confidence': 'HIGH', 'explanation': 'test'},
         )
         assert mrd.main() == 0, "Regime detector must never abort the pipeline"
+
+
+class TestVixNaN:
+    """Un VIX NaN no puede convertirse en pánico.
+
+    Las comparaciones `<` de _analyze_vix son todas False con NaN, así que el
+    dato ausente caía al else y salía como 'HIGH — High fear, market stress':
+    el veredicto más alarmista de los cuatro, inventado de la nada. El arreglo
+    de esta misma clase de bug (10-jun-2026) cubrió precio/MAs y dejó fuera
+    esta rama. Visto en producción el 10-ago-2026 con el VIX real en 15,48.
+    """
+
+    def test_un_vix_nan_no_es_HIGH(self, monkeypatch):
+        import numpy as np
+        import pandas as pd
+        import market_regime_detector as mrd
+        d = mrd.MarketRegimeDetector()
+        monkeypatch.setattr(d, '_get_historical_data',
+                            lambda s: pd.DataFrame({'Close': [np.nan] * 40}))
+        r = d._analyze_vix()
+        assert r['level'] == 'UNKNOWN', f"NaN salió como {r['level']}"
+        assert r['value'] is None
+
+    def test_un_vix_nan_no_tuerce_el_regimen(self):
+        """_determine_regime trataba None pero no NaN, y NaN falla todo `<`."""
+        import math
+        import market_regime_detector as mrd
+        d = mrd.MarketRegimeDetector()
+        fuerte = {'status': 'STRONG_UPTREND'}
+        con_nan = d._determine_regime(fuerte, fuerte, {'level': 'HIGH', 'value': math.nan})
+        sin_dato = d._determine_regime(fuerte, fuerte, {'level': 'UNKNOWN', 'value': None})
+        assert con_nan['regime'] == sin_dato['regime'] == 'CONFIRMED_UPTREND'
