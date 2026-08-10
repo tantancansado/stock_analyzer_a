@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-08-09T12:30:43.010194",
+  "generated_at": "2026-08-10T05:46:32.624850",
   "n_samples": 1509,
   "win_rate_base": 0.2856,
-  "cv_roc_auc": 0.8052,
-  "cv_brier_score": 0.1617,
+  "cv_roc_auc": 0.8051,
+  "cv_brier_score": 0.1593,
   "feature_importance": {
-    "regime_num": 0.1618,
-    "fcf_positive": 0.1203,
-    "fcf_yield_pct": 0.0946,
-    "analyst_upside_pct": 0.0924,
-    "value_score_sq": 0.0911,
-    "value_score": 0.0884,
-    "risk_reward_ratio": 0.0872,
-    "fcf_gte_5": 0.0869,
-    "upside_gte_30": 0.0825,
-    "score_gte_75": 0.0273
+    "regime_num": 0.1539,
+    "value_score_sq": 0.1046,
+    "fcf_gte_5": 0.1026,
+    "fcf_positive": 0.0968,
+    "fcf_yield_pct": 0.0847,
+    "risk_reward_ratio": 0.0817,
+    "analyst_upside_pct": 0.0807,
+    "value_score": 0.0776,
+    "rr_gte_3": 0.0564,
+    "rr_gte_2": 0.0519
   },
   "sector_win_rates": {
     "Energy": 0.714,

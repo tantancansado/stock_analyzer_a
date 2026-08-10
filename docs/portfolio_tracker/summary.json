@@ -1,15 +1,15 @@
 {
-  "total_signals": 167,
-  "unique_tickers": 49,
-  "date_range": "2026-04-08 to 2026-08-07",
-  "active_signals": 16,
-  "completed_signals": 151,
+  "total_signals": 171,
+  "unique_tickers": 51,
+  "date_range": "2026-04-08 to 2026-08-10",
+  "active_signals": 18,
+  "completed_signals": 153,
   "overall": {
     "7d": {
-      "count": 161,
-      "win_rate": 52.2,
-      "avg_return": 0.35,
-      "median_return": 0.26,
+      "count": 162,
+      "win_rate": 52.5,
+      "avg_return": 0.41,
+      "median_return": 0.28,
       "best": 14.77,
       "worst": -16.89
     },
@@ -22,10 +22,10 @@
       "worst": -13.92
     },
     "30d": {
-      "count": 151,
-      "win_rate": 27.8,
-      "avg_return": -3.66,
-      "median_return": -4.97,
+      "count": 153,
+      "win_rate": 28.8,
+      "avg_return": -3.5,
+      "median_return": -4.8,
       "best": 22.71,
       "worst": -22.28
     },
@@ -56,12 +56,12 @@
   },
   "long_hist_reference": {
     "90d": {
-      "count": 822,
-      "win_rate": 46.6,
-      "avg_return": 0.34,
-      "median_return": -1.04,
-      "best": 53.61,
-      "worst": -37.59
+      "count": 826,
+      "win_rate": 48.8,
+      "avg_return": 1.3,
+      "median_return": -0.36,
+      "best": 57.29,
+      "worst": -25.82
     },
     "180d": {
       "count": 0,
@@ -82,7 +82,8 @@
   },
   "stats_basis": {
     "clean_period": "se\u00f1ales VALUE+EU_VALUE desde 2026-04-08 (filtrado correcto)",
-    "golden_zone_hist": "hist\u00f3rico US VALUE retroactivo: score>=60, RR>=2, upside 10-55% (\u00fanico con datos 30d)",
+    "clean_period_us_value": "US VALUE desde 2026-04-08 \u2014 base del ajuste sectorial del integrator. Antes usaba golden_zone_hist (contaminado): su win-rate sectorial no predice al limpio (corr +0,26 a 30d) y lo infla en bloque",
+    "golden_zone_hist": "hist\u00f3rico US VALUE retroactivo: score>=60 y upside en [10, 25) \u2014 misma poblaci\u00f3n que se emite hoy. Incluye el periodo contaminado: es el \u00fanico con datos 30d/90d suficientes",
     "long_hist": "golden zone US + hist\u00f3rico EU completo \u2014 incluye el periodo contaminado; m\u00e1s muestra, otra poblaci\u00f3n",
     "sections": {
       "overall": "clean_period",
@@ -90,25 +91,25 @@
       "conviction": "golden_zone_hist",
       "value_strategy.7d/14d": "clean_period",
       "value_strategy.30d": "golden_zone_hist",
-      "sector_performance": "golden_zone_hist",
+      "sector_performance": "clean_period_us_value",
       "score_correlation": "golden_zone_hist"
     }
   },
   "conviction": {
     "7d": {
-      "count": 101,
-      "win_rate": 33.7,
-      "avg_return": -0.71,
+      "count": 106,
+      "win_rate": 39.6,
+      "avg_return": -0.56,
       "basis": "golden_zone_hist"
     }
   },
   "value_strategy": {
-    "count": 114,
+    "count": 118,
     "7d": {
-      "count": 108,
-      "win_rate": 44.4,
-      "avg_return": -0.12,
-      "median_return": -0.46,
+      "count": 109,
+      "win_rate": 45.0,
+      "avg_return": -0.03,
+      "median_return": -0.45,
       "best": 14.77,
       "worst": -9.78,
       "basis": "clean_period"
@@ -123,21 +124,21 @@
       "basis": "clean_period"
     },
     "30d": {
-      "count": 100,
-      "win_rate": 66.0,
-      "avg_return": 3.32,
-      "median_return": 5.14,
+      "count": 104,
+      "win_rate": 76.9,
+      "avg_return": 5.05,
+      "median_return": 5.89,
       "best": 23.44,
-      "worst": -14.5,
+      "worst": -19.9,
       "basis": "golden_zone_hist"
     },
     "90d": {
-      "count": 99,
-      "win_rate": 70.7,
-      "avg_return": 8.52,
-      "median_return": 9.47,
-      "best": 53.61,
-      "worst": -37.59,
+      "count": 103,
+      "win_rate": 87.4,
+      "avg_return": 15.93,
+      "median_return": 15.72,
+      "best": 57.29,
+      "worst": -17.84,
       "basis": "golden_zone_hist"
     },
     "180d": {
@@ -220,48 +221,38 @@
     "count": 18
   },
   "sector_performance": {
-    "Financial Services": {
-      "count": 59,
-      "avg_30d": 4.93,
-      "win_rate_30d": 74.6
-    },
-    "Industrials": {
-      "count": 10,
-      "avg_30d": 2.71,
-      "win_rate_30d": 50.0
-    },
-    "Basic Materials": {
-      "count": 9,
-      "avg_30d": 7.69,
-      "win_rate_30d": 100.0
-    },
-    "Energy": {
-      "count": 4,
-      "avg_30d": 10.84,
-      "win_rate_30d": 75.0
-    },
-    "Real Estate": {
-      "count": 2,
-      "avg_30d": 2.02,
-      "win_rate_30d": 100.0
-    },
     "Technology": {
-      "count": 10,
-      "avg_30d": -5.99,
-      "win_rate_30d": 10.0
+      "count": 34,
+      "avg_30d": -6.95,
+      "win_rate_30d": 11.8
     },
     "Consumer Cyclical": {
       "count": 3,
-      "avg_30d": -0.64,
+      "avg_30d": -1.51,
       "win_rate_30d": 66.7
     },
+    "Industrials": {
+      "count": 32,
+      "avg_30d": -6.53,
+      "win_rate_30d": 9.4
+    },
+    "Financial Services": {
+      "count": 15,
+      "avg_30d": 1.89,
+      "win_rate_30d": 46.7
+    },
     "Communication Services": {
-      "count": 3,
-      "avg_30d": -13.45,
-      "win_rate_30d": 0.0
+      "count": 8,
+      "avg_30d": -9.97,
+      "win_rate_30d": 12.5
+    },
+    "Healthcare": {
+      "count": 7,
+      "avg_30d": 5.51,
+      "win_rate_30d": 57.1
     }
   },
-  "score_correlation": -0.06,
+  "score_correlation": 0.066,
   "top_performers": [
     {
       "ticker": "EXPE",
@@ -348,6 +339,50 @@
   ],
   "recent_signals": [
     {
+      "ticker": "ASAZY",
+      "company_name": "ASSA ABLOY AB (publ)",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-10",
+      "signal_price": 19.28,
+      "sector": "Industrials",
+      "value_score": 56.24000000000001,
+      "days_active": 0,
+      "first_result_date": "2026-08-17"
+    },
+    {
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-10",
+      "signal_price": 286.58,
+      "sector": "Financial Services",
+      "value_score": 51.725,
+      "days_active": 0,
+      "first_result_date": "2026-08-17"
+    },
+    {
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-10",
+      "signal_price": 362.5,
+      "sector": "Financial Services",
+      "value_score": 55.52,
+      "days_active": 0,
+      "first_result_date": "2026-08-17"
+    },
+    {
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-10",
+      "signal_price": 340.91,
+      "sector": "Financial Services",
+      "value_score": 56.870000000000005,
+      "days_active": 0,
+      "first_result_date": "2026-08-17"
+    },
+    {
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "strategy": "VALUE",
@@ -355,7 +390,7 @@
       "signal_price": 473.13,
       "sector": "Financial Services",
       "value_score": 62.81,
-      "days_active": 0,
+      "days_active": 3,
       "first_result_date": "2026-08-14"
     },
     {
@@ -366,7 +401,7 @@
       "signal_price": 22.2,
       "sector": "Industrials",
       "value_score": 57.095,
-      "days_active": 1,
+      "days_active": 4,
       "first_result_date": "2026-08-13"
     },
     {
@@ -377,19 +412,8 @@
       "signal_price": 412.53,
       "sector": "Financial Services",
       "value_score": 52.485,
-      "days_active": 2,
+      "days_active": 5,
       "first_result_date": "2026-08-12"
-    },
-    {
-      "ticker": "ICE",
-      "company_name": "Intercontinental Exchange Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-03",
-      "signal_price": 152.48,
-      "sector": "Financial Services",
-      "value_score": 57.89500000000001,
-      "days_active": 4,
-      "first_result_date": "2026-08-10"
     },
     {
       "ticker": "DBOEY",
@@ -399,7 +423,18 @@
       "signal_price": 30.12,
       "sector": "Financial Services",
       "value_score": 52.905,
-      "days_active": 4,
+      "days_active": 7,
+      "first_result_date": "2026-08-10"
+    },
+    {
+      "ticker": "ICE",
+      "company_name": "Intercontinental Exchange Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-03",
+      "signal_price": 152.48,
+      "sector": "Financial Services",
+      "value_score": 57.89500000000001,
+      "days_active": 7,
       "first_result_date": "2026-08-10"
     },
     {
@@ -410,18 +445,18 @@
       "signal_price": 440.28,
       "sector": "Industrials",
       "value_score": 60.375,
-      "days_active": 7,
+      "days_active": 10,
       "first_result_date": "2026-08-07"
     },
     {
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
+      "ticker": "COF",
+      "company_name": "Capital One Financial Corporati",
       "strategy": "VALUE",
       "signal_date": "2026-07-28",
-      "signal_price": 93.94,
+      "signal_price": 207.05,
       "sector": "Financial Services",
-      "value_score": 57.72999999999999,
-      "days_active": 10,
+      "value_score": 54.28,
+      "days_active": 13,
       "first_result_date": "2026-08-04"
     },
     {
@@ -432,30 +467,19 @@
       "signal_price": 73.19,
       "sector": "Industrials",
       "value_score": 53.2,
-      "days_active": 10,
+      "days_active": 13,
       "first_result_date": "2026-08-04"
     },
     {
-      "ticker": "COF",
-      "company_name": "Capital One Financial Corporati",
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-07-28",
-      "signal_price": 207.05,
+      "signal_price": 93.94,
       "sector": "Financial Services",
-      "value_score": 54.28,
-      "days_active": 10,
+      "value_score": 57.72999999999999,
+      "days_active": 13,
       "first_result_date": "2026-08-04"
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-23",
-      "signal_price": 570.95,
-      "sector": "Financial Services",
-      "value_score": 52.110000000000014,
-      "days_active": 15,
-      "first_result_date": "2026-07-30"
     },
     {
       "ticker": "WMT",
@@ -465,7 +489,18 @@
       "signal_price": 109.33,
       "sector": "Consumer Defensive",
       "value_score": 53.64,
-      "days_active": 15,
+      "days_active": 18,
+      "first_result_date": "2026-07-30"
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-23",
+      "signal_price": 570.95,
+      "sector": "Financial Services",
+      "value_score": 52.110000000000014,
+      "days_active": 18,
       "first_result_date": "2026-07-30"
     },
     {
@@ -476,19 +511,8 @@
       "signal_price": 538.3,
       "sector": "Financial Services",
       "value_score": 63.5,
-      "days_active": 16,
+      "days_active": 19,
       "first_result_date": "2026-07-29"
-    },
-    {
-      "ticker": "AUTO.L",
-      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-14",
-      "signal_price": 499.7,
-      "sector": "Communication Services",
-      "value_score": 50.7,
-      "days_active": 24,
-      "first_result_date": "2026-07-21"
     },
     {
       "ticker": "COST",
@@ -498,33 +522,22 @@
       "signal_price": 926.43,
       "sector": "Consumer Defensive",
       "value_score": 51.8,
-      "days_active": 24,
+      "days_active": 27,
       "first_result_date": "2026-07-21"
     },
     {
-      "ticker": "7741.T",
-      "company_name": "HOYA CORP",
+      "ticker": "AUTO.L",
+      "company_name": "AUTOTRADER GROUP PLC ORD 1P",
       "strategy": "VALUE",
-      "signal_date": "2026-07-09",
-      "signal_price": 24780.0,
-      "sector": "Healthcare",
-      "value_score": 51.78,
-      "days_active": 29,
-      "first_result_date": "2026-07-16"
-    },
-    {
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "strategy": "VALUE",
-      "signal_date": "2026-07-08",
-      "signal_price": 258.64,
-      "sector": "Financial Services",
-      "value_score": 52.08,
-      "days_active": 30,
-      "first_result_date": "2026-07-15"
+      "signal_date": "2026-07-14",
+      "signal_price": 499.7,
+      "sector": "Communication Services",
+      "value_score": 50.7,
+      "days_active": 27,
+      "first_result_date": "2026-07-21"
     }
   ],
-  "avg_max_drawdown": -2.7,
+  "avg_max_drawdown": -2.68,
   "alpha": {
     "365d": {
       "count": 0,
@@ -550,11 +563,11 @@
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 151,
-      "avg_alpha": -7.29,
-      "avg_signal_return": -3.66,
+      "count": 152,
+      "avg_alpha": -7.2,
+      "avg_signal_return": -3.56,
       "avg_benchmark_return": 3.64,
-      "positive_alpha_rate": 22.5,
+      "positive_alpha_rate": 23.0,
       "best_alpha": 21.86,
       "worst_alpha": -27.22
     },
@@ -568,11 +581,11 @@
       "worst_alpha": -18.24
     },
     "7d": {
-      "count": 161,
-      "avg_alpha": -0.3,
-      "avg_signal_return": 0.35,
-      "avg_benchmark_return": 0.65,
-      "positive_alpha_rate": 48.4,
+      "count": 162,
+      "avg_alpha": -0.26,
+      "avg_signal_return": 0.41,
+      "avg_benchmark_return": 0.67,
+      "positive_alpha_rate": 48.8,
       "best_alpha": 11.23,
       "worst_alpha": -18.38
     }
@@ -593,20 +606,20 @@
       "avg_benchmark_return": null
     },
     "90d": {
-      "count": 99,
-      "avg_alpha": -2.38,
-      "avg_signal_return": 8.52,
-      "avg_benchmark_return": 10.91,
-      "positive_alpha_rate": 48.5,
+      "count": 103,
+      "avg_alpha": 4.54,
+      "avg_signal_return": 15.93,
+      "avg_benchmark_return": 11.39,
+      "positive_alpha_rate": 62.1,
       "best_alpha": 44.58,
-      "worst_alpha": -51.85
+      "worst_alpha": -32.09
     },
     "30d": {
-      "count": 98,
-      "avg_alpha": -10.14,
-      "avg_signal_return": -4.94,
-      "avg_benchmark_return": 5.19,
-      "positive_alpha_rate": 14.3,
+      "count": 99,
+      "avg_alpha": -9.96,
+      "avg_signal_return": -4.78,
+      "avg_benchmark_return": 5.18,
+      "positive_alpha_rate": 15.2,
       "best_alpha": 21.86,
       "worst_alpha": -27.22
     },
@@ -663,5 +676,5 @@
       "worst_alpha": -12.84
     }
   },
-  "generated_at": "2026-08-07T06:53:02.476666"
+  "generated_at": "2026-08-10T06:48:21.106230"
 }
