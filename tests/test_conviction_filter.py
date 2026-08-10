@@ -143,3 +143,162 @@ class TestFilterByConviction:
 
 if __name__ == '__main__':
     pytest.main([__file__, '-v'])
+
+
+class TestTesisValue:
+    """La convicción sale de dos preguntas, no de "está barata".
+
+    1. ¿El negocio va a menos? Si ingresos y margen CRECEN mientras el precio
+       cae, la caída no tiene motivo real y el precio acaba siguiendo a los
+       beneficios. La ausencia de motivo ES la tesis.
+    2. ¿Y si el múltiplo no vuelve nunca? Con dos empresas igual de sanas, la
+       que crece rápido gana sin ayuda del mercado; la que crece despacio
+       depende de que el mercado cambie de opinión.
+    """
+
+    # ── El fallo más caro: declarar "sano" sin datos ──────────────────────
+    def test_un_NaN_no_puede_salir_como_sin_deterioro(self):
+        """`nan < 0` es False, así que el dato ausente caía en la rama
+        optimista — y aquí "sin deterioro" es la señal de COMPRA."""
+        import math
+        from conviction_filter import _num
+        assert _num(float('nan')) is None
+        assert _num(math.inf) is None
+        assert _num('') is None
+        assert _num(3.5) == 3.5
+
+    def test_sin_datos_la_seccion_no_puntua(self):
+        from conviction_filter import _puntuar_tesis
+        pts, motivos, flags = _puntuar_tesis({'tesis_deterioro': None})
+        assert pts is None and not motivos and not flags
+        pts, _, _ = _puntuar_tesis({'tesis_deterioro': float('nan')})
+        assert pts is None, 'un NaN debe contar como "sin datos", no como sano'
+
+    # ── Emparejamiento interanual ─────────────────────────────────────────
+    def test_se_empareja_por_fecha_no_por_posicion(self):
+        """En BSX faltaban dos trimestres y `columns[-5]` comparaba 2025-09
+        contra 2026-06 — tres trimestres de distancia, no cuatro."""
+        import numpy as np
+        import pandas as pd
+        from conviction_filter import _par_interanual
+        fechas = pd.to_datetime(['2024-12-31', '2025-03-31', '2025-06-30',
+                                 '2025-09-30', '2025-12-31', '2026-03-31', '2026-06-30'])
+        s = pd.Series([np.nan, 100, 200, 300, 400, 500, 600], index=fechas)
+        hace_un_anio, actual = _par_interanual(s)
+        assert (hace_un_anio, actual) == (200, 600), 'debe casar 2025-06 con 2026-06'
+
+    def test_sin_trimestre_comparable_no_inventa(self):
+        import pandas as pd
+        from conviction_filter import _par_interanual
+        s = pd.Series([100, 200], index=pd.to_datetime(['2026-03-31', '2026-06-30']))
+        assert _par_interanual(s) == (None, None)
+
+    # ── Porcentajes sobre base negativa ───────────────────────────────────
+    def test_no_se_calcula_porcentaje_sobre_base_negativa(self):
+        """INTC pasó de -1,29B a +1,97B de operativo: eso salía como '-252,9%',
+        que se lee como desplome siendo una recuperación."""
+        from conviction_filter import _yoy
+        assert _yoy(1.97, -1.29) is None
+        assert _yoy(1.97, 0) is None
+        assert _yoy(110, 100) == pytest.approx(10.0)
+
+    # ── Ancla de múltiplo ─────────────────────────────────────────────────
+    def test_un_multiplo_historico_disperso_no_es_ancla(self):
+        """BSX cotizó a 48-93x con el BPA deprimido; proyectar la vuelta a esos
+        63x daba un objetivo de +293%, que invalida todo el análisis."""
+        from conviction_filter import CV_MAX_ANCLA, PE_MAX_ANCLA  # noqa: F401
+        import numpy as np
+        bsx = np.array([52.0, 61.0, 48.0, 93.0])
+        mco = np.array([35.1, 37.7, 36.5, 38.9])
+        assert bsx.std() / bsx.mean() > CV_MAX_ANCLA or bsx.max() >= PE_MAX_ANCLA
+        assert mco.std() / mco.mean() <= CV_MAX_ANCLA and mco.max() < PE_MAX_ANCLA
+
+    # ── Puntuación ────────────────────────────────────────────────────────
+    def test_el_deterioro_resta_y_lo_explica(self):
+        from conviction_filter import _puntuar_tesis
+        pts, _, flags = _puntuar_tesis({
+            'tesis_deterioro': True, 'tesis_ingresos_yoy': -6.0,
+            'tesis_op_yoy': -9.0, 'tesis_margen_op_delta': -3.0})
+        assert pts < 0
+        assert any('DETERIORO' in f for f in flags)
+        assert any('-6.0' in f for f in flags), 'debe decir POR QUÉ, no solo que sí'
+
+    def test_ganar_sin_reversion_puntua_mas_que_depender_de_ella(self):
+        """Es lo que separa dos tesis igual de sanas."""
+        from conviction_filter import _puntuar_tesis
+        base = {'tesis_deterioro': False, 'tesis_ingresos_yoy': 12.0,
+                'tesis_margen_op_delta': 2.0}
+        gana_sola, _, _ = _puntuar_tesis({**base, 'tesis_ret_2a_sin_reversion': 35.0})
+        necesita, _, flags = _puntuar_tesis({**base, 'tesis_ret_2a_sin_reversion': -5.0})
+        assert gana_sola > necesita
+        assert any('depende de que el mercado' in f for f in flags)
+
+    def test_los_extraordinarios_penalizan(self):
+        """SPGI tenía 7,2% del BPA en extraordinarios: su múltiplo real era
+        26,7x, no los 24,8x que aparentaba."""
+        from conviction_filter import _puntuar_tesis
+        base = {'tesis_deterioro': False, 'tesis_ingresos_yoy': 10.0,
+                'tesis_margen_op_delta': 2.5}
+        limpio, _, _ = _puntuar_tesis({**base, 'tesis_extraordinarios_pct': 1.0})
+        sucio, _, flags = _puntuar_tesis({**base, 'tesis_extraordinarios_pct': 7.2})
+        assert sucio < limpio and any('extraordinarios' in f for f in flags)
+
+    def test_la_razon_de_la_tesis_va_la_primera(self):
+        """El resumen se corta a 4 razones; "no hay deterioro" no puede caerse."""
+        from conviction_filter import calculate_conviction_score
+        r = calculate_conviction_score({
+            'ticker': 'TEST', 'roe_pct': 30, 'fcf_yield_pct': 6,
+            'analyst_count': 20, 'analyst_recommendation': 'buy',
+            'analyst_upside_pct': 15, 'current_price': 100,
+            'tesis_deterioro': False, 'tesis_ingresos_yoy': 12.0,
+            'tesis_margen_op_delta': 2.0, 'tesis_ret_2a_sin_reversion': 35.0})
+        assert r['conviction_reasons'].startswith('Sin deterioro')
+
+    def test_la_cache_de_tesis_sobrevive_a_CI(self):
+        """`*_cache.json` del .gitignore se traga toda caché nueva: si CI no la
+        commitea, cada run repite las llamadas de red y no se nota."""
+        import subprocess
+        from pathlib import Path
+        from conviction_filter import CACHE_TESIS
+        raiz = Path(__file__).parent.parent
+        assert not CACHE_TESIS.name.startswith('.')
+        r = subprocess.run(['git', 'check-ignore', '-q', str(CACHE_TESIS)],
+                           cwd=raiz, capture_output=True)
+        assert r.returncode != 0, f'{CACHE_TESIS} está gitignorada — CI no la guarda'
+
+
+class TestQueEsDeterioro:
+    """Deterioro = el negocio produce menos, medido en euros, no en puntos de
+    margen. Partners Group crecía ingresos +21,9% con el margen cediendo 2,2
+    pts (64,8→62,6) y salía marcada como deteriorada — su beneficio operativo
+    crecía un +17,8%. Un margen que cede mientras el beneficio sube es una
+    empresa invirtiendo en crecer, no una en decadencia.
+    """
+
+    def _clasificar(self, ingresos_yoy, op_yoy, margen_actual):
+        """Reproduce la regla de analizar_tesis_value sin tocar la red."""
+        if margen_actual < 0:
+            return True
+        if ingresos_yoy < 0:
+            return True
+        if op_yoy is not None:
+            return op_yoy < 0
+        return False
+
+    def test_margen_cediendo_con_beneficio_al_alza_NO_es_deterioro(self):
+        assert self._clasificar(21.9, 17.8, 62.6) is False
+
+    def test_ingresos_cayendo_SI_es_deterioro(self):
+        assert self._clasificar(-3.6, 2.0, 11.6) is True      # HEIA.AS
+        assert self._clasificar(-4.8, -8.0, 13.6) is True     # SIKA.SW
+
+    def test_beneficio_operativo_cayendo_SI_es_deterioro(self):
+        assert self._clasificar(3.0, -12.0, 15.0) is True
+
+    def test_perder_dinero_operando_es_deterioro(self):
+        assert self._clasificar(20.0, None, -4.0) is True
+
+    def test_recuperarse_de_perdidas_no_es_deterioro(self):
+        """op_yoy None porque la base era negativa: el año pasado perdía dinero
+        y ahora gana. Es recuperación (INTC), no decadencia."""
+        assert self._clasificar(25.4, None, 12.2) is False

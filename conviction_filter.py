@@ -14,6 +14,8 @@ Lo que hace (exactamente lo que haria un analista humano):
 8. Payout sostenible = dividendo no en peligro
 9. Sin earnings warning = timing seguro
 10. Cross-validation: si DCF dice sobrevalorada, descarta
+11. Fallen angel: calidad que ha caido mucho sin motivo fundamental
+12. Tesis value verificada (ver el bloque de abajo) — el criterio que manda
 
 Output: conviction_score (0-100) + conviction_grade (A/B/C/D)
 Solo pasan al dashboard las de grado A y B.
@@ -23,8 +25,363 @@ import numpy as np
 from pathlib import Path
 import ast
 import argparse
+import datetime as dt
+import json
+import math
 from datetime import datetime
 from value_bands import UPSIDE_MIN, UPSIDE_HARD_REJECT
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TESIS VALUE: ¿castigo o deterioro? ¿y gano si el múltiplo no revierte?
+#
+# La convicción no sale de que la empresa esté barata, sino de dos preguntas:
+#
+#   1. ¿El negocio va a menos? Si ingresos y margen operativo CRECEN mientras el
+#      precio cae, no hay motivo real: es compresión de múltiplo, y el precio
+#      acaba siguiendo a los beneficios. La ausencia de motivo ES la tesis, no
+#      una laguna — un `why_cheap` vacío significa "sin analizar", jamás
+#      "sospechoso".
+#   2. ¿Y si el mercado no coopera nunca? Una empresa que crece rápido gana
+#      aunque el múltiplo no vuelva; una que crece despacio depende por entero
+#      de que vuelva. Esa diferencia es la que separa dos tesis igual de sanas.
+#
+# Todo se calcula con datos duros (estados trimestrales), no con opiniones.
+# ─────────────────────────────────────────────────────────────────────────────
+
+CACHE_TESIS = Path('docs') / 'tesis_value_cache.json'
+CACHE_TESIS_DIAS = 7          # los trimestrales cambian 4 veces al año
+CV_MAX_ANCLA = 0.20           # dispersión máxima del P/E histórico para fiarse
+PE_MAX_ANCLA = 60.0           # un P/E anual así sale de un BPA deprimido
+
+
+def _num(v):
+    """float utilizable, o None. Un NaN NUNCA pasa como número.
+
+    Sin esto, `nan < 0` es False y el dato ausente cae en la rama optimista:
+    "sin deterioro", que aquí es la señal de COMPRA. Mismo fallo que publicaba
+    un VIX NaN como 'High fear'.
+    """
+    try:
+        f = float(v)
+        return None if math.isnan(f) or math.isinf(f) else f
+    except (TypeError, ValueError):
+        return None
+
+
+def _fila(df, nombre):
+    if df is None or getattr(df, 'empty', True):
+        return None
+    c = [r for r in df.index if str(r) == nombre]
+    return df.loc[c[0]] if c else None
+
+
+def _yoy(actual, anterior):
+    """Variación %. None si la base no es positiva: un porcentaje sobre base
+    negativa no significa nada (INTC pasó de -1,29B a +1,97B de operativo y
+    salía '-252,9%', que se lee como desplome siendo una recuperación)."""
+    a, b = _num(actual), _num(anterior)
+    if a is None or b is None or b <= 0:
+        return None
+    return 100 * (a / b - 1)
+
+
+def _par_interanual(serie):
+    """(valor de hace un año, valor actual), emparejados POR FECHA.
+
+    Por posición no vale: `columns[-5]` solo cae en el mismo trimestre del año
+    anterior si no falta ninguna columna intermedia. En BSX faltaban dos y
+    comparaba 2025-09 contra 2026-06 — tres trimestres, no cuatro.
+    """
+    if serie is None:
+        return None, None
+    s = serie.dropna().sort_index()
+    if len(s) < 2:
+        return None, None
+    objetivo = s.index[-1] - pd.Timedelta(days=365)
+    difs = abs(s.index[:-1] - objetivo)
+    i = int(difs.argmin())
+    if difs[i] > pd.Timedelta(days=45):
+        return None, None
+    return _num(s.iloc[i]), _num(s.iloc[-1])
+
+
+def _ultimos_dos(serie):
+    """(ejercicio anterior, último), para quien reporta semestral o anual."""
+    if serie is None:
+        return None, None
+    s = serie.dropna().sort_index()
+    if len(s) < 2:
+        return None, None
+    return _num(s.iloc[-2]), _num(s.iloc[-1])
+
+
+def _pe_historico(tk):
+    """P/E medio de cada ejercicio, si el múltiplo es un ancla estable.
+
+    Devuelve None cuando no lo es. Un histórico disperso no describe "lo que el
+    mercado le paga a esta empresa": BSX cotizó a 48-93x con el BPA deprimido, y
+    proyectar la vuelta a esos 63x daba un objetivo de +293%. Una promesa así
+    invalida el resto del análisis aunque todo lo demás esté bien.
+    """
+    eps_a = _fila(getattr(tk, 'income_stmt', None), 'Diluted EPS')
+    if eps_a is None:
+        return None
+    try:
+        hist = tk.history(period='6y', auto_adjust=True)['Close']
+    except Exception:
+        return None
+    pes = []
+    for fecha, v in eps_a.dropna().items():
+        val = _num(v)
+        p = hist[hist.index.year == fecha.year]
+        if len(p) and val and val > 0:
+            pes.append(float(p.mean()) / val)
+    if len(pes) < 3:
+        return None
+    arr = np.array(pes)
+    if arr.mean() <= 0 or arr.std() / arr.mean() > CV_MAX_ANCLA or arr.max() >= PE_MAX_ANCLA:
+        return None
+    return float(np.median(arr))
+
+
+def _eps_limpio(tk, q, precio):
+    """BPA ttm sin extraordinarios, y el P/E que sale de él.
+
+    Los extraordinarios inflan el múltiplo aparente: SPGI tenía 456M$ en cuatro
+    trimestres, un 7,2% de su BPA, y con ellos parecía cotizar a 24,8x cuando
+    su múltiplo real era 26,7x.
+    """
+    info = getattr(tk, 'info', {}) or {}
+    eps_rep = _num(info.get('trailingEps'))
+    px = _num(precio) or _num(info.get('currentPrice'))
+    pre, tax, ni = _fila(q, 'Pretax Income'), _fila(q, 'Tax Provision'), _fila(q, 'Net Income')
+    if not (eps_rep and px and eps_rep > 0) or pre is None or ni is None:
+        return {}
+    u4 = q.columns[-4:]
+    esp = _fila(q, 'Special Income Charges')
+    esp4 = _num(esp[u4].fillna(0).sum()) if esp is not None else 0.0
+    pre4, ni4 = _num(pre[u4].sum()), _num(ni[u4].sum())
+    tax4 = _num(tax[u4].sum()) if tax is not None else None
+    if esp4 is None or not pre4 or not ni4:
+        return {}
+    tasa = min(max((tax4 / pre4) if (tax4 is not None and pre4 > 0) else 0.24, 0.0), 0.5)
+    acciones = ni4 / eps_rep
+    if acciones <= 0:
+        return {}
+    ajuste = esp4 * (1 - tasa) / acciones
+    limpio = eps_rep - ajuste
+    if limpio <= 0:
+        return {}
+    return {'eps_limpio': limpio, 'pe_hoy': px / limpio,
+            'extraordinarios_pct': 100 * abs(ajuste) / eps_rep}
+
+
+def analizar_tesis_value(ticker: str, precio: float | None = None) -> dict:
+    """Datos duros para decidir si una caída es castigo o deterioro.
+
+    Nunca inventa: si falta cualquier ingrediente, `deterioro` queda en None y
+    quien puntúe no suma nada. Declarar "sin deterioro" sin los datos sería
+    firmar una compra a ciegas.
+    """
+    import yfinance as yf
+    r = {'ticker': ticker, 'deterioro': None, 'motivo': None}
+    try:
+        tk = yf.Ticker(ticker)
+        q = tk.quarterly_income_stmt
+        hay_q = q is not None and not q.empty
+        if hay_q:
+            q = q.reindex(sorted(q.columns), axis=1)
+            rev0, rev1 = _par_interanual(_fila(q, 'Total Revenue'))
+            op0, op1 = _par_interanual(_fila(q, 'Operating Income'))
+        else:
+            # No salir aquí: media Europa (UK, Suiza, Francia) reporta
+            # SEMESTRALMENTE y yfinance no trae trimestrales. Antes se
+            # devolvía "sin datos" y 8 de 19 candidatas se quedaban sin el
+            # criterio principal — que es justo el que decide la compra.
+            rev0 = rev1 = op0 = op1 = None
+        if None in (rev0, rev1, op0, op1) or rev0 <= 0 or rev1 <= 0:
+            # Media Europa reporta SEMESTRALMENTE (UK, Suiza, Francia): yfinance
+            # no trae trimestrales y sin este respaldo se quedaban sin criterio
+            # 9 de 19 candidatas. El ejercicio cerrado es más viejo que un
+            # trimestre, pero responde la misma pregunta y se marca como tal.
+            a = tk.income_stmt
+            rev_a, op_a = _fila(a, 'Total Revenue'), _fila(a, 'Operating Income')
+            rev0, rev1 = _ultimos_dos(rev_a)
+            op0, op1 = _ultimos_dos(op_a)
+            if None in (rev0, rev1, op0, op1) or rev0 <= 0 or rev1 <= 0:
+                r['motivo'] = 'sin dos periodos comparables (ni trimestrales ni anuales)'
+                return r
+            r['base'] = 'anual'
+
+        r['ingresos_yoy'] = 100 * (rev1 / rev0 - 1)
+        m0, m1 = 100 * op0 / rev0, 100 * op1 / rev1
+        r['margen_op'], r['margen_op_delta'] = m1, m1 - m0
+        r['op_yoy'] = _yoy(op1, op0)
+        # DETERIORO = el negocio produce menos, medido en euros, no en puntos de
+        # margen. Un margen que cede mientras el beneficio operativo CRECE no es
+        # deterioro: es una empresa invirtiendo en crecer. Partners Group tenía
+        # ingresos +21,9% y margen 64,8%→62,6% y el umbral de -1,5 pts la
+        # marcaba como deteriorada, cuando su operativo crecía un +17,8%.
+        if m1 < 0:
+            r['deterioro'] = True                      # pierde dinero operando
+        elif r['ingresos_yoy'] < 0:
+            r['deterioro'] = True                      # el negocio encoge
+        elif r['op_yoy'] is not None:
+            r['deterioro'] = bool(r['op_yoy'] < 0)     # produce menos beneficio
+        else:
+            # op_yoy es None porque la base era ≤0: el año pasado no ganaba
+            # dinero operando y ahora sí (m1 > 0). Eso es recuperación.
+            r['deterioro'] = False
+
+        if hay_q:
+            r.update(_eps_limpio(tk, q, precio))
+        pe_hist = _pe_historico(tk)
+        if pe_hist and r.get('pe_hoy'):
+            r['pe_hist'] = pe_hist
+            r['compresion'] = 100 * (r['pe_hoy'] / pe_hist - 1)
+
+        # La pregunta que separa dos tesis igual de sanas: si el múltiplo no
+        # vuelve NUNCA, ¿gano igual? Se compone el BPA dos años con el
+        # crecimiento actual moderado a la mitad — nadie compone al 37% dos
+        # años seguidos, y el escenario tiene que ser defendible.
+        px = _num(precio) or _num((getattr(tk, 'info', {}) or {}).get('currentPrice'))
+        crec = _num((getattr(tk, 'info', {}) or {}).get('earningsGrowth'))
+        if r.get('eps_limpio') and r.get('pe_hoy') and px and crec is not None:
+            # El BPA no puede crecer indefinidamente muy por encima de los
+            # ingresos: la expansión de margen tiene techo y las recompras
+            # aportan unos pocos puntos. Sin este tope, QSR (ingresos +4,6%)
+            # proyectaba un BPA al +60% por un efecto base y puntuaba igual que
+            # MCO, que crece ingresos al +15,1%.
+            techo = r['ingresos_yoy'] / 100 + 0.10
+            crec_mod = max(min(crec, techo, 0.60), -0.20) * 0.5
+            eps2 = r['eps_limpio'] * (1 + crec_mod) ** 2
+            r['crec_usado'] = 100 * crec_mod
+            r['ret_2a_sin_reversion'] = 100 * (eps2 * r['pe_hoy'] / px - 1)
+            if r.get('pe_hist'):
+                r['ret_2a_con_reversion'] = 100 * (eps2 * r['pe_hist'] / px - 1)
+        return r
+    except Exception as e:
+        r['motivo'] = f'error: {str(e)[:60]}'
+        return r
+
+
+def _cache_tesis_leer() -> dict:
+    try:
+        return json.loads(CACHE_TESIS.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def enriquecer_con_tesis(df: pd.DataFrame) -> pd.DataFrame:
+    """Añade al DataFrame las columnas de tesis, con caché de 7 días.
+
+    Se llama DESPUÉS de los filtros duros, sobre las pocas que sobreviven: son
+    llamadas de red y no tienen por qué hacerse sobre el universo entero.
+    """
+    if df.empty or 'ticker' not in df.columns:
+        return df
+    cache = _cache_tesis_leer()
+    hoy = dt.date.today()
+    filas, nuevos = [], 0
+    for _, row in df.iterrows():
+        t = str(row['ticker']).upper()
+        e = cache.get(t)
+        vigente = False
+        if e:
+            try:
+                vigente = (hoy - dt.date.fromisoformat(str(e.get('fecha'))[:10])).days < CACHE_TESIS_DIAS
+            except ValueError:
+                vigente = False
+        if not vigente:
+            e = analizar_tesis_value(t, _num(row.get('current_price')))
+            cache[t] = {**e, 'fecha': hoy.isoformat()}
+            nuevos += 1
+        filas.append({f'tesis_{k}': v for k, v in e.items()
+                      if k not in ('ticker', 'fecha', 'motivo')})
+    try:
+        CACHE_TESIS.parent.mkdir(parents=True, exist_ok=True)
+        CACHE_TESIS.write_text(json.dumps(cache, ensure_ascii=False, indent=1, default=str))
+    except OSError as exc:
+        print(f'   no se pudo guardar la caché de tesis: {exc}')
+    print(f"  Tesis value: {len(df)} analizadas ({nuevos} nuevas, "
+          f"{len(df) - nuevos} de caché <{CACHE_TESIS_DIAS}d)")
+    return pd.concat([df.reset_index(drop=True),
+                      pd.DataFrame(filas).reset_index(drop=True)], axis=1)
+
+
+def _puntuar_tesis(row) -> tuple:
+    """Puntos por la tesis value verificada. (None, [], []) si no hay datos.
+
+    Dos cosas, en este orden de importancia:
+
+    1. Que el negocio NO se esté deteriorando mientras el precio cae. Eso es la
+       tesis entera: si ingresos y margen crecen, la caída no tiene motivo real
+       y el precio acaba siguiendo a los beneficios. Verificado con trimestrales,
+       no con un `why_cheap` que puede estar simplemente sin analizar.
+
+    2. Cuánta cooperación del mercado necesita. Con dos empresas igual de sanas,
+       la que crece rápido gana aunque el múltiplo no vuelva nunca; la que crece
+       despacio depende por entero de que vuelva. La primera merece más
+       convicción: su tesis no necesita que nadie cambie de opinión.
+    """
+    det = row.get('tesis_deterioro')
+    if det is None or (isinstance(det, float) and math.isnan(det)):
+        return None, [], []          # sin datos → esta sección no cuenta
+    pts, motivos, banderas = 0.0, [], []
+
+    ing = _sf(row.get('tesis_ingresos_yoy'))
+    dmg = _sf(row.get('tesis_margen_op_delta'))
+    if bool(det):
+        # No es un value trap "probable": el negocio ya va a menos, medido.
+        detalle = []
+        if ing is not None and ing < 0:
+            detalle.append(f'ingresos {ing:+.1f}%')
+        op = _sf(row.get('tesis_op_yoy'))
+        if op is not None and op < 0:
+            detalle.append(f'beneficio operativo {op:+.1f}%')
+        elif dmg is not None and dmg < 0:
+            detalle.append(f'margen {dmg:+.1f} pts')
+        banderas.append('DETERIORO real del negocio' + (f" ({', '.join(detalle)})" if detalle else ''))
+        return -8.0, motivos, banderas
+
+    pts += 10.0
+    if ing is None or dmg is None:
+        motivos.append('Sin deterioro del negocio (verificado en trimestrales)')
+    elif dmg < 0:
+        # El margen cede pero el beneficio operativo crece igual: no es
+        # deterioro, aunque tampoco se puede decir "no se mueve nada".
+        motivos.append(f'Negocio sano: ingresos {ing:+.1f}% y beneficio operativo al alza '
+                       f'(margen {dmg:+.1f} pts, absorbido por el crecimiento)')
+    else:
+        motivos.append(f'Sin deterioro: ingresos {ing:+.1f}% y margen {dmg:+.1f} pts — '
+                       f'la caída no tiene motivo real')
+
+    # Gana aunque el mercado no le devuelva el múltiplo nunca
+    sin_rev = _sf(row.get('tesis_ret_2a_sin_reversion'))
+    if sin_rev is not None:
+        if sin_rev >= 30:
+            pts += 8.0
+            motivos.append(f'Gana {sin_rev:+.0f}% a 2 años AUNQUE el múltiplo no revierta')
+        elif sin_rev >= 15:
+            pts += 5.0
+            motivos.append(f'{sin_rev:+.0f}% a 2 años sin necesitar reversión de múltiplo')
+        elif sin_rev >= 0:
+            pts += 2.0
+        else:
+            banderas.append(f'Sin reversión de múltiplo pierde {sin_rev:.0f}% — '
+                            f'la tesis depende de que el mercado cambie de opinión')
+
+    comp = _sf(row.get('tesis_compresion'))
+    if comp is not None and comp <= -15:
+        motivos.append(f'Cotiza {abs(comp):.0f}% por debajo de su múltiplo histórico')
+
+    extra = _sf(row.get('tesis_extraordinarios_pct'))
+    if extra is not None and extra >= 5:
+        pts -= 2.0
+        banderas.append(f'{extra:.0f}% del BPA son extraordinarios (múltiplo real peor)')
+
+    return pts, motivos, banderas
 
 
 def extract_health_metrics(row) -> dict:
@@ -321,7 +678,15 @@ def calculate_conviction_score(row) -> dict:
     # Empresa de calidad que ha caído mucho sin motivo fundamental = oportunidad
     # Principio Lynch: comprar empresas sólidas en caídas de mercado, no de negocio
     proximity = _sf(row.get('proximity_to_52w_high'))  # negativo, ej: -32.3
-    fundamentals_intact = (roe is not None and roe >= 15) and (fcf is not None and fcf >= 3)
+    # "Fundamentales intactos" se prueba con la TENDENCIA del negocio cuando la
+    # hay (ingresos y margen operativo interanuales), no con una foto de ROE y
+    # FCF: una empresa puede tener ROE 20% mientras sus ingresos caen dos
+    # trimestres seguidos, y eso es justo el value trap que hay que evitar.
+    # Sin datos de tendencia se cae a la foto de siempre.
+    deterioro = row.get('tesis_deterioro')
+    deterioro = None if deterioro is None or (isinstance(deterioro, float) and math.isnan(deterioro)) else bool(deterioro)
+    foto_ok = (roe is not None and roe >= 15) and (fcf is not None and fcf >= 3)
+    fundamentals_intact = (deterioro is False) if deterioro is not None else foto_ok
     if proximity is not None:
         max_score += 12
     if proximity is not None and proximity <= -20:
@@ -344,6 +709,16 @@ def calculate_conviction_score(row) -> dict:
         # Cerca de máximos con buenos fundamentales: momentum confirmado
         if fundamentals_intact:
             score += 3
+
+    # ─── 12. Tesis value verificada (max 18pts) ───
+    pts, motivos, banderas = _puntuar_tesis(row)
+    if pts is not None:
+        max_score += 18
+        score += pts
+        # Al PRINCIPIO: el resumen se corta a 4 razones y "no hay deterioro
+        # mientras el precio cae" es la tesis entera — importa más que el ROE.
+        reasons[:0] = motivos
+        red_flags[:0] = banderas
 
     # ─── Normalize to 0-100 ───
     conviction_score = max(0, min(100, (score / max_score) * 100)) if max_score > 0 else 0
@@ -433,6 +808,10 @@ def filter_by_conviction(input_path: str, output_path: str = None, min_grade: st
         if output_path:
             df.to_csv(output_path, index=False)
         return 0
+
+    # Tesis value (red): solo sobre las que sobreviven a los filtros duros, que
+    # son pocas. El universo entero no necesita estados trimestrales.
+    df = enriquecer_con_tesis(df)
 
     # Calculate conviction for each row
     results = []
