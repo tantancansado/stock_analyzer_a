@@ -33,7 +33,14 @@ from typing import Any
 MODEL = 'claude-sonnet-5'
 MODEL_ANALISIS_PROFUNDO = 'claude-opus-5'   # para análisis abierto, no clasificación
 WEB_SEARCH_TOOL = {'type': 'web_search_20260209', 'name': 'web_search'}
-MAX_CONTINUATIONS = 2
+# 1, no 2. Una continuación reenvía el contexto ENTERO — incluidos los
+# resultados de búsqueda, que son ~5k tokens por búsqueda — así que la segunda
+# llamada duplica el coste de entrada del ticker. Solo aporta cuando el bucle
+# de herramientas del servidor se queda a medias (`pause_turn`), que es raro;
+# cuando pasa, se pierde esa respuesta y el consumidor lo trata como "sin
+# datos", igual que cualquier otro fallo. Pagar el doble en todas las llamadas
+# para salvar unas pocas no compensa con un tope de $10/mes.
+MAX_CONTINUATIONS = 1
 
 # El cliente espera 10 minutos por petición si no se le dice otra cosa, y eso
 # tumbó el job de scoring el 3-ago-2026 (8 llamadas × 10 min > los 75 min del
@@ -92,6 +99,15 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
     if client is None:
         return '', []
 
+    # Tope de gasto: esta es la vía cara de la app (los resultados de búsqueda
+    # se inyectan en el contexto y las continuaciones los reenvían enteros).
+    # Agotado el presupuesto del mes se devuelve vacío, que quien llama ya
+    # trata como "sin datos" — el mismo camino que cuando la API falla.
+    from claude_budget import hay_presupuesto, registrar_uso, resumen
+    if not hay_presupuesto(coste_estimado=0.15):
+        print(f'   💸 Sin presupuesto Claude este mes — se omite la búsqueda. {resumen()}')
+        return '', []
+
     tool = dict(WEB_SEARCH_TOOL, max_uses=max_searches)
     messages: list[dict[str, Any]] = [{'role': 'user', 'content': prompt}]
 
@@ -107,6 +123,8 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
                 output_config={'effort': 'medium'},
                 messages=messages,
             )
+
+            registrar_uso(response, model)
 
             # Los clasificadores pueden declinar: mirar SIEMPRE antes de leer content
             if response.stop_reason == 'refusal':

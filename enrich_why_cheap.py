@@ -21,6 +21,8 @@ el gasto de API por añadir un universo.
 """
 from __future__ import annotations
 
+import datetime as dt
+import json
 import time
 from pathlib import Path
 
@@ -53,6 +55,49 @@ MAX_TICKERS = 5
 MIN_CAIDA_PCT = 12.0
 
 
+CACHE = DOCS / 'why_cheap_cache.json'
+# Por qué una empresa está barata no cambia de un día para otro: es una tesis
+# sobre el negocio, no una cotización. Sin caché se recompraba el mismo análisis
+# a diario — `super_score_integrator` regenera value_opportunities.csv desde
+# cero y borra la columna, así que BR y SAP se re-analizaban cada mañana. Con
+# 14 días se paga cada ticker una vez cada dos semanas.
+#
+# Y arregla algo más: al acumularse, la caché cubre a TODOS los candidatos que
+# han pasado por el screen, no solo a los 3-4 del día. Antes 3 de 41 tenían
+# veredicto; con caché la cobertura crece sola sin gastar más.
+CACHE_DIAS = 14
+
+
+def _leer_cache() -> dict:
+    if not CACHE.exists():
+        return {}
+    try:
+        return json.loads(CACHE.read_text())
+    except Exception:
+        return {}
+
+
+def _cache_vigente(entrada: dict) -> bool:
+    try:
+        f = dt.date.fromisoformat(str(entrada.get('fecha', ''))[:10])
+    except Exception:
+        return False
+    return (dt.date.today() - f).days < CACHE_DIAS
+
+
+def _guardar_cache(cache: dict, nuevos: dict) -> None:
+    for t, res in nuevos.items():
+        cache[t] = {**res, 'fecha': dt.date.today().isoformat()}
+    # Poda: lo caducado hace mucho no vuelve a servir y engorda el fichero
+    # publicado (docs/ ya pesa 193MB y roza el timeout de Pages).
+    vivos = {t: e for t, e in cache.items()
+             if _cache_vigente(e) or (t in nuevos)}
+    try:
+        CACHE.write_text(json.dumps(vivos, ensure_ascii=False, indent=1))
+    except Exception as e:
+        print(f'   ⚠️  no se pudo guardar la caché: {e}')
+
+
 def _candidatos(csv: Path) -> pd.DataFrame:
     """Filas de un CSV que merecen why_cheap, con la columna 'origen_csv' añadida."""
     if not csv.exists():
@@ -68,6 +113,18 @@ def _candidatos(csv: Path) -> pd.DataFrame:
     return cand
 
 
+def _aplicar(frames: dict, veredictos_por_csv: dict) -> None:
+    """Vuelca los veredictos (nuevos y de caché) a cada CSV de origen."""
+    for csv_path, veredictos in veredictos_por_csv.items():
+        if not veredictos:
+            continue
+        df = frames[csv_path]
+        df, deteriorados = apply_to_dataframe(df, veredictos)
+        df.to_csv(csv_path, index=False)
+        print(f'   ✓ {csv_path} enriquecido con {len(veredictos)} veredictos'
+              + (f' · fuera por deterioro: {deteriorados}' if deteriorados else ''))
+
+
 def main() -> None:
     frames = {str(csv): pd.read_csv(csv) for csv in TARGET_CSVS if csv.exists()}
     if not frames:
@@ -79,13 +136,35 @@ def main() -> None:
         print('[enrich_why_cheap] ningún candidato con caída que explicar')
         return
 
-    cand = candidatos.sort_values('value_score', ascending=False).head(MAX_TICKERS)
+    cache = _leer_cache()
+    orden = candidatos.sort_values('value_score', ascending=False)
 
-    print(f'[enrich_why_cheap] {len(cand)} candidatos de {len(frames)} universo(s) '
-          f'· presupuesto {PRESUPUESTO_SEG}s')
-    inicio = time.monotonic()
-    # veredictos por CSV de origen, para no mezclar tickers de US/EU al aplicar
+    # Lo que ya está en caché y vigente se reaplica gratis; solo se compran
+    # análisis de lo que falta. Esto es lo que baja el gasto sin perder nada:
+    # la tesis de por qué una empresa está barata no caduca en 24 horas.
+    from_cache = 0
     veredictos_por_csv: dict[str, dict] = {str(csv): {} for csv in TARGET_CSVS}
+    pendientes = []
+    for _, r in orden.iterrows():
+        t = str(r['ticker']).upper()
+        e = cache.get(t)
+        if e and _cache_vigente(e):
+            veredictos_por_csv[r['origen_csv']][t] = {
+                'veredicto': e.get('veredicto'), 'resumen': e.get('resumen', ''),
+                'fuentes': e.get('fuentes', []),
+            }
+            from_cache += 1
+        else:
+            pendientes.append(r)
+    cand = pd.DataFrame(pendientes[:MAX_TICKERS]) if pendientes else pd.DataFrame()
+
+    print(f'[enrich_why_cheap] {len(orden)} candidatos · {from_cache} desde caché '
+          f'(<{CACHE_DIAS}d) · {len(cand)} a analizar · presupuesto {PRESUPUESTO_SEG}s')
+    if cand.empty:
+        _aplicar(frames, veredictos_por_csv)
+        return
+    inicio = time.monotonic()
+    nuevos: dict[str, dict] = {}
     reserva = COSTE_TICKER_SEG   # lo que hay que dejar libre para el siguiente
     for _, r in cand.iterrows():
         gastado = time.monotonic() - inicio
@@ -105,19 +184,14 @@ def main() -> None:
         # atasca, el siguiente exige más margen en vez de repetir el atasco.
         reserva = max(reserva, time.monotonic() - t0)
         veredictos_por_csv[r['origen_csv']][ticker] = res
+        nuevos[ticker] = res
         icono = {'DETERIORO': '🚫', 'CICLICO': '🔄', 'EVENTO': '⚡',
                  'SENTIMIENTO': '💭', 'SIN_DATOS': '❓'}.get(res['veredicto'], '❓')
         print(f"   {icono} {ticker}: {res['veredicto']} · {len(res['fuentes'])} fuentes "
               f"· {res['resumen'][:70]}")
 
-    for csv_path, veredictos in veredictos_por_csv.items():
-        if not veredictos:
-            continue
-        df = frames[csv_path]
-        df, deteriorados = apply_to_dataframe(df, veredictos)
-        df.to_csv(csv_path, index=False)
-        print(f'   ✓ {csv_path} enriquecido'
-              + (f' · fuera por deterioro: {deteriorados}' if deteriorados else ''))
+    _guardar_cache(cache, nuevos)
+    _aplicar(frames, veredictos_por_csv)
 
 
 if __name__ == '__main__':

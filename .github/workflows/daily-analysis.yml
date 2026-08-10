@@ -396,12 +396,22 @@ jobs:
       # Presupuesto propio (5 min) y sin bloquear el pipeline si falla — igual
       # que Why Cheap para acciones. Reemplaza el texto de ciclo fijo por lo
       # que de verdad mueve cada commodity esta semana, con fuentes.
-      - name: Commodity Narrative — qué mueve el precio de verdad, con fuentes
+      # SOLO LUNES. Era diario y costaba ~$16/mes de los ~$42 totales de Claude
+      # — un tercio del gasto en materias primas, que no son el foco del
+      # usuario (inversor VALUE de renta variable). La narrativa de una
+      # commodity no cambia de un día para otro; semanal cubre igual y baja a
+      # ~$2/mes. Ver claude_budget.py para el tope global.
+      - name: Commodity Narrative — qué mueve el precio de verdad, con fuentes (lunes)
         continue-on-error: true
         timeout-minutes: 8
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 enrich_commodity_narrative.py || echo "Commodity narrative enrichment failed"
+        run: |
+          if [ "$(date -u +%u)" = "1" ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            python3 enrich_commodity_narrative.py || echo "Commodity narrative enrichment failed"
+          else
+            echo "No es lunes — narrativa de commodities omitida (ahorro de API)"
+          fi
 
       - name: Check Price Alerts (send emails via Resend)
         continue-on-error: true
@@ -628,6 +638,10 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
           ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          # Fallback a Groq: el briefing es redacción sobre hechos que la app
+          # ya tiene, no necesita búsqueda web. Si el tope mensual de Claude
+          # está agotado (ver claude_budget.py) sigue saliendo, gratis.
+          GROQ_API_KEY:       ${{ secrets.GROQ_API_KEY }}
         run: python3 daily_briefing.py || echo "Daily briefing failed"
 
       # ── Archive + status ───────────────────────────────────────────────────

@@ -58,14 +58,23 @@ class TestAskWithSearch:
             texto, urls = cr.ask_with_search('p', 'sys')
         assert urls == [] and 'sin resultados' in texto
 
-    def test_pause_turn_continua_el_bucle(self):
+    def test_pause_turn_no_se_reintenta_y_no_rompe(self):
+        """MAX_CONTINUATIONS pasó a 1 el 10-ago-2026 por coste.
+
+        Una continuación reenvía el contexto ENTERO — resultados de búsqueda
+        incluidos, ~5k tokens cada uno — así que duplicaba el coste de entrada
+        de cada ticker. Con el tope de $10/mes no compensa pagar el doble en
+        todas las llamadas para salvar los pocos `pause_turn` que ocurren.
+        El comportamiento correcto ahora es rendirse limpiamente: una sola
+        llamada, y vacío, que el consumidor trata como "sin datos".
+        """
         parcial = _response([_search_ok('https://a.com/1')], stop_reason='pause_turn')
         final = _response([_search_ok('https://a.com/2'), _text('listo')])
         client = _client_returning(parcial, final)
         with patch.object(cr, '_get_client', return_value=client):
             texto, urls = cr.ask_with_search('p', 'sys')
-        assert client.messages.create.call_count == 2
-        assert 'listo' in texto and urls == ['https://a.com/2']
+        assert client.messages.create.call_count == 1, 'no debe pagar una segunda llamada'
+        assert (texto, urls) == ('', []), 'sin terminar = sin datos, no un veredicto a medias'
 
     def test_refusal_devuelve_vacio_sin_leer_contenido(self):
         # Los clasificadores devuelven 200 con content vacío o parcial

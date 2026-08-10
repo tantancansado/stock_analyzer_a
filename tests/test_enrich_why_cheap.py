@@ -34,6 +34,10 @@ def universos(tmp_path, monkeypatch):
     us_csv = tmp_path / 'value_opportunities.csv'
     eu_csv = tmp_path / 'european_value_opportunities.csv'
     monkeypatch.setattr(ewc, 'TARGET_CSVS', [us_csv, eu_csv])
+    # La caché va al tmp del test: con la ruta real, los tests se escribían
+    # entre sí en docs/why_cheap_cache.json y el veredicto cacheado de un test
+    # hacía fallar al siguiente (además de ensuciar el repo al correr la suite).
+    monkeypatch.setattr(ewc, 'CACHE', tmp_path / 'why_cheap_cache.json')
     return us_csv, eu_csv
 
 
@@ -159,3 +163,55 @@ class TestPresupuestoEsTopeReal:
     def test_presupuesto_cubre_al_menos_dos_tickers(self):
         """Si no caben dos, MAX_TICKERS miente y la selección es teatro."""
         assert ewc.PRESUPUESTO_SEG >= 2 * ewc.COSTE_TICKER_SEG
+
+
+class TestCacheDeVeredictos:
+    """Por qué una empresa está barata no cambia de un día para otro.
+
+    Sin caché se recompraba el mismo análisis a diario: super_score_integrator
+    regenera value_opportunities.csv desde cero y borra la columna, así que BR
+    y SAP se re-analizaban cada mañana con búsqueda web (~$0,20 cada uno). Esa
+    es la partida que agotó el saldo de la API el 10-ago-2026.
+    """
+
+    def test_no_reanaliza_lo_que_esta_en_cache(self, universos, monkeypatch):
+        import json
+        us_csv, _ = universos
+        pd.DataFrame([_row('AAPL', 60.0)], columns=COLS).to_csv(us_csv, index=False)
+        ewc.CACHE.write_text(json.dumps({
+            'AAPL': {'veredicto': 'CICLICO', 'resumen': 'del cache', 'fuentes': [],
+                     'fecha': __import__('datetime').date.today().isoformat()},
+        }))
+        llamadas = []
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda t, *a, **kw: llamadas.append(t) or _fake_veredicto()):
+            ewc.main()
+        assert llamadas == [], 'volvió a pagar un análisis que ya tenía en caché'
+        assert pd.read_csv(us_csv).set_index('ticker').loc['AAPL', 'why_cheap'] == 'CICLICO'
+
+    def test_reanaliza_lo_caducado(self, universos, monkeypatch):
+        import json, datetime as dt
+        us_csv, _ = universos
+        pd.DataFrame([_row('AAPL', 60.0)], columns=COLS).to_csv(us_csv, index=False)
+        viejo = (dt.date.today() - dt.timedelta(days=ewc.CACHE_DIAS + 1)).isoformat()
+        ewc.CACHE.write_text(json.dumps({
+            'AAPL': {'veredicto': 'CICLICO', 'resumen': 'viejo', 'fuentes': [], 'fecha': viejo},
+        }))
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        llamadas = []
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda t, *a, **kw: llamadas.append(t) or _fake_veredicto('EVENTO')):
+            ewc.main()
+        assert llamadas == ['AAPL'], 'no refrescó un veredicto caducado'
+
+    def test_lo_analizado_queda_cacheado(self, universos, monkeypatch):
+        import json
+        us_csv, _ = universos
+        pd.DataFrame([_row('AAPL', 60.0)], columns=COLS).to_csv(us_csv, index=False)
+        monkeypatch.setattr(ewc, 'PRESUPUESTO_SEG', 999)
+        with patch.object(ewc, 'analyze_ticker',
+                          side_effect=lambda t, *a, **kw: _fake_veredicto('EVENTO')):
+            ewc.main()
+        guardado = json.loads(ewc.CACHE.read_text())
+        assert guardado['AAPL']['veredicto'] == 'EVENTO'
+        assert 'fecha' in guardado['AAPL'], 'sin fecha no se puede caducar'

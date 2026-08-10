@@ -127,6 +127,7 @@ def claude_chat(
     max_tokens: int = 800,
     temperature: float = 0.3,
     system: str | None = None,
+    esencial: bool = False,
 ) -> str | None:
     """
     Calls Anthropic Messages API. Returns text content or None on failure.
@@ -141,6 +142,12 @@ def claude_chat(
     """
     client = _get_anthropic_client()
     if client is None:
+        return None
+    # Tope de gasto mensual. `esencial` deja pasar el briefing diario aunque
+    # quede poco margen: es el único mensaje del día y perderlo se nota.
+    from claude_budget import hay_presupuesto, registrar_uso, resumen
+    if not hay_presupuesto(coste_estimado=0.05, esencial=esencial):
+        logger.warning("claude_chat: sin presupuesto este mes. %s", resumen())
         return None
     modelo = model.lower()
     sin_sampling = any(m in modelo for m in _SIN_SAMPLING)
@@ -157,6 +164,7 @@ def claude_chat(
         if system:
             kwargs["system"] = system
         resp = client.messages.create(**kwargs)
+        registrar_uso(resp, model)
         # Con adaptive thinking los bloques de pensamiento van primero: se
         # coge el de texto, no content[0].
         text = next((b.text for b in resp.content if getattr(b, "type", None) == "text"), None)

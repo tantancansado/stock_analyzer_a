@@ -223,9 +223,31 @@ def build_message(facts: dict) -> str | None:
     # max_tokens cubre pensamiento + respuesta: con adaptive thinking (que
     # claude_chat activa en los modelos de la generación 5) un presupuesto
     # ajustado se lo come el pensamiento y el mensaje sale truncado.
+    # `esencial=True`: es el único mensaje del día, así que pasa aunque quede
+    # poco margen en el tope mensual (ver claude_budget.RESERVA_USD).
     texto = claude_chat([{'role': 'user', 'content': prompt}],
-                        model=MODEL, system=SYSTEM, max_tokens=4000)
-    return texto.strip() if texto else None
+                        model=MODEL, system=SYSTEM, max_tokens=4000, esencial=True)
+    if texto:
+        return texto.strip()
+
+    # Sin Claude (tope agotado, API caída o sin key) el briefing NO se pierde:
+    # esto es redacción sobre hechos que la app ya tiene calculados, no requiere
+    # búsqueda web ni fuentes verificadas, así que Groq lo hace igual de bien y
+    # gratis. Se reserva Claude para lo que solo Claude puede hacer.
+    try:
+        api_key = os.environ.get('GROQ_API_KEY', '')
+        if not api_key:
+            return None
+        from groq import Groq
+        from groq_utils import groq_chat
+        texto = groq_chat(Groq(api_key=api_key),
+                          [{'role': 'system', 'content': SYSTEM},
+                           {'role': 'user', 'content': prompt}],
+                          max_tokens=2000)
+        return texto.strip() if texto else None
+    except Exception as e:
+        print(f'   ⚠️  Groq tampoco disponible para el briefing: {e}')
+        return None
 
 
 def _send(text: str) -> bool:
