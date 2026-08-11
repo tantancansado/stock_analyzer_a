@@ -776,19 +776,28 @@ class SuperScoreIntegrator:
         print("\n8️⃣ SHORT INTEREST + 52W HIGH PROXIMITY")
         print("-" * 70)
 
-        # --- Short Interest bonus (squeeze fuel for breakouts) ---
+        # --- Short Interest: NO se puntúa ---
+        # Hasta el 11-ago-2026 esto sumaba +3 pts al 8-20% de float corto y +1 al
+        # 5-8%, como "squeeze fuel for breakouts". Dos problemas:
+        #
+        # 1. Es lógica de MOMENTUM (un squeeze empuja una ruptura) aplicada a un
+        #    score que alimenta también la lista VALUE, donde no pinta nada: el
+        #    usuario no compra squeezes, compra negocios sanos castigados.
+        # 2. Contradecía a ai_quality_filter.py, que resta confianza al mismo
+        #    dato (-5 por encima del 10%, -15 por encima del 20%). El sistema
+        #    premiaba y penalizaba lo mismo a la vez.
+        #
+        # Y no hay evidencia para ninguna de las dos direcciones en NUESTRO
+        # universo: 6265 observaciones (110 tickers × 24 fechas de docs/history)
+        # dan spearman(cortos, retorno) de +0,015 a 5d, +0,034 a 10d y +0,064 a
+        # 21d — o sea nada, y si algo, del signo contrario al que penalizaría.
+        # Por bandas a 21d: 0-2% +3,84%, 2-5% +3,57%, 5-10% +6,56%, 10-20%
+        # +3,73%. Sin patrón. Sin evidencia no se puntúa, ni a favor ni en
+        # contra (misma regla que fundamental_score == 50.0).
+        #
+        # El dato se sigue capturando en el tracker desde el 11-ago-2026 para
+        # poder resolverlo con nuestras propias señales dentro de unos meses.
         df['short_bonus'] = 0.0
-        if 'short_percent_float' in df.columns:
-            df.loc[
-                (df['short_percent_float'] >= 8) & (df['short_percent_float'] < 20),
-                'short_bonus'
-            ] += 3.0
-            df.loc[
-                (df['short_percent_float'] >= 5) & (df['short_percent_float'] < 8),
-                'short_bonus'
-            ] += 1.0
-            # >20% short float: no bonus — market skepticism outweighs squeeze fuel
-        df['short_bonus'] = df['short_bonus'].clip(upper=3.0)
 
         squeeze_count = int(
             (df.get('short_squeeze_potential', pd.Series(dtype=bool)) == True).sum()

@@ -384,3 +384,54 @@ class TestCompresionConBpaCreciendo:
                   'multiplo_vario_pct', 'pe_antes', 'pe_ahora')
         assert all(k in src for k in claves)
         assert 'objetivo' not in src.split('"""')[2]  # no en el codigo, solo el docstring
+
+
+class TestInteresCorto:
+    """El interés corto no se puntúa: no hay evidencia en NUESTRO universo.
+
+    Hasta el 11-ago-2026 el integrator sumaba +3 pts al 8-20% de float corto
+    ("squeeze fuel for breakouts") mientras ai_quality_filter restaba confianza
+    al mismo dato (-5 por encima del 10%, -15 por encima del 20%): el sistema
+    premiaba y penalizaba lo mismo a la vez. Y el bonus era lógica de momentum
+    metida en un score que alimenta la lista VALUE.
+
+    Medido sobre 6265 observaciones (110 tickers × 24 fechas de docs/history):
+    spearman(cortos, retorno) = +0,015 a 5d, +0,034 a 10d, +0,064 a 21d. Nada,
+    y del signo contrario al que justificaría penalizar. Por bandas a 21d no hay
+    patrón: 0-2% +3,84%, 2-5% +3,57%, 5-10% +6,56%, 10-20% +3,73%.
+    """
+
+    def test_el_interes_corto_no_suma_puntos(self):
+        from pathlib import Path
+        import super_score_integrator as ssi
+        src = Path(ssi.__file__).read_text()
+        i = src.index("df['short_bonus']")
+        bloque = src[i:i + 400]
+        assert '+= 3.0' not in bloque and '+= 1.0' not in bloque, \
+            'vuelve a premiarse el interés corto sin evidencia'
+
+    def test_el_umbral_del_2pct_descartaria_el_universo(self):
+        """La mediana del universo curado es 2,80%: cortar en el 2% tiraría dos
+        tercios de los candidatos. No es un filtro, es apagar el sistema."""
+        import pandas as pd
+        from pathlib import Path
+        f = Path(__file__).parent.parent / 'docs' / 'fundamental_scores.csv'
+        if not f.exists():
+            import pytest
+            pytest.skip('sin fundamental_scores.csv')
+        s = pd.to_numeric(pd.read_csv(f)['short_percent_float'], errors='coerce').dropna()
+        if len(s) < 50:
+            import pytest
+            pytest.skip('muestra pequeña')
+        assert s.median() > 2.0, (
+            f'la mediana del universo es {s.median():.2f}% — si baja de 2% '
+            f'habría que revisar la conclusión de que el umbral es inservible')
+
+    def test_el_tracker_guarda_el_dato_para_decidirlo_luego(self):
+        """Hoy no se puede responder con nuestras señales (n=20 a 7d). Sin
+        capturarlo, dentro de seis meses seguiremos igual."""
+        from pathlib import Path
+        import portfolio_tracker as pt
+        src = Path(pt.__file__).read_text()
+        assert src.count("'short_percent_float':") >= 2, \
+            'debe capturarse tanto en VALUE como en MOMENTUM'

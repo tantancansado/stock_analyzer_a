@@ -90,7 +90,7 @@ class PortfolioTracker:
         return pd.DataFrame(columns=[
             'ticker', 'company_name', 'strategy', 'signal_date', 'signal_price',
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
-            'analyst_upside_pct', 'sector', 'market_regime',
+            'analyst_upside_pct', 'short_percent_float', 'sector', 'market_regime',
             'entry_readiness', 'entry_readiness_reason',
             'return_7d', 'return_14d', 'return_30d', 'return_90d', 'return_180d', 'return_365d',
             'price_7d', 'price_14d', 'price_30d', 'price_90d', 'price_180d', 'price_365d',
@@ -225,6 +225,13 @@ class PortfolioTracker:
                         'fcf_yield_pct': row.get('fcf_yield_pct'),
                         'risk_reward_ratio': row.get('risk_reward_ratio'),
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
+                        # Capturado desde 11-ago-2026 para poder decidir CON NUESTRAS
+                        # señales si el interés corto predice algo. Hoy no se puede:
+                        # solo hay 31 snapshots de docs/history y dan n=20 a 7 días.
+                        # El estudio transversal sobre el universo (6265 obs) no
+                        # encuentra efecto — si acaso el contrario — pero cubre 6
+                        # semanas de mercado alcista y no basta para fijar un umbral.
+                        'short_percent_float': row.get('short_percent_float'),
                         'sector': row.get('sector', 'N/A'),
                         'market_regime': row.get('market_regime', 'N/A'),
                         # Capturado desde 6-ago-2026: hace falta para responder la pregunta
@@ -272,6 +279,13 @@ class PortfolioTracker:
                         'fcf_yield_pct': row.get('fcf_yield_pct'),
                         'risk_reward_ratio': row.get('risk_reward_ratio'),
                         'analyst_upside_pct': row.get('analyst_upside_pct'),
+                        # Capturado desde 11-ago-2026 para poder decidir CON NUESTRAS
+                        # señales si el interés corto predice algo. Hoy no se puede:
+                        # solo hay 31 snapshots de docs/history y dan n=20 a 7 días.
+                        # El estudio transversal sobre el universo (6265 obs) no
+                        # encuentra efecto — si acaso el contrario — pero cubre 6
+                        # semanas de mercado alcista y no basta para fijar un umbral.
+                        'short_percent_float': row.get('short_percent_float'),
                         'sector': row.get('sector', 'N/A'),
                         'market_regime': row.get('market_regime', 'N/A'),
                         'entry_readiness': row.get('entry_readiness'),
