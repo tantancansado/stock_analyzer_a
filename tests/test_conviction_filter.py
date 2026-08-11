@@ -302,3 +302,50 @@ class TestQueEsDeterioro:
         """op_yoy None porque la base era negativa: el año pasado perdía dinero
         y ahora gana. Es recuperación (INTC), no decadencia."""
         assert self._clasificar(25.4, None, 12.2) is False
+
+
+class TestFiltroDeEntrada:
+    """El corte duro es SOLO la banda canónica de upside.
+
+    Antes llevaba además `value_score >= 60` y `risk_reward_ratio >= 2.0`, los
+    dos calibrados con 681 señales del periodo contaminado. En el limpio
+    (n=100 a 30d) los tres cortes iban en la misma dirección — hacia peor:
+
+        solo dorada [10,25)   n=18  win 77,8%  medio +5,67%
+        + ambos filtros       n= 5  win 60,0%  medio +0,52%
+        lo que descartaban    n=13  win 84,6%  medio +7,65%
+    """
+
+    def test_no_hay_filtro_de_risk_reward(self):
+        """RR = analyst_upside_pct / 8 (corr 0,999999 sobre 1501 señales), así
+        que `RR >= 2.0` ES `upside >= 16`: una banda inline encubierta que
+        recortaba la dorada a [16,25). CLAUDE.md lo prohíbe explícitamente."""
+        import re
+        from pathlib import Path
+        import conviction_filter as cf
+        src = Path(cf.__file__).read_text()
+        cuerpo = src[src.index('def filter_by_conviction'):]
+        activo = [l for l in cuerpo.splitlines()
+                  if 'risk_reward_ratio' in l and not l.lstrip().startswith('#')]
+        assert not activo, f'vuelve a haber un filtro de RR (= banda de upside oculta): {activo}'
+
+    def test_no_hay_umbral_de_value_score(self):
+        """Dentro de la dorada el score no informa: corr con el retorno a 30d
+        es -0,026 (p=0,918). Su signo negativo global sale de que va con
+        upside alto (+0,332), o sea que premia justo lo que hay que evitar."""
+        import re
+        from pathlib import Path
+        import conviction_filter as cf
+        src = Path(cf.__file__).read_text()
+        cuerpo = src[src.index('def filter_by_conviction'):]
+        activo = [l for l in cuerpo.splitlines()
+                  if re.search(r"value_score.*>=\s*\d", l) and not l.lstrip().startswith('#')]
+        assert not activo, f'vuelve a haber un umbral de value_score: {activo}'
+
+    def test_la_banda_sale_de_value_bands(self):
+        """Nunca hardcodeada inline — es la regla que evitó tener tres verdades
+        distintas (integrator, tracker y conviction)."""
+        import conviction_filter as cf
+        from value_bands import UPSIDE_HARD_REJECT, UPSIDE_MIN
+        assert cf.UPSIDE_MIN is UPSIDE_MIN
+        assert cf.UPSIDE_HARD_REJECT is UPSIDE_HARD_REJECT

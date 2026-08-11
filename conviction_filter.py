@@ -775,21 +775,37 @@ def filter_by_conviction(input_path: str, output_path: str = None, min_grade: st
     print(f"{'='*80}")
     print(f"Input: {len(df)} oportunidades")
 
-    # ── US hard filters (data-driven: 681 signals, zona dorada = 78.7% win rate) ──
-    # score>=60 + RR>=2 + upside 10-50% → avg +5.8%. Outside: avg +0.5% or worse.
+    # ── US hard filter: SOLO la banda canónica de upside ─────────────────────
+    # Antes había además `value_score >= 60` y `risk_reward_ratio >= 2.0`. Los
+    # dos se calibraron con 681 señales del periodo contaminado y en el limpio
+    # (n=100 a 30d) los tres cortes van en la misma dirección: hacen daño.
+    #
+    #   solo zona dorada [10,25)      n=18  win 77,8%  medio +5,67%
+    #     + RR>=2.0                   n=15  win 73,3%  medio +5,08%
+    #     + score>=60                 n= 8  win 75,0%  medio +3,56%
+    #     + ambos (lo que había)      n= 5  win 60,0%  medio +0,52%
+    #   lo que ambos DESCARTABAN      n=13  win 84,6%  medio +7,65%
+    #
+    # Por qué cada uno sobraba:
+    #  · `risk_reward_ratio` NO es un factor: super_score_integrator lo calcula
+    #    como `analyst_upside_pct / 8.0` (corr = 0,999999 sobre 1501 señales),
+    #    así que RR>=2.0 ES upside>=16 — una tercera banda inline que recortaba
+    #    la dorada a [16,25). Mismo bug que ya se quitó del tracker, vivo aquí.
+    #    CLAUDE.md lo prohíbe: las bandas viven en value_bands, no inline.
+    #  · `value_score` no informa DENTRO de la dorada: corr con el retorno a 30d
+    #    es -0,026 (p=0,918), o sea ruido. Su correlación negativa global
+    #    (-0,328) viene de que el score alto va con upside alto (+0,332,
+    #    p=0,0007): puntúa mejor justo a las que caen fuera de la banda buena.
+    #
+    # La calidad la sigue filtrando el conviction_grade (>=B) más abajo, que
+    # para eso puntúa 12 secciones incluida la tesis verificada.
     if not eu_mode and len(df) > 0:
         n_before = len(df)
-        if 'value_score' in df.columns:
-            df = df[pd.to_numeric(df['value_score'], errors='coerce') >= 60].copy()
-        if 'risk_reward_ratio' in df.columns:
-            _rr = pd.to_numeric(df['risk_reward_ratio'], errors='coerce')
-            df = df[_rr >= 2.0].copy()
         if 'analyst_upside_pct' in df.columns:
             _up = pd.to_numeric(df['analyst_upside_pct'], errors='coerce')
-            # Banda canónica de value_bands (antes 10-55 aquí, 10-45 en el
-            # tracker y ≥30 hard-reject en el integrator — tres verdades)
             df = df[(_up >= UPSIDE_MIN) & (_up < UPSIDE_HARD_REJECT)].copy()
-        print(f"  US hard filters (score>=60, RR>=2, upside {UPSIDE_MIN:.0f}-{UPSIDE_HARD_REJECT:.0f}%): {n_before} -> {len(df)}")
+        print(f"  US hard filter (upside {UPSIDE_MIN:.0f}-{UPSIDE_HARD_REJECT:.0f}%, "
+              f"banda canónica de value_bands): {n_before} -> {len(df)}")
 
     # ── EU hard filters (data-driven: based on 30d portfolio tracker performance) ──
     # FCF ≥ 3%: win rate 47%+ vs <25% below. Consumer Cyclical/Healthcare EU: <10% win rate.
