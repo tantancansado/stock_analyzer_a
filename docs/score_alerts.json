@@ -1,211 +1,161 @@
 {
-  "generated_at": "2026-08-10",
+  "generated_at": "2026-08-11",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 66.7,
-      "score_prev": 48.0,
-      "delta": 18.7,
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 55.2,
+      "score_prev": 41.9,
+      "delta": 13.3,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": 56.9,
-      "score_prev": 46.0,
-      "delta": 10.9,
-      "grade": "🟡 Good"
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "sector": "Healthcare",
+      "score_today": 41.6,
+      "score_prev": 33.6,
+      "delta": 8.1,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "sector": "Financial Services",
-      "score_today": 72.9,
-      "score_prev": 62.8,
-      "delta": 10.1,
-      "grade": "🟢 Excellent"
+      "score_today": 79.4,
+      "score_prev": 72.9,
+      "delta": 6.5,
+      "grade": "🟢 Elite"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 41.9,
-      "score_prev": 32.0,
-      "delta": 9.9,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "sector": "Financial Services",
-      "score_today": 51.7,
-      "score_prev": 45.3,
-      "delta": 6.4,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "BRK-B",
-      "company_name": "Berkshire Hathaway Inc.",
-      "sector": "Financial Services",
-      "score_today": 43.3,
-      "score_prev": 37.7,
-      "delta": 5.6,
+      "ticker": "KVUE",
+      "company_name": "Kenvue Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 45.0,
+      "score_prev": 39.6,
+      "delta": 5.4,
       "grade": "🔴 Weak"
     },
     {
-      "type": "NEW_ENTRY",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International",
-      "sector": "Consumer Cyclical",
-      "score_today": 65.4,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "ASAZY",
-      "company_name": "ASSA ABLOY AB (publ)",
-      "sector": "Industrials",
-      "score_today": 56.2,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "NEW_ENTRY",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": 55.5,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
       "type": "SCORE_DOWN",
-      "ticker": "ATLKY",
-      "company_name": "Atlas Copco AB (publ)",
-      "sector": "Industrials",
-      "score_today": 45.2,
-      "score_prev": 52.2,
-      "delta": -7.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
       "sector": "Technology",
-      "score_today": 85.4,
-      "score_prev": 93.8,
-      "delta": -8.4,
+      "score_today": 77.0,
+      "score_prev": 82.0,
+      "delta": -5.0,
       "grade": "🔥 Legendary"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "ORLY",
-      "company_name": "O'Reilly Automotive, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 34.0,
-      "score_prev": 48.8,
-      "delta": -14.8,
-      "grade": "🔴 Weak"
+      "ticker": "AXP",
+      "company_name": "American Express Company",
+      "sector": "Financial Services",
+      "score_today": 51.4,
+      "score_prev": 56.9,
+      "delta": -5.5,
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "TJX",
-      "company_name": "The TJX Companies, Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 36.4,
-      "score_prev": 52.3,
-      "delta": -15.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "WMT",
-      "company_name": "Walmart Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 31.8,
-      "score_prev": 48.7,
-      "delta": -16.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 39.6,
-      "score_prev": 60.3,
-      "delta": -20.7,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "ADP",
-      "company_name": "Automatic Data Processing, Inc.",
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
       "sector": "Technology",
-      "score_today": null,
-      "score_prev": 75.3,
-      "delta": null,
-      "grade": "🟢 Excellent"
+      "score_today": 30.3,
+      "score_prev": 35.8,
+      "delta": -5.5,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 50.9,
+      "score_prev": 58.0,
+      "delta": -7.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 39.7,
+      "score_prev": 47.0,
+      "delta": -7.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "TW",
+      "company_name": "Tradeweb Markets Inc.",
+      "sector": "Financial Services",
+      "score_today": 31.0,
+      "score_prev": 40.3,
+      "delta": -9.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "sector": "Financial Services",
+      "score_today": 39.5,
+      "score_prev": 51.7,
+      "delta": -12.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "score_today": 32.5,
+      "score_prev": 45.9,
+      "delta": -13.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ASAZY",
+      "company_name": "ASSA ABLOY AB (publ)",
+      "sector": "Industrials",
+      "score_today": 42.2,
+      "score_prev": 56.2,
+      "delta": -14.0,
+      "grade": "🔴 Weak"
     },
     {
       "type": "EXITED",
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "score_today": null,
-      "score_prev": 83.5,
-      "delta": null,
-      "grade": "🟢 Elite"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
       "score_today": null,
-      "score_prev": 70.2,
+      "score_prev": 66.7,
       "delta": null,
       "grade": "🟡 Good"
     },
     {
       "type": "EXITED",
-      "ticker": "PGR",
-      "company_name": "The Progressive Corporation",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 62.3,
-      "delta": null,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "sector": "Technology",
       "score_today": null,
-      "score_prev": 87.3,
+      "score_prev": 85.4,
       "delta": null,
-      "grade": "🟢 Elite"
+      "grade": "🔥 Legendary"
     }
   ],
   "counts": {
-    "new_entries": 3,
-    "exited": 5,
-    "score_up": 6,
-    "score_down": 6
+    "new_entries": 0,
+    "exited": 2,
+    "score_up": 4,
+    "score_down": 9
   }
 }
