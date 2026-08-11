@@ -215,6 +215,58 @@ function WhyCheap({ row }: Readonly<{ row: ValueOpportunity }>) {
   )
 }
 
+// ── Interés corto ─────────────────────────────────────────────────────────────
+// Se muestra, NO se puntúa. Medido sobre 6265 observaciones del propio universo
+// (110 tickers × 24 fechas), el % de float en corto no predice el retorno:
+// spearman +0,015 a 5d, +0,034 a 10d, +0,064 a 21d, y por bandas no hay patrón.
+// Los tramos de abajo son los percentiles REALES del universo curado, no
+// umbrales de mercado: su mediana es 2,80%, así que "más del 2%" describe a dos
+// tercios de los candidatos y no distingue nada.
+const CORTOS_P25 = 1.7
+const CORTOS_P75 = 5.35
+const CORTOS_P90 = 10.1
+const CORTOS_EXTREMO = 20
+
+function tramoCortos(v: number) {
+  if (v >= CORTOS_EXTREMO) return { nota: 'muy alto — solo 2 de 111 del universo llegan aquí',
+                                    clase: 'bg-red-500/15 text-red-400 border-red-500/30' }
+  if (v >= CORTOS_P90) return { nota: 'alto — por encima del 90% del universo',
+                                clase: 'bg-amber-500/15 text-amber-300 border-amber-500/30' }
+  if (v >= CORTOS_P75) return { nota: 'por encima de lo habitual (p75 del universo)',
+                                clase: 'bg-muted/30 text-foreground/70 border-border/30' }
+  if (v >= CORTOS_P25) return { nota: 'normal — la mediana del universo es 2,8%',
+                                clase: 'bg-muted/30 text-muted-foreground border-border/30' }
+  return { nota: 'bajo — por debajo del 75% del universo',
+           clase: 'bg-muted/30 text-muted-foreground border-border/30' }
+}
+
+function InteresCorto({ row }: Readonly<{ row: ValueOpportunity }>) {
+  const v = row.short_percent_float
+  if (v === null || v === undefined || Number.isNaN(v)) return null
+  const t = tramoCortos(v)
+
+  return (
+    <div className="mb-4">
+      <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+        Interés corto
+      </h4>
+      <div className="rounded-lg border border-border/20 bg-muted/10 p-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-1 rounded border ${t.clase}`}>
+            {v.toFixed(1)}% del float
+          </span>
+          <span className="text-[0.65rem] text-muted-foreground/70">{t.nota}</span>
+        </div>
+        <p className="text-[0.65rem] leading-relaxed text-muted-foreground/60 mt-2">
+          Dato informativo, no penaliza el score: en este universo el interés corto
+          no ha predicho el retorno (6265 observaciones). Buena parte es cobertura
+          y arbitraje, no apuesta bajista.
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function Chip({ label, value, color }: { label: string; value: string; color?: string }) {
   const bg =
     color?.includes('emerald') ? 'bg-emerald-500/8 border-emerald-500/20' :
@@ -470,6 +522,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   </div>
                 )}
                 <WhyCheap row={row} />
+                <InteresCorto row={row} />
                 <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-3">Tesis de Inversión</h4>
                 <ThesisBody text={thesisText} />
               </div>

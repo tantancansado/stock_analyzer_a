@@ -145,6 +145,10 @@ export interface ValueOpportunity {
   why_cheap?: 'DETERIORO' | 'CICLICO' | 'EVENTO' | 'SENTIMIENTO' | 'SIN_DATOS'
   why_cheap_resumen?: string
   why_cheap_fuentes?: string
+  // % del float en corto. Se MUESTRA, no se puntúa: medido sobre 6265
+  // observaciones del propio universo no predice el retorno (spearman +0,06 a
+  // 21d). Va como contexto para el criterio del usuario, no como veredicto.
+  short_percent_float?: number | null
   // IV vs Realized Volatility (options pricing signal)
   hv_30d?: number | null
   atm_iv?: number | null
