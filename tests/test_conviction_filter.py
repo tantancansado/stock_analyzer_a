@@ -349,3 +349,38 @@ class TestFiltroDeEntrada:
         from value_bands import UPSIDE_HARD_REJECT, UPSIDE_MIN
         assert cf.UPSIDE_MIN is UPSIDE_MIN
         assert cf.UPSIDE_HARD_REJECT is UPSIDE_HARD_REJECT
+
+
+class TestCompresionConBpaCreciendo:
+    """Beneficio arriba y multiplo abajo: el patron value por excelencia — y el
+    que `_pe_historico` descarta POR CONSTRUCCION.
+
+    Si el multiplo se comprime fuerte, la dispersion se dispara y el ancla se
+    declara "no fiable". BR paso de ~29x a 17x con el BPA subiendo de 5,30 a
+    9,60 (+81%) y se quedaba sin ninguna señal: justo el caso que mas interesa.
+    """
+
+    def test_el_patron_suma_pero_poco(self):
+        """Poco a proposito: parte de una compresion asi es re-normalizacion
+        legitima (32x era caro para algo que crece al 9%), no castigo."""
+        from conviction_filter import _puntuar_tesis
+        base = {'tesis_deterioro': False, 'tesis_ingresos_yoy': 7.5,
+                'tesis_margen_op_delta': 0.5}
+        sin, _, _ = _puntuar_tesis(base)
+        con, motivos, _ = _puntuar_tesis({
+            **base, 'tesis_compresion_con_bpa_creciendo': True,
+            'tesis_bpa_crecio_pct': 81.0, 'tesis_multiplo_vario_pct': -41.0,
+            'tesis_pe_antes': 29.4, 'tesis_pe_ahora': 17.3})
+        assert 0 < con - sin <= 4, 'debe sumar, pero no dominar la puntuacion'
+        assert any('multiplo' in m for m in motivos)
+
+    def test_no_promete_precio_objetivo(self):
+        """Reportar el hecho, no proyectar la vuelta al multiplo viejo: eso
+        seria inventar (a BSX le daba un objetivo de +293%)."""
+        from conviction_filter import _compresion_con_bpa_creciendo
+        import inspect
+        src = inspect.getsource(_compresion_con_bpa_creciendo)
+        claves = ('compresion_con_bpa_creciendo', 'bpa_crecio_pct',
+                  'multiplo_vario_pct', 'pe_antes', 'pe_ahora')
+        assert all(k in src for k in claves)
+        assert 'objetivo' not in src.split('"""')[2]  # no en el codigo, solo el docstring

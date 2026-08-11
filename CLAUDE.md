@@ -70,7 +70,15 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
 ## Perfil del usuario
 
 - Inversor VALUE/GARP estilo Lynch, NO trader momentum Minervini
-- Objetivo: ganancias consistentes 5-10%, alta tasa de acierto
+- **Vende a PRECIO OBJETIVO por valoración, no a un % fijo de ganancia.** No
+  existe un "objetivo del 5-10%" — eso figuraba aquí y el usuario lo desmintió
+  el 11-ago-2026. Nunca proponer salidas por porcentaje ganado ni por niveles
+  técnicos: el objetivo se calcula (múltiplo × BPA limpio, DCF, consenso).
+- **La calidad del negocio modula la salida**: en una empresa excepcional
+  (tipo MCO — margen operativo 49%, ROE 77%) aguanta hasta el objetivo
+  completo; en una que no lo es tanto, vende antes de alcanzarlo. Así que un
+  veredicto de venta necesita DOS cosas: el precio objetivo y qué tan buena es
+  la empresa comparada con las mejores de su cartera.
 - Prefiere 0 señales antes que señales falsas
 - Evitar sugerir compras sin análisis fundamentales sólidos
 

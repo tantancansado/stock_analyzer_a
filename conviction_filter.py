@@ -145,6 +145,48 @@ def _pe_historico(tk):
     return float(np.median(arr))
 
 
+def _compresion_con_bpa_creciendo(tk) -> dict:
+    """¿El múltiplo se ha hundido MIENTRAS el beneficio subía?
+
+    Es el patrón que más interesa y el que el filtro de estabilidad de
+    `_pe_historico` descarta por construcción: si el múltiplo se comprime
+    fuerte, la dispersión se dispara y el ancla se declara "no fiable". BR pasó
+    de ~32x a 17,3x con el BPA subiendo de 5,30 a 9,60 (+81%) y se quedaba sin
+    señal ninguna.
+
+    No devuelve un precio objetivo a propósito. Parte de una compresión así
+    suele ser re-normalización legítima (32x era caro para algo que crece al
+    9%), y prometer la vuelta al múltiplo viejo seria inventar. Se reporta el
+    hecho — beneficio arriba, múltiplo abajo — y quien decida que lo pondere.
+    """
+    eps_a = _fila(getattr(tk, 'income_stmt', None), 'Diluted EPS')
+    if eps_a is None:
+        return {}
+    try:
+        hist = tk.history(period='6y', auto_adjust=True)['Close']
+    except Exception:
+        return {}
+    pares = []
+    for fecha, v in sorted(eps_a.dropna().items()):
+        val = _num(v)
+        p = hist[hist.index.year == fecha.year]
+        if len(p) and val and val > 0:
+            pares.append((fecha.year, val, float(p.mean()) / val))
+    if len(pares) < 3:
+        return {}
+    bpa_ini, bpa_fin = pares[0][1], pares[-1][1]
+    pe_ini, pe_fin = pares[0][2], pares[-1][2]
+    if bpa_ini <= 0 or pe_ini <= 0:
+        return {}
+    crec_bpa = 100 * (bpa_fin / bpa_ini - 1)
+    var_pe = 100 * (pe_fin / pe_ini - 1)
+    if crec_bpa >= 20 and var_pe <= -25:
+        return {'compresion_con_bpa_creciendo': True,
+                'bpa_crecio_pct': crec_bpa, 'multiplo_vario_pct': var_pe,
+                'pe_antes': pe_ini, 'pe_ahora': pe_fin}
+    return {}
+
+
 def _eps_limpio(tk, q, precio):
     """BPA ttm sin extraordinarios, y el P/E que sale de él.
 
@@ -236,6 +278,7 @@ def analizar_tesis_value(ticker: str, precio: float | None = None) -> dict:
 
         if hay_q:
             r.update(_eps_limpio(tk, q, precio))
+        r.update(_compresion_con_bpa_creciendo(tk))
         pe_hist = _pe_historico(tk)
         if pe_hist and r.get('pe_hoy'):
             r['pe_hist'] = pe_hist
@@ -375,6 +418,17 @@ def _puntuar_tesis(row) -> tuple:
     comp = _sf(row.get('tesis_compresion'))
     if comp is not None and comp <= -15:
         motivos.append(f'Cotiza {abs(comp):.0f}% por debajo de su múltiplo histórico')
+
+    # Beneficio arriba y múltiplo abajo: el patron value por excelencia. Suma
+    # poco a proposito — parte de una compresion asi es re-normalizacion
+    # legitima, no castigo, y aqui no se sabe cuanta.
+    cbc = row.get('tesis_compresion_con_bpa_creciendo')
+    if cbc is True or cbc == 'True':
+        pts += 3.0
+        cb, vm = _sf(row.get('tesis_bpa_crecio_pct')), _sf(row.get('tesis_multiplo_vario_pct'))
+        if cb is not None and vm is not None:
+            motivos.append(f'El beneficio subio {cb:+.0f}% y el multiplo cayo {vm:.0f}% '
+                           f'({_sf(row.get("tesis_pe_antes")):.0f}x → {_sf(row.get("tesis_pe_ahora")):.0f}x)')
 
     extra = _sf(row.get('tesis_extraordinarios_pct'))
     if extra is not None and extra >= 5:
