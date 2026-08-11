@@ -1,13 +1,29 @@
 {
   "mes": "2026-08",
-  "gastado_usd": 0.0,
-  "llamadas": 84,
-  "busquedas": 0,
-  "ultima_llamada": "2026-08-10T12:49:43.998372+00:00",
+  "gastado_usd": 1.668899,
+  "llamadas": 200,
+  "busquedas": 14,
+  "ultima_llamada": "2026-08-11T06:17:17.418059+00:00",
   "por_script": {
     "test_claude_research": {
       "usd": 0.0,
       "llamadas": 49
+    },
+    "ai_pick_verifier": {
+      "usd": 0.021973,
+      "llamadas": 1
+    },
+    "why_cheap_analyzer": {
+      "usd": 1.031192,
+      "llamadas": 3
+    },
+    "ai_quality_filter": {
+      "usd": 0.333426,
+      "llamadas": 58
+    },
+    "thesis_generator": {
+      "usd": 0.282308,
+      "llamadas": 54
     }
   }
 }

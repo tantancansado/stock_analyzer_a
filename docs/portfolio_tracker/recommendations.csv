@@ -1551,7 +1551,7 @@ STZ,VALUE,2026-07-06,137.47,52.935,,9.41,3.05,24.4,Consumer Defensive,CONFIRMED_
 CTAS,VALUE,2026-07-07,178.24,56.065,,2.11,2.14,17.1,Industrials,CONFIRMED_UPTREND,3.42,12.44,13.41,184.33,200.41,202.15,True,True,True,-1.09,COMPLETED,Cintas Corporation,0.08,12.36,0.55,2.87,2.79,10.63,163.98080000000002,208.69,208.69,8.0,TARGET,,,,,,,,
 ABT,VALUE,2026-07-07,95.63,55.075,,3.81,2.76,22.1,Healthcare,CONFIRMED_UPTREND,-7.63,4.22,12.89,88.33,99.67,107.96,False,True,True,-4.17,COMPLETED,Abbott Laboratories,0.08,4.15,0.55,-8.18,2.79,10.1,87.9796,116.72,87.98,6.0,STOP,,,,,,,,
 CBOE,VALUE,2026-07-08,258.64,52.08,,3.71,2.95,23.6,Financial Services,CONFIRMED_UPTREND,7.14,8.95,10.8,277.11,281.8,286.58,True,True,True,-1.56,COMPLETED,"Cboe Global Markets, Inc.",0.27,8.68,1.26,5.88,3.74,7.07,237.9488,319.79,,,,,,,,,,,
-7741.T,VALUE,2026-07-09,24780.0,51.78,,2.05,2.82,22.6,Healthcare,CONFIRMED_UPTREND,1.09,0.24,5.93,25050.0,24840.0,26250.0,True,True,True,-2.22,COMPLETED,HOYA CORP,-1.8,2.04,-0.13,1.22,,,22797.6,30380.0,,,,,,,,,,,
+7741.T,VALUE,2026-07-09,24780.0,51.78,,2.05,2.82,22.6,Healthcare,CONFIRMED_UPTREND,1.09,0.24,5.93,25050.0,24840.0,26250.0,True,True,True,-2.22,COMPLETED,HOYA CORP,-1.8,2.04,-0.13,1.22,2.84,3.09,22797.6,30380.0,,,,,,,,,,,
 AUTO.L,VALUE,2026-07-14,499.7,50.7,,6.22,2.08,16.6,Communication Services,CONFIRMED_UPTREND,-1.04,3.54,,494.5,517.4,,False,True,,-1.82,ACTIVE,AUTOTRADER GROUP PLC ORD 1P,-1.46,5.0,-0.47,-0.57,,,459.724,582.47,,,,,,,,,,,
 COST,VALUE,2026-07-14,926.43,51.8,,1.69,2.05,16.4,Consumer Defensive,CONFIRMED_UPTREND,0.3,4.33,,929.22,966.58,,True,True,,-1.72,ACTIVE,Costco Wholesale Corporation,-1.46,5.79,-0.47,0.77,,,852.3156,1077.97,,,,,,,,,,,
 MA,VALUE,2026-07-22,538.3,63.5,,,2.45,19.6,Financial Services,CONFIRMED_UPTREND,4.65,5.98,,563.32,570.48,,True,True,,-2.73,ACTIVE,Mastercard Incorporated,2.99,2.98,-2.4,7.05,,,495.236,643.84,,,,,,,,,,,
@@ -1562,8 +1562,8 @@ OTIS,VALUE,2026-07-28,73.19,53.2,,5.16,3.29,26.3,Industrials,CONFIRMED_UPTREND,0
 COF,VALUE,2026-07-28,207.05,54.28,,,3.01,24.1,Financial Services,CONFIRMED_UPTREND,7.18,,,221.91,,,True,,,-0.92,ACTIVE,Capital One Financial Corporati,,,4.11,3.06,,,190.486,257.05,,,,,,,,,,,
 BAC,MOMENTUM,2026-07-29,62.62,,81.93818181818182,,1.16,9.3,Financial Services,CONFIRMED_UPTREND,1.01,,,63.25,,,True,,,-2.73,ACTIVE,Bank of America Corporation,,,5.53,-4.52,,,,,,,,,,,,,,,
 TT,VALUE,2026-07-31,440.28,60.375,,2.74,2.4,19.2,Industrials,CONFIRMED_UPTREND,9.55,,,482.31,,,True,,,2.32,ACTIVE,Trane Technologies plc,,,3.51,6.03,,,405.0576,524.75,,,,,,,,,,,
-ICE,VALUE,2026-08-03,152.48,57.89500000000001,,4.24,2.44,19.5,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,-3.29,ACTIVE,Intercontinental Exchange Inc.,,,,,,,140.2816,182.23,,,,,,,,,,,
-DBOEY,VALUE,2026-08-03,30.12,52.905,,4.02,2.08,16.6,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,0.76,ACTIVE,Deutsche Boerse AG,,,,,,,27.710400000000003,35.13,,,,,,,,,,,
+ICE,VALUE,2026-08-03,152.48,57.89500000000001,,4.24,2.44,19.5,Financial Services,CONFIRMED_UPTREND,-1.27,,,150.54,,,False,,,-3.29,ACTIVE,Intercontinental Exchange Inc.,,,2.03,-3.3,,,140.2816,182.23,,,,,,,,,,,
+DBOEY,VALUE,2026-08-03,30.12,52.905,,4.02,2.08,16.6,Financial Services,CONFIRMED_UPTREND,5.35,,,31.73,,,True,,,0.76,ACTIVE,Deutsche Boerse AG,,,2.03,3.32,,,27.710400000000003,35.13,,,,,,,,,,,
 SPGI,VALUE,2026-08-05,412.53,52.485,,4.48,3.16,25.3,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,S&P Global Inc.,,,,,,,379.5276,516.95,,,,,,,,,,,
 ATLKY,VALUE,2026-08-06,22.2,57.095,,2.53,2.14,17.1,Industrials,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Atlas Copco AB,,,,,,,20.424,26.0,,,,,,,,,,,
 MCO,VALUE,2026-08-07,473.13,62.81,,3.15,2.31,18.5,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Moody's Corporation,,,,,,,435.2796,560.48,,,,,,,,,,,
@@ -1571,3 +1571,5 @@ AXP,VALUE,2026-08-10,340.91,56.870000000000005,,6.95,1.26,10.1,Financial Service
 V,VALUE,2026-08-10,362.5,55.52,,3.01,1.85,14.8,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Visa Inc.,,,,,,,333.5,416.2,,,,,,,,,,VIGILAR,Extendida cerca de máximos — espera un pullback
 CBOE,VALUE,2026-08-10,286.58,51.725,,2.27,1.35,10.8,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,"Cboe Global Markets, Inc.",,,,,,,263.6536,317.43,,,,,,,,,,VIGILAR,Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación
 ASAZY,VALUE,2026-08-10,19.28,56.24000000000001,,4.52,1.6,12.8,Industrials,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,ASSA ABLOY AB (publ),,,,,,,17.7376,21.74,,,,,,,,,,VIGILAR,Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación
+CVX,VALUE,2026-08-11,194.91,55.19499999999999,,5.74,1.41,11.3,Energy,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Chevron Corporation,,,,,,,179.3172,216.96,,,,,,,,,,VIGILAR,Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación
+SYK,VALUE,2026-08-11,345.81,58.465,,3.1,1.31,10.5,Healthcare,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Stryker Corporation,,,,,,,318.1452,382.04,,,,,,,,,,VIGILAR,Construyendo base (lateral) — espera la reconquista de las medias
