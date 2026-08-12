@@ -45,6 +45,8 @@ HORIZONTE = 'return_90d'
 # 1489 señales (55.1% acierto) contradiciendo el 35.8%/134 que publica el
 # tracker — el propio docstring de este archivo cita ese 35.8%/134 como
 # referencia y el código no lo reproducía.
+from value_bands import solo_politica_vigente
+
 CLEAN_FROM = pd.Timestamp('2026-04-08')
 
 
@@ -139,6 +141,10 @@ def main() -> None:
     df = df[df['strategy'].isin(VALUE_STRATEGIES)]
     df['signal_date'] = pd.to_datetime(df['signal_date'], errors='coerce')
     df = df[df['signal_date'] >= CLEAN_FROM]
+    # Mismo corte que el tracker. Sin esto el postmortem medía la política
+    # vieja y publicaba 35,6% de acierto a 90d contra el 61,5% del tracker:
+    # dos cifras del mismo sistema contradiciéndose.
+    df = solo_politica_vigente(df)
     if HORIZONTE not in df.columns:
         print(f'  Sin columna {HORIZONTE} todavía — el histórico aún no cumple el horizonte')
         return
