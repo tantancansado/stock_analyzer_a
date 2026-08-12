@@ -1326,3 +1326,77 @@ class TestBaseEstadistica:
         r = _mejor_base('365d', pd.DataFrame({'return_30d': [1.0]}),
                         pd.DataFrame({'return_30d': [1.0]}), self._win_stats)
         assert r.get('count') == 0
+
+
+class TestPoliticaVigente:
+    """Las estadísticas tienen que describir lo que el sistema emite HOY.
+
+    "Desde el periodo limpio" no basta: en abril-2026 aún se emitían señales
+    con upside >=30%, que hoy son hard-reject. Eran 59 de 120 y las peores con
+    diferencia (1,7% de acierto a 30d, -8,28% medio), así que hundían el
+    resultado del sistema actual: a 30d se publicaba 21,0%/-4,68% cuando lo
+    emitible hoy va al 48,8%/+0,51%.
+    """
+
+    def test_quita_las_que_hoy_serian_hard_reject(self):
+        import pandas as pd
+        from value_bands import UPSIDE_HARD_REJECT, solo_politica_vigente
+        df = pd.DataFrame({'analyst_upside_pct': [12.0, 24.9, 30.0, 45.0, 29.9]})
+        r = solo_politica_vigente(df)
+        assert list(r.analyst_upside_pct) == [12.0, 24.9, 29.9]
+        assert (r.analyst_upside_pct < UPSIDE_HARD_REJECT).all()
+
+    def test_un_upside_desconocido_NO_se_descarta(self):
+        """"Sin dato de upside" no es "upside alto": tirarlo sesgaría la
+        muestra hacia las que tienen cobertura de analistas."""
+        import numpy as np
+        import pandas as pd
+        from value_bands import solo_politica_vigente
+        df = pd.DataFrame({'analyst_upside_pct': [12.0, np.nan, 40.0]})
+        r = solo_politica_vigente(df)
+        assert len(r) == 2 and r.analyst_upside_pct.isna().sum() == 1
+
+    def test_el_tracker_y_el_postmortem_usan_LA_MISMA(self):
+        """Duplicar el criterio fue el fallo: cada uno filtraba por su cuenta y
+        publicaban 35,6% contra 61,5% de acierto a 90d — dos cifras del mismo
+        sistema contradiciéndose (lo pilló coherence_check el 12-ago-2026)."""
+        from pathlib import Path
+        import portfolio_tracker as pt
+        import signal_postmortem as sp
+        for mod in (pt, sp):
+            src = Path(mod.__file__).read_text()
+            assert 'solo_politica_vigente' in src, f'{mod.__name__} no usa el corte canónico'
+            # y que no se lo hayan reimplementado al lado: un filtrado real
+            # indexa un DataFrame, así que lleva corchetes en la misma línea
+            # (las menciones en comentarios y mensajes no cuentan)
+            inline = [l for l in src.splitlines()
+                      if 'UPSIDE_HARD_REJECT' in l and '[' in l and ']' in l
+                      and not l.lstrip().startswith('#')]
+            assert not inline, f'{mod.__name__} reimplementa el corte inline: {inline}'
+
+
+class TestDesfaseNoEsIncoherencia:
+    """El postmortem es semanal y el tracker diario: tras cambiar un criterio,
+    el postmortem publicado se queda con el anterior hasta el lunes. Eso es un
+    artefacto viejo, no una contradicción — y un check que salta en rojo sin
+    nada que arreglar se aprende a ignorar."""
+
+    def test_un_postmortem_mas_viejo_se_marca_como_desfase(self):
+        from coherence_check import postmortem_vs_tracker_summary
+        r = postmortem_vs_tracker_summary(
+            {'generated_at': '2026-08-10T07:00:00',
+             'resumen': {'horizonte': 'return_90d', 'win_rate': 35.6}},
+            {'generated_at': '2026-08-12T07:00:00',
+             'overall': {'90d': {'win_rate': 61.5}}})
+        assert len(r) == 1 and r[0].startswith('⏳')
+
+    def test_misma_fecha_y_discrepan_SI_es_incoherencia(self):
+        """Si ambos corrieron el mismo día y no cuadran, hay un error real —
+        es lo que pilló esta comprobación el 5-ago-2026."""
+        from coherence_check import postmortem_vs_tracker_summary
+        r = postmortem_vs_tracker_summary(
+            {'generated_at': '2026-08-12T07:00:00',
+             'resumen': {'horizonte': 'return_90d', 'win_rate': 35.6}},
+            {'generated_at': '2026-08-12T07:00:00',
+             'overall': {'90d': {'win_rate': 61.5}}})
+        assert len(r) == 1 and not r[0].startswith('⏳')

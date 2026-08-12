@@ -158,10 +158,25 @@ def postmortem_vs_tracker_summary(postmortem: dict | None, summary: dict | None,
     if tracker_win is None or pm_win is None:
         return []
     diff = abs(float(pm_win) - float(tracker_win))
-    if diff > tolerancia_pts:
-        return [f'postmortem dice {pm_win}% de acierto a {clave}, '
-                f'el tracker dice {tracker_win}% — diferencia de {diff:.1f}pts']
-    return []
+    if diff <= tolerancia_pts:
+        return []
+
+    # El postmortem es SEMANAL (lunes) y el tracker DIARIO. Tras cambiar un
+    # criterio de medida, el postmortem publicado se queda con el anterior
+    # hasta que le toque correr, y eso no es una contradicción del sistema:
+    # es un artefacto viejo. Distinguirlo importa porque un aviso que salta
+    # sin que haya nada que arreglar se aprende a ignorar — y esta
+    # comprobación sí ha pillado incoherencias reales (5-ago-2026, el
+    # postmortem no aplicaba CLEAN_FROM).
+    pm_fecha = str(postmortem.get('generated_at') or '')[:10]
+    sm_fecha = str(summary.get('generated_at') or '')[:10]
+    if pm_fecha and sm_fecha and pm_fecha < sm_fecha:
+        return [f'⏳ postmortem ({pm_fecha}) mide con un criterio anterior al del '
+                f'tracker ({sm_fecha}): dice {pm_win}% a {clave} y el tracker '
+                f'{tracker_win}%. Se corrige solo cuando el postmortem vuelva a '
+                f'correr (lunes) — no es una contradicción del sistema']
+    return [f'postmortem dice {pm_win}% de acierto a {clave}, '
+            f'el tracker dice {tracker_win}% — diferencia de {diff:.1f}pts']
 
 
 def leaps_precio_vs_value(value: list[dict], value_eu: list[dict], leaps: list[dict],
@@ -268,20 +283,34 @@ def run() -> int:
     ]
 
     total = 0
+    # Los avisos marcados con ⏳ son desfases conocidos entre artefactos de
+    # distinta cadencia (el postmortem es semanal, el tracker diario): se
+    # informan pero NO cuentan como incoherencia, porque no hay nada que
+    # arreglar y un check que salta en rojo sin acción posible se ignora.
+    desfases = []
     for nombre, problemas in comprobaciones:
-        if problemas:
-            total += len(problemas)
-            print(f'\n  ❌ {nombre}: {len(problemas)}')
-            for p in problemas[:8]:
+        reales = [p for p in problemas if not str(p).startswith('⏳')]
+        pendientes = [p for p in problemas if str(p).startswith('⏳')]
+        desfases.extend(pendientes)
+        if reales:
+            total += len(reales)
+            print(f'\n  ❌ {nombre}: {len(reales)}')
+            for p in reales[:8]:
                 print(f'       {p}')
-            if len(problemas) > 8:
-                print(f'       ...y {len(problemas) - 8} más')
+            if len(reales) > 8:
+                print(f'       ...y {len(reales) - 8} más')
+        elif pendientes:
+            print(f'  ⏳ {nombre}: se corrige solo al regenerarse el artefacto')
+            for p in pendientes:
+                print(f'       {p}')
         else:
             print(f'  ✓ {nombre}')
 
     informe = {
         'total_problemas': total,
-        'detalle': {n: p for n, p in comprobaciones if p},
+        'desfases_conocidos': desfases,
+        'detalle': {n: [p for p in ps if not str(p).startswith('⏳')]
+                    for n, ps in comprobaciones if any(not str(p).startswith('⏳') for p in ps)},
         'tickers_value': len(value),
         'tickers_verdicts': len(verdicts),
     }

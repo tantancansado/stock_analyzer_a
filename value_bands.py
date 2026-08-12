@@ -26,3 +26,31 @@ UPSIDE_HARD_REJECT = 30.0
 # apply_oe_ai_adjustment bajaba scores DESPUÉS sin re-filtrar, así que el CSV
 # publicado del 31-jul-2026 llevaba 15 tickers por debajo del propio corte.
 VALUE_SCORE_MIN = 30.0
+
+
+def solo_politica_vigente(df, columna: str = 'analyst_upside_pct'):
+    """Quita del histórico las señales que el sistema YA NO emitiría.
+
+    Medir "desde el periodo limpio" no basta: en abril-2026 todavía se emitían
+    señales con upside >= UPSIDE_HARD_REJECT, que hoy el integrator rechaza de
+    plano (value_score = 0). Eran 59 de las 120 limpias y las peores con
+    diferencia — 1,7% de acierto a 30d y -8,28% de media — así que mezclarlas
+    describe una política MUERTA y hunde el resultado del sistema actual:
+
+        a 30d   con ellas 21,0% / -4,68%   ·   sin ellas 48,8% / +0,51%
+        a 90d   con ellas 33,7% / -2,68%   ·   sin ellas 66,7% / +3,46%
+
+    Vive aquí, junto a las bandas, porque el fallo fue tenerlo duplicado: el
+    tracker y signal_postmortem filtraban cada uno por su cuenta y solo por
+    fecha, y publicaban cifras que se contradecían entre sí (35,6% contra 61,5%
+    de acierto a 90d, detectado por coherence_check el 12-ago-2026).
+
+    Al añadir un filtro duro nuevo al integrator, añadirlo TAMBIÉN aquí.
+    """
+    import pandas as pd
+    if df is None or len(df) == 0 or columna not in df.columns:
+        return df
+    up = pd.to_numeric(df[columna], errors='coerce')
+    # NaN se conserva: "sin dato de upside" no es lo mismo que "upside alto",
+    # y descartarlo sesgaría la muestra hacia las que sí tienen cobertura.
+    return df[~(up >= UPSIDE_HARD_REJECT)]

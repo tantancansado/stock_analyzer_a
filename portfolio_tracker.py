@@ -13,7 +13,8 @@ from datetime import datetime, timedelta
 import json
 import time
 import argparse
-from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT
+from value_bands import (UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT,
+                         solo_politica_vigente)
 
 
 TRACKER_DIR = Path('docs/portfolio_tracker')
@@ -530,9 +531,9 @@ class PortfolioTracker:
         # Es el mismo error que el periodo contaminado, un nivel más abajo: no
         # basta con que la señal sea reciente, tiene que ser una que el sistema
         # emitiría HOY. Al añadir un filtro duro nuevo, añadirlo también aquí.
-        _up_core = pd.to_numeric(value_core['analyst_upside_pct'], errors='coerce')
-        _obsoletas = int((_up_core >= UPSIDE_HARD_REJECT).sum())
-        value_core = value_core[~(_up_core >= UPSIDE_HARD_REJECT)].copy()
+        _antes = len(value_core)
+        value_core = solo_politica_vigente(value_core).copy()
+        _obsoletas = _antes - len(value_core)
         if _obsoletas:
             print(f"  Política vigente: fuera {_obsoletas} señales con upside "
                   f">={UPSIDE_HARD_REJECT:.0f}% (hoy serían hard-reject, no describen al sistema actual)")
