@@ -18,9 +18,12 @@ from value_bands import UPSIDE_MIN, UPSIDE_GOLDEN_MAX, UPSIDE_HARD_REJECT
 
 TRACKER_DIR = Path('docs/portfolio_tracker')
 
-# Señales vencidas mínimas para dar por bueno el periodo limpio en un horizonte.
-# Por debajo de esto el win rate es ruido y sale peor que usar el histórico.
-MIN_MUESTRA_LIMPIA = 30
+# Muestra mínima para publicar un horizonte. Por debajo no se dice nada: es
+# preferible un hueco a un número de otra población.
+MIN_MUESTRA_LIMPIA = 15
+# Entre este umbral y el anterior el dato se publica marcando que la muestra es
+# corta y el intervalo, ancho.
+MUESTRA_COMODA = 30
 
 
 def _mejor_base(horizonte: str, limpio: pd.DataFrame, historico: pd.DataFrame,
@@ -40,15 +43,20 @@ def _mejor_base(horizonte: str, limpio: pd.DataFrame, historico: pd.DataFrame,
     """
     ret, win = f'return_{horizonte}', f'win_{horizonte}'
     n_limpio = int(limpio[ret].notna().sum()) if (not limpio.empty and ret in limpio) else 0
-    if n_limpio >= MIN_MUESTRA_LIMPIA:
+    if n_limpio >= MUESTRA_COMODA:
         return {**win_stats(ret, win, limpio), 'basis': 'clean_period'}
-    if historico.empty:
-        return {}
-    return {**win_stats(ret, win, historico), 'basis': 'golden_zone_hist',
-            'nota': (f'periodo limpio aún sin muestra a {horizonte} '
-                     f'({n_limpio} de {MIN_MUESTRA_LIMPIA} necesarias) — '
-                     f'este dato viene del histórico, que incluye el tramo '
-                     f'contaminado y describe otra población')}
+    if n_limpio >= MIN_MUESTRA_LIMPIA:
+        return {**win_stats(ret, win, limpio), 'basis': 'clean_period',
+                'nota': (f'muestra corta ({n_limpio} señales): el porcentaje es '
+                         f'orientativo, no un veredicto')}
+    # Ya NO se cae al histórico. Describe otra población por partida doble —
+    # incluye el tramo contaminado y la política de upside que hoy es
+    # hard-reject — y siempre infla: a 90d publicaba 87,4% y +15,93% cuando lo
+    # que el sistema emite hoy va al 66,7% y +3,46%. Un hueco se lee como "aún
+    # no lo sé"; un 87,4% se lee como que el sistema funciona.
+    return {'count': n_limpio, 'win_rate': None, 'avg_return': None,
+            'nota': (f'sin muestra suficiente a {horizonte} ({n_limpio} de '
+                     f'{MIN_MUESTRA_LIMPIA}) — se rellena según envejezcan las señales')}
 
 
 def _alpha_stats(df: pd.DataFrame, alpha_col: str, return_col: str) -> dict:
@@ -510,6 +518,25 @@ class PortfolioTracker:
         CLEAN_FROM = pd.Timestamp('2026-04-08')
         value_core = value_core_all[value_core_all['signal_date'] >= CLEAN_FROM].copy()
 
+        # ── Y además: POLÍTICA VIGENTE, no solo periodo limpio ────────────────
+        # "Desde abril" no basta. En abril todavía se emitían señales con upside
+        # >= UPSIDE_HARD_REJECT, que hoy el integrator rechaza de plano
+        # (value_score = 0). Son 59 de las 120 del periodo limpio, y son las
+        # peores con diferencia: 1,7% de acierto a 30d y -8,28% de media.
+        # Mezclarlas describe una política MUERTA y hunde el resultado del
+        # sistema actual — el resumen publicaba 21,0% / -4,68% a 30d cuando lo
+        # que hoy se emite va al 48,8% / +0,51%, y a 90d 66,7% / +3,46%.
+        #
+        # Es el mismo error que el periodo contaminado, un nivel más abajo: no
+        # basta con que la señal sea reciente, tiene que ser una que el sistema
+        # emitiría HOY. Al añadir un filtro duro nuevo, añadirlo también aquí.
+        _up_core = pd.to_numeric(value_core['analyst_upside_pct'], errors='coerce')
+        _obsoletas = int((_up_core >= UPSIDE_HARD_REJECT).sum())
+        value_core = value_core[~(_up_core >= UPSIDE_HARD_REJECT)].copy()
+        if _obsoletas:
+            print(f"  Política vigente: fuera {_obsoletas} señales con upside "
+                  f">={UPSIDE_HARD_REJECT:.0f}% (hoy serían hard-reject, no describen al sistema actual)")
+
         # For 30d completed stats, clean signals don't have 30d yet (too recent).
         # Golden zone retroactiva: score>=60 y la banda dorada de value_bands,
         # para que el histórico mida la MISMA población que se emite hoy.
@@ -678,7 +705,11 @@ class PortfolioTracker:
 
             # Mixed bases below — legend for JSON consumers (counts differ on purpose)
             'stats_basis': {
-                'clean_period': f'señales VALUE+EU_VALUE desde {CLEAN_FROM.date()} (filtrado correcto)',
+                'clean_period': (
+                    f'señales VALUE+EU_VALUE desde {CLEAN_FROM.date()} (filtrado correcto) Y '
+                    f'que el sistema emitiría HOY: fuera las de upside >={UPSIDE_HARD_REJECT:.0f}%, '
+                    f'que hoy son hard-reject. Eran 59 de 120 y las peores con diferencia '
+                    f'(1,7% de acierto a 30d, -8,28% medio): describen una política muerta'),
                 'clean_period_us_value': (
                     f'US VALUE desde {CLEAN_FROM.date()} — base del ajuste sectorial del '
                     'integrator. Antes usaba golden_zone_hist (contaminado): su win-rate '

@@ -1286,24 +1286,38 @@ class TestBaseEstadistica:
         return {'count': int(len(v)), 'win_rate': round(100 * (v > 0).mean(), 1),
                 'avg_return': round(float(v.mean()), 2)}
 
-    def _df(self, n, retorno):
+    def _df(self, n, retorno, h='30d'):
         import pandas as pd
-        return pd.DataFrame({'return_30d': [retorno] * n, 'win_30d': [retorno > 0] * n})
+        return pd.DataFrame({f'return_{h}': [retorno] * n, f'win_{h}': [retorno > 0] * n})
 
-    def test_con_muestra_limpia_manda_el_limpio(self):
-        from portfolio_tracker import MIN_MUESTRA_LIMPIA, _mejor_base
-        r = _mejor_base('30d', self._df(MIN_MUESTRA_LIMPIA, -4.7),
+    def test_con_muestra_comoda_manda_el_limpio_sin_nota(self):
+        from portfolio_tracker import MUESTRA_COMODA, _mejor_base
+        r = _mejor_base('30d', self._df(MUESTRA_COMODA, -4.7),
                         self._df(500, +5.0), self._win_stats)
         assert r['basis'] == 'clean_period'
         assert r['avg_return'] == -4.7, 'se coló el histórico teniendo muestra limpia'
         assert 'nota' not in r
 
-    def test_sin_muestra_limpia_cae_al_historico_pero_lo_DICE(self):
+    def test_muestra_corta_se_publica_pero_avisando(self):
         from portfolio_tracker import MIN_MUESTRA_LIMPIA, _mejor_base
-        r = _mejor_base('30d', self._df(MIN_MUESTRA_LIMPIA - 1, -4.7),
-                        self._df(500, +5.0), self._win_stats)
-        assert r['basis'] == 'golden_zone_hist'
-        assert 'nota' in r and 'otra población' in r['nota']
+        r = _mejor_base('90d', self._df(MIN_MUESTRA_LIMPIA + 1, +3.5, '90d'),
+                        self._df(500, +15.9, '90d'), self._win_stats)
+        assert r['basis'] == 'clean_period', 'el histórico no puede ganarle al limpio'
+        assert r['avg_return'] == 3.5
+        assert 'muestra corta' in r.get('nota', '')
+
+    def test_sin_muestra_NO_se_cae_al_historico(self):
+        """El histórico describe otra población por partida doble (tramo
+        contaminado + política de upside que hoy es hard-reject) y siempre
+        infla: a 90d daba 87,4% y +15,93% cuando lo emitible hoy va al 66,7%
+        y +3,46%. Un hueco se lee como "aún no lo sé"; un 87,4%, como que el
+        sistema funciona."""
+        from portfolio_tracker import MIN_MUESTRA_LIMPIA, _mejor_base
+        r = _mejor_base('90d', self._df(MIN_MUESTRA_LIMPIA - 1, +3.5, '90d'),
+                        self._df(500, +15.9, '90d'), self._win_stats)
+        assert r.get('win_rate') is None and r.get('avg_return') is None
+        assert r.get('basis') != 'golden_zone_hist'
+        assert 'sin muestra suficiente' in r.get('nota', '')
 
     def test_un_horizonte_aun_sin_columna_no_revienta(self):
         """180d/365d no existen hasta que las señales envejecen."""

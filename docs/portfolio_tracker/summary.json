@@ -1,39 +1,39 @@
 {
-  "total_signals": 173,
-  "unique_tickers": 52,
+  "total_signals": 73,
+  "unique_tickers": 41,
   "date_range": "2026-04-08 to 2026-08-11",
   "active_signals": 20,
-  "completed_signals": 153,
+  "completed_signals": 53,
   "overall": {
     "7d": {
-      "count": 164,
-      "win_rate": 52.4,
-      "avg_return": 0.43,
-      "median_return": 0.28,
+      "count": 64,
+      "win_rate": 51.6,
+      "avg_return": 0.78,
+      "median_return": 0.17,
       "best": 14.77,
-      "worst": -16.89
+      "worst": -9.78
     },
     "14d": {
-      "count": 161,
-      "win_rate": 41.6,
-      "avg_return": -0.55,
-      "median_return": -0.86,
+      "count": 58,
+      "win_rate": 44.8,
+      "avg_return": 0.78,
+      "median_return": -0.71,
       "best": 17.97,
-      "worst": -13.92
+      "worst": -11.26
     },
     "30d": {
-      "count": 153,
-      "win_rate": 28.8,
-      "avg_return": -3.5,
-      "median_return": -4.8,
+      "count": 53,
+      "win_rate": 49.1,
+      "avg_return": 0.21,
+      "median_return": -0.52,
       "best": 22.71,
-      "worst": -22.28
+      "worst": -14.5
     },
     "90d": {
-      "count": 135,
-      "win_rate": 35.6,
-      "avg_return": -1.99,
-      "median_return": -1.95,
+      "count": 39,
+      "win_rate": 61.5,
+      "avg_return": 3.15,
+      "median_return": 2.93,
       "best": 22.96,
       "worst": -27.96
     },
@@ -81,7 +81,7 @@
     }
   },
   "stats_basis": {
-    "clean_period": "se\u00f1ales VALUE+EU_VALUE desde 2026-04-08 (filtrado correcto)",
+    "clean_period": "se\u00f1ales VALUE+EU_VALUE desde 2026-04-08 (filtrado correcto) Y que el sistema emitir\u00eda HOY: fuera las de upside >=30%, que hoy son hard-reject. Eran 59 de 120 y las peores con diferencia (1,7% de acierto a 30d, -8,28% medio): describen una pol\u00edtica muerta",
     "clean_period_us_value": "US VALUE desde 2026-04-08 \u2014 base del ajuste sectorial del integrator. Antes usaba golden_zone_hist (contaminado): su win-rate sectorial no predice al limpio (corr +0,26 a 30d) y lo infla en bloque",
     "golden_zone_hist": "hist\u00f3rico US VALUE retroactivo: score>=60 y upside en [10, 25) \u2014 misma poblaci\u00f3n que se emite hoy. Incluye el periodo contaminado: es el \u00fanico con datos 30d/90d suficientes",
     "long_hist": "golden zone US + hist\u00f3rico EU completo \u2014 incluye el periodo contaminado; m\u00e1s muestra, otra poblaci\u00f3n",
@@ -104,82 +104,75 @@
     }
   },
   "value_strategy": {
-    "count": 120,
+    "count": 61,
     "7d": {
-      "count": 111,
-      "win_rate": 45.0,
-      "avg_return": 0.01,
-      "median_return": -0.45,
+      "count": 52,
+      "win_rate": 48.1,
+      "avg_return": 0.64,
+      "median_return": -0.28,
       "best": 14.77,
       "worst": -9.78,
       "basis": "clean_period"
     },
     "14d": {
-      "count": 108,
-      "win_rate": 36.1,
-      "avg_return": -1.15,
-      "median_return": -1.76,
+      "count": 46,
+      "win_rate": 52.2,
+      "avg_return": 1.33,
+      "median_return": 0.8,
       "best": 17.97,
-      "worst": -13.92,
+      "worst": -11.26,
       "basis": "clean_period"
     },
     "30d": {
-      "count": 100,
-      "win_rate": 21.0,
-      "avg_return": -4.68,
-      "median_return": -7.12,
+      "count": 41,
+      "win_rate": 48.8,
+      "avg_return": 0.51,
+      "median_return": -0.52,
       "best": 22.71,
-      "worst": -22.28,
+      "worst": -14.5,
       "basis": "clean_period"
     },
     "90d": {
-      "count": 86,
-      "win_rate": 33.7,
-      "avg_return": -2.68,
-      "median_return": -2.42,
+      "count": 27,
+      "win_rate": 66.7,
+      "avg_return": 3.46,
+      "median_return": 3.98,
       "best": 22.96,
       "worst": -27.96,
-      "basis": "clean_period"
+      "basis": "clean_period",
+      "nota": "muestra corta (27 se\u00f1ales): el porcentaje es orientativo, no un veredicto"
     },
     "180d": {
       "count": 0,
       "win_rate": null,
       "avg_return": null,
-      "median_return": null,
-      "best": null,
-      "worst": null,
-      "basis": "golden_zone_hist",
-      "nota": "periodo limpio a\u00fan sin muestra a 180d (0 de 30 necesarias) \u2014 este dato viene del hist\u00f3rico, que incluye el tramo contaminado y describe otra poblaci\u00f3n"
+      "nota": "sin muestra suficiente a 180d (0 de 15) \u2014 se rellena seg\u00fan envejezcan las se\u00f1ales"
     },
     "365d": {
       "count": 0,
       "win_rate": null,
       "avg_return": null,
-      "median_return": null,
-      "best": null,
-      "worst": null,
-      "basis": "golden_zone_hist",
-      "nota": "periodo limpio a\u00fan sin muestra a 365d (0 de 30 necesarias) \u2014 este dato viene del hist\u00f3rico, que incluye el tramo contaminado y describe otra poblaci\u00f3n"
+      "nota": "sin muestra suficiente a 365d (0 de 15) \u2014 se rellena seg\u00fan envejezcan las se\u00f1ales"
     }
   },
   "eu_value_strategy": {
-    "count": 53,
+    "count": 12,
     "7d": {
-      "count": 53,
-      "win_rate": 67.9,
-      "avg_return": 1.3,
-      "median_return": 1.49,
-      "best": 8.67,
-      "worst": -16.89,
+      "count": 12,
+      "win_rate": 66.7,
+      "avg_return": 1.38,
+      "median_return": 1.6,
+      "best": 6.1,
+      "worst": -2.84,
       "basis": "clean_period"
     },
     "14d": {
-      "count": 53,
-      "win_rate": 52.8,
-      "avg_return": 0.66,
-      "median_return": 0.37,
+      "count": 12,
+      "win_rate": 16.7,
+      "avg_return": -1.31,
+      "median_return": -1.87,
       "best": 9.23,
-      "worst": -12.38,
+      "worst": -5.13,
       "basis": "clean_period"
     },
     "30d": {
@@ -224,19 +217,14 @@
   },
   "sector_performance": {
     "Technology": {
-      "count": 34,
-      "avg_30d": -6.95,
-      "win_rate_30d": 11.8
+      "count": 10,
+      "avg_30d": -1.66,
+      "win_rate_30d": 40.0
     },
     "Consumer Cyclical": {
       "count": 3,
       "avg_30d": -1.51,
       "win_rate_30d": 66.7
-    },
-    "Industrials": {
-      "count": 32,
-      "avg_30d": -6.53,
-      "win_rate_30d": 9.4
     },
     "Financial Services": {
       "count": 15,
@@ -244,14 +232,19 @@
       "win_rate_30d": 46.7
     },
     "Communication Services": {
-      "count": 8,
-      "avg_30d": -9.97,
-      "win_rate_30d": 12.5
+      "count": 4,
+      "avg_30d": -12.98,
+      "win_rate_30d": 0.0
     },
     "Healthcare": {
-      "count": 7,
-      "avg_30d": 5.51,
-      "win_rate_30d": 57.1
+      "count": 5,
+      "avg_30d": 8.78,
+      "win_rate_30d": 80.0
+    },
+    "Industrials": {
+      "count": 3,
+      "avg_30d": 8.88,
+      "win_rate_30d": 100.0
     }
   },
   "score_correlation": 0.066,
@@ -299,22 +292,6 @@
   ],
   "worst_performers": [
     {
-      "ticker": "WTKWY",
-      "company_name": "Wolters Kluwer N.V.",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-29 00:00:00",
-      "signal_price": 77.79,
-      "return_14d": -13.92
-    },
-    {
-      "ticker": "SAP.DE",
-      "company_name": "SAP SE                        I",
-      "strategy": "EU_VALUE",
-      "signal_date": "2026-04-08 00:00:00",
-      "signal_price": 172.22,
-      "return_14d": -12.38
-    },
-    {
       "ticker": "NYT",
       "company_name": "New York Times Company (The)",
       "strategy": "VALUE",
@@ -323,20 +300,36 @@
       "return_14d": -11.26
     },
     {
-      "ticker": "RELX",
-      "company_name": "RELX PLC PLC",
-      "strategy": "VALUE",
-      "signal_date": "2026-04-26 00:00:00",
-      "signal_price": 36.53,
-      "return_14d": -8.92
-    },
-    {
       "ticker": "JKHY",
       "company_name": "Jack Henry & Associates, Inc.",
       "strategy": "VALUE",
       "signal_date": "2026-04-22 00:00:00",
       "signal_price": 155.5,
       "return_14d": -8.12
+    },
+    {
+      "ticker": "TEVA",
+      "company_name": "Teva Pharmaceutical Industries ",
+      "strategy": "VALUE",
+      "signal_date": "2026-07-03 00:00:00",
+      "signal_price": 34.64,
+      "return_14d": -7.53
+    },
+    {
+      "ticker": "IAG.MC",
+      "company_name": "INTL CONSOLIDATED AIRLINES GROU",
+      "strategy": "EU_VALUE",
+      "signal_date": "2026-04-15 00:00:00",
+      "signal_price": 4.486,
+      "return_14d": -5.13
+    },
+    {
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "strategy": "VALUE",
+      "signal_date": "2026-04-17 00:00:00",
+      "signal_price": 518.54,
+      "return_14d": -4.45
     }
   ],
   "recent_signals": [
@@ -561,7 +554,7 @@
       "first_result_date": "2026-07-21"
     }
   ],
-  "avg_max_drawdown": -2.68,
+  "avg_max_drawdown": -2.67,
   "alpha": {
     "365d": {
       "count": 0,
@@ -578,40 +571,40 @@
       "avg_benchmark_return": null
     },
     "90d": {
-      "count": 135,
-      "avg_alpha": -6.61,
-      "avg_signal_return": -1.99,
-      "avg_benchmark_return": 4.63,
-      "positive_alpha_rate": 15.6,
+      "count": 39,
+      "avg_alpha": -2.12,
+      "avg_signal_return": 3.15,
+      "avg_benchmark_return": 5.27,
+      "positive_alpha_rate": 35.9,
       "best_alpha": 19.82,
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 153,
-      "avg_alpha": -7.13,
-      "avg_signal_return": -3.5,
-      "avg_benchmark_return": 3.63,
-      "positive_alpha_rate": 23.5,
+      "count": 53,
+      "avg_alpha": -3.26,
+      "avg_signal_return": 0.21,
+      "avg_benchmark_return": 3.47,
+      "positive_alpha_rate": 41.5,
       "best_alpha": 21.86,
-      "worst_alpha": -27.22
+      "worst_alpha": -20.53
     },
     "14d": {
-      "count": 161,
-      "avg_alpha": -2.04,
-      "avg_signal_return": -0.55,
-      "avg_benchmark_return": 1.49,
-      "positive_alpha_rate": 38.5,
+      "count": 58,
+      "avg_alpha": -0.25,
+      "avg_signal_return": 0.78,
+      "avg_benchmark_return": 1.04,
+      "positive_alpha_rate": 51.7,
       "best_alpha": 12.76,
-      "worst_alpha": -18.24
+      "worst_alpha": -12.78
     },
     "7d": {
-      "count": 164,
-      "avg_alpha": -0.26,
-      "avg_signal_return": 0.43,
-      "avg_benchmark_return": 0.69,
-      "positive_alpha_rate": 48.8,
+      "count": 64,
+      "avg_alpha": -0.2,
+      "avg_signal_return": 0.78,
+      "avg_benchmark_return": 0.98,
+      "positive_alpha_rate": 46.9,
       "best_alpha": 11.23,
-      "worst_alpha": -18.38
+      "worst_alpha": -12.04
     }
   },
   "alpha_us": {
@@ -639,22 +632,22 @@
       "worst_alpha": -32.09
     },
     "30d": {
-      "count": 100,
-      "avg_alpha": -9.83,
-      "avg_signal_return": -4.68,
-      "avg_benchmark_return": 5.16,
-      "positive_alpha_rate": 16.0,
+      "count": 41,
+      "avg_alpha": -4.05,
+      "avg_signal_return": 0.51,
+      "avg_benchmark_return": 4.56,
+      "positive_alpha_rate": 39.0,
       "best_alpha": 21.86,
-      "worst_alpha": -27.22
+      "worst_alpha": -20.53
     },
     "14d": {
-      "count": 108,
-      "avg_alpha": -3.6,
-      "avg_signal_return": -1.15,
-      "avg_benchmark_return": 2.45,
-      "positive_alpha_rate": 25.9,
+      "count": 46,
+      "avg_alpha": -0.37,
+      "avg_signal_return": 1.33,
+      "avg_benchmark_return": 1.71,
+      "positive_alpha_rate": 50.0,
       "best_alpha": 12.76,
-      "worst_alpha": -18.24
+      "worst_alpha": -12.78
     }
   },
   "alpha_eu": {
@@ -682,23 +675,23 @@
       "worst_alpha": -35.69
     },
     "30d": {
-      "count": 53,
-      "avg_alpha": -2.04,
-      "avg_signal_return": -1.28,
-      "avg_benchmark_return": 0.76,
-      "positive_alpha_rate": 37.7,
+      "count": 12,
+      "avg_alpha": -0.55,
+      "avg_signal_return": -0.81,
+      "avg_benchmark_return": -0.26,
+      "positive_alpha_rate": 50.0,
       "best_alpha": 14.42,
-      "worst_alpha": -15.38
+      "worst_alpha": -11.12
     },
     "14d": {
-      "count": 53,
-      "avg_alpha": 1.12,
-      "avg_signal_return": 0.66,
-      "avg_benchmark_return": -0.47,
-      "positive_alpha_rate": 64.2,
-      "best_alpha": 10.85,
-      "worst_alpha": -12.84
+      "count": 12,
+      "avg_alpha": 0.2,
+      "avg_signal_return": -1.31,
+      "avg_benchmark_return": -1.52,
+      "positive_alpha_rate": 58.3,
+      "best_alpha": 8.77,
+      "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-08-12T06:52:12.755267"
+  "generated_at": "2026-08-12T08:58:03.460605"
 }
