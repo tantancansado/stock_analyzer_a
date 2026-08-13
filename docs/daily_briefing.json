@@ -1,44 +1,149 @@
 {
-  "date": "2026-08-13",
-  "timestamp": "2026-08-13T06:51:25.476329",
-  "narrative": "En el actual r\u00e9gimen macro calmado, los inversores value pueden encontrar oportunidades atractivas en activos subvaluados. Destacamos a MCO y BR por su alto score y potencial de crecimiento, as\u00ed como a MA por su s\u00f3lida posici\u00f3n en el sector financiero. Recomendamos una posici\u00f3n moderada en estos activos, con un tama\u00f1o de 5-7% del portafolio y un enfoque a largo plazo, manteniendo un nivel de cautela debido a la volatilidad potencial del mercado.",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 90.0,
-      "analyst_upside_pct": 17.3,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 89.0,
-      "analyst_upside_pct": 24.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "PGR",
-      "sector": "Financial Services",
-      "value_score": 69.625,
-      "analyst_upside_pct": 10.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "QSR",
-      "sector": "Consumer Cyclical",
-      "value_score": 62.36500000000001,
-      "analyst_upside_pct": 14.5,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "ASAZY",
-      "sector": "Industrials",
-      "value_score": 59.370000000000005,
-      "analyst_upside_pct": 15.9,
-      "conviction_grade": null
+  "fecha": "2026-08-13",
+  "texto": "<b>13 de agosto</b>\n\nHoy hay tres nombres comprables.\n\n<b>QSR</b> a 74,9$: cae un 8,6% desde máximos pero sin señales de que el negocio se haya deteriorado; los analistas le ven un 14,5% de subida.\n<b>KVUE</b> a 18,98$: ojo, el margen es fino — analistas ven solo un 2,7% de subida y otro método incluso da negativo (-3%), así que entra con poca red de seguridad.\n<b>OXY</b> a 58,55$: cae por el petróleo barato, no por el negocio en sí; si el crudo se normaliza el potencial es mucho mayor (72% frente al 12,9% que ven hoy los analistas).\n\n<b>Tesis rota: CRH.L.</b> Ha perforado tu precio de salida (7914 vs stop en 8140,16). Toca decidir si sales ya o revisas si el motivo de la caída rompe de verdad la tesis.\n\nPara vigilar, ninguna todavía comprable:\nASAZY sigue floja, -14,6% desde máximos y -25,5% de fuerza relativa en 6 meses.\nSYK -12,5% desde máximos, también débil frente al mercado.\nPGR -18,7% desde máximos, buena caja pero sin causa clara identificada.\nBR tiene score alto (89) pero el entusiasmo de los analistas (24,9%) duplica lo que sale por otro método (12,6%) — mejor esperar a que se aclare.\nSPGI algo parecido: 26,1% de analistas frente a 20,7% triangulado, toca esperar confirmación.\n\nEl sistema acierta un 61,5% a 90 días, pero es provisional (aún no hay muestra a 180 días) — tómalo como orientativo y ajusta el tamaño de la posición en consecuencia.",
+  "hechos": {
+    "fecha": "2026-08-13",
+    "total_lista": 38,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "QSR",
+        "empresa": "Restaurant Brands Internationa",
+        "score": 62.36500000000001,
+        "precio": 74.9,
+        "upside_analista": 14.5,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.99,
+        "del_maximo_pct": -8.6,
+        "rs_6m": -3.69,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "KVUE",
+        "empresa": "Kenvue Inc.",
+        "score": 48.045,
+        "precio": 18.98,
+        "upside_analista": 2.7,
+        "upside_triangulado": -3.0,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.23,
+        "del_maximo_pct": -13.1,
+        "rs_6m": -7.47,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 47.95,
+        "precio": 58.55,
+        "upside_analista": 12.9,
+        "upside_triangulado": 72.2,
+        "divergencia": "",
+        "fcf_yield": 6.47,
+        "del_maximo_pct": -13.2,
+        "rs_6m": 12.87,
+        "timing": "ENTRADA",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "La caída de OXY responde a la debilidad cíclica del precio del petróleo (mínimos de varios meses en septiembre 2025 por exceso de oferta), no a un deterioro del negocio. En el Q3 2"
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "ASAZY",
+        "empresa": "ASSA ABLOY AB (publ)",
+        "score": 59.370000000000005,
+        "precio": 18.76,
+        "upside_analista": 15.9,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.61,
+        "del_maximo_pct": -14.6,
+        "rs_6m": -25.53,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SYK",
+        "empresa": "Stryker Corporation",
+        "score": 53.09,
+        "precio": 347.21,
+        "upside_analista": 10.0,
+        "upside_triangulado": 10.0,
+        "divergencia": "",
+        "fcf_yield": 3.08,
+        "del_maximo_pct": -12.5,
+        "rs_6m": -16.25,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "PGR",
+        "empresa": "The Progressive Corporation",
+        "score": 69.625,
+        "precio": 207.37,
+        "upside_analista": 10.8,
+        "upside_triangulado": 10.8,
+        "divergencia": "",
+        "fcf_yield": 12.54,
+        "del_maximo_pct": -18.7,
+        "rs_6m": -12.62,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 89.0,
+        "precio": 169.27,
+        "upside_analista": 24.9,
+        "upside_triangulado": 12.6,
+        "divergencia": "ALTA",
+        "fcf_yield": 6.1,
+        "del_maximo_pct": -36.2,
+        "rs_6m": -9.96,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SPGI",
+        "empresa": "S&P Global Inc.",
+        "score": 50.27,
+        "precio": 410.1,
+        "upside_analista": 26.1,
+        "upside_triangulado": 20.7,
+        "divergencia": "MEDIA",
+        "fcf_yield": 4.51,
+        "del_maximo_pct": -25.1,
+        "rs_6m": -0.78,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

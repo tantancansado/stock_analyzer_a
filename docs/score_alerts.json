@@ -1,84 +1,104 @@
 {
-  "generated_at": "2026-08-11",
+  "generated_at": "2026-08-13",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 55.2,
-      "score_prev": 41.9,
-      "delta": 13.3,
+      "ticker": "PGR",
+      "company_name": "The Progressive Corporation",
+      "sector": "Financial Services",
+      "score_today": 69.6,
+      "score_prev": 51.6,
+      "delta": 18.0,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "UNH",
-      "company_name": "UnitedHealth Group Incorporated",
-      "sector": "Healthcare",
-      "score_today": 41.6,
-      "score_prev": 33.6,
-      "delta": 8.1,
-      "grade": "🟡 Average"
+      "ticker": "ASAZY",
+      "company_name": "ASSA ABLOY AB (publ)",
+      "sector": "Industrials",
+      "score_today": 59.4,
+      "score_prev": 42.2,
+      "delta": 17.1,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "sector": "Technology",
+      "score_today": 49.7,
+      "score_prev": 37.2,
+      "delta": 12.5,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 89.0,
+      "score_prev": 77.0,
+      "delta": 12.0,
+      "grade": "🔥 Legendary"
     },
     {
       "type": "SCORE_UP",
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "sector": "Financial Services",
-      "score_today": 79.4,
-      "score_prev": 72.9,
-      "delta": 6.5,
-      "grade": "🟢 Elite"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "KVUE",
-      "company_name": "Kenvue Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 45.0,
-      "score_prev": 39.6,
-      "delta": 5.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions,",
-      "sector": "Technology",
-      "score_today": 77.0,
-      "score_prev": 82.0,
-      "delta": -5.0,
+      "score_today": 90.0,
+      "score_prev": 79.4,
+      "delta": 10.6,
       "grade": "🔥 Legendary"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
+      "type": "SCORE_UP",
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
+      "sector": "Technology",
+      "score_today": 36.1,
+      "score_prev": 30.3,
+      "delta": 5.8,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 51.4,
-      "score_prev": 56.9,
-      "delta": -5.5,
+      "score_today": 56.9,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 62.4,
+      "score_prev": 67.6,
+      "delta": -5.2,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CSU.TO",
-      "company_name": "Constellation Software Inc.",
-      "sector": "Technology",
-      "score_today": 30.3,
-      "score_prev": 35.8,
-      "delta": -5.5,
-      "grade": "🔴 Weak"
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sector": "Healthcare",
+      "score_today": 53.1,
+      "score_prev": 58.5,
+      "delta": -5.4,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
       "sector": "Financial Services",
-      "score_today": 50.9,
-      "score_prev": 58.0,
-      "delta": -7.0,
+      "score_today": 46.4,
+      "score_prev": 52.9,
+      "delta": -6.6,
       "grade": "🟡 Average"
     },
     {
@@ -86,76 +106,26 @@
       "ticker": "BAC",
       "company_name": "Bank of America Corporation",
       "sector": "Financial Services",
-      "score_today": 39.7,
-      "score_prev": 47.0,
-      "delta": -7.3,
+      "score_today": 32.2,
+      "score_prev": 39.7,
+      "delta": -7.5,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
       "sector": "Financial Services",
-      "score_today": 31.0,
-      "score_prev": 40.3,
-      "delta": -9.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
-      "sector": "Financial Services",
-      "score_today": 39.5,
-      "score_prev": 51.7,
-      "delta": -12.2,
+      "score_today": 41.7,
+      "score_prev": 51.4,
+      "delta": -9.6,
       "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
-      "sector": "Financial Services",
-      "score_today": 32.5,
-      "score_prev": 45.9,
-      "delta": -13.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ASAZY",
-      "company_name": "ASSA ABLOY AB (publ)",
-      "sector": "Industrials",
-      "score_today": 42.2,
-      "score_prev": 56.2,
-      "delta": -14.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 66.7,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "EXITED",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": null,
-      "score_prev": 85.4,
-      "delta": null,
-      "grade": "🔥 Legendary"
     }
   ],
   "counts": {
-    "new_entries": 0,
-    "exited": 2,
-    "score_up": 4,
-    "score_down": 9
+    "new_entries": 1,
+    "exited": 0,
+    "score_up": 6,
+    "score_down": 5
   }
 }
