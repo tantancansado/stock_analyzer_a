@@ -1,149 +1,44 @@
 {
-  "fecha": "2026-08-14",
-  "texto": "<b>Hoy hay tres para entrar:</b> QSR, KVUE y OXY.\n\n<b>OXY</b> es la más limpia: cae por el petróleo barato, no por el negocio, y el modelo le ve hasta un 73% de recorrido al alza. Encaja perfecto con lo que buscas.\n\n<b>QSR</b> también está en zona de entrada, con casi un 12% de subida estimada por los analistas y buena generación de caja.\n\n<b>KVUE</b> entra con matices: los analistas apenas le ven subida (1,6%) y el modelo interno directamente la ve cayendo un poco más. Si entras, que sea con menos convicción que en las otras dos.\n\n<b>Se te ha roto una tesis: CRH.L.</b> El precio ha caído por debajo del stop que marcaste (7914 vs 8140). Toca revisar si sigue teniendo sentido mantenerla o cerrar.\n\n<b>Para vigilar:</b> ASAZY y SAP siguen cayendo por puro sentimiento de mercado (miedo a que la IA les coma el negocio en el caso de SAP, percepción de valoración cara en ASAZY), sin que los fundamentales lo justifiquen todavía. SYK, PGR y BR también siguen bajando y están baratas, pero sin un motivo claro identificado — de momento barato no es comprable, toca esperar.\n\nEl sistema acierta un 61,5% con retorno medio del 3,15%, pero ojo: es una cifra provisional con solo 90 días de muestra, aún no hay suficiente recorrido para tomarla como veredicto. Dimensiona las posiciones en consecuencia.",
-  "hechos": {
-    "fecha": "2026-08-14",
-    "total_lista": 37,
-    "datos_incompletos": [],
-    "comprables": [
-      {
-        "ticker": "QSR",
-        "empresa": "Restaurant Brands Internationa",
-        "score": 62.28,
-        "precio": 76.59,
-        "upside_analista": 11.9,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 4.88,
-        "del_maximo_pct": -6.6,
-        "rs_6m": -4.5,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "KVUE",
-        "empresa": "Kenvue Inc.",
-        "score": 48.045,
-        "precio": 19.2,
-        "upside_analista": 1.6,
-        "upside_triangulado": -4.1,
-        "divergencia": "MEDIA",
-        "fcf_yield": 5.17,
-        "del_maximo_pct": -12.1,
-        "rs_6m": -8.87,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "OXY",
-        "empresa": "Occidental Petroleum Corporati",
-        "score": 47.015,
-        "precio": 57.7,
-        "upside_analista": 14.5,
-        "upside_triangulado": 73.7,
-        "divergencia": "",
-        "fcf_yield": 6.57,
-        "del_maximo_pct": -14.5,
-        "rs_6m": 13.24,
-        "timing": "ENTRADA",
-        "por_que_cae": "CICLICO",
-        "por_que_cae_detalle": "La caída de OXY responde a la debilidad cíclica del precio del petróleo (mínimos de varios meses en septiembre 2025 por exceso de oferta), no a un deterioro del negocio. En el Q3 2"
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "ASAZY",
-        "empresa": "ASSA ABLOY AB (publ)",
-        "score": 59.88,
-        "precio": 18.84,
-        "upside_analista": 15.4,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 4.6,
-        "del_maximo_pct": -14.3,
-        "rs_6m": -26.0,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Entre Q3 2025 y Q2 2026 Assa Abloy reportó márgenes récord y crecimiento orgánico sostenido pese a vientos en contra de divisas, pero analistas señalan que la acción cotiza cara (P"
-      },
-      {
-        "ticker": "SYK",
-        "empresa": "Stryker Corporation",
-        "score": 51.35999999999999,
-        "precio": 341.09,
-        "upside_analista": 12.3,
-        "upside_triangulado": 12.3,
-        "divergencia": "",
-        "fcf_yield": 3.14,
-        "del_maximo_pct": -14.1,
-        "rs_6m": -21.05,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "PGR",
-        "empresa": "The Progressive Corporation",
-        "score": 71.6,
-        "precio": 208.87,
-        "upside_analista": 10.0,
-        "upside_triangulado": 10.0,
-        "divergencia": "",
-        "fcf_yield": 12.45,
-        "del_maximo_pct": -18.1,
-        "rs_6m": -13.03,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 85.0,
-        "precio": 172.24,
-        "upside_analista": 22.7,
-        "upside_triangulado": 10.7,
-        "divergencia": "MEDIA",
-        "fcf_yield": 6.0,
-        "del_maximo_pct": -35.1,
-        "rs_6m": -12.51,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "SAP",
-        "empresa": "SAP SE",
-        "score": 51.235,
-        "precio": 209.28,
-        "upside_analista": 16.1,
-        "upside_triangulado": 16.1,
-        "divergencia": "",
-        "fcf_yield": 4.34,
-        "del_maximo_pct": -25.6,
-        "rs_6m": -10.28,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "La caída se explica sobre todo por el temor sectorial a que la IA disrumpa el software empresarial (venta masiva en SAP y comparables desde mediados de 2025) y por una desaceleraci"
-      }
-    ],
-    "tesis_rotas": [
-      {
-        "ticker": "CRH.L",
-        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
-        "severidad": "HIGH"
-      }
-    ],
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-08-17",
+  "timestamp": "2026-08-17T05:50:11.860424",
+  "narrative": "En el actual r\u00e9gimen macro calmado, los inversores value pueden encontrar oportunidades atractivas en activos subvaluados. Destacamos a MCO, BR y MSFT como nuestros picks m\u00e1s interesantes debido a su alto score y potencial de crecimiento. Recomendamos una posici\u00f3n moderada en estos activos, con un tama\u00f1o de cartera del 5-7% y un horizonte de inversi\u00f3n a corto plazo, manteniendo un nivel de cautela debido a la volatilidad potencial del mercado.",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "MCO",
+      "sector": "Financial Services",
+      "value_score": 90.0,
+      "analyst_upside_pct": 15.6,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 84.555,
+      "analyst_upside_pct": 24.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MSFT",
+      "sector": "Technology",
+      "value_score": 60.900000000000006,
+      "analyst_upside_pct": 15.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "QSR",
+      "sector": "Consumer Cyclical",
+      "value_score": 55.44,
+      "analyst_upside_pct": 10.3,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MA",
+      "sector": "Financial Services",
+      "value_score": 54.975,
+      "analyst_upside_pct": 16.9,
+      "conviction_grade": null
     }
-  }
+  ]
 }
