@@ -435,3 +435,57 @@ class TestInteresCorto:
         src = Path(pt.__file__).read_text()
         assert src.count("'short_percent_float':") >= 2, \
             'debe capturarse tanto en VALUE como en MOMENTUM'
+
+
+class TestCastigoRealNoDistanciaAlMaximo:
+    """El castigo se mide contra su PROPIO múltiplo, no contra el máximo 52s.
+
+    McDonald's cayó un 19,8% desde máximos y parecía una oportunidad. Pero en
+    máximos cotizaba a 27,6x (+14% sobre su media histórica) y hoy a 22,1x
+    (-9%): de los 19,8 puntos de caída solo 9 eran descuento, el resto fue
+    deshacer una sobrevaloración. Pasó de $342 a $300 sin estar barata en
+    ningún momento. El bonus por "ha caído mucho" premiaba esa ilusión, y con
+    hasta 12 puntos — más que cualquier factor de calidad del módulo.
+    """
+
+    def _base(self, **extra):
+        return {'ticker': 'TEST', 'roe_pct': 30, 'fcf_yield_pct': 6,
+                'analyst_count': 20, 'analyst_recommendation': 'buy',
+                'analyst_upside_pct': 15, 'current_price': 100,
+                'tesis_deterioro': False, 'tesis_ingresos_yoy': 8.0,
+                'tesis_margen_op_delta': 1.0, **extra}
+
+    def test_caer_mucho_sin_compresion_real_ya_no_puntua(self):
+        """El caso MCD: -20% desde máximos pero el múltiplo solo -9%."""
+        from conviction_filter import calculate_conviction_score
+        r = calculate_conviction_score(self._base(
+            proximity_to_52w_high=-19.8, tesis_compresion=-9.0))
+        assert 'Castigo real' not in r['conviction_reasons']
+        assert 'Fallen Angel' not in r['conviction_reasons']
+
+    def test_compresion_real_si_puntua(self):
+        from conviction_filter import calculate_conviction_score
+        flojo = calculate_conviction_score(self._base(
+            proximity_to_52w_high=-19.8, tesis_compresion=-9.0))
+        fuerte = calculate_conviction_score(self._base(
+            proximity_to_52w_high=-19.8, tesis_compresion=-32.0))
+        assert fuerte['conviction_score'] > flojo['conviction_score']
+        assert 'múltiplo histórico' in fuerte['conviction_reasons']
+
+    def test_la_distancia_al_maximo_ya_no_da_puntos(self):
+        """Dos idénticas salvo cuánto han caído: deben puntuar igual."""
+        from conviction_filter import calculate_conviction_score
+        poco = calculate_conviction_score(self._base(
+            proximity_to_52w_high=-5.0, tesis_compresion=-25.0))
+        mucho = calculate_conviction_score(self._base(
+            proximity_to_52w_high=-40.0, tesis_compresion=-25.0))
+        assert poco['conviction_score'] == mucho['conviction_score'], \
+            'la distancia al máximo no puede mover el score'
+
+    def test_sin_ancla_de_multiplo_la_seccion_no_cuenta(self):
+        """Ni suma ni resta: el patrón "beneficio arriba, múltiplo abajo" lo
+        recoge _puntuar_tesis, que no necesita ancla."""
+        from conviction_filter import calculate_conviction_score
+        r = calculate_conviction_score(self._base(proximity_to_52w_high=-35.0))
+        assert 'Castigo real' not in r['conviction_reasons']
+        assert r['conviction_score'] > 0

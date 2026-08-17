@@ -14,7 +14,7 @@ Lo que hace (exactamente lo que haria un analista humano):
 8. Payout sostenible = dividendo no en peligro
 9. Sin earnings warning = timing seguro
 10. Cross-validation: si DCF dice sobrevalorada, descarta
-11. Fallen angel: calidad que ha caido mucho sin motivo fundamental
+11. Castigo real: multiplo por debajo del SUYO historico, no del maximo 52s
 12. Tesis value verificada (ver el bloque de abajo) — el criterio que manda
 
 Output: conviction_score (0-100) + conviction_grade (A/B/C/D)
@@ -728,9 +728,9 @@ def calculate_conviction_score(row) -> dict:
             score -= 5
             red_flags.append("Margen negativo")
 
-    # ─── 11. "Fallen Angel" bonus ───────────────────────────────────────────────
-    # Empresa de calidad que ha caído mucho sin motivo fundamental = oportunidad
-    # Principio Lynch: comprar empresas sólidas en caídas de mercado, no de negocio
+    # ─── 11. Castigo REAL de múltiplo (max 12pts) ───────────────────────────────
+    # Empresa de calidad castigada sin motivo fundamental = oportunidad
+    # (principio Lynch). La clave está en cómo se mide "castigada": ver abajo.
     proximity = _sf(row.get('proximity_to_52w_high'))  # negativo, ej: -32.3
     # "Fundamentales intactos" se prueba con la TENDENCIA del negocio cuando la
     # hay (ingresos y margen operativo interanuales), no con una foto de ROE y
@@ -741,28 +741,38 @@ def calculate_conviction_score(row) -> dict:
     deterioro = None if deterioro is None or (isinstance(deterioro, float) and math.isnan(deterioro)) else bool(deterioro)
     foto_ok = (roe is not None and roe >= 15) and (fcf is not None and fcf >= 3)
     fundamentals_intact = (deterioro is False) if deterioro is not None else foto_ok
-    if proximity is not None:
+    # El castigo se mide contra su PROPIO múltiplo, no contra el máximo de 52
+    # semanas. La distancia al máximo dice lo cara que llegó a estar, no lo
+    # barata que está: McDonald's cayó un 19,8% desde máximos y parecía una
+    # oportunidad, pero en máximos cotizaba a 27,6x (+14% sobre su media
+    # histórica) y hoy a 22,1x (-9%). De los 19,8 puntos de caída solo 9 eran
+    # descuento; el resto fue deshacer una sobrevaloración — pasó de $342 a
+    # $300 sin estar barata en ningún momento. Puntuar por "ha caído mucho"
+    # premiaba justo esa ilusión, y con hasta 12 puntos.
+    compresion = _sf(row.get('tesis_compresion'))
+    if compresion is not None:
         max_score += 12
-    if proximity is not None and proximity <= -20:
         if fundamentals_intact:
-            if proximity <= -35:
+            if compresion <= -30:
                 score += 12
-                reasons.append(f"Fallen Angel: -{abs(proximity):.0f}% desde max · fundamentos intactos")
-            elif proximity <= -25:
+                reasons.append(f"Castigo real: {abs(compresion):.0f}% bajo su múltiplo histórico, negocio intacto")
+            elif compresion <= -20:
                 score += 9
-                reasons.append(f"Gran caída: -{abs(proximity):.0f}% con ROE/FCF sólidos")
-            else:
+                reasons.append(f"Cotiza {abs(compresion):.0f}% bajo su múltiplo histórico con el negocio sano")
+            elif compresion <= -12:
                 score += 6
-                reasons.append(f"Caída -{abs(proximity):.0f}% · oportunidad de entrada")
-        else:
-            # Caída grande SIN fundamentales — sí es una red flag
-            if proximity <= -40:
-                score -= 3
-                red_flags.append(f"Caída -{abs(proximity):.0f}% sin fundamentos sólidos")
-    elif proximity is not None and -10 <= proximity <= -5:
-        # Cerca de máximos con buenos fundamentales: momentum confirmado
-        if fundamentals_intact:
-            score += 3
+                reasons.append(f"Múltiplo {abs(compresion):.0f}% por debajo de lo habitual en ella")
+            # Entre -12% y 0% no se puntúa: es ruido de valoración, no castigo.
+        elif compresion <= -30:
+            score -= 3
+            red_flags.append(f"Múltiplo {abs(compresion):.0f}% por debajo de su media SIN fundamentales sólidos")
+    # Sin ancla de múltiplo fiable esta sección no cuenta (ni suma ni resta):
+    # el patrón "beneficio arriba, múltiplo abajo" lo recoge _puntuar_tesis.
+
+    # La distancia al máximo se conserva solo como CONTEXTO en el texto, sin
+    # puntuar: informa de cuánto ha corregido, no de si está barata.
+    if proximity is not None and proximity <= -25 and fundamentals_intact:
+        reasons.append(f"(-{abs(proximity):.0f}% desde máximos de 52s)")
 
     # ─── 12. Tesis value verificada (max 18pts) ───
     pts, motivos, banderas = _puntuar_tesis(row)
