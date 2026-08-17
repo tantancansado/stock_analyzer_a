@@ -1,61 +1,151 @@
 {
-  "generated_at": "2026-08-14",
+  "generated_at": "2026-08-17",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
+      "ticker": "BRK-B",
+      "company_name": "Berkshire Hathaway Inc.",
       "sector": "Financial Services",
-      "score_today": 71.9,
-      "score_prev": 56.9,
-      "delta": 15.1,
-      "grade": "🟢 Excellent"
+      "score_today": 44.1,
+      "score_prev": 34.7,
+      "delta": 9.4,
+      "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "CSU.TO",
-      "company_name": "Constellation Software Inc.",
+      "ticker": "AUTO.L",
+      "company_name": "Autotrader Group plc",
+      "sector": "Communication Services",
+      "score_today": 40.2,
+      "score_prev": 31.3,
+      "delta": 8.9,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "UNH",
+      "company_name": "UnitedHealth Group Incorporated",
+      "sector": "Healthcare",
+      "score_today": 49.8,
+      "score_prev": 41.6,
+      "delta": 8.3,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CNI",
+      "company_name": "Canadian National Railway Compa",
+      "sector": "Industrials",
+      "score_today": 42.2,
+      "score_prev": 34.6,
+      "delta": 7.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "score_today": 48.2,
-      "score_prev": 36.1,
-      "delta": 12.1,
+      "score_today": 60.9,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "sector": "Financial Services",
+      "score_today": 40.1,
+      "score_prev": 46.3,
+      "delta": -6.2,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "HEI",
-      "company_name": "HEICO Corporation",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International",
+      "sector": "Consumer Cyclical",
+      "score_today": 55.4,
+      "score_prev": 62.3,
+      "delta": -6.8,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ASAZY",
+      "company_name": "ASSA ABLOY AB (publ)",
       "sector": "Industrials",
-      "score_today": 37.6,
-      "score_prev": 43.4,
-      "delta": -5.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AXP",
-      "company_name": "American Express Company",
-      "sector": "Financial Services",
-      "score_today": 33.9,
-      "score_prev": 41.7,
+      "score_today": 52.1,
+      "score_prev": 59.9,
       "delta": -7.8,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "7741.T",
+      "company_name": "HOYA Corporation",
+      "sector": "Healthcare",
+      "score_today": 33.5,
+      "score_prev": 43.5,
+      "delta": -9.9,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 42.7,
-      "score_prev": 55.7,
-      "delta": -13.0,
+      "ticker": "PEP",
+      "company_name": "PepsiCo, Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 37.2,
+      "score_prev": 49.2,
+      "delta": -12.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
+      "sector": "Technology",
+      "score_today": 34.2,
+      "score_prev": 48.2,
+      "delta": -14.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "sector": "Healthcare",
+      "score_today": 34.9,
+      "score_prev": 51.4,
+      "delta": -16.5,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 55.0,
+      "score_prev": 71.9,
+      "delta": -16.9,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PGR",
+      "company_name": "The Progressive Corporation",
+      "sector": "Financial Services",
+      "score_today": 53.3,
+      "score_prev": 71.6,
+      "delta": -18.3,
       "grade": "🟡 Average"
     }
   ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
-    "score_up": 2,
-    "score_down": 3
+    "score_up": 4,
+    "score_down": 9
   }
 }

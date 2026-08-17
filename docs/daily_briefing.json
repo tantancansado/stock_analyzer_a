@@ -1,44 +1,134 @@
 {
-  "date": "2026-08-17",
-  "timestamp": "2026-08-17T05:50:11.860424",
-  "narrative": "En el actual r\u00e9gimen macro calmado, los inversores value pueden encontrar oportunidades atractivas en activos subvaluados. Destacamos a MCO, BR y MSFT como nuestros picks m\u00e1s interesantes debido a su alto score y potencial de crecimiento. Recomendamos una posici\u00f3n moderada en estos activos, con un tama\u00f1o de cartera del 5-7% y un horizonte de inversi\u00f3n a corto plazo, manteniendo un nivel de cautela debido a la volatilidad potencial del mercado.",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 90.0,
-      "analyst_upside_pct": 15.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 84.555,
-      "analyst_upside_pct": 24.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 60.900000000000006,
-      "analyst_upside_pct": 15.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "QSR",
-      "sector": "Consumer Cyclical",
-      "value_score": 55.44,
-      "analyst_upside_pct": 10.3,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MA",
-      "sector": "Financial Services",
-      "value_score": 54.975,
-      "analyst_upside_pct": 16.9,
-      "conviction_grade": null
+  "fecha": "2026-08-17",
+  "texto": "<b>Hoy hay dos entradas claras: Kenvue y Occidental.</b>\n\n<b>KVUE</b> a 19,2$, con un 5% de rentabilidad por caja libre. Ojo que el consenso de analistas apenas le da un 1,6% de subida y el cálculo cruzado incluso es negativo, así que entra pero sin grandes expectativas de recorrido.\n\n<b>OXY</b> a 58,36$, un 13,5% por debajo de máximos por la debilidad cíclica del petróleo (exceso de oferta, mínimos de varios meses), no por problemas del negocio. Los analistas le ven hasta un 74% de subida.\n\n<b>Tesis rota: CRH.L.</b> Ha perforado el precio de salida (8140 → 7914). Toca cerrar la posición, la razón por la que entraste ya no aplica.\n\nPara vigilar, ninguna es comprable todavía:\n- <b>ASAZY</b> sigue cayendo (-28% en 6 meses) pero por percepción de que cotiza cara, no por deterioro: negocio con márgenes récord.\n- <b>BR</b> tiene mucho recorrido según analistas (24,7%) pero el cálculo propio lo rebaja a la mitad: divergencia alta, mejor esperar a que se aclare.\n- <b>MSFT</b> tiene la misma señal de divergencia entre lo que dicen los analistas y el cálculo propio: cuidado con la trampa de valor.\n- <b>PGR</b> y <b>MCO</b> siguen bajando sin que tengamos aún el motivo, de momento solo para el radar.\n\nEl sistema acierta un 61,5% con ganancia media del 3,15%, pero es una cifra provisional (solo 90 días de muestra, 39 señales): ajusta el tamaño de posición en consecuencia.\n\n🟡 Claude: $8.31 de $10 (83%) · lo que más gasta: why_cheap_analyzer ($3.28)",
+  "hechos": {
+    "fecha": "2026-08-17",
+    "total_lista": 32,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "KVUE",
+        "empresa": "Kenvue Inc.",
+        "score": 49.535,
+        "precio": 19.2,
+        "upside_analista": 1.6,
+        "upside_triangulado": -4.1,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.17,
+        "del_maximo_pct": -12.1,
+        "rs_6m": -8.56,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 45.88,
+        "precio": 58.36,
+        "upside_analista": 13.4,
+        "upside_triangulado": 74.3,
+        "divergencia": "",
+        "fcf_yield": 6.49,
+        "del_maximo_pct": -13.5,
+        "rs_6m": 13.39,
+        "timing": "ENTRADA",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "La caída de OXY responde a la debilidad cíclica del precio del petróleo (mínimos de varios meses en septiembre 2025 por exceso de oferta), no a un deterioro del negocio. En el Q3 2"
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "ASAZY",
+        "empresa": "ASSA ABLOY AB (publ)",
+        "score": 52.07499999999999,
+        "precio": 18.68,
+        "upside_analista": 16.4,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.67,
+        "del_maximo_pct": -15.0,
+        "rs_6m": -28.22,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Entre Q3 2025 y Q2 2026 Assa Abloy reportó márgenes récord y crecimiento orgánico sostenido pese a vientos en contra de divisas, pero analistas señalan que la acción cotiza cara (P"
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 84.555,
+        "precio": 171.01,
+        "upside_analista": 24.7,
+        "upside_triangulado": 13.1,
+        "divergencia": "ALTA",
+        "fcf_yield": 6.13,
+        "del_maximo_pct": -35.6,
+        "rs_6m": -14.13,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "PGR",
+        "empresa": "The Progressive Corporation",
+        "score": 53.30499999999999,
+        "precio": 209.6,
+        "upside_analista": 9.6,
+        "upside_triangulado": 9.6,
+        "divergencia": "",
+        "fcf_yield": 12.4,
+        "del_maximo_pct": -17.8,
+        "rs_6m": -11.9,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "MCO",
+        "empresa": "Moody's Corporation",
+        "score": 90.0,
+        "precio": 484.96,
+        "upside_analista": 15.6,
+        "upside_triangulado": 15.6,
+        "divergencia": "",
+        "fcf_yield": 3.07,
+        "del_maximo_pct": -11.3,
+        "rs_6m": 0.0,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "MSFT",
+        "empresa": "Microsoft Corporation",
+        "score": 60.900000000000006,
+        "precio": 495.4,
+        "upside_analista": 15.0,
+        "upside_triangulado": 8.6,
+        "divergencia": "ALTA",
+        "fcf_yield": 0.45,
+        "del_maximo_pct": -10.5,
+        "rs_6m": 9.51,
+        "timing": "VIGILAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }
