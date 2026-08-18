@@ -1378,7 +1378,7 @@ export default function Dashboard() {
             </motion.div>
             <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
             <StatCard
-              label="Win Rate 90d (horizonte value)"
+              label="Win Rate 90d"
               value={winRateValue?.win_rate != null ? `${winRateValue.win_rate.toFixed(1)}%` : '—'}
               countTo={winRateValue?.win_rate ?? undefined}
               countDecimals={1}

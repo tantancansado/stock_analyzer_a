@@ -392,7 +392,11 @@ export default function ValueEU() {
       {clearMode ? (
         <Card className="liquid-glass mb-3 px-4 py-3 animate-fade-in-up rounded-xl">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="min-w-0 flex-1">
+            {/* basis-full en móvil: con solo min-w-0 flex-1, el texto competía
+                por la línea con los tres controles de al lado y se quedaba en
+                53px — 13 líneas de 8 caracteres, ilegible. Ocupando la línea
+                entera, los botones bajan solos. */}
+            <div className="min-w-0 basis-full sm:flex-1 sm:basis-auto">
               <p className="text-sm font-semibold text-foreground">Vista recomendada activa</p>
               <p className="text-xs text-muted-foreground">
                 Priorizamos ideas limpias y escondemos alertas graves. Los filtros técnicos siguen a un toque.
