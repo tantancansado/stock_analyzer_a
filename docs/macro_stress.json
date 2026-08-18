@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-17T05:19:31+00:00",
+  "generated_at": "2026-08-18T05:04:22+00:00",
   "framework": "macro_stress_v2",
   "markets": {
     "crude_oil": {
@@ -7,7 +7,7 @@
       "label": "Petr\u00f3leo (WTI)",
       "category": "energy",
       "primary_ticker": "CL=F",
-      "stress_score": 17.1,
+      "stress_score": 25.4,
       "band": "green",
       "regime": "BALANCED",
       "signals_used": 1,
@@ -31,15 +31,15 @@
           "label": "Backwardation de la curva",
           "weight": 0.25,
           "direction": "high_is_stress",
-          "value": -7.8,
-          "percentile": 17.1,
+          "value": -7.33,
+          "percentile": 25.4,
           "z": null,
-          "score": 17.1,
-          "contribution": 4.3,
+          "score": 25.4,
+          "contribution": 6.3,
           "meta": {
             "curve_state": "CONTANGO",
-            "front_price": 82.15,
-            "deferred_price": 88.56
+            "front_price": 85.19,
+            "deferred_price": 91.43
           },
           "history_ready": true
         },
@@ -86,7 +86,7 @@
           "history_ready": false
         }
       },
-      "narrative": "backwardation -7.80%",
+      "narrative": "backwardation -7.33%",
       "equity_exposure": {
         "beneficiaries": [
           "USO",
@@ -1409,7 +1409,7 @@
         },
         {
           "date": "2026-08-21",
-          "price": 82.15,
+          "price": 85.19,
           "stress_score": null
         }
       ],
@@ -1417,8 +1417,8 @@
         {
           "key": "curve_shape",
           "label": "Backwardation de la curva",
-          "score": 17.1,
-          "contribution": 4.3
+          "score": 25.4,
+          "contribution": 6.3
         }
       ]
     }
@@ -1427,6 +1427,6 @@
     "markets_total": 1,
     "markets_red": 0,
     "top_market": "crude_oil",
-    "top_stress_score": 17.1
+    "top_stress_score": 25.4
   }
 }
