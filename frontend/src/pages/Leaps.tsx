@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import useIsMobile from '../hooks/useIsMobile'
 import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract, type LeapsSituation } from '../api/client'
 import PageHeader from '../components/PageHeader'
 import TickerLogo from '../components/TickerLogo'
@@ -316,6 +317,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
 }
 
 export default function Leaps() {
+  const esMovil = useIsMobile()
   const [data, setData] = useState<LeapsData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -358,15 +360,26 @@ export default function Leaps() {
         subtitle="Calls largas (2027-2028) como sustituto apalancado de acciones — empresas de calidad en buen momento, no especulación"
       />
 
-      {/* What is this */}
-      <div className="rounded-lg bg-muted/10 border border-border/30 px-4 py-3 mb-5 text-xs text-muted-foreground leading-relaxed">
+      {/* Qué es esto. Cerrado en móvil: son ~700 caracteres y en 390px se
+          comían media pantalla ANTES de la primera oportunidad, así que había
+          que scrollear un pantallazo entero para llegar a lo que se viene a
+          ver. En desktop sigue abierto, que ahí no estorba. */}
+      <details open={!esMovil} className="group rounded-lg bg-muted/10 border border-border/30 mb-5">
+        <summary className="cursor-pointer list-none px-4 py-2.5 text-xs font-semibold text-foreground/80 marker:hidden sm:hidden">
+          <span className="inline-flex items-center gap-1.5">
+            <ChevronDown size={14} className="transition-transform group-open:rotate-180" />
+            ¿Qué es un LEAPS deep-ITM?
+          </span>
+        </summary>
+        <div className="px-4 pb-3 pt-0 text-xs text-muted-foreground leading-relaxed sm:pt-3">
         Un <strong className="text-foreground">LEAPS deep-in-the-money</strong> (delta ~0.80) replica casi 1:1 el
         movimiento de la acción con ~2x apalancamiento y menos capital, pagando una pequeña prima temporal
         (<em>carry</em>). Es la <strong className="text-foreground">filosofía value aplicada a LEAPS</strong>: buenas
         empresas baratas por circunstancia o ciclo (no por deterioro). Claude da un veredicto honesto por cada una
         — y el ranking premia justo ese tipo de oportunidad. Las empresas con <strong className="text-foreground">múltiplo
         caro</strong> (forward P/E &gt; 30) ni se muestran: no son value, y con apalancamiento el margen de seguridad importa más.
-      </div>
+        </div>
+      </details>
 
       {/* On-demand search */}
       <form onSubmit={runOnDemand} className="flex gap-2 mb-5">

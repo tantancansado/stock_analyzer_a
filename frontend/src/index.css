@@ -2271,6 +2271,32 @@ select:focus {
   .table-x-wrap table thead th {
     position: static;
   }
+  /* Altura mínima de lo que se toca. El bloque de abajo sube el padding de las
+     píldoras pequeñas, pero eso no garantiza altura: en LEAPS quedaban 22
+     controles de 26px — los filtros de situación, el botón de seguir — y con
+     el pulgar se falla. 36px es el suelo cómodo sin engordar las tablas, así
+     que se excluye lo que vive dentro de una fila (ahí manda la densidad).
+     `align-items: center` para que el texto no quede pegado arriba. */
+  button:not(td button):not(th button),
+  a[role="button"]:not(td a):not(th a),
+  [role="button"]:not(td [role="button"]) {
+    min-height: 36px;
+  }
+  /* OJO: aquí NO se toca `display`. Forzar `inline-flex` para centrar el texto
+     parecía inocuo y rompió las tarjetas de setup de Entry, que son <button>
+     con contenido en bloque: los hijos se pusieron en fila y el subtítulo se
+     salió 17px. El área táctil la da min-height; el layout es de cada uno. */
+
+  /* Enlaces de acción ("Ver todos", "Ver detalle"): 18px de alto y a tocar con
+     el pulgar. No se les pone min-height porque muchos son inline dentro de
+     texto y separarían las líneas; con padding vertical basta y no altera el
+     flujo. El bloque de tap targets de más abajo cubre de 0.5 a 0.68rem — esto
+     añade el tramo 0.7-0.8rem, que es donde caen los del dashboard. */
+  a[class*="text-[0.7"], a[class*="text-[0.8"] {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+  }
+
   /* Grupos de píldoras de filtro (Commodities, Backtest, SectorComparison,
      SignalStats): `flex gap-1 p-1 rounded-*` sin wrap. Con cinco opciones —
      "Todos / Metales preciosos / Energía / Metales industriales / Agrícolas" —
