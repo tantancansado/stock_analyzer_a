@@ -283,7 +283,32 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
         <h3 className="text-sm font-bold">{title}</h3>
         <span className="text-[0.6rem] text-muted-foreground">{subtitle}</span>
       </div>
-      <Card className="glass">
+      {/* Móvil: tarjetas. Las seis columnas (Score, Ticker, Señales, Bounce,
+          Value, Flow) no caben, y lo que importa aquí es CUÁNTAS fuentes
+          coinciden en el mismo ticker — o sea las señales, que en la tabla
+          quedaban comprimidas en la columna más estrecha. */}
+      <div className="sm:hidden space-y-2.5">
+        {rows.map(t => (
+          <div key={t.ticker} className="glass rounded-xl border border-border/25 p-3.5">
+            <div className="flex items-center gap-2.5">
+              <ScoreCircle score={t.score} />
+              <TickerLogo ticker={t.ticker} size="xs" />
+              <span className="font-mono text-[0.95rem] font-bold text-primary">{t.ticker}</span>
+            </div>
+            <div className="mt-2.5 flex flex-wrap gap-1">
+              {t.signals.map(sig => {
+                const v = sig.includes('Bounce') ? 'bounce'
+                  : sig.includes('VALUE') || sig.includes('EU') ? 'value'
+                  : sig.includes('Suelo') ? 'covering'
+                  : 'flow'
+                return <SignalPill key={sig} label={sig} variant={v as any} />
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Card className="glass hidden sm:block">
         <Table>
           <TableHeader>
             <TableRow className="border-border/50 hover:bg-transparent">
