@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react'
 import { useApi } from '../hooks/useApi'
 import { fetchValueOpportunities, fetchEUValueOpportunities, type ValueOpportunity } from '../api/client'
 import Loading from '../components/Loading'
+import { useNavigate } from 'react-router-dom'
+import IdeaMobileCard from '../components/IdeaMobileCard'
 import ScoreBar from '../components/ScoreBar'
 import GradeBadge from '../components/GradeBadge'
 import TickerLogo from '../components/TickerLogo'
@@ -164,6 +166,7 @@ function CatalystTag({ c }: { c: Catalyst }) {
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export default function CatalystScreener() {
+  const navigate = useNavigate()
   const { data: usData, loading: usLoading } = useApi(() => fetchValueOpportunities(), [])
   const { data: euData, loading: euLoading } = useApi(() => fetchEUValueOpportunities(), [])
   const [activeSetup, setActiveSetup] = useState<string>(SETUPS[0].id)
@@ -271,7 +274,23 @@ export default function CatalystScreener() {
           />
         </Card>
       ) : (
-        <div className="rounded-xl border border-border/40 overflow-clip">
+        <>
+        {/* Móvil: tarjetas. La tabla tiene 9 columnas y en 390px solo caben
+            tres — el resto se ocultan y queda una rejilla que no dice nada.
+            La tarjeta responde el orden real de la pregunta: qué es, si se
+            puede entrar, por qué, y cuánto. */}
+        <div className="sm:hidden space-y-2.5">
+          {results.map(d => (
+            <IdeaMobileCard
+              key={d.ticker}
+              d={d}
+              onOpen={() => navigate(`/search?q=${encodeURIComponent(d.ticker)}`)}
+              extra={CATALYSTS.filter(c => c.match(d)).map(c => <CatalystTag key={c.id} c={c} />)}
+            />
+          ))}
+        </div>
+
+        <div className="hidden sm:block rounded-xl border border-border/40 overflow-clip">
           <Table>
             <TableHeader>
               <TableRow className="border-border/40">
@@ -356,6 +375,7 @@ export default function CatalystScreener() {
             </TableBody>
           </Table>
         </div>
+        </>
       )}
     </div>
   )
