@@ -2245,8 +2245,8 @@ select:focus {
      display change) to avoid bloating dense tables. */
   a[class*="text-[0.5"], a[class*="text-[0.6"],
   button[class*="text-[0.5"], button[class*="text-[0.6"] {
-    padding-top: 0.35rem;
-    padding-bottom: 0.35rem;
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
   }
 }
 
@@ -2295,6 +2295,21 @@ select:focus {
   a[class*="text-[0.7"], a[class*="text-[0.8"] {
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
+  }
+
+  /* Enlaces que en realidad son controles: los que llevan `rounded` (píldora,
+     como los "↓ CSV" de Exportar datos, 26px) o `items-center` (fila con
+     icono, como "Ver todos" del dashboard, 28px). Se distinguen así de los
+     enlaces INLINE dentro de un párrafo — el "Agentes" del Manual — a los que
+     no se les puede tocar la caja sin separar las líneas del texto.
+     A los `items-center` se les da min-height porque ya son flex; a los demás,
+     solo padding, para no cambiarles el `display`. */
+  a[class*="items-center"] {
+    min-height: 36px;
+  }
+  a[class*="rounded"]:not([class*="block"]) {
+    padding-top: 0.45rem;
+    padding-bottom: 0.45rem;
   }
 
   /* Grupos de píldoras de filtro (Commodities, Backtest, SectorComparison,
