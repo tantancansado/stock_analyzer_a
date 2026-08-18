@@ -1,3 +1,4 @@
+import PageHeader from '../components/PageHeader'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { useState, useRef, useEffect } from 'react'
 import { fetchMomentumOpportunities, type MomentumOpportunity, downloadCsv } from '../api/client'
@@ -81,25 +82,33 @@ export default function Momentum() {
   return (
     <>
       <StaleDataBanner module="momentum" />
-      <div className="mb-7 animate-fade-in-up flex items-start justify-between gap-4">
-        <div className="flex-1">
-          <h2 className="text-2xl font-extrabold tracking-tight mb-2 flex items-center gap-2">
-            <span className="gradient-title">Momentum</span>
-            {source && <span className="text-[0.58rem] font-bold uppercase tracking-widest text-muted-foreground/60 border border-border/50 rounded px-1.5 py-0.5">{source}</span>}
-          </h2>
-          <p className="text-sm text-muted-foreground">Setups VCP y momentum Minervini — filtrados por tendencia y volumen</p>
-        </div>
-        <div className="flex items-center gap-2 mt-1 shrink-0">
-          <button
-            onClick={() => setCompact(v => !v)}
-            className={`filter-btn ${compact ? 'active' : ''}`}
-            title="Alternar entre vista compacta y completa"
-          >
-            {compact ? '⊟ Compacta' : '⊞ Completa'}
-          </button>
-          <button onClick={() => downloadCsv('momentum')} className="filter-btn">↓ CSV</button>
-        </div>
-      </div>
+      {/* Usa PageHeader en vez de repetirlo: esta cabecera era una copia
+          manual de la versión ANTIGUA del componente — título con `flex-1` y
+          acciones con `shrink-0` en la misma fila — y por eso el "↓ CSV" se
+          salía 36px de la pantalla en móvil mientras el resto de páginas ya
+          estaban arregladas. */}
+      <PageHeader
+        title={
+          <span className="flex flex-wrap items-center gap-2">
+            Momentum
+            {source && (
+              <span className="text-[0.58rem] font-bold uppercase tracking-widest text-muted-foreground/60 border border-border/50 rounded px-1.5 py-0.5">
+                {source}
+              </span>
+            )}
+          </span>
+        }
+        subtitle="Setups VCP y momentum Minervini — filtrados por tendencia y volumen"
+      >
+        <button
+          onClick={() => setCompact(v => !v)}
+          className={`filter-btn ${compact ? 'active' : ''}`}
+          title="Alternar entre vista compacta y completa"
+        >
+          {compact ? '⊟ Compacta' : '⊞ Completa'}
+        </button>
+        <button onClick={() => downloadCsv('momentum')} className="filter-btn">↓ CSV</button>
+      </PageHeader>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         {[

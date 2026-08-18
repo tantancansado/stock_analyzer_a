@@ -2271,7 +2271,12 @@ select:focus {
   overflow-y: visible;
 }
 
-@media (max-width: 767px) {
+/* La condición de altura cubre el MÓVIL EN HORIZONTAL: a 844x390 el ancho ya
+   no es "móvil" (844 > 767), así que se aplicaba `overflow-x: clip` y la tabla
+   quedaba con 19px cortados que NO se pueden alcanzar — `clip` prohíbe el
+   scroll, a diferencia de `hidden`. Un portátil no baja de 500px de alto, así
+   que la regla no lo toca. */
+@media (max-width: 767px), (max-height: 500px) {
   .table-x-wrap {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
