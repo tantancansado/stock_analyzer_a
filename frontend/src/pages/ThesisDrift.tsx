@@ -85,7 +85,58 @@ export default function ThesisDrift() {
           </CardContent>
         </Card>
       ) : (
-        <div className="rounded-xl border border-border/40 overflow-clip">
+        <>
+        {/* Móvil: tarjetas. La tabla escondía la SEVERIDAD en <sm, que es
+            justo lo que urge saber de una posición abierta — si la tesis se
+            está rompiendo y cuánto. Aquí manda: va arriba y con el color.
+            Y las "mejoras" (hidden lg) también aparecen: son el contrapeso
+            que evita vender por una señal aislada. */}
+        <div className="sm:hidden space-y-2.5">
+          {sorted.map(d => {
+            const cfg = SEV_CFG[d.severity]
+            return (
+              <div key={d.ticker} className="glass rounded-xl border border-border/25 p-3.5">
+                <div className="flex items-start gap-2.5">
+                  <TickerLogo ticker={d.ticker} size="sm" />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-[0.95rem] font-bold text-primary">{d.ticker}</span>
+                      <span className={`rounded border px-1.5 py-0.5 text-[0.6rem] font-bold ${cfg.cls}`}>
+                        {cfg.label}
+                      </span>
+                    </div>
+                    {d.company_name && (
+                      <div className="truncate text-[0.72rem] text-muted-foreground">{d.company_name}</div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mt-2.5 flex items-center gap-2 text-[0.72rem] text-muted-foreground">
+                  <span>Score</span>
+                  <ScoreDelta now={d.value_score_now} prev={d.value_score_prev} />
+                  <span className="text-muted-foreground/50">· {d.days_tracked}d vigilada</span>
+                </div>
+
+                {d.drift_flags.length > 0 && (
+                  <ul className="mt-2.5 space-y-0.5">
+                    {d.drift_flags.map(f => (
+                      <li key={f} className="text-[0.7rem] leading-snug text-red-400/80">↘ {f}</li>
+                    ))}
+                  </ul>
+                )}
+                {d.improvements.length > 0 && (
+                  <ul className="mt-1.5 space-y-0.5">
+                    {d.improvements.map(imp => (
+                      <li key={imp} className="text-[0.7rem] leading-snug text-emerald-400/80">↗ {imp}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )
+          })}
+        </div>
+
+        <div className="hidden sm:block rounded-xl border border-border/40 overflow-clip">
           <Table>
             <TableHeader>
               <TableRow className="border-border/40">
@@ -158,6 +209,7 @@ export default function ThesisDrift() {
             </TableBody>
           </Table>
         </div>
+        </>
       )}
     </div>
   )
