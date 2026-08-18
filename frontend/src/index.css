@@ -2271,6 +2271,17 @@ select:focus {
   .table-x-wrap table thead th {
     position: static;
   }
+  /* Grupos de píldoras de filtro (Commodities, Backtest, SectorComparison,
+     SignalStats): `flex gap-1 p-1 rounded-*` sin wrap. Con cinco opciones —
+     "Todos / Metales preciosos / Energía / Metales industriales / Agrícolas" —
+     el grupo medía 438px sobre una pantalla de 390 y las últimas quedaban
+     fuera, sin scroll ni pista de que existieran. Envolver es mejor que
+     scrollar aquí: son opciones excluyentes y hay que verlas todas para
+     elegir. Se hace en CSS porque el patrón está repetido en cuatro páginas. */
+  div[class*="flex"][class*="gap-1"][class*="p-1"][class*="rounded"] {
+    flex-wrap: wrap;
+  }
+
   /* Padding de celda reducido. `px-3` a cada lado son 24px por columna: con
      tres columnas visibles se van 72px de los 390 de pantalla, y ahí es donde
      una tabla que casi cabe acaba desbordando 18px y pareciendo cortada. El

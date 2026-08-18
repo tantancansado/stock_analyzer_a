@@ -106,8 +106,9 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
           </span>
         </td>
 
-        {/* Rango 52s */}
-        <td className="py-3 pr-4">
+        {/* Rango 52s — oculto en móvil: es contexto, y sin ocultarlo la tabla
+            medía 393px sobre un hueco de 348 y desbordaba */}
+        <td className="py-3 pr-4 hidden sm:table-cell">
           <RangeBar position={item.range_position} />
         </td>
 
@@ -338,7 +339,7 @@ export default function Commodities() {
                   <th className="px-4 py-3 text-xs text-foreground/40 font-medium">Ticker</th>
                   <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden md:table-cell">Tipo</th>
                   <th className="py-3 pr-3 text-xs text-foreground/40 font-medium">Precio</th>
-                  <th className="py-3 pr-4 text-xs text-foreground/40 font-medium">Rango 52s</th>
+                  <th className="py-3 pr-4 text-xs text-foreground/40 font-medium hidden sm:table-cell">Rango 52s</th>
                   <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden sm:table-cell">Vs 2a avg</th>
                   <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden lg:table-cell">1d</th>
                   <th className="py-3 pr-3 text-xs text-foreground/40 font-medium hidden md:table-cell">Momentum</th>
