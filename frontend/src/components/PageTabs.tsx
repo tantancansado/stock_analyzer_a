@@ -29,13 +29,20 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
   return (
     <div>
       {/* Segmented control sobre material (patrón Apple): liquid-glass como
-          toolbar siempre visible — propaga a todas las secciones con tabs */}
-      <div className="page-tabs-shell liquid-glass flex gap-1 mb-5 p-1 rounded-xl w-fit">
+          toolbar siempre visible — propaga a todas las secciones con tabs.
+
+          `max-w-full` + scroll en un div INTERNO: sin esto, en móvil los tabs
+          que no caben se cortaban a media palabra ("Momentum VCP" salía como
+          "Mome…VC") sin ninguna pista de que hubiera más. El overflow NO puede
+          ir en el propio .liquid-glass — ese fija `overflow: clip` para sus
+          pseudo-elementos y lo pisaría (regla del proyecto). */}
+      <div className="page-tabs-shell liquid-glass mb-5 p-1 rounded-xl w-fit max-w-full">
+       <div className="flex gap-1 overflow-x-auto scrollbar-hide">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setTab(tab.id)}
-            className={`page-tab relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            className={`page-tab relative flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-[0.8rem] font-medium transition-all sm:gap-2 sm:px-4 sm:text-sm ${
               activeId === tab.id
                 ? 'text-primary border border-primary/30 shadow-sm'
                 : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
@@ -52,6 +59,7 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
             <span className="relative z-10">{tab.label}</span>
           </button>
         ))}
+       </div>
       </div>
 
       <Suspense fallback={<Loading />}>

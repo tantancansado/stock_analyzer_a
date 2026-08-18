@@ -2271,6 +2271,29 @@ select:focus {
   .table-x-wrap table thead th {
     position: static;
   }
+  /* Padding de celda reducido. `px-3` a cada lado son 24px por columna: con
+     tres columnas visibles se van 72px de los 390 de pantalla, y ahí es donde
+     una tabla que casi cabe acaba desbordando 18px y pareciendo cortada. El
+     tracking del thead (0.16em) suma lo suyo en cabeceras de una palabra. */
+  .table-x-wrap th,
+  .table-x-wrap td {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .table-x-wrap thead th {
+    letter-spacing: 0.06em;
+  }
+
+  /* Un contenedor flex-wrap dentro de una celda NO puede decidir el ancho de
+     la tabla. Sin tope, cada badge suma a lo ancho y la columna se estira
+     hasta que la tabla dobla la pantalla: en Entry setups los cinco
+     catalizadores de una fila dejaban la tabla en 366px dentro de un hueco de
+     348px, y los badges se veían cortados por la derecha sin ninguna pista de
+     que aquello scrolleaba. Con el tope, envuelven de verdad. */
+  .table-x-wrap td > .flex.flex-wrap {
+    max-width: 46vw;
+  }
+
   /* Columna congelada en scroll horizontal (Comparador: la columna de
      métricas debe seguir visible o pierdes qué fila estás comparando).
      Especificidad > que el static de arriba para el th del thead. */
