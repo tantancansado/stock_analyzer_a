@@ -1,34 +1,64 @@
 {
-  "generated_at": "2026-08-17",
+  "generated_at": "2026-08-18",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "BRK-B",
-      "company_name": "Berkshire Hathaway Inc.",
+      "ticker": "AXP",
+      "company_name": "American Express Company",
       "sector": "Financial Services",
-      "score_today": 44.1,
-      "score_prev": 34.7,
-      "delta": 9.4,
-      "grade": "🔴 Weak"
+      "score_today": 50.8,
+      "score_prev": 32.9,
+      "delta": 17.9,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "AUTO.L",
-      "company_name": "Autotrader Group plc",
+      "ticker": "NYT",
+      "company_name": "New York Times Company (The)",
       "sector": "Communication Services",
-      "score_today": 40.2,
-      "score_prev": 31.3,
-      "delta": 8.9,
+      "score_today": 42.0,
+      "score_prev": 32.0,
+      "delta": 10.0,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "UNH",
-      "company_name": "UnitedHealth Group Incorporated",
-      "sector": "Healthcare",
-      "score_today": 49.8,
-      "score_prev": 41.6,
-      "delta": 8.3,
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 44.2,
+      "score_prev": 34.3,
+      "delta": 9.9,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "SAP",
+      "company_name": "SAP SE",
+      "sector": "Technology",
+      "score_today": 59.1,
+      "score_prev": 49.6,
+      "delta": 9.5,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "TW",
+      "company_name": "Tradeweb Markets Inc.",
+      "sector": "Financial Services",
+      "score_today": 41.3,
+      "score_prev": 32.1,
+      "delta": 9.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MKC",
+      "company_name": "McCormick & Company, Incorporated",
+      "sector": "Consumer Defensive",
+      "score_today": 39.1,
+      "score_prev": 31.0,
+      "delta": 8.1,
       "grade": "🔴 Weak"
     },
     {
@@ -36,116 +66,36 @@
       "ticker": "CNI",
       "company_name": "Canadian National Railway Compa",
       "sector": "Industrials",
-      "score_today": 42.2,
-      "score_prev": 34.6,
-      "delta": 7.6,
+      "score_today": 47.8,
+      "score_prev": 42.2,
+      "delta": 5.6,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KVUE",
+      "company_name": "Kenvue Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 41.3,
+      "score_prev": 49.5,
+      "delta": -8.2,
       "grade": "🔴 Weak"
     },
     {
-      "type": "NEW_ENTRY",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 60.9,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
       "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
+      "ticker": "DBOEY",
+      "company_name": "Deutsche Börse AG",
       "sector": "Financial Services",
-      "score_today": 40.1,
-      "score_prev": 46.3,
-      "delta": -6.2,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International",
-      "sector": "Consumer Cyclical",
-      "score_today": 55.4,
-      "score_prev": 62.3,
-      "delta": -6.8,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ASAZY",
-      "company_name": "ASSA ABLOY AB (publ)",
-      "sector": "Industrials",
-      "score_today": 52.1,
-      "score_prev": 59.9,
-      "delta": -7.8,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "sector": "Healthcare",
-      "score_today": 33.5,
-      "score_prev": 43.5,
+      "score_today": 34.0,
+      "score_prev": 43.9,
       "delta": -9.9,
       "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PEP",
-      "company_name": "PepsiCo, Inc.",
-      "sector": "Consumer Defensive",
-      "score_today": 37.2,
-      "score_prev": 49.2,
-      "delta": -12.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CSU.TO",
-      "company_name": "Constellation Software Inc.",
-      "sector": "Technology",
-      "score_today": 34.2,
-      "score_prev": 48.2,
-      "delta": -14.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 34.9,
-      "score_prev": 51.4,
-      "delta": -16.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "score_today": 55.0,
-      "score_prev": 71.9,
-      "delta": -16.9,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PGR",
-      "company_name": "The Progressive Corporation",
-      "sector": "Financial Services",
-      "score_today": 53.3,
-      "score_prev": 71.6,
-      "delta": -18.3,
-      "grade": "🟡 Average"
     }
   ],
   "counts": {
-    "new_entries": 1,
+    "new_entries": 0,
     "exited": 0,
-    "score_up": 4,
-    "score_down": 9
+    "score_up": 7,
+    "score_down": 2
   }
 }

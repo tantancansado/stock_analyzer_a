@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-17T06:04:47.979125",
+  "generated_at": "2026-08-18T05:20:34.048698",
   "tickers": {
     "LIN": {
       "ticker": "LIN",
@@ -7,15 +7,15 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-08-14",
-      "days_since_signal": 3,
+      "days_since_signal": 4,
       "window_days": 3,
       "entry_zone": "$473.1 - $492.41",
       "target": 515.95,
       "stop_loss": 465.7,
       "rsi_at_signal": 26.6,
-      "current_price": 482.739990234375,
-      "status": "EN_VENTANA",
-      "ai_note": "Si el estado es EN_VENTANA, toca esperar sin novedad. Si es VENTANA_EXPIRADA, la ventaja estad\u00edstica de la sobreventa ya se disip\u00f3, ahora es una posici\u00f3n normal. Si es OBJETIVO_ALCANZADO o STOP_ALCANZADO, el objetivo o stop se alcanz\u00f3."
+      "current_price": NaN,
+      "status": "VENTANA_EXPIRADA",
+      "ai_note": null
     }
   }
 }

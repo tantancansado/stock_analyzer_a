@@ -1,44 +1,103 @@
 {
-  "date": "2026-08-18",
-  "timestamp": "2026-08-18T05:11:49.035250",
-  "narrative": null,
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 88.0,
-      "analyst_upside_pct": 17.5,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 87.99,
-      "analyst_upside_pct": 27.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MSFT",
-      "sector": "Technology",
-      "value_score": 65.78,
-      "analyst_upside_pct": 18.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SAP",
-      "sector": "Technology",
-      "value_score": 59.08000000000001,
-      "analyst_upside_pct": 16.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "ASAZY",
-      "sector": "Industrials",
-      "value_score": 53.59,
-      "analyst_upside_pct": 18.0,
-      "conviction_grade": null
+  "fecha": "2026-08-18",
+  "texto": "<b>Hoy no hay nada que comprar.</b> La lista de 40 no ha dejado ningún candidato limpio.\n\n<b>CRH.L ha roto la tesis:</b> el precio se ha ido por debajo de tu stop (7914 frente a 8140,16). Toca salir, no es momento de darle el beneficio de la duda.\n\nPara vigilar, cinco caídas que huelen a oportunidad si siguen bajando de precio pero no de calidad:\n\n<b>Moody's (MCO)</b> cae un 12,7% desde máximos pese a resultados récord en el tercer trimestre, sin razón de negocio detrás. Los analistas le ven un 17,5% de subida.\n\n<b>Broadridge (BR)</b> es la más golpeada, -36,8% desde máximos, y aquí no tengo el motivo confirmado de la caída. La ganancia potencial es grande (27% según analistas) pero con esa divergencia alta, cuidado.\n\n<b>Microsoft (MSFT)</b> ha caído un 13,3% por miedo al gasto en IA, no porque Azure se haya frenado (sigue creciendo al 43-45%). Aun así, ojo con la divergencia alta entre lo que dicen los analistas y lo que sale del triangulado.\n\n<b>SAP</b> baja un 26% por el miedo sectorial a que la IA se coma el software empresarial, no por deterioro propio.\n\n<b>Assa Abloy (ASAZY)</b> cae un 16% con márgenes récord; el mercado solo dice que está cara. Todas siguen bajando, así que barato todavía no es comprable: toca esperar a que frene la caída.\n\nEl sistema acierta un 61,5% con ganancia media del 3,15%, pero es una cifra provisional a 90 días, aún sin muestra suficiente a 180. Dimensiona la posición en consecuencia.\n\n🟡 Claude: $9.02 de $10 (90%) · lo que más gasta: why_cheap_analyzer ($3.95)",
+  "hechos": {
+    "fecha": "2026-08-18",
+    "total_lista": 40,
+    "datos_incompletos": [],
+    "comprables": [],
+    "vigilar": [
+      {
+        "ticker": "MCO",
+        "empresa": "Moody's Corporation",
+        "score": 88.0,
+        "precio": 477.17,
+        "upside_analista": 17.5,
+        "upside_triangulado": 17.5,
+        "divergencia": "",
+        "fcf_yield": 3.12,
+        "del_maximo_pct": -12.7,
+        "rs_6m": null,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "En el tercer trimestre de 2025 (22 de octubre) Moody's superó expectativas con ingresos récord de $2.01B (+10.7% interanual) y BPA de $3.92, elevando su guidance para el año, pese "
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 87.99,
+        "precio": 167.84,
+        "upside_analista": 27.1,
+        "upside_triangulado": 15.2,
+        "divergencia": "ALTA",
+        "fcf_yield": 6.24,
+        "del_maximo_pct": -36.8,
+        "rs_6m": null,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "MSFT",
+        "empresa": "Microsoft Corporation",
+        "score": 65.78,
+        "precio": 480.35,
+        "upside_analista": 18.6,
+        "upside_triangulado": 8.6,
+        "divergencia": "ALTA",
+        "fcf_yield": 0.46,
+        "del_maximo_pct": -13.3,
+        "rs_6m": null,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "MSFT cayó por preocupación sectorial ante el elevado capex en IA (que comprime márgenes y FCF a corto plazo), no por deterioro del negocio: Azure aceleró a 43-45% de crecimiento y "
+      },
+      {
+        "ticker": "SAP",
+        "empresa": "SAP SE",
+        "score": 59.08000000000001,
+        "precio": 207.84,
+        "upside_analista": 16.9,
+        "upside_triangulado": 16.9,
+        "divergencia": "",
+        "fcf_yield": 4.39,
+        "del_maximo_pct": -26.1,
+        "rs_6m": null,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "La caída se explica sobre todo por el temor sectorial a que la IA disrumpa el software empresarial (venta masiva en SAP y comparables desde mediados de 2025) y por una desaceleraci"
+      },
+      {
+        "ticker": "ASAZY",
+        "empresa": "ASSA ABLOY AB (publ)",
+        "score": 53.59,
+        "precio": 18.42,
+        "upside_analista": 18.0,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.72,
+        "del_maximo_pct": -16.2,
+        "rs_6m": null,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Entre Q3 2025 y Q2 2026 Assa Abloy reportó márgenes récord y crecimiento orgánico sostenido pese a vientos en contra de divisas, pero analistas señalan que la acción cotiza cara (P"
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }
