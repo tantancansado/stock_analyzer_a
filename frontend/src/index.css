@@ -1929,6 +1929,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Tirar hacia abajo dentro de una lista no debe recargar la página ni mover
+   el fondo: `overscroll-behavior-y: contain` corta el encadenamiento del
+   scroll al documento. En una app de listas largas, un pull-to-refresh
+   accidental hace perder el sitio donde ibas leyendo. */
+html, body {
+  overscroll-behavior-y: contain;
+}
+
 /* Safe area insets for iPhone notch/home bar */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   body {
@@ -2271,6 +2279,17 @@ select:focus {
   .table-x-wrap table thead th {
     position: static;
   }
+  /* iOS AMPLÍA la pantalla al enfocar un input de menos de 16px, y luego el
+     usuario tiene que hacer pinch para volver. Es la regla móvil más conocida
+     y la incumplían 4 páginas — incluidas Mi cartera y Alertas, que son las de
+     escribir datos (ticker, precio, cantidad). 16px exactos: el mínimo que
+     evita el zoom, sin engordar el formulario más de lo necesario. */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
   /* Altura mínima de lo que se toca. El bloque de abajo sube el padding de las
      píldoras pequeñas, pero eso no garantiza altura: en LEAPS quedaban 22
      controles de 26px — los filtros de situación, el botón de seguir — y con
