@@ -2258,6 +2258,12 @@ export interface LeapsProfitAtTarget {
   stock_return_pct: number
   option_return_pct: number
   leverage_realized: number | null
+  /** Lo que te llevas de MÁS que comprando acciones con el mismo dinero, ya
+   *  pagado el spread de entrada y salida. Es la cifra que decide si el LEAPS
+   *  compensa: el `leverage` de la ficha es nominal y engaña (AXP mostraba
+   *  2,5x y dejaba $7 netos sobre una prima de $11.018). */
+  ventaja_neta_pct?: number | null
+  ventaja_neta_usd?: number | null
 }
 
 export interface LeapsExitPlan {

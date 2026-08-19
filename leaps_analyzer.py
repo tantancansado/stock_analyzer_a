@@ -283,23 +283,61 @@ _SITUATION_BONUS = {
 }
 
 
+def ventaja_neta_pct(cost_per_contract: Optional[float],
+                     option_return_pct: Optional[float],
+                     stock_return_pct: Optional[float],
+                     roundtrip_spread_usd: Optional[float]) -> Optional[float]:
+    """Lo que te llevas de MÁS que comprando acciones con el mismo dinero, ya
+    pagado el spread de entrada y salida. En puntos porcentuales.
+
+    Es la única cifra que responde a la pregunta real: ¿compensa el LEAPS, o me
+    sale igual comprando la acción y sin arriesgar la prima entera?
+
+    El `leverage` que se enseñaba (2,5x en AXP) es NOMINAL: exposición dividida
+    entre prima. El que importa es el realizado, y no coinciden — sobre las 11
+    oportunidades del 18-ago-2026 correlacionan solo +0,51. En AXP la ventaja
+    bruta era $342 y el spread de ida y vuelta $335: quedaban SIETE dólares por
+    arriesgar los $11.018 completos.
+    """
+    if None in (cost_per_contract, option_return_pct, stock_return_pct):
+        return None
+    if not cost_per_contract or cost_per_contract <= 0:
+        return None
+    coste_spread_pct = 100.0 * (roundtrip_spread_usd or 0.0) / cost_per_contract
+    return round(option_return_pct - stock_return_pct - coste_spread_pct, 2)
+
+
 def opportunity_score(q: Optional[float], timing: float, contract: float,
                       target_return_pct: Optional[float] = None,
-                      situation: Optional[str] = None) -> float:
+                      situation: Optional[str] = None,
+                      ventaja_neta: Optional[float] = None) -> float:
     """Score global de la oportunidad LEAPS (0-100).
 
     Sin calidad medible NO hay oportunidad (regla del proyecto: no inventar).
-    El reward principal es el rendimiento APALANCADO en el escenario alcista
-    (precio objetivo del analista) y la SITUACIÓN (barata por ciclo, no deterioro).
+
+    Lo que premia el reward es la VENTAJA NETA sobre comprar la acción, no el
+    rendimiento bruto de la opción. Premiar el bruto ordenaba mal: sobre las 11
+    oportunidades del 18-ago-2026, `opportunity_score` correlacionaba con el
+    valor real un +0,26 (p=0,45) — o sea nada. UNH, la mejor de todas con
+    +20,5% neto, salía la 10ª de 11; AXP salía 7ª con SIETE dólares de ventaja
+    real. El rendimiento bruto de la opción sube con el apalancamiento aunque
+    el spread se lo coma entero, y por eso engañaba.
+
+    Sin `ventaja_neta` (falta el precio objetivo o el spread) se cae al bruto,
+    marcando así que ese score es menos fiable.
     """
     if q is None:
         return 0.0
-    target_pts = 0.0
-    if target_return_pct is not None and not math.isnan(target_return_pct) and target_return_pct > 0:
-        target_pts = min(15.0, target_return_pct / 4)   # +60% al target → +15 pts
+    reward_pts = 0.0
+    if ventaja_neta is not None and not math.isnan(ventaja_neta):
+        # 20 pts de ventaja neta → +15. Negativa RESTA: si sales perdiendo
+        # frente a comprar la acción, el contrato no es una oportunidad.
+        reward_pts = max(-15.0, min(15.0, ventaja_neta * 0.75))
+    elif target_return_pct is not None and not math.isnan(target_return_pct) and target_return_pct > 0:
+        reward_pts = min(10.0, target_return_pct / 6)   # tope más bajo: es peor medida
     situation_pts = _SITUATION_BONUS.get(situation or '', 0.0)
     base = 0.34 * q + 0.28 * timing + 0.38 * contract
-    return round(max(0.0, min(100.0, base + target_pts + situation_pts)), 1)
+    return round(max(0.0, min(100.0, base + reward_pts + situation_pts)), 1)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -659,11 +697,18 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
         timing = timing_score(sig)
         ret_pct = best['target_return_pct']
         stock_ret = upside
+        # Lo que se lleva de MÁS que comprando acciones, ya pagado el spread.
+        # Es la cifra que decide, y la que faltaba: ver ventaja_neta_pct().
+        v_neta = ventaja_neta_pct(best.get('cost_per_contract'), ret_pct, stock_ret,
+                                  best.get('roundtrip_spread_usd'))
         profit_at_target = {
             'target_price': round(target, 2),
             'stock_return_pct': round(stock_ret, 1),
             'option_return_pct': round(ret_pct, 1),
             'leverage_realized': round(ret_pct / stock_ret, 1) if stock_ret else None,
+            'ventaja_neta_pct': v_neta,
+            'ventaja_neta_usd': (round(best['cost_per_contract'] * v_neta / 100)
+                                 if v_neta is not None and best.get('cost_per_contract') else None),
         }
 
         # Situación: ¿por qué está a este precio? (filosofía value aplicada a LEAPS)
@@ -692,7 +737,8 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
             pct_from_high, ytd_pct, sig.get('fundamental_score'), upside,
             sig.get('financial_health_score'))
 
-        opp = opportunity_score(q, timing, best['contract_score'], ret_pct, situation)
+        opp = opportunity_score(q, timing, best['contract_score'], ret_pct, situation,
+                                ventaja_neta=v_neta)
 
         return {
             'ticker': ticker,

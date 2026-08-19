@@ -260,6 +260,26 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             el LEAPS rinde <span className="font-bold text-emerald-400">{pat.option_return_pct >= 0 ? '+' : ''}{pat.option_return_pct.toFixed(0)}%</span>{' '}
             vs <span className="text-foreground">{pat.stock_return_pct >= 0 ? '+' : ''}{pat.stock_return_pct.toFixed(0)}%</span> la acción
             {pat.leverage_realized != null && <span className="text-muted-foreground"> ({pat.leverage_realized.toFixed(1)}x)</span>}
+
+            {/* La cifra que decide, y que faltaba: el rendimiento del LEAPS
+                frente a comprar la acción con el MISMO dinero, ya pagado el
+                spread. En AXP eran $7 sobre una prima de $11.018 — el "2,5x"
+                de la ficha es apalancamiento nominal y no lo contaba. */}
+            {pat.ventaja_neta_pct != null && (
+              <div className="mt-1.5 pt-1.5 border-t border-emerald-500/15">
+                <span className="text-muted-foreground">Frente a comprar la acción, ya pagado el spread: </span>
+                <span className={`font-bold ${pat.ventaja_neta_pct > 3 ? 'text-emerald-400' : pat.ventaja_neta_pct > 0 ? 'text-amber-400' : 'text-red-400'}`}>
+                  {pat.ventaja_neta_pct >= 0 ? '+' : ''}{pat.ventaja_neta_pct.toFixed(1)}%
+                  {pat.ventaja_neta_usd != null && ` (${pat.ventaja_neta_usd >= 0 ? '+' : ''}$${Math.abs(pat.ventaja_neta_usd).toLocaleString('es-ES')})`}
+                </span>
+                {pat.ventaja_neta_pct <= 0 && (
+                  <span className="text-red-400/80"> — sale mejor la acción</span>
+                )}
+                {pat.ventaja_neta_pct > 0 && pat.ventaja_neta_pct <= 3 && (
+                  <span className="text-amber-400/80"> — el spread se lo come casi todo</span>
+                )}
+              </div>
+            )}
           </div>
         )}
 

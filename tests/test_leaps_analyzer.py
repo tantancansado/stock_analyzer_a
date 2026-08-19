@@ -375,3 +375,53 @@ class TestPromptNoFactChecking:
     def test_data_check_se_limita_a_coherencia_interna(self):
         prompt = self._build_prompt()
         assert 'COHERENCIA ARITMÉTICA ENTRE LOS NÚMEROS QUE TE DOY' in prompt
+
+
+class TestVentajaNeta:
+    """Lo que decide un LEAPS es cuánto te llevas de MÁS que comprando la
+    acción, ya pagado el spread — no el rendimiento bruto de la opción.
+
+    El 18-ago-2026 AXP salía 7ª de 11 con `leverage 2,5x` en la ficha. Su
+    ventaja bruta sobre comprar acciones eran $342 y el spread de ida y vuelta
+    $335: quedaban SIETE dólares por arriesgar los $11.018 de prima completos.
+    Medido sobre las 11 oportunidades, `opportunity_score` correlacionaba con
+    el valor real un +0,26 (p=0,45) — nada. Con la ventaja neta, +0,75.
+    """
+
+    def test_el_spread_se_descuenta(self):
+        from leaps_analyzer import ventaja_neta_pct
+        # AXP real: prima 11.018, opción +14,2%, acción +11,1%, spread 335
+        v = ventaja_neta_pct(11018, 14.2, 11.1, 335)
+        assert v is not None and abs(v - 0.06) < 0.15, f'esperaba ~0, salió {v}'
+
+    def test_sin_spread_la_ventaja_es_la_diferencia(self):
+        from leaps_analyzer import ventaja_neta_pct
+        assert ventaja_neta_pct(10000, 20.0, 10.0, 0) == 10.0
+
+    def test_puede_ser_negativa(self):
+        """SAP y OXY salían perdiendo frente a comprar la acción."""
+        from leaps_analyzer import ventaja_neta_pct
+        assert ventaja_neta_pct(7625, 15.0, 14.0, 450) < 0
+
+    def test_sin_datos_no_inventa(self):
+        from leaps_analyzer import ventaja_neta_pct
+        assert ventaja_neta_pct(None, 14.0, 11.0, 300) is None
+        assert ventaja_neta_pct(11018, None, 11.0, 300) is None
+        assert ventaja_neta_pct(0, 14.0, 11.0, 300) is None
+
+    def test_una_ventaja_negativa_RESTA_en_el_score(self):
+        """Si sales perdiendo frente a la acción, el contrato no es una
+        oportunidad — antes el score solo sabía sumar."""
+        from leaps_analyzer import opportunity_score
+        bueno = opportunity_score(70, 60, 80, 14.2, None, ventaja_neta=20.0)
+        malo = opportunity_score(70, 60, 80, 14.2, None, ventaja_neta=-9.0)
+        assert bueno > malo
+        assert malo < opportunity_score(70, 60, 80, 14.2, None, ventaja_neta=0.0)
+
+    def test_sin_ventaja_neta_cae_al_bruto_pero_con_menos_peso(self):
+        """Sin precio objetivo o sin spread no se puede calcular; el score usa
+        el bruto pero con tope más bajo, para no fiarse de una peor medida."""
+        from leaps_analyzer import opportunity_score
+        con = opportunity_score(70, 60, 80, 60.0, None, ventaja_neta=20.0)
+        sin = opportunity_score(70, 60, 80, 60.0, None, ventaja_neta=None)
+        assert con > sin
