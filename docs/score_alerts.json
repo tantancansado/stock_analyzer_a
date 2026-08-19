@@ -1,14 +1,64 @@
 {
-  "generated_at": "2026-08-18",
+  "generated_at": "2026-08-19",
   "alerts": [
+    {
+      "type": "SCORE_UP",
+      "ticker": "MRSH",
+      "company_name": "Marsh & McLennan Companies, Inc.",
+      "sector": "Financial Services",
+      "score_today": 57.3,
+      "score_prev": 33.3,
+      "delta": 24.0,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CHTR",
+      "company_name": "Charter Communications, Inc.",
+      "sector": "Communication Services",
+      "score_today": 49.5,
+      "score_prev": 30.3,
+      "delta": 19.3,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "sector": "Technology",
+      "score_today": 53.4,
+      "score_prev": 36.1,
+      "delta": 17.3,
+      "grade": "🟡 Average"
+    },
     {
       "type": "SCORE_UP",
       "ticker": "AXP",
       "company_name": "American Express Company",
       "sector": "Financial Services",
-      "score_today": 50.8,
-      "score_prev": 32.9,
-      "delta": 17.9,
+      "score_today": 68.0,
+      "score_prev": 50.8,
+      "delta": 17.1,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "ROP",
+      "company_name": "Roper Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 58.8,
+      "score_prev": 44.2,
+      "delta": 14.7,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
+      "sector": "Technology",
+      "score_today": 45.7,
+      "score_prev": 31.9,
+      "delta": 13.9,
       "grade": "🟡 Average"
     },
     {
@@ -16,19 +66,39 @@
       "ticker": "NYT",
       "company_name": "New York Times Company (The)",
       "sector": "Communication Services",
-      "score_today": 42.0,
-      "score_prev": 32.0,
-      "delta": 10.0,
-      "grade": "🔴 Weak"
+      "score_today": 55.3,
+      "score_prev": 42.0,
+      "delta": 13.3,
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 44.2,
-      "score_prev": 34.3,
-      "delta": 9.9,
+      "ticker": "CPRT",
+      "company_name": "Copart, Inc.",
+      "sector": "Industrials",
+      "score_today": 50.1,
+      "score_prev": 37.1,
+      "delta": 13.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "KO",
+      "company_name": "Coca-Cola Company (The)",
+      "sector": "Consumer Defensive",
+      "score_today": 58.7,
+      "score_prev": 47.2,
+      "delta": 11.5,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 40.1,
+      "score_prev": 30.3,
+      "delta": 9.8,
       "grade": "🔴 Weak"
     },
     {
@@ -36,9 +106,69 @@
       "ticker": "SAP",
       "company_name": "SAP SE",
       "sector": "Technology",
-      "score_today": 59.1,
-      "score_prev": 49.6,
-      "delta": 9.5,
+      "score_today": 68.9,
+      "score_prev": 59.1,
+      "delta": 9.8,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "sector": "Energy",
+      "score_today": 57.2,
+      "score_prev": 48.1,
+      "delta": 9.1,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "JNJ",
+      "company_name": "Johnson & Johnson",
+      "sector": "Healthcare",
+      "score_today": 39.6,
+      "score_prev": 31.2,
+      "delta": 8.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 49.8,
+      "score_prev": 41.5,
+      "delta": 8.3,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CHD",
+      "company_name": "Church & Dwight Company, Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 38.3,
+      "score_prev": 30.1,
+      "delta": 8.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "IDXX",
+      "company_name": "IDEXX Laboratories, Inc.",
+      "sector": "Healthcare",
+      "score_today": 43.0,
+      "score_prev": 34.9,
+      "delta": 8.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International",
+      "sector": "Consumer Cyclical",
+      "score_today": 60.2,
+      "score_prev": 52.6,
+      "delta": 7.6,
       "grade": "🟡 Good"
     },
     {
@@ -46,56 +176,86 @@
       "ticker": "TW",
       "company_name": "Tradeweb Markets Inc.",
       "sector": "Financial Services",
-      "score_today": 41.3,
-      "score_prev": 32.1,
-      "delta": 9.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "sector": "Consumer Defensive",
-      "score_today": 39.1,
-      "score_prev": 31.0,
-      "delta": 8.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CNI",
-      "company_name": "Canadian National Railway Compa",
-      "sector": "Industrials",
-      "score_today": 47.8,
-      "score_prev": 42.2,
-      "delta": 5.6,
+      "score_today": 48.4,
+      "score_prev": 41.3,
+      "delta": 7.1,
       "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "PEP",
+      "company_name": "PepsiCo, Inc.",
+      "sector": "Consumer Defensive",
+      "score_today": 41.6,
+      "score_prev": 35.2,
+      "delta": 6.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 54.7,
+      "score_prev": 48.5,
+      "delta": 6.3,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
+      "sector": "Industrials",
+      "score_today": 37.2,
+      "score_prev": 31.4,
+      "delta": 5.8,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
+      "sector": "Technology",
+      "score_today": 93.0,
+      "score_prev": 88.0,
+      "delta": 5.0,
+      "grade": "🔥 Legendary"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 57.1,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 59.3,
+      "score_prev": 65.8,
+      "delta": -6.5,
+      "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
       "ticker": "KVUE",
       "company_name": "Kenvue Inc.",
       "sector": "Consumer Defensive",
-      "score_today": 41.3,
-      "score_prev": 49.5,
-      "delta": -8.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DBOEY",
-      "company_name": "Deutsche Börse AG",
-      "sector": "Financial Services",
-      "score_today": 34.0,
-      "score_prev": 43.9,
-      "delta": -9.9,
+      "score_today": 33.6,
+      "score_prev": 41.3,
+      "delta": -7.8,
       "grade": "🔴 Weak"
     }
   ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
-    "score_up": 7,
+    "score_up": 22,
     "score_down": 2
   }
 }
