@@ -112,17 +112,19 @@ class PortfolioTracker:
         ])
 
     def record_signals(self):
-        """Record today's VALUE + MOMENTUM recommendations"""
+        """Registra las señales de hoy de todas las estrategias."""
         today = pd.Timestamp.now().normalize()
 
-        # Check if already recorded today
+        # El corte de "ya registrado hoy" es POR ESTRATEGIA, no global. Cuando
+        # era global, bastaba con que VALUE se hubiera registrado antes para
+        # que el resto no se guardara nunca — que es justo lo que mantenía a
+        # los rebotes y a LEAPS sin una sola fila en el tracker.
+        ya_hoy = set()
         if not self.recommendations.empty:
-            existing_today = self.recommendations[
-                self.recommendations['signal_date'] == today
-            ]
-            if len(existing_today) > 0:
-                print(f"  Already recorded {len(existing_today)} signals for {today.date()}")
-                return
+            hoy_df = self.recommendations[self.recommendations['signal_date'] == today]
+            ya_hoy = set(hoy_df['strategy'].dropna().unique())
+            if ya_hoy:
+                print(f"  Ya registradas hoy: {', '.join(sorted(ya_hoy))}")
 
         signals_recorded = 0
 
@@ -147,7 +149,7 @@ class PortfolioTracker:
         #   qué se quitó el filtro de R:R que la pisaba)
         _EXCLUDED_SECTORS_VALUE = {'Technology', 'Real Estate'}
         value_path = Path('docs/value_opportunities.csv')
-        if value_path.exists():
+        if 'VALUE' not in ya_hoy and value_path.exists():
             vdf = pd.read_csv(value_path)
             if not vdf.empty:
                 _score = pd.to_numeric(vdf.get('value_score', pd.Series(dtype=float)), errors='coerce')
@@ -267,7 +269,7 @@ class PortfolioTracker:
         # Record MOMENTUM opportunities
         mom_recorded = 0
         momentum_path = Path('docs/momentum_opportunities_filtered.csv')
-        if momentum_path.exists():
+        if 'MOMENTUM' not in ya_hoy and momentum_path.exists():
             mdf = pd.read_csv(momentum_path)
             if not mdf.empty:
                 for _, row in mdf.iterrows():
@@ -313,6 +315,112 @@ class PortfolioTracker:
                     mom_recorded += 1
                 print(f"  Recorded {mom_recorded} MOMENTUM signals")
 
+        # ── Estrategias de corto plazo: REBOTES ────────────────────────────
+        # Se emitían desde hace meses SIN registrarse, así que no había forma
+        # de saber si aciertan: 0 filas en el tracker frente a 805 de VALUE.
+        # Un sistema que emite señales que nadie mide es un sistema a ciegas —
+        # y el usuario decide con ellas.
+        #
+        # Horizonte propio: estas son de 1-5 días, así que el 7d ya es tarde y
+        # el 30d no dice nada. Se guardan target y stop del propio setup para
+        # poder medir después lo que de verdad importa: si tocó target antes
+        # que stop, no solo el retorno a fecha fija.
+        bounce_recorded = 0
+        for ruta, estrategia, col_precio in (
+            (Path('docs/bounce_setups_broad.csv'), 'BOUNCE_BROAD', 'price'),
+            (Path('docs/mean_reversion_opportunities.csv'), 'MEAN_REVERSION', 'current_price'),
+        ):
+            if not ruta.exists():
+                continue
+            try:
+                bdf = pd.read_csv(ruta)
+            except Exception as e:
+                print(f"  no se pudo leer {ruta.name}: {e}")
+                continue
+            if bdf.empty:
+                continue
+            for _, row in bdf.iterrows():
+                ticker = str(row.get('ticker', '')).upper().strip()
+                if not ticker:
+                    continue
+                precio = pd.to_numeric(row.get(col_precio), errors='coerce')
+                if not precio or pd.isna(precio) or float(precio) <= 0:
+                    continue
+                # Sin cooldown de 21 días aquí: un rebote es un evento de
+                # 1-5 días y el mismo ticker puede dar dos setups válidos en
+                # un mes. Se evita solo el duplicado del MISMO día.
+                ya = self.recommendations[
+                    (self.recommendations['ticker'].astype(str).str.upper() == ticker)
+                    & (self.recommendations['strategy'] == estrategia)
+                    & (self.recommendations['signal_date'] == today)
+                ] if not self.recommendations.empty else []
+                if len(ya):
+                    continue
+                target = pd.to_numeric(row.get('target') or row.get('bounce_target'), errors='coerce')
+                stop = pd.to_numeric(row.get('stop') or row.get('stop_loss'), errors='coerce')
+                rec = {
+                    'ticker': ticker,
+                    'company_name': str(row.get('company_name') or ticker),
+                    'strategy': estrategia,
+                    'signal_date': today,
+                    'signal_price': float(precio),
+                    'value_score': pd.to_numeric(row.get('value_score'), errors='coerce'),
+                    'momentum_score': pd.to_numeric(row.get('reversion_score'), errors='coerce'),
+                    'risk_reward_ratio': pd.to_numeric(row.get('rr') or row.get('risk_reward'), errors='coerce'),
+                    'short_percent_float': pd.to_numeric(row.get('short_pct_float'), errors='coerce'),
+                    'sector': row.get('sector', 'N/A'),
+                    'market_regime': row.get('market_regime', 'N/A'),
+                    'target_price': float(target) if pd.notna(target) else None,
+                    'stop_loss': float(stop) if pd.notna(stop) else None,
+                    'status': 'ACTIVE',
+                }
+                self.recommendations = pd.concat(
+                    [self.recommendations, pd.DataFrame([rec])], ignore_index=True)
+                bounce_recorded += 1
+        if bounce_recorded:
+            print(f"  Recorded {bounce_recorded} señales de rebote (BOUNCE_BROAD / MEAN_REVERSION)")
+
+        # ── LEAPS ──────────────────────────────────────────────────────────
+        # Mismo problema: se publican cada día y nadie mide si el contrato
+        # recomendado habría ganado dinero. Se registra el SUBYACENTE — el
+        # precio de la opción depende del contrato y no se puede seguir con
+        # yfinance —, que al menos dice si la tesis de la acción acertó.
+        leaps_recorded = 0
+        leaps_path = Path('docs/leaps_opportunities.json')
+        if leaps_path.exists():
+            try:
+                ldata = json.loads(leaps_path.read_text())
+                for o in (ldata.get('opportunities') or [])[:10]:
+                    ticker = str(o.get('ticker', '')).upper().strip()
+                    spot = pd.to_numeric(o.get('spot'), errors='coerce')
+                    if not ticker or not spot or pd.isna(spot):
+                        continue
+                    ya = self.recommendations[
+                        (self.recommendations['ticker'].astype(str).str.upper() == ticker)
+                        & (self.recommendations['strategy'] == 'LEAPS')
+                        & (self.recommendations['signal_date'] == today)
+                    ] if not self.recommendations.empty else []
+                    if len(ya):
+                        continue
+                    pat = o.get('profit_at_target') or {}
+                    self.recommendations = pd.concat([self.recommendations, pd.DataFrame([{
+                        'ticker': ticker,
+                        'company_name': str(o.get('company_name') or ticker),
+                        'strategy': 'LEAPS',
+                        'signal_date': today,
+                        'signal_price': float(spot),
+                        'value_score': pd.to_numeric(o.get('opportunity_score'), errors='coerce'),
+                        'analyst_upside_pct': pd.to_numeric(o.get('analyst_upside_pct'), errors='coerce'),
+                        'sector': o.get('sector', 'N/A'),
+                        'target_price': pd.to_numeric(pat.get('target_price'), errors='coerce'),
+                        'status': 'ACTIVE',
+                    }])], ignore_index=True)
+                    leaps_recorded += 1
+            except Exception as e:
+                print(f"  no se pudo leer leaps_opportunities.json: {e}")
+        if leaps_recorded:
+            print(f"  Recorded {leaps_recorded} señales LEAPS (subyacente)")
+
         # EU_VALUE pausado: WR 16%, avg -5.9%, alpha -6.6% en 738 señales (feb-may 2026)
         # El modelo europeo no tiene edge real — requiere revisión de scoring antes de reactivar
         # Para reactivar: cambiar EU_VALUE_PAUSED = False
@@ -321,7 +429,7 @@ class PortfolioTracker:
             pass  # reactivar aquí cuando el scoring EU esté calibrado
         print("  EU_VALUE pausado (WR 16% en backtest — sin edge)")
 
-        total = signals_recorded + mom_recorded
+        total = signals_recorded + mom_recorded + bounce_recorded + leaps_recorded
         print(f"  Total new signals recorded: {total}")
         self._save_recommendations()
 
@@ -771,6 +879,31 @@ class PortfolioTracker:
 
             'momentum_strategy': {
                 'count': len(mom_df),
+            },
+
+            # Estrategias de corto plazo. Horizonte propio: un rebote es de 1-5
+            # días, así que el 7d ya llega tarde y el 30d no dice nada de si el
+            # setup funcionó. Se mide a 7d como referencia más cercana que hay,
+            # y sobre todo el TARGET/STOP, que es el criterio real del setup.
+            'bounce_strategies': {
+                nombre: {
+                    'count': int(len(sub)),
+                    **({'7d': win_stats('return_7d', 'win_7d', sub)} if len(sub) else {}),
+                    'nota': ('horizonte real 1-5 días: el 7d es la medida más cercana '
+                             'disponible, no el criterio del setup (target vs stop)'),
+                }
+                for nombre, sub in (
+                    ('BOUNCE_BROAD', df[df['strategy'] == 'BOUNCE_BROAD']),
+                    ('MEAN_REVERSION', df[df['strategy'] == 'MEAN_REVERSION']),
+                )
+            },
+            'leaps_strategy': {
+                'count': int(len(df[df['strategy'] == 'LEAPS'])),
+                **({'30d': win_stats('return_30d', 'win_30d', df[df['strategy'] == 'LEAPS']),
+                    '90d': win_stats('return_90d', 'win_90d', df[df['strategy'] == 'LEAPS'])}
+                   if len(df[df['strategy'] == 'LEAPS']) else {}),
+                'nota': ('mide el SUBYACENTE, no el contrato: el precio de la opción '
+                         'depende del strike y no se puede seguir con yfinance'),
             },
 
             'sector_performance': sector_perf,

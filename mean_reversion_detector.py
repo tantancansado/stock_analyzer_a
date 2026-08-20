@@ -473,7 +473,20 @@ class MeanReversionDetector:
             # Target largo (técnico a resistencia)
             full_target = round(resistance, 2)
 
-            # Target corto: rebote realista 1-3 días (+7% o resistencia, lo menor)
+            # Target corto: rebote realista 1-3 días (+7% o resistencia, lo menor).
+            #
+            # OJO con el `min`: si la resistencia calculada queda POR DEBAJO del
+            # precio actual, el target sale por debajo y la señal se publica
+            # igual — una "oportunidad de rebote" que pide comprar a 177 para
+            # vender a 156. Pasó el 20-ago-2026 con DVA (-11,6%) y UNH
+            # (-10,5%), y llegó a producción.
+            #
+            # La causa de fondo es que el RSI marcaba sobreventa pero el precio
+            # estaba un 22-37% POR ENCIMA del soporte: no hay rebote que hacer
+            # desde ahí. Se descarta el setup entero, que es lo honesto — el
+            # usuario prefiere 0 señales antes que señales falsas.
+            if resistance <= current_price:
+                return None
             bounce_target = round(min(current_price * 1.07, resistance), 2)
             bounce_usd = round(bounce_target - current_price, 2)
             bounce_pct = round((bounce_target / current_price - 1) * 100, 1)
@@ -621,6 +634,11 @@ class MeanReversionDetector:
             stop_loss_bf = round(sma_50 * 0.97, 2)
             stop_pct_bf = round((stop_loss_bf / current_price - 1) * 100, 1)
             full_target_bf = round(high_60d, 2)
+            # Mismo `min` peligroso que en Oversold Bounce: si el máximo de 60
+            # días queda por debajo del precio de hoy —el ticker acaba de hacer
+            # nuevo máximo— el target saldría por debajo del precio.
+            if high_60d <= current_price:
+                return None
             bounce_target_bf = round(min(current_price * 1.07, high_60d), 2)
             bounce_usd_bf = round(bounce_target_bf - current_price, 2)
             bounce_pct_bf = round((bounce_target_bf / current_price - 1) * 100, 1)
