@@ -136,7 +136,7 @@ export default function PositionSizing() {
             <EmptyState
               icon="📐"
               title="Sin datos de position sizing disponibles"
-              subtitle="Ejecuta position_sizer.py para generar"
+              subtitle="Los publica el pipeline diario junto al resto del análisis"
             />
           </CardContent>
         </Card>

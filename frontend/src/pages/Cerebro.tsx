@@ -808,7 +808,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
   const loading = loadingI && loadingC && loadingA && loadingCal && loadingE
   if (loading) return <Loading />
   const anyError = !insights && !convergence && !alertsData && !entryData
-  if (anyError) return <ErrorState message="CEREBRO aún no ha generado datos. Ejecuta cerebro.py primero." />
+  if (anyError) return <ErrorState message="El Cerebro aún no ha publicado análisis. Lo genera el pipeline diario — si lleva más de un día así, revisa que haya corrido." />
 
   const baseline      = insights?.baseline_win_rate_7d ?? 50
   const signals       = convergence?.convergences ?? []

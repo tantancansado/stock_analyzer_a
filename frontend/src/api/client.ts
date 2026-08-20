@@ -80,6 +80,13 @@ export interface ValueOpportunity {
   target_price?: number
   thesis?: string
   proximity_to_52w_high?: number
+  // Rango de 52 semanas y los tres precios objetivo — los pinta ValuationBar.
+  // Estaban en el CSV desde siempre; sin tipar aquí llegaban como string y el
+  // gráfico los descartaba en silencio.
+  pct_from_52w_high?: number | null
+  pct_from_52w_low?: number | null
+  target_price_dcf?: number | null
+  target_price_pe?: number | null
   // Fundamental growth signals
   eps_accelerating?: boolean | null
   eps_accel_quarters?: number | null
@@ -414,7 +421,7 @@ export const VALUE_NUMERIC = new Set([
   'rs_line_percentile','eps_growth_yoy','eps_accel_quarters','rev_growth_yoy','rev_accel_quarters',
   'fifty_two_week_high','trend_template_score','target_price_dcf','target_price_dcf_upside_pct',
   'target_price_pe','target_price_pe_upside_pct','fcf_per_share','short_percent_float',
-  'short_ratio','market_cape','pct_from_52w_high','oe_ai_adjustment',
+  'short_ratio','market_cape','pct_from_52w_high','pct_from_52w_low','oe_ai_adjustment',
   'target_change_7d_pct','target_change_30d_pct','upgrade_days_14d','downgrade_days_14d','target_revision_bonus',
   'piotroski_bonus','fcf_bonus','dividend_bonus','buyback_bonus','revision_bonus',
   'rr_bonus','sector_bonus','insider_bonus','institutional_bonus','options_bonus',

@@ -17,6 +17,7 @@ import InfoTooltip from '../components/InfoTooltip'
 import ThesisModal from '../components/ThesisModal'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
+import ValuationBar from '../components/ValuationBar'
 import { useTechnicalSummaryMap } from '../hooks/useTechnicalSummaryMap'
 import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import { useChartSignals } from '../hooks/useChartSignals'
@@ -603,10 +604,26 @@ export default function ValueUS() {
                     <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">${d.current_price?.toFixed(2)}</div>
                   </div>
                 </div>
-                <div className="mt-3 rounded-xl border border-border/20 bg-muted/10 px-3 py-2">
-                  <p className="text-sm font-semibold text-foreground">{decision.headline}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{decision.detail}</p>
-                </div>
+                {/* `decision.detail` es texto fijo por categoría, no por
+                    empresa: cuatro tarjetas seguidas repetían palabra por
+                    palabra "Interesante, pero falta confirmación / Espera
+                    mejor punto de entrada", ocupando el 60% de cada una para
+                    decir lo que el badge ya dice. En una lista de 65 ideas eso
+                    es scroll puro. Se queda el titular (una línea) y el sitio
+                    lo ocupa lo que SÍ cambia entre empresas: dónde está el
+                    precio en su rango del año y hacia dónde apuntan los tres
+                    objetivos. El detalle completo sigue en el modal de tesis,
+                    a un toque, donde no se repite. */}
+                <p className="mt-3 text-[0.82rem] font-semibold text-foreground">{decision.headline}</p>
+                <ValuationBar
+                  className="mt-2.5"
+                  precio={d.current_price}
+                  pctDesdeMax={d.pct_from_52w_high}
+                  pctDesdeMin={d.pct_from_52w_low}
+                  objetivoAnalista={d.target_price_analyst}
+                  objetivoDcf={d.target_price_dcf}
+                  objetivoPe={d.target_price_pe}
+                />
               </div>
             )
           }

@@ -125,8 +125,12 @@ export function ErrorState({ message }: { message: string }) {
         {isConnection ? 'No se puede conectar con la API' : 'Error al cargar datos'}
       </p>
       <p className="text-xs text-muted-foreground">
+        {/* En local "arranca la API" es la instrucción correcta; en el móvil,
+            con la API en Railway, no hay nada que el usuario pueda ejecutar. */}
         {isConnection
-          ? 'Ejecuta python3 ticker_api.py en otra terminal'
+          ? (import.meta.env.DEV
+              ? 'Ejecuta python3 ticker_api.py en otra terminal'
+              : 'El servicio no responde ahora mismo. Los datos de las listas siguen disponibles; vuelve a intentarlo en unos minutos.')
           : message}
       </p>
     </div>

@@ -437,7 +437,10 @@ export default function Leaps() {
       {data && (
         <>
           <StaleDataBanner dataDate={data.generated_at?.slice(0, 10)} />
-          <div className="flex items-center justify-between mb-2 mt-1">
+          {/* En 390px el título ocupa dos líneas y el contador se le metía
+              encima: `justify-between` sin wrap reparte el ancho pero no deja
+              que el segundo bloque baje. */}
+          <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 mb-2 mt-1">
             <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/60">
               Mejores oportunidades ({data.opportunities.length})
             </h2>

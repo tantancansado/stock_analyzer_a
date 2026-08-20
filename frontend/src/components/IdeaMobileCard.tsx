@@ -3,6 +3,7 @@ import { AlertTriangle, CalendarClock, ChevronRight } from 'lucide-react'
 import type { ValueOpportunity } from '@/api/client'
 import TickerLogo from './TickerLogo'
 import OwnedBadge from './OwnedBadge'
+import ValuationBar from './ValuationBar'
 
 /**
  * Una idea (VALUE, catalizadores, LEAPS…) como tarjeta, para móvil.
@@ -91,6 +92,19 @@ export default function IdeaMobileCard({ d, onOpen, extra }: Readonly<Props>) {
         />
         <Dato etiqueta="Score" valor={d.value_score != null ? d.value_score.toFixed(0) : '—'} />
       </div>
+
+      {/* "Potencial +21%" no dice si está barata: dice cuánto le falta al
+          consenso. La barra pone el precio sobre el rango real del año y
+          marca los tres objetivos, que es la pregunta de verdad. */}
+      <ValuationBar
+        className="mt-3"
+        precio={d.current_price}
+        pctDesdeMax={d.pct_from_52w_high}
+        pctDesdeMin={d.pct_from_52w_low}
+        objetivoAnalista={d.target_price_analyst}
+        objetivoDcf={d.target_price_dcf}
+        objetivoPe={d.target_price_pe}
+      />
 
       {extra && <div className="mt-2.5 flex flex-wrap gap-1">{extra}</div>}
 

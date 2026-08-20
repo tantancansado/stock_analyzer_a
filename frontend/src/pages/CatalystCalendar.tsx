@@ -304,7 +304,7 @@ export default function CatalystCalendar() {
         <EmptyState
           icon="📅"
           title="Sin datos de catalizadores"
-          subtitle="Ejecuta python3 catalyst_scanner.py para generar el calendario"
+          subtitle="El calendario lo rellena el pipeline diario"
         />
       )}
 

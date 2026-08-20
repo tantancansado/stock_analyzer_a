@@ -375,7 +375,7 @@ export default function MacroCountries() {
   }, [data, region, signalFilter, sortBy])
 
   if (loading) return <Loading />
-  if (error || !data) return <ErrorState message="No hay datos de países disponibles. Ejecuta macro_country_scanner.py primero." />
+  if (error || !data) return <ErrorState message="Todavía no hay datos de países. Los publica el pipeline diario." />
 
   const s = data.summary
 

@@ -376,27 +376,32 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
         ))}
       </div>
 
-      {/* Common fields */}
-      <div className="flex flex-col sm:flex-row flex-wrap gap-2 items-end">
+      {/* Common fields.
+          En móvil van en rejilla de 2, no en columna: `flex-col` + `items-end`
+          alineaba cada campo al borde DERECHO (items-end es el eje cruzado),
+          dejando media pantalla vacía y estirando el formulario a ~900px de
+          alto. Los cuatro campos son cortos y de una línea, así que caben de
+          dos en dos. */}
+      <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:flex-wrap sm:items-end">
         <div className="flex flex-col gap-1">
           <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Ticker</label>
           <input value={ticker} onChange={e => setTicker(e.target.value.toUpperCase())}
             onKeyDown={e => e.key === 'Enter' && submit()} placeholder="AAPL"
-            className={`w-24 font-mono font-bold ${inputCls}`} />
+            className={`w-full sm:w-24 font-mono font-bold ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">{SHARES_LABEL[assetType]}</label>
           <input value={shares} onChange={e => setShares(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
             placeholder={assetType === 'option' ? '1' : assetType === 'bond' ? '10000' : '100'}
-            type="number" min="0" className={`w-24 ${inputCls}`} />
+            type="number" min="0" className={`w-full sm:w-24 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">{PRICE_LABEL[assetType]}</label>
           <input value={price} onChange={e => setPrice(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
             placeholder={assetType === 'bond' ? '98.50' : assetType === 'option' ? '3.50' : '150.00'}
-            type="number" min="0" step="0.01" className={`w-28 ${inputCls}`} />
+            type="number" min="0" step="0.01" className={`w-full sm:w-28 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Moneda</label>
