@@ -116,9 +116,9 @@ class TestValidadorDeCoherencia:
 
     def test_deja_pasar_un_setup_correcto(self):
         from mean_reversion_detector import setup_coherente
-        ok, motivo = setup_coherente({'current_price': 257.45, 'bounce_target': 268.91,
-                                      'stop_loss': 234.97, 'risk_reward': 0.51})
-        assert ok and motivo == ''                   # AJG real
+        ok, motivo = setup_coherente({'current_price': 100.0, 'bounce_target': 107.0,
+                                      'stop_loss': 96.0, 'risk_reward': 1.75})
+        assert ok and motivo == ''
 
     def test_el_scan_usa_el_validador(self):
         from pathlib import Path
@@ -144,3 +144,106 @@ class TestCatalizadorDeUpside:
         assert "id: 'rr_strong'" not in src, 'volvió el catalizador que premiaba upside alto'
         assert "id: 'upside_dorado'" in src
         assert 'analyst_upside_pct ?? 0) < 25' in src
+
+
+class TestSueloDeRiesgo:
+    """Los dos detectores de rebote exigían cosas opuestas.
+
+    `bounce_scanner_broad` filtra por `MIN_RR = 1.5` desde hace meses. El
+    detector hermano no exigía NADA y el 20-ago-2026 publicó AJG con R:R 0,51
+    —arriesgar 22$ para ganar 11$— etiquetado "⭐⭐ MUY BUENA". La app muestra
+    ambas fuentes juntas en Entry Setups, así que el usuario veía dos señales
+    del mismo tipo con criterios de riesgo incompatibles.
+    """
+
+    def test_corta_el_setup_que_arriesga_mas_de_lo_que_gana(self):
+        from mean_reversion_detector import setup_coherente
+        ok, motivo = setup_coherente({'current_price': 257.45, 'bounce_target': 268.91,
+                                      'stop_loss': 234.97, 'risk_reward': 0.51})
+        assert not ok and 'arriesga más' in motivo   # AJG real
+
+    def test_deja_pasar_a_partir_de_uno_a_uno(self):
+        from mean_reversion_detector import setup_coherente
+        ok, _ = setup_coherente({'current_price': 100, 'bounce_target': 105,
+                                 'stop_loss': 95, 'risk_reward': 1.0})
+        assert ok
+
+    def test_el_suelo_no_es_un_numero_suelto(self):
+        """1.0 es la frontera aritmética, no un parámetro calibrado: si alguien
+        lo sube sin datos propios, que sea una decisión consciente."""
+        from mean_reversion_detector import RR_MINIMO
+        assert RR_MINIMO == 1.0
+
+
+class TestPublicarElCero:
+    """Cero oportunidades es un resultado, y hay que publicarlo.
+
+    `save_results` hacía `return` sin tocar nada cuando el scan salía vacío,
+    así que el CSV del día anterior seguía en producción y la app mostraba una
+    señal caducada como si fuera de hoy — indefinidamente, hasta que hubiera
+    otra. Se vio al aplicar el suelo de R:R: el scan pasó a 0 y AJG se habría
+    quedado publicado para siempre.
+    """
+
+    def test_escribe_csv_vacio_con_cabecera(self, tmp_path):
+        from mean_reversion_detector import MeanReversionDetector
+        import pandas as pd
+        d = MeanReversionDetector()
+        d.results = []
+        destino = tmp_path / 'mr.csv'
+        d.save_results(str(destino))
+        assert destino.exists(), 'no publicar nada deja la señal de ayer viva'
+        df = pd.read_csv(destino)
+        assert len(df) == 0
+        assert 'ticker' in df.columns and 'risk_reward' in df.columns
+
+    def test_el_json_dice_cero_y_no_se_queda_el_de_ayer(self, tmp_path):
+        from mean_reversion_detector import MeanReversionDetector
+        import json
+        d = MeanReversionDetector()
+        d.results = []
+        destino = tmp_path / 'mr.csv'
+        d.save_results(str(destino))
+        data = json.loads((tmp_path / 'mr.json').read_text())
+        assert data['total_opportunities'] == 0
+        assert data['opportunities'] == []
+
+
+class TestFrescuraPorContenido:
+    """El watchdog no puede fiarse del mtime: en CI siempre es de hoy.
+
+    `daily-analysis.yml` lee una clave de fecha DENTRO de cada JSON y, si no la
+    encuentra, cae al mtime del fichero. En un runner el mtime es el del
+    checkout, así que un módulo que crashea conserva el JSON viejo del repo y
+    se marca 'ok' igualmente. mean_reversion escribía `scan_date` mientras el
+    watchdog buscaba `generated_at`: llevaba siendo invigilable desde siempre.
+
+    El test recorre TODOS los módulos del workflow, no solo ese: el fallo es de
+    clase, y el siguiente que se añada con la clave mal escrita cae aquí.
+    """
+
+    def test_cada_json_vigilado_lleva_su_clave_de_fecha(self):
+        import json, re
+        from pathlib import Path
+        raiz = Path(__file__).parent.parent
+        src = (raiz / '.github' / 'workflows' / 'daily-analysis.yml').read_text()
+        bloque = src[src.index('MODULES = {'):src.index('def _csv_rows')]
+        pat = re.compile(r"'([a-z_]+)':\s*\('([^']+)',\s*('([^']*)'|None)")
+
+        sin_clave = []
+        for nombre, ruta, _, clave in pat.findall(bloque):
+            if not clave or not ruta.endswith('.json'):
+                continue
+            f = raiz / ruta
+            if not f.exists():
+                continue          # otro problema, y el watchdog ya lo marca 'missing'
+            try:
+                d = json.loads(f.read_text())
+            except Exception:
+                continue
+            if not (isinstance(d, dict) and d.get(clave)):
+                sin_clave.append(f'{nombre}: {ruta} no tiene "{clave}"')
+
+        assert not sin_clave, (
+            'estos módulos caen al mtime y son invigilables en CI:\n  '
+            + '\n  '.join(sin_clave))

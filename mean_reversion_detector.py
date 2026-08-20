@@ -20,6 +20,12 @@ import json
 import math
 
 
+# Suelo de risk/reward para publicar un setup. Ver el bloque de setup_coherente
+# que lo aplica: es la frontera aritmética (ganar al menos lo que arriesgas),
+# no un parámetro calibrado con resultados propios.
+RR_MINIMO = 1.0
+
+
 def setup_coherente(setup: dict) -> tuple[bool, str]:
     """¿Esta señal es operable, o pide algo imposible?
 
@@ -50,6 +56,22 @@ def setup_coherente(setup: dict) -> tuple[bool, str]:
     rr = setup.get('risk_reward')
     if rr is not None and rr <= 0:
         return False, f'risk_reward {rr}: el cálculo no da un número válido'
+
+    # Suelo de riesgo. No es un umbral calibrado —no hay histórico de rebotes,
+    # el registro en el tracker empezó el 20-ago-2026— sino aritmética: con
+    # R:R < 1 arriesgas más de lo que puedes ganar, así que necesitas acertar
+    # más de la mitad de las veces solo para empatar, y nadie ha medido si este
+    # detector acierta la mitad de las veces. El escáner amplio ya exige 1.5
+    # (bounce_scanner_broad.MIN_RR) desde hace meses; que el detector hermano
+    # no exigiera NADA y publicara AJG con 0,51 —arriesgar 22$ para ganar 11$—
+    # marcado "⭐⭐ MUY BUENA" es la incoherencia, no el valor concreto.
+    #
+    # Se queda en 1.0 y no en 1.5 a propósito: 1.0 es la frontera aritmética y
+    # no requiere calibración. Subirlo a 1.5 SÍ la requiere, y el tracker ya
+    # guarda risk_reward_ratio de cada señal para poder decidirlo con datos
+    # propios dentro de unos meses.
+    if rr is not None and rr < RR_MINIMO:
+        return False, f'risk_reward {rr} < {RR_MINIMO} (arriesga más de lo que puede ganar)'
 
     return True, ''
 
@@ -1052,13 +1074,15 @@ Reglas:
                 opp["value_grade"] = None
 
     def save_results(self, output_path: str = "docs/mean_reversion_opportunities.csv"):
-        """Guarda resultados en CSV"""
-        if not self.results:
-            print("⚠️  No hay resultados para guardar")
-            return
+        """Guarda resultados en CSV.
 
-        df = pd.DataFrame(self.results)
-
+        Cero oportunidades es un resultado, no un fallo: hay que publicarlo.
+        Antes se hacía `return` sin tocar los ficheros, así que el CSV del día
+        anterior seguía en producción y la app mostraba una señal caducada como
+        si fuera de hoy — indefinidamente, hasta que hubiera otra. Justo lo que
+        pasó con AJG: al aplicarle el suelo de R:R el scan salió a cero y AJG
+        se habría quedado publicado para siempre.
+        """
         # Ordenar columnas
         cols_order = [
             'ticker', 'company_name', 'strategy', 'quality', 'reversion_score',
@@ -1067,12 +1091,18 @@ Reglas:
             'detected_date'
         ]
 
-        # Añadir columnas restantes
-        remaining_cols = [c for c in df.columns if c not in cols_order]
-        final_cols = cols_order + remaining_cols
-        final_cols = [c for c in final_cols if c in df.columns]  # Solo las que existen
+        if not self.results:
+            print("ℹ️  0 oportunidades — se publica vacío para no dejar zombis")
+            df = pd.DataFrame(columns=cols_order)
+        else:
+            df = pd.DataFrame(self.results)
 
-        df = df[final_cols]
+            # Añadir columnas restantes
+            remaining_cols = [c for c in df.columns if c not in cols_order]
+            final_cols = cols_order + remaining_cols
+            final_cols = [c for c in final_cols if c in df.columns]  # Solo las que existen
+
+            df = df[final_cols]
 
         # Guardar
         output_path = Path(output_path)
@@ -1135,8 +1165,18 @@ Tono: técnico, directo. Sin emojis."""
         except Exception as _e:
             print(f"  MR Groq skipped: {_e}")
 
+        # `generated_at` es la clave que mira el watchdog de frescura
+        # (daily-analysis.yml, MODULES['mean_reversion']). Este JSON solo
+        # escribía `scan_date`, así que el watchdog no encontraba fecha y caía
+        # al mtime del fichero — que en un runner de CI es SIEMPRE el del
+        # checkout, o sea hoy. Resultado: si el detector crasheaba, el JSON
+        # viejo del repo se marcaba 'ok' igualmente y nadie se enteraba. Es el
+        # mismo fallo que ya está documentado para VCP ("el mtime miente en
+        # CI"). `scan_date` se mantiene por si algo lo lee.
+        ahora = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         results_dict = {
-            'scan_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            'generated_at': ahora,
+            'scan_date': ahora,
             'total_opportunities': len(self.results),
             'strategies': {
                 'oversold_bounce': len([r for r in self.results if r['strategy'] == 'Oversold Bounce']),
