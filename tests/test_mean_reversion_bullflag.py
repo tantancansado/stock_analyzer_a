@@ -83,3 +83,64 @@ class TestTargetNuncaPorDebajoDelPrecio:
             t = pd.to_numeric(d[col], errors='coerce')
             malas = d.loc[t.notna() & precio.notna() & (t <= precio), 'ticker'].tolist()
             assert not malas, f'{col} por debajo del precio en: {malas}'
+
+
+class TestValidadorDeCoherencia:
+    """Puerta única antes de publicar una señal.
+
+    Los detectores calculan stop y target desde niveles técnicos (soporte,
+    resistencia, SMA50, máximo de 60d) sin comprobar que caigan del lado
+    correcto del precio. El 20-ago-2026 salieron a producción tres fallos de
+    esa familia; cada guard suelto arregla un setup, este ataja también los
+    que se añadan después.
+    """
+
+    def test_corta_el_target_por_debajo_del_precio(self):
+        from mean_reversion_detector import setup_coherente
+        ok, motivo = setup_coherente({'current_price': 177.27, 'bounce_target': 156.76})
+        assert not ok and 'comprar caro' in motivo   # DVA real
+
+    def test_corta_el_stop_por_encima_de_la_entrada(self):
+        from mean_reversion_detector import setup_coherente
+        ok, motivo = setup_coherente({'current_price': 388.61, 'bounce_target': 415.81,
+                                      'stop_loss': 402.08})
+        assert not ok and 'stop' in motivo           # UNH real
+
+    def test_corta_el_risk_reward_a_cero(self):
+        """Un R:R de 0 sale del `else 0` de la división: el cálculo era
+        imposible y publicarlo esconde el problema."""
+        from mean_reversion_detector import setup_coherente
+        ok, motivo = setup_coherente({'current_price': 100, 'bounce_target': 107,
+                                      'stop_loss': 95, 'risk_reward': 0})
+        assert not ok and 'risk_reward' in motivo
+
+    def test_deja_pasar_un_setup_correcto(self):
+        from mean_reversion_detector import setup_coherente
+        ok, motivo = setup_coherente({'current_price': 257.45, 'bounce_target': 268.91,
+                                      'stop_loss': 234.97, 'risk_reward': 0.51})
+        assert ok and motivo == ''                   # AJG real
+
+    def test_el_scan_usa_el_validador(self):
+        from pathlib import Path
+        import mean_reversion_detector as mrd
+        src = Path(mrd.__file__).read_text()
+        assert 'setup_coherente(setup)' in src, 'el scan no pasa por el validador'
+
+
+class TestCatalizadorDeUpside:
+    """El catalizador "R:R ≥3" premiaba la peor banda de upside.
+
+    `risk_reward_ratio` no es un factor independiente: el integrator lo calcula
+    como `analyst_upside_pct / 8`, así que "R:R ≥3" es "upside ≥24%". Medido
+    sobre las señales propias, [10,25) da 77,8% de acierto y +5,67%, mientras
+    [25,30) da 27,3% y −3,17%. El 20-ago-2026 los NUEVE tickers marcados tenían
+    upside 24-28,6%: la app los pintaba en verde por estar en la peor banda.
+    """
+
+    def test_el_catalizador_usa_la_banda_buena_no_el_rr(self):
+        from pathlib import Path
+        f = Path(__file__).parent.parent / 'frontend' / 'src' / 'pages' / 'CatalystScreener.tsx'
+        src = f.read_text()
+        assert "id: 'rr_strong'" not in src, 'volvió el catalizador que premiaba upside alto'
+        assert "id: 'upside_dorado'" in src
+        assert 'analyst_upside_pct ?? 0) < 25' in src

@@ -85,12 +85,19 @@ const CATALYSTS: Catalyst[] = [
     match: d => (d.piotroski_score ?? 0) >= 7,
   },
   {
-    id: 'rr_strong',
+    id: 'upside_dorado',
     icon: '⚖️',
-    label: 'R:R ≥3',
-    description: 'Risk:Reward ≥3 con stop loss del 8% — upside de analistas justifica ampliamente el riesgo.',
+    label: 'Upside en zona buena',
+    // Antes era "R:R ≥3", y era un catalizador AL REVÉS. `risk_reward_ratio`
+    // no es un factor independiente: el integrator lo calcula como
+    // `analyst_upside_pct / 8`, así que "R:R ≥3" significa "upside ≥24%" —
+    // exactamente la banda que peor rinde. Medido sobre las señales propias:
+    // [10,25) da 77,8% de acierto y +5,67%; [25,30) da 27,3% y −3,17%. El
+    // 20-ago-2026 los NUEVE tickers que lo cumplían tenían upside 24-28,6%,
+    // o sea que la app los marcaba en verde por estar en la peor banda.
+    description: 'Potencial del analista dentro de la banda [10%, 25%), la única que ha funcionado en las señales propias. Por encima del 25% el retorno se hunde: no es más chollo, es más trampa.',
     color: 'amber',
-    match: d => (d.risk_reward_ratio ?? 0) >= 3,
+    match: d => (d.analyst_upside_pct ?? 0) >= 10 && (d.analyst_upside_pct ?? 0) < 25,
   },
 ]
 

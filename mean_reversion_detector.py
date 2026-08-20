@@ -20,6 +20,40 @@ import json
 import math
 
 
+def setup_coherente(setup: dict) -> tuple[bool, str]:
+    """¿Esta señal es operable, o pide algo imposible?
+
+    Puerta única antes de publicar. Los detectores calculan stop y target a
+    partir de niveles técnicos (soporte, resistencia, SMA50, máximo de 60d) sin
+    comprobar que queden del lado correcto del precio, y el 20-ago-2026 se
+    publicaron dos señales pidiendo comprar a 177 para vender a 156, y otra con
+    el stop un 3,5% POR ENCIMA del precio de entrada.
+
+    Cada guard suelto arregla un setup; esto ataja también los que se añadan
+    después. Devuelve (ok, motivo) para poder registrar POR QUÉ se descarta.
+    """
+    precio = setup.get('current_price')
+    if not precio or precio <= 0:
+        return False, 'sin precio'
+
+    for campo in ('bounce_target', 'target'):
+        t = setup.get(campo)
+        if t is not None and t <= precio:
+            return False, f'{campo} {t} <= precio {precio} (pide comprar caro para vender barato)'
+
+    stop = setup.get('stop_loss')
+    if stop is not None and stop >= precio:
+        return False, f'stop {stop} >= precio {precio} (stop por encima de la entrada)'
+
+    # Un R:R de 0 significa que el cálculo se fue a la rama de fallback porque
+    # la aritmética era imposible: publicarlo es esconder el problema.
+    rr = setup.get('risk_reward')
+    if rr is not None and rr <= 0:
+        return False, f'risk_reward {rr}: el cálculo no da un número válido'
+
+    return True, ''
+
+
 class MeanReversionDetector:
     """Detector de oportunidades de reversión a la media"""
 
@@ -631,7 +665,13 @@ class MeanReversionDetector:
             if score < 60:  # Más estricto para bull flags
                 return None
 
+            # El stop cuelga de la SMA50: si el precio ya cayó POR DEBAJO de su
+            # media de 50, el stop queda por encima de la entrada — y además
+            # deja de ser un bull flag, que por definición retrocede SOBRE la
+            # media. UNH salió así el 20-ago: precio 388,61 y stop 402,08.
             stop_loss_bf = round(sma_50 * 0.97, 2)
+            if stop_loss_bf >= current_price:
+                return None
             stop_pct_bf = round((stop_loss_bf / current_price - 1) * 100, 1)
             full_target_bf = round(high_60d, 2)
             # Mismo `min` peligroso que en Oversold Bounce: si el máximo de 60
@@ -719,15 +759,18 @@ class MeanReversionDetector:
             company = company_names.get(ticker) if company_names else None
 
             # Intentar ambas estrategias
-            oversold = self.detect_oversold_bounce(ticker, company)
-            if oversold:
-                opportunities.append(oversold)
-                print(f"   🎯 {ticker}: Oversold Bounce ({oversold['reversion_score']:.0f}/100)")
-
-            bull_flag = self.detect_bull_flag_pullback(ticker, company)
-            if bull_flag:
-                opportunities.append(bull_flag)
-                print(f"   📊 {ticker}: Bull Flag ({bull_flag['reversion_score']:.0f}/100)")
+            for setup, icono, nombre in (
+                (self.detect_oversold_bounce(ticker, company), '🎯', 'Oversold Bounce'),
+                (self.detect_bull_flag_pullback(ticker, company), '📊', 'Bull Flag'),
+            ):
+                if not setup:
+                    continue
+                ok, motivo = setup_coherente(setup)
+                if not ok:
+                    print(f"   ⛔ {ticker}: {nombre} descartado — {motivo}")
+                    continue
+                opportunities.append(setup)
+                print(f"   {icono} {ticker}: {nombre} ({setup['reversion_score']:.0f}/100)")
 
             import time
             time.sleep(0.5)
