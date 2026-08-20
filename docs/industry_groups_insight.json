@@ -1,41 +1,41 @@
 {
-  "date": "2026-08-19",
-  "timestamp": "2026-08-19T05:11:35.582521",
+  "date": "2026-08-20",
+  "timestamp": "2026-08-20T05:11:26.149355",
   "narrative": null,
   "macro_regime": "CALM",
   "top_sectors": [
     {
-      "industry": "Medical Care Facilities",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 69.2,
+      "industry": "Railroads",
+      "sector": "Industrials",
+      "avg_rs_percentile": 72.7,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Railroads",
-      "sector": "Industrials",
-      "avg_rs_percentile": 68.9,
+      "industry": "Medical Care Facilities",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 68.7,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 54.8,
+      "avg_rs_percentile": 51.1,
       "num_tickers": 7,
       "label": "Top 10%"
-    },
-    {
-      "industry": "Banks - Regional",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 51.0,
-      "num_tickers": 2,
-      "label": "Top 25%"
     },
     {
       "industry": "Internet Content & Information",
       "sector": "Communication Services",
       "avg_rs_percentile": 50.0,
+      "num_tickers": 2,
+      "label": "Top 25%"
+    },
+    {
+      "industry": "Beverages - Non-Alcoholic",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 46.0,
       "num_tickers": 2,
       "label": "Top 25%"
     }
@@ -44,35 +44,35 @@
     {
       "industry": "Waste Management",
       "sector": "Industrials",
-      "avg_rs_percentile": 15.9,
+      "avg_rs_percentile": 20.4,
       "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Restaurants",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 15.4,
+      "avg_rs_percentile": 16.7,
       "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 8.4,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Discount Stores",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 6.2,
+      "avg_rs_percentile": 9.9,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 5.8,
+      "avg_rs_percentile": 8.8,
+      "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 8.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }

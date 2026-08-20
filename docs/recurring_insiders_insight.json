@@ -1,11 +1,19 @@
 {
-  "date": "2026-08-19",
-  "timestamp": "2026-08-19T05:11:35.502397",
+  "date": "2026-08-20",
+  "timestamp": "2026-08-20T05:11:26.074426",
   "narrative": null,
   "total_tickers": 14,
   "total_us": 6,
   "total_eu": 8,
   "top_picks": [
+    {
+      "ticker": "RSG",
+      "market": "US",
+      "purchase_count": 8,
+      "unique_insiders": 1,
+      "confidence_score": 100.0,
+      "days_span": 6
+    },
     {
       "ticker": "AAL.L",
       "market": "EU",
@@ -17,10 +25,10 @@
     {
       "ticker": "LLOY.L",
       "market": "EU",
-      "purchase_count": 21,
-      "unique_insiders": 8,
+      "purchase_count": 20,
+      "unique_insiders": 7,
       "confidence_score": 100.0,
-      "days_span": 80
+      "days_span": 62
     },
     {
       "ticker": "VOD.L",
@@ -32,14 +40,6 @@
     },
     {
       "ticker": "UNA.AS",
-      "market": "EU",
-      "purchase_count": 14,
-      "unique_insiders": 10,
-      "confidence_score": 100.0,
-      "days_span": 33
-    },
-    {
-      "ticker": "ULVR.L",
       "market": "EU",
       "purchase_count": 14,
       "unique_insiders": 10,
