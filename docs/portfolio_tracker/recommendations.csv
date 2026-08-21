@@ -1535,8 +1535,8 @@ NYT,VALUE,2026-05-07,83.68,58.3,,,-0.0,-0.0,Communication Services,CONFIRMED_UPT
 RMV.L,EU_VALUE,2026-05-18,403.1,55.0,,6.44,5.14,41.1,Communication Services,UPTREND_PRESSURE,6.52,6.03,6.98,429.4,427.4,431.25,True,True,True,-1.27,COMPLETED,RIGHTMOVE PLC ORD 0.1P,1.62,4.41,2.72,3.8,2.43,4.55,370.852,568.7741,429.5,9.0,OPEN,6.5492,25.08,504.2,True,7.17,17.91,,,
 AMS.MC,EU_VALUE,2026-05-20,51.5,55.6,,4.87,3.9,31.2,Technology,CONFIRMED_UPTREND,3.81,5.4,-0.89,53.46,54.28,51.04,True,True,False,-1.32,COMPLETED,"AMADEUS IT GROUP, S.A.",-0.39,5.79,1.22,2.59,1.37,-2.26,47.38,67.568,53.4,7.0,OPEN,3.6893,9.71,56.5,True,5.16,4.54,,,
 EME,MOMENTUM,2026-05-21,750.42,,71.13625,2.95,1.9,15.2,Industrials,CORRECTION,13.06,12.66,15.79,848.45,845.43,868.88,True,True,True,11.18,COMPLETED,"EMCOR Group, Inc.",1.93,10.73,1.6,11.46,0.48,15.3,690.3864,864.4838,864.4838,6.0,TARGET,15.2,7.38,805.78,True,3.81,3.56,,,
-SAP.DE,EU_VALUE,2026-05-21,153.52,55.1,,4.54,4.99,39.9,Technology,CONFIRMED_UPTREND,-1.02,5.89,-14.6,151.96,162.56,131.1,False,True,False,-3.37,COMPLETED,SAP SE                        I,0.15,5.74,0.3,-1.32,0.78,-15.38,141.2384,214.7745,150.0,6.0,OPEN,-2.2929,,,False,5.32,,,,
-EXPN.L,EU_VALUE,2026-05-21,2676.0,67.0,,3.18,6.16,49.3,Industrials,CONFIRMED_UPTREND,-3.66,-3.77,-5.16,2578.0,2575.0,2538.0,False,False,False,-17.68,COMPLETED,EXPERIAN PLC ORD USD0.10,0.15,-3.92,0.3,-3.96,0.78,-5.94,2461.92,3995.268,2580.0,6.0,OPEN,-3.5874,,,False,5.32,,,,
+SAP.DE,EU_VALUE,2026-05-21,153.52,55.1,,4.54,4.99,39.9,Technology,CONFIRMED_UPTREND,-1.02,5.89,-14.6,151.96,162.56,131.1,False,True,False,-3.37,COMPLETED,SAP SE                        I,0.15,5.74,0.3,-1.32,0.78,-15.38,141.2384,214.7745,150.0,6.0,OPEN,-2.2929,21.09,185.9,True,5.32,15.77,,,
+EXPN.L,EU_VALUE,2026-05-21,2676.0,67.0,,3.18,6.16,49.3,Industrials,CONFIRMED_UPTREND,-3.66,-3.77,-5.16,2578.0,2575.0,2538.0,False,False,False,-17.68,COMPLETED,EXPERIAN PLC ORD USD0.10,0.15,-3.92,0.3,-3.96,0.78,-5.94,2461.92,3995.268,2580.0,6.0,OPEN,-3.5874,9.27,2924.0,True,5.32,3.95,,,
 EME,MOMENTUM,2026-06-12,750.42,,71.13625,2.95,1.9,15.2,Industrials,CORRECTION,15.79,6.35,1.93,868.88,798.1,764.9,True,True,True,8.13,COMPLETED,"EMCOR Group, Inc.",-1.47,7.82,0.61,15.17,1.26,0.67,,,,,,,,,,,,,,
 SPGI,VALUE,2026-07-03,439.89,60.78,,4.07,2.54,20.3,Financial Services,CONFIRMED_UPTREND,-2.13,2.49,-5.37,430.5,450.84,416.25,False,True,False,-3.91,COMPLETED,S&P Global Inc.,-1.06,3.55,0.49,-2.62,0.85,-6.22,404.6988,529.24,404.7,19.0,STOP,,,,,,,,,
 THC,VALUE,2026-07-03,203.72,57.30000000000001,,17.45,2.42,19.4,Healthcare,CONFIRMED_UPTREND,0.26,-4.32,22.71,204.25,194.91,249.99,True,False,True,-0.68,COMPLETED,Tenet Healthcare Corporation,-1.06,-3.26,0.49,-0.23,0.85,21.86,187.4224,243.19,187.42,7.0,STOP,,,,,,,,,
@@ -1565,7 +1565,7 @@ TT,VALUE,2026-07-31,440.28,60.375,,2.74,2.4,19.2,Industrials,CONFIRMED_UPTREND,9
 ICE,VALUE,2026-08-03,152.48,57.89500000000001,,4.24,2.44,19.5,Financial Services,CONFIRMED_UPTREND,-1.27,1.2,,150.54,154.31,,False,True,,-3.29,ACTIVE,Intercontinental Exchange Inc.,1.98,-0.78,2.03,-3.3,,,140.2816,182.23,,,,,,,,,,,,
 DBOEY,VALUE,2026-08-03,30.12,52.905,,4.02,2.08,16.6,Financial Services,CONFIRMED_UPTREND,5.35,6.47,,31.73,32.07,,True,True,,0.76,ACTIVE,Deutsche Boerse AG,1.98,4.49,2.03,3.32,,,27.710400000000003,35.13,,,,,,,,,,,,
 SPGI,VALUE,2026-08-05,412.53,52.485,,4.48,3.16,25.3,Financial Services,CONFIRMED_UPTREND,-0.59,3.43,,410.1,426.66,,False,True,,-2.2,ACTIVE,S&P Global Inc.,-0.09,3.52,0.35,-0.94,,,379.5276,516.95,,,,,,,,,,,,
-ATLKY,VALUE,2026-08-06,22.2,57.095,,2.53,2.14,17.1,Industrials,CONFIRMED_UPTREND,-0.45,,,22.1,,,False,,,-1.26,ACTIVE,Atlas Copco AB,,,1.21,-1.66,,,20.424,26.0,,,,,,,,,,,,
+ATLKY,VALUE,2026-08-06,22.2,57.095,,2.53,2.14,17.1,Industrials,CONFIRMED_UPTREND,-0.45,-4.77,,22.1,21.14,,False,False,,-1.26,ACTIVE,Atlas Copco AB,-0.78,-4.0,1.21,-1.66,,,20.424,26.0,,,,,,,,,,,,
 MCO,VALUE,2026-08-07,473.13,62.81,,3.15,2.31,18.5,Financial Services,CONFIRMED_UPTREND,2.5,,,484.96,,,True,,,-0.17,ACTIVE,Moody's Corporation,,,0.4,2.1,,,435.2796,560.48,,,,,,,,,,,,
 AXP,VALUE,2026-08-10,340.91,56.870000000000005,,6.95,1.26,10.1,Financial Services,CONFIRMED_UPTREND,-1.38,,,336.21,,,False,,,-1.27,ACTIVE,American Express Company,,,-0.05,-1.33,,,313.63720000000006,375.5,,,,,,,,,,VIGILAR,Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación,
 V,VALUE,2026-08-10,362.5,55.52,,3.01,1.85,14.8,Financial Services,CONFIRMED_UPTREND,-1.01,,,358.84,,,False,,,-1.18,ACTIVE,Visa Inc.,,,-0.05,-0.96,,,333.5,416.2,,,,,,,,,,VIGILAR,Extendida cerca de máximos — espera un pullback,
@@ -1573,14 +1573,14 @@ CBOE,VALUE,2026-08-10,286.58,51.725,,2.27,1.35,10.8,Financial Services,CONFIRMED
 ASAZY,VALUE,2026-08-10,19.28,56.24000000000001,,4.52,1.6,12.8,Industrials,CONFIRMED_UPTREND,-4.46,,,18.42,,,False,,,-3.53,ACTIVE,ASSA ABLOY AB (publ),,,-0.05,-4.41,,,17.7376,21.74,,,,,,,,,,VIGILAR,Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación,
 CVX,VALUE,2026-08-11,194.91,55.19499999999999,,5.74,1.41,11.3,Energy,CONFIRMED_UPTREND,5.56,,,205.74,,,True,,,-0.6,ACTIVE,Chevron Corporation,,,-0.4,5.96,,,179.3172,216.96,,,,,,,,,,VIGILAR,Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación,
 SYK,VALUE,2026-08-11,345.81,58.465,,3.1,1.31,10.5,Healthcare,CONFIRMED_UPTREND,-4.18,,,331.37,,,False,,,-3.09,ACTIVE,Stryker Corporation,,,-0.4,-3.78,,,318.1452,382.04,,,,,,,,,,VIGILAR,Construyendo base (lateral) — espera la reconquista de las medias,
-QSR,VALUE,2026-08-13,74.9,62.36500000000001,,4.99,1.81,14.5,Consumer Cyclical,CONFIRMED_UPTREND,,,,,,,,,,1.16,ACTIVE,Restaurant Brands International Inc.,,,,,,,68.908,85.74,,,,,,,,,,ENTRADA,Stage 2: sobre MA200 ascendente sin sobreextensión — suelo confirmado,5.9
-MA,VALUE,2026-08-13,559.73,56.86500000000001,,3.46,2.36,18.9,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,-0.36,ACTIVE,Mastercard Incorporated,,,,,,,514.9516,665.26,,,,,,,,,,VIGILAR,Construyendo base (lateral) — espera la reconquista de las medias,1.0
+QSR,VALUE,2026-08-13,74.9,62.36500000000001,,4.99,1.81,14.5,Consumer Cyclical,CONFIRMED_UPTREND,6.21,,,79.55,,,True,,,1.16,ACTIVE,Restaurant Brands International Inc.,,,-1.96,8.17,,,68.908,85.74,,,,,,,,,,ENTRADA,Stage 2: sobre MA200 ascendente sin sobreextensión — suelo confirmado,5.9
+MA,VALUE,2026-08-13,559.73,56.86500000000001,,3.46,2.36,18.9,Financial Services,CONFIRMED_UPTREND,2.52,,,573.85,,,True,,,-0.36,ACTIVE,Mastercard Incorporated,,,-1.96,4.49,,,514.9516,665.26,,,,,,,,,,VIGILAR,Construyendo base (lateral) — espera la reconquista de las medias,1.0
 ETN,MOMENTUM,2026-08-19,431.33,,73.23,1.85,1.31,10.5,Industrials,UPTREND_PRESSURE,,,,,,,,,,,ACTIVE,"Eaton Corporation, PLC",,,,,,,,,,,,,,,,,,,,1.8
 OXY,VALUE,2026-08-20,60.09,62.24000000000001,,6.31,1.29,10.3,Energy,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Occidental Petroleum Corporation,,,,,,,55.28280000000001,66.3,,,,,,,,,,ENTRADA,Stage 2: sobre MA200 ascendente sin sobreextensión — suelo confirmado,0.0
 FHN,VALUE,2026-08-20,24.87,51.305,,5.05,1.62,13.0,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,First Horizon Corporation,,,,,,,22.8804,28.11,,,,,,,,,,VIGILAR,Sobre MA200 pero las medias aún no están apiladas (50>150>200) — falta confirmación,0.0
-ARE,BOUNCE_BROAD,2026-08-20,50.55,,,,1.6,,N/A,N/A,,,,,,,,,,,ACTIVE,ARE,,,,,,,49.29,52.57,,,,,,,,,,,,
-AJG,MEAN_REVERSION,2026-08-20,257.45,,70.0,,0.51,,N/A,N/A,,,,,,,,,,,ACTIVE,Arthur J. Gallagher & Co.,,,,,,,234.97,268.91,,,,,,,,,,,,
-UNH,MEAN_REVERSION,2026-08-20,388.61,,70.0,,0.0,,N/A,N/A,,,,,,,,,,,ACTIVE,UnitedHealth Group Incorporated,,,,,,,402.08,436.35,,,,,,,,,,,,
+ARE,BOUNCE_BROAD,2026-08-20,50.55,,,,1.6,,,,,,,,,,,,,,ACTIVE,ARE,,,,,,,49.29,52.57,,,,,,,,,,,,
+AJG,MEAN_REVERSION,2026-08-20,257.45,,70.0,,0.51,,,,,,,,,,,,,,ACTIVE,Arthur J. Gallagher & Co.,,,,,,,234.97,268.91,,,,,,,,,,,,
+UNH,MEAN_REVERSION,2026-08-20,388.61,,70.0,,0.0,,,,,,,,,,,,,,ACTIVE,UnitedHealth Group Incorporated,,,,,,,402.08,436.35,,,,,,,,,,,,
 ICE,LEAPS,2026-08-20,158.39,86.3,,,,17.4,Financial Services,,,,,,,,,,,,ACTIVE,Intercontinental Exchange Inc.,,,,,,,,185.93,,,,,,,,,,,,
 BAC,LEAPS,2026-08-20,63.3,85.9,,,,8.6,Financial Services,,,,,,,,,,,,ACTIVE,Bank of America Corporation,,,,,,,,68.77,,,,,,,,,,,,
 V,LEAPS,2026-08-20,369.67,85.9,,,,12.6,Financial Services,,,,,,,,,,,,ACTIVE,Visa Inc.,,,,,,,,416.2,,,,,,,,,,,,
@@ -1591,3 +1591,17 @@ CPRT,LEAPS,2026-08-20,33.44,78.0,,,,20.5,Industrials,,,,,,,,,,,,ACTIVE,"Copart, 
 INTU,LEAPS,2026-08-20,362.52,77.1,,,,23.9,Technology,,,,,,,,,,,,ACTIVE,Intuit Inc.,,,,,,,,449.2,,,,,,,,,,,,
 SAP,LEAPS,2026-08-20,217.47,76.9,,,,11.7,Technology,,,,,,,,,,,,ACTIVE,SAP SE,,,,,,,,242.92,,,,,,,,,,,,
 MA,LEAPS,2026-08-20,580.3,74.7,,,,15.0,Financial Services,,,,,,,,,,,,ACTIVE,Mastercard Incorporated,,,,,,,,667.3,,,,,,,,,,,,
+EXPN.L,VALUE,2026-08-21,2966.0,60.88499999999999,,2.55,2.92,23.4,Industrials,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Experian plc,,,,,,,2728.7200000000003,3659.38,,,,,,,,,,VIGILAR,Construyendo base (lateral) — espera la reconquista de las medias,
+BRK-B,VALUE,2026-08-21,496.86,55.370000000000005,,6.77,1.27,10.2,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,Berkshire Hathaway Inc.,,,,,,,457.11120000000005,547.67,,,,,,,,,,VIGILAR,Construyendo base (lateral) — espera la reconquista de las medias,1.0
+NDAQ,MOMENTUM,2026-08-21,97.55,,73.33714285714287,3.1,1.58,12.6,Financial Services,CONFIRMED_UPTREND,,,,,,,,,,,ACTIVE,"Nasdaq, Inc.",,,,,,,,,,,,,,,,,,,,2.2
+ARE,BOUNCE_BROAD,2026-08-21,50.55,,,,1.6,,N/A,N/A,,,,,,,,,,,ACTIVE,ARE,,,,,,,49.29,52.57,,,,,,,,,,,,
+BAC,LEAPS,2026-08-21,62.84,89.3,,,,9.4,Financial Services,,,,,,,,,,,,ACTIVE,Bank of America Corporation,,,,,,,,68.77,,,,,,,,,,,,
+UBER,LEAPS,2026-08-21,78.63,88.9,,,,29.1,Technology,,,,,,,,,,,,ACTIVE,"Uber Technologies, Inc.",,,,,,,,101.5,,,,,,,,,,,,
+MSFT,LEAPS,2026-08-21,479.9,88.1,,,,18.7,Technology,,,,,,,,,,,,ACTIVE,Microsoft Corporation,,,,,,,,569.56,,,,,,,,,,,,
+ICE,LEAPS,2026-08-21,159.92,86.9,,,,16.3,Financial Services,,,,,,,,,,,,ACTIVE,Intercontinental Exchange Inc.,,,,,,,,185.93,,,,,,,,,,,,
+V,LEAPS,2026-08-21,368.92,86.9,,,,12.8,Financial Services,,,,,,,,,,,,ACTIVE,Visa Inc.,,,,,,,,416.2,,,,,,,,,,,,
+OXY,LEAPS,2026-08-21,61.87,84.8,,,,7.2,Energy,,,,,,,,,,,,ACTIVE,Occidental Petroleum Corporation,,,,,,,,66.3,,,,,,,,,,,,
+CPRT,LEAPS,2026-08-21,34.29,80.2,,,,17.5,Industrials,,,,,,,,,,,,ACTIVE,"Copart, Inc.",,,,,,,,40.3,,,,,,,,,,,,
+UNH,LEAPS,2026-08-21,387.08,80.2,,,,22.8,Healthcare,,,,,,,,,,,,ACTIVE,UnitedHealth Group Incorporated,,,,,,,,475.23,,,,,,,,,,,,
+AXP,LEAPS,2026-08-21,333.85,79.2,,,,12.6,Financial Services,,,,,,,,,,,,ACTIVE,American Express Company,,,,,,,,375.86,,,,,,,,,,,,
+SAP,LEAPS,2026-08-21,216.94,77.7,,,,12.0,Technology,,,,,,,,,,,,ACTIVE,SAP SE,,,,,,,,242.92,,,,,,,,,,,,
