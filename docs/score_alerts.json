@@ -1,44 +1,34 @@
 {
-  "generated_at": "2026-08-20",
+  "generated_at": "2026-08-21",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
       "sector": "Technology",
-      "score_today": 87.2,
-      "score_prev": 50.1,
-      "delta": 37.1,
-      "grade": "🔥 Legendary"
+      "score_today": 49.8,
+      "score_prev": 30.3,
+      "delta": 19.5,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 53.2,
+      "score_prev": 42.4,
+      "delta": 10.9,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
       "ticker": "MA",
       "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 57.9,
-      "score_prev": 40.4,
-      "delta": 17.5,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
-      "sector": "Financial Services",
-      "score_today": 51.3,
-      "score_prev": 37.9,
-      "delta": 13.5,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 70.0,
-      "score_prev": 57.1,
-      "delta": 12.9,
+      "score_today": 68.7,
+      "score_prev": 57.9,
+      "delta": 10.8,
       "grade": "🟢 Excellent"
     },
     {
@@ -46,116 +36,176 @@
       "ticker": "MSFT",
       "company_name": "Microsoft Corporation",
       "sector": "Technology",
-      "score_today": 70.1,
-      "score_prev": 59.3,
-      "delta": 10.8,
-      "grade": "🟢 Excellent"
+      "score_today": 79.9,
+      "score_prev": 70.1,
+      "delta": 9.7,
+      "grade": "🟢 Elite"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "PG",
-      "company_name": "Procter & Gamble Company (The)",
-      "sector": "Consumer Defensive",
-      "score_today": 43.0,
-      "score_prev": 33.7,
-      "delta": 9.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
-      "sector": "Technology",
-      "score_today": 61.4,
-      "score_prev": 53.4,
-      "delta": 8.0,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 52.8,
-      "score_prev": 47.2,
-      "delta": 5.6,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporation",
-      "sector": "Energy",
-      "score_today": 62.2,
-      "score_prev": 57.2,
-      "delta": 5.1,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "AUTO.L",
-      "company_name": "Autotrader Group plc",
-      "sector": "Communication Services",
-      "score_today": 40.7,
-      "score_prev": 45.7,
-      "delta": -5.0,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "PGR",
-      "company_name": "The Progressive Corporation",
+      "ticker": "BRK-B",
+      "company_name": "Berkshire Hathaway Inc.",
       "sector": "Financial Services",
-      "score_today": 42.8,
-      "score_prev": 48.4,
-      "delta": -5.6,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "sector": "Technology",
-      "score_today": 63.0,
-      "score_prev": 68.9,
-      "delta": -5.8,
+      "score_today": 55.4,
+      "score_prev": 45.9,
+      "delta": 9.4,
       "grade": "🟡 Good"
     },
     {
-      "type": "SCORE_DOWN",
+      "type": "SCORE_UP",
       "ticker": "MSI",
       "company_name": "Motorola Solutions, Inc.",
       "sector": "Technology",
-      "score_today": 30.2,
-      "score_prev": 37.6,
-      "delta": -7.4,
+      "score_today": 38.9,
+      "score_prev": 30.2,
+      "delta": 8.6,
       "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "PEP",
-      "company_name": "PepsiCo, Inc. Common Stock",
-      "sector": "Consumer Defensive",
-      "score_today": 32.1,
-      "score_prev": 41.6,
-      "delta": -9.5,
+      "type": "SCORE_UP",
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "sector": "Industrials",
+      "score_today": 42.5,
+      "score_prev": 34.6,
+      "delta": 8.0,
       "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "MRSH",
-      "company_name": "Marsh & McLennan Companies, Inc.",
+      "type": "SCORE_UP",
+      "ticker": "EXPN.L",
+      "company_name": "Experian plc",
+      "sector": "Industrials",
+      "score_today": 60.9,
+      "score_prev": 53.8,
+      "delta": 7.1,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 76.4,
+      "score_prev": 70.0,
+      "delta": 6.4,
+      "grade": "🟢 Elite"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FCNCA",
+      "company_name": "First Citizens BancShares, Inc.",
       "sector": "Financial Services",
+      "score_today": 37.5,
+      "score_prev": 32.1,
+      "delta": 5.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CSU.TO",
+      "company_name": "Constellation Software Inc.",
+      "sector": "Technology",
+      "score_today": 53.3,
+      "score_prev": 48.2,
+      "delta": 5.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "NEW_ENTRY",
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 60.0,
+      "score_prev": null,
+      "delta": null,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions,",
+      "sector": "Technology",
+      "score_today": 88.0,
+      "score_prev": 93.0,
+      "delta": -5.0,
+      "grade": "🔥 Legendary"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "sector": "Technology",
+      "score_today": 54.8,
+      "score_prev": 61.4,
+      "delta": -6.6,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "SBGSY",
+      "company_name": "Schneider Electric S.E.",
+      "sector": "Industrials",
+      "score_today": 30.1,
+      "score_prev": 36.9,
+      "delta": -6.8,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "TW",
+      "company_name": "Tradeweb Markets Inc.",
+      "sector": "Financial Services",
+      "score_today": 40.3,
+      "score_prev": 48.3,
+      "delta": -8.0,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "TJX",
+      "company_name": "The TJX Companies, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 35.5,
+      "score_prev": 43.9,
+      "delta": -8.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 45.5,
+      "score_prev": 54.5,
+      "delta": -9.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International",
+      "sector": "Consumer Cyclical",
+      "score_today": 48.6,
+      "score_prev": 60.9,
+      "delta": -12.3,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "sector": "Energy",
       "score_today": 47.5,
-      "score_prev": 57.3,
-      "delta": -9.8,
+      "score_prev": 62.2,
+      "delta": -14.8,
       "grade": "🟡 Average"
     }
   ],
   "counts": {
-    "new_entries": 0,
+    "new_entries": 1,
     "exited": 0,
-    "score_up": 9,
-    "score_down": 6
+    "score_up": 11,
+    "score_down": 8
   }
 }
