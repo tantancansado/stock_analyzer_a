@@ -214,7 +214,6 @@ export default function ValueEU() {
   if (error) return <ErrorState message={error} />
 
   const rows = data?.data ?? []
-  const source = data?.source ?? ''
 
   // Unique sectors + markets for filters
   const sectors = ['ALL', ...Array.from(new Set(rows.map(r => r.sector).filter(Boolean) as string[])).sort()]
@@ -315,7 +314,6 @@ export default function ValueEU() {
               {regimeLabel}
             </Badge>
           )}
-          {source && <span className="ml-2 align-middle text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 border border-border/40 rounded px-1.5 py-0.5">{source}</span>}
         </>}
         subtitle="Ideas europeas ordenadas por oportunidad. La vista clara deja la explicación técnica detrás."
       >

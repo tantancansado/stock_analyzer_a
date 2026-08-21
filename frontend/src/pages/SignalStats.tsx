@@ -5,6 +5,9 @@ import Loading, { ErrorState } from '@/components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import PageHeader from '@/components/PageHeader'
+import {
+  LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, CartesianGrid,
+} from 'recharts'
 
 type Tab = 'week' | 'month' | 'quarter' | 'weekday'
 
@@ -63,6 +66,40 @@ function fmtLabel(tab: Tab, label: string) {
     return `${d.getDate()} ${d.toLocaleDateString('es-ES', { month: 'short' })}`
   }
   return label
+}
+
+/**
+ * "¿Qué funciona y qué no?" era una tabla de números que había que leer fila
+ * a fila para notar una tendencia. Aquí la misma serie (win_rate_14d/30d por
+ * período) como curva: una racha mala o una mejora sostenida se ve en medio
+ * segundo, sin sumar en la cabeza. La tabla de abajo sigue para el detalle.
+ */
+function WinRateTrend({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
+  const data = rows
+    .filter(r => r.win_rate_14d != null || r.win_rate_30d != null)
+    .map(r => ({ label: fmtLabel(tab, r.label), win14: r.win_rate_14d, win30: r.win_rate_30d, signals: r.signals }))
+  if (data.length < 2) return null
+  return (
+    <div className="h-40 -ml-2">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" vertical={false} />
+          <XAxis dataKey="label" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.35)' }} axisLine={false} tickLine={false}
+            width={32} tickFormatter={v => `${v}%`} />
+          {/* 50% es el umbral de "gana más de lo que pierde", no un cero arbitrario */}
+          <ReferenceLine y={50} stroke="rgba(255,255,255,0.15)" strokeDasharray="4 4" />
+          <Tooltip
+            contentStyle={{ background: 'rgba(15,23,35,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 12 }}
+            labelStyle={{ color: 'rgba(255,255,255,0.6)' }}
+            formatter={(v, name) => [`${Number(v).toFixed(1)}%`, name === 'win14' ? 'Win 14d' : 'Win 30d']}
+          />
+          <Line type="monotone" dataKey="win14" stroke="#22d3ee" strokeWidth={2} dot={false} connectNulls />
+          <Line type="monotone" dataKey="win30" stroke="#a78bfa" strokeWidth={2} dot={false} connectNulls />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  )
 }
 
 function TimeseriesTable({ rows, tab }: { rows: TimeseriesRow[]; tab: Tab }) {
@@ -301,6 +338,22 @@ export default function SignalStats() {
 
         <Card className="glass">
           <CardContent className="p-5">
+            {/* by_weekday no es una serie cronológica (lunes→viernes se
+                repite cada semana), así que una curva ahí mentiría sobre una
+                tendencia que no existe. Solo en las pestañas con orden real. */}
+            {tab !== 'weekday' && (
+              <div className="mb-4 pb-4 border-b border-white/5">
+                <div className="flex items-center gap-4 mb-2 text-[0.68rem]">
+                  <span className="inline-flex items-center gap-1.5 text-foreground/50">
+                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#22d3ee' }} /> Win 14d
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 text-foreground/50">
+                    <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#a78bfa' }} /> Win 30d
+                  </span>
+                </div>
+                <WinRateTrend rows={rows} tab={tab} />
+              </div>
+            )}
             <TimeseriesTable rows={rows} tab={tab} />
           </CardContent>
         </Card>

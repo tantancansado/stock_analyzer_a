@@ -233,7 +233,6 @@ export default function ValueUS() {
 
   // ─── Derived data — computed before early returns (Rules of Hooks) ───────────
   const rows = data?.data ?? []
-  const source = data?.source ?? ''
 
   const sectors = useMemo(
     () => ['ALL', ...Array.from(new Set(rows.map(r => r.sector).filter(Boolean) as string[])).sort()],
@@ -363,7 +362,6 @@ export default function ValueUS() {
               {regimeLabel}
             </Badge>
           )}
-          {source && <span className="ml-2 align-middle text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 border border-border/40 rounded px-1.5 py-0.5">{source}</span>}
         </>}
         subtitle={<>
           Ideas ordenadas por oportunidad. La vista clara traduce los modelos a decisiones.

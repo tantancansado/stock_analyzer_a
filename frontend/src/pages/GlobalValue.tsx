@@ -25,7 +25,6 @@ import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import ScoreRing from '../components/ScoreRing'
 import GradeBadge from '../components/GradeBadge'
-import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import ThesisBody from '../components/ThesisBody'
@@ -168,7 +167,6 @@ export default function GlobalValue() {
   if (error) return <ErrorState message={error} />
 
   const rows = (data?.data ?? []) as GlobalOpportunity[]
-  const source = data?.source ?? ''
 
   const filtered = rows.filter(r => {
     if (filterMarket !== 'ALL' && r.market !== filterMarket) return false
@@ -239,7 +237,6 @@ export default function GlobalValue() {
         <div>
           <h2 className="text-2xl font-extrabold tracking-tight mb-1 flex items-center gap-2">
             <span className="gradient-title">VALUE Global</span>
-            {source && <Badge variant="outline" className="text-[0.6rem]">{source}</Badge>}
           </h2>
           <p className="text-sm text-muted-foreground">
             Acciones VALUE en mercados globales undervalued — Brasil, Corea, Japón, Hong Kong
@@ -306,9 +303,6 @@ export default function GlobalValue() {
             <div className="text-4xl mb-4 opacity-20">🌍</div>
             <p className="font-medium text-muted-foreground">
               Sin datos globales aún — el pipeline ejecutará el scanner en la próxima ejecución diaria
-            </p>
-            <p className="text-xs text-muted-foreground mt-2 opacity-60">
-              También puedes ejecutar <code className="font-mono bg-white/5 px-1 rounded">python3 global_market_scanner.py</code> manualmente
             </p>
           </div>
         </Card>

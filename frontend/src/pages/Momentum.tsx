@@ -56,7 +56,6 @@ export default function Momentum() {
   if (error) return <ErrorState message={error} />
 
   const rows = data?.data ?? []
-  const source = data?.source ?? ''
 
   const sorted = [...rows].sort((a, b) => {
     const av = a[sortKey] ?? 0; const bv = b[sortKey] ?? 0
@@ -89,14 +88,7 @@ export default function Momentum() {
           estaban arregladas. */}
       <PageHeader
         title={
-          <span className="flex flex-wrap items-center gap-2">
-            Momentum
-            {source && (
-              <span className="text-[0.58rem] font-bold uppercase tracking-widest text-muted-foreground/60 border border-border/50 rounded px-1.5 py-0.5">
-                {source}
-              </span>
-            )}
-          </span>
+          'Momentum'
         }
         subtitle="Setups VCP y momentum Minervini — filtrados por tendencia y volumen"
       >
