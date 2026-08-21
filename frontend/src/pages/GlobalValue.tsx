@@ -32,6 +32,7 @@ import ThesisBody from '../components/ThesisBody'
 import CsvDownload from '../components/CsvDownload'
 import InfoTooltip from '../components/InfoTooltip'
 import OwnedBadge from '../components/OwnedBadge'
+import ValuationBar from '../components/ValuationBar'
 
 // Extend ValueOpportunity with global-specific fields
 type GlobalOpportunity = ValueOpportunity & {
@@ -348,7 +349,17 @@ export default function GlobalValue() {
                       )}
                     </div>
                   </div>
-                  <div className="flex gap-3 mt-2.5 text-[0.62rem] text-muted-foreground/60">
+                  {/* Global no trae DCF ni P/E ni pct_from_52w_low (solo
+                      consenso) — la barra los omite sin más, degrada bien */}
+                  <ValuationBar
+                    className="mt-2.5"
+                    precio={row.current_price}
+                    pctDesdeMax={row.pct_from_52w_high}
+                    pctDesdeMin={row.pct_from_52w_low}
+                    objetivoAnalista={row.target_price_analyst}
+                    compacta
+                  />
+                  <div className="flex gap-3 mt-2 text-[0.62rem] text-muted-foreground/60">
                     {row.fcf_yield_pct != null && <span>FCF: {row.fcf_yield_pct.toFixed(1)}%</span>}
                     {row.risk_reward_ratio != null && <span>R:R {row.risk_reward_ratio.toFixed(1)}x</span>}
                     {meta && <span>{meta.label} · {row.currency}</span>}

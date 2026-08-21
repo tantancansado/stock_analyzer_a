@@ -6,6 +6,7 @@ import { apiClient, fetchMacroStress, fetchAnalystRevisions, fetchPortfolioAlert
 import AnalystRevisionBadge from '../components/AnalystRevisionBadge'
 import { useAuth } from '@/context/AuthContext'
 import TickerLogo from '../components/TickerLogo'
+import ValuationBar from '../components/ValuationBar'
 import PriceChart from '../components/PriceChart'
 import { useCerebroSignals, type CerebroMaps } from '../hooks/useCerebroSignals'
 import { usePortfolioConfluence, type ConfluenceSignals } from '../hooks/usePortfolioConfluence'
@@ -1286,6 +1287,21 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           </div>
         )
       })()}
+
+      {/* Rango de 52 semanas + target, para acciones. Aquí llega en dólares
+          (fifty_two_week_high/low), no en % como en las listas de ideas — se
+          convierte antes de pasarlo al componente, que solo entiende %. */}
+      {result && (pos.asset_type ?? 'stock') === 'stock' && result.fifty_two_week_high != null && result.fifty_two_week_low != null && (
+        <div className="px-4 mb-3">
+          <ValuationBar
+            precio={cur}
+            pctDesdeMax={(cur / result.fifty_two_week_high - 1) * 100}
+            pctDesdeMin={(cur / result.fifty_two_week_low - 1) * 100}
+            objetivoAnalista={result.analyst_target}
+            compacta
+          />
+        </div>
+      )}
 
       {/* ── SIZING ROW (stocks only) ── */}
       {result?.volatility_pct != null && (pos.asset_type ?? 'stock') === 'stock' && (

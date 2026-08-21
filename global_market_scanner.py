@@ -203,6 +203,8 @@ def _score_ticker(ticker: str, market: str):
 
     high_52w = info.get("fiftyTwoWeekHigh")
     pct_from_52w_high = round((price - high_52w) / high_52w * 100, 1) if high_52w and high_52w > 0 else None
+    low_52w = info.get("fiftyTwoWeekLow")
+    pct_from_52w_low = round((price - low_52w) / low_52w * 100, 1) if low_52w and low_52w > 0 else None
 
     name = info.get("longName") or info.get("shortName") or ticker
     sector = info.get("sector") or "Unknown"
@@ -440,6 +442,7 @@ def _score_ticker(ticker: str, market: str):
         "profit_margin_pct": round(profit_margin * 100, 1) if profit_margin else None,
         "revenue_growth_pct": round(revenue_growth * 100, 1) if revenue_growth else None,
         "pct_from_52w_high": pct_from_52w_high,
+        "pct_from_52w_low": pct_from_52w_low,
         "risk_flags": " | ".join(risk_flags) if risk_flags else "",
         "nasdaq_adr": ADR_MAP.get(ticker, ""),
         "ai_verdict": "",   # filled by _ai_verify_stock()

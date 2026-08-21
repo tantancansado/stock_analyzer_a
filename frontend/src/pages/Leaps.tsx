@@ -3,6 +3,7 @@ import useIsMobile from '../hooks/useIsMobile'
 import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract, type LeapsSituation } from '../api/client'
 import PageHeader from '../components/PageHeader'
 import TickerLogo from '../components/TickerLogo'
+import LeapsPayoffLine from '../components/LeapsPayoffLine'
 import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card, CardContent } from '@/components/ui/card'
@@ -213,6 +214,17 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           {track === 'error' && <div className="text-[0.65rem] text-red-400 mt-1">No se pudo guardar. Inténtalo de nuevo.</div>}
           {track === 'done' && <div className="text-[0.65rem] text-emerald-400 mt-1">Guardado en tu cartera. Te avisaré por Telegram si toca rolar, tomar beneficios o la tesis se rompe.</div>}
         </div>
+
+        {/* Strike, precio de hoy, empate y target en una recta: antes había
+            que leer Delta+Leverage+Break-even+B/E move y componerlos
+            mentalmente para saber "¿cuánto colchón hay ya ganado?". Aquí se ve. */}
+        <LeapsPayoffLine
+          className="mb-3"
+          strike={c.strike}
+          spot={o.spot}
+          breakeven={c.breakeven}
+          target={pat?.target_price}
+        />
 
         {/* Metrics grid */}
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 mb-3">

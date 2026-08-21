@@ -8,6 +8,7 @@ import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
+import ValuationBar from '../components/ValuationBar'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
 import { Search, AlertCircle, Bell, Loader2 } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
@@ -711,6 +712,16 @@ export default function TickerSearch() {
                       <span className="text-xs uppercase tracking-wider text-muted-foreground/60 font-semibold">Analistas</span>
                     </div>
                     <div className="p-3 space-y-2">
+                      {/* Mismos tres objetivos que abajo (consenso, DCF), pero
+                          sobre el rango real de 52 semanas en vez de sueltos */}
+                      <ValuationBar
+                        precio={sf('current_price') ?? 0}
+                        pctDesdeMax={sf('pct_from_52w_high')}
+                        pctDesdeMin={sf('pct_from_52w_low')}
+                        objetivoAnalista={sf('target_price_analyst')}
+                        objetivoDcf={sf('target_price_dcf')}
+                        objetivoPe={sf('target_price_pe')}
+                      />
                       {/* Main consensus */}
                       {sf('target_price_analyst') != null && (
                         <div className={`flex items-center gap-3 px-3 py-2 rounded-lg border ${sf('analyst_upside_pct') != null && sf('analyst_upside_pct')! >= 0 ? 'bg-emerald-500/8 border-emerald-500/15' : 'bg-red-500/8 border-red-500/15'}`}>

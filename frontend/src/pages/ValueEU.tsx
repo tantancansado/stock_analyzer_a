@@ -73,6 +73,7 @@ import InfoTooltip from '../components/InfoTooltip'
 import ThesisModal from '../components/ThesisModal'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
+import ValuationBar from '../components/ValuationBar'
 import { useCerebroSignals } from '../hooks/useCerebroSignals'
 import CerebroBadges from '../components/CerebroBadges'
 import OeAiBadge from '../components/OeAiBadge'
@@ -563,10 +564,18 @@ export default function ValueEU() {
                     <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{cur}{d.current_price?.toFixed(2)}</div>
                   </div>
                 </div>
-                <div className="mt-3 rounded-xl border border-border/20 bg-muted/10 px-3 py-2">
-                  <p className="text-sm font-semibold text-foreground">{decision.headline}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{decision.detail}</p>
-                </div>
+                {/* Mismo motivo que en ValueUS: decision.detail es texto fijo
+                    por categoría y se repetía idéntico entre tarjetas. */}
+                <p className="mt-3 text-[0.82rem] font-semibold text-foreground">{decision.headline}</p>
+                <ValuationBar
+                  className="mt-2.5"
+                  precio={d.current_price}
+                  pctDesdeMax={d.pct_from_52w_high}
+                  pctDesdeMin={d.pct_from_52w_low}
+                  objetivoAnalista={d.target_price_analyst}
+                  objetivoDcf={d.target_price_dcf}
+                  objetivoPe={d.target_price_pe}
+                />
               </div>
             )
           }
