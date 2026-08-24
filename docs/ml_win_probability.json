@@ -1,70 +1,70 @@
 {
-  "generated_at": "2026-08-21T04:58:30.566948",
+  "generated_at": "2026-08-24T05:04:37.772242",
   "model_auc": 0.8062,
   "base_win_rate": 0.2875,
   "predictions": {
     "MCO": {
-      "probability": 0.5336,
-      "percentile": 96,
-      "label": "MEDIA"
-    },
-    "BR": {
-      "probability": 0.4933,
-      "percentile": 89,
-      "label": "MEDIA"
-    },
-    "INTU": {
-      "probability": 0.4962,
-      "percentile": 91,
-      "label": "MEDIA"
-    },
-    "MSFT": {
-      "probability": 0.4203,
-      "percentile": 79,
-      "label": "BAJA"
-    },
-    "VRSN": {
-      "probability": 0.5916,
-      "percentile": 99,
-      "label": "ALTA"
-    },
-    "MA": {
-      "probability": 0.4484,
-      "percentile": 83,
-      "label": "BAJA"
-    },
-    "AXP": {
-      "probability": 0.4486,
-      "percentile": 84,
-      "label": "BAJA"
-    },
-    "SAP": {
-      "probability": 0.5336,
-      "percentile": 96,
-      "label": "MEDIA"
-    },
-    "DB1.DE": {
-      "probability": 0.1973,
-      "percentile": 45,
-      "label": "BAJA"
-    },
-    "SAP.DE": {
-      "probability": 0.3041,
-      "percentile": 61,
-      "label": "BAJA"
-    },
-    "EXPN.L": {
-      "probability": 0.5538,
+      "probability": 0.5904,
       "percentile": 97,
       "label": "ALTA"
     },
+    "BR": {
+      "probability": 0.4962,
+      "percentile": 93,
+      "label": "MEDIA"
+    },
+    "INTU": {
+      "probability": 0.4086,
+      "percentile": 81,
+      "label": "BAJA"
+    },
+    "VRSN": {
+      "probability": 0.5102,
+      "percentile": 96,
+      "label": "MEDIA"
+    },
+    "SAP.DE": {
+      "probability": 0.4486,
+      "percentile": 88,
+      "label": "BAJA"
+    },
+    "EXPN.L": {
+      "probability": 0.4455,
+      "percentile": 86,
+      "label": "BAJA"
+    },
+    "AXP": {
+      "probability": 0.4964,
+      "percentile": 95,
+      "label": "MEDIA"
+    },
+    "MA": {
+      "probability": 0.5102,
+      "percentile": 96,
+      "label": "MEDIA"
+    },
+    "SAP": {
+      "probability": 0.4733,
+      "percentile": 88,
+      "label": "MEDIA"
+    },
+    "MSFT": {
+      "probability": 0.4964,
+      "percentile": 95,
+      "label": "MEDIA"
+    },
+    "DB1.DE": {
+      "probability": 0.2022,
+      "percentile": 42,
+      "label": "BAJA"
+    },
     "UBER": {
       "probability": 0.4933,
-      "percentile": 89,
+      "percentile": 91,
       "label": "MEDIA"
     },
     "KO": {
-      "probability": 0.0028,
+      "probability": 0.0044,
       "percentile": 4,
       "label": "BAJA"
     },
@@ -73,149 +73,169 @@
       "percentile": 10,
       "label": "BAJA"
     },
-    "ROP": {
-      "probability": 0.0624,
-      "percentile": 22,
-      "label": "BAJA"
-    },
     "AMS.MC": {
-      "probability": 0.2706,
-      "percentile": 56,
+      "probability": 0.19,
+      "percentile": 41,
       "label": "BAJA"
     },
     "TYL": {
-      "probability": 0.4993,
-      "percentile": 92,
-      "label": "MEDIA"
-    },
-    "BRK-B": {
       "probability": 0.3607,
       "percentile": 73,
       "label": "BAJA"
     },
-    "JKHY": {
-      "probability": 0.4455,
-      "percentile": 82,
-      "label": "BAJA"
-    },
-    "NYT": {
-      "probability": 0.4455,
-      "percentile": 82,
-      "label": "BAJA"
-    },
-    "V": {
+    "RMV.L": {
       "probability": 0.3607,
       "percentile": 73,
       "label": "BAJA"
-    },
-    "LR.PA": {
-      "probability": 0.4455,
-      "percentile": 82,
-      "label": "BAJA"
-    },
-    "CSU.TO": {
-      "probability": 0.4962,
-      "percentile": 91,
-      "label": "MEDIA"
     },
     "BAC": {
       "probability": 0.4933,
-      "percentile": 89,
+      "percentile": 91,
       "label": "MEDIA"
     },
-    "ASSA-B.ST": {
-      "probability": 0.509,
-      "percentile": 93,
-      "label": "MEDIA"
-    },
-    "ATCO-B.ST": {
-      "probability": 0.3693,
-      "percentile": 74,
+    "LR.PA": {
+      "probability": 0.4455,
+      "percentile": 86,
       "label": "BAJA"
     },
-    "FHN": {
-      "probability": 0.1705,
-      "percentile": 44,
+    "CVX": {
+      "probability": 0.0873,
+      "percentile": 21,
       "label": "BAJA"
     },
-    "UNH": {
-      "probability": 0.4493,
-      "percentile": 85,
+    "OXY": {
+      "probability": 0.1312,
+      "percentile": 30,
       "label": "BAJA"
     },
-    "PGHN.SW": {
-      "probability": 0.251,
-      "percentile": 53,
-      "label": "BAJA"
-    },
-    "AON": {
-      "probability": 0.3583,
-      "percentile": 68,
-      "label": "BAJA"
-    },
-    "FICO": {
-      "probability": 0.3554,
-      "percentile": 67,
-      "label": "BAJA"
-    },
-    "CPRT": {
-      "probability": 0.4072,
+    "BRK-B": {
+      "probability": 0.3725,
       "percentile": 78,
       "label": "BAJA"
     },
-    "CDNS": {
-      "probability": 0.3358,
-      "percentile": 64,
-      "label": "BAJA"
-    },
-    "MC.PA": {
-      "probability": 0.4796,
-      "percentile": 86,
-      "label": "MEDIA"
-    },
-    "CHTR": {
-      "probability": 0.5916,
+    "IDXX": {
+      "probability": 0.5947,
       "percentile": 99,
       "label": "ALTA"
     },
-    "RACE.MI": {
-      "probability": 0.0132,
-      "percentile": 8,
+    "ROP": {
+      "probability": 0.0435,
+      "percentile": 12,
       "label": "BAJA"
     },
-    "QSR": {
-      "probability": 0.0028,
-      "percentile": 4,
+    "VRSK": {
+      "probability": 0.5916,
+      "percentile": 98,
+      "label": "ALTA"
+    },
+    "ASSA-B.ST": {
+      "probability": 0.4827,
+      "percentile": 89,
+      "label": "MEDIA"
+    },
+    "ATCO-B.ST": {
+      "probability": 0.3742,
+      "percentile": 79,
+      "label": "BAJA"
+    },
+    "AON": {
+      "probability": 0.2377,
+      "percentile": 49,
+      "label": "BAJA"
+    },
+    "ZTS": {
+      "probability": 0.3722,
+      "percentile": 75,
+      "label": "BAJA"
+    },
+    "FHN": {
+      "probability": 0.2628,
+      "percentile": 53,
+      "label": "BAJA"
+    },
+    "CSU.TO": {
+      "probability": 0.3554,
+      "percentile": 70,
+      "label": "BAJA"
+    },
+    "PGHN.SW": {
+      "probability": 0.3554,
+      "percentile": 70,
+      "label": "BAJA"
+    },
+    "HEI": {
+      "probability": 0.3698,
+      "percentile": 74,
+      "label": "BAJA"
+    },
+    "NYT": {
+      "probability": 0.3158,
+      "percentile": 65,
+      "label": "BAJA"
+    },
+    "CNI": {
+      "probability": 0.0435,
+      "percentile": 12,
+      "label": "BAJA"
+    },
+    "SBGSY": {
+      "probability": 0.3412,
+      "percentile": 67,
       "label": "BAJA"
     },
     "DSY.PA": {
       "probability": 0.0028,
-      "percentile": 4,
+      "percentile": 3,
       "label": "BAJA"
     },
-    "RMV.L": {
+    "SHW": {
+      "probability": 0.1662,
+      "percentile": 36,
+      "label": "BAJA"
+    },
+    "UNH": {
+      "probability": 0.2235,
+      "percentile": 46,
+      "label": "BAJA"
+    },
+    "RACE.MI": {
       "probability": 0.0132,
-      "percentile": 8,
+      "percentile": 7,
+      "label": "BAJA"
+    },
+    "FICO": {
+      "probability": 0.4455,
+      "percentile": 86,
+      "label": "BAJA"
+    },
+    "ASAZY": {
+      "probability": 0.2845,
+      "percentile": 62,
+      "label": "BAJA"
+    },
+    "JKHY": {
+      "probability": 0.2824,
+      "percentile": 58,
       "label": "BAJA"
     },
     "AUTO.L": {
-      "probability": 0.0028,
-      "percentile": 4,
+      "probability": 0.0132,
+      "percentile": 7,
       "label": "BAJA"
     },
-    "OXY": {
-      "probability": 0.0133,
-      "percentile": 9,
+    "RMS.PA": {
+      "probability": 0.2801,
+      "percentile": 57,
       "label": "BAJA"
+    },
+    "CHTR": {
+      "probability": 0.4962,
+      "percentile": 93,
+      "label": "MEDIA"
     },
     "LIFCO-B.ST": {
       "probability": 0.3607,
       "percentile": 73,
-      "label": "BAJA"
-    },
-    "MONC.MI": {
-      "probability": 0.1705,
-      "percentile": 44,
       "label": "BAJA"
     },
     "NOVO-B.CO": {
@@ -223,239 +243,254 @@
       "percentile": 0,
       "label": "BAJA"
     },
-    "IDXX": {
-      "probability": 0.1705,
-      "percentile": 44,
+    "QSR": {
+      "probability": 0.0028,
+      "percentile": 3,
       "label": "BAJA"
     },
-    "DSGX": {
-      "probability": 0.251,
-      "percentile": 53,
+    "CDNS": {
+      "probability": 0.4455,
+      "percentile": 86,
       "label": "BAJA"
     },
-    "CNI": {
-      "probability": 0.3595,
-      "percentile": 69,
-      "label": "BAJA"
-    },
-    "CVX": {
-      "probability": 0.0132,
-      "percentile": 8,
-      "label": "BAJA"
-    },
-    "SU.PA": {
-      "probability": 0.3888,
-      "percentile": 76,
-      "label": "BAJA"
-    },
-    "CPG.L": {
+    "RSG": {
       "probability": 0.2845,
-      "percentile": 57,
+      "percentile": 62,
       "label": "BAJA"
     },
-    "RMS.PA": {
-      "probability": 0.3041,
-      "percentile": 61,
-      "label": "BAJA"
-    },
-    "PG": {
-      "probability": 0.3725,
-      "percentile": 75,
-      "label": "BAJA"
-    },
-    "RACE": {
-      "probability": 0.4484,
-      "percentile": 83,
+    "TT": {
+      "probability": 0.2845,
+      "percentile": 62,
       "label": "BAJA"
     },
     "INDT.ST": {
       "probability": 0.3158,
-      "percentile": 63,
+      "percentile": 65,
       "label": "BAJA"
     },
-    "MRSH": {
-      "probability": 0.265,
-      "percentile": 55,
-      "label": "BAJA"
-    },
-    "VRSK": {
-      "probability": 0.4032,
-      "percentile": 77,
-      "label": "BAJA"
-    },
-    "PGR": {
-      "probability": 0.3041,
-      "percentile": 61,
-      "label": "BAJA"
-    },
-    "HEIA.AS": {
-      "probability": 0.3158,
-      "percentile": 63,
-      "label": "BAJA"
-    },
-    "NUE": {
+    "V": {
       "probability": 0.3607,
       "percentile": 73,
       "label": "BAJA"
     },
-    "ADP": {
+    "NDSN": {
+      "probability": 0.0028,
+      "percentile": 3,
+      "label": "BAJA"
+    },
+    "HEXA-B.ST": {
       "probability": 0.0132,
-      "percentile": 8,
+      "percentile": 7,
       "label": "BAJA"
     },
-    "WST": {
-      "probability": 0.5102,
-      "percentile": 94,
-      "label": "MEDIA"
-    },
-    "TW": {
-      "probability": 0.0624,
-      "percentile": 22,
+    "WM": {
+      "probability": 0.3725,
+      "percentile": 78,
       "label": "BAJA"
     },
-    "ECL": {
-      "probability": 0.1396,
-      "percentile": 37,
+    "CPG.L": {
+      "probability": 0.3888,
+      "percentile": 80,
+      "label": "BAJA"
+    },
+    "SU.PA": {
+      "probability": 0.3888,
+      "percentile": 80,
+      "label": "BAJA"
+    },
+    "DSGX": {
+      "probability": 0.2706,
+      "percentile": 54,
+      "label": "BAJA"
+    },
+    "MC.PA": {
+      "probability": 0.2376,
+      "percentile": 48,
+      "label": "BAJA"
+    },
+    "ATLKY": {
+      "probability": 0.3725,
+      "percentile": 78,
+      "label": "BAJA"
+    },
+    "VEEV": {
+      "probability": 0.0132,
+      "percentile": 7,
+      "label": "BAJA"
+    },
+    "PGR": {
+      "probability": 0.251,
+      "percentile": 51,
+      "label": "BAJA"
+    },
+    "KR": {
+      "probability": 0.1766,
+      "percentile": 39,
+      "label": "BAJA"
+    },
+    "NUE": {
+      "probability": 0.4455,
+      "percentile": 86,
+      "label": "BAJA"
+    },
+    "CTAS": {
+      "probability": 0.1492,
+      "percentile": 31,
+      "label": "BAJA"
+    },
+    "CPRT": {
+      "probability": 0.3041,
+      "percentile": 62,
+      "label": "BAJA"
+    },
+    "HEIA.AS": {
+      "probability": 0.3158,
+      "percentile": 65,
+      "label": "BAJA"
+    },
+    "JNJ": {
+      "probability": 0.0889,
+      "percentile": 21,
+      "label": "BAJA"
+    },
+    "HRI": {
+      "probability": 0.4484,
+      "percentile": 87,
+      "label": "BAJA"
+    },
+    "RACE": {
+      "probability": 0.1851,
+      "percentile": 40,
+      "label": "BAJA"
+    },
+    "GEBN.SW": {
+      "probability": 0.0785,
+      "percentile": 17,
+      "label": "BAJA"
+    },
+    "MSI": {
+      "probability": 0.3554,
+      "percentile": 70,
       "label": "BAJA"
     },
     "ITX.MC": {
       "probability": 0.1229,
-      "percentile": 32,
-      "label": "BAJA"
-    },
-    "JNJ": {
-      "probability": 0.1528,
-      "percentile": 41,
-      "label": "BAJA"
-    },
-    "MSI": {
-      "probability": 0.2039,
-      "percentile": 47,
-      "label": "BAJA"
-    },
-    "EQIX": {
-      "probability": 0.0608,
-      "percentile": 20,
-      "label": "BAJA"
-    },
-    "RSG": {
-      "probability": 0.228,
-      "percentile": 50,
-      "label": "BAJA"
-    },
-    "TT": {
-      "probability": 0.1261,
-      "percentile": 34,
-      "label": "BAJA"
-    },
-    "DPLM.L": {
-      "probability": 0.0959,
-      "percentile": 26,
-      "label": "BAJA"
-    },
-    "KNEBV.HE": {
-      "probability": 0.1245,
-      "percentile": 33,
-      "label": "BAJA"
-    },
-    "CHD": {
-      "probability": 0.2334,
-      "percentile": 50,
-      "label": "BAJA"
-    },
-    "FCNCA": {
-      "probability": 0.338,
-      "percentile": 65,
-      "label": "BAJA"
-    },
-    "IMCD.AS": {
-      "probability": 0.1111,
-      "percentile": 30,
-      "label": "BAJA"
-    },
-    "OR.PA": {
-      "probability": 0.1515,
-      "percentile": 38,
-      "label": "BAJA"
-    },
-    "CBOE": {
-      "probability": 0.341,
-      "percentile": 66,
-      "label": "BAJA"
-    },
-    "AI.PA": {
-      "probability": 0.1989,
-      "percentile": 46,
-      "label": "BAJA"
-    },
-    "BRO": {
-      "probability": 0.2452,
-      "percentile": 51,
-      "label": "BAJA"
-    },
-    "MKC": {
-      "probability": 0.122,
-      "percentile": 31,
-      "label": "BAJA"
-    },
-    "HLMA.L": {
-      "probability": 0.2897,
-      "percentile": 58,
-      "label": "BAJA"
-    },
-    "TJX": {
-      "probability": 0.1293,
-      "percentile": 35,
-      "label": "BAJA"
-    },
-    "DPZ": {
-      "probability": 0.1111,
-      "percentile": 30,
+      "percentile": 28,
       "label": "BAJA"
     },
     "STMN.SW": {
-      "probability": 0.0505,
-      "percentile": 18,
+      "probability": 0.1596,
+      "percentile": 35,
       "label": "BAJA"
     },
-    "HEI": {
-      "probability": 0.2186,
-      "percentile": 48,
+    "OTIS": {
+      "probability": 0.1545,
+      "percentile": 34,
       "label": "BAJA"
     },
-    "HRI": {
-      "probability": 0.0332,
-      "percentile": 14,
+    "CLPBY": {
+      "probability": 0.1204,
+      "percentile": 26,
       "label": "BAJA"
     },
-    "CTAS": {
-      "probability": 0.265,
-      "percentile": 55,
+    "POOL": {
+      "probability": 0.1261,
+      "percentile": 29,
       "label": "BAJA"
     },
-    "SHW": {
-      "probability": 0.0505,
-      "percentile": 18,
+    "TW": {
+      "probability": 0.0474,
+      "percentile": 13,
       "label": "BAJA"
     },
-    "WM": {
-      "probability": 0.0839,
-      "percentile": 24,
+    "DPLM.L": {
+      "probability": 0.0629,
+      "percentile": 16,
       "label": "BAJA"
     },
-    "HESAY": {
-      "probability": 0.037,
+    "KNEBV.HE": {
+      "probability": 0.0608,
       "percentile": 15,
       "label": "BAJA"
     },
-    "SIKA.SW": {
-      "probability": 0.1333,
-      "percentile": 36,
+    "WCN": {
+      "probability": 0.0608,
+      "percentile": 15,
+      "label": "BAJA"
+    },
+    "IMCD.AS": {
+      "probability": 0.122,
+      "percentile": 27,
+      "label": "BAJA"
+    },
+    "OR.PA": {
+      "probability": 0.2404,
+      "percentile": 50,
+      "label": "BAJA"
+    },
+    "AI.PA": {
+      "probability": 0.2039,
+      "percentile": 44,
+      "label": "BAJA"
+    },
+    "BRO": {
+      "probability": 0.2034,
+      "percentile": 43,
+      "label": "BAJA"
+    },
+    "VLTO": {
+      "probability": 0.1705,
+      "percentile": 38,
+      "label": "BAJA"
+    },
+    "SAF.PA": {
+      "probability": 0.2801,
+      "percentile": 57,
+      "label": "BAJA"
+    },
+    "MKC": {
+      "probability": 0.152,
+      "percentile": 32,
+      "label": "BAJA"
+    },
+    "GWW": {
+      "probability": 0.3182,
+      "percentile": 66,
+      "label": "BAJA"
+    },
+    "HLMA.L": {
+      "probability": 0.2801,
+      "percentile": 57,
+      "label": "BAJA"
+    },
+    "WST": {
+      "probability": 0.2845,
+      "percentile": 62,
+      "label": "BAJA"
+    },
+    "AME": {
+      "probability": 0.0959,
+      "percentile": 23,
+      "label": "BAJA"
+    },
+    "CHD": {
+      "probability": 0.223,
+      "percentile": 46,
+      "label": "BAJA"
+    },
+    "DPZ": {
+      "probability": 0.1685,
+      "percentile": 37,
+      "label": "BAJA"
+    },
+    "FCNCA": {
+      "probability": 0.1734,
+      "percentile": 38,
       "label": "BAJA"
     },
     "NDAQ": {
-      "probability": 0.0505,
-      "percentile": 18,
+      "probability": 0.2163,
+      "percentile": 45,
       "label": "BAJA"
     },
     "KVUE": {
@@ -463,59 +498,69 @@
       "percentile": 11,
       "label": "BAJA"
     },
-    "GIVN.SW": {
-      "probability": 0.2213,
-      "percentile": 49,
+    "SYK": {
+      "probability": 0.0839,
+      "percentile": 19,
       "label": "BAJA"
     },
-    "VEEV": {
-      "probability": 0.0188,
-      "percentile": 12,
+    "EQIX": {
+      "probability": 0.0839,
+      "percentile": 19,
+      "label": "BAJA"
+    },
+    "GIVN.SW": {
+      "probability": 0.2689,
+      "percentile": 54,
       "label": "BAJA"
     },
     "ICE": {
-      "probability": 0.0839,
-      "percentile": 24,
-      "label": "BAJA"
-    },
-    "DEMANT.CO": {
-      "probability": 0.1108,
-      "percentile": 28,
-      "label": "BAJA"
-    },
-    "OTIS": {
-      "probability": 0.0608,
+      "probability": 0.0855,
       "percentile": 20,
       "label": "BAJA"
     },
-    "PEP": {
-      "probability": 0.0505,
-      "percentile": 18,
+    "DEMANT.CO": {
+      "probability": 0.1145,
+      "percentile": 24,
       "label": "BAJA"
     },
-    "LIN": {
-      "probability": 0.1525,
-      "percentile": 40,
+    "ITRK.L": {
+      "probability": 0.0148,
+      "percentile": 10,
+      "label": "BAJA"
+    },
+    "SIKA.SW": {
+      "probability": 0.094,
+      "percentile": 22,
       "label": "BAJA"
     },
     "COLO-B.CO": {
-      "probability": 0.0254,
-      "percentile": 13,
-      "label": "BAJA"
-    },
-    "WCN": {
-      "probability": 0.1525,
-      "percentile": 40,
-      "label": "BAJA"
-    },
-    "GWW": {
-      "probability": 0.1108,
-      "percentile": 28,
-      "label": "BAJA"
-    },
-    "SBGSY": {
-      "probability": 0.0855,
+      "probability": 0.1167,
       "percentile": 25,
+      "label": "BAJA"
+    },
+    "ISRG": {
+      "probability": 0.2575,
+      "percentile": 52,
+      "label": "BAJA"
+    },
+    "MRSH": {
+      "probability": 0.0148,
+      "percentile": 10,
+      "label": "BAJA"
+    },
+    "ITW": {
+      "probability": 0.1282,
+      "percentile": 29,
+      "label": "BAJA"
+    },
+    "TJX": {
+      "probability": 0.1525,
+      "percentile": 33,
+      "label": "BAJA"
+    },
+    "HESAY": {
+      "probability": 0.2255,
+      "percentile": 47,
       "label": "BAJA"
     }
   }
