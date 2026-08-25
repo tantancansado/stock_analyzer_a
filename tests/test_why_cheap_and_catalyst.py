@@ -14,6 +14,30 @@ import why_cheap_analyzer as wc
 URL = 'https://ir.example.com/q2-results'
 
 
+class TestWhyCheapCoste:
+    """El 25-ago-2026 esta llamada salía a $0.33 — el 44% del gasto mensual
+    con solo 12 llamadas — usando los valores por defecto de ask_with_search
+    (6 búsquedas, max_tokens 2000, effort medium). El coste no es lineal en
+    nº de búsquedas: cada ronda dentro de la misma llamada reenvía el
+    contexto de las anteriores, así que crece con el cuadrado. Este test fija
+    los parámetros recortados para que si alguien los sube sin darse cuenta
+    (p.ej. "probando si mejora la calidad"), salte aquí y no en la factura."""
+
+    def test_usa_menos_busquedas_y_effort_bajo(self):
+        captured = {}
+
+        def _fake(prompt, system, **kwargs):
+            captured.update(kwargs)
+            return '{"veredicto": "SIN_DATOS"}', []
+
+        with patch.object(wc, 'ask_with_search', side_effect=_fake):
+            wc.analyze_ticker('XYZ', 'Ejemplo SA', -25.0, -20.0)
+
+        assert captured.get('max_searches') == 3
+        assert captured.get('max_tokens') == 1200
+        assert captured.get('effort') == 'low'
+
+
 class TestWhyCheap:
     def test_deterioro_con_busquedas_detras(self):
         j = '{"veredicto": "DETERIORO", "resumen": "Guidance retirada en julio", "confianza": 85}'

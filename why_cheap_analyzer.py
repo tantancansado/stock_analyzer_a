@@ -72,10 +72,22 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
     """Devuelve {veredicto, resumen, confianza, fuentes}. SIN_DATOS si no puede."""
     vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
 
+    # Con los valores por defecto (6 búsquedas, max_tokens 2000, effort medium)
+    # esta llamada salía a $0.33 — el 44% del gasto mensual con solo 12
+    # llamadas (medido 25-ago-2026). El coste de las búsquedas no es lineal:
+    # cada ronda dentro de la misma llamada reenvía el contexto de las
+    # anteriores, así que crece con el cuadrado del número de búsquedas.
+    # Clasificar "por qué cayó" en una de 4 categorías no necesita razonar en
+    # cadena ni comparar fuentes entre sí — es sintetizar 2-3 resultados
+    # buenos en una etiqueta, así que baja effort y menos búsquedas no debería
+    # perder calidad, solo margen de sobra que no se usaba.
     texto, fuentes = ask_with_search(
         PROMPT.format(company=company or ticker, ticker=ticker,
                       drop=abs(drop_pct or 0), rs=rs_6m or 0),
         system=SYSTEM,
+        max_searches=3,
+        max_tokens=1200,
+        effort='low',
     )
     data = parse_json(texto)
     if not data:

@@ -89,11 +89,22 @@ def _extract(response) -> tuple[str, list[str]]:
 
 
 def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
-                    max_searches: int = 6, model: str = MODEL) -> tuple[str, list[str]]:
+                    max_searches: int = 6, model: str = MODEL,
+                    effort: str = 'medium') -> tuple[str, list[str]]:
     """Pregunta a Claude dejándole buscar. Devuelve (texto, urls consultadas).
 
     ('', []) si no hay API, si la petición es rechazada por los clasificadores
     o si algo falla: quien llame lo trata como "sin datos", nunca como un sí.
+
+    `max_searches` no escala lineal en coste: la herramienta de búsqueda del
+    servidor puede encadenar varias rondas DENTRO de una sola llamada, y cada
+    ronda reenvía el contexto de las anteriores — con resultados de ~5k
+    tokens cada uno, el coste de entrada crece con el CUADRADO del número de
+    búsquedas, no con el número. Medido el 25-ago-2026: why_cheap_analyzer
+    llamaba con el valor por defecto (6) y salía a $0.33/llamada, el 44% del
+    gasto mensual con solo 12 llamadas. Bajar a 3 no ahorra la mitad, ahorra
+    bastante más — para clasificar "por qué cayó" con 2-3 fuentes buenas suele
+    bastar.
     """
     client = _get_client()
     if client is None:
@@ -119,8 +130,11 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
                 system=system,
                 tools=[tool],
                 # medium basta para clasificar en categorías cerradas y recorta
-                # mucho el tiempo por llamada — el criterio ya está en el system
-                output_config={'effort': 'medium'},
+                # mucho el tiempo por llamada — el criterio ya está en el system.
+                # `effort` es parametrizable porque hay llamadas (why_cheap) que
+                # ni siquiera necesitan medium: solo sintetizan 2-3 fuentes en
+                # una etiqueta cerrada, no comparan ni razonan en cadena.
+                output_config={'effort': effort},
                 messages=messages,
             )
 
