@@ -48,12 +48,29 @@ candidata a rebote técnico de 1 a 5 días.
 
 
 def check_ticker(ticker: str) -> dict:
-    """Devuelve {veredicto, motivo, fuentes}. SIN_DATOS ante cualquier problema."""
+    """Devuelve {veredicto, motivo, fuentes}. SIN_DATOS ante cualquier problema.
+
+    Coste (revisado 25-ago-2026, junto con why_cheap_analyzer, que llamaba a
+    la misma ask_with_search con el doble de búsquedas y salía a $0.33/llamada
+    — el 44% del gasto mensual). Esta llamada ya estaba más ajustada (4
+    búsquedas frente a las 6 por defecto), pero medía $0.27/llamada igual —
+    caro para lo que es, aunque la muestra es de solo 4 llamadas en todo el
+    mes y con tan poco volumen (~1 setup/semana, ver bounce-scanners-expected-
+    rate) el ahorro total es de céntimos, no de dólares.
+    Se recorta a 3 búsquedas por la misma razón que why_cheap: un catalizador
+    lo bastante grave para vetar un rebote (profit warning, fraude,
+    investigación) sale en las dos-tres primeras búsquedas si existe, o no
+    existe. `effort` se deja en 'medium' A PROPÓSITO, sin tocar: esto es un
+    gate de seguridad antes de recomendar una entrada de 1-5 días, no una
+    clasificación cerrada como why_cheap — vale la pena que razone un poco
+    más para pesar la gravedad, y el volumen es tan bajo que bajarlo no
+    cambiaría la factura de forma medible.
+    """
     vacio = {'veredicto': 'SIN_DATOS', 'motivo': '', 'fuentes': []}
 
     texto, fuentes = ask_with_search(
         PROMPT.format(ticker=ticker, horas=LOOKBACK_HORAS),
-        system=SYSTEM, max_tokens=1200, max_searches=4,
+        system=SYSTEM, max_tokens=1200, max_searches=3, effort='medium',
     )
     data = parse_json(texto)
     if not data:

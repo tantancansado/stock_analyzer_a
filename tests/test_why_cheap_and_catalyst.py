@@ -89,6 +89,28 @@ class TestWhyCheap:
         assert len(out) == 1 and bloqueados == []
 
 
+class TestBounceCatalystCoste:
+    """Mismo motivo que TestWhyCheapCoste: fija los parámetros recortados
+    (25-ago-2026) para que una subida accidental salte en un test, no en la
+    factura. Aquí `effort` se deja en 'medium' a propósito — es un gate de
+    seguridad de baja frecuencia (~1 setup/semana), no una clasificación
+    cerrada de alto volumen como why_cheap."""
+
+    def test_usa_tres_busquedas_y_effort_medio(self):
+        captured = {}
+
+        def _fake(prompt, system, **kwargs):
+            captured.update(kwargs)
+            return '{"veredicto": "SIN_DATOS"}', []
+
+        with patch.object(bcc, 'ask_with_search', side_effect=_fake):
+            bcc.check_ticker('XYZ')
+
+        assert captured.get('max_searches') == 3
+        assert captured.get('max_tokens') == 1200
+        assert captured.get('effort') == 'medium'
+
+
 class TestBounceCatalyst:
     def test_peligro_descarta_el_setup(self):
         j = '{"veredicto": "PELIGRO", "motivo": "Profit warning el lunes"}'
