@@ -772,16 +772,25 @@ def analyze_ticker_leaps(ticker: str, sig: dict, rate: float) -> Optional[dict]:
 # NARRATIVA AI
 # ═════════════════════════════════════════════════════════════════════════════
 
-def add_ai_narrative(opp: dict) -> None:
+def add_ai_narrative(opp: dict) -> bool:
     """Interpretación de Claude + plan de salida estructurado para una oportunidad.
 
     Rellena opp['ai_narrative'] (por qué/qué/riesgo) y opp['exit_plan'] con
     cuándo tomar beneficios, cuándo rolar y qué rompería la tesis.
+
+    Devuelve si la oportunidad PASA el gate de Claude — el criterio del
+    usuario (25-ago-2026) es "si Claude no lo valida, no se muestra": hace
+    falta un veredicto OPORTUNIDAD o RAZONABLE Y un data_check que empiece por
+    "OK". Fail-CLOSED a propósito, al revés que el resto del pipeline: sin
+    saldo, con la API caída o con un JSON que no parsea, esto devuelve False
+    igual que si Claude hubiera dicho EVITAR explícitamente — la oportunidad
+    queda fuera de `leaps_opportunities.json` hasta que una ejecución futura
+    sí pueda verificarla.
     """
     try:
         from groq_utils import claude_chat, CLAUDE_SONNET
     except Exception:
-        return
+        return False
 
     c = opp['recommended_contract']
     pat = opp.get('profit_at_target') or {}
@@ -824,14 +833,14 @@ IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
                       model=CLAUDE_SONNET, max_tokens=1700, temperature=0.3)
     if not txt:
-        return
+        return False
     import re as _re
     # Claude a veces envuelve en ```json … ```; quítalo antes de parsear
     cleaned = _re.sub(r'(?:^```(?:json)?|```$)', '', txt.strip(), flags=_re.MULTILINE).strip()
     m = _re.search(r'\{[\s\S]*\}', cleaned)
     if not m:
-        opp['ai_narrative'] = cleaned       # fallback: texto plano
-        return
+        opp['ai_narrative'] = cleaned       # fallback: texto plano, no pasa el gate
+        return False
     try:
         data = json.loads(m.group(0))
         if data.get('narrative'):
@@ -848,8 +857,10 @@ IMPORTANTE: sé CONCISO. Cada campo, máximo 2 frases cortas. No te extiendas.
                      if data.get(k)}
         if exit_plan:
             opp['exit_plan'] = exit_plan
+        return verdict in ('OPORTUNIDAD', 'RAZONABLE') and dc.upper().startswith('OK')
     except Exception:
         opp['ai_narrative'] = txt.strip()
+        return False
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -886,9 +897,21 @@ def main():
     results.sort(key=lambda x: -x['opportunity_score'])
     top = results[:TOP_N]
 
-    # Claude: verificación de datos + veredicto + plan de salida en cada mostrada
-    for opp in top[:AI_NARRATIVE_N]:
-        add_ai_narrative(opp)
+    # GATE de Claude: verificación de datos + veredicto + plan de salida.
+    # Ya no es solo una narrativa — lo que Claude no valida explícitamente
+    # (OPORTUNIDAD/RAZONABLE + data_check "OK") se EXCLUYE del output. Antes
+    # una oportunidad marcada EVITAR se seguía publicando con un badge rojo;
+    # el usuario pidió el 25-ago-2026 que si no pasa el filtro, no se muestre.
+    candidatas = top[:AI_NARRATIVE_N]
+    verificadas = []
+    for opp in candidatas:
+        if add_ai_narrative(opp):
+            verificadas.append(opp)
+        else:
+            motivo = (opp.get('situation_verdict') or {}).get('verdict') or 'sin verificar'
+            print(f"  🚫 {opp['ticker']}: excluida del output — {motivo}")
+    print(f"  ✅ {len(verificadas)}/{len(candidatas)} LEAPS pasan el gate de Claude")
+    top = verificadas
 
     output = {
         'generated_at': datetime.now().isoformat(),

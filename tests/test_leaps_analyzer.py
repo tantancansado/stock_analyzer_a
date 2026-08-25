@@ -425,3 +425,148 @@ class TestVentajaNeta:
         con = opportunity_score(70, 60, 80, 60.0, None, ventaja_neta=20.0)
         sin = opportunity_score(70, 60, 80, 60.0, None, ventaja_neta=None)
         assert con > sin
+
+
+# ── Gate de Claude: fail-CLOSED ──────────────────────────────────────────────
+
+class TestGateDeClaudeFailClosed:
+    """El 25-ago-2026 el usuario pidió que LEAPS y VALUE US solo publiquen lo
+    que Claude verificó explícitamente — "si Claude no lo valida, no se
+    muestra". Es lo contrario del resto del pipeline (que trata un fallo de
+    API como "sin dato" y deja pasar): aquí un fallo también excluye, igual
+    que un EVITAR explícito. Se comprueban los cuatro caminos por los que
+    `add_ai_narrative` puede acabar, cada uno con su valor de retorno.
+    """
+
+    def _opp(self):
+        return {
+            'ticker': 'ICE', 'company_name': 'Intercontinental Exchange',
+            'sector': 'Financials', 'spot': 158.39, 'quality_score': 70,
+            'analyst_upside_pct': 17.4, 'pct_from_52w_high': -11.7,
+            'ytd_pct': -0.3, 'forward_pe': 18.0, 'trailing_pe': 22.3,
+            'situation': 'CALIDAD_RAZONABLE',
+            'recommended_contract': {
+                'strike': 115.0, 'expiry': '2028-01-21', 't_years': 1.42,
+                'mid': 53.3, 'cost_per_contract': 5330.0, 'delta': 0.81,
+                'leverage': 2.42, 'annual_carry_pct': 4.39,
+                'total_annual_cost_pct': 5.72, 'forgone_dividend_pct': 1.33,
+                'iv_pct': 44.2, 'iv_richness': 'cara', 'iv_vs_hv': 1.78,
+                'roundtrip_spread_usd': 360, 'volume': 1,
+                'breakeven': 168.3, 'breakeven_move_pct': 6.26,
+            },
+            'profit_at_target': {},
+        }
+
+    def _con_respuesta(self, texto):
+        from unittest.mock import patch
+        import groq_utils
+        opp = self._opp()
+        with patch.object(groq_utils, 'claude_chat', lambda **kw: texto):
+            pasa = la.add_ai_narrative(opp)
+        return pasa, opp
+
+    def test_sin_saldo_o_api_caida_no_pasa(self):
+        # claude_chat devuelve None: el mismo camino que "sin presupuesto"
+        pasa, opp = self._con_respuesta(None)
+        assert pasa is False
+        assert 'situation_verdict' not in opp
+
+    def test_evitar_explicito_no_pasa(self):
+        import json as _json
+        pasa, opp = self._con_respuesta(_json.dumps({
+            'data_check': 'OK', 'verdict': 'EVITAR',
+            'verdict_reason': 'El negocio se está deteriorando',
+            'narrative': 'x', 'take_profit': 'x', 'roll': 'x', 'thesis_break': 'x',
+        }))
+        assert pasa is False
+        assert opp['situation_verdict']['verdict'] == 'EVITAR'
+
+    def test_dato_dudoso_no_pasa_aunque_el_veredicto_sea_bueno(self):
+        import json as _json
+        pasa, _opp = self._con_respuesta(_json.dumps({
+            'data_check': 'OJO: el forward P/E no cuadra con el trailing',
+            'verdict': 'OPORTUNIDAD', 'verdict_reason': 'x',
+            'narrative': 'x', 'take_profit': 'x', 'roll': 'x', 'thesis_break': 'x',
+        }))
+        assert pasa is False
+
+    def test_json_roto_no_pasa(self):
+        pasa, opp = self._con_respuesta('esto no es JSON')
+        assert pasa is False
+        assert opp['ai_narrative'] == 'esto no es JSON'   # fallback de texto, pero no pasa
+
+    def test_oportunidad_verificada_si_pasa(self):
+        import json as _json
+        pasa, opp = self._con_respuesta(_json.dumps({
+            'data_check': 'OK', 'verdict': 'OPORTUNIDAD',
+            'verdict_reason': 'Calidad a buen precio', 'narrative': 'x',
+            'take_profit': 'x', 'roll': 'x', 'thesis_break': 'x',
+        }))
+        assert pasa is True
+        assert opp['situation_verdict']['verdict'] == 'OPORTUNIDAD'
+
+    def test_razonable_verificado_tambien_pasa(self):
+        import json as _json
+        pasa, _ = self._con_respuesta(_json.dumps({
+            'data_check': 'OK', 'verdict': 'RAZONABLE', 'verdict_reason': 'x',
+            'narrative': 'x', 'take_profit': 'x', 'roll': 'x', 'thesis_break': 'x',
+        }))
+        assert pasa is True
+
+    def test_main_excluye_lo_que_no_pasa_el_gate(self, monkeypatch):
+        """No basta con que add_ai_narrative diga False: main() tiene que
+        sacarla de `top` de verdad, o seguiría en leaps_opportunities.json."""
+        import json as _json
+        buena = self._opp()
+        buena['ticker'] = 'BUENA'
+        buena['opportunity_score'] = 90
+        mala = self._opp()
+        mala['ticker'] = 'MALA'
+        mala['opportunity_score'] = 80
+
+        respuestas = {
+            'BUENA': _json.dumps({'data_check': 'OK', 'verdict': 'OPORTUNIDAD',
+                                  'verdict_reason': 'x', 'narrative': 'x',
+                                  'take_profit': 'x', 'roll': 'x', 'thesis_break': 'x'}),
+            'MALA': _json.dumps({'data_check': 'OK', 'verdict': 'EVITAR',
+                                 'verdict_reason': 'x', 'narrative': 'x',
+                                 'take_profit': 'x', 'roll': 'x', 'thesis_break': 'x'}),
+        }
+
+        monkeypatch.setattr(la, 'load_app_signals', lambda: {})
+        monkeypatch.setattr(la, 'build_universe', lambda signals: ['BUENA', 'MALA'])
+        monkeypatch.setattr(la, 'get_risk_free_rate', lambda: 0.04)
+        monkeypatch.setattr(la, 'quality_score', lambda sig: 70)
+        monkeypatch.setattr(la, 'analyze_ticker_leaps',
+                             lambda ticker, sig, rate: buena if ticker == 'BUENA' else mala)
+
+        import groq_utils
+        # OJO: el propio prompt contiene la palabra "BUENAS" (de "comprar
+        # BUENAS empresas"), así que un `in` simple sobre 'BUENA' da falso
+        # positivo en AMBAS llamadas — hace falta el ticker entre paréntesis.
+        monkeypatch.setattr(groq_utils, 'claude_chat',
+                             lambda messages, **kw: respuestas['BUENA'] if '(BUENA)' in messages[0]['content'] else respuestas['MALA'])
+
+        import json as jsonlib
+        escrito = {}
+        real_open = open
+        def _fake_open(path, mode='r', *a, **kw):
+            if 'leaps_opportunities.json' in str(path) and 'w' in mode:
+                import io
+                buf = io.StringIO()
+                orig_close = buf.close
+                def _close():
+                    escrito['data'] = jsonlib.loads(buf.getvalue())
+                    orig_close()
+                buf.close = _close
+                return buf
+            return real_open(path, mode, *a, **kw)
+        monkeypatch.setattr('builtins.open', _fake_open)
+        from pathlib import Path as _Path
+        monkeypatch.setattr(_Path, 'mkdir', lambda self, **kw: None)
+
+        la.main()
+
+        tickers = [o['ticker'] for o in escrito['data']['opportunities']]
+        assert 'BUENA' in tickers
+        assert 'MALA' not in tickers

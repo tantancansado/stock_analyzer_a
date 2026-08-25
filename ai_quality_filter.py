@@ -217,7 +217,7 @@ Respond ONLY with JSON:
         # Fallback to rule-based
         return fallback_analysis(ticker_data, strategy)
 
-def claude_data_check(ticker_data: dict) -> str | None:
+def claude_data_check(ticker_data: dict) -> tuple[bool, str | None]:
     """Claude (Sonnet) audita la PLAUSIBILIDAD de los datos de un pick VALUE ya
     filtrado por Groq — mismo patrón que leaps_analyzer.add_ai_narrative.
 
@@ -226,13 +226,19 @@ def claude_data_check(ticker_data: dict) -> str | None:
     empresa). Solo se llama sobre los supervivientes del filtro Groq — pasar
     el universo entero por Claude saldría caro.
 
-    Devuelve None si todo parece coherente, o el texto de aviso si Claude
-    detecta algo dudoso.
+    Devuelve (verificado, aviso). `verificado=True` SOLO si Claude respondió
+    explícitamente "OK" — es el filtro final antes de publicar, y el criterio
+    del usuario es "si Claude no lo valida, no se muestra". Por diseño esto
+    es fail-CLOSED, al revés que el resto del pipeline (que trata un fallo de
+    API como "sin dato" y deja pasar): sin saldo, con la API caída o con una
+    respuesta que no parsea, `verificado` sale False igual que si Claude
+    hubiera encontrado un problema real — el pick queda fuera hasta que la
+    próxima ejecución sí pueda verificarlo.
     """
     try:
         from groq_utils import claude_chat, CLAUDE_SONNET
     except Exception:
-        return None
+        return False, None
 
     def _nd(v, suffix=''):
         if v is None or (isinstance(v, float) and np.isnan(v)):
@@ -253,7 +259,7 @@ Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible,
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
                       model=CLAUDE_SONNET, max_tokens=300, temperature=0.2)
     if not txt:
-        return None
+        return False, None
     import re as _re
     cleaned = _re.sub(r'(?:^```(?:json)?|```$)', '', txt.strip(), flags=_re.MULTILINE).strip()
     m = _re.search(r'\{[\s\S]*\}', cleaned)
@@ -261,10 +267,10 @@ Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible,
         data = json.loads(m.group(0)) if m else {}
         dc = str(data.get('data_check', '')).strip()
     except Exception:
-        dc = cleaned
-    if dc and not dc.upper().startswith('OK'):
-        return dc
-    return None
+        return False, 'Claude respondió pero el JSON no se pudo interpretar'
+    if dc.upper().startswith('OK'):
+        return True, None
+    return False, dc or 'Claude no confirmó los datos'
 
 
 def fallback_analysis(ticker_data: dict, strategy: str = "VALUE") -> dict:
@@ -694,12 +700,16 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
     # Sort by confidence
     df_filtered = df_filtered.sort_values('ai_confidence', ascending=False)
 
-    # Claude audita la PLAUSIBILIDAD de los datos — solo VALUE (eje central de
-    # la app junto a LEAPS) y solo sobre los YA filtrados por Groq, para no
-    # disparar el coste pasando el universo entero por Claude.
+    # GATE de Claude — solo VALUE (eje central de la app junto a LEAPS). Ya no
+    # es un aviso: lo que Claude no verifica explícitamente como "OK" se
+    # EXCLUYE del CSV publicado. El usuario lo pidió así el 25-ago-2026 tras
+    # comprobar que el aviso de antes (`data_warning`) se quedaba en la fila
+    # sin que nadie lo mirara — un dato dudoso seguía publicándose igual.
+    # Solo se llama sobre los YA filtrados por Groq, para no disparar el coste
+    # pasando el universo entero por Claude.
     if strategy_name == 'VALUE' and not df_filtered.empty:
-        print(f"\n🔎 Claude data-check sobre {len(df_filtered)} picks filtrados...")
-        warnings_count = 0
+        print(f"\n🔎 Claude data-check sobre {len(df_filtered)} picks filtrados (gate estricto)...")
+        verificado_mask = []
         data_warnings = []
         for _, row in df_filtered.iterrows():
             # Aplanar lo que claude_data_check espera como claves simples:
@@ -719,12 +729,19 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
             _fill('debt_to_equity', _dte)
             _fill('rev_growth', row_d.get('rev_growth_yoy'))
             _fill('pct_from_52w_high', row_d.get('proximity_to_52w_high'))
-            dc = claude_data_check(row_d)
+            ok, dc = claude_data_check(row_d)
+            verificado_mask.append(ok)
             data_warnings.append(dc)
-            if dc:
-                warnings_count += 1
-                print(f"  ⚠️  {row['ticker']}: {dc[:90]}")
+            if ok:
+                print(f"  ✅ {row['ticker']}: verificado")
+            else:
+                motivo = dc or 'Claude no pudo verificar (sin saldo o fallo de API)'
+                print(f"  🚫 {row['ticker']}: excluido — {motivo[:90]}")
+        df_filtered['ai_verified'] = verificado_mask
         df_filtered['data_warning'] = data_warnings
+        antes = len(df_filtered)
+        df_filtered = df_filtered[df_filtered['ai_verified']].copy()
+        print(f"   {len(df_filtered)}/{antes} pasan el gate de Claude")
         print(f"   {warnings_count}/{len(df_filtered)} con aviso de datos dudosos")
 
     print("\n" + "=" * 100)

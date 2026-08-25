@@ -1,48 +1,16 @@
 {
   "mes": "2026-08",
-  "gastado_usd": 9.016902,
-  "llamadas": 822,
-  "busquedas": 69,
-  "ultima_llamada": "2026-08-18T05:27:05.389946+00:00",
-  "por_script": {
-    "test_claude_research": {
-      "usd": 0.0,
-      "llamadas": 105
-    },
-    "ai_pick_verifier": {
-      "usd": 0.118697,
-      "llamadas": 6
-    },
-    "why_cheap_analyzer": {
-      "usd": 3.947517,
-      "llamadas": 12
-    },
-    "ai_quality_filter": {
-      "usd": 1.894707,
-      "llamadas": 329
-    },
-    "thesis_generator": {
-      "usd": 1.596379,
-      "llamadas": 304
-    },
-    "bounce_catalyst_check": {
-      "usd": 1.081803,
-      "llamadas": 4
-    },
-    "cerebro": {
-      "usd": 0.170829,
-      "llamadas": 21
-    },
-    "daily_briefing": {
-      "usd": 0.17457,
-      "llamadas": 5
-    },
-    "signal_postmortem": {
-      "usd": 0.0324,
-      "llamadas": 1
-    }
-  },
-  "sin_credito": true,
-  "sin_credito_desde": "2026-08-19T05:27:08.968176+00:00",
-  "sin_credito_mensaje": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
+  "gastado_usd": 0.0,
+  "llamadas": 0,
+  "busquedas": 0,
+  "ultima_llamada": null,
+  "por_script": {},
+  "sin_credito": false,
+  "sin_credito_desde": null,
+  "sin_credito_mensaje": null,
+  "mes_anterior": {
+    "mes": "2026-08 (antes de recargar el 25-ago)",
+    "gastado_usd": 9.016902,
+    "sin_credito_desde": "2026-08-19T05:27:08.968176+00:00"
+  }
 }
