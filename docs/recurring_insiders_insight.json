@@ -1,6 +1,6 @@
 {
-  "date": "2026-08-25",
-  "timestamp": "2026-08-25T05:14:17.212509",
+  "date": "2026-08-26",
+  "timestamp": "2026-08-26T05:29:17.667791",
   "narrative": null,
   "total_tickers": 15,
   "total_us": 7,
@@ -9,10 +9,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 14,
+      "purchase_count": 16,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 11
+      "days_span": 12
     },
     {
       "ticker": "AAL.L",
@@ -23,28 +23,28 @@
       "days_span": 60
     },
     {
-      "ticker": "BA.L",
+      "ticker": "LLOY.L",
       "market": "EU",
-      "purchase_count": 48,
-      "unique_insiders": 13,
+      "purchase_count": 20,
+      "unique_insiders": 7,
       "confidence_score": 100.0,
-      "days_span": 70
+      "days_span": 62
     },
     {
-      "ticker": "BARC.L",
+      "ticker": "VOD.L",
       "market": "EU",
-      "purchase_count": 10,
+      "purchase_count": 9,
+      "unique_insiders": 9,
+      "confidence_score": 100.0,
+      "days_span": 40
+    },
+    {
+      "ticker": "UNA.AS",
+      "market": "EU",
+      "purchase_count": 14,
       "unique_insiders": 10,
       "confidence_score": 100.0,
-      "days_span": 0
-    },
-    {
-      "ticker": "BATS.L",
-      "market": "EU",
-      "purchase_count": 42,
-      "unique_insiders": 13,
-      "confidence_score": 100.0,
-      "days_span": 75
+      "days_span": 33
     }
   ]
 }

@@ -1,13 +1,19 @@
 {
   "mes": "2026-08",
-  "gastado_usd": 0.0,
-  "llamadas": 0,
-  "busquedas": 0,
-  "ultima_llamada": null,
-  "por_script": {},
-  "sin_credito": false,
-  "sin_credito_desde": null,
-  "sin_credito_mensaje": null,
+  "gastado_usd": 1.495511,
+  "llamadas": 99,
+  "busquedas": 14,
+  "ultima_llamada": "2026-08-26T05:21:04.714332+00:00",
+  "por_script": {
+    "why_cheap_analyzer": {
+      "usd": 0.953843,
+      "llamadas": 5
+    },
+    "ai_quality_filter": {
+      "usd": 0.541668,
+      "llamadas": 94
+    }
+  },
   "mes_anterior": {
     "mes": "2026-08 (antes de recargar el 25-ago)",
     "gastado_usd": 9.016902,
