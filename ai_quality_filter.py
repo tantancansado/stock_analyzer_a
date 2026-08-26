@@ -742,7 +742,6 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
         antes = len(df_filtered)
         df_filtered = df_filtered[df_filtered['ai_verified']].copy()
         print(f"   {len(df_filtered)}/{antes} pasan el gate de Claude")
-        print(f"   {warnings_count}/{len(df_filtered)} con aviso de datos dudosos")
 
     print("\n" + "=" * 100)
     print("FILTERING RESULTS")

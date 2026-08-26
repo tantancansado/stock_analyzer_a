@@ -89,3 +89,48 @@ class TestGatePublicaSoloLoVerificado:
             resultado = df[df['ai_verified']].copy()
 
         assert list(resultado['ticker']) == ['BUENA']
+
+
+class TestFilterOpportunitiesEndToEnd:
+    """El 26-ago-2026 el gate de arriba pasó todos sus tests unitarios pero
+    crasheaba en producción: un `print(warnings_count)` sobrevivió a la
+    reescritura del bucle referenciando una variable que ya no existía.
+    NameError, silenciado por el `|| echo "failed"` del workflow — 94
+    llamadas reales de Claude pagadas y tiradas, el CSV publicado se quedó
+    con el filtro de ANTES del gate. Los tests unitarios de arriba mockeaban
+    la lógica del bucle pero nunca llamaban a `filter_opportunities` de
+    verdad, así que nunca pasaban por esa línea. Este sí.
+    """
+
+    def test_no_revienta_y_escribe_el_csv_con_el_gate_aplicado(self, tmp_path, monkeypatch):
+        import pandas as pd
+
+        base_row = {
+            'ticker': 'X', 'company_name': 'X Corp', 'sector': 'Tech',
+            'current_price': 100.0, 'target_price_analyst': 120.0,
+            'analyst_count': 10, 'analyst_upside_pct': 20.0,
+            'health_details': "{'roe_pct': 15.0, 'debt_to_equity': 0.5}",
+            'earnings_details': "{'profit_margin_pct': 12.0}",
+            'rev_growth_yoy': 8.0, 'proximity_to_52w_high': -15.0,
+        }
+        df = pd.DataFrame([
+            {**base_row, 'ticker': 'BUENA'},
+            {**base_row, 'ticker': 'MALA'},
+        ])
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'docs').mkdir()
+        input_path = tmp_path / 'docs' / 'value_opportunities.csv'
+        df.to_csv(input_path, index=False)
+
+        monkeypatch.setattr(aqf, 'analyze_with_ai',
+                            lambda ticker_data, strategy='VALUE':
+                                {'verdict': 'BUY', 'confidence': 90, 'reasoning': 'x'})
+        monkeypatch.setattr(aqf, 'claude_data_check',
+                            lambda row_d: (True, None) if row_d['ticker'] == 'BUENA' else (False, 'dato dudoso'))
+
+        # No debe lanzar NameError ni ninguna otra excepción
+        aqf.filter_opportunities(input_path, 'VALUE', 'value_score')
+
+        out = pd.read_csv(tmp_path / 'docs' / 'value_opportunities_filtered.csv')
+        assert list(out['ticker']) == ['BUENA']
+        assert out['ai_verified'].tolist() == [True]
