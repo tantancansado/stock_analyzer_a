@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26",
+  "generated_at": "2026-08-27",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -36,22 +36,22 @@
     {
       "factor": "fcf_yield_bonus",
       "change": "+3",
-      "reason": "FCF alto mejora WR +6.5pp. Aumentar peso FCF.",
-      "n": 428
+      "reason": "FCF alto mejora WR +6.1pp. Aumentar peso FCF.",
+      "n": 430
     },
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
-      "reason": "R:R alto mejora WR +9.3pp. Aumentar peso R:R.",
+      "reason": "R:R alto mejora WR +9.0pp. Aumentar peso R:R.",
       "n": 594
     },
     {
       "factor": "score_threshold_note",
       "change": "Consider raising minimum threshold to 70+ for published picks",
-      "reason": "Score 80+ has 60.0% WR vs 28% base",
-      "n": 5
+      "reason": "Score 80+ has 70.0% WR vs 29% base",
+      "n": 10
     }
   ],
-  "expected_impact": "Based on 1562 historical signals",
+  "expected_impact": "Based on 1578 historical signals",
   "narrative": "Ajustes propuestos basados en an\u00e1lisis hist\u00f3rico. Requieren revisi\u00f3n antes de aplicar al pipeline."
 }

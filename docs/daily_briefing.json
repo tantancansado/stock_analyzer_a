@@ -1,44 +1,184 @@
 {
-  "date": "2026-08-27",
-  "timestamp": "2026-08-27T15:52:02.816700",
-  "narrative": null,
-  "macro_regime": "CALM",
-  "picks_count": 6,
-  "top_picks": [
-    {
-      "ticker": "SYK",
-      "sector": "Healthcare",
-      "value_score": 62.115,
-      "analyst_upside_pct": 17.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 60.79499999999999,
-      "analyst_upside_pct": 8.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "TT",
-      "sector": "Industrials",
-      "value_score": 53.115,
-      "analyst_upside_pct": 15.0,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "AON",
-      "sector": "Financial Services",
-      "value_score": 49.81,
-      "analyst_upside_pct": 15.4,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "EQIX",
-      "sector": "Real Estate",
-      "value_score": 38.07,
-      "analyst_upside_pct": 14.9,
-      "conviction_grade": null
+  "fecha": "2026-08-27",
+  "texto": "<b>Hoy hay cinco valores en zona de entrada.</b> Chevron y Occidental lideran el grupo, ambas en energía y cayendo por debilidad del sector, no por problemas de negocio: Occidental acaba de presentar producción récord en Permian y caja fuerte, pero el precio del crudo la castiga (58,42 $, con casi un 15% de subida vista por los analistas). Chevron cotiza a 198 $ con un 10% de recorrido esperado. Bank of America y Nucor completan el grupo con margen más ajustado, y First Citizens BancShares entra también aunque con menor puntuación de calidad.\n\nDos tesis se han roto y toca revisarlas ya: <b>CRH.L</b> ha caído por debajo de tu precio de salida (7914 frente al stop en 8140), así que si no has cerrado, es el momento. <b>CBOE</b> se ha quedado sin margen de subida según los analistas —prácticamente cero—, señal clara de que ya está cara: plantéate salir.\n\nPara vigilar sin tocar todavía: FICO sigue cayendo por una decisión regulatoria (FHFA/HUD) que abre la puerta a modelos de puntaje alternativos a su producto estrella, y Stryker por un ciberataque que frenó su producción y envíos. Ambas siguen bajando, así que barato todavía no es comprable. IDXX y Otis muestran señales contradictorias entre lo que ven los analistas y el modelo interno, mejor esperar a que se aclaren. Tradeweb sigue cayendo sin un motivo identificado.\n\nEl sistema, con 39 señales a 90 días, acierta un 61,5% con una subida media del 3,15%. Es una cifra provisional —todavía no hay histórico suficiente a 180 días—, así que no la tomes como veredicto final y ajusta el tamaño de las posiciones en consecuencia.",
+  "hechos": {
+    "fecha": "2026-08-27",
+    "total_lista": 71,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "CVX",
+        "empresa": "Chevron Corporation",
+        "score": 67.05,
+        "precio": 198.005,
+        "upside_analista": 10.2,
+        "upside_triangulado": 57.4,
+        "divergencia": "",
+        "fcf_yield": 5.65,
+        "del_maximo_pct": -7.8,
+        "rs_6m": -4.63,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 65.61500000000001,
+        "precio": 58.42,
+        "upside_analista": 14.4,
+        "upside_triangulado": 74.1,
+        "divergencia": "",
+        "fcf_yield": 6.49,
+        "del_maximo_pct": -13.4,
+        "rs_6m": -1.28,
+        "timing": "ENTRADA",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "Occidental presentó resultados sólidos en el 3T2025 con producción récord en Permian, generación de caja fuerte y reducción de deuda, pero la acción cae por la debilidad del precio"
+      },
+      {
+        "ticker": "BAC",
+        "empresa": "Bank of America Corporation",
+        "score": 53.08500000000001,
+        "precio": 61.58,
+        "upside_analista": 11.7,
+        "upside_triangulado": 24.2,
+        "divergencia": "",
+        "fcf_yield": 2.93,
+        "del_maximo_pct": -5.6,
+        "rs_6m": 12.37,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "NUE",
+        "empresa": "Nucor Corporation",
+        "score": 40.25,
+        "precio": 251.015,
+        "upside_analista": 12.7,
+        "upside_triangulado": 12.7,
+        "divergencia": "",
+        "fcf_yield": 1.2,
+        "del_maximo_pct": -10.4,
+        "rs_6m": 30.07,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "FCNCA",
+        "empresa": "First Citizens BancShares, Inc",
+        "score": 36.655,
+        "precio": 2169.08,
+        "upside_analista": 8.0,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 5.56,
+        "del_maximo_pct": -5.5,
+        "rs_6m": 1.95,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "OTIS",
+        "empresa": "Otis Worldwide Corporation",
+        "score": 51.23,
+        "precio": 71.6,
+        "upside_analista": 24.1,
+        "upside_triangulado": 17.3,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.27,
+        "del_maximo_pct": -24.3,
+        "rs_6m": -34.32,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "FICO",
+        "empresa": "Fair Isaac Corporation",
+        "score": 60.365,
+        "precio": 1172.285,
+        "upside_analista": 25.9,
+        "upside_triangulado": 25.9,
+        "divergencia": "",
+        "fcf_yield": 3.06,
+        "del_maximo_pct": -41.3,
+        "rs_6m": -29.83,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "La caída se origina en decisiones regulatorias de FHFA/HUD (jul-nov 2025) que permiten VantageScore 4.0 y FICO 10T como alternativas a Classic FICO en hipotecas GSE/FHA, rompiendo "
+      },
+      {
+        "ticker": "IDXX",
+        "empresa": "IDEXX Laboratories, Inc.",
+        "score": 52.43000000000001,
+        "precio": 550.61,
+        "upside_analista": 26.9,
+        "upside_triangulado": -44.1,
+        "divergencia": "ALTA",
+        "fcf_yield": 2.1,
+        "del_maximo_pct": -28.5,
+        "rs_6m": -29.36,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SYK",
+        "empresa": "Stryker Corporation",
+        "score": 62.115,
+        "precio": 326.65,
+        "upside_analista": 17.2,
+        "upside_triangulado": 17.2,
+        "divergencia": "",
+        "fcf_yield": 3.28,
+        "del_maximo_pct": -17.7,
+        "rs_6m": -27.65,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "La acción cayó tras un ciberataque disruptivo (wiper) atribuido a un grupo iraní que afectó producción, envíos y procesamiento de pedidos, sumado a una corrección de valoración pes"
+      },
+      {
+        "ticker": "TW",
+        "empresa": "Tradeweb Markets Inc.",
+        "score": 54.49000000000001,
+        "precio": 107.3,
+        "upside_analista": 15.3,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.59,
+        "del_maximo_pct": -16.0,
+        "rs_6m": -25.19,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      },
+      {
+        "ticker": "CBOE",
+        "motivo": "analyst_upside ahora -0% — sobrevalorado",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

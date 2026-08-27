@@ -1,94 +1,74 @@
 {
-  "generated_at": "2026-08-26",
+  "generated_at": "2026-08-27",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "HEI",
-      "company_name": "HEICO Corporation",
-      "sector": "Industrials",
-      "score_today": 56.4,
-      "score_prev": 36.3,
-      "delta": 20.0,
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 57.7,
+      "score_prev": 37.6,
+      "delta": 20.1,
       "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "HRI",
+      "company_name": "Herc Holdings Inc.",
+      "sector": "Industrials",
+      "score_today": 48.4,
+      "score_prev": 31.9,
+      "delta": 16.5,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FICO",
+      "company_name": "Fair Isaac Corporation",
+      "sector": "Technology",
+      "score_today": 60.4,
+      "score_prev": 44.2,
+      "delta": 16.1,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 67.0,
+      "score_prev": 56.4,
+      "delta": 10.6,
+      "grade": "🟢 Excellent"
     },
     {
       "type": "SCORE_UP",
       "ticker": "SYK",
       "company_name": "Stryker Corporation",
       "sector": "Healthcare",
-      "score_today": 52.3,
-      "score_prev": 38.0,
-      "delta": 14.3,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "sector": "Consumer Defensive",
-      "score_today": 46.8,
-      "score_prev": 34.6,
-      "delta": 12.3,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CLPBY",
-      "company_name": "Coloplast A/S",
-      "sector": "Healthcare",
-      "score_today": 59.6,
-      "score_prev": 50.1,
-      "delta": 9.4,
+      "score_today": 62.1,
+      "score_prev": 52.3,
+      "delta": 9.8,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sector": "Technology",
-      "score_today": 88.0,
-      "score_prev": 79.0,
-      "delta": 9.0,
-      "grade": "🔥 Legendary"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CNI",
-      "company_name": "Canadian National Railway Company",
-      "sector": "Industrials",
-      "score_today": 46.5,
-      "score_prev": 38.5,
-      "delta": 8.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "EXPN.L",
-      "company_name": "Experian plc",
-      "sector": "Industrials",
-      "score_today": 67.7,
-      "score_prev": 60.0,
-      "delta": 7.7,
-      "grade": "🟢 Excellent"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "WST",
-      "company_name": "West Pharmaceutical Services, Inc.",
-      "sector": "Healthcare",
-      "score_today": 42.1,
-      "score_prev": 34.5,
-      "delta": 7.7,
+      "ticker": "SHW",
+      "company_name": "The Sherwin-Williams Company",
+      "sector": "Basic Materials",
+      "score_today": 44.7,
+      "score_prev": 35.1,
+      "delta": 9.5,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "IDXX",
-      "company_name": "IDEXX Laboratories, Inc.",
-      "sector": "Healthcare",
-      "score_today": 52.2,
-      "score_prev": 44.9,
-      "delta": 7.4,
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc.",
+      "sector": "Technology",
+      "score_today": 47.9,
+      "score_prev": 39.2,
+      "delta": 8.7,
       "grade": "🟡 Average"
     },
     {
@@ -96,156 +76,156 @@
       "ticker": "SPGI",
       "company_name": "S&P Global Inc.",
       "sector": "Financial Services",
-      "score_today": 41.7,
-      "score_prev": 34.6,
-      "delta": 7.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "RACE",
-      "company_name": "Ferrari N.V.",
-      "sector": "Consumer Cyclical",
-      "score_today": 48.7,
-      "score_prev": 42.3,
-      "delta": 6.5,
+      "score_today": 49.6,
+      "score_prev": 41.7,
+      "delta": 7.8,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "SBGSY",
-      "company_name": "Schneider Electric S.E.",
+      "ticker": "CDNS",
+      "company_name": "Cadence Design Systems, Inc.",
+      "sector": "Technology",
+      "score_today": 49.2,
+      "score_prev": 43.0,
+      "delta": 6.2,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "AUTO.L",
+      "company_name": "Autotrader Group plc",
+      "sector": "Communication Services",
+      "score_today": 46.5,
+      "score_prev": 40.7,
+      "delta": 5.8,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "JKHY",
+      "company_name": "Jack Henry & Associates, Inc.",
+      "sector": "Technology",
+      "score_today": 57.6,
+      "score_prev": 51.7,
+      "delta": 5.8,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
       "sector": "Industrials",
-      "score_today": 41.3,
-      "score_prev": 36.0,
-      "delta": 5.4,
-      "grade": "🔴 Weak"
+      "score_today": 51.2,
+      "score_prev": 45.5,
+      "delta": 5.7,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "POOL",
-      "company_name": "Pool Corporation",
-      "sector": "Industrials",
-      "score_today": 36.3,
-      "score_prev": 31.1,
-      "delta": 5.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
-      "sector": "Industrials",
-      "score_today": 52.0,
-      "score_prev": 46.8,
-      "delta": 5.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CSU.TO",
-      "company_name": "Constellation Software Inc.",
-      "sector": "Technology",
-      "score_today": 45.2,
-      "score_prev": 50.2,
-      "delta": -5.0,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "DSGX",
-      "company_name": "The Descartes Systems Group Inc.",
-      "sector": "Technology",
-      "score_today": 39.2,
-      "score_prev": 44.5,
-      "delta": -5.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SHW",
-      "company_name": "The Sherwin-Williams Company",
-      "sector": "Basic Materials",
-      "score_today": 35.1,
-      "score_prev": 44.4,
-      "delta": -9.2,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SAP",
-      "company_name": "SAP SE",
-      "sector": "Technology",
-      "score_today": 47.9,
-      "score_prev": 61.1,
-      "delta": -13.1,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "VRSN",
-      "company_name": "VeriSign, Inc.",
-      "sector": "Technology",
-      "score_today": 49.0,
-      "score_prev": 63.8,
-      "delta": -14.8,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "sector": "Technology",
-      "score_today": 44.2,
-      "score_prev": 59.5,
-      "delta": -15.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
       "ticker": "ROP",
       "company_name": "Roper Technologies, Inc.",
       "sector": "Technology",
-      "score_today": 44.2,
-      "score_prev": 59.7,
-      "delta": -15.5,
-      "grade": "🔴 Weak"
+      "score_today": 49.5,
+      "score_prev": 44.2,
+      "delta": 5.4,
+      "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 37.6,
-      "score_prev": 59.0,
-      "delta": -21.4,
-      "grade": "🔴 Weak"
+      "type": "SCORE_UP",
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "sector": "Industrials",
+      "score_today": 58.7,
+      "score_prev": 53.6,
+      "delta": 5.1,
+      "grade": "🟡 Good"
     },
     {
-      "type": "EXITED",
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "score_today": null,
-      "score_prev": 56.9,
+      "type": "NEW_ENTRY",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 61.0,
+      "score_prev": null,
       "delta": null,
       "grade": "🟡 Good"
     },
     {
-      "type": "EXITED",
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
+      "type": "SCORE_DOWN",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 82.9,
+      "score_prev": 88.0,
+      "delta": -5.1,
+      "grade": "🟢 Elite"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
       "sector": "Financial Services",
+      "score_today": 30.4,
+      "score_prev": 36.5,
+      "delta": -6.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "PG",
+      "company_name": "The Procter & Gamble Company",
+      "sector": "Consumer Defensive",
+      "score_today": 34.8,
+      "score_prev": 41.1,
+      "delta": -6.2,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "HEI",
+      "company_name": "HEICO Corporation",
+      "sector": "Industrials",
+      "score_today": 46.9,
+      "score_prev": 56.4,
+      "delta": -9.5,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "WCN",
+      "company_name": "Waste Connections, Inc.",
+      "sector": "Industrials",
+      "score_today": 34.7,
+      "score_prev": 46.3,
+      "delta": -11.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
+      "sector": "Industrials",
+      "score_today": 38.8,
+      "score_prev": 54.4,
+      "delta": -15.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "EXITED",
+      "ticker": "UBER",
+      "company_name": "Uber Technologies, Inc.",
+      "sector": "Technology",
       "score_today": null,
-      "score_prev": 59.2,
+      "score_prev": 55.5,
       "delta": null,
       "grade": "🟡 Good"
     }
   ],
   "counts": {
-    "new_entries": 0,
-    "exited": 2,
+    "new_entries": 1,
+    "exited": 1,
     "score_up": 14,
-    "score_down": 8
+    "score_down": 6
   }
 }
