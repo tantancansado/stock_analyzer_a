@@ -1,179 +1,44 @@
 {
-  "fecha": "2026-08-26",
-  "texto": "Hoy hay cinco entradas en la lista, con el sector energético como protagonista.\n\n<b>Occidental (OXY)</b> es la mejor situada: presentó resultados sólidos, con producción récord y caja fuerte, y aun así el mercado la castiga solo por la debilidad del precio del petróleo, nada que ver con el negocio en sí. Cotiza un 13% por debajo de máximos y el potencial de subida es de doble dígito.\n\n<b>Chevron</b> y <b>Nucor</b> completan el trío sólido, con caídas moderadas (7% y 12% desde máximos) y buen recorrido esperado.\n\n<b>First Citizens</b> entra con menos respaldo: al modelo le falta información para triangular su potencial real, así que trátala con más cautela que a las anteriores.\n\n<b>Kenvue</b> es la más floja de las cinco: los analistas casi no le ven potencial y el modelo interno directamente le ve caída. Aunque toca \"entrada\" técnicamente, yo la dejaría pasar.\n\nLo urgente: <b>CRH</b> ha roto el stop. Cotiza en 7914, por debajo del nivel en el que decidiste salir (8140). La tesis ya no se sostiene, toca cerrar.\n\nPara vigilar sin tocar todavía: IDXX, Stryker, Tradeweb y Waste Management siguen cayendo y no dan señal de entrada. En IDXX y Waste Management hay algo raro: los analistas les ven mucho potencial pero el modelo interno dice justo lo contrario, y esa divergencia tan grande suele ser señal de trampa, no de oportunidad. Coloplast cae con fuerza desde máximos (-27%) pero de momento solo para el radar.\n\nEl sistema viene acertando un 61,5% de las veces con ganancia media del 3,15% sobre 39 señales, pero es un dato provisional a 90 días: aún no hay histórico suficiente a 180 días para darlo por bueno. Ajusta el tamaño de posición en consecuencia.",
-  "hechos": {
-    "fecha": "2026-08-26",
-    "total_lista": 72,
-    "datos_incompletos": [],
-    "comprables": [
-      {
-        "ticker": "OXY",
-        "empresa": "Occidental Petroleum Corporati",
-        "score": 66.09,
-        "precio": 58.41,
-        "upside_analista": 14.0,
-        "upside_triangulado": 69.0,
-        "divergencia": "",
-        "fcf_yield": 6.49,
-        "del_maximo_pct": -13.4,
-        "rs_6m": 4.66,
-        "timing": "ENTRADA",
-        "por_que_cae": "CICLICO",
-        "por_que_cae_detalle": "Occidental presentó resultados sólidos en el 3T2025 con producción récord en Permian, generación de caja fuerte y reducción de deuda, pero la acción cae por la debilidad del precio"
-      },
-      {
-        "ticker": "CVX",
-        "empresa": "Chevron Corporation",
-        "score": 56.44499999999999,
-        "precio": 199.89,
-        "upside_analista": 9.1,
-        "upside_triangulado": 53.5,
-        "divergencia": "",
-        "fcf_yield": 5.59,
-        "del_maximo_pct": -6.9,
-        "rs_6m": -0.63,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "NUE",
-        "empresa": "Nucor Corporation",
-        "score": 43.25,
-        "precio": 247.55,
-        "upside_analista": 14.2,
-        "upside_triangulado": 14.2,
-        "divergencia": "",
-        "fcf_yield": 1.22,
-        "del_maximo_pct": -11.6,
-        "rs_6m": 30.81,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "FCNCA",
-        "empresa": "First Citizens BancShares, Inc",
-        "score": 35.66,
-        "precio": 2158.92,
-        "upside_analista": 8.5,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 5.58,
-        "del_maximo_pct": -6.0,
-        "rs_6m": -2.68,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "KVUE",
-        "empresa": "Kenvue Inc.",
-        "score": 33.595,
-        "precio": 19.33,
-        "upside_analista": 0.9,
-        "upside_triangulado": -4.8,
-        "divergencia": "MEDIA",
-        "fcf_yield": 5.14,
-        "del_maximo_pct": -7.7,
-        "rs_6m": -5.7,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "IDXX",
-        "empresa": "IDEXX Laboratories, Inc.",
-        "score": 52.25,
-        "precio": 550.01,
-        "upside_analista": 27.1,
-        "upside_triangulado": -44.1,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.1,
-        "del_maximo_pct": -28.6,
-        "rs_6m": -27.42,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "SYK",
-        "empresa": "Stryker Corporation",
-        "score": 52.29499999999999,
-        "precio": 330.59,
-        "upside_analista": 15.8,
-        "upside_triangulado": 15.8,
-        "divergencia": "",
-        "fcf_yield": 3.24,
-        "del_maximo_pct": -16.7,
-        "rs_6m": -24.54,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "TW",
-        "empresa": "Tradeweb Markets Inc.",
-        "score": 54.18000000000001,
-        "precio": 107.71,
-        "upside_analista": 14.9,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 4.53,
-        "del_maximo_pct": -15.6,
-        "rs_6m": -21.66,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "CLPBY",
-        "empresa": "Coloplast A/S",
-        "score": 59.59,
-        "precio": 7.26,
-        "upside_analista": 14.6,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 7.31,
-        "del_maximo_pct": -27.6,
-        "rs_6m": -14.78,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "WM",
-        "empresa": "Waste Management, Inc.",
-        "score": 54.400000000000006,
-        "precio": 222.13,
-        "upside_analista": 17.0,
-        "upside_triangulado": -51.4,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.64,
-        "del_maximo_pct": -10.5,
-        "rs_6m": -12.89,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "tesis_rotas": [
-      {
-        "ticker": "CRH.L",
-        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
-        "severidad": "HIGH"
-      }
-    ],
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-08-27",
+  "timestamp": "2026-08-27T15:52:02.816700",
+  "narrative": null,
+  "macro_regime": "CALM",
+  "picks_count": 6,
+  "top_picks": [
+    {
+      "ticker": "SYK",
+      "sector": "Healthcare",
+      "value_score": 62.115,
+      "analyst_upside_pct": 17.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MCO",
+      "sector": "Financial Services",
+      "value_score": 60.79499999999999,
+      "analyst_upside_pct": 8.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "TT",
+      "sector": "Industrials",
+      "value_score": 53.115,
+      "analyst_upside_pct": 15.0,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "AON",
+      "sector": "Financial Services",
+      "value_score": 49.81,
+      "analyst_upside_pct": 15.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "EQIX",
+      "sector": "Real Estate",
+      "value_score": 38.07,
+      "analyst_upside_pct": 14.9,
+      "conviction_grade": null
     }
-  }
+  ]
 }

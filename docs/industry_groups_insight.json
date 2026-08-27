@@ -1,78 +1,78 @@
 {
-  "date": "2026-08-26",
-  "timestamp": "2026-08-26T05:29:17.741131",
+  "date": "2026-08-27",
+  "timestamp": "2026-08-27T15:52:03.003546",
   "narrative": null,
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 73.4,
+      "avg_rs_percentile": 70.5,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 68.8,
+      "avg_rs_percentile": 67.4,
+      "num_tickers": 2,
+      "label": "Top 10%"
+    },
+    {
+      "industry": "Internet Content & Information",
+      "sector": "Communication Services",
+      "avg_rs_percentile": 60.5,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 55.2,
+      "avg_rs_percentile": 56.4,
       "num_tickers": 7,
-      "label": "Top 10%"
+      "label": "Top 25%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 54.6,
-      "num_tickers": 2,
-      "label": "Top 25%"
-    },
-    {
-      "industry": "Beverages - Non-Alcoholic",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 50.6,
+      "avg_rs_percentile": 56.2,
       "num_tickers": 2,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Waste Management",
+      "industry": "Building Products & Equipment",
       "sector": "Industrials",
-      "avg_rs_percentile": 19.9,
-      "num_tickers": 3,
+      "avg_rs_percentile": 18.1,
+      "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Building Products & Equipment",
+      "industry": "Waste Management",
       "sector": "Industrials",
-      "avg_rs_percentile": 19.4,
-      "num_tickers": 2,
+      "avg_rs_percentile": 15.5,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 9.8,
+      "avg_rs_percentile": 7.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 9.0,
+      "avg_rs_percentile": 4.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 7.5,
+      "avg_rs_percentile": 1.2,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
