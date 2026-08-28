@@ -1,64 +1,64 @@
 {
-  "date": "2026-08-27",
-  "timestamp": "2026-08-27T15:52:03.003546",
+  "date": "2026-08-28",
+  "timestamp": "2026-08-28T16:44:15.575182",
   "narrative": null,
   "macro_regime": "CALM",
   "top_sectors": [
     {
-      "industry": "Railroads",
-      "sector": "Industrials",
-      "avg_rs_percentile": 70.5,
+      "industry": "Medical Care Facilities",
+      "sector": "Healthcare",
+      "avg_rs_percentile": 66.6,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Medical Care Facilities",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 67.4,
+      "industry": "Railroads",
+      "sector": "Industrials",
+      "avg_rs_percentile": 65.8,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Internet Content & Information",
       "sector": "Communication Services",
-      "avg_rs_percentile": 60.5,
+      "avg_rs_percentile": 63.5,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
-      "industry": "Specialty Industrial Machinery",
-      "sector": "Industrials",
-      "avg_rs_percentile": 56.4,
-      "num_tickers": 7,
+      "industry": "Software - Infrastructure",
+      "sector": "Technology",
+      "avg_rs_percentile": 59.8,
+      "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Software - Infrastructure",
-      "sector": "Technology",
-      "avg_rs_percentile": 56.2,
-      "num_tickers": 2,
+      "industry": "Specialty Industrial Machinery",
+      "sector": "Industrials",
+      "avg_rs_percentile": 51.1,
+      "num_tickers": 7,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Building Products & Equipment",
+      "industry": "Waste Management",
       "sector": "Industrials",
-      "avg_rs_percentile": 18.1,
-      "num_tickers": 2,
+      "avg_rs_percentile": 16.3,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
-      "industry": "Waste Management",
+      "industry": "Building Products & Equipment",
       "sector": "Industrials",
-      "avg_rs_percentile": 15.5,
-      "num_tickers": 3,
+      "avg_rs_percentile": 12.1,
+      "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 7.2,
+      "avg_rs_percentile": 6.6,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
@@ -72,7 +72,7 @@
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 1.2,
+      "avg_rs_percentile": 3.5,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
