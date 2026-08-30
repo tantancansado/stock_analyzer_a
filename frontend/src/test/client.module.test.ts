@@ -3,8 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 const axiosGet = vi.fn()
 const axiosPost = vi.fn()
 const requestUse = vi.fn()
+const responseUse = vi.fn()
 const onAuthStateChange = vi.fn()
 const refreshSession = vi.fn()
+const signOut = vi.fn()
 
 vi.mock('axios', () => ({
   default: {
@@ -14,6 +16,9 @@ vi.mock('axios', () => ({
       interceptors: {
         request: {
           use: requestUse,
+        },
+        response: {
+          use: responseUse,
         },
       },
     })),
@@ -25,6 +30,7 @@ vi.mock('@/lib/supabase', () => ({
     auth: {
       onAuthStateChange,
       refreshSession,
+      signOut,
     },
   },
 }))
@@ -41,6 +47,7 @@ describe('api/client module', () => {
 
     onAuthStateChange.mockReturnValue({ data: { subscription: { unsubscribe: vi.fn() } } })
     refreshSession.mockResolvedValue({ data: { session: null } })
+    signOut.mockResolvedValue({ error: null })
 
     vi.stubGlobal('fetch', vi.fn())
     vi.stubGlobal('open', vi.fn())
@@ -180,5 +187,52 @@ describe('api/client module', () => {
     const { fetchPortfolioPrices } = await loadClient()
 
     await expect(fetchPortfolioPrices(['AAPL'])).resolves.toEqual({})
+  })
+
+  describe('gate de ALLOWED_EMAILS (403 not_authorized)', () => {
+    // Un JWT de Supabase válido no es lo mismo que "tiene acceso" — el backend
+    // devuelve 403 not_authorized si el email no está en la lista blanca
+    // (p.ej. alguien que se auto-registró pero no está autorizado). Sin este
+    // interceptor cada pantalla mostraba "Request failed with status code 403"
+    // en vez de un mensaje que explique lo que pasa de verdad.
+    async function getResponseErrorHandler() {
+      await loadClient()
+      // interceptors.response.use(success, error) — se captura el 2º argumento
+      return responseUse.mock.calls[0][1] as (err: unknown) => Promise<unknown>
+    }
+
+    it('cierra sesión y sustituye el error por el mensaje del backend', async () => {
+      const onError = await getResponseErrorHandler()
+
+      await expect(onError({
+        response: { status: 403, data: { error: 'not_authorized', message: 'Tu cuenta no tiene acceso a esta app. Contacta con el administrador.' } },
+      })).rejects.toThrow('Tu cuenta no tiene acceso a esta app. Contacta con el administrador.')
+
+      expect(signOut).toHaveBeenCalled()
+    })
+
+    it('usa un mensaje por defecto si el backend no manda uno', async () => {
+      const onError = await getResponseErrorHandler()
+
+      await expect(onError({
+        response: { status: 403, data: { error: 'not_authorized' } },
+      })).rejects.toThrow('Tu cuenta no tiene acceso a esta app.')
+    })
+
+    it('un 403 de OTRO tipo no cierra sesión ni cambia el mensaje', async () => {
+      const onError = await getResponseErrorHandler()
+      const original = { response: { status: 403, data: { error: 'rate_limited' } } }
+
+      await expect(onError(original)).rejects.toBe(original)
+      expect(signOut).not.toHaveBeenCalled()
+    })
+
+    it('un error que no es 403 pasa sin tocar', async () => {
+      const onError = await getResponseErrorHandler()
+      const original = new Error('Network Error')
+
+      await expect(onError(original)).rejects.toBe(original)
+      expect(signOut).not.toHaveBeenCalled()
+    })
   })
 })

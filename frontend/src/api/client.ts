@@ -54,6 +54,24 @@ apiClient.interceptors.request.use(async (config) => {
   return config
 })
 
+// Un JWT de Supabase válido no significa "tiene acceso" — el backend lo
+// rechaza con 403 not_authorized si el email no está en ALLOWED_EMAILS (p.ej.
+// alguien que se registró con el self-signup pero no está en la lista). Sin
+// esto, ese caso se veía como "Request failed with status code 403" en cada
+// pantalla — el mensaje del backend explica lo que pasa de verdad, y cerrar
+// sesión evita que se quede reintentando con un JWT que nunca va a pasar.
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error?.response?.status === 403 && error.response.data?.error === 'not_authorized') {
+      await supabase.auth.signOut()
+      return Promise.reject(new Error(error.response.data?.message
+        ?? 'Tu cuenta no tiene acceso a esta app.'))
+    }
+    return Promise.reject(error)
+  }
+)
+
 export interface ValueOpportunity {
   ticker: string
   company_name: string

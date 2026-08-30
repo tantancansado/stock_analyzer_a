@@ -23,6 +23,26 @@ def is_production_env(environ: Optional[Mapping[str, str]] = None) -> bool:
     return env.get("FLASK_ENV") == "production" or bool(env.get("RAILWAY_ENVIRONMENT"))
 
 
+def build_allowed_emails(environ: Optional[Mapping[str, str]] = None) -> frozenset[str]:
+    """Lista blanca de emails para el self-signup de Supabase Auth.
+
+    Sin esto, cualquiera que se registre desde el formulario de la app obtiene
+    un JWT de Supabase válido, y el resto del middleware (_check_auth) solo
+    comprueba que el token esté FIRMADO por Supabase — no de QUIÉN es. Un
+    self-signup abierto sin esta lista deja entrar a cualquiera que encuentre
+    la URL a todos los endpoints no públicos.
+
+    Vacía (var sin configurar) = comportamiento anterior, sin restringir por
+    email — igual que el resto de gates opcionales de este módulo (JWKS,
+    secret): no forzar un candado a medio configurar en producción por error.
+    """
+    env = environ if environ is not None else os.environ
+    raw = env.get("ALLOWED_EMAILS", "").strip()
+    if not raw:
+        return frozenset()
+    return frozenset(e.strip().lower() for e in raw.split(",") if e.strip())
+
+
 def build_cors_origins(environ: Optional[Mapping[str, str]] = None) -> list[str]:
     env = environ if environ is not None else os.environ
     configured = env.get("ALLOWED_ORIGINS", "").strip()
@@ -55,6 +75,7 @@ class ApiRuntimeConfig:
     cors_origins: list[str]
     supabase_url: str
     jwks_client: Optional[PyJWKClient]
+    allowed_emails: frozenset[str]
 
 
 def load_runtime_config(environ: Optional[Mapping[str, str]] = None) -> ApiRuntimeConfig:
@@ -75,4 +96,5 @@ def load_runtime_config(environ: Optional[Mapping[str, str]] = None) -> ApiRunti
             PyJWKClient(f"{supabase_url}/auth/v1/.well-known/jwks.json", cache_jwk_set=True)
             if supabase_url else None
         ),
+        allowed_emails=build_allowed_emails(env),
     )

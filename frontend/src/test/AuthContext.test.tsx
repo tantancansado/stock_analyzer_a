@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from '@/context/AuthContext'
 const getSessionMock = vi.fn()
 const onAuthStateChangeMock = vi.fn()
 const signInWithPasswordMock = vi.fn()
+const signUpMock = vi.fn()
 const signOutMock = vi.fn()
 const unsubscribeMock = vi.fn()
 
@@ -15,6 +16,7 @@ vi.mock('@/lib/supabase', () => ({
       getSession: () => getSessionMock(),
       onAuthStateChange: (...args: unknown[]) => onAuthStateChangeMock(...args),
       signInWithPassword: (...args: unknown[]) => signInWithPasswordMock(...args),
+      signUp: (...args: unknown[]) => signUpMock(...args),
       signOut: () => signOutMock(),
     },
   },
@@ -41,6 +43,7 @@ describe('AuthContext', () => {
       return { data: { subscription: { unsubscribe: unsubscribeMock } } }
     })
     signInWithPasswordMock.mockResolvedValue({ error: null })
+    signUpMock.mockResolvedValue({ data: { session: null, user: { id: 'new-user' } }, error: null })
     signOutMock.mockResolvedValue(undefined)
   })
 
@@ -127,6 +130,75 @@ describe('AuthContext', () => {
 
     await waitFor(() => {
       expect(result).toEqual({ error: 'Credenciales inválidas' })
+    })
+  })
+
+  describe('signUp', () => {
+    function useSignUpCapture() {
+      let result: { error: string | null; needsConfirmation: boolean } | undefined
+      function CaptureHarness() {
+        const { signUp } = useAuth()
+        return (
+          <button
+            onClick={async () => {
+              result = await signUp('nueva@example.com', 'secret123')
+            }}
+          >
+            capture
+          </button>
+        )
+      }
+      return { CaptureHarness, get result() { return result } }
+    }
+
+    it('needsConfirmation=true cuando Supabase no abre sesión (email a confirmar)', async () => {
+      signUpMock.mockResolvedValue({ data: { session: null, user: { id: 'x' } }, error: null })
+      const capture = useSignUpCapture()
+
+      const user = userEvent.setup()
+      render(<AuthProvider><capture.CaptureHarness /></AuthProvider>)
+      await user.click(screen.getByRole('button', { name: 'capture' }))
+
+      await waitFor(() => {
+        expect(capture.result).toEqual({ error: null, needsConfirmation: true })
+      })
+    })
+
+    it('needsConfirmation=false cuando la sesión llega ya abierta', async () => {
+      signUpMock.mockResolvedValue({
+        data: { session: { access_token: 't' }, user: { id: 'x' } }, error: null,
+      })
+      const capture = useSignUpCapture()
+
+      const user = userEvent.setup()
+      render(<AuthProvider><capture.CaptureHarness /></AuthProvider>)
+      await user.click(screen.getByRole('button', { name: 'capture' }))
+
+      await waitFor(() => {
+        expect(capture.result).toEqual({ error: null, needsConfirmation: false })
+      })
+    })
+
+    it('propaga el error de Supabase (p.ej. email ya registrado)', async () => {
+      signUpMock.mockResolvedValue({ data: { session: null, user: null }, error: { message: 'User already registered' } })
+      const capture = useSignUpCapture()
+
+      const user = userEvent.setup()
+      render(<AuthProvider><capture.CaptureHarness /></AuthProvider>)
+      await user.click(screen.getByRole('button', { name: 'capture' }))
+
+      await waitFor(() => {
+        expect(capture.result).toEqual({ error: 'User already registered', needsConfirmation: false })
+      })
+    })
+
+    it('llama a supabase.auth.signUp con email y password', async () => {
+      const capture = useSignUpCapture()
+      const user = userEvent.setup()
+      render(<AuthProvider><capture.CaptureHarness /></AuthProvider>)
+      await user.click(screen.getByRole('button', { name: 'capture' }))
+
+      expect(signUpMock).toHaveBeenCalledWith({ email: 'nueva@example.com', password: 'secret123' })
     })
   })
 })

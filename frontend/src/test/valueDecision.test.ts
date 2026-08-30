@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { getValueDecision } from '@/lib/valueDecision'
 
 // The module under test has no external dependencies — no axios or supabase mocks needed.
-vi.mock('axios', () => ({ default: { create: vi.fn(() => ({ get: vi.fn(), post: vi.fn(), interceptors: { request: { use: vi.fn() } } })) } }))
+vi.mock('axios', () => ({ default: { create: vi.fn(() => ({ get: vi.fn(), post: vi.fn(), interceptors: { request: { use: vi.fn() }, response: { use: vi.fn() } } })) } }))
 vi.mock('@/lib/supabase', () => ({ supabase: { auth: { onAuthStateChange: vi.fn(() => ({ data: { subscription: { unsubscribe: vi.fn() } } })), refreshSession: vi.fn() } } }))
 
 // ---------------------------------------------------------------------------

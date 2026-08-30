@@ -76,6 +76,7 @@ _RATE_LIMIT_STORAGE_URI = _RUNTIME.rate_limit_storage_uri
 _AUTH_BYPASS_ENABLED = _RUNTIME.auth_bypass_enabled
 _REQUIRE_SUPABASE_AUTH = _RUNTIME.require_supabase_auth
 _PUBLIC_PATHS = set(_RUNTIME.public_paths)
+_ALLOWED_EMAILS = _RUNTIME.allowed_emails
 
 limiter = Limiter(
     app=app,
@@ -93,6 +94,13 @@ if _RATE_LIMIT_STORAGE_URI == "memory://" and _IS_PRODUCTION:
     )
 if _AUTH_BYPASS_ENABLED:
     _logger.warning("AUTH_BYPASS activo; la API permitira acceso sin JWT.")
+if _IS_PRODUCTION and not _ALLOWED_EMAILS:
+    # No es fail-closed a propósito (ver build_allowed_emails): un self-signup
+    # sin lista blanca deja entrar a cualquiera que se registre, así que si
+    # ALLOWED_EMAILS se te olvida configurar en Railway, avisa aquí en vez de
+    # descubrirlo por un usuario no autorizado con acceso a todo.
+    _logger.warning("ALLOWED_EMAILS no configurado en producción; el self-signup, si está "
+                    "activo en Supabase, dará acceso a CUALQUIER email que se registre.")
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -121,10 +129,11 @@ def _check_auth():
     if not token:
         return jsonify({'error': 'Unauthorized'}), 401
     verified = False
+    payload = None
     if _jwks_client:
         try:
             signing_key = _jwks_client.get_signing_key_from_jwt(token)
-            pyjwt.decode(token, signing_key.key,
+            payload = pyjwt.decode(token, signing_key.key,
                          algorithms=['ES256', 'RS256'],
                          options={"verify_aud": False})
             verified = True
@@ -132,7 +141,7 @@ def _check_auth():
             print(f"[AUTH] JWKS verify failed: {e} | header: {token.split('.')[0] if '.' in token else '?'}", flush=True)
     if not verified and _SUPABASE_JWT_SECRET:
         try:
-            pyjwt.decode(token, _SUPABASE_JWT_SECRET,
+            payload = pyjwt.decode(token, _SUPABASE_JWT_SECRET,
                          algorithms=['HS256'],
                          options={"verify_aud": False})
             verified = True
@@ -140,6 +149,17 @@ def _check_auth():
             print(f"[AUTH] HS256 verify failed: {e}", flush=True)
     if not verified:
         return jsonify({'error': 'Invalid token'}), 401
+    # Token válido = firmado por Supabase, no dice QUIÉN puede entrar. Con
+    # self-signup abierto en Supabase Auth, cualquiera que se registre saca un
+    # JWT igual de válido que uno autorizado — la lista blanca es lo que
+    # distingue "es de verdad un usuario de Supabase" de "es uno de LOS
+    # NUESTROS". Vacía (sin configurar) no restringe, ver build_allowed_emails.
+    if _ALLOWED_EMAILS:
+        email = str((payload or {}).get('email', '')).strip().lower()
+        if email not in _ALLOWED_EMAILS:
+            _logger.warning("Acceso denegado: %s no está en ALLOWED_EMAILS", email or '(sin email en el token)')
+            return jsonify({'error': 'not_authorized',
+                           'message': 'Tu cuenta no tiene acceso a esta app. Contacta con el administrador.'}), 403
 
 # ─────────────────────────────────────────────────────────────────────────────
 # CARGA DE CACHE AL ARRANCAR

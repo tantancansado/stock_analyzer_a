@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ticker_api_config import build_cors_origins, load_runtime_config
+from ticker_api_config import build_allowed_emails, build_cors_origins, load_runtime_config
 from ticker_api_data import load_csv_file, load_json_file
 
 
@@ -35,6 +35,35 @@ def test_runtime_config_production_requires_auth():
 def test_build_cors_origins_keeps_configured_values():
     origins = build_cors_origins({"ALLOWED_ORIGINS": "https://a.test, https://b.test"})
     assert origins[:2] == ["https://a.test", "https://b.test"]
+
+
+class TestAllowedEmails:
+    """Lista blanca para el self-signup — ver el comentario en _check_auth de
+    ticker_api.py: un JWT válido dice "es de Supabase", no "es de los nuestros".
+    """
+
+    def test_sin_configurar_no_restringe(self):
+        # Comportamiento anterior al self-signup: no forzar un candado a medio
+        # configurar en producción por olvido — ver build_allowed_emails.
+        assert build_allowed_emails({}) == frozenset()
+
+    def test_parsea_lista_separada_por_comas(self):
+        emails = build_allowed_emails({"ALLOWED_EMAILS": "ale@x.com,ana@y.com"})
+        assert emails == {"ale@x.com", "ana@y.com"}
+
+    def test_normaliza_mayusculas_y_espacios(self):
+        # El email del JWT y el de la lista deben comparar en el mismo formato,
+        # o un usuario autorizado se queda fuera por escribir el email distinto.
+        emails = build_allowed_emails({"ALLOWED_EMAILS": " Ale@X.com , ANA@Y.COM "})
+        assert emails == {"ale@x.com", "ana@y.com"}
+
+    def test_entradas_vacias_no_cuelan(self):
+        emails = build_allowed_emails({"ALLOWED_EMAILS": "ale@x.com,,  ,ana@y.com"})
+        assert emails == {"ale@x.com", "ana@y.com"}
+
+    def test_load_runtime_config_lo_expone(self):
+        cfg = load_runtime_config({"ALLOWED_EMAILS": "ale@x.com"})
+        assert cfg.allowed_emails == {"ale@x.com"}
 
 
 def test_load_csv_file_indexes_ticker_column(tmp_path: Path):
