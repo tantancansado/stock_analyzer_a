@@ -4,7 +4,7 @@ import {
   BookOpen, Compass, Workflow, Bot, Shield, HelpCircle, Search,
   LayoutDashboard, Brain, DollarSign, Radar, Users, Crosshair,
   Wallet, Calculator, TrendingUp, Activity, PieChart,
-  Bell, CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark,
+  Bell, CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark, Rocket,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
@@ -38,6 +38,7 @@ const SECTIONS: Section[] = [
   { id: 'owner-earnings',     title: 'Owner Earnings',        icon: Calculator,      group: 'pages' },
   { id: 'buscar',             title: 'Buscar ticker',         icon: Search,          group: 'pages' },
   { id: 'entry-setups',       title: 'Entry setups',          icon: TrendingUp,      group: 'pages' },
+  { id: 'leaps',              title: 'LEAPS deep-ITM',        icon: Rocket,          group: 'pages' },
   { id: 'options',            title: 'Options flow',          icon: Activity,        group: 'pages' },
   { id: 'sectores',           title: 'Sectores',              icon: PieChart,        group: 'pages' },
   { id: 'alertas',            title: 'Alertas',               icon: Bell,            group: 'pages' },
@@ -64,6 +65,8 @@ const SECTIONS: Section[] = [
   { id: 'agente-macro',       title: 'Macro / Country Scanner', icon: Bot, group: 'agents' },
   { id: 'agente-catalyst',    title: 'Catalyst Scanner',      icon: Bot, group: 'agents' },
   { id: 'agente-portfolio',   title: 'Portfolio Tracker',     icon: Bot, group: 'agents' },
+  { id: 'agente-leaps',       title: 'LEAPS Analyzer',        icon: Bot, group: 'agents' },
+  { id: 'agente-why-cheap',   title: 'Why Cheap',             icon: Bot, group: 'agents' },
   { id: 'agente-ml-scorer',  title: 'ML Scorer',             icon: Bot, group: 'agents' },
   { id: 'agente-cerebro',     title: 'Cerebro (orquestador)', icon: Bot, group: 'agents' },
 
@@ -83,9 +86,9 @@ const GROUP_LABELS: Record<Section['group'], string> = {
 
 function SectionHeader({ id, icon: Icon, title, subtitle }: { id: string; icon: LucideIcon; title: string; subtitle?: string }) {
   return (
-    <header id={id} className="scroll-mt-20 mb-4">
+    <header id={id} className="group scroll-mt-20 mb-4">
       <div className="flex items-center gap-2.5">
-        <Icon size={18} className="text-primary" />
+        <Icon size={18} className="text-primary transition-transform duration-300 group-hover:scale-110" />
         <h2 className="text-xl font-extrabold tracking-tight">{title}</h2>
       </div>
       {subtitle && <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>}
@@ -95,7 +98,7 @@ function SectionHeader({ id, icon: Icon, title, subtitle }: { id: string; icon: 
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`glass rounded-xl border border-border/40 p-5 mb-6 ${className}`}>
+    <div className={`glass rounded-xl border border-border/40 p-5 mb-6 transition-colors duration-300 hover:border-border/70 ${className}`}>
       {children}
     </div>
   )
@@ -130,6 +133,7 @@ export default function Manual() {
   const [active, setActive] = useState<string>(SECTIONS[0].id)
   const [query, setQuery] = useState('')
   const [jumpTo, setJumpTo] = useState('')
+  const [progress, setProgress] = useState(0)
 
   // IntersectionObserver for active TOC highlight
   useEffect(() => {
@@ -147,6 +151,28 @@ export default function Manual() {
     return () => observer.disconnect()
   }, [])
 
+  // Barra de progreso de lectura — es un documento largo (30+ secciones), da
+  // referencia de cuánto queda sin tener que mirar la scrollbar del navegador.
+  // rAF-throttled: un listener de scroll sin esto dispara en cada pixel.
+  useEffect(() => {
+    let ticking = false
+    function computeProgress() {
+      const doc = document.documentElement
+      const max = doc.scrollHeight - doc.clientHeight
+      setProgress(max > 0 ? Math.min(100, (doc.scrollTop / max) * 100) : 0)
+      ticking = false
+    }
+    function onScroll() {
+      if (!ticking) {
+        requestAnimationFrame(computeProgress)
+        ticking = true
+      }
+    }
+    computeProgress()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return SECTIONS
@@ -161,6 +187,13 @@ export default function Manual() {
 
   return (
     <div className="mb-7 animate-fade-in-up">
+      {/* Barra de progreso de lectura, pegada bajo el topbar sticky */}
+      <div
+        className="fixed left-0 z-40 h-0.5 bg-primary/70 transition-[width] duration-150 ease-out"
+        style={{ top: 'var(--topbar-height, 50px)', width: `${progress}%` }}
+        aria-hidden="true"
+      />
+
       <PageHeader
         title="Manual de usuario"
         subtitle="Cómo funciona cada sección, qué hace cada agente y cómo interpretar los datos. Pensado para empezar de cero."
@@ -216,10 +249,10 @@ export default function Manual() {
                         <li key={s.id}>
                           <a
                             href={`#${s.id}`}
-                            className={`flex items-center gap-2 px-2 py-1 rounded-md transition-colors ${
+                            className={`flex items-center gap-2 pl-2 pr-2 py-1 rounded-md border-l-2 transition-all duration-200 ${
                               active === s.id
-                                ? 'bg-primary/10 text-primary font-semibold'
-                                : 'text-muted-foreground hover:text-foreground hover:bg-muted/30'
+                                ? 'border-l-primary bg-primary/10 text-primary font-semibold translate-x-0.5'
+                                : 'border-l-transparent text-muted-foreground hover:text-foreground hover:bg-muted/30'
                             }`}
                           >
                             <s.icon size={12} strokeWidth={1.75} className="shrink-0" />
@@ -267,8 +300,9 @@ export default function Manual() {
             <ul className="list-disc pl-5 space-y-1.5 mb-3">
               <li><b>ROE negativo = descarte automático.</b> Una empresa que destruye capital no es una oportunidad, por muy barata que parezca.</li>
               <li><b>Upside analista negativo = descarte.</b> Si todos los analistas que siguen la empresa piensan que está sobrevalorada, no la compramos.</li>
+              <li><b>Upside ≥ 30% también se descarta — es lo contrario de una ganga.</b> Medido sobre señales reales: 0% de acierto por encima de ese umbral. Un hueco tan grande entre precio y objetivo casi siempre significa que el precio se desplomó por algo que el modelo todavía no ve, no que el mercado se equivoca en tu favor. La zona que sí funciona es <b>[10%, 25%)</b> — 83% de acierto.</li>
               <li><b>Dato faltante ≠ dato bueno.</b> Cuando un score por defecto es 50 (información no disponible), el sistema <u>no puntúa</u> — prefiere no recomendar a inventarse números.</li>
-              <li><b>Objetivo: 5–10% consistente con alta tasa de acierto,</b> no 100% con drawdowns del 60%.</li>
+              <li><b>Se vende a precio objetivo, nunca a un % fijo de ganancia ni a un nivel técnico.</b> El objetivo se calcula (múltiplo × BPA limpio, DCF, consenso), y una empresa excepcional aguanta hasta el objetivo completo mientras una mediocre no.</li>
             </ul>
             <p className="text-sm text-muted-foreground">
               Esto explica por qué a veces el Dashboard muestra "0 oportunidades momentum" durante correcciones. Es correcto — preferimos cero señales antes que señales falsas.
@@ -297,8 +331,13 @@ export default function Manual() {
             <ul className="list-disc pl-5 space-y-1.5 text-sm">
               <li><b>value_score (0–100):</b> combinado de fundamentales + insiders + opciones + sector + mean reversion. Ver <a href="#agente-super-score" className="text-primary hover:underline">Super Score Integrator</a>.</li>
               <li><b>Grade A/B/C/D:</b> conviction grade. A = alta convicción (≥3 positivos, ≤1 red flag). D = evitar.</li>
-              <li><b>R:R (risk/reward):</b> ratio entre upside al precio objetivo y 8% stop loss. R:R ≥ 2 es bueno, ≥ 3 excelente.</li>
+              <li>
+                <b>Upside de analistas — la zona importa más que el número.</b> No es "cuanto más, mejor": la banda <b>[10%, 25%)</b> es la única con acierto alto medido (83%);
+                por debajo de 10% el margen no compensa el riesgo, y por encima de 30% el sistema lo descarta directamente (ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>).
+                Un R:R muy alto (≥3) sobre esta métrica salió medido como la <u>peor</u> banda en señales reales — no lo uses como filtro de calidad por sí solo.
+              </li>
               <li><b>FCF %:</b> Free Cash Flow yield (FCF / market cap). ≥5% sólido, ≥8% excepcional, negativo = red flag.</li>
+              <li><b>Por qué está barata (why_cheap):</b> DETERIORO / CÍCLICO / EVENTO / SENTIMIENTO / sin datos. Solo DETERIORO descarta el pick — el resto son caídas que no vienen del negocio rompiéndose. Ver <a href="#agente-why-cheap" className="text-primary hover:underline">Why Cheap</a>.</li>
             </ul>
           </Card>
 
@@ -415,12 +454,15 @@ export default function Manual() {
           </Card>
 
           <SectionHeader id="bounce" icon={Crosshair} title="Rebotes técnicos (Bounce)"
-            subtitle="Señales oversold extremas para trades de corto plazo." />
+            subtitle="RSI2 extremo + confirmación multi-indicador, para trades de 1–3 DÍAS." />
           <Card>
             <p className="mb-3">
-              Esta sección es <b>más técnica y más arriesgada</b> que Value. Busca empresas con RSI extremo (&lt; 25), soporte probado y volumen
-              capitulatorio — para rebotes de 1–4 semanas.
+              Esta sección es <b>más técnica y más arriesgada</b> que Value, y de horizonte mucho más corto: 1–3 días, no semanas. Dos tipos de señal:
             </p>
+            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+              <li><b>Rebote con convicción:</b> caída técnica en empresa fundamentalmente sólida — tamaño normal, puede convertirse en posición.</li>
+              <li><b>Rebote técnico puro:</b> solo señales técnicas, sin respaldo fundamental — tamaño pequeño, objetivo +5–7%, stop ajustado.</li>
+            </ul>
             <p className="text-sm text-muted-foreground mb-3">
               Úsala solo si ya dominas stops y tamaño de posición. No es el core del sistema.
             </p>
@@ -472,15 +514,42 @@ export default function Manual() {
           </Card>
 
           <SectionHeader id="entry-setups" icon={TrendingUp} title="Entry setups"
-            subtitle="Patrones técnicos combinados — VCP, momentum y mean reversion en un solo lugar." />
+            subtitle="Patrones técnicos combinados — catalizadores, VCP y mean reversion en un solo lugar." />
           <Card>
-            <p className="mb-3">Tres pestañas:</p>
+            <p className="mb-3">Cuatro pestañas:</p>
             <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
-              <li><b>Momentum (VCP):</b> Volatility Contraction Pattern estilo Minervini — tendencias Stage 2 confirmadas.</li>
-              <li><b>Mean Reversion:</b> soporte, volumen y RSI para rebotes.</li>
-              <li><b>Convergencias:</b> tickers que aparecen en varias listas a la vez.</li>
+              <li><b>Catalizadores:</b> filtros sobre el universo curado — por ejemplo "upside en zona dorada" (10–25%), earnings próximos, etc.</li>
+              <li><b>Mean Reversion:</b> soporte, volumen y RSI para rebotes en el universo curado (Oversold Bounce, Bull Flag Pullback).</li>
+              <li><b>Momentum VCP:</b> Volatility Contraction Pattern estilo Minervini — tendencias Stage 2 confirmadas.</li>
+              <li><b>Universo Ampliado:</b> el mismo escaneo de rebotes técnicos pero sobre el S&amp;P 500 completo, no solo el universo curado — con objetivo y stop fijos (+4% / −2.5%) para que target y stop caigan siempre del lado correcto del precio.</li>
             </ul>
-            <OpenLink to="/entry-setups" />
+            <p className="text-sm text-muted-foreground">
+              Todo setup publicado pasa antes por un validador que descarta configuraciones imposibles: objetivo por debajo del precio, stop por encima de la entrada, o riesgo/beneficio por debajo de 1:1.
+            </p>
+            <div className="mt-3"><OpenLink to="/entry-setups" /></div>
+          </Card>
+
+          <SectionHeader id="leaps" icon={Rocket} title="LEAPS deep-ITM"
+            subtitle="Calls largas (2027-2028) muy dentro de dinero — sustituto apalancado de comprar la acción." />
+          <Card>
+            <p className="mb-3">
+              No es especulación con opciones: es una forma de tener la MISMA exposición que comprar acciones de una empresa de calidad, con menos capital inmovilizado
+              (delta 0.70–0.92, vencimiento &gt;13 meses). El "riesgo" real es perder la prima si la tesis se rompe del todo antes del vencimiento.
+            </p>
+            <p className="font-semibold mb-1 text-sm">Cada oportunidad viene clasificada por situación</p>
+            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
+              <li><b>Caída circunstancial:</b> ha caído desde máximos pero los fundamentales parecen intactos.</li>
+              <li><b>Calidad a buen precio:</b> no se ha disparado, cotiza a múltiplo razonable — no es "barata por pánico", es calidad a precio justo.</li>
+              <li><b>Dip de ganador:</b> ha subido mucho en el año y ahora corrige.</li>
+            </ul>
+            <p className="text-sm mb-3">
+              <b>Ventaja neta:</b> compara el contrato con comprar la acción directamente, descontando YA el coste de cruzar el spread de compra/venta ida y vuelta —
+              un apalancamiento bruto grande puede quedar en casi nada (o negativo) una vez se resta ese coste real.
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Cada contrato mostrado ya pasó el filtro de Claude (ver <a href="#agente-leaps" className="text-primary hover:underline">LEAPS Analyzer</a>) — lo que no se verifica explícitamente como oportunidad razonable no llega a mostrarse, no se marca solo con un aviso.
+            </p>
+            <div className="mt-3"><OpenLink to="/leaps" /></div>
           </Card>
 
           <SectionHeader id="options" icon={Activity} title="Options flow"
@@ -667,6 +736,7 @@ export default function Manual() {
             <ul className="list-disc pl-5 space-y-0.5 text-sm">
               <li>ROE negativo.</li>
               <li>Upside analista negativo (sobrevalorado).</li>
+              <li>Upside analista ≥ 30% — value trap: 0% de acierto medido en señales reales por encima de ese umbral.</li>
             </ul>
           </Card>
 
@@ -674,6 +744,10 @@ export default function Manual() {
           <Card>
             <p className="mb-2"><b>Qué hace:</b> un LLM (Groq + Llama) lee cada oportunidad y descarta las que tienen red flags cualitativos no capturables con números (fraude histórico, regulación pendiente, tesis contradictoria).</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/value_opportunities_filtered.csv</code></p>
+            <p className="mb-2 text-sm">
+              <b>Después</b>, Claude audita la plausibilidad de los datos de cada pick que sobrevive (precio/target/upside/ROE coherentes entre sí para esa empresa concreta).
+              Este paso es un filtro de verdad, no un aviso: solo se publica lo que Claude confirma explícitamente — si no puede verificarlo (sin saldo, fallo de API, respuesta rara), el pick se queda fuera hasta la siguiente ejecución, igual que si lo hubiera rechazado.
+            </p>
             <p className="text-sm text-muted-foreground">El Dashboard muestra por defecto los <i>filtrados</i> (más estrictos). En Value US / EU puedes cambiar al listado completo.</p>
           </Card>
 
@@ -697,8 +771,8 @@ export default function Manual() {
 
           <SectionHeader id="agente-bounce" icon={Bot} title="Bounce Trader" />
           <Card>
-            <p className="mb-2"><b>Qué hace:</b> versión más táctica del mean reversion, orientada a trades de 1–4 semanas con stops ajustados.</p>
-            <p className="text-sm text-muted-foreground">Actualmente en modo paper trading. Los parámetros reales están documentados en el repo (ver bounce_trader_real_trading_config.md).</p>
+            <p className="mb-2"><b>Qué hace:</b> versión más táctica del mean reversion, orientada a trades de 1–4 semanas con stops ajustados. Se conecta a Interactive Brokers (TWS) para ejecutar.</p>
+            <p className="text-sm text-muted-foreground">Soporta modo paper (cuenta de simulación) y modo real (<code className="bg-muted/30 px-1 rounded">--live</code>, con confirmación explícita antes de mandar una orden real) — cuál esté activo depende de cómo se lance, no es fijo.</p>
           </Card>
 
           <SectionHeader id="agente-insiders" icon={Bot} title="Insider Scanners (US + EU)" />
@@ -738,6 +812,30 @@ export default function Manual() {
             <p className="mb-2"><b>Qué hace:</b> guarda cada recomendación hecha por el sistema con su fecha y score, y calcula el return 7d/14d/30d después.</p>
             <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/portfolio_tracker/recommendations.csv</code> + <code className="bg-muted/30 px-1 rounded">summary.json</code></p>
             <p className="text-sm text-muted-foreground">Alimenta el widget "Portfolio win rate" del Dashboard. También la pestaña Historial de señales.</p>
+          </Card>
+
+          <SectionHeader id="agente-leaps" icon={Bot} title="LEAPS Analyzer" />
+          <Card>
+            <p className="mb-2"><b>Qué hace:</b> escanea la cadena de opciones del universo de calidad buscando calls deep-ITM (delta 0.70–0.92, vencimiento &gt;13 meses) como sustituto apalancado de la acción — nunca sobre empresas con upside ≥30% (mismo hard-reject de value trap que VALUE).</p>
+            <p className="mb-2"><b>Output:</b> <code className="bg-muted/30 px-1 rounded">docs/leaps_opportunities.json</code></p>
+            <p className="text-sm text-muted-foreground">
+              Claude verifica cada contrato antes de publicarlo (coherencia de los datos + veredicto oportunidad/razonable/evitar). Es un filtro real: lo que no pasa no se muestra,
+              igual que en <a href="#agente-ai-filter" className="text-primary hover:underline">AI Quality Filter</a> — no queda como aviso pegado a una fila que se sigue publicando.
+            </p>
+          </Card>
+
+          <SectionHeader id="agente-why-cheap" icon={Bot} title="Why Cheap" />
+          <Card>
+            <p className="mb-2"><b>Qué hace:</b> responde la pregunta que decide una compra value — ¿por qué está barata esta empresa? Busca en fuentes reales (resultados, guidance, noticias) y clasifica la caída en una de cuatro categorías.</p>
+            <ul className="list-disc pl-5 space-y-0.5 text-sm mb-2">
+              <li><b>Deterioro:</b> el negocio está peor de verdad (guidance retirada, márgenes cayendo, pérdida de cuota). Único veredicto que descarta el pick.</li>
+              <li><b>Cíclico:</b> el sector está en la parte baja de su ciclo, el negocio aguanta.</li>
+              <li><b>Evento:</b> shock puntual y acotado, ya conocido y cuantificable.</li>
+              <li><b>Sentimiento:</b> rotación, múltiplos o macro — nada específico de la empresa.</li>
+            </ul>
+            <p className="text-sm text-muted-foreground">
+              Sin búsquedas reales detrás del veredicto, sale "sin datos" — nunca vetando ni respaldando por descarte. Solo se gasta en candidatos que ya tendrían sentido comprar (score suficiente y caída real que explicar).
+            </p>
           </Card>
 
           <SectionHeader id="agente-ml-scorer" icon={Bot} title="ML Win Predictor" />
@@ -802,7 +900,9 @@ export default function Manual() {
               <div><dt className="font-bold">Piotroski F-Score (0–9)</dt><dd className="text-muted-foreground">9 criterios binarios de calidad financiera (rentabilidad, solvencia, eficiencia). ≥ 7 es fuerte.</dd></div>
               <div><dt className="font-bold">VCP (Volatility Contraction Pattern)</dt><dd className="text-muted-foreground">Patrón técnico Minervini — tres contracciones de volatilidad cada vez más pequeñas antes de breakout.</dd></div>
               <div><dt className="font-bold">Trend Template (0–8)</dt><dd className="text-muted-foreground">8 criterios Minervini de tendencia alcista sostenida (precio &gt; MA50 &gt; MA150 &gt; MA200, etc.).</dd></div>
-              <div><dt className="font-bold">R:R (Risk/Reward)</dt><dd className="text-muted-foreground">Upside al target / downside al stop. ≥ 2 es bueno, ≥ 3 excelente.</dd></div>
+              <div><dt className="font-bold">R:R (Risk/Reward)</dt><dd className="text-muted-foreground">Upside al target / downside al stop. En rebotes técnicos, el sistema exige mínimo 1:1 para publicar el setup — arriesgar más de lo que se puede ganar no se muestra. En VALUE, un R:R muy alto no es señal de calidad por sí solo: mira la <b>zona de upside</b>, no este ratio suelto.</dd></div>
+              <div><dt className="font-bold">Zona dorada de upside</dt><dd className="text-muted-foreground">[10%, 25%) de distancia al precio objetivo del consenso. Es la única banda con acierto alto medido sobre señales reales (83%). Por debajo, poco margen; por encima del 30%, value trap (0% de acierto) — ver <a href="#filosofia" className="text-primary hover:underline">Filosofía</a>.</dd></div>
+              <div><dt className="font-bold">Why cheap (deterioro / cíclico / evento / sentimiento)</dt><dd className="text-muted-foreground">Clasificación de por qué cayó el precio, verificada con búsquedas reales. Solo "deterioro" descarta — las otras tres son caídas que no vienen de que el negocio se rompa.</dd></div>
               <div><dt className="font-bold">Stage 2 (Weinstein)</dt><dd className="text-muted-foreground">Fase de tendencia alcista confirmada — la única fase donde se compran momentum setups.</dd></div>
               <div><dt className="font-bold">Cluster buy (insiders)</dt><dd className="text-muted-foreground">Varios directivos comprando en días cercanos. Señal mucho más fuerte que compra aislada.</dd></div>
               <div><dt className="font-bold">Value trap</dt><dd className="text-muted-foreground">Empresa "barata" por una razón estructural: industria en declive, fraude, deuda excesiva. Evitar.</dd></div>
