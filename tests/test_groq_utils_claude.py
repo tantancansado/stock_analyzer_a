@@ -37,8 +37,13 @@ class TestSamplingPorModelo:
     def test_opus5_sin_temperature(self):
         assert 'temperature' not in _llamar(g.CLAUDE_OPUS)
 
-    def test_haiku_conserva_temperature(self):
-        assert 'temperature' in _llamar('claude-haiku-4-5')
+    def test_haiku45_sin_temperature(self):
+        # 31-ago-2026: ai_pick_verifier (paso CRÍTICO) llama a Haiku con
+        # temperature y fallaba SIEMPRE con "unexpected keyword argument
+        # 'temperature'" — visto en el log del 27-ago. Días sin verificar nada.
+        kw = _llamar('claude-haiku-4-5')
+        assert 'temperature' not in kw
+        assert kw['thinking'] == {'type': 'adaptive'}
 
     def test_sonnet46_conserva_temperature(self):
         assert 'temperature' in _llamar('claude-sonnet-4-6')
@@ -46,7 +51,7 @@ class TestSamplingPorModelo:
     def test_no_se_decide_por_la_palabra_opus(self):
         # El bug original miraba "opus" in model — Sonnet 5 se colaba
         assert 'temperature' not in _llamar('claude-sonnet-5')
-        assert 'temperature' in _llamar('claude-haiku-4-5')
+        assert 'temperature' in _llamar('claude-sonnet-4-6')
 
 
 class TestFailOpen:
@@ -61,6 +66,19 @@ class TestFailOpen:
     def test_sin_api_key_devuelve_none(self):
         with patch.object(g, '_get_anthropic_client', return_value=None):
             assert g.claude_chat([{'role': 'user', 'content': 'x'}]) is None
+
+    def test_sin_api_key_deja_rastro_en_el_log(self, caplog, monkeypatch):
+        """El 27-ago-2026, ANTHROPIC_API_KEY faltaba en un paso del pipeline
+        mientras otro paso del MISMO job, segundos antes, sí la tenía — 65
+        picks VALUE excluidos en cascada sin ninguna pista de por qué en el
+        log. Este era el único camino de claude_chat que devolvía None sin
+        loguear nada. Sin caché de cliente entre tests."""
+        monkeypatch.setattr(g, '_anthropic_client', None)
+        monkeypatch.delenv('ANTHROPIC_API_KEY', raising=False)
+        import logging
+        with caplog.at_level(logging.WARNING, logger='groq_utils'):
+            assert g._get_anthropic_client() is None
+        assert 'ANTHROPIC_API_KEY' in caplog.text
 
 
 class TestModelosActuales:

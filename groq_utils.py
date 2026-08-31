@@ -91,7 +91,14 @@ CLAUDE_OPUS    = "claude-opus-5"
 # thinking. No basta con mirar si pone "opus": Sonnet 5 también los rechaza, y
 # daily_briefing.py lo usa — mandarle temperature habría hecho que el briefing
 # fallara en su primer envío sin que nadie supiera por qué.
-_SIN_SAMPLING = ('opus-5', 'opus-4-8', 'opus-4-7', 'sonnet-5', 'fable-5', 'mythos-5')
+#
+# 'haiku-4-5' añadido el 31-ago-2026: ai_pick_verifier.py (paso CRÍTICO del
+# pipeline, dentro de super_score_integrator) llama a Haiku con temperature y
+# fallaba SIEMPRE con "Messages.create() got an unexpected keyword argument
+# 'temperature'" — visto en el log del 27-ago. No tumbaba el job (el propio
+# ai_pick_verifier trata la ausencia de respuesta como "sin veredicto", fail-
+# open) pero el verificador llevaba días sin verificar nada.
+_SIN_SAMPLING = ('opus-5', 'opus-4-8', 'opus-4-7', 'sonnet-5', 'fable-5', 'mythos-5', 'haiku-4-5')
 
 # Sin timeout el cliente espera 10 minutos por petición, y claude_chat corre
 # dentro de pasos críticos del pipeline (ai_pick_verifier). Ver el incidente
@@ -107,6 +114,12 @@ def _get_anthropic_client():
         return _anthropic_client
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
+        # Único camino de claude_chat que devolvía None sin dejar rastro. El
+        # 27-ago-2026 esto pasó (probablemente) en el paso de AI Quality
+        # Filter mientras OTRO paso del mismo job, segundos antes, sí tenía
+        # la clave — 65 picks VALUE excluidos en cascada sin ninguna pista en
+        # el log de por qué. Con esta línea, la próxima vez se ve al momento.
+        logger.warning("ANTHROPIC_API_KEY no está en el entorno — Claude no disponible este proceso")
         return None
     try:
         import anthropic
