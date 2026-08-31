@@ -149,3 +149,35 @@ class TestDownloadEndpoint:
         resp = client.get(f'/api/download/{dataset}')
         assert resp.status_code in (200, 404), \
             f"/api/download/{dataset} devolvió {resp.status_code}"
+
+
+# ── Rate limits en endpoints que llaman a Claude bajo demanda ────────────────
+
+class TestClaudeCostEndpointsRateLimited:
+    """Con varios usuarios (self-signup, 25-ago-2026) el límite genérico
+    (100/hora, para toda la API) no protegía el GASTO — alguien mirando
+    tickers uno tras otro en /api/leaps, /api/analyze-ai o /api/options-chain
+    podía disparar decenas de llamadas pagadas a Claude sin darse cuenta,
+    cada una fuera del presupuesto controlado del pipeline diario.
+
+    No hay precedente en el repo de testear el 429 real de un rate limit
+    (ni el ya existente de analyze_personal_portfolio lo tiene) — mockear
+    yfinance/Claude para las tres rutas solo para probar un decorador sale
+    caro para lo que aporta. Se comprueba a nivel de fuente que el decorador
+    sigue ahí: si alguien lo quita sin querer en un refactor, salta aquí.
+    """
+
+    ENDPOINTS_CON_CLAUDE = [
+        ("/api/leaps/<ticker>", 'leaps_ticker'),
+        ("/api/analyze-ai/<ticker>", 'analyze_ticker_ai'),
+        ("/api/options-chain/<ticker>", 'options_chain'),
+    ]
+
+    @pytest.mark.parametrize('route,func_name', ENDPOINTS_CON_CLAUDE)
+    def test_tiene_limiter_por_hora(self, route, func_name):
+        src = Path(__file__).parent.parent.joinpath('ticker_api.py').read_text()
+        bloque = src[src.index(f"@app.route('{route}')"):]
+        bloque = bloque[:bloque.index(f'def {func_name}') + len(f'def {func_name}')]
+        assert '@limiter.limit(' in bloque, \
+            f"{route} llama a Claude sin condición pero no tiene @limiter.limit — " \
+            f"con varios usuarios esto es gasto sin techo por sesión"

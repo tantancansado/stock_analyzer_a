@@ -5,7 +5,7 @@ import { apiClient } from '@/api/client'
 import Loading, { ErrorState } from '@/components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Users, Briefcase, BookOpen, TrendingUp } from 'lucide-react'
+import { Users, Briefcase, BookOpen, TrendingUp, Wallet } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
 
 const ADMIN_USER_ID = '3da8acd3-0b70-43c7-9684-6da77fbc6cfa'
@@ -27,12 +27,24 @@ interface TopTicker {
   count: number
 }
 
+interface ClaudeBudget {
+  gastado_usd: number
+  tope_usd: number
+  pct: number
+  tope_alcanzado: boolean
+  sin_credito: boolean
+  sin_credito_desde: string | null
+  llamadas: number
+}
+
 interface AdminData {
   registered_users: RegisteredUser[]
   total_users: number
   total_positions: number
   total_journal_entries: number
   top_tickers: TopTicker[]
+  claude_budget: ClaudeBudget | null
+  claude_desglose: string | null
 }
 
 function StatCard({ icon: Icon, label, value, color }: {
@@ -119,6 +131,47 @@ export default function AdminUsage() {
         <StatCard icon={Briefcase} label="Posiciones totales"   value={data.total_positions}        color="#34d399" />
         <StatCard icon={BookOpen}  label="Entradas de journal"  value={data.total_journal_entries}  color="#f59e0b" />
       </div>
+
+      {/* Presupuesto de Claude — con varios usuarios en la app tiene sentido
+          ver aquí, en un solo sitio, cuánto se lleva gastado del tope mensual
+          en vez de mirar Railway o el JSON del repo a mano. */}
+      {data.claude_budget && (
+        <Card className="glass">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider flex items-center gap-2">
+                <Wallet size={14} className="text-foreground/40" />
+                Presupuesto de Claude este mes
+              </h2>
+              {data.claude_budget.sin_credito && (
+                <Badge variant="outline" className="text-red-400 border-red-400/30 text-xs">sin saldo</Badge>
+              )}
+            </div>
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="text-2xl font-bold font-mono text-foreground">
+                ${data.claude_budget.gastado_usd.toFixed(2)}
+              </span>
+              <span className="text-sm text-foreground/40">de ${data.claude_budget.tope_usd.toFixed(2)}</span>
+              <span className="text-xs text-foreground/40 ml-auto">{data.claude_budget.llamadas} llamadas</span>
+            </div>
+            <div className="h-2 rounded-full mb-4" style={{ background: 'rgba(255,255,255,0.08)' }}>
+              <div
+                className="h-2 rounded-full transition-all"
+                style={{
+                  width: `${Math.min(data.claude_budget.pct, 100)}%`,
+                  background: data.claude_budget.sin_credito || data.claude_budget.pct >= 90
+                    ? '#ef4444' : data.claude_budget.pct >= 60 ? '#f59e0b' : '#34d399',
+                }}
+              />
+            </div>
+            {data.claude_desglose && (
+              <pre className="text-xs font-mono text-foreground/50 whitespace-pre-wrap leading-relaxed">
+                {data.claude_desglose}
+              </pre>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Usuarios con actividad */}
       <Card className="glass">

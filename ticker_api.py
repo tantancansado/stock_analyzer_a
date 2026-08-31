@@ -1248,6 +1248,12 @@ def leaps_opportunities():
 
 
 @app.route('/api/leaps/<ticker>')
+# Llama a Claude sin condición en cada request (add_ai_narrative). Con varios
+# usuarios el límite genérico (100/hora, para toda la API) no protege el
+# gasto real — alguien mirando tickers uno tras otro puede disparar decenas
+# de llamadas pagadas sin darse cuenta. 20/hora cubre una sesión de consulta
+# normal y acota el peor caso por usuario.
+@limiter.limit("20 per hour")
 def leaps_ticker(ticker: str):
     """Análisis LEAPS deep-ITM en vivo para un ticker concreto (on-demand).
 
@@ -2139,6 +2145,8 @@ app.register_blueprint(insights_bp)
 
 
 @app.route('/api/analyze-ai/<ticker>')
+# Mismo motivo que /api/leaps/<ticker>: llama a Claude en cada request.
+@limiter.limit("20 per hour")
 def analyze_ticker_ai(ticker):
     """On-demand AI analysis combining all available data for a ticker."""
     import os as _os
@@ -4121,6 +4129,8 @@ Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el
 # ─────────────────────────────────────────────────────────────────────────────
 
 @app.route('/api/options-chain/<ticker>')
+# Mismo motivo: Groq/Claude en cada request para elegir el contrato óptimo.
+@limiter.limit("20 per hour")
 def options_chain(ticker: str):
     """Return real options contracts across all horizons + thesis-aware Groq recommendation.
 
@@ -4678,6 +4688,19 @@ def admin_usage():
     all_tickers = [p.get('ticker', '') for p in positions if p.get('ticker')]
     ticker_frequency = Counter(all_tickers).most_common(20)
 
+    # ── gasto de Claude ────────────────────────────────────────────────────────
+    # Con varios usuarios usando la app (self-signup, 25-ago-2026) tiene sentido
+    # que quien paga la factura lo vea aquí, en el mismo sitio donde ya ve quién
+    # usa la app — en vez de mirar Railway o el JSON del repo a mano.
+    claude_budget = None
+    claude_desglose = None
+    try:
+        from claude_budget import estado_alerta, desglose
+        claude_budget = estado_alerta()
+        claude_desglose = desglose()
+    except Exception as e:
+        _logger.warning("admin/usage: no se pudo leer claude_budget → %s", e)
+
     return jsonify({
         'registered_users': registered_users,
         'total_users': len(registered_users),
@@ -4685,6 +4708,8 @@ def admin_usage():
         'total_journal_entries': len(journal),
         'portfolio_by_user': portfolio_stats,
         'top_tickers': [{'ticker': t, 'count': c} for t, c in ticker_frequency],
+        'claude_budget': claude_budget,
+        'claude_desglose': claude_desglose,
         '_debug': _debug,
     })
 
