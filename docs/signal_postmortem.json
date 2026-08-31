@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-24T05:38:21.383490",
+  "generated_at": "2026-08-31T11:48:20.930369",
   "resumen": {
     "n": 39,
     "win_rate": 61.5,
@@ -85,7 +85,38 @@
     ]
   },
   "analisis": {
-    "hipotesis": [],
-    "nota": "verificador no disponible"
+    "hipotesis": [
+      {
+        "patron": "Las señales en sector Financial Services muestran mejor win rate y retorno medio que Technology (66.7% / 2.76% vs 53.3% / 1.13%)",
+        "evidencia": "Grupos de tamaño igual y moderado (n=15 cada uno), diferencia consistente en ambas métricas, lo que reduce (pero no elimina) la probabilidad de que sea puro ruido",
+        "como_validarlo": "Ampliar la muestra a más ciclos históricos y verificar si el patrón se mantiene por separado en distintos regímenes de mercado, ya que sector y régimen pueden estar correlacionados (ej. Financials podría concentrarse en periodos de recuperación)",
+        "confianza": "media"
+      },
+      {
+        "patron": "Las señales emitidas durante CORRECTION tienen win rate y retorno muy superiores a las de CONFIRMED_UPTREND (83.3% / 7.11% vs 58.1% / 2.5%)",
+        "evidencia": "Diferencia grande y con sentido económico (comprar value barato en caídas), pero el grupo CORRECTION tiene solo n=6, lo que hace la estimación muy inestable",
+        "como_validarlo": "Esperar a acumular más señales en fase de corrección antes de tratar esto como hallazgo; revisar si esas 6 señales pertenecen a un único episodio de mercado (lo que las haría no independientes)",
+        "confianza": "baja"
+      },
+      {
+        "patron": "El grupo de score >=70 tiene el peor win rate de todos los cortes (40%), peor que el grupo de score 60-70 (64.3%)",
+        "evidencia": "Contraintuitivo si se espera que mayor score implique mejor resultado; sin embargo n=5 es extremadamente pequeño, y con solo 2 señales perdedoras se explica el 40%",
+        "como_validarlo": "No sacar conclusiones hasta tener al menos n=20-30 en la banda >=70; revisar caso por caso qué causó las pérdidas puntuales (idiosincrático vs estructural)",
+        "confianza": "baja"
+      },
+      {
+        "patron": "Las señales con RR>=3 superan a las de RR 2-3 en win rate y retorno (66.7% / 4.87% vs 50% / 2.71%)",
+        "evidencia": "Dirección coherente con la lógica de que mejor relación riesgo/recompensa debería asociarse a mejores resultados, pero el grupo de comparación tiene solo n=6",
+        "como_validarlo": "Verificar estabilidad del patrón con más muestras en la banda 2-3; comprobar si RR y banda de score o upside están correlacionados (multicolinealidad) antes de atribuir el efecto solo al RR",
+        "confianza": "baja"
+      },
+      {
+        "patron": "La banda de upside 25-30% (n=24) es el grupo más numeroso y con métricas cercanas al promedio global, sin diferencia clara respecto a 20-25% (n=5)",
+        "evidencia": "El grupo pequeño (20-25%) muestra retorno medio más alto (5.36%) pero con n=5 y win rate similar (60%), no hay separación robusta",
+        "como_validarlo": "No hay patrón claro que valga la pena investigar todavía; monitorear si con más datos la banda de menor upside mantiene retornos más altos, lo cual sería contraintuitivo y merecería revisión de por qué el mercado repriced más rápido esas señales",
+        "confianza": "baja"
+      }
+    ],
+    "nota": "Con n=39 señales totales, cualquier corte que produzca subgrupos de n<10 (regimen CORRECTION, banda_score 50-60 y >=70, banda_upside 20-25%, banda_rr 2-3) debe tratarse como exploratorio, no como evidencia. El único corte con tamaños de muestra comparables y razonables es sector (15 vs 15), por lo que es el hallazgo con algo más de peso relativo, aunque sigue siendo insuficiente para conclusiones firmes. Ninguna de estas hipótesis debería usarse para ajustar el modelo de scoring sin antes ampliar la muestra y controlar por variables cruzadas (sector×régimen, score×RR, etc.), dado el riesgo de correlaciones espurias y de que varias señales compartan el mismo periodo de mercado (no independencia temporal)."
   }
 }

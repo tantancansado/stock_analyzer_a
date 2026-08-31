@@ -1,37 +1,134 @@
 {
-  "date": "2026-08-31",
-  "timestamp": "2026-08-31T11:23:40.643939",
-  "narrative": null,
-  "macro_regime": "CALM",
-  "picks_count": 4,
-  "top_picks": [
-    {
-      "ticker": "SYK",
-      "sector": "Healthcare",
-      "value_score": 52.16499999999999,
-      "analyst_upside_pct": 15.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "JKHY",
-      "sector": "Technology",
-      "value_score": 49.4,
-      "analyst_upside_pct": 12.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SAP",
-      "sector": "Technology",
-      "value_score": 46.205,
-      "analyst_upside_pct": 11.6,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "VEEV",
-      "sector": "Healthcare",
-      "value_score": 45.52,
-      "analyst_upside_pct": 6.3,
-      "conviction_grade": null
+  "fecha": "2026-08-31",
+  "texto": "<b>Hoy hay dos compras claras: Occidental y Nucor.</b>\n\n<b>Occidental (OXY)</b> es la mejor idea: producción récord en Permian, caja fuerte y deuda bajando, pero el mercado solo mira la debilidad del crudo. Está a un 12% de máximos y genera caja al 6,4% del precio — calidad real castigada por algo externo al negocio.\n\n<b>Nucor (NUE)</b> entra también, aunque con menos colchón: en los últimos 6 meses ha subido un 27% en fuerza relativa, así que ya no está tan de rebajas como parece.\n\n<b>Tesis rota: CRH.L.</b> Ha caído por debajo del precio al que decidiste salirte (7914 vs 8140). Severidad alta: toca ejecutar la salida, no hay margen para esperar a ver si rebota.\n\nPara vigilar, nada de esto es comprable todavía:\n— <b>ZTS</b>: sigue cayendo fuerte (-52% en 6 meses) tras recortar previsiones por más competencia en sus fármacos veterinarios estrella. Barato, pero aún no es el momento.\n— <b>OTIS</b>: lastrada por la debilidad del negocio en China, con varios recortes de guías por delante. Mejor esperar.\n— <b>SYK</b>: cayó por un ciberataque que frenó producción y envíos, más una corrección de valoración. Toca dejarla asentarse.\n— <b>IDXX</b>: crece con fuerza en resultados, pero el mercado teme una desaceleración y hay bastante divergencia entre lo que se ve y lo que se espera. Señal de precaución, no de compra.\n— <b>TW</b>: cae por rebaja de valoración tras una subida fuerte previa, no por nada del negocio. Sentimiento, no fundamentales.\n\nEl acertar del sistema ronda el 61,5% con ganancia media del 3,15%, pero es un dato provisional a 90 días — todavía no hay histórico suficiente a 180 días para confiar en él como veredicto final. Ajusta el tamaño de posición en consecuencia.",
+  "hechos": {
+    "fecha": "2026-08-31",
+    "total_lista": 70,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 65.485,
+        "precio": 59.1,
+        "upside_analista": 13.1,
+        "upside_triangulado": 72.1,
+        "divergencia": "",
+        "fcf_yield": 6.41,
+        "del_maximo_pct": -12.4,
+        "rs_6m": -2.64,
+        "timing": "ENTRADA",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "Occidental presentó resultados sólidos en el 3T2025 con producción récord en Permian, generación de caja fuerte y reducción de deuda, pero la acción cae por la debilidad del precio"
+      },
+      {
+        "ticker": "NUE",
+        "empresa": "Nucor Corporation",
+        "score": 42.565000000000005,
+        "precio": 250.5,
+        "upside_analista": 12.9,
+        "upside_triangulado": 12.9,
+        "divergencia": "",
+        "fcf_yield": 1.2,
+        "del_maximo_pct": -10.6,
+        "rs_6m": 26.86,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "ZTS",
+        "empresa": "Zoetis Inc.",
+        "score": 50.665,
+        "precio": 77.34,
+        "upside_analista": 24.1,
+        "upside_triangulado": -7.1,
+        "divergencia": "MEDIA",
+        "fcf_yield": 6.31,
+        "del_maximo_pct": -50.2,
+        "rs_6m": -52.03,
+        "timing": "VIGILAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "En 2025 Zoetis recortó su guidance de ingresos a $9.4-9.475B (desde $9.45-9.6B) tras caídas interanuales de Librela y Solensia en Q2 y Q3 por mayor competencia y menor gasto de due"
+      },
+      {
+        "ticker": "OTIS",
+        "empresa": "Otis Worldwide Corporation",
+        "score": 53.995000000000005,
+        "precio": 71.74,
+        "upside_analista": 23.8,
+        "upside_triangulado": 17.1,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.26,
+        "del_maximo_pct": -24.1,
+        "rs_6m": -35.12,
+        "timing": "ESPERAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "La caída se debe a la debilidad cíclica del negocio de Nuevos Equipos en China (mercado que cayó ~13% en 2025), que ha forzado varios recortes de guidance entre 2025 y 2026 pese a "
+      },
+      {
+        "ticker": "SYK",
+        "empresa": "Stryker Corporation",
+        "score": 52.16499999999999,
+        "precio": 330.69,
+        "upside_analista": 15.7,
+        "upside_triangulado": 15.7,
+        "divergencia": "",
+        "fcf_yield": 3.24,
+        "del_maximo_pct": -16.7,
+        "rs_6m": -26.78,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "La acción cayó tras un ciberataque disruptivo (wiper) atribuido a un grupo iraní que afectó producción, envíos y procesamiento de pedidos, sumado a una corrección de valoración pes"
+      },
+      {
+        "ticker": "IDXX",
+        "empresa": "IDEXX Laboratories, Inc.",
+        "score": 52.66499999999999,
+        "precio": 554.99,
+        "upside_analista": 25.9,
+        "upside_triangulado": -44.6,
+        "divergencia": "ALTA",
+        "fcf_yield": 2.08,
+        "del_maximo_pct": -27.9,
+        "rs_6m": -25.52,
+        "timing": "ESPERAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "IDXX ha crecido con fuerza en ingresos y EPS (doble dígito) durante 2025-2026, pero la acción cae por temores del mercado a una desaceleración cíclica en visitas veterinarias discr"
+      },
+      {
+        "ticker": "TW",
+        "empresa": "Tradeweb Markets Inc.",
+        "score": 56.565,
+        "precio": 108.87,
+        "upside_analista": 13.6,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.48,
+        "del_maximo_pct": -14.7,
+        "rs_6m": -24.04,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "La caída responde a una rebaja de valoración por parte de analistas tras la fuerte subida previa y a preocupación por compresión de comisiones (mix de producto), no a deterioro del"
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

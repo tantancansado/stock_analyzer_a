@@ -1,151 +1,61 @@
 {
-  "generated_at": "2026-08-28",
+  "generated_at": "2026-08-31",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "ZTS",
-      "company_name": "Zoetis Inc.",
-      "sector": "Healthcare",
-      "score_today": 51.6,
-      "score_prev": 39.9,
-      "delta": 11.7,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BR",
-      "company_name": "Broadridge Financial Solutions, Inc.",
-      "sector": "Technology",
-      "score_today": 77.8,
-      "score_prev": 82.9,
-      "delta": -5.1,
-      "grade": "🟢 Elite"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SHW",
-      "company_name": "The Sherwin-Williams Company",
-      "sector": "Basic Materials",
-      "score_today": 38.4,
-      "score_prev": 44.7,
-      "delta": -6.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
+      "ticker": "HEI",
+      "company_name": "HEICO Corporation",
       "sector": "Industrials",
-      "score_today": 33.4,
-      "score_prev": 40.0,
-      "delta": -6.6,
+      "score_today": 62.7,
+      "score_prev": 48.3,
+      "delta": 14.4,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 40.7,
+      "score_prev": 32.0,
+      "delta": 8.7,
       "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "JKHY",
-      "company_name": "Jack Henry & Associates, Inc.",
+      "type": "SCORE_UP",
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
       "sector": "Technology",
-      "score_today": 49.3,
-      "score_prev": 57.6,
-      "delta": -8.3,
+      "score_today": 45.1,
+      "score_prev": 38.6,
+      "delta": 6.6,
       "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_DOWN",
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "sector": "Consumer Defensive",
-      "score_today": 38.0,
-      "score_prev": 47.5,
-      "delta": -9.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "score_today": 49.2,
-      "score_prev": 58.9,
-      "delta": -9.7,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SYK",
-      "company_name": "Stryker Corporation",
-      "sector": "Healthcare",
-      "score_today": 52.2,
-      "score_prev": 62.1,
-      "delta": -9.9,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ROP",
-      "company_name": "Roper Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 39.0,
-      "score_prev": 49.5,
-      "delta": -10.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CVX",
-      "company_name": "Chevron Corporation",
-      "sector": "Energy",
-      "score_today": 53.5,
-      "score_prev": 67.0,
-      "delta": -13.5,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "score_today": 30.1,
-      "score_prev": 43.9,
-      "delta": -13.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 43.6,
-      "score_prev": 57.7,
-      "delta": -14.1,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "FICO",
-      "company_name": "Fair Isaac Corporation",
-      "sector": "Technology",
-      "score_today": 44.5,
-      "score_prev": 60.4,
-      "delta": -15.9,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "EXITED",
+      "type": "NEW_ENTRY",
       "ticker": "MA",
       "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": null,
-      "score_prev": 61.0,
+      "score_today": 64.0,
+      "score_prev": null,
       "delta": null,
       "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
+      "sector": "Consumer Cyclical",
+      "score_today": 41.5,
+      "score_prev": 46.6,
+      "delta": -5.1,
+      "grade": "🔴 Weak"
     }
   ],
   "counts": {
-    "new_entries": 0,
-    "exited": 1,
-    "score_up": 1,
-    "score_down": 12
+    "new_entries": 1,
+    "exited": 0,
+    "score_up": 3,
+    "score_down": 1
   }
 }
