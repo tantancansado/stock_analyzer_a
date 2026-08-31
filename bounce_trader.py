@@ -861,7 +861,7 @@ def _ai_eod_narrative(regime: str, vix: float, pnl_today: float,
             f"Histórico acumulado: WR {hist_wr:.0f}%, P&L {pnl_total:+.0f} USD."
         )
         resp = client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+            model='openai/gpt-oss-120b',  # llama-3.3-70b-versatile retirado 16-ago-2026
             max_tokens=100,
             messages=[{
                 'role': 'user',

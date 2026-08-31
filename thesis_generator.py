@@ -806,7 +806,7 @@ ESTRUCTURA (usa **negrita** para cada sección):
             )
         else:
             response = self.ai_client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
+                model="openai/gpt-oss-120b",  # llama-3.3-70b-versatile retirado 16-ago-2026
                 messages=[{"role": "user", "content": data_context}],
                 max_tokens=800,
                 temperature=0.3,

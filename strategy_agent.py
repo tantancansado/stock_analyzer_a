@@ -282,8 +282,8 @@ Devuelve SOLO un JSON con esta estructura exacta:
 # Modelos en orden de preferencia: el primero (8b) usa ~5x menos tokens que 70b
 # y para extraer JSON estructurado de 10-12 campos es más que suficiente.
 # El 70b se usa solo como fallback de calidad si quedan tokens.
-GROQ_MODELS_PRIMARY  = 'llama-3.1-8b-instant'
-GROQ_MODELS_FALLBACK = 'llama-3.3-70b-versatile'
+GROQ_MODELS_PRIMARY  = 'openai/gpt-oss-20b'
+GROQ_MODELS_FALLBACK = 'openai/gpt-oss-120b'  # ambos retirados 16-ago-2026
 
 
 def _call_groq(prompt: str, ticker: str, *, prefer_quality: bool = False) -> tuple[dict, bool]:

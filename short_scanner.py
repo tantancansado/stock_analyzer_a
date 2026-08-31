@@ -663,7 +663,7 @@ def _generate_theses(opportunities: list) -> list:
             'https://api.groq.com/openai/v1/chat/completions',
             headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
             json={
-                'model': 'llama-3.3-70b-versatile',
+                'model': 'openai/gpt-oss-120b',  # llama-3.3-70b-versatile retirado 16-ago-2026
                 'messages': [{'role': 'user', 'content': prompt}],
                 'temperature': 0.3,
                 'max_tokens': 1200,

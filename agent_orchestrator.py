@@ -45,7 +45,7 @@ GH_REPO      = os.environ.get('GITHUB_REPO', 'tantancansado/stock_analyzer_a')
 PAGES_BASE = f'https://raw.githubusercontent.com/{GH_REPO}/main'
 GH_API     = 'https://api.github.com'
 LOG_PATH   = Path('docs/agent_orchestrator_log.json')
-GROQ_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct'
+GROQ_MODEL = 'openai/gpt-oss-120b'  # llama-4-scout retirado 17-jul-2026
 
 # ── Expected output ranges (histórico normal del sistema) ─────────────────────
 BASELINES = {

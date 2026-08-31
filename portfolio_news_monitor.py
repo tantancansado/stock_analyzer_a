@@ -327,7 +327,7 @@ def _groq_classify_batch(items: list[dict]) -> None:
             'https://api.groq.com/openai/v1/chat/completions',
             headers={'Authorization': f'Bearer {api_key}', 'Content-Type': 'application/json'},
             json={
-                'model': 'llama-3.1-8b-instant',
+                'model': 'openai/gpt-oss-20b',  # llama-3.1-8b-instant retirado 16-ago-2026
                 'messages': [{'role': 'user', 'content': prompt}],
                 'temperature': 0,
                 'max_tokens': 512,

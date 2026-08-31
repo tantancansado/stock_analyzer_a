@@ -2,9 +2,19 @@
 AI API helpers: Groq (free, with model fallback) + Anthropic Claude (paid).
 
 Groq fallback chain on 429 rate_limit_exceeded:
-  1. llama-3.3-70b-versatile    (primary — 100k TPD free)
-  2. llama-3.1-8b-instant       (fallback — 500k TPD free, separate quota)
-  3. llama-3.1-70b-specdec      (last resort — different quota bucket)
+  1. openai/gpt-oss-120b   (primary)
+  2. openai/gpt-oss-20b    (fallback — separate quota)
+
+31-ago-2026: la cadena entera apuntaba a modelos ya retirados por Groq —
+llama-3.3-70b-versatile y llama-3.1-8b-instant murieron el 16-ago-2026,
+meta-llama/llama-4-scout-17b-16e-instruct el 17-jul-2026, y el "último
+recurso" llama-3.1-70b-specdec llevaba MUERTO DESDE ENERO DE 2025 (su propio
+reemplazo recomendado, llama-3.3-70b-specdec, también está deprecado desde
+abr-2025 — una cadena de reemplazos apuntando unos a otros, todos muertos).
+Se vio en el log del pipeline del 27-ago-2026: "404 model_not_found" para
+varios tickers EU/asiáticos. Reemplazo verificado contra
+console.groq.com/docs/deprecations, no adivinado — se quita el tercer nivel
+de fallback en vez de perseguir otro reemplazo de un reemplazo ya muerto.
 
 Claude usage by task:
   - thesis_generator: Haiku 4.5  (~$5.5/mes for ~40k output tokens/day)
@@ -18,15 +28,16 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-PRIMARY_MODEL   = "llama-3.3-70b-versatile"
+PRIMARY_MODEL   = "openai/gpt-oss-120b"
 FALLBACK_MODELS = [
-    "llama-3.1-8b-instant",       # 500k TPD — separate quota from 70b
-    "llama-3.1-70b-specdec",      # another bucket
+    "openai/gpt-oss-20b",         # separate quota bucket del primario
 ]
 
-# Models with separate quota (llama-4-scout family)
-SCOUT_PRIMARY  = "meta-llama/llama-4-scout-17b-16e-instruct"
-SCOUT_FALLBACK = ["llama-3.1-8b-instant", PRIMARY_MODEL]
+# Modelo con cupo separado del primario, para diversificar cuando el
+# primario está agotado — no puede ser el mismo que PRIMARY_MODEL o pierde
+# el sentido de tener un segundo nivel.
+SCOUT_PRIMARY  = "qwen/qwen3.6-27b"
+SCOUT_FALLBACK = ["openai/gpt-oss-20b", PRIMARY_MODEL]
 
 
 def _is_rate_limit(exc: Exception) -> bool:

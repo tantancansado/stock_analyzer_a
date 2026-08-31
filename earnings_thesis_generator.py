@@ -7,7 +7,7 @@ Earnings Thesis Generator — genera tesis IA para tickers del portfolio con ear
 Lee posiciones de Supabase (personal_portfolio_positions) via service role, o como fallback
 desde docs/personal_portfolio_snapshot.json. Para cada ticker con earnings próximos:
   - Obtiene contexto (precio, 52w, EPS/rev estimates, implied move, beat history)
-  - Llama a Groq (llama-3.3-70b-versatile) para sintetizar tesis en español
+  - Llama a Groq (openai/gpt-oss-20b) para sintetizar tesis en español
   - Escribe docs/earnings_theses.json indexado por ticker
 
 Ejecutar:
@@ -36,7 +36,7 @@ DOCS = Path('docs')
 OUTPUT_PATH = DOCS / 'earnings_theses.json'
 SNAPSHOT_PATH = DOCS / 'personal_portfolio_snapshot.json'
 HORIZON_DAYS = 14
-GROQ_MODEL = 'llama-3.1-8b-instant'  # 5x fewer tokens than 70b — fits inside daily TPD budget
+GROQ_MODEL = 'openai/gpt-oss-20b'  # modelo pequeño — cabe en el presupuesto diario de tokens; llama-3.1-8b-instant retirado 16-ago-2026
 
 
 def _log(msg: str) -> None:

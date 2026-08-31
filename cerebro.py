@@ -896,14 +896,14 @@ def _validate_exits_with_ai(exits: list) -> None:
 
             # Fallback: Groq compound-beta (web search capable)
             if not raw and groq_client:
-                from groq_utils import groq_chat as _groq_chat, SCOUT_FALLBACK
+                from groq_utils import groq_chat as _groq_chat, SCOUT_PRIMARY, SCOUT_FALLBACK
                 r = _groq_chat(
                     groq_client,
                     messages=[{"role": "user", "content": prompt}],
                     model="compound-beta",
                     max_tokens=300,
                     temperature=0,
-                    fallback_chain=["meta-llama/llama-4-scout-17b-16e-instruct"] + SCOUT_FALLBACK,
+                    fallback_chain=[SCOUT_PRIMARY] + SCOUT_FALLBACK,
                 )
                 raw = r.choices[0].message.content or ""
 

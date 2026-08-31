@@ -257,7 +257,7 @@ Tono profesional, directo, sin disclaimers genéricos."""
 
     try:
         resp = client.chat.completions.create(
-            model='llama-3.3-70b-versatile',
+            model='openai/gpt-oss-120b',  # llama-3.3-70b-versatile retirado 16-ago-2026
             messages=[{'role': 'user', 'content': prompt}],
             max_tokens=250,
             temperature=0.3,

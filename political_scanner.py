@@ -210,7 +210,7 @@ market_relevant: false if no specific publicly-traded company is clearly impacte
             "https://api.groq.com/openai/v1/chat/completions",
             headers={"Authorization": f"Bearer {GROQ_KEY}", "Content-Type": "application/json"},
             json={
-                "model": "llama-3.3-70b-versatile",
+                "model": "openai/gpt-oss-120b",  # llama-3.3-70b-versatile retirado 16-ago-2026
                 "messages": [{"role": "user", "content": prompt}],
                 "max_tokens": 200,
                 "temperature": 0.1,

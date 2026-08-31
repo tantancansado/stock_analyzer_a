@@ -6,7 +6,7 @@ Valida:
   1. Calidad del dato subyacente (FCF, shares, supuestos)
   2. Corrección de la tesis implícita (BUY/WATCH/AVOID)
 
-Modelo: llama-3.3-70b-versatile (Groq).
+Modelo: openai/gpt-oss-120b (Groq) — llama-3.3-70b-versatile retirado 16-ago-2026.
 Razonamiento: español, 2-3 frases.
 """
 from __future__ import annotations
@@ -23,7 +23,7 @@ import pandas as pd
 from groq import Groq
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-MODEL = "llama-3.3-70b-versatile"
+MODEL = "openai/gpt-oss-120b"
 
 INPUT_PATH = Path("docs/owner_earnings_batch.json")
 OUT_CSV = Path("docs/owner_earnings_ai_validated.csv")

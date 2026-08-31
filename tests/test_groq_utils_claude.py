@@ -2,6 +2,7 @@
 """Contrato de claude_chat: qué modelos aceptan temperature, y fail-open."""
 import os
 import sys
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -85,3 +86,64 @@ class TestModelosActuales:
     def test_apuntan_a_la_generacion_5(self):
         assert g.CLAUDE_SONNET == 'claude-sonnet-5'
         assert g.CLAUDE_OPUS == 'claude-opus-5'
+
+
+class TestModelosGroqNoMuertos:
+    """El 27-ago-2026 el pipeline devolvió 404 model_not_found para varios
+    tickers EU/asiáticos: llama-3.3-70b-versatile llevaba 11 días retirado
+    por Groq (16-ago-2026) y nadie se enteró — igual que llama-3.1-8b-instant
+    (mismo día) y meta-llama/llama-4-scout-17b-16e-instruct (17-jul-2026).
+    El "último recurso" del fallback, llama-3.1-70b-specdec, llevaba MUERTO
+    DESDE ENERO DE 2025 sin que fallara nunca lo bastante fuerte como para
+    notarlo (era el tercer nivel de una cadena que casi nunca se agota tanto).
+
+    Verificado contra console.groq.com/docs/deprecations el 31-ago-2026, no
+    adivinado. Si Groq retira openai/gpt-oss-120b o qwen/qwen3.6-27b en el
+    futuro, este test lo dirá — pero al menos confirma que hoy NO se ha
+    vuelto a colar, sin querer, uno de los nombres ya confirmados muertos."""
+
+    MUERTOS = (
+        'llama-3.3-70b-versatile', 'llama-3.1-8b-instant',
+        'llama-3.1-70b-specdec', 'llama-3.3-70b-specdec',
+        'llama-4-scout-17b', 'llama-3.2-11b-vision-preview',
+    )
+
+    def test_groq_utils_no_usa_modelos_muertos(self):
+        for nombre in (g.PRIMARY_MODEL, *g.FALLBACK_MODELS, g.SCOUT_PRIMARY, *g.SCOUT_FALLBACK):
+            assert not any(m in nombre for m in self.MUERTOS), \
+                f"{nombre!r} es un modelo de Groq retirado"
+
+    def test_scout_primary_no_es_el_mismo_que_primary(self):
+        # Si coinciden, el segundo nivel de fallback pierde el sentido de
+        # tener cupo separado — fue justo lo que casi pasa al reemplazar
+        # llama-4-scout por el mismo modelo que PRIMARY_MODEL.
+        assert g.SCOUT_PRIMARY != g.PRIMARY_MODEL
+
+    def test_ningun_fichero_del_repo_hardcodea_un_modelo_muerto(self):
+        # El bug real no estaba solo en groq_utils.py — 15 ficheros tenían el
+        # modelo escrito a mano en vez de importar PRIMARY_MODEL/SCOUT_PRIMARY.
+        # Este test barre TODO el repo, no solo las constantes compartidas.
+        import subprocess
+        raiz = Path(__file__).parent.parent
+        patron = '|'.join(self.MUERTOS)
+        r = subprocess.run(
+            ['grep', '-rlE', patron, '--include=*.py', str(raiz)],
+            capture_output=True, text=True,
+        )
+        ficheros = [f for f in r.stdout.splitlines() if 'venv' not in f and '/tests/' not in f]
+        # Los comentarios que EXPLICAN el historial (este fichero incluido)
+        # mencionan los nombres muertos a propósito — solo falla si aparecen
+        # fuera de un comentario que diga "retirad" o "murieron"/"MUERTO".
+        marcadores = ('retirad', 'murier', 'MUERTO', 'deprecad')
+        sospechosos = []
+        for f in ficheros:
+            lineas = Path(f).read_text().splitlines()
+            for i, linea in enumerate(lineas):
+                if not any(m in linea for m in self.MUERTOS):
+                    continue
+                # Prosa explicativa envuelve en varias líneas — mirar una
+                # ventana alrededor, no solo la línea exacta.
+                ventana = lineas[max(0, i - 2):i + 3]
+                if not any(p in v for v in ventana for p in marcadores):
+                    sospechosos.append(f'{f}:{i + 1}: {linea.strip()}')
+        assert not sospechosos, 'modelo de Groq retirado usado en código real:\n' + '\n'.join(sospechosos)

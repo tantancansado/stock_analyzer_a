@@ -37,7 +37,7 @@ MAX_DEBT_EQUITY    = 3.0     # no apalancamiento extremo
 MIN_ROE            = 5.0     # rentabilidad mínima sobre equity
 MAX_PICKS          = 12      # máximo de picks a analizar con IA (coste Groq)
 
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "openai/gpt-oss-120b"  # llama-3.3-70b-versatile retirado 16-ago-2026
 
 
 # ── Data helpers ──────────────────────────────────────────────────────────────

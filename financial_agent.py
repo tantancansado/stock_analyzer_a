@@ -39,7 +39,7 @@ CHAT_ID      = os.environ.get('TELEGRAM_CHAT_ID', '')
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
 GITHUB_PAGES = 'https://raw.githubusercontent.com/tantancansado/stock_analyzer_a/main/docs'
 
-GROQ_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct'
+GROQ_MODEL = 'openai/gpt-oss-120b'  # llama-4-scout retirado 17-jul-2026
 DOCS       = Path('docs')
 
 
