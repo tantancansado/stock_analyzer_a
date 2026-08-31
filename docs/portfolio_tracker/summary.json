@@ -64,12 +64,12 @@
       "worst": -25.82
     },
     "180d": {
-      "count": 0,
-      "win_rate": null,
-      "avg_return": null,
-      "median_return": null,
-      "best": null,
-      "worst": null
+      "count": 112,
+      "win_rate": 61.6,
+      "avg_return": 7.75,
+      "median_return": 11.78,
+      "best": 34.8,
+      "worst": -22.79
     },
     "365d": {
       "count": 0,
@@ -194,12 +194,12 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 0,
-      "win_rate": null,
-      "avg_return": null,
-      "median_return": null,
-      "best": null,
-      "worst": null,
+      "count": 112,
+      "win_rate": 61.6,
+      "avg_return": 7.75,
+      "median_return": 11.78,
+      "best": 34.8,
+      "worst": -22.79,
       "basis": "eu_full_hist"
     },
     "365d": {
@@ -213,7 +213,7 @@
     }
   },
   "momentum_strategy": {
-    "count": 20
+    "count": 21
   },
   "bounce_strategies": {
     "BOUNCE_BROAD": {
@@ -229,7 +229,7 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 11,
+      "count": 12,
       "7d": {
         "count": 2,
         "win_rate": 100.0,
@@ -242,7 +242,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 65,
+    "count": 73,
     "30d": {
       "count": 0,
       "win_rate": null,
@@ -392,7 +392,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 0,
+      "days_active": 3,
       "first_result_date": "2026-09-04"
     },
     {
@@ -403,7 +403,7 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 1,
+      "days_active": 4,
       "first_result_date": "2026-09-03"
     },
     {
@@ -414,7 +414,7 @@
       "signal_price": 455.25,
       "sector": "Industrials",
       "value_score": 51.95,
-      "days_active": 2,
+      "days_active": 5,
       "first_result_date": "2026-09-02"
     },
     {
@@ -425,7 +425,7 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 2,
+      "days_active": 5,
       "first_result_date": "2026-09-02"
     },
     {
@@ -436,7 +436,7 @@
       "signal_price": 7.26,
       "sector": "Healthcare",
       "value_score": 59.59,
-      "days_active": 2,
+      "days_active": 5,
       "first_result_date": "2026-09-02"
     },
     {
@@ -447,7 +447,7 @@
       "signal_price": 355.11,
       "sector": "Financial Services",
       "value_score": 51.13,
-      "days_active": 4,
+      "days_active": 7,
       "first_result_date": "2026-08-31"
     },
     {
@@ -458,7 +458,7 @@
       "signal_price": 496.86,
       "sector": "Financial Services",
       "value_score": 55.370000000000005,
-      "days_active": 7,
+      "days_active": 10,
       "first_result_date": "2026-08-28"
     },
     {
@@ -469,7 +469,7 @@
       "signal_price": 2966.0,
       "sector": "Industrials",
       "value_score": 60.88499999999999,
-      "days_active": 7,
+      "days_active": 10,
       "first_result_date": "2026-08-28"
     },
     {
@@ -480,7 +480,7 @@
       "signal_price": 24.87,
       "sector": "Financial Services",
       "value_score": 51.305,
-      "days_active": 8,
+      "days_active": 11,
       "first_result_date": "2026-08-27"
     },
     {
@@ -491,7 +491,7 @@
       "signal_price": 60.09,
       "sector": "Energy",
       "value_score": 62.24000000000001,
-      "days_active": 8,
+      "days_active": 11,
       "first_result_date": "2026-08-27"
     },
     {
@@ -502,7 +502,7 @@
       "signal_price": 559.73,
       "sector": "Financial Services",
       "value_score": 56.86500000000001,
-      "days_active": 15,
+      "days_active": 18,
       "first_result_date": "2026-08-20"
     },
     {
@@ -513,7 +513,7 @@
       "signal_price": 74.9,
       "sector": "Consumer Cyclical",
       "value_score": 62.36500000000001,
-      "days_active": 15,
+      "days_active": 18,
       "first_result_date": "2026-08-20"
     },
     {
@@ -524,7 +524,7 @@
       "signal_price": 345.81,
       "sector": "Healthcare",
       "value_score": 58.465,
-      "days_active": 17,
+      "days_active": 20,
       "first_result_date": "2026-08-18"
     },
     {
@@ -535,7 +535,7 @@
       "signal_price": 194.91,
       "sector": "Energy",
       "value_score": 55.19499999999999,
-      "days_active": 17,
+      "days_active": 20,
       "first_result_date": "2026-08-18"
     },
     {
@@ -546,7 +546,7 @@
       "signal_price": 19.28,
       "sector": "Industrials",
       "value_score": 56.24000000000001,
-      "days_active": 18,
+      "days_active": 21,
       "first_result_date": "2026-08-17"
     },
     {
@@ -557,7 +557,7 @@
       "signal_price": 286.58,
       "sector": "Financial Services",
       "value_score": 51.725,
-      "days_active": 18,
+      "days_active": 21,
       "first_result_date": "2026-08-17"
     },
     {
@@ -568,7 +568,7 @@
       "signal_price": 362.5,
       "sector": "Financial Services",
       "value_score": 55.52,
-      "days_active": 18,
+      "days_active": 21,
       "first_result_date": "2026-08-17"
     },
     {
@@ -579,7 +579,7 @@
       "signal_price": 340.91,
       "sector": "Financial Services",
       "value_score": 56.870000000000005,
-      "days_active": 18,
+      "days_active": 21,
       "first_result_date": "2026-08-17"
     },
     {
@@ -590,7 +590,7 @@
       "signal_price": 473.13,
       "sector": "Financial Services",
       "value_score": 62.81,
-      "days_active": 21,
+      "days_active": 24,
       "first_result_date": "2026-08-14"
     },
     {
@@ -601,11 +601,11 @@
       "signal_price": 22.2,
       "sector": "Industrials",
       "value_score": 57.095,
-      "days_active": 22,
+      "days_active": 25,
       "first_result_date": "2026-08-13"
     }
   ],
-  "avg_max_drawdown": -2.48,
+  "avg_max_drawdown": -2.47,
   "alpha": {
     "365d": {
       "count": 0,
@@ -744,5 +744,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-08-28T16:45:07.017590"
+  "generated_at": "2026-08-31T11:26:20.844606"
 }

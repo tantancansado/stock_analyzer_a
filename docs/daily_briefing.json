@@ -1,164 +1,37 @@
 {
-  "fecha": "2026-08-28",
-  "texto": "<b>Hoy hay 4 candidatas en zona de entrada.</b> La que más destaca es OXY: resultados sólidos, producción récord en Permian y caja fuerte, pero cae con el resto del crudo — negocio bien, mercado sin verlo, con un 13% de margen para los analistas. También entran NUE, EQIX y FCNCA, con menos convicción del sistema; ajusta tamaño ahí.\n\n<b>Cierra CRH.L.</b> Ha roto el precio de salida (7914 frente a tu stop en 8140,16), severidad alta. La tesis está rota, no esperes a que vuelva.\n\nPara vigilar, barato todavía no es comprable:\n- ZTS y OTIS siguen cayendo sin frenar, aún en fase de espera.\n- SYK cae por un ciberataque que paró producción y envíos, no por el negocio — hay que ver que se estabilice.\n- IDXX crece con fuerza pero el mercado teme una desaceleración cíclica en visitas veterinarias; ojo que hay bastante desacuerdo entre analistas sobre su valor real.\n- TW bajó por rebaja de valoración tras subir mucho y miedo a que se compriman sus comisiones, no por deterioro del negocio.\n\nEl sistema acierta un 61,5% a 90 días con ganancia media del 3,15% sobre 39 señales, pero es una cifra provisional — aún no hay muestra suficiente a 180 días. Vigila el tamaño de posición.",
-  "hechos": {
-    "fecha": "2026-08-28",
-    "total_lista": 73,
-    "datos_incompletos": [],
-    "comprables": [
-      {
-        "ticker": "OXY",
-        "empresa": "Occidental Petroleum Corporati",
-        "score": 65.275,
-        "precio": 58.955,
-        "upside_analista": 13.4,
-        "upside_triangulado": 74.0,
-        "divergencia": "",
-        "fcf_yield": 6.43,
-        "del_maximo_pct": -12.6,
-        "rs_6m": -2.76,
-        "timing": "ENTRADA",
-        "por_que_cae": "CICLICO",
-        "por_que_cae_detalle": "Occidental presentó resultados sólidos en el 3T2025 con producción récord en Permian, generación de caja fuerte y reducción de deuda, pero la acción cae por la debilidad del precio"
-      },
-      {
-        "ticker": "NUE",
-        "empresa": "Nucor Corporation",
-        "score": 41.805,
-        "precio": 249.2,
-        "upside_analista": 13.5,
-        "upside_triangulado": 13.5,
-        "divergencia": "",
-        "fcf_yield": 1.21,
-        "del_maximo_pct": -11.0,
-        "rs_6m": 26.66,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "EQIX",
-        "empresa": "Equinix, Inc.",
-        "score": 38.635000000000005,
-        "precio": 1058.26,
-        "upside_analista": 16.7,
-        "upside_triangulado": 16.7,
-        "divergencia": "MEDIA",
-        "fcf_yield": 3.62,
-        "del_maximo_pct": -6.2,
-        "rs_6m": -3.11,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "FCNCA",
-        "empresa": "First Citizens BancShares, Inc",
-        "score": 36.505,
-        "precio": 2185.17,
-        "upside_analista": 7.2,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 5.52,
-        "del_maximo_pct": -4.8,
-        "rs_6m": -0.82,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "ZTS",
-        "empresa": "Zoetis Inc.",
-        "score": 51.615,
-        "precio": 76.61,
-        "upside_analista": 25.3,
-        "upside_triangulado": -6.3,
-        "divergencia": "MEDIA",
-        "fcf_yield": 6.37,
-        "del_maximo_pct": -51.0,
-        "rs_6m": -52.65,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "OTIS",
-        "empresa": "Otis Worldwide Corporation",
-        "score": 51.655,
-        "precio": 71.52,
-        "upside_analista": 24.2,
-        "upside_triangulado": 17.4,
-        "divergencia": "MEDIA",
-        "fcf_yield": 5.28,
-        "del_maximo_pct": -24.4,
-        "rs_6m": -35.12,
-        "timing": "ESPERAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "SYK",
-        "empresa": "Stryker Corporation",
-        "score": 52.17999999999999,
-        "precio": 328.14,
-        "upside_analista": 16.6,
-        "upside_triangulado": 16.6,
-        "divergencia": "",
-        "fcf_yield": 3.26,
-        "del_maximo_pct": -17.3,
-        "rs_6m": -27.63,
-        "timing": "ESPERAR",
-        "por_que_cae": "EVENTO",
-        "por_que_cae_detalle": "La acción cayó tras un ciberataque disruptivo (wiper) atribuido a un grupo iraní que afectó producción, envíos y procesamiento de pedidos, sumado a una corrección de valoración pes"
-      },
-      {
-        "ticker": "IDXX",
-        "empresa": "IDEXX Laboratories, Inc.",
-        "score": 52.455,
-        "precio": 552.115,
-        "upside_analista": 26.6,
-        "upside_triangulado": -44.2,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.09,
-        "del_maximo_pct": -28.3,
-        "rs_6m": -26.33,
-        "timing": "ESPERAR",
-        "por_que_cae": "CICLICO",
-        "por_que_cae_detalle": "IDXX ha crecido con fuerza en ingresos y EPS (doble dígito) durante 2025-2026, pero la acción cae por temores del mercado a una desaceleración cíclica en visitas veterinarias discr"
-      },
-      {
-        "ticker": "TW",
-        "empresa": "Tradeweb Markets Inc.",
-        "score": 57.05500000000001,
-        "precio": 108.815,
-        "upside_analista": 13.7,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 4.53,
-        "del_maximo_pct": -14.8,
-        "rs_6m": -23.82,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "La caída responde a una rebaja de valoración por parte de analistas tras la fuerte subida previa y a preocupación por compresión de comisiones (mix de producto), no a deterioro del"
-      }
-    ],
-    "tesis_rotas": [
-      {
-        "ticker": "CRH.L",
-        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
-        "severidad": "HIGH"
-      }
-    ],
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-08-31",
+  "timestamp": "2026-08-31T11:23:40.643939",
+  "narrative": null,
+  "macro_regime": "CALM",
+  "picks_count": 4,
+  "top_picks": [
+    {
+      "ticker": "SYK",
+      "sector": "Healthcare",
+      "value_score": 52.16499999999999,
+      "analyst_upside_pct": 15.7,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "JKHY",
+      "sector": "Technology",
+      "value_score": 49.4,
+      "analyst_upside_pct": 12.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "SAP",
+      "sector": "Technology",
+      "value_score": 46.205,
+      "analyst_upside_pct": 11.6,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "VEEV",
+      "sector": "Healthcare",
+      "value_score": 45.52,
+      "analyst_upside_pct": 6.3,
+      "conviction_grade": null
     }
-  }
+  ]
 }

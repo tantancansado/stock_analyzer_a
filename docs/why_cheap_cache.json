@@ -49,22 +49,15 @@
  },
  "DSY.PA": {
   "veredicto": "CICLICO",
-  "resumen": "El 11 de febrero de 2026 la acción se desplomó cerca de un 20-22% tras publicar un crecimiento del 4T25 de solo 1% y un guidance 2026 de +3-5% (vs ~6% esperado), atribuido a la debilidad cíclica del sector automotriz europeo, retrasos en firmas de contratos y los costes de transición al modelo de su",
+  "resumen": "En octubre de 2025 la acción cayó ~16% tras un Q3 débil, con Medidata y life sciences cayendo -3% por menor inicio de estudios clínicos y volatilidad macro que retrasó cierres de grandes contratos, lo que llevó a recortar el guidance anual a 4-6%. Sin embargo, el negocio core (3DEXPERIENCE, Cloud, s",
   "confianza": 65,
   "fuentes": [
-   "https://www.democrata.es/economia/dassault-systemes-se-desploma-hasta-un-22-en-paris-tras-publicar-resultados-y-previsiones/",
-   "https://es.marketscreener.com/noticias/dassault-systemes-recorta-previsi-n-anual-de-ingresos-y-preve-impulso-de-la-ia-a-partir-de-2026-ce7d5ddbde88fe25",
-   "https://es.marketscreener.com/noticias/dassault-systemes-registra-un-aumento-del-6-en-sus-ingresos-del-segundo-trimestre-pero-no-alcanza-ce7c5cd3d88bf426",
-   "https://www.ad-hoc-news.de/boerse/news/ueberblick/accion-dassault-systemes-se-fr0014003tt8-resultados-trimestrales-y/69385966"
+   "https://www.investing.com/news/earnings/dassault-systemes-trims-2025-outlook-margins-hit-30-as-eps-rises-4303348",
+   "https://finance.yahoo.com/news/dassault-syst-mes-q4-revenue-055900423.html",
+   "https://investor.3ds.com/regulated-information/periodic-information",
+   "https://www.3ds.com/newsroom/press-releases/dassault-systemes-q4-revenue-growth-1-solid-operating-margin-and-eps-expansion-initiating-2026-revenue-guidance-3-5-growth"
   ],
-  "fecha": "2026-08-17"
- },
- "PGHN.SW": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-08-17"
+  "fecha": "2026-08-31"
  },
  "MSFT": {
   "veredicto": "SENTIMIENTO",
@@ -230,5 +223,53 @@
    "https://seekingalpha.com/pr/20295948-legrand-results-for-the-first-nine-months-of-2025"
   ],
   "fecha": "2026-08-28"
+ },
+ "OTIS": {
+  "veredicto": "CICLICO",
+  "resumen": "La caída se debe a la debilidad cíclica del negocio de Nuevos Equipos en China (mercado que cayó ~13% en 2025), que ha forzado varios recortes de guidance entre 2025 y 2026 pese a que el segmento de Servicio (recurrente y de mayor margen) sigue creciendo con fuerza.",
+  "confianza": 65,
+  "fuentes": [
+   "https://s203.q4cdn.com/227649559/files/doc_financials/2025/q3/3Q25-Otis-Earnings-Webcast_Final.pdf",
+   "https://fintool.com/app/research/companies/OTIS/earnings/Q3%202025",
+   "https://www.webull.com/news/13651612955575296",
+   "https://finance.yahoo.com/quote/OTIS/earnings/OTIS-Q3-2025-earnings_call-366124.html"
+  ],
+  "fecha": "2026-08-31"
+ },
+ "SPGI": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "En febrero de 2026 SPGI cayó ~10% tras publicar resultados del Q4 2025 con un BPA ajustado apenas por debajo del consenso, mientras los ingresos superaron expectativas (+9% interanual) y la guía de BPA ajustado 2026 quedó por encima del consenso de mercado. El resto de la caída desde máximos respond",
+  "confianza": 65,
+  "fuentes": [
+   "https://www.kavout.com/market-lens/has-s-p-global-spgi-stock-underperformed-and-why",
+   "https://finance.yahoo.com/news/why-p-global-spgi-stock-203049359.html",
+   "https://seekingalpha.com/article/4939587-s-and-p-global-investors-await-clarification-in-a-higher-rate-environment",
+   "https://www.fool.com/investing/2026/02/10/why-sp-global-stock-tumbled-by-nearly-10-on-tuesda/"
+  ],
+  "fecha": "2026-08-31"
+ },
+ "ZTS": {
+  "veredicto": "CICLICO",
+  "resumen": "En 2025 Zoetis recortó su guidance de ingresos a $9.4-9.475B (desde $9.45-9.6B) tras caídas interanuales de Librela y Solensia en Q2 y Q3 por mayor competencia y menor gasto de dueños de mascotas en EE.UU.; pese a ello, el negocio sigue creciendo (Q3: ingresos +4% orgánico, beneficio neto ajustado +",
+  "confianza": 65,
+  "fuentes": [
+   "https://finance.yahoo.com/news/zoetis-stock-plummets-24-8-144700688.html",
+   "https://www.tradingview.com/news/zacks:c838081a4094b:0-zoetis-stock-plummets-24-8-ytd-here-s-what-you-need-to-know/",
+   "https://www.tikr.com/blog/zoetis-stock-drops-21-after-q1-earnings-heres-what-the-numbers-actually-show",
+   "https://simplywall.st/stocks/us/pharmaceuticals-biotech/nyse-zts/zoetis"
+  ],
+  "fecha": "2026-08-31"
+ },
+ "CSU.TO": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "La acción cayó cerca de un 50% desde mediados de 2025 por miedo generalizado del mercado a que la IA erosione los fosos del software de nicho de CSU, un temor temático y no específico de un deterioro real, mientras los resultados de 2025 y Q1 2026 muestran ingresos, caja y M&A récord. Un desplome pu",
+  "confianza": 75,
+  "fuentes": [
+   "https://taychikeng.substack.com/p/constellation-software-csu-is-it",
+   "https://stockanalysis.com/quote/tsx/CSU/",
+   "https://www.levelheadedinvesting.com/p/constellation-software-csu-q1-2026-results-the-market-feared-ai-constellation-deployed-1-6-billion",
+   "https://finance.yahoo.com/quote/CSU.TO/"
+  ],
+  "fecha": "2026-08-31"
  }
 }
