@@ -1,44 +1,199 @@
 {
-  "date": "2026-09-01",
-  "timestamp": "2026-09-01T10:38:11.225076",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 5,
-  "top_picks": [
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 74.595,
-      "analyst_upside_pct": 11.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "TW",
-      "sector": "Financial Services",
-      "value_score": 52.485,
-      "analyst_upside_pct": 14.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "NDSN",
-      "sector": "Industrials",
-      "value_score": 49.905,
-      "analyst_upside_pct": 8.7,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "JKHY",
-      "sector": "Technology",
-      "value_score": 42.72,
-      "analyst_upside_pct": 14.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "CHD",
-      "sector": "Consumer Defensive",
-      "value_score": 31.75,
-      "analyst_upside_pct": 5.6,
-      "conviction_grade": null
+  "fecha": "2026-09-01",
+  "texto": "<b>Para comprar hoy tienes seis candidatas.</b> La mejor puntuada es <b>OXY</b>: cotiza a 60,18, cae un 10,8% desde máximos, los analistas le ven un 11% de subida y el escenario más amplio dispara eso hasta el 69%. Le siguen <b>BAC</b> (61,94, solo un 5% bajo máximos, 11-23,5% de recorrido) y <b>NDSN</b>, <b>NUE</b>, <b>SBGSY</b> y <b>FCNCA</b>, todas con menor puntuación pero en zona de entrada.\n\n<b>Dos tesis rotas que urgen:</b> <b>CRH.L</b> y <b>AON</b> han caído por debajo del precio al que habías decidido salir (CRH.L a 7914 frente a un stop de 8140, AON a 321,52 frente a 326,70). Si las tienes en cartera, toca salir, no darles el beneficio de la duda.\n\nEn vigilancia, baratas pero aún cayendo, no compres todavía:\n- <b>ZTS</b>: sigue desplomada (-50% desde máximos) por la competencia a sus fármacos Librela y Solensia, que obligó a recortar previsiones.\n- <b>OTIS</b>: castigada por la debilidad del mercado chino de ascensores nuevos, con recortes de guidance repetidos.\n- <b>FICO</b>: cae por un cambio regulatorio que abre la puerta a alternativas a su modelo de scoring en hipotecas, algo estructural que hay que digerir antes de entrar.\n- <b>SYK</b>: afectada por un ciberataque que frenó producción y envíos, más una corrección de valoración.\n- <b>TW</b>: baja por rebaja de valoración tras su subida previa y miedo a que le compriman comisiones, no por deterioro real del negocio.\n\nEl sistema acierta un 61,5% de las veces con estas señales, pero ojo: es una cifra provisional a 90 días, todavía no hay muestra suficiente a 180 días para darla por definitiva. Ajusta el tamaño de posición en consecuencia.",
+  "hechos": {
+    "fecha": "2026-09-01",
+    "total_lista": 75,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 65.33500000000001,
+        "precio": 60.18,
+        "upside_analista": 11.0,
+        "upside_triangulado": 69.0,
+        "divergencia": "",
+        "fcf_yield": 6.3,
+        "del_maximo_pct": -10.8,
+        "rs_6m": -1.29,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "BAC",
+        "empresa": "Bank of America Corporation",
+        "score": 54.315,
+        "precio": 61.94,
+        "upside_analista": 11.0,
+        "upside_triangulado": 23.5,
+        "divergencia": "",
+        "fcf_yield": 2.91,
+        "del_maximo_pct": -5.0,
+        "rs_6m": 12.36,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "NDSN",
+        "empresa": "Nordson Corporation",
+        "score": 49.905,
+        "precio": 321.72,
+        "upside_analista": 8.7,
+        "upside_triangulado": 8.7,
+        "divergencia": "",
+        "fcf_yield": 3.43,
+        "del_maximo_pct": -5.1,
+        "rs_6m": -2.58,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "NUE",
+        "empresa": "Nucor Corporation",
+        "score": 42.755,
+        "precio": 249.64,
+        "upside_analista": 13.3,
+        "upside_triangulado": 13.3,
+        "divergencia": "",
+        "fcf_yield": 1.21,
+        "del_maximo_pct": -10.9,
+        "rs_6m": 25.72,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SBGSY",
+        "empresa": "Schneider Electric S.E.",
+        "score": 41.825,
+        "precio": 68.38,
+        "upside_analista": 13.8,
+        "upside_triangulado": 13.8,
+        "divergencia": "",
+        "fcf_yield": 3.24,
+        "del_maximo_pct": -5.0,
+        "rs_6m": -2.62,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "FCNCA",
+        "empresa": "First Citizens BancShares, Inc",
+        "score": 39.535,
+        "precio": 2164.4,
+        "upside_analista": 8.2,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 5.57,
+        "del_maximo_pct": -5.7,
+        "rs_6m": -2.23,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "ZTS",
+        "empresa": "Zoetis Inc.",
+        "score": 50.345,
+        "precio": 77.1,
+        "upside_analista": 24.5,
+        "upside_triangulado": -6.8,
+        "divergencia": "MEDIA",
+        "fcf_yield": 6.33,
+        "del_maximo_pct": -50.4,
+        "rs_6m": -52.88,
+        "timing": "VIGILAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "En 2025 Zoetis recortó su guidance de ingresos a $9.4-9.475B (desde $9.45-9.6B) tras caídas interanuales de Librela y Solensia en Q2 y Q3 por mayor competencia y menor gasto de due"
+      },
+      {
+        "ticker": "OTIS",
+        "empresa": "Otis Worldwide Corporation",
+        "score": 51.995000000000005,
+        "precio": 71.13,
+        "upside_analista": 24.9,
+        "upside_triangulado": 18.1,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.3,
+        "del_maximo_pct": -24.8,
+        "rs_6m": -36.44,
+        "timing": "ESPERAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "La caída se debe a la debilidad cíclica del negocio de Nuevos Equipos en China (mercado que cayó ~13% en 2025), que ha forzado varios recortes de guidance entre 2025 y 2026 pese a "
+      },
+      {
+        "ticker": "FICO",
+        "empresa": "Fair Isaac Corporation",
+        "score": 52.94999999999999,
+        "precio": 1147.21,
+        "upside_analista": 27.5,
+        "upside_triangulado": 27.5,
+        "divergencia": "",
+        "fcf_yield": 3.13,
+        "del_maximo_pct": -42.6,
+        "rs_6m": -31.84,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "La caída se origina en decisiones regulatorias de FHFA/HUD (jul-nov 2025) que permiten VantageScore 4.0 y FICO 10T como alternativas a Classic FICO en hipotecas GSE/FHA, rompiendo "
+      },
+      {
+        "ticker": "SYK",
+        "empresa": "Stryker Corporation",
+        "score": 52.16499999999999,
+        "precio": 323.8,
+        "upside_analista": 18.2,
+        "upside_triangulado": 18.2,
+        "divergencia": "",
+        "fcf_yield": 3.31,
+        "del_maximo_pct": -18.4,
+        "rs_6m": -29.23,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "La acción cayó tras un ciberataque disruptivo (wiper) atribuido a un grupo iraní que afectó producción, envíos y procesamiento de pedidos, sumado a una corrección de valoración pes"
+      },
+      {
+        "ticker": "TW",
+        "empresa": "Tradeweb Markets Inc.",
+        "score": 52.485,
+        "precio": 107.7,
+        "upside_analista": 14.9,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.58,
+        "del_maximo_pct": -15.7,
+        "rs_6m": -25.65,
+        "timing": "ESPERAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "La caída responde a una rebaja de valoración por parte de analistas tras la fuerte subida previa y a preocupación por compresión de comisiones (mix de producto), no a deterioro del"
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      },
+      {
+        "ticker": "AON",
+        "motivo": "Precio 321.52 por debajo del stop 326.70",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

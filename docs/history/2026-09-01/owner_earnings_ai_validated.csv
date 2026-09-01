@@ -1,0 +1,138 @@
+ticker,data_quality,thesis_verdict,reasoning,confidence,score_adjustment,validated_at
+RSG,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos proyectados carecen de consenso, lo que impide validar la consistencia del modelo. Sin información suficiente, no se puede confirmar si la valoración está sobrevalorada.",70,0,2026-09-01T10:00:59+00:00
+FAST,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MSI,MIXED,AVOID,"Los flujos de caja libre históricos no están disponibles y los valores forward carecen de consenso, lo que reduce la fiabilidad del modelo. Además, el precio actual está muy por encima del valor implícito (205 USD) y el upside es negativo, indicando sobrevaloración.",70,-5,2026-09-01T10:00:59+00:00
+CB,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+CHD,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de consenso para los flujos futuros; la información es escasa y los supuestos son poco verificables, lo que impide validar el modelo. Sin datos fiables, la conclusión de sobrevaloración no puede confirmarse.",70,0,2026-09-01T10:00:59+00:00
+ROP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+CBOE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+7741.T,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ISRG,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+BRK-B,UNRELIABLE,INSUFFICIENT,"No se dispone de datos de FCF ni de métricas clave para un ETF apalancado, por lo que el modelo Owner Earnings no es aplicable. Además, la naturaleza del ETF 2x hace que los supuestos de flujo de caja sean irrelevantes.",90,0,2026-09-01T10:00:59+00:00
+CNI,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+SYK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ERIE,UNRELIABLE,INSUFFICIENT,"No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como CapEx, ROIC o rendimientos, la tesis implícita no puede evaluarse.",30,0,2026-09-01T10:00:59+00:00
+MSFT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+AUTO.L,MIXED,INSUFFICIENT,"Faltan datos históricos de FCF y no hay consenso en las proyecciones forward, lo que impide validar la consistencia del modelo. Sin información suficiente sobre ROIC y la estabilidad del flujo de caja, la tesis BUY es prematura.",55,0,2026-09-01T10:00:59+00:00
+RELX,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos futuros son proyecciones sin consenso, lo que impide validar la fiabilidad del modelo. Sin una base sólida, la tesis BUY no puede confirmarse.",85,0,2026-09-01T10:00:59+00:00
+AJG,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+LRLCY,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de consenso para los flujos futuros; los supuestos de valoración son poco transparentes y la proyección de precios es extremadamente alta respecto al valor actual, lo que impide confiar en el modelo.",85,0,2026-09-01T10:00:59+00:00
+CP,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF (mínimo 3 años) y los flujos proyectados carecen de consenso, lo que impide validar la consistencia del modelo. Sin información fiable, la conclusión de BUY no está sustentada.",80,0,2026-09-01T10:00:59+00:00
+ZTS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+NOW,UNRELIABLE,INSUFFICIENT,"El modelo carece de datos históricos de FCF y se basa únicamente en proyecciones forward sin consenso, lo que impide validar la consistencia del flujo de caja. Además, faltan métricas clave como ROIC y la relación CapEx/Sales real, limitando la confiabilidad del análisis.",30,0,2026-09-01T10:00:59+00:00
+INTU,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+SPGI,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+LSEG.L,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+CME,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+FICO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ITW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+DHR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ETN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+CSU.TO,UNRELIABLE,INSUFFICIENT,"No se dispone de historial de FCF ni de consenso para los flujos futuros; faltan métricas clave como ROIC y la información es insuficiente para validar el modelo. Por tanto, la conclusión de sobrevaloración no es fiable.",80,0,2026-09-01T10:00:59+00:00
+CLPBY,UNRELIABLE,INSUFFICIENT,"No se dispone de historial de FCF y los flujos futuros son proyecciones sin consenso, lo que hace que los cálculos de precio objetivo y upside sean poco creíbles. Además, la falta de ROIC y otros indicadores clave impide validar la valoración.",85,0,2026-09-01T10:00:59+00:00
+V,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+BRO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+PGR,UNRELIABLE,INSUFFICIENT,"No se dispone de datos de FCF histórico ni proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave, la tesis implícita NO_DATA no puede confirmarse ni descartarse.",30,0,2026-09-01T10:00:59+00:00
+EXPN.L,UNRELIABLE,INSUFFICIENT,"El modelo carece de datos esenciales como FCF histórico, proyecciones y ROIC, lo que impide validar cualquier cálculo de valor. Sin información suficiente, cualquier conclusión sería especulativa.",30,0,2026-09-01T10:00:59+00:00
+PEP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+IT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+AI.PA,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+HEI,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos proyectados carecen de consenso, lo que impide validar la consistencia del modelo. Sin una base fiable, la conclusión de sobrevaloración no puede confirmarse.",70,0,2026-09-01T10:00:59+00:00
+CDNS,UNRELIABLE,INSUFFICIENT,"No se dispone de FCF histórico (≥3 años) y los flujos proyectados carecen de consenso, lo que impide validar la consistencia del modelo. Sin datos fiables, la conclusión de sobrevaloración no puede confirmarse.",70,0,2026-09-01T10:00:59+00:00
+ESLOY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+WST,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+LIN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+SBGSY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MTD,UNRELIABLE,INSUFFICIENT,"No se dispone de FCF histórico y los flujos proyectados carecen de consenso, lo que impide validar la consistencia del modelo. Sin datos fiables, la conclusión de sobrevaloración es especulativa.",70,0,2026-09-01T10:00:59+00:00
+ROL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+TNE.AX,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos proyectados carecen de consenso, lo que impide validar la fiabilidad del modelo. Sin información suficiente, la tesis HOLD no puede confirmarse ni descartarse.",70,0,2026-09-01T10:00:59+00:00
+TYL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+GVDNY,MIXED,INSUFFICIENT,"Los flujos de caja libres solo se presentan como proyecciones sin consenso y no hay datos históricos ni ROIC, lo que dificulta validar la consistencia del modelo. Además, la valoración se basa en supuestos de múltiplos y rendimientos que no pueden contrastarse con información real.",55,0,2026-09-01T10:00:59+00:00
+HESAY,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos proyectados carecen de consenso, lo que impide validar la consistencia del modelo. Sin información fiable, la conclusión de BUY no está sustentada.",80,0,2026-09-01T10:00:59+00:00
+VLTO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+DBOEY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MCD,MIXED,INSUFFICIENT,"Faltan datos históricos de FCF y no hay consenso en las proyecciones forward, lo que limita la confiabilidad del modelo. Además, la ausencia de ROIC y otros indicadores clave impide validar la premisa de valor. Por ello, la tesis BUY no puede confirmarse con la información disponible.",55,0,2026-09-01T10:00:59+00:00
+AON,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ASAZY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+EQIX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+VRSN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ADP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+PAYX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+WMT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+SAP,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos proyectados carecen de consenso, lo que impide validar la coherencia del modelo. Sin información básica, la valoración y la tesis de compra no pueden sustentarse.",30,0,2026-09-01T10:00:59+00:00
+WTKWY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+CPRT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+AXP,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+AWK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+TW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+SHW,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+FDS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+TT,UNRELIABLE,INSUFFICIENT,"No se dispone de FCF histórico ni de consenso para los flujos futuros, y faltan métricas clave como ROIC; sin datos verificables el modelo carece de base fiable para validar la tesis.",70,0,2026-09-01T10:00:59+00:00
+ATLKY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+CTAS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+VRSK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+VEEV,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+DSGX,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos futuros son proyecciones sin consenso, lo que impide validar la consistencia del modelo. Sin información fiable, la conclusión de sobrevaloración no es sustentable.",70,0,2026-09-01T10:00:59+00:00
+WM,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+G24.DE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+IDXX,MIXED,AVOID,"El modelo carece de historial de FCF y las proyecciones forward no cuentan con consenso, lo que reduce la fiabilidad de los cálculos. Además, la gran brecha entre el precio actual y el valor implícito sugiere sobrevaloración, pero la incertidumbre de los inputs justifica una postura cautelosa.",70,-5,2026-09-01T10:00:59+00:00
+ICE,MIXED,INSUFFICIENT,"Faltan datos históricos de FCF y no hay consenso en las proyecciones forward, lo que debilita la fiabilidad del modelo. Sin una base sólida de historial, la valoración de 43% de upside es especulativa.",55,0,2026-09-01T10:00:59+00:00
+AZO,UNRELIABLE,INSUFFICIENT,"Los datos carecen de historial de FCF, las proyecciones son sin consenso y el precio indicado no coincide con la capitalización reportada, lo que sugiere inconsistencias graves. Sin información fiable no se puede validar la tesis de sobrevaloración.",70,0,2026-09-01T10:00:59+00:00
+ECL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+PG,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+AME,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+RACE,UNRELIABLE,INSUFFICIENT,"No hay datos históricos de FCF y las proyecciones forward carecen de consenso, lo que impide validar la consistencia del modelo. Sin ROIC ni historial suficiente, la valoración carece de base fiable para confirmar la tesis de sobrevaloración.",70,0,2026-09-01T10:00:59+00:00
+GWW,UNRELIABLE,INSUFFICIENT,"Falta historial de FCF y los flujos proyectados no tienen consenso; además no se dispone de ROIC ni de otros indicadores clave, lo que impide validar la fiabilidad del modelo. Sin datos sólidos, la conclusión de sobrevaloración no puede confirmarse.",80,0,2026-09-01T10:00:59+00:00
+JNJ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+TJX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MKC,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MSCI,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+WCN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MA,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ORLY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+SXYAY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MMC,UNRELIABLE,INSUFFICIENT,"No se dispone de datos de FCF histórico ni proyecciones, y la TEV es menor que la capitalización, lo que indica inconsistencias. Además, el ROIC está por debajo del costo de capital, señalando una posible generación de valor negativa.",30,0,2026-09-01T10:00:59+00:00
+KO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ABT,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+NDSN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+BR,MIXED,INSUFFICIENT,"No se dispone de historial de FCF ni de ROIC, y los flujos futuros son proyecciones sin consenso, lo que limita la fiabilidad del modelo. Sin datos sólidos, no se puede confirmar si la acción está sobrevalorada.",70,0,2026-09-01T10:00:59+00:00
+TMO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+NDAQ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+CL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+COST,MIXED,WATCH,"Faltan datos históricos de FCF y las proyecciones son sin consenso, lo que reduce la fiabilidad del modelo. Sin embargo, los supuestos son razonables y el upside estimado es moderado, por lo que la recomendación de observar (WATCH) es prudente.",70,0,2026-09-01T10:00:59+00:00
+MCO,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+OTIS,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+JKHY,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ITRK.L,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+TEVA,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+NVR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+COF,UNRELIABLE,INSUFFICIENT,"El modelo carece de datos históricos de FCF, usa proyecciones sin consenso y aplica múltiplos poco habituales para una entidad financiera, lo que hace que la métrica sea poco fiable. Sin información suficiente y con un enfoque inadecuado para un banco, no se puede validar la tesis BUY.",80,0,2026-09-01T10:00:59+00:00
+LPX,UNRELIABLE,INSUFFICIENT,"No se dispone de datos de FCF histórico ni de proyecciones, impidiendo validar el modelo Owner Earnings y calcular métricas clave. Sin esa información el análisis es imposible.",20,0,2026-09-01T10:00:59+00:00
+CVX,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+DVA,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+GPK,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+KD,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+BN,UNRELIABLE,INSUFFICIENT,"No se dispone de datos de flujo de caja libre histórico ni de proyecciones, lo que impide validar el modelo Owner Earnings. Sin información clave como CapEx, ROIC o rendimientos, la tesis implícita no puede ser evaluada.",30,0,2026-09-01T10:00:59+00:00
+UBER,UNRELIABLE,INSUFFICIENT,"No se dispone de FCF histórico ni de consenso para los flujos futuros; los supuestos de EV/FCF y CapEx son arbitrarios y no se puede validar la consistencia con la capitalización de mercado. Sin datos fiables, la valoración y el upside son especulativos.",85,0,2026-09-01T10:00:59+00:00
+HHH,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+NUE,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+DPZ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+OXY,MIXED,INSUFFICIENT,"Los flujos de caja libres solo se presentan como proyecciones sin consenso y no hay datos históricos ni ROIC, lo que impide validar la consistencia del modelo. Sin esa base, la conclusión de BUY carece de soporte suficiente.",55,0,2026-09-01T10:00:59+00:00
+CHTR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+FCNCA,UNRELIABLE,INSUFFICIENT,"Los datos de FCF son inexistentes y los bancos presentan flujos de caja operativos atípicos, lo que hace inviable aplicar un modelo Owner Earnings. Además, faltan métricas clave como ROIC y proyecciones de FCF, por lo que la tesis implícita no puede evaluarse.",90,0,2026-09-01T10:00:59+00:00
+BAC,UNRELIABLE,INSUFFICIENT,"Los flujos de caja libres del banco son extremadamente volátiles y negativos en varios años, lo que hace que el modelo Owner Earnings no sea fiable para una entidad financiera. Además, falta información de proyecciones y existen señales de alerta como ROIC bajo frente al costo de capital.",80,0,2026-09-01T10:00:59+00:00
+KVUE,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF y las proyecciones forward carecen de consenso, lo que impide validar la coherencia del modelo. Además, los precios objetivo generados son extremadamente altos respecto al precio actual, indicando posibles supuestos irrealistas.",85,0,2026-09-01T10:00:59+00:00
+FHN,UNRELIABLE,INSUFFICIENT,"First Horizon es una entidad financiera donde el flujo de caja libre no captura adecuadamente la generación de valor; la serie histórica es volátil y faltan proyecciones, lo que hace que el modelo basado en Owner Earnings sea inapropiado. Además, la ausencia de datos clave impide validar la tesis implícita.",80,0,2026-09-01T10:00:59+00:00
+TECK,UNRELIABLE,INSUFFICIENT,"No se dispone de FCF histórico ni de consenso para los flujos futuros; faltan métricas clave como ROIC y la base de datos es insuficiente para validar el modelo. Sin datos verificables, la conclusión de BUY no es fiable.",70,0,2026-09-01T10:00:59+00:00
+NYT,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y los flujos proyectados carecen de consenso, lo que impide validar la fiabilidad del modelo. Sin información suficiente, no se puede confirmar la tesis de sobrevaloración.",70,0,2026-09-01T10:00:59+00:00
+KR,MIXED,INSUFFICIENT,"No se dispone de historial de FCF y las proyecciones forward son sin consenso, lo que impide validar la fiabilidad del modelo. Sin datos sólidos, la tesis BUY carece de fundamento suficiente.",60,0,2026-09-01T10:00:59+00:00
+THC,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+QSR,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+HRI,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+LEN,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+UNH,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+POOL,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+STZ,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+ALLY,UNRELIABLE,INSUFFICIENT,"No se dispone de datos históricos de FCF ni de ROIC, y el modelo se basa en proyecciones sin consenso. La falta de información clave sobre la rentabilidad y la naturaleza bancaria de Ally dificulta validar la valoración. Por lo tanto, no se puede confirmar la tesis de sobrevaloración.",60,0,2026-09-01T10:00:59+00:00
+KHC,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
+MRSH,MIXED,INSUFFICIENT,IA no pudo validar,0,0,2026-09-01T10:00:59+00:00
