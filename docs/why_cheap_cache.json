@@ -59,43 +59,29 @@
   ],
   "fecha": "2026-08-31"
  },
- "MSFT": {
-  "veredicto": "SENTIMIENTO",
-  "resumen": "MSFT cayó por preocupación sectorial ante el elevado capex en IA (que comprime márgenes y FCF a corto plazo), no por deterioro del negocio: Azure aceleró a 43-45% de crecimiento y la empresa batió estimaciones cuatro trimestres seguidos entre 2025-2026. El mismo patrón de castigo por capex afectó a ",
-  "confianza": 72,
-  "fuentes": [
-   "https://www.theglobeandmail.com/investing/markets/stocks/MSFT/pressreleases/3461314/microsoft-earnings-are-comingbut-azure-and-capex-will-decide-the-reaction/",
-   "https://www.investing.com/analysis/microsoft-earnings-are-comingbut-azure-and-capex-will-decide-the-reaction-200684530",
-   "https://www.geekwire.com/2026/microsoft-earnings-preview-record-ai-spending-and-a-stock-near-a-one-year-low/",
-   "https://investinglive.com/stocks/microsoft-q3-beats-on-revenue-eps-and-cloud-as-capex-comes-in-34bn-below-estimates-20260429/"
-  ],
-  "fecha": "2026-08-18"
- },
  "UNH": {
   "veredicto": "DETERIORO",
-  "resumen": "Desde mayo de 2025 UNH suspendió y luego recortó repetidamente su guidance por el disparo sostenido de los costos médicos en Medicare Advantage (ratio médico +430pb interanual en 2T25), sumado a la salida abrupta del CEO y una investigación criminal del DOJ por facturación de Medicare que sigue acti",
-  "confianza": 78,
+  "resumen": "En 2025 UNH recortó su guía de beneficios y luego la retiró tras dispararse los costes médicos en Medicare Advantage, con salida abrupta del CEO en mayo y una investigación del DOJ sobre su programa Medicare aún abierta, aunque en el Q3 2025 elevó de nuevo la guía. La repetición de recortes de guida",
+  "confianza": 70,
   "fuentes": [
-   "https://www.sec.gov/Archives/edgar/data/731766/000073176625000123/a2025q1exhibit991.htm",
-   "https://www.cnbc.com/amp/2026/01/27/unitedhealth-group-unh-earnings-q4-2025.html",
-   "https://simplywall.st/stocks/us/healthcare/nyse-unh/unitedhealth-group/future",
-   "https://www.unitedhealthgroup.com/content/dam/UHG/PDF/investors/2025/unh-reestablishes-full-year-outlook-and-reports-second-quarter-2025-results.pdf"
+   "https://www.fiercehealthcare.com/payers/unitedhealth-group-cuts-profit-outlook-citing-higher-expected-medicare-advantage-care-costs",
+   "https://leverageshares.com/us/insights/falling-stock-rising-potential-unitedhealth-looks-cheap/",
+   "https://www.healthcarefinancenews.com/news/unitedhealths-stock-drops-23-after-unusual-and-unacceptable-performance",
+   "https://www.cnbc.com/2025/07/29/unitedhealth-group-unh-earnings-report-q2-2025.html"
   ],
-  "fecha": "2026-08-18"
+  "fecha": "2026-09-01"
  },
  "AUTO.L": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-08-18"
- },
- "RACE.MI": {
-  "veredicto": "SIN_DATOS",
-  "resumen": "",
-  "confianza": 0,
-  "fuentes": [],
-  "fecha": "2026-08-18"
+  "veredicto": "SENTIMIENTO",
+  "resumen": "Auto Trader sigue creciendo en ingresos y beneficio (ingresos +4% y beneficio operativo +4% en el año hasta marzo 2026), pero la acción cayó tras advertencias de JPMorgan sobre un 'weak run-rate' y el riesgo de que la IA y la posible entrada de Amazon Autos erosionen su negocio a futuro. Los directi",
+  "confianza": 55,
+  "fuentes": [
+   "https://simplywall.st/stocks/gb/media/lse-auto/autotrader-group-shares",
+   "https://finance.yahoo.com/news/auto-trader-group-full-2025-133815695.html",
+   "https://plc.autotrader.co.uk/investors/results-centre/",
+   "https://walletinvestor.com/lse-stock-forecast/auto-stock-prediction"
+  ],
+  "fecha": "2026-09-01"
  },
  "INTU": {
   "veredicto": "DETERIORO",
@@ -271,5 +257,41 @@
    "https://finance.yahoo.com/quote/CSU.TO/"
   ],
   "fecha": "2026-08-31"
+ },
+ "HEI": {
+  "veredicto": "EVENTO",
+  "resumen": "Las acciones cayeron un 12.2% tras los resultados del cuarto trimestre fiscal 2025 (reportados a finales de 2025/inicio de 2026): aunque las ventas crecieron 14.4% y superaron estimaciones, el beneficio por acción GAAP solo batió expectativas gracias a un beneficio fiscal puntual, y el EBITDA ajusta",
+  "confianza": 75,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/46619/000004661925000042/a04302025ex991earningsrele.htm",
+   "https://www.sec.gov/Archives/edgar/data/46619/000004661925000076/a10312025ex991earningsrele.htm",
+   "https://www.sec.gov/Archives/edgar/data/46619/000004661925000046/hei-20250430.htm",
+   "https://simplywall.st/stocks/us/capital-goods/nyse-hei/heico"
+  ],
+  "fecha": "2026-09-01"
+ },
+ "TT": {
+  "veredicto": "SENTIMIENTO",
+  "resumen": "La caída responde a rotaciones de sentimiento sectorial (comentarios de Nvidia sobre menor necesidad de refrigeración líquida en chips y el shock de DeepSeek) que cuestionaron la narrativa de crecimiento por data centers y la valoración premium del sector HVAC, no a un deterioro del negocio de Trane",
+  "confianza": 65,
+  "fuentes": [
+   "https://www.sec.gov/Archives/edgar/data/1466258/000162828025047261/exhibit991-q32025earningsr.htm",
+   "https://www.sec.gov/Archives/edgar/data/1466258/000146625825000121/exhibit991-q12025earningsr.htm",
+   "https://finimize.com/content/tt-asset-snapshot",
+   "https://simplywall.st/stocks/us/capital-goods/nyse-tt/trane-technologies/future"
+  ],
+  "fecha": "2026-09-01"
+ },
+ "AON": {
+  "veredicto": "EVENTO",
+  "resumen": "Aon reportó resultados sólidos en Q2 y Q3 de 2025 (crecimiento orgánico de 6-7%, expansión de márgenes, EPS +12%), sin deterioro del negocio; la caída coincide con el anuncio de la gran adquisición de USI Insurance Services, un evento corporativo puntual que genera dudas sobre financiación/dilución ",
+  "confianza": 55,
+  "fuentes": [
+   "https://www.investing.com/news/transcripts/earnings-call-transcript-aon-plc-q3-2025-beats-eps-expectations-stock-rises-93CH-4324366",
+   "https://finance.yahoo.com/quote/AON/earnings/AON-Q3-2025-earnings_call-367282.html",
+   "https://aon.mediaroom.com/2025-10-31-Aon-Reports-Third-Quarter-2025-Results",
+   "https://www.theglobeandmail.com/investing/markets/stocks/AON/pressreleases/35830370/aon-q3-2025-earnings-call-transcript/"
+  ],
+  "fecha": "2026-09-01"
  }
 }

@@ -1,15 +1,15 @@
 {
-  "total_signals": 85,
+  "total_signals": 86,
   "unique_tickers": 51,
-  "date_range": "2026-04-08 to 2026-08-28",
+  "date_range": "2026-04-08 to 2026-09-01",
   "active_signals": 24,
-  "completed_signals": 61,
+  "completed_signals": 62,
   "overall": {
     "7d": {
-      "count": 79,
-      "win_rate": 50.6,
-      "avg_return": 0.73,
-      "median_return": 0.16,
+      "count": 80,
+      "win_rate": 50.0,
+      "avg_return": 0.6,
+      "median_return": -0.02,
       "best": 14.77,
       "worst": -9.78
     },
@@ -22,10 +22,10 @@
       "worst": -11.26
     },
     "30d": {
-      "count": 61,
-      "win_rate": 52.5,
-      "avg_return": 0.57,
-      "median_return": 0.16,
+      "count": 62,
+      "win_rate": 53.2,
+      "avg_return": 0.58,
+      "median_return": 0.36,
       "best": 22.71,
       "worst": -14.5
     },
@@ -64,12 +64,12 @@
       "worst": -25.82
     },
     "180d": {
-      "count": 112,
-      "win_rate": 61.6,
-      "avg_return": 7.75,
-      "median_return": 11.78,
-      "best": 34.8,
-      "worst": -22.79
+      "count": 207,
+      "win_rate": 65.7,
+      "avg_return": 7.54,
+      "median_return": 9.85,
+      "best": 35.02,
+      "worst": -36.24
     },
     "365d": {
       "count": 0,
@@ -104,12 +104,12 @@
     }
   },
   "value_strategy": {
-    "count": 73,
+    "count": 74,
     "7d": {
-      "count": 67,
-      "win_rate": 47.8,
-      "avg_return": 0.62,
-      "median_return": -0.34,
+      "count": 68,
+      "win_rate": 47.1,
+      "avg_return": 0.47,
+      "median_return": -0.39,
       "best": 14.77,
       "worst": -9.78,
       "basis": "clean_period"
@@ -124,10 +124,10 @@
       "basis": "clean_period"
     },
     "30d": {
-      "count": 49,
-      "win_rate": 53.1,
-      "avg_return": 0.91,
-      "median_return": 0.16,
+      "count": 50,
+      "win_rate": 54.0,
+      "avg_return": 0.92,
+      "median_return": 0.55,
       "best": 22.71,
       "worst": -14.5,
       "basis": "clean_period"
@@ -194,12 +194,12 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 112,
-      "win_rate": 61.6,
-      "avg_return": 7.75,
-      "median_return": 11.78,
+      "count": 192,
+      "win_rate": 64.1,
+      "avg_return": 7.07,
+      "median_return": 7.99,
       "best": 34.8,
-      "worst": -22.79,
+      "worst": -24.83,
       "basis": "eu_full_hist"
     },
     "365d": {
@@ -229,7 +229,7 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 12,
+      "count": 14,
       "7d": {
         "count": 2,
         "win_rate": 100.0,
@@ -242,7 +242,7 @@
     }
   },
   "leaps_strategy": {
-    "count": 73,
+    "count": 78,
     "30d": {
       "count": 0,
       "win_rate": null,
@@ -288,9 +288,9 @@
       "win_rate_30d": 80.0
     },
     "Industrials": {
-      "count": 4,
-      "avg_30d": 6.15,
-      "win_rate_30d": 75.0
+      "count": 5,
+      "avg_30d": 5.11,
+      "win_rate_30d": 80.0
     },
     "Consumer Defensive": {
       "count": 3,
@@ -298,7 +298,7 @@
       "win_rate_30d": 33.3
     }
   },
-  "score_correlation": 0.065,
+  "score_correlation": 0.069,
   "top_performers": [
     {
       "ticker": "EXPE",
@@ -385,6 +385,17 @@
   ],
   "recent_signals": [
     {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "strategy": "VALUE",
+      "signal_date": "2026-09-01",
+      "signal_price": 435.84,
+      "sector": "Financial Services",
+      "value_score": 58.14,
+      "days_active": 0,
+      "first_result_date": "2026-09-08"
+    },
+    {
       "ticker": "TW",
       "company_name": "Tradeweb Markets Inc.",
       "strategy": "VALUE",
@@ -392,7 +403,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 3,
+      "days_active": 4,
       "first_result_date": "2026-09-04"
     },
     {
@@ -403,7 +414,7 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 4,
+      "days_active": 5,
       "first_result_date": "2026-09-03"
     },
     {
@@ -414,7 +425,7 @@
       "signal_price": 455.25,
       "sector": "Industrials",
       "value_score": 51.95,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-09-02"
     },
     {
@@ -425,7 +436,7 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-09-02"
     },
     {
@@ -436,7 +447,7 @@
       "signal_price": 7.26,
       "sector": "Healthcare",
       "value_score": 59.59,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-09-02"
     },
     {
@@ -447,7 +458,7 @@
       "signal_price": 355.11,
       "sector": "Financial Services",
       "value_score": 51.13,
-      "days_active": 7,
+      "days_active": 8,
       "first_result_date": "2026-08-31"
     },
     {
@@ -458,7 +469,7 @@
       "signal_price": 496.86,
       "sector": "Financial Services",
       "value_score": 55.370000000000005,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-08-28"
     },
     {
@@ -469,19 +480,8 @@
       "signal_price": 2966.0,
       "sector": "Industrials",
       "value_score": 60.88499999999999,
-      "days_active": 10,
-      "first_result_date": "2026-08-28"
-    },
-    {
-      "ticker": "FHN",
-      "company_name": "First Horizon Corporation",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-20",
-      "signal_price": 24.87,
-      "sector": "Financial Services",
-      "value_score": 51.305,
       "days_active": 11,
-      "first_result_date": "2026-08-27"
+      "first_result_date": "2026-08-28"
     },
     {
       "ticker": "OXY",
@@ -491,7 +491,18 @@
       "signal_price": 60.09,
       "sector": "Energy",
       "value_score": 62.24000000000001,
-      "days_active": 11,
+      "days_active": 12,
+      "first_result_date": "2026-08-27"
+    },
+    {
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-20",
+      "signal_price": 24.87,
+      "sector": "Financial Services",
+      "value_score": 51.305,
+      "days_active": 12,
       "first_result_date": "2026-08-27"
     },
     {
@@ -502,7 +513,7 @@
       "signal_price": 559.73,
       "sector": "Financial Services",
       "value_score": 56.86500000000001,
-      "days_active": 18,
+      "days_active": 19,
       "first_result_date": "2026-08-20"
     },
     {
@@ -513,7 +524,7 @@
       "signal_price": 74.9,
       "sector": "Consumer Cyclical",
       "value_score": 62.36500000000001,
-      "days_active": 18,
+      "days_active": 19,
       "first_result_date": "2026-08-20"
     },
     {
@@ -524,7 +535,7 @@
       "signal_price": 345.81,
       "sector": "Healthcare",
       "value_score": 58.465,
-      "days_active": 20,
+      "days_active": 21,
       "first_result_date": "2026-08-18"
     },
     {
@@ -535,7 +546,7 @@
       "signal_price": 194.91,
       "sector": "Energy",
       "value_score": 55.19499999999999,
-      "days_active": 20,
+      "days_active": 21,
       "first_result_date": "2026-08-18"
     },
     {
@@ -546,7 +557,7 @@
       "signal_price": 19.28,
       "sector": "Industrials",
       "value_score": 56.24000000000001,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-08-17"
     },
     {
@@ -557,7 +568,7 @@
       "signal_price": 286.58,
       "sector": "Financial Services",
       "value_score": 51.725,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-08-17"
     },
     {
@@ -568,7 +579,7 @@
       "signal_price": 362.5,
       "sector": "Financial Services",
       "value_score": 55.52,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-08-17"
     },
     {
@@ -579,7 +590,7 @@
       "signal_price": 340.91,
       "sector": "Financial Services",
       "value_score": 56.870000000000005,
-      "days_active": 21,
+      "days_active": 22,
       "first_result_date": "2026-08-17"
     },
     {
@@ -590,19 +601,8 @@
       "signal_price": 473.13,
       "sector": "Financial Services",
       "value_score": 62.81,
-      "days_active": 24,
-      "first_result_date": "2026-08-14"
-    },
-    {
-      "ticker": "ATLKY",
-      "company_name": "Atlas Copco AB",
-      "strategy": "VALUE",
-      "signal_date": "2026-08-06",
-      "signal_price": 22.2,
-      "sector": "Industrials",
-      "value_score": 57.095,
       "days_active": 25,
-      "first_result_date": "2026-08-13"
+      "first_result_date": "2026-08-14"
     }
   ],
   "avg_max_drawdown": -2.47,
@@ -631,11 +631,11 @@
       "worst_alpha": -38.85
     },
     "30d": {
-      "count": 61,
-      "avg_alpha": -2.9,
-      "avg_signal_return": 0.57,
-      "avg_benchmark_return": 3.47,
-      "positive_alpha_rate": 44.3,
+      "count": 62,
+      "avg_alpha": -2.88,
+      "avg_signal_return": 0.58,
+      "avg_benchmark_return": 3.46,
+      "positive_alpha_rate": 43.5,
       "best_alpha": 21.86,
       "worst_alpha": -20.53
     },
@@ -649,11 +649,11 @@
       "worst_alpha": -12.78
     },
     "7d": {
-      "count": 79,
-      "avg_alpha": -0.06,
-      "avg_signal_return": 0.73,
+      "count": 80,
+      "avg_alpha": -0.19,
+      "avg_signal_return": 0.6,
       "avg_benchmark_return": 0.79,
-      "positive_alpha_rate": 46.8,
+      "positive_alpha_rate": 46.2,
       "best_alpha": 11.23,
       "worst_alpha": -12.04
     }
@@ -667,11 +667,13 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 0,
-      "avg_alpha": null,
-      "positive_alpha_rate": null,
-      "avg_signal_return": null,
-      "avg_benchmark_return": null
+      "count": 15,
+      "avg_alpha": 0.7,
+      "avg_signal_return": 13.53,
+      "avg_benchmark_return": 12.83,
+      "positive_alpha_rate": 60.0,
+      "best_alpha": 22.47,
+      "worst_alpha": -49.58
     },
     "90d": {
       "count": 103,
@@ -683,11 +685,11 @@
       "worst_alpha": -32.09
     },
     "30d": {
-      "count": 49,
-      "avg_alpha": -3.47,
-      "avg_signal_return": 0.91,
-      "avg_benchmark_return": 4.39,
-      "positive_alpha_rate": 42.9,
+      "count": 50,
+      "avg_alpha": -3.44,
+      "avg_signal_return": 0.92,
+      "avg_benchmark_return": 4.36,
+      "positive_alpha_rate": 42.0,
       "best_alpha": 21.86,
       "worst_alpha": -20.53
     },
@@ -710,11 +712,13 @@
       "avg_benchmark_return": null
     },
     "180d": {
-      "count": 0,
-      "avg_alpha": null,
-      "positive_alpha_rate": null,
-      "avg_signal_return": null,
-      "avg_benchmark_return": null
+      "count": 145,
+      "avg_alpha": -0.24,
+      "avg_signal_return": 7.29,
+      "avg_benchmark_return": 7.53,
+      "positive_alpha_rate": 52.4,
+      "best_alpha": 29.05,
+      "worst_alpha": -31.91
     },
     "90d": {
       "count": 727,
@@ -744,5 +748,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-08-31T11:26:20.844606"
+  "generated_at": "2026-09-01T10:40:58.521182"
 }

@@ -1,38 +1,21 @@
 {
-  "mes": "2026-08",
-  "gastado_usd": 7.29817,
-  "llamadas": 489,
-  "busquedas": 61,
-  "ultima_llamada": "2026-08-31T11:48:47.254304+00:00",
+  "mes": "2026-09",
+  "gastado_usd": 1.765661,
+  "llamadas": 109,
+  "busquedas": 14,
+  "mes_anterior": {
+    "mes": "2026-08",
+    "gastado_usd": 7.29817
+  },
   "por_script": {
     "why_cheap_analyzer": {
-      "usd": 3.599875,
-      "llamadas": 19
+      "usd": 1.173908,
+      "llamadas": 5
     },
     "ai_quality_filter": {
-      "usd": 2.237616,
-      "llamadas": 390
-    },
-    "cerebro": {
-      "usd": 0.414027,
-      "llamadas": 72
-    },
-    "daily_briefing": {
-      "usd": 0.166227,
-      "llamadas": 4
-    },
-    "bounce_catalyst_check": {
-      "usd": 0.84357,
-      "llamadas": 3
-    },
-    "signal_postmortem": {
-      "usd": 0.036855,
-      "llamadas": 1
+      "usd": 0.591753,
+      "llamadas": 104
     }
   },
-  "mes_anterior": {
-    "mes": "2026-08 (antes de recargar el 25-ago)",
-    "gastado_usd": 9.016902,
-    "sin_credito_desde": "2026-08-19T05:27:08.968176+00:00"
-  }
+  "ultima_llamada": "2026-09-01T09:59:01.088187+00:00"
 }

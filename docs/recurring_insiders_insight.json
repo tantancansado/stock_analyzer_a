@@ -1,7 +1,7 @@
 {
-  "date": "2026-08-31",
-  "timestamp": "2026-08-31T11:23:40.731406",
-  "narrative": null,
+  "date": "2026-09-01",
+  "timestamp": "2026-09-01T10:38:12.850210",
+  "narrative": "Los 15 tickers identificados abarcan principalmente el sector de servicios de transporte y telecomunicaciones (RSG, AAL.L, BA.L, VOD.L, TSCO.L, SSE.L) y el sector de bienes de consumo (UNA.AS, ULVR.L). La concentraci\u00f3n de compras en estos sectores sugiere un posible inter\u00e9s en la recuperaci\u00f3n post\u2011pandemia y la digitalizaci\u00f3n de infraestructuras. Cuando varios insiders compran simult\u00e1neamente, indica un consenso interno sobre la valoraci\u00f3n subvalorada o la expectativa de un impulso de precios; la rapidez de las transacciones reduce la posibilidad de que se trate de compras de informaci\u00f3n privilegiada. Para un inversor value/GARP, la se\u00f1al puede",
   "total_tickers": 15,
   "total_us": 7,
   "total_eu": 8,
@@ -9,10 +9,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 22,
+      "purchase_count": 24,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 15
+      "days_span": 18
     },
     {
       "ticker": "AAL.L",
@@ -31,20 +31,20 @@
       "days_span": 70
     },
     {
-      "ticker": "BARC.L",
+      "ticker": "VOD.L",
       "market": "EU",
-      "purchase_count": 10,
-      "unique_insiders": 10,
+      "purchase_count": 9,
+      "unique_insiders": 9,
       "confidence_score": 100.0,
-      "days_span": 0
+      "days_span": 40
     },
     {
-      "ticker": "BATS.L",
+      "ticker": "UNA.AS",
       "market": "EU",
-      "purchase_count": 44,
-      "unique_insiders": 13,
+      "purchase_count": 13,
+      "unique_insiders": 9,
       "confidence_score": 100.0,
-      "days_span": 83
+      "days_span": 0
     }
   ]
 }

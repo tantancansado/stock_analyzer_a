@@ -1,22 +1,29 @@
 {
-  "date": "2026-08-31",
-  "timestamp": "2026-08-31T11:23:41.002801",
-  "narrative": null,
+  "date": "2026-09-01",
+  "timestamp": "2026-09-01T10:38:17.277348",
+  "narrative": "",
   "macro_regime": "CALM",
-  "picks_count": 2,
+  "picks_count": 3,
   "top_picks": [
     {
-      "ticker": "INDT.ST",
+      "ticker": "ASSA-B.ST",
       "sector": "Industrials",
-      "value_score": 47.5,
-      "analyst_upside_pct": 11.4,
+      "value_score": 51.8,
+      "analyst_upside_pct": 14.9,
       "conviction_grade": null
     },
     {
       "ticker": "DB1.DE",
       "sector": "Financial Services",
       "value_score": 46.7,
-      "analyst_upside_pct": 0.6,
+      "analyst_upside_pct": 1.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "SIKA.SW",
+      "sector": "Basic Materials",
+      "value_score": 33.9,
+      "analyst_upside_pct": 5.5,
       "conviction_grade": null
     }
   ]
