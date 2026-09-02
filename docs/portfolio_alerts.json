@@ -1,8 +1,18 @@
 {
-  "generated_at": "2026-09-01",
-  "alerts": [],
+  "generated_at": "2026-09-02",
+  "alerts": [
+    {
+      "type": "STOP_TRIGGERED",
+      "ticker": "IVR",
+      "current": 7.19,
+      "entry": 7.91,
+      "target": null,
+      "pct_change": -9.1,
+      "pct_to_target": null
+    }
+  ],
   "counts": {
-    "stop_triggered": 0,
+    "stop_triggered": 1,
     "target_reached": 0,
     "near_target": 0
   }

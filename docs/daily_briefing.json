@@ -1,44 +1,169 @@
 {
-  "date": "2026-09-02",
-  "timestamp": "2026-09-02T09:46:15.036729",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 6,
-  "top_picks": [
-    {
-      "ticker": "HEI",
-      "sector": "Industrials",
-      "value_score": 67.77499999999999,
-      "analyst_upside_pct": 21.5,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "AON",
-      "sector": "Financial Services",
-      "value_score": 64.315,
-      "analyst_upside_pct": 23.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "NDSN",
-      "sector": "Industrials",
-      "value_score": 59.72,
-      "analyst_upside_pct": 11.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "TW",
-      "sector": "Financial Services",
-      "value_score": 53.535,
-      "analyst_upside_pct": 15.9,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "JNJ",
-      "sector": "Healthcare",
-      "value_score": 41.24,
-      "analyst_upside_pct": 0.5,
-      "conviction_grade": null
+  "fecha": "2026-09-02",
+  "texto": "<b>Hoy hay cuatro cosas comprables.</b> Nordson entra a 314,4 con un 11,2% de recorrido según los analistas, cayendo un 7,3% desde máximos, timing de entrada. Occidental Petroleum a 60,95 tiene un dato llamativo: los analistas le ven solo un 9,6% de subida pero el modelo triangulado calcula hasta un 68,8%, con buen flujo de caja (6,22%). Nucor a 251,92 trae un 12,3% de recorrido y fuerza relativa positiva en los últimos seis meses. Schneider Electric a 66,39 es la de mayor potencial del lote, 17,2%.\n\n<b>Dos tesis rotas que hay que atender ya.</b> CRH.L ha caído por debajo de tu precio de salida (7914 frente al stop en 8140,16): si la llevas, toca cerrarla, no es momento de esperar a ver si rebota. AON también ha roto stop (321,52 frente a 326,70) — pese a que sus resultados de 2025 fueron sólidos, la caída coincide con un anuncio corporativo que el mercado no se ha tomado bien; sal según tu regla, no la trates como oportunidad de compra aunque aparezca barata en el resto del análisis.\n\n<b>Para vigilar, pero todavía no comprables:</b> Zoetis sigue cayendo con fuerza (un 49,75% peor que el mercado en seis meses) por competencia a dos de sus fármacos estrella y menor gasto veterinario — barato, pero todavía no comprable. Otis arrastra debilidad cíclica en su negocio de nuevos ascensores en China, con recortes de guidance repetidos. Stryker cayó por un ciberataque que frenó su producción y envíos, más una corrección de valoración — es un evento puntual, pero de momento sigue perdiendo fuerza relativa. Tradeweb bajó por rebaja de valoración tras una subida fuerte y miedo a que compriman comisiones, no por deterioro real del negocio.\n\nEl sistema acierta un 61,5% de las veces con retorno medio del 3,15%, pero es una cifra provisional sobre 90 días y solo 39 señales — todavía no hay histórico a 180 días para darla por buena. Dimensiona posiciones en consecuencia.",
+  "hechos": {
+    "fecha": "2026-09-02",
+    "total_lista": 71,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "NDSN",
+        "empresa": "Nordson Corporation",
+        "score": 59.72,
+        "precio": 314.4,
+        "upside_analista": 11.2,
+        "upside_triangulado": 11.2,
+        "divergencia": "",
+        "fcf_yield": 3.5,
+        "del_maximo_pct": -7.3,
+        "rs_6m": -2.13,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 55.82499999999999,
+        "precio": 60.95,
+        "upside_analista": 9.6,
+        "upside_triangulado": 68.8,
+        "divergencia": "",
+        "fcf_yield": 6.22,
+        "del_maximo_pct": -9.6,
+        "rs_6m": 2.98,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "NUE",
+        "empresa": "Nucor Corporation",
+        "score": 42.66,
+        "precio": 251.92,
+        "upside_analista": 12.3,
+        "upside_triangulado": 12.3,
+        "divergencia": "",
+        "fcf_yield": 1.2,
+        "del_maximo_pct": -10.1,
+        "rs_6m": 32.14,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SBGSY",
+        "empresa": "Schneider Electric S.E.",
+        "score": 41.175,
+        "precio": 66.39,
+        "upside_analista": 17.2,
+        "upside_triangulado": 17.2,
+        "divergencia": "",
+        "fcf_yield": 3.34,
+        "del_maximo_pct": -7.8,
+        "rs_6m": -0.32,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "ZTS",
+        "empresa": "Zoetis Inc.",
+        "score": 50.52,
+        "precio": 77.25,
+        "upside_analista": 24.3,
+        "upside_triangulado": -7.0,
+        "divergencia": "MEDIA",
+        "fcf_yield": 6.32,
+        "del_maximo_pct": -50.3,
+        "rs_6m": -49.75,
+        "timing": "VIGILAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "En 2025 Zoetis recortó su guidance de ingresos a $9.4-9.475B (desde $9.45-9.6B) tras caídas interanuales de Librela y Solensia en Q2 y Q3 por mayor competencia y menor gasto de due"
+      },
+      {
+        "ticker": "OTIS",
+        "empresa": "Otis Worldwide Corporation",
+        "score": 52.025000000000006,
+        "precio": 70.6,
+        "upside_analista": 25.8,
+        "upside_triangulado": 19.0,
+        "divergencia": "MEDIA",
+        "fcf_yield": 5.34,
+        "del_maximo_pct": -25.3,
+        "rs_6m": -33.38,
+        "timing": "ESPERAR",
+        "por_que_cae": "CICLICO",
+        "por_que_cae_detalle": "La caída se debe a la debilidad cíclica del negocio de Nuevos Equipos en China (mercado que cayó ~13% en 2025), que ha forzado varios recortes de guidance entre 2025 y 2026 pese a "
+      },
+      {
+        "ticker": "SYK",
+        "empresa": "Stryker Corporation",
+        "score": 52.085,
+        "precio": 317.4,
+        "upside_analista": 20.6,
+        "upside_triangulado": 20.6,
+        "divergencia": "",
+        "fcf_yield": 3.37,
+        "del_maximo_pct": -20.0,
+        "rs_6m": -28.22,
+        "timing": "ESPERAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "La acción cayó tras un ciberataque disruptivo (wiper) atribuido a un grupo iraní que afectó producción, envíos y procesamiento de pedidos, sumado a una corrección de valoración pes"
+      },
+      {
+        "ticker": "TW",
+        "empresa": "Tradeweb Markets Inc.",
+        "score": 53.535,
+        "precio": 106.71,
+        "upside_analista": 15.9,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.58,
+        "del_maximo_pct": -16.4,
+        "rs_6m": -25.89,
+        "timing": "ESPERAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "La caída responde a una rebaja de valoración por parte de analistas tras la fuerte subida previa y a preocupación por compresión de comisiones (mix de producto), no a deterioro del"
+      },
+      {
+        "ticker": "AON",
+        "empresa": "Aon plc",
+        "score": 64.315,
+        "precio": 326.3,
+        "upside_analista": 23.8,
+        "upside_triangulado": -32.2,
+        "divergencia": "ALTA",
+        "fcf_yield": 4.61,
+        "del_maximo_pct": -14.7,
+        "rs_6m": -15.67,
+        "timing": "VIGILAR",
+        "por_que_cae": "EVENTO",
+        "por_que_cae_detalle": "Aon reportó resultados sólidos en Q2 y Q3 de 2025 (crecimiento orgánico de 6-7%, expansión de márgenes, EPS +12%), sin deterioro del negocio; la caída coincide con el anuncio de la"
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      },
+      {
+        "ticker": "AON",
+        "motivo": "Precio 321.52 por debajo del stop 326.70",
+        "severidad": "HIGH"
+      }
+    ],
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

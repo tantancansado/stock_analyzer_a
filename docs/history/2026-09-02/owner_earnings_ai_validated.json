@@ -1,0 +1,1240 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "validated_at": "2026-09-02T09:11:33+00:00",
+  "total": 137,
+  "results": {
+    "RSG": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "FAST": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MSI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CB": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CHD": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ROP": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CBOE": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "7741.T": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ISRG": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "BRK-B": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CNI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "WATCH",
+      "reasoning": "Los flujos de caja libres solo están proyectados sin consenso y no hay datos históricos ni ROIC, lo que dificulta validar la consistencia del modelo. La tesis BUY se basa en supuestos agresivos y un upside muy elevado que no está suficientemente respaldado por información concreta.",
+      "confidence": 65,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/WATCH (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "SYK": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ERIE": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de métricas clave como ROIC o yield. Sin información suficiente, el modelo de Owner Earnings no puede validar la fiabilidad ni la tesis implícita.",
+      "confidence": 30,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MSFT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AUTO.L": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos históricos de FCF ni de ROIC, y los flujos proyectados carecen de consenso, lo que impide validar la consistencia del modelo. Sin información suficiente, la valoración y la tesis de compra son poco fiables.",
+      "confidence": 30,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "RELX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El modelo carece de historial de FCF y de consenso para los flujos futuros, además no se dispone de ROIC ni de otros indicadores clave; por ello la fiabilidad de los inputs es limitada. Sin datos sólidos, la conclusión de BUY con un upside del 225 % es poco sustentable.",
+      "confidence": 55,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AJG": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "LRLCY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CP": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de FCF histórico y los flujos proyectados carecen de consenso, lo que impide validar la consistencia de los supuestos. Sin datos de ROIC ni historial suficiente, la valoración es altamente especulativa.",
+      "confidence": 70,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ZTS": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "NOW": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "INTU": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de historial de FCF ni de ROIC, y los flujos futuros son proyecciones sin consenso, lo que impide validar la consistencia del modelo. Sin datos básicos de referencia, la conclusión de sobrevaloración carece de fundamento sólido.",
+      "confidence": 70,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "SPGI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "LSEG.L": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CME": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "FICO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ITW": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "DHR": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ETN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CSU.TO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CLPBY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "V": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "BRO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "PGR": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de métricas clave como ROIC o yield, lo que impide validar el modelo Owner Earnings. Sin información suficiente, cualquier conclusión sería especulativa.",
+      "confidence": 30,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "EXPN.L": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni proyecciones, ni de ROIC o ratios clave; la información es insuficiente para validar el modelo. La tesis implícita NO_DATA no puede evaluarse.",
+      "confidence": 20,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "PEP": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "AVOID",
+      "reasoning": "Los datos de FCF son incompletos (no hay histórico) y los flujos futuros son proyecciones sin consenso, lo que reduce la fiabilidad del modelo. Además, el upside del 249 % y el precio objetivo de $492 para una empresa establecida como PepsiCo son poco realistas, indicando que la tesis BUY está sobrevalorada.",
+      "confidence": 72,
+      "score_adjustment": -5,
+      "oe_ai_verdict": "MIXED/AVOID (-5)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "IT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AI.PA": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "HEI": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos históricos de FCF ni de consenso para los flujos futuros; faltan métricas clave como ROIC y la información es escasa, lo que impide validar el modelo. Sin datos fiables, la conclusión de sobrevaloración no es sustentable.",
+      "confidence": 80,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CDNS": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ESLOY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "WST": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "LIN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "SBGSY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MTD": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El modelo carece de datos históricos de FCF y de consenso para los flujos futuros, además faltan métricas clave como ROIC. Sin una base fiable, los cálculos de precio objetivo y margen de seguridad son poco creíbles. Por tanto, no se puede confirmar la tesis de sobrevaloración.",
+      "confidence": 80,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ROL": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El modelo carece de datos históricos de FCF y de métricas clave como ROIC, y los flujos proyectados no cuentan con consenso, lo que genera incertidumbre sobre su fiabilidad. Sin una base sólida de información, la conclusión de BUY no está suficientemente respaldada.",
+      "confidence": 55,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TNE.AX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TYL": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "GVDNY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "HESAY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "VLTO": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de FCF histórico ni de consenso para los flujos futuros; los supuestos clave (CapEx, ROIC) están ausentes, lo que impide validar la fiabilidad del modelo y la conclusión de sobrevaloración.",
+      "confidence": 80,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "DBOEY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MCD": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AON": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ASAZY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "EQIX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "VRSN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ADP": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "PAYX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "WMT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "SAP": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "WTKWY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CPRT": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "El modelo se basa únicamente en proyecciones de FCF sin historial ni consenso, y carece de métricas clave como ROIC o historial de flujos de caja. Sin datos verificables, la valoración y el margen de seguridad son especulativos.",
+      "confidence": 70,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AXP": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AWK": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TW": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "SHW": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "FDS": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ATLKY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CTAS": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "VRSK": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de FCF histórico ni de consenso para los flujos futuros, lo que impide validar la coherencia de los supuestos. Además, faltan métricas clave como ROIC y la relación EV/FCF real, por lo que el modelo carece de bases sólidas.",
+      "confidence": 70,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "VEEV": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "DSGX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "WM": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "G24.DE": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "IDXX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ICE": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "WATCH",
+      "reasoning": "El modelo se basa en proyecciones de FCF sin consenso y carece de historial de al menos tres años, lo que reduce la fiabilidad de los inputs. Además, faltan métricas clave como ROIC y la relación CapEx/Sales es una estimación genérica. Por ello, la tesis BUY es prematura y se recomienda observar antes de decidir.",
+      "confidence": 55,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/WATCH (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AZO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ECL": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "PG": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "AME": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "RACE": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No hay datos históricos de FCF ni consenso para los proyecciones, faltan métricas clave como ROIC y la base de cálculo es poco transparente, lo que impide validar el modelo.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "GWW": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "JNJ": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TJX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MKC": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MSCI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "WCN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MA": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ORLY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "SXYAY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Faltan datos históricos de FCF y ROIC, y los flujos futuros son proyecciones sin consenso; aunque la capitalización y el número de acciones parecen razonables, la ausencia de información clave impide validar el modelo con confianza.",
+      "confidence": 55,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MMC": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "KO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ABT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "NDSN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "BR": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos históricos de FCF ni de consenso para los flujos futuros; faltan métricas clave como ROIC y la relación EV/FCF está basada en supuestos sin respaldo. Por ello el modelo carece de base suficiente para validar la tesis de sobrevaloración.",
+      "confidence": 70,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TMO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "NDAQ": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CL": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de historial de FCF (≥3 años) y las proyecciones son sin consenso, además falta ROIC y otros indicadores clave, lo que impide validar la fiabilidad del modelo.",
+      "confidence": 80,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "COST": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MCO": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "OTIS": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "JKHY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ITRK.L": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TEVA": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "NVR": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "COF": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "LPX": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de flujo de caja libre histórico ni proyectado, por lo que no es posible validar el modelo de Owner Earnings ni evaluar la tesis de inversión.",
+      "confidence": 70,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CVX": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "DVA": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "GPK": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "KD": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "BN": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de FCF histórico ni forward, por lo que el modelo no puede evaluarse y la tesis no puede confirmarse.",
+      "confidence": 20,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "UBER": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "HHH": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "NUE": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "DPZ": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "OXY": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "CHTR": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "FCNCA": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "No se dispone de datos de flujo de caja libre histórico ni proyectado, lo que impide validar el modelo de Owner Earnings ni estimar un precio objetivo. Sin información financiera clave, no es posible emitir una recomendación de compra.",
+      "confidence": 85,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "BAC": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "KVUE": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "FHN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "TECK": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "NYT": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "KR": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "THC": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "QSR": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "HRI": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "LEN": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "UNH": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "POOL": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "STZ": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "ALLY": {
+      "data_quality": "UNRELIABLE",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "Los datos de FCF son inexistentes y las proyecciones no cuentan con consenso; además, Ally es un banco, sector donde el FCF no es la métrica más adecuada. El modelo basado en EV/FCF no puede aplicarse de forma fiable.",
+      "confidence": 90,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "UNRELIABLE/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "KHC": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    },
+    "MRSH": {
+      "data_quality": "MIXED",
+      "thesis_verdict": "INSUFFICIENT",
+      "reasoning": "IA no pudo validar",
+      "confidence": 0,
+      "score_adjustment": 0,
+      "oe_ai_verdict": "MIXED/INSUFFICIENT (0)",
+      "validated_at": "2026-09-02T09:11:33+00:00"
+    }
+  }
+}

@@ -1,52 +1,20 @@
 {
-  "generated_at": "2026-09-01T10:47:38.631508",
+  "generated_at": "2026-09-02T09:57:08.057306",
   "tickers": {
     "WM": {
       "ticker": "WM",
       "company_name": "Waste Management, Inc.",
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
-      "signal_date": "2026-08-27",
+      "signal_date": "2026-08-28",
       "days_since_signal": 5,
       "window_days": 3,
       "entry_zone": "$209.47 - $218.02",
       "target": 229.34,
-      "stop_loss": 208.43,
-      "rsi_at_signal": 24.1,
-      "current_price": 218.9199981689453,
+      "stop_loss": 208.45,
+      "rsi_at_signal": 28.1,
+      "current_price": 219.77000427246094,
       "status": "VENTANA_EXPIRADA",
-      "ai_note": ""
-    },
-    "ORLY": {
-      "ticker": "ORLY",
-      "company_name": "O'Reilly Automotive, Inc.",
-      "strategy": "Oversold Bounce",
-      "quality": "MODERADA",
-      "signal_date": "2026-08-27",
-      "days_since_signal": 5,
-      "window_days": 3,
-      "entry_zone": "$85.55 - $89.05",
-      "target": 94.4,
-      "stop_loss": 84.32,
-      "rsi_at_signal": 27.5,
-      "current_price": 88.80000305175781,
-      "status": "VENTANA_EXPIRADA",
-      "ai_note": ""
-    },
-    "7741.T": {
-      "ticker": "7741.T",
-      "company_name": "HOYA Corporation",
-      "strategy": "Oversold Bounce",
-      "quality": "\u2b50\u2b50 MUY BUENA",
-      "signal_date": "2026-08-31",
-      "days_since_signal": 1,
-      "window_days": 3,
-      "entry_zone": "$23431.8 - $24388.2",
-      "target": 27868.95,
-      "stop_loss": 23032.5,
-      "rsi_at_signal": 26.5,
-      "current_price": 24890.0,
-      "status": "EN_VENTANA",
       "ai_note": ""
     }
   }
