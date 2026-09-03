@@ -1,44 +1,54 @@
 {
-  "generated_at": "2026-09-02",
+  "generated_at": "2026-09-03",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "AON",
-      "company_name": "Aon plc",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
       "sector": "Financial Services",
-      "score_today": 64.3,
-      "score_prev": 51.5,
-      "delta": 12.8,
+      "score_today": 62.6,
+      "score_prev": 44.1,
+      "delta": 18.4,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
       "sector": "Industrials",
-      "score_today": 59.7,
-      "score_prev": 49.9,
-      "delta": 9.8,
-      "grade": "🟡 Good"
+      "score_today": 52.0,
+      "score_prev": 37.9,
+      "delta": 14.1,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "V",
-      "company_name": "Visa Inc.",
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
       "sector": "Financial Services",
-      "score_today": 55.1,
-      "score_prev": 46.9,
-      "delta": 8.2,
+      "score_today": 68.0,
+      "score_prev": 58.4,
+      "delta": 9.6,
+      "grade": "🟢 Excellent"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 57.2,
+      "score_prev": 48.9,
+      "delta": 8.3,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "VLTO",
-      "company_name": "Veralto Corporation",
-      "sector": "Industrials",
-      "score_today": 41.1,
-      "score_prev": 33.0,
-      "delta": 8.1,
+      "ticker": "CHTR",
+      "company_name": "Charter Communications, Inc.",
+      "sector": "Communication Services",
+      "score_today": 44.9,
+      "score_prev": 37.2,
+      "delta": 7.7,
       "grade": "🔴 Weak"
     },
     {
@@ -46,96 +56,76 @@
       "ticker": "NDAQ",
       "company_name": "Nasdaq, Inc.",
       "sector": "Financial Services",
-      "score_today": 43.6,
-      "score_prev": 36.3,
-      "delta": 7.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "PG",
-      "company_name": "The Procter & Gamble Company",
-      "sector": "Consumer Defensive",
-      "score_today": 39.1,
-      "score_prev": 33.3,
-      "delta": 5.8,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "ITW",
-      "company_name": "Illinois Tool Works Inc.",
-      "sector": "Industrials",
-      "score_today": 41.6,
-      "score_prev": 36.3,
-      "delta": 5.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "CHTR",
-      "company_name": "Charter Communications, Inc.",
-      "sector": "Communication Services",
-      "score_today": 37.2,
-      "score_prev": 43.5,
-      "delta": -6.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "BRK-B",
-      "company_name": "Berkshire Hathaway Inc.",
-      "sector": "Financial Services",
-      "score_today": 32.9,
-      "score_prev": 40.1,
-      "delta": -7.3,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "QSR",
-      "company_name": "Restaurant Brands International Inc.",
-      "sector": "Consumer Cyclical",
-      "score_today": 51.0,
-      "score_prev": 59.8,
-      "delta": -8.7,
+      "score_today": 48.7,
+      "score_prev": 43.6,
+      "delta": 5.1,
       "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporation",
-      "sector": "Energy",
-      "score_today": 55.8,
-      "score_prev": 65.3,
-      "delta": -9.5,
+      "ticker": "OTIS",
+      "company_name": "Otis Worldwide Corporation",
+      "sector": "Industrials",
+      "score_today": 47.0,
+      "score_prev": 52.0,
+      "delta": -5.0,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "POOL",
+      "company_name": "Pool Corporation",
+      "sector": "Industrials",
+      "score_today": 31.1,
+      "score_prev": 36.4,
+      "delta": -5.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "DSGX",
+      "company_name": "The Descartes Systems Group Inc.",
+      "sector": "Technology",
+      "score_today": 39.3,
+      "score_prev": 44.8,
+      "delta": -5.5,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "HEI",
+      "company_name": "HEICO Corporation",
+      "sector": "Industrials",
+      "score_today": 61.0,
+      "score_prev": 67.8,
+      "delta": -6.8,
       "grade": "🟡 Good"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "score_today": 43.6,
-      "score_prev": 53.2,
-      "delta": -9.6,
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 44.6,
+      "score_prev": 54.7,
+      "delta": -10.1,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "score_today": 37.9,
-      "score_prev": 48.1,
-      "delta": -10.2,
-      "grade": "🔴 Weak"
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
+      "sector": "Consumer Defensive",
+      "score_today": 48.7,
+      "score_prev": 59.0,
+      "delta": -10.3,
+      "grade": "🟡 Average"
     }
   ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 7,
+    "score_up": 6,
     "score_down": 6
   }
 }

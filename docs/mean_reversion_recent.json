@@ -1,20 +1,36 @@
 {
-  "generated_at": "2026-09-02T09:57:08.057306",
+  "generated_at": "2026-09-03T10:10:36.704764",
   "tickers": {
-    "WM": {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
+    "SYK": {
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
-      "signal_date": "2026-08-28",
-      "days_since_signal": 5,
+      "signal_date": "2026-09-02",
+      "days_since_signal": 1,
       "window_days": 3,
-      "entry_zone": "$209.47 - $218.02",
-      "target": 229.34,
-      "stop_loss": 208.45,
-      "rsi_at_signal": 28.1,
-      "current_price": 219.77000427246094,
-      "status": "VENTANA_EXPIRADA",
+      "entry_zone": "$317.87 - $330.84",
+      "target": 352.25,
+      "stop_loss": 310.58,
+      "rsi_at_signal": 24.5,
+      "current_price": 312.19000244140625,
+      "status": "EN_VENTANA",
+      "ai_note": ""
+    },
+    "FHN": {
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "strategy": "Oversold Bounce",
+      "quality": "MODERADA",
+      "signal_date": "2026-09-02",
+      "days_since_signal": 1,
+      "window_days": 3,
+      "entry_zone": "$22.95 - $23.89",
+      "target": 25.85,
+      "stop_loss": 22.74,
+      "rsi_at_signal": 28.7,
+      "current_price": 24.56999969482422,
+      "status": "EN_VENTANA",
       "ai_note": ""
     }
   }

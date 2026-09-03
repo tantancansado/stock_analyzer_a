@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-02",
+  "generated_at": "2026-09-03",
   "status": "PENDING_REVIEW",
   "note": "These weights are suggestions only. Apply manually after review.",
   "current_weights": {
@@ -37,21 +37,21 @@
       "factor": "fcf_yield_bonus",
       "change": "+3",
       "reason": "FCF alto mejora WR +5.8pp. Aumentar peso FCF.",
-      "n": 431
+      "n": 432
     },
     {
       "factor": "risk_reward_bonus",
       "change": "+2",
-      "reason": "R:R alto mejora WR +8.5pp. Aumentar peso R:R.",
+      "reason": "R:R alto mejora WR +8.4pp. Aumentar peso R:R.",
       "n": 595
     },
     {
       "factor": "score_threshold_note",
       "change": "Consider raising minimum threshold to 70+ for published picks",
-      "reason": "Score 80+ has 53.3% WR vs 29% base",
-      "n": 30
+      "reason": "Score 80+ has 52.9% WR vs 29% base",
+      "n": 34
     }
   ],
-  "expected_impact": "Based on 1617 historical signals",
-  "narrative": "Ajustes propuestos basados en an\u00e1lisis hist\u00f3rico. Requieren revisi\u00f3n antes de aplicar al pipeline."
+  "expected_impact": "Based on 1633 historical signals",
+  "narrative": "- Al aumentar el peso de FCF y R:R, las selecciones con flujo de caja s\u00f3lido y alto riesgo\u2011recompensa obtendr\u00e1n un mayor valor de WR, reflejando su mayor contribuci\u00f3n a la rentabilidad.  \n- Elevar el umbral m\u00ednimo a 70+ para las recomendaciones"
 }
