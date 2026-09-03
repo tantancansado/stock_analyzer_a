@@ -29,5 +29,8 @@
       "llamadas": 2
     }
   },
-  "ultima_llamada": "2026-09-02T10:12:49.639063+00:00"
+  "ultima_llamada": "2026-09-02T10:12:49.639063+00:00",
+  "sin_credito": true,
+  "sin_credito_desde": "2026-09-03T08:54:55.410121+00:00",
+  "sin_credito_mensaje": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purcha"
 }

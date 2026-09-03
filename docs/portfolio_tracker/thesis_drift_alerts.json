@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-02T09:49:13",
-  "positions_checked": 26,
-  "total": 2,
-  "high_count": 2,
+  "generated_at": "2026-09-03T09:49:39",
+  "positions_checked": 24,
+  "total": 3,
+  "high_count": 3,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -20,6 +20,15 @@
       "signal_date": "2026-08-24",
       "type": "STOP_BREACHED",
       "reason": "Precio 321.52 por debajo del stop 326.70",
+      "severity": "HIGH"
+    },
+    {
+      "ticker": "HEI",
+      "company_name": "HEICO Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-26",
+      "type": "STOP_BREACHED",
+      "reason": "Precio 322.90 por debajo del stop 322.97",
       "severity": "HIGH"
     }
   ]
