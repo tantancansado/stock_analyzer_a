@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-03T10:10:36.704764",
+  "generated_at": "2026-09-04T10:05:34.445456",
   "tickers": {
     "SYK": {
       "ticker": "SYK",
@@ -7,14 +7,14 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-09-02",
-      "days_since_signal": 1,
+      "days_since_signal": 2,
       "window_days": 3,
       "entry_zone": "$317.87 - $330.84",
       "target": 352.25,
       "stop_loss": 310.58,
       "rsi_at_signal": 24.5,
-      "current_price": 312.19000244140625,
-      "status": "EN_VENTANA",
+      "current_price": 307.989990234375,
+      "status": "STOP_ALCANZADO",
       "ai_note": ""
     },
     "FHN": {
@@ -23,13 +23,29 @@
       "strategy": "Oversold Bounce",
       "quality": "MODERADA",
       "signal_date": "2026-09-02",
-      "days_since_signal": 1,
+      "days_since_signal": 2,
       "window_days": 3,
       "entry_zone": "$22.95 - $23.89",
       "target": 25.85,
       "stop_loss": 22.74,
       "rsi_at_signal": 28.7,
-      "current_price": 24.56999969482422,
+      "current_price": 24.959999084472656,
+      "status": "EN_VENTANA",
+      "ai_note": ""
+    },
+    "ORLY": {
+      "ticker": "ORLY",
+      "company_name": "O'Reilly Automotive, Inc.",
+      "strategy": "Oversold Bounce",
+      "quality": "\u2b50\u2b50 MUY BUENA",
+      "signal_date": "2026-09-03",
+      "days_since_signal": 1,
+      "window_days": 3,
+      "entry_zone": "$85.55 - $89.05",
+      "target": 94.4,
+      "stop_loss": 84.46,
+      "rsi_at_signal": 27.9,
+      "current_price": 87.37999725341797,
       "status": "EN_VENTANA",
       "ai_note": ""
     }
