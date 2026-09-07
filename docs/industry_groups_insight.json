@@ -1,78 +1,78 @@
 {
-  "date": "2026-09-04",
-  "timestamp": "2026-09-04T09:38:22.551358",
+  "date": "2026-09-07",
+  "timestamp": "2026-09-07T10:07:30.469322",
   "narrative": "",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 64.9,
+      "avg_rs_percentile": 67.1,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 56.6,
+      "avg_rs_percentile": 59.2,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 56.0,
+      "avg_rs_percentile": 54.2,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Internet Content & Information",
       "sector": "Communication Services",
-      "avg_rs_percentile": 54.5,
+      "avg_rs_percentile": 52.2,
       "num_tickers": 2,
       "label": "Top 25%"
     },
     {
-      "industry": "Financial Data & Stock Exchanges",
-      "sector": "Financial Services",
-      "avg_rs_percentile": 43.6,
-      "num_tickers": 10,
+      "industry": "Specialty Industrial Machinery",
+      "sector": "Industrials",
+      "avg_rs_percentile": 44.0,
+      "num_tickers": 7,
       "label": "Top 25%"
     }
   ],
   "bottom_sectors": [
     {
-      "industry": "Medical Devices",
-      "sector": "Healthcare",
-      "avg_rs_percentile": 19.7,
-      "num_tickers": 2,
+      "industry": "Waste Management",
+      "sector": "Industrials",
+      "avg_rs_percentile": 18.5,
+      "num_tickers": 3,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Products & Equipment",
       "sector": "Industrials",
-      "avg_rs_percentile": 10.3,
+      "avg_rs_percentile": 13.5,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Residential Construction",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 6.3,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Discount Stores",
-      "sector": "Consumer Defensive",
-      "avg_rs_percentile": 5.6,
+      "avg_rs_percentile": 5.5,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 3.6,
+      "avg_rs_percentile": 5.2,
+      "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Discount Stores",
+      "sector": "Consumer Defensive",
+      "avg_rs_percentile": 4.8,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
