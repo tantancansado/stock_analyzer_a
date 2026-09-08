@@ -256,8 +256,20 @@ Ejemplos de lo que buscas: un ROE o margen absurdo para el sector, un upside/tar
 
 Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible, o si NO, qué dato parece erróneo y por qué (máx 2 frases, español)"}}"""
 
+    # 8-sep-2026: max_tokens=300 (el original) se quedaba corto con Sonnet 5,
+    # que en groq_utils._SIN_SAMPLING fuerza thinking:adaptive en TODAS sus
+    # llamadas -- el bloque de pensamiento compite por el mismo tope que el
+    # JSON final, y con 300 tokens de margen total, cualquier turno de
+    # thinking algo largo dejaba cero espacio para el texto. Visto en el run
+    # del 8-sep: 4/59 y 1/31 pasaban el gate (vs. 60-74/día históricos), casi
+    # todo con "Claude no pudo verificar" y CERO excepción logueada -- la
+    # llamada se cobraba (`registrar_uso` corre antes de leer el texto) pero
+    # `resp.content` no tenía bloque `type=="text"`, así que claude_chat
+    # devolvía None sin fallar de forma visible. `temperature` no llega a la
+    # API en absoluto para Sonnet 5 (se ignora en claude_chat) -- se deja
+    # aquí solo para no romper la firma de otros modelos que sí la aceptan.
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
-                      model=CLAUDE_SONNET, max_tokens=300, temperature=0.2)
+                      model=CLAUDE_SONNET, max_tokens=1200, temperature=0.2)
     if not txt:
         return False, None
     import re as _re

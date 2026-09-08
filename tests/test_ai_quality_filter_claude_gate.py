@@ -64,6 +64,24 @@ class TestClaudeDataCheckFailClosed:
         ok, aviso = _con_respuesta('{"otra_clave": "x"}')
         assert ok is False
 
+    def test_max_tokens_deja_margen_para_el_thinking_de_sonnet_5(self):
+        # 8-sep-2026: con max_tokens=300 (el original), Sonnet 5 -- que
+        # fuerza thinking:adaptive en TODA llamada vía _SIN_SAMPLING -- se
+        # comía el tope entero pensando y dejaba el JSON final sin escribir.
+        # Resultado: 4/59 y 1/31 pasaban el gate ese día (vs. 60-74/día
+        # históricos), casi todo "Claude no pudo verificar" sin ninguna
+        # excepción logueada. 1200 iguala el margen que ya usan why_cheap y
+        # bounce_catalyst para el mismo modelo+thinking.
+        capturado = {}
+
+        def _fake(**kw):
+            capturado.update(kw)
+            return '{"data_check": "OK"}'
+
+        with patch('groq_utils.claude_chat', side_effect=_fake):
+            aqf.claude_data_check(TICKER_DATA)
+        assert capturado.get('max_tokens', 0) >= 1200
+
 
 class TestGatePublicaSoloLoVerificado:
     """No basta con que claude_data_check diga False: el bucle de main() tiene
