@@ -102,14 +102,28 @@ CLAUDE_OPUS    = "claude-opus-5"
 # thinking. No basta con mirar si pone "opus": Sonnet 5 también los rechaza, y
 # daily_briefing.py lo usa — mandarle temperature habría hecho que el briefing
 # fallara en su primer envío sin que nadie supiera por qué.
+_SIN_SAMPLING = ('opus-5', 'opus-4-8', 'opus-4-7', 'sonnet-5', 'fable-5', 'mythos-5')
+
+# 'haiku-4-5' NO va en _SIN_SAMPLING — no es un tercer "sonnet-5 más". El
+# 31-ago-2026 se metió ahí porque rechazaba temperature (log del 27-ago:
+# "unexpected keyword argument 'temperature'"), pero el 2-sep-2026 salió que
+# TAMPOCO acepta `thinking: adaptive`: "Error code: 400 - adaptive thinking
+# is not supported on this model". No pertenece a NINGUNO de los dos grupos
+# — hay que llamarlo sin mandar ninguno de los dos parámetros. Costó 96
+# picks de VALUE excluidos de golpe (81 de ellos por este bug, no por datos
+# dudosos de verdad) antes de que se detectara — arreglar un 400 sin
+# confirmar la causa exacta contra la doc de Anthropic creó uno nuevo.
 #
-# 'haiku-4-5' añadido el 31-ago-2026: ai_pick_verifier.py (paso CRÍTICO del
-# pipeline, dentro de super_score_integrator) llama a Haiku con temperature y
-# fallaba SIEMPRE con "Messages.create() got an unexpected keyword argument
-# 'temperature'" — visto en el log del 27-ago. No tumbaba el job (el propio
-# ai_pick_verifier trata la ausencia de respuesta como "sin veredicto", fail-
-# open) pero el verificador llevaba días sin verificar nada.
-_SIN_SAMPLING = ('opus-5', 'opus-4-8', 'opus-4-7', 'sonnet-5', 'fable-5', 'mythos-5', 'haiku-4-5')
+# Confirmado el 8-sep contra la tabla de drift de la API: "adaptive" solo
+# existe en modelos 4.6+; los pre-4.6 (Haiku 4.5 lo es) que soportan
+# thinking usan el formato viejo `{type: "enabled", budget_tokens: N}" — eso
+# explica el 400 del 2-sep sin ambigüedad. No se añade ese formato aquí
+# porque ai_pick_verifier no necesita extended thinking (es una
+# clasificación corta, no razonamiento largo); pedirlo sería complejidad sin
+# beneficio y un cuarto sitio donde el parámetro puede volver a romperse.
+# Sin temperature explícita, Haiku usa su default (1.0 en vez de 0.3) —
+# algo menos determinista, precio aceptable por no volver a adivinar.
+_SIN_CONTROL_MUESTREO = ('haiku-4-5',)
 
 # Sin timeout el cliente espera 10 minutos por petición, y claude_chat corre
 # dentro de pasos críticos del pipeline (ai_pick_verifier). Ver el incidente
@@ -160,9 +174,10 @@ def claude_chat(
     system:   optional system prompt (Anthropic separates it from messages)
 
     Los modelos de _SIN_SAMPLING rechazan `temperature` con un 400 y usan
-    adaptive thinking; el resto (Haiku, Sonnet 4.6 y anteriores) siguen
-    aceptándola. Se decide por lista explícita y no por "¿pone opus?", porque
-    Sonnet 5 también la rechaza.
+    adaptive thinking; los de _SIN_CONTROL_MUESTREO (Haiku 4.5) rechazan
+    AMBOS y no llevan ninguno de los dos; el resto (Sonnet 4.6 y anteriores)
+    siguen aceptando `temperature`. Se decide por lista explícita y no por
+    "¿pone opus?", porque Sonnet 5 también la rechaza.
     """
     client = _get_anthropic_client()
     if client is None:
@@ -175,6 +190,7 @@ def claude_chat(
         return None
     modelo = model.lower()
     sin_sampling = any(m in modelo for m in _SIN_SAMPLING)
+    sin_control_muestreo = any(m in modelo for m in _SIN_CONTROL_MUESTREO)
     try:
         kwargs: dict[str, Any] = {
             "model": model,
@@ -183,7 +199,7 @@ def claude_chat(
         }
         if sin_sampling:
             kwargs["thinking"] = {"type": "adaptive"}
-        else:
+        elif not sin_control_muestreo:
             kwargs["temperature"] = temperature
         if system:
             kwargs["system"] = system

@@ -38,13 +38,18 @@ class TestSamplingPorModelo:
     def test_opus5_sin_temperature(self):
         assert 'temperature' not in _llamar(g.CLAUDE_OPUS)
 
-    def test_haiku45_sin_temperature(self):
-        # 31-ago-2026: ai_pick_verifier (paso CRÍTICO) llama a Haiku con
-        # temperature y fallaba SIEMPRE con "unexpected keyword argument
-        # 'temperature'" — visto en el log del 27-ago. Días sin verificar nada.
+    def test_haiku45_no_lleva_ni_temperature_ni_thinking(self):
+        # Historia completa: 27-ago-2026, Haiku rechazaba temperature con un
+        # 400 ("unexpected keyword argument 'temperature'"). El 31-ago se
+        # "arregló" metiéndolo en _SIN_SAMPLING (adaptive thinking) — sin
+        # confirmar contra la doc de Anthropic que Haiku 4.5 SÍ soporta ese
+        # parámetro. No lo soporta: el 2-sep volvió a fallar, esta vez con
+        # "adaptive thinking is not supported on this model" — 81 picks de
+        # VALUE excluidos por el mismo bug con la cara cambiada. Haiku 4.5 no
+        # lleva ninguno de los dos parámetros.
         kw = _llamar('claude-haiku-4-5')
         assert 'temperature' not in kw
-        assert kw['thinking'] == {'type': 'adaptive'}
+        assert 'thinking' not in kw
 
     def test_sonnet46_conserva_temperature(self):
         assert 'temperature' in _llamar('claude-sonnet-4-6')
@@ -53,6 +58,12 @@ class TestSamplingPorModelo:
         # El bug original miraba "opus" in model — Sonnet 5 se colaba
         assert 'temperature' not in _llamar('claude-sonnet-5')
         assert 'temperature' in _llamar('claude-sonnet-4-6')
+
+    def test_sin_sampling_y_sin_control_muestreo_no_se_solapan(self):
+        # Si un modelo cayera en las dos listas, `elif` en claude_chat haría
+        # que _SIN_CONTROL_MUESTREO se ignore en silencio — justo la clase de
+        # bug de categoría que causó lo de Haiku 4.5.
+        assert not set(g._SIN_SAMPLING) & set(g._SIN_CONTROL_MUESTREO)
 
 
 class TestFailOpen:
