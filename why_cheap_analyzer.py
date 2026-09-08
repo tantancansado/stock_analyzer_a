@@ -30,6 +30,7 @@ from __future__ import annotations
 
 from typing import Any
 
+import claude_research
 from claude_research import ask_with_search, parse_json
 
 VEREDICTOS = ('DETERIORO', 'CICLICO', 'EVENTO', 'SENTIMIENTO', 'SIN_DATOS')
@@ -81,13 +82,17 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
     # cadena ni comparar fuentes entre sí — es sintetizar 2-3 resultados
     # buenos en una etiqueta, así que baja effort y menos búsquedas no debería
     # perder calidad, solo margen de sobra que no se usaba.
+    # 8-sep-2026: bajado de Sonnet 5 a Haiku 4.5 — clasificar en 4 categorías
+    # a partir de 2-3 fuentes ya buscadas es síntesis cerrada, no razonamiento
+    # abierto, y Haiku es 3x más barato por token en ambas direcciones. Ver
+    # claude_research._SIN_EFFORT: con Haiku no se manda output_config.
     texto, fuentes = ask_with_search(
         PROMPT.format(company=company or ticker, ticker=ticker,
                       drop=abs(drop_pct or 0), rs=rs_6m or 0),
         system=SYSTEM,
         max_searches=3,
         max_tokens=1200,
-        effort='low',
+        model=claude_research.MODEL_HAIKU,
     )
     data = parse_json(texto)
     if not data:

@@ -135,3 +135,25 @@ class TestModelo:
         with patch.object(cr, '_get_client', return_value=client):
             cr.ask_with_search('p', 'sys')
         assert client.messages.create.call_args.kwargs['model'] == cr.MODEL
+
+
+class TestSinEffortEnHaiku:
+    """Haiku 4.5 no soporta output_config.effort (confirmado 8-sep-2026 contra
+    la doc oficial). Mandarlo sería un 400 — y como ask_with_search es
+    fail-open, el síntoma sería silencioso: siempre "sin datos", sin ningún
+    aviso en el log. Justo la clase de bug que ya rompió groq_utils.py dos
+    veces con temperature/thinking, aquí sin la señal ruidosa de VALUE a 0."""
+
+    def test_haiku_no_manda_output_config(self):
+        resp = _response([_text('{"a": 1}')])
+        client = _client_returning(resp)
+        with patch.object(cr, '_get_client', return_value=client):
+            cr.ask_with_search('p', 'sys', model=cr.MODEL_HAIKU, effort='low')
+        assert 'output_config' not in client.messages.create.call_args.kwargs
+
+    def test_sonnet_si_manda_output_config(self):
+        resp = _response([_text('{"a": 1}')])
+        client = _client_returning(resp)
+        with patch.object(cr, '_get_client', return_value=client):
+            cr.ask_with_search('p', 'sys', model=cr.MODEL, effort='low')
+        assert client.messages.create.call_args.kwargs['output_config'] == {'effort': 'low'}

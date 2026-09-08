@@ -31,8 +31,18 @@ import os
 from typing import Any
 
 MODEL = 'claude-sonnet-5'
+MODEL_HAIKU = 'claude-haiku-4-5'             # clasificación cerrada, sin razonar en cadena
 MODEL_ANALISIS_PROFUNDO = 'claude-opus-5'   # para análisis abierto, no clasificación
 WEB_SEARCH_TOOL = {'type': 'web_search_20260209', 'name': 'web_search'}
+
+# Haiku 4.5 no soporta `output_config.effort` — confirmado el 8-sep-2026
+# contra la doc oficial, no adivinado. Mandarlo sería el mismo 400 que ya
+# rompió groq_utils.py dos veces (temperature, luego thinking: adaptive),
+# pero aquí el fallo sería mucho más silencioso: `ask_with_search` trata
+# CUALQUIER excepción como "sin datos" (fail-open), así que el síntoma no
+# sería "VALUE publica 0 filas" sino "why_cheap/bounce_catalyst siempre
+# salen SIN_DATOS" sin ningún aviso en el log.
+_SIN_EFFORT = ('haiku-4-5',)
 # 1, no 2. Una continuación reenvía el contexto ENTERO — incluidos los
 # resultados de búsqueda, que son ~5k tokens por búsqueda — así que la segunda
 # llamada duplica el coste de entrada del ticker. Solo aporta cuando el bucle
@@ -122,21 +132,24 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
     tool = dict(WEB_SEARCH_TOOL, max_uses=max_searches)
     messages: list[dict[str, Any]] = [{'role': 'user', 'content': prompt}]
 
+    kwargs: dict[str, Any] = {
+        'model': model,
+        'max_tokens': max_tokens,
+        'system': system,
+        'tools': [tool],
+    }
+    if not any(m in model.lower() for m in _SIN_EFFORT):
+        # medium basta para clasificar en categorías cerradas y recorta mucho
+        # el tiempo por llamada — el criterio ya está en el system. `effort`
+        # es parametrizable porque hay llamadas (why_cheap) que ni siquiera
+        # necesitan medium: solo sintetizan 2-3 fuentes en una etiqueta
+        # cerrada, no comparan ni razonan en cadena. Ver _SIN_EFFORT: en
+        # Haiku 4.5 no se manda en absoluto.
+        kwargs['output_config'] = {'effort': effort}
+
     try:
         for _ in range(MAX_CONTINUATIONS):
-            response = client.messages.create(
-                model=model,
-                max_tokens=max_tokens,
-                system=system,
-                tools=[tool],
-                # medium basta para clasificar en categorías cerradas y recorta
-                # mucho el tiempo por llamada — el criterio ya está en el system.
-                # `effort` es parametrizable porque hay llamadas (why_cheap) que
-                # ni siquiera necesitan medium: solo sintetizan 2-3 fuentes en
-                # una etiqueta cerrada, no comparan ni razonan en cadena.
-                output_config={'effort': effort},
-                messages=messages,
-            )
+            response = client.messages.create(messages=messages, **kwargs)
 
             registrar_uso(response, model)
 

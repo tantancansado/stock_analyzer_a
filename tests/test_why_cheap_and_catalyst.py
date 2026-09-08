@@ -17,13 +17,17 @@ URL = 'https://ir.example.com/q2-results'
 class TestWhyCheapCoste:
     """El 25-ago-2026 esta llamada salía a $0.33 — el 44% del gasto mensual
     con solo 12 llamadas — usando los valores por defecto de ask_with_search
-    (6 búsquedas, max_tokens 2000, effort medium). El coste no es lineal en
-    nº de búsquedas: cada ronda dentro de la misma llamada reenvía el
-    contexto de las anteriores, así que crece con el cuadrado. Este test fija
-    los parámetros recortados para que si alguien los sube sin darse cuenta
-    (p.ej. "probando si mejora la calidad"), salte aquí y no en la factura."""
+    (6 búsquedas, max_tokens 2000, Sonnet 5, effort medium). El coste no es
+    lineal en nº de búsquedas: cada ronda dentro de la misma llamada reenvía
+    el contexto de las anteriores, así que crece con el cuadrado. Recortado a
+    3 búsquedas ese mismo día. El 8-sep-2026, con el gasto de septiembre
+    seco en 3 días, bajado además a Haiku 4.5 (clasificar en 4 categorías a
+    partir de 2-3 fuentes ya buscadas no necesita el razonamiento de Sonnet,
+    y Haiku es 3x más barato por token). Este test fija los parámetros
+    recortados para que si alguien los sube sin darse cuenta (p.ej. "probando
+    si mejora la calidad"), salte aquí y no en la factura."""
 
-    def test_usa_menos_busquedas_y_effort_bajo(self):
+    def test_usa_menos_busquedas_y_haiku(self):
         captured = {}
 
         def _fake(prompt, system, **kwargs):
@@ -35,7 +39,10 @@ class TestWhyCheapCoste:
 
         assert captured.get('max_searches') == 3
         assert captured.get('max_tokens') == 1200
-        assert captured.get('effort') == 'low'
+        assert captured.get('model') == 'claude-haiku-4-5'
+        # Haiku 4.5 no soporta output_config.effort — mandarlo sería un 400
+        # silencioso (ask_with_search es fail-open). No debe ir en absoluto.
+        assert 'effort' not in captured
 
 
 class TestWhyCheap:
