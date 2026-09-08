@@ -120,12 +120,22 @@ def generate_chart_bytes(ticker: str, period: str = "6mo") -> bytes | None:
 
 # ─── Groq API helpers ─────────────────────────────────────────────────────────
 
+_TIMEOUT_SEG = 30.0  # una lectura de gráfico no debería tardar más que esto
+
 def _get_groq_client():
     from groq import Groq
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
         raise RuntimeError("GROQ_API_KEY environment variable not set")
-    return Groq(api_key=api_key)
+    # Sin timeout, el SDK espera su default (60s) + 2 reintentos automáticos
+    # por petición — hasta 3 min por ticker atascado. El core-scoring del
+    # 1/3/4/7/8-sep llegó a Chart Analyzer con poco margen (todo lo anterior
+    # ya se había comido ~70 de los 90 min del job) y se quedó a medias ahí
+    # mismo, cancelado por el límite del job — mismo patrón que el incidente
+    # de Anthropic del 3-ago-2026 (cliente sin timeout dentro de un paso
+    # crítico). 30s de sobra para una respuesta de visión; fallar rápido y
+    # pasar al siguiente ticker es mejor que colgar el job entero.
+    return Groq(api_key=api_key, timeout=_TIMEOUT_SEG)
 
 
 def _call_groq_vision(client, image_bytes: bytes, prompt: str, model: str) -> dict:
