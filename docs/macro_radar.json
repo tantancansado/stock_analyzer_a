@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-09-08T09:12:04.624966",
+  "timestamp": "2026-09-08T12:09:06.681947",
   "date": "2026-09-08",
   "regime": {
     "name": "CALM",
     "color": "#10b981",
     "description": "Mercado en calma. Condiciones favorables para operar."
   },
-  "composite_score": 6.5,
-  "composite_pct": 60.8,
+  "composite_score": 7.5,
+  "composite_pct": 62.5,
   "max_score": 30,
   "signals": {
     "vix": {
-      "current": 15.89,
-      "percentile": 29.1,
+      "current": 15.72,
+      "percentile": 24.1,
       "score": 0.5,
-      "change_5d": -2.8,
-      "interpretation": "VIX 15.9 (bajo)",
+      "change_5d": -3.8,
+      "interpretation": "VIX 15.7 (bajo)",
       "label": "Volatilidad (VIX)",
       "description": "Fear gauge. >30 = stress, >40 = crisis, <15 = complacency"
     },
@@ -58,12 +58,12 @@
       "description": "Gold outperformance signals safe-haven rotation"
     },
     "oil": {
-      "current": 94.39,
-      "percentile": 84.1,
-      "score": -2,
-      "change_5d": 10.1,
-      "change_20d": 14.9,
-      "interpretation": "Petroleo $94.4 (spike geopolitico)",
+      "current": 93.72,
+      "percentile": 83.3,
+      "score": -1,
+      "change_5d": 9.3,
+      "change_20d": 14.1,
+      "interpretation": "Petroleo $93.7 (subida rapida)",
       "label": "Petr\u00f3leo (Geopol\u00edtico)",
       "description": "Fastest commodity to price geopolitical conflicts. Spike = risk"
     },
@@ -78,22 +78,22 @@
       "description": "ITA/XAR vs SPY. Outperformance precedes geopolitical escalations"
     },
     "dollar": {
-      "current": 98.97,
+      "current": 98.96,
       "percentile": 51.4,
       "score": 1,
-      "change_5d": -0.46,
-      "change_20d": -0.84,
+      "change_5d": -0.47,
+      "change_20d": -0.85,
       "interpretation": "DXY 99.0 (rango neutro)",
       "label": "D\u00f3lar (DXY)",
       "description": "Rising USD = EM stress, global risk-off. Spike = dollar squeeze"
     },
     "yen": {
-      "current": 154.06,
-      "percentile": 26.7,
+      "current": 154.3,
+      "percentile": 28.4,
       "score": -2,
-      "change_5d": -3.56,
-      "change_20d": -3.2,
-      "interpretation": "USD/JPY 154.1 (yen fortaleciendose (miedo))",
+      "change_5d": -3.41,
+      "change_20d": -3.05,
+      "interpretation": "USD/JPY 154.3 (yen fortaleciendose (miedo))",
       "label": "Yen (Safe Haven)",
       "description": "USDJPY falling = yen strengthening = risk-off / fear"
     },
@@ -159,14 +159,14 @@
     }
   },
   "errors": [],
-  "ai_narrative": "**R\u00e9gimen:** El puntaje compuesto de 6.5/20 indica un entorno \u201cCALM\u201d. La volatilidad es baja (VIX\u202f15.9, VVIX\u202f84) y la curva de tipos est\u00e1 empinada (+103\u202fbps), se\u00f1alando confianza en el crecimiento. Los spreads de cr\u00e9dito est\u00e1n muy apretados (HYG/LQD en p97) y el cobre supera al oro, mientras que la amplitud del mercado est\u00e1 por encima de su media m\u00f3vil (SPY\u202f+8.5\u202f%\u202fvs\u202fMA200). Sin embargo, el SKEW elevado (152) y el yen fortaleciendo (USD/JPY",
+  "ai_narrative": null,
   "historical_analogs": [
     {
       "id": "ukraine_war_2022",
       "name": "Guerra Ucrania",
       "date": "Feb 2022",
       "duration_days": 20,
-      "similarity": 61.4,
+      "similarity": 60.7,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -15,
@@ -189,7 +189,7 @@
       "name": "Mercado Bajista 2022",
       "date": "Ene-Dic 2022",
       "duration_days": 280,
-      "similarity": 55.6,
+      "similarity": 54.9,
       "outcome": {
         "spy_30d": -8,
         "spy_90d": -18,
@@ -212,7 +212,7 @@
       "name": "Crisis SVB",
       "date": "Mar 2023",
       "duration_days": 14,
-      "similarity": 53.0,
+      "similarity": 52.5,
       "outcome": {
         "spy_30d": 5,
         "spy_90d": 12,
