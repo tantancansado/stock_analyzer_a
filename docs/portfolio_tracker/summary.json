@@ -64,10 +64,10 @@
       "worst": -25.82
     },
     "180d": {
-      "count": 366,
-      "win_rate": 66.1,
-      "avg_return": 7.43,
-      "median_return": 9.94,
+      "count": 415,
+      "win_rate": 66.0,
+      "avg_return": 7.21,
+      "median_return": 9.85,
       "best": 43.45,
       "worst": -36.24
     },
@@ -194,12 +194,12 @@
       "basis": "eu_full_hist"
     },
     "180d": {
-      "count": 335,
-      "win_rate": 64.2,
-      "avg_return": 6.53,
+      "count": 384,
+      "win_rate": 64.3,
+      "avg_return": 6.4,
       "median_return": 7.82,
       "best": 37.06,
-      "worst": -28.93,
+      "worst": -29.71,
       "basis": "eu_full_hist"
     },
     "365d": {
@@ -229,12 +229,12 @@
       "nota": "horizonte real 1-5 d\u00edas: el 7d es la medida m\u00e1s cercana disponible, no el criterio del setup (target vs stop)"
     },
     "MEAN_REVERSION": {
-      "count": 26,
+      "count": 28,
       "7d": {
-        "count": 11,
-        "win_rate": 45.5,
-        "avg_return": -2.75,
-        "median_return": -0.03,
+        "count": 12,
+        "win_rate": 41.7,
+        "avg_return": -2.95,
+        "median_return": -1.27,
         "best": 4.54,
         "worst": -12.8
       },
@@ -392,7 +392,7 @@
       "signal_price": 314.4,
       "sector": "Industrials",
       "value_score": 59.72,
-      "days_active": 5,
+      "days_active": 6,
       "first_result_date": "2026-09-09"
     },
     {
@@ -403,7 +403,7 @@
       "signal_price": 435.84,
       "sector": "Financial Services",
       "value_score": 58.14,
-      "days_active": 6,
+      "days_active": 7,
       "first_result_date": "2026-09-08"
     },
     {
@@ -414,7 +414,7 @@
       "signal_price": 108.815,
       "sector": "Financial Services",
       "value_score": 57.05500000000001,
-      "days_active": 10,
+      "days_active": 11,
       "first_result_date": "2026-09-04"
     },
     {
@@ -425,7 +425,7 @@
       "signal_price": 127.08,
       "sector": "Industrials",
       "value_score": 50.06999999999999,
-      "days_active": 11,
+      "days_active": 12,
       "first_result_date": "2026-09-03"
     },
     {
@@ -436,7 +436,7 @@
       "signal_price": 455.25,
       "sector": "Industrials",
       "value_score": 51.95,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-02"
     },
     {
@@ -447,7 +447,7 @@
       "signal_price": 351.05,
       "sector": "Industrials",
       "value_score": 56.375,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-02"
     },
     {
@@ -458,7 +458,7 @@
       "signal_price": 7.26,
       "sector": "Healthcare",
       "value_score": 59.59,
-      "days_active": 12,
+      "days_active": 13,
       "first_result_date": "2026-09-02"
     },
     {
@@ -469,7 +469,7 @@
       "signal_price": 355.11,
       "sector": "Financial Services",
       "value_score": 51.13,
-      "days_active": 14,
+      "days_active": 15,
       "first_result_date": "2026-08-31"
     },
     {
@@ -480,7 +480,7 @@
       "signal_price": 2966.0,
       "sector": "Industrials",
       "value_score": 60.88499999999999,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-08-28"
     },
     {
@@ -491,7 +491,7 @@
       "signal_price": 496.86,
       "sector": "Financial Services",
       "value_score": 55.370000000000005,
-      "days_active": 17,
+      "days_active": 18,
       "first_result_date": "2026-08-28"
     },
     {
@@ -502,7 +502,7 @@
       "signal_price": 24.87,
       "sector": "Financial Services",
       "value_score": 51.305,
-      "days_active": 18,
+      "days_active": 19,
       "first_result_date": "2026-08-27"
     },
     {
@@ -513,7 +513,7 @@
       "signal_price": 60.09,
       "sector": "Energy",
       "value_score": 62.24000000000001,
-      "days_active": 18,
+      "days_active": 19,
       "first_result_date": "2026-08-27"
     },
     {
@@ -524,7 +524,7 @@
       "signal_price": 559.73,
       "sector": "Financial Services",
       "value_score": 56.86500000000001,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-08-20"
     },
     {
@@ -535,7 +535,7 @@
       "signal_price": 74.9,
       "sector": "Consumer Cyclical",
       "value_score": 62.36500000000001,
-      "days_active": 25,
+      "days_active": 26,
       "first_result_date": "2026-08-20"
     },
     {
@@ -546,7 +546,7 @@
       "signal_price": 345.81,
       "sector": "Healthcare",
       "value_score": 58.465,
-      "days_active": 27,
+      "days_active": 28,
       "first_result_date": "2026-08-18"
     },
     {
@@ -557,7 +557,7 @@
       "signal_price": 194.91,
       "sector": "Energy",
       "value_score": 55.19499999999999,
-      "days_active": 27,
+      "days_active": 28,
       "first_result_date": "2026-08-18"
     },
     {
@@ -568,7 +568,7 @@
       "signal_price": 19.28,
       "sector": "Industrials",
       "value_score": 56.24000000000001,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-08-17"
     },
     {
@@ -579,7 +579,7 @@
       "signal_price": 286.58,
       "sector": "Financial Services",
       "value_score": 51.725,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-08-17"
     },
     {
@@ -590,7 +590,7 @@
       "signal_price": 362.5,
       "sector": "Financial Services",
       "value_score": 55.52,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-08-17"
     },
     {
@@ -601,11 +601,11 @@
       "signal_price": 340.91,
       "sector": "Financial Services",
       "value_score": 56.870000000000005,
-      "days_active": 28,
+      "days_active": 29,
       "first_result_date": "2026-08-17"
     }
   ],
-  "avg_max_drawdown": -2.62,
+  "avg_max_drawdown": -2.61,
   "alpha": {
     "365d": {
       "count": 0,
@@ -748,5 +748,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-07T10:10:14.886153"
+  "generated_at": "2026-09-08T09:55:32.412836"
 }

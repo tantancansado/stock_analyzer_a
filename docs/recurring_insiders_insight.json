@@ -1,7 +1,7 @@
 {
-  "date": "2026-09-07",
-  "timestamp": "2026-09-07T10:07:26.981110",
-  "narrative": "",
+  "date": "2026-09-08",
+  "timestamp": "2026-09-08T09:52:23.619054",
+  "narrative": "Los tickers con mayor actividad pertenecen mayormente al sector salud/farmac\u00e9utico (GSK, BA, DGE) y a energ\u00eda/infraestructura (BP, BATS), lo que indica un clustering tem\u00e1tico en industrias con flujos de caja estables y proyectos a medio plazo. Cuando varios insiders diferentes compran simult\u00e1neamente, sugiere informaci\u00f3n no p\u00fablica compartida sobre catalizadores pr\u00f3ximos (ensayos, contratos o reestructuraciones) y refuerza la confianza interna en la valoraci\u00f3n actual. Para un inversor value/GARP, estas compras pueden servir como se\u00f1al",
   "total_tickers": 16,
   "total_us": 8,
   "total_eu": 8,
@@ -9,10 +9,10 @@
     {
       "ticker": "RSG",
       "market": "US",
-      "purchase_count": 32,
+      "purchase_count": 34,
       "unique_insiders": 1,
       "confidence_score": 100.0,
-      "days_span": 22
+      "days_span": 25
     },
     {
       "ticker": "AAL.L",
@@ -31,20 +31,20 @@
       "days_span": 64
     },
     {
-      "ticker": "VOD.L",
+      "ticker": "BARC.L",
       "market": "EU",
-      "purchase_count": 9,
-      "unique_insiders": 9,
-      "confidence_score": 100.0,
-      "days_span": 40
-    },
-    {
-      "ticker": "UNA.AS",
-      "market": "EU",
-      "purchase_count": 13,
-      "unique_insiders": 9,
+      "purchase_count": 10,
+      "unique_insiders": 10,
       "confidence_score": 100.0,
       "days_span": 0
+    },
+    {
+      "ticker": "BATS.L",
+      "market": "EU",
+      "purchase_count": 43,
+      "unique_insiders": 14,
+      "confidence_score": 100.0,
+      "days_span": 63
     }
   ]
 }
