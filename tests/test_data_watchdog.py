@@ -99,6 +99,40 @@ def test_force_always_alerts():
     assert wd._should_alert(problems, state, force=True) is True
 
 
+def test_sin_credito_reinsiste_antes_de_24h():
+    # El 3/4/7-sep el aviso llegó los tres días y aun así pasaron 5 días sin
+    # recargar: una vez al día se pierde. sin_credito reinsiste cada
+    # REALERT_HOURS_URGENTE (4h), no cada 24h como el resto de problemas.
+    problems = [{"module": "claude_saldo", "status": "sin_credito"}]
+    state = {
+        "last_signature": wd._signature(problems),
+        "last_alert_at": _iso(wd._now() - timedelta(hours=5)),
+    }
+    assert wd._should_alert(problems, state, force=False) is True
+
+
+def test_sin_credito_no_reinsiste_antes_de_4h():
+    problems = [{"module": "claude_saldo", "status": "sin_credito"}]
+    state = {
+        "last_signature": wd._signature(problems),
+        "last_alert_at": _iso(wd._now() - timedelta(hours=2)),
+    }
+    assert wd._should_alert(problems, state, force=False) is False
+
+
+def test_bundle_con_sin_credito_hereda_el_umbral_urgente():
+    # Si sin_credito viaja en el mismo envío que un problema genérico
+    # (insiders stale), el bundle entero reinsiste cada 4h — es un único
+    # mensaje, y lo accionable manda el ritmo, no lo que viaja al lado.
+    problems = [{"module": "claude_saldo", "status": "sin_credito"},
+                {"module": "insiders", "status": "stale"}]
+    state = {
+        "last_signature": wd._signature(problems),
+        "last_alert_at": _iso(wd._now() - timedelta(hours=5)),
+    }
+    assert wd._should_alert(problems, state, force=False) is True
+
+
 def test_message_marks_pipeline_down():
     problems = [{"module": "pipeline_health", "status": "stale", "critical": True,
                  "detail": "El pipeline no corre desde hace 3 días"}]

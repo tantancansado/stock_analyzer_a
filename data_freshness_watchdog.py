@@ -51,6 +51,14 @@ HEALTH_MAX_AGE_HOURS = 26
 # No repetir la misma alerta hasta que pasen estas horas (si el problema sigue)
 REALERT_HOURS = 24
 
+# claude_saldo es 100% accionable (recargar) y no es ruido de datos genéricos
+# — el 3, 4 y 7-sep el aviso SÍ llegó los tres días con este mismo texto y
+# aun así pasaron 5 días sin recargar. El problema no era la falta de aviso,
+# era que uno al día se pierde entre lo demás. Mientras siga sin saldo, se
+# insiste cada pocas horas en vez de una vez al día.
+REALERT_HOURS_URGENTE = 4
+ESTADOS_URGENTES = {'sin_credito'}
+
 # Módulos que, si fallan, son CRÍTICOS (van con 🔴; el resto con 🟡).
 # value_filtered es el que se congeló 8 semanas — el motivo de existir de esto.
 CRITICAL_MODULES = {
@@ -228,7 +236,9 @@ def _should_alert(problems: list[dict], state: dict, force: bool) -> bool:
     if last is None:
         return True
     hours = (_now() - last).total_seconds() / 3600
-    return hours >= REALERT_HOURS  # mismo problema pero ya toca recordarlo
+    umbral = (REALERT_HOURS_URGENTE if any(p["status"] in ESTADOS_URGENTES for p in problems)
+              else REALERT_HOURS)
+    return hours >= umbral  # mismo problema pero ya toca recordarlo
 
 
 def build_message(problems: list[dict], health_stale: bool) -> str:

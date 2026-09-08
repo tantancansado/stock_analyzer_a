@@ -8,8 +8,13 @@ name: Data Freshness Watchdog
 on:
   schedule:
     # L-V a las 06:30 UTC — 2.5h después de que arranque el pipeline (04:00),
-    # tiempo de sobra para que termine (core-scoring tarda hasta ~75 min)
-    - cron: '30 6 * * 1-5'
+    # tiempo de sobra para que termine (core-scoring tarda hasta ~75 min) — y
+    # otras 3 pasadas el mismo día. El 3/4/7-sep el aviso de "Claude sin
+    # saldo" llegó bien las tres veces con esta única pasada diaria, y aun
+    # así pasaron 5 días sin recargar: una vez al día se pierde entre lo
+    # demás. Job de 5 min sin coste de Claude/Groq — correrlo más seguido no
+    # cuesta nada real.
+    - cron: '30 6,10,14,18 * * 1-5'
   workflow_dispatch:
     inputs:
       force:
