@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-08T10:18:54Z",
+  "generated_at": "2026-09-08T12:57:45Z",
   "scan_date": "2026-09-08",
   "count": 5,
   "strategies": {
@@ -115,7 +115,9 @@
       "next_check_date": "2026-09-22",
       "next_check_reason": "",
       "thesis_short": "",
-      "confidence": 50
+      "confidence": 50,
+      "_stale_strategy": true,
+      "_stale_reason": "Groq rate-limit hit; estrategia del run anterior conservada"
     },
     "WMT": {
       "ticker": "WMT",
@@ -150,7 +152,7 @@
         "insider_purchase_count": null,
         "unique_insiders": null,
         "options_signal": null,
-        "pcr": 999.0,
+        "pcr": 1.28,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -172,7 +174,9 @@
       "next_check_date": "2026-11-09",
       "next_check_reason": "Earnings report",
       "thesis_short": "Walmart sigue siendo un valor defensivo con upside analista, pero su precio actual sugiere que la posición está bien mantenida.",
-      "confidence": 70
+      "confidence": 70,
+      "_stale_strategy": true,
+      "_stale_reason": "Groq rate-limit hit; estrategia del run anterior conservada"
     },
     "IVR": {
       "ticker": "IVR",
@@ -229,7 +233,9 @@
       "next_check_date": "2026-09-22",
       "next_check_reason": "",
       "thesis_short": "",
-      "confidence": 50
+      "confidence": 50,
+      "_stale_strategy": true,
+      "_stale_reason": "Groq rate-limit hit; estrategia del run anterior conservada"
     },
     "CHTR": {
       "ticker": "CHTR",
@@ -286,7 +292,9 @@
       "next_check_date": "2026-11-22",
       "next_check_reason": "Anuncio de resultados en 52 días",
       "thesis_short": "Valor sólido con buen flujo de caja y upside analista; mantiene posición actual.",
-      "confidence": 70
+      "confidence": 70,
+      "_stale_strategy": true,
+      "_stale_reason": "Groq rate-limit hit; estrategia del run anterior conservada"
     }
   }
 }

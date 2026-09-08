@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-09-08",
-  "total_convergences": 16,
-  "triple_or_more": 3,
+  "total_convergences": 6,
+  "triple_or_more": 1,
   "convergences": [
     {
       "ticker": "VRSN",
@@ -13,8 +13,8 @@
         "MOMENTUM"
       ],
       "strategy_count": 3,
-      "convergence_score": 91,
-      "value_score": 57.06999999999999,
+      "convergence_score": 90,
+      "value_score": 54.06999999999999,
       "conviction_grade": "nan",
       "analyst_upside_pct": 10.0,
       "fcf_yield_pct": 3.15,
@@ -22,69 +22,7 @@
       "streak_days": 5,
       "earnings_warning": false,
       "days_to_earnings": 44.0,
-      "analysis": "La coincidencia de los indicadores"
-    },
-    {
-      "ticker": "AON",
-      "company_name": "Aon plc",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 3,
-      "convergence_score": 79,
-      "value_score": 46.095000000000006,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 20.6,
-      "fcf_yield_pct": 4.66,
-      "current_price": 323.09,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": 52.0,
-      "analysis": "La convergencia de los tres indicadores (VALUE, INSIDERS y OPTIONS) en dos d\u00edas consecutivos sugiere que distintas metodolog\u00edas est\u00e1n alineando su se\u00f1al alcista, lo que refuerza la probabilidad de que el movimiento esperado del 20\u202f% sea real y no solo un ruido de un solo modelo. Sin embargo, es prudente vigilar la volatilidad impl\u00edcita de las opciones, confirmar que el flujo de insiders sigue siendo positivo y validar que el m\u00faltiplo de valor (VALUE) no est\u00e9 sobrevalorado por factores"
-    },
-    {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 3,
-      "convergence_score": 77,
-      "value_score": 37.940000000000005,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 20.8,
-      "fcf_yield_pct": 2.87,
-      "current_price": 573.01,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 42.0,
-      "analysis": "Convergencia de 3 estrategias: VALUE, INSIDERS, OPTIONS."
-    },
-    {
-      "ticker": "MKC",
-      "company_name": "McCormick & Company, Incorporated",
-      "sector": "Consumer Defensive",
-      "strategies": [
-        "VALUE",
-        "INSIDERS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 70,
-      "value_score": 50.93,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 16.4,
-      "fcf_yield_pct": 5.1,
-      "current_price": 52.08,
-      "streak_days": 21,
-      "earnings_warning": false,
-      "days_to_earnings": 23.0,
-      "analysis": null
+      "analysis": "Convergencia de 3 estrategias: VALUE, INSIDERS, MOMENTUM."
     },
     {
       "ticker": "BR",
@@ -104,7 +42,27 @@
       "streak_days": 5,
       "earnings_warning": false,
       "days_to_earnings": 56.0,
-      "analysis": null
+      "analysis": "La convergencia de las estrategias VALUE y OPTIONS durante cinco d\u00edas consecutivos indica que el precio de BR est\u00e1 aline\u00e1ndose con su valor intr\u00ednseco mientras los vol\u00famenes de opciones suben, lo que suele predecir un movimiento de precio sostenido y una mayor probabilidad de que el mercado reconozca la brecha de valoraci\u00f3n. Sin embargo, la alta volatilidad de las opciones y la posibilidad de que el precio se desv\u00ede de la"
+    },
+    {
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
+      "sector": "Financial Services",
+      "strategies": [
+        "VALUE",
+        "INSIDERS"
+      ],
+      "strategy_count": 2,
+      "convergence_score": 59,
+      "value_score": 47.36000000000001,
+      "conviction_grade": "nan",
+      "analyst_upside_pct": 20.8,
+      "fcf_yield_pct": 2.87,
+      "current_price": 573.01,
+      "streak_days": 1,
+      "earnings_warning": false,
+      "days_to_earnings": 42.0,
+      "analysis": "Convergencia de 2 estrategias: VALUE, INSIDERS."
     },
     {
       "ticker": "MSFT",
@@ -115,8 +73,8 @@
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 59,
-      "value_score": 45.905,
+      "convergence_score": 57,
+      "value_score": 36.290000000000006,
       "conviction_grade": "nan",
       "analyst_upside_pct": 14.7,
       "fcf_yield_pct": 0.45,
@@ -124,26 +82,6 @@
       "streak_days": 17,
       "earnings_warning": false,
       "days_to_earnings": 50.0,
-      "analysis": null
-    },
-    {
-      "ticker": "V",
-      "company_name": "Visa Inc.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 59,
-      "value_score": 48.69499999999999,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 11.8,
-      "fcf_yield_pct": 2.91,
-      "current_price": 375.07,
-      "streak_days": 6,
-      "earnings_warning": false,
-      "days_to_earnings": 49.0,
       "analysis": null
     },
     {
@@ -155,8 +93,8 @@
         "OPTIONS"
       ],
       "strategy_count": 2,
-      "convergence_score": 57,
-      "value_score": 39.705,
+      "convergence_score": 56,
+      "value_score": 34.605,
       "conviction_grade": "nan",
       "analyst_upside_pct": 26.6,
       "fcf_yield_pct": 6.44,
@@ -176,154 +114,14 @@
       ],
       "strategy_count": 2,
       "convergence_score": 56,
-      "value_score": 30.44,
-      "conviction_grade": "nan",
+      "value_score": 31.05,
+      "conviction_grade": "D",
       "analyst_upside_pct": 17.0,
       "fcf_yield_pct": 2.74,
       "current_price": 237.72,
       "streak_days": 1,
       "earnings_warning": false,
       "days_to_earnings": 51.0,
-      "analysis": null
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 53,
-      "value_score": 68.24,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 17.3,
-      "fcf_yield_pct": 4.17,
-      "current_price": 443.51,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": 51.0,
-      "analysis": null
-    },
-    {
-      "ticker": "MA",
-      "company_name": "Mastercard Incorporated",
-      "sector": "Financial Services",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": 51.455,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 15.8,
-      "fcf_yield_pct": 3.34,
-      "current_price": 579.21,
-      "streak_days": 2,
-      "earnings_warning": false,
-      "days_to_earnings": 51.0,
-      "analysis": null
-    },
-    {
-      "ticker": "SYK",
-      "company_name": "",
-      "sector": "",
-      "strategies": [
-        "INSIDERS",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 50,
-      "value_score": null,
-      "conviction_grade": "",
-      "analyst_upside_pct": null,
-      "fcf_yield_pct": null,
-      "current_price": null,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": null,
-      "analysis": null
-    },
-    {
-      "ticker": "KO",
-      "company_name": "The Coca-Cola Company",
-      "sector": "Consumer Defensive",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 49,
-      "value_score": 48.62499999999999,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 7.5,
-      "fcf_yield_pct": 1.38,
-      "current_price": 88.07,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 42.0,
-      "analysis": null
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 47,
-      "value_score": 39.84,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 21.9,
-      "fcf_yield_pct": 7.07,
-      "current_price": 332.7,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 72.0,
-      "analysis": null
-    },
-    {
-      "ticker": "VEEV",
-      "company_name": "Veeva Systems Inc.",
-      "sector": "Healthcare",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 47,
-      "value_score": 36.385,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 7.3,
-      "fcf_yield_pct": 2.82,
-      "current_price": 275.09,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 78.0,
-      "analysis": null
-    },
-    {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
-      "sector": "Industrials",
-      "strategies": [
-        "VALUE",
-        "OPTIONS"
-      ],
-      "strategy_count": 2,
-      "convergence_score": 47,
-      "value_score": 39.975,
-      "conviction_grade": "nan",
-      "analyst_upside_pct": 18.7,
-      "fcf_yield_pct": 2.68,
-      "current_price": 218.99,
-      "streak_days": 1,
-      "earnings_warning": false,
-      "days_to_earnings": 48.0,
       "analysis": null
     }
   ]

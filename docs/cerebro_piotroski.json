@@ -1,19 +1,9 @@
 {
   "generated_at": "2026-09-08",
-  "total": 53,
+  "total": 52,
   "improving": 0,
-  "narrative": "",
+  "narrative": null,
   "candidates": [
-    {
-      "ticker": "NDAQ",
-      "company_name": "Nasdaq, Inc.",
-      "piotroski_current": 9.0,
-      "piotroski_prev": 9.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 52.345
-    },
     {
       "ticker": "MA",
       "company_name": "Mastercard Incorporated",
@@ -22,17 +12,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 51.455
-    },
-    {
-      "ticker": "TT",
-      "company_name": "Trane Technologies plc",
-      "piotroski_current": 9.0,
-      "piotroski_prev": 9.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 47.22
+      "value_score": 49.27
     },
     {
       "ticker": "RACE",
@@ -42,7 +22,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.120000000000005
+      "value_score": 49.120000000000005
+    },
+    {
+      "ticker": "TT",
+      "company_name": "Trane Technologies plc",
+      "piotroski_current": 9.0,
+      "piotroski_prev": 9.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 46.83
+    },
+    {
+      "ticker": "NDAQ",
+      "company_name": "Nasdaq, Inc.",
+      "piotroski_current": 9.0,
+      "piotroski_prev": 9.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 46.345
     },
     {
       "ticker": "INTU",
@@ -52,7 +52,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 39.84
+      "value_score": 38.47
     },
     {
       "ticker": "RACE.MI",
@@ -62,7 +62,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 49.6
+      "value_score": 50.1
     },
     {
       "ticker": "BR",
@@ -92,17 +92,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 57.06999999999999
+      "value_score": 54.06999999999999
     },
     {
-      "ticker": "HEI",
-      "company_name": "HEICO Corporation",
+      "ticker": "WM",
+      "company_name": "Waste Management, Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 55.495000000000005
+      "value_score": 52.150000000000006
     },
     {
       "ticker": "NYT",
@@ -115,24 +115,14 @@
       "value_score": 50.585
     },
     {
-      "ticker": "CBOE",
-      "company_name": "Cboe Global Markets, Inc.",
+      "ticker": "MSCI",
+      "company_name": "MSCI Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 48.935
-    },
-    {
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 47.54
+      "value_score": 47.36000000000001
     },
     {
       "ticker": "SAP",
@@ -142,27 +132,27 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.955
+      "value_score": 46.53999999999999
     },
     {
-      "ticker": "AON",
-      "company_name": "Aon plc",
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 46.095000000000006
+      "value_score": 42.935
     },
     {
-      "ticker": "WM",
-      "company_name": "Waste Management, Inc.",
+      "ticker": "ASAZY",
+      "company_name": "ASSA ABLOY AB (publ)",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 39.975
+      "value_score": 41.0
     },
     {
       "ticker": "TYL",
@@ -172,17 +162,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 38.39
+      "value_score": 38.31
     },
     {
-      "ticker": "MSCI",
-      "company_name": "MSCI Inc.",
+      "ticker": "CTAS",
+      "company_name": "Cintas Corporation",
       "piotroski_current": 8.0,
       "piotroski_prev": 8.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 37.940000000000005
+      "value_score": 36.440000000000005
     },
     {
       "ticker": "ICE",
@@ -202,17 +192,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 35.6
-    },
-    {
-      "ticker": "CTAS",
-      "company_name": "Cintas Corporation",
-      "piotroski_current": 8.0,
-      "piotroski_prev": 8.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 34.92
+      "value_score": 35.85
     },
     {
       "ticker": "SAP.DE",
@@ -292,7 +272,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 68.24
+      "value_score": 67.925
     },
     {
       "ticker": "KO",
@@ -302,7 +282,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 48.62499999999999
+      "value_score": 48.28999999999999
+    },
+    {
+      "ticker": "VEEV",
+      "company_name": "Veeva Systems Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 47.08
     },
     {
       "ticker": "CNI",
@@ -315,16 +305,6 @@
       "value_score": 44.80499999999999
     },
     {
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 42.135000000000005
-    },
-    {
       "ticker": "CHTR",
       "company_name": "Charter Communications, Inc.",
       "piotroski_current": 7.0,
@@ -332,17 +312,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 41.83
-    },
-    {
-      "ticker": "SXYAY",
-      "company_name": "Sika AG",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 41.010000000000005
+      "value_score": 42.065
     },
     {
       "ticker": "TJX",
@@ -353,6 +323,26 @@
       "trend": "STABLE",
       "signal": "STRONG",
       "value_score": 40.485
+    },
+    {
+      "ticker": "SXYAY",
+      "company_name": "Sika AG",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 40.46
+    },
+    {
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 39.865
     },
     {
       "ticker": "WST",
@@ -375,14 +365,14 @@
       "value_score": 38.195
     },
     {
-      "ticker": "VEEV",
-      "company_name": "Veeva Systems Inc.",
+      "ticker": "CLPBY",
+      "company_name": "Coloplast A/S",
       "piotroski_current": 7.0,
       "piotroski_prev": 7.0,
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 36.385
+      "value_score": 36.16
     },
     {
       "ticker": "KVUE",
@@ -395,16 +385,6 @@
       "value_score": 34.42
     },
     {
-      "ticker": "VRSK",
-      "company_name": "Verisk Analytics, Inc.",
-      "piotroski_current": 7.0,
-      "piotroski_prev": 7.0,
-      "delta": 0.0,
-      "trend": "STABLE",
-      "signal": "STRONG",
-      "value_score": 31.545
-    },
-    {
       "ticker": "CP",
       "company_name": "Canadian Pacific Kansas City Limited",
       "piotroski_current": 7.0,
@@ -412,7 +392,17 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 30.7
+      "value_score": 32.120000000000005
+    },
+    {
+      "ticker": "VRSK",
+      "company_name": "Verisk Analytics, Inc.",
+      "piotroski_current": 7.0,
+      "piotroski_prev": 7.0,
+      "delta": 0.0,
+      "trend": "STABLE",
+      "signal": "STRONG",
+      "value_score": 31.71
     },
     {
       "ticker": "AMS.MC",
@@ -422,7 +412,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 58.2
+      "value_score": 58.6
     },
     {
       "ticker": "LIFCO-B.ST",
@@ -462,7 +452,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 41.0
+      "value_score": 41.6
     },
     {
       "ticker": "HLMA.L",
@@ -492,7 +482,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 37.1
+      "value_score": 37.4
     },
     {
       "ticker": "SAF.PA",
@@ -532,7 +522,7 @@
       "delta": 0.0,
       "trend": "STABLE",
       "signal": "STRONG",
-      "value_score": 34.0
+      "value_score": 34.4
     }
   ]
 }

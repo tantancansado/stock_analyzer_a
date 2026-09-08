@@ -15,15 +15,15 @@
     "top_convergences": [
       [
         "VRSN",
-        91
+        90
       ],
       [
-        "AON",
-        79
+        "BR",
+        67
       ],
       [
         "MSCI",
-        77
+        59
       ]
     ],
     "high_alerts": [
@@ -32,12 +32,12 @@
         "INSIDER_BUYING"
       ],
       [
-        "BA.L",
-        "INSIDER_BUYING"
+        "ADP",
+        "SCORE_DRIFT"
       ],
       [
-        "BAC",
-        "SCORE_DRIFT"
+        "BA.L",
+        "INSIDER_BUYING"
       ]
     ],
     "traps_warning": [],
@@ -45,23 +45,23 @@
       [
         "CVX",
         "Score cay\u00f3 46pts (97 \u2192 51); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "",
+        "Score fundamental sigue alto (85.1/100), sugiriendo que la ca\u00edda del score compuesto se debe principalmente a valoraci\u00f3n/precio y no a deterioro del negocio.",
         96.6,
         50.685
       ],
       [
         "BAC",
-        "Score cay\u00f3 48pts (94 \u2192 46); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "Score cay\u00f3 47pts (94 \u2192 47); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
         "",
         94.0,
-        45.85
+        46.545
       ],
       [
-        "MSFT",
-        "Score cay\u00f3 48pts (94 \u2192 46); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "UNH",
+        "Score cay\u00f3 37pts (85 \u2192 49); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
         "",
-        93.6,
-        45.905
+        85.4,
+        48.715
       ]
     ],
     "smart_money": [
@@ -84,7 +84,7 @@
     "macro_stress": [
       {
         "market": "Petr\u00f3leo (WTI)",
-        "score": 82.5,
+        "score": 81.0,
         "regime": "DISLOCATED",
         "exposed": [
           "USO",

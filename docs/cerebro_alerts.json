@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-09-08",
-  "total": 67,
-  "high_count": 40,
+  "total": 59,
+  "high_count": 38,
   "alerts": [
     {
       "ticker": "AAL.L",
@@ -13,6 +13,19 @@
       "data": {
         "purchase_count": 31.0,
         "unique_insiders": 12.0
+      }
+    },
+    {
+      "ticker": "ADP",
+      "type": "SCORE_DRIFT",
+      "severity": "HIGH",
+      "title": "Tesis en riesgo: ADP",
+      "message": "Score baj\u00f3 30 pts (de 64 \u2192 33). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-09-08",
+      "data": {
+        "original_score": 63.5,
+        "current_score": 33.4,
+        "drop": 30.1
       }
     },
     {
@@ -32,12 +45,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: BAC",
-      "message": "Score baj\u00f3 40 pts (de 86 \u2192 46). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 39 pts (de 86 \u2192 47). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 85.9,
-        "current_score": 45.9,
-        "drop": 40.1
+        "current_score": 46.5,
+        "drop": 39.4
       }
     },
     {
@@ -108,12 +121,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: DPZ",
-      "message": "Score baj\u00f3 27 pts (de 62 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 26 pts (de 62 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 62.2,
-        "current_score": 35.6,
-        "drop": 26.6
+        "current_score": 35.9,
+        "drop": 26.4
       }
     },
     {
@@ -157,12 +170,12 @@
       "type": "SCORE_DRIFT",
       "severity": "HIGH",
       "title": "Tesis en riesgo: INTU",
-      "message": "Score baj\u00f3 27 pts (de 67 \u2192 40). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 28 pts (de 67 \u2192 38). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 66.8,
-        "current_score": 39.8,
-        "drop": 27.0
+        "current_score": 38.5,
+        "drop": 28.3
       }
     },
     {
@@ -214,21 +227,6 @@
       }
     },
     {
-      "ticker": "MKC",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "MKC \u2014 21 d\u00edas en convergencia",
-      "message": "Lleva 21 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-09-08",
-      "data": {
-        "streak_days": 21,
-        "strategies": [
-          "VALUE",
-          "INSIDERS"
-        ]
-      }
-    },
-    {
       "ticker": "MNDI.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -238,22 +236,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 2.0
-      }
-    },
-    {
-      "ticker": "MSCI",
-      "type": "NEW_CONVERGENCE",
-      "severity": "HIGH",
-      "title": "Nueva convergencia: MSCI",
-      "message": "Aparece en 3 estrategias: VALUE, INSIDERS, OPTIONS. Score convergencia: 77.",
-      "date": "2026-09-08",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "INSIDERS",
-          "OPTIONS"
-        ],
-        "convergence_score": 77
       }
     },
     {
@@ -441,21 +423,6 @@
       }
     },
     {
-      "ticker": "V",
-      "type": "STREAK",
-      "severity": "HIGH",
-      "title": "V \u2014 6 d\u00edas en convergencia",
-      "message": "Lleva 6 d\u00edas consecutivos en 2 estrategias. Se\u00f1al persistente de alta convicci\u00f3n.",
-      "date": "2026-09-08",
-      "data": {
-        "streak_days": 6,
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ]
-      }
-    },
-    {
       "ticker": "VOD.L",
       "type": "INSIDER_BUYING",
       "severity": "HIGH",
@@ -523,21 +490,6 @@
       }
     },
     {
-      "ticker": "AME",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: AME",
-      "message": "Aparece en 2 estrategias: VALUE, INSIDERS. Score convergencia: 56.",
-      "date": "2026-09-08",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "INSIDERS"
-        ],
-        "convergence_score": 56
-      }
-    },
-    {
       "ticker": "AON",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -550,29 +502,16 @@
       }
     },
     {
-      "ticker": "AON",
+      "ticker": "ASAZY",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
-      "title": "Tesis en riesgo: AON",
-      "message": "Score baj\u00f3 20 pts (de 66 \u2192 46). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "title": "Tesis en riesgo: ASAZY",
+      "message": "Score baj\u00f3 15 pts (de 56 \u2192 41). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
-        "original_score": 66.4,
-        "current_score": 46.1,
-        "drop": 20.3
-      }
-    },
-    {
-      "ticker": "ATLKY",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: ATLKY",
-      "message": "Score baj\u00f3 24 pts (de 59 \u2192 34). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-08",
-      "data": {
-        "original_score": 58.6,
-        "current_score": 34.3,
-        "drop": 24.2
+        "original_score": 56.2,
+        "current_score": 41.0,
+        "drop": 15.2
       }
     },
     {
@@ -601,6 +540,19 @@
       }
     },
     {
+      "ticker": "CLPBY",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: CLPBY",
+      "message": "Score baj\u00f3 23 pts (de 59 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-09-08",
+      "data": {
+        "original_score": 59.4,
+        "current_score": 36.2,
+        "drop": 23.2
+      }
+    },
+    {
       "ticker": "CME",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -617,12 +569,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: CTAS",
-      "message": "Score baj\u00f3 22 pts (de 57 \u2192 35). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 21 pts (de 57 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 57.4,
-        "current_score": 34.9,
-        "drop": 22.5
+        "current_score": 36.4,
+        "drop": 20.9
       }
     },
     {
@@ -651,46 +603,16 @@
       }
     },
     {
-      "ticker": "INTU",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: INTU",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-09-08",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
-      }
-    },
-    {
       "ticker": "ITW",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: ITW",
-      "message": "Score baj\u00f3 19 pts (de 61 \u2192 42). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 18 pts (de 61 \u2192 43). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 61.2,
-        "current_score": 42.1,
-        "drop": 19.1
-      }
-    },
-    {
-      "ticker": "KO",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: KO",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 49.",
-      "date": "2026-09-08",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 49
+        "current_score": 42.8,
+        "drop": 18.5
       }
     },
     {
@@ -718,16 +640,29 @@
       }
     },
     {
+      "ticker": "MSFT",
+      "type": "SCORE_DRIFT",
+      "severity": "MEDIUM",
+      "title": "Tesis en riesgo: MSFT",
+      "message": "Score baj\u00f3 17 pts (de 54 \u2192 36). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "date": "2026-09-08",
+      "data": {
+        "original_score": 53.6,
+        "current_score": 36.3,
+        "drop": 17.3
+      }
+    },
+    {
       "ticker": "NDSN",
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: NDSN",
-      "message": "Score baj\u00f3 18 pts (de 60 \u2192 42). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 20 pts (de 60 \u2192 40). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 59.7,
-        "current_score": 42.1,
-        "drop": 17.6
+        "current_score": 39.9,
+        "drop": 19.9
       }
     },
     {
@@ -735,12 +670,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: QSR",
-      "message": "Score baj\u00f3 21 pts (de 62 \u2192 42). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 16 pts (de 62 \u2192 47). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 62.4,
-        "current_score": 41.7,
-        "drop": 20.7
+        "current_score": 46.7,
+        "drop": 15.7
       }
     },
     {
@@ -760,12 +695,12 @@
       "type": "SCORE_DRIFT",
       "severity": "MEDIUM",
       "title": "Tesis en riesgo: SAP",
-      "message": "Score baj\u00f3 20 pts (de 67 \u2192 47). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
+      "message": "Score baj\u00f3 21 pts (de 67 \u2192 47). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
       "date": "2026-09-08",
       "data": {
         "original_score": 67.1,
-        "current_score": 47.0,
-        "drop": 20.1
+        "current_score": 46.5,
+        "drop": 20.5
       }
     },
     {
@@ -781,49 +716,6 @@
       }
     },
     {
-      "ticker": "SYK",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: SYK",
-      "message": "Aparece en 2 estrategias: INSIDERS, OPTIONS. Score convergencia: 50.",
-      "date": "2026-09-08",
-      "data": {
-        "strategies": [
-          "INSIDERS",
-          "OPTIONS"
-        ],
-        "convergence_score": 50
-      }
-    },
-    {
-      "ticker": "VEEV",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: VEEV",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-09-08",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
-      }
-    },
-    {
-      "ticker": "VLTO",
-      "type": "SCORE_DRIFT",
-      "severity": "MEDIUM",
-      "title": "Tesis en riesgo: VLTO",
-      "message": "Score baj\u00f3 15 pts (de 53 \u2192 37). Fundamentales pueden haber deteriorado \u2014 revisa la tesis.",
-      "date": "2026-09-08",
-      "data": {
-        "original_score": 52.6,
-        "current_score": 37.5,
-        "drop": 15.1
-      }
-    },
-    {
       "ticker": "VRSN",
       "type": "INSIDER_BUYING",
       "severity": "MEDIUM",
@@ -833,21 +725,6 @@
       "data": {
         "purchase_count": 4.0,
         "unique_insiders": 1.0
-      }
-    },
-    {
-      "ticker": "WM",
-      "type": "NEW_CONVERGENCE",
-      "severity": "MEDIUM",
-      "title": "Nueva convergencia: WM",
-      "message": "Aparece en 2 estrategias: VALUE, OPTIONS. Score convergencia: 47.",
-      "date": "2026-09-08",
-      "data": {
-        "strategies": [
-          "VALUE",
-          "OPTIONS"
-        ],
-        "convergence_score": 47
       }
     },
     {

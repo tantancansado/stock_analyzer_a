@@ -4,13 +4,13 @@
   "tier1": 1,
   "tier2": 2,
   "tier3": 15,
-  "narrative": "",
+  "narrative": null,
   "signals": [
     {
       "ticker": "VRSN",
       "company_name": "VeriSign, Inc.",
       "sector": "Technology",
-      "value_score": 57.06999999999999,
+      "value_score": 54.06999999999999,
       "tier": 1,
       "tier_label": "HF+Insiders",
       "n_hedge_funds": 1,
@@ -19,7 +19,7 @@
       ],
       "n_insiders": 1,
       "insider_purchases": 4,
-      "convergence_score": 42,
+      "convergence_score": 41,
       "in_value": true
     },
     {
@@ -102,7 +102,7 @@
       "ticker": "FHN",
       "company_name": "First Horizon Corporation",
       "sector": "Financial Services",
-      "value_score": 52.59,
+      "value_score": 52.54499999999999,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -150,28 +150,12 @@
       "ticker": "KO",
       "company_name": "The Coca-Cola Company",
       "sector": "Consumer Defensive",
-      "value_score": 48.62499999999999,
+      "value_score": 48.28999999999999,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
       "hedge_funds": [
         "Berkshire Hathaway (Buffett)"
-      ],
-      "n_insiders": 0,
-      "insider_purchases": 0,
-      "convergence_score": 30,
-      "in_value": true
-    },
-    {
-      "ticker": "MSFT",
-      "company_name": "Microsoft Corporation",
-      "sector": "Technology",
-      "value_score": 45.905,
-      "tier": 3,
-      "tier_label": "HF+Value",
-      "n_hedge_funds": 1,
-      "hedge_funds": [
-        "Pershing Square (Ackman)"
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
@@ -182,7 +166,7 @@
       "ticker": "BAC",
       "company_name": "Bank of America Corporation",
       "sector": "Financial Services",
-      "value_score": 45.85,
+      "value_score": 46.545,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -198,7 +182,7 @@
       "ticker": "QSR",
       "company_name": "Restaurant Brands International Inc.",
       "sector": "Consumer Cyclical",
-      "value_score": 41.67,
+      "value_score": 46.67,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -207,7 +191,7 @@
       ],
       "n_insiders": 0,
       "insider_purchases": 0,
-      "convergence_score": 28,
+      "convergence_score": 29,
       "in_value": true
     },
     {
@@ -243,10 +227,10 @@
       "in_value": true
     },
     {
-      "ticker": "ALLY",
-      "company_name": "Ally Financial Inc.",
-      "sector": "Financial Services",
-      "value_score": 38.30499999999999,
+      "ticker": "NUE",
+      "company_name": "Nucor Corporation",
+      "sector": "Basic Materials",
+      "value_score": 35.425,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,
@@ -259,10 +243,26 @@
       "in_value": true
     },
     {
-      "ticker": "NUE",
-      "company_name": "Nucor Corporation",
-      "sector": "Basic Materials",
-      "value_score": 35.224999999999994,
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "value_score": 36.290000000000006,
+      "tier": 3,
+      "tier_label": "HF+Value",
+      "n_hedge_funds": 1,
+      "hedge_funds": [
+        "Pershing Square (Ackman)"
+      ],
+      "n_insiders": 0,
+      "insider_purchases": 0,
+      "convergence_score": 26,
+      "in_value": true
+    },
+    {
+      "ticker": "ALLY",
+      "company_name": "Ally Financial Inc.",
+      "sector": "Financial Services",
+      "value_score": 38.30499999999999,
       "tier": 3,
       "tier_label": "HF+Value",
       "n_hedge_funds": 1,

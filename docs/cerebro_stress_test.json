@@ -5,11 +5,11 @@
     {
       "type": "SECTOR_CONCENTRATION",
       "severity": "HIGH",
-      "message": "51% de se\u00f1ales en Unknown (31/61) \u2014 concentraci\u00f3n elevada",
+      "message": "56% de se\u00f1ales en Unknown (34/61) \u2014 concentraci\u00f3n elevada",
       "detail": {
         "sector": "Unknown",
-        "count": 31,
-        "pct": 51
+        "count": 34,
+        "pct": 56
       }
     },
     {
@@ -22,22 +22,22 @@
       }
     }
   ],
-  "narrative": "Para reducir la concentraci\u00f3n sectorial, diversifica la cartera a\u00f1adiendo activos de los sectores con menor exposici\u00f3n (por ejemplo, tecnolog\u00eda, salud o consumo b\u00e1sico) y considera fondos sectoriales balanceados que distribuyan la exposici\u00f3n de manera m\u00e1s uniforme. Para mitigar la concentraci\u00f3n geogr\u00e1fica, incorpora instrumentos de mercados internacionales (Europa, Asia, emergentes) mediante ETFs o fondos globales, de modo que la exposici\u00f3n total a EE.\u202fUU. se reduzca a un rango razonable (por ejemplo, \u2264\u202f50\u202f%).",
+  "narrative": null,
   "sector_breakdown": [
     {
       "sector": "Unknown",
-      "count": 31,
-      "pct": 51
+      "count": 34,
+      "pct": 56
     },
     {
       "sector": "Financial Services",
-      "count": 14,
-      "pct": 23
+      "count": 11,
+      "pct": 18
     },
     {
       "sector": "Industrials",
-      "count": 7,
-      "pct": 11
+      "count": 6,
+      "pct": 10
     },
     {
       "sector": "Technology",
@@ -50,17 +50,17 @@
       "pct": 3
     },
     {
-      "sector": "Communication Services",
-      "count": 1,
-      "pct": 2
-    },
-    {
       "sector": "Healthcare",
-      "count": 1,
-      "pct": 2
+      "count": 2,
+      "pct": 3
     },
     {
       "sector": "Consumer Cyclical",
+      "count": 1,
+      "pct": 2
+    },
+    {
+      "sector": "Communication Services",
       "count": 1,
       "pct": 2
     }

@@ -1,17 +1,17 @@
 {
   "generated_at": "2026-09-08",
   "macro_regime": "CALM",
-  "composite_score": 6.5,
+  "composite_score": 7.5,
   "sesgo": "ALCISTA",
-  "confianza": 69,
-  "situacion": "R\u00e9gimen CALM, composite +6.5/30. 1 plays macro identificadas.",
-  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +6.5. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 3 tickers a evitar y 0 potenciales short squeezes.",
+  "confianza": 70,
+  "situacion": "R\u00e9gimen CALM, composite +7.5/30. 1 plays macro identificadas.",
+  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +7.5. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 1 tickers a evitar y 0 potenciales short squeezes.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
       "accion": "COMPRAR",
       "instrumento": "TLT/VGLT",
-      "razon": "Yield 30yr en 5.25% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "razon": "Yield 30yr en 5.23% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "catalizador": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "size_hint": "peque\u00f1a (1-2%)",
       "invalidacion": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o"
@@ -19,17 +19,8 @@
     {
       "prioridad": 2,
       "accion": "VENDER",
-      "instrumento": "ADP",
-      "razon": "Thesis drift HIGH (48d): Score cay\u00f3 15pts en 48d (49\u219233)",
-      "catalizador": "Se\u00f1al AVOID activa en Cerebro",
-      "size_hint": "grande (5%+)",
-      "invalidacion": "Score Cerebro mejora a neutral"
-    },
-    {
-      "prioridad": 3,
-      "accion": "VENDER",
-      "instrumento": "ASAZY",
-      "razon": "Thesis drift HIGH (48d): Score cay\u00f3 37pts en 48d (78\u219241) | Se\u00f1al salida MEDIUM: ",
+      "instrumento": "ATLKY",
+      "razon": "Thesis drift HIGH (46d): Score cay\u00f3 24pts en 46d (58\u219234) | Se\u00f1al salida MEDIUM: ",
       "catalizador": "Se\u00f1al AVOID activa en Cerebro",
       "size_hint": "grande (5%+)",
       "invalidacion": "Score Cerebro mejora a neutral"
@@ -39,7 +30,7 @@
     {
       "instrument": "TLT/VGLT",
       "direction": "LONG",
-      "thesis": "Yield 30yr en 5.25% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
+      "thesis": "Yield 30yr en 5.23% \u2014 zona hist\u00f3ricamente atractiva para bonos largos",
       "historical": "2018-19: TLT +18% cuando yields revertieron desde 3.25%",
       "risk": "La Fed puede mantener tipos altos m\u00e1s tiempo \u2014 size peque\u00f1o",
       "timeframe": "3-6 meses",
@@ -58,44 +49,36 @@
       "ticker": "SAP.DE",
       "score": 71.0,
       "sector": "Technology",
-      "fcf_yield_pct": 4.33,
+      "fcf_yield_pct": 4.31,
       "grade": "A"
     },
     {
       "ticker": "AMS.MC",
-      "score": 58.2,
+      "score": 58.6,
       "sector": "Technology",
-      "fcf_yield_pct": 12.44,
+      "fcf_yield_pct": 12.3,
       "grade": "A"
     },
     {
       "ticker": "DSY.PA",
       "score": 57.9,
       "sector": "Technology",
-      "fcf_yield_pct": 4.71,
+      "fcf_yield_pct": 4.69,
       "grade": "A"
     },
     {
       "ticker": "RMV.L",
       "score": 57.0,
       "sector": "Communication Services",
-      "fcf_yield_pct": 5.37,
+      "fcf_yield_pct": 5.33,
       "grade": "B"
     }
   ],
   "value_en_entorno_razon": "Tickers VALUE seleccionados para r\u00e9gimen CALM.",
   "evitar": [
     {
-      "ticker": "ADP",
-      "razon": "Thesis drift HIGH (48d): Score cay\u00f3 15pts en 48d (49\u219233)"
-    },
-    {
-      "ticker": "ASAZY",
-      "razon": "Thesis drift HIGH (48d): Score cay\u00f3 37pts en 48d (78\u219241) | Se\u00f1al salida MEDIUM: "
-    },
-    {
-      "ticker": "CLPBY",
-      "razon": "Thesis drift HIGH (48d): Score cay\u00f3 10pts en 48d (44\u219234) | Se\u00f1al salida HIGH: Sc"
+      "ticker": "ATLKY",
+      "razon": "Thesis drift HIGH (46d): Score cay\u00f3 24pts en 46d (58\u219234) | Se\u00f1al salida MEDIUM: "
     }
   ],
   "agenda_semana": [
@@ -107,6 +90,6 @@
     }
   ],
   "frase_del_dia": "En el corto plazo, el mercado es una m\u00e1quina de votar. En el largo, una b\u00e1scula. \u2014 Benjamin Graham",
-  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-09-08 | CALM (+6.5) | ALCISTA | VALUE: SAP.DE AMS.MC DSY.PA | Evitar: ADP ASAZY CLPBY",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-09-08 | CALM (+7.5) | ALCISTA | VALUE: SAP.DE AMS.MC DSY.PA | Evitar: ATLKY",
   "ai_powered": false
 }
