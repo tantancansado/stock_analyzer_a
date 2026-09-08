@@ -21,6 +21,7 @@ que el usuario tenga que cruzarlo él mismo.
 """
 from __future__ import annotations
 
+import claude_research
 from claude_research import ask_with_search, parse_json
 
 MAX_COMMODITIES = 10   # universo entero cabe de sobra en el presupuesto
@@ -64,11 +65,19 @@ def analyze_commodity(ticker: str, sector: str, price: float, currency: str,
     """Devuelve {veredicto, resumen, confianza, fuentes}. SIN_DATOS si no puede."""
     vacio = {'veredicto': 'SIN_DATOS', 'resumen': '', 'confianza': 0, 'fuentes': []}
 
+    # 8-sep-2026: mismo bug que why_cheap_analyzer antes del 25-ago -- Sonnet
+    # 5 sin recortar, y aquí peor (max_tokens=4000 para un JSON con resumen
+    # de máx. 300 caracteres). Medido el mismo día: $0.30/llamada, y con
+    # MAX_COMMODITIES=10 eso es hasta $3/día si se analiza el universo
+    # entero. Clasificar en 4 categorías a partir de 2-4 fuentes ya buscadas
+    # es síntesis cerrada -- mismo razonamiento que why_cheap, mismo arreglo:
+    # Haiku 4.5, menos tokens, menos búsquedas.
     texto, fuentes = ask_with_search(
         PROMPT.format(sector=sector, ticker=ticker, price=price or 0,
                       currency=currency or 'USD', pct_from_high=pct_from_high or 0,
                       pct_vs_2y=pct_vs_2y_avg or 0),
-        system=SYSTEM, max_tokens=4000, max_searches=4,
+        system=SYSTEM, max_tokens=1200, max_searches=3,
+        model=claude_research.MODEL_HAIKU,
     )
     data = parse_json(texto)
     if not data:

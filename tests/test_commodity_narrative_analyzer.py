@@ -35,6 +35,31 @@ class TestAnalyzeCommodity:
             assert cna.analyze_commodity('UNG', 'Gas Natural', 9.77, 'USD', -42.6, -31.0)['veredicto'] == 'SIN_DATOS'
 
 
+class TestCoste:
+    """El 8-sep-2026 esta llamada salía a $0.30/llamada -- Sonnet 5 sin
+    recortar, max_tokens=4000 para un JSON con resumen de máx. 300
+    caracteres. Con MAX_COMMODITIES=10 eso es hasta $3/día si se analiza el
+    universo entero. Mismo arreglo que why_cheap_analyzer el mismo día:
+    Haiku 4.5 (clasificar en 4 categorías a partir de fuentes ya buscadas es
+    síntesis cerrada, no razonamiento en cadena), menos tokens, menos
+    búsquedas. Este test fija los parámetros para que si alguien los sube
+    sin darse cuenta, salte aquí y no en la factura."""
+
+    def test_usa_haiku_pocas_busquedas_y_pocos_tokens(self):
+        captured = {}
+
+        def _fake(prompt, system, **kwargs):
+            captured.update(kwargs)
+            return '{"veredicto": "SIN_DATOS"}', []
+
+        with patch.object(cna, 'ask_with_search', side_effect=_fake):
+            cna.analyze_commodity('UNG', 'Gas Natural', 9.77, 'USD', -42.6, -31.0)
+
+        assert captured.get('model') == 'claude-haiku-4-5'
+        assert captured.get('max_searches') == 3
+        assert captured.get('max_tokens') == 1200
+
+
 class TestEnrich:
     ROWS = [
         {'ticker': 'GLD', 'sector': 'Oro', 'value_rating': 'CARO', 'price': '250',
