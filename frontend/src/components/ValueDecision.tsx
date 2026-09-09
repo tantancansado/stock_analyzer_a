@@ -82,12 +82,15 @@ export function ValueClarityPanel({
       <CardContent className="p-0">
         <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="p-5 md:p-6">
+            {/* Antes había, junto al badge, "La lógica técnica sigue detrás;
+                aquí ves la conclusión" — y al pie del panel otro párrafo
+                explicando lo mismo. Es texto de onboarding: se lee una vez y
+                luego ocupa sitio para siempre. En móvil, entre esto y el
+                resto del encabezado había 1437px (1,7 pantallas) antes del
+                primer ticker. La explicación vive en el manual. */}
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <span className="rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-primary">
                 Vista clara
-              </span>
-              <span className="text-xs text-muted-foreground">
-                La lógica técnica sigue detrás; aquí ves la conclusión.
               </span>
             </div>
 
@@ -175,10 +178,6 @@ export function ValueClarityPanel({
                 Filtros técnicos
               </button>
             </div>
-
-            <p className="mt-3 text-[0.72rem] leading-relaxed text-muted-foreground">
-              El ranking conserva tus modelos: calidad, precio, riesgo, alertas y señales. La diferencia es que la pantalla habla en decisiones.
-            </p>
           </div>
         </div>
       </CardContent>
