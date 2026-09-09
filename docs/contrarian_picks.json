@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-08T13:02:19Z",
+  "generated_at": "2026-09-09T10:26:11Z",
   "count": 12,
   "contrarian_buys": 9,
   "picks": [
@@ -17,11 +17,31 @@
       "profit_margin_pct": 40.2,
       "debt_to_equity": 0.59,
       "verdict": "CONTRARIAN_BUY",
-      "confidence": 60,
-      "drop_reason": "Unknown \u2014 Groq unavailable, rule-based fallback",
+      "confidence": 80,
+      "drop_reason": "Sector rotation and short-term macro fear caused a temporary sell-off, with no fundamental deterioration evident.",
       "is_circumstantial": true,
-      "recovery_thesis": "Piotroski 6/9, ROE 22.8%, FCF 5.0%",
-      "key_risks": "Unable to assess without AI analysis"
+      "recovery_thesis": "The company\u2019s high ROE, robust margins, solid cash flow yield, and low debt position support a rebound as market sentiment normalizes.",
+      "key_risks": "Intensifying competition or regulatory shifts could erode its moat and pressure profitability."
+    },
+    {
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "current_price": 332.7,
+      "drawdown_from_52w": -52.8,
+      "analyst_upside_pct": 21.9,
+      "analyst_count": 31.0,
+      "piotroski_score": 9.0,
+      "roe_pct": 23.6,
+      "fcf_yield_pct": 7.07,
+      "profit_margin_pct": 21.3,
+      "debt_to_equity": 0.44,
+      "verdict": "CONTRARIAN_BUY",
+      "confidence": 80,
+      "drop_reason": "Sector rotation and short\u2011term macro fear after a weak earnings miss caused a sharp sell\u2011off, not a fundamental shift.",
+      "is_circumstantial": true,
+      "recovery_thesis": "Intuit\u2019s high ROE, strong cash flow yield, robust margins and explosive EPS growth indicate a resilient business model that should rebound as sentiment normalizes.",
+      "key_risks": "Intense competition from fintech disruptors could erode Intuit\u2019s market share and pressure margins."
     },
     {
       "ticker": "ZTS",
@@ -101,26 +121,6 @@
       "drop_reason": "Unknown \u2014 Groq unavailable, rule-based fallback",
       "is_circumstantial": true,
       "recovery_thesis": "Piotroski 7/9, ROE 23.2%, FCF 2.0%",
-      "key_risks": "Unable to assess without AI analysis"
-    },
-    {
-      "ticker": "INTU",
-      "company_name": "Intuit Inc.",
-      "sector": "Technology",
-      "current_price": 332.7,
-      "drawdown_from_52w": -52.8,
-      "analyst_upside_pct": 21.9,
-      "analyst_count": 31.0,
-      "piotroski_score": 9.0,
-      "roe_pct": 23.6,
-      "fcf_yield_pct": 7.07,
-      "profit_margin_pct": 21.3,
-      "debt_to_equity": 0.44,
-      "verdict": "CONTRARIAN_BUY",
-      "confidence": 60,
-      "drop_reason": "Unknown \u2014 Groq unavailable, rule-based fallback",
-      "is_circumstantial": true,
-      "recovery_thesis": "Piotroski 9/9, ROE 23.6%, FCF 7.1%",
       "key_risks": "Unable to assess without AI analysis"
     },
     {
