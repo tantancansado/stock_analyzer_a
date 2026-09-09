@@ -48,6 +48,8 @@ export function ValueModeToggle({
 
 export function ValueClarityPanel({
   rows,
+  totalPublicadas,
+  onResetFilters,
   getDecision,
   currencyFor,
   onSelect,
@@ -55,6 +57,9 @@ export function ValueClarityPanel({
   onExpert,
 }: {
   rows: ValueOpportunity[]
+  /** Ideas publicadas hoy ANTES de aplicar filtros de la pantalla. */
+  totalPublicadas: number
+  onResetFilters: () => void
   getDecision: (row: ValueOpportunity) => ValueDecision
   currencyFor: (row: ValueOpportunity) => string
   onSelect: (row: ValueOpportunity) => void
@@ -65,6 +70,11 @@ export function ValueClarityPanel({
   const ready = evaluated.filter(item => item.decision.kind === 'ready')
   const watch = evaluated.filter(item => item.decision.kind === 'watch')
   const avoid = evaluated.filter(item => item.decision.kind === 'avoid')
+  // `wait` es la cuarta categoría de getValueDecision y no tenía contador:
+  // con 4 ideas publicadas (1 watch + 3 wait) el resumen decía "1" y parecía
+  // que el sistema no había encontrado casi nada. Los contadores tienen que
+  // sumar lo que hay en pantalla o están mintiendo.
+  const wait = evaluated.filter(item => item.decision.kind === 'wait')
   const lead = ready[0] ?? watch[0] ?? evaluated[0]
 
   return (
@@ -107,14 +117,38 @@ export function ValueClarityPanel({
                 </div>
               </button>
             ) : (
-              <div className="rounded-xl border border-border/30 bg-muted/10 p-4 text-sm text-muted-foreground">
-                No hay ideas visibles con los filtros actuales.
+              // Dos situaciones muy distintas que antes decían lo mismo:
+              // que el pipeline no publicara nada (legítimo — el gate solo
+              // saca lo que la IA verifica) o que tus filtros lo escondan.
+              // El 9-sep-2026 el suelo de score por defecto (55) dejaba esta
+              // pantalla en "no hay ideas" con 4 picks publicados: parecía
+              // que el sistema no había encontrado nada.
+              <div className="rounded-xl border border-border/30 bg-muted/10 p-4 text-sm">
+                {totalPublicadas > 0 ? (
+                  <>
+                    <p className="text-foreground">
+                      Tus filtros están escondiendo {totalPublicadas === 1 ? 'la única idea' : `las ${totalPublicadas} ideas`} de hoy.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={onResetFilters}
+                      className="mt-2 font-semibold text-primary underline underline-offset-2"
+                    >
+                      Quitar filtros
+                    </button>
+                  </>
+                ) : (
+                  <p className="text-muted-foreground">
+                    Hoy no ha pasado ninguna idea el filtro de calidad. No es un fallo:
+                    el sistema prefiere no enseñarte nada antes que enseñarte algo sin verificar.
+                  </p>
+                )}
               </div>
             )}
           </div>
 
           <div className="border-t border-border/20 p-5 lg:border-l lg:border-t-0">
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               <div className="rounded-lg border border-emerald-500/15 bg-emerald-500/5 p-3">
                 <div className="text-2xl font-extrabold tabular-nums text-emerald-400">{ready.length}</div>
                 <div className="text-[0.65rem] font-semibold text-muted-foreground">para revisar</div>
@@ -122,6 +156,10 @@ export function ValueClarityPanel({
               <div className="rounded-lg border border-sky-500/15 bg-sky-500/5 p-3">
                 <div className="text-2xl font-extrabold tabular-nums text-sky-400">{watch.length}</div>
                 <div className="text-[0.65rem] font-semibold text-muted-foreground">en vigilancia</div>
+              </div>
+              <div className="rounded-lg border border-border/30 bg-muted/10 p-3">
+                <div className="text-2xl font-extrabold tabular-nums text-muted-foreground">{wait.length}</div>
+                <div className="text-[0.65rem] font-semibold text-muted-foreground">sin señal clara</div>
               </div>
               <div className="rounded-lg border border-red-500/15 bg-red-500/5 p-3">
                 <div className="text-2xl font-extrabold tabular-nums text-red-400">{avoid.length}</div>

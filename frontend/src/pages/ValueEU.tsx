@@ -114,7 +114,10 @@ export default function ValueEU() {
   const [searchParams, setSearchParams] = useSearchParams()
   const filterGrade  = searchParams.get('grade')  ?? 'ALL'
   const filterSector = searchParams.get('sector') ?? 'ALL'
-  const minScore     = searchParams.get('score')  ?? '55'
+  // Sin suelo por defecto, mismo motivo que en ValueUS: el CSV ya viene
+  // filtrado por el pipeline y un mínimo de score en la UI escondía picks
+  // ya verificados dejando la pantalla en "no hay ideas".
+  const minScore     = searchParams.get('score')  ?? ''
 
   function setFilterGrade(v: string) {
     setSearchParams(p => {
@@ -135,7 +138,7 @@ export default function ValueEU() {
   function setMinScore(v: string) {
     setSearchParams(p => {
       const n = new URLSearchParams(p)
-      if (v === '' || v === '55') n.delete('score')
+      if (v === '') n.delete('score')
       else n.set('score', v)
       return n
     }, { replace: true })
@@ -274,7 +277,7 @@ export default function ValueEU() {
 
   const hiddenByTraps = hideTraps ? Object.values(cerebro.trapMap).filter(t => t.severity === 'HIGH').length : 0
   const hiddenByExits = hideExits ? rows.filter(r => cerebro.exitMap[r.ticker] || r.cerebro_signal === 'EXIT').length : 0
-  const hasActiveFilters = filterGrade !== 'ALL' || filterSector !== 'ALL' || filterMarket !== 'ALL' || minScore !== '55' || minFcf !== '' || minRr !== '' || hideTraps || hideExits || onlyOwned
+  const hasActiveFilters = filterGrade !== 'ALL' || filterSector !== 'ALL' || filterMarket !== 'ALL' || minScore !== '' || minFcf !== '' || minRr !== '' || hideTraps || hideExits || onlyOwned
   const resetFilters = () => {
     setSearchParams({}, { replace: true })
     setFilterMarket('ALL'); setMinFcf(''); setMinRr(''); setHideTraps(false); setHideExits(false); setOnlyOwned(false)
@@ -356,6 +359,8 @@ export default function ValueEU() {
       {clearMode && (
         <ValueClarityPanel
           rows={sorted}
+          totalPublicadas={rows.length}
+          onResetFilters={resetFilters}
           getDecision={decisionFor}
           currencyFor={(row) => getCurrency(row.ticker)}
           onSelect={(row) => toggleThesis(row.ticker, row)}

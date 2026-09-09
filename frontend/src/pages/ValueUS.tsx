@@ -106,7 +106,14 @@ export default function ValueUS() {
 
   const filterGrade = searchParams.get('grade') ?? 'ALL'
   const filterSector = searchParams.get('sector') ?? 'ALL'
-  const minScore = searchParams.get('score') ?? '55'
+  // Sin suelo por defecto. Lo que llega a este CSV YA pasó el gate de Claude
+  // y el conviction filter: poner encima un mínimo de score en la UI es
+  // filtrar dos veces y esconder justo lo que el backend acaba de verificar.
+  // El 9-sep-2026 el default de '55' dejaba la pantalla principal en "No hay
+  // ideas visibles" con 4 picks publicados (45,8 / 39,9 / 38,1 / 31,1) —
+  // parecía que el pipeline no había sacado nada. El score sigue estando en
+  // los filtros para quien lo quiera; simplemente no se aplica solo.
+  const minScore = searchParams.get('score') ?? ''
   const minFcf = searchParams.get('fcf') ?? ''
   const minRr = searchParams.get('rr') ?? ''
 
@@ -129,7 +136,7 @@ export default function ValueUS() {
   function setMinScore(v: string) {
     setSearchParams(p => {
       const next = new URLSearchParams(p)
-      if (v === '' || v === '55') next.delete('score')
+      if (v === '') next.delete('score')
       else next.set('score', v)
       return next
     }, { replace: true })
@@ -304,7 +311,7 @@ export default function ValueUS() {
 
   const hiddenByTraps = hideTraps ? Object.values(cerebro.trapMap).filter(t => t.severity === 'HIGH').length : 0
   const hiddenByExits = hideExits ? rows.filter(r => cerebro.exitMap[r.ticker] || r.cerebro_signal === 'EXIT').length : 0
-  const hasActiveFilters = filterGrade !== 'ALL' || filterSector !== 'ALL' || minScore !== '55' || minFcf !== '' || minRr !== '' || hideEarnings || hideTraps || hideExits || onlyOwned || onlyHf
+  const hasActiveFilters = filterGrade !== 'ALL' || filterSector !== 'ALL' || minScore !== '' || minFcf !== '' || minRr !== '' || hideEarnings || hideTraps || hideExits || onlyOwned || onlyHf
   const resetFilters = () => {
     setSearchParams({}, { replace: true })
     setMinFcf(''); setMinRr(''); setHideEarnings(false); setHideTraps(false); setHideExits(false); setOnlyOwned(false); setOnlyHf(false)
@@ -403,6 +410,8 @@ export default function ValueUS() {
       {clearMode && (
         <ValueClarityPanel
           rows={sorted}
+          totalPublicadas={rows.length}
+          onResetFilters={resetFilters}
           getDecision={decisionFor}
           currencyFor={() => '$'}
           onSelect={(row) => toggleThesis(row.ticker, row)}
