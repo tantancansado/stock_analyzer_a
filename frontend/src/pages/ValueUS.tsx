@@ -413,10 +413,6 @@ export default function ValueUS() {
           totalPublicadas={rows.length}
           onResetFilters={resetFilters}
           getDecision={decisionFor}
-          currencyFor={() => '$'}
-          onSelect={(row) => toggleThesis(row.ticker, row)}
-          onRecommended={applyRecommendedView}
-          onExpert={() => setClearMode(false)}
         />
       )}
 

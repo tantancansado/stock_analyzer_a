@@ -1,9 +1,17 @@
 import { CheckCircle2, Eye, PauseCircle, ShieldAlert, SlidersHorizontal } from 'lucide-react'
 import type { ValueOpportunity } from '@/api/client'
 import { Card, CardContent } from '@/components/ui/card'
-import TickerLogo from './TickerLogo'
 import { cn } from '@/lib/utils'
 import type { ValueDecision } from '@/lib/valueDecision'
+
+/** El orden es el de la decisión: lo accionable primero, lo descartado al
+ *  final. Los cuatro tienen que estar o los contadores no suman lo publicado. */
+const CONTADORES = [
+  { clave: 'ready' as const, etiqueta: 'para revisar',    tono: 'text-emerald-400' },
+  { clave: 'watch' as const, etiqueta: 'en vigilancia',   tono: 'text-sky-400' },
+  { clave: 'wait'  as const, etiqueta: 'sin señal clara', tono: 'text-muted-foreground' },
+  { clave: 'avoid' as const, etiqueta: 'mejor evitar',    tono: 'text-red-400' },
+]
 
 export function ValueDecisionBadge({ decision, className }: { decision: ValueDecision; className?: string }) {
   const Icon =
@@ -51,135 +59,75 @@ export function ValueClarityPanel({
   totalPublicadas,
   onResetFilters,
   getDecision,
-  currencyFor,
-  onSelect,
-  onRecommended,
-  onExpert,
 }: {
   rows: ValueOpportunity[]
   /** Ideas publicadas hoy ANTES de aplicar filtros de la pantalla. */
   totalPublicadas: number
   onResetFilters: () => void
   getDecision: (row: ValueOpportunity) => ValueDecision
-  currencyFor: (row: ValueOpportunity) => string
-  onSelect: (row: ValueOpportunity) => void
-  onRecommended: () => void
-  onExpert: () => void
 }) {
   const evaluated = rows.map(row => ({ row, decision: getDecision(row) }))
-  const ready = evaluated.filter(item => item.decision.kind === 'ready')
-  const watch = evaluated.filter(item => item.decision.kind === 'watch')
-  const avoid = evaluated.filter(item => item.decision.kind === 'avoid')
-  // `wait` es la cuarta categoría de getValueDecision y no tenía contador:
+  // Los cuatro tipos que devuelve getValueDecision. `wait` no tenía contador:
   // con 4 ideas publicadas (1 watch + 3 wait) el resumen decía "1" y parecía
   // que el sistema no había encontrado casi nada. Los contadores tienen que
   // sumar lo que hay en pantalla o están mintiendo.
-  const wait = evaluated.filter(item => item.decision.kind === 'wait')
-  const lead = ready[0] ?? watch[0] ?? evaluated[0]
+  const grupos = {
+    ready: evaluated.filter(i => i.decision.kind === 'ready'),
+    watch: evaluated.filter(i => i.decision.kind === 'watch'),
+    wait:  evaluated.filter(i => i.decision.kind === 'wait'),
+    avoid: evaluated.filter(i => i.decision.kind === 'avoid'),
+  }
+  const sinNada = evaluated.length === 0
 
   return (
-    <Card className="liquid-glass mb-5 overflow-clip">
-      <CardContent className="p-0">
-        <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="p-5 md:p-6">
-            {/* Antes había, junto al badge, "La lógica técnica sigue detrás;
-                aquí ves la conclusión" — y al pie del panel otro párrafo
-                explicando lo mismo. Es texto de onboarding: se lee una vez y
-                luego ocupa sitio para siempre. En móvil, entre esto y el
-                resto del encabezado había 1437px (1,7 pantallas) antes del
-                primer ticker. La explicación vive en el manual. */}
-            <div className="mb-3 flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-primary">
-                Vista clara
-              </span>
-            </div>
-
-            {lead ? (
-              <button
-                type="button"
-                onClick={() => onSelect(lead.row)}
-                className={cn('w-full rounded-xl border p-4 text-left transition-colors hover:border-primary/30', lead.decision.panelClass)}
-              >
-                <div className="flex items-start gap-3">
-                  <TickerLogo ticker={lead.row.ticker} size="md" className="mt-0.5 shrink-0" />
-                  <div className="min-w-0 flex-1">
-                    <div className="mb-2 flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-sm font-bold text-foreground">{lead.row.ticker}</span>
-                      <ValueDecisionBadge decision={lead.decision} />
-                    </div>
-                    <p className="text-sm font-semibold text-foreground">{lead.decision.headline}</p>
-                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{lead.decision.detail}</p>
-                    <div className="mt-3 flex flex-wrap gap-3 text-xs text-muted-foreground">
-                      {lead.row.analyst_upside_pct != null && (
-                        <span>Potencial: <strong className={lead.row.analyst_upside_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}>{lead.row.analyst_upside_pct >= 0 ? '+' : ''}{lead.row.analyst_upside_pct.toFixed(0)}%</strong></span>
-                      )}
-                      {lead.row.current_price != null && <span>Precio: <strong className="text-foreground">{currencyFor(lead.row)}{lead.row.current_price.toFixed(2)}</strong></span>}
-                      {lead.row.company_name && <span className="min-w-0 truncate">{lead.row.company_name}</span>}
-                    </div>
-                  </div>
-                </div>
-              </button>
+    // Tira compacta, no panel hero. Antes esto medía ~850px en móvil y su
+    // tarjeta grande repetía el MISMO pick que encabeza la lista de abajo:
+    // veías EQIX dos veces, una en formato hero de media pantalla y otra tres
+    // dedos más abajo. Los contadores son lo único que la lista no puede
+    // decirte de un vistazo, así que es lo único que se queda.
+    <Card className="glass mb-4 overflow-clip">
+      <CardContent className="p-3 sm:p-4">
+        {sinNada ? (
+          // Dos situaciones muy distintas que antes decían lo mismo: que el
+          // pipeline no publicara nada (legítimo — el gate solo saca lo que
+          // la IA verifica) o que tus filtros lo escondan. El 9-sep-2026 el
+          // suelo de score por defecto (55) dejaba esta pantalla en "no hay
+          // ideas" con 4 picks publicados: parecía que no había encontrado nada.
+          <div className="text-sm">
+            {totalPublicadas > 0 ? (
+              <>
+                <p className="text-foreground">
+                  Tus filtros están escondiendo {totalPublicadas === 1 ? 'la única idea' : `las ${totalPublicadas} ideas`} de hoy.
+                </p>
+                <button
+                  type="button"
+                  onClick={onResetFilters}
+                  className="mt-2 font-semibold text-primary underline underline-offset-2"
+                >
+                  Quitar filtros
+                </button>
+              </>
             ) : (
-              // Dos situaciones muy distintas que antes decían lo mismo:
-              // que el pipeline no publicara nada (legítimo — el gate solo
-              // saca lo que la IA verifica) o que tus filtros lo escondan.
-              // El 9-sep-2026 el suelo de score por defecto (55) dejaba esta
-              // pantalla en "no hay ideas" con 4 picks publicados: parecía
-              // que el sistema no había encontrado nada.
-              <div className="rounded-xl border border-border/30 bg-muted/10 p-4 text-sm">
-                {totalPublicadas > 0 ? (
-                  <>
-                    <p className="text-foreground">
-                      Tus filtros están escondiendo {totalPublicadas === 1 ? 'la única idea' : `las ${totalPublicadas} ideas`} de hoy.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={onResetFilters}
-                      className="mt-2 font-semibold text-primary underline underline-offset-2"
-                    >
-                      Quitar filtros
-                    </button>
-                  </>
-                ) : (
-                  <p className="text-muted-foreground">
-                    Hoy no ha pasado ninguna idea el filtro de calidad. No es un fallo:
-                    el sistema prefiere no enseñarte nada antes que enseñarte algo sin verificar.
-                  </p>
-                )}
-              </div>
+              <p className="text-muted-foreground">
+                Hoy no ha pasado ninguna idea el filtro de calidad. No es un fallo:
+                el sistema prefiere no enseñarte nada antes que enseñarte algo sin verificar.
+              </p>
             )}
           </div>
-
-          <div className="border-t border-border/20 p-5 lg:border-l lg:border-t-0">
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              <div className="rounded-lg border border-emerald-500/15 bg-emerald-500/5 p-3">
-                <div className="text-2xl font-extrabold tabular-nums text-emerald-400">{ready.length}</div>
-                <div className="text-[0.65rem] font-semibold text-muted-foreground">para revisar</div>
+        ) : (
+          // Solo los contadores. Los botones de vista viven en el panel
+          // "Vista recomendada activa" que va justo debajo, con más contexto
+          // — tenerlos también aquí era el mismo par de controles dos veces
+          // seguidas.
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            {CONTADORES.map(({ clave, etiqueta, tono }) => (
+              <div key={clave} className="flex items-baseline gap-1.5">
+                <span className={`text-lg font-extrabold tabular-nums ${tono}`}>{grupos[clave].length}</span>
+                <span className="text-[0.68rem] font-medium text-muted-foreground">{etiqueta}</span>
               </div>
-              <div className="rounded-lg border border-sky-500/15 bg-sky-500/5 p-3">
-                <div className="text-2xl font-extrabold tabular-nums text-sky-400">{watch.length}</div>
-                <div className="text-[0.65rem] font-semibold text-muted-foreground">en vigilancia</div>
-              </div>
-              <div className="rounded-lg border border-border/30 bg-muted/10 p-3">
-                <div className="text-2xl font-extrabold tabular-nums text-muted-foreground">{wait.length}</div>
-                <div className="text-[0.65rem] font-semibold text-muted-foreground">sin señal clara</div>
-              </div>
-              <div className="rounded-lg border border-red-500/15 bg-red-500/5 p-3">
-                <div className="text-2xl font-extrabold tabular-nums text-red-400">{avoid.length}</div>
-                <div className="text-[0.65rem] font-semibold text-muted-foreground">mejor evitar</div>
-              </div>
-            </div>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button type="button" onClick={onRecommended} className="filter-btn active">
-                Vista recomendada
-              </button>
-              <button type="button" onClick={onExpert} className="filter-btn">
-                Filtros técnicos
-              </button>
-            </div>
+            ))}
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   )

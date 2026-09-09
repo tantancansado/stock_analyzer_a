@@ -362,10 +362,6 @@ export default function ValueEU() {
           totalPublicadas={rows.length}
           onResetFilters={resetFilters}
           getDecision={decisionFor}
-          currencyFor={(row) => getCurrency(row.ticker)}
-          onSelect={(row) => toggleThesis(row.ticker, row)}
-          onRecommended={applyRecommendedView}
-          onExpert={() => setClearMode(false)}
         />
       )}
 
