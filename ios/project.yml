@@ -1,0 +1,40 @@
+name: StockAnalyzer
+
+# Generado con XcodeGen (`xcodegen generate` desde ios/). El .xcodeproj NO se
+# commitea: es un artefacto de 3k líneas que da conflictos en cada merge y que
+# se regenera en un segundo desde este fichero, que sí se lee.
+
+options:
+  bundleIdPrefix: com.tantancansado
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    # Firma automática. El equipo se rellena solo al abrir Xcode con la cuenta
+    # de desarrollador puesta; se deja vacío para no clavar un ID en el repo.
+    CODE_SIGN_STYLE: Automatic
+
+targets:
+  StockAnalyzer:
+    type: application
+    platform: iOS
+    sources:
+      - path: StockAnalyzer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tantancansado.stockanalyzer
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Stock Analyzer
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        # La app es dark-only, igual que la web (skin Cybertruck). Sin esto,
+        # iOS pinta los controles del sistema en claro sobre fondo negro.
+        INFOPLIST_KEY_UIUserInterfaceStyle: Dark
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+        TARGETED_DEVICE_FAMILY: "1"
+        ENABLE_PREVIEWS: YES
