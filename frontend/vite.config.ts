@@ -77,14 +77,22 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     rollupOptions: {
       output: {
+        // OJO antes de añadir nada aquí: un chunk con nombre en manualChunks
+        // acaba en un <link rel="modulepreload"> del index.html, así que el
+        // navegador se lo baja EN EL ARRANQUE aunque la librería solo se
+        // importe con lazy(). Aquí había 'recharts' y 'remotion' con el
+        // comentario "solo páginas de video" / "solo PriceChart" — y los dos
+        // se descargaban en la pantalla de login. Quitarlos bajó el camino
+        // crítico de 409 KB a 241 KB gzip (-41%) sin duplicar nada: Rollup
+        // los sigue separando solo, pero como chunks dinámicos de verdad.
+        // Medido el 9-sep-2026; total de JS igual (2532 → 2537 KB).
+        //
+        // Solo van aquí las librerías que SÍ se necesitan al arrancar:
         manualChunks: {
-          // Remotion (~500KB) — solo páginas de video
-          'remotion': ['remotion', '@remotion/player'],
-          // Recharts — solo PriceChart
-          'recharts': ['recharts'],
-          // Supabase — solo al autenticar
+          // Supabase: hace falta para el login, que es la primera pantalla.
           'supabase': ['@supabase/supabase-js'],
-          // Motion — animaciones, compartido
+          // Motion: App.tsx lo importa de forma estática para las
+          // transiciones de ruta, así que ya está en el grafo eager.
           'motion': ['motion'],
         },
       },
