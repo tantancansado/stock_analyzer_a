@@ -15,6 +15,14 @@ import {
 const mkFmtPct = (horizonte: string) =>
   (v: unknown) => [`${Number(v).toFixed(1)}%`, `Win rate ${horizonte}`] as [string, string]
 const winColor = (wr: number) => wr >= 55 ? '#10b981' : wr >= 45 ? '#f59e0b' : '#ef4444'
+
+/** El tracker marca de qué población sale cada cifra. Traducirlo importa: no
+ *  es lo mismo "lo que el sistema emite hoy" que "todo lo que emitió nunca",
+ *  y hasta ahora la pantalla enseñaba las dos con la misma cara. */
+const BASIS_LABEL: Record<string, string> = {
+  clean_period: 'solo señales que el filtro de hoy sí emitiría',
+  eu_full_hist: 'todo el histórico, incluida la política ya retirada',
+}
 const PortfolioStatsPlayer = lazy(() =>
   import('../components/PortfolioStatsVideo').then(m => ({ default: m.PortfolioStatsPlayer }))
 )
@@ -138,6 +146,12 @@ export default function Portfolio() {
   const horizonteLabel = (pf.performers_horizon as string | undefined) ?? '14d'
   const calibHorizonte = calibData?.horizon ?? '14d'
   const fmtPct = mkFmtPct(calibHorizonte)
+
+  // ¿US y EU salen de la misma población a 90d? Si no, la comparación directa
+  // no vale y no se corona ganador.
+  const basisUs = pf.value_strategy?.['90d']?.basis
+  const basisEu = pf.eu_value_strategy?.['90d']?.basis
+  const basesDistintas = !!basisUs && !!basisEu && basisUs !== basisEu
 
   const bestPeriod = periods.reduce((best, p) => {
     const d = (overall as Record<string, { count: number; win_rate: number; avg_return: number }>)[p]
@@ -743,17 +757,33 @@ export default function Portfolio() {
         </div>
       )}
 
-      {/* ── US vs EU (mismo periodo limpio, comparable) ── */}
+      {/* ── US vs EU ──
+          OJO: no siempre son comparables. US a 90d sale del periodo limpio
+          (27 señales) y EU del histórico completo (727), porque las señales
+          EU limpias aún no cumplen 90 días. El JSON lo dice en `basis`, pero
+          la pantalla lo ignoraba y coronaba un "MEJOR A 90D" comparando dos
+          poblaciones distintas — y encima el histórico EU incluye el periodo
+          que el propio tracker marca como política muerta. Si las bases no
+          coinciden, no hay ganador que declarar. */}
       {((pf.value_strategy?.['90d']?.count ?? 0) >= 10 || (pf.eu_value_strategy?.['90d']?.count ?? 0) >= 10) && (
         <div className="mt-6 animate-fade-in-up">
           <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30 mb-1">
             VALUE US vs EU — horizonte de tesis
           </h2>
-          <p className="text-xs text-muted-foreground/60 mb-4">
+          <p className="text-xs text-muted-foreground/60 mb-2">
             Una tesis value se juega en trimestres, no en semanas. Estas son las cifras a 90d /
             6 meses / 1 año — el 7-30d mide ruido de corto plazo y no dice nada útil aquí.
             180d y 365d se llenan conforme envejecen las señales (el tracking empezó en feb-2026).
           </p>
+          {basesDistintas && (
+            <p className="mb-4 rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2 text-xs text-amber-300/90">
+              <strong>No son comparables entre sí a 90 días.</strong> US mide solo el periodo
+              con filtrado correcto; EU aún no tiene señales limpias con 90 días cumplidos, así
+              que usa todo el histórico — incluido el tramo que el propio tracker descarta por
+              describir una política que ya no se aplica. Cada columna es válida por separado;
+              la resta entre ellas no.
+            </p>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {([
               { label: 'VALUE US', strat: pf.value_strategy, alpha: pf.alpha_us, badge: 'US', bench: 'SPY' },
@@ -763,7 +793,7 @@ export default function Portfolio() {
               const a90 = alpha?.['90d']
               const wr = s90?.win_rate ?? null
               const otherWr = (badge === 'US' ? pf.eu_value_strategy : pf.value_strategy)?.['90d']?.win_rate ?? -1
-              const leads = wr != null && wr > otherWr
+              const leads = !basesDistintas && wr != null && wr > otherWr
               return (
                 <Card key={badge} className={`glass border ${leads ? 'border-primary/40' : 'border-border/20'}`}>
                   <CardContent className="p-4">
@@ -782,6 +812,9 @@ export default function Portfolio() {
                         <div className="text-xs text-muted-foreground mt-1.5">
                           retorno medio {s90.avg_return != null ? `${s90.avg_return > 0 ? '+' : ''}${s90.avg_return.toFixed(2)}%` : '—'}
                           <span className="text-muted-foreground/50"> · {s90.count} señales</span>
+                        </div>
+                        <div className="mt-1 text-[0.68rem] text-muted-foreground/50">
+                          {BASIS_LABEL[s90.basis ?? ''] ?? s90.basis}
                         </div>
                         {a90?.avg_alpha != null && (
                           <div className="text-xs mt-1">

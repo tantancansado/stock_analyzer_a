@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect, lazy, Suspense } from 'react'
 import { motion } from 'motion/react'
 import { Link, useSearchParams } from 'react-router-dom'
-import StaleDataBanner from '../components/StaleDataBanner'
 import PipelineFreshnessBanner from '../components/PipelineFreshnessBanner'
 import {
   fetchMarketRegime, fetchValueOpportunities, fetchEUValueOpportunities,
@@ -1186,11 +1185,15 @@ export default function Dashboard() {
 
       {activeTab === 'resumen' && (
       <>
+      {/* Un solo indicador de frescura. Antes había dos pegados que se
+          contradecían: este dice cuándo corrió el pipeline (hace 20h) y el
+          de al lado la fecha del dato de MACRO (hace 0d), con el rótulo
+          genérico "Datos en vivo" — que se lee como si hablara de toda la
+          pantalla. El de macro vive en su propia página, que es donde
+          significa algo. */}
       <div className="mb-4 animate-fade-in-up">
         <PipelineFreshnessBanner />
       </div>
-
-      <StaleDataBanner module="macro" />
 
       {/* Live prices bar — real-time, polls every 60s */}
       <LivePricesBar />

@@ -50,6 +50,10 @@ function PipelineStatus() {
       title={`Pipeline ejecutado: ${status.run_date}`}
     >
       <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: color }} />
+      {/* "Datos:" no es decoración: el reloj de al lado da la fecha de HOY, y
+          un "Ayer" suelto justo a su izquierda se lee como si la app tuviera
+          mal la fecha, en vez de como la antigüedad del último pipeline. */}
+      <span className="opacity-60">Datos:</span>
       {label}
     </span>
   )

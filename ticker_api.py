@@ -4408,11 +4408,18 @@ def live_prices():
     if cache and now - cache['ts'] < 30:
         return jsonify(cache['data'])
 
+    # 9-sep-2026: 'spy' y 'gold' apuntaban a los ETF (SPY, GLD) pero se
+    # mostraban con el nombre del subyacente. La cinta ponía "S&P 500 765.96"
+    # cuando el índice estaba en 7673, y "Oro 399.72" con la onza a 4439 —
+    # un factor de ~10 en ambos, porque un ETF no cotiza al valor de lo que
+    # replica. El % de variación sí era correcto, que es lo que hacía que
+    # colara. Ahora los siete son lo que dicen ser: índice o futuro real,
+    # igual que ^VIX, CL=F y los yields, que nunca estuvieron mal.
     TICKERS = {
         'vix':  ('^VIX',     'VIX',       'volatility'),
-        'spy':  ('SPY',      'S&P 500',   'equity'),
+        'spy':  ('^GSPC',    'S&P 500',   'equity'),
         'oil':  ('CL=F',     'Petróleo',  'commodity'),
-        'gold': ('GLD',      'Oro',       'commodity'),
+        'gold': ('GC=F',     'Oro',       'commodity'),
         'tnx':  ('^TNX',     '10Y Yield', 'rate'),
         'tyx':  ('^TYX',     '30Y Yield', 'rate'),
         'dxy':  ('DX-Y.NYB', 'Dólar DXY', 'currency'),
