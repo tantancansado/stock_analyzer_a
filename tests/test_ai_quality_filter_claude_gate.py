@@ -152,3 +152,91 @@ class TestFilterOpportunitiesEndToEnd:
         out = pd.read_csv(tmp_path / 'docs' / 'value_opportunities_filtered.csv')
         assert list(out['ticker']) == ['BUENA']
         assert out['ai_verified'].tolist() == [True]
+        assert out['verified_by'].tolist() == ['claude']
+
+
+def _con_respuesta_groq(texto):
+    class _Msg:
+        content = texto
+    class _Choice:
+        message = _Msg()
+    class _Resp:
+        choices = [_Choice()]
+
+    with patch.object(aqf, 'Groq', lambda **kw: object()), \
+         patch.object(aqf, 'groq_chat', lambda *a, **kw: _Resp()):
+        return aqf.groq_data_check(TICKER_DATA)
+
+
+class TestGroqDataCheckMismoContratoFailClosed:
+    """9-sep-2026: el usuario compra casi solo acciones US -- EU/global pasan
+    por Groq/Qwen (gratis) en vez de Claude. Mismo criterio fail-closed que
+    claude_data_check, verificado con el mismo juego de casos."""
+
+    def test_ok_explicito_verifica(self):
+        ok, aviso = _con_respuesta_groq('{"data_check": "OK"}')
+        assert ok is True and aviso is None
+
+    def test_ojo_no_verifica(self):
+        ok, aviso = _con_respuesta_groq('{"data_check": "OJO: ROE inconsistente"}')
+        assert ok is False and 'ROE' in aviso
+
+    def test_json_roto_no_verifica(self):
+        ok, aviso = _con_respuesta_groq('esto no es json')
+        assert ok is False and aviso is not None
+
+    def test_usa_scout_primary_no_claude(self):
+        capturado = {}
+
+        def _fake_groq_chat(*a, **kw):
+            capturado.update(kw)
+            class _Msg:
+                content = '{"data_check": "OK"}'
+            class _Choice:
+                message = _Msg()
+            class _Resp:
+                choices = [_Choice()]
+            return _Resp()
+
+        with patch.object(aqf, 'Groq', lambda **kw: object()), \
+             patch.object(aqf, 'groq_chat', side_effect=_fake_groq_chat):
+            aqf.groq_data_check(TICKER_DATA)
+        from groq_utils import SCOUT_PRIMARY
+        assert capturado.get('model') == SCOUT_PRIMARY
+
+
+class TestUsarClaudeEnrutaAlCheckCorrecto:
+    """filter_opportunities(usar_claude=False) tiene que llamar a
+    groq_data_check, no a claude_data_check -- y marcar verified_by."""
+
+    def test_usar_claude_false_usa_groq_y_lo_marca(self, tmp_path, monkeypatch):
+        import pandas as pd
+
+        base_row = {
+            'ticker': 'EU1', 'company_name': 'EU Corp', 'sector': 'Industrials',
+            'current_price': 50.0, 'target_price_analyst': 60.0,
+            'analyst_count': 8, 'analyst_upside_pct': 20.0,
+            'health_details': "{'roe_pct': 15.0, 'debt_to_equity': 0.5}",
+            'earnings_details': "{'profit_margin_pct': 12.0}",
+            'rev_growth_yoy': 8.0, 'proximity_to_52w_high': -12.0,
+        }
+        df = pd.DataFrame([base_row])
+        monkeypatch.chdir(tmp_path)
+        (tmp_path / 'docs').mkdir()
+        input_path = tmp_path / 'docs' / 'european_value_opportunities.csv'
+        df.to_csv(input_path, index=False)
+
+        monkeypatch.setattr(aqf, 'analyze_with_ai',
+                            lambda ticker_data, strategy='VALUE':
+                                {'verdict': 'BUY', 'confidence': 90, 'reasoning': 'x'})
+        llamadas = {'claude': 0, 'groq': 0}
+        monkeypatch.setattr(aqf, 'claude_data_check',
+                            lambda row_d: (llamadas.__setitem__('claude', llamadas['claude'] + 1), (True, None))[1])
+        monkeypatch.setattr(aqf, 'groq_data_check',
+                            lambda row_d: (llamadas.__setitem__('groq', llamadas['groq'] + 1), (True, None))[1])
+
+        aqf.filter_opportunities(input_path, 'VALUE', 'value_score', usar_claude=False)
+
+        assert llamadas == {'claude': 0, 'groq': 1}
+        out = pd.read_csv(tmp_path / 'docs' / 'european_value_opportunities_filtered.csv')
+        assert out['verified_by'].tolist() == ['groq']

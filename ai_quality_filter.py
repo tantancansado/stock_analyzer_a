@@ -217,6 +217,45 @@ Respond ONLY with JSON:
         # Fallback to rule-based
         return fallback_analysis(ticker_data, strategy)
 
+def _nd(v, suffix=''):
+    if v is None or (isinstance(v, float) and np.isnan(v)):
+        return 'n/d'
+    return f'{v}{suffix}'
+
+
+def _prompt_data_check(ticker_data: dict) -> str:
+    """Prompt compartido por claude_data_check y groq_data_check — mismo
+    criterio de auditoría, cambia solo quién lo evalúa."""
+    return f"""Eres un auditor de datos para un sistema de inversión value/GARP. Tu única tarea es comprobar si estas cifras (de una fuente automática, yfinance, que a veces falla) son PLAUSIBLES y COHERENTES entre sí para esta empresa concreta, usando tu propio conocimiento. NO evalúes si es buena compra — eso ya lo decidió otro filtro.
+
+{ticker_data['ticker']} ({ticker_data.get('company_name', '')}) — sector {_nd(ticker_data.get('sector'))}
+Precio: ${_nd(ticker_data.get('current_price'))} · Target analistas: ${_nd(ticker_data.get('target_price_analyst'))} ({_nd(ticker_data.get('analyst_count'))} analistas) · Upside: {_nd(ticker_data.get('analyst_upside_pct'), '%')}
+ROE: {_nd(ticker_data.get('roe'), '%')} · Margen neto: {_nd(ticker_data.get('profit_margin'), '%')} · Deuda/Capital: {_nd(ticker_data.get('debt_to_equity'))}
+Crecimiento ingresos YoY: {_nd(ticker_data.get('rev_growth'), '%')} · FCF yield: {_nd(ticker_data.get('fcf_yield_pct'), '%')} · Distancia máx. 52 sem: {_nd(ticker_data.get('pct_from_52w_high'), '%')}
+
+Ejemplos de lo que buscas: un ROE o margen absurdo para el sector, un upside/target inconsistente con el precio, una caída del 52w-high que no cuadra con fundamentales "intactos", deuda/capital imposible para el tipo de empresa.
+
+Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible, o si NO, qué dato parece erróneo y por qué (máx 2 frases, español)"}}"""
+
+
+def _parse_data_check(txt: str | None, quien: str) -> tuple[bool, str | None]:
+    """Interpreta la respuesta de claude_data_check/groq_data_check — mismo
+    criterio fail-closed para las dos: solo "OK" explícito verifica."""
+    if not txt:
+        return False, None
+    import re as _re
+    cleaned = _re.sub(r'(?:^```(?:json)?|```$)', '', txt.strip(), flags=_re.MULTILINE).strip()
+    m = _re.search(r'\{[\s\S]*\}', cleaned)
+    try:
+        data = json.loads(m.group(0)) if m else {}
+        dc = str(data.get('data_check', '')).strip()
+    except Exception:
+        return False, f'{quien} respondió pero el JSON no se pudo interpretar'
+    if dc.upper().startswith('OK'):
+        return True, None
+    return False, dc or f'{quien} no confirmó los datos'
+
+
 def claude_data_check(ticker_data: dict) -> tuple[bool, str | None]:
     """Claude (Sonnet) audita la PLAUSIBILIDAD de los datos de un pick VALUE ya
     filtrado por Groq — mismo patrón que leaps_analyzer.add_ai_narrative.
@@ -240,22 +279,7 @@ def claude_data_check(ticker_data: dict) -> tuple[bool, str | None]:
     except Exception:
         return False, None
 
-    def _nd(v, suffix=''):
-        if v is None or (isinstance(v, float) and np.isnan(v)):
-            return 'n/d'
-        return f'{v}{suffix}'
-
-    prompt = f"""Eres un auditor de datos para un sistema de inversión value/GARP. Tu única tarea es comprobar si estas cifras (de una fuente automática, yfinance, que a veces falla) son PLAUSIBLES y COHERENTES entre sí para esta empresa concreta, usando tu propio conocimiento. NO evalúes si es buena compra — eso ya lo decidió otro filtro.
-
-{ticker_data['ticker']} ({ticker_data.get('company_name', '')}) — sector {_nd(ticker_data.get('sector'))}
-Precio: ${_nd(ticker_data.get('current_price'))} · Target analistas: ${_nd(ticker_data.get('target_price_analyst'))} ({_nd(ticker_data.get('analyst_count'))} analistas) · Upside: {_nd(ticker_data.get('analyst_upside_pct'), '%')}
-ROE: {_nd(ticker_data.get('roe'), '%')} · Margen neto: {_nd(ticker_data.get('profit_margin'), '%')} · Deuda/Capital: {_nd(ticker_data.get('debt_to_equity'))}
-Crecimiento ingresos YoY: {_nd(ticker_data.get('rev_growth'), '%')} · FCF yield: {_nd(ticker_data.get('fcf_yield_pct'), '%')} · Distancia máx. 52 sem: {_nd(ticker_data.get('pct_from_52w_high'), '%')}
-
-Ejemplos de lo que buscas: un ROE o margen absurdo para el sector, un upside/target inconsistente con el precio, una caída del 52w-high que no cuadra con fundamentales "intactos", deuda/capital imposible para el tipo de empresa.
-
-Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible, o si NO, qué dato parece erróneo y por qué (máx 2 frases, español)"}}"""
-
+    prompt = _prompt_data_check(ticker_data)
     # 8-sep-2026: max_tokens=300 (el original) se quedaba corto con Sonnet 5,
     # que en groq_utils._SIN_SAMPLING fuerza thinking:adaptive en TODAS sus
     # llamadas -- el bloque de pensamiento compite por el mismo tope que el
@@ -270,19 +294,36 @@ Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible,
     # aquí solo para no romper la firma de otros modelos que sí la aceptan.
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
                       model=CLAUDE_SONNET, max_tokens=1200, temperature=0.2)
-    if not txt:
-        return False, None
-    import re as _re
-    cleaned = _re.sub(r'(?:^```(?:json)?|```$)', '', txt.strip(), flags=_re.MULTILINE).strip()
-    m = _re.search(r'\{[\s\S]*\}', cleaned)
+    return _parse_data_check(txt, 'Claude')
+
+
+def groq_data_check(ticker_data: dict) -> tuple[bool, str | None]:
+    """Mismo audit que claude_data_check pero con Qwen vía Groq (gratis).
+
+    9-sep-2026: el usuario compra casi solo acciones US y no le compensa
+    pagar el gate de Claude para EU/global — aquí se aplica el mismo
+    criterio fail-closed con un modelo sin coste. No es el mismo nivel de
+    fiabilidad que Claude (por eso el gate de US se queda en Claude), así
+    que estas filas se marcan con verified_by='groq' en vez de mezclarlas
+    sin distinción con las que sí pasaron por Claude.
+    """
     try:
-        data = json.loads(m.group(0)) if m else {}
-        dc = str(data.get('data_check', '')).strip()
+        client = Groq(api_key=GROQ_API_KEY)
+        from groq_utils import SCOUT_PRIMARY
     except Exception:
-        return False, 'Claude respondió pero el JSON no se pudo interpretar'
-    if dc.upper().startswith('OK'):
-        return True, None
-    return False, dc or 'Claude no confirmó los datos'
+        return False, None
+
+    prompt = _prompt_data_check(ticker_data)
+    try:
+        response = groq_chat(
+            client, messages=[{'role': 'user', 'content': prompt}],
+            model=SCOUT_PRIMARY, max_tokens=500, temperature=0.2,
+            response_format={'type': 'json_object'},
+        )
+        txt = response.choices[0].message.content
+    except Exception:
+        return False, None
+    return _parse_data_check(txt, 'Groq')
 
 
 def fallback_analysis(ticker_data: dict, strategy: str = "VALUE") -> dict:
@@ -589,13 +630,17 @@ def extract_fundamentals(row):
 
     return roe, profit_margin, debt_to_equity
 
-def filter_opportunities(input_path: Path, strategy_name: str, score_field: str):
+def filter_opportunities(input_path: Path, strategy_name: str, score_field: str,
+                          usar_claude: bool = True):
     """
     Filter opportunities using AI quality analysis
     Args:
         input_path: Path to opportunities CSV
         strategy_name: "VALUE" or "MOMENTUM"
         score_field: "value_score" or "momentum_score"
+        usar_claude: gate final con Claude (True) o con Groq/Qwen (False).
+            9-sep-2026: el usuario compra casi solo acciones US -- EU/global
+            usan groq_data_check (gratis) en vez de claude_data_check.
     """
     print("\n" + "=" * 100)
     print(f"AI-POWERED QUALITY FILTER FOR {strategy_name} OPPORTUNITIES (Groq)")
@@ -720,7 +765,9 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
     # Solo se llama sobre los YA filtrados por Groq, para no disparar el coste
     # pasando el universo entero por Claude.
     if strategy_name == 'VALUE' and not df_filtered.empty:
-        print(f"\n🔎 Claude data-check sobre {len(df_filtered)} picks filtrados (gate estricto)...")
+        quien = 'Claude' if usar_claude else 'Groq'
+        check_fn = claude_data_check if usar_claude else groq_data_check
+        print(f"\n🔎 {quien} data-check sobre {len(df_filtered)} picks filtrados (gate estricto)...")
         verificado_mask = []
         data_warnings = []
         for _, row in df_filtered.iterrows():
@@ -741,16 +788,21 @@ def filter_opportunities(input_path: Path, strategy_name: str, score_field: str)
             _fill('debt_to_equity', _dte)
             _fill('rev_growth', row_d.get('rev_growth_yoy'))
             _fill('pct_from_52w_high', row_d.get('proximity_to_52w_high'))
-            ok, dc = claude_data_check(row_d)
+            ok, dc = check_fn(row_d)
             verificado_mask.append(ok)
             data_warnings.append(dc)
             if ok:
-                print(f"  ✅ {row['ticker']}: verificado")
+                print(f"  ✅ {row['ticker']}: verificado ({quien})")
             else:
-                motivo = dc or 'Claude no pudo verificar (sin saldo o fallo de API)'
+                motivo = dc or f'{quien} no pudo verificar (sin saldo o fallo de API)'
                 print(f"  🚫 {row['ticker']}: excluido — {motivo[:90]}")
         df_filtered['ai_verified'] = verificado_mask
         df_filtered['data_warning'] = data_warnings
+        # Distingue el nivel de verificación en vez de mezclar sin marca las
+        # filas EU/global (Groq/Qwen, gratis) con las US (Claude, de pago) —
+        # mismo dato, mismo dispositivo de énfasis (columna), no dos fiables
+        # por igual con la misma cara.
+        df_filtered['verified_by'] = quien.lower()
         antes = len(df_filtered)
         df_filtered = df_filtered[df_filtered['ai_verified']].copy()
         print(f"   {len(df_filtered)}/{antes} pasan el gate de Claude")
@@ -1060,7 +1112,7 @@ def main():
         print("=" * 100)
 
         eu_path = Path('docs/european_value_opportunities.csv')
-        eu_filtered = filter_opportunities(eu_path, "VALUE", "value_score")
+        eu_filtered = filter_opportunities(eu_path, "VALUE", "value_score", usar_claude=False)
 
         print(f"\n✅ European VALUE filtered: {eu_filtered if eu_filtered else 0}")
         return
