@@ -4,7 +4,7 @@ import {
   BookOpen, Compass, Workflow, Bot, Shield, HelpCircle, Search,
   LayoutDashboard, Brain, DollarSign, Radar, Users, Crosshair,
   Wallet, Calculator, TrendingUp, Activity, PieChart,
-  Bell, CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark, Rocket,
+  CalendarDays, AlertTriangle, Ruler, FlaskConical, Shuffle, Database, Landmark, Rocket,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
@@ -41,7 +41,6 @@ const SECTIONS: Section[] = [
   { id: 'leaps',              title: 'LEAPS deep-ITM',        icon: Rocket,          group: 'pages' },
   { id: 'options',            title: 'Options flow',          icon: Activity,        group: 'pages' },
   { id: 'sectores',           title: 'Sectores',              icon: PieChart,        group: 'pages' },
-  { id: 'alertas',            title: 'Alertas',               icon: Bell,            group: 'pages' },
   { id: 'calendario',         title: 'Calendario earnings',   icon: CalendarDays,    group: 'pages' },
   { id: 'dividend-traps',     title: 'Dividend traps',        icon: AlertTriangle,   group: 'pages' },
   { id: 'position-sizing',    title: 'Position sizing',       icon: Ruler,           group: 'pages' },
@@ -569,19 +568,6 @@ export default function Manual() {
               El sistema usa rotación <b>contrarian</b>: penaliza sectores sobrecalentados y premia los temporalmente caídos (si los fundamentales aguantan).
             </p>
             <OpenLink to="/sectors" />
-          </Card>
-
-          <SectionHeader id="alertas" icon={Bell} title="Alertas"
-            subtitle="Configura notificaciones por email cuando se cumplan condiciones." />
-          <Card>
-            <p className="mb-3">Tipos de alerta soportados:</p>
-            <ul className="list-disc pl-5 space-y-1.5 text-sm mb-3">
-              <li>Precio &gt; / &lt; umbral.</li>
-              <li>Nueva señal VALUE o MOMENTUM en un ticker.</li>
-              <li>Cambio de grade (ej. de B a A).</li>
-              <li>Insider buying detectado.</li>
-            </ul>
-            <OpenLink to="/alerts" />
           </Card>
 
           <SectionHeader id="calendario" icon={CalendarDays} title="Calendario earnings + catalizadores"

@@ -35,7 +35,6 @@ const Macro            = lazy(() => import('./pages/Macro'))
 const Calendar         = lazy(() => import('./pages/Calendar'))
 const DividendTraps    = lazy(() => import('./pages/DividendTraps'))
 const Comparador       = lazy(() => import('./pages/Comparador'))
-const Alerts           = lazy(() => import('./pages/Alerts'))
 const BounceTrader     = lazy(() => import('./pages/BounceTrader'))
 const Calibration      = lazy(() => import('./pages/Calibration'))
 const OwnerEarnings    = lazy(() => import('./pages/OwnerEarnings'))
@@ -314,7 +313,6 @@ export default function App() {
                   <Route path="/compare"        element={<Comparador />} />
                   {/* Cerebro se unificó dentro del Dashboard como pestaña */}
                   <Route path="/cerebro"        element={<Navigate to="/dashboard?tab=cerebro" replace />} />
-                  <Route path="/alerts"         element={<Alerts />} />
                   <Route path="/bounce"         element={<BounceTrader />} />
                   <Route path="/bonds"          element={<Bonds />} />
                   <Route path="/owner-earnings" element={<OwnerEarnings />} />

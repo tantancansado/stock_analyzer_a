@@ -756,17 +756,49 @@ class PortfolioTracker:
             value_core = value_core.copy()
             value_core['company_name'] = value_core['company_name'].fillna(value_core['ticker'])
 
-        # Top/Bottom performers — VALUE core only, extreme returns excluded
-        perf_cols = ['ticker', 'company_name', 'strategy', 'signal_date', 'signal_price', 'return_14d']
-        valid_ret = value_core[value_core['return_14d'].notna() & (value_core['return_14d'] > -95) & (value_core['return_14d'] < 500)]
-        if not valid_ret.empty:
-            top_by_ticker = valid_ret.loc[valid_ret.groupby('ticker')['return_14d'].idxmax()]
-            bot_by_ticker = valid_ret.loc[valid_ret.groupby('ticker')['return_14d'].idxmin()]
-            top5 = top_by_ticker.sort_values('return_14d', ascending=False).head(5)[perf_cols].to_dict('records')
-            bottom5 = bot_by_ticker.sort_values('return_14d').head(5)[perf_cols].to_dict('records')
+        # Top/Bottom performers — VALUE core only, extreme returns excluded.
+        #
+        # 9-sep-2026: iban a 14 DÍAS. Una tesis value se juega en trimestres y
+        # el propio panel de horizontes lo dice con estas palabras ("el 7-30d
+        # mide ruido de corto plazo y no dice nada útil aquí") — mientras el
+        # ranking de arriba premiaba justo ese ruido. Un pick que sube un 18%
+        # en dos semanas no es el mejor pick: es el más volátil.
+        #
+        # Se ordena por el horizonte más largo que ya tenga dato, y se publica
+        # CUÁL es, para que la pantalla lo etiquete en vez de dar por hecho
+        # que son 14d. Sin dato a ningún horizonte, la lista va vacía: no se
+        # rellena con 7d para tener algo que enseñar.
+        _candidatos = [h for h in ('return_365d', 'return_180d', 'return_90d',
+                                   'return_30d', 'return_14d')
+                       if h in value_core.columns and value_core[h].notna().any()]
+        # El más largo con muestra decente; si ninguno la tiene, el que más
+        # datos tenga. Sin el segundo criterio, una única fila suelta a 365d
+        # secuestraría el ranking a un horizonte casi vacío — y sin el
+        # primero, una muestra pequeña se quedaba sin ranking ninguno.
+        horizonte = next(
+            (h for h in _candidatos if value_core[h].notna().sum() >= 5),
+            max(_candidatos, key=lambda h: value_core[h].notna().sum(), default=None),
+        )
+        if horizonte is None:
+            top5, bottom5, perf_horizon = [], [], None
         else:
-            top5 = []
-            bottom5 = []
+            perf_horizon = horizonte.replace('return_', '')
+            perf_cols = ['ticker', 'company_name', 'strategy', 'signal_date',
+                         'signal_price', horizonte]
+            valid_ret = value_core[value_core[horizonte].notna()
+                                   & (value_core[horizonte] > -95)
+                                   & (value_core[horizonte] < 500)]
+            if valid_ret.empty:
+                top5, bottom5 = [], []
+            else:
+                top_by_ticker = valid_ret.loc[valid_ret.groupby('ticker')[horizonte].idxmax()]
+                bot_by_ticker = valid_ret.loc[valid_ret.groupby('ticker')[horizonte].idxmin()]
+                # `return_pct` normaliza el nombre: la pantalla no debe tener
+                # que saber a qué horizonte se ordenó para leer el número.
+                top5 = [{**r, 'return_pct': r.pop(horizonte)}
+                        for r in top_by_ticker.sort_values(horizonte, ascending=False).head(5)[perf_cols].to_dict('records')]
+                bottom5 = [{**r, 'return_pct': r.pop(horizonte)}
+                           for r in bot_by_ticker.sort_values(horizonte).head(5)[perf_cols].to_dict('records')]
 
         # Recent active signals — VALUE core only
         active_df = value_core[value_core['status'] == 'ACTIVE'].sort_values('signal_date', ascending=False)
@@ -910,6 +942,9 @@ class PortfolioTracker:
             'score_correlation': score_corr,
             'top_performers': top5,
             'worst_performers': bottom5,
+            # A qué horizonte están ordenados los dos rankings de arriba, para
+            # que la pantalla lo etiquete en vez de dar 14d por supuesto.
+            'performers_horizon': perf_horizon,
             'recent_signals': recent_signals,
 
             'avg_max_drawdown': round(value_core['max_drawdown_30d'].mean(), 2) if value_core['max_drawdown_30d'].notna().sum() > 0 else None,
@@ -1005,19 +1040,44 @@ class PortfolioTracker:
         """Compute score/regime/sector calibration — does a higher score actually predict better returns?"""
         VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'}
         df = self.recommendations[self.recommendations['strategy'].isin(VALUE_STRATEGIES)]
-        completed = df[df['return_14d'].notna() & (df['return_14d'] > -95) & (df['return_14d'] < 500)]
+
+        # 9-sep-2026: TODA esta calibración se calculaba a 14 DÍAS —
+        # "¿el score predice?", "el factor más predictivo", win rate por
+        # sector y por régimen. Con un horizonte que el propio panel de
+        # arriba declara ruido ("una tesis value se juega en trimestres"),
+        # las conclusiones no valían: medían qué rebota en dos semanas, no
+        # qué tesis acierta. Se usa el horizonte más largo con muestra
+        # suficiente y se publica CUÁL es, para que la pantalla lo rotule.
+        HORIZONTES = ('return_365d', 'return_180d', 'return_90d', 'return_30d', 'return_14d')
+        MIN_MUESTRA = 10
+        col_ret = next(
+            (h for h in HORIZONTES
+             if h in df.columns and df[h].notna().sum() >= MIN_MUESTRA),
+            None,
+        )
+        if col_ret is None:
+            return
+        horizonte = col_ret.replace('return_', '')
+        col_win = f'win_{horizonte}'
+
+        completed = df[df[col_ret].notna() & (df[col_ret] > -95) & (df[col_ret] < 500)]
         if len(completed) < 10:
             return
 
         def bucket_stats(subset):
             if subset.empty:
                 return None
-            wins = (subset['win_14d'] == True).sum()
+            # Algunos horizontes largos no tienen columna win_ propia; se
+            # deriva del retorno en vez de saltarse la fila.
+            if col_win in subset.columns and subset[col_win].notna().any():
+                wins = (subset[col_win] == True).sum()
+            else:
+                wins = (subset[col_ret] > 0).sum()
             return {
                 'count': int(len(subset)),
-                'win_rate_14d': round(wins / len(subset) * 100, 1),
-                'avg_return_14d': round(subset['return_14d'].mean(), 2),
-                'median_return_14d': round(subset['return_14d'].median(), 2),
+                'win_rate': round(wins / len(subset) * 100, 1),
+                'avg_return': round(subset[col_ret].mean(), 2),
+                'median_return': round(subset[col_ret].median(), 2),
             }
 
         # Score buckets
@@ -1051,7 +1111,7 @@ class PortfolioTracker:
             if stats:
                 stats['sector'] = sector
                 sector_rows.append(stats)
-        sector_rows.sort(key=lambda x: -x['win_rate_14d'])
+        sector_rows.sort(key=lambda x: -x['win_rate'])
 
         # FCF yield buckets (only where available)
         fcf_df = completed[completed['fcf_yield_pct'].notna()].copy()
@@ -1070,6 +1130,10 @@ class PortfolioTracker:
             'sector_calibration': sector_rows,
             'fcf_yield_buckets': fcf_buckets,
             'total_completed': int(len(completed)),
+            # El horizonte al que está medido TODO lo de arriba. Sin esto la
+            # pantalla rotulaba "14d" a ciegas y seguía rotulándolo aunque el
+            # dato cambiara debajo.
+            'horizon': horizonte,
             'generated_at': datetime.now().isoformat(),
         }
 

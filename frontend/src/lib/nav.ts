@@ -2,8 +2,7 @@ import {
   TrendingUp, Users, Activity,
   PieChart, FlaskConical, Search, LayoutDashboard, Database,
   Ruler, Radar, CalendarDays, AlertTriangle,
-  DollarSign, Wallet, Bell,
-  Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2, Wheat,
+  DollarSign, Wallet, Crosshair, Calculator, Shuffle, BookOpen, Landmark, BarChart2, Wheat,
   Rocket,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -17,7 +16,6 @@ export const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { path: '/dashboard',      icon: LayoutDashboard, label: 'Centro de mando', color: '#6366f1', logo: 'llama-charts.png',        keywords: ['inicio', 'home', 'resumen', 'dashboard', 'centro de mando', 'cerebro', 'ia', 'agente', 'proactivo', 'convergencia', 'entrada'] },
       { path: '/my-portfolio',   icon: Wallet,          label: 'Mi cartera',     color: '#10b981', logo: 'llama-safe.png',          keywords: ['mis posiciones', 'personal', 'posiciones', 'mi cartera'] },
-      { path: '/alerts',          icon: Bell,          label: 'Alertas',         color: '#f59e0b', keywords: ['alertas', 'email', 'notificaciones', 'precio'] },
       { path: '/portfolio',        icon: BarChart2,      label: 'Portfolio tracker', color: '#10b981', keywords: ['portfolio', 'tracker', 'señales', 'rendimiento', 'win rate', 'estadísticas'] },
       { path: '/signal-stats',     icon: Activity,      label: 'Estadísticas',      color: '#06b6d4', keywords: ['estadisticas', 'señales', 'semana', 'mes', 'quarter', 'historico', 'rendimiento'], adminOnly: true },
     ]

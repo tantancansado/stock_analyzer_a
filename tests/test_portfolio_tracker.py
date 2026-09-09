@@ -682,7 +682,12 @@ class TestGenerateSummary:
         top = summary.get('top_performers', [])
         aapl_entry = next((x for x in top if x['ticker'] == 'AAPL'), None)
         assert aapl_entry is not None
-        assert aapl_entry['return_14d'] == 15.0
+        # `return_pct` en vez de `return_14d`: desde el 9-sep-2026 el ranking
+        # se ordena por el horizonte más largo con muestra (90d con datos
+        # reales) y publica cuál es en `performers_horizon`. Con este fixture,
+        # que solo tiene 14d, cae ahí — pero etiquetado, no dado por supuesto.
+        assert aapl_entry['return_pct'] == 15.0
+        assert summary['performers_horizon'] == '14d'
 
     def test_eu_value_excluded_from_value_strategy_stats(self, tmp_path):
         recs = [
@@ -779,8 +784,8 @@ class TestGenerateCalibration:
             cal = json.load(f)
         for bucket in cal['score_buckets']:
             assert 'count' in bucket
-            assert 'win_rate_14d' in bucket
-            assert 'avg_return_14d' in bucket
+            assert 'win_rate' in bucket
+            assert 'avg_return' in bucket
 
     def test_total_completed_in_calibration(self, tmp_path):
         tracker = self._tracker_with_completed(n=10)

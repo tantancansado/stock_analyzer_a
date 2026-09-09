@@ -12,7 +12,8 @@ import {
   ReferenceLine, LineChart, Line,
 } from 'recharts'
 
-const fmtPct = (v: unknown) => [`${Number(v).toFixed(1)}%`, 'Win rate 14d'] as [string, string]
+const mkFmtPct = (horizonte: string) =>
+  (v: unknown) => [`${Number(v).toFixed(1)}%`, `Win rate ${horizonte}`] as [string, string]
 const winColor = (wr: number) => wr >= 55 ? '#10b981' : wr >= 45 ? '#f59e0b' : '#ef4444'
 const PortfolioStatsPlayer = lazy(() =>
   import('../components/PortfolioStatsVideo').then(m => ({ default: m.PortfolioStatsPlayer }))
@@ -51,7 +52,10 @@ type Performer = {
   strategy?: unknown
   signal_date: unknown
   signal_price?: unknown
-  return_14d: unknown
+  /** Retorno al horizonte que indique `performers_horizon` (90d en la
+   *  práctica). Antes era return_14d fijo: dos semanas no dicen nada de una
+   *  tesis value y premiaban al pick más volátil, no al mejor. */
+  return_pct: unknown
 }
 
 type RecentSignal = {
@@ -126,6 +130,14 @@ export default function Portfolio() {
   // tenga tamaño (la señal más antigua es de feb-2026).
   const periods = ['180d', '90d', '365d', '30d'] as const
   const overall = pf.overall || {} as Record<string, { count: number; win_rate: number; avg_return: number }>
+
+  // El tracker dice a qué horizonte ordenó los rankings. Si no lo dice (JSON
+  // viejo, antes del cambio del 9-sep-2026), se etiqueta como 14d, que es lo
+  // que ese JSON contiene de verdad — mejor un rótulo honesto y anticuado que
+  // uno bonito y falso.
+  const horizonteLabel = (pf.performers_horizon as string | undefined) ?? '14d'
+  const calibHorizonte = calibData?.horizon ?? '14d'
+  const fmtPct = mkFmtPct(calibHorizonte)
 
   const bestPeriod = periods.reduce((best, p) => {
     const d = (overall as Record<string, { count: number; win_rate: number; avg_return: number }>)[p]
@@ -255,8 +267,9 @@ export default function Portfolio() {
         </div>
       )}
 
-      {/* Top / Worst performers */}
-      <div className="grid grid-cols-2 gap-4 mb-5">
+      {/* Top / Worst performers — al horizonte de tesis que publique el
+          tracker (90d hoy), no a 14 días. */}
+      <div className="grid grid-cols-1 gap-4 mb-5 sm:grid-cols-2">
         {pf.top_performers && pf.top_performers.length > 0 && (
           <Card className="glass">
             <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
@@ -268,7 +281,7 @@ export default function Portfolio() {
                 <TableRow className="border-border/50 hover:bg-transparent">
                   <TableHead>Ticker</TableHead>
                   <TableHead>Empresa</TableHead>
-                  <TableHead>Return 14d</TableHead>
+                  <TableHead>Return {horizonteLabel}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -286,7 +299,7 @@ export default function Portfolio() {
                     <TableCell className="text-muted-foreground text-[0.75rem]">
                       {typeof p.company_name === 'string' ? p.company_name : typeof p.ticker === 'string' ? p.ticker : ''}
                     </TableCell>
-                    <TableCell><span className="text-emerald-400 font-semibold">+{Number(p.return_14d || 0).toFixed(2)}%</span></TableCell>
+                    <TableCell><span className="text-emerald-400 font-semibold">+{Number(p.return_pct ?? 0).toFixed(2)}%</span></TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -305,7 +318,7 @@ export default function Portfolio() {
                 <TableRow className="border-border/50 hover:bg-transparent">
                   <TableHead>Ticker</TableHead>
                   <TableHead>Empresa</TableHead>
-                  <TableHead>Return 14d</TableHead>
+                  <TableHead>Return {horizonteLabel}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -323,7 +336,7 @@ export default function Portfolio() {
                     <TableCell className="text-muted-foreground text-[0.75rem]">
                       {typeof p.company_name === 'string' ? p.company_name : typeof p.ticker === 'string' ? p.ticker : ''}
                     </TableCell>
-                    <TableCell><span className="text-red-400 font-semibold">{Number(p.return_14d || 0).toFixed(2)}%</span></TableCell>
+                    <TableCell><span className="text-red-400 font-semibold">{Number(p.return_pct ?? 0).toFixed(2)}%</span></TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -392,9 +405,11 @@ export default function Portfolio() {
       {recentSignals && recentSignals.length > 0 && (
         <Card className="glass animate-fade-in-up">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
-            <h3 className="text-sm font-semibold">Señales Activas</h3>
+            <h3 className="text-sm font-semibold">En seguimiento</h3>
             <Badge variant="gray" className="text-[0.6rem]">{activeCount}</Badge>
-            <span className="text-xs text-muted-foreground ml-auto">últimas 20</span>
+            <span className="text-xs text-muted-foreground ml-auto">
+              señales de &lt;30 días, aún midiéndose · últimas 20
+            </span>
           </div>
           <Table>
             <TableHeader>
@@ -826,9 +841,18 @@ export default function Portfolio() {
       {/* ── Estadísticas del sistema ── */}
       {calibData && (
         <div className="mt-8 space-y-4 animate-fade-in-up">
-          <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60 pb-1 border-b border-border/30">
-            Estadísticas del sistema
-          </h2>
+          <div className="pb-1 border-b border-border/30">
+            <h2 className="text-base font-bold uppercase tracking-widest text-muted-foreground/60">
+              Estadísticas del sistema
+            </h2>
+            {/* El horizonte no es un detalle: hasta el 9-sep-2026 todo esto se
+                medía a 14 días y las conclusiones ("el score no predice")
+                describían qué rebota en dos semanas, no qué tesis acierta. */}
+            <p className="mt-1 text-xs text-muted-foreground">
+              Medido a <strong className="text-foreground">{calibHorizonte}</strong> sobre {calibData.total_completed} señales
+              — el horizonte al que se juega una tesis value, no el ruido de dos semanas.
+            </p>
+          </div>
 
           {/* Win rate por régimen */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -841,11 +865,11 @@ export default function Portfolio() {
                     <YAxis type="category" dataKey="regime" tick={{ fontSize: 10 }} width={120} />
                     <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
                     <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
-                    <Bar dataKey="win_rate_14d" radius={[0, 4, 4, 0]} fill="#06b6d4"
+                    <Bar dataKey="win_rate" radius={[0, 4, 4, 0]} fill="#06b6d4"
                       label={false}
                       isAnimationActive={false}
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate_14d ?? props.value)} />}
+                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate ?? props.value)} />}
                     />
                   </BarChart>
                 </ResponsiveContainer>
@@ -860,7 +884,7 @@ export default function Portfolio() {
                   <BarChart
                     data={[...calibData.sector_calibration]
                       .filter(s => s.count >= 10)
-                      .sort((a, b) => b.win_rate_14d - a.win_rate_14d)
+                      .sort((a, b) => b.win_rate - a.win_rate)
                       .slice(0, 8)}
                     layout="vertical"
                     margin={{ left: 8, right: 32 }}
@@ -869,10 +893,10 @@ export default function Portfolio() {
                     <YAxis type="category" dataKey="sector" tick={{ fontSize: 9 }} width={130} />
                     <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
                     <ReferenceLine x={50} stroke="rgba(255,255,255,0.2)" strokeDasharray="4 2" />
-                    <Bar dataKey="win_rate_14d" radius={[0, 4, 4, 0]} fill="#06b6d4"
+                    <Bar dataKey="win_rate" radius={[0, 4, 4, 0]} fill="#06b6d4"
                       isAnimationActive={false}
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate_14d ?? props.value)} />}
+                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate ?? props.value)} />}
                     />
                   </BarChart>
                 </ResponsiveContainer>
@@ -891,7 +915,7 @@ export default function Portfolio() {
                   <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
                   <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
                   <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" label={{ value: '50%', position: 'insideTopRight', fontSize: 10, fill: 'rgba(255,255,255,0.3)' }} />
-                  <Line type="monotone" dataKey="win_rate_14d" stroke="#06b6d4" strokeWidth={2} dot={{ fill: '#06b6d4', r: 4 }} activeDot={{ r: 6 }} />
+                  <Line type="monotone" dataKey="win_rate" stroke="#06b6d4" strokeWidth={2} dot={{ fill: '#06b6d4', r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -909,10 +933,10 @@ export default function Portfolio() {
                     <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 10 }} />
                     <Tooltip formatter={fmtPct} contentStyle={{ background: 'hsl(var(--card))', border: '1px solid hsl(var(--border) / 0.5)', fontSize: 12 }} />
                     <ReferenceLine y={50} stroke="rgba(255,255,255,0.25)" strokeDasharray="4 2" />
-                    <Bar dataKey="win_rate_14d" radius={[4, 4, 0, 0]} fill="#06b6d4"
+                    <Bar dataKey="win_rate" radius={[4, 4, 0, 0]} fill="#06b6d4"
                       isAnimationActive={false}
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate_14d ?? props.value)} />}
+                      shape={(props: any) => <rect {...props} fill={winColor(props.win_rate ?? props.value)} />}
                     />
                   </BarChart>
                 </ResponsiveContainer>

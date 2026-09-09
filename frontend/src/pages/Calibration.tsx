@@ -44,13 +44,13 @@ function ScoreBucketsTable({ buckets }: { buckets: CalibrationBucket[] }) {
               <td className="py-2.5 font-mono font-medium text-foreground">{b.range}</td>
               <td className="py-2.5 text-right text-foreground/60">{b.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
-                <WinBar value={b.win_rate_14d} />
+                <WinBar value={b.win_rate} />
               </td>
               <td className="py-2.5 text-right">
-                <ReturnBadge value={b.avg_return_14d} />
+                <ReturnBadge value={b.avg_return} />
               </td>
               <td className="py-2.5 text-right">
-                <ReturnBadge value={b.median_return_14d} />
+                <ReturnBadge value={b.median_return} />
               </td>
             </tr>
           ))}
@@ -78,10 +78,10 @@ function RegimeTable({ rows }: { rows: CalibrationRegime[] }) {
               <td className="py-2.5 font-medium text-foreground">{r.regime}</td>
               <td className="py-2.5 text-right text-foreground/60">{r.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
-                <WinBar value={r.win_rate_14d} />
+                <WinBar value={r.win_rate} />
               </td>
               <td className="py-2.5 text-right">
-                <ReturnBadge value={r.avg_return_14d} />
+                <ReturnBadge value={r.avg_return} />
               </td>
             </tr>
           ))}
@@ -109,10 +109,10 @@ function SectorTable({ rows }: { rows: CalibrationSector[] }) {
               <td className="py-2.5 text-foreground/90">{r.sector}</td>
               <td className="py-2.5 text-right text-foreground/60">{r.count}</td>
               <td className="py-2.5 pl-4 min-w-[160px]">
-                <WinBar value={r.win_rate_14d} />
+                <WinBar value={r.win_rate} />
               </td>
               <td className="py-2.5 text-right">
-                <ReturnBadge value={r.avg_return_14d} />
+                <ReturnBadge value={r.avg_return} />
               </td>
             </tr>
           ))}
@@ -124,19 +124,19 @@ function SectorTable({ rows }: { rows: CalibrationSector[] }) {
 
 function ScoreInsight({ buckets }: { buckets: CalibrationBucket[] }) {
   if (buckets.length < 2) return null
-  const sorted = [...buckets].sort((a, b) => b.win_rate_14d - a.win_rate_14d)
+  const sorted = [...buckets].sort((a, b) => b.win_rate - a.win_rate)
   const best = sorted[0]
   const worst = sorted[sorted.length - 1]
   const hasMonotone = buckets.every((b, i) =>
-    i === 0 || b.win_rate_14d >= buckets[i - 1].win_rate_14d
+    i === 0 || b.win_rate >= buckets[i - 1].win_rate
   )
   return (
     <div className="mt-4 p-3 rounded-lg text-xs text-foreground/70" style={{ background: 'rgba(255,255,255,0.04)' }}>
       {hasMonotone
         ? '✅ El score es monotónico: a mayor score, mayor win rate.'
-        : `📊 Mejor bucket: <b>${best.range}</b> (${best.win_rate_14d}% win rate) · Peor: ${worst.range} (${worst.win_rate_14d}%)`
+        : `📊 Mejor bucket: <b>${best.range}</b> (${best.win_rate}% win rate) · Peor: ${worst.range} (${worst.win_rate}%)`
       }
-      {' '}El sistema es más fiable con score {'>'}={buckets.find(b => b.win_rate_14d >= 35)?.range?.split('-')[0] || 65}pts.
+      {' '}El sistema es más fiable con score {'>'}={buckets.find(b => b.win_rate >= 35)?.range?.split('-')[0] || 65}pts.
     </div>
   )
 }
@@ -147,9 +147,9 @@ export default function Calibration() {
   if (loading) return <Loading />
   if (error || !data) return <ErrorState message="No hay datos de calibración aún. Se generan al final del pipeline diario." />
 
-  const bestScore = [...(data.score_buckets || [])].sort((a, b) => b.win_rate_14d - a.win_rate_14d)[0]
-  const bestSector = [...(data.sector_calibration || [])].sort((a, b) => b.win_rate_14d - a.win_rate_14d)[0]
-  const bestRegime = [...(data.regime_analysis || [])].sort((a, b) => b.win_rate_14d - a.win_rate_14d)[0]
+  const bestScore = [...(data.score_buckets || [])].sort((a, b) => b.win_rate - a.win_rate)[0]
+  const bestSector = [...(data.sector_calibration || [])].sort((a, b) => b.win_rate - a.win_rate)[0]
+  const bestRegime = [...(data.regime_analysis || [])].sort((a, b) => b.win_rate - a.win_rate)[0]
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
@@ -166,7 +166,7 @@ export default function Calibration() {
               <div className="text-xs text-foreground/50 mb-1">Mejor rango de score</div>
               <div className="text-lg font-semibold text-foreground">{bestScore.range} pts</div>
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
-                {bestScore.win_rate_14d}% win rate
+                {bestScore.win_rate}% win rate
               </Badge>
             </CardContent>
           </Card>
@@ -177,7 +177,7 @@ export default function Calibration() {
               <div className="text-xs text-foreground/50 mb-1">Sector más fiable</div>
               <div className="text-lg font-semibold text-foreground truncate">{bestSector.sector}</div>
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
-                {bestSector.win_rate_14d}% win rate
+                {bestSector.win_rate}% win rate
               </Badge>
             </CardContent>
           </Card>
@@ -188,7 +188,7 @@ export default function Calibration() {
               <div className="text-xs text-foreground/50 mb-1">Régimen más favorable</div>
               <div className="text-lg font-semibold text-foreground">{bestRegime.regime}</div>
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
-                {bestRegime.win_rate_14d}% win rate
+                {bestRegime.win_rate}% win rate
               </Badge>
             </CardContent>
           </Card>

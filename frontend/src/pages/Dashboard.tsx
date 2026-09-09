@@ -1396,10 +1396,10 @@ export default function Dashboard() {
             </motion.div>
             <motion.div variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } } }}>
             <StatCard
-              label="Señales Activas"
+              label="En seguimiento"
               value={signalsNum ?? '—'}
               countTo={signalsNum ?? undefined}
-              sub={totalSignals > 0 ? `${totalSignals} señales totales` : 'Sin datos de portfolio'}
+              sub={totalSignals > 0 ? `midiendo a 30d · ${totalSignals} históricas` : 'Sin datos de portfolio'}
               loading={false}
             />
             </motion.div>

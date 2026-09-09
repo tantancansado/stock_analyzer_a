@@ -289,6 +289,8 @@ export interface PortfolioSummary {
   value_strategy?: StrategyStats
   eu_value_strategy?: StrategyStats
   top_performers?: Array<Record<string, unknown>>
+  /** Horizonte al que están ordenados top/worst performers ('90d', '180d'…). */
+  performers_horizon?: string | null
   worst_performers?: Array<Record<string, unknown>>
   recent_signals?: Array<Record<string, unknown>>
   avg_max_drawdown?: number
@@ -812,33 +814,27 @@ export const fetchPortfolioTracker = () =>
 export const fetchPortfolioSignals = () =>
   apiClient.get<{ data: Record<string, unknown>[] }>('/api/portfolio-tracker/signals')
 
-export interface CalibrationBucket {
-  range: string
+/** Métricas de un bucket de calibración, al horizonte que indique
+ *  `CalibrationData.horizon`. Antes venían con el sufijo `_14d` en el nombre:
+ *  el horizonte estaba clavado en la clave, así que la pantalla lo rotulaba a
+ *  ciegas y seguía diciendo "14d" aunque el dato cambiara debajo. */
+export interface CalibrationStats {
   count: number
-  win_rate_14d: number
-  avg_return_14d: number
-  median_return_14d: number
+  win_rate: number
+  avg_return: number
+  median_return: number
 }
-export interface CalibrationRegime {
-  regime: string
-  count: number
-  win_rate_14d: number
-  avg_return_14d: number
-  median_return_14d: number
-}
-export interface CalibrationSector {
-  sector: string
-  count: number
-  win_rate_14d: number
-  avg_return_14d: number
-  median_return_14d: number
-}
+export interface CalibrationBucket extends CalibrationStats { range: string }
+export interface CalibrationRegime extends CalibrationStats { regime: string }
+export interface CalibrationSector extends CalibrationStats { sector: string }
 export interface CalibrationData {
   score_buckets: CalibrationBucket[]
   regime_analysis: CalibrationRegime[]
   sector_calibration: CalibrationSector[]
   fcf_yield_buckets: CalibrationBucket[]
   total_completed: number
+  /** '90d', '180d'… — a qué horizonte está medido todo lo anterior. */
+  horizon?: string
   generated_at: string
 }
 export const fetchCalibration = () =>
