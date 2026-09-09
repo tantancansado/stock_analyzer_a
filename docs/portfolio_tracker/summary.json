@@ -8,6 +8,8 @@
     "7d": {
       "count": 85,
       "win_rate": 48.2,
+      "ci_low": 37.9,
+      "ci_high": 58.7,
       "avg_return": 0.39,
       "median_return": -0.34,
       "best": 14.77,
@@ -16,6 +18,8 @@
     "14d": {
       "count": 79,
       "win_rate": 51.9,
+      "ci_low": 41.1,
+      "ci_high": 62.6,
       "avg_return": 1.13,
       "median_return": 0.34,
       "best": 17.97,
@@ -24,6 +28,8 @@
     "30d": {
       "count": 65,
       "win_rate": 55.4,
+      "ci_low": 43.3,
+      "ci_high": 66.8,
       "avg_return": 0.83,
       "median_return": 0.94,
       "best": 22.71,
@@ -32,6 +38,8 @@
     "90d": {
       "count": 39,
       "win_rate": 61.5,
+      "ci_low": 45.9,
+      "ci_high": 75.1,
       "avg_return": 3.15,
       "median_return": 2.93,
       "best": 22.96,
@@ -43,7 +51,9 @@
       "avg_return": null,
       "median_return": null,
       "best": null,
-      "worst": null
+      "worst": null,
+      "ci_low": null,
+      "ci_high": null
     },
     "365d": {
       "count": 0,
@@ -51,13 +61,17 @@
       "avg_return": null,
       "median_return": null,
       "best": null,
-      "worst": null
+      "worst": null,
+      "ci_low": null,
+      "ci_high": null
     }
   },
   "long_hist_reference": {
     "90d": {
       "count": 830,
       "win_rate": 49.0,
+      "ci_low": 45.6,
+      "ci_high": 52.4,
       "avg_return": 1.38,
       "median_return": -0.33,
       "best": 57.29,
@@ -66,6 +80,8 @@
     "180d": {
       "count": 415,
       "win_rate": 66.0,
+      "ci_low": 61.3,
+      "ci_high": 70.4,
       "avg_return": 7.21,
       "median_return": 9.85,
       "best": 43.45,
@@ -77,7 +93,9 @@
       "avg_return": null,
       "median_return": null,
       "best": null,
-      "worst": null
+      "worst": null,
+      "ci_low": null,
+      "ci_high": null
     }
   },
   "stats_basis": {
@@ -108,6 +126,8 @@
     "7d": {
       "count": 73,
       "win_rate": 45.2,
+      "ci_low": 34.3,
+      "ci_high": 56.6,
       "avg_return": 0.23,
       "median_return": -0.45,
       "best": 14.77,
@@ -117,6 +137,8 @@
     "14d": {
       "count": 67,
       "win_rate": 58.2,
+      "ci_low": 46.3,
+      "ci_high": 69.3,
       "avg_return": 1.57,
       "median_return": 1.36,
       "best": 17.97,
@@ -126,6 +148,8 @@
     "30d": {
       "count": 53,
       "win_rate": 56.6,
+      "ci_low": 43.3,
+      "ci_high": 69.0,
       "avg_return": 1.21,
       "median_return": 2.45,
       "best": 22.71,
@@ -135,6 +159,8 @@
     "90d": {
       "count": 27,
       "win_rate": 66.7,
+      "ci_low": 47.8,
+      "ci_high": 81.4,
       "avg_return": 3.46,
       "median_return": 3.98,
       "best": 22.96,
@@ -160,6 +186,8 @@
     "7d": {
       "count": 12,
       "win_rate": 66.7,
+      "ci_low": 39.1,
+      "ci_high": 86.2,
       "avg_return": 1.38,
       "median_return": 1.6,
       "best": 6.1,
@@ -169,6 +197,8 @@
     "14d": {
       "count": 12,
       "win_rate": 16.7,
+      "ci_low": 4.7,
+      "ci_high": 44.8,
       "avg_return": -1.31,
       "median_return": -1.87,
       "best": 9.23,
@@ -178,6 +208,8 @@
     "30d": {
       "count": 738,
       "win_rate": 28.5,
+      "ci_low": 25.3,
+      "ci_high": 31.8,
       "avg_return": -4.72,
       "median_return": -4.48,
       "best": 31.67,
@@ -187,6 +219,8 @@
     "90d": {
       "count": 727,
       "win_rate": 43.6,
+      "ci_low": 40.0,
+      "ci_high": 47.2,
       "avg_return": -0.69,
       "median_return": -2.14,
       "best": 47.71,
@@ -196,6 +230,8 @@
     "180d": {
       "count": 384,
       "win_rate": 64.3,
+      "ci_low": 59.4,
+      "ci_high": 69.0,
       "avg_return": 6.4,
       "median_return": 7.82,
       "best": 37.06,
@@ -209,6 +245,8 @@
       "median_return": null,
       "best": null,
       "worst": null,
+      "ci_low": null,
+      "ci_high": null,
       "basis": "eu_full_hist"
     }
   },
@@ -221,6 +259,8 @@
       "7d": {
         "count": 5,
         "win_rate": 40.0,
+        "ci_low": 11.8,
+        "ci_high": 76.9,
         "avg_return": 0.63,
         "median_return": -0.76,
         "best": 4.07,
@@ -233,6 +273,8 @@
       "7d": {
         "count": 12,
         "win_rate": 41.7,
+        "ci_low": 19.3,
+        "ci_high": 68.0,
         "avg_return": -2.95,
         "median_return": -1.27,
         "best": 4.54,
@@ -249,7 +291,9 @@
       "avg_return": null,
       "median_return": null,
       "best": null,
-      "worst": null
+      "worst": null,
+      "ci_low": null,
+      "ci_high": null
     },
     "90d": {
       "count": 0,
@@ -257,7 +301,9 @@
       "avg_return": null,
       "median_return": null,
       "best": null,
-      "worst": null
+      "worst": null,
+      "ci_low": null,
+      "ci_high": null
     },
     "nota": "mide el SUBYACENTE, no el contrato: el precio de la opci\u00f3n depende del strike y no se puede seguir con yfinance"
   },
@@ -759,5 +805,5 @@
       "worst_alpha": -4.98
     }
   },
-  "generated_at": "2026-09-09T12:04:06.653961"
+  "generated_at": "2026-09-09T21:21:37.253035"
 }

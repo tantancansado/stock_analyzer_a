@@ -303,6 +303,10 @@ export interface PortfolioSummary {
 export interface StrategyPeriodStats {
   count?: number
   win_rate?: number | null
+  /** Intervalo de Wilson al 95% sobre el win rate, en %. Un 100% con n=8
+   *  abarca [67,6 · 100]: sin esto se lee igual que un 66,7% con n=27. */
+  ci_low?: number | null
+  ci_high?: number | null
   avg_return?: number | null
   median_return?: number | null
   best?: number | null
@@ -821,6 +825,8 @@ export const fetchPortfolioSignals = () =>
 export interface CalibrationStats {
   count: number
   win_rate: number
+  ci_low?: number | null
+  ci_high?: number | null
   avg_return: number
   median_return: number
 }

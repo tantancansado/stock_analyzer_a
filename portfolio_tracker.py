@@ -27,6 +27,26 @@ MIN_MUESTRA_LIMPIA = 15
 MUESTRA_COMODA = 30
 
 
+def _wilson(exitos: int, total: int, z: float = 1.96) -> tuple[float | None, float | None]:
+    """Intervalo de Wilson al 95% para una proporción, en porcentaje.
+
+    Por qué Wilson y no el normal de toda la vida: con n pequeña o tasas
+    pegadas a 0/100 —que es exactamente el caso aquí— el intervalo normal se
+    sale del rango [0,100] y da cosas como "win rate 100% ± 20%". Wilson se
+    queda dentro y no necesita corrección.
+
+    Para qué sirve en esta app: un 100% con n=8 y un 66,7% con n=27 se ven
+    idénticos en pantalla, y no lo son — el primero abarca del 67% al 100%.
+    """
+    if total <= 0:
+        return None, None
+    p = exitos / total
+    d = 1 + z * z / total
+    centro = (p + z * z / (2 * total)) / d
+    margen = z * ((p * (1 - p) / total + z * z / (4 * total * total)) ** 0.5) / d
+    return round(max(0.0, centro - margen) * 100, 1), round(min(1.0, centro + margen) * 100, 1)
+
+
 def _mejor_base(horizonte: str, limpio: pd.DataFrame, historico: pd.DataFrame,
                 win_stats) -> dict:
     """Estadísticas de un horizonte, prefiriendo SIEMPRE el periodo limpio.
@@ -683,17 +703,26 @@ class PortfolioTracker:
         # Win rates by period
         def win_stats(col_return, col_win, subset=None):
             d = subset if subset is not None else value_core
+            vacio = {'count': 0, 'win_rate': None, 'avg_return': None,
+                     'median_return': None, 'best': None, 'worst': None,
+                     'ci_low': None, 'ci_high': None}
             if col_return not in d.columns:   # 90/180d aún sin backfillear
-                return {'count': 0, 'win_rate': None, 'avg_return': None,
-                        'median_return': None, 'best': None, 'worst': None}
+                return dict(vacio)
             valid = d[d[col_return].notna()]
             if valid.empty:
-                return {'count': 0, 'win_rate': None, 'avg_return': None,
-                        'median_return': None, 'best': None, 'worst': None}
+                return dict(vacio)
             wins = valid[valid[col_win] == True]
+            lo, hi = _wilson(len(wins), len(valid))
             return {
                 'count': len(valid),
                 'win_rate': round(len(wins) / len(valid) * 100, 1),
+                # Intervalo de Wilson al 95%. Sin él, un 100% con n=8 y un
+                # 66,7% con n=27 se ven igual en pantalla, y el primero es
+                # ruido: su intervalo real va del 67% al 100%. El 9-sep-2026
+                # se estuvo a punto de proponer un filtro nuevo basándose en
+                # un tramo de n=8 que parecía perfecto.
+                'ci_low': lo,
+                'ci_high': hi,
                 'avg_return': round(valid[col_return].mean(), 2),
                 'median_return': round(valid[col_return].median(), 2),
                 'best': round(valid[col_return].max(), 2),
@@ -1073,9 +1102,15 @@ class PortfolioTracker:
                 wins = (subset[col_win] == True).sum()
             else:
                 wins = (subset[col_ret] > 0).sum()
+            lo, hi = _wilson(int(wins), len(subset))
             return {
                 'count': int(len(subset)),
                 'win_rate': round(wins / len(subset) * 100, 1),
+                # Sin el intervalo, el tramo 65-70 de EU salía "100%" con n=8
+                # y el 70+ "0%" con n=8, y los dos parecían conclusiones. Son
+                # [67,6-100] y [0-32,4]: la misma muestra no dice nada.
+                'ci_low': lo,
+                'ci_high': hi,
                 'avg_return': round(subset[col_ret].mean(), 2),
                 'median_return': round(subset[col_ret].median(), 2),
             }

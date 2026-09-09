@@ -137,7 +137,12 @@ export default function Portfolio() {
   // ruido. 90d queda como referencia provisional hasta que la muestra de 180d
   // tenga tamaño (la señal más antigua es de feb-2026).
   const periods = ['180d', '90d', '365d', '30d'] as const
-  const overall = pf.overall || {} as Record<string, { count: number; win_rate: number; avg_return: number }>
+  // TITULAR = US, no la mezcla. `overall` promedia VALUE US con EU_VALUE, y
+  // el usuario compra casi solo acciones americanas: a 90d eso convierte un
+  // alpha de +4,54% (US, n=103) en -2,12% arrastrado por 727 señales
+  // europeas que nunca va a operar. Europa sigue publicada, en su propia
+  // columna del panel US vs EU y con su etiqueta de población.
+  const overall = (pf.value_strategy ?? pf.overall ?? {}) as Record<string, { count: number; win_rate: number; avg_return: number; ci_low?: number; ci_high?: number }>
 
   // El tracker dice a qué horizonte ordenó los rankings. Si no lo dice (JSON
   // viejo, antes del cambio del 9-sep-2026), se etiqueta como 14d, que es lo
@@ -175,8 +180,11 @@ export default function Portfolio() {
       <div className="mb-7 animate-fade-in-up">
         <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Portfolio Tracker</h2>
         <p className="text-sm text-muted-foreground">
-          Rendimiento de las recomendaciones VALUE y Momentum — {pf.total_signals} señales, {pf.unique_tickers} tickers
+          Rendimiento de <strong className="text-foreground">VALUE US</strong> — {pf.value_strategy?.count ?? pf.total_signals} señales
           {pf.date_range && <span className="ml-1 opacity-60">({pf.date_range})</span>}
+          <span className="mt-1 block text-xs text-muted-foreground/70">
+            Europa va aparte, más abajo: mezclarla en el titular hundía el número con señales que no operas.
+          </span>
         </p>
       </div>
 
@@ -809,6 +817,14 @@ export default function Portfolio() {
                         <div className={`text-3xl font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                           {wr.toFixed(1)}%
                         </div>
+                        {/* El intervalo al lado del dato, no escondido: un
+                            100% con n=8 abarca del 67% al 100% y sin esto se
+                            lee igual que un 66,7% con n=27. */}
+                        {s90.ci_low != null && s90.ci_high != null && (
+                          <div className="mt-1 text-[0.7rem] tabular-nums text-muted-foreground/70">
+                            IC 95%: {s90.ci_low.toFixed(0)}–{s90.ci_high.toFixed(0)}%
+                          </div>
+                        )}
                         <div className="text-xs text-muted-foreground mt-1.5">
                           retorno medio {s90.avg_return != null ? `${s90.avg_return > 0 ? '+' : ''}${s90.avg_return.toFixed(2)}%` : '—'}
                           <span className="text-muted-foreground/50"> · {s90.count} señales</span>
