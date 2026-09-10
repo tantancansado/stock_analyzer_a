@@ -136,11 +136,36 @@ def gather_facts() -> dict:
     vigilar.sort(key=lambda x: x['rs_6m'] or 0)
 
     drift = _json(TRACKER / 'thesis_drift_alerts.json', {})
-    tesis_rotas = [
+    _todas = [
         {'ticker': a.get('ticker'), 'motivo': (a.get('reason') or a.get('motivo') or '')[:160],
          'severidad': a.get('severity') or a.get('severidad') or ''}
         for a in (drift.get('alerts') or drift.get('alertas') or [])
-    ][:5]
+    ]
+
+    # El JSON lleva TODAS las alertas a propósito, porque la página Thesis
+    # Drift las muestra. Pero son señales del tracker con status ACTIVE (o
+    # sea, de menos de 30 días), NO la cartera del usuario. Sin este filtro el
+    # briefing decía "toca cerrar posiciones... TU precio de salida... sal, no
+    # esperes" sobre tickers que a lo mejor no tiene — justo el ruido que ya
+    # se corrigió en thesis_drift_monitor con el feedback "me llega todos los
+    # días y ni la tengo, sobra", pero que aquí seguía colándose.
+    en_cartera = None
+    try:
+        from supabase_positions import fetch_position_rows
+        _filas = fetch_position_rows('ticker')
+        if _filas is not None:
+            en_cartera = {str(f.get('ticker', '')).upper() for f in _filas if f.get('ticker')}
+    except Exception as e:
+        print(f'  cartera real no disponible ({e}) — las tesis rotas irán sin confirmar')
+
+    if en_cartera is None:
+        # No se ha podido comprobar qué tiene: se informa igual, pero el
+        # prompt las llamará "señales", no "tus posiciones".
+        tesis_rotas, rotas_son_tuyas = _todas[:5], False
+    else:
+        tesis_rotas = [t for t in _todas if str(t['ticker']).upper() in en_cartera][:5]
+        rotas_son_tuyas = True
+        print(f'  Tesis rotas: {len(tesis_rotas)}/{len(_todas)} son de posiciones que tienes')
 
     # El horizonte de juicio para VALUE es 180d — a 90 días una tesis todavía es
     # ruido. Pero la muestra de 180d no existe hasta finales de agosto (la señal
@@ -159,6 +184,7 @@ def gather_facts() -> dict:
         'comprables': comprables[:MAX_CANDIDATOS],
         'vigilar': vigilar[:MAX_VIGILAR],
         'tesis_rotas': tesis_rotas,
+        'rotas_son_tuyas': rotas_son_tuyas,
         'regimen_cambio': _regime_cambio(),
         'rendimiento_sistema': {
             'horizonte': '180d' if definitivo else '90d',
@@ -188,7 +214,10 @@ Estructura, en este orden y omitiendo lo que esté vacío:
    falta. Aun así, informa de las tesis rotas si las hay: esas sí son fiables.
 1. Qué comprar hoy. Si la lista de comprables viene vacía Y los datos están
    completos, la PRIMERA línea es que hoy no hay nada, sin rodeos ni consuelo.
-2. Si hay tesis rotas en posiciones abiertas, van justo después: es lo que más urge.
+2. Si hay tesis rotas, van justo después: es lo que más urge. OJO con cómo las
+   llamas: si `rotas_son_tuyas` es true son posiciones que el usuario TIENE y
+   puedes decir "sal" o "cierra"; si es false NO se ha podido confirmar que las
+   tenga, así que di "la señal de X se ha roto" y nunca "tu posición" ni "sal".
 3. Qué vigilar: baratas que aún caen. Una línea cada una, con el porqué de su caída
    si lo tienes.
 4. El régimen de mercado SOLO si te lo paso (significa que cambió hoy).

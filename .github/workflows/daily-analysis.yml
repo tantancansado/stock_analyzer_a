@@ -285,8 +285,13 @@ jobs:
       - name: Thesis Drift Monitor (alerta tesis rotas en posiciones abiertas)
         continue-on-error: true
         env:
-          # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
-          # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
+          # Reactivado el 10-sep-2026: una tesis rota con el stop perforado
+          # ("AON a 315,79 por debajo de 326,70") es lo mas urgente que produce
+          # el sistema y no debe competir por atencion dentro del briefing.
+          # Este monitor SI filtra por la cartera real (ver _held_tickers), asi
+          # que solo avisa de lo que el usuario tiene de verdad.
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           # Supabase → filtra el Telegram a la cartera REAL del usuario
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
