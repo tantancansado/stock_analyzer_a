@@ -1405,3 +1405,45 @@ class TestDesfaseNoEsIncoherencia:
             {'generated_at': '2026-08-12T07:00:00',
              'overall': {'90d': {'win_rate': 61.5}}})
         assert len(r) == 1 and not r[0].startswith('⏳')
+
+
+class TestPrintReportNoTumbaElPipeline:
+    """El 10-sep-2026 el pipeline entero murió con KeyError: 'return_14d' en
+    print_report. El día anterior se renombró ese campo a `return_pct` (el
+    ranking pasó de 14 días fijos al horizonte de tesis) y se actualizaron el
+    JSON y el frontend, pero el print del informe por consola se quedó atrás.
+
+    El paso es [CRITICAL] y no lleva `|| echo`, así que un print de adorno
+    tumbó el job. Es el mismo patrón que ya cazó
+    TestFilterOpportunitiesEndToEnd en ai_quality_filter: los tests unitarios
+    validaban el summary, pero nadie EJECUTABA el informe.
+
+    Por eso este test llama a print_report de verdad contra el summary que
+    genera el propio tracker, en vez de mockearlo.
+    """
+
+    def test_informe_completo_sobre_summary_real(self, capsys):
+        recs = [
+            _make_rec(ticker='AAA', strategy='VALUE', return_14d=5.0, win_14d=True,
+                      signal_date=pd.Timestamp('2026-04-15')),
+            _make_rec(ticker='BBB', strategy='VALUE', return_14d=-3.0, win_14d=False,
+                      signal_date=pd.Timestamp('2026-05-01')),
+            _make_rec(ticker='CCC', strategy='EU_VALUE', return_14d=2.0, win_14d=True,
+                      signal_date=pd.Timestamp('2026-05-02')),
+        ]
+        tracker = _make_tracker(_make_df(*recs))
+        summary = tracker.generate_summary()
+        tracker.print_report(summary)          # no debe lanzar
+        salida = capsys.readouterr().out
+        assert 'TOP 5 PERFORMERS' in salida
+        assert 'AAA' in salida
+
+    def test_no_revienta_con_un_summary_al_que_le_faltan_campos(self):
+        """Un summary de una versión anterior, o recortado, no puede tumbar el
+        paso: el informe es texto para el log, no una salida del pipeline."""
+        tracker = _make_tracker(_make_df(_make_rec(ticker='AAA', strategy='VALUE')))
+        tracker.print_report({
+            'total_signals': 1,
+            'top_performers': [{'ticker': 'AAA'}],        # sin return ni strategy
+            'worst_performers': [{}],                     # vacío del todo
+        })

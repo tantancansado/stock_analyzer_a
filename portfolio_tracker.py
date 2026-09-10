@@ -1243,20 +1243,31 @@ class PortfolioTracker:
             elif corr < -0.1:
                 print("    WARNING: Higher scores predict WORSE returns!")
 
-        # Top/Bottom
+        # Top/Bottom. `return_pct` desde el 9-sep-2026: el ranking ya no es a
+        # 14 dias fijos sino al horizonte que diga `performers_horizon`. Este
+        # print se quedo leyendo `return_14d` y reventaba el paso entero con
+        # un KeyError -- que ademas es [CRITICAL] y no lleva `|| echo`, asi
+        # que tumbo el pipeline del 10-sep. Se usa .get() en TODOS los campos:
+        # un informe por consola no puede tirar el job que lo genera.
+        horizonte = summary.get('performers_horizon') or ''
+        def _linea(t):
+            sig_date = str(t.get('signal_date', ''))[:10]
+            ret = t.get('return_pct')
+            ret_str = f"{ret:+.1f}%" if isinstance(ret, (int, float)) else "n/d"
+            return (f"    {str(t.get('ticker', '?')):6} {str(t.get('strategy', '')):8} "
+                    f"{sig_date} ${t.get('signal_price', 0) or 0:>8.2f} -> {ret_str}")
+
         top = summary.get('top_performers', [])
         if top:
-            print(f"\n  TOP 5 PERFORMERS:")
+            print(f"\n  TOP 5 PERFORMERS ({horizonte or 'horizonte n/d'}):")
             for t in top:
-                sig_date = str(t.get('signal_date', ''))[:10]
-                print(f"    {t['ticker']:6} {t['strategy']:8} {sig_date} ${t.get('signal_price', 0):>8.2f} → {t['return_14d']:+.1f}%")
+                print(_linea(t))
 
         bottom = summary.get('worst_performers', [])
         if bottom:
-            print(f"\n  WORST 5 PERFORMERS:")
+            print(f"\n  WORST 5 PERFORMERS ({horizonte or 'horizonte n/d'}):")
             for t in bottom:
-                sig_date = str(t.get('signal_date', ''))[:10]
-                print(f"    {t['ticker']:6} {t['strategy']:8} {sig_date} ${t.get('signal_price', 0):>8.2f} → {t['return_14d']:+.1f}%")
+                print(_linea(t))
 
         dd = summary.get('avg_max_drawdown')
         if dd is not None:
