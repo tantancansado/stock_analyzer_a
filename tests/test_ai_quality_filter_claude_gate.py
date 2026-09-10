@@ -292,3 +292,74 @@ class TestVeredictoBooleanoNoTextoLibre:
         assert '"plausible": true|false' in prompt
         assert 'IMPOSIBLE' in prompt
         assert 'pocos puntos porcentuales' in prompt
+
+
+class TestGateVerificaSusDudas:
+    """10-sep-2026: de los 15 rechazos del gate ese día, 14 nombraban un campo
+    concreto y comprobable — y ninguno se comprobaba. El gate opinaba desde su
+    memoria y ahí acababa, lo que costaba caro en las dos direcciones:
+
+      · Acertando: el "39,7% de crecimiento implausible para Broadridge" ERA
+        un bug (off-by-one en el interanual). Se perdía el pick igual y nadie
+        se enteraba de que el cálculo llevaba meses roto.
+      · Fallando: BR se cayó por un 2,3% de desvío en el máximo de 52 semanas,
+        un dato sustancialmente correcto. Score 86,35 a la basura.
+
+    Ahora una duda sobre un campo concreto dispara una comprobación contra la
+    fuente. Sin LLM extra: el veredicto ya está pagado, esto es aritmética.
+    """
+
+    def _con_verificador(self, respuesta_gate, estado, detalle='x'):
+        from unittest.mock import patch as _p
+        fake = lambda ticker, campo, valor: {
+            'estado': estado, 'valor_fuente': 1.0, 'detalle': detalle}
+        with _p('groq_utils.claude_chat', lambda **kw: respuesta_gate), \
+             _p('source_verifier.verificar_campo', fake):
+            return aqf.claude_data_check(TICKER_DATA)
+
+    RECHAZO = ('{"plausible": false, "campo": "rev_growth_yoy", '
+               '"motivo": "crecimiento del 39.7% implausible"}')
+
+    def test_si_la_fuente_confirma_el_pick_pasa(self):
+        # El caso BR: la duda era infundada, el dato se sostiene.
+        ok, aviso = self._con_verificador(self.RECHAZO, 'confirma',
+                                          '7.5 publicado vs 7.5 real')
+        assert ok is True, "si la fuente confirma el dato, el pick no debe caerse"
+        assert 'confirma' in aviso
+
+    def test_si_la_fuente_contradice_se_excluye_y_se_nombra_el_bug(self):
+        ok, aviso = self._con_verificador(self.RECHAZO, 'contradice',
+                                          '39.7 publicado vs 7.5 real (32.2pp)')
+        assert ok is False
+        assert 'BUG DE DATOS' in aviso, "el aviso debe nombrar el bug, no decir 'dato dudoso'"
+        assert 'rev_growth_yoy' in aviso
+
+    def test_sin_fuente_sigue_siendo_fail_closed(self):
+        ok, _ = self._con_verificador(self.RECHAZO, 'sin_fuente')
+        assert ok is False, "no poder comprobar no puede volver el gate fail-open"
+
+    def test_una_duda_sin_campo_concreto_no_intenta_verificar(self):
+        from unittest.mock import patch as _p
+        llamado = []
+        with _p('groq_utils.claude_chat',
+                lambda **kw: '{"plausible": false, "campo": "", "motivo": "no me cuadra"}'), \
+             _p('source_verifier.verificar_campo',
+                lambda *a, **k: llamado.append(1) or {'estado': 'confirma'}):
+            ok, aviso = aqf.claude_data_check(TICKER_DATA)
+        assert ok is False
+        assert not llamado, "sin campo señalado no hay nada que comprobar"
+
+    def test_una_aprobacion_no_dispara_verificacion(self):
+        from unittest.mock import patch as _p
+        llamado = []
+        with _p('groq_utils.claude_chat', lambda **kw: '{"plausible": true, "motivo": "ok"}'), \
+             _p('source_verifier.verificar_campo',
+                lambda *a, **k: llamado.append(1) or {'estado': 'confirma'}):
+            ok, _ = aqf.claude_data_check(TICKER_DATA)
+        assert ok is True
+        assert not llamado, "verificar un pick ya aprobado es gastar llamadas a la fuente para nada"
+
+    def test_el_prompt_pide_el_campo_de_una_lista_cerrada(self):
+        prompt = aqf._prompt_data_check({'ticker': 'X', 'company_name': 'X Corp'})
+        assert '"campo"' in prompt
+        assert 'rev_growth_yoy' in prompt and 'pct_from_52w_high' in prompt

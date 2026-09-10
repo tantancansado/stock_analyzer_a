@@ -237,8 +237,51 @@ Ejemplos de lo que buscas: un ROE o margen absurdo para el sector, un upside/tar
 
 Marca `plausible: false` SOLO si una cifra es IMPOSIBLE o está claramente rota (un precio que no corresponde a la empresa, un margen que no puede darse en ese sector, un crecimiento que la empresa nunca ha tenido). Una diferencia de unos pocos puntos porcentuales respecto a lo que recuerdas NO es motivo: los datos vienen de una fuente real y tu memoria puede estar desactualizada o referirse a otro periodo. Ante la duda entre "está roto" y "no me cuadra del todo", es `true` con el matiz en `motivo`.
 
+Si marcas `plausible: false`, indica en `campo` CUÁL es el dato que no cuadra,
+usando exactamente uno de estos nombres: rev_growth_yoy, roe, profit_margin,
+fcf_yield_pct, pct_from_52w_high, current_price, debt_to_equity, analyst_count.
+Si la duda no es de un campo concreto, deja `campo` vacío.
+
 Responde SOLO con JSON (sin markdown):
-{{"plausible": true|false, "motivo": "<una frase en español; si es false, QUÉ dato está roto y por qué>"}}"""
+{{"plausible": true|false, "campo": "<nombre exacto o vacío>", "motivo": "<una frase en español; si es false, QUÉ dato está roto y por qué>"}}"""
+
+
+# El campo señalado en el último veredicto parseado. Va por aquí y no en el
+# valor de retorno para no cambiar la firma (bool, aviso) que usan el bucle de
+# main() y los tests; solo lo lee _verificar_duda, justo después de parsear.
+_ULTIMO_CAMPO: dict[str, str] = {'campo': ''}
+
+
+def _verificar_duda(ticker_data: dict, motivo: str | None, quien: str) -> tuple[bool, str | None]:
+    """El gate ha dicho que un dato no le cuadra. En vez de creerle a ciegas,
+    se vuelve a la fuente y se comprueba ese campo concreto.
+
+    Tres desenlaces, y los tres importan:
+      · la fuente CONFIRMA  -> la duda era infundada, el pick pasa (con nota).
+        Es el caso de BR el 10-sep: el gate lo tumbó por un 2,3% de desvío en
+        el máximo de 52 semanas, un dato sustancialmente correcto.
+      · la fuente CONTRADICE -> hay un BUG en el pipeline. Se excluye igual,
+        pero el aviso nombra el campo roto en vez de decir "dato dudoso". Es
+        el caso del 39,7% de crecimiento de BR, que era un off-by-one que
+        llevaba meses corrompiendo el universo entero.
+      · no hay fuente -> se mantiene el rechazo. Fail-closed, como siempre.
+    """
+    campo = _ULTIMO_CAMPO.get('campo') or ''
+    ticker = str(ticker_data.get('ticker', ''))
+    if not campo or not ticker:
+        return False, motivo
+
+    try:
+        from source_verifier import verificar_campo
+        r = verificar_campo(ticker, campo, ticker_data.get(campo))
+    except Exception as exc:
+        return False, f'{motivo} (no se pudo verificar: {str(exc)[:50]})'
+
+    if r['estado'] == 'confirma':
+        return True, f'{quien} dudaba de {campo}, pero la fuente lo confirma ({r["detalle"]})'
+    if r['estado'] == 'contradice':
+        return False, f'BUG DE DATOS en {campo}: {r["detalle"]}'
+    return False, motivo
 
 
 def _parse_data_check(txt: str | None, quien: str) -> tuple[bool, str | None]:
@@ -258,6 +301,7 @@ def _parse_data_check(txt: str | None, quien: str) -> tuple[bool, str | None]:
         data = json.loads(m.group(0)) if m else {}
         dc = str(data.get('data_check', '')).strip()
         motivo = str(data.get('motivo', '')).strip()
+        _ULTIMO_CAMPO['campo'] = str(data.get('campo', '')).strip()
     except Exception:
         return False, f'{quien} respondió pero el JSON no se pudo interpretar'
     # Booleano explícito, no un texto libre donde una palabra mágica
@@ -317,7 +361,9 @@ def claude_data_check(ticker_data: dict) -> tuple[bool, str | None]:
     # aquí solo para no romper la firma de otros modelos que sí la aceptan.
     txt = claude_chat(messages=[{'role': 'user', 'content': prompt}],
                       model=CLAUDE_SONNET, max_tokens=1200, temperature=0.2)
-    return _parse_data_check(txt, 'Claude')
+    ok, aviso = _parse_data_check(txt, 'Claude')
+    # Una duda sobre un campo concreto no se acepta a ciegas: se comprueba.
+    return (ok, aviso) if ok else _verificar_duda(ticker_data, aviso, 'Claude')
 
 
 def groq_data_check(ticker_data: dict) -> tuple[bool, str | None]:
@@ -346,7 +392,8 @@ def groq_data_check(ticker_data: dict) -> tuple[bool, str | None]:
         txt = response.choices[0].message.content
     except Exception:
         return False, None
-    return _parse_data_check(txt, 'Groq')
+    ok, aviso = _parse_data_check(txt, 'Groq')
+    return (ok, aviso) if ok else _verificar_duda(ticker_data, aviso, 'Groq')
 
 
 def fallback_analysis(ticker_data: dict, strategy: str = "VALUE") -> dict:
