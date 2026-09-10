@@ -841,6 +841,13 @@ export interface CalibrationData {
   total_completed: number
   /** '90d', '180d'… — a qué horizonte está medido todo lo anterior. */
   horizon?: string
+  /** Qué población es (solo US, si incluye el periodo contaminado…). */
+  poblacion?: string
+  /** Fechas de emisión de las señales de la muestra. A 180d solo tienen dato
+   *  las más viejas, así que este rango puede ser una ventana de pocos días
+   *  aunque n sea grande — y eso invalida leer la curva como una tendencia. */
+  muestra_desde?: string | null
+  muestra_hasta?: string | null
   generated_at: string
 }
 export const fetchCalibration = () =>

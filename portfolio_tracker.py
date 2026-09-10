@@ -1067,8 +1067,15 @@ class PortfolioTracker:
 
     def generate_calibration(self):
         """Compute score/regime/sector calibration — does a higher score actually predict better returns?"""
-        VALUE_STRATEGIES = {'VALUE', 'EU_VALUE'}
-        df = self.recommendations[self.recommendations['strategy'].isin(VALUE_STRATEGIES)]
+        # SOLO US. Mezclar VALUE con EU_VALUE aqui es lo que hacia que estos
+        # graficos mintieran: el 9-sep-2026 la curva de FCF yield salia
+        # "31% -> 100%, monotona" y la de score "74% -> 92,7%", y las dos eran
+        # un artefacto de promediar dos poblaciones a un horizonte donde EU
+        # domina la muestra. Separando US, la de FCF es plana en torno al 50%
+        # y la de score no es monotona. Y no se pierde potencia: US tiene MAS
+        # muestra que EU a 90d (767 vs 727). El usuario ademas opera casi solo
+        # US -- ver la nota de por que el gate EU paso a Groq.
+        df = self.recommendations[self.recommendations['strategy'] == 'VALUE']
 
         # 9-sep-2026: TODA esta calibración se calculaba a 14 DÍAS —
         # "¿el score predice?", "el factor más predictivo", win rate por
@@ -1165,6 +1172,18 @@ class PortfolioTracker:
             'sector_calibration': sector_rows,
             'fcf_yield_buckets': fcf_buckets,
             'total_completed': int(len(completed)),
+            # Que poblacion es. Sin esto, la pantalla no puede avisar de que
+            # estos numeros describen SOLO US ni de que incluyen el periodo
+            # anterior al filtrado correcto.
+            'poblacion': 'VALUE US, todo el historico (incluye el periodo anterior al filtrado correcto)',
+            # DE CUANDO son las senales de esta muestra. No es un adorno: a
+            # 180d solo pueden tener dato las senales mas VIEJAS, que aqui son
+            # justo las del periodo contaminado. Sin este rango, el tramo
+            # "FCF>=6% -> 100% de acierto" parece que la tesis madura, cuando
+            # lo que pasa es que la muestra cambia debajo -- a 90d ese mismo
+            # corte da 62,6% y con la politica de hoy se invierte.
+            'muestra_desde': str(completed['signal_date'].min().date()) if not completed.empty else None,
+            'muestra_hasta': str(completed['signal_date'].max().date()) if not completed.empty else None,
             # El horizonte al que está medido TODO lo de arriba. Sin esto la
             # pantalla rotulaba "14d" a ciegas y seguía rotulándolo aunque el
             # dato cambiara debajo.

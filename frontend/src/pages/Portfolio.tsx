@@ -899,8 +899,19 @@ export default function Portfolio() {
                 describían qué rebota en dos semanas, no qué tesis acierta. */}
             <p className="mt-1 text-xs text-muted-foreground">
               Medido a <strong className="text-foreground">{calibHorizonte}</strong> sobre {calibData.total_completed} señales
-              — el horizonte al que se juega una tesis value, no el ruido de dos semanas.
+              {calibData.poblacion && <> · {calibData.poblacion}</>}
             </p>
+            {/* El rango de emisión es la advertencia que faltaba: a 180d solo
+                tienen dato las señales más viejas, así que 293 señales pueden
+                venir de una ventana de 10 días. Con eso a la vista, "el score
+                predice" se lee como lo que es. */}
+            {calibData.muestra_desde && calibData.muestra_hasta && (
+              <p className="mt-1 text-xs text-amber-300/80">
+                Ojo: todas emitidas entre {calibData.muestra_desde} y {calibData.muestra_hasta}.
+                A este horizonte solo tienen dato las señales más antiguas, así que esto
+                describe ese periodo concreto — no la estrategia en general.
+              </p>
+            )}
           </div>
 
           {/* Win rate por régimen */}

@@ -1,69 +1,60 @@
 {
   "score_buckets": [
     {
-      "count": 104,
-      "win_rate": 74.0,
-      "ci_low": 64.9,
-      "ci_high": 81.5,
-      "avg_return": 8.62,
-      "median_return": 10.34,
+      "count": 69,
+      "win_rate": 81.2,
+      "ci_low": 70.4,
+      "ci_high": 88.6,
+      "avg_return": 12.02,
+      "median_return": 18.01,
       "range": "50-55"
     },
     {
-      "count": 104,
-      "win_rate": 79.8,
-      "ci_low": 71.1,
-      "ci_high": 86.4,
-      "avg_return": 12.1,
-      "median_return": 12.18,
+      "count": 80,
+      "win_rate": 83.8,
+      "ci_low": 74.2,
+      "ci_high": 90.3,
+      "avg_return": 14.85,
+      "median_return": 15.7,
       "range": "55-60"
     },
     {
-      "count": 55,
-      "win_rate": 92.7,
-      "ci_low": 82.7,
-      "ci_high": 97.1,
-      "avg_return": 16.59,
-      "median_return": 14.23,
+      "count": 31,
+      "win_rate": 87.1,
+      "ci_low": 71.1,
+      "ci_high": 94.9,
+      "avg_return": 17.04,
+      "median_return": 18.17,
       "range": "60-65"
     },
     {
-      "count": 21,
-      "win_rate": 90.5,
-      "ci_low": 71.1,
-      "ci_high": 97.3,
-      "avg_return": 38.99,
-      "median_return": 7.13,
+      "count": 13,
+      "win_rate": 84.6,
+      "ci_low": 57.8,
+      "ci_high": 95.7,
+      "avg_return": 59.93,
+      "median_return": 23.65,
       "range": "65-70"
     },
     {
-      "count": 16,
-      "win_rate": 50.0,
-      "ci_low": 28.0,
-      "ci_high": 72.0,
-      "avg_return": 12.62,
-      "median_return": 6.94,
+      "count": 8,
+      "win_rate": 100.0,
+      "ci_low": 67.6,
+      "ci_high": 100.0,
+      "avg_return": 37.04,
+      "median_return": 35.29,
       "range": "70-75"
     }
   ],
   "regime_analysis": [
     {
-      "count": 362,
-      "win_rate": 71.5,
-      "ci_low": 66.7,
-      "ci_high": 75.9,
-      "avg_return": 13.08,
-      "median_return": 12.79,
+      "count": 219,
+      "win_rate": 76.3,
+      "ci_low": 70.2,
+      "ci_high": 81.4,
+      "avg_return": 17.0,
+      "median_return": 15.33,
       "regime": "CONFIRMED_UPTREND"
-    },
-    {
-      "count": 241,
-      "win_rate": 64.3,
-      "ci_low": 58.1,
-      "ci_high": 70.1,
-      "avg_return": 6.0,
-      "median_return": 7.53,
-      "regime": "UPTREND_PRESSURE"
     },
     {
       "count": 74,
@@ -77,31 +68,31 @@
   ],
   "sector_calibration": [
     {
-      "count": 70,
-      "win_rate": 97.1,
-      "ci_low": 90.2,
-      "ci_high": 99.2,
-      "avg_return": 17.01,
-      "median_return": 20.14,
-      "sector": "Technology"
+      "count": 8,
+      "win_rate": 100.0,
+      "ci_low": 67.6,
+      "ci_high": 100.0,
+      "avg_return": 33.41,
+      "median_return": 33.64,
+      "sector": "Healthcare"
     },
     {
-      "count": 283,
-      "win_rate": 85.9,
-      "ci_low": 81.3,
-      "ci_high": 89.4,
-      "avg_return": 15.93,
-      "median_return": 14.85,
+      "count": 170,
+      "win_rate": 91.2,
+      "ci_low": 86.0,
+      "ci_high": 94.6,
+      "avg_return": 19.79,
+      "median_return": 17.26,
       "sector": "Financial Services"
     },
     {
-      "count": 35,
-      "win_rate": 82.9,
-      "ci_low": 67.3,
-      "ci_high": 91.9,
-      "avg_return": 47.13,
-      "median_return": 27.08,
-      "sector": "Communication Services"
+      "count": 22,
+      "win_rate": 90.9,
+      "ci_low": 72.2,
+      "ci_high": 97.5,
+      "avg_return": 18.28,
+      "median_return": 25.16,
+      "sector": "Technology"
     },
     {
       "count": 5,
@@ -113,31 +104,13 @@
       "sector": "Energy"
     },
     {
-      "count": 84,
-      "win_rate": 57.1,
-      "ci_low": 46.5,
-      "ci_high": 67.2,
-      "avg_return": 1.93,
-      "median_return": 2.24,
-      "sector": "Industrials"
-    },
-    {
-      "count": 66,
-      "win_rate": 51.5,
-      "ci_low": 39.7,
-      "ci_high": 63.2,
-      "avg_return": 3.58,
-      "median_return": 2.46,
-      "sector": "Basic Materials"
-    },
-    {
-      "count": 32,
-      "win_rate": 50.0,
-      "ci_low": 33.6,
-      "ci_high": 66.4,
-      "avg_return": 3.19,
-      "median_return": -0.52,
-      "sector": "Healthcare"
+      "count": 19,
+      "win_rate": 68.4,
+      "ci_low": 46.0,
+      "ci_high": 84.6,
+      "avg_return": 62.16,
+      "median_return": 23.91,
+      "sector": "Communication Services"
     },
     {
       "count": 14,
@@ -149,72 +122,84 @@
       "sector": "Real Estate"
     },
     {
-      "count": 56,
-      "win_rate": 28.6,
-      "ci_low": 18.4,
-      "ci_high": 41.5,
-      "avg_return": -5.03,
-      "median_return": -13.98,
-      "sector": "Consumer Cyclical"
+      "count": 39,
+      "win_rate": 48.7,
+      "ci_low": 33.9,
+      "ci_high": 63.8,
+      "avg_return": -2.81,
+      "median_return": -0.39,
+      "sector": "Industrials"
     },
     {
-      "count": 31,
-      "win_rate": 25.8,
-      "ci_low": 13.7,
-      "ci_high": 43.2,
-      "avg_return": -11.95,
-      "median_return": -6.02,
+      "count": 6,
+      "win_rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 39.0,
+      "avg_return": -28.56,
+      "median_return": -25.12,
       "sector": "Consumer Defensive"
+    },
+    {
+      "count": 10,
+      "win_rate": 0.0,
+      "ci_low": 0.0,
+      "ci_high": 27.8,
+      "avg_return": -20.19,
+      "median_return": -26.78,
+      "sector": "Basic Materials"
     }
   ],
   "fcf_yield_buckets": [
     {
-      "count": 29,
-      "win_rate": 31.0,
-      "ci_low": 17.3,
-      "ci_high": 49.2,
-      "avg_return": 19.45,
-      "median_return": -3.95,
+      "count": 21,
+      "win_rate": 42.9,
+      "ci_low": 24.5,
+      "ci_high": 63.5,
+      "avg_return": 28.91,
+      "median_return": -1.76,
       "range": "Negative"
     },
     {
-      "count": 98,
-      "win_rate": 31.6,
-      "ci_low": 23.3,
-      "ci_high": 41.4,
-      "avg_return": -4.08,
-      "median_return": -5.06,
+      "count": 17,
+      "win_rate": 41.2,
+      "ci_low": 21.6,
+      "ci_high": 64.0,
+      "avg_return": 5.42,
+      "median_return": -2.57,
       "range": "0-3%"
     },
     {
-      "count": 148,
-      "win_rate": 65.5,
-      "ci_low": 57.6,
-      "ci_high": 72.7,
-      "avg_return": 4.57,
-      "median_return": 7.51,
+      "count": 30,
+      "win_rate": 40.0,
+      "ci_low": 24.6,
+      "ci_high": 57.7,
+      "avg_return": -1.94,
+      "median_return": -1.28,
       "range": "3-6%"
     },
     {
-      "count": 92,
-      "win_rate": 66.3,
-      "ci_low": 56.2,
-      "ci_high": 75.1,
-      "avg_return": 17.64,
-      "median_return": 12.86,
+      "count": 12,
+      "win_rate": 100.0,
+      "ci_low": 75.7,
+      "ci_high": 100.0,
+      "avg_return": 79.3,
+      "median_return": 51.1,
       "range": "6-12%"
     },
     {
-      "count": 25,
+      "count": 17,
       "win_rate": 100.0,
-      "ci_low": 86.7,
+      "ci_low": 81.6,
       "ci_high": 100.0,
-      "avg_return": 19.18,
-      "median_return": 21.17,
+      "avg_return": 16.45,
+      "median_return": 12.8,
       "range": "12%+"
     }
   ],
-  "total_completed": 677,
+  "total_completed": 293,
+  "poblacion": "VALUE US, todo el historico (incluye el periodo anterior al filtrado correcto)",
+  "muestra_desde": "2026-02-26",
+  "muestra_hasta": "2026-03-07",
   "horizon": "180d",
-  "generated_at": "2026-09-09T21:21:37.273219"
+  "generated_at": "2026-09-10T10:55:03.918771"
 }
