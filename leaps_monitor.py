@@ -31,6 +31,13 @@ import leaps_analyzer as la
 DOCS = Path('docs')
 STATUS_OUT = DOCS / 'leaps_positions_status.json'
 SENT_LOG = DOCS / '.leaps_alerts_sent.json'
+OPORTUNIDADES = DOCS / 'leaps_opportunities.json'
+
+# Clave dentro de SENT_LOG con los tickers ya anunciados que SIGUEN en la
+# lista. No es un dedup por tiempo como el de las posiciones: aquí el evento
+# es "aparece una oportunidad nueva", así que se avisa una vez al entrar y
+# vuelve a avisarse si desaparece y reaparece semanas después.
+CLAVE_OPORTUNIDADES = '_oportunidades_anunciadas'
 
 ROLL_DTE        = 270     # < 9 meses → conviene rolar
 TAKE_PROFIT_PCT = 50.0
@@ -187,20 +194,91 @@ def _send_telegram(text: str) -> None:
 EMOJI = {'TAKE_PROFIT': '🟢', 'STOP': '🔴', 'ROLL': '🟡', 'THESIS_BREAK': '🔴'}
 
 
+def alertar_oportunidades_nuevas(sent: dict) -> int:
+    """Avisa de LEAPS que ENTRAN hoy en la lista. Devuelve cuántas.
+
+    Hueco detectado el 10-sep-2026: de las tres cosas que el usuario quiere
+    por Telegram —value nuevo, LEAPS nuevos y rebotes reales— la segunda no
+    tenía alerta ninguna. `leaps_monitor` solo vigilaba posiciones ABIERTAS
+    (y no tiene ninguna), y el escaneo corre a las 18:02, seis horas después
+    del briefing diario, así que sus hallazgos no entraban en el único
+    mensaje del día. Encontraba oportunidades y no las contaba.
+    """
+    try:
+        datos = json.loads(OPORTUNIDADES.read_text())
+    except Exception as e:
+        print(f'  sin lista de oportunidades ({e})')
+        return 0
+
+    opos = datos.get('opportunities') or []
+    hoy = {str(o.get('ticker')) for o in opos if o.get('ticker')}
+    ya = set(sent.get(CLAVE_OPORTUNIDADES) or [])
+    nuevas = [o for o in opos if str(o.get('ticker')) in (hoy - ya)]
+
+    # Se guarda SIEMPRE la foto de hoy, aunque no haya nuevas: así los
+    # tickers que se caen de la lista se olvidan y pueden volver a avisar
+    # si reaparecen, en vez de quedar silenciados para siempre.
+    sent[CLAVE_OPORTUNIDADES] = sorted(hoy)
+
+    if not nuevas:
+        print(f'  {len(hoy)} oportunidades en lista · ninguna nueva')
+        return 0
+
+    nuevas.sort(key=lambda o: o.get('opportunity_score') or 0, reverse=True)
+    lineas = ['<b>🚀 LEAPS nuevos</b>', '']
+    for o in nuevas:
+        c = o.get('recommended_contract') or {}
+        tk = html.escape(str(o.get('ticker', '?')))
+        strike, exp = c.get('strike'), str(c.get('expiry', ''))[:7]
+        cabecera = f"<b>{tk} ${strike:.0f} {exp}</b>" if strike else f"<b>{tk}</b>"
+        coste = c.get('cost_per_contract')
+        if coste:
+            cabecera += f" · {coste:,.0f}$".replace(',', '.')
+        lineas.append(cabecera)
+
+        sit = str(o.get('situation', '')).replace('_', ' ').capitalize()
+        dmax = o.get('pct_from_52w_high')
+        ctx = [x for x in (sit, f"{dmax:+.0f}% del máximo" if dmax is not None else None) if x]
+        if ctx:
+            lineas.append('   ' + html.escape(' · '.join(ctx)))
+
+        be, mov, lev = c.get('breakeven'), c.get('breakeven_move_pct'), c.get('leverage')
+        det = []
+        if be is not None and mov is not None:
+            det.append(f"Breakeven {be:.0f} (+{mov:.1f}%)")
+        if lev:
+            det.append(f"apalancamiento {lev:.1f}x")
+        if c.get('iv_richness'):
+            det.append(f"IV {html.escape(str(c['iv_richness']))}")
+        if det:
+            lineas.append('   ' + ' · '.join(det))
+        lineas.append('')
+
+    _send_telegram('\n'.join(lineas).strip())
+    print(f'  {len(nuevas)} oportunidades NUEVAS anunciadas')
+    return len(nuevas)
+
+
 def main():
     print('=' * 60)
     print('LEAPS MONITOR — seguimiento de posiciones')
     print(f'  {datetime.now():%Y-%m-%d %H:%M}')
     print('=' * 60)
 
+    # Las oportunidades nuevas se anuncian TENGAS O NO posiciones abiertas —
+    # antes esto vivía detrás del return de abajo y por eso no salía nunca.
+    sent = _load_sent()
+    nuevas = alertar_oportunidades_nuevas(sent)
+
     positions = load_option_positions()
     if not positions:
+        if nuevas:
+            _save_sent(sent)
         STATUS_OUT.write_text(json.dumps(
             {'generated_at': datetime.now().isoformat(), 'positions': []}, indent=2))
         return
 
     signals = la.load_app_signals()
-    sent = _load_sent()
     today = date.today().isoformat()
     statuses, fresh_alerts = [], []
 
@@ -227,7 +305,9 @@ def main():
         _send_telegram('\n'.join(lines).strip())
         _save_sent(sent)
     else:
-        print('  Sin alertas nuevas')
+        print('  Sin alertas de seguimiento')
+        if nuevas:
+            _save_sent(sent)
 
     STATUS_OUT.write_text(json.dumps(
         {'generated_at': datetime.now().isoformat(), 'positions': statuses},
