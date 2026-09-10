@@ -97,6 +97,11 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
   const ex = o.exit_plan
   const alts = o.alternative_contracts ?? []
   const [showStrikes, setShowStrikes] = useState(false)
+  // La narrativa y el plan de salida son contenido de DESPUÉS de decidir: no
+  // ayudan a elegir el contrato, solo a gestionarlo una vez dentro. Con 6
+  // oportunidades desplegadas la página medía 8592px — diez pantallas de
+  // móvil. Mismo criterio que el comparador de strikes, que ya iba plegado.
+  const [showPlan, setShowPlan] = useState(false)
   const { user } = useAuth()
   const [track, setTrack] = useState<TrackState>('idle')
 
@@ -295,38 +300,55 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           </div>
         )}
 
-        {/* AI narrative */}
-        {o.ai_narrative && (
-          <div className="text-xs text-muted-foreground/90 leading-relaxed border-t border-border/30 pt-2.5">
-            <span className="inline-flex items-center gap-1 text-primary/70 font-semibold mr-1">
+        {(o.ai_narrative || (ex && (ex.take_profit || ex.roll || ex.thesis_break))) && (
+          <div className="mt-3 border-t border-border/30 pt-2.5">
+            <button
+              onClick={() => setShowPlan(v => !v)}
+              className="flex items-center gap-1.5 text-[0.7rem] font-semibold text-muted-foreground transition-colors hover:text-primary"
+            >
               <Brain className="w-3 h-3" />
-            </span>
-            {o.ai_narrative}
+              Análisis y plan de salida
+              {showPlan ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            </button>
           </div>
         )}
 
-        {/* Exit plan (Claude): cuándo vender / rolar / qué rompe la tesis */}
-        {ex && (ex.take_profit || ex.roll || ex.thesis_break) && (
-          <div className="mt-3 grid gap-2 sm:grid-cols-3 text-[0.7rem] leading-snug">
-            {ex.take_profit && (
-              <div className="rounded-md bg-emerald-500/5 border border-emerald-500/20 px-2.5 py-2">
-                <div className="flex items-center gap-1 text-emerald-400 font-semibold mb-0.5"><Target className="w-3 h-3" /> Tomar beneficios</div>
-                <div className="text-muted-foreground/90">{ex.take_profit}</div>
-              </div>
-            )}
-            {ex.roll && (
-              <div className="rounded-md bg-cyan-500/5 border border-cyan-500/20 px-2.5 py-2">
-                <div className="flex items-center gap-1 text-cyan-400 font-semibold mb-0.5"><RefreshCw className="w-3 h-3" /> Cuándo rolar</div>
-                <div className="text-muted-foreground/90">{ex.roll}</div>
-              </div>
-            )}
-            {ex.thesis_break && (
-              <div className="rounded-md bg-red-500/5 border border-red-500/20 px-2.5 py-2">
-                <div className="flex items-center gap-1 text-red-400 font-semibold mb-0.5"><AlertTriangle className="w-3 h-3" /> Tesis rota</div>
-                <div className="text-muted-foreground/90">{ex.thesis_break}</div>
-              </div>
-            )}
-          </div>
+        {showPlan && (
+          <>
+          {/* AI narrative */}
+          {o.ai_narrative && (
+            <div className="text-xs text-muted-foreground/90 leading-relaxed border-t border-border/30 pt-2.5">
+              <span className="inline-flex items-center gap-1 text-primary/70 font-semibold mr-1">
+                <Brain className="w-3 h-3" />
+              </span>
+              {o.ai_narrative}
+            </div>
+          )}
+
+          {/* Exit plan (Claude): cuándo vender / rolar / qué rompe la tesis */}
+          {ex && (ex.take_profit || ex.roll || ex.thesis_break) && (
+            <div className="mt-3 grid gap-2 sm:grid-cols-3 text-[0.7rem] leading-snug">
+              {ex.take_profit && (
+                <div className="rounded-md bg-emerald-500/5 border border-emerald-500/20 px-2.5 py-2">
+                  <div className="flex items-center gap-1 text-emerald-400 font-semibold mb-0.5"><Target className="w-3 h-3" /> Tomar beneficios</div>
+                  <div className="text-muted-foreground/90">{ex.take_profit}</div>
+                </div>
+              )}
+              {ex.roll && (
+                <div className="rounded-md bg-cyan-500/5 border border-cyan-500/20 px-2.5 py-2">
+                  <div className="flex items-center gap-1 text-cyan-400 font-semibold mb-0.5"><RefreshCw className="w-3 h-3" /> Cuándo rolar</div>
+                  <div className="text-muted-foreground/90">{ex.roll}</div>
+                </div>
+              )}
+              {ex.thesis_break && (
+                <div className="rounded-md bg-red-500/5 border border-red-500/20 px-2.5 py-2">
+                  <div className="flex items-center gap-1 text-red-400 font-semibold mb-0.5"><AlertTriangle className="w-3 h-3" /> Tesis rota</div>
+                  <div className="text-muted-foreground/90">{ex.thesis_break}</div>
+                </div>
+              )}
+            </div>
+          )}
+          </>
         )}
 
         {/* Strike comparator */}
