@@ -396,12 +396,20 @@ class FundamentalScorer:
 
         try:
             if not quarterly_earnings.empty and 'Earnings' in quarterly_earnings.columns:
-                earnings = quarterly_earnings['Earnings'].dropna()
+                # sort_index descendente: el codigo indexa por POSICION dando
+                # por hecho que yfinance devuelve de mas nuevo a mas viejo. Lo
+                # hace hoy, pero si algun dia cambia el orden el calculo sale
+                # invertido sin avisar. Ordenar aqui lo hace independiente.
+                earnings = quarterly_earnings['Earnings'].dropna().sort_index(ascending=False)
 
-                if len(earnings) >= 4:
+                # >= 5, no >= 4: el mismo trimestre del ano anterior esta 4
+                # posiciones atras, asi que hacen falta 5 trimestres.
+                if len(earnings) >= 5:
                     # 1. EPS Growth YoY
                     latest_eps = earnings.iloc[0]
-                    prev_eps = earnings.iloc[3]
+                    # iloc[4], no iloc[3]. Ver la nota del bug en el bloque de
+                    # ingresos: iloc[3] compara contra hace TRES trimestres.
+                    prev_eps = earnings.iloc[4]
 
                     if prev_eps > 0:
                         eps_growth = ((latest_eps - prev_eps) / prev_eps) * 100
@@ -504,11 +512,26 @@ class FundamentalScorer:
             if qf is not None and not qf.empty:
                 # Revenue growth
                 if 'Total Revenue' in qf.index:
-                    revenue = qf.loc['Total Revenue'].dropna()
+                    revenue = qf.loc['Total Revenue'].dropna().sort_index(ascending=False)
 
-                    if len(revenue) >= 4:
+                    # 10-sep-2026, off-by-one que llevaba corrompiendo el
+                    # crecimiento de TODO el universo: era iloc[3], que con
+                    # los trimestres de nuevo a viejo compara contra hace TRES
+                    # trimestres, no contra el mismo trimestre del ano
+                    # anterior (4 posiciones atras).
+                    #
+                    # UBER: iloc[3] daba +5,4% (contra 2025-09) cuando el YoY
+                    # real es +12,2% (contra 2025-06). BR: +39,7% en vez de
+                    # +7,5% -- y ese 39,7% es justo lo que el gate de Claude
+                    # rechazaba por "implausible para Broadridge". El gate
+                    # tenia razon: el dato estaba mal, no la empresa.
+                    #
+                    # No es cosmetico: alimenta growth_acceleration_score (que
+                    # suma +30 si el crecimiento pasa de 30%), y de ahi al
+                    # fundamental_score y al value_score.
+                    if len(revenue) >= 5:
                         latest_rev = revenue.iloc[0]
-                        prev_rev = revenue.iloc[3]
+                        prev_rev = revenue.iloc[4]
 
                         if prev_rev > 0:
                             rev_growth = ((latest_rev - prev_rev) / prev_rev) * 100

@@ -946,3 +946,63 @@ class TestScraperInsidersNoTrunca:
             'sin nombre no se pueden contar personas distintas en un cluster'
         assert "'TradeDate': trade_date" in src, \
             'sin fecha de operación la deduplicación no distingue re-scrapeos'
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Rule 9 — el YoY compara contra el MISMO trimestre del año anterior
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestCrecimientoInteranual:
+    """10-sep-2026: `prev = serie.iloc[3]` con los trimestres ordenados de más
+    nuevo a más viejo compara contra hace TRES trimestres, no contra el mismo
+    trimestre del año anterior — que está 4 posiciones atrás. Llevaba
+    corrompiendo el crecimiento de todo el universo en las dos direcciones:
+
+      UBER  +5,4% publicado  ->  +12,2% real   (infravaloraba)
+      BR   +39,7% publicado  ->   +7,5% real   (inflaba)
+
+    Y ese 39,7% es exactamente lo que el gate de Claude rechazaba por
+    "implausible para Broadridge": el gate acertaba, el dato estaba mal.
+    No es cosmético — alimenta growth_acceleration_score (+30 si pasa de 30%)
+    y de ahí al fundamental_score y al value_score.
+    """
+
+    # Ingresos trimestrales reales de UBER (M$), de más nuevo a más viejo
+    UBER = [14191, 13203, 14366, 13467, 12651]
+    # Ídem de Broadridge
+    BR = [2220, 1954, 1714, 1589, 2065]
+
+    def _growth(self, serie_desc):
+        from fundamental_scorer import FundamentalScorer
+        import pandas as pd
+        fechas = pd.date_range('2026-06-30', periods=len(serie_desc), freq='-1QE')
+        qf = pd.DataFrame([serie_desc], index=['Total Revenue'], columns=fechas)
+        r = FundamentalScorer()._calculate_growth_acceleration_score(
+            pd.DataFrame(), {'quarterly_financials': qf})
+        return r['rev_growth_yoy']
+
+    def test_uber_no_se_infravalora(self):
+        # iloc[3] daba +5.4% comparando contra 2025-09 en vez de 2025-06
+        assert self._growth(self.UBER) == pytest.approx(12.2, abs=0.1)
+
+    def test_broadridge_no_se_infla(self):
+        # iloc[3] daba +39.7%, que el gate rechazaba con razón
+        assert self._growth(self.BR) == pytest.approx(7.5, abs=0.1)
+
+    def test_con_solo_cuatro_trimestres_no_se_inventa_un_yoy(self):
+        # Antes bastaban 4 y calculaba contra iloc[3]: un YoY falso. Sin el
+        # quinto trimestre el dato correcto NO existe, y ausente es mejor que
+        # inventado (regla del repo: sin dato no se puntúa).
+        assert self._growth(self.UBER[:4]) is None
+
+    def test_no_depende_del_orden_que_devuelva_yfinance(self):
+        # El código indexa por posición; si yfinance devolviera de viejo a
+        # nuevo sin el sort_index, el crecimiento saldría invertido.
+        import pandas as pd
+        from fundamental_scorer import FundamentalScorer
+        fechas = pd.date_range('2026-06-30', periods=5, freq='-1QE')
+        qf_asc = pd.DataFrame([self.UBER[::-1]], index=['Total Revenue'],
+                              columns=fechas[::-1])
+        r = FundamentalScorer()._calculate_growth_acceleration_score(
+            pd.DataFrame(), {'quarterly_financials': qf_asc})
+        assert r['rev_growth_yoy'] == pytest.approx(12.2, abs=0.1)
