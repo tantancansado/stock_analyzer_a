@@ -240,3 +240,55 @@ class TestUsarClaudeEnrutaAlCheckCorrecto:
         assert llamadas == {'claude': 0, 'groq': 1}
         out = pd.read_csv(tmp_path / 'docs' / 'european_value_opportunities_filtered.csv')
         assert out['verified_by'].tolist() == ['groq']
+
+
+class TestVeredictoBooleanoNoTextoLibre:
+    """10-sep-2026: el contrato del gate era un campo de texto libre donde
+    había que escribir literalmente "OK" para aprobar, y el parser hacía
+    `dc.upper().startswith('OK')`. Cuando el modelo aprobaba con lenguaje
+    natural el pick se excluía PESE A ESTAR APROBADO. En el run de ese día le
+    pasó al menos a FHN ("Datos plausibles para un banco regional: ROE
+    ~11.5%, margen neto ~30%...") y a DBOEY ("El resto de métricas son
+    coherentes con Deutsche Börse...").
+
+    Es el peor tipo de fallo de este repo: silencioso y en la dirección
+    conservadora, así que parece el gate haciendo su trabajo. Ahora el
+    veredicto es un booleano, que no se puede confundir con su contrario.
+    """
+
+    def test_booleano_true_aprueba(self):
+        ok, aviso = _con_respuesta('{"plausible": true, "motivo": "todo coherente"}')
+        assert ok is True
+        assert aviso is None
+
+    def test_booleano_false_rechaza_con_motivo(self):
+        ok, aviso = _con_respuesta('{"plausible": false, "motivo": "ROE del 300% imposible"}')
+        assert ok is False
+        assert 'ROE' in aviso
+
+    def test_aprobacion_en_lenguaje_natural_no_se_pierde(self):
+        """El caso FHN exacto, ya en el contrato nuevo."""
+        ok, _ = _con_respuesta(
+            '{"plausible": true, "motivo": "Datos plausibles para un banco '
+            'regional: ROE ~11.5%, margen neto ~30% y crecimiento coherente"}')
+        assert ok is True, "una aprobación redactada en prosa debe seguir siendo una aprobación"
+
+    def test_sin_veredicto_sigue_siendo_fail_closed(self):
+        # Que el "sí" sea más fácil de expresar no puede volver el gate
+        # fail-open: sin booleano y sin "OK", no verifica.
+        ok, _ = _con_respuesta('{"motivo": "no me pronuncio"}')
+        assert ok is False
+
+    def test_contrato_viejo_con_ok_sigue_valiendo(self):
+        ok, _ = _con_respuesta('{"data_check": "OK"}')
+        assert ok is True
+
+    def test_el_prompt_pide_booleano_y_desaconseja_el_purismo(self):
+        """El prompt tiene que pedir el booleano explícitamente, y decirle al
+        modelo que una diferencia de unos puntos con su recuerdo NO es motivo
+        de rechazo — el 10-sep tumbó a BR por un 2,3% en el máximo de 52
+        semanas, un dato que era sustancialmente correcto."""
+        prompt = aqf._prompt_data_check({'ticker': 'X', 'company_name': 'X Corp'})
+        assert '"plausible": true|false' in prompt
+        assert 'IMPOSIBLE' in prompt
+        assert 'pocos puntos porcentuales' in prompt

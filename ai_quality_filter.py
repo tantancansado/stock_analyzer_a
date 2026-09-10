@@ -235,12 +235,20 @@ Crecimiento ingresos YoY: {_nd(ticker_data.get('rev_growth'), '%')} · FCF yield
 
 Ejemplos de lo que buscas: un ROE o margen absurdo para el sector, un upside/target inconsistente con el precio, una caída del 52w-high que no cuadra con fundamentales "intactos", deuda/capital imposible para el tipo de empresa.
 
-Responde SOLO con JSON (sin markdown): {{"data_check": "OK si todo es plausible, o si NO, qué dato parece erróneo y por qué (máx 2 frases, español)"}}"""
+Marca `plausible: false` SOLO si una cifra es IMPOSIBLE o está claramente rota (un precio que no corresponde a la empresa, un margen que no puede darse en ese sector, un crecimiento que la empresa nunca ha tenido). Una diferencia de unos pocos puntos porcentuales respecto a lo que recuerdas NO es motivo: los datos vienen de una fuente real y tu memoria puede estar desactualizada o referirse a otro periodo. Ante la duda entre "está roto" y "no me cuadra del todo", es `true` con el matiz en `motivo`.
+
+Responde SOLO con JSON (sin markdown):
+{{"plausible": true|false, "motivo": "<una frase en español; si es false, QUÉ dato está roto y por qué>"}}"""
 
 
 def _parse_data_check(txt: str | None, quien: str) -> tuple[bool, str | None]:
-    """Interpreta la respuesta de claude_data_check/groq_data_check — mismo
-    criterio fail-closed para las dos: solo "OK" explícito verifica."""
+    """Interpreta la respuesta de claude_data_check/groq_data_check.
+
+    Fail-closed en las dos: sin respuesta, JSON ilegible o veredicto ausente,
+    NO verifica. Lo que sí cambió el 10-sep-2026 es cómo se expresa el "sí":
+    antes era texto libre donde había que escribir literalmente "OK", ahora
+    es un booleano. Ver la nota de abajo.
+    """
     if not txt:
         return False, None
     import re as _re
@@ -249,11 +257,26 @@ def _parse_data_check(txt: str | None, quien: str) -> tuple[bool, str | None]:
     try:
         data = json.loads(m.group(0)) if m else {}
         dc = str(data.get('data_check', '')).strip()
+        motivo = str(data.get('motivo', '')).strip()
     except Exception:
         return False, f'{quien} respondió pero el JSON no se pudo interpretar'
-    if dc.upper().startswith('OK'):
+    # Booleano explícito, no un texto libre donde una palabra mágica
+    # significa "sí". El contrato anterior pedía escribir "OK" y el parser
+    # hacía `startswith('OK')`: cuando el modelo aprobaba con lenguaje
+    # natural —"Datos plausibles para un banco regional: ROE ~11.5%..."— el
+    # pick se excluía pese a estar APROBADO. En el run del 10-sep-2026 le
+    # pasó al menos a FHN y a DBOEY. Un booleano no se puede confundir con
+    # su contrario.
+    plausible = data.get('plausible')
+    if isinstance(plausible, bool):
+        return (True, None) if plausible else (False, motivo or f'{quien} marcó los datos como no plausibles')
+
+    # Compatibilidad con el contrato viejo por si una respuesta llega en el
+    # formato anterior. Sigue siendo fail-closed: lo que no diga "OK" de
+    # forma explícita, no verifica.
+    if isinstance(dc, str) and dc.upper().startswith('OK'):
         return True, None
-    return False, dc or f'{quien} no confirmó los datos'
+    return False, (dc or motivo) or f'{quien} no confirmó los datos'
 
 
 def claude_data_check(ticker_data: dict) -> tuple[bool, str | None]:
