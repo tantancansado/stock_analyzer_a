@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-08T12:39:36",
-  "positions_checked": 24,
-  "total": 4,
-  "high_count": 4,
+  "generated_at": "2026-09-10T11:51:04",
+  "positions_checked": 18,
+  "total": 5,
+  "high_count": 5,
   "alerts": [
     {
       "ticker": "CRH.L",
@@ -14,12 +14,21 @@
       "severity": "HIGH"
     },
     {
+      "ticker": "SYK",
+      "company_name": "Stryker Corporation",
+      "strategy": "VALUE",
+      "signal_date": "2026-08-11",
+      "type": "THESIS_BROKEN",
+      "reason": "analyst_upside salt\u00f3 a 37% \u2014 value trap (0% win hist\u00f3rico)",
+      "severity": "HIGH"
+    },
+    {
       "ticker": "EXPN.L",
       "company_name": "Experian plc",
       "strategy": "VALUE",
       "signal_date": "2026-08-21",
       "type": "THESIS_BROKEN",
-      "reason": "analyst_upside salt\u00f3 a 32% \u2014 value trap (0% win hist\u00f3rico)",
+      "reason": "analyst_upside salt\u00f3 a 35% \u2014 value trap (0% win hist\u00f3rico)",
       "severity": "HIGH"
     },
     {
@@ -28,7 +37,7 @@
       "strategy": "VALUE",
       "signal_date": "2026-08-24",
       "type": "STOP_BREACHED",
-      "reason": "Precio 321.52 por debajo del stop 326.70",
+      "reason": "Precio 315.79 por debajo del stop 326.70",
       "severity": "HIGH"
     },
     {
@@ -37,7 +46,7 @@
       "strategy": "VALUE",
       "signal_date": "2026-08-26",
       "type": "STOP_BREACHED",
-      "reason": "Precio 322.90 por debajo del stop 322.97",
+      "reason": "Precio 312.32 por debajo del stop 322.97",
       "severity": "HIGH"
     }
   ]

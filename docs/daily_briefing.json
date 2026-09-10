@@ -1,179 +1,44 @@
 {
-  "fecha": "2026-09-10",
-  "texto": "<b>Corta esto ya:</b> CRH.L rompió su stop, toca vender. EXPN.L tiene toda la pinta de trampa de valor: el consenso le sube el potencial de golpe a un 32%, y esa señal históricamente no acierta nunca. AON y HEI también perforaron sus stops — cierra las dos.\n\n<b>Qué comprar hoy:</b> Occidental (OXY) es la entrada más sólida, cae un 11% desde máximos, con un 6,3% de caja libre y recorrido de casi el 70% por triangulación. Schneider Electric, Nordson y Nucor completan la lista con entradas más moderadas, potenciales entre el 8% y el 16,5%.\n\n<b>Para vigilar, no comprar aún:</b> S&P Global y American Express caen por decepción puntual en resultados, no por deterioro real del negocio — espera confirmación. Broadridge sufre compresión de márgenes, sigue barata pero todavía no es comprable. NYT y Waste Management siguen bajando sin una causa clara identificada; ahí la cautela es doble.\n\nEl sistema acierta un 61,5% con retorno medio del 3,15% sobre 39 señales, pero es un dato provisional a 90 días — aún no hay histórico suficiente a 180, así que dimensiona las posiciones con margen.",
-  "hechos": {
-    "fecha": "2026-09-10",
-    "total_lista": 62,
-    "datos_incompletos": [],
-    "comprables": [
-      {
-        "ticker": "OXY",
-        "empresa": "Occidental Petroleum Corporati",
-        "score": 65.6,
-        "precio": 60.04,
-        "upside_analista": 11.7,
-        "upside_triangulado": 69.4,
-        "divergencia": "",
-        "fcf_yield": 6.31,
-        "del_maximo_pct": -11.0,
-        "rs_6m": -4.01,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "SBGSY",
-        "empresa": "Schneider Electric S.E.",
-        "score": 40.7,
-        "precio": 66.78,
-        "upside_analista": 16.5,
-        "upside_triangulado": 16.5,
-        "divergencia": "",
-        "fcf_yield": 3.33,
-        "del_maximo_pct": -7.2,
-        "rs_6m": 2.48,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "NDSN",
-        "empresa": "Nordson Corporation",
-        "score": 39.865,
-        "precio": 318.36,
-        "upside_analista": 9.8,
-        "upside_triangulado": 9.8,
-        "divergencia": "",
-        "fcf_yield": 3.46,
-        "del_maximo_pct": -6.1,
-        "rs_6m": 3.8,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "NUE",
-        "empresa": "Nucor Corporation",
-        "score": 35.425,
-        "precio": 261.07,
-        "upside_analista": 8.3,
-        "upside_triangulado": 8.3,
-        "divergencia": "",
-        "fcf_yield": 1.15,
-        "del_maximo_pct": -6.8,
-        "rs_6m": 40.8,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "NYT",
-        "empresa": "The New York Times Company",
-        "score": 50.585,
-        "precio": 67.28,
-        "upside_analista": 15.4,
-        "upside_triangulado": -1.3,
-        "divergencia": "ALTA",
-        "fcf_yield": 4.24,
-        "del_maximo_pct": -22.8,
-        "rs_6m": -30.41,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "WM",
-        "empresa": "Waste Management, Inc.",
-        "score": 52.150000000000006,
-        "precio": 218.99,
-        "upside_analista": 18.7,
-        "upside_triangulado": -50.7,
-        "divergencia": "ALTA",
-        "fcf_yield": 2.68,
-        "del_maximo_pct": -11.7,
-        "rs_6m": -24.58,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 88.0,
-        "precio": 172.88,
-        "upside_analista": 23.4,
-        "upside_triangulado": 11.9,
-        "divergencia": "MEDIA",
-        "fcf_yield": 6.06,
-        "del_maximo_pct": -32.4,
-        "rs_6m": -20.99,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": "BR ha superado estimados de ingresos y EPS en trimestres recientes (Q3 FY2026 incluido), pero cayó por compresión de márgenes operativos ajustados, ventas cerradas más débiles, rec"
-      },
-      {
-        "ticker": "SPGI",
-        "empresa": "S&P Global Inc.",
-        "score": 67.925,
-        "precio": 443.51,
-        "upside_analista": 17.3,
-        "upside_triangulado": 11.6,
-        "divergencia": "MEDIA",
-        "fcf_yield": 4.17,
-        "del_maximo_pct": -15.1,
-        "rs_6m": -8.39,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "En febrero de 2026 SPGI cayó ~10% tras publicar resultados del Q4 2025 con un BPA ajustado apenas por debajo del consenso, mientras los ingresos superaron expectativas (+9% interan"
-      },
-      {
-        "ticker": "AXP",
-        "empresa": "American Express Company",
-        "score": 63.785,
-        "precio": 326.16,
-        "upside_analista": 15.3,
-        "upside_triangulado": 15.3,
-        "divergencia": "",
-        "fcf_yield": 7.27,
-        "del_maximo_pct": -15.8,
-        "rs_6m": -6.72,
-        "timing": "VIGILAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "Amex ha reportado beats de EPS y guidance sostenida (8-10% ingresos, EPS $15-15.50) con métricas de crédito estables/mejorando en 2025, pero las acciones han caído por decepción en"
-      }
-    ],
-    "tesis_rotas": [
-      {
-        "ticker": "CRH.L",
-        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
-        "severidad": "HIGH"
-      },
-      {
-        "ticker": "EXPN.L",
-        "motivo": "analyst_upside saltó a 32% — value trap (0% win histórico)",
-        "severidad": "HIGH"
-      },
-      {
-        "ticker": "AON",
-        "motivo": "Precio 321.52 por debajo del stop 326.70",
-        "severidad": "HIGH"
-      },
-      {
-        "ticker": "HEI",
-        "motivo": "Precio 322.90 por debajo del stop 322.97",
-        "severidad": "HIGH"
-      }
-    ],
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-09-10",
+  "timestamp": "2026-09-10T11:48:06.496905",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "MCO",
+      "sector": "Financial Services",
+      "value_score": 82.01499999999999,
+      "analyst_upside_pct": 18.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "SPGI",
+      "sector": "Financial Services",
+      "value_score": 67.92500000000001,
+      "analyst_upside_pct": 24.4,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "AXP",
+      "sector": "Financial Services",
+      "value_score": 63.58500000000001,
+      "analyst_upside_pct": 16.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MA",
+      "sector": "Financial Services",
+      "value_score": 59.975,
+      "analyst_upside_pct": 18.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "QSR",
+      "sector": "Consumer Cyclical",
+      "value_score": 59.09,
+      "analyst_upside_pct": 11.6,
+      "conviction_grade": null
     }
-  }
+  ]
 }
