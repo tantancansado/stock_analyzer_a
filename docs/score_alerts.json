@@ -1,10 +1,161 @@
 {
   "generated_at": "2026-09-10",
-  "alerts": [],
+  "alerts": [
+    {
+      "type": "SCORE_UP",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 59.1,
+      "score_prev": 46.7,
+      "delta": 12.4,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "NDSN",
+      "company_name": "Nordson Corporation",
+      "sector": "Industrials",
+      "score_today": 50.9,
+      "score_prev": 39.9,
+      "delta": 11.1,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "CBOE",
+      "company_name": "Cboe Global Markets, Inc.",
+      "sector": "Financial Services",
+      "score_today": 53.7,
+      "score_prev": 42.9,
+      "delta": 10.7,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MA",
+      "company_name": "Mastercard Incorporated",
+      "sector": "Financial Services",
+      "score_today": 60.0,
+      "score_prev": 49.3,
+      "delta": 10.7,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MSI",
+      "company_name": "Motorola Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 43.2,
+      "score_prev": 32.6,
+      "delta": 10.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
+      "sector": "Financial Services",
+      "score_today": 42.6,
+      "score_prev": 33.7,
+      "delta": 8.9,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "MSFT",
+      "company_name": "Microsoft Corporation",
+      "sector": "Technology",
+      "score_today": 43.1,
+      "score_prev": 36.3,
+      "delta": 6.8,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "FHN",
+      "company_name": "First Horizon Corporation",
+      "sector": "Financial Services",
+      "score_today": 58.1,
+      "score_prev": 52.5,
+      "delta": 5.6,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "DPZ",
+      "company_name": "Domino's Pizza, Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 41.2,
+      "score_prev": 35.9,
+      "delta": 5.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_UP",
+      "ticker": "BAC",
+      "company_name": "Bank of America Corporation",
+      "sector": "Financial Services",
+      "score_today": 51.9,
+      "score_prev": 46.5,
+      "delta": 5.3,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "ALLY",
+      "company_name": "Ally Financial Inc.",
+      "sector": "Financial Services",
+      "score_today": 32.9,
+      "score_prev": 38.3,
+      "delta": -5.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "VRSN",
+      "company_name": "VeriSign, Inc.",
+      "sector": "Technology",
+      "score_today": 47.6,
+      "score_prev": 54.1,
+      "delta": -6.5,
+      "grade": "🟡 Average"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KR",
+      "company_name": "The Kroger Co.",
+      "sector": "Consumer Defensive",
+      "score_today": 30.8,
+      "score_prev": 38.2,
+      "delta": -7.4,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 43.0,
+      "score_prev": 50.7,
+      "delta": -7.7,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "OXY",
+      "company_name": "Occidental Petroleum Corporation",
+      "sector": "Energy",
+      "score_today": 48.6,
+      "score_prev": 65.6,
+      "delta": -17.0,
+      "grade": "🟡 Average"
+    }
+  ],
   "counts": {
     "new_entries": 0,
     "exited": 0,
-    "score_up": 0,
-    "score_down": 0
+    "score_up": 10,
+    "score_down": 5
   }
 }

@@ -1,29 +1,37 @@
 {
   "generated_at": "2026-09-10",
   "regime": "NEUTRAL",
-  "narrative": "1. Aprovecha la se\u00f1al de compra en **VRSN** (1 HF) y considera a\u00f1adir posiciones en **MSCI** y **BR** mientras el",
+  "narrative": "R\u00e9gimen NEUTRAL. 3 oportunidades de entrada, 3 se\u00f1ales de salida HIGH. Sin trampas de valor relevantes.",
   "sections": {
     "regime": "NEUTRAL",
     "strong_buy_count": 0,
-    "buy_count": 1,
+    "buy_count": 3,
     "top_entries": [
       [
         "BR",
         68
+      ],
+      [
+        "AXP",
+        55
+      ],
+      [
+        "SAP.DE",
+        55
       ]
     ],
     "top_convergences": [
       [
         "VRSN",
-        90
-      ],
-      [
-        "MSCI",
         89
       ],
       [
         "BR",
         67
+      ],
+      [
+        "AME",
+        66
       ]
     ],
     "high_alerts": [
@@ -32,36 +40,36 @@
         "INSIDER_BUYING"
       ],
       [
-        "ADP",
-        "SCORE_DRIFT"
+        "BA.L",
+        "INSIDER_BUYING"
       ],
       [
-        "ADP",
-        "VALUE_CONTRADICTION"
+        "BAC",
+        "SCORE_DRIFT"
       ]
     ],
     "traps_warning": [],
     "exit_warnings": [
       [
         "CVX",
-        "Score cay\u00f3 46pts (97 \u2192 51); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "Score fundamental sigue siendo alto (85.1/100), sugiriendo que la se\u00f1al de salida es m\u00e1s t\u00e9cnica/valoraci\u00f3n que un deterioro real del negocio.",
+        "Score cay\u00f3 54pts (97 \u2192 43); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "No hay evidencia de earnings miss significativo, recorte de guidance ni cambios de gesti\u00f3n que justifiquen un deterioro fundamental de esta magnitud; la ausencia de insider buying es normal en grandes caps y no es se\u00f1al fuerte por s\u00ed sola.",
         96.6,
-        50.685
+        42.965
       ],
       [
         "BAC",
-        "Score cay\u00f3 47pts (94 \u2192 47); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "No hay evidencia de recortes de guidance, fallos de earnings importantes ni cambios de gesti\u00f3n relevantes; el banco mantiene fundamentos estables (crecimiento de dep\u00f3sitos, NII, capital s\u00f3lido) hasta el corte de conocimiento.",
+        "Score cay\u00f3 42pts (94 \u2192 52); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "No hay evidencia de guidance cuts, esc\u00e1ndalos o cambios de management significativos recientes; el score de fundamentales se mantiene alto (72.1/100), sugiriendo que la se\u00f1al de salida responde m\u00e1s a valoraci\u00f3n y falta de compras de insiders que a deterioro real del negocio.",
         94.0,
-        46.545
+        51.85
       ],
       [
-        "UNH",
-        "Score cay\u00f3 37pts (85 \u2192 49); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
-        "",
-        85.4,
-        48.715
+        "AXP",
+        "Score cay\u00f3 27pts (90 \u2192 64); Sin insider buying activo \u2014 se\u00f1al de convicci\u00f3n perdida",
+        "American Express ha mantenido fundamentales estables (crecimiento de facturaci\u00f3n, base de clientes premium, buen control de riesgo crediticio) sin misses de guidance ni eventos negativos mayores conocidos hasta el corte de entrenamiento.",
+        90.3,
+        63.58500000000001
       ]
     ],
     "smart_money": [
@@ -84,7 +92,7 @@
     "macro_stress": [
       {
         "market": "Petr\u00f3leo (WTI)",
-        "score": 81.0,
+        "score": 83.3,
         "regime": "DISLOCATED",
         "exposed": [
           "USO",

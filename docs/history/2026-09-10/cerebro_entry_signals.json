@@ -2,23 +2,23 @@
   "generated_at": "2026-09-10",
   "total": 6,
   "strong_buy": 0,
-  "buy": 1,
+  "buy": 3,
   "monitor": 3,
-  "wait": 2,
-  "narrative": "",
+  "wait": 0,
+  "narrative": null,
   "signals": [
     {
       "ticker": "BR",
       "company_name": "Broadridge Financial Solutions, Inc.",
       "region": "US",
       "sector": "Technology",
-      "value_score": 88.0,
+      "value_score": 86.35,
       "conviction_grade": "nan",
-      "current_price": 172.88,
-      "analyst_upside_pct": 23.4,
-      "fcf_yield_pct": 6.06,
-      "risk_reward_ratio": 2.92,
-      "days_in_value": 26,
+      "current_price": 168.1,
+      "analyst_upside_pct": 26.9,
+      "fcf_yield_pct": 6.23,
+      "risk_reward_ratio": 3.36,
+      "days_in_value": 27,
       "streak_days": 7,
       "entry_score": 68,
       "signal": "BUY",
@@ -69,25 +69,26 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 56
+      "days_to_earnings": 54
     },
     {
       "ticker": "AXP",
       "company_name": "American Express Company",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 63.785,
-      "conviction_grade": "nan",
-      "current_price": 326.16,
-      "analyst_upside_pct": 15.3,
-      "fcf_yield_pct": 7.27,
-      "risk_reward_ratio": 1.91,
-      "days_in_value": 18,
+      "value_score": 63.58500000000001,
+      "conviction_grade": "A",
+      "current_price": 321.8,
+      "analyst_upside_pct": 16.8,
+      "fcf_yield_pct": 7.36,
+      "risk_reward_ratio": 2.1,
+      "days_in_value": 19,
       "streak_days": 1,
-      "entry_score": 45,
-      "signal": "MONITOR",
+      "entry_score": 55,
+      "signal": "BUY",
       "signals_fired": [
         "FCF yield \u22655%",
+        "R:R \u22652",
         "MR zone / oversold",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
@@ -95,6 +96,10 @@
       "signals_pts": [
         {
           "name": "FCF yield \u22655%",
+          "pts": 10
+        },
+        {
+          "name": "R:R \u22652",
           "pts": 10
         },
         {
@@ -112,7 +117,6 @@
       ],
       "signals_missing": [
         "Value score <80",
-        "R:R <2",
         "Upside <20%",
         "Sin insider buying (espera)",
         "Sin opciones alcistas",
@@ -121,77 +125,26 @@
       ],
       "rsi": 28.7,
       "earnings_warning": false,
-      "days_to_earnings": 45
-    },
-    {
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
-      "region": "US",
-      "sector": "Financial Services",
-      "value_score": 67.925,
-      "conviction_grade": "nan",
-      "current_price": 443.51,
-      "analyst_upside_pct": 17.3,
-      "fcf_yield_pct": 4.17,
-      "risk_reward_ratio": 2.16,
-      "days_in_value": 4,
-      "streak_days": 2,
-      "entry_score": 40,
-      "signal": "MONITOR",
-      "signals_fired": [
-        "R:R \u22652",
-        "Options flow alcista",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
-      ],
-      "signals_pts": [
-        {
-          "name": "R:R \u22652",
-          "pts": 10
-        },
-        {
-          "name": "Options flow alcista",
-          "pts": 15
-        },
-        {
-          "name": "Analyst revision \u2191",
-          "pts": 5
-        },
-        {
-          "name": "En VALUE \u22653 d\u00edas",
-          "pts": 10
-        }
-      ],
-      "signals_missing": [
-        "Value score <80",
-        "FCF yield <5%",
-        "Upside <20%",
-        "Sin insider buying (espera)",
-        "Sin se\u00f1al MR oversold",
-        "Sector no l\u00edder",
-        "R\u00e9gimen no alcista"
-      ],
-      "rsi": null,
-      "earnings_warning": false,
-      "days_to_earnings": 51
+      "days_to_earnings": 43
     },
     {
       "ticker": "SAP.DE",
       "company_name": "SAP SE",
       "region": "EU",
       "sector": "Technology",
-      "value_score": 71.0,
+      "value_score": 73.2,
       "conviction_grade": "A",
-      "current_price": 182.84,
-      "analyst_upside_pct": 13.6,
-      "fcf_yield_pct": 4.31,
-      "risk_reward_ratio": 1.7,
-      "days_in_value": 10,
+      "current_price": 178.08,
+      "analyst_upside_pct": 16.7,
+      "fcf_yield_pct": 4.42,
+      "risk_reward_ratio": 2.09,
+      "days_in_value": 11,
       "streak_days": 1,
-      "entry_score": 40,
-      "signal": "MONITOR",
+      "entry_score": 55,
+      "signal": "BUY",
       "signals_fired": [
         "Value score \u226570",
+        "R:R \u22652",
         "Insider buying",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
@@ -200,6 +153,10 @@
         {
           "name": "Value score \u226570",
           "pts": 5
+        },
+        {
+          "name": "R:R \u22652",
+          "pts": 10
         },
         {
           "name": "Insider buying",
@@ -217,7 +174,6 @@
       "signals_missing": [
         "Value score <80",
         "FCF yield <5%",
-        "R:R <2",
         "Upside <20%",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
@@ -226,31 +182,36 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 43
+      "days_to_earnings": 41
     },
     {
       "ticker": "MCO",
       "company_name": "Moody's Corporation",
       "region": "US",
       "sector": "Financial Services",
-      "value_score": 81.455,
-      "conviction_grade": "nan",
-      "current_price": 493.55,
-      "analyst_upside_pct": 13.8,
-      "fcf_yield_pct": 3.02,
-      "risk_reward_ratio": 1.72,
-      "days_in_value": 9,
+      "value_score": 82.01499999999999,
+      "conviction_grade": "B",
+      "current_price": 474.57,
+      "analyst_upside_pct": 18.4,
+      "fcf_yield_pct": 3.14,
+      "risk_reward_ratio": 2.3,
+      "days_in_value": 10,
       "streak_days": 1,
-      "entry_score": 20,
-      "signal": "WAIT",
+      "entry_score": 35,
+      "signal": "MONITOR",
       "signals_fired": [
         "Value score \u226580",
+        "R:R \u22652",
         "Analyst revision \u2191",
         "En VALUE \u22653 d\u00edas"
       ],
       "signals_pts": [
         {
           "name": "Value score \u226580",
+          "pts": 10
+        },
+        {
+          "name": "R:R \u22652",
           "pts": 10
         },
         {
@@ -264,7 +225,6 @@
       ],
       "signals_missing": [
         "FCF yield <5%",
-        "R:R <2",
         "Upside <20%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
@@ -274,32 +234,85 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 43
+      "days_to_earnings": 41
     },
     {
-      "ticker": "OXY",
-      "company_name": "Occidental Petroleum Corporation",
-      "region": "US",
-      "sector": "Energy",
-      "value_score": 65.6,
-      "conviction_grade": "nan",
-      "current_price": 60.04,
-      "analyst_upside_pct": 11.7,
-      "fcf_yield_pct": 6.31,
-      "risk_reward_ratio": 1.46,
-      "days_in_value": 6,
+      "ticker": "SGE.L",
+      "company_name": "The Sage Group plc",
+      "region": "EU",
+      "sector": "Technology",
+      "value_score": 68.3,
+      "conviction_grade": "D",
+      "current_price": 976.0,
+      "analyst_upside_pct": 14.7,
+      "fcf_yield_pct": 7.22,
+      "risk_reward_ratio": 1.84,
+      "days_in_value": 1,
       "streak_days": 1,
-      "entry_score": 20,
-      "signal": "WAIT",
+      "entry_score": 35,
+      "signal": "MONITOR",
       "signals_fired": [
         "FCF yield \u22655%",
-        "Analyst revision \u2191",
-        "En VALUE \u22653 d\u00edas"
+        "Insider buying",
+        "Analyst revision \u2191"
       ],
       "signals_pts": [
         {
           "name": "FCF yield \u22655%",
           "pts": 10
+        },
+        {
+          "name": "Insider buying",
+          "pts": 25
+        },
+        {
+          "name": "Analyst revision \u2191",
+          "pts": 5
+        }
+      ],
+      "signals_missing": [
+        "Value score <80",
+        "R:R <2",
+        "Upside <20%",
+        "Sin se\u00f1al MR oversold",
+        "Sin opciones alcistas",
+        "Sector no l\u00edder",
+        "R\u00e9gimen no alcista",
+        "Solo 1d en VALUE"
+      ],
+      "rsi": null,
+      "earnings_warning": false,
+      "days_to_earnings": 70
+    },
+    {
+      "ticker": "SPGI",
+      "company_name": "S&P Global Inc.",
+      "region": "US",
+      "sector": "Financial Services",
+      "value_score": 67.92500000000001,
+      "conviction_grade": "B",
+      "current_price": 418.36,
+      "analyst_upside_pct": 24.4,
+      "fcf_yield_pct": 4.42,
+      "risk_reward_ratio": 3.05,
+      "days_in_value": 5,
+      "streak_days": 1,
+      "entry_score": 33,
+      "signal": "MONITOR",
+      "signals_fired": [
+        "R:R \u22652",
+        "Upside \u226520%",
+        "Analyst revision \u2191",
+        "En VALUE \u22653 d\u00edas"
+      ],
+      "signals_pts": [
+        {
+          "name": "R:R \u22652",
+          "pts": 10
+        },
+        {
+          "name": "Upside \u226520%",
+          "pts": 8
         },
         {
           "name": "Analyst revision \u2191",
@@ -312,8 +325,7 @@
       ],
       "signals_missing": [
         "Value score <80",
-        "R:R <2",
-        "Upside <20%",
+        "FCF yield <5%",
         "Sin insider buying (espera)",
         "Sin se\u00f1al MR oversold",
         "Sin opciones alcistas",
@@ -322,7 +334,7 @@
       ],
       "rsi": null,
       "earnings_warning": false,
-      "days_to_earnings": 62
+      "days_to_earnings": 49
     }
   ]
 }

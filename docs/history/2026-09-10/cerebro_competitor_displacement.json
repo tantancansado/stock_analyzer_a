@@ -1,24 +1,24 @@
 {
   "generated_at": "2026-09-10",
-  "total": 4,
+  "total": 5,
   "dropped_count": 0,
-  "narrative": "",
+  "narrative": null,
   "displacements": [
-    {
-      "type": "EXIT_TO_PEER",
-      "exiting_ticker": "CVX",
-      "sector": "Energy",
-      "replacement": "OXY",
-      "replacement_score": 65.6,
-      "detail": "Exit CVX (Energy) \u2192 rotar a peer OXY (66pts)"
-    },
     {
       "type": "EXIT_TO_PEER",
       "exiting_ticker": "BAC",
       "sector": "Financial Services",
       "replacement": "MCO",
-      "replacement_score": 81.455,
-      "detail": "Exit BAC (Financial Services) \u2192 rotar a peer MCO (81pts)"
+      "replacement_score": 82.01499999999999,
+      "detail": "Exit BAC (Financial Services) \u2192 rotar a peer MCO (82pts)"
+    },
+    {
+      "type": "EXIT_TO_PEER",
+      "exiting_ticker": "TW",
+      "sector": "Financial Services",
+      "replacement": "MCO",
+      "replacement_score": 82.01499999999999,
+      "detail": "Exit TW (Financial Services) \u2192 rotar a peer MCO (82pts)"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -30,8 +30,19 @@
         "SGE.L"
       ],
       "top_ticker": "BR",
-      "top_score": 88.0,
+      "top_score": 86.35,
       "detail": "Sector Technology l\u00edder (RS 100) \u2014 BR, SAP.DE, SGE.L son los picks VALUE"
+    },
+    {
+      "type": "SECTOR_TAILWIND",
+      "sector": "Healthcare",
+      "rotation_score": 100.0,
+      "beneficiaries": [
+        "VEEV"
+      ],
+      "top_ticker": "VEEV",
+      "top_score": 51.57,
+      "detail": "Sector Healthcare l\u00edder (RS 100) \u2014 VEEV son los picks VALUE"
     },
     {
       "type": "SECTOR_TAILWIND",
@@ -39,11 +50,11 @@
       "rotation_score": 100.0,
       "beneficiaries": [
         "RMV.L",
-        "NYT"
+        "AUTO.L"
       ],
       "top_ticker": "RMV.L",
-      "top_score": 57.0,
-      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 RMV.L, NYT son los picks VALUE"
+      "top_score": 56.8,
+      "detail": "Sector Communication Services l\u00edder (RS 100) \u2014 RMV.L, AUTO.L son los picks VALUE"
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "generated_at": "2026-09-10",
   "macro_regime": "CALM",
-  "composite_score": 7.5,
+  "composite_score": 8.0,
   "sesgo": "ALCISTA",
   "confianza": 70,
-  "situacion": "R\u00e9gimen CALM, composite +7.5/30. 1 plays macro identificadas.",
-  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +7.5. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 2 tickers a evitar y 0 potenciales short squeezes.",
+  "situacion": "R\u00e9gimen CALM, composite +8.0/30. 1 plays macro identificadas.",
+  "narrativa": "El mercado se encuentra en r\u00e9gimen CALM con score +8.0. Contexto permite selecci\u00f3n VALUE disciplinada. Cerebro detecta 2 tickers a evitar y 0 potenciales short squeezes.",
   "acciones_inmediatas": [
     {
       "prioridad": 1,
@@ -20,7 +20,7 @@
       "prioridad": 2,
       "accion": "VENDER",
       "instrumento": "ADP",
-      "razon": "Thesis drift HIGH (44d): Score cay\u00f3 15pts en 44d (49\u219233)",
+      "razon": "Thesis drift HIGH (45d): Score cay\u00f3 15pts en 45d (49\u219233)",
       "catalizador": "Se\u00f1al AVOID activa en Cerebro",
       "size_hint": "grande (5%+)",
       "invalidacion": "Score Cerebro mejora a neutral"
@@ -29,7 +29,7 @@
       "prioridad": 3,
       "accion": "VENDER",
       "instrumento": "ASAZY",
-      "razon": "Thesis drift HIGH (44d): Score cay\u00f3 46pts en 44d (87\u219241) | Se\u00f1al salida MEDIUM: ",
+      "razon": "Thesis drift HIGH (45d): Score cay\u00f3 46pts en 45d (87\u219241) | Se\u00f1al salida MEDIUM: ",
       "catalizador": "Se\u00f1al AVOID activa en Cerebro",
       "size_hint": "grande (5%+)",
       "invalidacion": "Score Cerebro mejora a neutral"
@@ -55,31 +55,38 @@
   "macro_plays_commentary": "1 plays macro rule-based generadas sin IA.",
   "value_en_entorno": [
     {
+      "ticker": "MCO",
+      "score": 82.0,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 3.14,
+      "grade": "B"
+    },
+    {
       "ticker": "SAP.DE",
-      "score": 71.0,
+      "score": 73.2,
       "sector": "Technology",
-      "fcf_yield_pct": 4.31,
+      "fcf_yield_pct": 4.42,
       "grade": "A"
     },
     {
-      "ticker": "AMS.MC",
-      "score": 58.6,
-      "sector": "Technology",
-      "fcf_yield_pct": 12.3,
+      "ticker": "SPGI",
+      "score": 67.9,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 4.42,
+      "grade": "B"
+    },
+    {
+      "ticker": "AXP",
+      "score": 63.6,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 7.36,
       "grade": "A"
     },
     {
-      "ticker": "DSY.PA",
-      "score": 57.9,
-      "sector": "Technology",
-      "fcf_yield_pct": 4.69,
-      "grade": "A"
-    },
-    {
-      "ticker": "RMV.L",
-      "score": 57.0,
-      "sector": "Communication Services",
-      "fcf_yield_pct": 5.33,
+      "ticker": "MA",
+      "score": 60.0,
+      "sector": "Financial Services",
+      "fcf_yield_pct": 3.41,
       "grade": "B"
     }
   ],
@@ -87,11 +94,11 @@
   "evitar": [
     {
       "ticker": "ADP",
-      "razon": "Thesis drift HIGH (44d): Score cay\u00f3 15pts en 44d (49\u219233)"
+      "razon": "Thesis drift HIGH (45d): Score cay\u00f3 15pts en 45d (49\u219233)"
     },
     {
       "ticker": "ASAZY",
-      "razon": "Thesis drift HIGH (44d): Score cay\u00f3 46pts en 44d (87\u219241) | Se\u00f1al salida MEDIUM: "
+      "razon": "Thesis drift HIGH (45d): Score cay\u00f3 46pts en 45d (87\u219241) | Se\u00f1al salida MEDIUM: "
     }
   ],
   "agenda_semana": [
@@ -109,6 +116,6 @@
     }
   ],
   "frase_del_dia": "Es sencillo ser un inversor disciplinado, solo que no es f\u00e1cil. \u2014 Charlie Munger",
-  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-09-10 | CALM (+7.5) | ALCISTA | VALUE: SAP.DE AMS.MC DSY.PA | Evitar: ADP ASAZY",
+  "mensaje_telegram": "\ud83e\udde0 CEREBRO 2026-09-10 | CALM (+8.0) | ALCISTA | VALUE: MCO SAP.DE SPGI | Evitar: ADP ASAZY",
   "ai_powered": false
 }

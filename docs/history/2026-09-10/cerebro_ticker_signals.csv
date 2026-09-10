@@ -1,64 +1,61 @@
 ticker,cerebro_signal,cerebro_score_adj,cerebro_reason,updated_at
 7741.T,EXIT,-15,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
-ADP,AVOID,-12,Thesis drift HIGH (45d): Score cayó 15pts en 45d (49→33),2026-09-10
 AI.PA,WATCH,-4,Caro vs peers en Basic Materials (FCF rank 7/7) | EPS revision DOWN: EPS consensus ↓3.3% (-0.68→-0.70); Revenue estimate ↑1.8% | Piotroski fuerte (7.0/9),2026-09-10
-AJG,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+AJG,CAUTION,-8,Señal salida MEDIUM: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
 AME,WATCH,4,EPS revision UP: EPS consensus ↑2.8% (9.58→9.85); Revenue estimate ↑6.6%,2026-09-10
-AON,CAUTION,-12,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos) | EPS revision DOWN: EPS consensus ↓2.9% (20.25→19.67); Revenue estimate ↑8.0%,2026-09-10
-ASAZY,AVOID,-12,Thesis drift HIGH (45d): Score cayó 46pts en 45d (87→41) | Señal salida MEDIUM: Score cayó 15pts (56 → 41) | Piotroski fuerte (8.0/9) | Mejor FCF en Industrials (4.7% vs media sector 3.2%),2026-09-10
-ATLKY,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
-AUTO.L,BEST,5,Mejor FCF en Communication Services (6.0% vs media sector 6.6%),2026-09-10
-AXP,CAUTION,5,Señal salida MEDIUM: Score cayó 22pts (86 → 64) | Smart money: 1 HF + 0 insiders (conv 34) | Mejor FCF en Financial Services (7.3% vs media sector 4.7%),2026-09-10
-BR,BEST,14,"Opciones TIER2 (q=60): VALUE strong (88pts), FCF 6.1% | Piotroski fuerte (8.0/9) | Mejor FCF en Technology (6.1% vs media sector 4.9%)",2026-09-10
-BRK-B,CAUTION,-3,Señal salida MEDIUM: Score cayó 19pts (55 → 37) | Mejor FCF en Financial Services (6.6% vs media sector 4.7%),2026-09-10
-BRO,CAUTION,-1,Thesis drift MEDIUM: Score cayó 18pts en 45d (52→34) | Mejor FCF en Financial Services (6.9% vs media sector 4.7%),2026-09-10
-CBOE,WATCH,0,Caro vs peers en Financial Services (FCF rank 17/18) | Piotroski fuerte (8.0/9),2026-09-10
-CLPBY,CAUTION,-11,Thesis drift MEDIUM: FCF yield cayó 23.5pp (28.1%→4.5%) | Señal salida MEDIUM: Score cayó 23pts (60 → 36) | Piotroski fuerte (7.0/9),2026-09-10
+AON,EXIT,-12,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota | EPS revision DOWN: EPS consensus ↓2.9% (20.25→19.67); Revenue estimate ↑8.0%,2026-09-10
+ASAZY,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+ATLKY,AVOID,-23,Thesis drift HIGH (45d): Score cayó 23pts en 45d (58→35) | Señal salida MEDIUM: Score cayó 22pts (57 → 35) | Caro vs peers en Industrials (FCF rank 17/20),2026-09-10
+AWK,CAUTION,-5,Value trap MEDIUM: FCF negativo (-6.4%) — quema caja pese a valuación barata | Piotroski fuerte (8.0/9),2026-09-10
+AXP,EXIT,-2,Señal salida HIGH: Score cayó 27pts (90 → 64) | Smart money: 1 HF + 0 insiders (conv 34) | Mejor FCF en Financial Services (7.4% vs media sector 4.8%),2026-09-10
+BR,BEST,14,"Opciones TIER2 (q=60): VALUE strong (86pts), FCF 6.2% | Piotroski fuerte (8.0/9) | Mejor FCF en Technology (6.2% vs media sector 5.1%)",2026-09-10
+BRK-B,CAUTION,-8,Señal salida MEDIUM: Score cayó 16pts (55 → 39),2026-09-10
+BRO,BEST,5,Mejor FCF en Financial Services (7.4% vs media sector 4.8%),2026-09-10
+CB,BEST,5,Mejor FCF en Financial Services (8.1% vs media sector 4.8%),2026-09-10
+CBOE,WATCH,0,Caro vs peers en Financial Services (FCF rank 18/19) | Piotroski fuerte (8.0/9),2026-09-10
+CLPBY,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
 CNI,WATCH,3,Piotroski fuerte (7.0/9),2026-09-10
-COST,CAUTION,-8,Señal salida MEDIUM: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
-CP,WATCH,0,Caro vs peers en Industrials (FCF rank 22/23) | Piotroski fuerte (7.0/9),2026-09-10
-CPRT,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
-CSU.TO,BEST,5,Mejor FCF en Technology (6.0% vs media sector 4.9%),2026-09-10
-CTAS,WATCH,0,Caro vs peers en Industrials (FCF rank 23/23) | Piotroski fuerte (8.0/9),2026-09-10
-DBOEY,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+COST,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+CPRT,EXIT,-15,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
+CTAS,WATCH,0,Caro vs peers en Industrials (FCF rank 20/20) | Piotroski fuerte (8.0/9),2026-09-10
+DBOEY,AVOID,-20,Thesis drift HIGH (45d): Score cayó 41pts en 45d (72→30) | Señal salida MEDIUM: Score cayó 23pts (53 → 30),2026-09-10
 ETN,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
 EXPN.L,EXIT,-12,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
 FAST,WATCH,4,EPS revision UP: EPS consensus ↑2.3% (1.32→1.35); Analistas: -18 (18→0),2026-09-10
+FDS,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
 FICO,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
-HEI,CAUTION,-4,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos) | EPS revision UP: EPS consensus ↑3.3% (8.31→8.58),2026-09-10
-ICE,CAUTION,-11,"Thesis drift MEDIUM: Upside analistas cayó 11pp (27%→16%) | Señal salida MEDIUM: Score cayó 51pts (87 → 36) — caída técnica/momentum, balance sólido (Piotroski 8/9) | Piotroski fuerte (8.0/9)",2026-09-10
-INTU,CAUTION,-10,"Thesis drift MEDIUM: Margen op. cayó 29.4pp (47.0%→17.6%) | Señal salida MEDIUM: Score cayó 39pts (77 → 38) — caída técnica/momentum, balance sólido (Piotroski 9/9) | EPS revision DOWN: EPS consensus ↓4.9% (32.78→31.19); Analistas: +33 (0→33) | Piotroski fuerte (9.0/9) | Mejor FCF en Technology (7.1% vs media sector 4.9%)",2026-09-10
+HEI,CAUTION,-10,Thesis drift MEDIUM: Score cayó 11pts en 45d (50→39) | Señal salida MEDIUM: Score cayó 17pts (56 → 39) | Caro vs peers en Industrials (FCF rank 19/20) | Piotroski fuerte (8.0/9) | EPS revision UP: EPS consensus ↑3.3% (8.31→8.58),2026-09-10
+ICE,CAUTION,-5,"Señal salida MEDIUM: Score cayó 52pts (87 → 35) — caída técnica/momentum, balance sólido (Piotroski 8/9) | Piotroski fuerte (8.0/9)",2026-09-10
+INTU,CAUTION,-10,"Thesis drift MEDIUM: Margen op. cayó 29.4pp (47.0%→17.6%) | Señal salida MEDIUM: Score cayó 43pts (77 → 34) — caída técnica/momentum, balance sólido (Piotroski 9/9) | EPS revision DOWN: EPS consensus ↓4.9% (32.78→31.19); Analistas: +33 (0→33) | Piotroski fuerte (9.0/9) | Mejor FCF en Technology (7.5% vs media sector 5.1%)",2026-09-10
 ISRG,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
 JKHY,EXIT,-15,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
-JNJ,WATCH,-3,Caro vs peers en Healthcare (FCF rank 9/10),2026-09-10
-KO,CONFIRM,8,Caro vs peers en Consumer Defensive (FCF rank 5/5) | Smart money: 1 HF + 0 insiders (conv 29) | Piotroski fuerte (7.0/9),2026-09-10
-MA,CAUTION,-5,"Señal salida MEDIUM: Score cayó 27pts (76 → 49) — caída técnica/momentum, balance sólido (Piotroski 9/9) | Piotroski fuerte (9.0/9)",2026-09-10
-MCO,CONFIRM,11,Smart money: 1 HF + 0 insiders (conv 39) | Piotroski fuerte (8.0/9),2026-09-10
-MSCI,WATCH,6,"Caro vs peers en Financial Services (FCF rank 16/18) | Opciones TIER2 (q=55): VALUE weak (47pts), INSIDER CONF | Piotroski fuerte (8.0/9)",2026-09-10
-MSFT,CAUTION,-9,Thesis drift MEDIUM: Score cayó 55pts en 45d (91→36) | Señal salida MEDIUM: Score cayó 57pts (94 → 36) | Caro vs peers en Technology (FCF rank 16/16) | Smart money: 1 HF + 0 insiders (conv 26),2026-09-10
-MSI,WATCH,-3,Caro vs peers en Technology (FCF rank 15/16),2026-09-10
-NDAQ,CAUTION,-3,Thesis drift MEDIUM: Score cayó 24pts en 45d (70→46) | Piotroski fuerte (9.0/9),2026-09-10
-NDSN,CAUTION,0,Señal salida MEDIUM: Score cayó 20pts (60 → 40) | Piotroski fuerte (7.0/9) | Mejor FCF en Industrials (3.5% vs media sector 3.2%),2026-09-10
-ORLY,CAUTION,-8,Señal salida MEDIUM: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
-OTIS,BEST,5,Mejor FCF en Industrials (5.3% vs media sector 3.2%),2026-09-10
-PEP,EXIT,-15,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
-PGR,BEST,5,Mejor FCF en Financial Services (11.9% vs media sector 4.7%),2026-09-10
-RACE,WATCH,3,Piotroski fuerte (9.0/9),2026-09-10
-SAP,CAUTION,-11,"Thesis drift MEDIUM: Score cayó 37pts en 45d (83→47) | Señal salida MEDIUM: Score cayó 32pts (78 → 47) — caída técnica/momentum, balance sólido (Piotroski 8/9) | Piotroski fuerte (8.0/9)",2026-09-10
+MA,CAUTION,-5,Señal salida MEDIUM: Score cayó 23pts (83 → 60) | Piotroski fuerte (9.0/9),2026-09-10
+MCO,CONFIRM,11,Smart money: 1 HF + 0 insiders (conv 40) | Piotroski fuerte (8.0/9),2026-09-10
+MSCI,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+MSFT,CAUTION,-9,Thesis drift MEDIUM: Score cayó 48pts en 45d (91→43) | Señal salida MEDIUM: Score cayó 53pts (96 → 43) | Caro vs peers en Technology (FCF rank 12/12) | Smart money: 1 HF + 0 insiders (conv 28),2026-09-10
+MSI,WATCH,-3,Caro vs peers en Technology (FCF rank 11/12),2026-09-10
+NDAQ,CAUTION,-3,Thesis drift MEDIUM: Score cayó 25pts en 45d (70→45) | Piotroski fuerte (9.0/9),2026-09-10
+NDSN,BEST,8,Piotroski fuerte (7.0/9) | Mejor FCF en Industrials (3.5% vs media sector 3.1%),2026-09-10
+ORLY,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+OTIS,BEST,5,Mejor FCF en Industrials (5.4% vs media sector 3.1%),2026-09-10
+PAYX,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+PEP,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+PG,CAUTION,-6,Thesis drift MEDIUM: Score cayó 24pts en 45d (70→45),2026-09-10
+PGR,BEST,5,Mejor FCF en Financial Services (12.1% vs media sector 4.8%),2026-09-10
+ROP,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
+SAP,CAUTION,-11,"Thesis drift MEDIUM: Score cayó 34pts en 45d (83→49) | Señal salida MEDIUM: Score cayó 29pts (78 → 49) — caída técnica/momentum, balance sólido (Piotroski 8/9) | Piotroski fuerte (8.0/9)",2026-09-10
+SBGSY,BEST,5,Mejor FCF en Industrials (3.3% vs media sector 3.1%),2026-09-10
 SPGI,WATCH,3,Piotroski fuerte (7.0/9),2026-09-10
-SXYAY,BEST,8,Piotroski fuerte (7.0/9) | Mejor FCF en Basic Materials (3.3% vs media sector 2.5%),2026-09-10
+SXYAY,BEST,8,Piotroski fuerte (7.0/9) | Mejor FCF en Basic Materials (3.4% vs media sector 2.7%),2026-09-10
 SYK,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
-TJX,WATCH,3,Piotroski fuerte (7.0/9),2026-09-10
 TMO,WATCH,-4,EPS revision DOWN: EPS consensus ↓3.8% (28.20→27.12),2026-09-10
 TT,WATCH,3,Piotroski fuerte (9.0/9),2026-09-10
-TW,EXIT,-12,Señal salida HIGH: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
+TW,CAUTION,-5,Señal salida MEDIUM: Score cayó 18pts (57 → 39) | Piotroski fuerte (8.0/9),2026-09-10
 TYL,WATCH,9,Short squeeze MEDIUM: 10.6% short · Short moderado (10.6% del float); Piotroski 8/9 — calidad mejorando | Piotroski fuerte (8.0/9),2026-09-10
-V,CAUTION,-8,Señal salida MEDIUM: Ya no está en lista VALUE — upside reducido (fundamentales siguen sólidos),2026-09-10
-VEEV,CAUTION,5,Thesis drift MEDIUM: Upside analistas cayó 18pp (26%→7%) | Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑6.0% (10.47→11.10),2026-09-10
-VLTO,BEST,5,Mejor FCF en Industrials (3.4% vs media sector 3.2%),2026-09-10
-VRSK,BEST,8,Piotroski fuerte (7.0/9) | Mejor FCF en Industrials (4.4% vs media sector 3.2%),2026-09-10
-VRSN,CONFIRM,8,Caro vs peers en Technology (FCF rank 13/16) | Smart money: 1 HF + 1 insiders (conv 41) | Piotroski fuerte (8.0/9),2026-09-10
-WM,WATCH,3,Piotroski fuerte (8.0/9),2026-09-10
+V,CAUTION,-11,Señal salida MEDIUM: Score cayó 40pts (87 → 46) | Caro vs peers en Financial Services (FCF rank 16/19),2026-09-10
+VEEV,CAUTION,5,Thesis drift MEDIUM: Upside analistas cayó 12pp (26%→14%) | Piotroski fuerte (7.0/9) | EPS revision STRONG_UP: EPS consensus ↑6.0% (10.47→11.10),2026-09-10
+VLTO,BEST,5,Mejor FCF en Industrials (3.5% vs media sector 3.1%),2026-09-10
+VRSN,CONFIRM,11,Smart money: 1 HF + 1 insiders (conv 39) | Piotroski fuerte (8.0/9),2026-09-10
+WM,CAUTION,-8,Señal salida MEDIUM: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
 WMT,CAUTION,-8,Señal salida MEDIUM: Ya no aparece en VALUE — tesis posiblemente rota,2026-09-10
-WST,WATCH,0,Caro vs peers en Healthcare (FCF rank 10/10) | Piotroski fuerte (7.0/9),2026-09-10
-ZTS,CAUTION,-1,Thesis drift MEDIUM: Score cayó 16pts en 45d (51→35) | Mejor FCF en Healthcare (6.4% vs media sector 4.0%),2026-09-10
+WST,WATCH,0,Caro vs peers en Healthcare (FCF rank 7/7) | Piotroski fuerte (7.0/9),2026-09-10

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-10T10:21:58Z",
+  "generated_at": "2026-09-10T12:13:37Z",
   "scan_date": "2026-09-10",
   "count": 6,
   "strategies": {
@@ -126,13 +126,13 @@
       "pl_pct": 35.7,
       "signals": {
         "value_score": null,
-        "fundamental_score": 54.0,
-        "fcf_yield_pct": 0.84,
-        "analyst_upside_pct": 19.2,
+        "fundamental_score": 48.0,
+        "fcf_yield_pct": 0.85,
+        "analyst_upside_pct": 20.4,
         "analyst_target": null,
         "analyst_count": 40.0,
         "analyst_recommendation": "buy",
-        "days_to_earnings": 72.0,
+        "days_to_earnings": 70.0,
         "earnings_warning": false,
         "sector": "Consumer Defensive",
         "conviction_grade": null,
@@ -150,7 +150,7 @@
         "insider_purchase_count": null,
         "unique_insiders": null,
         "options_signal": null,
-        "pcr": 1.11,
+        "pcr": 0.61,
         "cerebro_signal": null,
         "has_trap": false,
         "has_exit": false,
@@ -229,7 +229,9 @@
       "next_check_date": "2026-09-24",
       "next_check_reason": "",
       "thesis_short": "",
-      "confidence": 50
+      "confidence": 50,
+      "_stale_strategy": true,
+      "_stale_reason": "Groq rate-limit hit; estrategia del run anterior conservada"
     },
     "CHTR": {
       "ticker": "CHTR",
@@ -240,13 +242,13 @@
       "pl_pct": -11.9,
       "signals": {
         "value_score": null,
-        "fundamental_score": 52.1,
-        "fcf_yield_pct": 10.73,
-        "analyst_upside_pct": 21.3,
+        "fundamental_score": 42.3,
+        "fcf_yield_pct": 12.18,
+        "analyst_upside_pct": 37.7,
         "analyst_target": null,
         "analyst_count": 17.0,
         "analyst_recommendation": "hold",
-        "days_to_earnings": 52.0,
+        "days_to_earnings": 50.0,
         "earnings_warning": false,
         "sector": "Communication Services",
         "conviction_grade": null,
@@ -286,7 +288,9 @@
       "next_check_date": "2026-09-24",
       "next_check_reason": "",
       "thesis_short": "",
-      "confidence": 50
+      "confidence": 50,
+      "_stale_strategy": true,
+      "_stale_reason": "Groq rate-limit hit; estrategia del run anterior conservada"
     },
     "PSIX": {
       "ticker": "PSIX",
@@ -343,7 +347,9 @@
       "next_check_date": "2026-09-24",
       "next_check_reason": "",
       "thesis_short": "",
-      "confidence": 50
+      "confidence": 50,
+      "_stale_strategy": true,
+      "_stale_reason": "Groq rate-limit hit; estrategia del run anterior conservada"
     }
   }
 }

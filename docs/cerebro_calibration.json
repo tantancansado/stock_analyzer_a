@@ -4,20 +4,26 @@
     {
       "type": "BOOST",
       "factor": "Score 90\u2013101",
-      "insight": "WR 60.0% (+30.7pp sobre base). Priorizar este rango.",
-      "n": 10
+      "insight": "WR 62.5% (+33.3pp sobre base). Priorizar este rango.",
+      "n": 16
     },
     {
       "type": "BOOST",
       "factor": "Score 80\u201390",
-      "insight": "WR 54.8% (+25.5pp sobre base). Priorizar este rango.",
-      "n": 42
+      "insight": "WR 51.0% (+21.9pp sobre base). Priorizar este rango.",
+      "n": 49
+    },
+    {
+      "type": "REDUCE",
+      "factor": "Score 70\u201380",
+      "insight": "Solo 23.0% WR (-6.2pp bajo base, n=74). Este rango de score no discrimina bien \u2014 filtrar m\u00e1s agresivo o revisar factores.",
+      "n": 74
     },
     {
       "type": "BOOST",
       "factor": "Score 60\u201370",
-      "insight": "WR 41.3% (+12.1pp sobre base). Priorizar este rango.",
-      "n": 336
+      "insight": "WR 41.2% (+12.0pp sobre base). Priorizar este rango.",
+      "n": 337
     },
     {
       "type": "REGIME_FILTER",
@@ -28,16 +34,16 @@
     {
       "type": "BOOST",
       "factor": "FCF Yield \u22655%",
-      "insight": "FCF alto mejora WR +5.7pp. Aumentar peso FCF.",
+      "insight": "FCF alto mejora WR +5.8pp. Aumentar peso FCF.",
       "n": 432
     },
     {
       "type": "BOOST",
       "factor": "R:R \u22653",
-      "insight": "R:R alto mejora WR +8.3pp. Aumentar peso R:R.",
-      "n": 595
+      "insight": "R:R alto mejora WR +8.2pp. Aumentar peso R:R.",
+      "n": 598
     }
   ],
   "narrative": "El sistema contin\u00faa aprendiendo. Se necesitan m\u00e1s se\u00f1ales completadas para recomendaciones precisas.",
-  "total_recommendations": 6
+  "total_recommendations": 7
 }
