@@ -1,37 +1,21 @@
 {
-  "generated_at": "2026-09-09T10:17:07.959822",
+  "generated_at": "2026-09-10T10:10:47.551217",
   "tickers": {
     "7741.T": {
       "ticker": "7741.T",
       "company_name": "HOYA Corporation",
       "strategy": "Oversold Bounce",
-      "quality": "MODERADA",
-      "signal_date": "2026-09-04",
-      "days_since_signal": 5,
+      "quality": "\u2b50\u2b50 MUY BUENA",
+      "signal_date": "2026-09-07",
+      "days_since_signal": 3,
       "window_days": 3,
       "entry_zone": "$24103.1 - $25086.9",
       "target": 27868.95,
-      "stop_loss": 23714.82,
-      "rsi_at_signal": 17.8,
-      "current_price": 23210.0,
+      "stop_loss": 23703.04,
+      "rsi_at_signal": 18.5,
+      "current_price": 23135.0,
       "status": "STOP_ALCANZADO",
-      "ai_note": ""
-    },
-    "HRI": {
-      "ticker": "HRI",
-      "company_name": "Herc Holdings Inc.",
-      "strategy": "Oversold Bounce",
-      "quality": "MODERADA",
-      "signal_date": "2026-09-04",
-      "days_since_signal": 5,
-      "window_days": 3,
-      "entry_zone": "$133.86 - $139.33",
-      "target": 166.91,
-      "stop_loss": 129.77,
-      "rsi_at_signal": 10.7,
-      "current_price": 146.27000427246094,
-      "status": "VENTANA_EXPIRADA",
-      "ai_note": ""
+      "ai_note": "STOP alcanzado. La posici\u00f3n se cerr\u00f3 seg\u00fan el plan."
     }
   }
 }

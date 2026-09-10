@@ -1,84 +1,30 @@
 {
-  "scan_date": "2026-09-09",
-  "scan_time": "10:20",
+  "scan_date": "2026-09-10",
+  "scan_time": "10:21",
   "tickers": [
     "DXYZ",
     "DX",
     "GZ3",
     "WMT",
     "IVR",
-    "CHTR"
+    "CHTR",
+    "PSIX"
   ],
-  "count": 10,
+  "count": 14,
   "alta_count": 0,
-  "media_count": 2,
-  "new_alerts": 2,
+  "media_count": 1,
+  "new_alerts": 1,
   "items": [
     {
-      "id": "c877a82a-df24-3822-b31d-85c45a1f9588",
-      "ticker": "WMT",
-      "title": "Jim Cramer Says Buy Walmart (WMT) as Target’s (TGT) Turnaround Gains Momentum",
-      "source": "Insider Monkey",
-      "pub_date": "2026-09-07T20:24:39Z",
-      "time_ago": "hace 1d",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-says-buy-walmart-202439296.html",
+      "id": "0cdb275f-5cf1-357e-a8dd-392e5899047f",
+      "ticker": "CHTR",
+      "title": "Comcast drops 7% on persistent broadband losses and ’irrational’ fiber pricing",
+      "source": "Investing.com",
+      "pub_date": "2026-09-09T16:53:26Z",
+      "time_ago": "hace 17h",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/comcast-drops-7-persistent-broadband-165326791.html",
       "importance": "MEDIA",
-      "sentiment": "BULLISH"
-    },
-    {
-      "id": "0b1fdeb4-fe2b-35bd-8150-6874256c88b0",
-      "ticker": "WMT",
-      "title": "Walmart Has Gone Practically Nowhere, While Target Is Up 68%. But Only 1 of These Dividend Kings Is a Buy in September.",
-      "source": "Motley Fool",
-      "pub_date": "2026-09-08T10:37:00Z",
-      "time_ago": "hace 23h",
-      "url": "https://www.fool.com/investing/2026/09/08/walmart-has-gone-practically-nowhere-while-target/",
-      "importance": "MEDIA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "4e5865b6-b2a2-34ac-8c9a-90513b295fe8",
-      "ticker": "WMT",
-      "title": "Walmart Gets $2.9 Billion Windfall, Makes Surprise Move",
-      "source": "GuruFocus.com",
-      "pub_date": "2026-09-07T21:49:20Z",
-      "time_ago": "hace 1d",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/walmart-gets-2-9-billion-214920824.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "19c3c7e5-cf87-35db-8e0c-b4683edd05be",
-      "ticker": "WMT",
-      "title": "Walmart Settles a Potential Multibillion-Dollar Opioid Case for $50 Million",
-      "source": "Insider Monkey",
-      "pub_date": "2026-09-08T00:19:06Z",
-      "time_ago": "hace 1d",
-      "url": "https://finance.yahoo.com/healthcare/articles/walmart-settles-potential-multibillion-dollar-001906958.html",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "1d1cb761-fbb4-3706-8670-f763ec6f3e1d",
-      "ticker": "WMT",
-      "title": "The Stock Market Has Ignored the Iran Conflict. Why That’s About to Change.",
-      "source": "Barrons.com",
-      "pub_date": "2026-09-08T11:31:00Z",
-      "time_ago": "hace 22h",
-      "url": "https://www.barrons.com/articles/stock-market-things-to-know-today-40c7adfa?siteid=yhoof2&yptr=yahoo",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
-    },
-    {
-      "id": "0501df31-e738-3895-b187-ca1a13e6bcd1",
-      "ticker": "WMT",
-      "title": "Is AI the Answer to Big-Box Retail’s Woes?",
-      "source": "Motley Fool",
-      "pub_date": "2026-09-08T12:20:01Z",
-      "time_ago": "hace 21h",
-      "url": "https://www.fool.com/investing/2026/09/08/is-ai-the-answer-to-big-box-retails-woes/",
-      "importance": "BAJA",
-      "sentiment": "NEUTRAL"
+      "sentiment": "BEARISH"
     },
     {
       "id": "6560c40b-6feb-3d7c-acb7-94bef1f657c0",
@@ -86,7 +32,7 @@
       "title": "Flipkart begins internal food delivery pilot in Bengaluru, India",
       "source": "Verdict Food Service",
       "pub_date": "2026-09-08T14:47:42Z",
-      "time_ago": "hace 19h",
+      "time_ago": "hace 1d",
       "url": "https://www.verdictfoodservice.com/news/flipkart-begins-internal-food-delivery-pilot-in-bengaluru-india/",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -97,7 +43,7 @@
       "title": "Walmart, Ulta and Other Retailers That Can Win With AI",
       "source": "Barrons.com",
       "pub_date": "2026-09-08T17:38:00Z",
-      "time_ago": "hace 16h",
+      "time_ago": "hace 1d",
       "url": "https://www.barrons.com/articles/walmart-ulta-retail-stocks-ai-89f56474?siteid=yhoof2&yptr=yahoo",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -108,7 +54,7 @@
       "title": "Walmart adds Dunkin' delivery to its grocery ordering app",
       "source": "Quartz",
       "pub_date": "2026-09-08T18:10:49Z",
-      "time_ago": "hace 16h",
+      "time_ago": "hace 1d",
       "url": "https://qz.com/walmart-dunkin-delivery-grocery-app-090826",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
@@ -119,8 +65,107 @@
       "title": "The Market Marked AMZN Stock Down. The Numbers Push Back",
       "source": "Trefis",
       "pub_date": "2026-09-08T18:46:39Z",
-      "time_ago": "hace 15h",
+      "time_ago": "hace 1d",
       "url": "https://www.trefis.com/articles/614514/the-market-marked-amzn-stock-down-the-numbers-push-back/2026-09-08",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "34378bc9-c00f-3ef3-8817-59761b6ddc56",
+      "ticker": "WMT",
+      "title": "Deutsche Bank expects European consumer staples to underperform as structural pressures mount",
+      "source": "Proactive",
+      "pub_date": "2026-09-09T13:30:00Z",
+      "time_ago": "hace 20h",
+      "url": "https://www.proactiveinvestors.com/companies/news/1098299/deutsche-bank-expects-european-consumer-staples-to-underperform-as-structural-pressures-mount-1098299.html",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "fdf4f323-ff15-3e3a-9e2b-891594379075",
+      "ticker": "CHTR",
+      "title": "Why Does AT&T Stock Still Trade Like It Is Shrinking?",
+      "source": "Trefis",
+      "pub_date": "2026-09-09T16:16:10Z",
+      "time_ago": "hace 18h",
+      "url": "https://www.trefis.com/articles/614687/why-does-att-stock-still-trade-like-it-is-shrinking/2026-09-09",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "35f770a6-8f84-390c-a816-166488ce757e",
+      "ticker": "CHTR",
+      "title": "Comcast Sinks 8%, Charter Drops 6%, T-Mobile Slips 3%: Is a Broadband Repricing Underway?",
+      "source": "24/7 Wall St.",
+      "pub_date": "2026-09-09T16:31:56Z",
+      "time_ago": "hace 17h",
+      "url": "https://247wallst.com/investing/2026/09/09/comcast-sinks-8-charter-drops-6-t-mobile-slips-is-a-broadband-repricing-under-way/",
+      "importance": "BAJA",
+      "sentiment": "BEARISH"
+    },
+    {
+      "id": "2d732051-dce0-3e36-ac1e-bf628ed934de",
+      "ticker": "WMT",
+      "title": "Walmart teams up with popular coffee chain for home delivery",
+      "source": "TheStreet",
+      "pub_date": "2026-09-09T18:33:00Z",
+      "time_ago": "hace 15h",
+      "url": "https://www.thestreet.com/investing/stocks/walmart-dunkin-delivery-partnership-wmt-stock",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "cc17d31a-e2e9-37a8-bc3a-c029f5766610",
+      "ticker": "WMT",
+      "title": "Shein rival confirms plans for major U.S. store expansion",
+      "source": "TheStreet",
+      "pub_date": "2026-09-09T19:19:00Z",
+      "time_ago": "hace 15h",
+      "url": "https://www.thestreet.com/retail/cider-us-store-expansion",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "cbcc0a2b-7791-39fc-a674-eb4e0d8c6fb0",
+      "ticker": "CHTR",
+      "title": "Why Comcast Stock Is One of the Worst Performers in the S&P 500 Today",
+      "source": "Barrons.com",
+      "pub_date": "2026-09-09T19:24:00Z",
+      "time_ago": "hace 14h",
+      "url": "https://www.barrons.com/articles/comcast-stock-charter-communications-s-p-500-48ede73b?siteid=yhoof2&yptr=yahoo",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "54fecdca-29c3-32b1-8c91-284ec08bcc2c",
+      "ticker": "WMT",
+      "title": "Review & Preview: Oil Up, Market Down",
+      "source": "Barrons.com",
+      "pub_date": "2026-09-09T23:55:00Z",
+      "time_ago": "hace 10h",
+      "url": "https://www.barrons.com/articles/stocks-today-oil-prices-bond-worries-weigh-indexes-down-d8bc1373?siteid=yhoof2&yptr=yahoo",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "6e89ac1a-2b87-3db1-8286-d3d39aa26989",
+      "ticker": "WMT",
+      "title": "Kroger and Albertsons make key moves to take on Amazon, Walmart",
+      "source": "TheStreet",
+      "pub_date": "2026-09-10T00:03:00Z",
+      "time_ago": "hace 10h",
+      "url": "https://www.thestreet.com/retail/kroger-and-albertsons-make-key-moves-to-take-on-amazon-walmart",
+      "importance": "BAJA",
+      "sentiment": "NEUTRAL"
+    },
+    {
+      "id": "3a4fb0a7-f662-32c0-bbb7-8df9afc779e0",
+      "ticker": "WMT",
+      "title": "Walmart Eyes CTV, AI and Self-Service Tools to Build a Bigger Ad Business",
+      "source": "MarketBeat",
+      "pub_date": "2026-09-10T01:02:03Z",
+      "time_ago": "hace 9h",
+      "url": "https://www.marketbeat.com/instant-alerts/event-walmart-eyes-ctv-ai-and-self-service-tools-to-build-a-bigger-ad-business-2026-09-09/?utm_source=yahoofinance&utm_medium=yahoofinance",
       "importance": "BAJA",
       "sentiment": "NEUTRAL"
     }
