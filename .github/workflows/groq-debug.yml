@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install -q groq
+      - run: pip install -q groq pandas
 
       - name: El presupuesto corto reproduce el fallo, el arreglo lo evita
         run: |
@@ -60,5 +60,45 @@ jobs:
               print()
 
           print(f'suelo de tokens para JSON = {MIN_TOKENS_JSON}')
+          raise SystemExit(1 if fallos else 0)
+          PY
+
+      - name: ¿El gate sigue teniendo dientes?
+        run: |
+          python3 - <<'PY'
+          # El 11-sep-2026 el gate US pasó 58/58, contra una base de 58-69%
+          # los tres días anteriores. La explicación probable es buena (se
+          # arregló el off-by-one del crecimiento y ya no hay datos rotos que
+          # rechazar), pero un gate que aprueba todo hay que probarlo con algo
+          # que DEBA tumbar. Se usa Groq porque es gratis: comprueba el
+          # contrato del prompt, no el criterio de Sonnet.
+          import os
+          from groq import Groq
+          from ai_quality_filter import _prompt_data_check, _parse_data_check
+          from groq_utils import groq_chat, SCOUT_PRIMARY
+
+          cliente = Groq(api_key=os.environ['GROQ_API_KEY'])
+
+          SANO = dict(ticker='SAP', company_name='SAP SE', sector='Technology',
+                      current_price=240.0, target_price_analyst=275.0, analyst_count=28,
+                      analyst_upside_pct=14.6, roe=14.0, profit_margin=18.0,
+                      debt_to_equity=0.28, rev_growth=9.0, fcf_yield_pct=3.4,
+                      pct_from_52w_high=-8.0)
+          ROTO = dict(ticker='SO', company_name='Southern Company', sector='Utilities',
+                      current_price=92.0, target_price_analyst=96.0, analyst_count=19,
+                      analyst_upside_pct=4.3, roe=480.0, profit_margin=91.0,
+                      debt_to_equity=0.05, rev_growth=310.0, fcf_yield_pct=44.0,
+                      pct_from_52w_high=-2.0)
+
+          fallos = 0
+          for etiqueta, datos, esperado in (('SANO', SANO, True), ('ROTO', ROTO, False)):
+              r = groq_chat(cliente, [{'role': 'user', 'content': _prompt_data_check(datos)}],
+                            model=SCOUT_PRIMARY, max_tokens=2048, temperature=0.2,
+                            response_format={'type': 'json_object'})
+              ok, aviso = _parse_data_check(r.choices[0].message.content, 'Groq')
+              bien = (ok == esperado)
+              fallos += 0 if bien else 1
+              print(f"  {etiqueta:4s} esperado={'pasa' if esperado else 'tumba'} "
+                    f"obtenido={'pasa' if ok else 'tumba'} {'✅' if bien else '❌'} · {aviso or '-'}")
           raise SystemExit(1 if fallos else 0)
           PY
