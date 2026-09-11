@@ -378,19 +378,26 @@ def groq_data_check(ticker_data: dict) -> tuple[bool, str | None]:
     """
     try:
         client = Groq(api_key=GROQ_API_KEY)
-        from groq_utils import SCOUT_PRIMARY
-    except Exception:
+        from groq_utils import SCOUT_PRIMARY, MIN_TOKENS_JSON
+    except Exception as exc:
+        print(f"    ⚠️  Groq no disponible para {ticker_data.get('ticker')}: {exc}")
         return False, None
 
     prompt = _prompt_data_check(ticker_data)
     try:
         response = groq_chat(
             client, messages=[{'role': 'user', 'content': prompt}],
-            model=SCOUT_PRIMARY, max_tokens=500, temperature=0.2,
+            model=SCOUT_PRIMARY, max_tokens=MIN_TOKENS_JSON, temperature=0.2,
             response_format={'type': 'json_object'},
         )
         txt = response.choices[0].message.content
-    except Exception:
+    except Exception as exc:
+        # 11-sep-2026: este `except` mudo ocultó durante dos días que el gate
+        # europeo fallaba al 100% (0/33). El log solo decía "Groq no pudo
+        # verificar (sin saldo o fallo de API)" -- el error REAL era un 400
+        # `json_validate_failed` por presupuesto de tokens, y no se veía por
+        # ningún lado. Un fallo que no se imprime no existe.
+        print(f"    ⚠️  Groq falló en {ticker_data.get('ticker')}: {str(exc)[:200]}")
         return False, None
     ok, aviso = _parse_data_check(txt, 'Groq')
     return (ok, aviso) if ok else _verificar_duda(ticker_data, aviso, 'Groq')

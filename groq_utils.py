@@ -45,6 +45,45 @@ def _is_rate_limit(exc: Exception) -> bool:
     return "rate_limit_exceeded" in msg or "429" in msg
 
 
+# Todos los modelos de la cadena (gpt-oss y qwen3) son de RAZONAMIENTO: los
+# tokens de pensamiento salen del mismo presupuesto que la respuesta. Con
+# `response_format=json_object` y un tope corto, el razonamiento se come el
+# presupuesto entero y la generación sale VACÍA -> Groq devuelve 400
+# `json_validate_failed` con `failed_generation: ''`. El 11-sep-2026 eso
+# rompía 8 pasos del pipeline a la vez (203 llamadas en un solo run) y el
+# gate europeo al 100% (0/33). Es el mismo bug que max_tokens=300 con Sonnet 5
+# en ai_quality_filter, con otro proveedor.
+#
+# Se ataca por los dos lados: se baja el razonamiento al mínimo que cada
+# modelo admite y se garantiza suelo de presupuesto para el JSON.
+#
+# OJO con el valor: los dos grupos aceptan conjuntos DISTINTOS y disjuntos
+# (docs de Groq, /docs/reasoning). Mandar el del otro grupo es un 400:
+#   qwen3.6-27b  -> solo "none" | "default"          (NO acepta low/medium/high)
+#   gpt-oss 20b/120b -> solo "low" | "medium" | "high"   (NO acepta "none")
+# Como groq_chat hace fallback qwen -> gpt-oss sobre la marcha, el valor se
+# resuelve por modelo dentro del bucle, nunca una sola vez fuera.
+_ESFUERZO_MINIMO = {'qwen': 'none', 'openai/gpt-oss': 'low'}
+
+# Suelo cuando se pide JSON. Groq documenta 1024 como tope por defecto para
+# tareas de razonamiento; se deja margen por encima. No cuesta nada: lo que
+# no se genera, no se gasta.
+MIN_TOKENS_JSON = 2048
+
+
+def _esfuerzo_para(modelo: str) -> str | None:
+    """Mínimo razonamiento que ACEPTA este modelo, o None si no se reconoce.
+
+    Fail-safe hacia no mandar el parámetro: un modelo desconocido se queda
+    como está (lento pero funcionando) en vez de comerse un 400 por un valor
+    que no admite.
+    """
+    for prefijo, valor in _ESFUERZO_MINIMO.items():
+        if modelo.startswith(prefijo):
+            return valor
+    return None
+
+
 def groq_chat(
     client,
     messages: list[dict],
@@ -76,6 +115,11 @@ def groq_chat(
             )
             if response_format:
                 kwargs["response_format"] = response_format
+                # Ver _ESFUERZO_MINIMO: sin esto el JSON no cabe.
+                kwargs["max_tokens"] = max(max_tokens, MIN_TOKENS_JSON)
+                esfuerzo = _esfuerzo_para(m)
+                if esfuerzo:
+                    kwargs["reasoning_effort"] = esfuerzo
             resp = client.chat.completions.create(**kwargs)
             if attempt > 0:
                 logger.warning("groq_chat: used fallback model %s (primary %s exhausted)", m, model)

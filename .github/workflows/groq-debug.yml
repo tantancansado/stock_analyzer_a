@@ -1,0 +1,64 @@
+name: Groq Debug
+
+# Comprueba contra la API REAL que el gate de JSON funciona. Existe porque el
+# 11-sep-2026 ocho pasos del pipeline fallaban en silencio con 400
+# `json_validate_failed` y no había forma de reproducirlo en local: la clave
+# de Groq solo vive aquí. Groq es gratis — esto no gasta créditos de Claude.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  gate-json:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -q groq
+
+      - name: El presupuesto corto reproduce el fallo, el arreglo lo evita
+        run: |
+          python3 - <<'PY'
+          import os
+          from groq import Groq
+          from groq_utils import groq_chat, SCOUT_PRIMARY, PRIMARY_MODEL, MIN_TOKENS_JSON
+
+          cliente = Groq(api_key=os.environ['GROQ_API_KEY'])
+          PROMPT = ('Audita estos datos y responde SOLO con JSON: '
+                    '{"plausible": true|false, "campo": "", "motivo": "<una frase>"}. '
+                    'SAP SE: precio 240 EUR, ROE 14%, margen neto 18%, crecimiento YoY 9%.')
+          msgs = [{'role': 'user', 'content': PROMPT}]
+          fallos = 0
+
+          for modelo in (SCOUT_PRIMARY, PRIMARY_MODEL):
+              # 1. Cómo estaba: llamada directa con el tope corto de antes.
+              try:
+                  r = cliente.chat.completions.create(
+                      model=modelo, messages=msgs, max_tokens=500, temperature=0.2,
+                      response_format={'type': 'json_object'})
+                  txt = (r.choices[0].message.content or '')
+                  print(f'  {modelo} ANTES (max_tokens=500): sin error · texto={txt[:70]!r}')
+              except Exception as exc:
+                  print(f'  {modelo} ANTES (max_tokens=500): {str(exc)[:150]}')
+
+              # 2. Cómo queda: por groq_chat, que aplica suelo + reasoning_effort.
+              try:
+                  r = groq_chat(cliente, msgs, model=modelo, max_tokens=500,
+                                temperature=0.2, response_format={'type': 'json_object'})
+                  txt = (r.choices[0].message.content or '').strip()
+                  import json as _j
+                  _j.loads(txt)
+                  print(f'  {modelo} AHORA: ✅ JSON válido · {txt[:90]}')
+              except Exception as exc:
+                  fallos += 1
+                  print(f'  {modelo} AHORA: ❌ {type(exc).__name__}: {str(exc)[:200]}')
+              print()
+
+          print(f'suelo de tokens para JSON = {MIN_TOKENS_JSON}')
+          raise SystemExit(1 if fallos else 0)
+          PY

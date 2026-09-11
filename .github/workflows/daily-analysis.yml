@@ -662,6 +662,13 @@ jobs:
           # ya tiene, no necesita búsqueda web. Si el tope mensual de Claude
           # está agotado (ver claude_budget.py) sigue saliendo, gratis.
           GROQ_API_KEY:       ${{ secrets.GROQ_API_KEY }}
+          # Sin esto el briefing NO puede cruzar las tesis rotas con lo que
+          # tienes de verdad, y cae en la rama "no lo puedo confirmar". Es lo
+          # que hacía que mandara a vender CRH.L, AON y HEI el 10-sep: no las
+          # tenías, eran señales ACTIVE del tracker.
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
         run: python3 daily_briefing.py || echo "Daily briefing failed"
 
       # ── Archive + status ───────────────────────────────────────────────────
