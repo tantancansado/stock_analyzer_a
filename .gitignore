@@ -104,3 +104,15 @@ RECOLETAS_README.md
 # Sector rotation scans (keep only latest)
 docs/sector_rotation/scan_*.json
 
+
+# Cartera REAL del usuario: tickers, nº de acciones, precio medio y P&L.
+# docs/ se sirve entero en GitHub Pages, asi que commitear esto lo publicaba
+# en una URL abierta (se comprobo el 11-sep-2026: HTTP 200 a
+# tantancansado.github.io/stock_analyzer_a/portfolio_strategies.json).
+# El pipeline lo sigue escribiendo en local porque strategy_alerts lo lee,
+# pero NO se commitea: la app lo consume por /api/portfolio-strategies, que
+# exige JWT y sirve el artefacto por-usuario de Supabase.
+docs/portfolio_strategies.json
+docs/portfolio_strategies.csv
+docs/history/*/portfolio_strategies.json
+docs/history/*/portfolio_strategies.csv

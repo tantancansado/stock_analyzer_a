@@ -659,11 +659,20 @@ export interface PortfolioStrategiesResponse {
   strategies: Record<string, PortfolioStrategy>
 }
 
+/** SIEMPRE por la API, nunca por el fichero estatico.
+ *
+ *  `fetchStaticOrApi` prefiere el estatico cuando VITE_CSV_BASE esta definido
+ *  — o sea, en produccion — y eso hacia que la app leyera
+ *  `tantancansado.github.io/.../portfolio_strategies.json`, que es una URL
+ *  ABIERTA. El fichero lleva la cartera real: tickers, numero de acciones,
+ *  precio medio y P&L. Comprobado el 11-sep-2026: HTTP 200 para cualquiera,
+ *  mas 33 copias historicas en docs/history con seis semanas de posiciones.
+ *
+ *  `/api/portfolio-strategies` exige JWT y devuelve el artefacto por-usuario
+ *  de Supabase (ver _get_user_artifact_for_request en ticker_api.py), que es
+ *  donde este dato debe vivir. */
 export const fetchPortfolioStrategies = () =>
-  fetchStaticOrApi<PortfolioStrategiesResponse>(
-    'portfolio_strategies.json',
-    '/api/portfolio-strategies',
-  )
+  apiClient.get<PortfolioStrategiesResponse>('/api/portfolio-strategies')
 
 // ── Refresh on-demand (POST) — recomputa todos los artifacts del user ──────
 export interface PortfolioRefreshResponse {
