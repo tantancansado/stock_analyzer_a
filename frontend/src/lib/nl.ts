@@ -46,12 +46,17 @@ export function nlBounceSetup(opts: {
 }): string {
   const parts: string[] = []
 
-  // Caída
+  // Caída. Son DOS hechos distintos y juntarlos en una frase miente:
+  // `drawdown_pct` se mide desde el máximo (semanas o meses) y
+  // `consecutive_down_days` cuenta las sesiones seguidas en rojo. SHW el
+  // 11-sep-2026 decía "Caída del 14% en 3 sesiones consecutivas" cuando el
+  // -14% venía del máximo del 24-ago y esas 3 sesiones sumaban -4,9%:
+  // triplicaba la violencia aparente de la caída, que es justo lo que hace
+  // parecer atractivo un rebote.
   const d = Math.abs(opts.drawdown_pct)
+  parts.push(`Caída del ${d.toFixed(0)}% desde máximos`)
   if (opts.consecutive_down_days && opts.consecutive_down_days >= 3) {
-    parts.push(`Caída del ${d.toFixed(0)}% en ${opts.consecutive_down_days} sesiones consecutivas`)
-  } else {
-    parts.push(`Caída del ${d.toFixed(0)}% desde máximos`)
+    parts.push(`${opts.consecutive_down_days} sesiones consecutivas a la baja`)
   }
 
   // RSI

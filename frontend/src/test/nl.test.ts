@@ -40,7 +40,10 @@ describe('nl helpers', () => {
       hammer_candle: true,
     })
 
-    expect(text).toContain('4 sesiones consecutivas')
+    // Los dos hechos por separado: el -18% es desde máximos, no de 4 sesiones.
+    expect(text).toContain('Caída del 18% desde máximos')
+    expect(text).toContain('4 sesiones consecutivas a la baja')
+    expect(text).not.toContain('18% en 4 sesiones')
     expect(text).toContain('sobreventa extrema')
     expect(text).toContain('VALUE 67pts')
     expect(text).toContain('Connors RSI2')
