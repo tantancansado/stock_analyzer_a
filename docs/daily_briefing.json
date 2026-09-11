@@ -1,44 +1,180 @@
 {
-  "date": "2026-09-11",
-  "timestamp": "2026-09-11T10:47:53.330491",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 88.0,
-      "analyst_upside_pct": 26.8,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 83.10499999999999,
-      "analyst_upside_pct": 20.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "QSR",
-      "sector": "Consumer Cyclical",
-      "value_score": 62.395,
-      "analyst_upside_pct": 12.3,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MA",
-      "sector": "Financial Services",
-      "value_score": 62.31999999999999,
-      "analyst_upside_pct": 18.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "NDSN",
-      "sector": "Industrials",
-      "value_score": 62.19499999999999,
-      "analyst_upside_pct": 13.7,
-      "conviction_grade": null
+  "fecha": "2026-09-11",
+  "texto": "<b>Hoy hay cuatro para entrar.</b> QSR a 76,49 con los analistas viendo un 12% de subida y ya un 6,7% por debajo de máximos. NDSN a 307,45, upside del 13,7% y aguantando bien la fuerza relativa. SBGSY a 66,65 con el mejor potencial del lote, 19,2%. Y NUE a 255,46, más ajustado en flujo de caja pero con upside del 11%. Las cuatro están en zona de entrada, sin trampa detectada.\n\n<b>Revisa estas señales, aunque no sepamos si las tienes:</b> la de CRH.L se ha roto, el precio (7914) ya está por debajo del nivel de salida que marcaba el sistema (8140). Lo mismo con AON (315,79 vs 326,70) y HEI (312,32 vs 322,97): si las tienes, toca decidir si sales. Y ojo con EXPN.L: el upside que le dan los analistas se ha disparado a un 36% de golpe, y eso históricamente ha sido señal de trampa de valor, no de oportunidad — cero aciertos en el histórico con ese patrón.\n\nPara vigilar: SPGI sigue cayendo (-21% desde máximos) pero es por sentimiento tras unos resultados con BPA algo flojo aunque ingresos por encima de lo esperado — barato todavía no es comprable. AUTO.L cae un 41% desde máximos pese a seguir creciendo en ingresos y beneficio, castigada por avisos de JPMorgan sobre competencia. BR, BRO y CBOE también están baratas y cayendo, sin un motivo claro identificado todavía.\n\nEl sistema acierta un 61,5% a 90 días, pero es una cifra provisional — aún no hay suficiente histórico a 180 días para darla por buena. Ajusta el tamaño de posición en consecuencia.\n\n🟡 Claude: $9.17 de $10 (92%) · lo que más gasta: ai_quality_filter ($2.54)",
+  "hechos": {
+    "fecha": "2026-09-11",
+    "total_lista": 58,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "QSR",
+        "empresa": "Restaurant Brands Internationa",
+        "score": 62.395,
+        "precio": 76.49,
+        "upside_analista": 12.3,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.89,
+        "del_maximo_pct": -6.7,
+        "rs_6m": -6.37,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "NDSN",
+        "empresa": "Nordson Corporation",
+        "score": 62.19499999999999,
+        "precio": 307.45,
+        "upside_analista": 13.7,
+        "upside_triangulado": 13.7,
+        "divergencia": "",
+        "fcf_yield": 3.58,
+        "del_maximo_pct": -9.3,
+        "rs_6m": 1.49,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SBGSY",
+        "empresa": "Schneider Electric S.E.",
+        "score": 45.61,
+        "precio": 66.65,
+        "upside_analista": 19.2,
+        "upside_triangulado": 19.2,
+        "divergencia": "",
+        "fcf_yield": 3.32,
+        "del_maximo_pct": -7.4,
+        "rs_6m": 1.87,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "NUE",
+        "empresa": "Nucor Corporation",
+        "score": 39.12,
+        "precio": 255.46,
+        "upside_analista": 11.0,
+        "upside_triangulado": 11.0,
+        "divergencia": "",
+        "fcf_yield": 1.18,
+        "del_maximo_pct": -8.8,
+        "rs_6m": 40.72,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 88.0,
+        "precio": 168.24,
+        "upside_analista": 26.8,
+        "upside_triangulado": 13.3,
+        "divergencia": "ALTA",
+        "fcf_yield": 6.14,
+        "del_maximo_pct": -34.2,
+        "rs_6m": -17.78,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "BRO",
+        "empresa": "Brown & Brown, Inc.",
+        "score": 51.080000000000005,
+        "precio": 66.33,
+        "upside_analista": 15.6,
+        "upside_triangulado": 15.6,
+        "divergencia": "MEDIA",
+        "fcf_yield": 7.4,
+        "del_maximo_pct": -31.3,
+        "rs_6m": -15.82,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "CBOE",
+        "empresa": "Cboe Global Markets, Inc.",
+        "score": 55.745000000000005,
+        "precio": 287.49,
+        "upside_analista": 9.8,
+        "upside_triangulado": 9.8,
+        "divergencia": "",
+        "fcf_yield": 2.26,
+        "del_maximo_pct": -22.5,
+        "rs_6m": -14.85,
+        "timing": "VIGILAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SPGI",
+        "empresa": "S&P Global Inc.",
+        "score": 59.97999999999999,
+        "precio": 410.42,
+        "upside_analista": 26.8,
+        "upside_triangulado": 20.6,
+        "divergencia": "MEDIA",
+        "fcf_yield": 4.5,
+        "del_maximo_pct": -21.4,
+        "rs_6m": -10.55,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "En febrero de 2026 SPGI cayó ~10% tras publicar resultados del Q4 2025 con un BPA ajustado apenas por debajo del consenso, mientras los ingresos superaron expectativas (+9% interan"
+      },
+      {
+        "ticker": "AUTO.L",
+        "empresa": "Autotrader Group plc",
+        "score": 55.88,
+        "precio": 489.8,
+        "upside_analista": 14.4,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 6.4,
+        "del_maximo_pct": -40.9,
+        "rs_6m": -10.15,
+        "timing": "ESPERAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "Auto Trader sigue creciendo en ingresos y beneficio (ingresos +4% y beneficio operativo +4% en el año hasta marzo 2026), pero la acción cayó tras advertencias de JPMorgan sobre un "
+      }
+    ],
+    "tesis_rotas": [
+      {
+        "ticker": "CRH.L",
+        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
+        "severidad": "HIGH"
+      },
+      {
+        "ticker": "EXPN.L",
+        "motivo": "analyst_upside saltó a 36% — value trap (0% win histórico)",
+        "severidad": "HIGH"
+      },
+      {
+        "ticker": "AON",
+        "motivo": "Precio 315.79 por debajo del stop 326.70",
+        "severidad": "HIGH"
+      },
+      {
+        "ticker": "HEI",
+        "motivo": "Precio 312.32 por debajo del stop 322.97",
+        "severidad": "HIGH"
+      }
+    ],
+    "rotas_son_tuyas": false,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

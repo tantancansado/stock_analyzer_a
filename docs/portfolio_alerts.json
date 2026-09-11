@@ -1,27 +1,18 @@
 {
-  "generated_at": "2026-09-10",
+  "generated_at": "2026-09-11",
   "alerts": [
     {
       "type": "STOP_TRIGGERED",
       "ticker": "IVR",
-      "current": 7.09,
+      "current": 6.91,
       "entry": 7.91,
       "target": null,
-      "pct_change": -10.4,
-      "pct_to_target": null
-    },
-    {
-      "type": "STOP_TRIGGERED",
-      "ticker": "CHTR",
-      "current": 133.89,
-      "entry": 151.96,
-      "target": null,
-      "pct_change": -11.9,
+      "pct_change": -12.6,
       "pct_to_target": null
     }
   ],
   "counts": {
-    "stop_triggered": 2,
+    "stop_triggered": 1,
     "target_reached": 0,
     "near_target": 0
   }
