@@ -1,229 +1,44 @@
 {
-  "fecha": "2026-09-10",
-  "texto": "<b>Qué comprar hoy:</b> Hay siete candidatos en zona de entrada. Los que pintan mejor son QSR (Restaurant Brands), con casi un 12% de recorrido según los analistas, y OXY (Occidental), que si se cumple la tesis más optimista tendría muchísimo más margen — aunque esa cifra del 68% es la estimación generosa, no la base. Completan la lista NDSN, EQIX, SBGSY, ATLKY y DBOEY, todas cayendo entre un 5% y un 9% desde máximos sin que el negocio se haya deteriorado.\n\n<b>Toca cerrar posiciones:</b> Cinco tesis se han roto y las cinco son graves. CRH.L, AON y HEI han perforado tu precio de salida (CRH por debajo de 8.140, AON de 326,70, HEI de 322,97): sal, no esperes a que remonten. SYK y EXPN.L han disparado de golpe el upside que les ven los analistas hasta el 35-37%, y ese patrón históricamente no ha acertado ninguna vez — es la trampa de valor clásica, fuera también.\n\n<b>Para vigilar:</b> SPGI sigue cayendo (-19,9% desde máximo) por un resultado de Q4 donde el beneficio quedó justo por debajo de lo esperado, aunque los ingresos subieron un 9%; parece más sentimiento que negocio roto, pero barata todavía no es comprable. CBOE, AXP y MCO también están cayendo (entre -13% y -21%) sin un motivo claro identificado aún. BR es la que más ha bajado (-34%) pero con mucha divergencia entre analistas, mejor esperar más claridad antes de tocarla.\n\nEl acierto del sistema es provisional: solo hay 90 días de histórico, no los 180 que darían el veredicto real. Con eso, va un 61,5% de aciertos sobre 39 señales y una ganancia media del 3,15%. Dimensiona la posición pensando en eso, no en una cifra definitiva.",
-  "hechos": {
-    "fecha": "2026-09-10",
-    "total_lista": 50,
-    "datos_incompletos": [],
-    "comprables": [
-      {
-        "ticker": "QSR",
-        "empresa": "Restaurant Brands Internationa",
-        "score": 59.09,
-        "precio": 77.01,
-        "upside_analista": 11.6,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 4.86,
-        "del_maximo_pct": -6.0,
-        "rs_6m": -4.45,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "NDSN",
-        "empresa": "Nordson Corporation",
-        "score": 50.93,
-        "precio": 313.94,
-        "upside_analista": 11.4,
-        "upside_triangulado": 11.4,
-        "divergencia": "",
-        "fcf_yield": 3.51,
-        "del_maximo_pct": -7.4,
-        "rs_6m": 2.06,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "OXY",
-        "empresa": "Occidental Petroleum Corporati",
-        "score": 48.6,
-        "precio": 61.3,
-        "upside_analista": 9.4,
-        "upside_triangulado": 67.9,
-        "divergencia": "",
-        "fcf_yield": 6.18,
-        "del_maximo_pct": -9.1,
-        "rs_6m": -2.52,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "EQIX",
-        "empresa": "Equinix, Inc.",
-        "score": 38.125,
-        "precio": 1043.06,
-        "upside_analista": 18.4,
-        "upside_triangulado": 18.4,
-        "divergencia": "MEDIA",
-        "fcf_yield": 3.67,
-        "del_maximo_pct": -7.6,
-        "rs_6m": -5.13,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "SBGSY",
-        "empresa": "Schneider Electric S.E.",
-        "score": 37.58,
-        "precio": 67.42,
-        "upside_analista": 17.9,
-        "upside_triangulado": 17.9,
-        "divergencia": "",
-        "fcf_yield": 3.29,
-        "del_maximo_pct": -6.3,
-        "rs_6m": 1.95,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "ATLKY",
-        "empresa": "Atlas Copco AB (publ)",
-        "score": 35.12,
-        "precio": 21.23,
-        "upside_analista": 22.5,
-        "upside_triangulado": null,
-        "divergencia": "",
-        "fcf_yield": 2.61,
-        "del_maximo_pct": -5.3,
-        "rs_6m": -1.5,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "DBOEY",
-        "empresa": "Deutsche Börse AG",
-        "score": 30.289999999999992,
-        "precio": 31.75,
-        "upside_analista": 9.0,
-        "upside_triangulado": 1.4,
-        "divergencia": "MEDIA",
-        "fcf_yield": 4.43,
-        "del_maximo_pct": -6.4,
-        "rs_6m": 4.6,
-        "timing": "ENTRADA",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "vigilar": [
-      {
-        "ticker": "BR",
-        "empresa": "Broadridge Financial Solutions",
-        "score": 86.35,
-        "precio": 168.1,
-        "upside_analista": 26.9,
-        "upside_triangulado": 15.1,
-        "divergencia": "ALTA",
-        "fcf_yield": 6.23,
-        "del_maximo_pct": -34.3,
-        "rs_6m": -19.82,
-        "timing": "ESPERAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "CBOE",
-        "empresa": "Cboe Global Markets, Inc.",
-        "score": 53.655,
-        "precio": 291.87,
-        "upside_analista": 8.0,
-        "upside_triangulado": 8.0,
-        "divergencia": "",
-        "fcf_yield": 2.23,
-        "del_maximo_pct": -21.4,
-        "rs_6m": -10.05,
-        "timing": "VIGILAR",
-        "por_que_cae": "",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "SPGI",
-        "empresa": "S&P Global Inc.",
-        "score": 67.92500000000001,
-        "precio": 418.36,
-        "upside_analista": 24.4,
-        "upside_triangulado": 18.4,
-        "divergencia": "MEDIA",
-        "fcf_yield": 4.42,
-        "del_maximo_pct": -19.9,
-        "rs_6m": -9.77,
-        "timing": "ESPERAR",
-        "por_que_cae": "SENTIMIENTO",
-        "por_que_cae_detalle": "En febrero de 2026 SPGI cayó ~10% tras publicar resultados del Q4 2025 con un BPA ajustado apenas por debajo del consenso, mientras los ingresos superaron expectativas (+9% interan"
-      },
-      {
-        "ticker": "AXP",
-        "empresa": "American Express Company",
-        "score": 63.58500000000001,
-        "precio": 321.8,
-        "upside_analista": 16.8,
-        "upside_triangulado": 16.8,
-        "divergencia": "",
-        "fcf_yield": 7.36,
-        "del_maximo_pct": -17.0,
-        "rs_6m": -7.54,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      },
-      {
-        "ticker": "MCO",
-        "empresa": "Moody's Corporation",
-        "score": 82.01499999999999,
-        "precio": 474.57,
-        "upside_analista": 18.4,
-        "upside_triangulado": 18.4,
-        "divergencia": "",
-        "fcf_yield": 3.14,
-        "del_maximo_pct": -13.2,
-        "rs_6m": -6.42,
-        "timing": "VIGILAR",
-        "por_que_cae": "SIN_DATOS",
-        "por_que_cae_detalle": ""
-      }
-    ],
-    "tesis_rotas": [
-      {
-        "ticker": "CRH.L",
-        "motivo": "Precio 7914.00 por debajo del stop 8140.16",
-        "severidad": "HIGH"
-      },
-      {
-        "ticker": "SYK",
-        "motivo": "analyst_upside saltó a 37% — value trap (0% win histórico)",
-        "severidad": "HIGH"
-      },
-      {
-        "ticker": "EXPN.L",
-        "motivo": "analyst_upside saltó a 35% — value trap (0% win histórico)",
-        "severidad": "HIGH"
-      },
-      {
-        "ticker": "AON",
-        "motivo": "Precio 315.79 por debajo del stop 326.70",
-        "severidad": "HIGH"
-      },
-      {
-        "ticker": "HEI",
-        "motivo": "Precio 312.32 por debajo del stop 322.97",
-        "severidad": "HIGH"
-      }
-    ],
-    "regimen_cambio": null,
-    "rendimiento_sistema": {
-      "horizonte": "90d",
-      "es_horizonte_definitivo": false,
-      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
-      "acierto_pct": 61.5,
-      "retorno_medio": 3.15,
-      "n": 39
+  "date": "2026-09-11",
+  "timestamp": "2026-09-11T10:47:53.330491",
+  "narrative": "",
+  "macro_regime": "CALM",
+  "picks_count": 8,
+  "top_picks": [
+    {
+      "ticker": "BR",
+      "sector": "Technology",
+      "value_score": 88.0,
+      "analyst_upside_pct": 26.8,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MCO",
+      "sector": "Financial Services",
+      "value_score": 83.10499999999999,
+      "analyst_upside_pct": 20.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "QSR",
+      "sector": "Consumer Cyclical",
+      "value_score": 62.395,
+      "analyst_upside_pct": 12.3,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "MA",
+      "sector": "Financial Services",
+      "value_score": 62.31999999999999,
+      "analyst_upside_pct": 18.2,
+      "conviction_grade": null
+    },
+    {
+      "ticker": "NDSN",
+      "sector": "Industrials",
+      "value_score": 62.19499999999999,
+      "analyst_upside_pct": 13.7,
+      "conviction_grade": null
     }
-  }
+  ]
 }

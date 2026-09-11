@@ -1,27 +1,27 @@
 {
-  "date": "2026-09-10",
-  "timestamp": "2026-09-10T11:48:08.816119",
-  "narrative": "",
+  "date": "2026-09-11",
+  "timestamp": "2026-09-11T10:47:55.506718",
+  "narrative": "1) La rotaci\u00f3n muestra un claro giro a sectores de infraestructura y tecnolog\u00eda: los l\u00edderes son Medical Care Facilities, Railroads, Software\u2011Infrastructure, Internet Content & Information y Specialty Industrial Machinery. Los defensivos tradicionales (Retail, Utilities, Consumer Defensive) est\u00e1n rezagados, mientras los c\u00edclicos de construcci\u00f3n y automoci\u00f3n est\u00e1n en el fondo.  \n2) En un r\u00e9gimen macro \u201cCALM\u201d, la preferencia por sectores con fundamentos s\u00f3lidos y exposici\u00f3n a servicios esenciales (healthcare, infra) es coherente; la falta de impulso en c\u00edclicos indica que la econom\u00eda sigue sin acelerarse.  \n3) Enf\u00f3quese en Medical Care Facilities, Railroads, Software\u2011Infrastructure y Specialty Industrial Machinery",
   "macro_regime": "CALM",
   "top_sectors": [
     {
       "industry": "Medical Care Facilities",
       "sector": "Healthcare",
-      "avg_rs_percentile": 70.3,
+      "avg_rs_percentile": 68.4,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Railroads",
       "sector": "Industrials",
-      "avg_rs_percentile": 58.3,
+      "avg_rs_percentile": 56.8,
       "num_tickers": 2,
       "label": "Top 10%"
     },
     {
       "industry": "Software - Infrastructure",
       "sector": "Technology",
-      "avg_rs_percentile": 52.4,
+      "avg_rs_percentile": 55.1,
       "num_tickers": 2,
       "label": "Top 10%"
     },
@@ -35,7 +35,7 @@
     {
       "industry": "Specialty Industrial Machinery",
       "sector": "Industrials",
-      "avg_rs_percentile": 46.3,
+      "avg_rs_percentile": 44.1,
       "num_tickers": 7,
       "label": "Top 25%"
     }
@@ -44,35 +44,35 @@
     {
       "industry": "Medical Devices",
       "sector": "Healthcare",
-      "avg_rs_percentile": 14.8,
+      "avg_rs_percentile": 13.9,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Building Products & Equipment",
       "sector": "Industrials",
-      "avg_rs_percentile": 14.0,
-      "num_tickers": 2,
-      "label": "Bottom 25%"
-    },
-    {
-      "industry": "Residential Construction",
-      "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 5.6,
+      "avg_rs_percentile": 12.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Discount Stores",
       "sector": "Consumer Defensive",
-      "avg_rs_percentile": 4.6,
+      "avg_rs_percentile": 5.9,
+      "num_tickers": 2,
+      "label": "Bottom 25%"
+    },
+    {
+      "industry": "Residential Construction",
+      "sector": "Consumer Cyclical",
+      "avg_rs_percentile": 4.4,
       "num_tickers": 2,
       "label": "Bottom 25%"
     },
     {
       "industry": "Auto Parts",
       "sector": "Consumer Cyclical",
-      "avg_rs_percentile": 3.2,
+      "avg_rs_percentile": 2.9,
       "num_tickers": 2,
       "label": "Bottom 25%"
     }
