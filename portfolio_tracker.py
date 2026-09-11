@@ -121,6 +121,7 @@ class PortfolioTracker:
             'value_score', 'momentum_score', 'fcf_yield_pct', 'risk_reward_ratio',
             'analyst_upside_pct', 'short_percent_float', 'sector', 'market_regime',
             'entry_readiness', 'entry_readiness_reason',
+            'cerebro_signal', 'cerebro_score_adj',
             'return_7d', 'return_14d', 'return_30d', 'return_90d', 'return_180d', 'return_365d',
             'price_7d', 'price_14d', 'price_30d', 'price_90d', 'price_180d', 'price_365d',
             'win_7d', 'win_14d', 'win_30d', 'win_90d', 'win_180d', 'win_365d',
@@ -272,6 +273,23 @@ class PortfolioTracker:
                         # no se puede reconstruir después (el timing técnico cambia a diario).
                         'entry_readiness': row.get('entry_readiness'),
                         'entry_readiness_reason': row.get('entry_readiness_reason'),
+                        # Capturado desde 11-sep-2026 por el mismo motivo que los dos
+                        # de arriba: hoy NO se puede saber si el ajuste de cerebro al
+                        # value_score (de -12 a +11, sobre 20 de 33 picks) ayuda o
+                        # estorba. Se intentó reconstruyendo desde docs/history y el
+                        # cruce solo da 28 señales: n=14/8/5 por grupo a 7 días, con
+                        # intervalos de 30-60 puntos que se solapan, y el sentido se
+                        # INVIERTE entre 14d y 30d. No es que cerebro salga bien o
+                        # mal: es que no se puede medir.
+                        #
+                        # El motivo de fondo de esa escasez es que el gate publicó
+                        # 4-6 picks/día en vez de 60-74 durante casi todo el periodo
+                        # con snapshots (bug de max_tokens, arreglado el 9-sep).
+                        # Guardándolo AQUÍ, en el momento de la señal, la pregunta
+                        # queda respondible sin depender del cruce frágil con
+                        # snapshots diarios — que además solo existen desde julio.
+                        'cerebro_signal': row.get('cerebro_signal'),
+                        'cerebro_score_adj': row.get('cerebro_score_adj'),
                         'return_7d': None, 'return_14d': None, 'return_30d': None,
                         'price_7d': None, 'price_14d': None, 'price_30d': None,
                         'win_7d': None, 'win_14d': None, 'win_30d': None,
@@ -321,6 +339,9 @@ class PortfolioTracker:
                         'market_regime': row.get('market_regime', 'N/A'),
                         'entry_readiness': row.get('entry_readiness'),
                         'entry_readiness_reason': row.get('entry_readiness_reason'),
+                        # Ver la nota del bloque VALUE: capturado para poder medir algún día si el ajuste de cerebro ayuda.
+                        'cerebro_signal': row.get('cerebro_signal'),
+                        'cerebro_score_adj': row.get('cerebro_score_adj'),
                         'return_7d': None, 'return_14d': None, 'return_30d': None,
                         'price_7d': None, 'price_14d': None, 'price_30d': None,
                         'win_7d': None, 'win_14d': None, 'win_30d': None,
