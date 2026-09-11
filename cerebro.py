@@ -215,17 +215,68 @@ def mine_patterns() -> dict:
         s = stats(done[(done["value_score"]>=70) & (done["fcf_yield_pct"]>=5)], "Score≥70 + FCF≥5%")
         if s: best_combos.append(s)
 
-    # AI narrative
-    bt = max(score_tiers, key=lambda x: x["win_rate_7d"], default={})
-    br = regimes[0] if regimes else {}
-    bs = sectors[0] if sectors else {}
+    # ── ¿Hay algo que se distinga del azar? ───────────────────────────────
+    # 11-sep-2026. Antes esto cogia max(score_tiers, key=win_rate_7d) sin
+    # mirar la muestra, o sea el maximo de un conjunto ruidoso -- que por
+    # construccion cae siempre en el tramo con menos datos. Resultado: la
+    # narrativa afirmaba "Mejor tier: 90-101 con 62,5% WR" sobre n=16, cuyo
+    # intervalo de Wilson es ~[39-82] y cruza el 50%. Y el `best_combos`
+    # estrella ("Score>=70 + FCF>=5%") daba 25,0% de acierto y -4,16% de
+    # retorno: PEOR que el baseline, presentado como la mejor combinacion.
+    #
+    # Ahora un tramo solo se declara "mejor" si su peor caso al 95% sigue por
+    # encima del baseline. Si ninguno lo consigue, se dice -- y no se gasta
+    # una llamada al LLM en narrar ruido.
+    #
+    # Pendiente de fondo, no resuelto aqui: todo esto se mide a 7 DIAS sobre
+    # el historico completo (contaminado). Para una tesis value 7d es ruido
+    # por definicion; ver la nota del panel de horizontes en el tracker.
+    # Dos condiciones, y hacen falta las dos. Solo con el intervalo no basta:
+    # el baseline a 7d es del 29,2%, un liston tan bajo que un tramo de n=16
+    # lo supera "significativamente" siendo ruido. El suelo de muestra es lo
+    # que impide fundar una conclusion en 16 senales.
+    MUESTRA_MINIMA = 30
+
+    def _destaca(item) -> bool:
+        n = item.get("n") or 0
+        wr = item.get("win_rate_7d")
+        if n < MUESTRA_MINIMA or wr is None:
+            return False
+        from portfolio_tracker import _wilson
+        lo, _hi = _wilson(round(wr / 100 * n), n)
+        return lo is not None and lo > base_wr
+
+    tiers_solidos   = [t for t in score_tiers if _destaca(t)]
+    regimes_solidos = [r for r in regimes if _destaca(r)]
+    sectores_solidos = [s_ for s_ in sectors if _destaca(s_)]
+    combos_solidos  = [c for c in best_combos if _destaca(c)]
+    hay_senal = bool(tiers_solidos or regimes_solidos or sectores_solidos or combos_solidos)
+
+    bt = max(tiers_solidos, key=lambda x: x["win_rate_7d"], default={})
+    br = regimes_solidos[0] if regimes_solidos else {}
+    bs = sectores_solidos[0] if sectores_solidos else {}
+
+    if not hay_senal:
+        print(f"  Ningun tramo se distingue del baseline ({base_wr:.1f}%) con la muestra actual")
+        narrative = (
+            f"Con {len(done)} senales analizadas, ningun tramo de score, regimen ni sector "
+            f"se distingue del acierto base ({base_wr:.1f}%) una vez se tiene en cuenta el "
+            f"tamano de la muestra. No hay patron que explotar todavia."
+        )
+        return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate_7d=round(base_wr,1),
+                    baseline_avg_return_7d=round(base_ret,2), score_tiers=score_tiers,
+                    market_regimes=regimes, sectors=sectors[:10], fcf_tiers=fcf_tiers,
+                    rr_tiers=rr_tiers, period_stats=period_stats, best_combos=best_combos,
+                    hay_senal=False, narrative=narrative)
+
+    # AI narrative — solo cuando hay algo que de verdad destaca
     narrative = ai(
         f"Eres el cerebro analítico de un sistema VALUE. {len(done)} señales analizadas, win rate base {base_wr:.1f}%.\n"
         f"Mejor score tier: {bt.get('label','N/A')} → {bt.get('win_rate_7d','N/A')}% WR (ret {bt.get('avg_return_7d','N/A')}%)\n"
         f"Mejor régimen: {br.get('label','N/A')} → {br.get('win_rate_7d','N/A')}% WR\n"
         f"Mejor sector: {bs.get('label','N/A')} → {bs.get('win_rate_7d','N/A')}% WR\n"
         f"FCF≥5%: {next((x['win_rate_7d'] for x in fcf_tiers if x['label']=='FCF≥5%'),'N/A')}% WR\n"
-        f"Combos: {[(c['label'],c['win_rate_7d']) for c in best_combos]}\n"
+        f"Combos: {[(c['label'],c['win_rate_7d']) for c in combos_solidos]}\n"
         "3-4 frases en español. Conclusiones accionables: qué favorece victorias, qué evitar.", 250
     ) or f"Sistema analizó {len(done)} señales. Win rate base {base_wr:.1f}%. Mejor tier: {bt.get('label','N/A')} con {bt.get('win_rate_7d','N/A')}% WR."
 
@@ -233,7 +284,7 @@ def mine_patterns() -> dict:
     return dict(generated_at=TODAY, total_analyzed=len(done), baseline_win_rate_7d=round(base_wr,1),
                 baseline_avg_return_7d=round(base_ret,2), score_tiers=score_tiers, market_regimes=regimes,
                 sectors=sectors[:10], fcf_tiers=fcf_tiers, rr_tiers=rr_tiers, period_stats=period_stats,
-                best_combos=best_combos, narrative=narrative)
+                best_combos=best_combos, hay_senal=True, narrative=narrative)
 
 
 # ══════════════════════════════════════════════════════════════════════════════

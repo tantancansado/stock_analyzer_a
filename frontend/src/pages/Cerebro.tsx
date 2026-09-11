@@ -6,8 +6,7 @@ import {
   fetchCerebroEntrySignals, fetchCerebroExitSignals, fetchCerebroValueTraps, fetchCerebroSmartMoney,
   fetchCerebroInsiderClusters, fetchCerebroDividendSafety, fetchCerebroPiotroski,
   fetchCerebroStressTest, fetchCerebroBriefing, fetchMeanReversion,
-  fetchCerebroShortSqueeze, fetchCerebroQualityDecay, fetchEarningsCalendar, fetchPortfolioPrices,
-  type CerebroTier, type CerebroAlert, type EntrySignal, type MeanReversionItem,
+  fetchCerebroShortSqueeze, fetchCerebroQualityDecay, fetchEarningsCalendar, fetchPortfolioPrices, type CerebroAlert, type EntrySignal, type MeanReversionItem,
   type ShortSqueezeSetup, type QualityDecay, type CerebroSignal, type ExitSignal,
   type ValueTrap, type SmartMoneySignal, type EarningsEntry,
 } from '../api/client'
@@ -34,7 +33,7 @@ const ContrarianDiscovery  = lazy(() => import('./ContrarianDiscovery'))
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'insights' | 'calibration' | 'thesis' | 'contrarian' | 'novedades'
+type CerebroTab = 'briefing' | 'myportfolio' | 'entry' | 'bounces' | 'convergence' | 'agents' | 'alerts' | 'calibration' | 'thesis' | 'contrarian' | 'novedades'
 
 type CoachTone = 'risk' | 'opportunity' | 'watch' | 'calm'
 
@@ -476,39 +475,6 @@ function buildCoachActions({
   return actions.slice(0, 3)
 }
 
-function WrBar({ wr, baseline }: { wr: number; baseline: number }) {
-  const color = wr >= baseline + 10 ? 'bg-emerald-500' : wr >= baseline ? 'bg-blue-500' : wr >= baseline - 10 ? 'bg-amber-500' : 'bg-red-500'
-  const delta = wr - baseline
-  return (
-    <div className="flex items-center gap-2">
-      <div className="flex-1 h-1.5 rounded-full bg-muted/30 overflow-hidden">
-        <div className={`h-full rounded-full ${color}`} style={{ width: `${Math.min(100, wr)}%` }} />
-      </div>
-      <span className="tabular-nums text-[0.75rem] font-bold w-10 text-right">{wr.toFixed(0)}%</span>
-      <span className={`tabular-nums text-[0.65rem] w-12 text-right ${delta >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-        {delta >= 0 ? '+' : ''}{delta.toFixed(1)}pp
-      </span>
-    </div>
-  )
-}
-
-function TierCard({ tier, baseline }: { tier: CerebroTier; baseline: number }) {
-  return (
-    <div className="rounded-lg border border-border/30 bg-muted/10 px-3 py-2">
-      <div className="flex items-center justify-between mb-1.5">
-        <span className="text-[0.72rem] font-semibold text-foreground/80">{tier.label}</span>
-        <span className="text-[0.6rem] text-muted-foreground/60 tabular-nums">n={tier.n}</span>
-      </div>
-      <WrBar wr={tier.win_rate_7d} baseline={baseline} />
-      <div className="text-[0.6rem] text-muted-foreground mt-1 tabular-nums">
-        Ret. medio: <span className={tier.avg_return_7d >= 0 ? 'text-emerald-400' : 'text-red-400'}>
-          {tier.avg_return_7d >= 0 ? '+' : ''}{tier.avg_return_7d.toFixed(2)}%
-        </span>
-      </div>
-    </div>
-  )
-}
-
 function alertIcon(type: string) {
   if (type === 'MR_ZONE')         return <TrendingDown size={13} className="text-teal-400" />
   if (type === 'INSIDER_BUYING')  return <TrendingUp size={13} className="text-purple-400" />
@@ -810,7 +776,6 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
   const anyError = !insights && !convergence && !alertsData && !entryData
   if (anyError) return <ErrorState message="El Cerebro aún no ha publicado análisis. Lo genera el pipeline diario — si lleva más de un día así, revisa que haya corrido." />
 
-  const baseline      = insights?.baseline_win_rate_7d ?? 50
   const signals       = convergence?.convergences ?? []
   const alerts        = alertsData?.alerts ?? []
   const entrySignals  = entryData?.signals ?? []
@@ -900,7 +865,6 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
     { id: 'convergence' as const, label: 'Convergencias',   icon: Crosshair,         count: convergence?.triple_or_more, highlight: (convergence?.triple_or_more ?? 0) > 0 },
     { id: 'agents' as const,      label: 'Agentes IA',      icon: Bot,               count: (exitData?.high_count ?? 0) + (trapsData?.high_count ?? 0) + (squeezeData?.high_count ?? 0) + (decayData?.high_count ?? 0), highlight: (exitData?.high_count ?? 0) + (trapsData?.high_count ?? 0) + (squeezeData?.high_count ?? 0) + (decayData?.high_count ?? 0) > 0 },
     { id: 'alerts' as const,      label: 'Alertas',         icon: Bell,              count: alerts.filter(a => a.severity === 'HIGH').length || undefined, highlight: alerts.some(a => a.severity === 'HIGH') },
-    { id: 'insights' as const,    label: 'Patrones',        icon: Brain,             count: undefined },
     { id: 'calibration' as const, label: 'Calibración',     icon: SlidersHorizontal, count: calibration?.total_recommendations },
     { id: 'thesis' as const,      label: 'Thesis Drift',    icon: GitBranch,          count: undefined,                            highlight: false },
     { id: 'contrarian' as const,  label: 'Contrarian',      icon: Target,             count: undefined,                            highlight: false },
@@ -938,7 +902,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
         {[
           { label: 'En cartera',        value: portfolioPositions.length || '—', color: portfolioPositions.length > 0 ? 'text-violet-400' : 'text-muted-foreground', sub: portfolioRiskCount > 0 ? `⚠ ${portfolioRiskCount} alerta${portfolioRiskCount > 1 ? 's' : ''}` : portfolioEarnings.length > 0 ? `${portfolioEarnings.length} earnings próx.` : 'sin alertas', onClick: () => setActiveTab('myportfolio') },
           { label: 'Strong Buy hoy',    value: entryData?.strong_buy ?? '—',     color: (entryData?.strong_buy ?? 0) > 0 ? 'text-emerald-400' : 'text-muted-foreground', sub: `${entryData?.buy ?? 0} BUY · ${entryData?.monitor ?? 0} Monitor`, onClick: () => setActiveTab('entry') },
-          { label: 'Win rate VALUE',    value: insights ? `${insights.baseline_win_rate_7d.toFixed(1)}%` : '—', color: insights?.baseline_win_rate_7d != null ? (insights.baseline_win_rate_7d >= 55 ? 'text-emerald-400' : insights.baseline_win_rate_7d >= 45 ? 'text-amber-400' : 'text-red-400') : '', sub: '7d histórico', onClick: () => setActiveTab('insights') },
+          { label: 'Win rate VALUE',    value: insights ? `${insights.baseline_win_rate_7d.toFixed(1)}%` : '—', color: insights?.baseline_win_rate_7d != null ? (insights.baseline_win_rate_7d >= 55 ? 'text-emerald-400' : insights.baseline_win_rate_7d >= 45 ? 'text-amber-400' : 'text-red-400') : '', sub: '7d histórico' },
           { label: 'Convergencias',     value: convergence?.total_convergences ?? '—', color: 'text-cyan-400', sub: `${convergence?.triple_or_more ?? 0} triples`, onClick: () => setActiveTab('convergence') },
           { label: 'Alertas HIGH',      value: alertsData?.high_count ?? '—',    color: (alertsData?.high_count ?? 0) > 0 ? 'text-red-400' : 'text-muted-foreground', sub: `${alertsData?.total ?? 0} total`, onClick: () => setActiveTab('alerts') },
         ].map((s, i) => (
@@ -1609,72 +1573,6 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             </>
             )
           })()}
-        </div>
-      )}
-
-      {/* ── TAB: Patrones aprendidos ───────────────────────────────────────────── */}
-      {activeTab === 'insights' && (
-        <div className="space-y-5 animate-fade-in-up">
-          {insights?.narrative && (
-            <AiNarrativeCard narrative={insights.narrative} label="Lo que el sistema aprendió" />
-          )}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Score tiers */}
-            <Card className="glass">
-              <CardContent className="p-4">
-                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Win rate por score</div>
-                <div className="space-y-2">
-                  {(insights?.score_tiers ?? []).map(t => <TierCard key={t.label} tier={t} baseline={baseline} />)}
-                  {!insights?.score_tiers?.length && <p className="text-sm text-muted-foreground">Sin datos</p>}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Regimes */}
-            <Card className="glass">
-              <CardContent className="p-4">
-                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Win rate por régimen</div>
-                <div className="space-y-2">
-                  {(insights?.market_regimes ?? []).map(t => <TierCard key={t.label} tier={t} baseline={baseline} />)}
-                  {!insights?.market_regimes?.length && <p className="text-sm text-muted-foreground">Sin datos</p>}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* FCF */}
-            <Card className="glass">
-              <CardContent className="p-4">
-                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Efecto FCF Yield</div>
-                <div className="space-y-2">
-                  {(insights?.fcf_tiers ?? []).map(t => <TierCard key={t.label} tier={t} baseline={baseline} />)}
-                  {!insights?.fcf_tiers?.length && <p className="text-sm text-muted-foreground">Sin datos</p>}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Best combos */}
-            <Card className="glass">
-              <CardContent className="p-4">
-                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Mejores combinaciones</div>
-                <div className="space-y-2">
-                  {(insights?.best_combos ?? []).map(t => <TierCard key={t.label} tier={t} baseline={baseline} />)}
-                  {!insights?.best_combos?.length && <p className="text-sm text-muted-foreground">Sin datos suficientes aún</p>}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Sectors */}
-          {(insights?.sectors ?? []).length > 0 && (
-            <Card className="glass">
-              <CardContent className="p-4">
-                <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Win rate por sector (top 8)</div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {(insights?.sectors ?? []).slice(0, 8).map(t => <TierCard key={t.label} tier={t} baseline={baseline} />)}
-                </div>
-              </CardContent>
-            </Card>
-          )}
         </div>
       )}
 

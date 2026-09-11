@@ -2,9 +2,24 @@ name: Daily Market Analysis - Full Pipeline
 
 on:
   schedule:
-    # Run Monday-Friday 04:00 UTC (6:00 España verano / 5:00 invierno)
-    # Margen de 3h para terminar antes de las 9:00 España
-    - cron: '0 4 * * 1-5'
+    # 00:17 UTC L-V. Dos motivos, los dos medidos el 11-sep-2026:
+    #
+    # 1. La hora. Estaba en 04:00 "con margen de 3h para terminar antes de las
+    #    9:00 España" y NUNCA se cumplia: retraso medio de +5,6h (10 runs
+    #    seguidos entre +4,5h y +11,9h), asi que el briefing llegaba a las
+    #    14:19 hora espanola, con Europa cinco horas abierta. Pasada
+    #    medianoche el cierre USA ya lleva 2-3h (sesion completa) y aun con el
+    #    retraso de siempre estaria listo sobre las 08:00 España.
+    #
+    # 2. El minuto. En punto es la franja mas congestionada de GitHub
+    #    Actions, que es de donde sale buena parte de la cola. Un minuto
+    #    impar deberia reducirla; se comprueba comparando los retrasos de la
+    #    semana que viene contra los +5,6h de referencia.
+    #
+    # OJO: el escaneo de LEAPS (leaps-scan.yml) NO debe moverse aqui — corre a
+    # las 15:00 UTC a proposito, con el mercado USA abierto, porque necesita
+    # bid/ask reales en las opciones.
+    - cron: '17 0 * * 1-5'
   workflow_dispatch:  # Manual trigger
 
 # ══════════════════════════════════════════════════════════════════════════════
