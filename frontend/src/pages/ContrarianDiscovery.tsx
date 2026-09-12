@@ -7,17 +7,17 @@ import { TrendingDown, ShieldCheck, AlertTriangle, Eye, RefreshCw } from 'lucide
 function VerdictBadge({ verdict, confidence }: Readonly<{ verdict: ContrarianPick['verdict']; confidence: number }>) {
   if (verdict === 'CONTRARIAN_BUY') return (
     <span className="inline-flex items-center gap-1 text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-      <ShieldCheck size={10} /> CONTRARIAN BUY · {confidence}%
+      <ShieldCheck size={12} /> CONTRARIAN BUY · {confidence}%
     </span>
   )
   if (verdict === 'WATCH') return (
     <span className="inline-flex items-center gap-1 text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
-      <Eye size={10} /> WATCH · {confidence}%
+      <Eye size={12} /> WATCH · {confidence}%
     </span>
   )
   return (
     <span className="inline-flex items-center gap-1 text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">
-      <AlertTriangle size={10} /> AVOID · {confidence}%
+      <AlertTriangle size={12} /> AVOID · {confidence}%
     </span>
   )
 }
@@ -87,7 +87,7 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
             <div className="text-base font-extrabold tabular-nums">${pick.current_price.toFixed(2)}</div>
           )}
           <div className={`text-xs font-bold tabular-nums flex items-center gap-1 justify-end ${ddColor(pick.drawdown_from_52w)}`}>
-            <TrendingDown size={11} />
+            <TrendingDown size={12} />
             {pick.drawdown_from_52w.toFixed(1)}% desde máx
           </div>
         </div>
@@ -135,7 +135,7 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
 
       {pick.is_circumstantial && (
         <div className="mt-2.5 inline-flex items-center gap-1 text-[0.6rem] font-medium text-emerald-400/70 bg-emerald-500/8 border border-emerald-500/15 px-2 py-0.5 rounded-full">
-          <ShieldCheck size={9} /> Caída circunstancial — fundamentales intactos
+          <ShieldCheck size={12} /> Caída circunstancial — fundamentales intactos
         </div>
       )}
     </div>
@@ -175,7 +175,7 @@ export default function ContrarianDiscovery() {
           fundamentales intactos, analistas ven upside, Piotroski ≥5.
         </p>
         <div className="flex items-center gap-1.5 mt-1.5 text-[0.6rem] text-muted-foreground/40">
-          <RefreshCw size={9} />
+          <RefreshCw size={12} />
           Actualizado {new Date(data.generated_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
         </div>
       </div>
@@ -189,7 +189,7 @@ export default function ContrarianDiscovery() {
       {buys.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-3">
-            <ShieldCheck size={14} className="text-emerald-400" />
+            <ShieldCheck size={16} className="text-emerald-400" />
             <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-emerald-400">
               Contrarian Buy ({buys.length})
             </h4>
@@ -203,7 +203,7 @@ export default function ContrarianDiscovery() {
       {watches.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-3">
-            <Eye size={14} className="text-amber-400" />
+            <Eye size={16} className="text-amber-400" />
             <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-amber-400">
               Vigilancia ({watches.length})
             </h4>
@@ -217,7 +217,7 @@ export default function ContrarianDiscovery() {
       {avoids.length > 0 && (
         <section>
           <div className="flex items-center gap-2 mb-2">
-            <AlertTriangle size={14} className="text-muted-foreground/40" />
+            <AlertTriangle size={16} className="text-muted-foreground/40" />
             <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-muted-foreground/40">
               Estructural / Evitar ({avoids.length})
             </h4>

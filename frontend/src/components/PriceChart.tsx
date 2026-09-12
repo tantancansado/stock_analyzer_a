@@ -28,7 +28,7 @@ export default function PriceChart({ ticker, data: external, height = 200, mini 
   if (loading) {
     return (
       <div style={{ height }} className="flex items-center justify-center">
-        <Loader2 size={14} className="animate-spin text-muted-foreground/50" />
+        <Loader2 size={16} className="animate-spin text-muted-foreground/50" />
       </div>
     )
   }

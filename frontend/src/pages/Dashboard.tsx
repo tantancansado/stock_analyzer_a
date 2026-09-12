@@ -45,11 +45,11 @@ function pct(n: number | undefined | null) {
 }
 
 const REGIME_STYLES: Record<string, { bg: string; text: string; icon: React.ReactNode; label: string }> = {
-  BULL:       { bg: 'bg-emerald-500/10 border-emerald-500/20', text: 'text-emerald-400', icon: <TrendingUp size={14} />, label: 'ALCISTA' },
-  BEAR:       { bg: 'bg-red-500/10 border-red-500/20',         text: 'text-red-400',     icon: <TrendingDown size={14} />, label: 'BAJISTA' },
-  CORRECTION: { bg: 'bg-amber-500/10 border-amber-500/20',     text: 'text-amber-400',   icon: <TrendingDown size={14} />, label: 'CORRECCIÓN' },
-  NEUTRAL:    { bg: 'bg-blue-500/10 border-blue-500/20',       text: 'text-blue-400',    icon: <Minus size={14} />, label: 'NEUTRAL' },
-  RECOVERY:   { bg: 'bg-sky-500/10 border-sky-500/20',         text: 'text-sky-400',     icon: <TrendingUp size={14} />, label: 'RECUPERACIÓN' },
+  BULL:       { bg: 'bg-emerald-500/10 border-emerald-500/20', text: 'text-emerald-400', icon: <TrendingUp size={16} />, label: 'ALCISTA' },
+  BEAR:       { bg: 'bg-red-500/10 border-red-500/20',         text: 'text-red-400',     icon: <TrendingDown size={16} />, label: 'BAJISTA' },
+  CORRECTION: { bg: 'bg-amber-500/10 border-amber-500/20',     text: 'text-amber-400',   icon: <TrendingDown size={16} />, label: 'CORRECCIÓN' },
+  NEUTRAL:    { bg: 'bg-blue-500/10 border-blue-500/20',       text: 'text-blue-400',    icon: <Minus size={16} />, label: 'NEUTRAL' },
+  RECOVERY:   { bg: 'bg-sky-500/10 border-sky-500/20',         text: 'text-sky-400',     icon: <TrendingUp size={16} />, label: 'RECUPERACIÓN' },
 }
 
 function regimeStyle(regime: string | undefined) {
@@ -165,7 +165,7 @@ function TopPicksTable({
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">{title}</span>
         <Link to={to} className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
-          Ver todos <ChevronRight size={11} />
+          Ver todos <ChevronRight size={12} />
         </Link>
       </div>
       <Card className="glass">
@@ -212,7 +212,7 @@ function TopPicksTable({
                 </div>
                 {r.earnings_warning && (
                   <span title="Earnings próximos">
-                    <AlertTriangle size={11} className="text-amber-400 shrink-0" />
+                    <AlertTriangle size={12} className="text-amber-400 shrink-0" />
                   </span>
                 )}
               </div>
@@ -231,7 +231,7 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">Top Insiders</span>
         <Link to="/insiders" className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
-          Ver todos <ChevronRight size={11} />
+          Ver todos <ChevronRight size={12} />
         </Link>
       </div>
       <Card className="glass">
@@ -287,7 +287,7 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">Options Flow</span>
         <Link to="/options" className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
-          Ver todos <ChevronRight size={11} />
+          Ver todos <ChevronRight size={12} />
         </Link>
       </div>
       <Card className="glass p-4">
@@ -383,10 +383,10 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <RadarIcon size={11} /> Macro Radar
+          <RadarIcon size={12} /> Macro Radar
         </span>
         <Link to="/macro-radar" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          Ver detalle <ChevronRight size={11} />
+          Ver detalle <ChevronRight size={12} />
         </Link>
       </div>
       <Card className={`glass border ${macro ? (MACRO_REGIME_BG[macro.regime?.name] ?? 'border-border/40') : 'border-border/40'} p-4`}>
@@ -462,7 +462,7 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Mean Reversion</span>
         <Link to="/mean-reversion" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
-          Ver todos <ChevronRight size={11} />
+          Ver todos <ChevronRight size={12} />
         </Link>
       </div>
       <Card className="glass p-4">
@@ -757,7 +757,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
         <div className="flex items-center gap-2 flex-wrap">
           {data.ai_powered && (
             <span className="flex items-center gap-1 text-[0.66rem] font-bold px-1.5 py-0.5 rounded border bg-purple-500/15 text-purple-300 border-purple-500/30">
-              <Sparkles size={9} /> AI
+              <Sparkles size={12} /> AI
             </span>
           )}
           <span className="text-[0.7rem] px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30 tabular-nums">
@@ -803,7 +803,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
             className="flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2 hover:text-foreground transition-colors w-full text-left"
           >
             Macro Plays ({data.macro_plays.length})
-            {showMacroPlays ? <ChevronUp size={11} /> : <ChevronDown size={11} />}
+            {showMacroPlays ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
             {data.macro_plays_commentary && (
               <span className="font-normal normal-case tracking-normal text-muted-foreground/60 ml-1 flex-1 text-left">
                 — {data.macro_plays_commentary}
@@ -1082,7 +1082,7 @@ export default function Dashboard() {
     for (const r of allValue) {
       if (myTickers.has(r.ticker) && r.earnings_warning && r.days_to_earnings != null) {
         actionItems.push({
-          icon: <AlertTriangle size={11} />,
+          icon: <AlertTriangle size={12} />,
           text: `${r.ticker} — earnings en ${r.days_to_earnings}d, evita añadir`,
           color: 'text-amber-400',
           link: '/earnings',
@@ -1094,7 +1094,7 @@ export default function Dashboard() {
     for (const ins of insiderData) {
       if (myTickers.has(ins.ticker)) {
         actionItems.push({
-          icon: <Zap size={11} />,
+          icon: <Zap size={12} />,
           text: `${ins.ticker} — ${ins.purchase_count} compras insider (${ins.unique_insiders} directivos)`,
           color: 'text-purple-400',
           link: '/insiders',
@@ -1106,7 +1106,7 @@ export default function Dashboard() {
     for (const mr of mrData) {
       if (myTickers.has(mr.ticker)) {
         actionItems.push({
-          icon: <TrendingUp size={11} />,
+          icon: <TrendingUp size={12} />,
           text: `${mr.ticker} — en zona oversold, oportunidad de añadir`,
           color: 'text-cyan-400',
           link: '/mean-reversion',
@@ -1172,7 +1172,7 @@ export default function Dashboard() {
                 : 'text-muted-foreground hover:text-foreground'
             )}
           >
-            <Icon size={14} className={activeTab === id ? (id === 'cerebro' ? 'text-violet-400' : 'text-primary') : ''} />
+            <Icon size={16} className={activeTab === id ? (id === 'cerebro' ? 'text-violet-400' : 'text-primary') : ''} />
             {label}
           </button>
         ))}
@@ -1214,7 +1214,7 @@ export default function Dashboard() {
               className="flex items-center gap-4 glass rounded-xl p-4 border border-primary/20 hover:border-primary/40 transition-colors group"
             >
               <div className="p-2.5 rounded-lg bg-purple-500/10 border border-purple-500/20 shrink-0">
-                <Brain size={18} className="text-purple-400" />
+                <Brain size={16} className="text-purple-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
@@ -1234,7 +1234,7 @@ export default function Dashboard() {
                   Agente IA que analiza convergencia de señales y genera alertas automáticas
                 </p>
               </div>
-              <ChevronRight size={14} className="text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0" />
+              <ChevronRight size={16} className="text-muted-foreground/40 group-hover:text-primary transition-colors shrink-0" />
             </Link>
           </div>
         )
@@ -1244,7 +1244,7 @@ export default function Dashboard() {
       {earningsWarnings.length > 0 && (
         <div className="mb-5 animate-fade-in-up">
           <div className="flex items-start gap-3 px-4 py-3 rounded-lg border border-amber-500/30 bg-amber-500/8">
-            <AlertTriangle size={15} className="text-amber-400 shrink-0 mt-0.5" />
+            <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
             <div>
               <span className="text-[0.82rem] font-bold text-amber-400 uppercase tracking-[0.14em]">Earnings próximos</span>
               <div className="flex flex-wrap gap-1.5 mt-1.5">
@@ -1268,7 +1268,7 @@ export default function Dashboard() {
           <Card className="glass border border-primary/20">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Wallet size={14} className="text-primary" />
+                <Wallet size={16} className="text-primary" />
                 <span className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-primary/70">Acciones pendientes · Mi Cartera</span>
                 <span className="text-[0.7rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
               </div>
@@ -1281,7 +1281,7 @@ export default function Dashboard() {
                   >
                     <span className={item.color}>{item.icon}</span>
                     <span className="text-[0.86rem] text-foreground/80 flex-1">{item.text}</span>
-                    <ChevronRight size={11} className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors" />
+                    <ChevronRight size={12} className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors" />
                   </Link>
                 ))}
               </div>
@@ -1305,7 +1305,7 @@ export default function Dashboard() {
                 {' '}· {winRateValue.count} señales
               </span>
             </div>
-            <ChevronRight size={13} className="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0" />
+            <ChevronRight size={16} className="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0" />
           </Link>
         </div>
       )}
@@ -1314,7 +1314,7 @@ export default function Dashboard() {
       {myPositions.length > 0 && (
         <div className="mb-4 animate-fade-in-up">
           <Link to="/my-portfolio" className="flex items-center gap-3 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
-            <Wallet size={14} strokeWidth={1.75} className="text-muted-foreground/50 shrink-0" />
+            <Wallet size={16} strokeWidth={1.75} className="text-muted-foreground/50 shrink-0" />
             <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Mi Cartera</span>
             {loadingLivePrices ? (
               <span className="text-xs text-muted-foreground/40">cargando…</span>
@@ -1341,7 +1341,7 @@ export default function Dashboard() {
                 </div>
               )
             })()}
-            <ChevronRight size={13} className="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0" />
+            <ChevronRight size={16} className="text-muted-foreground/30 group-hover:text-primary transition-colors shrink-0" />
           </Link>
         </div>
       )}

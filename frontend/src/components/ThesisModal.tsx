@@ -84,7 +84,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
     <div>
       <div className="flex items-center gap-2.5 mb-3 flex-wrap">
         <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
-          <Award size={11} className="text-primary" />
+          <Award size={12} className="text-primary" />
           Conviction IA
         </h4>
         {grade && score != null && (
@@ -358,7 +358,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                 <GradeBadge grade={row.conviction_grade} score={row.conviction_score} />
                 {row.earnings_warning && (
                   <Badge variant="yellow" className="text-[0.6rem] gap-1">
-                    <AlertTriangle size={10} strokeWidth={2} /> Earnings
+                    <AlertTriangle size={12} strokeWidth={2} /> Earnings
                   </Badge>
                 )}
                 {row.proximity_to_52w_high != null && row.proximity_to_52w_high > -5 && (
@@ -374,17 +374,17 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                   <div className="text-2xl font-extrabold tabular-nums tracking-tight">{currency}{price.toFixed(2)}</div>
                   {upside != null && (
                     <div className={`text-xs font-semibold tabular-nums flex items-center gap-1 justify-end ${upside >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                      <TrendingUp size={11} />
+                      <TrendingUp size={12} />
                       {upside >= 0 ? '+' : ''}{upside.toFixed(1)}%
                     </div>
                   )}
                 </div>
               )}
               <button onClick={copyTicker} className="p-1.5 rounded-lg text-muted-foreground/50 hover:bg-muted/40 hover:text-foreground transition-colors" title="Copiar ticker">
-                {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                {copied ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
               </button>
               <a href={`https://www.tradingview.com/chart/?symbol=${row.ticker}`} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-lg text-muted-foreground/50 hover:bg-muted/40 hover:text-foreground transition-colors" title="TradingView">
-                <ExternalLink size={14} />
+                <ExternalLink size={16} />
               </a>
               <button onClick={onClose} className="w-8 h-8 flex items-center justify-center rounded-lg text-muted-foreground/60 hover:bg-red-500/15 hover:text-red-400 hover:border hover:border-red-500/30 transition-all" title="Cerrar (Esc)">
                 <X size={16} />
@@ -479,7 +479,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                 {(row.roe_pct != null || row.profit_margin_pct != null || row.revenue_growth_pct != null) && (
                   <div>
                     <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
-                      <Shield size={11} className="text-emerald-400" />
+                      <Shield size={12} className="text-emerald-400" />
                       Salud Financiera
                     </h4>
                     <div className="grid grid-cols-3 gap-2">

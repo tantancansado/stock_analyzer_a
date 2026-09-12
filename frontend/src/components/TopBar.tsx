@@ -137,7 +137,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           onClick={onMenuClick}
           aria-label="Menú"
         >
-          <Menu size={18} strokeWidth={1.75} />
+          <Menu size={16} strokeWidth={1.75} />
         </Button>
         <div className="min-w-0 overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
@@ -175,7 +175,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           className="topbar-action sm:hidden flex items-center justify-center w-8 h-8 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 transition-colors"
           aria-label="Buscar"
         >
-          <Search size={14} strokeWidth={1.75} className="text-muted-foreground/70" />
+          <Search size={16} strokeWidth={1.75} className="text-muted-foreground/70" />
         </button>
 
         {/* Real pipeline freshness indicator */}
@@ -183,7 +183,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
 
         {/* Date/time */}
         <span className="hidden md:flex items-center gap-1.5 text-[0.78rem] lg:text-[0.86rem] text-muted-foreground/52 tabular-nums">
-          <Clock size={11} strokeWidth={1.5} />
+          <Clock size={12} strokeWidth={1.5} />
           {dateStr} · {timeStr}
         </span>
 
@@ -193,7 +193,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           className="topbar-action relative flex items-center justify-center h-8 w-8 rounded-lg border border-border/50 hover:bg-accent/10 transition-colors"
           title="Cerebro"
         >
-          <Brain size={14} strokeWidth={1.75} className="text-muted-foreground" />
+          <Brain size={16} strokeWidth={1.75} className="text-muted-foreground" />
           {highAlerts > 0 && (
             <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center">
               <span className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-50" />
@@ -213,7 +213,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           title={nothingEnabled ? 'Desactivar tema matrix' : 'Activar tema matrix'}
           aria-label="Toggle Nothing theme"
         >
-          <Grid3x3 size={14} strokeWidth={1.75} />
+          <Grid3x3 size={16} strokeWidth={1.75} />
         </Button>
 
         {/* Theme cycle: dark → light → noir → dark */}
@@ -231,8 +231,8 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           aria-label="Cambiar tema"
           title={{ dark: 'Cambiar a claro', light: 'Cambiar a Noir', noir: 'Cambiar a oscuro' }[theme]}
         >
-          {theme === 'dark'  && <Sun  size={14} strokeWidth={1.75} />}
-          {theme === 'light' && <Moon size={14} strokeWidth={1.75} />}
+          {theme === 'dark'  && <Sun  size={16} strokeWidth={1.75} />}
+          {theme === 'light' && <Moon size={16} strokeWidth={1.75} />}
           {theme === 'noir'  && (
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
               <circle cx="7" cy="7" r="5.5" />

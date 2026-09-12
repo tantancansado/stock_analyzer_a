@@ -493,7 +493,7 @@ export default function TickerSearch() {
             autoFocus
           />
           <Button onClick={onSearch} disabled={loading || !ticker.trim()} className="active:scale-[0.98] transition-transform sm:w-auto w-full">
-            {loading ? 'Analizando...' : <><Search size={14} className="mr-1.5" />Analizar</>}
+            {loading ? 'Analizando...' : <><Search size={16} className="mr-1.5" />Analizar</>}
           </Button>
         </div>
 

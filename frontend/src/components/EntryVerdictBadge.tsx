@@ -23,7 +23,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
     if (compact) return null
     return (
       <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.58rem] font-bold border bg-muted/10 text-muted-foreground/60 border-border/20', className)}>
-        <HelpCircle size={10} /> ?
+        <HelpCircle size={12} /> ?
       </span>
     )
   }
@@ -62,7 +62,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
       {open && (
         <div className="absolute z-50 top-full left-0 mt-1 w-72 rounded-lg border border-border shadow-xl p-3 text-xs space-y-2" style={{ backgroundColor: 'hsl(var(--background))' }}>
           <div className="flex items-center gap-2 pb-1.5 border-b border-border/30">
-            <Icon size={14} className={meta.bg.split(' ').find(c => c.startsWith('text-')) ?? 'text-foreground'} />
+            <Icon size={16} className={meta.bg.split(' ').find(c => c.startsWith('text-')) ?? 'text-foreground'} />
             <span className="font-bold">{meta.label}</span>
             {verdict.confidence != null && (
               <span className="text-[0.58rem] text-muted-foreground/70 tabular-nums ml-auto">conf {verdict.confidence}</span>

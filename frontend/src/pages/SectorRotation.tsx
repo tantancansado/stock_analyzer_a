@@ -204,7 +204,7 @@ export default function SectorRotation() {
         return (
           <Card className="glass p-5 mb-5 border-primary/20 animate-fade-in-up">
             <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-4 flex items-center gap-2">
-              <Briefcase size={14} />
+              <Briefcase size={16} />
               Exposicion de Mi Cartera ({total} posiciones mapeadas)
             </h4>
 
@@ -212,14 +212,14 @@ export default function SectorRotation() {
             <div className="flex flex-wrap items-center gap-3 mb-4">
               {favorable > 0 && (
                 <div className="flex items-center gap-1.5 text-sm">
-                  <CheckCircle size={14} className="text-emerald-400" />
+                  <CheckCircle size={16} className="text-emerald-400" />
                   <span className="text-emerald-400 font-semibold">{favorable}</span>
                   <span className="text-muted-foreground text-xs">en sectores favorables</span>
                 </div>
               )}
               {unfavorable > 0 && (
                 <div className="flex items-center gap-1.5 text-sm">
-                  <AlertTriangle size={14} className="text-amber-400" />
+                  <AlertTriangle size={16} className="text-amber-400" />
                   <span className="text-amber-400 font-semibold">{unfavorable}</span>
                   <span className="text-muted-foreground text-xs">en sectores desfavorables</span>
                 </div>

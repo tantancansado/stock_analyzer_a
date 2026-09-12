@@ -346,7 +346,7 @@ export default function MeanReversion() {
           <Card className="liquid-glass mb-5 animate-fade-in-up rounded-xl">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Wallet size={14} className="text-primary" />
+                <Wallet size={16} className="text-primary" />
                 <span className="text-[0.62rem] font-bold uppercase tracking-widest text-primary/70">Mis Posiciones en Zona Oversold</span>
                 <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myMR.length}</span>
               </div>
@@ -401,7 +401,7 @@ export default function MeanReversion() {
           <Card className="liquid-glass mb-5 animate-fade-in-up rounded-xl">
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
-                <Wallet size={14} className="text-primary" />
+                <Wallet size={16} className="text-primary" />
                 <span className="text-[0.62rem] font-bold uppercase tracking-widest text-primary/70">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
                 <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{recent.length}</span>
               </div>

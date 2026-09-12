@@ -238,12 +238,12 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
               className="p-2.5 rounded-lg bg-primary/10 border border-primary/20 text-primary hover:bg-primary/20 transition-colors disabled:opacity-40"
               title="Guardar nota"
             >
-              {saving ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />}
+              {saving ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
             </button>
           </div>
 
           {/* Notes list */}
-          {!loaded && <div className="flex justify-center py-2"><Loader2 size={14} className="animate-spin text-muted-foreground" /></div>}
+          {!loaded && <div className="flex justify-center py-2"><Loader2 size={16} className="animate-spin text-muted-foreground" /></div>}
           {loaded && notes.length === 0 && (
             <p className="text-[0.72rem] text-muted-foreground/50 text-center py-1">Sin notas todavía</p>
           )}
@@ -259,7 +259,7 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
                 onClick={() => deleteNote(n.id)}
                 className="p-1 rounded text-muted-foreground/30 hover:text-red-400 hover:bg-red-500/10 transition-colors opacity-0 group-hover:opacity-100"
               >
-                <Trash2 size={11} />
+                <Trash2 size={12} />
               </button>
             </div>
           ))}
@@ -355,7 +355,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
   return (
     <div className="glass rounded-2xl p-5 space-y-4">
       <h2 className="text-sm font-bold text-foreground flex items-center gap-2">
-        <Plus size={14} className="text-primary" />
+        <Plus size={16} className="text-primary" />
         Añadir posición
       </h2>
 
@@ -490,7 +490,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
 
       <div className="flex items-center gap-3">
         <Button onClick={submit} disabled={saving}>
-          {saving ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} strokeWidth={2.5} />}
+          {saving ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} strokeWidth={2.5} />}
           Añadir
         </Button>
         {error && <p className="text-xs text-red-400">{error}</p>}
@@ -590,7 +590,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
             onClick={fetchChain}
             className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[0.65rem] font-semibold border transition-all ${meta.border} ${meta.color} hover:${meta.bg}`}
           >
-            {loading ? <Loader2 size={10} className="animate-spin" /> : <ChevronDown size={10} className={open ? 'rotate-180' : ''} />}
+            {loading ? <Loader2 size={12} className="animate-spin" /> : <ChevronDown size={12} className={open ? 'rotate-180' : ''} />}
             {data ? (open ? 'Ocultar' : 'Ver contratos') : 'Ver contratos reales'}
           </button>
         </div>
@@ -604,7 +604,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
         <div className="px-5 py-4 space-y-4">
           {loading && (
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <Loader2 size={13} className="animate-spin" /> Cargando cadena de opciones desde Yahoo Finance…
+              <Loader2 size={16} className="animate-spin" /> Cargando cadena de opciones desde Yahoo Finance…
             </div>
           )}
           {err && (
@@ -1079,7 +1079,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 }}
                 className="flex items-center gap-1 text-[0.6rem] font-bold px-2 py-0.5 rounded bg-primary/15 border border-primary/30 text-primary hover:bg-primary/25 transition-colors"
               >
-                <Check size={10} /> Guardar
+                <Check size={12} /> Guardar
               </button>
             </div>
           ) : (
@@ -1097,7 +1097,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 
       {/* ── P&L BAND ── */}
       <div className={`flex items-center gap-2 px-4 py-2.5 mx-3 mb-3 rounded-xl ${pl == null ? 'bg-muted/10 border border-border/20' : pl >= 0 ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
-        {pl == null ? <TrendingUp size={15} className="text-muted-foreground/40 shrink-0" /> : pl >= 0 ? <TrendingUp size={15} className="text-emerald-400 shrink-0" /> : <TrendingDown size={15} className="text-red-400 shrink-0" />}
+        {pl == null ? <TrendingUp size={16} className="text-muted-foreground/40 shrink-0" /> : pl >= 0 ? <TrendingUp size={16} className="text-emerald-400 shrink-0" /> : <TrendingDown size={16} className="text-red-400 shrink-0" />}
         <span className={`text-2xl font-black tabular-nums leading-none ${pl == null ? 'text-muted-foreground/30' : pl >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
           {pl == null ? '—' : `${pl >= 0 ? '+' : ''}${pl.toFixed(2)}%`}
         </span>
@@ -1134,27 +1134,27 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
         <div className="flex flex-wrap gap-1.5 px-4 mb-3">
           {exit && (
             <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${exit.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
-              <Brain size={9} />EXIT {exit.severity} · {exit.reasons[0]}
+              <Brain size={12} />EXIT {exit.severity} · {exit.reasons[0]}
             </span>
           )}
           {driftAlert && !exit && (
             <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${driftAlert.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
-              <Brain size={9} />DRIFT · {driftAlert.reason}
+              <Brain size={12} />DRIFT · {driftAlert.reason}
             </span>
           )}
           {trap && !exit && (
             <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
-              <Brain size={9} />TRAP · {trap.flags[0]}
+              <Brain size={12} />TRAP · {trap.flags[0]}
             </span>
           )}
           {sm && (
             <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/30">
-              <Brain size={9} />SMART $ · {sm.n_hedge_funds}HF {sm.n_insiders}INS
+              <Brain size={12} />SMART $ · {sm.n_hedge_funds}HF {sm.n_insiders}INS
             </span>
           )}
           {div && (
             <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
-              <Brain size={9} />DIV {div.rating} · {div.div_yield.toFixed(1)}%
+              <Brain size={12} />DIV {div.rating} · {div.div_yield.toFixed(1)}%
             </span>
           )}
         </div>
@@ -1197,7 +1197,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                   : 'bg-rose-500/15 text-rose-300 border-rose-500/30'
               }`}
             >
-              <AlertTriangle size={9} />
+              <AlertTriangle size={12} />
               {warning.marketLabel} {warning.side === 'beneficiary' ? '↑' : '↓'} · {warning.score.toFixed(0)}
             </span>
           ))}
@@ -1333,7 +1333,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-muted/10 border border-border/20 text-xs text-muted-foreground hover:border-border/40 transition-colors"
           >
             <span className="flex items-center gap-1.5 font-medium">
-              <Brain size={11} className="text-primary/60" />
+              <Brain size={12} className="text-primary/60" />
               Análisis IA
             </span>
             {expanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
@@ -1343,7 +1343,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
               <p className="text-xs text-foreground/75 leading-relaxed">{result.analysis}</p>
               {result.key_risk && (
                 <div className="flex items-start gap-2 px-2.5 py-2 rounded-lg border border-amber-500/20 bg-amber-500/5">
-                  <AlertTriangle size={11} className="text-amber-400 mt-0.5 shrink-0" />
+                  <AlertTriangle size={12} className="text-amber-400 mt-0.5 shrink-0" />
                   <p className="text-[0.7rem] text-amber-300/75 leading-relaxed">{result.key_risk}</p>
                 </div>
               )}
@@ -1728,7 +1728,7 @@ export default function PersonalPortfolio() {
                 disabled={analyzing}
                 className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/25 text-primary text-sm font-semibold hover:bg-primary/20 transition-colors disabled:opacity-50"
               >
-                <RefreshCw size={13} className={analyzing ? 'animate-spin' : ''} />
+                <RefreshCw size={16} className={analyzing ? 'animate-spin' : ''} />
                 {analyzing ? 'Analizando...' : 'Re-analizar'}
               </button>
               {cacheAge !== null && (
@@ -1778,7 +1778,7 @@ export default function PersonalPortfolio() {
               </div>
               {result.risk_metrics.oversized_positions.length > 0 && (
                 <div className="flex items-start gap-2 p-2 rounded-lg bg-red-500/8 border border-red-500/15 text-[0.72rem]">
-                  <AlertTriangle size={11} className="text-red-400 mt-0.5 shrink-0" />
+                  <AlertTriangle size={12} className="text-red-400 mt-0.5 shrink-0" />
                   <span className="text-red-300/80">
                     Posiciones sobreexpuestas (peso actual &gt; 1.5× Kelly óptimo):{' '}
                     <strong>{result.risk_metrics.oversized_positions.join(', ')}</strong>
@@ -1926,8 +1926,8 @@ export default function PersonalPortfolio() {
                                               'flex items-center gap-2 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm animate-fade-in-up'
         }>
           {refreshState.status === 'running'
-            ? <Loader2 size={14} className="animate-spin" />
-            : refreshState.status === 'ok' ? <Check size={14} /> : <AlertTriangle size={14} />}
+            ? <Loader2 size={16} className="animate-spin" />
+            : refreshState.status === 'ok' ? <Check size={16} /> : <AlertTriangle size={16} />}
           {refreshState.message}
         </div>
       )}
@@ -1935,7 +1935,7 @@ export default function PersonalPortfolio() {
       {/* Error */}
       {error && (
         <div className="flex items-center gap-2 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-          <AlertTriangle size={14} />
+          <AlertTriangle size={16} />
           {error}
         </div>
       )}
@@ -1954,7 +1954,7 @@ export default function PersonalPortfolio() {
         <div className="space-y-4">
           {!analyzed && !analyzing && (
             <Button onClick={() => analyze()} className="w-full h-auto py-3 rounded-xl">
-              <RefreshCw size={14} />
+              <RefreshCw size={16} />
               Analizar cartera con IA
             </Button>
           )}

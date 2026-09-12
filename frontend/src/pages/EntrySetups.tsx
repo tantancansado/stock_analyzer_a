@@ -38,7 +38,7 @@ function EntrySetupsFreshness() {
   if (allOk) {
     return (
       <div className="inline-flex items-center gap-2 text-[0.7rem] font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80">
-        <CheckCircle2 size={13} className="text-emerald-400" />
+        <CheckCircle2 size={16} className="text-emerald-400" />
         <span className="font-semibold text-emerald-400">Todos los módulos actualizados hoy</span>
       </div>
     )
@@ -47,8 +47,8 @@ function EntrySetupsFreshness() {
   return (
     <div className={`rounded-xl border px-4 py-3 mb-4 flex items-start gap-3 ${noneRan ? 'bg-red-500/8 border-red-500/25' : 'bg-amber-500/8 border-amber-500/25'}`}>
       {noneRan
-        ? <AlertCircle size={15} className="text-red-400 shrink-0 mt-0.5" />
-        : <AlertTriangle size={15} className="text-amber-400 shrink-0 mt-0.5" />}
+        ? <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
+        : <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />}
       <div className="flex-1 min-w-0">
         <div className={`text-xs font-bold mb-2 ${noneRan ? 'text-red-400' : 'text-amber-400'}`}>
           {noneRan ? 'Pipeline no ejecutado hoy — datos desactualizados' : 'Algunos módulos no actualizados hoy'}
@@ -63,8 +63,8 @@ function EntrySetupsFreshness() {
                 : 'bg-red-500/10 border-red-500/20 text-red-400'
             }`}>
               {s.isOk && s.isToday
-                ? <CheckCircle2 size={10} />
-                : <AlertTriangle size={10} />}
+                ? <CheckCircle2 size={12} />
+                : <AlertTriangle size={12} />}
               {s.label}
               {s.daysAgo != null && !s.isToday && (
                 <span className="opacity-60">{s.daysAgo === 0 ? 'hoy' : `${s.daysAgo}d`}</span>

@@ -22,7 +22,7 @@ export default function AnalystRevisionBadge({
     if (compact) return null
     return (
       <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.6rem] font-medium bg-muted/20 text-muted-foreground border border-border/30', className)} title="Targets estables últimos 7 días">
-        <Minus size={10} /> 0.0%
+        <Minus size={12} /> 0.0%
       </span>
     )
   }
@@ -44,7 +44,7 @@ export default function AnalystRevisionBadge({
       className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.6rem] font-bold border', colorClasses, className)}
       title={tooltip}
     >
-      <Icon size={10} />
+      <Icon size={12} />
       {up ? '+' : ''}{targetChange7dPct.toFixed(1)}%
     </span>
   )

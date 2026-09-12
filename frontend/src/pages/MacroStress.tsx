@@ -295,7 +295,7 @@ function ExposurePanel({ market }: { market: MacroStressMarket }) {
   return (
     <div className={`rounded-3xl border p-4 ${isRed ? 'border-red-500/20 bg-red-500/[0.06]' : 'border-white/10 bg-white/[0.03]'}`}>
       <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
-        <ShieldAlert size={13} className={isRed ? 'text-red-300' : 'text-cyan-300'} />
+        <ShieldAlert size={16} className={isRed ? 'text-red-300' : 'text-cyan-300'} />
         Equity Exposure Map
       </div>
       <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -404,7 +404,7 @@ export default function MacroStress() {
 
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-[0.68rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
-          <Flame size={13} className="text-orange-300" />
+          <Flame size={16} className="text-orange-300" />
           Heatmap Grid
         </div>
         <div className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
@@ -484,7 +484,7 @@ export default function MacroStress() {
             <CardContent className="p-0">
               <div className="border-b border-white/10 px-5 py-4">
                 <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
-                  <Waves size={13} className="text-cyan-300" />
+                  <Waves size={16} className="text-cyan-300" />
                   Historical Analogues
                 </div>
                 <p className="mt-2 text-sm text-foreground/70">
@@ -505,7 +505,7 @@ export default function MacroStress() {
 
           <div className="rounded-3xl border border-amber-500/20 bg-amber-500/[0.08] p-4">
             <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-amber-300/85">
-              <Siren size={13} />
+              <Siren size={16} />
               Reading Guide
             </div>
             <p className="mt-3 text-sm leading-relaxed text-foreground/76">
@@ -514,7 +514,7 @@ export default function MacroStress() {
             </p>
             {selected.history_note && (
               <div className="mt-3 flex items-start gap-2 rounded-2xl border border-white/10 bg-black/10 px-3 py-3 text-[0.72rem] text-muted-foreground/65">
-                <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-300" />
+                <AlertTriangle size={16} className="mt-0.5 shrink-0 text-amber-300" />
                 <span>{selected.history_note}</span>
               </div>
             )}

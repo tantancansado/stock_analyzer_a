@@ -249,7 +249,7 @@ export default function Backtest() {
       />
 
       <div className="flex items-start gap-3 p-3.5 rounded-xl bg-primary/5 border border-primary/20">
-        <Info size={13} className="text-primary mt-0.5 shrink-0" />
+        <Info size={16} className="text-primary mt-0.5 shrink-0" />
         <p className="text-xs text-muted-foreground">
           Señales generadas en tiempo real. Deduplicadas por ticker — si el sistema seleccionó el mismo ticker varios días, se muestra solo la primera señal para no inflar el win rate.
         </p>
@@ -263,7 +263,7 @@ export default function Backtest() {
         </button>
         <button onClick={() => setTab('mr')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'mr' ? 'bg-background text-teal-400 border border-teal-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
-          <ArrowLeftRight size={14} /> Mean Reversion ({mrSetups.length})
+          <ArrowLeftRight size={16} /> Mean Reversion ({mrSetups.length})
         </button>
         <button onClick={() => setTab('analytics')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'analytics' ? 'bg-background text-violet-400 border border-violet-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
@@ -361,7 +361,7 @@ export default function Backtest() {
       {tab === 'mr' && (
         <div className="space-y-4">
           <div className="flex items-start gap-3 p-3.5 rounded-xl bg-teal-500/5 border border-teal-500/20">
-            <ArrowLeftRight size={13} className="text-teal-400 mt-0.5 shrink-0" />
+            <ArrowLeftRight size={16} className="text-teal-400 mt-0.5 shrink-0" />
             <p className="text-xs text-muted-foreground">
               Setups actuales de Mean Reversion — acciones en sobreventa extrema con potencial de rebote.
               Estas señales no tienen historial de retornos todavía (el tracking empieza a añadirse al pipeline).

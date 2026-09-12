@@ -56,7 +56,7 @@ export default function BroadBounceView() {
 
   // Cabecera también mientras carga o si la API falla: si no, la pantalla
   // de error no dice en qué sección estás. Ver PageShell.
-  const tituloPagina = <span className="flex items-center gap-2"><Zap size={18} className="text-purple-400" />Rebote corto plazo — Universo Ampliado</span>
+  const tituloPagina = <span className="flex items-center gap-2"><Zap size={16} className="text-purple-400" />Rebote corto plazo — Universo Ampliado</span>
   if (loading || error) return <PageShell title={tituloPagina} loading={loading} error={error} />
 
   const resp = data

@@ -152,7 +152,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
           )}
           {hasDetail && (
             <span className="text-muted-foreground/40 mt-1">
-              {expanded ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
+              {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
             </span>
           )}
         </div>

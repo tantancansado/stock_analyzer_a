@@ -55,7 +55,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
                     className="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 text-amber-300/90 px-2 py-0.5 text-[0.62rem] font-bold uppercase tracking-wider"
                     title={s._stale_reason || 'Plan del día anterior — IA sin presupuesto hoy'}
                   >
-                    <AlertTriangle size={10} strokeWidth={2.5} />
+                    <AlertTriangle size={12} strokeWidth={2.5} />
                     Plan ayer
                   </span>
                 )}
@@ -85,7 +85,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
           {s.trim_at_price && s.trim_pct ? (
             <div className="rounded-lg border border-amber-500/25 bg-amber-500/5 px-3 py-2.5">
               <div className="flex items-center gap-1.5 text-[0.62rem] font-bold uppercase tracking-wider text-amber-400/80 mb-1">
-                <TrendingDown size={11} /> Vender {s.trim_pct.toFixed(0)}%
+                <TrendingDown size={12} /> Vender {s.trim_pct.toFixed(0)}%
               </div>
               <div className="text-base font-bold tabular-nums text-amber-300">${s.trim_at_price.toFixed(2)}</div>
               {distToTrim !== null && (
@@ -106,7 +106,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
           {s.add_at_price && s.add_pct ? (
             <div className="rounded-lg border border-emerald-500/25 bg-emerald-500/5 px-3 py-2.5">
               <div className="flex items-center gap-1.5 text-[0.62rem] font-bold uppercase tracking-wider text-emerald-400/80 mb-1">
-                <TrendingUp size={11} /> Comprar +{s.add_pct.toFixed(0)}%
+                <TrendingUp size={12} /> Comprar +{s.add_pct.toFixed(0)}%
               </div>
               <div className="text-base font-bold tabular-nums text-emerald-300">${s.add_at_price.toFixed(2)}</div>
               {distToAdd !== null && (
@@ -126,7 +126,7 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
 
           <div className="rounded-lg border border-red-500/25 bg-red-500/5 px-3 py-2.5">
             <div className="flex items-center gap-1.5 text-[0.62rem] font-bold uppercase tracking-wider text-red-400/80 mb-1">
-              <Shield size={11} /> Stop loss
+              <Shield size={12} /> Stop loss
             </div>
             <div className="text-base font-bold tabular-nums text-red-300">${s.stop_loss_price.toFixed(2)}</div>
             <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">
@@ -176,12 +176,12 @@ function StrategyCard({ s }: { s: PortfolioStrategy }) {
 
         <div className="flex items-center justify-between flex-wrap gap-2 pt-3 border-t border-border/20">
           <div className="flex items-center gap-1.5 text-[0.72rem] text-muted-foreground">
-            <Calendar size={11} />
+            <Calendar size={12} />
             Próximo check: <b className="text-foreground tabular-nums">{s.next_check_date}</b>
             {s.next_check_reason && <span className="text-muted-foreground/60">— {s.next_check_reason}</span>}
           </div>
           <div className="flex items-center gap-1.5 text-[0.65rem]">
-            <Target size={10} className="text-muted-foreground/50" />
+            <Target size={12} className="text-muted-foreground/50" />
             <span className="text-muted-foreground/60">Confianza</span>
             <b className="text-foreground tabular-nums">{s.confidence}%</b>
           </div>

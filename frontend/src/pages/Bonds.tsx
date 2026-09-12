@@ -353,9 +353,9 @@ function FixedIncomeAdvisor({ bonds, prefs }: { bonds: BondOpportunity[]; prefs:
         onClick={() => setShow(v => !v)}
         className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors"
       >
-        <Brain size={14} />
+        <Brain size={16} />
         Asesor de renta fija — ¿dónde meter tu dinero?
-        {show ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+        {show ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
       </button>
 
       {show && (
@@ -590,7 +590,7 @@ function YieldVsAvg({ val }: { val: number | null | undefined }) {
   const Icon = val > 0 ? TrendingUp : val < 0 ? TrendingDown : Minus
   return (
     <span className={cn('flex items-center gap-1 font-mono text-xs', color)}>
-      <Icon size={11} />
+      <Icon size={12} />
       {val > 0 ? '+' : ''}{val.toFixed(2)}%
     </span>
   )
@@ -664,7 +664,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
           </Badge>
         </td>
         <td className="px-3 py-2.5 text-right">
-          {expanded ? <ChevronUp size={14} className="text-muted-foreground" /> : <ChevronDown size={14} className="text-muted-foreground" />}
+          {expanded ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </td>
       </tr>
 
@@ -975,7 +975,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
           </Badge>
         </td>
         <td className="px-3 py-2.5 text-right">
-          {expanded ? <ChevronUp size={14} className="text-muted-foreground" /> : <ChevronDown size={14} className="text-muted-foreground" />}
+          {expanded ? <ChevronUp size={16} className="text-muted-foreground" /> : <ChevronDown size={16} className="text-muted-foreground" />}
         </td>
       </tr>
 
@@ -1102,9 +1102,9 @@ function PreferredSection() {
           onClick={() => setShowCalc(v => !v)}
           className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors"
         >
-          <Calculator size={14} />
+          <Calculator size={16} />
           Calculadora de rendimiento
-          {showCalc ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          {showCalc ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </button>
       </div>
 
@@ -1242,9 +1242,9 @@ export default function Bonds() {
           onClick={() => setShowCalc(v => !v)}
           className="flex items-center gap-2 text-sm font-medium text-primary/80 hover:text-primary transition-colors mb-3"
         >
-          <Calculator size={14} />
+          <Calculator size={16} />
           Calculadora de rendimiento
-          {showCalc ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+          {showCalc ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </button>
         {showCalc && <YieldCalculator bonds={bonds} />}
       </div>

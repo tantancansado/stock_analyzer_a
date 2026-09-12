@@ -179,7 +179,7 @@ export default function EarningsCalendar() {
         <Card className="glass border border-primary/30 bg-primary/5">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Wallet size={14} className="text-primary" />
+              <Wallet size={16} className="text-primary" />
               <span className="text-xs font-bold uppercase tracking-widest text-primary">Earnings de Mi Cartera</span>
               <span className="text-[0.65rem] px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30 font-bold">{myEarnings.length}</span>
             </div>
@@ -199,12 +199,12 @@ export default function EarningsCalendar() {
                       <span className="text-[0.65rem] text-muted-foreground">{formatDate(entry.earnings_date)}</span>
                       {entry.earnings_warning && (
                         <span className="text-[0.58rem] font-semibold text-red-400 flex items-center gap-0.5">
-                          <AlertTriangle size={8} /> Alerta
+                          <AlertTriangle size={12} /> Alerta
                         </span>
                       )}
                       {entry.earnings_catalyst && (
                         <span className="text-[0.58rem] font-semibold text-emerald-400 flex items-center gap-0.5">
-                          <Zap size={8} /> Catalizador
+                          <Zap size={12} /> Catalizador
                         </span>
                       )}
                       {entry.portfolio_only_fetch && (
@@ -240,7 +240,7 @@ export default function EarningsCalendar() {
                     className="shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[0.6rem] font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
                     title="Ver tesis IA de earnings"
                   >
-                    <Bot size={10} /> Tesis IA
+                    <Bot size={12} /> Tesis IA
                   </button>
                   <div className={`text-lg font-bold tabular-nums shrink-0 ${urgencyColor(entry.days_to_earnings, entry.earnings_warning)}`}>
                     {daysLabel(entry.days_to_earnings)}
@@ -282,7 +282,7 @@ export default function EarningsCalendar() {
           <div key={date}>
             {/* Date header */}
             <div className="flex items-center gap-2 mb-2 animate-fade-in-up">
-              <Calendar size={13} className="text-muted-foreground" />
+              <Calendar size={16} className="text-muted-foreground" />
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                 {formatDate(date)}
               </span>
@@ -327,12 +327,12 @@ export default function EarningsCalendar() {
                         )}
                         {entry.earnings_warning && (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
-                            <AlertTriangle size={9} /> Alerta
+                            <AlertTriangle size={12} /> Alerta
                           </span>
                         )}
                         {entry.earnings_catalyst && (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
-                            <Zap size={9} /> Catalizador
+                            <Zap size={12} /> Catalizador
                           </span>
                         )}
                         {entry.portfolio_only_fetch && (
@@ -347,7 +347,7 @@ export default function EarningsCalendar() {
                         )}
                         {entry.analyst_upside_pct != null && (
                           <span className={`text-[0.62rem] font-medium ${entry.analyst_upside_pct >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                            <TrendingUp size={9} className="inline mr-0.5" />
+                            <TrendingUp size={12} className="inline mr-0.5" />
                             {entry.analyst_upside_pct >= 0 ? '+' : ''}{entry.analyst_upside_pct.toFixed(0)}%
                           </span>
                         )}
@@ -372,7 +372,7 @@ export default function EarningsCalendar() {
                             className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.6rem] font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
                             title="Ver tesis IA de earnings"
                           >
-                            <Bot size={9} /> Tesis IA
+                            <Bot size={12} /> Tesis IA
                           </button>
                         )}
                       </div>
@@ -397,7 +397,7 @@ export default function EarningsCalendar() {
             <span>8–14 días — precaución</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Zap size={10} className="text-emerald-400" />
+            <Zap size={12} className="text-emerald-400" />
             <span>Catalizador — earnings puede impulsar precio</span>
           </div>
           <div className="flex items-center gap-1.5">

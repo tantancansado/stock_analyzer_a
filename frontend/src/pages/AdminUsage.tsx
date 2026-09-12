@@ -143,7 +143,7 @@ export default function AdminUsage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider flex items-center gap-2">
-                <Wallet size={14} className="text-foreground/40" />
+                <Wallet size={16} className="text-foreground/40" />
                 Presupuesto de Claude este mes
               </h2>
               {data.claude_budget.sin_credito && (
@@ -275,7 +275,7 @@ export default function AdminUsage() {
         <Card className="glass">
           <CardContent className="p-6">
             <h2 className="text-sm font-semibold text-foreground/70 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <TrendingUp size={14} className="text-foreground/40" />
+              <TrendingUp size={16} className="text-foreground/40" />
               Tickers más añadidos entre todos los usuarios
             </h2>
             <div className="space-y-2">

@@ -4,21 +4,21 @@ import { BarChart3, Users, Target, Zap, CheckCircle2, AlertTriangle, TrendingUp,
 // ── Section icon mapping ──────────────────────────────────────────────────────
 
 const SECTION_ICONS: Array<[RegExp, ReactNode]> = [
-  [/fundamentales/i,           <BarChart3 size={11} className="text-blue-400 shrink-0" />],
-  [/insider/i,                 <Users size={11} className="text-violet-400 shrink-0" />],
-  [/valorac|entrada|precio/i,  <Target size={11} className="text-emerald-400 shrink-0" />],
-  [/cataliz/i,                 <Zap size={11} className="text-amber-400 shrink-0" />],
-  [/conclus/i,                 <CheckCircle2 size={11} className="text-primary shrink-0" />],
-  [/riesgo/i,                  <AlertTriangle size={11} className="text-red-400 shrink-0" />],
-  [/momentum|técnico/i,        <TrendingUp size={11} className="text-cyan-400 shrink-0" />],
-  [/salud|balance|financier/i, <Shield size={11} className="text-emerald-400 shrink-0" />],
+  [/fundamentales/i,           <BarChart3 size={12} className="text-blue-400 shrink-0" />],
+  [/insider/i,                 <Users size={12} className="text-violet-400 shrink-0" />],
+  [/valorac|entrada|precio/i,  <Target size={12} className="text-emerald-400 shrink-0" />],
+  [/cataliz/i,                 <Zap size={12} className="text-amber-400 shrink-0" />],
+  [/conclus/i,                 <CheckCircle2 size={12} className="text-primary shrink-0" />],
+  [/riesgo/i,                  <AlertTriangle size={12} className="text-red-400 shrink-0" />],
+  [/momentum|técnico/i,        <TrendingUp size={12} className="text-cyan-400 shrink-0" />],
+  [/salud|balance|financier/i, <Shield size={12} className="text-emerald-400 shrink-0" />],
 ]
 
 function sectionIcon(header: string): ReactNode {
   for (const [re, icon] of SECTION_ICONS) {
     if (re.test(header)) return icon
   }
-  return <Info size={11} className="text-muted-foreground/40 shrink-0" />
+  return <Info size={12} className="text-muted-foreground/40 shrink-0" />
 }
 
 // ── Value colorization ────────────────────────────────────────────────────────

@@ -42,14 +42,14 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
         {/* Header */}
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Keyboard size={15} className="text-primary" />
+            <Keyboard size={16} className="text-primary" />
             <span className="text-sm font-bold text-foreground">Atajos de teclado</span>
           </div>
           <button
             onClick={onClose}
             className="p-1 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors"
           >
-            <X size={14} />
+            <X size={16} />
           </button>
         </div>
 

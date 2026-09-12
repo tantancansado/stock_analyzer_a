@@ -91,7 +91,7 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
       return (
         <div className={`inline-flex items-center gap-2 text-[0.7rem] font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80 ${className}`}>
           <span className="relative flex shrink-0 items-center">
-            <CheckCircle2 size={13} className="text-emerald-400" />
+            <CheckCircle2 size={16} className="text-emerald-400" />
           </span>
           <span className="font-semibold text-emerald-400">Datos en vivo</span>
           <span className="text-emerald-400/30">·</span>

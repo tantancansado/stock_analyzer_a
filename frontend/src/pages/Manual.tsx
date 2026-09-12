@@ -87,7 +87,7 @@ function SectionHeader({ id, icon: Icon, title, subtitle }: { id: string; icon: 
   return (
     <header id={id} className="group scroll-mt-20 mb-4">
       <div className="flex items-center gap-2.5">
-        <Icon size={18} className="text-primary transition-transform duration-300 group-hover:scale-110" />
+        <Icon size={16} className="text-primary transition-transform duration-300 group-hover:scale-110" />
         <h2 className="text-xl font-extrabold tracking-tight">{title}</h2>
       </div>
       {subtitle && <p className="text-sm text-muted-foreground mt-1">{subtitle}</p>}
@@ -225,7 +225,7 @@ export default function Manual() {
         <aside className="hidden lg:block w-60 shrink-0">
           <div className="sticky top-20">
             <div className="relative mb-3">
-              <Search size={13} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground/50" />
+              <Search size={16} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground/50" />
               <input
                 type="text"
                 value={query}

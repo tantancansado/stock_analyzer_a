@@ -422,7 +422,7 @@ export default function Leaps() {
       <details open={!esMovil} className="group rounded-lg bg-muted/10 border border-border/30 mb-5">
         <summary className="cursor-pointer list-none px-4 py-2.5 text-xs font-semibold text-foreground/80 marker:hidden sm:hidden">
           <span className="inline-flex items-center gap-1.5">
-            <ChevronDown size={14} className="transition-transform group-open:rotate-180" />
+            <ChevronDown size={16} className="transition-transform group-open:rotate-180" />
             ¿Qué es un LEAPS deep-ITM?
           </span>
         </summary>

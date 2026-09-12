@@ -25,7 +25,7 @@ export default function ScrollToTop() {
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3 pointer-events-none',
       )}
     >
-      <ArrowUp size={14} strokeWidth={2} />
+      <ArrowUp size={16} strokeWidth={2} />
     </button>
   )
 }

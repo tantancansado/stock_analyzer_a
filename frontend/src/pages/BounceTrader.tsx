@@ -118,7 +118,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {/* Conviction value score badge */}
       {isConviction && s.value_score != null && (
         <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-amber-400/8 border border-amber-400/25 text-[0.65rem]">
-          <Star size={11} className="text-amber-400 shrink-0" />
+          <Star size={12} className="text-amber-400 shrink-0" />
           <span className="text-amber-300/80">VALUE score <strong className="text-amber-300">{s.value_score.toFixed(0)}pts</strong></span>
           {s.value_grade && <span className="ml-auto font-bold text-amber-400">{s.value_grade}</span>}
         </div>
@@ -127,7 +127,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {/* Earnings warning */}
       {s.earnings_warning && (
         <div className="flex items-center gap-1.5 text-[0.65rem] text-amber-400 bg-amber-500/8 border border-amber-500/20 rounded-lg px-2.5 py-1.5">
-          <AlertTriangle size={11} />
+          <AlertTriangle size={12} />
           <span>Earnings en {s.days_to_earnings}d — riesgo elevado</span>
         </div>
       )}
@@ -186,7 +186,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         <span>Caída <strong className="text-foreground">{s.drawdown_pct.toFixed(0)}%</strong></span>
         {s.consecutive_down_days != null && s.consecutive_down_days >= 2 && (
           <span className="flex items-center gap-0.5 text-red-400/70">
-            <TrendingDown size={10} />
+            <TrendingDown size={12} />
             {s.consecutive_down_days}d
           </span>
         )}
@@ -434,7 +434,7 @@ export default function BounceTrader() {
           </div>
           {withEarn > 0 && (
             <div className="flex items-center gap-1.5 text-[0.7rem] px-3 py-1.5 rounded-lg bg-amber-500/8 border border-amber-500/20 text-amber-400">
-              <AlertTriangle size={11} />
+              <AlertTriangle size={12} />
               <span className="font-bold">{withEarn}</span> con earnings próximos
             </div>
           )}
@@ -481,7 +481,7 @@ export default function BounceTrader() {
       )}
       {catalystExcludedCount > 0 && (
         <div className="flex items-center gap-2 text-[0.68rem] text-red-400/70 mb-4 px-1">
-          <AlertTriangle size={11} />
+          <AlertTriangle size={12} />
           {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
         </div>
       )}
@@ -504,7 +504,7 @@ export default function BounceTrader() {
           {conviction.length > 0 && (
             <section>
               <SectionHeader
-                icon={<Star size={18} className="text-amber-400" />}
+                icon={<Star size={16} className="text-amber-400" />}
                 title="Rebote con Convicción"
                 subtitle="Caída técnica en empresa fundamentalmente sólida · Tamaño normal · Puede convertirse en posición"
                 count={conviction.length}
@@ -520,7 +520,7 @@ export default function BounceTrader() {
           {technical.length > 0 && (
             <section>
               <SectionHeader
-                icon={<Target size={18} className="text-cyan-400" />}
+                icon={<Target size={16} className="text-cyan-400" />}
                 title="Rebote Técnico Puro"
                 subtitle="Solo señales técnicas · Tamaño pequeño · Objetivo +5–7% · Stop ajustado"
                 count={technical.length}

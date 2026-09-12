@@ -92,7 +92,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
 
           {/* Expand button */}
           <div className="w-8 h-8 rounded-full bg-muted/20 flex items-center justify-center hover:bg-muted/40 transition-colors flex-shrink-0">
-            {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+            {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
           </div>
         </div>
 
@@ -101,7 +101,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
           <div className="mt-3 pt-3 border-t border-border/30 space-y-1.5">
             {entry.reasons.map((r, i) => (
               <div key={i} className="flex items-start gap-1.5 text-[0.7rem] text-muted-foreground">
-                <AlertTriangle size={10} className="text-red-400 flex-shrink-0 mt-0.5" />
+                <AlertTriangle size={12} className="text-red-400 flex-shrink-0 mt-0.5" />
                 {r}
               </div>
             ))}
@@ -213,7 +213,7 @@ export default function DividendTraps() {
         <Card className={`glass border ${myTraps.length > 0 ? 'border-red-500/30 bg-red-500/5' : 'border-primary/20 bg-primary/5'}`}>
           <CardContent className="p-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-3 flex items-center gap-2">
-              <Briefcase size={14} />
+              <Briefcase size={16} />
               Tu Cartera — Dividend Check
             </h4>
             {myTraps.length > 0 && (
@@ -263,7 +263,7 @@ export default function DividendTraps() {
         <Card className="glass border border-amber-500/30 bg-amber-500/5">
           <CardContent className="p-4">
             <h4 className="text-xs font-bold uppercase tracking-widest text-amber-400 mb-3 flex items-center gap-2">
-              <Zap size={14} />
+              <Zap size={16} />
               Recomendaciones VALUE con dividendo en riesgo ({recTraps.length})
             </h4>
             <div className="space-y-1.5">
@@ -417,7 +417,7 @@ export default function DividendTraps() {
           {divCalLoading && (
             <Card className="glass border border-border/40">
               <CardContent className="p-8 text-center">
-                <Loader2 size={24} className="animate-spin text-primary mx-auto mb-3" />
+                <Loader2 size={22} className="animate-spin text-primary mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground">Escaneando ex-dividend dates...</p>
                 <p className="text-xs text-muted-foreground/50 mt-1">Primera carga puede tardar ~30s</p>
               </CardContent>

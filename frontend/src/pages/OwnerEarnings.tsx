@@ -431,7 +431,7 @@ function DetailView({
     <div className="space-y-5">
       {/* Back button */}
       <button onClick={onBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
-        <ArrowLeft size={14} />
+        <ArrowLeft size={16} />
         Todas las empresas
       </button>
 
@@ -1576,7 +1576,7 @@ function BatchView({
 
   const SortIcon = ({ k }: { k: SortKey }) => {
     if (sortKey !== k) return null
-    return sortDir === 'desc' ? <ChevronDown size={11} className="inline ml-0.5" /> : <ChevronUp size={11} className="inline ml-0.5" />
+    return sortDir === 'desc' ? <ChevronDown size={12} className="inline ml-0.5" /> : <ChevronUp size={12} className="inline ml-0.5" />
   }
 
   const filtered = results
@@ -1862,7 +1862,7 @@ export default function OwnerEarnings() {
   return (
     <div className="max-w-7xl mx-auto space-y-5">
       <PageHeader
-        title={<span className="flex items-center gap-2.5"><Calculator size={18} className="text-cyan-400" />Owner Earnings</span>}
+        title={<span className="flex items-center gap-2.5"><Calculator size={16} className="text-cyan-400" />Owner Earnings</span>}
         subtitle="Modelo de valoración Buffett — precio de compra para retorno anual objetivo. FCF = CFO − CapEx mantenimiento. Datos TIKR Pro."
       >
         <Button
@@ -1908,7 +1908,7 @@ export default function OwnerEarnings() {
               onClick={handleApplyReturn}
               className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold shadow-xl shadow-cyan-500/20 gap-2"
             >
-              <RefreshCw size={13} />
+              <RefreshCw size={16} />
               Recalcular con {pendingReturn}%
             </Button>
           </div>

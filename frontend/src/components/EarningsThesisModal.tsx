@@ -116,7 +116,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
           <div className="flex-1 overflow-y-auto min-h-0 border-t border-border/30 px-5 py-4 space-y-5">
             {loading && (
               <div className="flex items-center justify-center gap-2 py-10 text-sm text-muted-foreground">
-                <Loader2 size={14} className="animate-spin" /> Cargando tesis IA...
+                <Loader2 size={16} className="animate-spin" /> Cargando tesis IA...
               </div>
             )}
 
@@ -212,7 +212,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {thesis.key_catalysts?.length > 0 && (
                   <div>
                     <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
-                      <Zap size={11} className="text-emerald-400" />
+                      <Zap size={12} className="text-emerald-400" />
                       Catalizadores
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
@@ -229,7 +229,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {thesis.key_risks?.length > 0 && (
                   <div>
                     <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
-                      <AlertTriangle size={11} className="text-red-400" />
+                      <AlertTriangle size={12} className="text-red-400" />
                       Riesgos
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
@@ -254,7 +254,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                           <span className="text-foreground/80">act {h.eps_actual ?? '—'}</span>
                           {h.surprise_pct != null && (
                             <span className={`tabular-nums ml-auto font-semibold flex items-center gap-0.5 ${h.surprise_pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                              {h.surprise_pct >= 0 ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
+                              {h.surprise_pct >= 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                               {h.surprise_pct >= 0 ? '+' : ''}{h.surprise_pct.toFixed(1)}%
                             </span>
                           )}

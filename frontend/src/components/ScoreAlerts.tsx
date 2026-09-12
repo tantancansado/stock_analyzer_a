@@ -23,7 +23,7 @@ function AlertRow({ alert }: { alert: ScoreAlert }) {
 
   return (
     <div className={`flex items-center gap-3 px-3 py-2 rounded-lg border ${cfg.bg} ${cfg.border}`}>
-      <Icon size={13} className={cfg.text} />
+      <Icon size={16} className={cfg.text} />
       <span className={`font-mono font-bold text-sm w-16 shrink-0 ${cfg.text}`}>{alert.ticker}</span>
       <span className="text-xs text-foreground/60 flex-1 truncate">{alert.company_name}</span>
       <span className="text-[0.65rem] text-muted-foreground/50 hidden sm:block">{alert.sector}</span>
@@ -61,7 +61,7 @@ export default function ScoreAlerts() {
   if (loading) {
     return (
       <div className="flex items-center gap-2 py-8 justify-center text-sm text-muted-foreground">
-        <Loader2 size={14} className="animate-spin" /> Cargando novedades...
+        <Loader2 size={16} className="animate-spin" /> Cargando novedades...
       </div>
     )
   }

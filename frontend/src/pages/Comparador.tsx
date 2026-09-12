@@ -105,7 +105,7 @@ function Cell({ metric, data, allData }: { metric: Metric; data: TickerData; all
     <td className="px-3 sm:px-4 py-2.5 text-center text-sm tabular-nums">
       <span className={`font-semibold ${cls || 'text-foreground/80'} flex items-center justify-center gap-1`}>
         {(isUpside || isGrowth) && num != null && (
-          num > 0 ? <TrendingUp size={11} /> : num < 0 ? <TrendingDown size={11} /> : <Minus size={11} />
+          num > 0 ? <TrendingUp size={12} /> : num < 0 ? <TrendingDown size={12} /> : <Minus size={12} />
         )}
         {text}
       </span>
@@ -251,7 +251,7 @@ export default function Comparador() {
                   className="w-40 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/40 text-sm font-bold text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
                 />
                 <Button size="sm" onClick={addTicker} disabled={!input.trim()}>
-                  <Plus size={13} />
+                  <Plus size={16} />
                   Añadir
                 </Button>
               </div>

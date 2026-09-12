@@ -48,7 +48,7 @@ export function ValueModeToggle({
       )}
       title={clearMode ? 'Cambiar a vista avanzada' : 'Cambiar a vista clara'}
     >
-      <SlidersHorizontal size={13} strokeWidth={1.8} />
+      <SlidersHorizontal size={16} strokeWidth={1.8} />
       {clearMode ? 'Vista clara' : 'Vista avanzada'}
     </button>
   )

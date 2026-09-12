@@ -134,7 +134,7 @@ function CongressCard({ signal }: { signal: PoliticalSignal }) {
         {signal.link && (
           <a href={signal.link} target="_blank" rel="noopener noreferrer"
             className="flex items-center gap-1 text-[0.7rem] text-muted-foreground/40 hover:text-muted-foreground transition-colors w-fit">
-            <ExternalLink size={11} /> Ver declaración oficial
+            <ExternalLink size={12} /> Ver declaración oficial
           </a>
         )}
       </CardContent>
@@ -260,7 +260,7 @@ export default function CorrupcionInstitucional() {
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
-              <Icon size={13} className={activeTab === tab.id ? tab.color : ''} />
+              <Icon size={16} className={activeTab === tab.id ? tab.color : ''} />
               <span className="hidden sm:inline">{tab.label}</span>
               {count > 0 && (
                 <span className={cn('text-[0.65rem] font-bold px-1 py-0.5 rounded', activeTab === tab.id ? 'bg-muted' : 'bg-muted/50')}>

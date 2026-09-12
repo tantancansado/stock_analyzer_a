@@ -83,7 +83,7 @@ function CoachActionButton({ action, onOpen }: { action: CoachAction; onOpen: (t
     >
       <div className="flex items-start gap-3">
         <span className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border ${tone.icon}`}>
-          <Icon size={15} strokeWidth={1.8} />
+          <Icon size={16} strokeWidth={1.8} />
         </span>
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex flex-wrap items-center gap-2">
@@ -96,7 +96,7 @@ function CoachActionButton({ action, onOpen }: { action: CoachAction; onOpen: (t
           <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{action.body}</p>
           {action.meta && <p className="mt-2 text-[0.68rem] font-medium text-foreground/65">{action.meta}</p>}
         </div>
-        <ChevronRight size={14} className="mt-2 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+        <ChevronRight size={16} className="mt-2 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
       </div>
     </button>
   )
@@ -140,7 +140,7 @@ function IdeasHoy({ signals, onVerDetalle }: { signals: EntrySignal[]; onVerDeta
     <div className="mb-5 animate-fade-in-up">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <Zap size={14} className="text-emerald-400" />
+          <Zap size={16} className="text-emerald-400" />
           <span className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground">Ideas de hoy</span>
           <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-bold">{deduped.length}</span>
         </div>
@@ -197,7 +197,7 @@ function IdeasHoy({ signals, onVerDetalle }: { signals: EntrySignal[]; onVerDeta
               {/* Earnings warning */}
               {sig.earnings_warning && sig.days_to_earnings != null && (
                 <div className="mt-1.5 text-[0.62rem] text-amber-400 flex items-center gap-1">
-                  <Bell size={9} /> Earnings {sig.days_to_earnings}d
+                  <Bell size={12} /> Earnings {sig.days_to_earnings}d
                 </div>
               )}
 
@@ -256,7 +256,7 @@ function CerebroCoachPanel({
           <div className="relative p-5 md:p-6">
             <div className="mb-4 flex items-center gap-2">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-violet-500/25 bg-violet-500/10 text-violet-300">
-                <MessageCircle size={17} strokeWidth={1.75} />
+                <MessageCircle size={16} strokeWidth={1.75} />
               </span>
               <div>
                 <div className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-violet-300">Cerebro te diría</div>
@@ -284,7 +284,7 @@ function CerebroCoachPanel({
 
           <div className="border-t border-border/20 p-4 lg:border-l lg:border-t-0">
             <div className="mb-2 flex items-center gap-2 px-1">
-              <Sparkles size={13} className="text-primary" />
+              <Sparkles size={16} className="text-primary" />
               <span className="text-[0.66rem] font-bold uppercase tracking-[0.16em] text-muted-foreground">Siguiente foco</span>
             </div>
             <div className="space-y-2">
@@ -476,11 +476,11 @@ function buildCoachActions({
 }
 
 function alertIcon(type: string) {
-  if (type === 'MR_ZONE')         return <TrendingDown size={13} className="text-teal-400" />
-  if (type === 'INSIDER_BUYING')  return <TrendingUp size={13} className="text-purple-400" />
-  if (type === 'EARNINGS_WARNING') return <Bell size={13} className="text-amber-400" />
-  if (type === 'NEW_CONVERGENCE') return <Crosshair size={13} className="text-cyan-400" />
-  return <Minus size={13} className="text-muted-foreground" />
+  if (type === 'MR_ZONE')         return <TrendingDown size={16} className="text-teal-400" />
+  if (type === 'INSIDER_BUYING')  return <TrendingUp size={16} className="text-purple-400" />
+  if (type === 'EARNINGS_WARNING') return <Bell size={16} className="text-amber-400" />
+  if (type === 'NEW_CONVERGENCE') return <Crosshair size={16} className="text-cyan-400" />
+  return <Minus size={16} className="text-muted-foreground" />
 }
 
 function alertColor(severity: CerebroAlert['severity']) {
@@ -559,7 +559,7 @@ function AlertsTab({ alerts, showAll, onToggleAll }: {
               )}
             </div>
             <Link to={`/search?q=${alert.ticker}`} className="shrink-0 text-muted-foreground/40 hover:text-primary mt-0.5 transition-colors" title="Analizar ticker">
-              <ChevronRight size={14} />
+              <ChevronRight size={16} />
             </Link>
           </div>
         )
@@ -649,7 +649,7 @@ function EntrySignalCard({ sig }: Readonly<{ sig: EntrySignal }>) {
               <div className="flex flex-wrap gap-1 mb-2">
                 {sig.signals_fired.map(s => (
                   <span key={s} className="flex items-center gap-0.5 text-[0.6rem] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                    <CheckCircle2 size={9} /> {s}
+                    <CheckCircle2 size={12} /> {s}
                   </span>
                 ))}
               </div>
@@ -661,9 +661,9 @@ function EntrySignalCard({ sig }: Readonly<{ sig: EntrySignal }>) {
                 onClick={() => setExpanded(e => !e)}
                 className="flex items-center gap-1 text-[0.65rem] text-muted-foreground/50 hover:text-muted-foreground transition-colors"
               >
-                <Minus size={10} className="text-muted-foreground/40" />
+                <Minus size={12} className="text-muted-foreground/40" />
                 {expanded ? 'Ocultar' : `+${sig.signals_missing.length} señales extra posibles`}
-                <ChevronRight size={10} className={`transition-transform ${expanded ? 'rotate-90' : ''}`} />
+                <ChevronRight size={12} className={`transition-transform ${expanded ? 'rotate-90' : ''}`} />
               </button>
             )}
             {expanded && (
@@ -681,7 +681,7 @@ function EntrySignalCard({ sig }: Readonly<{ sig: EntrySignal }>) {
 
             {sig.earnings_warning && sig.days_to_earnings != null && (
               <div className="mt-2 text-[0.65rem] text-amber-400 flex items-center gap-1">
-                <Bell size={10} /> Earnings en {sig.days_to_earnings}d — riesgo de entrada
+                <Bell size={12} /> Earnings en {sig.days_to_earnings}d — riesgo de entrada
               </div>
             )}
           </div>
@@ -967,7 +967,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             <Card className="glass border-border/30">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-3">
-                  <Newspaper size={13} className="text-muted-foreground/60" />
+                  <Newspaper size={16} className="text-muted-foreground/60" />
                   <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Resumen automático</span>
                   <span className="ml-auto text-[0.6rem] text-muted-foreground/40">Briefing IA no generado aún</span>
                 </div>
@@ -1020,7 +1020,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '60ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <Zap size={13} className="text-emerald-400" />
+                      <Zap size={16} className="text-emerald-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Entradas hoy</span>
                       <span className="ml-auto text-[0.6rem] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/30 font-bold">
                         {briefingSections.strong_buy_count} SB · {briefingSections.buy_count} BUY
@@ -1047,7 +1047,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '120ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <Building2 size={13} className="text-purple-400" />
+                      <Building2 size={16} className="text-purple-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Smart Money</span>
                     </div>
                     <div className="space-y-1.5">
@@ -1070,7 +1070,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '150ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <Activity size={13} className="text-orange-300" />
+                      <Activity size={16} className="text-orange-300" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Macro Stress</span>
                     </div>
                     <div className="space-y-2">
@@ -1102,7 +1102,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '180ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <ShieldAlert size={13} className="text-red-400" />
+                      <ShieldAlert size={16} className="text-red-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Vigilar / Salir</span>
                     </div>
                     <div className="space-y-2">
@@ -1136,7 +1136,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '240ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <Crosshair size={13} className="text-cyan-400" />
+                      <Crosshair size={16} className="text-cyan-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Convergencias</span>
                     </div>
                     <div className="space-y-1.5">
@@ -1157,7 +1157,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '270ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <Bell size={13} className="text-violet-400" />
+                      <Bell size={16} className="text-violet-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Earnings en tu cartera</span>
                       <span className="ml-auto text-[0.6rem] bg-violet-500/15 text-violet-400 px-1.5 py-0.5 rounded border border-violet-500/30 font-bold">
                         {portfolioEarnings.length} próximos
@@ -1187,7 +1187,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 <Card className="glass hover:border-border/60 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
                   <CardContent className="p-4">
                     <div className="flex items-center gap-2 mb-3">
-                      <Bell size={13} className="text-amber-400" />
+                      <Bell size={16} className="text-amber-400" />
                       <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Alertas HIGH</span>
                     </div>
                     <div className="space-y-1.5">
@@ -1632,7 +1632,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Exit Monitor */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <TrendingDown size={14} className="text-red-400" />
+              <TrendingDown size={16} className="text-red-400" />
               <h3 className="text-sm font-bold text-foreground/80">Exit Monitor</h3>
               {exitData && <span className="text-[0.6rem] text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded font-bold">{exitData.high_count} HIGH · {exitData.total} total</span>}
             </div>
@@ -1678,7 +1678,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Value Trap Detector */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <AlertOctagon size={14} className="text-amber-400" />
+              <AlertOctagon size={16} className="text-amber-400" />
               <h3 className="text-sm font-bold text-foreground/80">Value Trap Detector</h3>
               {trapsData && <span className="text-[0.6rem] text-amber-400 bg-amber-500/10 border border-amber-500/20 px-1.5 py-0.5 rounded font-bold">{trapsData.high_count} HIGH · {trapsData.total} total</span>}
             </div>
@@ -1708,7 +1708,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Smart Money */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <Building2 size={14} className="text-purple-400" />
+              <Building2 size={16} className="text-purple-400" />
               <h3 className="text-sm font-bold text-foreground/80">Smart Money Convergence</h3>
               {smData && <span className="text-[0.6rem] text-purple-400 bg-purple-500/10 border border-purple-500/20 px-1.5 py-0.5 rounded font-bold">{smData.total} señales</span>}
             </div>
@@ -1733,7 +1733,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Insider Clusters */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <Users size={14} className="text-teal-400" />
+              <Users size={16} className="text-teal-400" />
               <h3 className="text-sm font-bold text-foreground/80">Insider Sector Clusters</h3>
               {clustersData && <span className="text-[0.6rem] text-teal-400 bg-teal-500/10 border border-teal-500/20 px-1.5 py-0.5 rounded font-bold">{clustersData.total} clusters</span>}
             </div>
@@ -1760,7 +1760,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Dividend Safety */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <Wallet size={14} className="text-emerald-400" />
+              <Wallet size={16} className="text-emerald-400" />
               <h3 className="text-sm font-bold text-foreground/80">Dividend Safety Monitor</h3>
               {divData && <span className="text-[0.6rem] text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.5 rounded font-bold">{divData.at_risk} AT RISK · {divData.total} total</span>}
             </div>
@@ -1792,7 +1792,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Piotroski Momentum */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <BarChart2 size={14} className="text-blue-400" />
+              <BarChart2 size={16} className="text-blue-400" />
               <h3 className="text-sm font-bold text-foreground/80">Piotroski Momentum</h3>
               {piotrData && <span className="text-[0.6rem] text-blue-400 bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded font-bold">{piotrData.improving} mejorando · {piotrData.total} analizados</span>}
             </div>
@@ -1800,7 +1800,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
               {(piotrData?.candidates ?? []).slice(0, 10).map(c => {
                 const trendColor = c.trend === 'IMPROVING' ? 'text-emerald-400' : c.trend === 'SLIGHT_UP' ? 'text-blue-400' : c.trend === 'DETERIORATING' ? 'text-red-400' : c.trend === 'SLIGHT_DOWN' ? 'text-amber-400' : 'text-muted-foreground'
-                const trendIcon = c.trend === 'IMPROVING' || c.trend === 'SLIGHT_UP' ? <TrendingUp size={11} /> : c.trend === 'DETERIORATING' || c.trend === 'SLIGHT_DOWN' ? <TrendingDown size={11} /> : <Minus size={11} />
+                const trendIcon = c.trend === 'IMPROVING' || c.trend === 'SLIGHT_UP' ? <TrendingUp size={12} /> : c.trend === 'DETERIORATING' || c.trend === 'SLIGHT_DOWN' ? <TrendingDown size={12} /> : <Minus size={12} />
                 return (
                   <div key={c.ticker} className="flex items-center gap-3 p-3 rounded-xl border border-border/30 bg-muted/5">
                     <TickerLogo ticker={c.ticker} size="sm" className="shrink-0" />
@@ -1824,7 +1824,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Portfolio Stress Test */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <Activity size={14} className="text-pink-400" />
+              <Activity size={16} className="text-pink-400" />
               <h3 className="text-sm font-bold text-foreground/80">Portfolio Stress Test</h3>
               {stressData && <span className="text-[0.6rem] text-foreground/60 bg-muted/15 border border-border/30 px-1.5 py-0.5 rounded font-bold">{stressData.total_positions} posiciones · {stressData.risks.length} riesgos</span>}
             </div>
@@ -1868,7 +1868,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Short Squeeze Detector */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <Zap size={14} className="text-cyan-400" />
+              <Zap size={16} className="text-cyan-400" />
               <h3 className="text-sm font-bold text-foreground/80">Short Squeeze Detector</h3>
               {squeezeData && <span className="text-[0.6rem] text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-1.5 py-0.5 rounded font-bold">{squeezeData.high_count} HIGH · {squeezeData.total} total</span>}
             </div>
@@ -1901,7 +1901,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           {/* Quality Decay Monitor */}
           <section>
             <div className="flex items-center gap-2 mb-3">
-              <TrendingDown size={14} className="text-orange-400" />
+              <TrendingDown size={16} className="text-orange-400" />
               <h3 className="text-sm font-bold text-foreground/80">Quality Decay Monitor</h3>
               {decayData && <span className="text-[0.6rem] text-orange-400 bg-orange-500/10 border border-orange-500/20 px-1.5 py-0.5 rounded font-bold">{decayData.high_count} HIGH · {decayData.total} total</span>}
             </div>
