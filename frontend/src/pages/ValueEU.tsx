@@ -311,15 +311,16 @@ export default function ValueEU() {
     <>
       <StaleDataBanner module="value_eu" />
       <PageHeader
-        title={<>
-          VALUE Europa
+        tituloOculto
+        title="VALUE Europa"
+        subtitle={<>
           {regimeLabel && (
-            <Badge variant={regimeLabel.includes('UP') ? 'green' : regimeLabel.includes('CORR') ? 'red' : 'yellow'} className="ml-2 align-middle text-xs">
+            <Badge variant={regimeLabel.includes('UP') ? 'green' : regimeLabel.includes('CORR') ? 'red' : 'yellow'} className="mr-2 align-middle text-xs">
               {regimeLabel}
             </Badge>
           )}
+          Ideas europeas ordenadas por oportunidad. La vista clara deja la explicación técnica detrás.
         </>}
-        subtitle="Ideas europeas ordenadas por oportunidad. La vista clara deja la explicación técnica detrás."
       >
         <ValueModeToggle clearMode={clearMode} onChange={setClearMode} />
         <CsvDownload dataset="value-eu" label="CSV" />

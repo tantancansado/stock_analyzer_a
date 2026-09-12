@@ -240,7 +240,8 @@ export default function GlobalValue() {
     <>
       <StaleDataBanner module="value_global" />
       <div className="mb-6 animate-fade-in-up flex items-start justify-between flex-wrap gap-3">
-        <PageHeader {...cabecera} />
+        {/* Título oculto: la pestaña activa ya dice "VALUE Global". */}
+        <PageHeader {...cabecera} tituloOculto />
         <div className="flex items-center gap-2">
           <CsvDownload dataset="value-global" />
         </div>

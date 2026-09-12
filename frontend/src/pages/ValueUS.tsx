@@ -362,16 +362,18 @@ export default function ValueUS() {
   return (
     <>
       <StaleDataBanner module="value_us" />
+      {/* Título oculto: la pestaña activa ya dice "VALUE US" 150px más arriba.
+          El badge de régimen sí se ve — es contexto de mercado, no el título —
+          y pasa al subtítulo. */}
       <PageHeader
-        title={<>
-          VALUE US
+        tituloOculto
+        title="VALUE US"
+        subtitle={<>
           {regimeLabel && (
-            <Badge variant={regimeLabel.includes('UP') ? 'green' : regimeLabel.includes('CORR') ? 'red' : 'yellow'} className="ml-2 align-middle text-xs">
+            <Badge variant={regimeLabel.includes('UP') ? 'green' : regimeLabel.includes('CORR') ? 'red' : 'yellow'} className="mr-2 align-middle text-xs">
               {regimeLabel}
             </Badge>
           )}
-        </>}
-        subtitle={<>
           Ideas ordenadas por oportunidad. La vista clara traduce los modelos a decisiones.
           {regimeRec && <> · <strong className="text-foreground">{regimeRec}</strong></>}
         </>}
