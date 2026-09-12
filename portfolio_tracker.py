@@ -112,6 +112,28 @@ class PortfolioTracker:
         TRACKER_DIR.mkdir(parents=True, exist_ok=True)
         self.recommendations = self._load_recommendations()
 
+    @staticmethod
+    def _occ_symbol(ticker: str, expiry: str, strike: float, call_put: str = 'C') -> str | None:
+        """Símbolo OCC del contrato, que es como se sigue una opción.
+
+        Formato: RAIZ + AAMMDD + C/P + strike en milésimas a 8 dígitos.
+        MSFT, 2028-01-21, strike 370 -> MSFT280121C00370000
+
+        Durante meses este módulo dio por imposible medir el contrato ("el
+        precio de la opción depende del strike y no se puede seguir con
+        yfinance") y registró solo el subyacente. Es falso: yfinance sirve
+        estos símbolos igual que un ticker. Comprobado el 12-sep-2026 contra
+        MSFT280121C00370000, AXP280121C00250000 e ICE280121C00115000.
+        """
+        try:
+            y, m, d = str(expiry).split('-')
+            strike_miles = int(round(float(strike) * 1000))
+        except (ValueError, TypeError):
+            return None
+        if not ticker or len(y) != 4 or strike_miles <= 0:
+            return None
+        return f"{ticker.upper().strip()}{y[2:]}{m}{d}{call_put}{strike_miles:08d}"
+
     def _load_recommendations(self) -> pd.DataFrame:
         """Load existing recommendations history"""
         if RECOMMENDATIONS_FILE.exists():
@@ -130,6 +152,13 @@ class PortfolioTracker:
             'benchmark_return_7d', 'benchmark_return_14d', 'benchmark_return_30d',
             'benchmark_return_90d', 'benchmark_return_180d', 'benchmark_return_365d',
             'alpha_7d', 'alpha_14d', 'alpha_30d', 'alpha_90d', 'alpha_180d', 'alpha_365d',
+            # LEAPS: el CONTRATO, no el subyacente. Ver _occ_symbol y
+            # update_leaps_contracts.
+            'option_symbol', 'option_entry_price',
+            'option_return_7d', 'option_return_14d', 'option_return_30d',
+            'option_return_90d', 'option_return_180d',
+            'option_price_7d', 'option_price_14d', 'option_price_30d',
+            'option_price_90d', 'option_price_180d',
         ])
 
     def record_signals(self):
@@ -444,12 +473,19 @@ class PortfolioTracker:
                     if len(ya):
                         continue
                     pat = o.get('profit_at_target') or {}
+                    rc = o.get('recommended_contract') or {}
+                    # El contrato concreto que se recomendó. Sin esto solo se
+                    # puede medir la acción, que no es lo que se compra.
+                    occ = self._occ_symbol(ticker, rc.get('expiry'), rc.get('strike'))
+                    entrada = pd.to_numeric(rc.get('mid'), errors='coerce')
                     self.recommendations = pd.concat([self.recommendations, pd.DataFrame([{
                         'ticker': ticker,
                         'company_name': str(o.get('company_name') or ticker),
                         'strategy': 'LEAPS',
                         'signal_date': today,
                         'signal_price': float(spot),
+                        'option_symbol': occ,
+                        'option_entry_price': entrada,
                         'value_score': pd.to_numeric(o.get('opportunity_score'), errors='coerce'),
                         'analyst_upside_pct': pd.to_numeric(o.get('analyst_upside_pct'), errors='coerce'),
                         'sector': o.get('sector', 'N/A'),
@@ -460,7 +496,7 @@ class PortfolioTracker:
             except Exception as e:
                 print(f"  no se pudo leer leaps_opportunities.json: {e}")
         if leaps_recorded:
-            print(f"  Recorded {leaps_recorded} señales LEAPS (subyacente)")
+            print(f"  Recorded {leaps_recorded} señales LEAPS (subyacente + contrato)")
 
         # EU_VALUE pausado: WR 16%, avg -5.9%, alpha -6.6% en 738 señales (feb-may 2026)
         # El modelo europeo no tiene edge real — requiere revisión de scoring antes de reactivar
@@ -645,6 +681,88 @@ class PortfolioTracker:
         print(f"  Updated {updated} performance checkpoints")
         self._save_recommendations()
 
+    # Una opción ilíquida no cotiza todos los días: de las últimas 20 sesiones,
+    # AXP280121C00250000 e ICE280121C00115000 solo tenían 4 cierres. Se admite
+    # el primer cierre REAL dentro de esta ventana tras el checkpoint; pasada
+    # la ventana se deja vacío en vez de arrastrar un precio de hace un mes.
+    VENTANA_LIQUIDEZ_DIAS = 10
+
+    def update_leaps_contracts(self):
+        """Mide el CONTRATO recomendado, no solo la acción.
+
+        Son dos preguntas distintas y las dos importan: el subyacente dice si
+        la tesis sobre la empresa acertó, el contrato dice si se ganó dinero.
+        Con apalancamiento de ~2,5x no se deducen el uno del otro, y hasta hoy
+        solo se medía el primero — de la sección que el usuario considera de
+        las más lucrativas no se sabía nada.
+        """
+        if self.recommendations.empty or 'option_symbol' not in self.recommendations.columns:
+            return
+
+        today = pd.Timestamp.now().normalize()
+        pendientes = self.recommendations[
+            self.recommendations['option_symbol'].notna()
+            & (self.recommendations['strategy'] == 'LEAPS')
+        ]
+        if pendientes.empty:
+            print("  LEAPS: ninguna señal con contrato registrado todavía")
+            return
+
+        checkpoints = [(7, 'option_return_7d', 'option_price_7d'),
+                       (14, 'option_return_14d', 'option_price_14d'),
+                       (30, 'option_return_30d', 'option_price_30d'),
+                       (90, 'option_return_90d', 'option_price_90d'),
+                       (180, 'option_return_180d', 'option_price_180d')]
+
+        actualizados = sin_datos = 0
+        for simbolo, filas in pendientes.groupby('option_symbol'):
+            # ¿le falta algún checkpoint que ya tenga edad para rellenarse?
+            def _falta(fila):
+                edad = (today - pd.Timestamp(fila['signal_date'])).days
+                return any(edad >= d and pd.isna(fila.get(c)) for d, c, _ in checkpoints)
+            if not filas.apply(_falta, axis=1).any():
+                continue
+
+            try:
+                inicio = pd.Timestamp(filas['signal_date'].min()) - timedelta(days=1)
+                hist = yf.Ticker(str(simbolo)).history(
+                    start=inicio.strftime('%Y-%m-%d'),
+                    end=(today + timedelta(days=1)).strftime('%Y-%m-%d'))
+            except Exception as exc:
+                print(f"    {simbolo}: error al bajar el contrato — {str(exc)[:90]}")
+                continue
+            if hist.empty:
+                sin_datos += 1
+                continue
+            if hist.index.tz is not None:
+                hist.index = hist.index.tz_localize(None)
+
+            for idx, fila in filas.iterrows():
+                entrada = pd.to_numeric(fila.get('option_entry_price'), errors='coerce')
+                if pd.isna(entrada) or entrada <= 0:
+                    continue
+                emision = pd.Timestamp(fila['signal_date'])
+                edad = (today - emision).days
+                for dias, col_ret, col_precio in checkpoints:
+                    if edad < dias or pd.notna(fila.get(col_ret)):
+                        continue
+                    objetivo = emision + timedelta(days=dias)
+                    ventana = hist.index[(hist.index >= objetivo) &
+                                         (hist.index <= objetivo + timedelta(days=self.VENTANA_LIQUIDEZ_DIAS))]
+                    if len(ventana) == 0:
+                        continue
+                    cierre = float(hist.loc[ventana[0], 'Close'])
+                    if cierre <= 0:
+                        continue
+                    self.recommendations.at[idx, col_ret] = round(((cierre - float(entrada)) / float(entrada)) * 100, 2)
+                    self.recommendations.at[idx, col_precio] = round(cierre, 2)
+                    actualizados += 1
+
+        print(f"  LEAPS contratos: {actualizados} checkpoints"
+              + (f" · {sin_datos} contratos sin cotización" if sin_datos else ""))
+        if actualizados:
+            self._save_recommendations()
+
     def generate_summary(self) -> dict:
         """Generate performance summary statistics"""
         if self.recommendations.empty:
@@ -748,6 +866,31 @@ class PortfolioTracker:
                 'median_return': round(valid[col_return].median(), 2),
                 'best': round(valid[col_return].max(), 2),
                 'worst': round(valid[col_return].min(), 2),
+            }
+
+        _leaps = df[df['strategy'] == 'LEAPS']
+
+        def _stats_contrato(col):
+            """Igual que win_stats pero sobre el retorno del CONTRATO, que no
+            tiene columna win_* propia: el signo del retorno la define."""
+            vacio = {'count': 0, 'win_rate': None, 'avg_return': None,
+                     'median_return': None, 'best': None, 'worst': None,
+                     'ci_low': None, 'ci_high': None}
+            if col not in _leaps.columns:
+                return dict(vacio)
+            valid = _leaps[_leaps[col].notna()]
+            if valid.empty:
+                return dict(vacio)
+            ganadoras = int((valid[col] > 0).sum())
+            lo, hi = _wilson(ganadoras, len(valid))
+            return {
+                'count': len(valid),
+                'win_rate': round(ganadoras / len(valid) * 100, 1),
+                'ci_low': lo, 'ci_high': hi,
+                'avg_return': round(valid[col].mean(), 2),
+                'median_return': round(valid[col].median(), 2),
+                'best': round(valid[col].max(), 2),
+                'worst': round(valid[col].min(), 2),
             }
 
         # By strategy (VALUE core only — clean period)
@@ -980,12 +1123,18 @@ class PortfolioTracker:
                 )
             },
             'leaps_strategy': {
-                'count': int(len(df[df['strategy'] == 'LEAPS'])),
-                **({'30d': win_stats('return_30d', 'win_30d', df[df['strategy'] == 'LEAPS']),
-                    '90d': win_stats('return_90d', 'win_90d', df[df['strategy'] == 'LEAPS'])}
-                   if len(df[df['strategy'] == 'LEAPS']) else {}),
-                'nota': ('mide el SUBYACENTE, no el contrato: el precio de la opción '
-                         'depende del strike y no se puede seguir con yfinance'),
+                'count': int(len(_leaps)),
+                # Dos medidas, dos preguntas. El subyacente dice si la tesis
+                # sobre la EMPRESA acertó; el contrato, si se habría ganado
+                # dinero. Con apalancamiento ~2,5x no se deduce una de la otra.
+                'subyacente': {h: win_stats(f'return_{h}', f'win_{h}', _leaps)
+                               for h in ('7d', '14d', '30d', '90d')} if len(_leaps) else {},
+                'contrato': {h: _stats_contrato(f'option_return_{h}')
+                             for h in ('7d', '14d', '30d', '90d')} if len(_leaps) else {},
+                'con_contrato': int(_leaps['option_symbol'].notna().sum()) if 'option_symbol' in _leaps else 0,
+                'nota': ('el contrato se sigue por su símbolo OCC; son opciones poco '
+                         'líquidas, así que un checkpoint sin cotización en 10 días '
+                         'se queda vacío en vez de arrastrar un precio viejo'),
             },
 
             'sector_performance': sector_perf,
@@ -1450,6 +1599,7 @@ def main():
         print("\n2. UPDATING PERFORMANCE")
         print("-" * 40)
         tracker.update_performance()
+        tracker.update_leaps_contracts()
 
     if args.backfill_alpha:
         print("\n[BACKFILL] ALPHA VS BENCHMARK")
