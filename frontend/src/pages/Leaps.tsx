@@ -412,7 +412,7 @@ export default function Leaps() {
     <div className="max-w-5xl mx-auto px-4 py-6">
       <PageHeader
         title={<span className="flex items-center gap-2"><Rocket className="w-6 h-6 text-purple-400" /> LEAPS deep-ITM</span>}
-        subtitle="Calls largas (2027-2028) como sustituto apalancado de acciones — empresas de calidad en buen momento, no especulación"
+        subtitle="Calls 2027-2028 como sustituto apalancado de acciones"
       />
 
       {/* Qué es esto. Cerrado en móvil: son ~700 caracteres y en 390px se

@@ -241,7 +241,7 @@ export default function CorrupcionInstitucional() {
     <div className="space-y-6 p-4 md:p-6 max-w-5xl mx-auto">
       <PageHeader
         title={<span className="flex items-center gap-2.5"><AlertTriangle size={20} className="text-red-400" strokeWidth={1.75} />Corrupción Institucional</span>}
-        subtitle="Señales de mercado derivadas de contratos gubernamentales, trades del Congreso y Executive Orders."
+        subtitle="Contratos públicos, trades del Congreso y Executive Orders"
       />
 
       {/* Tabs */}

@@ -206,7 +206,7 @@ export default function Comparador() {
     <div className="space-y-6 max-w-6xl mx-auto">
       <PageHeader
         title={<span className="flex items-center gap-2"><GitCompare size={22} className="text-primary" />Comparador de Acciones</span>}
-        subtitle="Compara hasta 4 tickers en paralelo con métricas clave. Verde = mejor, rojo = peor."
+        subtitle="Hasta 4 tickers en paralelo · verde mejor, rojo peor"
       />
 
       {/* Input */}

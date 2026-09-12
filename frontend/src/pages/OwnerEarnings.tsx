@@ -1863,7 +1863,7 @@ export default function OwnerEarnings() {
     <div className="max-w-7xl mx-auto space-y-5">
       <PageHeader
         title={<span className="flex items-center gap-2.5"><Calculator size={16} className="text-cyan-400" />Owner Earnings</span>}
-        subtitle="Modelo de valoración Buffett — precio de compra para retorno anual objetivo. FCF = CFO − CapEx mantenimiento. Datos TIKR Pro."
+        subtitle="Modelo Buffett — a qué precio comprar para tu retorno objetivo"
       >
         <Button
           size="sm"

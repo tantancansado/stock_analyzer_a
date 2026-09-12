@@ -209,7 +209,7 @@ export default function Strategies() {
   // la pantalla de error no dice en qué sección estás. Ver PageShell.
   const cabecera = {
     title: <span className="flex items-center gap-2"><Brain size={20} className="text-purple-400" />Estrategias IA</span>,
-    subtitle: 'Plan personalizado por posición — trim/add levels, triggers y fechas concretas. Generado a diario.',
+    subtitle: 'Plan diario por posición: niveles de recorte y ampliación',
   }
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
