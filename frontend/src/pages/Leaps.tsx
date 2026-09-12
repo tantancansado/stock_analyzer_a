@@ -12,6 +12,7 @@ import { Rocket, Search, Brain, TrendingUp, Info, Layers, ChevronDown, ChevronUp
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
+import { Button } from '@/components/ui/button'
 
 const fmtUsd = (n: number, d = 2) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: d }).format(n)
@@ -446,13 +447,9 @@ export default function Leaps() {
             className="w-full bg-background/60 border border-border/40 rounded-md pl-9 pr-3 py-2 text-sm focus:border-primary/50 focus:outline-none"
           />
         </div>
-        <button
-          type="submit"
-          disabled={odLoading}
-          className="px-4 py-2 rounded-md bg-primary/15 border border-primary/30 text-primary text-sm font-semibold hover:bg-primary/25 transition-colors disabled:opacity-50"
-        >
+        <Button type="submit" disabled={odLoading}>
           {odLoading ? 'Analizando…' : 'Analizar'}
-        </button>
+        </Button>
       </form>
 
       {odError && (

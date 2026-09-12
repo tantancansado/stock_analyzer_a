@@ -100,7 +100,7 @@ function HeatTile({
   return (
     <button
       onClick={onClick}
-      className={`relative rounded-[24px] border border-white/10 bg-white/[0.03] p-4 text-left transition-all duration-300 ${
+      className={`relative rounded-3xl border border-white/10 bg-white/[0.03] p-4 text-left transition-all duration-300 ${
         active ? 'scale-[1.01] border-white/30' : 'hover:-translate-y-0.5 hover:border-white/20'
       }`}
     >
@@ -154,7 +154,7 @@ function PriceStressChart({
   }
 
   return (
-    <div className="rounded-[26px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-4">
+    <div className="rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))] p-4">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <div className="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">Drill-down</div>
@@ -293,7 +293,7 @@ function ExposurePanel({ market }: { market: MacroStressMarket }) {
   const isRed = (market.stress_score ?? 0) >= 60
 
   return (
-    <div className={`rounded-[26px] border p-4 ${isRed ? 'border-red-500/20 bg-red-500/[0.06]' : 'border-white/10 bg-white/[0.03]'}`}>
+    <div className={`rounded-3xl border p-4 ${isRed ? 'border-red-500/20 bg-red-500/[0.06]' : 'border-white/10 bg-white/[0.03]'}`}>
       <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-muted-foreground/55">
         <ShieldAlert size={13} className={isRed ? 'text-red-300' : 'text-cyan-300'} />
         Equity Exposure Map
@@ -370,7 +370,7 @@ export default function MacroStress() {
     <div className="space-y-5">
       <StaleDataBanner module="macro_stress" />
 
-      <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(6,182,212,0.14),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] px-5 py-6">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(249,115,22,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(6,182,212,0.14),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] px-5 py-6">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent" />
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
@@ -503,7 +503,7 @@ export default function MacroStress() {
             </CardContent>
           </Card>
 
-          <div className="rounded-[26px] border border-amber-500/20 bg-amber-500/[0.08] p-4">
+          <div className="rounded-3xl border border-amber-500/20 bg-amber-500/[0.08] p-4">
             <div className="flex items-center gap-2 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-amber-300/85">
               <Siren size={13} />
               Reading Guide

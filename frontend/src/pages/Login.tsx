@@ -80,7 +80,7 @@ export default function Login() {
                 type="button"
                 aria-label="Cambiar a iniciar sesión"
                 onClick={() => switchMode('signin')}
-                className={`flex-1 py-1.5 rounded-[5px] transition-colors ${mode === 'signin' ? 'bg-primary/15 text-primary' : 'text-muted-foreground/60'}`}
+                className={`flex-1 py-1.5 rounded-md transition-colors ${mode === 'signin' ? 'bg-primary/15 text-primary' : 'text-muted-foreground/60'}`}
               >
                 Entrar
               </button>
@@ -88,7 +88,7 @@ export default function Login() {
                 type="button"
                 aria-label="Cambiar a crear cuenta"
                 onClick={() => switchMode('signup')}
-                className={`flex-1 py-1.5 rounded-[5px] transition-colors ${mode === 'signup' ? 'bg-primary/15 text-primary' : 'text-muted-foreground/60'}`}
+                className={`flex-1 py-1.5 rounded-md transition-colors ${mode === 'signup' ? 'bg-primary/15 text-primary' : 'text-muted-foreground/60'}`}
               >
                 Crear cuenta
               </button>
