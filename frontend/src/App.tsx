@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useCallback, Suspense, lazy } from 'react'
 import { Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom'
-import { X, LogOut } from 'lucide-react'
+import { X, LogOut, SlidersHorizontal } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { ThemeProvider } from './context/ThemeContext'
 import { useAuth } from './context/AuthContext'
 import { PersonalPortfolioProvider } from './context/PersonalPortfolioContext'
 import { ToastProvider } from './components/Toast'
 import { cn } from '@/lib/utils'
-import { NAV_CATEGORIES, type NavLinkItem } from '@/lib/nav'
+import { type NavLinkItem } from '@/lib/nav'
+import { useNavPreferences, visibleCategories } from '@/hooks/useNavPreferences'
+import NavCustomizer from '@/components/NavCustomizer'
 import TopBar from './components/TopBar'
 import ProtectedRoute from './components/ProtectedRoute'
 import CommandPalette from './components/CommandPalette'
@@ -68,7 +70,9 @@ function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) 
 
 const ADMIN_EMAIL = 'tantancansado@gmail.com'
 
-function SidebarContent({ onClose, onSignOut, userEmail }: Readonly<{ onClose: () => void; onSignOut: () => void; userEmail?: string | null }>) {
+function SidebarContent({ onClose, onSignOut, userEmail, onCustomize }: Readonly<{ onClose: () => void; onSignOut: () => void; userEmail?: string | null; onCustomize: () => void }>) {
+  const { hidden } = useNavPreferences()
+  const categories = visibleCategories(hidden, userEmail === ADMIN_EMAIL)
   return (
     <>
       {/* Header */}
@@ -92,13 +96,13 @@ function SidebarContent({ onClose, onSignOut, userEmail }: Readonly<{ onClose: (
 
       {/* Nav Categories */}
       <nav className="flex-1 px-3 py-4 overflow-y-auto min-h-0 custom-scrollbar space-y-6">
-        {NAV_CATEGORIES.map(category => (
+        {categories.map(category => (
           <div key={category.name}>
             <div className="px-2 mb-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground/60">
               {category.name}
             </div>
             <div className="space-y-0.5">
-              {category.items.filter(item => !item.adminOnly || userEmail === ADMIN_EMAIL).map(item => (
+              {category.items.map(item => (
                 <NavItem key={item.path} item={item} onClose={onClose} />
               ))}
             </div>
@@ -106,8 +110,15 @@ function SidebarContent({ onClose, onSignOut, userEmail }: Readonly<{ onClose: (
         ))}
       </nav>
 
-      {/* Logout */}
-      <div className="px-2 py-2 border-t border-border/30 flex-shrink-0">
+      {/* Personalizar + Logout */}
+      <div className="px-2 py-2 border-t border-border/30 flex-shrink-0 space-y-0.5">
+        <button
+          onClick={onCustomize}
+          className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-lg text-[0.98rem] font-medium text-muted-foreground hover:bg-accent/10 hover:text-foreground transition-all"
+        >
+          <SlidersHorizontal size={15} strokeWidth={1.65} />
+          Personalizar menú
+        </button>
         <button
           onClick={onSignOut}
           className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-lg text-[0.98rem] font-medium text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all"
@@ -127,6 +138,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [cmdOpen, setCmdOpen]           = useState(false)
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
+  const [navCustomOpen, setNavCustomOpen] = useState(false)
   const close = () => setSidebarOpen(false)
   const handleSignOut = () => { close(); signOut() }
 
@@ -254,7 +266,7 @@ export default function App() {
             'max-md:-translate-x-full',
             sidebarOpen && 'max-md:translate-x-0 max-md:shadow-2xl',
           )}>
-            <SidebarContent onClose={close} onSignOut={handleSignOut} userEmail={user?.email} />
+            <SidebarContent onClose={close} onSignOut={handleSignOut} userEmail={user?.email} onCustomize={() => { close(); setNavCustomOpen(true) }} />
           </aside>
 
           {/* Command Palette */}
@@ -262,6 +274,7 @@ export default function App() {
 
           {/* Shortcuts Modal */}
           <ShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+          <NavCustomizer open={navCustomOpen} onClose={() => setNavCustomOpen(false)} canSeeAdmin={user?.email === ADMIN_EMAIL} />
         </>
       )}
 

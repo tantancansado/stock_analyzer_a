@@ -2386,3 +2386,15 @@ select:focus {
     background: hsl(var(--card));
   }
 }
+
+/* Personalizador del menú (NavCustomizer).
+   Va aquí y no como clases de Tailwind porque varios alias de shadcn
+   (bg-accent, bg-muted-foreground/N) no llegan a generar CSS en este
+   proyecto — falta @theme inline —, y el hover y la barra de progreso
+   salían invisibles. Las variables CSS sí resuelven. */
+.nav-custom-row:hover {
+  background: hsl(var(--accent) / 0.1);
+}
+.nav-custom-row:active {
+  background: hsl(var(--accent) / 0.16);
+}
