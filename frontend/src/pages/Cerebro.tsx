@@ -921,11 +921,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold border-b-2 whitespace-nowrap transition-colors active:scale-[0.98] -mb-px ${
-              activeTab === tab.id
-                ? 'border-primary text-primary'
-                : 'border-transparent text-muted-foreground hover:text-foreground'
-            }`}
+            className={`underline-tab -mb-px active:scale-[0.98] ${activeTab === tab.id ? 'active' : ''}`}
           >
             <tab.icon size={12} />
             {tab.label}

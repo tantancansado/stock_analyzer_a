@@ -787,12 +787,7 @@ function DetailView({
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={cn(
-              'px-4 py-2 text-xs font-semibold whitespace-nowrap border-b-2 transition-colors',
-              activeTab === tab.id
-                ? 'border-cyan-400 text-cyan-400'
-                : 'border-transparent text-muted-foreground/50 hover:text-muted-foreground hover:border-border/60'
-            )}
+            className={cn('underline-tab', activeTab === tab.id && 'active')}
           >
             {tab.label}
           </button>

@@ -1165,12 +1165,7 @@ export default function Dashboard() {
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={cn(
-              'flex items-center gap-1.5 px-4 py-1.5 rounded-md text-sm font-semibold transition-all',
-              activeTab === id
-                ? 'bg-background text-foreground shadow-sm border border-border/40'
-                : 'text-muted-foreground hover:text-foreground'
-            )}
+            className={cn('seg-tab', activeTab === id && 'active')}
           >
             <Icon size={16} className={activeTab === id ? (id === 'cerebro' ? 'text-violet-400' : 'text-primary') : ''} />
             {label}

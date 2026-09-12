@@ -253,12 +253,7 @@ export default function CorrupcionInstitucional() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={cn(
-                'flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all flex-1 justify-center',
-                activeTab === tab.id
-                  ? 'bg-background text-foreground shadow-sm border border-border/40'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
+              className={cn('seg-tab flex-1 justify-center', activeTab === tab.id && 'active')}
             >
               <Icon size={16} className={activeTab === tab.id ? tab.color : ''} />
               <span className="hidden sm:inline">{tab.label}</span>
