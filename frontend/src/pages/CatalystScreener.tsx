@@ -225,6 +225,10 @@ export default function CatalystScreener() {
 
   return (
     <div className="space-y-6">
+      {/* Pestaña por defecto de Entry setups y la única que no traía h1, así
+          que esa ruta se quedaba sin encabezado de nivel 1. Va oculto: el
+          título de la sección ya lo dicen las pestañas y la barra superior. */}
+      <h1 className="sr-only">Catalizadores</h1>
 
       {/* Setup selector cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

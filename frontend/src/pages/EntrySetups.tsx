@@ -99,12 +99,9 @@ function EntrySetupsFreshness() {
 export default function EntrySetups() {
   return (
     <div>
-      {/* Sin título visible: las pestañas son el contenido y repetir "Entry
-          setups" sobre ellas sobra. Pero cada página necesita su h1 para que
-          un lector de pantalla sepa situarte. `sr-only` lo deja fuera de la
-          vista y, al medir ~1px, la barra superior no lo toma por el título
-          de la página y sigue mostrando el suyo. */}
-      <h1 className="sr-only">Entry setups</h1>
+      {/* Sin título propio a propósito: es un contenedor de pestañas y cada
+          subpágina trae el suyo. Poner uno aquí daba DOS h1 en /mean-reversion,
+          /momentum y /bounce_broad. */}
       <EntrySetupsFreshness />
       <PageTabs
         tabs={[
