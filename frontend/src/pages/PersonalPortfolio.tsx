@@ -13,6 +13,7 @@ import { usePortfolioConfluence, type ConfluenceSignals } from '../hooks/usePort
 import { useApi } from '../hooks/useApi'
 import PageHeader from '../components/PageHeader'
 import { Button } from '@/components/ui/button'
+import EmptyState from '@/components/EmptyState'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -245,7 +246,7 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
           {/* Notes list */}
           {!loaded && <div className="flex justify-center py-2"><Loader2 size={16} className="animate-spin text-muted-foreground" /></div>}
           {loaded && notes.length === 0 && (
-            <p className="text-[0.72rem] text-muted-foreground/50 text-center py-1">Sin notas todavía</p>
+            <EmptyState compact title="Sin notas todavía" />
           )}
           {notes.map(n => (
             <div key={n.id} className="group flex gap-2 items-start px-4 py-3 rounded-xl bg-muted/20 border border-border/20">

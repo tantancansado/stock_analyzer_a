@@ -27,6 +27,7 @@ import {
 } from 'lucide-react'
 import { nlAlert } from '@/lib/nl'
 import ScoreAlerts from '../components/ScoreAlerts'
+import EmptyState from '@/components/EmptyState'
 
 const ThesisDriftTab       = lazy(() => import('./ThesisDrift'))
 const ContrarianDiscovery  = lazy(() => import('./ContrarianDiscovery'))
@@ -1671,7 +1672,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 </div>
                 )
               })}
-              {!exitData?.exits?.length && <p className="text-sm text-muted-foreground text-center py-4">Sin señales de salida activas</p>}
+              {!exitData?.exits?.length && <EmptyState compact title="Sin señales de salida activas" />}
             </div>
           </section>
 
@@ -1701,7 +1702,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 </div>
                 )
               })}
-              {!trapsData?.traps?.length && <p className="text-sm text-muted-foreground text-center py-4">Sin value traps detectadas</p>}
+              {!trapsData?.traps?.length && <EmptyState compact title="Sin value traps detectadas" />}
             </div>
           </section>
 
@@ -1726,7 +1727,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   </div>
                 </div>
               ))}
-              {!smData?.signals?.length && <p className="text-sm text-muted-foreground text-center py-4 col-span-2">Sin convergencias HF+insiders</p>}
+              {!smData?.signals?.length && <div className="col-span-2"><EmptyState compact title="Sin convergencias HF+insiders" /></div>}
             </div>
           </section>
 
@@ -1753,7 +1754,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   </div>
                 </div>
               ))}
-              {!clustersData?.clusters?.length && <p className="text-sm text-muted-foreground text-center py-4 col-span-2">Sin clusters sectoriales de insiders</p>}
+              {!clustersData?.clusters?.length && <div className="col-span-2"><EmptyState compact title="Sin clusters sectoriales de insiders" /></div>}
             </div>
           </section>
 
@@ -1785,7 +1786,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   </div>
                 )
               })}
-              {!divData?.dividends?.length && <p className="text-sm text-muted-foreground text-center py-4">Sin tickers con dividendo en VALUE</p>}
+              {!divData?.dividends?.length && <EmptyState compact title="Sin tickers con dividendo en VALUE" />}
             </div>
           </section>
 
@@ -1817,7 +1818,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                   </div>
                 )
               })}
-              {!piotrData?.candidates?.length && <p className="text-sm text-muted-foreground text-center py-4 col-span-2">Sin datos Piotroski destacables</p>}
+              {!piotrData?.candidates?.length && <div className="col-span-2"><EmptyState compact title="Sin datos Piotroski destacables" /></div>}
             </div>
           </section>
 
@@ -1893,7 +1894,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 </div>
               ))}
               {!(squeezeData as { setups?: ShortSqueezeSetup[] } | null)?.setups?.length && (
-                <p className="text-sm text-muted-foreground text-center py-4 col-span-2">Sin short squeeze setups detectados</p>
+                <div className="col-span-2"><EmptyState compact title="Sin short squeeze setups detectados" /></div>
               )}
             </div>
           </section>
@@ -1930,7 +1931,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 </div>
               ))}
               {!(decayData as { decays?: QualityDecay[] } | null)?.decays?.length && (
-                <p className="text-sm text-muted-foreground text-center py-4">Sin señales de deterioro detectadas</p>
+                <EmptyState compact title="Sin señales de deterioro detectadas" />
               )}
             </div>
           </section>

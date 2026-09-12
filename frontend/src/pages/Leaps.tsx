@@ -13,6 +13,7 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
+import EmptyState from '@/components/EmptyState'
 
 const fmtUsd = (n: number, d = 2) =>
   new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: d }).format(n)
@@ -496,10 +497,14 @@ export default function Leaps() {
           {(() => {
             const shown = sitFilter === 'ALL' ? data.opportunities : data.opportunities.filter(o => o.situation === sitFilter)
             if (data.opportunities.length === 0) {
-              return <div className="text-sm text-muted-foreground text-center py-10">No hay oportunidades LEAPS que cumplan los criterios hoy. Vuelve tras el próximo scan diario.</div>
+              return <EmptyState
+                  icon="🚀"
+                  title="Ninguna oportunidad cumple los criterios hoy"
+                  subtitle="Vuelve tras el próximo scan diario."
+                />
             }
             if (shown.length === 0) {
-              return <div className="text-sm text-muted-foreground text-center py-10">Ninguna oportunidad de este tipo hoy. Prueba otro filtro.</div>
+              return <EmptyState compact title="Ninguna oportunidad de este tipo hoy" subtitle="Prueba con otro filtro." />
             }
             return (
               <div className="space-y-3">
