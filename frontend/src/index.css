@@ -1632,7 +1632,11 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 /* ── Topbar — steel frosted (light) ──────────────────────────── */
-:root:not(.dark) header {
+/* `header.sticky` y no `header` a secas: la regla describe la BARRA
+   SUPERIOR, pero con el selector abierto pintaba cualquier <header> de
+   la app con fondo opaco, blur, borde y sombra de topbar. Afectaba al
+   panel del personalizador y a las cabeceras de sección del Manual. */
+:root:not(.dark) header.sticky {
   background: hsl(210 20% 99% / 0.78) !important;
   backdrop-filter: blur(22px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(22px) saturate(160%) !important;
@@ -2397,4 +2401,24 @@ select:focus {
 }
 .nav-custom-row:active {
   background: hsl(var(--accent) / 0.16);
+}
+
+/* El panel del personalizador es alto y estrecho, y .liquid-glass está
+   pensado para tarjetas anchas: su degradado a 135° recorre la diagonal y en
+   un panel de 740px se apelmaza arriba, dejando un corte visible a media
+   altura en modo claro. Y su :hover levanta el elemento 2px — correcto en una
+   tarjeta, mal en un modal, que no debe moverse al pasar el ratón.
+   Se corrige solo aquí; el tema global no se toca. */
+.nav-custom-panel:hover {
+  transform: none;
+}
+:root:not(.dark) .nav-custom-panel {
+  background:
+    linear-gradient(
+      to bottom,
+      hsl(0 0% 100% / 0.50)   0%,
+      hsl(194 60% 94% / 0.28) 55%,
+      hsl(210 20% 96% / 0.16) 100%
+    ),
+    hsl(210 20% 100% / 0.60);
 }

@@ -194,7 +194,11 @@
 }
 
 /* ── TopBar ───────────────────────────────────────────────────────── */
-[data-theme="noir"] header {
+/* `header.sticky` y no `header` a secas: la regla describe la BARRA
+   SUPERIOR, pero con el selector abierto pintaba cualquier <header> de
+   la app con fondo opaco, blur, borde y sombra de topbar. Afectaba al
+   panel del personalizador y a las cabeceras de sección del Manual. */
+[data-theme="noir"] header.sticky {
   background: hsl(0 0% 0% / 0.97) !important;
   border-bottom: 1px solid hsl(0 0% 12%) !important;
   backdrop-filter: none !important;

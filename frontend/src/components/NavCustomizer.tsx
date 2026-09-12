@@ -4,6 +4,13 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { NAV_CATEGORIES, type NavLinkItem } from '@/lib/nav'
 import { useNavPreferences } from '@/hooks/useNavPreferences'
 
+// Los colores van en línea con variables CSS y NO con los alias de shadcn
+// (text-foreground, text-muted-foreground, bg-accent, border-border...):
+// en este proyecto falta el bloque @theme inline de Tailwind v4 y esas
+// utilidades no llegan a generar CSS. `.text-primary` existe, pero escrita
+// a mano en index.css y solo bajo `.dark` — usarla dejaba el modal sin
+// color en modo claro. Las variables sí resuelven en los tres temas.
+
 interface Props {
   readonly open: boolean
   readonly onClose: () => void
@@ -121,7 +128,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
           />
 
           <motion.div
-            className="liquid-glass relative z-10 flex max-h-[88vh] w-full flex-col rounded-t-2xl shadow-2xl sm:max-h-[78vh] sm:max-w-md sm:rounded-2xl"
+            className="liquid-glass nav-custom-panel relative z-10 flex max-h-[88vh] w-full flex-col rounded-t-2xl shadow-2xl sm:max-h-[78vh] sm:max-w-md sm:rounded-2xl"
             initial={quieto ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={quieto ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.985 }}
@@ -129,16 +136,16 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
           >
             {/* Asa: en móvil el panel sube desde abajo y el asa dice que se puede cerrar */}
             <div className="flex justify-center pt-2.5 sm:hidden">
-              <span className="h-1 w-9 rounded-full bg-muted-foreground/25" />
+              <span className="h-1 w-9 rounded-full" style={{ background: `hsl(var(--muted-foreground) / 0.28)` }} />
             </div>
 
             <header className="flex items-start justify-between gap-3 px-5 pb-3 pt-3.5">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <SlidersHorizontal size={16} strokeWidth={1.75} className="text-primary" />
-                  <h2 className="text-[0.98rem] font-bold text-foreground">Tu menú</h2>
+                  <SlidersHorizontal size={16} strokeWidth={1.75} style={{ color: 'hsl(var(--primary))' }} />
+                  <h2 className="text-[0.98rem] font-bold" style={{ color: 'hsl(var(--foreground))' }}>Tu menú</h2>
                 </div>
-                <p className="mt-0.5 text-[0.78rem] text-muted-foreground/75">
+                <p className="mt-0.5 text-[0.78rem]" style={{ color: `hsl(var(--muted-foreground) / 0.78)` }}>
                   Elige qué secciones quieres ver. Se guarda solo.
                 </p>
               </div>
@@ -146,7 +153,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
                 type="button"
                 onClick={onClose}
                 aria-label="Cerrar"
-                className="-mr-1 shrink-0 rounded-lg p-1.5 text-muted-foreground transition-colors hover:bg-accent/10 hover:text-foreground"
+                className="nav-custom-row -mr-1 shrink-0 rounded-lg p-1.5 transition-colors" style={{ color: `hsl(var(--muted-foreground) / 0.8)` }}
               >
                 <X size={16} strokeWidth={1.75} />
               </button>
@@ -154,10 +161,10 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
 
             {/* Contador + progreso: el número cambia con el mismo muelle que todo lo demás */}
             <div className="px-5 pb-3">
-              <div className="mb-1.5 flex items-baseline gap-1.5 text-[0.78rem] text-muted-foreground/80">
+              <div className="mb-1.5 flex items-baseline gap-1.5 text-[0.78rem]" style={{ color: `hsl(var(--muted-foreground) / 0.82)` }}>
                 <motion.span
                   key={visibles}
-                  className="font-bold tabular-nums text-foreground"
+                  className="font-bold tabular-nums" style={{ color: 'hsl(var(--foreground))' }}
                   initial={quieto ? false : { opacity: 0, y: -5 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={quieto ? { duration: 0 } : MUELLE}
@@ -195,7 +202,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
             >
               {categorias.map(cat => (
                 <section key={cat.name} className="mb-1.5">
-                  <h3 className="px-3 pb-1 pt-2.5 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground/55">
+                  <h3 className="px-3 pb-1 pt-2.5 text-[0.68rem] font-bold uppercase tracking-[0.14em]" style={{ color: `hsl(var(--muted-foreground) / 0.6)` }}>
                     {cat.name}
                   </h3>
                   {cat.items.map(item => (
@@ -214,7 +221,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
             <AnimatePresence initial={false}>
               {hidden.length > 0 && (
                 <motion.footer
-                  className="shrink-0 overflow-hidden border-t border-border/40"
+                  className="shrink-0 overflow-hidden border-t" style={{ borderColor: 'hsl(var(--border) / 0.45)' }}
                   initial={quieto ? false : { height: 0, opacity: 0 }}
                   animate={{ height: 'auto', opacity: 1 }}
                   exit={quieto ? { opacity: 0 } : { height: 0, opacity: 0 }}
@@ -223,7 +230,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
                   <button
                     type="button"
                     onClick={reset}
-                    className="flex w-full items-center justify-center gap-2 px-5 py-3 text-[0.85rem] font-medium text-muted-foreground transition-colors hover:bg-accent/10 hover:text-foreground"
+                    className="nav-custom-row flex w-full items-center justify-center gap-2 px-5 py-3 text-[0.85rem] font-medium transition-colors" style={{ color: `hsl(var(--muted-foreground) / 0.85)` }}
                   >
                     <RotateCcw size={12} strokeWidth={1.75} />
                     Mostrar las {hidden.length} ocultas
