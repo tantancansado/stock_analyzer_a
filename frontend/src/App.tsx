@@ -9,12 +9,15 @@ import { ToastProvider } from './components/Toast'
 import { cn } from '@/lib/utils'
 import { type NavLinkItem } from '@/lib/nav'
 import { useNavPreferences, visibleCategories } from '@/hooks/useNavPreferences'
-import NavCustomizer from '@/components/NavCustomizer'
 import TopBar from './components/TopBar'
 import ProtectedRoute from './components/ProtectedRoute'
-import CommandPalette from './components/CommandPalette'
-import ShortcutsModal from './components/ShortcutsModal'
 import ErrorBoundary from './components/ErrorBoundary'
+
+// Modales: no existen hasta que se pulsa ⌘K, ? o "Personalizar menú", así que
+// no tienen por qué viajar en el chunk de arranque de todo el mundo.
+const CommandPalette = lazy(() => import('./components/CommandPalette'))
+const ShortcutsModal = lazy(() => import('./components/ShortcutsModal'))
+const NavCustomizer  = lazy(() => import('@/components/NavCustomizer'))
 import ScrollToTop from './components/ScrollToTop'
 import Loading from './components/Loading'
 import { LogoOrbit } from './components/BrandLogos'
@@ -269,12 +272,16 @@ export default function App() {
             <SidebarContent onClose={close} onSignOut={handleSignOut} userEmail={user?.email} onCustomize={() => { close(); setNavCustomOpen(true) }} />
           </aside>
 
-          {/* Command Palette */}
-          <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
-
-          {/* Shortcuts Modal */}
-          <ShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
-          <NavCustomizer open={navCustomOpen} onClose={() => setNavCustomOpen(false)} canSeeAdmin={user?.email === ADMIN_EMAIL} />
+          {/* Modales bajo demanda. Sin fallback a propósito: mientras el chunk
+              llega no hay que pintar nada — el modal aún no se ha abierto, y
+              un spinner suelto en mitad de la pantalla sería peor que la
+              milésima de espera. Solo se montan cuando toca, así que ni
+              siquiera piden su chunk hasta la primera pulsación. */}
+          <Suspense fallback={null}>
+            {cmdOpen && <CommandPalette open onClose={() => setCmdOpen(false)} />}
+            {shortcutsOpen && <ShortcutsModal open onClose={() => setShortcutsOpen(false)} />}
+            {navCustomOpen && <NavCustomizer open onClose={() => setNavCustomOpen(false)} canSeeAdmin={user?.email === ADMIN_EMAIL} />}
+          </Suspense>
         </>
       )}
 
