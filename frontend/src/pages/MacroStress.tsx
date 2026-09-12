@@ -378,7 +378,7 @@ export default function MacroStress() {
               <Radar size={12} />
               Macro Stress Framework
             </div>
-            <h2 className="text-3xl font-black tracking-tight text-foreground">Heatmap de dislocaciones macro</h2>
+            <h1 className="text-3xl font-black tracking-tight text-foreground">Heatmap de dislocaciones macro</h1>
             <p className="mt-2 text-sm leading-relaxed text-foreground/72">
               El score no intenta adivinar el próximo tick. Compacta inventarios, curva, geopolítica y positioning para detectar
               cuándo un mercado commodity entra en régimen operativo peligroso.

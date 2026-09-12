@@ -1146,7 +1146,7 @@ export default function Dashboard() {
       {/* Header */}
       <div className="mb-6 animate-fade-in-up flex items-start justify-between gap-4">
         <div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h2>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h1>
           <p className="text-[1rem] text-muted-foreground">
             {activeTab === 'resumen'
               ? 'Resumen ejecutivo · Actualización diaria automática'

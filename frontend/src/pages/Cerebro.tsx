@@ -265,9 +265,9 @@ function CerebroCoachPanel({
               </div>
             </div>
 
-            <p className="max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
+            <h1 className="max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
               {headline}
-            </p>
+            </h1>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">{subline}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
