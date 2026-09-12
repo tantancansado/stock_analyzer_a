@@ -407,7 +407,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Moneda</label>
-          <select value={currency} onChange={e => setCurrency(e.target.value as 'USD' | 'EUR')}
+          <select aria-label="Moneda" value={currency} onChange={e => setCurrency(e.target.value as 'USD' | 'EUR')}
             className={inputCls}>
             <option value="USD">USD $</option>
             <option value="EUR">EUR €</option>
