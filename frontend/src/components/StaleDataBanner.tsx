@@ -85,23 +85,23 @@ export default function StaleDataBanner({ module, dataDate, className = '' }: St
 
     // Module is fresh → compact green badge (always visible so user can trust the data)
     if (mod?.status === 'ok') {
-      const isToday = mod.date === today
-      const dateLabel = isToday ? 'hoy' : `hace ${mod.days_ago}d`
+      // Decía "Datos en vivo · Actualizado hace 0d · vie, 11 sept": tres formas
+      // de contar lo mismo, partidas en dos líneas a 390px. Y "hace 0d" es un
+      // sinsentido que salía cuando days_ago era 0 pero la fecha del módulo no
+      // coincidía con hoy por zona horaria. Ahora una frase, y la fecha exacta
+      // en el tooltip para quien la necesite.
+      const esDeHoy = mod.date === today || mod.days_ago === 0
       const dateFormatted = mod.date ? formatDateShort(mod.date) : ''
+      const etiqueta = esDeHoy
+        ? 'Datos de hoy'
+        : mod.days_ago === 1 ? 'Datos de ayer' : `Datos de hace ${mod.days_ago} días`
       return (
-        <div className={`inline-flex items-center gap-2 text-[0.7rem] font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80 ${className}`}>
-          <span className="relative flex shrink-0 items-center">
-            <CheckCircle2 size={16} className="text-emerald-400" />
-          </span>
-          <span className="font-semibold text-emerald-400">Datos en vivo</span>
-          <span className="text-emerald-400/30">·</span>
-          <span className="text-emerald-300/80">Actualizado {dateLabel}</span>
-          {dateFormatted && (
-            <>
-              <span className="text-emerald-400/30">·</span>
-              <span className="text-muted-foreground/50">{dateFormatted}</span>
-            </>
-          )}
+        <div
+          title={dateFormatted ? `Último scan: ${dateFormatted}` : undefined}
+          className={`inline-flex items-center gap-1.5 text-[0.7rem] font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80 ${className}`}
+        >
+          <CheckCircle2 size={16} className="shrink-0 text-emerald-400" />
+          <span className="font-semibold text-emerald-400">{etiqueta}</span>
         </div>
       )
     }

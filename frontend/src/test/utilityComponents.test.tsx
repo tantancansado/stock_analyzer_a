@@ -66,8 +66,31 @@ describe('utility components', () => {
     const { default: StaleDataBanner } = await loadBannerModule()
     render(<StaleDataBanner module="cerebro" />)
 
-    expect(await screen.findByText('Datos en vivo')).toBeInTheDocument()
-    expect(screen.getByText(/Actualizado hoy/)).toBeInTheDocument()
+    // Una sola frase, no tres formas de decir lo mismo ("Datos en vivo ·
+    // Actualizado hace 0d · vie, 11 sept" se partía en dos líneas a 390px).
+    expect(await screen.findByText('Datos de hoy')).toBeInTheDocument()
+    expect(screen.queryByText(/Actualizado/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/hace 0d/)).not.toBeInTheDocument()
+  })
+
+  it('dice "hoy", nunca "hace 0 días"', async () => {
+    // days_ago 0 con una fecha que no cuadra con hoy por zona horaria daba
+    // "Actualizado hace 0d", que no significa nada.
+    fetchPipelineStatusMock.mockResolvedValue({
+      last_run: new Date().toISOString(),
+      run_date: new Date().toISOString().slice(0, 10),
+      status: 'ok',
+    })
+    fetchPipelineHealthMock.mockResolvedValue({
+      generated_at: new Date().toISOString(),
+      pipeline_date: new Date().toISOString().slice(0, 10),
+      ok_count: 1,
+      total: 1,
+      modules: { cerebro: { status: 'ok', date: '2000-01-01', days_ago: 0 } },
+    })
+    const { default: StaleDataBanner } = await loadBannerModule()
+    render(<StaleDataBanner module="cerebro" />)
+    expect(await screen.findByText('Datos de hoy')).toBeInTheDocument()
   })
 
   it('shows a legacy stale warning when the pipeline is old', async () => {
