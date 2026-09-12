@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import StaleDataBanner from '../components/StaleDataBanner'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
+import EmptyState from '@/components/EmptyState'
 
 const RegimeSweepPlayer = lazy(() =>
   import('../components/RegimeSweepVideo').then(m => ({ default: m.RegimeSweepPlayer }))
@@ -714,7 +715,7 @@ function IndexBreakoutsPanel({
         {activeTab === 'events' && (
           <div>
             {specialEvents.length === 0 ? (
-              <p className="text-sm text-muted-foreground/50 text-center py-6">No hay eventos especiales activos</p>
+              <EmptyState compact title="No hay eventos especiales activos" />
             ) : (
               <div className="space-y-2">
                 {specialEvents.map((ev, i) => {

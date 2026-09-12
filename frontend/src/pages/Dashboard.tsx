@@ -27,6 +27,7 @@ import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as 
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
 import { cn } from '@/lib/utils'
+import EmptyState from '@/components/EmptyState'
 
 // Cerebro se carga solo cuando se abre su pestaña (no penaliza el Resumen)
 const Cerebro = lazy(() => import('./Cerebro'))
@@ -180,7 +181,7 @@ function TopPicksTable({
             ))}
           </div>
         ) : rows.length === 0 ? (
-          <CardContent className="py-8 text-center text-sm text-muted-foreground">Sin datos</CardContent>
+          <CardContent className="p-0"><EmptyState compact title="Sin datos" /></CardContent>
         ) : (
           <div className="divide-y divide-border/30">
             {rows.map((r) => (
@@ -245,7 +246,7 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
             ))}
           </div>
         ) : top.length === 0 ? (
-          <CardContent className="py-6 text-center text-sm text-muted-foreground">Sin datos</CardContent>
+          <CardContent className="p-0"><EmptyState compact title="Sin datos" /></CardContent>
         ) : (
           <div className="divide-y divide-border/30">
             {top.map((r) => {
@@ -297,7 +298,7 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
             <Skeleton className="h-3 w-1/2" />
           </div>
         ) : total === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-2">Sin datos</p>
+          <EmptyState compact title="Sin datos" />
         ) : (
           <>
             <div className="flex items-center gap-2">
@@ -396,7 +397,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
             <Skeleton className="h-3 w-2/3" />
           </div>
         ) : !macro ? (
-          <p className="text-sm text-muted-foreground text-center py-2">Sin datos</p>
+          <EmptyState compact title="Sin datos" />
         ) : (
           <>
             <div className="flex items-center justify-between mb-1">

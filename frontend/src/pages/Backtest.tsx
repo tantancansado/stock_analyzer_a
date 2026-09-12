@@ -4,6 +4,7 @@ import Loading from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
+import EmptyState from '@/components/EmptyState'
 
 const BacktestResults = lazy(() => import('./BacktestResults'))
 
@@ -139,8 +140,8 @@ async function fetchCSV(url: string): Promise<string> {
 function Stats({ signals, period }: { signals: Signal[]; period: Period }) {
   const withData = signals.filter(s => retOf(s, period) != null)
   if (!withData.length) return (
-    <div className="glass rounded-2xl p-5 text-center text-sm text-muted-foreground">
-      Sin resultados a {period} todavía — se completan automáticamente con el pipeline diario
+    <div className="glass rounded-2xl">
+      <EmptyState compact title={`Sin resultados a ${period} todavía — se completan automáticamente con el pipeline diario`} />
     </div>
   )
   const rets   = withData.map(s => retOf(s, period)!)

@@ -6,6 +6,7 @@ import TickerLogo from '../components/TickerLogo'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import InfoTooltip from '../components/InfoTooltip'
+import EmptyState from '@/components/EmptyState'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -172,7 +173,7 @@ export default function SectorComparison() {
       {activeView === 'chart' && (
         <div className="space-y-5">
           {sectorSummary.length === 0 ? (
-            <Card><CardContent className="py-14 text-center text-sm text-muted-foreground">Sin datos de sectores</CardContent></Card>
+            <Card><CardContent className="p-0"><EmptyState compact title="Sin datos de sectores" /></CardContent></Card>
           ) : (
             <Card className="border border-border/40">
               <CardContent className="pt-5">
@@ -240,7 +241,7 @@ export default function SectorComparison() {
           </div>
 
           {filtered.length === 0 ? (
-            <Card><CardContent className="py-14 text-center text-sm text-muted-foreground">Sin resultados con los filtros actuales</CardContent></Card>
+            <Card><CardContent className="p-0"><EmptyState compact title="Sin resultados con los filtros actuales" /></CardContent></Card>
           ) : (
             <div className="rounded-xl border border-border/40 overflow-clip">
               <Table>

@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
+import EmptyState from '@/components/EmptyState'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -400,8 +401,8 @@ export default function Commodities() {
               <tbody>
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={10} className="py-12 text-center text-foreground/30 text-sm">
-                      Sin resultados con los filtros seleccionados
+                    <td colSpan={10} className="p-0">
+                      <EmptyState compact title="Sin resultados con los filtros seleccionados" />
                     </td>
                   </tr>
                 ) : (

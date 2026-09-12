@@ -11,6 +11,7 @@ import { ArrowLeft, Calculator, ChevronDown, ChevronUp, RefreshCw, Search } from
 import { cn } from '@/lib/utils'
 import { nlValuation } from '@/lib/nl'
 import PageHeader from '../components/PageHeader'
+import EmptyState from '@/components/EmptyState'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -1038,8 +1039,8 @@ function DetailView({
             <p className="text-xs font-semibold">3. Ratios de valoración históricos</p>
 
             {!hasMultiples && (
-              <div className="glass rounded-xl p-5 border border-border/20 text-center text-xs text-muted-foreground/50">
-                Sin datos de precios históricos — disponibles tras el próximo pipeline (TIKR price_close).
+              <div className="glass rounded-xl border border-border/20">
+                <EmptyState compact title="Sin datos de precios históricos — disponibles tras el próximo pipeline (TIKR price_close)." />
                 <div className="mt-1 text-[0.6rem]">Mediana NTM actual: EV/FCF {data.median_ev_fcf?.toFixed(1)}x · P/E {data.ntm_pe?.toFixed(1)}x · EV/EBITDA {data.ntm_ev_ebitda?.toFixed(1)}x · FCF Yield {data.ntm_fcf_yield_pct?.toFixed(1)}%</div>
               </div>
             )}
@@ -1254,7 +1255,7 @@ function DetailView({
                   )
                 })}
                 {bdownYears.length === 0 && (
-                  <TableRow><TableCell colSpan={12} className="text-center text-muted-foreground py-6">Sin datos históricos</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={12} className="p-0"><EmptyState compact title="Sin datos históricos" /></TableCell></TableRow>
                 )}
               </TableBody>
             </Table>
@@ -1278,8 +1279,8 @@ function DetailView({
           <div className="space-y-4">
             <p className="text-xs font-semibold">6. Balance Sheet</p>
             {!hasBS && (
-              <div className="glass rounded-xl p-5 border border-border/20 text-center text-xs text-muted-foreground/50">
-                Sin datos de balance — disponibles tras el próximo pipeline.
+              <div className="glass rounded-xl border border-border/20">
+                <EmptyState compact title="Sin datos de balance — disponibles tras el próximo pipeline." />
               </div>
             )}
             {hasBS && (
