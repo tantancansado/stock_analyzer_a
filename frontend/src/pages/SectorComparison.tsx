@@ -232,7 +232,7 @@ export default function SectorComparison() {
             <select
               value={sectorFilter}
               onChange={e => setSectorFilter(e.target.value)}
-              className="px-3 py-1.5 rounded-lg text-xs font-semibold border bg-muted/20 border-border/30 text-muted-foreground hover:text-foreground transition-all"
+              className="select-control"
             >
               {sectors.map(s => (
                 <option key={s} value={s}>{s === 'ALL' ? 'Todos los sectores' : s}</option>
