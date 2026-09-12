@@ -877,7 +877,6 @@ button:active:not(:disabled) { transform: scale(0.97); }
 @keyframes fadeInUp    { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 @keyframes emptyIconIn { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
 @keyframes scoreRingIn { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
-@keyframes slideDown   { from { opacity: 0; transform: translateY(-8px) scaleY(0.94); } to { opacity: 1; transform: none; } }
 @keyframes shimmer   { 0% { background-position: -800px 0; } 100% { background-position: 800px 0; } }
 @keyframes spin      { to { transform: rotate(360deg); } }
 
@@ -977,10 +976,6 @@ tr[class*="cursor-pointer"]:hover td:first-child {
   initial-value: 0deg;
 }
 
-@keyframes border-rotate {
-  from { --glow-angle: 0deg; }
-  to   { --glow-angle: 360deg; }
-}
 
 .glow-border {
   border: 1px solid hsl(239 84% 67% / 0.35);
@@ -1015,10 +1010,6 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 ════════════════════════════════════════════════════════════════════ */
 
 
-@keyframes cmdSlideIn {
-  from { opacity: 0; transform: translateY(-12px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0)     scale(1); }
-}
 
 /* Las cabeceras de grupo las pinta CommandPalette con sus propias clases de
    Tailwind. Aquí vivía una regla [cmdk-group-heading] de cuando la paleta
