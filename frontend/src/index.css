@@ -1041,7 +1041,7 @@ tr[class*="cursor-pointer"]:hover td:first-child {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   COMMAND PALETTE (cmdk)
+   COMMAND PALETTE
 ════════════════════════════════════════════════════════════════════ */
 
 .cmd-palette {
@@ -1057,9 +1057,6 @@ tr[class*="cursor-pointer"]:hover td:first-child {
     0  4px 16px hsl(228 35% 40% / 0.10),
     inset 0 1px 0 hsl(0 0% 100% / 0.9);
 }
-:root:not(.dark) [cmdk-group-heading] {
-  color: hsl(228 20% 50%);
-}
 :root:not(.dark) .cmd-item {
   color: hsl(222 30% 30%);
 }
@@ -1074,15 +1071,10 @@ tr[class*="cursor-pointer"]:hover td:first-child {
   to   { opacity: 1; transform: translateY(0)     scale(1); }
 }
 
-/* Group label */
-[cmdk-group-heading] {
-  padding: 0.4rem 0.75rem 0.2rem;
-  font-size: 0.55rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: hsl(var(--muted-foreground) / 0.5);
-}
+/* Las cabeceras de grupo las pinta CommandPalette con sus propias clases de
+   Tailwind. Aquí vivía una regla [cmdk-group-heading] de cuando la paleta
+   usaba la librería cmdk: dejó de usarla, el selector no casaba con nada y la
+   dependencia seguía instalada. */
 
 /* Items */
 .cmd-item {
