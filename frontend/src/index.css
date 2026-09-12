@@ -10,6 +10,36 @@
   --font-mono:    'JetBrains Mono', 'IBM Plex Mono', 'Menlo', monospace;
 }
 
+/* Registra los tokens de shadcn en el namespace --color-* para que Tailwind v4
+   genere de verdad `text-muted-foreground`, `border-border`, `bg-card`… Sin
+   este bloque esas utilidades NO producen ni una regla y el texto se queda
+   con el color heredado: la jerarquía visual sale más plana de lo escrito.
+
+   `inline` importa: resuelve la variable en el punto de uso, que es lo que
+   permite que el mismo token cambie con .dark, [data-theme="noir"] y la piel
+   Cybertruck sin generar una utilidad por tema. */
+@theme inline {
+  --color-background:             hsl(var(--background));
+  --color-foreground:             hsl(var(--foreground));
+  --color-card:                   hsl(var(--card));
+  --color-card-foreground:        hsl(var(--card-foreground));
+  --color-popover:                hsl(var(--popover));
+  --color-popover-foreground:     hsl(var(--popover-foreground));
+  --color-primary:                hsl(var(--primary));
+  --color-primary-foreground:     hsl(var(--primary-foreground));
+  --color-secondary:              hsl(var(--secondary));
+  --color-secondary-foreground:   hsl(var(--secondary-foreground));
+  --color-muted:                  hsl(var(--muted));
+  --color-muted-foreground:       hsl(var(--muted-foreground));
+  --color-accent:                 hsl(var(--accent));
+  --color-accent-foreground:      hsl(var(--accent-foreground));
+  --color-destructive:            hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border:                 hsl(var(--border));
+  --color-input:                  hsl(var(--input));
+  --color-ring:                   hsl(var(--ring));
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    SHADCN DESIGN TOKENS — dark (default) + light
 ════════════════════════════════════════════════════════════════════ */
@@ -2421,4 +2451,46 @@ select:focus {
       hsl(210 20% 96% / 0.16) 100%
     ),
     hsl(210 20% 100% / 0.60);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   OBJETIVO TÁCTIL MÍNIMO (HIG de Apple: 44×44pt)
+════════════════════════════════════════════════════════════════════ */
+
+/* Medido el 12-sep-2026 en 390×844: de 116 controles visibles, 106 estaban
+   por debajo de 44×44 y 101 se agolpaban en 36-40pt. Los peores, los iconos
+   de la topbar: 32×36.
+
+   Agrandar los controles engordaría una interfaz que es densa a propósito,
+   así que se amplía solo la ZONA SENSIBLE con un pseudo-elemento: el icono,
+   el texto y el espaciado no se mueven un píxel. Es lo que hace iOS por
+   dentro, y el motivo de que sus barras se vean compactas y no se falle un
+   toque.
+
+   El ::after solo AÑADE superficie; el propio control sigue recibiendo sus
+   clics, así que el área efectiva es la unión de ambos. */
+.topbar-action,
+.filter-btn {
+  position: relative;
+}
+
+.topbar-action::after,
+.filter-btn::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  /* Sin fondo ni borde: es superficie de toque, no algo que se vea. */
+}
+
+/* En un contenedor con overflow clip (.glass) el pseudo se recortaría contra
+   el borde. Dentro de una fila de filtros el recorte es irrelevante — el
+   dedo llega igual por el centro — pero conviene no ampliar en horizontal
+   donde los controles van casi pegados, o un botón se quedaría con los
+   toques de su vecino. */
+@media (min-width: 641px) {
+  .filter-btn::after { width: 100%; height: 44px; }
 }

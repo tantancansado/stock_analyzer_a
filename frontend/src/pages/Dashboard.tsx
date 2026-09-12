@@ -1348,7 +1348,7 @@ export default function Dashboard() {
       {/* Toggle: Ver datos de mercado */}
       <button
         onClick={() => setShowDetails(d => !d)}
-        className="w-full flex items-center justify-center gap-2 mb-5 py-2.5 rounded-lg border border-border/25 bg-muted/8 text-muted-foreground/50 hover:text-muted-foreground hover:border-border/50 hover:bg-muted/15 transition-colors text-[0.76rem] font-bold uppercase tracking-[0.16em]"
+        className="w-full flex items-center justify-center gap-2 mb-5 py-3 rounded-lg border border-border bg-muted/25 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors text-[0.76rem] font-bold uppercase tracking-[0.16em]"
       >
         <ChevronDown size={12} className={`collapse-chevron ${showDetails ? 'open' : ''}`} />
         {showDetails ? 'Ocultar datos' : 'Ver datos de mercado'}
