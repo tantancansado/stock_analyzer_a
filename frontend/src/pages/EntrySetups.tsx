@@ -3,7 +3,7 @@ import PageTabs from '../components/PageTabs'
 import BroadBounceView from './BroadBounceView'
 import CatalystScreener from './CatalystScreener'
 import { usePipelineHealth } from '../components/StaleDataBanner'
-import { CheckCircle2, AlertTriangle, AlertCircle } from 'lucide-react'
+import { CheckCircle2, AlertTriangle, AlertCircle, ChevronDown } from 'lucide-react'
 
 const MeanReversion = lazy(() => import('./MeanReversion'))
 const Momentum      = lazy(() => import('./Momentum'))
@@ -44,15 +44,34 @@ function EntrySetupsFreshness() {
     )
   }
 
+  const nStale = statuses.filter(s => !s.isOk || !s.isToday).length
+
+  // Las pastillas de módulo van en flex-wrap: a 390px se apilan en cuatro
+  // filas y el aviso se comía 177px ANTES del primer setup — un tercio de la
+  // pantalla para una advertencia. El titular dice lo que hay que saber y el
+  // detalle (qué módulo concreto) queda a un toque, que es donde importa: al
+  // decidir si fiarse de una sección.
   return (
-    <div className={`rounded-xl border px-4 py-3 mb-4 flex items-start gap-3 ${noneRan ? 'bg-red-500/8 border-red-500/25' : 'bg-amber-500/8 border-amber-500/25'}`}>
-      {noneRan
-        ? <AlertCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
-        : <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />}
-      <div className="flex-1 min-w-0">
-        <div className={`text-xs font-bold mb-2 ${noneRan ? 'text-red-400' : 'text-amber-400'}`}>
-          {noneRan ? 'Pipeline no ejecutado hoy — datos desactualizados' : 'Algunos módulos no actualizados hoy'}
-        </div>
+    <details className={`group rounded-xl border px-4 py-3 mb-4 ${noneRan ? 'bg-red-500/8 border-red-500/25' : 'bg-amber-500/8 border-amber-500/25'}`}>
+      <summary className="flex cursor-pointer list-none items-center gap-3 marker:hidden">
+        {noneRan
+          ? <AlertCircle size={16} className="text-red-400 shrink-0" />
+          : <AlertTriangle size={16} className="text-amber-400 shrink-0" />}
+        <span className={`min-w-0 flex-1 text-xs font-bold ${noneRan ? 'text-red-400' : 'text-amber-400'}`}>
+          {noneRan
+            ? 'Pipeline no ejecutado hoy — datos desactualizados'
+            : `${nStale} de ${statuses.length} módulos sin actualizar hoy`}
+        </span>
+        {anyStale && (
+          <a href={ACTIONS_URL} target="_blank" rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            className="shrink-0 text-[0.65rem] font-bold px-2.5 py-1 rounded-lg border bg-amber-500/10 border-amber-500/25 text-amber-400 hover:bg-amber-500/20 transition-colors">
+            Ver pipeline →
+          </a>
+        )}
+        <ChevronDown size={12} className="shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="mt-3">
         <div className="flex flex-wrap gap-2">
           {statuses.map(s => (
             <div key={s.id} className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[0.68rem] font-medium ${
@@ -73,13 +92,7 @@ function EntrySetupsFreshness() {
           ))}
         </div>
       </div>
-      {anyStale && (
-        <a href={ACTIONS_URL} target="_blank" rel="noopener noreferrer"
-          className="shrink-0 text-[0.65rem] font-bold px-2.5 py-1 rounded-lg border bg-amber-500/10 border-amber-500/25 text-amber-400 hover:bg-amber-500/20 transition-colors">
-          Ver pipeline →
-        </a>
-      )}
-    </div>
+    </details>
   )
 }
 
