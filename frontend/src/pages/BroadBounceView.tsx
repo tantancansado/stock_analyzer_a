@@ -5,6 +5,7 @@ import { useApi } from '../hooks/useApi'
 import Loading, { ErrorState } from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
+import PageHeader from '@/components/PageHeader'
 
 function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
   const potentialLoss = Math.abs(s.stop_pct)
@@ -70,14 +71,13 @@ export default function BroadBounceView() {
   return (
     <section className="animate-fade-in-up">
       <div className="mb-5">
-        <h2 className="text-xl font-extrabold tracking-tight flex items-center gap-2 text-purple-300">
-          <Zap size={18} className="text-purple-400" />
-          Rebote corto plazo — Universo Ampliado
-        </h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          S&amp;P 500 (excl. universo curado) · Filtros estrictos multi-confirmación · Horizonte 1–5 días
-          {scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}
-        </p>
+        <PageHeader
+          title={<span className="flex items-center gap-2"><Zap size={18} className="text-purple-400" />Rebote corto plazo — Universo Ampliado</span>}
+          subtitle={<>
+            S&amp;P 500 (excl. universo curado) · Filtros estrictos multi-confirmación · Horizonte 1–5 días
+            {scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}
+          </>}
+        />
         <div className="flex flex-wrap gap-2 mt-3">
           <div className="text-[0.68rem] px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
             Universo: <b>{universeSize}</b> tickers

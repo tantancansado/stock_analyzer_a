@@ -2,6 +2,7 @@ import { useState } from 'react'
 import api, { getCsvUrl } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import { Card, CardContent } from '@/components/ui/card'
+import PageHeader from '@/components/PageHeader'
 
 interface HistorySnapshot {
   date: string
@@ -104,12 +105,10 @@ export default function Datos() {
 
   return (
     <>
-      <div className="mb-7 animate-fade-in-up">
-        <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Datos & Historial</h2>
-        <p className="text-sm text-muted-foreground">
-          Descarga CSVs actualizados diariamente · Historial de hasta 45 días para backtesting
-        </p>
-      </div>
+      <PageHeader
+        title="Datos & Historial"
+        subtitle="Descarga CSVs actualizados diariamente · Historial de hasta 45 días para backtesting"
+      />
 
       {/* Current CSVs */}
       <div className="mb-8 animate-fade-in-up" style={{ animationDelay: '60ms' }}>

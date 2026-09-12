@@ -10,13 +10,13 @@ import AiNarrativeCard from '../components/AiNarrativeCard'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
 import ScoreRing from '../components/ScoreRing'
-import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Wallet } from 'lucide-react'
 import PaginationBar from '../components/PaginationBar'
 import EmptyState from '../components/EmptyState'
+import PageShell from '@/components/PageShell'
 
 type InsiderRow = InsiderData & { market?: string }
 type SortKey = keyof InsiderRow
@@ -61,8 +61,6 @@ export default function Insiders() {
     onEscape: () => setExpanded(null),
   })
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
 
   const thCls = (key: SortKey) =>
     `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
@@ -85,12 +83,13 @@ export default function Insiders() {
   const multiInsider = filtered.filter(r => r.unique_insiders >= 2).length
 
   return (
-    <>
-      <StaleDataBanner module="insiders" />
-      <div className="mb-7 animate-fade-in-up">
-        <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Recurring Insiders</h2>
-        <p className="text-sm text-muted-foreground">Insiders comprando repetidamente sus propias acciones — señal de convicción directiva</p>
-      </div>
+    <PageShell
+      title="Recurring Insiders"
+      subtitle="Insiders comprando repetidamente sus propias acciones — señal de convicción directiva"
+      banner={<StaleDataBanner module="insiders" />}
+      loading={loading}
+      error={error}
+    >
 
       {insightRaw?.narrative && (
         <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Patrones Insider" className="mb-5" />
@@ -361,6 +360,6 @@ export default function Insiders() {
         </Card>
       </div>
       <PaginationBar page={page} totalPages={totalPages} onPage={setPage} />
-    </>
+    </PageShell>
   )
 }

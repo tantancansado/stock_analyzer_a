@@ -32,6 +32,7 @@ import CsvDownload from '../components/CsvDownload'
 import InfoTooltip from '../components/InfoTooltip'
 import OwnedBadge from '../components/OwnedBadge'
 import ValuationBar from '../components/ValuationBar'
+import PageHeader from '@/components/PageHeader'
 
 // Extend ValueOpportunity with global-specific fields
 type GlobalOpportunity = ValueOpportunity & {
@@ -234,14 +235,10 @@ export default function GlobalValue() {
     <>
       <StaleDataBanner module="value_global" />
       <div className="mb-6 animate-fade-in-up flex items-start justify-between flex-wrap gap-3">
-        <div>
-          <h2 className="text-2xl font-extrabold tracking-tight mb-1 flex items-center gap-2">
-            <span className="gradient-title">VALUE Global</span>
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            Acciones VALUE en mercados globales undervalued — Brasil, Corea, Japón, Hong Kong
-          </p>
-        </div>
+        <PageHeader
+          title="VALUE Global"
+          subtitle="Acciones VALUE en mercados globales undervalued — Brasil, Corea, Japón, Hong Kong"
+        />
         <div className="flex items-center gap-2">
           <CsvDownload dataset="value-global" />
         </div>

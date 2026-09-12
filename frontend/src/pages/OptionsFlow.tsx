@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchUnusualFlow, fetchCerebroOptionsQuality, downloadCsv, type OptionsQualitySignal } from '../api/client'
+import { fetchUnusualFlow, fetchCerebroOptionsQuality, type OptionsQualitySignal } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
-import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
+import PageHeader from '@/components/PageHeader'
+import CsvDownload from '@/components/CsvDownload'
+import PageShell from '@/components/PageShell'
 
 interface TopContract {
   side: 'CALL' | 'PUT'
@@ -180,31 +182,30 @@ export default function OptionsFlow() {
   const thCls = (key: keyof FlowResult) =>
     `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  const cabecera = {
+    title: 'Unusual Options Flow',
+    subtitle: 'Actividad inusual de opciones — sweeps, bloques grandes, sesgo direccional',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const totalPremium = results.reduce((s, r) => s + r.total_premium, 0)
   const scanDate = raw?.scan_date ? new Date(raw.scan_date) : null
 
   return (
     <>
-      <div className="mb-6 animate-fade-in-up flex items-start justify-between gap-4 flex-wrap">
-        <div className="flex-1 min-w-0">
-          <h2 className="text-2xl font-extrabold tracking-tight mb-1 gradient-title">Unusual Options Flow</h2>
-          <p className="text-sm text-muted-foreground">
-            Actividad inusual de opciones — sweeps, bloques grandes, sesgo direccional
-            {scanDate && (
-              <span className="ml-2 opacity-50 text-xs">
-                · {scanDate.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })} ET
-              </span>
-            )}
-          </p>
-        </div>
-        <button
-          onClick={() => downloadCsv('unusual-flow')}
-          className="text-xs px-3 py-1 rounded border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary transition-colors shrink-0"
-        >↓ CSV</button>
-      </div>
+      <PageHeader
+        title="Unusual Options Flow"
+        subtitle={<>
+          Actividad inusual de opciones — sweeps, bloques grandes, sesgo direccional
+          {scanDate && (
+            <span className="ml-2 opacity-50 text-xs">
+              · {scanDate.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' })} ET
+            </span>
+          )}
+        </>}
+      >
+        <CsvDownload dataset="unusual-flow" label="CSV" />
+      </PageHeader>
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">

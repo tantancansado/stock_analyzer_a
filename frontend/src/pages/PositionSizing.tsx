@@ -3,13 +3,14 @@ import api from '../api/client'
 import { useApi } from '../hooks/useApi'
 import { useKeyboardNav } from '../hooks/useKeyboardNav'
 import { useSortedData } from '../hooks/useSortedData'
-import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import InfoTooltip from '../components/InfoTooltip'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
+import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 interface PositionRow {
   ticker: string
@@ -66,8 +67,13 @@ export default function PositionSizing() {
   const thCls = (key: keyof PositionRow) =>
     `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla: si no, la
+  // pantalla de error no dice en qué sección estás. Ver PageShell.
+  const cabecera = {
+    title: 'Position Sizing',
+    subtitle: 'Kelly criterion · Ajuste por volatilidad, score y timing',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const totalRisk = rows.reduce((s, r) => s + (r.risk_pct_portfolio ?? 0), 0)
   const totalValue = rows.reduce((s, r) => s + (r.position_value ?? 0), 0) * scale
@@ -75,19 +81,13 @@ export default function PositionSizing() {
 
   return (
     <>
-      <div className="mb-7 animate-fade-in-up flex items-start justify-between gap-4 flex-wrap">
-        <div>
-          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Position Sizing</h2>
-          <p className="text-sm text-muted-foreground">
-            Kelly criterion · Ajuste por volatilidad, score y timing
-          </p>
-        </div>
-        <div className="flex items-center gap-3 shrink-0 flex-wrap">
+      <PageHeader {...cabecera}>
+        <div className="flex items-center gap-3 flex-wrap">
           <button
             onClick={() => setCompact(!compact)}
-            className={`text-[0.65rem] font-bold uppercase tracking-wider px-2.5 py-1.5 rounded border transition-colors ${compact ? 'border-primary/50 text-primary bg-primary/10' : 'border-border/50 text-muted-foreground/60 hover:text-foreground hover:border-border'}`}
+            className={`filter-btn ${compact ? 'active' : ''}`}
           >
-            Compact
+            Compacto
           </button>
           <div className="flex items-center gap-2">
             <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground/60">Portfolio ($)</span>
@@ -99,7 +99,7 @@ export default function PositionSizing() {
             />
           </div>
         </div>
-      </div>
+      </PageHeader>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Card className="glass p-5 stagger-1">

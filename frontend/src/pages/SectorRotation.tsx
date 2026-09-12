@@ -9,6 +9,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import { Briefcase, AlertTriangle, CheckCircle } from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
+import PageHeader from '@/components/PageHeader'
 
 // Map yfinance sector names → rotation sector names
 const SECTOR_MAP: Record<string, string> = {
@@ -97,10 +98,10 @@ export default function SectorRotation() {
 
   return (
     <>
-      <div className="mb-5 animate-fade-in-up">
-        <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Rotación Sectorial</h2>
-        <p className="text-sm text-muted-foreground">Modelo de rotacion de sectores — identifica liderazgo y debilidad relativa</p>
-      </div>
+      <PageHeader
+        title="Rotación Sectorial"
+        subtitle="Modelo de rotacion de sectores — identifica liderazgo y debilidad relativa"
+      />
 
       {/* Compact summary strip — pill style */}
       {results.length > 0 && (

@@ -11,6 +11,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   ReferenceLine, LineChart, Line,
 } from 'recharts'
+import PageHeader from '@/components/PageHeader'
 
 const mkFmtPct = (horizonte: string) =>
   (v: unknown) => [`${Number(v).toFixed(1)}%`, `Win rate ${horizonte}`] as [string, string]
@@ -117,10 +118,10 @@ export default function Portfolio() {
   if (pf.total_signals == null) {
     return (
       <>
-        <div className="mb-7 animate-fade-in-up">
-          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Portfolio Tracker</h2>
-          <p className="text-sm text-muted-foreground">Seguimiento de rendimiento de recomendaciones</p>
-        </div>
+        <PageHeader
+        title="Portfolio Tracker"
+        subtitle="Seguimiento de rendimiento de recomendaciones"
+      />
         <Card className="glass">
           <CardContent className="py-16 text-center">
             <div className="text-4xl mb-4 opacity-20">📋</div>
@@ -177,16 +178,14 @@ export default function Portfolio() {
 
   return (
     <>
-      <div className="mb-7 animate-fade-in-up">
-        <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Portfolio Tracker</h2>
-        <p className="text-sm text-muted-foreground">
-          Rendimiento de <strong className="text-foreground">VALUE US</strong> — {pf.value_strategy?.count ?? pf.total_signals} señales
+      <PageHeader
+        title="Portfolio Tracker"
+        subtitle={<>Rendimiento de <strong className="text-foreground">VALUE US</strong> — {pf.value_strategy?.count ?? pf.total_signals} señales
           {pf.date_range && <span className="ml-1 opacity-60">({pf.date_range})</span>}
           <span className="mt-1 block text-xs text-muted-foreground/70">
             Europa va aparte, más abajo: mezclarla en el titular hundía el número con señales que no operas.
-          </span>
-        </p>
-      </div>
+          </span></>}
+      />
 
       {insightRaw?.narrative && (
         <AiNarrativeCard narrative={insightRaw.narrative} label="Análisis de Rendimiento" className="mb-5" />

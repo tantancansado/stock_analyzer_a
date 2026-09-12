@@ -9,7 +9,6 @@ import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { useApi } from '../hooks/useApi'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
-import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import { Badge } from '@/components/ui/badge'
 import CsvDownload from '../components/CsvDownload'
@@ -17,6 +16,8 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import { Wallet } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
+import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 // ── Estado de posiciones fuera del escaneo del día ────────────────────────────
 // Un "Oversold Bounce" sale de la lista en cuanto el RSI deja la sobreventa,
@@ -146,8 +147,11 @@ export default function MeanReversion() {
     return () => document.removeEventListener('keydown', handler)
   }, [])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  const cabecera = {
+    title: 'Mean Reversion',
+    subtitle: 'Oversold bounces y pullbacks — oportunidades de reversión a la media',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const raw = data as Record<string, unknown>
   let items: MRItem[] = []
@@ -208,21 +212,15 @@ export default function MeanReversion() {
   return (
     <>
       <StaleDataBanner module="mean_reversion" />
-      <div className="mb-7 animate-fade-in-up flex items-start justify-between gap-4">
-        <div className="flex-1">
-          <h2 className="text-2xl font-extrabold tracking-tight mb-2 gradient-title">Mean Reversion</h2>
-          <p className="text-sm text-muted-foreground">Oversold bounces y pullbacks — oportunidades de reversión a la media</p>
-        </div>
-        <div className="flex items-center gap-2 mt-1 shrink-0">
-          <button
-            onClick={() => setCompact(c => !c)}
-            className={`filter-btn hidden sm:inline-flex ${compact ? 'active' : ''}`}
-          >
-            Compacto
-          </button>
-          <CsvDownload dataset="mean-reversion" label="CSV" />
-        </div>
-      </div>
+      <PageHeader {...cabecera}>
+        <button
+          onClick={() => setCompact(c => !c)}
+          className={`filter-btn hidden sm:inline-flex ${compact ? 'active' : ''}`}
+        >
+          Compacto
+        </button>
+        <CsvDownload dataset="mean-reversion" label="CSV" />
+      </PageHeader>
 
       {(raw?.ai_narrative as string | null | undefined) && (
         <AiNarrativeCard narrative={raw.ai_narrative as string} label="Análisis del Batch Actual" className="mb-5" />

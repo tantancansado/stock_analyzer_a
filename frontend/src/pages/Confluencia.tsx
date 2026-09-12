@@ -6,6 +6,7 @@ import Loading from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import EmptyState from '../components/EmptyState'
+import PageHeader from '@/components/PageHeader'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -223,12 +224,10 @@ export default function Confluencia() {
 
   return (
     <>
-      <div className="mb-6 animate-fade-in-up">
-        <h2 className="text-2xl font-extrabold tracking-tight mb-1 gradient-title">Signal Confluence</h2>
-        <p className="text-sm text-muted-foreground">
-          Tickers donde Bounce + Value + Flow coinciden — top 10 por convicción
-        </p>
-      </div>
+      <PageHeader
+        title="Signal Confluence"
+        subtitle="Tickers donde Bounce + Value + Flow coinciden — top 10 por convicción"
+      />
 
       {/* Summary cards */}
       <div className="grid grid-cols-3 gap-3 mb-6">

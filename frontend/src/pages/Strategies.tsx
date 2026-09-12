@@ -7,6 +7,7 @@ import TickerLogo from '../components/TickerLogo'
 import { Card, CardContent } from '@/components/ui/card'
 import EmptyState from '../components/EmptyState'
 import { fetchPortfolioStrategies, type PortfolioStrategy, type StrategyAction } from '../api/client'
+import PageHeader from '@/components/PageHeader'
 
 const ACTION_META: Record<StrategyAction, { label: string; bg: string; icon: typeof Brain }> = {
   HOLD:  { label: 'Mantener',         bg: 'border-sky-500/30 bg-sky-500/10 text-sky-300',         icon: Pause },
@@ -224,16 +225,13 @@ export default function Strategies() {
   return (
     <>
       <div className="mb-5 flex items-start justify-between flex-wrap gap-3">
-        <div>
-          <h2 className="text-2xl font-extrabold tracking-tight gradient-title flex items-center gap-2 mb-1">
-            <Brain size={20} className="text-purple-400" />
-            Estrategias IA
-          </h2>
-          <p className="text-sm text-muted-foreground">
+        <PageHeader
+          title={<span className="flex items-center gap-2"><Brain size={20} className="text-purple-400" />Estrategias IA</span>}
+          subtitle={<>
             Plan personalizado por posición — trim/add levels, triggers y fechas concretas. Generado a diario.
             {data?.scan_date && <span className="text-muted-foreground/40"> · Scan {data.scan_date}</span>}
-          </p>
-        </div>
+          </>}
+        />
         <div className="flex flex-wrap gap-2">
           {(['ADD', 'TRIM', 'HOLD', 'WATCH', 'EXIT'] as StrategyAction[]).map(action => {
             const n = counts[action]
