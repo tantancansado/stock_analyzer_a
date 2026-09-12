@@ -1,10 +1,10 @@
 import { useState, useMemo } from 'react'
 import { fetchMacroCountries } from '../api/client'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { ChevronDown, ChevronUp, Globe } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -374,8 +374,16 @@ export default function MacroCountries() {
     return list
   }, [data, region, signalFilter, sortBy])
 
-  if (loading) return <Loading />
-  if (error || !data) return <ErrorState message="Todavía no hay datos de países. Los publica el pipeline diario." />
+  // La cabecera se pinta también mientras carga o si la API falla: si no,
+  // la pantalla de error no dice en qué sección estás. Ver PageShell.
+  const tituloPagina = <span className="flex items-center gap-2"><Globe className="h-6 w-6 text-cyan-400" />Análisis Macro Global</span>
+  if (loading || error || !data) return (
+    <PageShell
+      title={tituloPagina}
+      loading={loading}
+      error={loading ? null : 'Todavía no hay datos de países. Los publica el pipeline diario.'}
+    />
+  )
 
   const s = data.summary
 
@@ -384,7 +392,7 @@ export default function MacroCountries() {
       <StaleDataBanner dataDate={data.generated_at} />
 
       <PageHeader
-        title={<span className="flex items-center gap-2"><Globe className="h-6 w-6 text-cyan-400" />Análisis Macro Global</span>}
+        title={tituloPagina}
         subtitle={`${data.countries.length} países · macro ${data.macro_source.split(' ').slice(-2).join(' ')} · mercado tiempo real`}
       >
         <div className="text-right text-[0.65rem] text-slate-500">

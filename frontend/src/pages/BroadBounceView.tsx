@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import { Zap } from 'lucide-react'
 import { fetchBounceBroad, fetchBounceCatalystFlags, type BounceBroadSetup } from '../api/client'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
   const potentialLoss = Math.abs(s.stop_pct)
@@ -54,8 +54,10 @@ export default function BroadBounceView() {
   const { data, loading, error } = useApi(() => fetchBounceBroad(), [])
   const { data: catalystData } = useApi(() => fetchBounceCatalystFlags(), [])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  const tituloPagina = <span className="flex items-center gap-2"><Zap size={18} className="text-purple-400" />Rebote corto plazo — Universo Ampliado</span>
+  if (loading || error) return <PageShell title={tituloPagina} loading={loading} error={error} />
 
   const resp = data
   const catalystFlags = catalystData?.flags ?? {}
@@ -72,7 +74,7 @@ export default function BroadBounceView() {
     <section className="animate-fade-in-up">
       <div className="mb-5">
         <PageHeader
-          title={<span className="flex items-center gap-2"><Zap size={18} className="text-purple-400" />Rebote corto plazo — Universo Ampliado</span>}
+          title={tituloPagina}
           subtitle={<>
             S&amp;P 500 (excl. universo curado) · Filtros estrictos multi-confirmación · Horizonte 1–5 días
             {scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}

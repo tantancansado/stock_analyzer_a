@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react'
 import { fetchCatalysts, type CatalystEvent } from '../api/client'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
 import PageHeader from '../components/PageHeader'
 import EmptyState from '../components/EmptyState'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card } from '@/components/ui/card'
 import { ChevronDown, ChevronRight } from 'lucide-react'
+import PageShell from '@/components/PageShell'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -243,8 +243,9 @@ export default function CatalystCalendar() {
 
   const grouped = useMemo(() => groupByWeek(filtered), [filtered])
 
-  if (loading) return <Loading />
-  if (error)   return <ErrorState message={error} />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (loading || error) return <PageShell title="Catalyst Calendar" loading={loading} error={error} />
 
   const totalEvents = events.length
   const highImpact = events.filter(e => e.impact === 'HIGH').length

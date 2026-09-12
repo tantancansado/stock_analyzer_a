@@ -1647,7 +1647,13 @@ export default function PersonalPortfolio() {
 
   if (loadingDb) {
     return (
-      <div className="flex flex-col items-center justify-center py-32 gap-6 select-none">
+      <>
+      {/* La cabecera va delante de la animación de carga: sin ella la pantalla
+          no dice en qué sección estás mientras Supabase responde. */}
+      <PageHeader
+        title={<span className="flex items-center gap-2"><Wallet size={22} className="text-primary" />Mi Cartera Personal</span>}
+      />
+      <div className="flex flex-col items-center justify-center py-24 gap-6 select-none">
         {/* Animated tickers */}
         <div className="flex gap-2 items-end h-10">
           {['ABT','BSX','MA','INTU','ADP'].map((t, i) => (
@@ -1674,6 +1680,7 @@ export default function PersonalPortfolio() {
           <p className="text-xs text-muted-foreground/50">Conectando con la nube</p>
         </div>
       </div>
+      </>
     )
   }
 

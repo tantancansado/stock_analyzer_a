@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 import { fetchMeanReversion, fetchUnusualFlow, parseCsvRows } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
-import Loading from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -220,7 +220,15 @@ export default function Confluencia() {
   const valueCount  = confluence.filter(t => t.value_us || t.value_eu).length
   const flowCount   = confluence.filter(t => t.flow).length
 
-  if (loading) return <Loading />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (loading) return (
+    <PageShell
+      title="Signal Confluence"
+      subtitle="Tickers donde Bounce + Value + Flow coinciden — top 10 por convicción"
+      loading
+    />
+  )
 
   return (
     <>

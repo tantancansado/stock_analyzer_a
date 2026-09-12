@@ -21,7 +21,6 @@ function TechBiasCell({ t }: { t?: TechnicalSummary }) {
     </span>
   )
 }
-import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import ScoreRing from '../components/ScoreRing'
 import GradeBadge from '../components/GradeBadge'
@@ -33,6 +32,7 @@ import InfoTooltip from '../components/InfoTooltip'
 import OwnedBadge from '../components/OwnedBadge'
 import ValuationBar from '../components/ValuationBar'
 import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 // Extend ValueOpportunity with global-specific fields
 type GlobalOpportunity = ValueOpportunity & {
@@ -164,8 +164,13 @@ export default function GlobalValue() {
     return () => document.removeEventListener('keydown', handler)
   }, [])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla:
+  // si no, la pantalla de error no dice en qué sección estás.
+  const cabecera = {
+    title: 'VALUE Global',
+    subtitle: 'Acciones VALUE en mercados globales undervalued — Brasil, Corea, Japón, Hong Kong',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const rows = (data?.data ?? []) as GlobalOpportunity[]
 
@@ -235,10 +240,7 @@ export default function GlobalValue() {
     <>
       <StaleDataBanner module="value_global" />
       <div className="mb-6 animate-fade-in-up flex items-start justify-between flex-wrap gap-3">
-        <PageHeader
-          title="VALUE Global"
-          subtitle="Acciones VALUE en mercados globales undervalued — Brasil, Corea, Japón, Hong Kong"
-        />
+        <PageHeader {...cabecera} />
         <div className="flex items-center gap-2">
           <CsvDownload dataset="value-global" />
         </div>

@@ -4,7 +4,6 @@ import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRada
 import StaleDataBanner from '../components/StaleDataBanner'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import ScoreRing from '../components/ScoreRing'
 import GradeBadge from '../components/GradeBadge'
@@ -32,6 +31,7 @@ import { LogoCandleBull } from '../components/BrandLogos'
 import { useValueExperienceMode } from '../hooks/useValueExperienceMode'
 import { ValueClarityPanel, ValueDecisionBadge, ValueModeToggle } from '../components/ValueDecision'
 import { getValueDecision } from '@/lib/valueDecision'
+import PageShell from '@/components/PageShell'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
   if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
@@ -290,8 +290,9 @@ export default function ValueUS() {
     return Object.entries(counts).filter(([, c]) => c >= 3)
   }, [sorted])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (loading || error) return <PageShell title="VALUE US" loading={loading} error={error} />
 
   const totalPages = Math.ceil(sorted.length / PAGE_SIZE)
   const paged = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)

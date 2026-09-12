@@ -3,7 +3,6 @@ import StaleDataBanner from '../components/StaleDataBanner'
 import { useState, useRef, useEffect } from 'react'
 import { fetchMomentumOpportunities, type MomentumOpportunity, downloadCsv } from '../api/client'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import ScoreRing from '../components/ScoreRing'
 import { Badge } from '@/components/ui/badge'
@@ -14,6 +13,7 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import EmptyState from '../components/EmptyState'
+import PageShell from '@/components/PageShell'
 
 type SortKey = keyof MomentumOpportunity
 type SortDir = 'asc' | 'desc'
@@ -52,8 +52,11 @@ export default function Momentum() {
     return () => document.removeEventListener('keydown', handler)
   }, [])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  const cabecera = {
+    title: 'Momentum',
+    subtitle: 'Setups VCP y momentum Minervini — filtrados por tendencia y volumen',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const rows = data?.data ?? []
 
@@ -86,12 +89,7 @@ export default function Momentum() {
           acciones con `shrink-0` en la misma fila — y por eso el "↓ CSV" se
           salía 36px de la pantalla en móvil mientras el resto de páginas ya
           estaban arregladas. */}
-      <PageHeader
-        title={
-          'Momentum'
-        }
-        subtitle="Setups VCP y momentum Minervini — filtrados por tendencia y volumen"
-      >
+      <PageHeader {...cabecera}>
         <button
           onClick={() => setCompact(v => !v)}
           className={`filter-btn ${compact ? 'active' : ''}`}

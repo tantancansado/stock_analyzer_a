@@ -3,7 +3,6 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchMeanReversion, fetchBounceCatalystFlags } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import BroadBounceView from './BroadBounceView'
-import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
@@ -11,6 +10,7 @@ import { useEntryVerdict } from '../hooks/useEntryVerdicts'
 import { AlertTriangle, TrendingDown, Zap, Star, Target } from 'lucide-react'
 import { nlBounceSetup, nlBounceConfidence } from '@/lib/nl'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -373,8 +373,13 @@ export default function BounceTrader() {
   const technical  = useMemo(() => filtered.filter(s => s.conviction_tier !== 2), [filtered])
   const filteredOutCount = rawBounceCount - allSetups.length
 
-  if (loading) return <Loading />
-  if (error)   return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla: si no,
+  // la pantalla de error no dice en qué sección estás. Ver PageShell.
+  const cabecera = {
+    title: <span className="flex items-center gap-2"><Zap size={20} className="text-orange-400" />Bounce Trader</span>,
+    subtitle: 'Rebotes técnicos de 1–3 días · Oversold extremo + confirmación multi-indicador',
+  }
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const scanDate = (raw as Record<string, unknown>)?.scan_date as string | undefined
   const extremos = allSetups.filter(s => s.rsi_tier === 'EXTREMO').length
@@ -413,8 +418,8 @@ export default function BounceTrader() {
 
       {mode === 'curated' && <>
       <PageHeader
-        title={<span className="flex items-center gap-2"><Zap size={20} className="text-orange-400" />Bounce Trader</span>}
-        subtitle={<>Rebotes técnicos de 1–3 días · Oversold extremo + confirmación multi-indicador{scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}</>}
+        {...cabecera}
+        subtitle={<>{cabecera.subtitle}{scanDate && <span className="text-muted-foreground/40 ml-2">· Scan {scanDate}</span>}</>}
       />
 
         {/* Summary pills */}

@@ -3,6 +3,7 @@ import { FlaskConical, Info, ArrowLeftRight } from 'lucide-react'
 import Loading from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 const BacktestResults = lazy(() => import('./BacktestResults'))
 
@@ -215,13 +216,13 @@ export default function Backtest() {
     }).catch(e => { setError(String(e)); setLoading(false) })
   }, [])
 
-  if (loading) return <Loading />
-  if (error)   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-extrabold flex items-center gap-2"><FlaskConical size={22} className="text-primary" />Backtest</h1>
-      <div className="glass rounded-2xl p-8 text-center text-sm text-muted-foreground">{error}</div>
-    </div>
-  )
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  // Antes el camino de error pintaba su propio <h1> a mano, con otro texto
+  // ("Backtest" en vez de "Backtest — Señales Reales") y otro tamaño que el
+  // título de la página. Ahora es la misma cabecera en los dos caminos.
+  const tituloPagina = <span className="flex items-center gap-2"><FlaskConical size={22} className="text-primary" />Backtest — Señales Reales</span>
+  if (loading || error) return <PageShell title={tituloPagina} loading={loading} error={error} />
 
   const strategies = [...new Set(signals.map(s => s.strategy))].sort()
   const filtered   = strat === 'ALL' ? signals : signals.filter(s => s.strategy === strat)
@@ -242,7 +243,7 @@ export default function Backtest() {
   return (
     <div className="space-y-5 max-w-5xl">
       <PageHeader
-        title={<span className="flex items-center gap-2"><FlaskConical size={22} className="text-primary" />Backtest — Señales Reales</span>}
+        title={tituloPagina}
         subtitle={`${signals.length} tickers únicos · ${dateRange} · resultados forward-looking`}
       />
 

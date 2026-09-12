@@ -3,13 +3,14 @@ import { fetchDividendTraps, fetchDividendCalendar, fetchValueOpportunities, fet
 import type { DividendTrapEntry, DividendCalendarEvent } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
-import Loading, { ErrorState } from '../components/Loading'
+import { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { AlertTriangle, ShieldCheck, ChevronDown, ChevronUp, Briefcase, Zap, CalendarClock, Clock, DollarSign, Loader2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 type Tab = 'traps' | 'safe' | 'timing'
 
@@ -181,8 +182,13 @@ export default function DividendTraps() {
       .finally(() => setDivCalLoading(false))
   }
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla:
+  // si no, la pantalla de error no dice en qué sección estás.
+  const cabecera = {
+    title: 'Dividend Trap Radar',
+    subtitle: 'Análisis de sostenibilidad de dividendos · detecta trampas antes de que recorten',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
   if (!data) return <ErrorState message="Sin datos de dividend traps" />
 
   // Portfolio tickers that appear in traps or safe lists
@@ -198,10 +204,7 @@ export default function DividendTraps() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-5">
-      <PageHeader
-        title="Dividend Trap Radar"
-        subtitle="Análisis de sostenibilidad de dividendos · detecta trampas antes de que recorten"
-      >
+      <PageHeader {...cabecera}>
         <span className="text-xs text-muted-foreground">{data.date} · {data.total_scanned} tickers analizados</span>
       </PageHeader>
 

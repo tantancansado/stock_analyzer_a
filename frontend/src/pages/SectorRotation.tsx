@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { fetchSectorRotation, fetchTickerSectorMap, type SectorRotationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
-import Loading, { ErrorState } from '../components/Loading'
 import InfoTooltip from '../components/InfoTooltip'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
@@ -10,6 +9,7 @@ import { Briefcase, AlertTriangle, CheckCircle } from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 // Map yfinance sector names → rotation sector names
 const SECTOR_MAP: Record<string, string> = {
@@ -81,8 +81,13 @@ export default function SectorRotation() {
     })
   }, [myPositions])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla:
+  // si no, la pantalla de error no dice en qué sección estás.
+  const cabecera = {
+    title: 'Rotación Sectorial',
+    subtitle: 'Modelo de rotacion de sectores — identifica liderazgo y debilidad relativa',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const sr = (data as SectorRotationData) || { results: [], alerts: [] }
   const results = sr.results || []
@@ -98,10 +103,7 @@ export default function SectorRotation() {
 
   return (
     <>
-      <PageHeader
-        title="Rotación Sectorial"
-        subtitle="Modelo de rotacion de sectores — identifica liderazgo y debilidad relativa"
-      />
+      <PageHeader {...cabecera} />
 
       {/* Compact summary strip — pill style */}
       {results.length > 0 && (

@@ -2,10 +2,11 @@ import React, { lazy, Suspense } from 'react'
 import { fetchMacroRadar, fetchMacroRadarHistory, fetchEconomicCalendar } from '../api/client'
 import type { EconEvent } from '../api/client'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
+import { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import StaleDataBanner from '../components/StaleDataBanner'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 const RegimeSweepPlayer = lazy(() =>
   import('../components/RegimeSweepVideo').then(m => ({ default: m.RegimeSweepPlayer }))
@@ -903,8 +904,13 @@ export default function MacroRadar() {
   const { data: historyData } = useApi(() => fetchMacroRadarHistory(), [])
   const { data: econData } = useApi(() => fetchEconomicCalendar(), [])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla:
+  // si no, la pantalla de error no dice en qué sección estás.
+  const cabecera = {
+    title: 'Macro Radar',
+    subtitle: 'Sistema de alerta temprana — detecta cambios de régimen antes de que ocurran',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
   if (!data || !data.regime) return <ErrorState message="Sin datos de radar macro" />
 
   const { regime, composite_score, max_score, signals, signal_order, ai_narrative, date, errors, historical_analogs, systemic_risks, index_breakouts, index_summary, special_events } = data
@@ -918,10 +924,7 @@ export default function MacroRadar() {
     <div className="max-w-6xl mx-auto space-y-6">
       <StaleDataBanner module="macro" />
 
-      <PageHeader
-        title="Macro Radar"
-        subtitle="Sistema de alerta temprana — detecta cambios de régimen antes de que ocurran"
-      >
+      <PageHeader {...cabecera}>
         <div className="text-right flex flex-col items-end gap-2">
           <span
             className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-bold ${regimeBadgeVariant(regime.name)}`}

@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { apiClient } from '@/api/client'
-import Loading, { ErrorState } from '@/components/Loading'
+import Loading from '@/components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Users, Briefcase, BookOpen, TrendingUp, Wallet } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 const ADMIN_USER_ID = '3da8acd3-0b70-43c7-9684-6da77fbc6cfa'
 
@@ -110,7 +111,9 @@ export default function AdminUsage() {
   }, [user, authLoading, navigate])
 
   if (authLoading || loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (error) return <PageShell title="Admin · Uso de la app" subtitle="Solo visible para el owner" error={error} />
   if (!data) return null
 
   const maxPositions = Math.max(...data.registered_users.map(u => u.positions), 1)

@@ -1,9 +1,9 @@
 import { useApi } from '../hooks/useApi'
 import { fetchCalibration, type CalibrationBucket, type CalibrationRegime, type CalibrationSector } from '../api/client'
-import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 function WinBar({ value, max = 80 }: { value: number | null | undefined; max?: number }) {
   const v = value ?? 0
@@ -144,8 +144,15 @@ function ScoreInsight({ buckets }: { buckets: CalibrationBucket[] }) {
 export default function Calibration() {
   const { data, loading, error } = useApi(fetchCalibration)
 
-  if (loading) return <Loading />
-  if (error || !data) return <ErrorState message="No hay datos de calibración aún. Se generan al final del pipeline diario." />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (loading || error || !data) return (
+    <PageShell
+      title="Calibración del Sistema"
+      loading={loading}
+      error={loading ? null : 'No hay datos de calibración aún. Se generan al final del pipeline diario.'}
+    />
+  )
 
   const bestScore = [...(data.score_buckets || [])].sort((a, b) => b.win_rate - a.win_rate)[0]
   const bestSector = [...(data.sector_calibration || [])].sort((a, b) => b.win_rate - a.win_rate)[0]

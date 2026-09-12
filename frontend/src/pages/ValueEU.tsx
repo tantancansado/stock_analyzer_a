@@ -60,7 +60,6 @@ function EntryQualityBadge({ quality, confidence }: { quality?: string; confiden
 }
 
 import AiNarrativeCard from '../components/AiNarrativeCard'
-import Loading, { ErrorState } from '../components/Loading'
 import ScoreBar from '../components/ScoreBar'
 import ScoreRing from '../components/ScoreRing'
 import GradeBadge from '../components/GradeBadge'
@@ -68,6 +67,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
 import CsvDownload from '../components/CsvDownload'
+import PageShell from '@/components/PageShell'
 import PaginationBar from '../components/PaginationBar'
 import InfoTooltip from '../components/InfoTooltip'
 import ThesisModal from '../components/ThesisModal'
@@ -213,8 +213,9 @@ export default function ValueEU() {
     return () => document.removeEventListener('keydown', handler)
   }, [toggleThesis])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (loading || error) return <PageShell title="VALUE Europa" loading={loading} error={error} />
 
   const rows = data?.data ?? []
 

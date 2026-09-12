@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useApi } from '../hooks/useApi'
 import { fetchTimeseries, type TimeseriesRow, type StrategyRow } from '../api/client'
-import Loading, { ErrorState } from '@/components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import PageHeader from '@/components/PageHeader'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, CartesianGrid,
 } from 'recharts'
+import PageShell from '@/components/PageShell'
 
 type Tab = 'week' | 'month' | 'quarter' | 'weekday'
 
@@ -263,8 +263,15 @@ export default function SignalStats() {
   const [tab, setTab] = useState<Tab>('month')
   const { data, loading, error } = useApi(() => fetchTimeseries(), [])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={typeof error === 'string' ? error : 'Error cargando datos'} />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (loading || error) return (
+    <PageShell
+      title="Estadísticas de señales"
+      loading={loading}
+      error={loading ? null : (typeof error === 'string' ? error : 'Error cargando datos')}
+    />
+  )
   if (!data) return null
 
   const rows: TimeseriesRow[] = tab === 'week' ? data.by_week

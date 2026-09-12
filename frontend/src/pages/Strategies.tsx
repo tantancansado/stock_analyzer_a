@@ -2,12 +2,12 @@ import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Brain, TrendingUp, TrendingDown, Pause, Activity, AlertTriangle, Calendar, Target, Shield } from 'lucide-react'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
 import { Card, CardContent } from '@/components/ui/card'
 import EmptyState from '../components/EmptyState'
 import { fetchPortfolioStrategies, type PortfolioStrategy, type StrategyAction } from '../api/client'
 import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 const ACTION_META: Record<StrategyAction, { label: string; bg: string; icon: typeof Brain }> = {
   HOLD:  { label: 'Mantener',         bg: 'border-sky-500/30 bg-sky-500/10 text-sky-300',         icon: Pause },
@@ -205,8 +205,13 @@ export default function Strategies() {
     return c
   }, [strategies])
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla: si no,
+  // la pantalla de error no dice en qué sección estás. Ver PageShell.
+  const cabecera = {
+    title: <span className="flex items-center gap-2"><Brain size={20} className="text-purple-400" />Estrategias IA</span>,
+    subtitle: 'Plan personalizado por posición — trim/add levels, triggers y fechas concretas. Generado a diario.',
+  }
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   if (strategies.length === 0) {
     return (
@@ -226,11 +231,8 @@ export default function Strategies() {
     <>
       <div className="mb-5 flex items-start justify-between flex-wrap gap-3">
         <PageHeader
-          title={<span className="flex items-center gap-2"><Brain size={20} className="text-purple-400" />Estrategias IA</span>}
-          subtitle={<>
-            Plan personalizado por posición — trim/add levels, triggers y fechas concretas. Generado a diario.
-            {data?.scan_date && <span className="text-muted-foreground/40"> · Scan {data.scan_date}</span>}
-          </>}
+          {...cabecera}
+          subtitle={<>{cabecera.subtitle}{data?.scan_date && <span className="text-muted-foreground/40"> · Scan {data.scan_date}</span>}</>}
         />
         <div className="flex flex-wrap gap-2">
           {(['ADD', 'TRIM', 'HOLD', 'WATCH', 'EXIT'] as StrategyAction[]).map(action => {

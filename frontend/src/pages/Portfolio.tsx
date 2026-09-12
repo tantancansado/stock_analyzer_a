@@ -3,7 +3,6 @@ import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsig
 import { useApi } from '../hooks/useApi'
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import TickerLogo from '../components/TickerLogo'
-import Loading, { ErrorState } from '../components/Loading'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
@@ -12,6 +11,7 @@ import {
   ReferenceLine, LineChart, Line,
 } from 'recharts'
 import PageHeader from '@/components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 const mkFmtPct = (horizonte: string) =>
   (v: unknown) => [`${Number(v).toFixed(1)}%`, `Win rate ${horizonte}`] as [string, string]
@@ -110,18 +110,20 @@ export default function Portfolio() {
   const [sigPage, setSigPage] = useState(1)
   const SIG_PAGE_SIZE = 30
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla:
+  // si no, la pantalla de error no dice en qué sección estás.
+  const cabecera = {
+    title: 'Portfolio Tracker',
+    subtitle: 'Seguimiento de rendimiento de recomendaciones',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
 
   const pf = (data as PortfolioSummary) || {}
 
   if (pf.total_signals == null) {
     return (
       <>
-        <PageHeader
-        title="Portfolio Tracker"
-        subtitle="Seguimiento de rendimiento de recomendaciones"
-      />
+        <PageHeader {...cabecera} />
         <Card className="glass">
           <CardContent className="py-16 text-center">
             <div className="text-4xl mb-4 opacity-20">📋</div>

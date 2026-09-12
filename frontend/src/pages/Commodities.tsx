@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from 'react'
 import { fetchCommodities, type CommodityOpportunity } from '../api/client'
-import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
@@ -310,8 +310,15 @@ export default function Commodities() {
     })
   }, [data, typeFilter, ratingFilter])
 
-  if (loading) return <Loading />
-  if (error || !data) return <ErrorState message={typeof error === 'string' ? error : 'Error cargando materias primas'} />
+  // Cabecera también mientras carga o si la API falla: si no, la pantalla
+  // de error no dice en qué sección estás. Ver PageShell.
+  if (loading || error || !data) return (
+    <PageShell
+      title="Materias Primas"
+      loading={loading}
+      error={loading ? null : (typeof error === 'string' ? error : 'Error cargando materias primas')}
+    />
+  )
 
   const generatedAt = data[0]?.generated_at ? new Date(data[0].generated_at).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : null
 

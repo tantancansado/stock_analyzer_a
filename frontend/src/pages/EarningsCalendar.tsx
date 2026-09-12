@@ -2,7 +2,7 @@ import { useState, useMemo, useDeferredValue } from 'react'
 import { fetchEarningsCalendar } from '../api/client'
 import type { EarningsEntry } from '../api/client'
 import { useApi } from '../hooks/useApi'
-import Loading, { ErrorState } from '../components/Loading'
+import { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Calendar, AlertTriangle, Zap, TrendingUp, Wallet, Bot } from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
@@ -10,6 +10,7 @@ import OwnedBadge from '../components/OwnedBadge'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import EarningsThesisModal from '../components/EarningsThesisModal'
 import PageHeader from '../components/PageHeader'
+import PageShell from '@/components/PageShell'
 
 type FilterMode = 'all' | 'warning' | 'catalyst' | 'portfolio'
 
@@ -127,16 +128,18 @@ export default function EarningsCalendar() {
   const catalystCount = data?.earnings.filter(e => e.earnings_catalyst).length ?? 0
   const within7d = data?.earnings.filter(e => e.days_to_earnings !== null && e.days_to_earnings <= 7).length ?? 0
 
-  if (loading) return <Loading />
-  if (error) return <ErrorState message={error} />
+  // La cabecera se pinta también mientras carga o si la API falla:
+  // si no, la pantalla de error no dice en qué sección estás.
+  const cabecera = {
+    title: 'Earnings Calendar',
+    subtitle: 'Próximos reportes de resultados — evita entrar antes de earnings sin catalizador',
+  } as const
+  if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
   if (!data) return <ErrorState message="Sin datos de earnings" />
 
   return (
     <div className="max-w-5xl mx-auto space-y-5">
-      <PageHeader
-        title="Earnings Calendar"
-        subtitle="Próximos reportes de resultados — evita entrar antes de earnings sin catalizador"
-      >
+      <PageHeader {...cabecera}>
         <span className="text-xs text-muted-foreground">{data.total} tickers · {data.as_of}</span>
       </PageHeader>
 
