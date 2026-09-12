@@ -9,6 +9,7 @@ import { ToastProvider } from './components/Toast'
 import { cn } from '@/lib/utils'
 import { type NavLinkItem } from '@/lib/nav'
 import { useNavPreferences, visibleCategories } from '@/hooks/useNavPreferences'
+import { prefetchRuta } from '@/lib/prefetch'
 import TopBar from './components/TopBar'
 import ProtectedRoute from './components/ProtectedRoute'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -56,6 +57,11 @@ function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) 
     <NavLink
       to={item.path}
       onClick={onClose}
+      // Entre apuntar (o apoyar el dedo) y navegar hay unos cientos de
+      // milisegundos: ahí cabe la descarga del chunk de la página, que es lo
+      // que hace que la primera visita a LEAPS costara 1209ms.
+      onPointerEnter={() => prefetchRuta(item.path)}
+      onTouchStart={() => prefetchRuta(item.path)}
       style={{ '--nav-color': item.color } as React.CSSProperties}
       className={({ isActive }) => cn(
         'nav-link flex items-center gap-2.5 px-3 py-2 lg:py-[9px] rounded-lg text-[0.98rem] lg:text-[1.04rem] font-medium transition-all mb-0.5 relative',
