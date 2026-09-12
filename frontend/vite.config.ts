@@ -95,6 +95,26 @@ export default defineConfig(({ mode }) => ({
           // transiciones de ruta, así que ya está en el grafo eager.
           'motion': ['motion'],
         },
+        // Rollup partía los componentes compartidos en 42 chunks de menos de
+        // 2KB (PageShell 571B, CsvDownload 537B, LineChart 352B…). Abrir /value
+        // pedía 44 ficheros JS, y en 4G cada petición cuesta ~150ms de latencia
+        // que no compensa lo que ahorran unos cientos de bytes.
+        //
+        // Se fusionan por tamaño, NO con manualChunks: un chunk con nombre
+        // acaba en un <link rel="modulepreload"> del index.html y se
+        // descargaría en el arranque, que es el problema que se arregló el
+        // 9-sep quitando recharts y remotion de ahí. Esta opción los agrupa
+        // dejándolos como chunks dinámicos.
+        // Medido en 4G lenta (1,6 Mbps, 150ms de latencia), media de 3
+        // cargas de /value:
+        //                    sin fusionar   fusionado
+        //   título visible      3720ms        3284ms   (-436ms, -12%)
+        //   FCP                 1981ms        2047ms   (+66ms)
+        //   ficheros JS             44            28
+        // El primer pixel tarda 66ms mas porque el chunk principal engorda,
+        // pero el contenido aparece medio segundo antes: el intercambio sale
+        // a favor con holgura.
+        experimentalMinChunkSize: 20_000,
       },
     },
   },
