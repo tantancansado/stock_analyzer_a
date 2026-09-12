@@ -124,7 +124,7 @@ export default function AdminUsage() {
   const confirmedUsers = data.registered_users.filter(u => u.confirmed)
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto space-y-8">
       <PageHeader title="Admin · Uso de la app" subtitle="Solo visible para el owner" />
 
       {/* KPI cards */}

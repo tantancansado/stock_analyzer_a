@@ -409,7 +409,7 @@ export default function Leaps() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
+    <div className="max-w-5xl mx-auto">
       <PageHeader
         title={<span className="flex items-center gap-2"><Rocket className="w-6 h-6 text-purple-400" /> LEAPS deep-ITM</span>}
         subtitle="Calls 2027-2028 como sustituto apalancado de acciones"

@@ -283,7 +283,7 @@ export default function SignalStats() {
     / Math.max(data.by_strategy.reduce((s, r) => s + r.signals, 0), 1)
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-5xl mx-auto space-y-8">
       <PageHeader
         title="Estadísticas de señales"
         subtitle={`${data.total_completed.toLocaleString()} señales completadas · ${data.date_range.from} → ${data.date_range.to}`}

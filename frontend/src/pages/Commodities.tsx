@@ -324,7 +324,7 @@ export default function Commodities() {
   const generatedAt = data[0]?.generated_at ? new Date(data[0].generated_at).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : null
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6">
       <PageHeader
         title="Materias Primas"
         subtitle={<>{data.length} ETFs (EEUU) · VALUE rating vs media histórica 2 años · ver alternativa UCITS por fila para IBKR Ireland{generatedAt && <span className="ml-2">· actualizado {generatedAt}</span>}</>}
