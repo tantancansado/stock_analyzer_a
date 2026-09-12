@@ -35,7 +35,7 @@ export default function PageShell({
     <>
       {banner}
       <PageHeader title={title} subtitle={subtitle}>{actions}</PageHeader>
-      {loading ? <Loading /> : error ? <ErrorState message={error} /> : children}
+      {loading ? <Loading conCabecera={false} /> : error ? <ErrorState message={error} /> : children}
     </>
   )
 }

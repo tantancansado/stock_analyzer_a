@@ -92,14 +92,22 @@ function SkeletonTable() {
   )
 }
 
-export default function Loading() {
+/**
+ * `conCabecera=false` cuando la página YA pintó su título de verdad.
+ *
+ * Es el caso de PageShell: pinta la cabecera real y debajo el estado de
+ * carga, así que el esqueleto de título y subtítulo que hay aquí aparecía
+ * como un segundo título fantasma bajo el auténtico.
+ */
+export default function Loading({ conCabecera = true }: { readonly conCabecera?: boolean }) {
   return (
     <div>
-      {/* Page header */}
-      <div className="mb-7 animate-fade-in-up">
-        <Skeleton className="h-8 w-52 mb-2.5 rounded" />
-        <Skeleton className="h-3.5 w-72 rounded-sm" />
-      </div>
+      {conCabecera && (
+        <div className="mb-7 animate-fade-in-up">
+          <Skeleton className="h-8 w-52 mb-2.5 rounded" />
+          <Skeleton className="h-3.5 w-72 rounded-sm" />
+        </div>
+      )}
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
         <SkeletonStatCard delay={0} />
