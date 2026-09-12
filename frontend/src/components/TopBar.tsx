@@ -78,6 +78,51 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
     return () => clearInterval(t)
   }, [])
 
+  // Título de barra al estilo iOS: mientras la página enseña SU propio título
+  // grande, la barra se calla — repetirlo es decir lo mismo dos veces en la
+  // misma pantalla. Cuando ese título se va por arriba, aparece aquí.
+  //
+  // Se detecta el título real en lugar de llevar una lista de rutas: se probó
+  // con ROUTE_TITLES como atajo y resultó falso en 10 de 18 rutas (Macro,
+  // Insiders, Bounce, Entry setups, Sectores… no pintan ninguno). Un umbral
+  // fijo de scroll tampoco vale: en /value el título propio está a 204px, así
+  // que a los 56px se solaparían los dos.
+  const [mostrarTitulo, setMostrarTitulo] = useState(true)
+  useEffect(() => {
+    let pendiente = 0
+    const medir = () => {
+      pendiente = 0
+      const propio = [...document.querySelectorAll('main h1, main h2, main h3')]
+        .some(el => {
+          const r = el.getBoundingClientRect()
+          // Visible y por encima de la mitad de la pantalla: es la cabecera
+          // de la página, no un encabezado cualquiera del contenido.
+          return parseFloat(getComputedStyle(el).fontSize) >= 18 &&
+                 r.width > 2 && r.bottom > 50 && r.top < window.innerHeight * 0.5
+        })
+      setMostrarTitulo(!propio)
+    }
+    const onScroll = () => {
+      if (!pendiente) pendiente = requestAnimationFrame(medir)
+    }
+    medir()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll, { passive: true })
+    // Varias páginas pintan su título DESPUÉS de resolver su carga (el Centro
+    // de mando y Mi cartera, por ejemplo). Midiendo solo al montar se las
+    // encuentra vacías y la barra enseña un título que sobra un segundo
+    // después. El observer vuelve a medir cuando el contenido aparece.
+    const main = document.querySelector('main')
+    const observer = main ? new MutationObserver(onScroll) : null
+    observer?.observe(main!, { childList: true, subtree: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+      observer?.disconnect()
+      if (pendiente) cancelAnimationFrame(pendiente)
+    }
+  }, [location.pathname])
+
   const title   = ROUTE_TITLES[location.pathname] || 'Stock Analyzer'
   const timeStr = time.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })
   const dateStr = time.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' })
@@ -96,16 +141,18 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
         </Button>
         <div className="min-w-0 overflow-hidden">
           <AnimatePresence mode="wait" initial={false}>
-            <motion.span
-              key={title}
-              className="block text-[0.9rem] lg:text-[1rem] font-medium text-muted-foreground/72 tracking-wide truncate"
-              initial={reduceMotion ? false : { opacity: 0, y: 6, filter: 'blur(4px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: 'blur(4px)' }}
-              transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {title}
-            </motion.span>
+            {mostrarTitulo && (
+              <motion.span
+                key={title}
+                className="block text-[0.9rem] lg:text-[1rem] font-medium text-muted-foreground/72 tracking-wide truncate"
+                initial={reduceMotion ? false : { opacity: 0, y: 6, filter: 'blur(4px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: 'blur(4px)' }}
+                transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {title}
+              </motion.span>
+            )}
           </AnimatePresence>
         </div>
       </div>

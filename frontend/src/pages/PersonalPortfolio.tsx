@@ -1681,7 +1681,6 @@ export default function PersonalPortfolio() {
     <div className="space-y-6 max-w-4xl mx-auto">
       <PageHeader
         title={<span className="flex items-center gap-2"><Wallet size={22} className="text-primary" />Mi Cartera Personal</span>}
-        subtitle="Tus posiciones se guardan en la nube. El análisis IA se actualiza en cada visita."
       />
 
       {/* Summary (after analysis) */}
