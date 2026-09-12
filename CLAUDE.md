@@ -45,7 +45,32 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   - Elementos clicables (no decorativos) con texto `text-[0.5rem]` a `text-[0.68rem]` necesitan padding suficiente para un área de toque razonable — ver el bloque `@media (max-width: 640px)` en `index.css` (tap targets, overflow de StatCards, gap de filter bars)
   - El suelo de tamaño de fuente en `index.css:128-142` (`text-[0.5rem]`–`text-[0.68rem]` → mínimo legible en mobile) ya existe — no hace falta repetirlo por página
 - **Convención de tamaño de icono** (lucide-react `size={N}`): 3 pasos, no valores sueltos — `12` (micro, inline junto a texto `text-[0.6-0.68rem]`: badges, pills de filtro, stats compactas), `16` (estándar, la mayoría de iconos de UI: botones, filas de lista, `PageHeader`), `20-22` (hero, solo títulos de página o tarjetas líder). No introducir tamaños intermedios (14, 18) en código nuevo
-- **Componentes canon a preferir sobre reimplementar a mano**: `PageHeader` (título+subtítulo de página), `EmptyState` (icono+título+subtítulo centrado para "sin datos"), `.filter-btn`/`.filter-label` (pills de filtro con estado activo, variantes `.active`/`.active-red`/`.active-amber`), `.table-x-wrap` (scroll horizontal de tablas sin romper sticky thead), `Button` (shadcn, solo para CTAs reales — no para pills de filtro/tab, que fuerza `h-9`+`[&_svg]:size-4` y agranda controles pensados para ser compactos)
+- **Componentes canon a preferir sobre reimplementar a mano**: `PageShell`
+  (cabecera + loading + error de una página, ver abajo), `PageHeader`
+  (título+subtítulo de página), `EmptyState` (icono+título+subtítulo centrado
+  para "sin datos"; con `compact` para huecos dentro de una tabla o tarjeta, que
+  es donde el normal —`py-16`, icono `4xl`— no cabe), `.filter-btn`/`.filter-label`
+  (pills de filtro con estado activo, variantes `.active`/`.active-red`/`.active-amber`),
+  `.table-x-wrap` (scroll horizontal de tablas sin romper sticky thead), `Button`
+  (shadcn, solo para CTAs reales — no para pills de filtro/tab, que fuerza
+  `h-9`+`[&_svg]:size-4` y agranda controles pensados para ser compactos)
+- **La cabecera de página NUNCA va después del early return de loading/error.**
+  Era el patrón de 26 páginas (`if (error) return <ErrorState/>` antes de pintar
+  nada), y el efecto es que cuando la API no responde la pantalla se queda con un
+  mensaje de error y sin decir en qué sección estás. Usar `PageShell`, o extraer
+  la cabecera a una constante y devolverla también en esos caminos
+- **No añadir padding propio al div raíz de una página**: `<main>` ya aplica
+  `p-5 md:p-8`. Cuatro páginas se lo sumaban y acababan con márgenes distintos al
+  resto de la app
+- **Objetivo táctil**: el mínimo del HIG de Apple es 44×44pt. Los controles de la
+  app son más pequeños a propósito (densidad), así que la zona sensible se amplía
+  con un pseudo-elemento —`.topbar-action::after` / `.filter-btn::after`— en vez
+  de agrandar el control. Al añadir un control compacto nuevo, darle ese
+  tratamiento en lugar de subir su tamaño
+- **Tipografía en móvil**: el bloque "ESCALA TIPOGRÁFICA EN MÓVIL" de `index.css`
+  colapsa los ~32 tamaños arbitrarios a cinco escalones (11/12/13/14/16px) con
+  suelo de 11px. Si se usa un `text-[N rem]` nuevo, añadirlo a ese bloque o no
+  quedará normalizado
 
 ### Frontend (React)
 - CSVs en producción vienen de GitHub Pages (`VITE_CSV_BASE`), NO de Railway
