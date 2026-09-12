@@ -109,7 +109,7 @@ export default function CerebroBadges({ trapInfo, smInfo, exitInfo, divInfo, pio
           className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
             sectorInfo.label === 'BEST_IN_SECTOR'
               ? 'bg-teal-500/15 text-teal-400 border-teal-500/30'
-              : 'bg-slate-500/15 text-slate-400 border-slate-500/25'
+              : 'bg-slate-500/15 text-muted-foreground border-slate-500/25'
           }`}
         >
           {sectorInfo.label === 'BEST_IN_SECTOR' ? '★ BEST' : '↑ PRICEY'}

@@ -26,7 +26,7 @@ const TYPE_COLORS: Record<string, string> = {
 const RATING_CONFIG: Record<string, { label: string; bg: string; text: string; dot: string }> = {
   MUY_ATRACTIVO: { label: 'MUY ATRACTIVO', bg: 'bg-emerald-500/15 border-emerald-500/30', text: 'text-emerald-400', dot: 'bg-emerald-400' },
   ATRACTIVO:     { label: 'ATRACTIVO',     bg: 'bg-green-500/10 border-green-500/25',     text: 'text-green-400',   dot: 'bg-green-400'   },
-  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-slate-500/10 border-slate-500/25',     text: 'text-slate-400',   dot: 'bg-slate-400'   },
+  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-slate-500/10 border-slate-500/25',     text: 'text-muted-foreground',   dot: 'bg-slate-400'   },
   CARO:          { label: 'CARO',          bg: 'bg-red-500/10 border-red-500/25',          text: 'text-red-400',     dot: 'bg-red-400'     },
   SIN_DATO:      { label: 'SIN DATO',      bg: 'bg-muted/20 border-muted/30',             text: 'text-muted-foreground', dot: 'bg-muted'  },
 }
@@ -77,7 +77,7 @@ function CommodityRow({ item }: { item: CommodityOpportunity }) {
   const rating = RATING_CONFIG[item.value_rating] ?? RATING_CONFIG['SIN_DATO']
   const momentum = MOMENTUM_CONFIG[item.momentum_signal] ?? MOMENTUM_CONFIG['NEUTRAL']
   const seas = SEAS_CONFIG[item.seasonality] ?? SEAS_CONFIG['neutral']
-  const typeColor = TYPE_COLORS[item.commodity_type] ?? 'text-slate-400 bg-slate-500/10 border-slate-500/25'
+  const typeColor = TYPE_COLORS[item.commodity_type] ?? 'text-muted-foreground bg-slate-500/10 border-slate-500/25'
 
   return (
     <>

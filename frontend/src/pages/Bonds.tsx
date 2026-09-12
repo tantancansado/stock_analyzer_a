@@ -26,7 +26,7 @@ const TYPE_COLORS: Record<string, string> = {
   EUR_Cash:  'text-teal-400 bg-teal-500/10 border-teal-500/25',
   Treasury:  'text-blue-400 bg-blue-500/10 border-blue-500/25',
   TIPS:      'text-yellow-400 bg-yellow-500/10 border-yellow-500/25',
-  Aggregate: 'text-slate-400 bg-slate-500/10 border-slate-500/25',
+  Aggregate: 'text-muted-foreground bg-slate-500/10 border-slate-500/25',
   IG_Corp:   'text-cyan-400 bg-cyan-500/10 border-cyan-500/25',
   HY_Corp:   'text-orange-400 bg-orange-500/10 border-orange-500/25',
   EUR_Govt:  'text-purple-400 bg-purple-500/10 border-purple-500/25',
@@ -45,7 +45,7 @@ const LIQUIDITY_COLORS: Record<string, string> = {
 const RATING_CONFIG = {
   MUY_ATRACTIVO: { label: 'MUY ATRACTIVO', bg: 'bg-emerald-500/15 border-emerald-500/30', text: 'text-emerald-400', dot: 'bg-emerald-400' },
   ATRACTIVO:     { label: 'ATRACTIVO',     bg: 'bg-green-500/10 border-green-500/25',     text: 'text-green-400',   dot: 'bg-green-400'   },
-  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-slate-500/10 border-slate-500/25',     text: 'text-slate-400',   dot: 'bg-slate-400'   },
+  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-slate-500/10 border-slate-500/25',     text: 'text-muted-foreground',   dot: 'bg-slate-400'   },
   CARO:          { label: 'CARO',          bg: 'bg-red-500/10 border-red-500/25',          text: 'text-red-400',     dot: 'bg-red-400'     },
   SIN_DATO:      { label: 'SIN DATO',      bg: 'bg-muted/20 border-muted/30',             text: 'text-muted-foreground', dot: 'bg-muted'  },
 }
@@ -514,7 +514,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
               {calcBonds.map((b, i) => {
                 const { final, gain, effectiveYield } = calcReturn(capital, b.yield_pct!, months)
                 const ratingCfg = RATING_CONFIG[b.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
-                const typeCls = TYPE_COLORS[b.bond_type] ?? 'text-slate-400'
+                const typeCls = TYPE_COLORS[b.bond_type] ?? 'text-muted-foreground'
                 const isTop = i === 0
                 return (
                   <tr
@@ -620,7 +620,7 @@ function DurationBar({ years }: { years: number | null | undefined }) {
 function BondRow({ bond }: { bond: BondOpportunity }) {
   const [expanded, setExpanded] = useState(false)
   const ratingCfg = RATING_CONFIG[bond.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
-  const typeCls = TYPE_COLORS[bond.bond_type] ?? 'text-slate-400 bg-slate-500/10 border-slate-500/25'
+  const typeCls = TYPE_COLORS[bond.bond_type] ?? 'text-muted-foreground bg-slate-500/10 border-slate-500/25'
 
   return (
     <>
@@ -904,7 +904,7 @@ const RISK_COLORS: Record<string, string> = {
 function PreferredRow({ p }: { p: PreferredStock }) {
   const [expanded, setExpanded] = useState(false)
   const ratingCfg = RATING_CONFIG[p.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
-  const sectorCls = SECTOR_COLORS[p.sector] ?? 'text-slate-400 bg-slate-500/10 border-slate-500/25'
+  const sectorCls = SECTOR_COLORS[p.sector] ?? 'text-muted-foreground bg-slate-500/10 border-slate-500/25'
   const riskColor = RISK_COLORS[p.risk_tier] ?? 'text-muted-foreground'
   const abovePar = (p.pct_from_par ?? 0) > 1.5
 
