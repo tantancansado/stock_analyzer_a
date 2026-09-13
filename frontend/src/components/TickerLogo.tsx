@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { cn } from '@/lib/utils'
 import { getLogoUrl, getClearbitUrl } from '@/lib/logos'
 
@@ -65,33 +65,32 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
   const { px, text, rounded, pad } = SIZE[size]
   const initials = makeInitials(safe)
 
-  // Build candidates once per ticker change. Re-runs ONLY when ticker changes,
-  // not on every render — fixes the bug where switching ticker kept the old
-  // stage frozen because useState lazy-init only runs at mount.
-  const [candidateIdx, setCandidateIdx] = useState(0)
-  const candidatesRef = useRef<string[]>([])
-  const tokenRef = useRef(0)
-
-  useEffect(() => {
+  // Los candidatos se calculan DURANTE el render, no en un efecto.
+  //
+  // Antes vivían en un useRef que se llenaba dentro de un useEffect. Dos cosas
+  // se juntaban para que no funcionara nunca: un ref no provoca re-render, y
+  // el `setCandidateIdx(0)` que lo acompañaba no cambiaba el valor (ya era 0),
+  // así que React salía por su bail-out. El primer render veía la lista vacía,
+  // caía a las iniciales y no volvía a renderizar jamás.
+  //
+  // Efecto medido en producción: 114 fichas con iniciales y CERO peticiones de
+  // logo — ni una fallida. El mecanismo entero estaba muerto.
+  const candidates = useMemo(() => {
     const known = _winnerByTicker.get(safe)
-    if (known) {
-      // We already validated this URL earlier — use it directly.
-      candidatesRef.current = [known]
-      setCandidateIdx(0)
-      tokenRef.current++
-      return
-    }
-    if (_failedByTicker.has(safe)) {
-      // We already exhausted candidates for this ticker — go straight to initials.
-      candidatesRef.current = []
-      setCandidateIdx(0)
-      tokenRef.current++
-      return
-    }
-    candidatesRef.current = buildCandidates(safe)
-    setCandidateIdx(0)
-    tokenRef.current++  // invalidates pending image events from previous ticker
+    if (known) return [known]                    // ya validado en esta sesión
+    if (_failedByTicker.has(safe)) return []     // ya se agotó, directo a iniciales
+    return buildCandidates(safe)
   }, [safe])
+
+  const [candidateIdx, setCandidateIdx] = useState(0)
+  // Al cambiar de ticker hay que volver al primer candidato. Se compara contra
+  // el ticker renderizado, que es el patrón de React para derivar estado sin
+  // un efecto de por medio.
+  const [tickerPintado, setTickerPintado] = useState(safe)
+  if (tickerPintado !== safe) {
+    setTickerPintado(safe)
+    setCandidateIdx(0)
+  }
 
   const base = cn(
     'flex-shrink-0 border inline-flex items-center justify-center overflow-hidden',
@@ -99,7 +98,6 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
     className,
   )
 
-  const candidates = candidatesRef.current
   const exhausted = candidateIdx >= candidates.length
 
   // Initials fallback: no candidates, exhausted all, or empty ticker
@@ -118,12 +116,11 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
   }
 
   const src = candidates[candidateIdx]
-  // Capture the token at render time. If the ticker changes mid-flight, any
-  // image event for the old ticker will see a stale token and be ignored.
-  const token = tokenRef.current
 
+  // Un evento tardío de una imagen anterior no puede colarse: el <img> lleva
+  // key={ticker}-{idx}, así que React lo desmonta al cambiar cualquiera de los
+  // dos y sus handlers ya no se disparan.
   const advanceOrFail = () => {
-    if (token !== tokenRef.current) return  // stale event from previous ticker, ignore
     setCandidateIdx(idx => {
       const next = idx + 1
       if (next >= candidates.length) {
@@ -138,7 +135,6 @@ export default function TickerLogo({ ticker, size = 'sm', className }: Props) {
   }
 
   const handleLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    if (token !== tokenRef.current) return
     const img = event.currentTarget
     // Detect 1x1 placeholders that some CDNs return with status 200 for
     // unknown tickers. Treat as a failed candidate.
