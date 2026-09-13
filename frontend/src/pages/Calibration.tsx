@@ -1,9 +1,10 @@
 import { useApi } from '../hooks/useApi'
-import { fetchCalibration, type CalibrationBucket, type CalibrationRegime, type CalibrationSector } from '../api/client'
+import { fetchCalibration, type CalibrationBucket, type CalibrationRegime, type CalibrationSector, type CalibrationStats } from '../api/client'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
+import { nlRegimen } from '@/lib/nl'
 
 function WinBar({ value, max = 80 }: { value: number | null | undefined; max?: number }) {
   const v = value ?? 0
@@ -154,9 +155,26 @@ export default function Calibration() {
     />
   )
 
-  const bestScore = [...(data.score_buckets || [])].sort((a, b) => b.win_rate - a.win_rate)[0]
-  const bestSector = [...(data.sector_calibration || [])].sort((a, b) => b.win_rate - a.win_rate)[0]
-  const bestRegime = [...(data.regime_analysis || [])].sort((a, b) => b.win_rate - a.win_rate)[0]
+  // Se elige por el LÍMITE INFERIOR del intervalo, no por el win rate bruto, y
+  // solo entre los que tienen muestra suficiente.
+  //
+  // Ordenando por win rate a secas, "Mejor rango de score" era 70-75 pts con
+  // un 100%… sobre CATORCE señales. Eso no es el mejor rango, es el que tuvo
+  // más suerte: destacar el máximo de una muestra pequeña es exactamente cómo
+  // se encuentra ruido, y este repo ya se dio un susto así (un tramo de n=8
+  // que parecía perfecto estuvo a punto de convertirse en un filtro nuevo).
+  //
+  // El límite inferior responde a "¿cuál es el peor caso razonable?", que es
+  // lo que hay que saber antes de fiarse de un tramo.
+  const MUESTRA_MINIMA = 30
+  const mejorPor = <T extends CalibrationStats>(filas: T[] | undefined): T | undefined =>
+    [...(filas || [])]
+      .filter(f => f.count >= MUESTRA_MINIMA && f.ci_low != null)
+      .sort((a, b) => (b.ci_low ?? 0) - (a.ci_low ?? 0))[0]
+
+  const bestScore = mejorPor(data.score_buckets)
+  const bestSector = mejorPor(data.sector_calibration)
+  const bestRegime = mejorPor(data.regime_analysis)
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-5xl mx-auto">
@@ -175,6 +193,9 @@ export default function Calibration() {
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestScore.win_rate}% win rate
               </Badge>
+              <div className="mt-1 text-[0.62rem] text-muted-foreground tabular-nums">
+                IC 95%: {bestScore.ci_low}–{bestScore.ci_high}% · {bestScore.count} señales
+              </div>
             </CardContent>
           </Card>
         )}
@@ -186,6 +207,9 @@ export default function Calibration() {
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestSector.win_rate}% win rate
               </Badge>
+              <div className="mt-1 text-[0.62rem] text-muted-foreground tabular-nums">
+                IC 95%: {bestSector.ci_low}–{bestSector.ci_high}% · {bestSector.count} señales
+              </div>
             </CardContent>
           </Card>
         )}
@@ -193,14 +217,26 @@ export default function Calibration() {
           <Card className="glass border-white/10">
             <CardContent className="p-4">
               <div className="text-xs text-foreground/50 mb-1">Régimen más favorable</div>
-              <div className="text-lg font-semibold text-foreground">{bestRegime.regime}</div>
+              <div className="text-lg font-semibold text-foreground">{nlRegimen(bestRegime.regime) || bestRegime.regime}</div>
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestRegime.win_rate}% win rate
               </Badge>
+              <div className="mt-1 text-[0.62rem] text-muted-foreground tabular-nums">
+                IC 95%: {bestRegime.ci_low}–{bestRegime.ci_high}% · {bestRegime.count} señales
+              </div>
             </CardContent>
           </Card>
         )}
       </div>
+
+      {!bestScore && !bestSector && !bestRegime && (
+        <p className="text-xs text-muted-foreground">
+          Todavía no hay ningún tramo con {MUESTRA_MINIMA} señales completadas, así que
+          no se destaca ninguno como «el mejor»: con menos muestra, el que encabeza la
+          lista suele ser el que tuvo más suerte. El detalle completo está en las
+          tablas de abajo.
+        </p>
+      )}
 
       {/* Score Calibration */}
       {data.score_buckets?.length > 0 && (
