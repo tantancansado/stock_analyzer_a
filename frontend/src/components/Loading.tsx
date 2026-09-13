@@ -1,3 +1,4 @@
+import { TriangleAlert } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card } from '@/components/ui/card'
 
@@ -128,7 +129,10 @@ export function ErrorState({ message }: { message: string }) {
 
   return (
     <div className="animate-fade-in-up rounded-xl border border-destructive/30 bg-destructive/5 px-8 py-8 text-center">
-      <div className="text-2xl mb-3 opacity-50">⚠️</div>
+      {/* Icono de línea, no el emoji ⚠️: el sistema lo pinta en amarillo
+          chillón con su propio estilo, justo encima de un mensaje que ya está
+          en rojo de error. Dos lenguajes visuales para el mismo aviso. */}
+      <TriangleAlert size={28} strokeWidth={1.75} className="mx-auto mb-3 text-destructive opacity-70" />
       <p className="text-sm font-semibold text-destructive mb-1">
         {isConnection ? 'No se puede conectar con la API' : 'Error al cargar datos'}
       </p>

@@ -8,6 +8,8 @@ import StaleDataBanner from '../components/StaleDataBanner'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
 import EmptyState from '@/components/EmptyState'
+import type { LucideIcon } from 'lucide-react'
+import { BarChart3, Bolt, CircleAlert, CreditCard, DollarSign, Fuel, Info, JapaneseYen, Landmark, Medal, Microscope, OctagonAlert, Pin, Shield, Target, Tornado, TrendingDown, TrendingUp, TriangleAlert, Zap } from 'lucide-react'
 
 const RegimeSweepPlayer = lazy(() =>
   import('../components/RegimeSweepVideo').then(m => ({ default: m.RegimeSweepPlayer }))
@@ -124,22 +126,25 @@ interface MacroData {
   special_events?: SpecialEvent[]
 }
 
-const SIGNAL_ICONS: Record<string, string> = {
-  vix:            '⚡',
-  yield_curve:    '📈',
-  credit:         '💳',
-  copper_gold:    '🔩',
-  gold_spy:       '🥇',
-  oil:            '🛢',
-  defense:        '🛡',
-  dollar:         '💵',
-  yen:            '🇯🇵',
-  breadth:        '📊',
-  skew:           '🎯',
-  vvix:           '🌀',
-  regional_banks: '🏦',
-  small_cap:      '🔬',
-  real_yields:    '📉',
+// Iconos de línea, no emoji: son quince señales en la misma rejilla y con
+// emoji cada tarjeta traía una ilustración con su propio color y nivel de
+// detalle, compitiendo entre ellas y con el dato, que es lo que hay que leer.
+const SIGNAL_ICONS: Record<string, LucideIcon> = {
+  vix:            Zap,
+  yield_curve:    TrendingUp,
+  credit:         CreditCard,
+  copper_gold:    Bolt,
+  gold_spy:       Medal,
+  oil:            Fuel,
+  defense:        Shield,
+  dollar:         DollarSign,
+  yen:            JapaneseYen,
+  breadth:        BarChart3,
+  skew:           Target,
+  vvix:           Tornado,
+  regional_banks: Landmark,
+  small_cap:      Microscope,
+  real_yields:    TrendingDown,
 }
 
 function scoreToColor(score: number): string {
@@ -204,7 +209,7 @@ function ScoreGauge({ score, max }: { score: number; max: number }) {
 }
 
 function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; stagger?: number }) {
-  const icon = SIGNAL_ICONS[id] ?? '📌'
+  const Icono = SIGNAL_ICONS[id] ?? Pin
   const score = signal.score ?? 0
   const staggerClass = stagger != null && stagger <= 8 ? `stagger-${stagger}` : 'animate-fade-in-up'
 
@@ -213,7 +218,7 @@ function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; s
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
-            <span className="text-lg">{icon}</span>
+            <Icono size={20} strokeWidth={1.75} className="shrink-0 text-muted-foreground" />
             <span className="text-xs font-semibold text-foreground leading-tight">{signal.label}</span>
           </div>
           <div className={`text-xs font-bold px-1.5 py-0.5 rounded ${scoreToColor(score)}`}>
@@ -751,11 +756,11 @@ function IndexBreakoutsPanel({
   )
 }
 
-const SEVERITY_CONFIG: Record<string, { bg: string; text: string; label: string; icon: string }> = {
-  CRITICAL: { bg: 'border-red-500/40 bg-red-500/10',      text: 'text-red-400',    label: 'CRÍTICO', icon: '🔴' },
-  HIGH:     { bg: 'border-orange-500/30 bg-orange-500/8', text: 'text-orange-400', label: 'ALTO',    icon: '🟠' },
-  MEDIUM:   { bg: 'border-amber-500/25 bg-amber-500/6',   text: 'text-yellow-400', label: 'MEDIO',   icon: '🟡' },
-  LOW:      { bg: 'border-emerald-500/20 bg-emerald-500/5', text: 'text-emerald-400', label: 'BAJO', icon: '🔵' },
+const SEVERITY_CONFIG: Record<string, { bg: string; text: string; label: string; icon: LucideIcon }> = {
+  CRITICAL: { bg: 'border-red-500/40 bg-red-500/10',      text: 'text-red-400',    label: 'CRÍTICO', icon: OctagonAlert },
+  HIGH:     { bg: 'border-orange-500/30 bg-orange-500/8', text: 'text-orange-400', label: 'ALTO',    icon: TriangleAlert },
+  MEDIUM:   { bg: 'border-amber-500/25 bg-amber-500/6',   text: 'text-yellow-400', label: 'MEDIO',   icon: CircleAlert },
+  LOW:      { bg: 'border-emerald-500/20 bg-emerald-500/5', text: 'text-emerald-400', label: 'BAJO', icon: Info },
 }
 
 function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
@@ -781,7 +786,7 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
               <div key={risk.id} className={`rounded-lg border p-3 ${cfg.bg}`}>
                 <div className="flex items-start justify-between gap-2 mb-1.5">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-sm">{cfg.icon}</span>
+                    <cfg.icon size={16} strokeWidth={2} className={`shrink-0 ${cfg.text}`} />
                     <span className={`text-sm font-bold ${cfg.text}`}>{risk.name}</span>
                   </div>
                   <span className={`text-[0.58rem] font-bold px-1.5 py-0.5 rounded border ${cfg.bg} ${cfg.text} shrink-0`}>
