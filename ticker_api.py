@@ -1384,6 +1384,27 @@ def bounce_broad():
     ])
 
 
+@app.route('/api/unusual-flow')
+def unusual_flow():
+    """Flujo inusual de opciones, tal como lo consume la página Options flow.
+
+    El frontend lo pide con fetchStaticOrApi('unusual_flow.json',
+    '/api/unusual-flow'): primero el JSON estático de Pages y, si no hay
+    VITE_CSV_BASE, este endpoint. No existía, así que el segundo camino daba
+    404 y la página se quedaba en "No se puede conectar con la API" — solo se
+    notaba fuera de producción, que es justo donde se prueba.
+
+    OJO: no vale redirigir a /api/options-flow. Son datasets distintos; aquel
+    devuelve {flows, sentiment_breakdown, total_premium} y la página espera
+    {results, unusual_count, bullish_count, ...}.
+    """
+    data = _load_json(DOCS / 'unusual_flow.json')
+    if data:
+        return jsonify(data)
+    return jsonify({'results': [], 'unusual_count': 0,
+                    'bullish_count': 0, 'bearish_count': 0}), 200
+
+
 @app.route('/api/bounce-catalyst-flags')
 def bounce_catalyst_flags():
     """Tickers con catalizador negativo grave detectado por bounce_alerts.py.

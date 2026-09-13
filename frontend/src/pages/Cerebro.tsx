@@ -265,9 +265,13 @@ function CerebroCoachPanel({
               </div>
             </div>
 
-            <h1 className="max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
+            {/* <p>, no <h1>: Cerebro es una PESTAÑA del Centro de mando, que ya
+                pone el h1 de la página. Ponerlo aquí daba dos encabezados de
+                nivel 1 compitiendo, y además este es el titular del día, que
+                cambia con los datos — no el nombre de la sección. */}
+            <p className="max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-foreground md:text-3xl">
               {headline}
-            </h1>
+            </p>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">{subline}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
