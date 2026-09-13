@@ -67,6 +67,26 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   con un pseudo-elemento —`.topbar-action::after` / `.filter-btn::after`— en vez
   de agrandar el control. Al añadir un control compacto nuevo, darle ese
   tratamiento en lugar de subir su tamaño
+- **Pestañas dentro de una página**: dos familias y solo dos — `.seg-tab`
+  (segmented, con `.active`) y `.underline-tab` (subrayado, para grupos de
+  muchas). `PageTabs` añade encima su indicador deslizante (`layoutId`). No
+  inventar una tercera: llegó a haber cinco implementaciones distintas
+- **Desplegables**: `.select-control`, mismo lenguaje que `.filter-btn`
+- **Nada de colores de paleta ajena** (`text-slate-*`, `zinc`, `gray`…): son
+  tonos fijos que no cambian con el tema. Usar los tokens (`text-muted-foreground`)
+  o `hsl(var(--token))` en línea
+- **Un `<h1>` por página, y solo uno.** Si la página es pestaña de un
+  contenedor, el h1 lo pone la subpágina, no el contenedor. Si el título ya lo
+  dice la pestaña activa, usar `tituloOculto` en `PageHeader`: el h1 sigue ahí
+  para lectores de pantalla pero no se ve, y así no se dice dos veces lo mismo
+  en la misma pantalla (le pasaba a /value y al Centro de mando)
+- **La barra superior enseña el título solo cuando la página no lo está
+  enseñando ya** (patrón de iOS). Lo detecta sola buscando un encabezado
+  visible en `main`: no hay lista que mantener, pero un título que se pinte
+  tras cargar necesita que el `MutationObserver` de `TopBar` lo vea
+- **Precarga de rutas**: `lib/prefetch.ts` mapea cada ruta del menú a su
+  `import()`. Al añadir una ruta nueva hay que añadirla ahí también — hay un
+  test que lo comprueba, porque olvidarlo no da ningún síntoma
 - **Tipografía en móvil**: el bloque "ESCALA TIPOGRÁFICA EN MÓVIL" de `index.css`
   colapsa los ~32 tamaños arbitrarios a cinco escalones (11/12/13/14/16px) con
   suelo de 11px. Si se usa un `text-[N rem]` nuevo, añadirlo a ese bloque o no
