@@ -642,15 +642,22 @@ button:active:not(:disabled) { transform: scale(0.97); }
    NAV — colored icon + indicator via --nav-color
 ════════════════════════════════════════════════════════════════════ */
 
+/* Un solo color para todos los iconos del menú.
+   Con --nav-color por entrada salían diez iconos en siete colores (índigo,
+   verde, cian, naranja, rosa, morado…) y la lista se leía como un muestrario
+   en vez de como una navegación. El color de cada sección sigue vivo donde sí
+   informa: el fondo y la barra lateral del elemento ACTIVO, que es el único
+   que hay que distinguir de un vistazo. */
 .nav-icon {
-  color: var(--nav-color, hsl(var(--muted-foreground)));
+  color: hsl(var(--muted-foreground));
   opacity: 0.55;
   transition: opacity 0.18s ease, color 0.18s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   display: flex; align-items: center; justify-content: center;
   width: 18px; flex-shrink: 0;
 }
-.nav-link:hover .nav-icon,
-.nav-link-active .nav-icon { opacity: 1; }
+.nav-link:hover .nav-icon { opacity: 0.9; }
+/* El activo sí toma el color de su sección: es la única señal de "estás aquí". */
+.nav-link-active .nav-icon { opacity: 1; color: var(--nav-color, hsl(var(--primary))); }
 .nav-link:hover .nav-icon { transform: translateX(1px); }
 
 .nav-link-active {
