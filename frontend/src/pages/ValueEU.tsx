@@ -62,6 +62,8 @@ function EntryQualityBadge({ quality, confidence }: { quality?: string; confiden
 
 import AiNarrativeCard from '../components/AiNarrativeCard'
 import { precio, divisaDe } from '../lib/moneda'
+import SignalBadge from '../components/SignalBadge'
+import { TriangleAlert, LogOut, Gem, Flame, CalendarClock, CircleCheck } from 'lucide-react'
 import ScoreBar from '../components/ScoreBar'
 import ScoreRing from '../components/ScoreRing'
 import GradeBadge from '../components/GradeBadge'
@@ -349,7 +351,7 @@ export default function ValueEU() {
         }[rname]!
         return (
           <div className={`mb-5 flex items-start gap-3 px-4 py-3 rounded-lg border ${cfg.bg}`}>
-            <span className="text-lg shrink-0">⚠️</span>
+            <TriangleAlert size={16} strokeWidth={2} className="shrink-0 mt-0.5" />
             <div>
               <span className={`text-xs font-bold uppercase tracking-wider ${cfg.text}`}>
                 Macro Radar: {rname} ({macro.composite_score?.toFixed(1)}/{macro.max_score})
@@ -495,11 +497,11 @@ export default function ValueEU() {
           {/* Cerebro IA filters */}
           <button onClick={() => setHideTraps(v => !v)} className={`filter-btn ${hideTraps ? 'active-red' : ''}`}
             title="Ocultar tickers marcados como value trap HIGH por Cerebro IA">
-            {hideTraps && hiddenByTraps > 0 ? `⚠ TRAP (${hiddenByTraps})` : '⚠ TRAP'}
+            <TriangleAlert size={12} strokeWidth={2.25} />{hiddenByTraps > 0 && hideTraps ? `TRAP (${hiddenByTraps})` : 'TRAP'}
           </button>
           <button onClick={() => setHideExits(v => !v)} className={`filter-btn ${hideExits ? 'active-red' : ''}`}
             title="Ocultar tickers con señal de salida HIGH por Cerebro IA">
-            {hideExits && hiddenByExits > 0 ? `⬆ EXIT (${hiddenByExits})` : '⬆ EXIT'}
+            <LogOut size={12} strokeWidth={2.25} />{hiddenByExits > 0 && hideExits ? `EXIT (${hiddenByExits})` : 'EXIT'}
           </button>
 
           {myPos.length > 0 && (
@@ -603,7 +605,7 @@ export default function ValueEU() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-mono font-extrabold text-base leading-tight">{d.ticker}</span>
                       {isReady && (
-                        <span className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">✦ LISTO</span>
+                        <SignalBadge icon={CircleCheck} tono="favor" texto="LISTO" />
                       )}
                       <OwnedBadge ticker={d.ticker} />
                     </div>
@@ -624,11 +626,11 @@ export default function ValueEU() {
               {/* Row 2: Cerebro signals */}
               {(hasTrap || hasExit || hasSM || hasSqueeze || d.earnings_warning) && (
                 <div className="flex flex-wrap gap-1.5 mt-2.5">
-                  {hasTrap && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/25">⚠ TRAP</span>}
-                  {hasExit && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/25">↑ EXIT</span>}
-                  {hasSM && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/25">🐋 SMART $</span>}
-                  {hasSqueeze && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/25">💥 SQUEEZE</span>}
-                  {d.earnings_warning && <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-400 border border-yellow-500/25">📅 EARNINGS</span>}
+                  {hasTrap && <SignalBadge icon={TriangleAlert} tono="alarma" texto="TRAP" />}
+                  {hasExit && <SignalBadge icon={LogOut} tono="aviso" texto="EXIT" />}
+                  {hasSM && <SignalBadge icon={Gem} tono="favor" texto="SMART MONEY" />}
+                  {hasSqueeze && <SignalBadge icon={Flame} tono="info" texto="SQUEEZE" />}
+                  {d.earnings_warning && <SignalBadge icon={CalendarClock} tono="aviso" texto="EARNINGS" />}
                 </div>
               )}
 
@@ -807,9 +809,9 @@ export default function ValueEU() {
                           {isReady && (
                             <span
                               title="Todos los filtros pasan — setup listo para operar"
-                              className="inline-flex items-center gap-0.5 text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 tracking-wide"
+                              className="inline-flex items-center gap-1 text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 tracking-wide"
                             >
-                              ✦ LISTO
+                              <CircleCheck size={12} strokeWidth={2.25} />LISTO
                             </span>
                           )}
                           <OwnedBadge ticker={d.ticker} />

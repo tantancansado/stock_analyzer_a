@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check, Landmark, Star } from 'lucide-react'
+import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check, Landmark, Star,
+         Target, Gem, Anchor, OctagonAlert, Bell, CalendarRange, CalendarDays, Clock } from 'lucide-react'
+import SignalBadge from '../components/SignalBadge'
 import type { LucideIcon } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
@@ -720,7 +722,8 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
               {data.expiries.map(exp => (
                 <div key={exp.expiry}>
                   <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
-                    {exp.bucket === 'long' ? '🔵 LEAPS' : exp.bucket === 'medium' ? '🟡 Medio plazo' : '⚡ Corto plazo'} — {exp.expiry} · {exp.days_out} días
+                    {exp.bucket === 'long' ? <CalendarRange size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : exp.bucket === 'medium' ? <CalendarDays size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : <Clock size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />}
+                  {exp.bucket === 'long' ? 'LEAPS' : exp.bucket === 'medium' ? 'Medio plazo' : 'Corto plazo'} — {exp.expiry} · {exp.days_out} días
                   </div>
 
                   {exp.covered_calls.length > 0 && (
@@ -858,7 +861,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
         )}
         {itm && (
           <span className="text-[0.62rem] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">
-            ITM ⚠
+            ITM
           </span>
         )}
       </div>
@@ -915,16 +918,9 @@ function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: s
 }
 
 function PriceAlertBadge({ alert }: { alert: PortfolioAlert }) {
-  const cfg = alert.type === 'STOP_TRIGGERED'
-    ? { label: '🚨 STOP', cls: 'bg-red-500/20 text-red-400 border-red-500/40' }
-    : alert.type === 'TARGET_REACHED'
-    ? { label: '🎯 TARGET', cls: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' }
-    : { label: '🔔 cerca target', cls: 'bg-amber-500/15 text-amber-400 border-amber-500/30' }
-  return (
-    <span className={`text-[0.58rem] font-bold px-1.5 py-0.5 rounded-full border uppercase tracking-wide ${cfg.cls}`}>
-      {cfg.label}
-    </span>
-  )
+  if (alert.type === 'STOP_TRIGGERED') return <SignalBadge icon={OctagonAlert} tono="alarma" texto="STOP" />
+  if (alert.type === 'TARGET_REACHED') return <SignalBadge icon={Target} tono="favor" texto="TARGET" />
+  return <SignalBadge icon={Bell} tono="aviso" texto="Cerca del objetivo" />
 }
 
 function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluence, macroWarnings, priceAlert, coveredCall, driftAlert }: {
@@ -1169,26 +1165,10 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       {/* ── CONFLUENCE SIGNALS ── */}
       {confluence && (confluence.bounce || confluence.value || confluence.flow) && (
         <div className="flex flex-wrap gap-1.5 px-4 mb-3">
-          {confluence.bounce && (
-            <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30">
-              🎯 Bounce
-            </span>
-          )}
-          {confluence.value && (
-            <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
-              💎 VALUE
-            </span>
-          )}
-          {confluence.flow === 'BULLISH' && (
-            <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-              ⚡ Flow alcista
-            </span>
-          )}
-          {confluence.flow === 'PUT_COVERING' && (
-            <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-300 border border-yellow-500/30">
-              🔄 Suelo probable
-            </span>
-          )}
+          {confluence.bounce && <SignalBadge icon={Target} tono="info" texto="Bounce" />}
+          {confluence.value && <SignalBadge icon={Gem} tono="favor" texto="VALUE" />}
+          {confluence.flow === 'BULLISH' && <SignalBadge icon={TrendingUp} tono="favor" texto="Flow alcista" />}
+          {confluence.flow === 'PUT_COVERING' && <SignalBadge icon={Anchor} tono="info" texto="Suelo probable" />}
         </div>
       )}
 
@@ -1234,7 +1214,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             { label: 'Strike', value: `${sym}${strike}`, valueClass: itm2 ? 'text-red-400' : 'text-amber-400' },
             { label: 'Prima cobrada', value: `${sym}${(premium * pos.shares).toFixed(2)}`, valueClass: 'text-emerald-400' },
             dte2 != null && { label: 'Días exp', value: String(dte2), valueClass: dte2 <= 7 ? 'text-emerald-400' : dte2 <= 21 ? 'text-amber-400' : 'text-foreground' },
-            { label: 'Estado', value: itm2 ? 'ITM ⚠' : `OTM ${distPct2?.toFixed(1)}%`, valueClass: itm2 ? 'text-red-400' : 'text-emerald-400' },
+            { label: 'Estado', value: itm2 ? 'ITM' : `OTM ${distPct2?.toFixed(1)}%`, valueClass: itm2 ? 'text-red-400' : 'text-emerald-400' },
             { label: 'P&L combinado', value: `${combined2 >= 0 ? '+' : ''}${sym}${combined2.toFixed(2)}`, valueClass: combined2 >= 0 ? 'text-emerald-400' : 'text-red-400' },
             { label: 'Base efectiva', value: `${sym}${(pos.avg_price - premium).toFixed(2)}` },
           ]

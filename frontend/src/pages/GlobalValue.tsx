@@ -1,4 +1,5 @@
 import StaleDataBanner from '../components/StaleDataBanner'
+import { Ban, Globe, CircleCheck } from 'lucide-react'
 import React, { useState, useEffect, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { fetchGlobalValueOpportunities, fetchThesis, type ValueOpportunity } from '../api/client'
@@ -289,7 +290,7 @@ export default function GlobalValue() {
           className="w-20 text-xs px-2 py-1 rounded-md border border-border bg-background text-foreground"
         />
         <button onClick={() => setHideRisky(h => !h)} className={`filter-btn ${hideRisky ? 'active-red' : ''}`}>
-          {hideRisky ? '🚫 Ocultar RISKY' : 'Mostrar todos'}
+          {hideRisky ? <><Ban size={12} strokeWidth={2.25} />Ocultar RISKY</> : 'Mostrar todos'}
         </button>
         <button onClick={() => setCompact(v => !v)} className={`filter-btn ${compact ? 'active' : ''}`}>
           {compact ? '⊟ Compacta' : '⊞ Completa'}
@@ -300,7 +301,7 @@ export default function GlobalValue() {
       {rows.length === 0 ? (
         <Card className="glass">
           <div className="py-16 text-center">
-            <div className="text-4xl mb-4 opacity-20">🌍</div>
+            <Globe size={32} strokeWidth={1.5} className="mx-auto mb-4 opacity-20" />
             <p className="font-medium text-muted-foreground">
               Sin datos globales aún — el pipeline ejecutará el scanner en la próxima ejecución diaria
             </p>
@@ -328,8 +329,8 @@ export default function GlobalValue() {
                           {meta && <span>{meta.flag}</span>}
                           <span className="font-mono font-bold text-sm text-primary">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
                           <OwnedBadge ticker={row.ticker} />
-                          {row.ai_verdict === 'RISKY' && <span className="text-red-400 text-xs">🚫</span>}
-                          {listo && <span className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">✦ LISTO</span>}
+                          {row.ai_verdict === 'RISKY' && <Ban size={12} strokeWidth={2.25} className="text-red-400 shrink-0" />}
+                          {listo && <span className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 inline-flex items-center gap-1"><CircleCheck size={12} strokeWidth={2.25} />LISTO</span>}
                         </div>
                         <span className="text-[0.65rem] text-muted-foreground block">{row.company_name}</span>
                       </div>
@@ -413,7 +414,7 @@ export default function GlobalValue() {
                               {meta && <span title={meta.label}>{meta.flag}</span>}
                               <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
                               <OwnedBadge ticker={row.ticker} />
-                              {row.ai_verdict === 'RISKY' && <span title={row.ai_notes} className="text-red-400 text-xs">🚫</span>}
+                              {row.ai_verdict === 'RISKY' && <Ban size={12} strokeWidth={2.25} className="text-red-400 shrink-0" aria-label={row.ai_notes} />}
                               {listo && <span className="text-[0.6rem] font-bold px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">✦</span>}
                             </div>
                           </TableCell>
@@ -512,7 +513,7 @@ export default function GlobalValue() {
                                     <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Análisis IA</span>
                                     {expandedRow.ai_verdict && (
                                       <span className={`text-xs font-bold px-2 py-0.5 rounded ${expandedRow.ai_verdict === 'CLEAN' ? 'bg-emerald-500/20 text-emerald-400' : expandedRow.ai_verdict === 'SUSPECT' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
-                                        {expandedRow.ai_verdict === 'CLEAN' ? '✅ CLEAN' : expandedRow.ai_verdict === 'SUSPECT' ? '⚠️ SUSPECT' : '🚫 RISKY'}
+                                        {expandedRow.ai_verdict === 'CLEAN' ? 'CLEAN' : expandedRow.ai_verdict === 'SUSPECT' ? 'SUSPECT' : 'RISKY'}
                                       </span>
                                     )}
                                     {expandedRow.ai_notes && (

@@ -22,7 +22,7 @@ import {
   Brain, Crosshair, Bell, SlidersHorizontal, TrendingUp, TrendingDown, Minus, ChevronRight,
   Zap, CheckCircle2, Newspaper, Bot, AlertOctagon, ShieldAlert,
   Building2, Users, Wallet, BarChart2, Activity, Repeat2, Sparkles, MessageCircle, CalendarDays,
-  GitBranch, Target,
+  GitBranch, Target, Check, X, TriangleAlert,
   type LucideIcon,
 } from 'lucide-react'
 import { nlAlert } from '@/lib/nl'
@@ -590,11 +590,14 @@ function strategyBadge(s: string) {
 
 // ── Entry signal helpers ───────────────────────────────────────────────────────
 
+// Las etiquetas llevaban un punto de color delante (🟢🟡🔵⚪) que repetía
+// exactamente lo que ya dicen `border`, `bg`, `badge` y `scoreColor`: el mismo
+// dato marcado dos veces, con un emoji que el sistema pinta a su manera.
 const SIGNAL_STYLES: Record<EntrySignal['signal'], { label: string; border: string; bg: string; badge: string; scoreColor: string }> = {
-  STRONG_BUY: { label: '🟢 STRONG BUY', border: 'border-emerald-500/60', bg: 'bg-emerald-500/15', badge: 'bg-emerald-500/25 text-emerald-400 border-emerald-500/40', scoreColor: 'text-emerald-400' },
-  BUY:        { label: '🟡 BUY',         border: 'border-amber-500/50',   bg: 'bg-amber-500/10',  badge: 'bg-amber-500/25 text-amber-400 border-amber-500/40',      scoreColor: 'text-amber-400'   },
-  MONITOR:    { label: '🔵 MONITOR',     border: 'border-blue-500/30',    bg: 'bg-blue-500/10',   badge: 'bg-blue-500/20 text-blue-400 border-blue-500/30',         scoreColor: 'text-blue-400'    },
-  WAIT:       { label: '⚪ WAIT',        border: 'border-border/20',      bg: 'bg-transparent',   badge: 'bg-muted/20 text-muted-foreground border-border/30',      scoreColor: 'text-muted-foreground' },
+  STRONG_BUY: { label: 'STRONG BUY', border: 'border-emerald-500/60', bg: 'bg-emerald-500/15', badge: 'bg-emerald-500/25 text-emerald-400 border-emerald-500/40', scoreColor: 'text-emerald-400' },
+  BUY:        { label: 'BUY',        border: 'border-amber-500/50',   bg: 'bg-amber-500/10',   badge: 'bg-amber-500/25 text-amber-400 border-amber-500/40',       scoreColor: 'text-amber-400'   },
+  MONITOR:    { label: 'MONITOR',    border: 'border-blue-500/30',    bg: 'bg-blue-500/10',    badge: 'bg-blue-500/20 text-blue-400 border-blue-500/30',          scoreColor: 'text-blue-400'    },
+  WAIT:       { label: 'WAIT',       border: 'border-border/20',      bg: 'bg-transparent',    badge: 'bg-muted/20 text-muted-foreground border-border/30',       scoreColor: 'text-muted-foreground' },
 }
 
 function EntryScoreBar({ score }: { score: number }) {
@@ -1352,7 +1355,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                 BUY: entryData?.buy,
                 MONITOR: entryData?.monitor,
               }
-              const labels: Record<string, string> = { ACTIONABLE: '⚡ Accionables', STRONG_BUY: '🟢 Strong Buy', BUY: '🟡 Buy', MONITOR: '🔵 Monitor' }
+              const labels: Record<string, string> = { ACTIONABLE: 'Accionables', STRONG_BUY: 'Strong Buy', BUY: 'Buy', MONITOR: 'Monitor' }
               return (
                 <button
                   key={f}
@@ -1417,7 +1420,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
               {topBounces.map((d, i) => {
                 const rr = d.risk_reward != null ? Number(d.risk_reward) : null
                 const rrColor = rr == null ? 'text-muted-foreground' : rr >= 3 ? 'text-emerald-400' : rr >= 2 ? 'text-cyan-400' : rr >= 1 ? 'text-amber-400' : 'text-red-400'
-                const strategyShort = (d.strategy || '').includes('Flag') ? '📈 Bull Flag' : '🔄 Oversold'
+                const strategyShort = (d.strategy || '').includes('Flag') ? 'Bull Flag' : 'Oversold'
                 const isDaily = d.reversion_score >= 80
                 return (
                   <Card
@@ -1492,7 +1495,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                                 : d.ai_confirmation === 'CAUTION' ? 'bg-amber-500/15 text-amber-400 border-amber-500/20'
                                 : 'bg-red-500/15 text-red-400 border-red-500/20'
                               }`} title={d.ai_reason ?? ''}>
-                                {d.ai_confirmation === 'YES' ? '✓' : d.ai_confirmation === 'CAUTION' ? '⚠' : '✗'} IA
+                                {d.ai_confirmation === 'YES' ? <Check size={12} strokeWidth={2.5} className="inline -mt-px" /> : d.ai_confirmation === 'CAUTION' ? <TriangleAlert size={12} strokeWidth={2.5} className="inline -mt-px" /> : <X size={12} strokeWidth={2.5} className="inline -mt-px" />} IA
                                 {d.ai_confidence != null ? ` ${d.ai_confidence}%` : ''}
                               </span>
                             )}
@@ -1659,7 +1662,7 @@ export default function Cerebro({ embedded = false }: { embedded?: boolean } = {
                           (e as any).ai_validation.verdict === 'TRUE_POSITIVE'  ? 'bg-red-500/15 text-red-400 border-red-500/30' :
                           'bg-muted/20 text-muted-foreground border-border/30'
                         }`}>
-                          🤖 {(e as any).ai_validation.verdict === 'FALSE_POSITIVE' ? 'FALSO POSITIVO' : (e as any).ai_validation.verdict === 'TRUE_POSITIVE' ? 'CONFIRMADO' : 'INCIERTO'} {(e as any).ai_validation.confidence}%
+                          <Sparkles size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{(e as any).ai_validation.verdict === 'FALSE_POSITIVE' ? 'FALSO POSITIVO' : (e as any).ai_validation.verdict === 'TRUE_POSITIVE' ? 'CONFIRMADO' : 'INCIERTO'} {(e as any).ai_validation.confidence}%
                         </span>
                       )}
                       {e.current_score != null && <span className="text-[0.65rem] text-muted-foreground ml-auto">Score {e.entry_score.toFixed(0)} → {e.current_score.toFixed(0)}</span>}

@@ -9,7 +9,7 @@ import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
 import EmptyState from '@/components/EmptyState'
 import type { LucideIcon } from 'lucide-react'
-import { BarChart3, Bolt, CircleAlert, CreditCard, DollarSign, Fuel, Info, JapaneseYen, Landmark, Medal, Microscope, OctagonAlert, Pin, Shield, Target, Tornado, TrendingDown, TrendingUp, TriangleAlert, Zap } from 'lucide-react'
+import { BarChart3, Bolt, CircleAlert, CreditCard, DollarSign, Fuel, History, Info, JapaneseYen, Landmark, Medal, Microscope, OctagonAlert, Pin, Radar, Shield, Skull, Star, Target, Tornado, TrendingDown, TrendingUp, TriangleAlert, Zap } from 'lucide-react'
 
 const RegimeSweepPlayer = lazy(() =>
   import('../components/RegimeSweepVideo').then(m => ({ default: m.RegimeSweepPlayer }))
@@ -428,7 +428,7 @@ function IndexBreakoutsPanel({
       <CardContent className="p-4">
         {/* Header */}
         <div className="flex items-center gap-2 mb-3 flex-wrap">
-          <span className="text-base">📡</span>
+          <Radar size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             Análisis de Índices
           </p>
@@ -479,7 +479,7 @@ function IndexBreakoutsPanel({
                 }`}>
                   {/* Row 1: identity + key metrics */}
                   <div className="flex items-center gap-2 flex-wrap mb-2">
-                    <span>{INDEX_FLAGS[ticker] ?? '📊'}</span>
+                    <span>{INDEX_FLAGS[ticker] ?? ''}</span>
                     <span className="font-mono font-black text-sm text-foreground">{ticker}</span>
                     <span className="text-[0.65rem] text-muted-foreground/60">{s.name}</span>
                     <span className="font-bold tabular-nums text-sm">${s.price.toFixed(2)}</span>
@@ -607,7 +607,7 @@ function IndexBreakoutsPanel({
                       >
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <span>{INDEX_FLAGS[b.index] ?? '📊'}</span>
+                            <span>{INDEX_FLAGS[b.index] ?? ''}</span>
                             <span className="font-mono font-black text-sm text-foreground">{b.index}</span>
                             <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border ${isBearish ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'}`}>
                               {b.ma_label}
@@ -673,7 +673,7 @@ function IndexBreakoutsPanel({
                       return (
                         <tr key={ticker} className="border-b border-border/10 last:border-0">
                           <td className="py-1.5 pr-2 font-mono font-bold text-foreground whitespace-nowrap">
-                            {INDEX_FLAGS[ticker] ?? '📊'} {ticker}
+                            {INDEX_FLAGS[ticker] ?? ''} {ticker}
                             {price != null && <span className="ml-1 font-normal text-muted-foreground/40 text-[0.58rem]">${price.toFixed(1)}</span>}
                           </td>
                           {['ma20d','ma50d','ma100d','ma150d','ma200d','ma10w','ma30w','ma40w','ma50w','ma10m','ma20m'].map(maKey => {
@@ -725,16 +725,18 @@ function IndexBreakoutsPanel({
               <div className="space-y-2">
                 {specialEvents.map((ev, i) => {
                   const isBullish = ev.direction === 'BULLISH'
-                  const typeEmoji: Record<string, string> = {
-                    GOLDEN_CROSS: '⭐', DEATH_CROSS: '💀', '52W_HIGH': '🚀', '52W_LOW': '⚠️',
-                  }
+                  // Eran ⭐ 💀 🚀 ⚠️: cuatro ilustraciones a todo color, cada
+                  // una con su estilo, delante de un texto en versalitas.
+                  const IconoEvento = {
+                    GOLDEN_CROSS: Star, DEATH_CROSS: Skull, '52W_HIGH': TrendingUp, '52W_LOW': TrendingDown,
+                  }[ev.type] ?? Pin
                   return (
                     <div
                       key={i}
                       className={`rounded-lg border p-3 ${isBullish ? 'bg-emerald-500/8 border-emerald-500/25' : 'bg-red-500/8 border-red-500/25'}`}
                     >
                       <div className="flex items-center gap-2 mb-1">
-                        <span>{typeEmoji[ev.type] ?? '📌'}</span>
+                        <IconoEvento size={16} strokeWidth={2} className={isBullish ? 'text-emerald-400 shrink-0' : 'text-red-400 shrink-0'} />
                         <span className="font-mono font-bold text-sm">{INDEX_FLAGS[ev.index] ?? ''} {ev.index}</span>
                         <span className={`text-[0.62rem] font-bold px-1.5 py-0.5 rounded border ${isBullish ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
                           {ev.label}
@@ -769,7 +771,7 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
     <Card className="glass border border-border/50 animate-fade-in-up">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-4">
-          <span className="text-base">⚠️</span>
+          <TriangleAlert size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             Riesgos Sistémicos Activos
           </p>
@@ -821,7 +823,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
     <Card className="glass border border-border/50 animate-fade-in-up">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-base">🕰️</span>
+          <History size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             Analogías Históricas
           </p>
