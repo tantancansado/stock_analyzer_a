@@ -56,6 +56,32 @@ function WinBar({ value, max = 80 }: { value: number | null; max?: number }) {
   )
 }
 
+/**
+ * Intervalo de confianza al 95% bajo el win rate.
+ *
+ * Momentum salía con "100.0%" en verde y 18 señales, sin nada que dijera que
+ * su intervalo real va del 82% al 100%. Al lado, VALUE con 42,1% y 801
+ * señales tiene un intervalo de tres puntos. En pantalla los dos se leían
+ * igual de firmes.
+ */
+/** Por debajo de esto el win rate no concluye nada. Es el mismo umbral que
+ *  usa cerebro.py para no destacar un patrón (MUESTRA_MINIMA = 30). */
+const MUESTRA_MINIMA = 30
+
+function Intervalo({ low, high, n }: { readonly low: number | null; readonly high: number | null; readonly n: number }) {
+  if (low == null || high == null) return null
+  return (
+    <div className="mt-1 flex flex-wrap items-baseline gap-x-1.5 text-[0.62rem] text-muted-foreground tabular-nums">
+      <span>IC 95%: {low}–{high}%</span>
+      {n < MUESTRA_MINIMA && (
+        <span className="text-amber-400" title={`Con ${n} señales el intervalo real va del ${low}% al ${high}%`}>
+          · solo {n} señales
+        </span>
+      )}
+    </div>
+  )
+}
+
 function fmtLabel(tab: Tab, label: string) {
   if (tab === 'month') {
     const d = new Date(label)
@@ -155,12 +181,11 @@ function StrategyCard({ row }: { row: StrategyRow }) {
     EU_VALUE: 'Value EU',
     MOMENTUM: 'Momentum',
   }
-  const color: Record<string, string> = {
-    VALUE: '#22c55e',
-    EU_VALUE: '#3b82f6',
-    MOMENTUM: '#f97316',
-  }
-  const c = color[row.strategy] ?? '#94a3b8'
+  // La barra se pintaba con un color POR ESTRATEGIA: Momentum salía naranja
+  // al 100% y Value US verde al 42%, así que el color no decía nada del dato
+  // y encima sugería lo contrario. El win rate ya lleva su propio color en el
+  // badge de la derecha; aquí basta con una barra neutra que muestre magnitud.
+  const c = 'hsl(var(--muted-foreground) / 0.55)'
   const name = label[row.strategy] ?? row.strategy
 
   return (
@@ -172,7 +197,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
         </div>
         <div className="space-y-2.5">
           <div>
-            <div className="flex justify-between text-xs text-foreground/40 mb-1">
+            <div className="flex justify-between text-xs text-muted-foreground mb-1">
               <span>Win Rate 14d</span>
               <WinBadge v={row.win_rate_14d} />
             </div>
@@ -182,6 +207,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
                 background: c,
               }} />
             </div>
+            <Intervalo low={row.ci_low_14d} high={row.ci_high_14d} n={row.signals} />
           </div>
           <div>
             <div className="flex justify-between text-xs text-foreground/40 mb-1">
@@ -194,6 +220,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
                 background: c,
               }} />
             </div>
+            <Intervalo low={row.ci_low_30d} high={row.ci_high_30d} n={row.signals} />
           </div>
           <div className="flex justify-between pt-1 border-t border-white/5">
             <div className="text-center">

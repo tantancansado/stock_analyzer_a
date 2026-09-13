@@ -1762,11 +1762,18 @@ def portfolio_timeseries():
         r30 = pd.to_numeric(grp['return_30d'], errors='coerce').dropna()
         w14 = grp['win_14d'].map({'True': True, 'False': False, True: True, False: False})
         w30 = grp['win_30d'].map({'True': True, 'False': False, True: True, False: False})
+        lo14, hi14 = _wilson_pct(w14)
+        lo30, hi30 = _wilson_pct(w30)
         strat_rows.append({
             'strategy':       str(strat),
             'signals':        int(len(grp)),
             'win_rate_14d':   round(float(w14.mean() * 100), 1) if len(w14) else None,
             'win_rate_30d':   round(float(w30.mean() * 100), 1) if len(w30) else None,
+            # Sin el intervalo, un 100% con 18 señales y un 42% con 801 se ven
+            # igual de sólidos en pantalla, y el primero es ruido. Es la misma
+            # corrección que ya lleva portfolio_tracker en su resumen.
+            'ci_low_14d':     lo14,  'ci_high_14d': hi14,
+            'ci_low_30d':     lo30,  'ci_high_30d': hi30,
             'avg_return_14d': round(float(r14.mean()), 2) if len(r14) else None,
             'avg_return_30d': round(float(r30.mean()), 2) if len(r30) else None,
             'avg_drawdown':   round(float(pd.to_numeric(grp['max_drawdown_30d'], errors='coerce').dropna().mean()), 2),
@@ -1785,6 +1792,27 @@ def portfolio_timeseries():
         },
     })
 
+
+
+def _wilson_pct(wins) -> tuple[float | None, float | None]:
+    """Intervalo de Wilson al 95% de una serie booleana, en porcentaje.
+
+    Wilson y no la normal: con n pequeño o proporciones cerca de 0 y 1 la
+    aproximación normal se sale del [0,100] y da intervalos sin sentido, que
+    es justo el caso que hay que comunicar bien aquí (Momentum: 100% con 18
+    señales).
+    """
+    serie = wins.dropna() if hasattr(wins, 'dropna') else wins
+    n = int(len(serie))
+    if n == 0:
+        return None, None
+    exitos = int(serie.sum())
+    z = 1.96
+    p = exitos / n
+    denom = 1 + z * z / n
+    centro = (p + z * z / (2 * n)) / denom
+    margen = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / denom
+    return round(max(0.0, centro - margen) * 100, 1), round(min(1.0, centro + margen) * 100, 1)
 
 
 @app.route('/api/market-regime')

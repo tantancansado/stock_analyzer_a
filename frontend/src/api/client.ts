@@ -878,6 +878,12 @@ export interface StrategyRow {
   signals: number
   win_rate_14d: number | null
   win_rate_30d: number | null
+  /** Intervalo de Wilson al 95%. Sin él, un 100% con 18 señales y un 42% con
+   *  801 se leen igual de sólidos, y el primero es ruido. */
+  ci_low_14d: number | null
+  ci_high_14d: number | null
+  ci_low_30d: number | null
+  ci_high_30d: number | null
   avg_return_14d: number | null
   avg_return_30d: number | null
   avg_drawdown: number
