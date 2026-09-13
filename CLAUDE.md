@@ -44,6 +44,18 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   - Toda fila `flex` con 3+ hermanos (badges, filtros, stats) lleva `flex-wrap`
   - Elementos clicables (no decorativos) con texto `text-[0.5rem]` a `text-[0.68rem]` necesitan padding suficiente para un área de toque razonable — ver el bloque `@media (max-width: 640px)` en `index.css` (tap targets, overflow de StatCards, gap de filter bars)
   - El suelo de tamaño de fuente en `index.css:128-142` (`text-[0.5rem]`–`text-[0.68rem]` → mínimo legible en mobile) ya existe — no hace falta repetirlo por página
+- **Nada de emoji como icono.** Los pinta el sistema, a todo color y con su
+  propio estilo, así que junto a texto en versalitas y a otros iconos se ve que
+  están pegados y no diseñados. Todo icono sale de `lucide-react`. Excepciones
+  permitidas: banderas de país (no hay equivalente de línea) y símbolos
+  tipográficos que se pintan con la fuente y el color del texto (← ↑ ✓ ✗ ⌘ ★).
+  Hay un test (`src/test/sinEmoji.test.ts`) que lo comprueba y también vigila
+  que no vuelvan `slate/zinc/gray/neutral/stone`, que son tonos fijos y no
+  cambian con el tema
+- **Señales de ticker → `SignalBadge`** (TRAP, EXIT, SMART MONEY, SQUEEZE,
+  EARNINGS, LISTO…): cinco tonos con significado (`favor`, `aviso`, `alarma`,
+  `info`, `neutro`) y dos tamaños (`micro` para filas densas, `normal` para
+  tarjetas). Cada página las dibujaba por su cuenta y no coincidía ninguna
 - **Convención de tamaño de icono** (lucide-react `size={N}`): 3 pasos, no valores sueltos — `12` (micro, inline junto a texto `text-[0.6-0.68rem]`: badges, pills de filtro, stats compactas), `16` (estándar, la mayoría de iconos de UI: botones, filas de lista, `PageHeader`), `20-22` (hero, solo títulos de página o tarjetas líder). No introducir tamaños intermedios (14, 18) en código nuevo
 - **Componentes canon a preferir sobre reimplementar a mano**: `PageShell`
   (cabecera + loading + error de una página, ver abajo), `PageHeader`
@@ -93,6 +105,11 @@ sector_rotation → mean_reversion → super_score_integrator → ai_quality_fil
   quedará normalizado
 
 ### Frontend (React)
+- **Nunca escribir `$` delante de un precio.** Usar `precio()` de `lib/moneda.ts`,
+  que deduce la divisa del sufijo de bolsa. La lista principal tiene 13 tickers
+  que no cotizan en dólares, y **Londres cotiza en PENIQUES**: Auto Trader a
+  489,80 se enseñaba como "$489.80" cuando son 4,90 £. Un `.L → '£'` tampoco
+  vale — el símbolo correcto con la magnitud equivocada engaña más
 - CSVs en producción vienen de GitHub Pages (`VITE_CSV_BASE`), NO de Railway
 - Railway API solo tiene snapshot del momento del deploy
 - `getCsvUrl()` / `downloadCsv()` en `frontend/src/api/client.ts`
