@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { apiClient } from '@/api/client'
-import Loading from '@/components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Users, Briefcase, BookOpen, TrendingUp, Wallet } from 'lucide-react'
@@ -110,7 +109,7 @@ export default function AdminUsage() {
       .finally(() => setLoading(false))
   }, [user, authLoading, navigate])
 
-  if (authLoading || loading) return <Loading />
+  if (authLoading || loading) return <PageShell title="Admin · Uso de la app" subtitle="Solo visible para el owner" loading />
   // Cabecera también mientras carga o si la API falla: si no, la pantalla
   // de error no dice en qué sección estás. Ver PageShell.
   if (error) return <PageShell title="Admin · Uso de la app" subtitle="Solo visible para el owner" error={error} />

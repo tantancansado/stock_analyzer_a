@@ -131,7 +131,7 @@ export default function EarningsCalendar() {
   // La cabecera se pinta también mientras carga o si la API falla:
   // si no, la pantalla de error no dice en qué sección estás.
   const cabecera = {
-    title: 'Earnings Calendar',
+    title: 'Calendario de earnings',
     subtitle: 'Próximos reportes de resultados — evita entrar antes de earnings sin catalizador',
   } as const
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />

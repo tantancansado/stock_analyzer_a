@@ -376,7 +376,7 @@ export default function BounceTrader() {
   // La cabecera se pinta también mientras carga o si la API falla: si no,
   // la pantalla de error no dice en qué sección estás. Ver PageShell.
   const cabecera = {
-    title: <span className="flex items-center gap-2"><Zap size={20} className="text-orange-400" />Bounce Trader</span>,
+    title: <span className="flex items-center gap-2"><Zap size={20} className="text-orange-400" />Rebotes técnicos</span>,
     subtitle: 'Rebotes de 1–3 días · sobreventa extrema confirmada',
   }
   if (loading || error) return <PageShell {...cabecera} loading={loading} error={error} />
