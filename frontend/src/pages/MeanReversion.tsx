@@ -14,7 +14,7 @@ import { Badge } from '@/components/ui/badge'
 import CsvDownload from '../components/CsvDownload'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import { RefreshCw, Wallet } from 'lucide-react'
+import { RefreshCw, Wallet, Check, TriangleAlert, X} from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
@@ -298,7 +298,7 @@ export default function MeanReversion() {
                             : d.ai_confirmation === 'CAUTION' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20'
                             : 'bg-red-500/15 text-red-400 border border-red-500/20'
                           }`} title={d.ai_reason ?? ''}>
-                            {d.ai_confirmation === 'YES' ? '✓ IA' : d.ai_confirmation === 'CAUTION' ? '⚠ IA' : '✗ IA'}
+                            {d.ai_confirmation === 'YES' ? <Check size={12} strokeWidth={2.5} className="inline -mt-px" /> : d.ai_confirmation === 'CAUTION' ? <TriangleAlert size={12} strokeWidth={2.5} className="inline -mt-px" /> : <X size={12} strokeWidth={2.5} className="inline -mt-px" />} IA
                             {d.ai_confidence != null ? ` ${d.ai_confidence}%` : ''}
                           </span>
                         )}

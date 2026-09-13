@@ -128,7 +128,7 @@ export function nlBounceSetup(opts: {
 
   // Riesgo earnings
   if (opts.earnings_warning) {
-    parts.push(`⚠️ earnings en ${opts.days_to_earnings ?? '?'} días — riesgo binario`)
+    parts.push(`earnings en ${opts.days_to_earnings ?? '?'} días — riesgo binario`)
   }
 
   return parts.join('. ') + '.'
@@ -165,7 +165,7 @@ export function nlPositionStatus(opts: {
   else if (pl >= 0)   parts.push(`Ganancia del ${pl.toFixed(1)}% — inicio de posición correcto`)
   else if (pl >= -5)  parts.push(`Pérdida leve del ${Math.abs(pl).toFixed(1)}% — dentro del margen normal`)
   else if (pl >= -8)  parts.push(`Pérdida del ${Math.abs(pl).toFixed(1)}% — cerca del stop loss (-8%)`)
-  else               parts.push(`⚠️ Pérdida del ${Math.abs(pl).toFixed(1)}% — stop loss superado, revisar tesis`)
+  else               parts.push(`Pérdida del ${Math.abs(pl).toFixed(1)}% — stop loss superado, revisar tesis`)
 
   // Acción
   if (opts.action === 'AÑADIR')  parts.push('oportunidad para ampliar posición')
@@ -173,8 +173,8 @@ export function nlPositionStatus(opts: {
   if (opts.action === 'VENDER')  parts.push('señal de salida activa')
 
   // Cerebro warnings
-  if (opts.cerebro_exit)       parts.push('⚠️ Cerebro detectó señal de salida')
-  if (opts.cerebro_trap)       parts.push('⚠️ Posible trampa de dividendo')
+  if (opts.cerebro_exit)       parts.push('Cerebro detectó señal de salida')
+  if (opts.cerebro_trap)       parts.push('Posible trampa de dividendo')
   if (opts.cerebro_smart_money) parts.push('Smart money activo en este ticker')
 
   // Earnings

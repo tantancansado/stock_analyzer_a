@@ -319,7 +319,7 @@ export default function DividendTraps() {
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-1 p-1 bg-muted/20 rounded-xl border border-border/30 w-fit">
           {([
-            { key: 'traps', label: `⚠ Trampas (${data.traps.length})` },
+            { key: 'traps', label: `Trampas (${data.traps.length})` },
             { key: 'safe',  label: `✓ Seguros (${data.safe_count})` },
             { key: 'timing', label: `Timing${divCalLoaded ? ` (${divCalendar.length})` : ''}` },
           ] as { key: Tab; label: string }[]).map(({ key, label }) => (

@@ -354,7 +354,7 @@ export default function Commodities() {
         <div className="flex gap-1 p-1 rounded-lg bg-white/5">
           {[
             { id: 'ALL',  label: 'Todos' },
-            { id: 'BUYS', label: '★ Atractivos' },
+            { id: 'BUYS', label: 'Atractivos' },
             { id: 'NEUTRAL', label: 'Neutral' },
             { id: 'CARO', label: 'Caro' },
           ].map(({ id, label }) => (

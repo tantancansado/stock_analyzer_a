@@ -10,7 +10,7 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import ValuationBar from '../components/ValuationBar'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
-import { AlertCircle, Bell, Check, Loader2, Search, X, Rocket} from 'lucide-react'
+import { AlertCircle, Bell, Check, Loader2, Search, X, Rocket, TriangleAlert} from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -169,7 +169,7 @@ function DecisionCard({
       {decision.dataFlags.length > 0 && (
         <ul className="mb-4 space-y-1">
           {decision.dataFlags.map(f => (
-            <li key={f} className="text-[0.78rem] text-orange-300 leading-snug">⚠ {f}</li>
+            <li key={f} className="text-[0.78rem] text-orange-300 leading-snug flex gap-1.5"><TriangleAlert size={12} strokeWidth={2.25} className="shrink-0 mt-0.5" />{f}</li>
           ))}
         </ul>
       )}
@@ -847,7 +847,7 @@ export default function TickerSearch() {
                     {(Boolean(r?.earnings_warning) || Boolean(r?.earnings_catalyst)) && (
                       <div className="flex gap-2 flex-wrap">
                         {Boolean(r?.earnings_warning) && (
-                          <span className="text-[0.65rem] px-2 py-0.5 rounded-lg border bg-red-500/8 border-red-500/20 text-red-400">⚠ Risky entry</span>
+                          <span className="text-[0.65rem] px-2 py-0.5 rounded-lg border bg-red-500/8 border-red-500/20 text-red-400 inline-flex items-center gap-1"><TriangleAlert size={12} strokeWidth={2.25} />Risky entry</span>
                         )}
                         {Boolean(r?.earnings_catalyst) && (
                           <span className="text-[0.65rem] px-2 py-0.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400"><Rocket size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Catalyst</span>

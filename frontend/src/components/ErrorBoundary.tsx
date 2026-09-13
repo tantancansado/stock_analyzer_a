@@ -1,3 +1,4 @@
+import { TriangleAlert } from 'lucide-react'
 import { Component, type ReactNode, type ErrorInfo } from 'react'
 
 interface Props { children: ReactNode; resetKey?: string }
@@ -85,7 +86,7 @@ export default class ErrorBoundary extends Component<Props, State> {
       const importError = isImportError(this.state.error)
       return (
         <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 text-center">
-          <div className="text-5xl mb-4 opacity-30">⚠️</div>
+          <TriangleAlert size={40} strokeWidth={1.5} className="mb-4 opacity-30" />
           <h2 className="text-lg font-bold text-foreground mb-2">
             {importError ? 'La app necesita actualizarse' : 'Algo salió mal'}
           </h2>

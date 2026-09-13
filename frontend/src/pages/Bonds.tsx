@@ -319,7 +319,7 @@ function AdvisorCard({ label, rec, capital }: {
         {expanded && (
           <div className="space-y-2 pt-1 border-t border-white/5">
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.15)' }}>
-              <span className="text-red-400 font-medium">⚠️ Riesgo: </span>
+              <span className="text-red-400 font-medium">Riesgo: </span>
               <span className="text-foreground/60">{rec.riskNote}</span>
             </div>
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>

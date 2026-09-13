@@ -987,7 +987,7 @@ export default function ValueUS() {
                         className={`ml-1 text-[0.6rem] font-bold ${d.upside_divergence === 'ALTA' ? 'text-red-400' : 'text-amber-400'}`}
                         title={`Los modelos propios (DCF/P-E) no respaldan el target de analistas — se separan ${d.upside_divergence_pts?.toFixed(0) ?? '?'}pts. Upside triangulado (mediana de las 3 estimaciones): ${d.upside_triangulated_pct != null ? `${d.upside_triangulated_pct > 0 ? '+' : ''}${d.upside_triangulated_pct.toFixed(0)}%` : 'n/d'}`}
                       >
-                        ⚠︎
+                        
                       </span>
                     )}
                   </TableCell>

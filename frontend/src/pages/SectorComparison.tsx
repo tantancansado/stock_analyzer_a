@@ -146,7 +146,7 @@ export default function SectorComparison() {
   const labelButtonText = (l: LabelFilter) => {
     if (l === 'ALL')            return `Todos (${standouts.length})`
     if (l === 'BEST_IN_SECTOR') return `Mejor FCF (${bestCount})`
-    return `⚠ Caro vs peers (${priceyCount})`
+    return `Caro vs peers (${priceyCount})`
   }
 
   return (

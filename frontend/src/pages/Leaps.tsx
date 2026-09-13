@@ -9,7 +9,7 @@ import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { AlertTriangle, Bell, BellRing, Brain, Check, ChevronDown, ChevronUp, Gem, Info, Layers, RefreshCw, Rocket, Search, Target, TrendingUp } from 'lucide-react'
+import { AlertTriangle, Bell, BellRing, Brain, Check, ChevronDown, ChevronUp, Gem, Info, Layers, RefreshCw, Rocket, Search, Target, TrendingUp, Star} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -72,7 +72,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
               <tr key={`${r.expiry}-${r.strike}`} className={cn('border-t border-border/20', isBest && 'bg-primary/10')}>
                 <td className="px-2 py-1.5 font-bold">
                   ${r.strike.toFixed(0)}
-                  {isBest && <span className="ml-1.5 text-[0.55rem] text-primary font-extrabold">★ MEJOR</span>}
+                  {isBest && <span className="ml-1.5 inline-flex items-center gap-0.5 text-[0.55rem] text-primary font-extrabold"><Star size={12} strokeWidth={2.5} />MEJOR</span>}
                 </td>
                 <td className="px-2 py-1.5 text-cyan-300">{r.delta?.toFixed(2) ?? '—'}</td>
                 <td className="px-2 py-1.5">{r.leverage ? `${r.leverage.toFixed(1)}x` : '—'}</td>
@@ -86,7 +86,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
         </tbody>
       </table>
       <div className="px-2 py-1.5 text-[0.6rem] text-muted-foreground/50 border-t border-border/20">
-        Mismo vencimiento ({rows[0]?.expiry}). Más deep (strike bajo) = menos carry/riesgo, menos leverage. La marcada ★ es la de mejor equilibrio.
+        Mismo vencimiento ({rows[0]?.expiry}). Más deep (strike bajo) = menos carry/riesgo, menos leverage. La marcada como MEJOR es la de mejor equilibrio.
       </div>
     </div>
   )

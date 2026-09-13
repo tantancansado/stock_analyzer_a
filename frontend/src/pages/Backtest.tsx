@@ -1,5 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
-import { FlaskConical, Info, ArrowLeftRight } from 'lucide-react'
+import { FlaskConical, Info, ArrowLeftRight, ChartColumn, TrendingUp} from 'lucide-react'
 import Loading from '../components/Loading'
 import TickerLogo from '../components/TickerLogo'
 import PageHeader from '../components/PageHeader'
@@ -171,7 +171,7 @@ function Stats({ signals, period }: { signals: Signal[]; period: Period }) {
 }
 
 const STRAT_LABEL: Record<string, string> = {
-  VALUE: 'Value US 🇺🇸', EU_VALUE: 'Value EU 🇪🇺', GLOBAL_VALUE: 'Value Global 🌍',
+  VALUE: 'Value US', EU_VALUE: 'Value EU', GLOBAL_VALUE: 'Value Global',
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────────
@@ -259,7 +259,7 @@ export default function Backtest() {
       <div className="flex gap-2 p-1 rounded-xl bg-muted/20 border border-border/30 w-fit">
         <button onClick={() => setTab('value')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'value' ? 'bg-background text-primary border border-primary/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
-          📊 Value ({signals.length})
+          <ChartColumn size={16} strokeWidth={2} />Value ({signals.length})
         </button>
         <button onClick={() => setTab('mr')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'mr' ? 'bg-background text-teal-400 border border-teal-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
@@ -267,7 +267,7 @@ export default function Backtest() {
         </button>
         <button onClick={() => setTab('analytics')}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all ${tab === 'analytics' ? 'bg-background text-violet-400 border border-violet-500/40 shadow-sm' : 'text-muted-foreground hover:text-foreground border border-transparent'}`}>
-          📈 Analytics
+          <TrendingUp size={16} strokeWidth={2} />Analytics
         </button>
       </div>
 

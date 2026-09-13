@@ -15,7 +15,7 @@ import PageShell from '@/components/PageShell'
 type FilterMode = 'all' | 'warning' | 'catalyst' | 'portfolio'
 
 function filterLabel(f: FilterMode, total: number): string {
-  if (f === 'warning')   return '⚠ Riesgo earnings'
+  if (f === 'warning')   return 'Riesgo earnings'
   if (f === 'catalyst')  return 'Catalizador'
   if (f === 'portfolio') return 'Mi cartera'
   return `Todos (${total})`
