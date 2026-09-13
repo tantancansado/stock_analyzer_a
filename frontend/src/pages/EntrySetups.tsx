@@ -3,7 +3,7 @@ import PageTabs from '../components/PageTabs'
 import BroadBounceView from './BroadBounceView'
 import CatalystScreener from './CatalystScreener'
 import { usePipelineHealth } from '../components/StaleDataBanner'
-import { CheckCircle2, AlertTriangle, AlertCircle, ChevronDown } from 'lucide-react'
+import { AlertCircle, AlertTriangle, ArrowUpRight, CheckCircle2, ChevronDown, Telescope, Undo2, Zap } from 'lucide-react'
 
 const MeanReversion = lazy(() => import('./MeanReversion'))
 const Momentum      = lazy(() => import('./Momentum'))
@@ -105,10 +105,10 @@ export default function EntrySetups() {
       <EntrySetupsFreshness />
       <PageTabs
         tabs={[
-          { id: 'catalyst',       icon: '⚡', label: 'Catalizadores',     content: <CatalystScreener /> },
-          { id: 'mean-reversion', icon: '↩', label: 'Mean Reversion',     content: <MeanReversion /> },
-          { id: 'momentum',       icon: '↑', label: 'Momentum VCP',       content: <Momentum /> },
-          { id: 'broad-bounce',   icon: '🔍', label: 'Universo ampliado', content: <BroadBounceView /> },
+          { id: 'catalyst',       icon: Zap, label: 'Catalizadores',     content: <CatalystScreener /> },
+          { id: 'mean-reversion', icon: Undo2, label: 'Mean Reversion',     content: <MeanReversion /> },
+          { id: 'momentum',       icon: ArrowUpRight, label: 'Momentum VCP',       content: <Momentum /> },
+          { id: 'broad-bounce',   icon: Telescope, label: 'Universo ampliado', content: <BroadBounceView /> },
         ]}
       />
     </div>

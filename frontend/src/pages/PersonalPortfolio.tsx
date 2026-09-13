@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Plus, RefreshCw, TrendingUp, TrendingDown, Wallet, AlertTriangle, X, Loader2, BookOpen, Send, Trash2, ChevronDown, ChevronUp, Zap, Brain, Pencil, Check, Landmark, Star } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { nlPositionStatus } from '@/lib/nl'
 import { supabase } from '@/lib/supabase'
 import { apiClient, fetchMacroStress, fetchAnalystRevisions, fetchPortfolioAlerts, fetchThesisDriftAlerts, refreshUserArtifacts, type MacroStressMarket, type AnalystRevision, type PortfolioAlert, type ThesisDriftAlert } from '@/api/client'
@@ -272,12 +273,16 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
 
 // ── Add Position Form ─────────────────────────────────────────────────────────
 
-const ASSET_TYPES: { value: AssetType; label: string; icon: React.ReactNode; color: string }[] = [
-  { value: 'stock',        label: 'Acción',        icon: <TrendingUp size={12} />,   color: 'text-cyan-400' },
-  { value: 'option',       label: 'Opción',        icon: <TrendingDown size={12} />, color: 'text-purple-400' },
-  { value: 'covered_call', label: 'Covered Call',  icon: <Zap size={12} />,          color: 'text-amber-400' },
-  { value: 'bond',         label: 'Bono',          icon: <Landmark size={12} />,     color: 'text-amber-400' },
-  { value: 'preferred',    label: 'Preferred',     icon: <Star size={12} />,         color: 'text-emerald-400' },
+// Sin color por tipo: son cinco opciones del MISMO selector y el color no
+// dice nada que no diga ya la etiqueta. Con uno distinto cada una (cian,
+// morado, ámbar, ámbar, verde) el grupo se leía como cinco cosas sueltas en
+// vez de como un control. Lo único que se distingue es cuál está elegida.
+const ASSET_TYPES: { value: AssetType; label: string; icon: LucideIcon }[] = [
+  { value: 'stock',        label: 'Acción',       icon: TrendingUp },
+  { value: 'option',       label: 'Opción',       icon: TrendingDown },
+  { value: 'covered_call', label: 'Covered Call', icon: Zap },
+  { value: 'bond',         label: 'Bono',         icon: Landmark },
+  { value: 'preferred',    label: 'Preferred',    icon: Star },
 ]
 
 const SHARES_LABEL: Record<AssetType, string> = {
@@ -372,7 +377,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
                 : 'bg-muted/20 border-border/30 text-muted-foreground hover:border-border/60'
             }`}
           >
-            <span className={assetType === at.value ? 'text-primary' : at.color}>{at.icon}</span>
+            <at.icon size={16} strokeWidth={1.75} className="shrink-0" />
             {at.label}
           </button>
         ))}

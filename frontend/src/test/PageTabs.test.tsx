@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { ComponentProps } from 'react'
 import PageTabs from '@/components/PageTabs'
+import { Circle, Square, Triangle } from 'lucide-react'
 
 vi.mock('motion/react', async () => {
   const React = await import('react')
@@ -38,9 +39,9 @@ function renderPageTabs(
   initialEntries: string[] = ['/analysis'],
 ) {
   const tabs: TabsProps['tabs'] = [
-    { id: 'overview', icon: 'O', label: 'Overview', content: <div>Overview content</div> },
-    { id: 'signals', icon: 'S', label: 'Signals', content: <div>Signals content</div> },
-    { id: 'notes', icon: 'N', label: 'Notes', content: <div>Notes content</div> },
+    { id: 'overview', icon: Circle, label: 'Overview', content: <div>Overview content</div> },
+    { id: 'signals', icon: Square, label: 'Signals', content: <div>Signals content</div> },
+    { id: 'notes', icon: Triangle, label: 'Notes', content: <div>Notes content</div> },
   ]
 
   return render(

@@ -1,11 +1,20 @@
 import { useSearchParams } from 'react-router-dom'
 import { Suspense, type ReactNode } from 'react'
+import type { LucideIcon } from 'lucide-react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import Loading from './Loading'
 
 export interface PageTab {
   id: string
-  icon: string
+  /**
+   * Icono de línea, no emoji.
+   *
+   * Eran emoji (💼 🧠 📊) y se notaba: el sistema los pinta a todo color con
+   * su propio estilo, así que cada pestaña tenía una ilustración distinta
+   * compitiendo con el texto en vez de una familia de iconos coherente. Es lo
+   * primero que delata una interfaz hecha a trozos.
+   */
+  icon: LucideIcon
   label: string
   content: ReactNode
 }
@@ -55,7 +64,7 @@ export default function PageTabs({ tabs, defaultTab, paramKey = 'tab' }: Readonl
                 transition={{ type: 'spring', stiffness: 420, damping: 34, mass: 0.7 }}
               />
             )}
-            <span className="relative z-10 text-base leading-none">{tab.icon}</span>
+            <tab.icon size={16} strokeWidth={1.75} className="relative z-10 shrink-0" />
             <span className="relative z-10">{tab.label}</span>
           </button>
         ))}
