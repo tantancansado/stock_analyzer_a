@@ -284,10 +284,15 @@ export default function ValueUS() {
     bestUpside: Math.max(...filtered.map(r => r.analyst_upside_pct || 0), 0),
   }), [filtered])
 
+  // Concentración DE VERDAD: un sector que se lleve al menos un cuarto de la
+  // lista. El umbral era "3 o más empresas", que con 57 ideas es el 5% y lo
+  // cumplían siete sectores a la vez — o sea, el reparto normal. El aviso
+  // salía siempre y en ámbar de alarma, avisando de nada.
   const concentrated = useMemo(() => {
     const counts: Record<string, number> = {}
     sorted.forEach(d => { const s = d.sector || 'Unknown'; counts[s] = (counts[s] || 0) + 1 })
-    return Object.entries(counts).filter(([, c]) => c >= 3)
+    const minimo = Math.max(3, Math.ceil(sorted.length * 0.25))
+    return Object.entries(counts).filter(([, c]) => c >= minimo).sort((a, b) => b[1] - a[1])
   }, [sorted])
 
   // Cabecera también mientras carga o si la API falla: si no, la pantalla

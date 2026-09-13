@@ -274,7 +274,10 @@ export default function ValueEU() {
 
   const sectorCounts: Record<string, number> = {}
   sorted.forEach(d => { const s = d.sector || 'Unknown'; sectorCounts[s] = (sectorCounts[s] || 0) + 1 })
-  const concentrated = Object.entries(sectorCounts).filter(([, c]) => c >= 3)
+  // Ver ValueUS: "3 o más empresas" no es concentración, es el reparto normal.
+  const concentrated = Object.entries(sectorCounts)
+    .filter(([, c]) => c >= Math.max(3, Math.ceil(rows.length * 0.25)))
+    .sort((a, b) => b[1] - a[1])
 
   const hiddenByTraps = hideTraps ? Object.values(cerebro.trapMap).filter(t => t.severity === 'HIGH').length : 0
   const hiddenByExits = hideExits ? rows.filter(r => cerebro.exitMap[r.ticker] || r.cerebro_signal === 'EXIT').length : 0
