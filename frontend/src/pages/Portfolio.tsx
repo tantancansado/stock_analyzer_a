@@ -1,3 +1,4 @@
+import { ClipboardList, Hourglass } from 'lucide-react'
 import { useState, lazy, Suspense } from 'react'
 import api, { fetchPortfolioTracker, fetchCorrelationMatrix, fetchPortfolioInsight, fetchCalibration, type PortfolioSummary, type CorrelationData, type CalibrationData } from '../api/client'
 import { useApi } from '../hooks/useApi'
@@ -126,7 +127,7 @@ export default function Portfolio() {
         <PageHeader {...cabecera} />
         <Card className="glass">
           <CardContent className="py-16 text-center">
-            <div className="text-4xl mb-4 opacity-20">📋</div>
+            <ClipboardList size={32} strokeWidth={1.5} className="mx-auto mb-4 opacity-20" />
             <p className="font-medium text-muted-foreground">Sin datos de portfolio disponibles</p>
           </CardContent>
         </Card>
@@ -257,7 +258,7 @@ export default function Portfolio() {
       {!hasReturns && activeCount > 0 && (
         <Card className="glass p-5 mb-5 border border-primary/20 animate-fade-in-up">
           <div className="flex items-start gap-3">
-            <div className="text-2xl opacity-60 mt-0.5">⏳</div>
+            <Hourglass size={20} strokeWidth={1.75} className="opacity-60 mt-0.5" />
             <div>
               <p className="text-sm font-semibold text-foreground mb-1">
                 {activeCount} señales activas — primeras métricas disponibles

@@ -8,7 +8,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import PageHeader from '@/components/PageHeader'
 import CsvDownload from '@/components/CsvDownload'
 import PageShell from '@/components/PageShell'
-import { Brain, Minus, TrendingDown, TrendingUp } from 'lucide-react'
+import { Brain, Minus, TrendingDown, TrendingUp, Repeat, Zap, ChartColumn, Sparkle, type LucideIcon } from 'lucide-react'
 
 interface TopContract {
   side: 'CALL' | 'PUT'
@@ -104,11 +104,11 @@ function InterpretationBadge({ interp, reason, drawdown }: {
 }) {
   if (!interp || interp === 'STANDARD') return null
 
-  const cfg: Record<string, { label: string; cls: string; icon: string }> = {
-    PUT_COVERING:  { label: 'Recogida Puts',  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', icon: '🔄' },
-    CALL_COVERING: { label: 'Recogida Calls', cls: 'bg-orange-500/15 text-orange-300 border-orange-500/30',   icon: '🔄' },
-    FRESH_BEARISH: { label: 'Bajista Nuevo',  cls: 'bg-red-500/15 text-red-300 border-red-500/30',            icon: '🆕' },
-    FRESH_BULLISH: { label: 'Alcista Nuevo',  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', icon: '🆕' },
+  const cfg: Record<string, { label: string; cls: string; icon: LucideIcon }> = {
+    PUT_COVERING:  { label: 'Recogida Puts',  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', icon: Repeat },
+    CALL_COVERING: { label: 'Recogida Calls', cls: 'bg-orange-500/15 text-orange-300 border-orange-500/30',   icon: Repeat },
+    FRESH_BEARISH: { label: 'Bajista Nuevo',  cls: 'bg-red-500/15 text-red-300 border-red-500/30',            icon: Sparkle },
+    FRESH_BULLISH: { label: 'Alcista Nuevo',  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30', icon: Sparkle },
   }
   const c = cfg[interp]
   if (!c) return null
@@ -118,7 +118,7 @@ function InterpretationBadge({ interp, reason, drawdown }: {
   return (
     <div className="group relative inline-flex">
       <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-1.5 py-0.5 rounded border cursor-help ${c.cls}`}>
-        {c.icon} {c.label}{drawdownStr}
+        <c.icon size={12} strokeWidth={2.25} className="shrink-0" /> {c.label}{drawdownStr}
       </span>
       {reason && (
         <div className="absolute bottom-full left-0 mb-1.5 z-50 w-64 p-2.5 rounded-lg bg-popover border border-border/60 shadow-xl text-[0.65rem] text-muted-foreground leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
@@ -142,7 +142,7 @@ function ContractRow({ c }: { c: TopContract }) {
       )}
       <span className="font-bold">{fmtPremium(c.premium_usd)}</span>
       {c.iv != null && <span className="text-muted-foreground">IV {fmtIV(c.iv)}</span>}
-      {c.speculative && <span className="text-yellow-400/80 font-semibold">⚡SWEEP</span>}
+      {c.speculative && <span className="text-amber-400/80 font-semibold inline-flex items-center gap-0.5"><Zap size={12} strokeWidth={2.5} />SWEEP</span>}
       {c.itm && <span className="text-muted-foreground/60">[ITM]</span>}
       {c.last_trade_date && (
         <span className="text-muted-foreground/50 ml-1">
@@ -248,7 +248,7 @@ export default function OptionsFlow() {
             onlyLarge ? 'border-yellow-500/60 bg-yellow-500/10 text-yellow-400' : 'border-border/40 text-muted-foreground hover:border-border/70'
           }`}
         >
-          ⚡ Solo bloques &gt;$100K
+          <Zap size={12} strokeWidth={2.25} />Solo bloques &gt;$100K
         </button>
       </div>
 
@@ -312,7 +312,7 @@ export default function OptionsFlow() {
                       <div className="flex items-center gap-1.5">
                         <TickerLogo ticker={r.ticker} size="xs" />
                         <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{r.ticker}</span>
-                        {r.has_large_premium && <span className="text-yellow-400 text-[0.6rem]">⚡</span>}
+                        {r.has_large_premium && <Zap size={12} strokeWidth={2.5} className="text-amber-400 shrink-0" />}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -340,7 +340,7 @@ export default function OptionsFlow() {
                       {r.top_contracts.slice(0, 1).map((c, i) => (
                         <span key={i} className={c.side === 'CALL' ? 'text-emerald-400/70' : 'text-red-400/70'}>
                           {c.side} ${c.strike} {c.expiry} {fmtPremium(c.premium_usd)}
-                          {c.speculative && ' ⚡'}
+                          {c.speculative && <Zap size={12} strokeWidth={2.5} className="inline ml-0.5 -mt-px text-amber-400" />}
                         </span>
                       ))}
                       {r.top_contracts.length > 1 && (
@@ -363,7 +363,7 @@ export default function OptionsFlow() {
           </Table>
           {filtered.length === 0 && (
             <CardContent className="py-16 text-center">
-              <div className="text-4xl mb-4 opacity-20">📊</div>
+              <ChartColumn size={32} strokeWidth={1.5} className="mx-auto mb-4 opacity-20" />
               <p className="font-medium text-muted-foreground">
                 {results.length === 0
                   ? 'Esperando datos del scanner (corre cada 30 min en mercado abierto)'

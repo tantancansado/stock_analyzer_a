@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { fetchMacroCountries } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import StaleDataBanner from '../components/StaleDataBanner'
-import { Bot, ChevronDown, ChevronUp, ChevronsDown, ChevronsUp, Globe, Minus, TrendingDown } from 'lucide-react'
+import { Bot, ChevronDown, ChevronUp, ChevronsDown, ChevronsUp, Globe, Minus, TrendingDown, Lightbulb, Hourglass, Zap} from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
 import EmptyState from '@/components/EmptyState'
@@ -87,7 +87,7 @@ interface MacroData {
 const SIGNAL_CONFIG = {
   STRONG_BUY:   { label: 'STRONG BUY',   bg: 'bg-emerald-500/20', text: 'text-emerald-300', border: 'border-emerald-500/40', icon: ChevronsUp },
   BUY:          { label: 'BUY',           bg: 'bg-cyan-500/20',    text: 'text-cyan-300',    border: 'border-cyan-500/40',    icon: ChevronUp },
-  NEUTRAL:      { label: 'NEUTRAL',       bg: 'bg-slate-500/15',   text: 'text-foreground',   border: 'border-slate-500/30',   icon: Minus },
+  NEUTRAL:      { label: 'NEUTRAL',       bg: 'bg-muted/40',       text: 'text-foreground',   border: 'border-border/50',   icon: Minus },
   SHORT:        { label: 'SHORT',         bg: 'bg-orange-500/20',  text: 'text-orange-300',  border: 'border-orange-500/40',  icon: ChevronDown },
   STRONG_SHORT: { label: 'STRONG SHORT',  bg: 'bg-red-500/20',     text: 'text-red-300',     border: 'border-red-500/40',     icon: ChevronsDown },
 }
@@ -195,10 +195,10 @@ function CountryCard({ c }: { c: CountryData }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mt-2.5">
           {c.contrarian && (
-            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">⚡ CONTRARIAN</span>
+            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20"><Zap size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />CONTRARIAN</span>
           )}
           {c.wait_pullback && (
-            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-slate-500/10 text-muted-foreground border border-slate-500/20">⏳ ESPERAR PULLBACK</span>
+            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-muted/30 text-muted-foreground border border-border/40"><Hourglass size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />ESPERAR PULLBACK</span>
           )}
           {mkt && mkt.ytd_return < -10 && (
             <span className="inline-flex items-center gap-1 text-[0.55rem] px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20"><TrendingDown size={12} strokeWidth={2} className="shrink-0" />YTD {mkt.ytd_return.toFixed(0)}%</span>
@@ -271,7 +271,7 @@ function CountryCard({ c }: { c: CountryData }) {
               </div>
               <p className="text-[0.7rem] text-foreground leading-relaxed">{c.ai_narrative}</p>
               {c.ai_insight && (
-                <p className="text-[0.68rem] text-cyan-400 italic">💡 {c.ai_insight}</p>
+                <p className="text-[0.68rem] text-cyan-400 italic"><Lightbulb size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{c.ai_insight}</p>
               )}
               {(c.ai_risks?.length ?? 0) > 0 && (
                 <div className="grid grid-cols-2 gap-2 mt-1">
@@ -423,7 +423,7 @@ export default function MacroCountries() {
         {([
           { key: 'strong_buy',   label: 'STRONG BUY', icono: ChevronsUp,  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' },
           { key: 'buy',          label: 'BUY', icono: ChevronUp,            cls: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' },
-          { key: 'neutral',      label: 'NEUTRAL', icono: Minus,            cls: 'bg-slate-500/15 text-foreground border-slate-500/25' },
+          { key: 'neutral',      label: 'NEUTRAL', icono: Minus,            cls: 'bg-muted/40 text-foreground border-border/50' },
           { key: 'short',        label: 'SHORT', icono: ChevronDown,        cls: 'bg-orange-500/15 text-orange-300 border-orange-500/30' },
           { key: 'strong_short', label: 'STRONG SHORT', icono: ChevronsDown, cls: 'bg-red-500/15 text-red-300 border-red-500/30' },
         ] as const).map(({ key, label, icono: Icono, cls }) => {
@@ -462,7 +462,7 @@ export default function MacroCountries() {
           onChange={e => setSignalFilter(e.target.value)}
           className="select-control"
         >
-          {SIGNALS.map(s => <option key={s} value={s} className="bg-slate-900">{s === 'Todos' ? 'Todas las señales' : s}</option>)}
+          {SIGNALS.map(s => <option key={s} value={s} className="bg-background">{s === 'Todos' ? 'Todas las señales' : s}</option>)}
         </select>
 
         {/* Sort */}
@@ -499,7 +499,7 @@ export default function MacroCountries() {
             <span className="text-purple-400 font-semibold">Score Mercado (55%):</span> Posición vs 200MA (zona de corrección = mejor entrada), percentil del rango 52 semanas, rentabilidad YTD (caída = más barato), pendiente de tendencia.
           </div>
           <div>
-            <span className="text-amber-400 font-semibold">⚡ CONTRARIAN:</span> Mercado barato pero macro débil — posible rebote, alto riesgo.
+            <span className="text-amber-400 font-semibold">CONTRARIAN:</span> Mercado barato pero macro débil — posible rebote, alto riesgo.
           </div>
           <div>
             <span className="text-muted-foreground font-semibold">Datos macro:</span> {data.macro_source}. Mercado: tiempo real vía yfinance (ETFs cotizados en USD).

@@ -7,7 +7,7 @@ import StaleDataBanner from '../components/StaleDataBanner'
 import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
-import { AlertTriangle, TrendingDown, Zap, Star, Target } from 'lucide-react'
+import { AlertTriangle, TrendingDown, Zap, Star, Target, Check, TriangleAlert, Flame, Hammer, TrendingUp} from 'lucide-react'
 import { nlBounceSetup, nlBounceConfidence } from '@/lib/nl'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
@@ -243,11 +243,11 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         <div className="flex flex-wrap gap-1">
           {s.market_regime && (
             <span className={`text-[0.58rem] px-1.5 py-0.5 rounded border font-medium ${s.market_ok ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80' : s.market_ok === false ? 'bg-red-500/8 border-red-500/20 text-red-400/80' : 'bg-muted/10 border-border/20 text-muted-foreground/50'}`}>
-              {s.market_ok ? '✓' : '⚠'} {s.market_regime}
+              {s.market_ok ? <Check size={12} strokeWidth={2.5} className="inline -mt-px" /> : <TriangleAlert size={12} strokeWidth={2.5} className="inline -mt-px" />} {s.market_regime}
             </span>
           )}
-          {s.hammer_candle && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-amber-500/8 border-amber-500/20 text-amber-400">🔨 Hammer</span>}
-          {s.engulfing_candle && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-emerald-500/8 border-emerald-500/20 text-emerald-400">📈 Engulfing</span>}
+          {s.hammer_candle && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-amber-500/8 border-amber-500/20 text-amber-400"><Hammer size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Hammer</span>}
+          {s.engulfing_candle && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-emerald-500/8 border-emerald-500/20 text-emerald-400"><TrendingUp size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Engulfing</span>}
           {s.obv_divergence && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-blue-500/8 border-blue-500/20 text-blue-400">↗ OBV div.</span>}
         </div>
       )}
@@ -281,7 +281,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
                 ? 'bg-purple-500/8 border-purple-500/20 text-purple-400'
                 : 'bg-muted/10 border-border/20 text-muted-foreground/50'
             }`}>
-              DTC {s.short_days_to_cover.toFixed(1)}d{s.squeeze_potential ? ' 🔥' : ''}
+              DTC {s.short_days_to_cover.toFixed(1)}d{s.squeeze_potential && <Flame size={12} strokeWidth={2.25} className="inline ml-1 -mt-px" />}
             </span>
           )}
         </div>
@@ -467,7 +467,7 @@ export default function BounceTrader() {
                 : 'bg-muted/10 border-border/30 text-muted-foreground hover:border-border/60'
             }`}
           >
-            {hideEarnings ? '⚠ Ocultar earnings' : 'Mostrar earnings'}
+            {hideEarnings ? <><TriangleAlert size={12} strokeWidth={2.25} />Ocultar earnings</> : 'Mostrar earnings'}
           </button>
         </div>
       </div>
@@ -488,7 +488,7 @@ export default function BounceTrader() {
 
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground/50">
-          <div className="text-4xl mb-3 opacity-20">🎯</div>
+          <Target size={32} strokeWidth={1.5} className="mx-auto mb-3 opacity-20" />
           <div className="text-sm font-medium">No hay setups de alta fiabilidad hoy</div>
           <div className="text-xs mt-1 opacity-60">
             {rawBounceCount > 0

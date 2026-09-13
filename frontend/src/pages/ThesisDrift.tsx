@@ -1,3 +1,4 @@
+import { CircleCheck } from 'lucide-react'
 import { useState } from 'react'
 import { useApi } from '../hooks/useApi'
 import { fetchCerebroThesisDrift, type ThesisDrift } from '../api/client'
@@ -8,9 +9,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import InfoTooltip from '../components/InfoTooltip'
 
 const SEV_CFG = {
-  HIGH:   { cls: 'bg-red-500/15 text-red-400 border-red-500/30',     label: '🔴 ALTO' },
-  MEDIUM: { cls: 'bg-amber-500/15 text-amber-400 border-amber-500/30', label: '🟡 MEDIO' },
-  LOW:    { cls: 'bg-muted/20 text-muted-foreground border-border/30',  label: '⚪ BAJO' },
+  HIGH:   { cls: 'bg-red-500/15 text-red-400 border-red-500/30',     label: 'ALTO' },
+  MEDIUM: { cls: 'bg-amber-500/15 text-amber-400 border-amber-500/30', label: 'MEDIO' },
+  LOW:    { cls: 'bg-muted/20 text-muted-foreground border-border/30',  label: 'BAJO' },
 }
 
 function ScoreDelta({ now, prev }: { now: number; prev: number }) {
@@ -80,7 +81,7 @@ export default function ThesisDrift() {
       {sorted.length === 0 ? (
         <Card>
           <CardContent className="py-14 text-center">
-            <p className="text-3xl mb-3 opacity-20">✅</p>
+            <CircleCheck size={32} strokeWidth={1.5} className="mx-auto mb-3 opacity-20" />
             <p className="text-sm text-muted-foreground">Sin deterioro detectado con el filtro actual</p>
           </CardContent>
         </Card>

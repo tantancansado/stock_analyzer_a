@@ -10,7 +10,7 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import ValuationBar from '../components/ValuationBar'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
-import { AlertCircle, Bell, Check, Loader2, Search, X } from 'lucide-react'
+import { AlertCircle, Bell, Check, Loader2, Search, X, Rocket} from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -564,7 +564,7 @@ export default function TickerSearch() {
             </div>
           )}
           <div className="text-center mt-4">
-            <div className="text-5xl mb-4 opacity-20">🔍</div>
+            <Search size={40} strokeWidth={1.5} className="mx-auto mb-4 opacity-20" />
             <p className="font-medium text-muted-foreground mb-1">Escribe un ticker o el nombre de la empresa</p>
             <span className="text-xs text-muted-foreground/60">Soporta US (AAPL), EU (SAP.DE, BBVA.MC) y UK (.L)</span>
           </div>
@@ -850,7 +850,7 @@ export default function TickerSearch() {
                           <span className="text-[0.65rem] px-2 py-0.5 rounded-lg border bg-red-500/8 border-red-500/20 text-red-400">⚠ Risky entry</span>
                         )}
                         {Boolean(r?.earnings_catalyst) && (
-                          <span className="text-[0.65rem] px-2 py-0.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400">🚀 Catalyst</span>
+                          <span className="text-[0.65rem] px-2 py-0.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400"><Rocket size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Catalyst</span>
                         )}
                       </div>
                     )}

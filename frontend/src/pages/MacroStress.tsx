@@ -27,7 +27,7 @@ const BAND_THEME: Record<string, { ring: string; label: string }> = {
   green:   { ring: 'bg-emerald-400', label: 'Verde' },
   amber:   { ring: 'bg-amber-400',   label: 'Ámbar' },
   red:     { ring: 'bg-red-400',     label: 'Rojo' },
-  unknown: { ring: 'bg-slate-400',   label: 'Parcial' },
+  unknown: { ring: 'bg-muted-foreground',   label: 'Parcial' },
 }
 
 function fmt(value: number | null | undefined, digits = 0) {
@@ -46,7 +46,7 @@ function bandTheme(band?: string) {
 }
 
 function scoreBarClass(score: number | null | undefined) {
-  if (score == null) return 'from-slate-500 to-slate-400'
+  if (score == null) return 'from-muted-foreground/60 to-muted-foreground/40'
   if (score < 30) return 'from-emerald-500 to-lime-400'
   if (score < 60) return 'from-amber-500 to-orange-400'
   return 'from-red-500 to-fuchsia-500'

@@ -1,3 +1,4 @@
+import { FolderOpen } from 'lucide-react'
 import { useState } from 'react'
 import api, { getCsvUrl } from '../api/client'
 import { useApi } from '../hooks/useApi'
@@ -176,7 +177,7 @@ export default function Datos() {
         ) : (
           <Card className="glass">
             <CardContent className="py-12 text-center">
-              <div className="text-3xl mb-3 opacity-20">📂</div>
+              <FolderOpen size={32} strokeWidth={1.5} className="mx-auto mb-3 opacity-20" />
               <p className="text-sm text-muted-foreground">
                 Sin historial disponible aún.
                 {!csvBase && (

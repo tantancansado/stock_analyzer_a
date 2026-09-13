@@ -321,7 +321,7 @@ export default function DividendTraps() {
           {([
             { key: 'traps', label: `⚠ Trampas (${data.traps.length})` },
             { key: 'safe',  label: `✓ Seguros (${data.safe_count})` },
-            { key: 'timing', label: `📅 Timing${divCalLoaded ? ` (${divCalendar.length})` : ''}` },
+            { key: 'timing', label: `Timing${divCalLoaded ? ` (${divCalendar.length})` : ''}` },
           ] as { key: Tab; label: string }[]).map(({ key, label }) => (
             <button
               key={key}

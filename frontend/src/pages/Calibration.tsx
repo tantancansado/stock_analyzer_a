@@ -134,8 +134,8 @@ function ScoreInsight({ buckets }: { buckets: CalibrationBucket[] }) {
   return (
     <div className="mt-4 p-3 rounded-lg text-xs text-foreground/70" style={{ background: 'rgba(255,255,255,0.04)' }}>
       {hasMonotone
-        ? '✅ El score es monotónico: a mayor score, mayor win rate.'
-        : `📊 Mejor bucket: <b>${best.range}</b> (${best.win_rate}% win rate) · Peor: ${worst.range} (${worst.win_rate}%)`
+        ? 'El score es monotónico: a mayor score, mayor win rate.'
+        : `Mejor bucket: <b>${best.range}</b> (${best.win_rate}% win rate) · Peor: ${worst.range} (${worst.win_rate}%)`
       }
       {' '}El sistema es más fiable con score {'>'}={buckets.find(b => b.win_rate >= 35)?.range?.split('-')[0] || 65}pts.
     </div>

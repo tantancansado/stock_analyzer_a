@@ -883,7 +883,7 @@ export default function ValueUS() {
                             title="Todos los filtros pasan — setup listo para operar"
                             className="inline-flex items-center gap-0.5 text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 tracking-wide"
                           >
-                            ✦ LISTO
+                            LISTO
                           </span>
                         )}
                         <OwnedBadge ticker={d.ticker} />
@@ -905,7 +905,7 @@ export default function ValueUS() {
                             className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-red-500/15 text-red-400 border border-red-500/25"
                             title={d.entry_readiness_reason || 'Aún en caída — espera a que haga suelo antes de entrar'}
                           >
-                            ⏳ ESPERA
+                            ESPERA
                           </span>
                         )}
                         {d.entry_readiness === 'ENTRADA' && !isReady && (

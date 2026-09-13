@@ -184,23 +184,23 @@ export default function Confluencia() {
 
       if (item.bounce) {
         sc += item.bounce.tier === 2 ? 4 : 3
-        labels.push('🎯 Bounce')
+        labels.push('Bounce')
       }
       if (item.value_us) {
         sc += item.value_us.score >= 70 ? 3 : 2
-        labels.push('💎 VALUE US')
+        labels.push('VALUE US')
       }
       if (item.value_eu) {
         sc += item.value_eu.score >= 70 ? 3 : 2
-        labels.push('🇪🇺 VALUE EU')
+        labels.push('VALUE EU')
       }
       if (item.flow) {
         if (item.flow.interpretation === 'PUT_COVERING') {
           sc += 1
-          labels.push('🔄 Suelo probable')
+          labels.push('Suelo probable')
         } else {
           sc += item.flow.premium > 100_000 ? 3 : 2
-          labels.push('⚡ Flow alcista')
+          labels.push('Flow alcista')
         }
       }
       item.score   = sc
@@ -266,10 +266,10 @@ export default function Confluencia() {
       ) : (
         <>
           {highConviction.length > 0 && (
-            <SectionTable title="🏆 Alta Convicción" subtitle="≥2 sistemas coinciden · top 10" rows={highConviction} />
+            <SectionTable title="Alta Convicción" subtitle="≥2 sistemas coinciden · top 10" rows={highConviction} />
           )}
           {midConviction.length > 0 && (
-            <SectionTable title="📡 Señal Única" subtitle="1 sistema con score≥2" rows={midConviction} dim />
+            <SectionTable title="Señal Única" subtitle="1 sistema con score≥2" rows={midConviction} dim />
           )}
         </>
       )}
@@ -383,8 +383,8 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                     <div className="text-[0.65rem] text-muted-foreground space-y-0.5">
                       <div className="font-semibold">
                         {t.flow.interpretation === 'PUT_COVERING'
-                          ? <span className="text-yellow-400">🔄 Suelo</span>
-                          : <span className="text-emerald-400">⚡ {t.flow.signal}</span>
+                          ? <span className="text-amber-400">Suelo</span>
+                          : <span className="text-emerald-400">{t.flow.signal}</span>
                         }
                       </div>
                       <div>{fmtPremium(t.flow.premium)}</div>

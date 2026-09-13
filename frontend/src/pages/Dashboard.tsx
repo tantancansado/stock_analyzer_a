@@ -23,7 +23,7 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import { LogoChartPeak } from '../components/BrandLogos'
-import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Brain, Target, ChevronDown, ChevronUp, Sparkles, LayoutDashboard } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, AlertTriangle, ChevronRight, Radar as RadarIcon, Wallet, Zap, Brain, Target, ChevronDown, ChevronUp, Sparkles, LayoutDashboard, Circle, Newspaper, Pin} from 'lucide-react'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import { PieChart, Pie, Cell, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, Radar } from 'recharts'
 import { cn } from '@/lib/utils'
@@ -917,7 +917,7 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
     <Card className="glass border border-border/50 animate-fade-in-up">
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-base">📰</span>
+          <Newspaper size={16} strokeWidth={2} className="text-muted-foreground shrink-0" />
           <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             Noticias de Cartera
           </span>
@@ -961,7 +961,7 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
                 >
                   <div className="flex items-start gap-2">
                     <span className="text-[0.7rem] mt-px shrink-0">
-                      {isHigh ? '🔴' : '📌'}
+                      {isHigh ? <Circle size={10} strokeWidth={3} className="text-red-400" /> : <Pin size={12} strokeWidth={2.25} className="text-muted-foreground" />}
                     </span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">

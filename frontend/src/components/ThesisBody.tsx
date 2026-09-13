@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { BarChart3, Users, Target, Zap, CheckCircle2, AlertTriangle, TrendingUp, Shield, Info } from 'lucide-react'
+import { BarChart3, Users, Target, Zap, CheckCircle2, AlertTriangle, TrendingUp, Shield, Info, ChartColumn} from 'lucide-react'
 
 // ── Section icon mapping ──────────────────────────────────────────────────────
 
@@ -246,7 +246,7 @@ function ValuationSection({ bullets }: { bullets: string[] }): ReactNode {
     if (b.startsWith('Rango:')) {
       items.push(
         <div key={`r-${i}`} className="text-[0.72rem] text-muted-foreground/50 px-3">
-          📊 {b}
+          <ChartColumn size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{b}
         </div>
       )
       continue

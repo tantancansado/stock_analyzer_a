@@ -415,7 +415,7 @@ export default function GlobalValue() {
                               <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
                               <OwnedBadge ticker={row.ticker} />
                               {row.ai_verdict === 'RISKY' && <Ban size={12} strokeWidth={2.25} className="text-red-400 shrink-0" aria-label={row.ai_notes} />}
-                              {listo && <span className="text-[0.6rem] font-bold px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">✦</span>}
+                              {listo && <span className="text-[0.6rem] font-bold px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"><CircleCheck size={12} strokeWidth={2.25} /></span>}
                             </div>
                           </TableCell>
                           <TableCell className="max-w-[160px]">

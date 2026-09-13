@@ -470,7 +470,7 @@ function IndexBreakoutsPanel({
               const isEquity = s.asset_type === 'equity'
               const ytdColor = s.ytd_pct == null ? '' : s.ytd_pct >= 0 ? 'text-emerald-400' : 'text-red-400'
               const gcColor = s.golden_cross ? 'text-emerald-400' : s.death_cross ? 'text-red-400' : 'text-muted-foreground/40'
-              const gcLabel = s.golden_cross ? (s.gc_dc_fresh ? '✦GC' : 'GC') : s.death_cross ? (s.gc_dc_fresh ? '✦DC' : 'DC') : '—'
+              const gcLabel = s.golden_cross ? (s.gc_dc_fresh ? '★GC' : 'GC') : s.death_cross ? (s.gc_dc_fresh ? '★DC' : 'DC') : '—'
               return (
                 <div key={ticker} className={`rounded-xl border p-3 ${
                   s.minervini_score >= 6 ? 'border-emerald-500/20 bg-emerald-500/4'

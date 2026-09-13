@@ -83,7 +83,7 @@ function StandoutRow({ d }: Readonly<{ d: SectorStandout }>) {
       </TableCell>
       <TableCell>
         <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border whitespace-nowrap ${labelCls}`}>
-          {isBest ? '⭐ Mejor FCF' : '⚠ Caro vs peers'}
+          {isBest ? 'Mejor FCF' : 'Caro vs peers'}
         </span>
       </TableCell>
       <TableCell className="tabular-nums text-sm">
@@ -145,7 +145,7 @@ export default function SectorComparison() {
 
   const labelButtonText = (l: LabelFilter) => {
     if (l === 'ALL')            return `Todos (${standouts.length})`
-    if (l === 'BEST_IN_SECTOR') return `⭐ Mejor FCF (${bestCount})`
+    if (l === 'BEST_IN_SECTOR') return `Mejor FCF (${bestCount})`
     return `⚠ Caro vs peers (${priceyCount})`
   }
 
@@ -164,7 +164,7 @@ export default function SectorComparison() {
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            {v === 'chart' ? '📊 Ranking sectores' : '🏆 Standouts FCF'}
+            {v === 'chart' ? 'Ranking sectores' : 'Standouts FCF'}
           </button>
         ))}
       </div>

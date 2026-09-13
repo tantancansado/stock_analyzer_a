@@ -5,17 +5,17 @@ import PageHeader from '../components/PageHeader'
 import EmptyState from '../components/EmptyState'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card } from '@/components/ui/card'
-import { CalendarDays, ChevronDown, ChevronRight, SearchX } from 'lucide-react'
+import { CalendarDays, ChevronDown, ChevronRight, SearchX, AlarmClock, Banknote, ChartColumn, Pill, TrendingUp} from 'lucide-react'
 import PageShell from '@/components/PageShell'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 
 const CATEGORY_CONFIG = {
-  MACRO:          { label: 'Macro', color: '#6366f1', bg: 'bg-indigo-500/15',  border: 'border-indigo-500/30',  text: 'text-indigo-400',  icon: '📊' },
-  EARNINGS:       { label: 'Earnings', color: '#10b981', bg: 'bg-emerald-500/15', border: 'border-emerald-500/30', text: 'text-emerald-400', icon: '📈' },
-  FDA:            { label: 'FDA', color: '#f97316', bg: 'bg-orange-500/15', border: 'border-orange-500/30', text: 'text-orange-400', icon: '💊' },
-  OPTIONS_EXPIRY: { label: 'OpEx', color: '#a855f7', bg: 'bg-purple-500/15',  border: 'border-purple-500/30',  text: 'text-purple-400',  icon: '⏰' },
-  DIVIDEND:       { label: 'Dividendo', color: '#f59e0b', bg: 'bg-amber-500/15',  border: 'border-amber-500/30',  text: 'text-amber-400',  icon: '💰' },
+  MACRO:          { label: 'Macro', color: '#6366f1', bg: 'bg-indigo-500/15',  border: 'border-indigo-500/30',  text: 'text-indigo-400',  icon: ChartColumn },
+  EARNINGS:       { label: 'Earnings', color: '#10b981', bg: 'bg-emerald-500/15', border: 'border-emerald-500/30', text: 'text-emerald-400', icon: TrendingUp },
+  FDA:            { label: 'FDA', color: '#f97316', bg: 'bg-orange-500/15', border: 'border-orange-500/30', text: 'text-orange-400', icon: Pill },
+  OPTIONS_EXPIRY: { label: 'OpEx', color: '#a855f7', bg: 'bg-purple-500/15',  border: 'border-purple-500/30',  text: 'text-purple-400',  icon: AlarmClock },
+  DIVIDEND:       { label: 'Dividendo', color: '#f59e0b', bg: 'bg-amber-500/15',  border: 'border-amber-500/30',  text: 'text-amber-400',  icon: Banknote },
 } as const
 
 const DIRECTION_CONFIG = {
@@ -125,7 +125,7 @@ function EventCard({ event }: { event: CatalystEvent }) {
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-1.5 mb-1">
             <span className={`text-[0.65rem] font-bold px-1.5 py-0.5 rounded border ${catCfg.bg} ${catCfg.border} ${catCfg.text}`}>
-              {catCfg.icon} {catCfg.label}
+              <catCfg.icon size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />{catCfg.label}
             </span>
             <span className={`text-[0.62rem] font-medium px-1.5 py-0.5 rounded border ${impactCls}`}>
               {event.impact}
@@ -284,7 +284,7 @@ export default function CatalystCalendar() {
             <button onClick={() => setFilterCategory('ALL')} className={`filter-btn ${filterCategory === 'ALL' ? 'active' : ''}`}>Todos</button>
             {Object.entries(CATEGORY_CONFIG).map(([key, cfg]) => (
               <button key={key} onClick={() => setFilterCategory(key)} className={`filter-btn ${filterCategory === key ? 'active' : ''}`}>
-                {cfg.icon} {cfg.label}
+                <cfg.icon size={12} strokeWidth={2.25} />{cfg.label}
                 {byCategory[key] ? <span className="ml-1 opacity-60">({byCategory[key]})</span> : null}
               </button>
             ))}

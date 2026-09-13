@@ -121,7 +121,7 @@ function Pill({ tone, children }: { tone: 'green' | 'amber' | 'red' | 'blue' | '
     amber: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
     red:   'bg-red-500/10 text-red-400 border-red-500/30',
     blue:  'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
-    slate: 'bg-slate-500/10 text-muted-foreground border-slate-500/30',
+    slate: 'bg-muted/30 text-muted-foreground border-border/40',
   }[tone]
   return <span className={`inline-flex items-center text-[0.68rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${map}`}>{children}</span>
 }

@@ -4,7 +4,7 @@ import type { EarningsEntry } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
-import { Calendar, AlertTriangle, Zap, TrendingUp, Wallet, Bot } from 'lucide-react'
+import { Calendar, AlertTriangle, Zap, TrendingUp, Wallet, Bot, RefreshCw} from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
 import OwnedBadge from '../components/OwnedBadge'
 import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
@@ -16,8 +16,8 @@ type FilterMode = 'all' | 'warning' | 'catalyst' | 'portfolio'
 
 function filterLabel(f: FilterMode, total: number): string {
   if (f === 'warning')   return '⚠ Riesgo earnings'
-  if (f === 'catalyst')  return '⚡ Catalizador'
-  if (f === 'portfolio') return '💼 Mi cartera'
+  if (f === 'catalyst')  return 'Catalizador'
+  if (f === 'portfolio') return 'Mi cartera'
   return `Todos (${total})`
 }
 
@@ -209,7 +209,7 @@ export default function EarningsCalendar() {
                       )}
                       {entry.portfolio_only_fetch && (
                         <span className="text-[0.58rem] font-semibold text-cyan-400 flex items-center gap-0.5" title="Fecha obtenida en vivo (fuera del universo curado)">
-                          🔄 Live
+                          <RefreshCw size={12} strokeWidth={2.25} />Live
                         </span>
                       )}
                     </div>
@@ -337,7 +337,7 @@ export default function EarningsCalendar() {
                         )}
                         {entry.portfolio_only_fetch && (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/20" title="Fecha obtenida en vivo (fuera del universo curado)">
-                            🔄 Live
+                            <RefreshCw size={12} strokeWidth={2.25} />Live
                           </span>
                         )}
                         {entry.fundamental_score != null && (

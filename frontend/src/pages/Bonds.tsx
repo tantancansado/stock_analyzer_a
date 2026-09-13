@@ -3,7 +3,7 @@ import { fetchBonds, fetchPreferredStocks, type BondOpportunity, type PreferredS
 import Loading, { ErrorState } from '../components/Loading'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Calculator, Brain } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, ChevronDown, ChevronUp, Calculator, Brain, Droplet} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import PageHeader from '../components/PageHeader'
 
@@ -26,7 +26,7 @@ const TYPE_COLORS: Record<string, string> = {
   EUR_Cash:  'text-teal-400 bg-teal-500/10 border-teal-500/25',
   Treasury:  'text-blue-400 bg-blue-500/10 border-blue-500/25',
   TIPS:      'text-yellow-400 bg-yellow-500/10 border-yellow-500/25',
-  Aggregate: 'text-muted-foreground bg-slate-500/10 border-slate-500/25',
+  Aggregate: 'text-muted-foreground bg-muted/30 border-border/40',
   IG_Corp:   'text-cyan-400 bg-cyan-500/10 border-cyan-500/25',
   HY_Corp:   'text-orange-400 bg-orange-500/10 border-orange-500/25',
   EUR_Govt:  'text-purple-400 bg-purple-500/10 border-purple-500/25',
@@ -45,7 +45,7 @@ const LIQUIDITY_COLORS: Record<string, string> = {
 const RATING_CONFIG = {
   MUY_ATRACTIVO: { label: 'MUY ATRACTIVO', bg: 'bg-emerald-500/15 border-emerald-500/30', text: 'text-emerald-400', dot: 'bg-emerald-400' },
   ATRACTIVO:     { label: 'ATRACTIVO',     bg: 'bg-green-500/10 border-green-500/25',     text: 'text-green-400',   dot: 'bg-green-400'   },
-  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-slate-500/10 border-slate-500/25',     text: 'text-muted-foreground',   dot: 'bg-slate-400'   },
+  NEUTRAL:       { label: 'NEUTRAL',       bg: 'bg-muted/30 border-border/40',     text: 'text-muted-foreground',   dot: 'bg-muted-foreground'   },
   CARO:          { label: 'CARO',          bg: 'bg-red-500/10 border-red-500/25',          text: 'text-red-400',     dot: 'bg-red-400'     },
   SIN_DATO:      { label: 'SIN DATO',      bg: 'bg-muted/20 border-muted/30',             text: 'text-muted-foreground', dot: 'bg-muted'  },
 }
@@ -258,9 +258,9 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
   }
   return (
     <div className="space-y-1.5 mt-3">
-      {bar(rateCut, '#10b981', '📉 Tipos bajan')}
+      {bar(rateCut, '#10b981', 'Tipos bajan')}
       {bar(base,    '#22d3ee', 'Escenario base')}
-      {bar(rateHike,'#f59e0b', '📈 Tipos suben')}
+      {bar(rateHike,'#f59e0b', 'Tipos suben')}
     </div>
   )
 }
@@ -323,7 +323,7 @@ function AdvisorCard({ label, rec, capital }: {
               <span className="text-foreground/60">{rec.riskNote}</span>
             </div>
             <div className="text-xs p-2.5 rounded-lg" style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.15)' }}>
-              <span className="text-emerald-400 font-medium">📉 Si bajan tipos: </span>
+              <span className="text-emerald-400 font-medium">Si bajan tipos: </span>
               <span className="text-foreground/60">{rec.rateCutNote}</span>
             </div>
           </div>
@@ -620,7 +620,7 @@ function DurationBar({ years }: { years: number | null | undefined }) {
 function BondRow({ bond }: { bond: BondOpportunity }) {
   const [expanded, setExpanded] = useState(false)
   const ratingCfg = RATING_CONFIG[bond.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
-  const typeCls = TYPE_COLORS[bond.bond_type] ?? 'text-muted-foreground bg-slate-500/10 border-slate-500/25'
+  const typeCls = TYPE_COLORS[bond.bond_type] ?? 'text-muted-foreground bg-muted/30 border-border/40'
 
   return (
     <>
@@ -717,7 +717,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
             </div>
             {bond.liquidity_note && (
               <div className="text-[0.68rem] text-muted-foreground/70 mt-1.5 px-3">
-                💧 {bond.liquidity_note}
+                <Droplet size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{bond.liquidity_note}
               </div>
             )}
           </td>
@@ -904,7 +904,7 @@ const RISK_COLORS: Record<string, string> = {
 function PreferredRow({ p }: { p: PreferredStock }) {
   const [expanded, setExpanded] = useState(false)
   const ratingCfg = RATING_CONFIG[p.value_rating as keyof typeof RATING_CONFIG] ?? RATING_CONFIG.SIN_DATO
-  const sectorCls = SECTOR_COLORS[p.sector] ?? 'text-muted-foreground bg-slate-500/10 border-slate-500/25'
+  const sectorCls = SECTOR_COLORS[p.sector] ?? 'text-muted-foreground bg-muted/30 border-border/40'
   const riskColor = RISK_COLORS[p.risk_tier] ?? 'text-muted-foreground'
   const abovePar = (p.pct_from_par ?? 0) > 1.5
 
@@ -1033,7 +1033,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
             </div>
             {p.liquidity_note && (
               <div className="text-[0.68rem] text-muted-foreground/70 mt-1.5 px-3">
-                💧 {p.liquidity_note}
+                <Droplet size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{p.liquidity_note}
               </div>
             )}
           </td>
