@@ -32,6 +32,7 @@ import { useValueExperienceMode } from '../hooks/useValueExperienceMode'
 import { ValueClarityPanel, ValueDecisionBadge, ValueModeToggle } from '../components/ValueDecision'
 import { getValueDecision } from '@/lib/valueDecision'
 import PageShell from '@/components/PageShell'
+import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
   if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
@@ -312,7 +313,11 @@ export default function ValueUS() {
     `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
 
   const usRegime = regime?.us as Record<string, string> | undefined
-  const regimeLabel = usRegime?.regime || usRegime?.market_regime || ''
+  // "UNKNOWN" no es un régimen, es la ausencia de dato. Pintarlo como badge
+  // al lado del título es decirle al usuario "el mercado está: desconocido",
+  // que no informa de nada y ocupa el mismo sitio que un aviso de verdad.
+  const regimeCrudo = usRegime?.regime || usRegime?.market_regime || ''
+  const regimeLabel = nlRegimen(regimeCrudo)
   const regimeRec = usRegime?.recommendation || ''
 
   const hiddenByTraps = hideTraps ? Object.values(cerebro.trapMap).filter(t => t.severity === 'HIGH').length : 0
@@ -375,7 +380,7 @@ export default function ValueUS() {
         title="VALUE US"
         subtitle={<>
           {regimeLabel && (
-            <Badge variant={regimeLabel.includes('UP') ? 'green' : regimeLabel.includes('CORR') ? 'red' : 'yellow'} className="mr-2 align-middle text-xs">
+            <Badge variant={nlRegimenTono(regimeCrudo)} className="mr-2 align-middle text-xs">
               {regimeLabel}
             </Badge>
           )}

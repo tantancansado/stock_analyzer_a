@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import {
   nlAlert,
+  nlRegimen,
+  nlRegimenTono,
   nlBounceConfidence,
   nlBounceSetup,
   nlGrade,
@@ -48,6 +50,43 @@ describe('nl helpers', () => {
     expect(text).toContain('VALUE 67pts')
     expect(text).toContain('Connors RSI2')
     expect(text).toContain('earnings en 4 días')
+  })
+
+  describe('nlRegimen', () => {
+    // El detector trabaja con constantes tipo CONFIRMED_UPTREND. En el badge
+    // de Value se pintaba tal cual: jerga interna, en inglés y con guiones
+    // bajos, al lado del título.
+    it('traduce los regímenes conocidos', () => {
+      expect(nlRegimen('CONFIRMED_UPTREND')).toBe('Alcista confirmada')
+      expect(nlRegimen('CORRECTION')).toBe('Corrección')
+      expect(nlRegimen('BEAR')).toBe('Bajista')
+    })
+
+    it('devuelve vacío cuando el régimen es "no lo sé"', () => {
+      // Un badge que diga "desconocido" ocupa el sitio de un aviso de verdad
+      // sin informar de nada.
+      for (const v of ['UNKNOWN', 'N/A', 'NONE', 'ERROR', '', null, undefined]) {
+        expect(nlRegimen(v)).toBe('')
+      }
+    })
+
+    it('un régimen nuevo sale legible, no en SNAKE_CASE', () => {
+      expect(nlRegimen('SIDEWAYS_CHOP')).toBe('Sideways chop')
+    })
+
+    it('no distingue mayúsculas ni espacios sobrantes', () => {
+      expect(nlRegimen('  confirmed_uptrend ')).toBe('Alcista confirmada')
+    })
+
+    it('el tono se decide sobre el valor CRUDO, no sobre la etiqueta', () => {
+      // Al traducir, "Alcista confirmada" dejó de contener "UP" y el badge
+      // salía en ámbar de advertencia con el mercado en tendencia alcista.
+      expect(nlRegimenTono('CONFIRMED_UPTREND')).toBe('green')
+      expect(nlRegimenTono('CORRECTION')).toBe('red')
+      expect(nlRegimenTono('BEAR')).toBe('red')
+      expect(nlRegimenTono('NEUTRAL')).toBe('yellow')
+      expect(nlRegimenTono(nlRegimen('CONFIRMED_UPTREND'))).not.toBe('green')  // por eso hay que pasarle el crudo
+    })
   })
 
   it('describes bounce confidence buckets', () => {

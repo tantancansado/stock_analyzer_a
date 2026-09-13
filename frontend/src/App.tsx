@@ -48,6 +48,7 @@ const Manual           = lazy(() => import('./pages/Manual'))
 const LogoPreview      = lazy(() => import('./pages/LogoPreview'))
 const Bonds            = lazy(() => import('./pages/Bonds'))
 const AdminUsage       = lazy(() => import('./pages/AdminUsage'))
+const NoEncontrada     = lazy(() => import('./pages/NoEncontrada'))
 const SignalStats      = lazy(() => import('./pages/SignalStats'))
 const Commodities      = lazy(() => import('./pages/Commodities'))
 const CorrupcionInstitucional = lazy(() => import('./pages/CorrupcionInstitucional'))
@@ -332,6 +333,7 @@ export default function App() {
                   <Route path="/search"         element={<TickerSearch />} />
                   <Route path="/macro-radar"       element={<Macro />} />
                   <Route path="/macro-countries"  element={<Navigate to="/macro-radar?tab=countries" replace />} />
+                  <Route path="/macro-stress"     element={<Navigate to="/macro-radar?tab=stress" replace />} />
                   <Route path="/earnings"       element={<Calendar />} />
                   <Route path="/catalysts"      element={<Navigate to="/earnings?tab=catalysts" replace />} />
                   <Route path="/dividend-traps"   element={<DividendTraps />} />
@@ -349,6 +351,10 @@ export default function App() {
                   <Route path="/signal-stats"    element={<SignalStats />} />
                   <Route path="/commodities"     element={<Commodities />} />
                   <Route path="/corrupcion"       element={<CorrupcionInstitucional />} />
+                  {/* Va la última: cualquier ruta que no case cae aquí. Sin
+                      esto la app se quedaba COMPLETAMENTE en blanco ante un
+                      enlace viejo o un typo, sin decir qué pasaba. */}
+                  <Route path="*"                 element={<NoEncontrada />} />
                 </Route>
               </Routes>
             </motion.div>

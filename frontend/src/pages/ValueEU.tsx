@@ -9,6 +9,7 @@ import { useChartSignals } from '../hooks/useChartSignals'
 import type { TechnicalSummary } from '../api/client'
 import PageHeader from '../components/PageHeader'
 import { LogoCandleBull } from '../components/BrandLogos'
+import { nlRegimen, nlRegimenTono } from '@/lib/nl'
 
 function TechBiasCell({ t }: { t?: TechnicalSummary }) {
   if (!t) return <span className="text-muted-foreground/30 text-xs">—</span>
@@ -263,7 +264,9 @@ export default function ValueEU() {
     `cursor-pointer select-none whitespace-nowrap transition-colors hover:text-foreground ${sortKey === key ? 'text-primary' : ''}`
 
   const euRegime = regime?.eu as Record<string, string> | undefined
-  const regimeLabel = euRegime?.regime || euRegime?.market_regime || ''
+  // "UNKNOWN" no es un régimen, es la ausencia de dato: ver ValueUS.
+  const regimeCrudo = euRegime?.regime || euRegime?.market_regime || ''
+  const regimeLabel = nlRegimen(String(regimeCrudo))
   const getCurrency = (ticker: string) => ticker.endsWith('.L') ? '£' : ticker.endsWith('.SW') ? 'CHF ' : '€'
 
   const avgScore = filtered.length ? filtered.reduce((s, r) => s + (r.value_score || 0), 0) / filtered.length : 0
@@ -318,7 +321,7 @@ export default function ValueEU() {
         title="VALUE Europa"
         subtitle={<>
           {regimeLabel && (
-            <Badge variant={regimeLabel.includes('UP') ? 'green' : regimeLabel.includes('CORR') ? 'red' : 'yellow'} className="mr-2 align-middle text-xs">
+            <Badge variant={nlRegimenTono(String(regimeCrudo))} className="mr-2 align-middle text-xs">
               {regimeLabel}
             </Badge>
           )}

@@ -28,6 +28,50 @@ export function nlGrade(grade: string): string {
   return `Grado ${grade}`
 }
 
+// ─── Régimen de mercado ───────────────────────────────────────────────────────
+
+/**
+ * El detector trabaja con constantes tipo `CONFIRMED_UPTREND`. Eso es jerga
+ * interna: en un badge al lado del título se leía literalmente
+ * "CONFIRMED_UPTREND", en inglés y con guiones bajos.
+ *
+ * Devuelve '' para los valores que significan "no lo sé" — un badge que diga
+ * "desconocido" ocupa el mismo sitio que un aviso de verdad sin informar de
+ * nada, y el criterio de esta app es antes cero señales que señales huecas.
+ *
+ * NO confundir con `nlMarketRegime`, que del mismo dato saca una frase
+ * explicativa para un panel ("Mercado en corrección — priorizar posiciones
+ * con alto margen de seguridad"). Esta da la ETIQUETA, aquella el CONSEJO.
+ */
+const REGIMENES: Record<string, string> = {
+  CONFIRMED_UPTREND: 'Alcista confirmada',
+  STRONG_UPTREND:    'Alcista fuerte',
+  UPTREND:           'Alcista',
+  WEAK_UPTREND:      'Alcista débil',
+  UPTREND_PRESSURE:  'Alcista bajo presión',
+  CORRECTION:        'Corrección',
+  BEAR:              'Bajista',
+  NEUTRAL:           'Neutral',
+}
+
+/** Tono del badge de régimen. Se decide sobre el valor CRUDO: la etiqueta ya
+ *  traducida no contiene "UP" ni "CORR", así que mirarla ahí daba siempre el
+ *  ámbar de advertencia, incluso con el mercado en tendencia alcista. */
+export function nlRegimenTono(valor?: string | null): 'green' | 'red' | 'yellow' {
+  const v = (valor ?? '').toUpperCase()
+  if (v.includes('UP') || v.includes('BULL')) return 'green'
+  if (v.includes('CORR') || v.includes('BEAR')) return 'red'
+  return 'yellow'
+}
+
+export function nlRegimen(valor?: string | null): string {
+  const clave = (valor ?? '').trim().toUpperCase()
+  if (!clave || ['UNKNOWN', 'N/A', 'NONE', 'ERROR'].includes(clave)) return ''
+  // Un régimen nuevo que aún no esté en la tabla se enseña legible en vez de
+  // en SNAKE_CASE, que es lo peor de los dos mundos.
+  return REGIMENES[clave] ?? clave.toLowerCase().replaceAll('_', ' ').replace(/^./, c => c.toUpperCase())
+}
+
 // ─── Bounce / Mean Reversion ──────────────────────────────────────────────────
 
 export function nlBounceSetup(opts: {
@@ -216,6 +260,10 @@ export function nlAlert(opts: {
 
 // ─── Market Regime ────────────────────────────────────────────────────────────
 
+/**
+ * Frase explicativa del régimen, para un panel o un tooltip. Para la etiqueta
+ * corta de un badge, usar `nlRegimen`.
+ */
 export function nlMarketRegime(regime: string, score?: number): string {
   const r = regime?.toUpperCase() ?? ''
   if (r.includes('EXPANSION') || r.includes('BULL'))    return 'Mercado en expansión — condiciones favorables para estrategias VALUE y momentum'
