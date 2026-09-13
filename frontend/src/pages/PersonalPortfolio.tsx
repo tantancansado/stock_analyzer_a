@@ -232,7 +232,7 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
               onChange={e => setText(e.target.value)}
               placeholder="Añade una nota: razón de compra, tesis, eventos..."
               rows={2}
-              className="flex-1 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50 resize-none"
+              className="flex-1 px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 resize-none"
             />
             <button
               onClick={addNote}
@@ -356,7 +356,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
     setTicker(''); setShares(''); setPrice(''); setStrike(''); setExpiry(''); setCoupon(''); setMaturity(''); setCcPremium('')
   }
 
-  const inputCls = "px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
+  const inputCls = "px-3 py-2 rounded-lg bg-muted/30 border border-border/40 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
 
   return (
     <div className="glass rounded-2xl p-5 space-y-4">

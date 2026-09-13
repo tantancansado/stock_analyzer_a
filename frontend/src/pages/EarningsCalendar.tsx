@@ -259,7 +259,7 @@ export default function EarningsCalendar() {
           placeholder="Buscar ticker, empresa, sector..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="flex-1 text-sm rounded-lg border border-border/40 bg-background/60 px-3 py-1.5 focus:outline-none focus:border-primary/50 text-foreground placeholder:text-muted-foreground/50"
+          className="flex-1 text-sm rounded-lg border border-border/40 bg-background/60 px-3 py-1.5 focus:outline-none focus:border-primary/50 text-foreground placeholder:text-muted-foreground"
         />
         <div className="flex gap-1.5 flex-wrap">
           {(['all', 'portfolio', 'warning', 'catalyst'] as FilterMode[]).map(f => (

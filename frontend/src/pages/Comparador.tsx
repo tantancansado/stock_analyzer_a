@@ -248,7 +248,7 @@ export default function Comparador() {
                   }}
                   onFocus={() => suggestions.length > 0 && setShowSugg(true)}
                   placeholder="AAPL o Apple..."
-                  className="w-40 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/40 text-sm font-bold text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/50"
+                  className="w-40 px-3 py-1.5 rounded-lg bg-muted/30 border border-border/40 text-sm font-bold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
                 />
                 <Button size="sm" onClick={addTicker} disabled={!input.trim()}>
                   <Plus size={16} />

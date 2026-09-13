@@ -59,7 +59,10 @@ export default function PipelineFreshnessBanner({ className = '' }: { className?
       {ok != null && total != null && (
         <>
           <span className="opacity-40">·</span>
-          <span className={`font-mono ${allOk ? 'opacity-80' : 'font-semibold'}`}>
+          {/* tabular-nums, no font-mono: el mono alinea cifras, pero aquí
+              arrastraba también "módulos OK" y la barra entera se leía como la
+              salida de una terminal. */}
+          <span className={`tabular-nums ${allOk ? 'opacity-80' : 'font-semibold'}`}>
             {ok}/{total} módulos OK
           </span>
         </>
