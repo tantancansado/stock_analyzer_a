@@ -1,3 +1,5 @@
+import { Sparkles } from 'lucide-react'
+
 interface Props {
   narrative: string | null | undefined
   label?: string
@@ -57,7 +59,10 @@ export default function AiNarrativeCard({ narrative, label = 'Análisis IA', cla
   return (
     <div className={`rounded-xl border border-indigo-500/25 bg-gradient-to-r from-indigo-500/8 to-transparent overflow-hidden ${className}`}>
       <div className="flex items-center gap-2 px-4 py-2">
-        <span className="text-sm leading-none">🤖</span>
+        {/* Era un 🤖. El sistema pinta los emoji a todo color con su propio
+            estilo, así que en una cabecera junto a texto en versalitas canta
+            enseguida: parece pegado, no diseñado. */}
+        <Sparkles size={12} strokeWidth={2.25} className="text-indigo-400 shrink-0" />
         <span className="text-[0.62rem] font-bold text-indigo-400 uppercase tracking-widest">{label}</span>
       </div>
       {hasStructure ? (

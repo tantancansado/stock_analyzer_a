@@ -61,6 +61,7 @@ function EntryQualityBadge({ quality, confidence }: { quality?: string; confiden
 }
 
 import AiNarrativeCard from '../components/AiNarrativeCard'
+import { precio, divisaDe } from '../lib/moneda'
 import ScoreBar from '../components/ScoreBar'
 import ScoreRing from '../components/ScoreRing'
 import GradeBadge from '../components/GradeBadge'
@@ -267,7 +268,9 @@ export default function ValueEU() {
   // "UNKNOWN" no es un régimen, es la ausencia de dato: ver ValueUS.
   const regimeCrudo = euRegime?.regime || euRegime?.market_regime || ''
   const regimeLabel = nlRegimen(String(regimeCrudo))
-  const getCurrency = (ticker: string) => ticker.endsWith('.L') ? '£' : ticker.endsWith('.SW') ? 'CHF ' : '€'
+  // Era: `.L → '£'`. Londres cotiza en PENIQUES, así que Auto Trader a 489,80
+  // se enseñaba como "£489.80" cuando son 4,90 £. El símbolo correcto con la
+  // magnitud equivocada engaña más que un símbolo equivocado. Ver lib/moneda.
 
   const avgScore = filtered.length ? filtered.reduce((s, r) => s + (r.value_score || 0), 0) / filtered.length : 0
   const avgDiv = filtered.filter(r => r.dividend_yield_pct && r.dividend_yield_pct > 0)
@@ -536,7 +539,6 @@ export default function ValueEU() {
             (d.days_to_earnings == null || d.days_to_earnings > 7) &&
             d.cerebro_signal !== 'EXIT' &&
             d.cerebro_signal !== 'TRAP'
-          const cur = getCurrency(d.ticker)
           const hasTrap   = !!cerebro.trapMap[d.ticker]
           const hasExit   = !!(cerebro.exitMap[d.ticker] || d.cerebro_signal === 'EXIT')
           const hasSM     = !!cerebro.smMap[d.ticker]
@@ -568,7 +570,7 @@ export default function ValueEU() {
                         {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </div>
                     )}
-                    <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{cur}{d.current_price?.toFixed(2)}</div>
+                    <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
                   </div>
                 </div>
                 {/* Mismo motivo que en ValueUS: decision.detail es texto fijo
@@ -615,7 +617,7 @@ export default function ValueEU() {
                       {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                     </div>
                   )}
-                  <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{cur}{d.current_price?.toFixed(2)}</div>
+                  <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
                 </div>
               </div>
 
@@ -633,9 +635,9 @@ export default function ValueEU() {
               {/* Row 3: Entry / Stop / Target */}
               {(d.entry_price || d.stop_loss || d.target_price) && (
                 <div className="flex gap-3 mt-2.5 text-xs font-mono">
-                  {d.entry_price && <span className="text-cyan-400">E {cur}{d.entry_price.toFixed(2)}</span>}
-                  {d.stop_loss && <span className="text-red-400/80">SL {cur}{d.stop_loss.toFixed(2)}</span>}
-                  {d.target_price && <span className="text-emerald-400/80">TP {cur}{d.target_price.toFixed(2)}</span>}
+                  {d.entry_price && <span className="text-cyan-400">E {precio(d.entry_price, d.ticker)}</span>}
+                  {d.stop_loss && <span className="text-red-400/80">SL {precio(d.stop_loss, d.ticker)}</span>}
+                  {d.target_price && <span className="text-emerald-400/80">TP {precio(d.target_price, d.ticker)}</span>}
                 </div>
               )}
 
@@ -668,8 +670,7 @@ export default function ValueEU() {
               <TableBody>
                 {paged.map((d, i) => {
                   const decision = decisionFor(d)
-                  const cur = getCurrency(d.ticker)
-                  return (
+                          return (
                     <TableRow
                       key={d.ticker}
                       data-row-idx={i}
@@ -700,7 +701,7 @@ export default function ValueEU() {
                           </span>
                         ) : <span className="text-muted-foreground">—</span>}
                       </TableCell>
-                      <TableCell className="tabular-nums">{cur}{d.current_price?.toFixed(2)}</TableCell>
+                      <TableCell className="tabular-nums">{precio(d.current_price, d.ticker)}</TableCell>
                     </TableRow>
                   )
                 })}
@@ -784,8 +785,7 @@ export default function ValueEU() {
             {paged.map((d, i) => {
               const market = d.market || ''
               const flag = MARKET_FLAGS[market] || ''
-              const cur = getCurrency(d.ticker)
-              const isReady =
+                  const isReady =
                 (d.value_score ?? 0) >= 65 &&
                 ['A', 'B', 'EXCELLENT', 'STRONG'].includes((d.conviction_grade ?? '').toUpperCase()) &&
                 !d.earnings_warning &&
@@ -857,12 +857,12 @@ export default function ValueEU() {
                     </TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell max-w-[150px] truncate text-muted-foreground text-[0.76rem]'}>{d.company_name}</TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}><Badge variant="blue">{flag} {market}</Badge></TableCell>
-                    <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell tabular-nums'}>{cur}{d.current_price?.toFixed(2)}</TableCell>
+                    <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell tabular-nums'}>{precio(d.current_price, d.ticker)}</TableCell>
                     <TableCell><ScoreBar score={d.value_score} /></TableCell>
                     <TableCell><GradeBadge grade={d.conviction_grade} score={d.conviction_score} /></TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden md:table-cell max-w-[120px] truncate text-muted-foreground text-[0.76rem]'}>{d.sector}</TableCell>
                     <TableCell className="tabular-nums">
-                      {d.target_price_analyst ? `${cur}${d.target_price_analyst.toFixed(0)}` : '—'}
+                      {precio(d.target_price_analyst, d.ticker, null, 0)}
                       {d.analyst_upside_pct != null && (
                         <span className={`ml-1 text-xs font-semibold ${d.analyst_upside_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                           {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
@@ -919,7 +919,7 @@ export default function ValueEU() {
         <ThesisModal
           row={expandedRow}
           thesisText={thesisText}
-          currency={getCurrency(expandedRow.ticker)}
+          currency={divisaDe(expandedRow.ticker) === 'GBp' ? 'p' : divisaDe(expandedRow.ticker)}
           onClose={() => setExpandedRow(null)}
         />
       )}

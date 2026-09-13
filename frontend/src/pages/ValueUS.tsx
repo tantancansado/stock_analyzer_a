@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback, useDeferredValue } from 'react'
+import { TriangleAlert, LogOut, Gem, Flame, CalendarClock, CircleCheck, Landmark } from 'lucide-react'
+import SignalBadge from '../components/SignalBadge'
+import { precio } from '../lib/moneda'
 import { Link, useSearchParams } from 'react-router-dom'
 import { fetchValueOpportunities, fetchMarketRegime, fetchThesis, fetchMacroRadar, fetchMlWinProbability, type ValueOpportunity, type MlWinPrediction } from '../api/client'
 import StaleDataBanner from '../components/StaleDataBanner'
@@ -406,7 +409,7 @@ export default function ValueUS() {
         }[rname]!
         return (
           <div className={`mb-5 flex items-start gap-3 px-4 py-3 rounded-lg border ${cfg.bg}`}>
-            <span className={`text-lg shrink-0`}>⚠️</span>
+            <TriangleAlert size={16} strokeWidth={2} className={`shrink-0 mt-0.5 ${cfg.text}`} />
             <div>
               <span className={`text-xs font-bold uppercase tracking-wider ${cfg.text}`}>
                 Macro Radar: {rname} ({macro.composite_score?.toFixed(1)}/{macro.max_score})
@@ -535,11 +538,11 @@ export default function ValueUS() {
           {/* Cerebro IA filters */}
           <button onClick={() => setHideTraps(v => !v)} className={`filter-btn ${hideTraps ? 'active-red' : ''}`}
             title="Ocultar tickers marcados como value trap HIGH por Cerebro IA">
-            {hideTraps && hiddenByTraps > 0 ? `⚠ TRAP (${hiddenByTraps})` : '⚠ TRAP'}
+            <TriangleAlert size={12} strokeWidth={2.25} />{hiddenByTraps > 0 && hideTraps ? `TRAP (${hiddenByTraps})` : 'TRAP'}
           </button>
           <button onClick={() => setHideExits(v => !v)} className={`filter-btn ${hideExits ? 'active-red' : ''}`}
             title="Ocultar tickers con señal de salida HIGH por Cerebro IA">
-            {hideExits && hiddenByExits > 0 ? `⬆ EXIT (${hiddenByExits})` : '⬆ EXIT'}
+            <LogOut size={12} strokeWidth={2.25} />{hiddenByExits > 0 && hideExits ? `EXIT (${hiddenByExits})` : 'EXIT'}
           </button>
           <button onClick={() => setHideEarnings(v => !v)} className={`filter-btn ${hideEarnings ? 'active-amber' : ''}`}>
             Earn &lt;7d
@@ -552,7 +555,7 @@ export default function ValueUS() {
           )}
           <button onClick={() => setOnlyHf(v => !v)} className={`filter-btn ${onlyHf ? 'active' : ''}`}
             title="Mostrar solo tickers en cartera de Buffett, Ackman o Tepper">
-            🐋 HF Watch
+            <Landmark size={12} strokeWidth={2.25} />HF Watch
           </button>
 
           {/* Compact toggle */}
@@ -617,7 +620,7 @@ export default function ValueUS() {
                         {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </div>
                     )}
-                    <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">${d.current_price?.toFixed(2)}</div>
+                    <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
                   </div>
                 </div>
                 {/* `decision.detail` es texto fijo por categoría, no por
@@ -658,7 +661,7 @@ export default function ValueUS() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-mono font-extrabold text-base leading-tight">{d.ticker}</span>
                       {isReady && (
-                        <span className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">✦ LISTO</span>
+                        <SignalBadge icon={CircleCheck} tono="favor" texto="LISTO" />
                       )}
                       <OwnedBadge ticker={d.ticker} />
                     </div>
@@ -679,38 +682,18 @@ export default function ValueUS() {
                       {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                     </div>
                   )}
-                  <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">${d.current_price?.toFixed(2)}</div>
+                  <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
                 </div>
               </div>
 
               {/* Row 2: Cerebro signals */}
               {(hasTrap || hasExit || hasSM || hasSqueeze || d.earnings_warning) && (
                 <div className="flex flex-wrap gap-1.5 mt-2.5">
-                  {hasTrap && (
-                    <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/25">
-                      ⚠ TRAP
-                    </span>
-                  )}
-                  {hasExit && (
-                    <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/25">
-                      ↑ EXIT
-                    </span>
-                  )}
-                  {hasSM && (
-                    <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/25">
-                      🐋 SMART $
-                    </span>
-                  )}
-                  {hasSqueeze && (
-                    <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/25">
-                      💥 SQUEEZE
-                    </span>
-                  )}
-                  {d.earnings_warning && (
-                    <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-400 border border-yellow-500/25">
-                      📅 EARNINGS
-                    </span>
-                  )}
+                  {hasTrap && <SignalBadge icon={TriangleAlert} tono="alarma" texto="TRAP" />}
+                  {hasExit && <SignalBadge icon={LogOut} tono="aviso" texto="EXIT" />}
+                  {hasSM && <SignalBadge icon={Gem} tono="favor" texto="SMART MONEY" />}
+                  {hasSqueeze && <SignalBadge icon={Flame} tono="info" texto="SQUEEZE" />}
+                  {d.earnings_warning && <SignalBadge icon={CalendarClock} tono="aviso" texto="EARNINGS" />}
                 </div>
               )}
 
@@ -782,7 +765,7 @@ export default function ValueUS() {
                           </span>
                         ) : <span className="text-muted-foreground">—</span>}
                       </TableCell>
-                      <TableCell className="tabular-nums">${d.current_price?.toFixed(2)}</TableCell>
+                      <TableCell className="tabular-nums">{precio(d.current_price, d.ticker)}</TableCell>
                     </TableRow>
                   )
                 })}
@@ -977,7 +960,7 @@ export default function ValueUS() {
                     </div>
                   </TableCell>
                   <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell max-w-[160px] truncate text-muted-foreground text-[0.76rem]'}>{d.company_name}</TableCell>
-                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell tabular-nums'}>${d.current_price?.toFixed(2)}</TableCell>
+                  <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell tabular-nums'}>{precio(d.current_price, d.ticker)}</TableCell>
                   <TableCell><ScoreBar score={d.value_score} /></TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1.5">
@@ -1034,7 +1017,7 @@ export default function ValueUS() {
         </Table>
         {sorted.length === 0 && (
           <CardContent className="py-16 text-center">
-            <div className="text-4xl mb-4 opacity-20">💎</div>
+            <Gem size={32} strokeWidth={1.5} className="mx-auto mb-4 opacity-20" />
             <p className="font-medium text-muted-foreground">
               {rows.length === 0 ? 'Sin oportunidades VALUE en este momento' : 'Sin resultados con los filtros aplicados'}
             </p>

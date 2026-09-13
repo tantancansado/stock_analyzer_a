@@ -1,4 +1,12 @@
+import { Zap, LogOut, TrendingDown, TriangleAlert, Flame, Gem, Award, Tag, Activity } from 'lucide-react'
+import SignalBadge from './SignalBadge'
 import type { TrapInfo, SmartInfo, ExitInfo, DivRiskInfo, PiotrInfo, SqueezeInfo, DecayInfo, SectorRVInfo, EntryInfo } from '../hooks/useCerebroSignals'
+
+/**
+ * Distintivos de Cerebro sobre una fila de ticker. La pastilla en sí vive en
+ * SignalBadge, que es la misma que usan las tarjetas de Value US: antes cada
+ * página dibujaba estas señales por su cuenta y no coincidía ninguna.
+ */
 
 interface Props {
   trapInfo?:    TrapInfo
@@ -16,134 +24,105 @@ export default function CerebroBadges({ trapInfo, smInfo, exitInfo, divInfo, pio
   if (!trapInfo && !smInfo && !exitInfo && !divInfo && !piotrInfo && !squeezeInfo && !decayInfo && !sectorInfo && !entryInfo) return null
 
   return (
-    <div className="flex items-center gap-0.5 flex-wrap mt-0.5">
+    <div className="flex items-center gap-1 flex-wrap mt-0.5">
 
-      {/* CEREBRO ENTRY — positive signal, shown first */}
+      {/* ENTRADA — señal positiva, va primero */}
       {entryInfo && (
-        <span
-          title={`Cerebro señal de ENTRADA (${entryInfo.signal.replace('_', ' ')}): entry score ${entryInfo.entry_score}`}
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
-            entryInfo.signal === 'STRONG_BUY'
-              ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-              : 'bg-amber-500/15 text-amber-300 border-amber-500/30'
-          }`}
-        >
-          ⚡ {entryInfo.signal === 'STRONG_BUY' ? 'STRONG BUY' : 'BUY'}
-        </span>
+        <SignalBadge tamano="micro"
+          icon={Zap}
+          tono="favor"
+          texto={entryInfo.signal === 'STRONG_BUY' ? 'STRONG BUY' : 'BUY'}
+          titulo={`Cerebro señal de ENTRADA (${entryInfo.signal.replace('_', ' ')}): entry score ${entryInfo.entry_score}`}
+        />
       )}
 
-      {/* EXIT — highest priority, most alarming */}
+      {/* SALIDA — lo más urgente */}
       {exitInfo && (
-        <span
-          title={`Cerebro recomienda SALIDA de posición (${exitInfo.severity}): ${exitInfo.reasons.slice(0, 2).join(' · ')}`}
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide animate-pulse ${
-            exitInfo.severity === 'HIGH'
-              ? 'bg-red-500/25 text-red-300 border-red-500/50'
-              : 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-          }`}
-        >
-          ⬆ EXIT
-        </span>
+        <SignalBadge tamano="micro"
+          icon={LogOut}
+          tono={exitInfo.severity === 'HIGH' ? 'alarma' : 'aviso'}
+          texto="EXIT"
+          titulo={`Cerebro recomienda SALIDA de posición (${exitInfo.severity}): ${exitInfo.reasons.slice(0, 2).join(' · ')}`}
+        />
       )}
 
-      {/* QUALITY DECAY — early warning before trap */}
+      {/* DETERIORO — aviso temprano, antes de la trampa */}
       {decayInfo && (
-        <span
-          title={`Deterioro de calidad fundamental (${decayInfo.severity}): ${decayInfo.flags.slice(0, 2).join(' · ')}`}
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
-            decayInfo.severity === 'HIGH'
-              ? 'bg-orange-500/20 text-orange-400 border-orange-500/35'
-              : 'bg-amber-500/15 text-amber-400 border-amber-500/25'
-          }`}
-        >
-          ↘ DETERIORO
-        </span>
+        <SignalBadge tamano="micro"
+          icon={TrendingDown}
+          tono="aviso"
+          texto="DETERIORO"
+          titulo={`Deterioro de calidad fundamental (${decayInfo.severity}): ${decayInfo.flags.slice(0, 2).join(' · ')}`}
+        />
       )}
 
-      {/* TRAP — value trap warning */}
+      {/* TRAMPA DE VALOR */}
       {trapInfo && (
-        <span
-          title={`Cerebro detecta señal TRAMPA — evitar entrada (score ${trapInfo.trap_score}/10): ${trapInfo.flags.slice(0, 2).join(' · ')}`}
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
-            trapInfo.severity === 'HIGH'
-              ? 'bg-red-500/20 text-red-400 border-red-500/35'
-              : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
-          }`}
-        >
-          ⚠ TRAP
-        </span>
+        <SignalBadge tamano="micro"
+          icon={TriangleAlert}
+          tono={trapInfo.severity === 'HIGH' ? 'alarma' : 'aviso'}
+          texto="TRAP"
+          titulo={`Cerebro detecta señal TRAMPA — evitar entrada (score ${trapInfo.trap_score}/10): ${trapInfo.flags.slice(0, 2).join(' · ')}`}
+        />
       )}
 
-      {/* SQUEEZE — short squeeze setup */}
+      {/* SHORT SQUEEZE */}
       {squeezeInfo && (
-        <span
-          title={`Potencial SHORT SQUEEZE detectado (${squeezeInfo.severity}): ${squeezeInfo.short_pct_float.toFixed(1)}% short · ${squeezeInfo.flags.slice(0, 2).join(' · ')}`}
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
-            squeezeInfo.severity === 'HIGH'
-              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40'
-              : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/25'
-          }`}
-        >
-          ↑ SHORT SQZ
-        </span>
+        <SignalBadge tamano="micro"
+          icon={Flame}
+          tono="info"
+          texto="SHORT SQZ"
+          titulo={`Potencial SHORT SQUEEZE detectado (${squeezeInfo.severity}): ${squeezeInfo.short_pct_float.toFixed(1)}% short · ${squeezeInfo.flags.slice(0, 2).join(' · ')}`}
+        />
       )}
 
-      {/* SMART MONEY — hedge funds + insiders buying */}
+      {/* SMART MONEY — fondos e insiders comprando */}
       {smInfo && (
-        <span
-          title={`Smart Money convergente: ${smInfo.n_hedge_funds} hedge funds + ${smInfo.n_insiders} insiders comprando · conv ${smInfo.convergence_score}`}
-          className="inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide bg-purple-500/20 text-purple-300 border-purple-500/35"
-        >
-          ◆ SMART MONEY
-        </span>
+        <SignalBadge tamano="micro"
+          icon={Gem}
+          tono="favor"
+          texto="SMART MONEY"
+          titulo={`Smart Money convergente: ${smInfo.n_hedge_funds} hedge funds + ${smInfo.n_insiders} insiders comprando · conv ${smInfo.convergence_score}`}
+        />
       )}
 
-      {/* BEST IN SECTOR / PRICEY VS PEERS */}
+      {/* MEJOR DEL SECTOR / CARO VS PARES */}
       {sectorInfo && (
-        <span
-          title={
-            sectorInfo.label === 'BEST_IN_SECTOR'
-              ? `Mejor FCF en ${sectorInfo.sector}: rank ${sectorInfo.fcf_rank}/${sectorInfo.fcf_rank_of} (${sectorInfo.fcf_yield_pct.toFixed(1)}% FCF yield)`
-              : `Caro vs peers en ${sectorInfo.sector}: rank ${sectorInfo.fcf_rank}/${sectorInfo.fcf_rank_of}`
-          }
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
-            sectorInfo.label === 'BEST_IN_SECTOR'
-              ? 'bg-teal-500/15 text-teal-400 border-teal-500/30'
-              : 'bg-slate-500/15 text-muted-foreground border-slate-500/25'
-          }`}
-        >
-          {sectorInfo.label === 'BEST_IN_SECTOR' ? '★ BEST' : '↑ PRICEY'}
-        </span>
+        sectorInfo.label === 'BEST_IN_SECTOR' ? (
+          <SignalBadge tamano="micro"
+            icon={Award}
+            tono="favor"
+            texto="BEST"
+            titulo={`Mejor FCF en ${sectorInfo.sector}: rank ${sectorInfo.fcf_rank}/${sectorInfo.fcf_rank_of} (${sectorInfo.fcf_yield_pct.toFixed(1)}% FCF yield)`}
+          />
+        ) : (
+          <SignalBadge tamano="micro"
+            icon={Tag}
+            tono="neutro"
+            texto="PRICEY"
+            titulo={`Caro vs peers en ${sectorInfo.sector}: rank ${sectorInfo.fcf_rank}/${sectorInfo.fcf_rank_of}`}
+          />
+        )
       )}
 
-      {/* DIVIDEND AT RISK */}
+      {/* DIVIDENDO EN RIESGO */}
       {divInfo && (
-        <span
-          title={`Dividendo ${divInfo.rating}: yield ${divInfo.div_yield.toFixed(1)}% — safety score ${divInfo.safety_score}`}
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
-            divInfo.rating === 'AT_RISK'
-              ? 'bg-red-500/15 text-red-400 border-red-500/30'
-              : 'bg-amber-500/10 text-amber-400 border-amber-500/25'
-          }`}
-        >
-          ⚠ DIV RIESGO
-        </span>
+        <SignalBadge tamano="micro"
+          icon={TriangleAlert}
+          tono={divInfo.rating === 'AT_RISK' ? 'alarma' : 'aviso'}
+          texto="DIV RIESGO"
+          titulo={`Dividendo ${divInfo.rating}: yield ${divInfo.div_yield.toFixed(1)}% — safety score ${divInfo.safety_score}`}
+        />
       )}
 
-      {/* PIOTROSKI IMPROVING */}
+      {/* PIOTROSKI */}
       {piotrInfo && (
-        <span
-          title={`Piotroski F${piotrInfo.piotroski_current}/9 · ${piotrInfo.trend.replace('_', ' ')}${piotrInfo.delta !== 0 ? ` (${piotrInfo.delta > 0 ? '+' : ''}${piotrInfo.delta})` : ''}`}
-          className={`inline-flex items-center gap-0.5 text-[0.48rem] font-black px-1 py-px rounded border tracking-wide ${
-            piotrInfo.trend === 'IMPROVING'
-              ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-              : piotrInfo.piotroski_current >= 7
-              ? 'bg-blue-500/15 text-blue-400 border-blue-500/30'
-              : 'bg-blue-500/10 text-blue-300 border-blue-500/20'
-          }`}
-        >
-          ▲ F-Score {piotrInfo.piotroski_current}/9
-        </span>
+        <SignalBadge tamano="micro"
+          icon={Activity}
+          tono={piotrInfo.trend === 'IMPROVING' ? 'favor' : 'info'}
+          texto={`F-Score ${piotrInfo.piotroski_current}/9`}
+          titulo={`Piotroski F${piotrInfo.piotroski_current}/9 · ${piotrInfo.trend.replace('_', ' ')}${piotrInfo.delta !== 0 ? ` (${piotrInfo.delta > 0 ? '+' : ''}${piotrInfo.delta})` : ''}`}
+        />
       )}
     </div>
   )
