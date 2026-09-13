@@ -162,7 +162,7 @@ export default function ValuationBar({
         <>
           <div className="mt-1 flex items-baseline justify-between gap-2 text-[0.55rem] tabular-nums text-muted-foreground/60">
             <span>{fmt(min)}</span>
-            <span className="text-muted-foreground/45">{enRango}% del rango 52s</span>
+            <span className="text-muted-foreground">{enRango}% del rango 52s</span>
             <span>{fmt(max)}</span>
           </div>
 
