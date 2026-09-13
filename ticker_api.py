@@ -342,7 +342,14 @@ def _analyze_from_cache(ticker):
     r5d     = _row(DF_5D, ticker)
     rml     = _row(DF_ML, ticker)
     rfund   = _row(DF_FUND, ticker)
-    rscores = _row(DF_SCORES, ticker)
+    # super_scores_ultimate.csv es un fósil: nadie lo escribe desde que el
+    # pipeline se partió en VALUE/MOMENTUM y su contenido es del 19-feb-2026.
+    # Se queda como respaldo de IDENTIDAD (nombre de la empresa, sector), que no
+    # caduca, pero no de nada medido: un score, un ranking sectorial o un
+    # interés corto de hace siete meses no son el dato de hoy, y al servirlos
+    # junto a un precio actual nada delataba la diferencia.
+    rident  = _row(DF_SCORES, ticker)
+    rscores = None
     rprice  = _row(DF_PRICES, ticker)
     tc      = TICKER_CACHE.get(ticker, {})
 
@@ -420,9 +427,9 @@ def _analyze_from_cache(ticker):
         company_name  = tc.get('company_name', ticker)
         sector_score  = None; sector_momentum = 'stable'
         sector_name   = tc.get('sector', 'Unknown')
-        if rscores is not None:
-            company_name = _notna_str(rscores, 'company_name', company_name) or company_name
-            sector_name  = _notna_str(rscores, 'sector', sector_name) or sector_name
+        if rident is not None:
+            company_name = _notna_str(rident, 'company_name', company_name) or company_name
+            sector_name  = _notna_str(rident, 'sector', sector_name) or sector_name
 
     # ── Filtros técnicos desde super_scores_ultimate ───────────────────────
     #
@@ -626,7 +633,11 @@ def _analyze_from_cache(ticker):
     if rprice is not None:
         entry_price  = _sf(rprice.get('entry_price'))
         stop_loss    = _sf(rprice.get('stop_loss'))
-        target_price = _sf(rprice.get('target_price'))
+        # La columna del CSV se llama exit_price, no target_price. Pedir un
+        # nombre que no existe devuelve None sin quejarse, así que el
+        # "Objetivo" de la escalera de entrada/salida ha estado vacío para
+        # todos los tickers desde siempre.
+        target_price = _sf(rprice.get('exit_price'))
         risk_reward  = _sf(rprice.get('risk_reward'))
 
     # ── Breakdown scores ───────────────────────────────────────────────────
@@ -905,27 +916,55 @@ def _run_sector(ticker):
         return None, None, 'Unknown', str(e)
 
 
+def _precios_entrada_salida(ticker):
+    """Entrada/stop/objetivo del CSV diario de entradas y salidas."""
+    fila = _row(DF_PRICES, ticker)
+    if fila is None:
+        return {"entry_price": None, "stop_loss": None, "target_price": None, "risk_reward": None}
+    return {
+        "entry_price":  _sf(fila.get('entry_price')),
+        "stop_loss":    _sf(fila.get('stop_loss')),
+        "target_price": _sf(fila.get('exit_price')),
+        "risk_reward":  _sf(fila.get('risk_reward')),
+    }
+
+
 def _calc_live_score(vcp, ml, fund, ma, ad):
-    """Calcula base/penalty/final desde scores live. None si no hay datos."""
-    vcp_c  = vcp  * 0.40 if vcp  is not None else None
-    ml_c   = ml   * 0.30 if ml   is not None else None
-    fund_c = fund * 0.30 if fund is not None else None
-    available = [c for c in [vcp_c, ml_c, fund_c] if c is not None]
-    if not available:
+    """Calcula base/penalty/final desde scores live. None si no hay datos.
+
+    Los pesos se reparten entre los componentes que SÍ existen. Antes se
+    sumaban los disponibles sin más, así que a un ticker sin VCP se le comía
+    el 40% del peso en silencio: puntuaba sobre 60 y se presentaba sobre 100.
+    AVGO, con fundamental 64.1 y ML 50.6, salía con una base de 34.4.
+    """
+    pesos = [(vcp, 0.40), (ml, 0.30), (fund, 0.30)]
+    presentes = [(v, w) for v, w in pesos if v is not None]
+    if not presentes:
         return None, None, None
-    base = sum(available)
+    peso_total = sum(w for _, w in presentes)
+    base = sum(v * w for v, w in presentes) / peso_total
+
     pen = 0.0
+    # Un filtro de media móvil que no llegó a evaluarse (rate-limit de
+    # yfinance, historial vacío) NO es una tendencia bajista. Es la regla del
+    # proyecto y la que ya aplica super_score_integrator; aquí faltaba, y un
+    # -20 por un "Too Many Requests" hundía el score de cualquier ticker que
+    # tocara el rate-limit. AVGO: 34.4 de base menos 25 de castigo = 9.4.
     ma_passes = ma.get('passes')
-    if ma_passes is False:
-        pen += 20
-    elif ma_passes is True and (_sfl(ma.get('score'), 100) or 100) < 80:
-        pen += 5
-    sig = ad.get('signal')
-    if sig == 'STRONG_DISTRIBUTION': pen += 15
-    elif sig == 'DISTRIBUTION':      pen += 10
-    ad_sc = _sfl(ad.get('score'))
-    if ad_sc is not None and ad_sc < 50:
-        pen += 5
+    if not _no_evaluado(ma.get('reason')):
+        if ma_passes is False:
+            pen += 20
+        elif ma_passes is True and (_sfl(ma.get('score'), 100) or 100) < 80:
+            pen += 5
+
+    if not _no_evaluado(ad.get('reason')):
+        sig = ad.get('signal')
+        if sig == 'STRONG_DISTRIBUTION': pen += 15
+        elif sig == 'DISTRIBUTION':      pen += 10
+        ad_sc = _sfl(ad.get('score'))
+        if ad_sc is not None and ad_sc < 50:
+            pen += 5
+
     return round(base, 1), round(pen, 1), round(max(0, min(100, base - pen)), 1)
 
 
@@ -1032,7 +1071,11 @@ def _analyze_live(ticker):
 
         "price_target": pt_det.get('custom_target'),
         "upside_percent": pt_det.get('upside_percent'),
-        "entry_price": None, "stop_loss": None, "target_price": None, "risk_reward": None,
+        # Entrada/stop/objetivo salen de super_opportunities_with_prices.csv,
+        # que SÍ se recalcula a diario (add_entry_exit_to_opportunities.py).
+        # Iban fijos a None aquí, así que un ticker que pasara por el camino
+        # en vivo perdía una escalera de precios que existía y estaba al día.
+        **_precios_entrada_salida(ticker),
 
         "insiders_score": 0, "institutional_score": 0,
         "num_whales": 0, "top_whales": "", "tier_boost": 0,
@@ -1146,10 +1189,23 @@ def analyze(ticker):
         return jsonify({"error": f"Ticker inválido: '{ticker}'"}), 400
 
     try:
+        # DF_SCORES (super_scores_ultimate.csv) NO cuenta como cache.
+        #
+        # Nadie escribe ese fichero desde que el pipeline se partió en
+        # VALUE/MOMENTUM: save_results solo se llama con 'value_opportunities'
+        # y 'momentum_opportunities'. Es un fósil del 19-feb-2026 con 82
+        # tickers, de los cuales 75 no están en ninguna otra fuente — AVGO,
+        # ACN, ADBE, ANET... Al contar como cache, buscarlos devolvía los
+        # scores de febrero en vez de recalcular: AVGO salía con un final
+        # score de 26.8 que llevaba dentro los 35 puntos de penalización del
+        # régimen CORRECTION de entonces. El precio sí era el de hoy, así que
+        # nada delataba que el resto fuese de hace siete meses.
+        #
+        # Sigue sirviendo de respaldo para nombre y sector (eso no caduca),
+        # pero un ticker que solo esté ahí va al análisis en vivo.
         in_cache = (
-            (not DF_5D.empty     and ticker in DF_5D.index)     or
-            (not DF_ML.empty     and ticker in DF_ML.index)     or
-            (not DF_SCORES.empty and ticker in DF_SCORES.index) or
+            (not DF_5D.empty and ticker in DF_5D.index) or
+            (not DF_ML.empty and ticker in DF_ML.index) or
             (ticker in TICKER_CACHE)
         )
 
