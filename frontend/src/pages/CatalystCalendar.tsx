@@ -5,7 +5,7 @@ import PageHeader from '../components/PageHeader'
 import EmptyState from '../components/EmptyState'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card } from '@/components/ui/card'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+import { CalendarDays, ChevronDown, ChevronRight, SearchX } from 'lucide-react'
 import PageShell from '@/components/PageShell'
 
 // ─── Config ───────────────────────────────────────────────────────────────────
@@ -303,7 +303,7 @@ export default function CatalystCalendar() {
       {/* No data state */}
       {events.length === 0 && (
         <EmptyState
-          icon="📅"
+          icon={<CalendarDays size={32} strokeWidth={1.5} />}
           title="Sin datos de catalizadores"
           subtitle="El calendario lo rellena el pipeline diario"
         />
@@ -326,7 +326,7 @@ export default function CatalystCalendar() {
       </div>
 
       {filtered.length === 0 && events.length > 0 && (
-        <EmptyState icon="🔍" title="Sin resultados" subtitle="Prueba a cambiar los filtros" />
+        <EmptyState icon={<SearchX size={32} strokeWidth={1.5} />} title="Sin resultados" subtitle="Prueba a cambiar los filtros" />
       )}
 
       {data && (

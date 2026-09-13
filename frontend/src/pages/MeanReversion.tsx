@@ -14,7 +14,7 @@ import { Badge } from '@/components/ui/badge'
 import CsvDownload from '../components/CsvDownload'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import { Wallet } from 'lucide-react'
+import { RefreshCw, Wallet } from 'lucide-react'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
@@ -467,7 +467,7 @@ export default function MeanReversion() {
         ))}
         {filtered.length === 0 && (
           <EmptyState
-            icon="🔄"
+            icon={<RefreshCw size={32} strokeWidth={1.5} />}
             title="Sin señales de mean reversion"
             subtitle="Aparecen cuando acciones de calidad caen >8% desde máximos con RSI<32"
           />
@@ -598,7 +598,7 @@ export default function MeanReversion() {
           </Table>
           {filtered.length === 0 && (
             <EmptyState
-              icon="🔄"
+              icon={<RefreshCw size={32} strokeWidth={1.5} />}
               title="Sin señales de mean reversion"
               subtitle="Aparecen cuando acciones de calidad caen >8% desde máximos con RSI<32"
             />

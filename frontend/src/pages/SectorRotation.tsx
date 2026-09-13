@@ -5,7 +5,7 @@ import { usePersonalPortfolio } from '../context/PersonalPortfolioContext'
 import InfoTooltip from '../components/InfoTooltip'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import { Briefcase, AlertTriangle, CheckCircle } from 'lucide-react'
+import { AlertTriangle, Briefcase, CheckCircle, RefreshCw } from 'lucide-react'
 import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
@@ -291,7 +291,7 @@ export default function SectorRotation() {
       {results.length === 0 && (
         <Card className="glass">
           <CardContent className="p-0">
-            <EmptyState icon="🔄" title="Sin datos de rotacion sectorial" />
+            <EmptyState icon={<RefreshCw size={32} strokeWidth={1.5} />} title="Sin datos de rotacion sectorial" />
           </CardContent>
         </Card>
       )}

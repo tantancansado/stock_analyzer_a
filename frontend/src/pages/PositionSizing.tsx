@@ -11,6 +11,7 @@ import TickerLogo from '../components/TickerLogo'
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
+import { Ruler } from 'lucide-react'
 
 interface PositionRow {
   ticker: string
@@ -134,7 +135,7 @@ export default function PositionSizing() {
         <Card className="glass">
           <CardContent className="p-0">
             <EmptyState
-              icon="📐"
+              icon={<Ruler size={32} strokeWidth={1.5} />}
               title="Sin datos de position sizing disponibles"
               subtitle="Los publica el pipeline diario junto al resto del análisis"
             />

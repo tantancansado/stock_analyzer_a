@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Zap } from 'lucide-react'
+import { Target, Zap } from 'lucide-react'
 import { fetchBounceBroad, fetchBounceCatalystFlags, type BounceBroadSetup } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
@@ -100,7 +100,7 @@ export default function BroadBounceView() {
 
       {setups.length === 0 ? (
         <EmptyState
-          icon="🎯"
+          icon={<Target size={32} strokeWidth={1.5} />}
           title="Sin setups de alta fiabilidad hoy"
           subtitle="Ningún ticker del universo ampliado cumple los filtros estrictos — menos es más."
         />

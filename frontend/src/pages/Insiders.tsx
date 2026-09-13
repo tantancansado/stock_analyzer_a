@@ -13,7 +13,7 @@ import ScoreRing from '../components/ScoreRing'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table'
-import { Wallet } from 'lucide-react'
+import { UserRound, Wallet } from 'lucide-react'
 import PaginationBar from '../components/PaginationBar'
 import EmptyState from '../components/EmptyState'
 import PageShell from '@/components/PageShell'
@@ -246,7 +246,7 @@ export default function Insiders() {
           )
         })}
         {allRows.length === 0 && (
-          <EmptyState icon="👤" title="Sin datos de insiders disponibles" />
+          <EmptyState icon={<UserRound size={32} strokeWidth={1.5} />} title="Sin datos de insiders disponibles" />
         )}
       </div>
 
@@ -349,7 +349,7 @@ export default function Insiders() {
             </Table>
           {allRows.length === 0 && (
             <CardContent className="p-0">
-              <EmptyState icon="👤" title="Sin datos de insiders disponibles" />
+              <EmptyState icon={<UserRound size={32} strokeWidth={1.5} />} title="Sin datos de insiders disponibles" />
             </CardContent>
           )}
           {sorted.length > 0 && (

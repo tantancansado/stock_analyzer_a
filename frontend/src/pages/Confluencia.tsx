@@ -7,6 +7,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import EmptyState from '../components/EmptyState'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
+import { Telescope } from 'lucide-react'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -256,7 +257,7 @@ export default function Confluencia() {
         <Card className="glass">
           <CardContent className="p-0">
             <EmptyState
-              icon="🔭"
+              icon={<Telescope size={32} strokeWidth={1.5} />}
               title="Sin confluencia de señales ahora mismo"
               subtitle="La sección requiere que ≥2 sistemas coincidan en el mismo ticker (Bounce RSI<30 + Value score≥50 + Options flow alcista). Con VIX elevado o mercado en corrección, el bounce scanner apenas genera setups."
             />

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import type { LucideIcon } from 'lucide-react'
 import useIsMobile from '../hooks/useIsMobile'
 import { fetchLeaps, fetchLeapsTicker, type LeapsData, type LeapsOpportunity, type LeapsContract, type LeapsSituation } from '../api/client'
 import PageHeader from '../components/PageHeader'
@@ -8,7 +9,7 @@ import Loading, { ErrorState } from '../components/Loading'
 import StaleDataBanner from '../components/StaleDataBanner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Rocket, Search, Brain, TrendingUp, Info, Layers, ChevronDown, ChevronUp, Target, RefreshCw, AlertTriangle, Bell, BellRing, Check } from 'lucide-react'
+import { AlertTriangle, Bell, BellRing, Brain, Check, ChevronDown, ChevronUp, Gem, Info, Layers, RefreshCw, Rocket, Search, Target, TrendingUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -24,11 +25,11 @@ const scoreColor = (s: number) =>
 const carryColor = (c: number | null) =>
   c == null ? 'text-muted-foreground' : c <= 5 ? 'text-emerald-400' : c <= 9 ? 'text-amber-400' : 'text-red-400'
 
-const SITUATION_CONFIG: Record<LeapsSituation, { label: string; cls: string }> = {
-  CAIDA_CIRCUNSTANCIAL: { label: '🎯 Caída circunstancial', cls: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' },
-  CALIDAD_RAZONABLE:    { label: '💎 Calidad a buen precio', cls: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/25' },
-  DIP_GANADOR:          { label: '📈 Dip de ganador', cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
-  DETERIORO:            { label: '⚠️ Posible deterioro', cls: 'text-red-300 bg-red-500/10 border-red-500/30' },
+const SITUATION_CONFIG: Record<LeapsSituation, { label: string; icon: LucideIcon; cls: string }> = {
+  CAIDA_CIRCUNSTANCIAL: { label: 'Caída circunstancial', icon: Target, cls: 'text-emerald-300 bg-emerald-500/10 border-emerald-500/30' },
+  CALIDAD_RAZONABLE:    { label: 'Calidad a buen precio', icon: Gem, cls: 'text-cyan-300 bg-cyan-500/10 border-cyan-500/25' },
+  DIP_GANADOR:          { label: 'Dip de ganador', icon: TrendingUp, cls: 'text-amber-300 bg-amber-500/10 border-amber-500/25' },
+  DETERIORO:            { label: 'Posible deterioro', icon: AlertTriangle, cls: 'text-red-300 bg-red-500/10 border-red-500/30' },
 }
 
 const VERDICT_CONFIG: Record<string, { label: string; cls: string }> = {
@@ -132,11 +133,15 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
                 <span className="font-extrabold tracking-tight">{o.ticker}</span>
                 {o.in_value_list && <Badge variant="green" className="text-[0.6rem]">VALUE</Badge>}
                 {o.conviction_grade && <Badge variant="blue" className="text-[0.6rem]">{o.conviction_grade}</Badge>}
-                {o.situation && SITUATION_CONFIG[o.situation] && (
-                  <span className={cn('text-[0.6rem] font-semibold px-1.5 py-0.5 rounded border', SITUATION_CONFIG[o.situation].cls)}>
-                    {SITUATION_CONFIG[o.situation].label}
-                  </span>
-                )}
+                {o.situation && SITUATION_CONFIG[o.situation] && (() => {
+                  const sit = SITUATION_CONFIG[o.situation!]
+                  return (
+                    <span className={cn('inline-flex items-center gap-1 text-[0.6rem] font-semibold px-1.5 py-0.5 rounded border', sit.cls)}>
+                      <sit.icon size={12} strokeWidth={2} className="shrink-0" />
+                      {sit.label}
+                    </span>
+                  )
+                })()}
               </div>
               <div className="text-xs text-muted-foreground truncate">{o.company_name}</div>
               {(o.pct_from_52w_high != null || o.ytd_pct != null || o.forward_pe != null) && (
@@ -483,12 +488,18 @@ export default function Leaps() {
 
           {/* Filtro por situación (tu filosofía value) */}
           <div className="flex flex-wrap gap-1.5 mb-3">
-            {([['ALL', 'Todas'], ['CAIDA_CIRCUNSTANCIAL', '🎯 Caída circunstancial'], ['CALIDAD_RAZONABLE', '💎 Calidad a buen precio'], ['DIP_GANADOR', '📈 Dip de ganador']] as const).map(([key, label]) => (
+            {([
+              ['ALL', 'Todas', null],
+              ['CAIDA_CIRCUNSTANCIAL', 'Caída circunstancial', Target],
+              ['CALIDAD_RAZONABLE', 'Calidad a buen precio', Gem],
+              ['DIP_GANADOR', 'Dip de ganador', TrendingUp],
+            ] as const).map(([key, label, Icono]) => (
               <button
                 key={key}
                 onClick={() => setSitFilter(key as LeapsSituation | 'ALL')}
                 className={`filter-btn ${sitFilter === key ? 'active' : ''}`}
               >
+                {Icono && <Icono size={12} strokeWidth={1.75} className="mr-1 shrink-0" />}
                 {label}
               </button>
             ))}
@@ -498,7 +509,7 @@ export default function Leaps() {
             const shown = sitFilter === 'ALL' ? data.opportunities : data.opportunities.filter(o => o.situation === sitFilter)
             if (data.opportunities.length === 0) {
               return <EmptyState
-                  icon="🚀"
+                  icon={<Rocket size={32} strokeWidth={1.5} />}
                   title="Ninguna oportunidad cumple los criterios hoy"
                   subtitle="Vuelve tras el próximo scan diario."
                 />

@@ -23,7 +23,9 @@ export default function EmptyState({ icon, title, subtitle, action, compact }: E
     <div className={`flex flex-col items-center justify-center text-center px-6 ${compact ? 'py-7' : 'py-16'}`}>
       {icon && (
         <div
-          className={compact ? 'text-xl mb-2 opacity-40' : 'text-4xl mb-4 opacity-45'}
+          className={compact
+            ? 'mb-2 text-xl opacity-40 [&_svg]:text-muted-foreground'
+            : 'mb-4 text-4xl opacity-45 [&_svg]:text-muted-foreground'}
           style={{ animation: 'emptyIconIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both' }}
         >
           {icon}

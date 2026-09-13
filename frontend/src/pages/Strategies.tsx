@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Brain, TrendingUp, TrendingDown, Pause, Activity, AlertTriangle, Calendar, Target, Shield } from 'lucide-react'
+import { Activity, AlertTriangle, Brain, Calendar, Pause, Shield, Target, TrendingDown, TrendingUp } from 'lucide-react'
 import { useApi } from '../hooks/useApi'
 import TickerLogo from '../components/TickerLogo'
 import { Card, CardContent } from '@/components/ui/card'
@@ -218,7 +218,7 @@ export default function Strategies() {
       <Card className="glass">
         <CardContent className="p-0">
           <EmptyState
-            icon="🧠"
+            icon={<Brain size={32} strokeWidth={1.5} />}
             title="No hay estrategias generadas todavía"
             subtitle="Añade posiciones reales (con coste medio y acciones) en Mis Posiciones. El agente IA generará un plan diario por cada una en el próximo run del pipeline."
           />

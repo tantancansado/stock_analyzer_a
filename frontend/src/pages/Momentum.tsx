@@ -14,6 +14,7 @@ import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import { useEntryVerdicts } from '../hooks/useEntryVerdicts'
 import EmptyState from '../components/EmptyState'
 import PageShell from '@/components/PageShell'
+import { TrendingDown } from 'lucide-react'
 
 type SortKey = keyof MomentumOpportunity
 type SortDir = 'asc' | 'desc'
@@ -167,7 +168,7 @@ export default function Momentum() {
         ))}
         {rows.length === 0 && (
           <EmptyState
-            icon="📉"
+            icon={<TrendingDown size={32} strokeWidth={1.5} />}
             title="Sin setups momentum"
             subtitle="Normal durante correcciones — el sistema espera tendencias Stage 2 confirmadas"
           />
@@ -264,7 +265,7 @@ export default function Momentum() {
           </Table>
           {rows.length === 0 && (
             <EmptyState
-              icon="📉"
+              icon={<TrendingDown size={32} strokeWidth={1.5} />}
               title="Sin setups momentum"
               subtitle="Normal durante correcciones — el sistema espera tendencias Stage 2 confirmadas"
             />

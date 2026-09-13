@@ -11,6 +11,7 @@ import InfoTooltip from '../components/InfoTooltip'
 import { Card } from '@/components/ui/card'
 import EmptyState from '../components/EmptyState'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { SearchX } from 'lucide-react'
 
 // ── Catalyst definitions ──────────────────────────────────────────────────────
 
@@ -279,7 +280,7 @@ export default function CatalystScreener() {
       {loading ? <Loading /> : results.length === 0 ? (
         <Card>
           <EmptyState
-            icon="🔍"
+            icon={<SearchX size={32} strokeWidth={1.5} />}
             title="Ningún ticker cumple todos los catalizadores ahora mismo"
             subtitle="Prueba otro setup o vuelve cuando el pipeline actualice"
           />
