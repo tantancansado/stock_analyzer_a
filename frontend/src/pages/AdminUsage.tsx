@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext'
 import { apiClient } from '@/api/client'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Users, Briefcase, BookOpen, TrendingUp, Wallet } from 'lucide-react'
+import { BookOpen, Briefcase, Check, TrendingUp, Users, Wallet } from 'lucide-react'
 import PageHeader from '@/components/PageHeader'
 import PageShell from '@/components/PageShell'
 
@@ -255,7 +255,7 @@ export default function AdminUsage() {
                     </td>
                     <td className="py-2.5 text-center">
                       {u.confirmed
-                        ? <span className="text-emerald-400 text-xs">✓</span>
+                        ? <Check size={12} strokeWidth={3} className="text-emerald-400 text-xs inline shrink-0" />
                         : <span className="text-amber-400 text-xs">○</span>}
                     </td>
                     <td className="py-2.5 text-right text-foreground/50 text-xs">{fmtDate(u.created_at)}</td>

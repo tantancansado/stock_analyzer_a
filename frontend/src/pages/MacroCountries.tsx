@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { fetchMacroCountries } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import StaleDataBanner from '../components/StaleDataBanner'
-import { ChevronDown, ChevronUp, Globe } from 'lucide-react'
+import { ChevronDown, ChevronUp, ChevronsDown, ChevronsUp, Globe, Minus } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
 import EmptyState from '@/components/EmptyState'
@@ -81,12 +81,15 @@ interface MacroData {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
+// Las flechas van como icono, no como carácter: ⬆⬆ y ⬇⬇ dependen de la fuente
+// del sistema, se alinean mal con el texto y en algunos móviles salen a color.
+// ChevronsUp/ChevronsDown dicen "doble" con la misma forma, no repitiéndola.
 const SIGNAL_CONFIG = {
-  STRONG_BUY:   { label: 'STRONG BUY',   bg: 'bg-emerald-500/20', text: 'text-emerald-300', border: 'border-emerald-500/40', icon: '⬆⬆' },
-  BUY:          { label: 'BUY',           bg: 'bg-cyan-500/20',    text: 'text-cyan-300',    border: 'border-cyan-500/40',    icon: '⬆' },
-  NEUTRAL:      { label: 'NEUTRAL',       bg: 'bg-slate-500/15',   text: 'text-foreground',   border: 'border-slate-500/30',   icon: '—' },
-  SHORT:        { label: 'SHORT',         bg: 'bg-orange-500/20',  text: 'text-orange-300',  border: 'border-orange-500/40',  icon: '⬇' },
-  STRONG_SHORT: { label: 'STRONG SHORT',  bg: 'bg-red-500/20',     text: 'text-red-300',     border: 'border-red-500/40',     icon: '⬇⬇' },
+  STRONG_BUY:   { label: 'STRONG BUY',   bg: 'bg-emerald-500/20', text: 'text-emerald-300', border: 'border-emerald-500/40', icon: ChevronsUp },
+  BUY:          { label: 'BUY',           bg: 'bg-cyan-500/20',    text: 'text-cyan-300',    border: 'border-cyan-500/40',    icon: ChevronUp },
+  NEUTRAL:      { label: 'NEUTRAL',       bg: 'bg-slate-500/15',   text: 'text-foreground',   border: 'border-slate-500/30',   icon: Minus },
+  SHORT:        { label: 'SHORT',         bg: 'bg-orange-500/20',  text: 'text-orange-300',  border: 'border-orange-500/40',  icon: ChevronDown },
+  STRONG_SHORT: { label: 'STRONG SHORT',  bg: 'bg-red-500/20',     text: 'text-red-300',     border: 'border-red-500/40',     icon: ChevronsDown },
 }
 
 const REGIONS = ['Todos', 'Americas', 'Europe', 'Asia-Pacific']
@@ -141,7 +144,7 @@ function CountryCard({ c }: { c: CountryData }) {
           </div>
           <div className="flex flex-col items-end gap-1">
             <span className={`inline-flex items-center gap-0.5 text-[0.6rem] font-black px-1.5 py-0.5 rounded border tracking-wide ${sig.bg} ${sig.text} ${sig.border}`}>
-              {sig.icon} {sig.label}
+              <sig.icon size={12} strokeWidth={2.5} className="inline shrink-0 mr-0.5 align-[-2px]" />{sig.label}
             </span>
             <span className="text-[0.6rem] text-muted-foreground/80">{c.combined_score.toFixed(0)}/100</span>
           </div>

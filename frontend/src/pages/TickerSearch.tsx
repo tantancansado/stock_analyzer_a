@@ -10,7 +10,7 @@ import TickerLogo from '../components/TickerLogo'
 import EntryVerdictBadge from '../components/EntryVerdictBadge'
 import ValuationBar from '../components/ValuationBar'
 import { useEntryVerdict } from '../hooks/useEntryVerdicts'
-import { Search, AlertCircle, Bell, Loader2 } from 'lucide-react'
+import { AlertCircle, Bell, Check, Loader2, Search, X } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -179,14 +179,14 @@ function DecisionCard({
           {decision.reasons.length > 0 && (
             <ul className="space-y-1">
               {decision.reasons.map(x => (
-                <li key={x} className="text-[0.78rem] text-foreground/80 leading-snug"><span className="text-emerald-400 font-bold">✓</span> {x}</li>
+                <li key={x} className="text-[0.78rem] text-foreground/80 leading-snug"><Check size={12} strokeWidth={3} className="text-emerald-400 font-bold inline shrink-0" /> {x}</li>
               ))}
             </ul>
           )}
           {decision.blockers.length > 0 && (
             <ul className="space-y-1">
               {decision.blockers.map(x => (
-                <li key={x} className="text-[0.78rem] text-foreground/80 leading-snug"><span className="text-red-400 font-bold">✗</span> {x}</li>
+                <li key={x} className="text-[0.78rem] text-foreground/80 leading-snug"><X size={12} strokeWidth={3} className="text-red-400 font-bold inline shrink-0" /> {x}</li>
               ))}
             </ul>
           )}
