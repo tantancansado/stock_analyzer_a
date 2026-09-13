@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import type { LucideIcon } from 'lucide-react'
 import { useApi } from '../hooks/useApi'
 import { fetchValueOpportunities, fetchEUValueOpportunities, type ValueOpportunity } from '../api/client'
 import Loading from '../components/Loading'
@@ -11,13 +12,13 @@ import InfoTooltip from '../components/InfoTooltip'
 import { Card } from '@/components/ui/card'
 import EmptyState from '../components/EmptyState'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { SearchX } from 'lucide-react'
+import { ArrowUpCircle, BarChart3, CalendarDays, Coins, Flame, Gem, RefreshCw, Scale, SearchX, Target, TrendingUp, Trophy, Zap } from 'lucide-react'
 
 // ── Catalyst definitions ──────────────────────────────────────────────────────
 
 interface Catalyst {
   id: string
-  icon: string
+  icon: LucideIcon
   label: string
   description: string
   color: string        // tailwind color key (emerald, amber, violet, blue, cyan, rose)
@@ -27,7 +28,7 @@ interface Catalyst {
 const CATALYSTS: Catalyst[] = [
   {
     id: 'earnings_catalyst',
-    icon: '📅',
+    icon: CalendarDays,
     label: 'Earnings próximo',
     description: 'Resultados en 8-30 días — ventana de expansión de múltiplo si EPS supera expectativas. No en los próximos 7d (riesgo de gap).',
     color: 'amber',
@@ -39,7 +40,7 @@ const CATALYSTS: Catalyst[] = [
   },
   {
     id: 'eps_accel',
-    icon: '📈',
+    icon: TrendingUp,
     label: 'EPS acelerando',
     description: 'Beneficio por acción creciendo más rápido que el trimestre anterior — señal de momentum fundamental.',
     color: 'emerald',
@@ -47,7 +48,7 @@ const CATALYSTS: Catalyst[] = [
   },
   {
     id: 'analyst_upgrade',
-    icon: '⬆️',
+    icon: ArrowUpCircle,
     label: 'Upgrade reciente',
     description: 'Analista ha subido recomendación en los últimos 14 días — catalizador externo de visibilidad.',
     color: 'blue',
@@ -55,7 +56,7 @@ const CATALYSTS: Catalyst[] = [
   },
   {
     id: 'target_raised',
-    icon: '🎯',
+    icon: Target,
     label: 'Precio objetivo subido',
     description: 'Precio objetivo de consenso subido ≥3% en los últimos 7 días — revisión al alza de estimaciones.',
     color: 'cyan',
@@ -63,7 +64,7 @@ const CATALYSTS: Catalyst[] = [
   },
   {
     id: 'buyback',
-    icon: '🔁',
+    icon: RefreshCw,
     label: 'Recompra activa',
     description: 'La empresa está recomprando acciones propias — señal de que directivos creen que cotizan barato.',
     color: 'violet',
@@ -71,7 +72,7 @@ const CATALYSTS: Catalyst[] = [
   },
   {
     id: 'fcf_strong',
-    icon: '💰',
+    icon: Coins,
     label: 'FCF ≥5%',
     description: 'FCF Yield ≥5% — la empresa genera cash real respecto a su valor de mercado. Buen colchón.',
     color: 'emerald',
@@ -79,7 +80,7 @@ const CATALYSTS: Catalyst[] = [
   },
   {
     id: 'piotroski',
-    icon: '🏆',
+    icon: Trophy,
     label: 'Piotroski F≥7',
     description: 'F-Score ≥7 sobre 9 — salud financiera excelente según los 9 criterios de Piotroski.',
     color: 'emerald',
@@ -87,7 +88,7 @@ const CATALYSTS: Catalyst[] = [
   },
   {
     id: 'upside_dorado',
-    icon: '⚖️',
+    icon: Scale,
     label: 'Upside en zona buena',
     // Antes era "R:R ≥3", y era un catalizador AL REVÉS. `risk_reward_ratio`
     // no es un factor independiente: el integrator lo calcula como
@@ -110,6 +111,7 @@ interface Setup {
   subtitle: string
   catalysts: string[]   // IDs of required catalysts
   badge: string
+  badgeIcon: LucideIcon
   badgeColor: string
 }
 
@@ -119,7 +121,8 @@ const SETUPS: Setup[] = [
     label: 'Pre-Earnings VALUE',
     subtitle: 'Earnings en 8-30d + EPS acelerando + R:R≥3',
     catalysts: ['earnings_catalyst', 'eps_accel', 'rr_strong'],
-    badge: '🔥 Timing',
+    badge: 'Timing',
+    badgeIcon: Flame,
     badgeColor: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
   },
   {
@@ -127,7 +130,8 @@ const SETUPS: Setup[] = [
     label: 'Convicción Analistas',
     subtitle: 'Upgrade reciente + precio objetivo subido + FCF≥5%',
     catalysts: ['analyst_upgrade', 'target_raised', 'fcf_strong'],
-    badge: '📊 Externo',
+    badge: 'Externo',
+    badgeIcon: BarChart3,
     badgeColor: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
   },
   {
@@ -135,7 +139,8 @@ const SETUPS: Setup[] = [
     label: 'Compounder de Calidad',
     subtitle: 'FCF≥5% + Recompra activa + Piotroski F≥7',
     catalysts: ['fcf_strong', 'buyback', 'piotroski'],
-    badge: '💎 Calidad',
+    badge: 'Calidad',
+    badgeIcon: Gem,
     badgeColor: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
   },
   {
@@ -143,7 +148,8 @@ const SETUPS: Setup[] = [
     label: 'Triple Confluencia',
     subtitle: 'EPS acelerando + Recompra + R:R≥3',
     catalysts: ['eps_accel', 'buyback', 'rr_strong'],
-    badge: '⚡ Alto',
+    badge: 'Alto',
+    badgeIcon: Zap,
     badgeColor: 'bg-violet-500/15 text-violet-400 border-violet-500/30',
   },
 ]
@@ -166,7 +172,8 @@ function CatalystTag({ c }: { c: Catalyst }) {
       className={`inline-flex items-center gap-1 text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
       title={c.description}
     >
-      {c.icon} {c.label}
+      <c.icon size={12} strokeWidth={2} className="shrink-0" />
+      {c.label}
     </span>
   )
 }
@@ -248,7 +255,7 @@ export default function CatalystScreener() {
             >
               <div className="flex items-start justify-between gap-2 mb-1.5">
                 <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${s.badgeColor}`}>
-                  {s.badge}
+                  <s.badgeIcon size={12} strokeWidth={2} className="mr-1 inline shrink-0 align-[-2px]" />{s.badge}
                 </span>
                 <span className={`text-lg font-bold tabular-nums ${count === 0 ? 'text-muted-foreground/30' : active ? 'text-primary' : 'text-foreground'}`}>
                   {count}
