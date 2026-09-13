@@ -670,18 +670,27 @@ export default function TickerSearch() {
               {[
                 { label: 'Final Score', key: 'final_score' },
                 { label: 'VCP', key: 'vcp_score' },
-                { label: 'ML', key: 'ml_score' },
-                { label: 'Fundamental', key: 'fund_score' },
-              ].map(({ label, key }, index) => (
-                <div
-                  key={key}
-                  className="glass rounded-lg p-3 animate-fade-in-up hover:border-border/60 transition-colors active:scale-[0.98]"
-                  style={{ animationDelay: `${index * 60}ms` }}
-                >
-                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
-                  <div>{sf(key) != null ? <ScoreBar score={sf(key)!} /> : <span className="text-muted-foreground text-xs">—</span>}</div>
-                </div>
-              ))}
+                { label: 'ML', key: 'ml_score', centinela50: true },
+                { label: 'Fundamental', key: 'fund_score', centinela50: true },
+              ].map(({ label, key, centinela50 }, index) => {
+                // En ml_score y fundamental_score, un 50.0 exacto NO es un
+                // score: es el relleno de "no hay dato" (regla del proyecto).
+                // La barra lo pintaba medio llena, igual que una lectura real
+                // del 50%. 16 de los 58 picks de VALUE están así porque el
+                // modelo ML no tiene predicción para ese ticker.
+                const v = sf(key)
+                const hayDato = v != null && !(centinela50 && v === 50)
+                return (
+                  <div
+                    key={key}
+                    className="glass rounded-lg p-3 animate-fade-in-up hover:border-border/60 transition-colors active:scale-[0.98]"
+                    style={{ animationDelay: `${index * 60}ms` }}
+                  >
+                    <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+                    <div>{hayDato ? <ScoreBar score={v!} /> : <span className="text-muted-foreground text-xs">—</span>}</div>
+                  </div>
+                )
+              })}
             </div>
 
             {/* ── Analysis sections — visual metric cards ── */}

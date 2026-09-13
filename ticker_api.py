@@ -230,6 +230,22 @@ def _calc_base(vcp, ml, fund):
     return base, vcp_c, ml_c, fund_c
 
 
+_MOTIVOS_NO_EVALUADO = (
+    'too many requests', 'rate limit', '429', 'insufficient data', 'error:',
+)
+
+
+def _no_evaluado(motivo: str) -> bool:
+    """¿El motivo de un filtro dice que no se pudo evaluar, en vez de un veredicto?
+
+    Mismo criterio que usa super_score_integrator para no penalizar: yfinance
+    rate-limitea de dos formas, con excepción ("Too Many Requests") y devolviendo
+    historial vacío ("Insufficient data"). Ninguna de las dos es un resultado.
+    """
+    m = str(motivo or '').lower()
+    return any(p in m for p in _MOTIVOS_NO_EVALUADO)
+
+
 def _notna_str(row, key, fallback=''):
     """Lee un campo string de un pandas Series; devuelve fallback si NaN."""
     val = row.get(key, fallback)
@@ -409,17 +425,36 @@ def _analyze_from_cache(ticker):
             sector_name  = _notna_str(rscores, 'sector', sector_name) or sector_name
 
     # ── Filtros técnicos desde super_scores_ultimate ───────────────────────
+    #
+    # Estos filtros dependen de yfinance y cuando les rate-limitea no dan un
+    # resultado: dan un error. El CSV de producción tenía los 82 tickers con
+    # ad_signal=UNKNOWN, ad_score=50.0 y el motivo literal "Error: Too Many
+    # Requests. Rate limited." — y la app lo servía como el análisis de hoy.
+    #
+    # Un 50.0 es el centinela de dato ausente (regla del proyecto: nunca
+    # puntuar con él), y un ma_filter_pass=False junto a un rate-limit no
+    # significa que la tendencia sea bajista, significa que no se evaluó — la
+    # misma regla que ya aplica super_score_integrator al no penalizar. Sin
+    # dato se devuelve None y la interfaz no enseña la métrica.
     ma_passes = None; ma_score = None; ma_checks = None; ma_reason = ''
     ad_signal = None; ad_score = None; ad_reason = ''
     if rscores is not None:
-        _ma_pass = rscores.get('ma_filter_pass')
-        ma_passes = bool(_ma_pass) if _ma_pass is not None and not (isinstance(_ma_pass, float) and pd.isna(_ma_pass)) else None
-        ma_score  = _sf(rscores.get('ma_filter_score'))
         ma_reason = _notna_str(rscores, 'ma_filter_reason')
-        _ads = rscores.get('ad_signal')
-        ad_signal = str(_ads) if _ads is not None and not (isinstance(_ads, float) and pd.isna(_ads)) else None
-        ad_score  = _sf(rscores.get('ad_score'))
+        if not _no_evaluado(ma_reason):
+            _ma_pass = rscores.get('ma_filter_pass')
+            ma_passes = bool(_ma_pass) if _ma_pass is not None and not (isinstance(_ma_pass, float) and pd.isna(_ma_pass)) else None
+            ma_score  = _sf(rscores.get('ma_filter_score'))
+        else:
+            ma_reason = ''
+
         ad_reason = _notna_str(rscores, 'ad_reason')
+        _ads = rscores.get('ad_signal')
+        _ad_sig = str(_ads) if _ads is not None and not (isinstance(_ads, float) and pd.isna(_ads)) else None
+        if not _no_evaluado(ad_reason) and _ad_sig not in (None, 'UNKNOWN'):
+            ad_signal = _ad_sig
+            ad_score  = _sf(rscores.get('ad_score'))
+        else:
+            ad_reason = ''
 
     # ── RS Line (Minervini) ────────────────────────────────────────────────
     rs_line_score = rs_line_percentile = None
