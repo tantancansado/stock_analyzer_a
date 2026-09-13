@@ -8,6 +8,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@
 import PageHeader from '@/components/PageHeader'
 import CsvDownload from '@/components/CsvDownload'
 import PageShell from '@/components/PageShell'
+import { Brain, Minus, TrendingDown, TrendingUp } from 'lucide-react'
 
 interface TopContract {
   side: 'CALL' | 'PUT'
@@ -70,10 +71,11 @@ function SignalBadge({ signal }: { signal: string }) {
     signal === 'BULLISH' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' :
     signal === 'BEARISH' ? 'bg-red-500/15 text-red-400 border-red-500/30' :
     'bg-yellow-500/15 text-yellow-400 border-yellow-500/30'
-  const icon = signal === 'BULLISH' ? '🟢' : signal === 'BEARISH' ? '🔴' : '⚪'
+  const Icono = signal === 'BULLISH' ? TrendingUp : signal === 'BEARISH' ? TrendingDown : Minus
   return (
     <span className={`inline-flex items-center gap-1 text-[0.68rem] font-bold px-1.5 py-0.5 rounded border ${cls}`}>
-      {icon} {signal}
+      <Icono size={12} strokeWidth={2.5} className="shrink-0" />
+      {signal}
     </span>
   )
 }
@@ -237,7 +239,7 @@ export default function OptionsFlow() {
                 : 'border-border/40 text-muted-foreground hover:border-border/70 hover:text-foreground'
             }`}
           >
-            {f === 'ALL' ? `Todos (${results.length})` : `${f === 'BULLISH' ? '🟢' : f === 'BEARISH' ? '🔴' : '⚪'} ${f}`}
+            {f === 'ALL' ? `Todos (${results.length})` : f}
           </button>
         ))}
         <button
@@ -385,7 +387,7 @@ export default function OptionsFlow() {
           <div className="mt-6">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h2 className="text-base font-bold">🧠 Calidad IA — TIER 1 &amp; 2</h2>
+                <h2 className="flex items-center gap-2 text-base font-bold"><Brain size={16} strokeWidth={1.75} className="shrink-0" />Calidad IA — TIER 1 &amp; 2</h2>
                 <p className="text-[0.72rem] text-muted-foreground mt-0.5">
                   Flujo filtrado por cerebro: contratos con volumen institucional confirmado y baja probabilidad de ruido.
                   T1 (ruido filtrado) = {qualityRaw.noise_filtered} descartados.

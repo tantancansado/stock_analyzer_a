@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { fetchMacroCountries } from '../api/client'
 import { useApi } from '../hooks/useApi'
 import StaleDataBanner from '../components/StaleDataBanner'
-import { ChevronDown, ChevronUp, ChevronsDown, ChevronsUp, Globe, Minus } from 'lucide-react'
+import { Bot, ChevronDown, ChevronUp, ChevronsDown, ChevronsUp, Globe, Minus, TrendingDown } from 'lucide-react'
 import PageHeader from '../components/PageHeader'
 import PageShell from '@/components/PageShell'
 import EmptyState from '@/components/EmptyState'
@@ -90,6 +90,14 @@ const SIGNAL_CONFIG = {
   NEUTRAL:      { label: 'NEUTRAL',       bg: 'bg-slate-500/15',   text: 'text-foreground',   border: 'border-slate-500/30',   icon: Minus },
   SHORT:        { label: 'SHORT',         bg: 'bg-orange-500/20',  text: 'text-orange-300',  border: 'border-orange-500/40',  icon: ChevronDown },
   STRONG_SHORT: { label: 'STRONG SHORT',  bg: 'bg-red-500/20',     text: 'text-red-300',     border: 'border-red-500/40',     icon: ChevronsDown },
+}
+
+/** Periodo del informe macro: de 'IMF WEO Jan-2026 Update (…)' saca
+ *  'IMF WEO Jan-2026'. Si la cadena no tiene esa forma, se devuelve entera
+ *  antes que inventar un recorte. */
+function periodoMacro(fuente: string): string {
+  const limpio = (fuente || '').split('(')[0].trim().replace(/\s+Update$/i, '')
+  return limpio || fuente
 }
 
 const REGIONS = ['Todos', 'Americas', 'Europe', 'Asia-Pacific']
@@ -193,7 +201,7 @@ function CountryCard({ c }: { c: CountryData }) {
             <span className="text-[0.55rem] px-1 py-0.5 rounded bg-slate-500/10 text-muted-foreground border border-slate-500/20">⏳ ESPERAR PULLBACK</span>
           )}
           {mkt && mkt.ytd_return < -10 && (
-            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">📉 YTD {mkt.ytd_return.toFixed(0)}%</span>
+            <span className="inline-flex items-center gap-1 text-[0.55rem] px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20"><TrendingDown size={12} strokeWidth={2} className="shrink-0" />YTD {mkt.ytd_return.toFixed(0)}%</span>
           )}
           {c.debt_to_gdp != null && !c.currency_sovereign && c.debt_to_gdp >= 100 && (
             <span title="Deuda elevada sin soberanía monetaria — riesgo real de mercado" className="text-[0.55rem] px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">⚠ Deuda {c.debt_to_gdp.toFixed(0)}% GDP</span>
@@ -258,7 +266,7 @@ function CountryCard({ c }: { c: CountryData }) {
           {c.ai_narrative && (
             <div className="bg-purple-500/5 border border-purple-500/20 rounded-lg p-3 space-y-2">
               <div className="text-[0.6rem] font-semibold text-purple-400 uppercase tracking-wider flex items-center gap-1">
-                🤖 Análisis IA — {c.ai_verdict ?? c.signal}
+                <Bot size={12} strokeWidth={2} className="mr-1 inline shrink-0 align-[-2px]" />Análisis IA — {c.ai_verdict ?? c.signal}
                 {c.ai_confidence != null && <span className="text-purple-500 font-normal">· confianza {c.ai_confidence}%</span>}
               </div>
               <p className="text-[0.7rem] text-foreground leading-relaxed">{c.ai_narrative}</p>
@@ -397,7 +405,12 @@ export default function MacroCountries() {
 
       <PageHeader
         title={tituloPagina}
-        subtitle={`${data.countries.length} países · macro ${data.macro_source.split(' ').slice(-2).join(' ')} · mercado tiempo real`}
+        // `macro_source` es 'IMF WEO Jan-2026 Update (WEO Apr-2026 sale el
+        // 14-Apr)'. Coger sus dos últimas palabras daba "macro el 14-Apr)",
+        // con un paréntesis de cierre suelto y sin decir de dónde salen los
+        // datos. La fuente completa ya se muestra dos veces más abajo, así
+        // que aquí basta con el periodo.
+        subtitle={`${data.countries.length} países · ${periodoMacro(data.macro_source)} · mercado en tiempo real`}
       >
         <div className="text-right text-[0.65rem] text-muted-foreground/80">
           <div>Actualizado: {data.generated_at}</div>
@@ -408,16 +421,17 @@ export default function MacroCountries() {
       {/* Signal summary pills */}
       <div className="flex flex-wrap gap-2">
         {([
-          { key: 'strong_buy',   label: '⬆⬆ STRONG BUY',  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' },
-          { key: 'buy',          label: '⬆ BUY',            cls: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' },
-          { key: 'neutral',      label: '— NEUTRAL',         cls: 'bg-slate-500/15 text-foreground border-slate-500/25' },
-          { key: 'short',        label: '⬇ SHORT',           cls: 'bg-orange-500/15 text-orange-300 border-orange-500/30' },
-          { key: 'strong_short', label: '⬇⬇ STRONG SHORT', cls: 'bg-red-500/15 text-red-300 border-red-500/30' },
-        ] as const).map(({ key, label, cls }) => {
+          { key: 'strong_buy',   label: 'STRONG BUY', icono: ChevronsUp,  cls: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' },
+          { key: 'buy',          label: 'BUY', icono: ChevronUp,            cls: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30' },
+          { key: 'neutral',      label: 'NEUTRAL', icono: Minus,            cls: 'bg-slate-500/15 text-foreground border-slate-500/25' },
+          { key: 'short',        label: 'SHORT', icono: ChevronDown,        cls: 'bg-orange-500/15 text-orange-300 border-orange-500/30' },
+          { key: 'strong_short', label: 'STRONG SHORT', icono: ChevronsDown, cls: 'bg-red-500/15 text-red-300 border-red-500/30' },
+        ] as const).map(({ key, label, icono: Icono, cls }) => {
           const codes = s[key] as string[]
           if (!codes.length) return null
           return (
             <div key={key} className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold ${cls}`}>
+              <Icono size={12} strokeWidth={2.5} className="shrink-0" />
               <span>{label}</span>
               <span className="font-normal opacity-70">
                 {codes.map(c => data.countries.find(x => x.code === c)?.flag ?? c).join(' ')}

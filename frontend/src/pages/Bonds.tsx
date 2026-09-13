@@ -259,7 +259,7 @@ function GainBar({ base, rateCut, rateHike, capital }: { base: number; rateCut: 
   return (
     <div className="space-y-1.5 mt-3">
       {bar(rateCut, '#10b981', '📉 Tipos bajan')}
-      {bar(base,    '#22d3ee', '➡️ Escenario base')}
+      {bar(base,    '#22d3ee', 'Escenario base')}
       {bar(rateHike,'#f59e0b', '📈 Tipos suben')}
     </div>
   )
@@ -297,7 +297,7 @@ function AdvisorCard({ label, rec, capital }: {
             {rec.yieldPct.toFixed(1)}% anual
           </span>
           <span className="text-xs px-2 py-0.5 rounded-full text-foreground/40" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}>
-            {rec.currency} · IBKR Ireland ✓
+            {rec.currency} · IBKR Ireland
           </span>
         </div>
 
