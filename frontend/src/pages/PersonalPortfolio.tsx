@@ -101,9 +101,9 @@ interface PositionResult {
 interface RiskMetrics {
   total_risk_amount: number
   total_risk_pct: number
-  kelly_base_pct: number
+  kelly_base_pct: number | null
   oversized_positions: string[]
-  win_rate_used: number
+  win_rate_used: number | null
 }
 
 interface PortfolioAnalysis {
@@ -1321,9 +1321,15 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             )}
           </div>
           <div className="flex gap-4 flex-wrap">
-            <MetricChip label="Vol" value={`${result.volatility_pct.toFixed(1)}%`} valueClass={(result.volatility_pct) > 15 ? 'text-red-400' : 'text-amber-400'} />
-            <MetricChip label="Kelly" value={`${result.kelly_pct?.toFixed(1)}%`} />
-            <MetricChip label="Óptimo" value={`${result.optimal_size_pct?.toFixed(1)}%`} valueClass={overweight ? 'text-red-400' : underweight ? 'text-blue-400' : 'text-primary'} />
+            <MetricChip
+              label="Vol"
+              value={`${result.volatility_pct.toFixed(1)}%`}
+              valueClass={result.volatility_pct > 15 ? 'text-red-400' : result.volatility_pct > 8 ? 'text-amber-400' : 'text-foreground'}
+            />
+            {result.kelly_pct != null && <MetricChip label="Kelly" value={`${result.kelly_pct.toFixed(1)}%`} />}
+            {result.optimal_size_pct != null && (
+              <MetricChip label="Óptimo" value={`${result.optimal_size_pct.toFixed(1)}%`} valueClass={overweight ? 'text-red-400' : underweight ? 'text-blue-400' : 'text-primary'} />
+            )}
             {result.stop_loss_atr != null && (
               <MetricChip label="Stop ATR" value={`${sym}${result.stop_loss_atr.toFixed(2)}`} valueClass="text-red-400" />
             )}
@@ -1775,12 +1781,16 @@ export default function PersonalPortfolio() {
                   </strong>
                   <span className="text-muted-foreground/50 ml-1">(${result.risk_metrics.total_risk_amount.toFixed(0)} en riesgo)</span>
                 </span>
-                <span className="text-muted-foreground">
-                  Kelly base <strong className="text-foreground">{result.risk_metrics.kelly_base_pct.toFixed(1)}%</strong>
-                </span>
-                <span className="text-muted-foreground">
-                  Win rate <strong className="text-foreground">{result.risk_metrics.win_rate_used.toFixed(0)}%</strong>
-                </span>
+                {result.risk_metrics.kelly_base_pct != null && (
+                  <span className="text-muted-foreground">
+                    Kelly base <strong className="text-foreground">{result.risk_metrics.kelly_base_pct.toFixed(1)}%</strong>
+                  </span>
+                )}
+                {result.risk_metrics.win_rate_used != null && (
+                  <span className="text-muted-foreground">
+                    Win rate <strong className="text-foreground">{result.risk_metrics.win_rate_used.toFixed(0)}%</strong>
+                  </span>
+                )}
               </div>
               {result.risk_metrics.oversized_positions.length > 0 && (
                 <div className="flex items-start gap-2 p-2 rounded-lg bg-red-500/8 border border-red-500/15 text-[0.72rem]">

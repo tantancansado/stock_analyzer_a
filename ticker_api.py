@@ -3795,37 +3795,42 @@ def analyze_personal_portfolio():
 
     # ── Position sizing helpers (inline from position_sizer.py) ──────────
     def _calc_atr_volatility(ticker_obj, cur_price):
-        """ATR-based volatility as fraction of price."""
+        """ATR-based volatility as fraction of price, o None si no hay dato.
+
+        Devolvía 0.20 cuando fallaba. Un 20% inventado se convierte en un stop
+        del 40% (2x ATR) que la interfaz enseña como si estuviera calculado.
+        Sin dato no hay número — ver CLAUDE.md.
+        """
         try:
             end = datetime.now()
             df = ticker_obj.history(start=end - _td(days=45), end=end)
             if df.empty or len(df) < 14:
-                return 0.20
+                return None
             h, l, c = df['High'], df['Low'], df['Close']
             tr = pd.concat([h - l, (h - c.shift()).abs(), (l - c.shift()).abs()], axis=1).max(axis=1)
             atr = float(tr.rolling(14).mean().iloc[-1])
-            return atr / cur_price if cur_price > 0 else 0.20
+            if not (cur_price > 0) or not (atr > 0):
+                return None
+            return atr / cur_price
         except Exception:
-            return 0.20
+            return None
 
-    def _calc_kelly(win_rate=0.75, avg_win=5.0, avg_loss=-3.0, max_pos=0.10):
+    def _calc_kelly(win_rate, avg_win, avg_loss, max_pos=0.10):
+        if win_rate is None or avg_loss is None or avg_win is None:
+            return None
         if avg_loss >= 0 or avg_win <= 0:
             return 0.0
         ratio = abs(avg_win / avg_loss)
         kelly = (win_rate * ratio - (1 - win_rate)) / ratio
         return max(0, min(kelly * 0.5, max_pos))
 
-    # Load backtest metrics if available
-    _bt_win_rate, _bt_avg_win, _bt_avg_loss = 0.75, 5.0, -3.0
-    try:
-        bt_path = DOCS / 'backtest_metrics.json'
-        if bt_path.exists():
-            bt = _json.loads(bt_path.read_text())
-            _bt_win_rate = bt.get('win_rate', 0.75)
-            _bt_avg_win  = bt.get('avg_win', 5.0)
-            _bt_avg_loss = bt.get('avg_loss', -3.0)
-    except Exception:
-        pass
+    # Inputs de Kelly medidos en el tracker, la misma fuente que position_sizer.
+    # Estaban escritos a mano (75% de aciertos, +5%/-3%) y docs/backtest_metrics.json
+    # no existe, así que nunca se sobrescribían: con esos tres números Kelly da
+    # 0.30, que recortado por el tope de 0.10 sale SIEMPRE exactamente 10%. Todas
+    # las posiciones de la cartera mostraban el mismo "Kelly 10.0%".
+    from position_sizer import kelly_inputs_reales
+    _bt_win_rate, _bt_avg_win, _bt_avg_loss = kelly_inputs_reales(docs=DOCS)
 
     enriched = []
     for pos in positions:
@@ -3940,13 +3945,18 @@ def analyze_personal_portfolio():
         # ── Position sizing (stocks only) ────────────────────────────
         volatility = kelly_pct_val = opt_size_pct = stop_loss_price = stop_loss_pct_atr = risk_amount = vol_mult = None
         if asset_type == 'stock':
-            volatility      = _calc_atr_volatility(t_obj, cur_price) if t_obj else 0.20
-            kelly_pct_val   = _calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss)
-            vol_mult        = 0.7 if volatility > 0.15 else (1.2 if volatility < 0.05 else 1.0)
-            opt_size_pct    = min(kelly_pct_val * vol_mult, 0.10)
-            stop_loss_pct_atr = volatility * 2
-            stop_loss_price   = cur_price * (1 - stop_loss_pct_atr)
-            risk_amount       = shares * (cur_price - stop_loss_price)
+            volatility    = _calc_atr_volatility(t_obj, cur_price) if t_obj else None
+            kelly_pct_val = _calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss)
+            if volatility is not None:
+                vol_mult          = 0.7 if volatility > 0.15 else (1.2 if volatility < 0.05 else 1.0)
+                stop_loss_pct_atr = volatility * 2
+                stop_loss_price   = cur_price * (1 - stop_loss_pct_atr)
+                risk_amount       = shares * (cur_price - stop_loss_price)
+                if kelly_pct_val is not None:
+                    # El tope del 10% es un techo, no un objetivo: el
+                    # multiplicador descuenta desde él en vez de empujar por
+                    # encima para acabar recortado siempre en el mismo sitio.
+                    opt_size_pct = min(kelly_pct_val, 0.10) * min(vol_mult / 1.2, 1.0)
 
         row = {
             'ticker': ticker, 'shares': shares, 'avg_price': avg_p,
@@ -4166,9 +4176,14 @@ Para options_strategy: sé específico — si recomiendas COVERED_CALL indica el
         'risk_metrics': {
             'total_risk_amount': round(total_risk, 0),
             'total_risk_pct': round(total_risk_pct, 1),
-            'kelly_base_pct': round(_calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss) * 100, 1),
+            'kelly_base_pct': (
+                round(_kelly_base * 100, 1) if (_kelly_base := _calc_kelly(_bt_win_rate, _bt_avg_win, _bt_avg_loss)) is not None else None
+            ),
             'oversized_positions': oversized,
-            'win_rate_used': round(_bt_win_rate * 100 if _bt_win_rate <= 1 else _bt_win_rate, 1),
+            'win_rate_used': (
+                round(_bt_win_rate * 100 if _bt_win_rate <= 1 else _bt_win_rate, 1)
+                if _bt_win_rate is not None else None
+            ),
         },
         'portfolio_analysis': ai_result.get('portfolio_analysis', {}) if ai_result else {},
         'positions': result_positions,

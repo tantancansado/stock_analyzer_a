@@ -25,6 +25,8 @@ interface PositionRow {
   risk_pct_portfolio?: number
   volatility?: number
   kelly_pct?: number
+  kelly_horizon?: string
+  kelly_win_rate?: number
   multipliers?: string | Record<string, number>
 }
 
@@ -43,9 +45,22 @@ function parseMultipliers(m: string | Record<string, number> | undefined): Recor
   }
 }
 
+/** Riesgo de UNA posición: más del 4% del portfolio en un solo nombre es mucho. */
 function riskColor(pct: number) {
   if (pct > 4) return 'text-red-400'
   if (pct > 2) return 'text-amber-400'
+  return 'text-emerald-400'
+}
+
+/**
+ * Riesgo de la CARTERA ENTERA, que es la suma de todas las posiciones y por
+ * tanto se mide con otra vara. Usaba los umbrales de una sola posición, así que
+ * cualquier cartera diversificada salía en rojo. Pintaba un 4.8% repartido
+ * entre 13 nombres —conservador— del mismo color que una alarma.
+ */
+function totalRiskColor(pct: number) {
+  if (pct > 12) return 'text-red-400'
+  if (pct > 6) return 'text-amber-400'
   return 'text-emerald-400'
 }
 
@@ -79,6 +94,9 @@ export default function PositionSizing() {
   const totalRisk = rows.reduce((s, r) => s + (r.risk_pct_portfolio ?? 0), 0)
   const totalValue = rows.reduce((s, r) => s + (r.position_value ?? 0), 0) * scale
   const avgSize = rows.length ? rows.reduce((s, r) => s + (r.position_size_pct ?? 0), 0) / rows.length : 0
+  const kellyBase = rows.find(r => r.kelly_pct != null)?.kelly_pct ?? null
+  const kellyHorizonte = rows.find(r => r.kelly_horizon)?.kelly_horizon ?? null
+  const kellyWinRate = rows.find(r => r.kelly_win_rate != null)?.kelly_win_rate ?? null
 
   return (
     <>
@@ -117,7 +135,7 @@ export default function PositionSizing() {
         </Card>
         <Card className="glass p-5 stagger-3">
           <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Riesgo Total</div>
-          <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${riskColor(totalRisk)}`}>
+          <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${totalRiskColor(totalRisk)}`}>
             {totalRisk.toFixed(1)}%
           </div>
           <div className="text-[0.66rem] text-muted-foreground">del portfolio</div>
@@ -130,6 +148,17 @@ export default function PositionSizing() {
           <div className="text-[0.66rem] text-muted-foreground">del portfolio</div>
         </Card>
       </div>
+
+      {/* El Kelly base es de cartera, el mismo para todas las filas: se decía
+          una vez por posición —13 veces el mismo número— en vez de aquí. Y sin
+          el plazo no dice nada: con este tracker, a 30 días sale 0. */}
+      {kellyBase != null && (
+        <p className="text-[0.68rem] text-muted-foreground mb-5">
+          Kelly base <span className="tabular-nums text-foreground/80">{kellyBase.toFixed(1)}%</span>
+          {kellyHorizonte && <> · medido sobre señales a <span className="tabular-nums">{kellyHorizonte.replace('d', ' días')}</span></>}
+          {kellyWinRate != null && <> · <span className="tabular-nums">{kellyWinRate.toFixed(1)}%</span> de aciertos</>}
+        </p>
+      )}
 
       {rows.length === 0 ? (
         <Card className="glass">
@@ -173,7 +202,6 @@ export default function PositionSizing() {
                   <div className="flex gap-3 mt-2 text-[0.62rem] text-muted-foreground/60">
                     {r.stop_loss_pct != null && <span>Stop {r.stop_loss_pct.toFixed(1)}%</span>}
                     {r.risk_pct_portfolio != null && <span className={riskColor(r.risk_pct_portfolio)}>Riesgo {r.risk_pct_portfolio.toFixed(1)}%</span>}
-                    {r.kelly_pct != null && <span>Kelly {r.kelly_pct.toFixed(1)}%</span>}
                   </div>
                 </div>
               )

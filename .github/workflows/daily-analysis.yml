@@ -157,22 +157,22 @@ jobs:
       # ── TIER A: CRÍTICOS — deben pasar o el job falla (no continue-on-error) ──
       - name: Market Regime Detector (informational — gates signals, never aborts)
         continue-on-error: true
-        run: python3 market_regime_detector.py || echo "Market regime detection failed"
+        run: python3 market_regime_detector.py
 
       - name: Sector Rotation Scan
         continue-on-error: true
-        run: python3 sector_rotation_detector.py || echo "Sector rotation failed"
+        run: python3 sector_rotation_detector.py
 
       - name: Fundamental Scoring [CRITICAL]
         run: python3 fundamental_scorer.py --curated
 
       - name: Analyst Revisions Tracker
         continue-on-error: true
-        run: python3 analyst_revisions_tracker.py || echo "Analyst revisions tracker failed"
+        run: python3 analyst_revisions_tracker.py
 
       - name: ML Win Predictor (XGBoost win probability)
         continue-on-error: true
-        run: python3 ml_win_predictor.py || echo "ML win predictor failed"
+        run: python3 ml_win_predictor.py
 
       - name: Sync VCP outputs from parallel job
         run: |
@@ -209,11 +209,11 @@ jobs:
 
       - name: European Insider Scanner
         continue-on-error: true
-        run: python3 european_insider_scanner.py || echo "European insider scanner failed"
+        run: python3 european_insider_scanner.py
 
       - name: European Value Scanner
         continue-on-error: true
-        run: python3 european_value_scanner.py --curated || echo "European scanner failed"
+        run: python3 european_value_scanner.py --curated
 
       - name: Global Market Scanner (BR/KR/JP/HK)
         continue-on-error: true
@@ -255,7 +255,7 @@ jobs:
       # el grade siempre refleja el score definitivo.
       - name: Owner Earnings Batch (pre-compute for GitHub Pages)
         continue-on-error: true
-        run: python3 owner_earnings.py || echo "Owner earnings batch failed"
+        run: python3 owner_earnings.py
 
       - name: Owner Earnings AI Validator
         continue-on-error: true
@@ -265,7 +265,7 @@ jobs:
 
       - name: Apply Owner Earnings AI Adjustment
         continue-on-error: true
-        run: python3 apply_oe_ai_adjustment.py || echo "Owner earnings AI patch failed"
+        run: python3 apply_oe_ai_adjustment.py
 
       - name: Conviction Filter (final quality gate) [CRITICAL]
         run: python3 conviction_filter.py
@@ -279,7 +279,7 @@ jobs:
       # a *_conviction.csv aparte; thesis_generator y generate_insights solo leen).
       - name: Technical Filter (Stage 2 MA + ATR + Volume)
         continue-on-error: true
-        run: python3 technical_filter.py || echo "Technical filter failed"
+        run: python3 technical_filter.py
 
       - name: Generate Investment Theses
         continue-on-error: true
@@ -315,7 +315,7 @@ jobs:
 
       - name: Technical Signal Analyzer
         continue-on-error: true
-        run: python3 technical_signal_analyzer.py || echo "Technical signal analyzer failed"
+        run: python3 technical_signal_analyzer.py
 
       # Va DESPUÉS de Technical Filter (ahora justo tras Conviction Filter) a
       # propósito: lee entry_readiness de value_opportunities.csv como veto del
@@ -331,7 +331,7 @@ jobs:
 
       - name: Pattern Detector (VCP + TA-Lib candlesticks)
         continue-on-error: true
-        run: pip install TA-Lib 2>/dev/null || true; python3 pattern_detector.py || echo "Pattern detector failed"
+        run: pip install TA-Lib 2>/dev/null || true; python3 pattern_detector.py
 
       - name: Chart Analyzer (Groq Vision — Llama 4)
         continue-on-error: true
@@ -407,11 +407,11 @@ jobs:
 
       - name: Bond Scanner (ETF + corporate bond opportunities)
         continue-on-error: true
-        run: python3 bond_scanner.py || echo "Bond scanner failed"
+        run: python3 bond_scanner.py
 
       - name: Commodity Scanner (ETF materias primas)
         continue-on-error: true
-        run: python3 commodity_scanner.py || echo "Commodity scanner failed"
+        run: python3 commodity_scanner.py
 
       # Presupuesto propio (5 min) y sin bloquear el pipeline si falla — igual
       # que Why Cheap para acciones. Reemplaza el texto de ciclo fijo por lo
@@ -455,7 +455,7 @@ jobs:
 
       - name: Recurring Insiders
         continue-on-error: true
-        run: python3 analyze_recurring_insiders.py || echo "Recurring insiders failed"
+        run: python3 analyze_recurring_insiders.py
 
       # Índice de insiders POR TICKER (docs/insider_index.json) — lo consume la
       # sección Smart Money de Buscar Ticker. Se generó una vez a mano en feb-2026
@@ -463,7 +463,7 @@ jobs:
       # al día con los data.csv que archiva el paso del scraper (~2s).
       - name: Build Insider Index (per-ticker)
         continue-on-error: true
-        run: python3 build_insider_index.py || echo "Insider index failed"
+        run: python3 build_insider_index.py
 
       # Retirado del workflow en abr-2026 pero sus consumidores (cerebro
       # scan_smart_money, badge "N FONDOS" de ValueUS via super_score_integrator)
@@ -472,19 +472,19 @@ jobs:
       # diario solo refresca cuando la SEC publica algo nuevo.
       - name: Hedge Fund 13F Tracker
         continue-on-error: true
-        run: python3 hedge_fund_tracker.py || echo "Hedge fund tracker failed"
+        run: python3 hedge_fund_tracker.py
 
       - name: Backtest Engine
         continue-on-error: true
-        run: python3 backtest_engine.py || echo "Backtest engine failed"
+        run: python3 backtest_engine.py
 
       - name: Position Sizing
         continue-on-error: true
-        run: python3 position_sizer.py || echo "Position sizing failed"
+        run: python3 position_sizer.py
 
       - name: Earnings Calendar
         continue-on-error: true
-        run: python3 earnings_calendar.py || echo "Earnings calendar failed"
+        run: python3 earnings_calendar.py
 
       - name: Earnings Thesis Generator
         continue-on-error: true
@@ -508,13 +508,13 @@ jobs:
       # o de la posición del usuario — ver docs/mean_reversion_recent.json.
       - name: Mean Reversion — Recent Positions Status
         continue-on-error: true
-        run: python3 mean_reversion_recent.py || echo "Mean reversion recent status failed"
+        run: python3 mean_reversion_recent.py
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
       - name: Bounce Scanner (Universo Ampliado — SP500 minus curated)
         continue-on-error: true
-        run: python3 bounce_scanner_broad.py || echo "Bounce scanner broad failed"
+        run: python3 bounce_scanner_broad.py
 
       # ANTHROPIC_API_KEY: comprueba con Claude si la sobreventa viene de un
       # catalizador negativo grave antes de avisar (bounce_catalyst_check)
@@ -528,15 +528,15 @@ jobs:
 
       - name: Macro Country Scanner
         continue-on-error: true
-        run: python3 macro_country_scanner.py || echo "Macro country scanner failed"
+        run: python3 macro_country_scanner.py
 
       - name: Economic Calendar (FOMC/CPI/NFP schedule)
         continue-on-error: true
-        run: python3 economic_calendar_generator.py || echo "Economic calendar generation failed"
+        run: python3 economic_calendar_generator.py
 
       - name: Catalyst Scanner
         continue-on-error: true
-        run: python3 catalyst_scanner.py || echo "Catalyst scanner failed"
+        run: python3 catalyst_scanner.py
 
       - name: Portfolio News Monitor
         continue-on-error: true
@@ -574,7 +574,7 @@ jobs:
 
       - name: Options Flow Detector
         continue-on-error: true
-        run: python3 options_flow_detector.py || echo "Options flow detector failed"
+        run: python3 options_flow_detector.py
 
       # unusual_flow_scanner.py (docs/unusual_flow.json) nunca estuvo en ningún
       # workflow — huérfano desde que se escribió. Confluencia.tsx lo consume
@@ -582,7 +582,7 @@ jobs:
       # congelado. Distinto de options_flow_detector.py (options_flow.csv).
       - name: Unusual Options Flow Scanner
         continue-on-error: true
-        run: python3 unusual_flow_scanner.py || echo "Unusual flow scanner failed"
+        run: python3 unusual_flow_scanner.py
 
       # LEAPS se analiza en su propio workflow (leaps-scan.yml) en horario de
       # mercado USA — de madrugada las opciones largas no tienen bid/ask.
@@ -605,7 +605,7 @@ jobs:
 
       - name: Dividend Trap Scanner
         continue-on-error: true
-        run: python3 dividend_trap_scanner.py || echo "Dividend trap scanner failed"
+        run: python3 dividend_trap_scanner.py
 
       - name: Contrarian Discovery — quality companies cheap by circumstance
         continue-on-error: true
@@ -615,7 +615,7 @@ jobs:
 
       - name: Score Drift Detector — novedades vs ayer
         continue-on-error: true
-        run: python3 score_drift_detector.py || echo "Score drift detection failed"
+        run: python3 score_drift_detector.py
 
       # Qué separa a las señales que funcionan de las que no. Solo los lunes:
       # a diario el resultado no cambia y gasta llamadas. No toca el score —
