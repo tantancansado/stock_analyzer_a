@@ -69,7 +69,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: VCP Scanner (S&P 500 — universo ampliado de patrones técnicos)
-        run: python3 vcp_scanner_usa.py --sp500 --parallel || echo "VCP scanner failed"
+        run: python3 vcp_scanner_usa.py --sp500 --parallel
 
       - name: Commit VCP outputs
         if: always()
@@ -197,7 +197,7 @@ jobs:
         timeout-minutes: 10
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 enrich_why_cheap.py || echo "Why cheap enrichment failed"
+        run: python3 enrich_why_cheap.py
 
       # ── Enriquecimiento opcional (no bloquean el job) ──────────────────────
       - name: AI Quality Filter
@@ -205,7 +205,7 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 ai_quality_filter.py || echo "AI quality filter failed"
+        run: python3 ai_quality_filter.py
 
       - name: European Insider Scanner
         continue-on-error: true
@@ -219,7 +219,7 @@ jobs:
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python3 global_market_scanner.py --curated || echo "Global market scanner failed"
+        run: python3 global_market_scanner.py --curated
 
       - name: Macro Radar (Early Warning System)
         continue-on-error: true
@@ -227,20 +227,20 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
           # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
-        run: python3 macro_radar.py || echo "Macro radar failed"
+        run: python3 macro_radar.py
 
       - name: Macro Stress Radar (commodity dislocations)
         continue-on-error: true
         env:
           EIA_API_KEY: ${{ secrets.EIA_API_KEY }}
-        run: python3 -m macro_stress.macro_stress_radar || echo "Macro stress radar failed"
+        run: python3 -m macro_stress.macro_stress_radar
 
       - name: AI Filter European Value
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 ai_quality_filter.py --european || echo "European AI filter failed"
+        run: python3 ai_quality_filter.py --european
 
       - name: Calculate Entry/Exit Prices (all strategies) [CRITICAL]
         run: python3 add_entry_exit_to_opportunities.py --all
@@ -261,7 +261,7 @@ jobs:
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python3 owner_earnings_validator.py || echo "Owner earnings AI validator failed"
+        run: python3 owner_earnings_validator.py
 
       - name: Apply Owner Earnings AI Adjustment
         continue-on-error: true
@@ -286,13 +286,13 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 thesis_generator.py 50 --ai || echo "Thesis generation failed"
+        run: python3 thesis_generator.py 50 --ai
 
       - name: Generate AI Insights (briefing, insiders, industry)
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python3 generate_insights.py || echo "AI insights generation failed"
+        run: python3 generate_insights.py
 
       - name: Portfolio Tracker (record signals + update performance) [CRITICAL]
         run: python3 portfolio_tracker.py --all --backfill-alpha
@@ -311,7 +311,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
-        run: python3 thesis_drift_monitor.py || echo "Thesis drift monitor failed"
+        run: python3 thesis_drift_monitor.py
 
       - name: Technical Signal Analyzer
         continue-on-error: true
@@ -327,17 +327,24 @@ jobs:
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python3 entry_verdict_agent.py --llm-budget 30 || echo "Entry verdict agent failed"
+        run: python3 entry_verdict_agent.py --llm-budget 30
 
       - name: Pattern Detector (VCP + TA-Lib candlesticks)
         continue-on-error: true
         run: pip install TA-Lib 2>/dev/null || true; python3 pattern_detector.py
 
-      - name: Chart Analyzer (Groq Vision — Llama 4)
-        continue-on-error: true
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: pip install mplfinance 2>/dev/null || true; python3 chart_analyzer.py --batch || echo "Chart analyzer failed"
+      # Chart Analyzer sale del pipeline diario (14-sep-2026). Costaba ~15 min
+      # de los 90 del job y era el último de la cola, así que era justo lo que
+      # moría en cada timeout: su salida llevaba 4 días congelada. Y no los
+      # pagaba: 73 de sus 103 lecturas salían con confidence "low", above_200ma
+      # venía null en 69 de 103 —los gráficos no dibujan esa media, el modelo no
+      # puede leerla— y esos mismos datos ya los calcula exactos
+      # moving_average_filter.py. Encima su badge es `hidden sm:table-cell`, o
+      # sea invisible en móvil, que es donde se usa la app.
+      #
+      # El script y el endpoint bajo demanda (/api/chart-signals/<t>/analyze)
+      # siguen ahí: se puede pedir el análisis de un ticker concreto cuando
+      # interese. Para volver a ponerlo a diario, basta con restaurar el paso.
 
       # ── Commit core outputs para que scanners los lea en su checkout ────────
       - name: Commit Core Outputs
@@ -439,7 +446,7 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: python3 check_alerts.py || echo "Alert checker failed"
+        run: python3 check_alerts.py
 
       # El scraper de OpenInsider quedó huérfano al retirar sistema_principal.py
       # (abr-2026) — sin él, analyze_recurring_insiders se quedó sin datos US
@@ -493,7 +500,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
-        run: python3 earnings_thesis_generator.py || echo "Earnings thesis generation failed"
+        run: python3 earnings_thesis_generator.py
 
       - name: Mean Reversion
         continue-on-error: true
@@ -524,7 +531,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 bounce_alerts.py || echo "Bounce alerts failed"
+        run: python3 bounce_alerts.py
 
       - name: Macro Country Scanner
         continue-on-error: true
@@ -546,7 +553,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
-        run: python3 portfolio_news_monitor.py || echo "Portfolio news monitor failed"
+        run: python3 portfolio_news_monitor.py
 
       - name: Strategy Agent (per-position trim/add plan via Groq)
         continue-on-error: true
@@ -555,7 +562,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
-        run: python3 strategy_agent.py || echo "Strategy agent failed"
+        run: python3 strategy_agent.py
 
       - name: Earnings Options Snapshot (straddle, skew, beat history per position)
         continue-on-error: true
@@ -563,14 +570,14 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
-        run: python3 earnings_options_snapshot.py || echo "Earnings options snapshot failed"
+        run: python3 earnings_options_snapshot.py
 
       - name: Strategy Alerts (trim/add level crossings to Telegram)
         continue-on-error: true
         # env: sin variables — todas silenciadas → daily_briefing
           # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
           # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
-        run: python3 strategy_alerts.py || echo "Strategy alerts failed"
+        run: python3 strategy_alerts.py
 
       - name: Options Flow Detector
         continue-on-error: true
@@ -592,7 +599,7 @@ jobs:
         # env: sin variables — todas silenciadas → daily_briefing
           # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
           # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
-        run: python3 new_value_alerts.py || echo "New value alerts failed"
+        run: python3 new_value_alerts.py
 
       - name: Cerebro — Proactive AI Agent
         continue-on-error: true
@@ -601,7 +608,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           # TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # silenciado → daily_briefing
           # TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}   # silenciado → daily_briefing
-        run: python3 cerebro.py || echo "Cerebro failed"
+        run: python3 cerebro.py
 
       - name: Dividend Trap Scanner
         continue-on-error: true
@@ -611,7 +618,7 @@ jobs:
         continue-on-error: true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python3 contrarian_discovery.py || echo "Contrarian discovery failed"
+        run: python3 contrarian_discovery.py
 
       - name: Score Drift Detector — novedades vs ayer
         continue-on-error: true
@@ -636,7 +643,7 @@ jobs:
         env:
           SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-        run: python3 portfolio_price_alerts.py || echo "Portfolio price alerts failed"
+        run: python3 portfolio_price_alerts.py
 
       # ── El único mensaje del día ───────────────────────────────────────────
       # Va al final a propósito: lee lo que han dejado todos los pasos
@@ -669,7 +676,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           SUPABASE_MONITOR_USER_ID: ${{ secrets.SUPABASE_MONITOR_USER_ID }}
-        run: python3 daily_briefing.py || echo "Daily briefing failed"
+        run: python3 daily_briefing.py
 
       # ── Archive + status ───────────────────────────────────────────────────
       - name: Archive daily CSV snapshot

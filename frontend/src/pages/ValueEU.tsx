@@ -43,8 +43,34 @@ function MlWinBadge({ pred }: { pred?: MlWinPrediction }) {
   )
 }
 
-function EntryQualityBadge({ quality, confidence }: { quality?: string; confidence?: string }) {
-  if (!quality || quality === 'wait') return <span className="text-muted-foreground/30 text-xs">—</span>
+/** Cuántos días vale una lectura de gráfico antes de dejar de ser el "ahora". */
+const CADUCIDAD_CHART_DIAS = 7
+
+/**
+ * Calidad de entrada leída del gráfico por un modelo de visión.
+ *
+ * Dos filtros que antes no había:
+ *
+ *  1. **Caducidad.** El análisis salió del pipeline diario el 14-sep-2026 —
+ *     costaba 15 de los 90 minutos del job y era lo primero que moría en cada
+ *     timeout, así que su salida llevaba días congelada. Ahora se pide bajo
+ *     demanda, y una lectura de hace dos semanas no describe el gráfico de hoy.
+ *
+ *  2. **Confianza.** 73 de 103 lecturas salían con confidence "low". Marcarlas
+ *     con un "?" no bastaba: en una tabla se leen igual que las buenas. Si el
+ *     modelo dice que no está seguro, no hay dato.
+ */
+function EntryQualityBadge({ quality, confidence, analyzedAt }: {
+  quality?: string
+  confidence?: string
+  analyzedAt?: string
+}) {
+  const sinDato = <span className="text-muted-foreground/30 text-xs">—</span>
+  if (!quality || quality === 'wait' || confidence === 'low') return sinDato
+  if (analyzedAt) {
+    const dias = (Date.now() - new Date(analyzedAt).getTime()) / 86_400_000
+    if (!Number.isFinite(dias) || dias > CADUCIDAD_CHART_DIAS) return sinDato
+  }
   const cfg: Record<string, { cls: string; label: string }> = {
     ideal:      { cls: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30', label: 'IDEAL' },
     acceptable: { cls: 'bg-amber-500/15 text-amber-400 border-amber-500/30',      label: 'OK' },
@@ -888,6 +914,7 @@ export default function ValueEU() {
                       <EntryQualityBadge
                         quality={chartSignals[d.ticker]?.entry_quality}
                         confidence={chartSignals[d.ticker]?.confidence}
+                      analyzedAt={chartSignals[d.ticker]?.analyzed_at}
                       />
                     </TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}>
