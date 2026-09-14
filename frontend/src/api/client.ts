@@ -339,13 +339,27 @@ export interface MarketRegime {
 export const fetchValueOpportunities = async (): Promise<{
   data: { data: ValueOpportunity[]; count: number; source: string }
 }> => {
-  // Load filtered (all daily tickers) + enrich conviction grades from conviction.csv.
-  // Conviction.csv can mix US/EU ADRs and filters to grade≥B, missing new tickers —
-  // so we use filtered as the source of truth and patch grades where available.
-  for (const filename of ['value_opportunities_filtered.csv', 'value_opportunities.csv']) {
+  // SOLO el fichero filtrado. Sin caer al sin-filtrar.
+  //
+  // Había un fallback a value_opportunities.csv cuando el filtrado venía
+  // vacío, y se anulaba con el propio gate: el gate es fail-CLOSED (si Claude
+  // no verifica un pick, no se publica) y esto era fail-OPEN (si no se publicó
+  // ninguno, se enseña el universo entero). El 11-sep el presupuesto de Claude
+  // se agotó, el filtrado quedó en 0 filas, y la app estuvo tres días
+  // enseñando 54 ideas SIN verificar con el mismo aspecto que las buenas, sin
+  // avisar. El aviso de Telegram decía "0 filas" mientras la pantalla decía
+  // otra cosa.
+  //
+  // Cero picks verificados es una RESPUESTA, no un fallo: se devuelve vacío y
+  // la página lo explica. Criterio del usuario: 0 señales antes que señales
+  // falsas. Solo si el fichero no se puede leer (404, red) se prueba la API.
+  //
+  // Se enriquece con los grados de conviction.csv, que puede mezclar ADR de
+  // US/EU y filtra a grado≥B, así que le faltan tickers nuevos: el filtrado
+  // manda y conviction solo aporta el grado donde lo tiene.
+  {
     try {
-      const base = await fetchValueCsv(filename)
-      if (base.data.length === 0) continue
+      const base = await fetchValueCsv('value_opportunities_filtered.csv')
       // Try to enrich with conviction grades (best-effort)
       try {
         const conv = await fetchValueCsv('value_conviction.csv')
@@ -364,7 +378,7 @@ export const fetchValueOpportunities = async (): Promise<{
         })
       } catch { /* conviction enrichment failed — show tickers without grades */ }
       return { data: base }
-    } catch { /* try next */ }
+    } catch { /* el CSV no se pudo leer: se prueba la API */ }
   }
   const res = await apiClient.get<{ data: ValueOpportunity[]; count: number; source: string }>('/api/value-opportunities')
   return { data: res.data }
@@ -516,13 +530,16 @@ const MOMENTUM_NUMERIC = new Set([
 export const fetchMomentumOpportunities = async (): Promise<{
   data: { data: MomentumOpportunity[]; count: number; source: string }
 }> => {
-  for (const filename of ['momentum_opportunities_filtered.csv', 'momentum_opportunities.csv']) {
+  // Solo el filtrado, igual que en Value US: el fallback al sin-filtrar
+  // convertía un gate fail-closed en una pantalla fail-open. Ver
+  // fetchValueOpportunities.
+  {
     try {
-      const res = await fetch(`${STATIC_DATA_BASE}/${filename}`, { cache: 'no-store' })
+      const res = await fetch(`${STATIC_DATA_BASE}/momentum_opportunities_filtered.csv`, { cache: 'no-store' })
       if (res.ok) {
         const text = await res.text()
         const rows = parseCsvRows(text)
-        if (rows.length > 0) {
+        {
           const data = rows.map(r => {
             const obj: Record<string, unknown> = {}
             for (const [k, v] of Object.entries(r)) {
@@ -538,7 +555,7 @@ export const fetchMomentumOpportunities = async (): Promise<{
           return { data: { data, count: data.length, source: 'github-pages' } }
         }
       }
-    } catch { /* try next */ }
+    } catch { /* el CSV no se pudo leer: se prueba la API */ }
   }
   const res = await apiClient.get<{ data: MomentumOpportunity[]; count: number; source: string }>('/api/momentum-opportunities')
   return { data: res.data }

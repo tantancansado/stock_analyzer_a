@@ -42,11 +42,9 @@ const CONVICTION_CSV = [
   'MSFT,B+,81,Solid moat,2,1',
 ].join('\n')
 
-const FALLBACK_CSV = [
-  'ticker,company_name,current_price,value_score',
-  'AAPL,Apple Inc,188,80',
-  'TSLA,Tesla Inc,200,60',
-].join('\n')
+// Solo cabecera: el gate corrió y no dio por bueno ningún pick. Eso es una
+// RESPUESTA, no un fichero inservible — y era el caso que disparaba el fallback.
+const EMPTY_CSV = 'ticker,company_name,current_price,value_score'
 
 function makeOkResponse(body: string) {
   return Promise.resolve(new Response(body, { status: 200 }))
@@ -168,13 +166,22 @@ describe('fetchValueOpportunities', () => {
     expect(result.data.data).toHaveLength(3)
   })
 
-  // ── 5. filtered.csv failure → falls back to value_opportunities.csv ────────
+  // ── 5. NUNCA se cae al CSV sin filtrar ────────────────────────────────────
+  //
+  // Estos dos tests fijaban el comportamiento contrario ("falls back to
+  // value_opportunities.csv"), o sea fijaban el bug como si fuera la
+  // funcionalidad. El gate de calidad es fail-CLOSED —si Claude no verifica un
+  // pick, no se publica— y esto lo anulaba: al quedarse el filtrado sin filas,
+  // la app servía el universo entero, que ni siquiera tiene columna
+  // ai_verified. El 11-sep-2026 estuvo tres días enseñando 54 ideas sin
+  // verificar mientras el aviso de Telegram decía "0 filas".
 
-  it('falls back to value_opportunities.csv when filtered.csv fails', async () => {
+  it('no lee el CSV sin filtrar cuando el filtrado devuelve 0 filas', async () => {
+    const pedidas: string[] = []
     vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
       const url = String(input)
-      if (url.endsWith('value_opportunities_filtered.csv')) return makeErrorResponse(404)
-      if (url.endsWith('value_opportunities.csv')) return makeOkResponse(FALLBACK_CSV)
+      pedidas.push(url)
+      if (url.endsWith('value_opportunities_filtered.csv')) return makeOkResponse(EMPTY_CSV)
       if (url.endsWith('value_conviction.csv')) return makeErrorResponse(404)
       return makeErrorResponse()
     })
@@ -182,26 +189,25 @@ describe('fetchValueOpportunities', () => {
     const { fetchValueOpportunities } = await loadClient()
     const result = await fetchValueOpportunities()
 
-    expect(result.data.data).toHaveLength(2)
-    expect(result.data.data.map((r) => r.ticker)).toEqual(['AAPL', 'TSLA'])
-    expect(result.data.source).toBe('github-pages')
+    expect(result.data.data).toHaveLength(0)
+    expect(pedidas.some(u => /\/value_opportunities\.csv$/.test(u))).toBe(false)
   })
 
-  it('falls back to value_opportunities.csv when filtered.csv throws', async () => {
+  it('si el filtrado no se puede leer, tampoco cae al sin filtrar', async () => {
+    const pedidas: string[] = []
     vi.mocked(fetch).mockImplementation((input: RequestInfo | URL) => {
       const url = String(input)
+      pedidas.push(url)
       if (url.endsWith('value_opportunities_filtered.csv'))
         return Promise.reject(new Error('network down'))
-      if (url.endsWith('value_opportunities.csv')) return makeOkResponse(FALLBACK_CSV)
-      if (url.endsWith('value_conviction.csv')) return makeErrorResponse(404)
       return makeErrorResponse()
     })
+    axiosGet.mockResolvedValue({ data: { data: [], count: 0, source: 'none' } })
 
     const { fetchValueOpportunities } = await loadClient()
-    const result = await fetchValueOpportunities()
+    await fetchValueOpportunities()
 
-    expect(result.data.data).toHaveLength(2)
-    expect(result.data.data.map((r) => r.ticker)).toEqual(['AAPL', 'TSLA'])
+    expect(pedidas.some(u => /\/value_opportunities\.csv$/.test(u))).toBe(false)
   })
 
   // ── 6. Both CSVs fail → falls through to Railway API ──────────────────────

@@ -1045,9 +1045,24 @@ export default function ValueUS() {
         {sorted.length === 0 && (
           <CardContent className="py-16 text-center">
             <Gem size={32} strokeWidth={1.5} className="mx-auto mb-4 opacity-20" />
+            {/* Vacío por el gate NO es lo mismo que vacío por los filtros de la
+                pantalla, y confundirlos deja al usuario pensando que la app
+                está rota. Antes, cuando el gate no verificaba nada, la página
+                caía al fichero SIN filtrar y enseñaba el universo entero como
+                si estuviera verificado — peor que no enseñar nada. */}
             <p className="font-medium text-muted-foreground">
-              {rows.length === 0 ? 'Sin oportunidades VALUE en este momento' : 'Sin resultados con los filtros aplicados'}
+              {rows.length === 0
+                ? 'Hoy no hay ninguna idea verificada'
+                : 'Sin resultados con los filtros aplicados'}
             </p>
+            {rows.length === 0 && (
+              <p className="mt-2 text-[0.72rem] text-muted-foreground/60 max-w-md mx-auto leading-relaxed">
+                El filtro de calidad no dio por buena ninguna: o los candidatos de hoy
+                no pasaron la revisión de datos, o no pudo ejecutarse. Antes se
+                enseñaban igualmente las ideas sin verificar, y eso es justo lo que
+                no quieres ver.
+              </p>
+            )}
           </CardContent>
         )}
         {sorted.length > 0 && (

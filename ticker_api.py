@@ -1281,19 +1281,33 @@ def _csv_to_json_response(csv_candidates):
 
 @app.route('/api/value-opportunities')
 def value_opportunities():
+    # SIN el CSV sin filtrar en la cascada.
+    #
+    # El gate de calidad es fail-CLOSED: si Claude no verifica un pick, no se
+    # publica. Esta cascada era fail-OPEN: si no se publicó ninguno, servía el
+    # universo entero — y el sin-filtrar ni siquiera tiene columna
+    # ai_verified, así que nada de lo que hay ahí ha pasado por el gate.
+    #
+    # El 11-sep-2026 se agotó el presupuesto de Claude, el filtrado quedó en 0
+    # filas y la app enseñó tres días 54 ideas sin verificar con el mismo
+    # aspecto que las buenas. El aviso de Telegram decía "0 filas" mientras la
+    # pantalla decía otra cosa. Criterio del usuario: 0 señales antes que
+    # señales falsas.
+    #
+    # `conviction` sí se queda: es un subconjunto MÁS estricto del filtrado,
+    # no menos.
     return _csv_to_json_response([
         (DOCS / 'value_conviction.csv', 'conviction'),
         (DOCS / 'value_opportunities_filtered.csv', 'ai_filtered'),
-        (DOCS / 'value_opportunities.csv', 'unfiltered'),
     ])
 
 
 @app.route('/api/eu-value-opportunities')
 def eu_value_opportunities():
+    # Ver value_opportunities(): fuera el sin-filtrar de la cascada.
     return _csv_to_json_response([
         (DOCS / 'european_value_conviction.csv', 'conviction'),
         (DOCS / 'european_value_opportunities_filtered.csv', 'ai_filtered'),
-        (DOCS / 'european_value_opportunities.csv', 'unfiltered'),
     ])
 
 
@@ -1306,9 +1320,9 @@ def global_value_opportunities():
 
 @app.route('/api/momentum-opportunities')
 def momentum_opportunities():
+    # Ver value_opportunities(): fuera el sin-filtrar de la cascada.
     return _csv_to_json_response([
         (DOCS / 'momentum_opportunities_filtered.csv', 'ai_filtered'),
-        (DOCS / 'momentum_opportunities.csv', 'unfiltered'),
     ])
 
 
