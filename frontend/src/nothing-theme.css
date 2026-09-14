@@ -16,6 +16,16 @@
 
 /* ── Nothing tokens — override noir tokens ───────────────────────── */
 [data-theme="noir"] {
+  /* Voz tipográfica — monoespaciada de arriba abajo, seña del tema.
+     Antes esto eran siete selectores con `font-family: ... !important`, tres de
+     ellos por atributo (`[class*="font-mono"]`, `[class*="text-3xl"]`). Ahora
+     las familias son tokens conmutables (ver "Las familias son del TEMA" en
+     index.css) y aquí solo se declaran. */
+  --tipo-texto:  'DM Mono', 'Space Mono', monospace;
+  --tipo-titulo: 'Geist Mono', 'Space Mono', monospace;
+  --tipo-mono:   'Space Mono', monospace;
+  --tipo-tabla:  'Space Mono', monospace;
+
   /* Deeper blacks */
   --background:        0 0% 0%;          /* #000000 pure black */
   --foreground:        0 0% 92%;         /* #EBEBEB off-white */
@@ -75,18 +85,14 @@
 [data-theme="noir"] th,
 [data-theme="noir"] code,
 [data-theme="noir"] pre,
-[data-theme="noir"] kbd,
-[data-theme="noir"] [class*="font-mono"],
-[data-theme="noir"] [class*="tabular"] {
-  font-family: 'Space Mono', monospace !important;
-}
+
 
 /* Large display numbers: Geist Mono — clean geometric, Nothing-like */
 [data-theme="noir"] [class*="text-4xl"],
 [data-theme="noir"] [class*="text-3xl"],
 [data-theme="noir"] [class*="text-2xl"][class*="font-bold"],
 [data-theme="noir"] [class*="text-xl"][class*="font-bold"] {
-  font-family: 'Geist Mono', 'Space Mono', monospace !important;
+  font-family: var(--tipo-titulo);
   font-weight: 500 !important;
   letter-spacing: -0.01em;
   line-height: 1.05;
@@ -94,7 +100,7 @@
 
 /* Table headers: Space Mono + uppercase + wide tracking */
 [data-theme="noir"] .glass table thead th {
-  font-family: 'Space Mono', monospace !important;
+  font-family: var(--tipo-tabla);
   font-size: 0.62rem !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
@@ -103,13 +109,10 @@
 }
 
 /* Nav labels + sidebar sections */
-[data-theme="noir"] aside,
-[data-theme="noir"] aside * {
-  font-family: 'DM Mono', 'Space Mono', monospace !important;
-}
+
 
 [data-theme="noir"] aside h1 {
-  font-family: 'Geist Mono', 'Space Mono', monospace !important;
+  font-family: var(--tipo-titulo);
   font-size: 0.92rem !important;
   font-weight: 500 !important;
   letter-spacing: 0.08em !important;
@@ -312,7 +315,7 @@
 
 /* ── Filter buttons — crisp border ──────────────────────────────── */
 [data-theme="noir"] .filter-btn {
-  font-family: 'Space Mono', monospace !important;
+  font-family: var(--tipo-tabla);
   font-size: 0.66rem !important;
   letter-spacing: 0.06em !important;
 }
@@ -329,7 +332,7 @@
 [data-theme="noir"] select {
   background: hsl(0 0% 5%) !important;
   border-color: hsl(0 0% 16%) !important;
-  font-family: 'Space Mono', monospace !important;
+  font-family: var(--tipo-tabla);
 }
 
 /* ── API dot — white pulse (no cyan) ────────────────────────────── */

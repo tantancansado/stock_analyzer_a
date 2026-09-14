@@ -46,18 +46,24 @@ describe.each(HOJAS)('$nombre', ({ css }) => {
 describe('deuda de temas', () => {
   // Estos números solo pueden BAJAR. Si un cambio los sube, es que se ha
   // vuelto a perseguir una clase de Tailwind en vez de declarar un token.
-  //                    !important  [class*=]
-  //   punto de partida      35          76     index.css
-  //                        112           ?     nothing-theme.css
+  // Medido sobre el CSS SIN comentarios, que es lo único que cuenta.
+  //
+  //                     !important   [class*=]
+  //   punto de partida      35          86      index.css
+  //                        118          26      nothing-theme.css
   const TECHO = {
-    'index.css':        { important: 21, atributo: 75 },
-    'nothing-theme.css': { important: 96, atributo: 16 },
+    'index.css':         { important: 14, atributo: 73 },
+    'nothing-theme.css': { important: 87, atributo: 13 },
   } as const
 
   it.each(HOJAS)('$nombre no acumula más !important ni selectores por atributo', ({ nombre, css }) => {
     const techo = TECHO[nombre as keyof typeof TECHO]
-    const important = (css.match(/!important/g) ?? []).length
-    const atributo = (css.match(/\[class\*=/g) ?? []).length
+    // Sobre el CSS sin comentarios: si no, un comentario que EXPLICA por qué se
+    // quitó un `!important` cuenta como si lo hubiera añadido. Pasó al escribir
+    // la nota de la voz tipográfica.
+    const limpio = sinComentarios(css)
+    const important = (limpio.match(/!important/g) ?? []).length
+    const atributo = (limpio.match(/\[class\*=/g) ?? []).length
     expect(important, `!important subió a ${important}`).toBeLessThanOrEqual(techo.important)
     expect(atributo, `selectores [class*=] subieron a ${atributo}`).toBeLessThanOrEqual(techo.atributo)
   })

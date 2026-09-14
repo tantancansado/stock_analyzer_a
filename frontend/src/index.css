@@ -4,10 +4,28 @@
 /* ═══════════════════════════════════════════════════════════════════
    FONTS
 ════════════════════════════════════════════════════════════════════ */
-@theme {
-  --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-display: 'Oxanium', 'Rajdhani', sans-serif;
-  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', 'Menlo', monospace;
+/* Las familias son del TEMA, no de la hoja.
+   Con `@theme` a secas Tailwind las hornea en la utilidad y un tema con otra
+   voz tipográfica tiene que repetir cada regla con `font-family: ... !important`
+   — que es lo que hacía noir en siete selectores. Con `inline` la variable se
+   resuelve en el punto de uso y basta con que el tema declare la suya. */
+@theme inline {
+  --font-sans:    var(--tipo-texto);
+  --font-display: var(--tipo-titulo);
+  --font-mono:    var(--tipo-mono);
+}
+
+:root {
+  /* Voz tipográfica del tema claro: la DEL SISTEMA, a propósito.
+     En un iPhone eso es SF Pro — la tipografía de Apple, con su óptica y su
+     hinting, que es exactamente lo que hace que una pantalla "parezca de
+     Apple". Y no cuesta nada: cero descarga, cero salto de maquetación, y se
+     renderiza en el primer frame. Ninguna webfont puede igualar eso en el
+     dispositivo del usuario. Inter queda de respaldo para Linux/Android. */
+  --tipo-texto:  -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --tipo-titulo: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --tipo-mono:   'JetBrains Mono', 'IBM Plex Mono', 'Menlo', monospace;
+  --tipo-tabla:  var(--tipo-texto);
 }
 
 /* Registra los tokens de shadcn en el namespace --color-* para que Tailwind v4
@@ -199,6 +217,12 @@
 }
 
 .dark {
+  /* Voz tipográfica Cybertruck: display angular, tablas condensadas.
+     El texto corrido va en Inter EXPLÍCITAMENTE: al pasar el tema claro a la
+     fuente del sistema, el oscuro se quedaba heredándola sin quererlo. */
+  --tipo-texto:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --tipo-titulo: 'Oxanium', 'Rajdhani', sans-serif;
+  --tipo-tabla:  'Rajdhani', sans-serif;
   /* Cromo — ver `.app-chrome`. */
   --cromo-fondo:      hsl(var(--card) / 0.20);
   --cromo-desenfoque: blur(24px);
@@ -421,14 +445,14 @@
 
 .dark:not([data-theme="noir"]) aside h1,
 .dark:not([data-theme="noir"]) .gradient-title {
-  font-family: 'Oxanium', sans-serif;
+  font-family: var(--tipo-titulo);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
 }
 
 .dark:not([data-theme="noir"]) .glass table thead th {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: var(--tipo-tabla);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 600;
@@ -438,7 +462,7 @@
 .dark:not([data-theme="noir"]) code,
 .dark:not([data-theme="noir"]) kbd,
 .dark:not([data-theme="noir"]) pre {
-  font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+  font-family: var(--tipo-mono);
   letter-spacing: 0;
 }
 /* Dark mode: fully opaque header so no tbody rows bleed through */
