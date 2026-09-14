@@ -18,6 +18,7 @@ motivo: eso es justo lo que crea la oportunidad.
 """
 from __future__ import annotations
 
+import claude_research
 from claude_research import ask_with_search, parse_json
 
 LOOKBACK_HORAS = 72
@@ -68,9 +69,23 @@ def check_ticker(ticker: str) -> dict:
     """
     vacio = {'veredicto': 'SIN_DATOS', 'motivo': '', 'fuentes': []}
 
+    # max_searches=2, no 3: el coste de una llamada con búsqueda crece con el
+    # CUADRADO del número de búsquedas, porque el bucle del servidor reenvía el
+    # contexto acumulado en cada ronda. Medido en producción (sep-2026), cada
+    # llamada arrastraba 172k-263k tokens de ENTRADA — ahí está el gasto, no en
+    # el modelo. Con 3 búsquedas el servidor manda 1+2+3=6 unidades de contexto;
+    # con 2, son 1+2=3. Quitar UNA búsqueda cuesta la mitad, no un tercio.
+    #
+    # Y a Haiku, como why_cheap y commodity_narrative: era el último que
+    # quedaba en Sonnet y el más caro de los tres ($0.31/llamada). La tarea es
+    # clasificar en categorías cerradas material que ya trajo el buscador — no
+    # comparar ni razonar en cadena — y ahí Haiku rinde igual a un tercio del
+    # precio por token. `effort` desaparece: con Haiku no se manda (ver
+    # claude_research._SIN_EFFORT), así que dejarlo solo despistaba.
     texto, fuentes = ask_with_search(
         PROMPT.format(ticker=ticker, horas=LOOKBACK_HORAS),
-        system=SYSTEM, max_tokens=1200, max_searches=3, effort='medium',
+        system=SYSTEM, max_tokens=1200, max_searches=2,
+        model=claude_research.MODEL_HAIKU,
     )
     data = parse_json(texto)
     if not data:

@@ -56,7 +56,8 @@ class TestCoste:
             cna.analyze_commodity('UNG', 'Gas Natural', 9.77, 'USD', -42.6, -31.0)
 
         assert captured.get('model') == 'claude-haiku-4-5'
-        assert captured.get('max_searches') == 3
+        # Ver why_cheap: el coste crece con el cuadrado de las búsquedas.
+        assert captured.get('max_searches') == 2
         assert captured.get('max_tokens') == 1200
 
 

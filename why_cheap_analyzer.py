@@ -86,11 +86,17 @@ def analyze_ticker(ticker: str, company: str, drop_pct: float,
     # a partir de 2-3 fuentes ya buscadas es síntesis cerrada, no razonamiento
     # abierto, y Haiku es 3x más barato por token en ambas direcciones. Ver
     # claude_research._SIN_EFFORT: con Haiku no se manda output_config.
+    # max_searches=2, no 3: el coste de una llamada con búsqueda crece con el
+    # CUADRADO del número de búsquedas, porque el bucle del servidor reenvía el
+    # contexto acumulado en cada ronda. Medido en producción (sep-2026), cada
+    # llamada arrastraba 172k-263k tokens de ENTRADA — ahí está el gasto, no en
+    # el modelo. Con 3 búsquedas el servidor manda 1+2+3=6 unidades de contexto;
+    # con 2, son 1+2=3. Quitar UNA búsqueda cuesta la mitad, no un tercio.
     texto, fuentes = ask_with_search(
         PROMPT.format(company=company or ticker, ticker=ticker,
                       drop=abs(drop_pct or 0), rs=rs_6m or 0),
         system=SYSTEM,
-        max_searches=3,
+        max_searches=2,
         max_tokens=1200,
         model=claude_research.MODEL_HAIKU,
     )

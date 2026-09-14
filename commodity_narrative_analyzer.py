@@ -76,7 +76,7 @@ def analyze_commodity(ticker: str, sector: str, price: float, currency: str,
         PROMPT.format(sector=sector, ticker=ticker, price=price or 0,
                       currency=currency or 'USD', pct_from_high=pct_from_high or 0,
                       pct_vs_2y=pct_vs_2y_avg or 0),
-        system=SYSTEM, max_tokens=1200, max_searches=3,
+        system=SYSTEM, max_tokens=1200, max_searches=2,
         model=claude_research.MODEL_HAIKU,
     )
     data = parse_json(texto)

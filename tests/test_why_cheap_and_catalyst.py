@@ -37,7 +37,11 @@ class TestWhyCheapCoste:
         with patch.object(wc, 'ask_with_search', side_effect=_fake):
             wc.analyze_ticker('XYZ', 'Ejemplo SA', -25.0, -20.0)
 
-        assert captured.get('max_searches') == 3
+        # 2, no 3: el coste de una llamada con búsqueda crece con el CUADRADO
+        # del número de búsquedas — el bucle del servidor reenvía el contexto
+        # acumulado en cada ronda. Medido en producción, cada llamada arrastraba
+        # 172k tokens de entrada. Bajar de 3 a 2 la abarata a la mitad.
+        assert captured.get('max_searches') == 2
         assert captured.get('max_tokens') == 1200
         assert captured.get('model') == 'claude-haiku-4-5'
         # Haiku 4.5 no soporta output_config.effort — mandarlo sería un 400
@@ -103,7 +107,7 @@ class TestBounceCatalystCoste:
     seguridad de baja frecuencia (~1 setup/semana), no una clasificación
     cerrada de alto volumen como why_cheap."""
 
-    def test_usa_tres_busquedas_y_effort_medio(self):
+    def test_usa_dos_busquedas_y_haiku(self):
         captured = {}
 
         def _fake(prompt, system, **kwargs):
@@ -113,9 +117,14 @@ class TestBounceCatalystCoste:
         with patch.object(bcc, 'ask_with_search', side_effect=_fake):
             bcc.check_ticker('XYZ')
 
-        assert captured.get('max_searches') == 3
+        # Era el último de los tres que seguía en Sonnet con effort medio, y el
+        # más caro ($0.31/llamada). La tarea es clasificar material que ya trajo
+        # el buscador, no razonar en cadena: Haiku rinde igual a un tercio del
+        # precio. Con Haiku, `effort` ni se manda (claude_research._SIN_EFFORT).
+        assert captured.get('max_searches') == 2
         assert captured.get('max_tokens') == 1200
-        assert captured.get('effort') == 'medium'
+        assert captured.get('model') == 'claude-haiku-4-5'
+        assert 'effort' not in captured
 
 
 class TestBounceCatalyst:

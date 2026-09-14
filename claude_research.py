@@ -99,7 +99,7 @@ def _extract(response) -> tuple[str, list[str]]:
 
 
 def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
-                    max_searches: int = 6, model: str = MODEL,
+                    max_searches: int = 2, model: str = MODEL,
                     effort: str = 'medium') -> tuple[str, list[str]]:
     """Pregunta a Claude dejándole buscar. Devuelve (texto, urls consultadas).
 
@@ -108,8 +108,17 @@ def ask_with_search(prompt: str, system: str, max_tokens: int = 2000,
 
     `max_searches` no escala lineal en coste: la herramienta de búsqueda del
     servidor puede encadenar varias rondas DENTRO de una sola llamada, y cada
-    ronda reenvía el contexto de las anteriores — con resultados de ~5k
-    tokens cada uno, el coste de entrada crece con el CUADRADO del número de
+    ronda reenvía el contexto de las anteriores, así que el coste de entrada
+    crece con el CUADRADO del número de búsquedas. El defecto es 2 y NO se
+    sube sin medir: estaba en 6, que son 21 unidades de contexto frente a las
+    3 de dos búsquedas — siete veces más caro para quien no pase el parámetro.
+
+    Con datos de producción (sep-2026), tres búsquedas arrastraban 172k-263k
+    tokens de ENTRADA por llamada y salían a $0.21-$0.31 CADA UNA, incluso en
+    Haiku. Ahí está el gasto de este repo, no en la elección de modelo.
+
+    Lo que sigue es la nota original sobre el mismo efecto: con resultados de
+    ~5k tokens cada uno, el coste de entrada crece con el cuadrado del número de
     búsquedas, no con el número. Medido el 25-ago-2026: why_cheap_analyzer
     llamaba con el valor por defecto (6) y salía a $0.33/llamada, el 44% del
     gasto mensual con solo 12 llamadas. Bajar a 3 no ahorra la mitad, ahorra

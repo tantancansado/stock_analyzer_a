@@ -76,17 +76,43 @@ class TestTope:
 
 class TestEnganchado:
     def test_la_via_cara_consulta_el_tope(self):
-        """ask_with_search es la vía con búsqueda web: sin guard, no hay techo."""
-        from pathlib import Path
+        """ask_with_search es la vía con búsqueda web: sin guard, no hay techo.
+
+        Se busca en el CUERPO de la función, parseado con ast. Antes era una
+        ventana de 1800 caracteres desde el `def`, y al documentar por qué el
+        coste crece con el cuadrado de las búsquedas el guard se salió de la
+        ventana: el test caía por un comentario, no por perder el techo.
+        """
+        import ast
+        import inspect
         import claude_research as cr
-        src = Path(cr.__file__).read_text()
-        i = src.index('def ask_with_search')
-        assert 'hay_presupuesto' in src[i:i + 1800]
+
+        arbol = ast.parse(inspect.getsource(cr.ask_with_search))
+        nombres = {n.id for n in ast.walk(arbol) if isinstance(n, ast.Name)}
+        nombres |= {n.attr for n in ast.walk(arbol) if isinstance(n, ast.Attribute)}
+        for a in ast.walk(arbol):
+            if isinstance(a, ast.ImportFrom):
+                nombres |= {x.name for x in a.names}
+        assert 'hay_presupuesto' in nombres
 
     def test_una_continuacion_no_dos(self):
         """Cada continuación reenvía el contexto entero — duplica el coste."""
         import claude_research as cr
         assert cr.MAX_CONTINUATIONS == 1
+
+    def test_el_defecto_de_busquedas_no_sube_sin_medir(self):
+        """El coste crece con el CUADRADO del número de búsquedas.
+
+        Estaba en 6 —21 unidades de contexto frente a las 3 de dos búsquedas,
+        siete veces más caro— y lo pagaba cualquier llamada que no pasara el
+        parámetro. Medido en producción (sep-2026): con 3 búsquedas, 172k-263k
+        tokens de ENTRADA y $0.21-$0.31 por llamada incluso en Haiku.
+        """
+        import inspect
+        import claude_research as cr
+
+        defecto = inspect.signature(cr.ask_with_search).parameters['max_searches'].default
+        assert defecto <= 2, f'max_searches por defecto en {defecto}: el coste es cuadratico'
 
 
 class TestAvisar:
