@@ -52,7 +52,7 @@ describe('deuda de temas', () => {
   //   punto de partida      35          86      index.css
   //                        118          26      nothing-theme.css
   const TECHO = {
-    'index.css':         { important: 14, atributo: 73 },
+    'index.css':         { important: 9, atributo: 42 },
     'nothing-theme.css': { important: 87, atributo: 13 },
   } as const
 

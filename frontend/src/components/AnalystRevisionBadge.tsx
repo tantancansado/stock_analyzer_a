@@ -21,7 +21,7 @@ export default function AnalystRevisionBadge({
   if (abs < 0.5) {
     if (compact) return null
     return (
-      <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.6rem] font-medium bg-muted/20 text-muted-foreground border border-border/30', className)} title="Targets estables últimos 7 días">
+      <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-medium bg-muted/20 text-muted-foreground border border-border/30', className)} title="Targets estables últimos 7 días">
         <Minus size={12} /> 0.0%
       </span>
     )
@@ -41,7 +41,7 @@ export default function AnalystRevisionBadge({
   }${downgradeDays14d != null && downgradeDays14d > 0 ? ` · ${downgradeDays14d} de bajada` : ''}`
   return (
     <span
-      className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.6rem] font-bold border', colorClasses, className)}
+      className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-bold border', colorClasses, className)}
       title={tooltip}
     >
       <Icon size={12} />

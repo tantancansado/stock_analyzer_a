@@ -78,7 +78,7 @@ function Fila({
         <Icono size={16} strokeWidth={1.75} />
       </span>
       <span
-        className="min-w-0 flex-1 truncate text-[0.92rem] font-medium transition-colors duration-300"
+        className="min-w-0 flex-1 truncate text-cuerpo font-medium transition-colors duration-300"
         style={{ color: visible ? 'hsl(var(--foreground))' : 'hsl(var(--muted-foreground) / 0.6)' }}
       >
         {item.label}
@@ -143,9 +143,9 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <SlidersHorizontal size={16} strokeWidth={1.75} style={{ color: 'hsl(var(--primary))' }} />
-                  <h2 className="text-[0.98rem] font-bold" style={{ color: 'hsl(var(--foreground))' }}>Tu menú</h2>
+                  <h2 className="text-titulo font-bold" style={{ color: 'hsl(var(--foreground))' }}>Tu menú</h2>
                 </div>
-                <p className="mt-0.5 text-[0.78rem]" style={{ color: `hsl(var(--muted-foreground) / 0.78)` }}>
+                <p className="mt-0.5 text-apoyo" style={{ color: `hsl(var(--muted-foreground) / 0.78)` }}>
                   Elige qué secciones quieres ver. Se guarda solo.
                 </p>
               </div>
@@ -161,7 +161,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
 
             {/* Contador + progreso: el número cambia con el mismo muelle que todo lo demás */}
             <div className="px-5 pb-3">
-              <div className="mb-1.5 flex items-baseline gap-1.5 text-[0.78rem]" style={{ color: `hsl(var(--muted-foreground) / 0.82)` }}>
+              <div className="mb-1.5 flex items-baseline gap-1.5 text-apoyo" style={{ color: `hsl(var(--muted-foreground) / 0.82)` }}>
                 <motion.span
                   key={visibles}
                   className="font-bold tabular-nums" style={{ color: 'hsl(var(--foreground))' }}
@@ -202,7 +202,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
             >
               {categorias.map(cat => (
                 <section key={cat.name} className="mb-1.5">
-                  <h3 className="px-3 pb-1 pt-2.5 text-[0.68rem] font-bold uppercase tracking-[0.14em]" style={{ color: `hsl(var(--muted-foreground) / 0.6)` }}>
+                  <h3 className="px-3 pb-1 pt-2.5 text-micro font-bold uppercase tracking-[0.14em]" style={{ color: `hsl(var(--muted-foreground) / 0.6)` }}>
                     {cat.name}
                   </h3>
                   {cat.items.map(item => (
@@ -230,7 +230,7 @@ export default function NavCustomizer({ open, onClose, canSeeAdmin }: Props) {
                   <button
                     type="button"
                     onClick={reset}
-                    className="nav-custom-row flex w-full items-center justify-center gap-2 px-5 py-3 text-[0.85rem] font-medium transition-colors" style={{ color: `hsl(var(--muted-foreground) / 0.85)` }}
+                    className="nav-custom-row flex w-full items-center justify-center gap-2 px-5 py-3 text-cuerpo font-medium transition-colors" style={{ color: `hsl(var(--muted-foreground) / 0.85)` }}
                   >
                     <RotateCcw size={12} strokeWidth={1.75} />
                     Mostrar las {hidden.length} ocultas

@@ -39,17 +39,17 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
   return (
     <div>
       <div className="flex items-center gap-2.5 mb-3 flex-wrap">
-        <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Señales Técnicas</h4>
-        <span className={`text-[0.65rem] font-bold px-2 py-0.5 rounded-full border ${biasBg} ${biasColor}`}>
+        <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Señales Técnicas</h4>
+        <span className={`text-micro font-bold px-2 py-0.5 rounded-full border ${biasBg} ${biasColor}`}>
           {biasLabel}
         </span>
-        <span className="text-[0.65rem] text-emerald-400 font-medium">+{bullish.length} alcistas</span>
-        <span className="text-[0.65rem] text-red-400 font-medium">−{bearish.length} bajistas</span>
+        <span className="text-micro text-emerald-400 font-medium">+{bullish.length} alcistas</span>
+        <span className="text-micro text-red-400 font-medium">−{bearish.length} bajistas</span>
       </div>
       <div className="space-y-1">
         {top.map((s: TechnicalSignal, i: number) => (
           <div key={i} className="flex items-center gap-2 py-1 px-2 rounded-lg bg-muted/20 hover:bg-muted/30 transition-colors">
-            <span className={`shrink-0 text-[0.55rem] font-bold w-8 text-center py-0.5 rounded border ${
+            <span className={`shrink-0 text-micro font-bold w-8 text-center py-0.5 rounded border ${
               s.direction === 'BULLISH' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25' :
               s.direction === 'BEARISH' ? 'bg-red-500/10 text-red-400 border-red-500/25' :
               'bg-muted/20 text-muted-foreground border-border/20'
@@ -57,7 +57,7 @@ function TechnicalPanel({ ticker }: { ticker: string }) {
               {s.direction === 'BULLISH' ? '▲' : s.direction === 'BEARISH' ? '▼' : '—'}{s.timeframe === 'WEEKLY' ? 'W' : 'D'}
             </span>
             <span className="text-xs text-foreground/80 flex-1">{s.signal_name}</span>
-            <span className="text-[0.6rem] text-muted-foreground/50 tabular-nums shrink-0">
+            <span className="text-micro text-muted-foreground/50 tabular-nums shrink-0">
               {s.days_ago === 0 ? 'hoy' : s.days_ago === 1 ? 'ayer' : `${s.days_ago}d`}
             </span>
           </div>
@@ -83,7 +83,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
   return (
     <div>
       <div className="flex items-center gap-2.5 mb-3 flex-wrap">
-        <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+        <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
           <Award size={12} className="text-primary" />
           Conviction IA
         </h4>
@@ -101,12 +101,12 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
       {/* Score bar */}
       <div className="flex items-center gap-4 mb-3">
         <div className="flex items-center gap-2 flex-1">
-          <span className="text-[0.6rem] text-emerald-400 font-semibold shrink-0">+{pos}</span>
+          <span className="text-micro text-emerald-400 font-semibold shrink-0">+{pos}</span>
           <div className="flex-1 h-1.5 rounded-full bg-muted/30 overflow-hidden flex">
             {pos > 0 && <div className="h-full bg-emerald-500/60 rounded-full" style={{ width: `${(pos / (pos + flags || 1)) * 100}%` }} />}
             {flags > 0 && <div className="h-full bg-red-500/60 rounded-full" style={{ width: `${(flags / (pos + flags || 1)) * 100}%` }} />}
           </div>
-          <span className="text-[0.6rem] text-red-400 font-semibold shrink-0">{flags}</span>
+          <span className="text-micro text-red-400 font-semibold shrink-0">{flags}</span>
         </div>
       </div>
 
@@ -116,7 +116,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
             const isPositive = /alta|strong|crecimiento|sólid|excelente|seguro|activo|buyback|favorable/i.test(r)
             const isNegative = /riesgo|alerta|bajo|débil|negativo|warning|alto endeud/i.test(r)
             return (
-              <span key={i} className={`text-[0.62rem] px-2 py-0.5 rounded-lg border ${
+              <span key={i} className={`text-micro px-2 py-0.5 rounded-lg border ${
                 isPositive ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80' :
                 isNegative ? 'bg-red-500/8 border-red-500/20 text-red-400/80' :
                 'bg-muted/20 border-border/40 text-muted-foreground/70'
@@ -138,7 +138,7 @@ function ConvictionPanel({ row }: { row: ValueOpportunity }) {
           }>
             {row.piotroski_score}/9
           </span>
-          {row.piotroski_label && <span className="text-muted-foreground/40 text-[0.6rem]">{row.piotroski_label}</span>}
+          {row.piotroski_label && <span className="text-muted-foreground/40 text-micro">{row.piotroski_label}</span>}
         </div>
       )}
     </div>
@@ -175,24 +175,24 @@ function WhyCheap({ row }: Readonly<{ row: ValueOpportunity }>) {
 
   return (
     <div className="mb-4">
-      <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+      <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
         Por qué está barata
       </h4>
       {/* Un solo dispositivo de énfasis: el color lo lleva el badge, el
           contenedor va neutro (regla del proyecto). */}
       <div className="rounded-lg border border-border/20 bg-muted/10 p-3">
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-1 rounded border ${meta.clase}`}>
+          <span className={`text-micro font-bold uppercase tracking-wider px-2 py-1 rounded border ${meta.clase}`}>
             {meta.etiqueta}
           </span>
-          <span className="text-[0.65rem] text-muted-foreground/70">{meta.nota}</span>
+          <span className="text-micro text-muted-foreground/70">{meta.nota}</span>
         </div>
         {row.why_cheap_resumen && (
-          <p className="text-[0.78rem] leading-relaxed text-foreground/80">{row.why_cheap_resumen}</p>
+          <p className="text-apoyo leading-relaxed text-foreground/80">{row.why_cheap_resumen}</p>
         )}
         {fuentes.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 mt-2 pt-2 border-t border-border/15">
-            <span className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/40">
+            <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/40">
               Fuentes
             </span>
             {fuentes.map((u) => (
@@ -202,7 +202,7 @@ function WhyCheap({ row }: Readonly<{ row: ValueOpportunity }>) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={e => e.stopPropagation()}
-                className="inline-flex items-center gap-1 text-[0.6rem] text-primary/80 hover:text-primary underline underline-offset-2"
+                className="inline-flex items-center gap-1 text-micro text-primary/80 hover:text-primary underline underline-offset-2"
               >
                 <ExternalLink size={12} />
                 {new URL(u).hostname.replace('www.', '')}
@@ -247,17 +247,17 @@ function InteresCorto({ row }: Readonly<{ row: ValueOpportunity }>) {
 
   return (
     <div className="mb-4">
-      <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+      <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
         Interés corto
       </h4>
       <div className="rounded-lg border border-border/20 bg-muted/10 p-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className={`text-[0.6rem] font-bold uppercase tracking-wider px-2 py-1 rounded border ${t.clase}`}>
+          <span className={`text-micro font-bold uppercase tracking-wider px-2 py-1 rounded border ${t.clase}`}>
             {v.toFixed(1)}% del float
           </span>
-          <span className="text-[0.65rem] text-muted-foreground/70">{t.nota}</span>
+          <span className="text-micro text-muted-foreground/70">{t.nota}</span>
         </div>
-        <p className="text-[0.65rem] leading-relaxed text-muted-foreground/60 mt-2">
+        <p className="text-micro leading-relaxed text-muted-foreground/60 mt-2">
           Dato informativo, no penaliza el score: en este universo el interés corto
           no ha predicho el retorno (6265 observaciones). Buena parte es cobertura
           y arbitraje, no apuesta bajista.
@@ -277,8 +277,8 @@ function Chip({ label, value, color }: { label: string; value: string; color?: s
                                  'bg-muted/20 border-border/20'
   return (
     <div className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-lg border min-w-[56px] ${bg}`}>
-      <span className="text-[0.5rem] font-bold uppercase tracking-widest text-muted-foreground/40 leading-none">{label}</span>
-      <span className={`text-[0.82rem] font-bold tabular-nums leading-none ${color ?? 'text-foreground/70'}`}>{value}</span>
+      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/40 leading-none">{label}</span>
+      <span className={`text-apoyo font-bold tabular-nums leading-none ${color ?? 'text-foreground/70'}`}>{value}</span>
     </div>
   )
 }
@@ -357,16 +357,16 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                 <span className="font-mono font-extrabold text-primary text-2xl tracking-tight">{row.ticker}</span>
                 <GradeBadge grade={row.conviction_grade} score={row.conviction_score} />
                 {row.earnings_warning && (
-                  <Badge variant="yellow" className="text-[0.6rem] gap-1">
+                  <Badge variant="yellow" className="text-micro gap-1">
                     <AlertTriangle size={12} strokeWidth={2} /> Earnings
                   </Badge>
                 )}
                 {row.proximity_to_52w_high != null && row.proximity_to_52w_high > -5 && (
-                  <Badge variant="green" className="text-[0.58rem]">52w High</Badge>
+                  <Badge variant="green" className="text-micro">52w High</Badge>
                 )}
               </div>
               <p className="text-sm text-foreground/60">{row.company_name}</p>
-              {row.sector && <p className="text-[0.68rem] text-muted-foreground/40">{row.sector}</p>}
+              {row.sector && <p className="text-micro text-muted-foreground/40">{row.sector}</p>}
             </div>
             <div className="flex items-start gap-1.5 shrink-0">
               {price != null && (
@@ -397,20 +397,20 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
             <div className="flex gap-2 px-5 lg:px-6 pb-3 flex-shrink-0">
               {row.entry_price != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-primary/5 border border-primary/20">
-                  <div className="text-[0.5rem] font-bold uppercase tracking-widest text-primary/40 mb-0.5">Entrada</div>
-                  <div className="font-extrabold text-[0.95rem] tabular-nums text-primary leading-none">{currency}{row.entry_price.toFixed(2)}</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-primary/40 mb-0.5">Entrada</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums text-primary leading-none">{currency}{row.entry_price.toFixed(2)}</div>
                 </div>
               )}
               {row.stop_loss != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-red-500/6 border border-red-500/15">
-                  <div className="text-[0.5rem] font-bold uppercase tracking-widest text-red-400/40 mb-0.5">Stop Loss</div>
-                  <div className="font-extrabold text-[0.95rem] tabular-nums text-red-400 leading-none">{currency}{row.stop_loss.toFixed(2)}</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-red-400/40 mb-0.5">Stop Loss</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums text-red-400 leading-none">{currency}{row.stop_loss.toFixed(2)}</div>
                 </div>
               )}
               {row.target_price != null && (
                 <div className="flex-1 px-3 py-2 rounded-lg bg-emerald-500/6 border border-emerald-500/15">
-                  <div className="text-[0.5rem] font-bold uppercase tracking-widest text-emerald-400/40 mb-0.5">Objetivo</div>
-                  <div className="font-extrabold text-[0.95rem] tabular-nums text-emerald-400 leading-none">{currency}{row.target_price.toFixed(2)}</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-emerald-400/40 mb-0.5">Objetivo</div>
+                  <div className="font-extrabold text-cuerpo tabular-nums text-emerald-400 leading-none">{currency}{row.target_price.toFixed(2)}</div>
                 </div>
               )}
             </div>
@@ -478,7 +478,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                 {/* Quick health summary */}
                 {(row.roe_pct != null || row.profit_margin_pct != null || row.revenue_growth_pct != null) && (
                   <div>
-                    <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
                       <Shield size={12} className="text-emerald-400" />
                       Salud Financiera
                     </h4>
@@ -488,7 +488,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                           <div className={`text-sm font-bold tabular-nums ${row.roe_pct >= 15 ? 'text-emerald-400' : row.roe_pct < 0 ? 'text-red-400' : 'text-foreground/60'}`}>
                             {row.roe_pct.toFixed(1)}%
                           </div>
-                          <div className="text-[0.5rem] text-muted-foreground/40 font-medium uppercase">ROE</div>
+                          <div className="text-micro text-muted-foreground/40 font-medium uppercase">ROE</div>
                         </div>
                       )}
                       {row.profit_margin_pct != null && (
@@ -496,7 +496,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                           <div className={`text-sm font-bold tabular-nums ${row.profit_margin_pct >= 15 ? 'text-emerald-400' : row.profit_margin_pct < 0 ? 'text-red-400' : 'text-foreground/60'}`}>
                             {row.profit_margin_pct.toFixed(1)}%
                           </div>
-                          <div className="text-[0.5rem] text-muted-foreground/40 font-medium uppercase">Margen</div>
+                          <div className="text-micro text-muted-foreground/40 font-medium uppercase">Margen</div>
                         </div>
                       )}
                       {row.revenue_growth_pct != null && (
@@ -504,7 +504,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                           <div className={`text-sm font-bold tabular-nums ${row.revenue_growth_pct > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                             {row.revenue_growth_pct >= 0 ? '+' : ''}{row.revenue_growth_pct.toFixed(1)}%
                           </div>
-                          <div className="text-[0.5rem] text-muted-foreground/40 font-medium uppercase">Revenue</div>
+                          <div className="text-micro text-muted-foreground/40 font-medium uppercase">Revenue</div>
                         </div>
                       )}
                     </div>
@@ -523,7 +523,7 @@ export default function ThesisModal({ row, thesisText, onClose, currency = '$' }
                 )}
                 <WhyCheap row={row} />
                 <InteresCorto row={row} />
-                <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-3">Tesis de Inversión</h4>
+                <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-3">Tesis de Inversión</h4>
                 <ThesisBody text={thesisText} />
               </div>
             </div>

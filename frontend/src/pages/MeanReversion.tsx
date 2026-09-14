@@ -37,27 +37,27 @@ function RecentPositionRow({ d }: { d: MeanReversionRecentEntry }) {
       <div className="flex items-center justify-between gap-2 flex-wrap mb-2">
         <div className="flex items-center gap-1.5">
           <TickerLogo ticker={d.ticker} size="xs" />
-          <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</span>
-          <span className="text-[0.68rem] text-muted-foreground/60">día {d.days_since_signal} de {d.window_days}</span>
+          <span className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</span>
+          <span className="text-micro text-muted-foreground/60">día {d.days_since_signal} de {d.window_days}</span>
         </div>
-        <span className={`text-[0.62rem] font-bold px-2 py-0.5 rounded border ${meta.cls}`}>{meta.label}</span>
+        <span className={`text-micro font-bold px-2 py-0.5 rounded border ${meta.cls}`}>{meta.label}</span>
       </div>
       <div className="grid grid-cols-3 gap-1.5 text-center mb-2">
         <div className="rounded bg-muted/15 px-1.5 py-1">
-          <div className="text-[0.58rem] text-muted-foreground/50 leading-none mb-0.5">Precio hoy</div>
-          <div className="text-[0.74rem] font-bold text-foreground leading-none">{d.current_price != null ? `$${d.current_price.toFixed(2)}` : '—'}</div>
+          <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Precio hoy</div>
+          <div className="text-mini font-bold text-foreground leading-none">{d.current_price != null ? `$${d.current_price.toFixed(2)}` : '—'}</div>
         </div>
         <div className="rounded bg-emerald-500/8 px-1.5 py-1">
-          <div className="text-[0.58rem] text-muted-foreground/50 leading-none mb-0.5">Target</div>
-          <div className="text-[0.74rem] font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(2)}` : '—'}</div>
+          <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Target</div>
+          <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(2)}` : '—'}</div>
         </div>
         <div className="rounded bg-red-500/6 px-1.5 py-1">
-          <div className="text-[0.58rem] text-muted-foreground/50 leading-none mb-0.5">Stop</div>
-          <div className="text-[0.74rem] font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(2)}` : '—'}</div>
+          <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Stop</div>
+          <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(2)}` : '—'}</div>
         </div>
       </div>
       {d.ai_note && (
-        <p className="text-[0.72rem] text-muted-foreground/80 leading-relaxed italic">{d.ai_note}</p>
+        <p className="text-mini text-muted-foreground/80 leading-relaxed italic">{d.ai_note}</p>
       )}
     </div>
   )
@@ -236,9 +236,9 @@ export default function MeanReversion() {
         return (
           <div className="mb-6 animate-fade-in-up">
             <div className="flex items-center gap-2 mb-3">
-              <span className="text-[0.6rem] font-black uppercase tracking-[0.15em] text-muted-foreground/50">Top Rebotes Hoy</span>
+              <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground/50">Top Rebotes Hoy</span>
               <div className="flex-1 h-px bg-border/20" />
-              <span className="text-[0.6rem] text-muted-foreground/40">{top.length} setups</span>
+              <span className="text-micro text-muted-foreground/40">{top.length} setups</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
               {top.map((d, idx) => {
@@ -262,14 +262,14 @@ export default function MeanReversion() {
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center gap-1.5">
                         <span className="font-mono font-black text-sm text-foreground">{d.ticker}</span>
-                        <span className={`text-[0.55rem] font-bold px-1.5 py-0.5 rounded border ${
+                        <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${
                           strategyShort === 'Oversold'
                             ? 'bg-amber-500/10 border-amber-500/25 text-amber-400'
                             : 'bg-blue-500/10 border-blue-500/25 text-blue-400'
                         }`}>{strategyShort}</span>
                       </div>
                       {d.rsi != null && (
-                        <span className={`text-[0.65rem] font-bold tabular-nums ${d.rsi < 25 ? 'text-red-400' : d.rsi < 35 ? 'text-amber-400' : 'text-muted-foreground'}`}>
+                        <span className={`text-micro font-bold tabular-nums ${d.rsi < 25 ? 'text-red-400' : d.rsi < 35 ? 'text-amber-400' : 'text-muted-foreground'}`}>
                           RSI {d.rsi.toFixed(0)}
                         </span>
                       )}
@@ -277,23 +277,23 @@ export default function MeanReversion() {
                     {/* Price ladder */}
                     <div className="grid grid-cols-3 gap-1 mb-2 text-center">
                       <div className="rounded bg-muted/15 px-1.5 py-1">
-                        <div className="text-[0.6rem] text-muted-foreground/50 leading-none mb-0.5">Entrada</div>
-                        <div className="text-[0.72rem] font-bold text-muted-foreground leading-none truncate">{d.entry_zone?.split(' ')[0] ?? '—'}</div>
+                        <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Entrada</div>
+                        <div className="text-mini font-bold text-muted-foreground leading-none truncate">{d.entry_zone?.split(' ')[0] ?? '—'}</div>
                       </div>
                       <div className="rounded bg-emerald-500/8 px-1.5 py-1">
-                        <div className="text-[0.6rem] text-muted-foreground/50 leading-none mb-0.5">Target</div>
-                        <div className="text-[0.72rem] font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(1)}` : '—'}</div>
+                        <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Target</div>
+                        <div className="text-mini font-bold text-emerald-400 leading-none">{d.target != null ? `$${d.target.toFixed(1)}` : '—'}</div>
                       </div>
                       <div className="rounded bg-red-500/6 px-1.5 py-1">
-                        <div className="text-[0.6rem] text-muted-foreground/50 leading-none mb-0.5">Stop</div>
-                        <div className="text-[0.72rem] font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(1)}` : '—'}</div>
+                        <div className="text-micro text-muted-foreground/50 leading-none mb-0.5">Stop</div>
+                        <div className="text-mini font-bold text-red-400 leading-none">{d.stop_loss != null ? `$${d.stop_loss.toFixed(1)}` : '—'}</div>
                       </div>
                     </div>
                     {/* R:R + AI + Win Rate row */}
                     <div className="flex items-center justify-between mt-1">
                       <div className="flex items-center gap-1.5">
                         {d.ai_confirmation && (
-                          <span className={`text-[0.55rem] font-black px-1 py-0.5 rounded leading-none ${
+                          <span className={`text-micro font-black px-1 py-0.5 rounded leading-none ${
                             d.ai_confirmation === 'YES' ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
                             : d.ai_confirmation === 'CAUTION' ? 'bg-amber-500/15 text-amber-400 border border-amber-500/20'
                             : 'bg-red-500/15 text-red-400 border border-red-500/20'
@@ -303,7 +303,7 @@ export default function MeanReversion() {
                           </span>
                         )}
                         {d.historical_win_rate != null && (
-                          <span className="text-[0.55rem] text-muted-foreground/50 tabular-nums">{d.historical_win_rate.toFixed(0)}% hist</span>
+                          <span className="text-micro text-muted-foreground/50 tabular-nums">{d.historical_win_rate.toFixed(0)}% hist</span>
                         )}
                       </div>
                       {rr != null && (
@@ -320,7 +320,7 @@ export default function MeanReversion() {
 
       {/* Quality filter */}
       <div className="flex items-center gap-2 mb-5 flex-wrap">
-        <span className="text-[0.65rem] font-bold uppercase tracking-widest text-muted-foreground mr-1">Calidad</span>
+        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground mr-1">Calidad</span>
         {[{ label: 'TODAS', value: '' }, ...QUALITY_LEVELS.map(q => ({ label: q.label, value: q.match }))].map(opt => {
           const count = opt.value === '' ? validItems.length : (qualCounts.find(q => q.match === opt.value)?.count ?? 0)
           const active = filterQuality === opt.value
@@ -334,7 +334,7 @@ export default function MeanReversion() {
             </button>
           )
         })}
-        <span className="ml-auto text-[0.65rem] text-muted-foreground">{filtered.length} señales</span>
+        <span className="ml-auto text-micro text-muted-foreground">{filtered.length} señales</span>
       </div>
 
       {/* My positions in oversold zone */}
@@ -347,8 +347,8 @@ export default function MeanReversion() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-[0.62rem] font-bold uppercase tracking-widest text-primary/70">Mis Posiciones en Zona Oversold</span>
-                <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myMR.length}</span>
+                <span className="text-micro font-bold uppercase tracking-widest text-primary/70">Mis Posiciones en Zona Oversold</span>
+                <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myMR.length}</span>
               </div>
               <Table>
                 <TableHeader>
@@ -368,7 +368,7 @@ export default function MeanReversion() {
                       <TableCell>
                         <div className="flex items-center gap-1.5">
                           <TickerLogo ticker={d.ticker} size="xs" />
-                          <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</span>
+                          <span className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</span>
                         </div>
                       </TableCell>
                       <TableCell><Badge variant={qualVariant(d.quality)}>{d.quality}</Badge></TableCell>
@@ -402,10 +402,10 @@ export default function MeanReversion() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-[0.62rem] font-bold uppercase tracking-widest text-primary/70">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
-                <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{recent.length}</span>
+                <span className="text-micro font-bold uppercase tracking-widest text-primary/70">Mis Posiciones — Ya Fuera del Escaneo de Hoy</span>
+                <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{recent.length}</span>
               </div>
-              <p className="text-[0.7rem] text-muted-foreground/60 mb-3 leading-relaxed">
+              <p className="text-mini text-muted-foreground/60 mb-3 leading-relaxed">
                 El RSI ya no está en sobreventa, así que no aparecen como setup nuevo — pero
                 si ya estabas dentro, esto es lo que ha pasado con la posición.
               </p>
@@ -433,7 +433,7 @@ export default function MeanReversion() {
                   <Badge variant={qualVariant(d.quality)}>{d.quality}</Badge>
                   <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                 </div>
-                <span className="text-[0.65rem] text-muted-foreground">{d.company_name}</span>
+                <span className="text-micro text-muted-foreground">{d.company_name}</span>
               </div>
               <div className="text-right">
                 <ScoreBar score={d.reversion_score} />
@@ -444,13 +444,13 @@ export default function MeanReversion() {
                 )}
               </div>
             </div>
-            <div className="flex gap-3 mt-2 text-[0.62rem] text-muted-foreground/60">
+            <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
               {d.support_level != null && <span>Soporte ${d.support_level.toFixed(2)}</span>}
               {d.target != null && <span>Target ${d.target.toFixed(2)}</span>}
               {d.rsi != null && <span>RSI {d.rsi.toFixed(0)}</span>}
             </div>
             {expanded === d.ticker && d.entry_zone && (
-              <div className="mt-3 pt-3 border-t border-border/20 grid grid-cols-2 gap-2 text-[0.7rem]">
+              <div className="mt-3 pt-3 border-t border-border/20 grid grid-cols-2 gap-2 text-mini">
                 <div className="bg-muted/10 rounded-lg p-2">
                   <div className="text-muted-foreground">Entrada</div>
                   <div className="font-semibold">{d.entry_zone}</div>
@@ -502,14 +502,14 @@ export default function MeanReversion() {
                       <div className="flex items-center gap-1.5">
                         <TickerLogo ticker={d.ticker} size="xs" />
                         <div>
-                          <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide flex items-center gap-1.5 flex-wrap">
+                          <div className="font-mono font-bold text-primary text-apoyo tracking-wide flex items-center gap-1.5 flex-wrap">
                             {d.ticker}
                             <OwnedBadge ticker={d.ticker} />
-                            {d.ticker === bestTicker && <Badge variant="green" className="text-[0.5rem] px-1 py-0 leading-4">BEST</Badge>}
+                            {d.ticker === bestTicker && <Badge variant="green" className="text-micro px-1 py-0 leading-4">BEST</Badge>}
                             <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                           </div>
                           {d.company_name && d.company_name !== d.ticker && (
-                            <div className="text-[0.65rem] text-muted-foreground truncate max-w-[110px]">{d.company_name}</div>
+                            <div className="text-micro text-muted-foreground truncate max-w-[110px]">{d.company_name}</div>
                           )}
                         </div>
                       </div>
@@ -518,9 +518,9 @@ export default function MeanReversion() {
                     <TableCell><ScoreBar score={d.reversion_score} /></TableCell>
                     {!compact ? (
                       <TableCell>
-                        <div className="text-muted-foreground text-[0.76rem]">{d.entry_zone || '—'}</div>
+                        <div className="text-muted-foreground text-mini">{d.entry_zone || '—'}</div>
                         {d.support_level != null && (
-                          <div className="text-[0.65rem] text-amber-400">
+                          <div className="text-micro text-amber-400">
                             S: ${d.support_level.toFixed(2)}
                             {d.distance_to_support_pct != null && (
                               <span className="ml-1 text-muted-foreground">({d.distance_to_support_pct.toFixed(1)}%)</span>
@@ -563,12 +563,12 @@ export default function MeanReversion() {
                                   color === 'emerald' ? 'text-emerald-400' :
                                   color === 'red' ? 'text-red-400' : 'text-primary'
                                 }`}>${value.toFixed(2)}</div>
-                                <div className="text-[0.5rem] uppercase tracking-widest text-muted-foreground/45 mt-0.5">{label}</div>
+                                <div className="text-micro uppercase tracking-widest text-muted-foreground/45 mt-0.5">{label}</div>
                               </div>
                             ))}
                           </div>
                           {/* Detail metrics */}
-                          <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5 text-[0.75rem]">
+                          <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5 text-mini">
                             {[
                               { label: 'Estrategia', value: d.strategy || null, q: '' },
                               { label: 'RSI', value: d.rsi != null ? d.rsi.toFixed(0) : null,
@@ -581,10 +581,10 @@ export default function MeanReversion() {
                               <div key={label} className={`rounded-lg border px-2.5 py-2 ${
                                 q === 'good' ? 'bg-emerald-500/8 border-emerald-500/20' : 'bg-muted/12 border-border/20'
                               }`}>
-                                <div className={`text-[0.82rem] font-bold tabular-nums leading-tight ${
+                                <div className={`text-apoyo font-bold tabular-nums leading-tight ${
                                   q === 'good' ? 'text-emerald-400' : 'text-foreground/70'
                                 }`}>{value}</div>
-                                <div className="text-[0.5rem] uppercase tracking-widest text-muted-foreground/45 mt-0.5 leading-tight">{label}</div>
+                                <div className="text-micro uppercase tracking-widest text-muted-foreground/45 mt-0.5 leading-tight">{label}</div>
                               </div>
                             ))}
                           </div>
@@ -604,7 +604,7 @@ export default function MeanReversion() {
             />
           )}
           {filtered.length > 0 && (
-            <div className="px-4 py-2 border-t border-border/20 flex items-center gap-3 text-[0.6rem] text-muted-foreground/50">
+            <div className="px-4 py-2 border-t border-border/20 flex items-center gap-3 text-micro text-muted-foreground/50">
               <span>j/k or ↑↓ navegar</span>
               <span>Enter expandir</span>
               <span>Esc cerrar</span>

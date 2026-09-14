@@ -71,7 +71,7 @@ const MUESTRA_MINIMA = 30
 function Intervalo({ low, high, n }: { readonly low: number | null; readonly high: number | null; readonly n: number }) {
   if (low == null || high == null) return null
   return (
-    <div className="mt-1 flex flex-wrap items-baseline gap-x-1.5 text-[0.62rem] text-muted-foreground tabular-nums">
+    <div className="mt-1 flex flex-wrap items-baseline gap-x-1.5 text-micro text-muted-foreground tabular-nums">
       <span>IC 95%: {low}–{high}%</span>
       {n < MUESTRA_MINIMA && (
         <span className="text-amber-400" title={`Con ${n} señales el intervalo real va del ${low}% al ${high}%`}>
@@ -207,7 +207,7 @@ function StrategyCard({ row }: { row: StrategyRow }) {
             días mezclaría el rebote con lo que viniera después. El backend
             manda el plazo de cada estrategia y aquí solo se rotula. */}
         {row.corto_plazo && (
-          <p className="text-[0.62rem] text-muted-foreground mb-2.5">
+          <p className="text-micro text-muted-foreground mb-2.5">
             Estrategia de corto plazo — se mide a {row.horizonte.replace('d', ' días')},
             no a los {row.horizonte_2.replace('d', ' días')} del resto.
           </p>
@@ -403,7 +403,7 @@ export default function SignalStats() {
                 tendencia que no existe. Solo en las pestañas con orden real. */}
             {tab !== 'weekday' && (
               <div className="mb-4 pb-4 border-b border-white/5">
-                <div className="flex items-center gap-4 mb-2 text-[0.68rem]">
+                <div className="flex items-center gap-4 mb-2 text-micro">
                   <span className="inline-flex items-center gap-1.5 text-foreground/50">
                     <span className="w-2.5 h-0.5 rounded-full" style={{ background: '#22d3ee' }} /> Win {rows.find(r => r.horizonte)?.horizonte ?? '90d'}
                   </span>

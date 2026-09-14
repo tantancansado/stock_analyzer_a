@@ -40,8 +40,8 @@ export default function SignalBadge({ icon: Icon, texto, tono, titulo, tamano = 
       title={titulo}
       className={`inline-flex items-center gap-1 font-bold border tracking-wide whitespace-nowrap ${TONOS_SENAL[tono]} ${
         micro
-          ? 'text-[0.48rem] font-black px-1.5 py-px rounded'
-          : 'text-[0.65rem] px-2 py-0.5 rounded-full'
+          ? 'text-micro font-black px-1.5 py-px rounded'
+          : 'text-micro px-2 py-0.5 rounded-full'
       }`}
     >
       <Icon size={12} strokeWidth={2.25} className="shrink-0" />

@@ -28,7 +28,7 @@ const VERDICT_MAP: Record<EarningsThesisVerdict, VerdictStyle> = {
 function Stat({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
     <div className="flex flex-col gap-0.5 px-3 py-2 rounded-lg bg-muted/20 border border-border/20 min-w-[70px]">
-      <span className="text-[0.5rem] font-bold uppercase tracking-widest text-muted-foreground/50 leading-none">{label}</span>
+      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 leading-none">{label}</span>
       <span className={`text-sm font-bold tabular-nums leading-tight ${color ?? 'text-foreground/80'}`}>{value}</span>
     </div>
   )
@@ -92,7 +92,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <span className="font-mono font-extrabold text-primary text-xl tracking-tight">{ticker}</span>
-                  <span className="text-[0.6rem] font-bold uppercase tracking-widest text-primary/70 px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20">
+                  <span className="text-micro font-bold uppercase tracking-widest text-primary/70 px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20">
                     Tesis IA
                   </span>
                 </div>
@@ -100,7 +100,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                   <p className="text-xs text-foreground/60 truncate">{thesis.company_name}</p>
                 )}
                 {thesis?.sector && (
-                  <p className="text-[0.65rem] text-muted-foreground/40">{thesis.sector}</p>
+                  <p className="text-micro text-muted-foreground/40">{thesis.sector}</p>
                 )}
               </div>
             </div>
@@ -126,7 +126,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 <p className="text-sm text-muted-foreground">
                   Aún no hay tesis generada para <span className="font-mono font-bold text-foreground/70">{ticker}</span>.
                 </p>
-                <p className="text-[0.65rem] text-muted-foreground/50">
+                <p className="text-micro text-muted-foreground/50">
                   La tesis se genera cada noche para posiciones con earnings en ≤14 días.
                 </p>
               </div>
@@ -137,11 +137,11 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {/* Verdict banner */}
                 <div className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border ${verdictStyle.bg} ${verdictStyle.border}`}>
                   <div>
-                    <div className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/60">Recomendación</div>
+                    <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/60">Recomendación</div>
                     <div className={`text-lg font-extrabold ${verdictStyle.text}`}>{verdictStyle.label}</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/60">Confianza</div>
+                    <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/60">Confianza</div>
                     <div className={`text-lg font-extrabold tabular-nums ${verdictStyle.text}`}>{thesis.confidence}</div>
                   </div>
                 </div>
@@ -149,8 +149,8 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {/* Sentiment tone badge */}
                 {thesis.sentiment_tone && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/50">Tono</span>
-                    <span className={`text-[0.65rem] font-bold px-2 py-0.5 rounded-full border ${
+                    <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">Tono</span>
+                    <span className={`text-micro font-bold px-2 py-0.5 rounded-full border ${
                       thesis.sentiment_tone === 'BULLISH'
                         ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
                         : thesis.sentiment_tone === 'BEARISH'
@@ -159,18 +159,18 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                     }`}>
                       {thesis.sentiment_tone === 'BULLISH' ? '▲ Optimista' : thesis.sentiment_tone === 'BEARISH' ? '▼ Defensivo' : '— Neutro'}
                     </span>
-                    <span className="text-[0.6rem] text-muted-foreground/40">basado en noticias recientes + historial</span>
+                    <span className="text-micro text-muted-foreground/40">basado en noticias recientes + historial</span>
                   </div>
                 )}
 
                 {/* Implied move big number */}
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex-1 min-w-[160px] px-4 py-3 rounded-xl bg-primary/5 border border-primary/20">
-                    <div className="text-[0.55rem] font-bold uppercase tracking-widest text-primary/60">Implied Move</div>
+                    <div className="text-micro font-bold uppercase tracking-widest text-primary/60">Implied Move</div>
                     <div className="text-3xl font-extrabold tabular-nums text-primary leading-tight">
                       {thesis.implied_move_pct != null ? `±${thesis.implied_move_pct.toFixed(1)}%` : 'N/A'}
                     </div>
-                    <div className="text-[0.62rem] text-muted-foreground/60">
+                    <div className="text-micro text-muted-foreground/60">
                       Earnings en {thesis.days_to_earnings}d · {thesis.earnings_date}
                     </div>
                   </div>
@@ -201,7 +201,7 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {/* Thesis summary */}
                 {thesis.thesis_summary && (
                   <div>
-                    <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Resumen</h4>
+                    <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Resumen</h4>
                     <p className="text-sm text-foreground/85 leading-relaxed whitespace-pre-line">
                       {thesis.thesis_summary}
                     </p>
@@ -211,13 +211,13 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {/* Catalysts */}
                 {thesis.key_catalysts?.length > 0 && (
                   <div>
-                    <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
                       <Zap size={12} className="text-emerald-400" />
                       Catalizadores
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
                       {thesis.key_catalysts.map((c, i) => (
-                        <span key={i} className="text-[0.68rem] px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-400/90">
+                        <span key={i} className="text-micro px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/25 text-emerald-400/90">
                           {c}
                         </span>
                       ))}
@@ -228,13 +228,13 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {/* Risks */}
                 {thesis.key_risks?.length > 0 && (
                   <div>
-                    <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
+                    <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1.5">
                       <AlertTriangle size={12} className="text-red-400" />
                       Riesgos
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
                       {thesis.key_risks.map((r, i) => (
-                        <span key={i} className="text-[0.68rem] px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400/90">
+                        <span key={i} className="text-micro px-2.5 py-1 rounded-lg bg-red-500/10 border border-red-500/25 text-red-400/90">
                           {r}
                         </span>
                       ))}
@@ -245,10 +245,10 @@ export default function EarningsThesisModal({ ticker, onClose }: Props) {
                 {/* Earnings history */}
                 {thesis.earnings_history && thesis.earnings_history.length > 0 && (
                   <div>
-                    <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Histórico últimos 4Q</h4>
+                    <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Histórico últimos 4Q</h4>
                     <div className="space-y-1">
                       {thesis.earnings_history.map((h, i) => (
-                        <div key={i} className="flex items-center gap-2 text-[0.7rem] py-1 px-2 rounded-md bg-muted/15">
+                        <div key={i} className="flex items-center gap-2 text-mini py-1 px-2 rounded-md bg-muted/15">
                           <span className="tabular-nums text-muted-foreground/60 w-20">{h.period}</span>
                           <span className="text-foreground/60">est {h.eps_estimate ?? '—'}</span>
                           <span className="text-foreground/80">act {h.eps_actual ?? '—'}</span>

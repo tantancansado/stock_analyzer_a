@@ -6,17 +6,17 @@ import { TrendingDown, ShieldCheck, AlertTriangle, Eye, RefreshCw } from 'lucide
 
 function VerdictBadge({ verdict, confidence }: Readonly<{ verdict: ContrarianPick['verdict']; confidence: number }>) {
   if (verdict === 'CONTRARIAN_BUY') return (
-    <span className="inline-flex items-center gap-1 text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+    <span className="inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
       <ShieldCheck size={12} /> CONTRARIAN BUY · {confidence}%
     </span>
   )
   if (verdict === 'WATCH') return (
-    <span className="inline-flex items-center gap-1 text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
+    <span className="inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
       <Eye size={12} /> WATCH · {confidence}%
     </span>
   )
   return (
-    <span className="inline-flex items-center gap-1 text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">
+    <span className="inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">
       <AlertTriangle size={12} /> AVOID · {confidence}%
     </span>
   )
@@ -25,8 +25,8 @@ function VerdictBadge({ verdict, confidence }: Readonly<{ verdict: ContrarianPic
 function Stat({ label, value, color }: Readonly<{ label: string; value: string; color?: string }>) {
   return (
     <div className="flex flex-col items-center gap-0.5 px-2.5 py-1.5 rounded-lg bg-muted/15 border border-border/20 min-w-[52px]">
-      <span className="text-[0.5rem] font-bold uppercase tracking-widest text-muted-foreground/40">{label}</span>
-      <span className={`text-[0.8rem] font-bold tabular-nums ${color ?? 'text-foreground/70'}`}>{value}</span>
+      <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/40">{label}</span>
+      <span className={`text-apoyo font-bold tabular-nums ${color ?? 'text-foreground/70'}`}>{value}</span>
     </div>
   )
 }
@@ -78,8 +78,8 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
               <span className="font-mono font-extrabold text-primary text-base">{pick.ticker}</span>
               <VerdictBadge verdict={pick.verdict} confidence={pick.confidence} />
             </div>
-            <div className="text-[0.7rem] text-muted-foreground/60 truncate">{pick.company_name}</div>
-            {pick.sector && <div className="text-[0.6rem] text-muted-foreground/40">{pick.sector}</div>}
+            <div className="text-mini text-muted-foreground/60 truncate">{pick.company_name}</div>
+            {pick.sector && <div className="text-micro text-muted-foreground/40">{pick.sector}</div>}
           </div>
         </div>
         <div className="text-right shrink-0">
@@ -114,7 +114,7 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
         )}
       </div>
 
-      <div className="space-y-2 text-[0.72rem]">
+      <div className="space-y-2 text-mini">
         <div className="flex gap-2">
           <span className="shrink-0 font-semibold text-muted-foreground/50 w-16">Por qué cayó</span>
           <span className="text-foreground/70 leading-relaxed">{pick.drop_reason}</span>
@@ -134,7 +134,7 @@ function PickCard({ pick }: Readonly<{ pick: ContrarianPick }>) {
       </div>
 
       {pick.is_circumstantial && (
-        <div className="mt-2.5 inline-flex items-center gap-1 text-[0.6rem] font-medium text-emerald-400/70 bg-emerald-500/8 border border-emerald-500/15 px-2 py-0.5 rounded-full">
+        <div className="mt-2.5 inline-flex items-center gap-1 text-micro font-medium text-emerald-400/70 bg-emerald-500/8 border border-emerald-500/15 px-2 py-0.5 rounded-full">
           <ShieldCheck size={12} /> Caída circunstancial — fundamentales intactos
         </div>
       )}
@@ -166,15 +166,15 @@ export default function ContrarianDiscovery() {
       <div>
         <div className="flex items-center gap-3 mb-1.5">
           <h3 className="text-lg font-extrabold tracking-tight">Contrarian Discovery</h3>
-          <span className="text-[0.65rem] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+          <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
             {data.contrarian_buys} oportunidades
           </span>
         </div>
-        <p className="text-[0.72rem] text-muted-foreground/60 max-w-2xl">
+        <p className="text-mini text-muted-foreground/60 max-w-2xl">
           Empresas de calidad del universo curado caídas ≥20% desde máximos por razones circunstanciales —
           fundamentales intactos, analistas ven upside, Piotroski ≥5.
         </p>
-        <div className="flex items-center gap-1.5 mt-1.5 text-[0.6rem] text-muted-foreground/40">
+        <div className="flex items-center gap-1.5 mt-1.5 text-micro text-muted-foreground/40">
           <RefreshCw size={12} />
           Actualizado {new Date(data.generated_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
         </div>
@@ -190,7 +190,7 @@ export default function ContrarianDiscovery() {
         <section>
           <div className="flex items-center gap-2 mb-3">
             <ShieldCheck size={16} className="text-emerald-400" />
-            <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-emerald-400">
+            <h4 className="text-mini font-bold uppercase tracking-widest text-emerald-400">
               Contrarian Buy ({buys.length})
             </h4>
           </div>
@@ -204,7 +204,7 @@ export default function ContrarianDiscovery() {
         <section>
           <div className="flex items-center gap-2 mb-3">
             <Eye size={16} className="text-amber-400" />
-            <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-amber-400">
+            <h4 className="text-mini font-bold uppercase tracking-widest text-amber-400">
               Vigilancia ({watches.length})
             </h4>
           </div>
@@ -218,13 +218,13 @@ export default function ContrarianDiscovery() {
         <section>
           <div className="flex items-center gap-2 mb-2">
             <AlertTriangle size={16} className="text-muted-foreground/40" />
-            <h4 className="text-[0.7rem] font-bold uppercase tracking-widest text-muted-foreground/40">
+            <h4 className="text-mini font-bold uppercase tracking-widest text-muted-foreground/40">
               Estructural / Evitar ({avoids.length})
             </h4>
           </div>
           <div className="flex flex-wrap gap-2">
             {avoids.map(p => (
-              <span key={p.ticker} className="text-[0.65rem] px-2 py-0.5 rounded-lg bg-muted/15 border border-border/20 text-muted-foreground/50 font-mono">
+              <span key={p.ticker} className="text-micro px-2 py-0.5 rounded-lg bg-muted/15 border border-border/20 text-muted-foreground/50 font-mono">
                 {p.ticker}
               </span>
             ))}

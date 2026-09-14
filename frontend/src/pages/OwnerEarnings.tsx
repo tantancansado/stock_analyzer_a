@@ -166,7 +166,7 @@ void SIGNAL_ORDER // used by sort in BatchView via sortKey comparators
 
 function SignalBadge({ signal }: { signal: string }) {
   return (
-    <span className={cn('inline-flex items-center px-2 py-0.5 rounded-md text-[0.65rem] font-bold uppercase tracking-wider border', SIGNAL_COLORS[signal] ?? SIGNAL_COLORS.NO_DATA)}>
+    <span className={cn('inline-flex items-center px-2 py-0.5 rounded-md text-micro font-bold uppercase tracking-wider border', SIGNAL_COLORS[signal] ?? SIGNAL_COLORS.NO_DATA)}>
       {signal.replace('_', ' ')}
     </span>
   )
@@ -204,18 +204,18 @@ function StepperInput({
   const adj = (delta: number) => onChange(clamp(parseFloat((value + delta).toFixed(dec))))
   return (
     <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-[0.55rem] uppercase tracking-widest text-muted-foreground/50 font-semibold leading-none">{label}</span>
+      <span className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold leading-none">{label}</span>
       {tikrRef != null && (
-        <span className="text-[0.5rem] text-muted-foreground/35 leading-none">
+        <span className="text-micro text-muted-foreground/35 leading-none">
           TIKR: <span className="font-mono text-muted-foreground/55">{tikrRef.toFixed(dec)}{suffix}</span>
         </span>
       )}
       <div className="flex items-center gap-0.5 mt-0.5">
         <button onClick={() => adj(-step)}
-          className="w-5 h-5 rounded bg-white/5 hover:bg-amber-500/15 border border-white/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-[0.6rem] transition-colors">▼</button>
+          className="w-5 h-5 rounded bg-white/5 hover:bg-amber-500/15 border border-white/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▼</button>
         <span className="w-14 text-center font-bold tabular-nums text-sm text-amber-400">{value.toFixed(dec)}{suffix}</span>
         <button onClick={() => adj(+step)}
-          className="w-5 h-5 rounded bg-white/5 hover:bg-amber-500/15 border border-white/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-[0.6rem] transition-colors">▲</button>
+          className="w-5 h-5 rounded bg-white/5 hover:bg-amber-500/15 border border-white/10 hover:border-amber-500/30 text-muted-foreground hover:text-amber-400 flex items-center justify-center text-micro transition-colors">▲</button>
       </div>
     </div>
   )
@@ -235,10 +235,10 @@ function OrangeCell({
   return (
     <div className="flex items-center justify-center gap-0.5">
       <button onClick={() => adj(-step)}
-        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400/60 hover:text-orange-400 flex items-center justify-center text-[0.5rem] transition-colors">▼</button>
-      <span className="w-12 text-center font-bold tabular-nums text-[0.72rem] text-orange-400">{value.toFixed(dec)}{suffix}</span>
+        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400/60 hover:text-orange-400 flex items-center justify-center text-micro transition-colors">▼</button>
+      <span className="w-12 text-center font-bold tabular-nums text-mini text-orange-400">{value.toFixed(dec)}{suffix}</span>
       <button onClick={() => adj(+step)}
-        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400/60 hover:text-orange-400 flex items-center justify-center text-[0.5rem] transition-colors">▲</button>
+        className="w-4 h-4 rounded bg-orange-500/10 hover:bg-orange-500/25 border border-orange-500/20 text-orange-400/60 hover:text-orange-400 flex items-center justify-center text-micro transition-colors">▲</button>
     </div>
   )
 }
@@ -447,7 +447,7 @@ function DetailView({
             </div>
             <p className="text-xs text-muted-foreground">
               Precio compra para <span className="text-foreground font-semibold">{returnT}%</span> anual · Salida {data.exit_year ?? '—'}E ({data.years_to_exit ?? '—'} años)
-              {isProjected && <span className="ml-2 text-[0.6rem] text-amber-400/70 border border-amber-400/20 rounded px-1.5 py-0.5">estimaciones proyectadas ~</span>}
+              {isProjected && <span className="ml-2 text-micro text-amber-400/70 border border-amber-400/20 rounded px-1.5 py-0.5">estimaciones proyectadas ~</span>}
             </p>
           </div>
 
@@ -474,7 +474,7 @@ function DetailView({
         {/* Progress bar */}
         {computed.buyPrice && data.current_price && computed.exitPrice && (
           <div className="mt-4">
-            <div className="flex justify-between text-[0.65rem] text-muted-foreground mb-1">
+            <div className="flex justify-between text-micro text-muted-foreground mb-1">
               <span>Compra ${computed.buyPrice.toFixed(2)}</span>
               <span>Objetivo ${computed.exitPrice.toFixed(2)} ({data.exit_year}E)</span>
             </div>
@@ -488,7 +488,7 @@ function DetailView({
         )}
 
         {/* NL valuation narrative */}
-        <p className="mt-3 text-[0.73rem] leading-relaxed text-muted-foreground/75 italic">
+        <p className="mt-3 text-mini leading-relaxed text-muted-foreground/75 italic">
           {nlValuation({
             ticker:          data.ticker,
             current_price:   data.current_price ?? 0,
@@ -503,7 +503,7 @@ function DetailView({
         <div className="mt-4 pt-4 border-t border-white/6 space-y-3">
           {/* Return slider */}
           <div className="flex items-center gap-3">
-            <span className="text-[0.55rem] uppercase tracking-widest text-muted-foreground/50 font-semibold shrink-0">Retorno objetivo</span>
+            <span className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold shrink-0">Retorno objetivo</span>
             <input type="range" min={8} max={25} step={1} value={returnT}
               onChange={e => setReturnT(Number(e.target.value))}
               className="flex-1 accent-cyan-400 h-1" />
@@ -518,9 +518,9 @@ function DetailView({
 
           {/* Múltiplos de valoración — stepper con referencia TIKR */}
           <div>
-            <p className="text-[0.55rem] uppercase tracking-widest text-muted-foreground/40 font-semibold mb-2">
+            <p className="text-micro uppercase tracking-widest text-muted-foreground/40 font-semibold mb-2">
               Múltiplos de valoración objetivo
-              <span className="ml-2 text-[0.5rem] text-muted-foreground/30 normal-case tracking-normal">(TIKR = mediana histórica / consenso NTM)</span>
+              <span className="ml-2 text-micro text-muted-foreground/30 normal-case tracking-normal">(TIKR = mediana histórica / consenso NTM)</span>
             </p>
             <div className="flex flex-wrap gap-5">
               <StepperInput label="EV/FCF"   value={evFcfT}  onChange={setEvFcfT}
@@ -541,7 +541,7 @@ function DetailView({
         <div className="flex items-center gap-3 mb-2">
           <p className="text-xs font-semibold">Modelo forward</p>
           {/* Toggle: two explicit options, always visible */}
-          <div className="flex rounded-md border border-border/30 overflow-clip text-[0.65rem] font-semibold">
+          <div className="flex rounded-md border border-border/30 overflow-clip text-micro font-semibold">
             <button
               onClick={() => setFwdMode(false)}
               className={cn(
@@ -567,12 +567,12 @@ function DetailView({
           </div>
           {fwdMode && (
             <button onClick={() => setFwdInputs(initFwdInputs(data, Object.keys(data.forward_fcf ?? {}).sort()))}
-              className="text-[0.6rem] text-muted-foreground/40 hover:text-muted-foreground transition-colors">
+              className="text-micro text-muted-foreground/40 hover:text-muted-foreground transition-colors">
               ↺ reset
             </button>
           )}
           {fwdMode && (
-            <span className="text-[0.6rem] text-orange-400/50 ml-auto">
+            <span className="text-micro text-orange-400/50 ml-auto">
               Casillas naranjas = supuestos editables
             </span>
           )}
@@ -582,13 +582,13 @@ function DetailView({
         {!fwdMode && fwdYears.length > 0 && (
           <Card className={cn('overflow-clip', isProjected ? 'border border-amber-500/20 bg-amber-500/3' : 'border border-border/20')}>
             {isProjected && (
-              <div className="px-3 py-2 border-b border-amber-500/20 text-[0.65rem] text-amber-400/80 flex items-center gap-2">
+              <div className="px-3 py-2 border-b border-amber-500/20 text-micro text-amber-400/80 flex items-center gap-2">
                 <span className="font-bold">~ PROYECTADO</span>
                 <span className="text-muted-foreground/60">Sin estimaciones de analistas en TIKR — FCF proyectado desde NTM × CAGR histórico. Datos pueden diferir del consenso real.</span>
               </div>
             )}
             <div className="table-x-wrap">
-              <table className="w-full text-[0.7rem]">
+              <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-border/20">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-36">Consenso TIKR</th>
@@ -608,7 +608,7 @@ function DetailView({
                         return (
                           <td key={yr} className="px-2 py-1.5 text-center">
                             {cur != null
-                              ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
+                              ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
                               : <span className="text-muted-foreground/30">—</span>}
                           </td>
                         )
@@ -625,7 +625,7 @@ function DetailView({
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center">
                           {cur != null
-                            ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
+                            ? <span className="font-mono">{(cur / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
                             : <span className="text-muted-foreground/30">—</span>}
                         </td>
                       )
@@ -641,7 +641,7 @@ function DetailView({
                       return (
                         <td key={yr} className={cn('px-2 py-1.5 text-center', isProj && 'text-amber-400/70')}>
                           {fcfM != null
-                            ? <span className="font-mono">{(fcfM / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
+                            ? <span className="font-mono">{(fcfM / 1000).toFixed(1)}B{growth != null && <span className="ml-1 text-micro text-muted-foreground/50">{growth > 0 ? '+' : ''}{growth.toFixed(0)}%</span>}</span>
                             : <span className="text-muted-foreground/30">—</span>}
                         </td>
                       )
@@ -682,7 +682,7 @@ function DetailView({
         {fwdMode && fwdYears.length > 0 && (
           <Card className="border border-orange-500/15 bg-orange-500/3 overflow-clip">
             <div className="table-x-wrap">
-              <table className="w-full text-[0.7rem]">
+              <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-orange-500/20">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-40">Supuesto</th>
@@ -757,7 +757,7 @@ function DetailView({
                         <td key={yr} className="px-2 py-1.5 text-center font-bold tabular-nums text-cyan-400">
                           {fcfPs != null ? `$${fcfPs.toFixed(2)}` : '—'}
                           {diff != null && Math.abs(diff) > 0.5 && (
-                            <span className={`ml-1 text-[0.55rem] ${diff > 0 ? 'text-emerald-400/60' : 'text-red-400/60'}`}>
+                            <span className={`ml-1 text-micro ${diff > 0 ? 'text-emerald-400/60' : 'text-red-400/60'}`}>
                               {diff > 0 ? '+' : ''}{diff.toFixed(0)}%
                             </span>
                           )}
@@ -800,7 +800,7 @@ function DetailView({
           <p className="text-xs font-semibold mb-2">1. Income Statement</p>
           <Card className="glass overflow-clip">
             <div className="table-x-wrap">
-              <table className="w-full text-[0.7rem]">
+              <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-border/30">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
@@ -819,7 +819,7 @@ function DetailView({
                       const yoy = b?.revenue && prev?.revenue ? (b.revenue / prev.revenue - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.revenue != null ? <>{fmtM(b.revenue)}{yoy != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/40">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.revenue != null ? <>{fmtM(b.revenue)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/40">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
                         </td>
                       )
                     })}
@@ -833,7 +833,7 @@ function DetailView({
                       const yoy = b?.ebitda && prev?.ebitda ? (b.ebitda / prev.ebitda - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.ebitda != null ? <>{fmtM(b.ebitda)}{b.ebitda_margin != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/40">{b.ebitda_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.ebitda != null ? <>{fmtM(b.ebitda)}{b.ebitda_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.ebitda_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
                         </td>
                       )
                     })}
@@ -855,7 +855,7 @@ function DetailView({
                       const yoy = b?.ebit && prev?.ebit ? (b.ebit / prev.ebit - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.ebit != null ? <>{fmtM(b.ebit)}{b.ebit_margin != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/40">{b.ebit_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.ebit != null ? <>{fmtM(b.ebit)}{b.ebit_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.ebit_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
                         </td>
                       )
                     })}
@@ -877,7 +877,7 @@ function DetailView({
                       const yoy = b?.net_income && prev?.net_income ? (b.net_income / prev.net_income - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono">
-                          {b?.net_income != null ? <>{fmtM(b.net_income)}{b.net_margin != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/40">{b.net_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
+                          {b?.net_income != null ? <>{fmtM(b.net_income)}{b.net_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.net_margin.toFixed(0)}%</span>}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/30">—</span>}
                         </td>
                       )
                     })}
@@ -891,7 +891,7 @@ function DetailView({
                       const yoy = bs?.eps && prevBs?.eps ? (bs.eps / prevBs.eps - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/60">
-                          {bs?.eps != null ? <>${bs.eps.toFixed(2)}{yoy != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/25">—</span>}
+                          {bs?.eps != null ? <>${bs.eps.toFixed(2)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/30">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : <span className="text-muted-foreground/25">—</span>}
                         </td>
                       )
                     })}
@@ -909,7 +909,7 @@ function DetailView({
           <p className="text-xs font-semibold mb-2">2. Cash Flow — FCF = EBITDA − CapEx<sub>m</sub> − Interés − Impuestos + ΔCT</p>
           <Card className="glass overflow-clip">
             <div className="table-x-wrap">
-              <table className="w-full text-[0.7rem]">
+              <table className="w-full text-mini">
                 <thead>
                   <tr className="border-b border-border/30">
                     <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
@@ -949,7 +949,7 @@ function DetailView({
                       const yoy = fcf && prevFcf ? (fcf / prevFcf - 1) * 100 : null
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center font-mono font-semibold text-cyan-400">
-                          {fcf != null ? <>{fmtM(fcf)}{yoy != null && <span className="ml-1 text-[0.55rem] text-muted-foreground/40 font-normal">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : '—'}
+                          {fcf != null ? <>{fmtM(fcf)}{yoy != null && <span className="ml-1 text-micro text-muted-foreground/40 font-normal">{yoy > 0 ? '+' : ''}{yoy.toFixed(0)}%</span>}</> : '—'}
                         </td>
                       )
                     })}
@@ -988,12 +988,12 @@ function DetailView({
                     })}
                   </tr>
                   <tr className="hover:bg-white/2">
-                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6 text-[0.6rem]">Fuente</td>
+                    <td className="px-3 py-1.5 text-muted-foreground/50 pl-6 text-micro">Fuente</td>
                     {[...bdownYears].reverse().map(yr => {
                       const b = data.fcf_breakdown?.[yr]
                       return (
                         <td key={yr} className="px-2 py-1.5 text-center">
-                          <span className={cn('text-[0.55rem] px-1 py-0.5 rounded font-medium',
+                          <span className={cn('text-micro px-1 py-0.5 rounded font-medium',
                             b?.source === 'tikr_est'  ? 'bg-emerald-500/10 text-emerald-400' :
                             b?.source === 'cfo_based' ? 'bg-sky-500/10 text-sky-400' :
                             b?.source === 'template'  ? 'bg-amber-500/10 text-amber-400' :
@@ -1036,28 +1036,28 @@ function DetailView({
             {!hasMultiples && (
               <div className="glass rounded-xl border border-border/20">
                 <EmptyState compact title="Sin datos de precios históricos — disponibles tras el próximo pipeline (TIKR price_close)." />
-                <div className="mt-1 text-[0.6rem]">Mediana NTM actual: EV/FCF {data.median_ev_fcf?.toFixed(1)}x · P/E {data.ntm_pe?.toFixed(1)}x · EV/EBITDA {data.ntm_ev_ebitda?.toFixed(1)}x · FCF Yield {data.ntm_fcf_yield_pct?.toFixed(1)}%</div>
+                <div className="mt-1 text-micro">Mediana NTM actual: EV/FCF {data.median_ev_fcf?.toFixed(1)}x · P/E {data.ntm_pe?.toFixed(1)}x · EV/EBITDA {data.ntm_ev_ebitda?.toFixed(1)}x · FCF Yield {data.ntm_fcf_yield_pct?.toFixed(1)}%</div>
               </div>
             )}
 
             {hasMultiples && (
               <Card className="glass overflow-clip">
                 <div className="table-x-wrap">
-                  <table className="w-full text-[0.7rem]">
+                  <table className="w-full text-mini">
                     <thead>
                       <tr className="border-b border-border/30">
                         <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-36">Ratio</th>
                         {multYears.map(yr => (
                           <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}</th>
                         ))}
-                        <th className="px-2 py-2 text-center text-cyan-400/70 font-semibold text-[0.65rem] whitespace-nowrap">Mediana</th>
-                        <th className="px-2 py-2 text-center text-amber-400/60 font-semibold text-[0.65rem] whitespace-nowrap">NTM actual</th>
+                        <th className="px-2 py-2 text-center text-cyan-400/70 font-semibold text-micro whitespace-nowrap">Mediana</th>
+                        <th className="px-2 py-2 text-center text-amber-400/60 font-semibold text-micro whitespace-nowrap">NTM actual</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/15">
                       {/* Precio cierre */}
                       <tr className="hover:bg-white/2 bg-white/1">
-                        <td className="px-3 py-1.5 text-muted-foreground/50 text-[0.65rem]">Precio cierre</td>
+                        <td className="px-3 py-1.5 text-muted-foreground/50 text-micro">Precio cierre</td>
                         {multYears.map(yr => {
                           const m = data.historical_multiples[yr]
                           return <td key={yr} className="px-2 py-1.5 text-center font-mono text-muted-foreground/50">{m?.price != null ? `$${m.price.toFixed(2)}` : '—'}</td>
@@ -1136,10 +1136,10 @@ function DetailView({
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-border/30">
                   <TableHead className="w-28">Año</TableHead>
-                  <TableHead className="text-right text-cyan-400/70">EV/FCF <span className="text-muted-foreground/40 font-normal text-[0.6rem]">({evFcfT}x)</span></TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">PER <span className="text-muted-foreground/40 font-normal text-[0.6rem]">({perT}x)</span></TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">EV/EBITDA <span className="text-muted-foreground/40 font-normal text-[0.6rem]">({evEbT}x)</span></TableHead>
-                  <TableHead className="text-right text-muted-foreground/70">EV/EBIT <span className="text-muted-foreground/40 font-normal text-[0.6rem]">({evEbitT}x)</span></TableHead>
+                  <TableHead className="text-right text-cyan-400/70">EV/FCF <span className="text-muted-foreground/40 font-normal text-micro">({evFcfT}x)</span></TableHead>
+                  <TableHead className="text-right text-muted-foreground/70">PER <span className="text-muted-foreground/40 font-normal text-micro">({perT}x)</span></TableHead>
+                  <TableHead className="text-right text-muted-foreground/70">EV/EBITDA <span className="text-muted-foreground/40 font-normal text-micro">({evEbT}x)</span></TableHead>
+                  <TableHead className="text-right text-muted-foreground/70">EV/EBIT <span className="text-muted-foreground/40 font-normal text-micro">({evEbitT}x)</span></TableHead>
                   <TableHead className="text-right font-semibold">Promedio</TableHead>
                   <TableHead className="text-right text-muted-foreground/60">CAGR</TableHead>
                 </TableRow>
@@ -1156,7 +1156,7 @@ function DetailView({
                   return (
                     <TableRow key={yr} className={cn(isExit && 'bg-cyan-500/5')}>
                       <TableCell className="font-medium">
-                        {yr}E {isExit && <span className="ml-1 text-[0.6rem] text-cyan-400/70">← salida</span>}
+                        {yr}E {isExit && <span className="ml-1 text-micro text-cyan-400/70">← salida</span>}
                       </TableCell>
                       <TableCell className="text-right font-mono text-cyan-400">{fmt(pt.ev_fcf, '$')}</TableCell>
                       <TableCell className="text-right font-mono text-muted-foreground/70">{fmt(pt.per, '$')}</TableCell>
@@ -1172,7 +1172,7 @@ function DetailView({
               </TableBody>
             </Table>
           </Card>
-          <p className="text-[0.6rem] text-muted-foreground/40 mt-1">
+          <p className="text-micro text-muted-foreground/40 mt-1">
             Precio de compra para {returnT}% anual: <span className="text-cyan-400/70 font-semibold">{fmt(computed.buyPrice, '$')}</span>
             {computed.upsidePct != null && <span className={cn('ml-2', upsideColor(computed.upsidePct))}>{computed.upsidePct > 0 ? '+' : ''}{computed.upsidePct.toFixed(1)}% vs actual</span>}
           </p>
@@ -1182,7 +1182,7 @@ function DetailView({
       {/* FCF Breakdown — template style */}
       {activeTab === 'detalle' && <div>
         <p className="text-xs font-semibold mb-1.5">5. Desglose FCF detallado — fórmula plantilla</p>
-          <p className="text-[0.65rem] text-muted-foreground mb-2">
+          <p className="text-micro text-muted-foreground mb-2">
             FCF = EBITDA − CapEx<sub>mant</sub> − Interés − Impuestos + ΔCT
             <span className="ml-2 opacity-50">· TIKR = dato real de TIKR Pro · CFO = CFO − CapEx<sub>mant</sub> · —  = no disponible en TIKR</span>
           </p>
@@ -1214,12 +1214,12 @@ function DetailView({
                       <TableCell className="text-right">{fmtM(b.revenue)}</TableCell>
                       <TableCell className="text-right">
                         <span>{fmtM(b.ebitda)}</span>
-                        {b.ebitda_margin != null && <span className="ml-1 text-[0.6rem] text-muted-foreground/50">{b.ebitda_margin.toFixed(0)}%</span>}
+                        {b.ebitda_margin != null && <span className="ml-1 text-micro text-muted-foreground/50">{b.ebitda_margin.toFixed(0)}%</span>}
                       </TableCell>
                       <TableCell className="text-right text-muted-foreground/60">{fmtM(b.dna)}</TableCell>
                       <TableCell className="text-right">
                         <span>{fmtM(b.ebit)}</span>
-                        {b.ebit_margin != null && <span className="ml-1 text-[0.6rem] text-muted-foreground/50">{b.ebit_margin.toFixed(0)}%</span>}
+                        {b.ebit_margin != null && <span className="ml-1 text-micro text-muted-foreground/50">{b.ebit_margin.toFixed(0)}%</span>}
                       </TableCell>
                       <TableCell className={cn('text-right', b.interest == null ? 'text-muted-foreground/30' : 'text-amber-400')}>
                         {fmtM(b.interest)}
@@ -1229,7 +1229,7 @@ function DetailView({
                       </TableCell>
                       <TableCell className="text-right text-muted-foreground/60">
                         <span>{fmtM(b.net_income)}</span>
-                        {b.net_margin != null && <span className="ml-1 text-[0.6rem] text-muted-foreground/40">{b.net_margin.toFixed(0)}%</span>}
+                        {b.net_margin != null && <span className="ml-1 text-micro text-muted-foreground/40">{b.net_margin.toFixed(0)}%</span>}
                       </TableCell>
                       <TableCell className={cn('text-right', b.delta_wc == null ? 'text-muted-foreground/30' : 'text-sky-400')}>
                         {b.delta_wc != null ? fmtM(b.delta_wc) : '—'}
@@ -1237,7 +1237,7 @@ function DetailView({
                       <TableCell className="text-right text-muted-foreground/60">{fmtM(b.capex_maint)}</TableCell>
                       <TableCell className="text-right font-bold text-cyan-400">{fmtM(b.owner_earnings)}</TableCell>
                       <TableCell className="text-right">
-                        <span className={cn('text-[0.6rem] px-1.5 py-0.5 rounded font-medium',
+                        <span className={cn('text-micro px-1.5 py-0.5 rounded font-medium',
                           b.source === 'tikr_est'  ? 'bg-emerald-500/10 text-emerald-400' :
                           b.source === 'cfo_based' ? 'bg-sky-500/10 text-sky-400' :
                           b.source === 'template'  ? 'bg-amber-500/10 text-amber-400' :
@@ -1281,14 +1281,14 @@ function DetailView({
             {hasBS && (
               <Card className="glass overflow-clip">
                 <div className="table-x-wrap">
-                  <table className="w-full text-[0.7rem]">
+                  <table className="w-full text-mini">
                     <thead>
                       <tr className="border-b border-border/30">
                         <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones / por acción)</th>
                         {bsYears.map(yr => (
                           <th key={yr} className="px-2 py-2 text-center text-muted-foreground/60 font-semibold">{yr}</th>
                         ))}
-                        <th className="px-2 py-2 text-center text-cyan-400/60 font-semibold text-[0.65rem]">CAGR</th>
+                        <th className="px-2 py-2 text-center text-cyan-400/60 font-semibold text-micro">CAGR</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/15">
@@ -1388,7 +1388,7 @@ function DetailView({
         return (
           <div className="space-y-4">
             <p className="text-xs font-semibold">7. ROIC — Return on Invested Capital</p>
-            <p className="text-[0.65rem] text-muted-foreground/60">
+            <p className="text-micro text-muted-foreground/60">
               ROIC = NOPAT / Capital Invertido · NOPAT = EBIT × (1 − tasa impositiva) · CI = Equity + Deuda Neta (promedio inicio/fin)
             </p>
             {!hasRoic && (
@@ -1399,7 +1399,7 @@ function DetailView({
             {hasRoic && (
               <Card className="glass overflow-clip">
                 <div className="table-x-wrap">
-                  <table className="w-full text-[0.7rem]">
+                  <table className="w-full text-mini">
                     <thead>
                       <tr className="border-b border-border/30">
                         <th className="text-left px-3 py-2 text-muted-foreground/50 font-semibold uppercase tracking-wider w-44">(millones)</th>
@@ -1484,8 +1484,8 @@ function DetailView({
             <div className="flex items-center gap-3">
               <p className="text-xs font-semibold">8. Red Flags</p>
               {flags.length === 0
-                ? <span className="text-[0.65rem] text-emerald-400/70 border border-emerald-500/20 rounded px-2 py-0.5">Sin alertas — datos TIKR</span>
-                : <span className="text-[0.65rem] text-muted-foreground/50">{flags.filter(f => f.severity === 'high').length} high · {flags.filter(f => f.severity === 'medium').length} medium · {flags.filter(f => f.severity === 'low').length} low</span>
+                ? <span className="text-micro text-emerald-400/70 border border-emerald-500/20 rounded px-2 py-0.5">Sin alertas — datos TIKR</span>
+                : <span className="text-micro text-muted-foreground/50">{flags.filter(f => f.severity === 'high').length} high · {flags.filter(f => f.severity === 'medium').length} medium · {flags.filter(f => f.severity === 'low').length} low</span>
               }
             </div>
             {flags.length === 0 && (
@@ -1498,18 +1498,18 @@ function DetailView({
               <div className="space-y-2">
                 {sorted.map((f, i) => (
                   <div key={i} className={cn('rounded-lg border px-4 py-3 flex items-start gap-3', SEV_COLORS[f.severity])}>
-                    <span className={cn('mt-0.5 shrink-0 text-[0.6rem] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border', SEV_COLORS[f.severity])}>
+                    <span className={cn('mt-0.5 shrink-0 text-micro font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border', SEV_COLORS[f.severity])}>
                       {f.severity}
                     </span>
                     <div>
-                      <p className="text-[0.72rem] font-semibold leading-tight">{f.code.replaceAll('_', ' ')}</p>
-                      <p className="text-[0.7rem] mt-0.5 opacity-80">{f.msg}</p>
+                      <p className="text-mini font-semibold leading-tight">{f.code.replaceAll('_', ' ')}</p>
+                      <p className="text-mini mt-0.5 opacity-80">{f.msg}</p>
                     </div>
                   </div>
                 ))}
               </div>
             )}
-            <p className="text-[0.6rem] text-muted-foreground/35">Checks basados exclusivamente en datos reales de TIKR Pro. Sin estimaciones.</p>
+            <p className="text-micro text-muted-foreground/35">Checks basados exclusivamente en datos reales de TIKR Pro. Sin estimaciones.</p>
           </div>
         )
       })()}
@@ -1615,7 +1615,7 @@ function BatchView({
       {/* Controls */}
       <div className="glass rounded-xl p-4 border border-white/8 flex flex-wrap gap-4 items-end">
         <div className="flex-1 min-w-[160px]">
-          <label className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/50 font-semibold block mb-1.5">
+          <label className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold block mb-1.5">
             Retorno anual objetivo
           </label>
           <div className="flex items-center gap-3">
@@ -1633,7 +1633,7 @@ function BatchView({
         </div>
 
         <div className="flex-1 min-w-[160px] max-w-[260px]">
-          <label className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/50 font-semibold block mb-1.5">
+          <label className="text-micro uppercase tracking-widest text-muted-foreground/50 font-semibold block mb-1.5">
             Buscar ticker o empresa
           </label>
           <div className="relative">
@@ -1654,7 +1654,7 @@ function BatchView({
               key={s}
               onClick={() => setSignalFilter(s)}
               className={cn(
-                'px-2.5 py-1 rounded-md text-[0.65rem] font-bold uppercase tracking-wider border transition-all',
+                'px-2.5 py-1 rounded-md text-micro font-bold uppercase tracking-wider border transition-all',
                 signalFilter === s
                   ? (s === 'ALL' ? 'bg-white/15 text-foreground border-white/20' : SIGNAL_COLORS[s])
                   : 'bg-transparent text-muted-foreground/50 border-border/20 hover:border-border/40 hover:text-muted-foreground'

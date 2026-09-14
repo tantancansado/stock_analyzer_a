@@ -259,7 +259,7 @@ function CommodityCard({ item }: Readonly<{ item: CommodityOpportunity }>) {
   const rating = RATING_CONFIG[item.value_rating] ?? RATING_CONFIG['SIN_DATO']
   const dato = (etiqueta: string, valor: string) => (
     <div>
-      <div className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/50">{etiqueta}</div>
+      <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">{etiqueta}</div>
       <div className="text-sm font-bold tabular-nums">{valor}</div>
     </div>
   )
@@ -269,19 +269,19 @@ function CommodityCard({ item }: Readonly<{ item: CommodityOpportunity }>) {
       className="glass w-full rounded-xl border border-border/25 p-3.5 text-left active:bg-white/5"
     >
       <div className="flex flex-wrap items-center gap-2">
-        <span className="font-mono text-[0.95rem] font-bold text-primary">{item.ticker}</span>
-        <span className={`rounded border px-1.5 py-0.5 text-[0.6rem] font-bold ${rating.bg} ${rating.text}`}>
+        <span className="font-mono text-cuerpo font-bold text-primary">{item.ticker}</span>
+        <span className={`rounded border px-1.5 py-0.5 text-micro font-bold ${rating.bg} ${rating.text}`}>
           {rating.label}
         </span>
       </div>
-      <div className="truncate text-[0.72rem] text-muted-foreground">{item.sector}</div>
+      <div className="truncate text-mini text-muted-foreground">{item.sector}</div>
       <div className="mt-2.5 grid grid-cols-3 gap-2">
         {dato('Precio', item.price != null ? `$${item.price.toFixed(2)}` : '—')}
         {dato('Del máx.', item.pct_from_high != null ? `${item.pct_from_high.toFixed(0)}%` : '—')}
         {dato('vs 2a', item.pct_vs_2y_avg != null ? `${item.pct_vs_2y_avg > 0 ? '+' : ''}${item.pct_vs_2y_avg.toFixed(0)}%` : '—')}
       </div>
       {abierto && item.recommendation && (
-        <p className="mt-2.5 text-[0.72rem] leading-relaxed text-foreground/70">{item.recommendation}</p>
+        <p className="mt-2.5 text-mini leading-relaxed text-foreground/70">{item.recommendation}</p>
       )}
     </button>
   )

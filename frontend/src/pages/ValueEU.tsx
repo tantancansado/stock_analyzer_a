@@ -35,7 +35,7 @@ function MlWinBadge({ pred }: { pred?: MlWinPrediction }) {
                              'bg-muted/20 text-muted-foreground border-border/30'
   return (
     <span
-      className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
+      className={`text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
       title={`XGBoost win probability: ${(pred.probability * 100).toFixed(0)}% (P${pred.percentile})`}
     >
       {(pred.probability * 100).toFixed(0)}%
@@ -79,7 +79,7 @@ function EntryQualityBadge({ quality, confidence, analyzedAt }: {
   const { cls, label } = cfg[quality] ?? { cls: 'bg-muted/20 text-muted-foreground border-border/20', label: quality }
   const confSuffix = confidence === 'low' ? '?' : ''
   return (
-    <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
+    <span className={`text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
       title={`Entrada: ${quality} · Confianza: ${confidence ?? '?'}`}>
       {label}{confSuffix}
     </span>
@@ -382,7 +382,7 @@ export default function ValueEU() {
               </span>
               <p className="text-xs text-muted-foreground mt-0.5">{cfg.msg}</p>
             </div>
-            <Link to="/macro-radar" className={`ml-auto shrink-0 text-[0.65rem] font-semibold ${cfg.text} hover:underline`}>
+            <Link to="/macro-radar" className={`ml-auto shrink-0 text-micro font-semibold ${cfg.text} hover:underline`}>
               Ver detalle →
             </Link>
           </div>
@@ -410,9 +410,9 @@ export default function ValueEU() {
           { label: 'Mejor Upside', value: `+${bestUpside.toFixed(0)}%`, sub: 'potencial analistas', color: 'text-emerald-400', idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
+            <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
       </div>
@@ -596,12 +596,12 @@ export default function ValueEU() {
                         {d.analyst_upside_pct >= 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                       </div>
                     )}
-                    <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
+                    <div className="text-micro text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
                   </div>
                 </div>
                 {/* Mismo motivo que en ValueUS: decision.detail es texto fijo
                     por categoría y se repetía idéntico entre tarjetas. */}
-                <p className="mt-3 text-[0.82rem] font-semibold text-foreground">{decision.headline}</p>
+                <p className="mt-3 text-apoyo font-semibold text-foreground">{decision.headline}</p>
                 <ValuationBar
                   className="mt-2.5"
                   precio={d.current_price}
@@ -643,7 +643,7 @@ export default function ValueEU() {
                       {d.analyst_upside_pct > 0 ? '+' : ''}{d.analyst_upside_pct.toFixed(0)}%
                     </div>
                   )}
-                  <div className="text-[0.65rem] text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
+                  <div className="text-micro text-muted-foreground/50 mt-0.5">{precio(d.current_price, d.ticker)}</div>
                 </div>
               </div>
 
@@ -708,17 +708,17 @@ export default function ValueEU() {
                           <TickerLogo ticker={d.ticker} size="sm" />
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
-                              <span className="font-mono font-bold text-primary text-[0.85rem]">{d.ticker}</span>
+                              <span className="font-mono font-bold text-primary text-cuerpo">{d.ticker}</span>
                               <OwnedBadge ticker={d.ticker} />
                             </div>
-                            <div className="max-w-[190px] truncate text-[0.72rem] text-muted-foreground">{d.company_name}</div>
+                            <div className="max-w-[190px] truncate text-mini text-muted-foreground">{d.company_name}</div>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell><ValueDecisionBadge decision={decision} /></TableCell>
                       <TableCell className="max-w-[520px] whitespace-normal">
-                        <div className="text-[0.82rem] font-semibold text-foreground">{decision.headline}</div>
-                        <div className="mt-0.5 text-[0.72rem] leading-relaxed text-muted-foreground">{decision.detail}</div>
+                        <div className="text-apoyo font-semibold text-foreground">{decision.headline}</div>
+                        <div className="mt-0.5 text-mini leading-relaxed text-muted-foreground">{decision.detail}</div>
                       </TableCell>
                       <TableCell className="tabular-nums">
                         {d.analyst_upside_pct != null ? (
@@ -825,7 +825,7 @@ export default function ValueEU() {
                   className={`cursor-pointer transition-colors ${i === focusedIdx ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
                   onClick={() => { setFocusedIdx(i); toggleThesis(d.ticker, d) }}
                 >
-                    <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                    <TableCell className="font-mono font-bold text-primary text-apoyo tracking-wide">
                       <div className="flex items-center gap-2">
                         <TickerLogo ticker={d.ticker} size="sm" />
                         <div className="flex items-center gap-1.5">
@@ -833,7 +833,7 @@ export default function ValueEU() {
                           {isReady && (
                             <span
                               title="Todos los filtros pasan — setup listo para operar"
-                              className="inline-flex items-center gap-1 text-[0.6rem] font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 tracking-wide"
+                              className="inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 tracking-wide"
                             >
                               <CircleCheck size={12} strokeWidth={2.25} />LISTO
                             </span>
@@ -841,14 +841,14 @@ export default function ValueEU() {
                           <OwnedBadge ticker={d.ticker} />
                           {d.magic_formula_rank != null && d.magic_formula_rank <= 50 && (
                             <span
-                              className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-violet-500/15 text-violet-400 border border-violet-500/25"
+                              className="text-micro font-bold px-1 py-0.5 rounded bg-violet-500/15 text-violet-400 border border-violet-500/25"
                               title={`Magic Formula (Greenblatt) rank #${d.magic_formula_rank} — EBIT/EV yield ${d.ebit_ev_yield != null ? d.ebit_ev_yield.toFixed(1) + '%' : '—'} · ROIC ${d.roic_greenblatt != null ? d.roic_greenblatt.toFixed(1) + '%' : '—'}`}
                             >
                               MF #{d.magic_formula_rank}
                             </span>
                           )}
                           {d.proximity_to_52w_high != null && d.proximity_to_52w_high > -5 && (
-                            <span className="text-[0.55rem] font-bold px-1 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25" title={`A ${Math.abs(d.proximity_to_52w_high).toFixed(1)}% del máximo 52 semanas — posible entrada en techo`}>
+                            <span className="text-micro font-bold px-1 py-0.5 rounded bg-amber-500/15 text-amber-400 border border-amber-500/25" title={`A ${Math.abs(d.proximity_to_52w_high).toFixed(1)}% del máximo 52 semanas — posible entrada en techo`}>
                               TECHO
                             </span>
                           )}
@@ -861,7 +861,7 @@ export default function ValueEU() {
                           <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                           {(d.hedge_fund_count ?? 0) >= 1 && (
                             <span
-                              className={`text-[0.55rem] font-bold px-1 py-0.5 rounded border ${(d.hedge_fund_count ?? 0) >= 2 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-muted/20 text-muted-foreground border-border/30'}`}
+                              className={`text-micro font-bold px-1 py-0.5 rounded border ${(d.hedge_fund_count ?? 0) >= 2 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-muted/20 text-muted-foreground border-border/30'}`}
                               title={d.hedge_fund_names || `${d.hedge_fund_count} hedge fund(s) en posición`}
                             >
                               {d.hedge_fund_count ?? 1} {(d.hedge_fund_count ?? 1) === 1 ? 'FONDO' : 'FONDOS'}
@@ -881,12 +881,12 @@ export default function ValueEU() {
                         />
                       </div>
                     </TableCell>
-                    <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell max-w-[150px] truncate text-muted-foreground text-[0.76rem]'}>{d.company_name}</TableCell>
+                    <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell max-w-[150px] truncate text-muted-foreground text-mini'}>{d.company_name}</TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell'}><Badge variant="blue">{flag} {market}</Badge></TableCell>
                     <TableCell className={compact ? 'hidden' : 'hidden sm:table-cell tabular-nums'}>{precio(d.current_price, d.ticker)}</TableCell>
                     <TableCell><ScoreBar score={d.value_score} /></TableCell>
                     <TableCell><GradeBadge grade={d.conviction_grade} score={d.conviction_score} /></TableCell>
-                    <TableCell className={compact ? 'hidden' : 'hidden md:table-cell max-w-[120px] truncate text-muted-foreground text-[0.76rem]'}>{d.sector}</TableCell>
+                    <TableCell className={compact ? 'hidden' : 'hidden md:table-cell max-w-[120px] truncate text-muted-foreground text-mini'}>{d.sector}</TableCell>
                     <TableCell className="tabular-nums">
                       {precio(d.target_price_analyst, d.ticker, null, 0)}
                       {d.analyst_upside_pct != null && (
@@ -932,7 +932,7 @@ export default function ValueEU() {
           </CardContent>
         )}
         {sorted.length > 0 && (
-          <div className="hidden sm:block text-[0.6rem] text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+          <div className="hidden sm:block text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
             j / k navegar · Enter ver tesis · Esc cerrar
           </div>
         )}

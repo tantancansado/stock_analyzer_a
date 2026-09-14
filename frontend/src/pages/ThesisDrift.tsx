@@ -63,14 +63,14 @@ export default function ThesisDrift() {
               }`}
             >
               <div className="flex items-center justify-between mb-1">
-                <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border ${cfg.cls}`}>
+                <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${cfg.cls}`}>
                   {cfg.label}
                 </span>
                 <span className={`text-xl font-bold tabular-nums ${counts[sev] === 0 ? 'text-muted-foreground/20' : sev === 'HIGH' ? 'text-red-400' : sev === 'MEDIUM' ? 'text-amber-400' : 'text-muted-foreground'}`}>
                   {counts[sev]}
                 </span>
               </div>
-              <p className="text-[0.68rem] text-muted-foreground/60">
+              <p className="text-micro text-muted-foreground/60">
                 {sev === 'HIGH' ? 'Tesis posiblemente rota' : sev === 'MEDIUM' ? 'Deterioro moderado' : 'Cambio menor'}
               </p>
             </button>
@@ -101,18 +101,18 @@ export default function ThesisDrift() {
                   <TickerLogo ticker={d.ticker} size="sm" />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-[0.95rem] font-bold text-primary">{d.ticker}</span>
-                      <span className={`rounded border px-1.5 py-0.5 text-[0.6rem] font-bold ${cfg.cls}`}>
+                      <span className="font-mono text-cuerpo font-bold text-primary">{d.ticker}</span>
+                      <span className={`rounded border px-1.5 py-0.5 text-micro font-bold ${cfg.cls}`}>
                         {cfg.label}
                       </span>
                     </div>
                     {d.company_name && (
-                      <div className="truncate text-[0.72rem] text-muted-foreground">{d.company_name}</div>
+                      <div className="truncate text-mini text-muted-foreground">{d.company_name}</div>
                     )}
                   </div>
                 </div>
 
-                <div className="mt-2.5 flex items-center gap-2 text-[0.72rem] text-muted-foreground">
+                <div className="mt-2.5 flex items-center gap-2 text-mini text-muted-foreground">
                   <span>Score</span>
                   <ScoreDelta now={d.value_score_now} prev={d.value_score_prev} />
                   <span className="text-muted-foreground/50">· {d.days_tracked}d vigilada</span>
@@ -121,14 +121,14 @@ export default function ThesisDrift() {
                 {d.drift_flags.length > 0 && (
                   <ul className="mt-2.5 space-y-0.5">
                     {d.drift_flags.map(f => (
-                      <li key={f} className="text-[0.7rem] leading-snug text-red-400/80">↘ {f}</li>
+                      <li key={f} className="text-mini leading-snug text-red-400/80">↘ {f}</li>
                     ))}
                   </ul>
                 )}
                 {d.improvements.length > 0 && (
                   <ul className="mt-1.5 space-y-0.5">
                     {d.improvements.map(imp => (
-                      <li key={imp} className="text-[0.7rem] leading-snug text-emerald-400/80">↗ {imp}</li>
+                      <li key={imp} className="text-mini leading-snug text-emerald-400/80">↗ {imp}</li>
                     ))}
                   </ul>
                 )}
@@ -160,19 +160,19 @@ export default function ThesisDrift() {
                 const cfg = SEV_CFG[d.severity]
                 return (
                   <TableRow key={d.ticker} className="border-border/30 align-top">
-                    <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
+                    <TableCell className="font-mono font-bold text-primary text-apoyo">
                       <div className="flex items-center gap-2">
                         <TickerLogo ticker={d.ticker} size="sm" />
                         <div>
                           <div>{d.ticker}</div>
-                          <div className="text-[0.65rem] text-muted-foreground/60 font-normal hidden sm:block max-w-[120px] truncate">
+                          <div className="text-micro text-muted-foreground/60 font-normal hidden sm:block max-w-[120px] truncate">
                             {d.company_name}
                           </div>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border ${cfg.cls}`}>
+                      <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${cfg.cls}`}>
                         {cfg.label}
                       </span>
                     </TableCell>
@@ -185,7 +185,7 @@ export default function ThesisDrift() {
                     <TableCell className="max-w-[280px]">
                       <ul className="space-y-0.5">
                         {d.drift_flags.map((f, i) => (
-                          <li key={i} className="text-[0.68rem] text-red-400/80 leading-snug">
+                          <li key={i} className="text-micro text-red-400/80 leading-snug">
                             ↘ {f}
                           </li>
                         ))}
@@ -195,7 +195,7 @@ export default function ThesisDrift() {
                       {d.improvements.length > 0 ? (
                         <ul className="space-y-0.5">
                           {d.improvements.map((imp, i) => (
-                            <li key={i} className="text-[0.68rem] text-emerald-400/80 leading-snug">
+                            <li key={i} className="text-micro text-emerald-400/80 leading-snug">
                               ↗ {imp}
                             </li>
                           ))}

@@ -34,7 +34,7 @@ const POR_QUE_CAE: Record<string, string> = {
 function Dato({ etiqueta, valor, tono }: Readonly<{ etiqueta: string; valor: string; tono?: string }>) {
   return (
     <div className="min-w-0">
-      <div className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground">{etiqueta}</div>
+      <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{etiqueta}</div>
       <div className={`text-sm font-bold tabular-nums truncate ${tono ?? 'text-foreground'}`}>{valor}</div>
     </div>
   )
@@ -62,23 +62,23 @@ export default function IdeaMobileCard({ d, onOpen, extra }: Readonly<Props>) {
         <TickerLogo ticker={d.ticker} size="sm" />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="font-mono text-[0.95rem] font-bold tracking-wide text-primary">{d.ticker}</span>
+            <span className="font-mono text-cuerpo font-bold tracking-wide text-primary">{d.ticker}</span>
             <OwnedBadge ticker={d.ticker} />
             {v && (
-              <span className={`rounded-full border px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide ${v.clase}`}>
+              <span className={`rounded-full border px-2 py-0.5 text-micro font-bold uppercase tracking-wide ${v.clase}`}>
                 {v.texto}
               </span>
             )}
           </div>
           {d.company_name && (
-            <div className="truncate text-[0.72rem] text-muted-foreground">{d.company_name}</div>
+            <div className="truncate text-mini text-muted-foreground">{d.company_name}</div>
           )}
         </div>
         <ChevronRight size={16} className="mt-1 shrink-0 text-muted-foreground/40" />
       </div>
 
       {porQue && (
-        <div className="mt-2.5 text-[0.72rem] text-foreground/70">
+        <div className="mt-2.5 text-mini text-foreground/70">
           Por qué está barata: <span className="text-foreground/90">{porQue}</span>
         </div>
       )}
@@ -111,13 +111,13 @@ export default function IdeaMobileCard({ d, onOpen, extra }: Readonly<Props>) {
       {(earningsCerca || d.upside_divergence === 'ALTA') && (
         <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1">
           {earningsCerca && (
-            <span className="inline-flex items-center gap-1 text-[0.65rem] text-amber-400">
+            <span className="inline-flex items-center gap-1 text-micro text-amber-400">
               <CalendarClock size={12} />
               Resultados en {d.days_to_earnings}d
             </span>
           )}
           {d.upside_divergence === 'ALTA' && (
-            <span className="inline-flex items-center gap-1 text-[0.65rem] text-amber-400">
+            <span className="inline-flex items-center gap-1 text-micro text-amber-400">
               <AlertTriangle size={12} />
               Los modelos no confirman el potencial
             </span>

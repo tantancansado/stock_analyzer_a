@@ -215,12 +215,12 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
     <div className="border-t border-border/20">
       <button
         onClick={toggle}
-        className="w-full flex items-center gap-2 px-5 py-2.5 text-[0.72rem] text-muted-foreground hover:text-foreground transition-colors"
+        className="w-full flex items-center gap-2 px-5 py-2.5 text-mini text-muted-foreground hover:text-foreground transition-colors"
       >
         <BookOpen size={12} />
         <span className="font-semibold">Notas del journal</span>
         {count !== null && count > 0 && (
-          <span className="px-1.5 py-0.5 rounded-full bg-primary/15 text-primary text-[0.6rem] font-bold">{count}</span>
+          <span className="px-1.5 py-0.5 rounded-full bg-primary/15 text-primary text-micro font-bold">{count}</span>
         )}
         <span className="ml-auto">{open ? <ChevronUp size={12} /> : <ChevronDown size={12} />}</span>
       </button>
@@ -254,8 +254,8 @@ function JournalSection({ ticker, userId }: { ticker: string; userId: string }) 
           {notes.map(n => (
             <div key={n.id} className="group flex gap-2 items-start px-4 py-3 rounded-xl bg-muted/20 border border-border/20">
               <div className="flex-1 min-w-0">
-                <p className="text-[0.78rem] text-foreground/80 leading-relaxed whitespace-pre-wrap">{n.note}</p>
-                <p className="text-[0.6rem] text-muted-foreground/50 mt-1">
+                <p className="text-apoyo text-foreground/80 leading-relaxed whitespace-pre-wrap">{n.note}</p>
+                <p className="text-micro text-muted-foreground/50 mt-1">
                   {new Date(n.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                 </p>
               </div>
@@ -393,27 +393,27 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
           dos en dos. */}
       <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:flex-wrap sm:items-end">
         <div className="flex flex-col gap-1">
-          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Ticker</label>
+          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Ticker</label>
           <input value={ticker} onChange={e => setTicker(e.target.value.toUpperCase())}
             onKeyDown={e => e.key === 'Enter' && submit()} placeholder="AAPL"
             className={`w-full sm:w-24 font-mono font-bold ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">{SHARES_LABEL[assetType]}</label>
+          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{SHARES_LABEL[assetType]}</label>
           <input value={shares} onChange={e => setShares(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
             placeholder={assetType === 'option' ? '1' : assetType === 'bond' ? '10000' : '100'}
             type="number" min="0" className={`w-full sm:w-24 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">{PRICE_LABEL[assetType]}</label>
+          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">{PRICE_LABEL[assetType]}</label>
           <input value={price} onChange={e => setPrice(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && submit()}
             placeholder={assetType === 'bond' ? '98.50' : assetType === 'option' ? '3.50' : '150.00'}
             type="number" min="0" step="0.01" className={`w-full sm:w-28 ${inputCls}`} />
         </div>
         <div className="flex flex-col gap-1">
-          <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Moneda</label>
+          <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Moneda</label>
           <select aria-label="Moneda" value={currency} onChange={e => setCurrency(e.target.value as 'USD' | 'EUR')}
             className={inputCls}>
             <option value="USD">USD $</option>
@@ -426,7 +426,7 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       {assetType === 'option' && (
         <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-purple-500/5 border border-purple-500/15">
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Tipo</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Tipo</label>
             <div className="flex rounded-lg overflow-hidden border border-border/40">
               {(['call', 'put'] as const).map(v => (
                 <button key={v} onClick={() => setOptType(v)}
@@ -437,12 +437,12 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Strike</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Strike</label>
             <input value={strike} onChange={e => setStrike(e.target.value)} placeholder="150.00"
               type="number" min="0" step="0.50" className={`w-24 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
             <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
               className={`w-36 ${inputCls}`} />
           </div>
@@ -453,21 +453,21 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       {assetType === 'covered_call' && (
         <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Strike vendido</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Strike vendido</label>
             <input value={strike} onChange={e => setStrike(e.target.value)} placeholder="60.00"
               type="number" min="0" step="0.50" className={`w-24 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Prima cobrada/acc</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Prima cobrada/acc</label>
             <input value={ccPremium} onChange={e => setCcPremium(e.target.value)} placeholder="1.14"
               type="number" min="0" step="0.01" className={`w-28 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Expiración</label>
             <input value={expiry} onChange={e => setExpiry(e.target.value)} type="date"
               className={`w-36 ${inputCls}`} />
           </div>
-          <p className="w-full text-[0.62rem] text-amber-400/70 mt-1">
+          <p className="w-full text-micro text-amber-400/70 mt-1">
             Precio medio = coste de la acción (no la prima). Prima cobrada se guarda aparte.
           </p>
         </div>
@@ -477,18 +477,18 @@ function AddForm({ onAdd, saving }: { onAdd: (p: Omit<Position, 'id'>) => Promis
       {(assetType === 'bond' || assetType === 'preferred') && (
         <div className="flex flex-wrap gap-2 items-end p-3 rounded-xl bg-amber-500/5 border border-amber-500/15">
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Cupón %</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Cupón %</label>
             <input value={coupon} onChange={e => setCoupon(e.target.value)} placeholder="5.25"
               type="number" min="0" step="0.01" className={`w-20 ${inputCls}`} />
           </div>
           <div className="flex flex-col gap-1">
-            <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Valor par</label>
+            <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Valor par</label>
             <input value={parVal} onChange={e => setParVal(e.target.value)} placeholder="1000"
               type="number" min="0" className={`w-20 ${inputCls}`} />
           </div>
           {assetType === 'bond' && (
             <div className="flex flex-col gap-1">
-              <label className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Vencimiento</label>
+              <label className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Vencimiento</label>
               <input value={maturity} onChange={e => setMaturity(e.target.value)} type="date"
                 className={`w-36 ${inputCls}`} />
             </div>
@@ -588,22 +588,22 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <Zap size={12} className={meta.color} />
-            <span className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/50">Estrategia IA</span>
-            <span className={`text-[0.72rem] font-bold ${meta.color}`}>{meta.label}</span>
+            <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">Estrategia IA</span>
+            <span className={`text-mini font-bold ${meta.color}`}>{meta.label}</span>
             {result.options_rationale && (
-              <span className="text-[0.7rem] text-foreground/60 truncate hidden sm:block">{result.options_rationale}</span>
+              <span className="text-mini text-foreground/60 truncate hidden sm:block">{result.options_rationale}</span>
             )}
           </div>
           <button
             onClick={fetchChain}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[0.65rem] font-semibold border transition-all ${meta.border} ${meta.color} hover:${meta.bg}`}
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-micro font-semibold border transition-all ${meta.border} ${meta.color} hover:${meta.bg}`}
           >
             {loading ? <Loader2 size={12} className="animate-spin" /> : <ChevronDown size={12} className={open ? 'rotate-180' : ''} />}
             {data ? (open ? 'Ocultar' : 'Ver contratos') : 'Ver contratos reales'}
           </button>
         </div>
         {result.options_rationale && (
-          <p className="text-[0.7rem] text-foreground/60 mt-1 sm:hidden">{result.options_rationale}</p>
+          <p className="text-mini text-foreground/60 mt-1 sm:hidden">{result.options_rationale}</p>
         )}
       </div>
 
@@ -633,10 +633,10 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                 return (
                 <div className={`p-3 rounded-xl ${meta.bg} border ${meta.border} space-y-2.5`}>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[0.55rem] font-bold uppercase tracking-widest text-muted-foreground/50">Recomendación IA</span>
-                    <span className={`text-[0.72rem] font-bold ${meta.color}`}>{rec.recommended_strategy?.replace(/_/g, ' ')}</span>
+                    <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">Recomendación IA</span>
+                    <span className={`text-mini font-bold ${meta.color}`}>{rec.recommended_strategy?.replace(/_/g, ' ')}</span>
                     {rec.thesis_alignment && (
-                      <span className="text-[0.68rem] text-foreground/60 flex-1">— {rec.thesis_alignment}</span>
+                      <span className="text-micro text-foreground/60 flex-1">— {rec.thesis_alignment}</span>
                     )}
                   </div>
 
@@ -649,31 +649,31 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                         </span>
                         <span className="font-bold text-foreground text-lg">{pc.type?.toUpperCase()} ${pc.strike}</span>
                         <span className="text-muted-foreground text-sm">exp {pc.expiry}</span>
-                        <span className="text-[0.65rem] text-muted-foreground/50 uppercase">{pc.horizon}</span>
+                        <span className="text-micro text-muted-foreground/50 uppercase">{pc.horizon}</span>
                       </div>
                       {/* Key numbers */}
-                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[0.72rem]">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-mini">
                         <div>
-                          <div className="text-muted-foreground/50 text-[0.58rem] uppercase mb-0.5">Prima por contrato</div>
+                          <div className="text-muted-foreground/50 text-micro uppercase mb-0.5">Prima por contrato</div>
                           <div className={`font-bold text-sm ${meta.color}`}>{sym}{premium?.toFixed(2)}</div>
                         </div>
                         {pc.total_cost_100_shares != null && (
                           <div>
-                            <div className="text-muted-foreground/50 text-[0.58rem] uppercase mb-0.5">Coste total (100 acc)</div>
+                            <div className="text-muted-foreground/50 text-micro uppercase mb-0.5">Coste total (100 acc)</div>
                             <div className="font-bold text-sm text-foreground">{sym}{pc.total_cost_100_shares?.toFixed(0)}</div>
                           </div>
                         )}
                         {(rec.profit_if_target ?? rec.expected_outcome) && (
                           <div>
-                            <div className="text-muted-foreground/50 text-[0.58rem] uppercase mb-0.5">Si acierta</div>
-                            <div className="text-emerald-400/80 text-[0.7rem]">{rec.profit_if_target ?? rec.expected_outcome}</div>
+                            <div className="text-muted-foreground/50 text-micro uppercase mb-0.5">Si acierta</div>
+                            <div className="text-emerald-400/80 text-mini">{rec.profit_if_target ?? rec.expected_outcome}</div>
                           </div>
                         )}
                       </div>
                       {/* Order instructions — the "para tontos" section */}
                       {pc.order_instructions && (
-                        <div className="p-2 rounded-lg bg-primary/5 border border-primary/20 text-[0.72rem] text-foreground/80">
-                          <div className="text-primary font-semibold text-[0.6rem] uppercase tracking-wide mb-1">Orden exacta en tu broker</div>
+                        <div className="p-2 rounded-lg bg-primary/5 border border-primary/20 text-mini text-foreground/80">
+                          <div className="text-primary font-semibold text-micro uppercase tracking-wide mb-1">Orden exacta en tu broker</div>
                           {pc.order_instructions}
                         </div>
                       )}
@@ -682,20 +682,20 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
 
                   {/* Step by step */}
                   {rec.step_by_step && (
-                    <div className="p-2 rounded-lg bg-blue-500/5 border border-blue-500/15 text-[0.72rem] text-foreground/70 leading-relaxed">
-                      <div className="text-blue-400 font-semibold text-[0.6rem] uppercase tracking-wide mb-1">Paso a paso</div>
+                    <div className="p-2 rounded-lg bg-blue-500/5 border border-blue-500/15 text-mini text-foreground/70 leading-relaxed">
+                      <div className="text-blue-400 font-semibold text-micro uppercase tracking-wide mb-1">Paso a paso</div>
                       {rec.step_by_step}
                     </div>
                   )}
 
                   {pc?.rationale && (
-                    <p className="text-[0.72rem] text-foreground/70 leading-relaxed border-l-2 border-primary/30 pl-2.5">
+                    <p className="text-mini text-foreground/70 leading-relaxed border-l-2 border-primary/30 pl-2.5">
                       {pc.rationale}
                     </p>
                   )}
 
                   {/* Bull/Bear scenarios */}
-                  <div className="grid grid-cols-2 gap-2 text-[0.68rem]">
+                  <div className="grid grid-cols-2 gap-2 text-micro">
                     {(rec.profit_if_target || rec.scenario_bull) && (
                       <div className="p-2 rounded-lg bg-emerald-500/8 border border-emerald-500/15">
                         <div className="text-emerald-400 font-semibold mb-0.5">Si sube al target</div>
@@ -710,7 +710,7 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
                     )}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-[0.68rem] pt-1 border-t border-border/20">
+                  <div className="grid grid-cols-2 gap-2 text-micro pt-1 border-t border-border/20">
                     {rec.max_risk && <div><span className="text-red-400 font-semibold">Riesgo máx: </span><span className="text-foreground/60">{rec.max_risk}</span></div>}
                     {rec.when_to_close && <div><span className="text-amber-400 font-semibold">Cuándo cerrar: </span><span className="text-foreground/60">{rec.when_to_close}</span></div>}
                   </div>
@@ -721,16 +721,16 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
               {/* Raw contracts per expiry */}
               {data.expiries.map(exp => (
                 <div key={exp.expiry}>
-                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
                     {exp.bucket === 'long' ? <CalendarRange size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : exp.bucket === 'medium' ? <CalendarDays size={12} strokeWidth={2.25} className="inline -mt-px mr-1" /> : <Clock size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />}
                   {exp.bucket === 'long' ? 'LEAPS' : exp.bucket === 'medium' ? 'Medio plazo' : 'Corto plazo'} — {exp.expiry} · {exp.days_out} días
                   </div>
 
                   {exp.covered_calls.length > 0 && (
                     <div className="mb-3">
-                      <div className="text-[0.62rem] font-semibold text-amber-400 mb-1.5">Covered Calls disponibles</div>
+                      <div className="text-micro font-semibold text-amber-400 mb-1.5">Covered Calls disponibles</div>
                       <div className="table-x-wrap">
-                        <table className="w-full text-[0.7rem] border-collapse">
+                        <table className="w-full text-mini border-collapse">
                           <thead>
                             <tr className="border-b border-border/30">
                               {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Yield anual', 'Vol', 'IV%'].map(h => (
@@ -759,9 +759,9 @@ function OptionsPanel({ result, sym }: { result: PositionResult; sym: string }) 
 
                   {exp.protective_puts.length > 0 && (
                     <div>
-                      <div className="text-[0.62rem] font-semibold text-blue-400 mb-1.5">Protective Puts disponibles</div>
+                      <div className="text-micro font-semibold text-blue-400 mb-1.5">Protective Puts disponibles</div>
                       <div className="table-x-wrap">
-                        <table className="w-full text-[0.7rem] border-collapse">
+                        <table className="w-full text-mini border-collapse">
                           <thead>
                             <tr className="border-b border-border/30">
                               {['Strike', 'Bid', 'Ask', 'Prima', '% OTM', 'Coste %', 'Vol', 'IV%'].map(h => (
@@ -848,10 +848,10 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
     <div className="mx-3 mb-3 rounded-xl border overflow-hidden border-amber-500/25 bg-amber-500/5">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-2.5 border-b border-amber-500/20">
-        <span className="text-[0.55rem] font-bold uppercase tracking-widest text-amber-400/60">Covered Call vendida</span>
+        <span className="text-micro font-bold uppercase tracking-widest text-amber-400/60">Covered Call vendida</span>
         <span className="font-mono font-bold text-amber-400 text-sm">{sym}{strike} · exp {expiry}</span>
         {dte !== null && (
-          <span className={`ml-auto text-[0.62rem] font-bold px-1.5 py-0.5 rounded border ${
+          <span className={`ml-auto text-micro font-bold px-1.5 py-0.5 rounded border ${
             dte <= 7   ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' :
             dte <= 21  ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' :
                          'bg-muted/20 text-muted-foreground border-border/30'
@@ -860,39 +860,39 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
           </span>
         )}
         {itm && (
-          <span className="text-[0.62rem] font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">
+          <span className="text-micro font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">
             ITM
           </span>
         )}
       </div>
 
       {/* P&L grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-amber-500/10 text-[0.68rem]">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-amber-500/10 text-micro">
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">Prima cobrada</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">Prima cobrada</div>
           <div className="font-bold text-emerald-400">{sym}{(premium * shares).toFixed(2)}</div>
-          <div className="text-muted-foreground/40 text-[0.55rem]">{sym}{premium.toFixed(2)}/acc</div>
+          <div className="text-muted-foreground/40 text-micro">{sym}{premium.toFixed(2)}/acc</div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L acción</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L acción</div>
           <div className={`font-bold ${stockPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {stockPL >= 0 ? '+' : ''}{sym}{stockPL.toFixed(2)}
           </div>
-          <div className="text-muted-foreground/40 text-[0.55rem]">base {sym}{costBasis.toFixed(2)}</div>
+          <div className="text-muted-foreground/40 text-micro">base {sym}{costBasis.toFixed(2)}</div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L combinado</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">P&L combinado</div>
           <div className={`font-bold text-base ${combined >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {combined >= 0 ? '+' : ''}{sym}{combined.toFixed(2)}
           </div>
-          <div className={`text-[0.62rem] font-semibold ${combinedPct >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+          <div className={`text-micro font-semibold ${combinedPct >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
             {combinedPct >= 0 ? '+' : ''}{combinedPct.toFixed(2)}%
           </div>
         </div>
         <div className="bg-background/60 px-3 py-2.5">
-          <div className="text-[0.55rem] uppercase tracking-wider text-muted-foreground/50 mb-0.5">Base efectiva</div>
+          <div className="text-micro uppercase tracking-wider text-muted-foreground/50 mb-0.5">Base efectiva</div>
           <div className="font-bold text-foreground">{sym}{effectiveBasis.toFixed(2)}</div>
-          <div className="text-muted-foreground/40 text-[0.55rem]">
+          <div className="text-muted-foreground/40 text-micro">
             dist strike {distPct != null ? `${distPct >= 0 ? '+' : ''}${distPct.toFixed(1)}%` : '—'}
           </div>
         </div>
@@ -900,7 +900,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
 
       {/* Recommendation */}
       <div className="px-4 py-2.5">
-        <p className={`text-[0.72rem] leading-relaxed ${recCls}`}>{rec}</p>
+        <p className={`text-mini leading-relaxed ${recCls}`}>{rec}</p>
       </div>
     </div>
   )
@@ -911,7 +911,7 @@ function CoveredCallTracker({ pos, currentPrice }: { pos: Position; currentPrice
 function MetricChip({ label, value, valueClass = 'text-foreground' }: { label: string; value: string; valueClass?: string }) {
   return (
     <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-[0.58rem] font-semibold uppercase tracking-wider text-muted-foreground/50 leading-none">{label}</span>
+      <span className="text-micro font-semibold uppercase tracking-wider text-muted-foreground/50 leading-none">{label}</span>
       <span className={`text-sm font-bold tabular-nums leading-tight ${valueClass}`}>{value}</span>
     </div>
   )
@@ -976,7 +976,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           <div className="flex items-center gap-2 flex-wrap">
             <span className="font-mono font-extrabold text-lg text-foreground leading-none">{ticker}</span>
             {result?.sector && (
-              <span className="text-[0.58rem] px-1.5 py-0.5 rounded bg-muted/40 border border-border/20 text-muted-foreground/50 uppercase tracking-wide">
+              <span className="text-micro px-1.5 py-0.5 rounded bg-muted/40 border border-border/20 text-muted-foreground/50 uppercase tracking-wide">
                 {result.sector}
               </span>
             )}
@@ -985,10 +985,10 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             <p className="text-xs text-muted-foreground/60 truncate mt-0.5 leading-tight">{result.company_name}</p>
           )}
           {/* Row 2: cost basis + asset type badge */}
-          <p className="text-[0.65rem] text-muted-foreground/40 mt-1 flex items-center gap-1.5 flex-wrap">
+          <p className="text-micro text-muted-foreground/40 mt-1 flex items-center gap-1.5 flex-wrap">
             {pos.asset_type === 'option' ? (
               <>
-                <span className={`px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border ${pos.option_type === 'call' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
+                <span className={`px-1.5 py-0.5 rounded text-micro font-bold uppercase border ${pos.option_type === 'call' ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
                   {pos.option_type?.toUpperCase()} ${pos.option_strike}
                 </span>
                 {pos.option_expiry && <span>exp {pos.option_expiry}</span>}
@@ -996,20 +996,20 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
               </>
             ) : pos.asset_type === 'bond' ? (
               <>
-                <span className="px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border bg-amber-500/15 text-amber-400 border-amber-500/25">BONO</span>
+                <span className="px-1.5 py-0.5 rounded text-micro font-bold uppercase border bg-amber-500/15 text-amber-400 border-amber-500/25">BONO</span>
                 {pos.coupon_rate && <span>{pos.coupon_rate}% cupón</span>}
                 {pos.maturity_date && <span>vence {pos.maturity_date}</span>}
                 <span>nominal {sym}{pos.shares.toLocaleString()} · precio {pos.avg_price.toFixed(2)}%</span>
               </>
             ) : pos.asset_type === 'preferred' ? (
               <>
-                <span className="px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border bg-emerald-500/15 text-emerald-400 border-emerald-500/25">PREFERRED</span>
+                <span className="px-1.5 py-0.5 rounded text-micro font-bold uppercase border bg-emerald-500/15 text-emerald-400 border-emerald-500/25">PREFERRED</span>
                 {pos.coupon_rate && <span>{pos.coupon_rate}% div</span>}
                 <span>{pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)}</span>
               </>
             ) : pos.asset_type === 'covered_call' ? (
               <>
-                <span className="px-1.5 py-0.5 rounded text-[0.58rem] font-bold uppercase border bg-amber-500/15 text-amber-400 border-amber-500/25">COVERED CALL</span>
+                <span className="px-1.5 py-0.5 rounded text-micro font-bold uppercase border bg-amber-500/15 text-amber-400 border-amber-500/25">COVERED CALL</span>
                 <span>CALL ${pos.option_strike} exp {pos.option_expiry}</span>
                 <span>{pos.shares} acc · base {sym}{pos.avg_price.toFixed(2)} · prima {sym}{(pos.coupon_rate ?? 0).toFixed(2)}/acc</span>
               </>
@@ -1024,7 +1024,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           <div className="flex items-center gap-1.5">
             {priceAlert && <PriceAlertBadge alert={priceAlert} />}
             {result && !editing && (
-              <span className={`text-[0.62rem] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wide ${ACTION_STYLES[action]}`}>
+              <span className={`text-micro font-bold px-2 py-0.5 rounded-full border uppercase tracking-wide ${ACTION_STYLES[action]}`}>
                 {action}
               </span>
             )}
@@ -1042,7 +1042,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           {editing ? (
             <div className="flex flex-col items-end gap-1 mt-1">
               <div className="flex items-center gap-1">
-                <span className="text-[0.6rem] text-muted-foreground/50">ticker</span>
+                <span className="text-micro text-muted-foreground/50">ticker</span>
                 <input
                   value={editTicker}
                   onChange={e => setEditTicker(e.target.value.toUpperCase())}
@@ -1051,7 +1051,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 />
               </div>
               <div className="flex items-center gap-1">
-                <span className="text-[0.6rem] text-muted-foreground/50">acc</span>
+                <span className="text-micro text-muted-foreground/50">acc</span>
                 <input
                   type="number"
                   value={editShares}
@@ -1062,7 +1062,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                 />
               </div>
               <div className="flex items-center gap-1">
-                <span className="text-[0.6rem] text-muted-foreground/50">base</span>
+                <span className="text-micro text-muted-foreground/50">base</span>
                 <input
                   type="number"
                   value={editPrice}
@@ -1079,7 +1079,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
                   const t = editTicker.trim()
                   if (s > 0 && p > 0 && t) { onEdit(pos.id, s, p, t); setEditing(false) }
                 }}
-                className="flex items-center gap-1 text-[0.6rem] font-bold px-2 py-0.5 rounded bg-primary/15 border border-primary/30 text-primary hover:bg-primary/25 transition-colors"
+                className="flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded bg-primary/15 border border-primary/30 text-primary hover:bg-primary/25 transition-colors"
               >
                 <Check size={12} /> Guardar
               </button>
@@ -1088,7 +1088,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
             <div className="text-right">
               <div className="font-extrabold text-base tabular-nums text-foreground">{sym}{cur.toFixed(2)}</div>
               {result && (
-                <div className="text-[0.6rem] text-muted-foreground/40 tabular-nums">
+                <div className="text-micro text-muted-foreground/40 tabular-nums">
                   {sym}{result.market_value.toFixed(0)} · {result.portfolio_pct.toFixed(1)}%
                 </div>
               )}
@@ -1109,7 +1109,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           </span>
         )}
         {result && (
-          <span className="ml-auto flex items-center gap-1.5 text-[0.6rem]">
+          <span className="ml-auto flex items-center gap-1.5 text-micro">
             <span className={`w-1.5 h-1.5 rounded-full ${CONVICTION_DOT[result.conviction]}`} />
             <span className="text-muted-foreground/50 uppercase tracking-wide">{result.conviction}</span>
           </span>
@@ -1118,7 +1118,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
 
       {/* ── NL STATUS SENTENCE ── */}
       <div className="px-4 pb-2">
-        <p className="text-[0.73rem] leading-relaxed text-muted-foreground/70">
+        <p className="text-mini leading-relaxed text-muted-foreground/70">
           {nlPositionStatus({
             pl_pct:          pl ?? 0,
             action,
@@ -1135,27 +1135,27 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       {hasCerebro && (
         <div className="flex flex-wrap gap-1.5 px-4 mb-3">
           {exit && (
-            <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${exit.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
+            <span className={`inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full border ${exit.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
               <Brain size={12} />EXIT {exit.severity} · {exit.reasons[0]}
             </span>
           )}
           {driftAlert && !exit && (
-            <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${driftAlert.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
+            <span className={`inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full border ${driftAlert.severity === 'HIGH' ? 'bg-red-500/15 text-red-400 border-red-500/30' : 'bg-amber-500/15 text-amber-400 border-amber-500/30'}`}>
               <Brain size={12} />DRIFT · {driftAlert.reason}
             </span>
           )}
           {trap && !exit && (
-            <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
+            <span className="inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
               <Brain size={12} />TRAP · {trap.flags[0]}
             </span>
           )}
           {sm && (
-            <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/30">
+            <span className="inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-400 border border-violet-500/30">
               <Brain size={12} />SMART $ · {sm.n_hedge_funds}HF {sm.n_insiders}INS
             </span>
           )}
           {div && (
-            <span className="inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
+            <span className="inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-400 border border-cyan-500/30">
               <Brain size={12} />DIV {div.rating} · {div.div_yield.toFixed(1)}%
             </span>
           )}
@@ -1177,7 +1177,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           {macroWarnings.map((warning) => (
             <span
               key={`${warning.marketId}-${warning.side}`}
-              className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-2 py-0.5 rounded-full border ${
+              className={`inline-flex items-center gap-1 text-micro font-bold px-2 py-0.5 rounded-full border ${
                 warning.side === 'beneficiary'
                   ? 'bg-orange-500/15 text-orange-300 border-orange-500/30'
                   : 'bg-rose-500/15 text-rose-300 border-rose-500/30'
@@ -1263,7 +1263,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
           <div className="grid grid-cols-3 gap-px bg-border/20 border border-border/20 rounded-xl overflow-hidden mx-3 mb-3">
             {items.map((m, i) => (
               <div key={i} className="bg-muted/8 px-3 py-2.5">
-                <div className="text-[0.55rem] font-semibold uppercase tracking-wider text-muted-foreground/40 mb-0.5">{m.label}</div>
+                <div className="text-micro font-semibold uppercase tracking-wider text-muted-foreground/40 mb-0.5">{m.label}</div>
                 <div className={`text-sm font-bold tabular-nums ${m.valueClass ?? 'text-foreground'}`}>
                   {m.value}
                   {m.suffix && <span className={`text-xs ml-1 ${m.suffixClass}`}>{m.suffix}</span>}
@@ -1293,9 +1293,9 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
       {result?.volatility_pct != null && (pos.asset_type ?? 'stock') === 'stock' && (
         <div className="px-4 py-2.5 mx-3 mb-3 rounded-xl bg-primary/5 border border-primary/10">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[0.55rem] font-bold uppercase tracking-widest text-primary/50">Sizing</span>
+            <span className="text-micro font-bold uppercase tracking-widest text-primary/50">Sizing</span>
             {(overweight || underweight) && (
-              <span className={`text-[0.6rem] font-bold uppercase tracking-wide ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
+              <span className={`text-micro font-bold uppercase tracking-wide ${overweight ? 'text-red-400' : 'text-blue-400'}`}>
                 {overweight ? '↑ SOBRE' : '↓ INFRA'}
               </span>
             )}
@@ -1336,7 +1336,7 @@ function PositionCard({ result, pos, userId, onRemove, onEdit, cerebro, confluen
               {result.key_risk && (
                 <div className="flex items-start gap-2 px-2.5 py-2 rounded-lg border border-amber-500/20 bg-amber-500/5">
                   <AlertTriangle size={12} className="text-amber-400 mt-0.5 shrink-0" />
-                  <p className="text-[0.7rem] text-amber-300/75 leading-relaxed">{result.key_risk}</p>
+                  <p className="text-mini text-amber-300/75 leading-relaxed">{result.key_risk}</p>
                 </div>
               )}
             </div>
@@ -1657,7 +1657,7 @@ export default function PersonalPortfolio() {
                   animation: `portfolioBar 1.1s ease-in-out ${i * 0.15}s infinite alternate`,
                 }}
               />
-              <span className="text-[0.5rem] font-mono text-muted-foreground/40">{t}</span>
+              <span className="text-micro font-mono text-muted-foreground/40">{t}</span>
             </div>
           ))}
         </div>
@@ -1688,13 +1688,13 @@ export default function PersonalPortfolio() {
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div className="flex gap-6 flex-wrap">
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '0ms' }}>
-                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Valor total</div>
+                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Valor total</div>
                 <div className="text-4xl font-black tabular-nums text-foreground">
                   ${result.total_value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                 </div>
               </div>
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '60ms' }}>
-                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">P&L total</div>
+                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">P&L total</div>
                 <div className={`text-2xl font-bold tabular-nums flex items-center gap-1 ${totalPL >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {totalPL >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
                   {totalPL >= 0 ? '+' : ''}${totalPL.toFixed(0)}
@@ -1702,12 +1702,12 @@ export default function PersonalPortfolio() {
                 </div>
               </div>
               <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '120ms' }}>
-                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Posiciones</div>
+                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Posiciones</div>
                 <div className="text-2xl font-bold text-foreground">{positions.length}</div>
               </div>
               {annualDividends > 0 && (
                 <div className="animate-fade-in-up text-center sm:text-left" style={{ animationDelay: '180ms' }}>
-                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Dividendos / año</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-0.5">Dividendos / año</div>
                   <div className="text-2xl font-bold tabular-nums text-emerald-400">
                     ~${annualDividends.toFixed(0)}
                   </div>
@@ -1724,7 +1724,7 @@ export default function PersonalPortfolio() {
                 {analyzing ? 'Analizando...' : 'Re-analizar'}
               </button>
               {cacheAge !== null && (
-                <span className="text-[0.58rem] text-muted-foreground/40">
+                <span className="text-micro text-muted-foreground/40">
                   {cacheAge === 0 ? 'Actualizado ahora' : cacheAge < 60_000 ? 'Hace <1 min' : cacheAge < 3_600_000 ? `Hace ${Math.round(cacheAge / 60_000)}min` : `Hace ${Math.round(cacheAge / 3_600_000)}h`}
                   {' · '}cache activo
                 </span>
@@ -1741,7 +1741,7 @@ export default function PersonalPortfolio() {
               {result.portfolio_analysis.concentration_warning && (
                 <div className="flex items-start gap-2 p-2.5 rounded-lg bg-amber-500/8 border border-amber-500/20">
                   <AlertTriangle size={12} className="text-amber-400 mt-0.5 shrink-0" />
-                  <p className="text-[0.75rem] text-amber-300/80">{result.portfolio_analysis.concentration_warning}</p>
+                  <p className="text-mini text-amber-300/80">{result.portfolio_analysis.concentration_warning}</p>
                 </div>
               )}
             </div>
@@ -1750,10 +1750,10 @@ export default function PersonalPortfolio() {
           {/* Risk & Position Sizing overview */}
           {result.risk_metrics && (
             <div className="pt-3 border-t border-border/30">
-              <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
                 Risk Management · Position Sizing (Kelly)
               </div>
-              <div className="flex gap-4 flex-wrap text-[0.72rem] mb-2">
+              <div className="flex gap-4 flex-wrap text-mini mb-2">
                 <span className="text-muted-foreground">
                   Riesgo total cartera{' '}
                   <strong className={result.risk_metrics.total_risk_pct > 10 ? 'text-red-400' : result.risk_metrics.total_risk_pct > 5 ? 'text-amber-400' : 'text-emerald-400'}>
@@ -1773,7 +1773,7 @@ export default function PersonalPortfolio() {
                 )}
               </div>
               {result.risk_metrics.oversized_positions.length > 0 && (
-                <div className="flex items-start gap-2 p-2 rounded-lg bg-red-500/8 border border-red-500/15 text-[0.72rem]">
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-red-500/8 border border-red-500/15 text-mini">
                   <AlertTriangle size={12} className="text-red-400 mt-0.5 shrink-0" />
                   <span className="text-red-300/80">
                     Posiciones sobreexpuestas (peso actual &gt; 1.5× Kelly óptimo):{' '}
@@ -1793,8 +1793,8 @@ export default function PersonalPortfolio() {
                   return (
                     <div key={p.ticker} className="p-2 rounded-lg bg-muted/10 border border-border/20">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono font-bold text-[0.68rem] text-foreground">{p.ticker}</span>
-                        <span className={`text-[0.6rem] font-bold ${isOver ? 'text-red-400' : isUnder ? 'text-blue-400' : 'text-emerald-400'}`}>
+                        <span className="font-mono font-bold text-micro text-foreground">{p.ticker}</span>
+                        <span className={`text-micro font-bold ${isOver ? 'text-red-400' : isUnder ? 'text-blue-400' : 'text-emerald-400'}`}>
                           {isOver ? 'SOBRE' : isUnder ? 'INFRA' : 'OK'}
                         </span>
                       </div>
@@ -1802,7 +1802,7 @@ export default function PersonalPortfolio() {
                         <div className="absolute inset-y-0 left-0 rounded-full bg-primary/50" style={{ width: `${(optimal / maxBar) * 100}%` }} />
                         <div className={`absolute inset-y-0 left-0 rounded-full ${isOver ? 'bg-red-400/60' : 'bg-emerald-400/60'}`} style={{ width: `${(actual / maxBar) * 100}%`, height: '50%', top: '25%' }} />
                       </div>
-                      <div className="flex justify-between mt-0.5 text-[0.58rem] text-muted-foreground/60">
+                      <div className="flex justify-between mt-0.5 text-micro text-muted-foreground/60">
                         <span>Actual {actual.toFixed(1)}%</span>
                         <span>Kelly {optimal.toFixed(1)}%</span>
                       </div>
@@ -1832,11 +1832,11 @@ export default function PersonalPortfolio() {
             return (
               <div className="pt-3 border-t border-border/30">
                 <div className="flex items-baseline justify-between mb-2">
-                  <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground/50">
+                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">
                     Revisiones de analistas
                   </div>
                   {!hasHistory && (
-                    <div className="text-[0.58rem] text-muted-foreground/50 italic">
+                    <div className="text-micro text-muted-foreground/50 italic">
                       Empezando a trackear — los deltas se poblarán en días
                     </div>
                   )}
@@ -1849,14 +1849,14 @@ export default function PersonalPortfolio() {
                     return (
                       <div key={pos.ticker} className="p-2.5 rounded-lg bg-muted/10 border border-border/20 space-y-1.5">
                         <div className="flex items-center justify-between">
-                          <span className="font-mono font-bold text-[0.72rem] text-foreground">{pos.ticker}</span>
+                          <span className="font-mono font-bold text-mini text-foreground">{pos.ticker}</span>
                           <AnalystRevisionBadge
                             targetChange7dPct={rev.target_change_7d_pct}
                             upgradeDays14d={rev.upgrade_days_14d}
                             downgradeDays14d={rev.downgrade_days_14d}
                           />
                         </div>
-                        <div className="flex items-center justify-between text-[0.62rem]">
+                        <div className="flex items-center justify-between text-micro">
                           <span className="text-muted-foreground/70">Target medio</span>
                           <span className="font-semibold text-foreground tabular-nums">
                             {target != null ? `$${target.toFixed(0)}` : '—'}
@@ -1868,7 +1868,7 @@ export default function PersonalPortfolio() {
                           </span>
                         </div>
                         {rev.target_change_30d_pct != null && (
-                          <div className="flex items-center justify-between text-[0.58rem] text-muted-foreground/60">
+                          <div className="flex items-center justify-between text-micro text-muted-foreground/60">
                             <span>30d</span>
                             <span className={rev.target_change_30d_pct > 0 ? 'text-emerald-400/80' : rev.target_change_30d_pct < 0 ? 'text-red-400/80' : ''}>
                               {rev.target_change_30d_pct > 0 ? '+' : ''}{rev.target_change_30d_pct.toFixed(1)}%
@@ -1876,7 +1876,7 @@ export default function PersonalPortfolio() {
                           </div>
                         )}
                         {rev.analyst_count != null && (
-                          <div className="flex items-center justify-between text-[0.58rem] text-muted-foreground/60">
+                          <div className="flex items-center justify-between text-micro text-muted-foreground/60">
                             <span>Cobertura</span>
                             <span>{rev.analyst_count} analistas</span>
                           </div>
@@ -1892,12 +1892,12 @@ export default function PersonalPortfolio() {
           {/* Dividend breakdown */}
           {dividendPositions.length > 0 && (
             <div className="pt-3 border-t border-border/30">
-              <div className="text-[0.62rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
+              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-2">
                 Proyección dividendos anuales
               </div>
               <div className="flex flex-wrap gap-2">
                 {dividendPositions.map(p => (
-                  <div key={p.ticker} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/8 border border-emerald-500/15 text-[0.72rem]">
+                  <div key={p.ticker} className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/8 border border-emerald-500/15 text-mini">
                     <span className="font-mono font-bold text-emerald-400">{p.ticker}</span>
                     <span className="text-muted-foreground">{p.dividend_yield?.toFixed(2)}%</span>
                     <span className="text-emerald-400 font-semibold">
@@ -1992,7 +1992,7 @@ export default function PersonalPortfolio() {
                     </div>
                   ))}
                 </div>
-                <p className="text-center text-[0.65rem] text-muted-foreground/30">
+                <p className="text-center text-micro text-muted-foreground/30">
                   ~20-40s · solo en la primera visita del día
                 </p>
               </div>

@@ -211,7 +211,7 @@ export default function Portfolio() {
         if (statsData.periods.length === 0) return null
         return (
           <div className="mb-5">
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-3 px-1">Resumen animado</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-3 px-1">Resumen animado</div>
             <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-sm text-muted-foreground">Cargando…</div>}>
               <PortfolioStatsPlayer data={statsData} />
             </Suspense>
@@ -227,14 +227,14 @@ export default function Portfolio() {
             if (!d || d.count === 0) return null
             return (
               <Card key={p} className={`glass p-5 stagger-${idx + 1}`}>
-                <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1">
+                <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1">
                   Win Rate {p}
-                  {p === bestPeriod && <Badge variant="green" className="text-[0.5rem] px-1 py-0 leading-4">BEST</Badge>}
+                  {p === bestPeriod && <Badge variant="green" className="text-micro px-1 py-0 leading-4">BEST</Badge>}
                 </div>
                 <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${d.win_rate >= 50 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {d.win_rate?.toFixed(1)}%
                 </div>
-                <div className="text-[0.66rem] text-muted-foreground">
+                <div className="text-micro text-muted-foreground">
                   Avg: <span className={d.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{d.avg_return >= 0 ? '+' : ''}{d.avg_return?.toFixed(2)}%</span>
                   {' '}| {d.count} señales
                 </div>
@@ -243,11 +243,11 @@ export default function Portfolio() {
           })}
           {pf.score_correlation != null && (
             <Card className="glass p-5 stagger-4">
-              <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Correlacion Score-Return</div>
+              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Correlacion Score-Return</div>
               <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${pf.score_correlation > 0.1 ? 'text-emerald-400' : 'text-amber-400'}`}>
                 {pf.score_correlation.toFixed(3)}
               </div>
-              <div className="text-[0.66rem] text-muted-foreground">
+              <div className="text-micro text-muted-foreground">
                 {pf.score_correlation > 0.1 ? 'Scores predicen retornos' : 'Correlacion debil'}
               </div>
             </Card>
@@ -280,14 +280,14 @@ export default function Portfolio() {
       {pf.avg_max_drawdown != null && (
         <div className="grid grid-cols-2 gap-3 mb-5">
           <Card className="glass p-5">
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Avg Max Drawdown</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Avg Max Drawdown</div>
             <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 text-red-400">{pf.avg_max_drawdown.toFixed(2)}%</div>
-            <div className="text-[0.66rem] text-muted-foreground">riesgo promedio</div>
+            <div className="text-micro text-muted-foreground">riesgo promedio</div>
           </Card>
           <Card className="glass p-5">
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Total Señales</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Total Señales</div>
             <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">{pf.total_signals}</div>
-            <div className="text-[0.66rem] text-muted-foreground">{pf.unique_tickers} tickers únicos</div>
+            <div className="text-micro text-muted-foreground">{pf.unique_tickers} tickers únicos</div>
           </Card>
         </div>
       )}
@@ -299,7 +299,7 @@ export default function Portfolio() {
           <Card className="glass">
             <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
               <h3 className="text-sm font-semibold text-emerald-400">Top Performers</h3>
-              <Badge variant="green" className="text-[0.6rem]">{pf.top_performers.length}</Badge>
+              <Badge variant="green" className="text-micro">{pf.top_performers.length}</Badge>
             </div>
             <Table>
               <TableHeader>
@@ -312,16 +312,16 @@ export default function Portfolio() {
               <TableBody>
                 {(pf.top_performers as Performer[]).map((p, i) => (
                   <TableRow key={`top_${typeof p.ticker === 'string' ? p.ticker : ''}_${i}`}>
-                    <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
+                    <TableCell className="font-mono font-bold text-primary text-apoyo">
                       <div className="flex items-center gap-1.5">
                         <TickerLogo ticker={typeof p.ticker === 'string' ? p.ticker : ''} size="xs" />
                         <span>{typeof p.ticker === 'string' ? p.ticker : ''}</span>
                       </div>
-                      <Badge variant={stratVariant(p.strategy)} className="text-[0.55rem] px-1 py-0 mt-0.5">
+                      <Badge variant={stratVariant(p.strategy)} className="text-micro px-1 py-0 mt-0.5">
                         {stratLabel(p.strategy)}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-[0.75rem]">
+                    <TableCell className="text-muted-foreground text-mini">
                       {typeof p.company_name === 'string' ? p.company_name : typeof p.ticker === 'string' ? p.ticker : ''}
                     </TableCell>
                     <TableCell><span className="text-emerald-400 font-semibold">+{Number(p.return_pct ?? 0).toFixed(2)}%</span></TableCell>
@@ -336,7 +336,7 @@ export default function Portfolio() {
           <Card className="glass">
             <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
               <h3 className="text-sm font-semibold text-red-400">Worst Performers</h3>
-              <Badge variant="red" className="text-[0.6rem]">{pf.worst_performers.length}</Badge>
+              <Badge variant="red" className="text-micro">{pf.worst_performers.length}</Badge>
             </div>
             <Table>
               <TableHeader>
@@ -349,16 +349,16 @@ export default function Portfolio() {
               <TableBody>
                 {(pf.worst_performers as Performer[]).map((p, i) => (
                   <TableRow key={`worst_${typeof p.ticker === 'string' ? p.ticker : ''}_${i}`}>
-                    <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
+                    <TableCell className="font-mono font-bold text-primary text-apoyo">
                       <div className="flex items-center gap-1.5">
                         <TickerLogo ticker={typeof p.ticker === 'string' ? p.ticker : ''} size="xs" />
                         <span>{typeof p.ticker === 'string' ? p.ticker : ''}</span>
                       </div>
-                      <Badge variant={stratVariant(p.strategy)} className="text-[0.55rem] px-1 py-0 mt-0.5">
+                      <Badge variant={stratVariant(p.strategy)} className="text-micro px-1 py-0 mt-0.5">
                         {stratLabel(p.strategy)}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-[0.75rem]">
+                    <TableCell className="text-muted-foreground text-mini">
                       {typeof p.company_name === 'string' ? p.company_name : typeof p.ticker === 'string' ? p.ticker : ''}
                     </TableCell>
                     <TableCell><span className="text-red-400 font-semibold">{Number(p.return_pct ?? 0).toFixed(2)}%</span></TableCell>
@@ -375,10 +375,10 @@ export default function Portfolio() {
         <Card className="glass mb-5 animate-fade-in-up overflow-clip">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
             <h3 className="text-sm font-semibold">Correlación de Señales</h3>
-            <span className="text-[0.6rem] text-muted-foreground/50">{corrData.days}d · {corrData.as_of}</span>
+            <span className="text-micro text-muted-foreground/50">{corrData.days}d · {corrData.as_of}</span>
           </div>
           <div className="table-x-wrap">
-            <table className="text-[0.6rem] tabular-nums">
+            <table className="text-micro tabular-nums">
               <thead>
                 <tr>
                   <th className="px-2 py-1.5 text-left text-muted-foreground/50 font-medium w-16"></th>
@@ -419,7 +419,7 @@ export default function Portfolio() {
               </tbody>
             </table>
           </div>
-          <div className="px-4 py-2 border-t border-border/20 flex gap-4 text-[0.6rem] text-muted-foreground/40">
+          <div className="px-4 py-2 border-t border-border/20 flex gap-4 text-micro text-muted-foreground/40">
             <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-sm bg-red-500/25" /> ≥0.7 correlación positiva (concentración)</span>
             <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-sm bg-blue-500/25" /> ≥0.7 correlación negativa (diversificación)</span>
           </div>
@@ -431,7 +431,7 @@ export default function Portfolio() {
         <Card className="glass animate-fade-in-up">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
             <h3 className="text-sm font-semibold">En seguimiento</h3>
-            <Badge variant="gray" className="text-[0.6rem]">{activeCount}</Badge>
+            <Badge variant="gray" className="text-micro">{activeCount}</Badge>
             <span className="text-xs text-muted-foreground ml-auto">
               señales de &lt;30 días, aún midiéndose · últimas 20
             </span>
@@ -452,29 +452,29 @@ export default function Portfolio() {
             <TableBody>
               {recentSignals.map((s, i) => (
                 <TableRow key={`sig_${String(s.ticker)}_${i}`}>
-                  <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                  <TableCell className="font-mono font-bold text-primary text-apoyo tracking-wide">
                     <div className="flex items-center gap-1.5">
                       <TickerLogo ticker={String(s.ticker || '')} size="xs" />
                       <span>{String(s.ticker || '')}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="text-[0.75rem] text-muted-foreground max-w-[120px] truncate">
+                  <TableCell className="text-mini text-muted-foreground max-w-[120px] truncate">
                     {String(s.company_name ?? s.ticker ?? '')}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={stratVariant(s.strategy)} className="text-[0.6rem]">
+                    <Badge variant={stratVariant(s.strategy)} className="text-micro">
                       {stratLabel(s.strategy)}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-[0.75rem] text-muted-foreground">{String(s.sector ?? '')}</TableCell>
-                  <TableCell className="text-[0.75rem] text-muted-foreground">{String(s.signal_date ?? '')}</TableCell>
-                  <TableCell className="text-right tabular-nums text-[0.8rem]">
+                  <TableCell className="text-mini text-muted-foreground">{String(s.sector ?? '')}</TableCell>
+                  <TableCell className="text-mini text-muted-foreground">{String(s.signal_date ?? '')}</TableCell>
+                  <TableCell className="text-right tabular-nums text-apoyo">
                     ${Number(s.signal_price ?? 0).toFixed(2)}
                   </TableCell>
-                  <TableCell className="text-right tabular-nums text-[0.8rem] text-primary">
+                  <TableCell className="text-right tabular-nums text-apoyo text-primary">
                     {s.value_score != null ? Number(s.value_score).toFixed(0) : '—'}
                   </TableCell>
-                  <TableCell className="text-[0.75rem]">
+                  <TableCell className="text-mini">
                     <span className={Number(s.days_active ?? 0) >= 7 ? 'text-emerald-400' : 'text-amber-400'}>
                       {Number(s.days_active ?? 0) >= 7 ? '✓ lista' : `${String(s.first_result_date ?? '')}`}
                     </span>
@@ -520,7 +520,7 @@ export default function Portfolio() {
           <div className="mt-6">
             <div className="flex items-center gap-3 mb-3">
               <h3 className="text-sm font-semibold">Historial de Señales</h3>
-              <Badge variant="gray" className="text-[0.6rem]">{signalsData.count}</Badge>
+              <Badge variant="gray" className="text-micro">{signalsData.count}</Badge>
               <div className="flex gap-1 ml-2">
                 {(['ALL', 'ACTIVE', 'COMPLETED'] as const).map(f => (
                   <button
@@ -547,7 +547,7 @@ export default function Portfolio() {
                           <span className="font-mono font-bold text-sm">{r.ticker}</span>
                           <Badge variant={stratVariant(r.strategy)}>{stratLabel(r.strategy)}</Badge>
                         </div>
-                        <span className="text-[0.6rem] text-muted-foreground">{r.signal_date?.slice(0, 10)}</span>
+                        <span className="text-micro text-muted-foreground">{r.signal_date?.slice(0, 10)}</span>
                       </div>
                     </div>
                     <div className="text-right">
@@ -556,10 +556,10 @@ export default function Portfolio() {
                           {r.return_14d > 0 ? '+' : ''}{r.return_14d.toFixed(1)}%
                         </div>
                       )}
-                      {r.status && <div className="text-[0.6rem] text-muted-foreground">{r.status}</div>}
+                      {r.status && <div className="text-micro text-muted-foreground">{r.status}</div>}
                     </div>
                   </div>
-                  <div className="flex gap-3 mt-2 text-[0.62rem] text-muted-foreground/60">
+                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
                     {r.value_score != null && <span>Score {r.value_score.toFixed(0)}</span>}
                     {r.return_7d != null && <span>7d: {r.return_7d > 0 ? '+' : ''}{r.return_7d.toFixed(1)}%</span>}
                     {r.return_30d != null && <span>30d: {r.return_30d > 0 ? '+' : ''}{r.return_30d.toFixed(1)}%</span>}
@@ -593,45 +593,45 @@ export default function Portfolio() {
                   <TableBody>
                     {sigPaged.map((s, i) => (
                       <TableRow key={`${s.ticker}_${i}`}>
-                        <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                        <TableCell className="font-mono font-bold text-primary text-apoyo tracking-wide">
                           <div className="flex items-center gap-1.5">
                             <TickerLogo ticker={s.ticker} size="xs" />
                             <span>{s.ticker}</span>
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant={stratVariant(s.strategy)} className="text-[0.6rem]">
+                          <Badge variant={stratVariant(s.strategy)} className="text-micro">
                             {stratLabel(s.strategy)}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-[0.75rem] text-muted-foreground tabular-nums">{s.signal_date ?? '—'}</TableCell>
-                        <TableCell className="text-[0.8rem] tabular-nums">
+                        <TableCell className="text-mini text-muted-foreground tabular-nums">{s.signal_date ?? '—'}</TableCell>
+                        <TableCell className="text-apoyo tabular-nums">
                           {s.signal_price != null ? `$${s.signal_price.toFixed(2)}` : '—'}
                         </TableCell>
-                        <TableCell className="tabular-nums text-[0.8rem] text-primary">
+                        <TableCell className="tabular-nums text-apoyo text-primary">
                           {s.value_score != null ? s.value_score.toFixed(0) : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.return_7d)}`}>
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_7d)}`}>
                           {s.return_7d != null ? `${s.return_7d >= 0 ? '+' : ''}${s.return_7d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.return_14d)}`}>
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_14d)}`}>
                           {s.return_14d != null ? `${s.return_14d >= 0 ? '+' : ''}${s.return_14d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.return_30d)}`}>
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.return_30d)}`}>
                           {s.return_30d != null ? `${s.return_30d >= 0 ? '+' : ''}${s.return_30d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.alpha_7d ?? undefined)}`}>
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.alpha_7d ?? undefined)}`}>
                           {s.alpha_7d != null ? `${s.alpha_7d >= 0 ? '+' : ''}${s.alpha_7d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className={`tabular-nums text-[0.8rem] font-semibold ${retColor(s.alpha_30d ?? undefined)}`}>
+                        <TableCell className={`tabular-nums text-apoyo font-semibold ${retColor(s.alpha_30d ?? undefined)}`}>
                           {s.alpha_30d != null ? `${s.alpha_30d >= 0 ? '+' : ''}${s.alpha_30d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className="tabular-nums text-[0.8rem] text-red-400">
+                        <TableCell className="tabular-nums text-apoyo text-red-400">
                           {s.max_drawdown_30d != null ? `${s.max_drawdown_30d.toFixed(2)}%` : '—'}
                         </TableCell>
-                        <TableCell className="text-[0.75rem] text-muted-foreground max-w-[110px] truncate">{s.sector ?? '—'}</TableCell>
+                        <TableCell className="text-mini text-muted-foreground max-w-[110px] truncate">{s.sector ?? '—'}</TableCell>
                         <TableCell>
-                          <Badge variant={s.status === 'ACTIVE' ? 'green' : 'gray'} className="text-[0.6rem]">
+                          <Badge variant={s.status === 'ACTIVE' ? 'green' : 'gray'} className="text-micro">
                             {s.status ?? 'ACTIVE'}
                           </Badge>
                         </TableCell>
@@ -667,7 +667,7 @@ export default function Portfolio() {
           </p>
           <Card className="glass border border-border/40">
             <CardContent className="p-3 table-x-wrap">
-              <table className="text-[0.62rem] border-collapse w-full">
+              <table className="text-micro border-collapse w-full">
                 <thead>
                   <tr>
                     <th className="text-muted-foreground/60 font-normal p-1 text-left w-12"></th>
@@ -701,7 +701,7 @@ export default function Portfolio() {
                   ))}
                 </tbody>
               </table>
-              <div className="flex gap-4 mt-3 text-[0.6rem] text-muted-foreground/60">
+              <div className="flex gap-4 mt-3 text-micro text-muted-foreground/60">
                 <span><span className="text-red-400 font-bold">■</span> &gt;0.8 — Muy correlados (riesgo alto)</span>
                 <span><span className="text-orange-400">■</span> 0.6–0.8 — Correlados (vigilar)</span>
                 <span><span className="text-yellow-400">■</span> 0.4–0.6 — Correlación moderada</span>
@@ -728,14 +728,14 @@ export default function Portfolio() {
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">{period}</span>
-                      <Badge variant={(a.avg_alpha ?? 0) > 0 ? 'green' : 'red'} className="text-[0.65rem]">
+                      <Badge variant={(a.avg_alpha ?? 0) > 0 ? 'green' : 'red'} className="text-micro">
                         {(a.avg_alpha ?? 0) > 0 ? '↑ OUTPERFORM' : '↓ UNDERPERFORM'}
                       </Badge>
                     </div>
                     <div className={`text-3xl font-extrabold tabular-nums leading-none mb-1 ${alphaColor}`}>
                       {(a.avg_alpha ?? 0) > 0 ? '+' : ''}{a.avg_alpha?.toFixed(2)}%
                     </div>
-                    <div className="text-[0.65rem] text-muted-foreground/50 mb-3">alpha medio vs {bench}</div>
+                    <div className="text-micro text-muted-foreground/50 mb-3">alpha medio vs {bench}</div>
                     <div className="space-y-1.5 text-xs">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Nuestras señales</span>
@@ -755,7 +755,7 @@ export default function Portfolio() {
                           {a.positive_alpha_rate?.toFixed(1)}%
                         </span>
                       </div>
-                      <div className="flex justify-between text-[0.65rem] text-muted-foreground/50">
+                      <div className="flex justify-between text-micro text-muted-foreground/50">
                         <span>{a.count} señales</span>
                         <span>mejor {a.best_alpha != null ? `+${a.best_alpha.toFixed(1)}%` : '—'} / peor {a.worst_alpha?.toFixed(1)}%</span>
                       </div>
@@ -810,13 +810,13 @@ export default function Portfolio() {
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm font-bold tracking-wide">{label}</span>
-                      {leads && <Badge variant="blue" className="text-[0.65rem]">↑ MEJOR A 90D</Badge>}
+                      {leads && <Badge variant="blue" className="text-micro">↑ MEJOR A 90D</Badge>}
                     </div>
 
                     {/* 90d — la cifra principal */}
                     {wr != null && s90?.count ? (
                       <div className="mb-3">
-                        <div className="text-[0.65rem] uppercase tracking-widest text-muted-foreground/60 mb-1">90 días · win rate</div>
+                        <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-1">90 días · win rate</div>
                         <div className={`text-3xl font-extrabold tabular-nums leading-none ${wr >= 55 ? 'text-emerald-400' : wr >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                           {wr.toFixed(1)}%
                         </div>
@@ -824,7 +824,7 @@ export default function Portfolio() {
                             100% con n=8 abarca del 67% al 100% y sin esto se
                             lee igual que un 66,7% con n=27. */}
                         {s90.ci_low != null && s90.ci_high != null && (
-                          <div className="mt-1 text-[0.7rem] tabular-nums text-muted-foreground/70">
+                          <div className="mt-1 text-mini tabular-nums text-muted-foreground/70">
                             IC 95%: {s90.ci_low.toFixed(0)}–{s90.ci_high.toFixed(0)}%
                           </div>
                         )}
@@ -832,7 +832,7 @@ export default function Portfolio() {
                           retorno medio {s90.avg_return != null ? `${s90.avg_return > 0 ? '+' : ''}${s90.avg_return.toFixed(2)}%` : '—'}
                           <span className="text-muted-foreground/50"> · {s90.count} señales</span>
                         </div>
-                        <div className="mt-1 text-[0.68rem] text-muted-foreground/50">
+                        <div className="mt-1 text-micro text-muted-foreground/50">
                           {BASIS_LABEL[s90.basis ?? ''] ?? s90.basis}
                         </div>
                         {a90?.avg_alpha != null && (
@@ -862,11 +862,11 @@ export default function Portfolio() {
                           const w = sp.win_rate
                           return (
                             <div key={p}>
-                              <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
+                              <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
                               <div className={`text-xl font-extrabold tabular-nums leading-none ${w >= 55 ? 'text-emerald-400' : w >= 45 ? 'text-amber-400' : 'text-red-400'}`}>
                                 {w.toFixed(1)}%
                               </div>
-                              <div className="text-[0.68rem] text-muted-foreground mt-1">
+                              <div className="text-micro text-muted-foreground mt-1">
                                 avg {sp.avg_return != null ? `${sp.avg_return > 0 ? '+' : ''}${sp.avg_return.toFixed(1)}%` : '—'} · {sp.count}
                               </div>
                             </div>
@@ -874,9 +874,9 @@ export default function Portfolio() {
                         }
                         return (
                           <div key={p}>
-                            <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
+                            <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-1">{plabel}</div>
                             <div className="text-sm text-muted-foreground/40 leading-tight mt-1.5">
-                              Acumulando<br /><span className="text-[0.68rem]">~{eta}</span>
+                              Acumulando<br /><span className="text-micro">~{eta}</span>
                             </div>
                           </div>
                         )
@@ -971,7 +971,7 @@ export default function Portfolio() {
           <Card className="glass border-border/20">
             <CardContent className="p-4">
               <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-1">Win rate por score bucket — ¿el score predice?</p>
-              <p className="text-[0.7rem] text-muted-foreground/50 mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
+              <p className="text-mini text-muted-foreground/50 mb-3">Cada punto = rango de value_score. Por encima de la línea 50% = el score añade valor real.</p>
               <ResponsiveContainer width="100%" height={180}>
                 <LineChart data={calibData.score_buckets} margin={{ left: 8, right: 16, top: 8 }}>
                   <XAxis dataKey="range" tick={{ fontSize: 10 }} />
@@ -989,7 +989,7 @@ export default function Portfolio() {
             <Card className="glass border-border/20">
               <CardContent className="p-4">
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground/60 mb-1">Win rate por FCF Yield % — el factor más predictivo</p>
-                <p className="text-[0.7rem] text-muted-foreground/50 mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
+                <p className="text-mini text-muted-foreground/50 mb-3">El modelo ML detectó FCF Yield como la feature más importante (26.8%). Aquí la evidencia.</p>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={calibData.fcf_yield_buckets} margin={{ left: 8, right: 16 }}>
                     <XAxis dataKey="range" tick={{ fontSize: 10 }} />
@@ -1018,7 +1018,7 @@ export default function Portfolio() {
               <Card key={s.label} className="glass border-border/20">
                 <CardContent className="p-3 text-center">
                   <div className={`text-xl font-extrabold tabular-nums ${s.color}`}>{s.value}</div>
-                  <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">{s.label}</div>
+                  <div className="text-micro text-muted-foreground/60 mt-0.5">{s.label}</div>
                 </CardContent>
               </Card>
             ))}

@@ -44,7 +44,7 @@ function PipelineStatus() {
 
   return (
     <span
-      className="hidden sm:flex items-center gap-1.5 text-[0.78rem] lg:text-[0.86rem] tabular-nums"
+      className="hidden sm:flex items-center gap-1.5 text-apoyo lg:text-cuerpo tabular-nums"
       style={{ color }}
       title={`Pipeline ejecutado: ${status.run_date}`}
     >
@@ -146,7 +146,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
             {mostrarTitulo && (
               <motion.span
                 key={title}
-                className="block text-[0.9rem] lg:text-[1rem] font-medium text-muted-foreground/72 tracking-wide truncate"
+                className="block text-cuerpo lg:text-titulo font-medium text-muted-foreground/72 tracking-wide truncate"
                 initial={reduceMotion ? false : { opacity: 0, y: 6, filter: 'blur(4px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6, filter: 'blur(4px)' }}
@@ -164,12 +164,12 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
         <button
           type="button"
           onClick={onOpenCmd}
-          className="topbar-action hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 hover:border-border transition-colors text-muted-foreground/70 hover:text-foreground text-[0.78rem]"
+          className="topbar-action hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border border-border/50 bg-transparent hover:bg-accent/10 hover:border-border transition-colors text-muted-foreground/70 hover:text-foreground text-apoyo"
           aria-label="Buscar"
         >
           <Search size={12} strokeWidth={1.75} className="text-muted-foreground/60" />
           <span>Buscar</span>
-          <kbd className="hidden lg:inline-flex items-center font-mono text-[0.62rem] px-1 py-0 rounded border border-border/50 bg-muted/20 text-muted-foreground/70 ml-1">⌘K</kbd>
+          <kbd className="hidden lg:inline-flex items-center font-mono text-micro px-1 py-0 rounded border border-border/50 bg-muted/20 text-muted-foreground/70 ml-1">⌘K</kbd>
         </button>
         <button
           type="button"
@@ -184,7 +184,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
         <PipelineStatus />
 
         {/* Date/time */}
-        <span className="hidden md:flex items-center gap-1.5 text-[0.78rem] lg:text-[0.86rem] text-muted-foreground/52 tabular-nums">
+        <span className="hidden md:flex items-center gap-1.5 text-apoyo lg:text-cuerpo text-muted-foreground/52 tabular-nums">
           <Clock size={12} strokeWidth={1.5} />
           {dateStr} · {timeStr}
         </span>
@@ -199,7 +199,7 @@ export default function TopBar({ onMenuClick, onOpenCmd }: Readonly<Props>) {
           {highAlerts > 0 && (
             <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center">
               <span className="absolute inset-0 rounded-full bg-red-500 animate-ping opacity-50" />
-              <span className="relative flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[0.45rem] font-bold text-white leading-none">
+              <span className="relative flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-micro font-bold text-white leading-none">
                 {highAlerts > 9 ? '9+' : highAlerts}
               </span>
             </span>

@@ -63,7 +63,7 @@ export default function AiNarrativeCard({ narrative, label = 'Análisis IA', cla
             estilo, así que en una cabecera junto a texto en versalitas canta
             enseguida: parece pegado, no diseñado. */}
         <Sparkles size={12} strokeWidth={2.25} className="text-indigo-400 shrink-0" />
-        <span className="text-[0.62rem] font-bold text-indigo-400 uppercase tracking-widest">{label}</span>
+        <span className="text-micro font-bold text-indigo-400 uppercase tracking-widest">{label}</span>
       </div>
       {hasStructure ? (
         <div className="px-4 py-3 space-y-2.5">
@@ -74,7 +74,7 @@ export default function AiNarrativeCard({ narrative, label = 'Análisis IA', cla
             if (el.type === 'point') return (
               <div key={i} className="flex gap-2.5 items-start">
                 {el.num != null && (
-                  <span className="flex-shrink-0 w-5 h-5 rounded-md bg-primary/15 text-primary text-[0.6rem] font-bold flex items-center justify-center mt-0.5">
+                  <span className="flex-shrink-0 w-5 h-5 rounded-md bg-primary/15 text-primary text-micro font-bold flex items-center justify-center mt-0.5">
                     {el.num}
                   </span>
                 )}

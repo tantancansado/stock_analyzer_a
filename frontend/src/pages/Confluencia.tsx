@@ -68,7 +68,7 @@ function SignalPill({ label, variant }: { label: string; variant: 'bounce' | 'va
     covering: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30',
   }[variant]
   return (
-    <span className={`inline-flex items-center text-[0.6rem] font-bold px-1.5 py-0.5 rounded border ${cls}`}>
+    <span className={`inline-flex items-center text-micro font-bold px-1.5 py-0.5 rounded border ${cls}`}>
       {label}
     </span>
   )
@@ -246,9 +246,9 @@ export default function Confluencia() {
           { label: 'Value + Flow', value: valueCount + flowCount, sub: 'señales en universo', color: 'text-cyan-400', idx: 3 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-4 stagger-${idx}`}>
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-1 ${color}`}>{value}</div>
-            <div className="text-[0.62rem] text-muted-foreground">{sub}</div>
+            <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
       </div>
@@ -289,7 +289,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
     <div className={`mb-6 ${dim ? 'opacity-60' : ''}`}>
       <div className="flex items-baseline gap-2 mb-2">
         <h3 className="text-sm font-bold">{title}</h3>
-        <span className="text-[0.6rem] text-muted-foreground">{subtitle}</span>
+        <span className="text-micro text-muted-foreground">{subtitle}</span>
       </div>
       {/* Móvil: tarjetas. Las seis columnas (Score, Ticker, Señales, Bounce,
           Value, Flow) no caben, y lo que importa aquí es CUÁNTAS fuentes
@@ -301,7 +301,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
             <div className="flex items-center gap-2.5">
               <ScoreCircle score={t.score} />
               <TickerLogo ticker={t.ticker} size="xs" />
-              <span className="font-mono text-[0.95rem] font-bold text-primary">{t.ticker}</span>
+              <span className="font-mono text-cuerpo font-bold text-primary">{t.ticker}</span>
             </div>
             <div className="mt-2.5 flex flex-wrap gap-1">
               {t.signals.map(sig => {
@@ -351,28 +351,28 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                 </TableCell>
                 <TableCell>
                   {t.bounce ? (
-                    <div className="text-[0.65rem] text-muted-foreground space-y-0.5">
+                    <div className="text-micro text-muted-foreground space-y-0.5">
                       <div>RSI <span className="text-orange-400 font-semibold">{t.bounce.rsi.toFixed(0)}</span></div>
                       <div>conf <span className="font-semibold">{t.bounce.conf}%</span></div>
-                      {t.bounce.tier === 2 && <div className="text-cyan-400 font-bold text-[0.58rem]">VALUE-BACKED</div>}
+                      {t.bounce.tier === 2 && <div className="text-cyan-400 font-bold text-micro">VALUE-BACKED</div>}
                     </div>
                   ) : <span className="text-muted-foreground/30 text-xs">—</span>}
                 </TableCell>
                 <TableCell>
                   {(t.value_us || t.value_eu) ? (
-                    <div className="text-[0.65rem] text-muted-foreground space-y-0.5">
+                    <div className="text-micro text-muted-foreground space-y-0.5">
                       {t.value_us && (
                         <div>
                           <span className="text-cyan-400 font-bold">{t.value_us.score.toFixed(0)}</span>
                           <span className="ml-1 opacity-60">{t.value_us.grade}</span>
-                          <span className="ml-1 text-[0.58rem] text-muted-foreground/50">US</span>
+                          <span className="ml-1 text-micro text-muted-foreground/50">US</span>
                         </div>
                       )}
                       {t.value_eu && (
                         <div>
                           <span className="text-cyan-400 font-bold">{t.value_eu.score.toFixed(0)}</span>
                           <span className="ml-1 opacity-60">{t.value_eu.grade}</span>
-                          <span className="ml-1 text-[0.58rem] text-muted-foreground/50">EU</span>
+                          <span className="ml-1 text-micro text-muted-foreground/50">EU</span>
                         </div>
                       )}
                     </div>
@@ -380,7 +380,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                 </TableCell>
                 <TableCell>
                   {t.flow ? (
-                    <div className="text-[0.65rem] text-muted-foreground space-y-0.5">
+                    <div className="text-micro text-muted-foreground space-y-0.5">
                       <div className="font-semibold">
                         {t.flow.interpretation === 'PUT_COVERING'
                           ? <span className="text-amber-400">Suelo</span>
@@ -389,7 +389,7 @@ function SectionTable({ title, subtitle, rows, dim = false }: {
                       </div>
                       <div>{fmtPremium(t.flow.premium)}</div>
                       {t.flow.drawdown != null && (
-                        <div className="text-[0.58rem] opacity-60">{t.flow.drawdown.toFixed(0)}% vs máx</div>
+                        <div className="text-micro opacity-60">{t.flow.drawdown.toFixed(0)}% vs máx</div>
                       )}
                     </div>
                   ) : <span className="text-muted-foreground/30 text-xs">—</span>}

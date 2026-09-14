@@ -37,7 +37,7 @@ function EntrySetupsFreshness() {
 
   if (allOk) {
     return (
-      <div className="inline-flex items-center gap-2 text-[0.7rem] font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80">
+      <div className="inline-flex items-center gap-2 text-mini font-medium mb-4 px-3 py-1.5 rounded-lg border bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80">
         <CheckCircle2 size={16} className="text-emerald-400" />
         <span className="font-semibold text-emerald-400">Todos los módulos actualizados hoy</span>
       </div>
@@ -65,7 +65,7 @@ function EntrySetupsFreshness() {
         {anyStale && (
           <a href={ACTIONS_URL} target="_blank" rel="noopener noreferrer"
             onClick={e => e.stopPropagation()}
-            className="shrink-0 text-[0.65rem] font-bold px-2.5 py-1 rounded-lg border bg-amber-500/10 border-amber-500/25 text-amber-400 hover:bg-amber-500/20 transition-colors">
+            className="shrink-0 text-micro font-bold px-2.5 py-1 rounded-lg border bg-amber-500/10 border-amber-500/25 text-amber-400 hover:bg-amber-500/20 transition-colors">
             Ver pipeline →
           </a>
         )}
@@ -74,7 +74,7 @@ function EntrySetupsFreshness() {
       <div className="mt-3">
         <div className="flex flex-wrap gap-2">
           {statuses.map(s => (
-            <div key={s.id} className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[0.68rem] font-medium ${
+            <div key={s.id} className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-micro font-medium ${
               s.isOk && s.isToday
                 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
                 : s.isOk

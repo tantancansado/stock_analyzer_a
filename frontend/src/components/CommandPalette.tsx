@@ -122,7 +122,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
 
           {navItems.length > 0 && (
             <div>
-              <div className="px-2 py-1.5 text-[0.65rem] font-semibold uppercase text-muted-foreground">Navegación</div>
+              <div className="px-2 py-1.5 text-micro font-semibold uppercase text-muted-foreground">Navegación</div>
               {navItems.map((item, i) => {
                 const idx = i
                 return (

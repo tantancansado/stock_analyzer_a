@@ -73,7 +73,7 @@ function SignalBadge({ signal }: { signal: string }) {
     'bg-yellow-500/15 text-yellow-400 border-yellow-500/30'
   const Icono = signal === 'BULLISH' ? TrendingUp : signal === 'BEARISH' ? TrendingDown : Minus
   return (
-    <span className={`inline-flex items-center gap-1 text-[0.68rem] font-bold px-1.5 py-0.5 rounded border ${cls}`}>
+    <span className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border ${cls}`}>
       <Icono size={12} strokeWidth={2.5} className="shrink-0" />
       {signal}
     </span>
@@ -88,7 +88,7 @@ function CallPutBar({ callPct }: { callPct: number }) {
         <div className="bg-emerald-500/70 h-full" style={{ width: `${callPct}%` }} />
         <div className="bg-red-500/70 h-full" style={{ width: `${putPct}%` }} />
       </div>
-      <span className="text-[0.6rem] text-muted-foreground tabular-nums w-16 text-right">
+      <span className="text-micro text-muted-foreground tabular-nums w-16 text-right">
         <span className="text-emerald-400/80">{callPct.toFixed(0)}C</span>
         {' / '}
         <span className="text-red-400/80">{putPct.toFixed(0)}P</span>
@@ -117,11 +117,11 @@ function InterpretationBadge({ interp, reason, drawdown }: {
 
   return (
     <div className="group relative inline-flex">
-      <span className={`inline-flex items-center gap-1 text-[0.62rem] font-bold px-1.5 py-0.5 rounded border cursor-help ${c.cls}`}>
+      <span className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border cursor-help ${c.cls}`}>
         <c.icon size={12} strokeWidth={2.25} className="shrink-0" /> {c.label}{drawdownStr}
       </span>
       {reason && (
-        <div className="absolute bottom-full left-0 mb-1.5 z-50 w-64 p-2.5 rounded-lg bg-popover border border-border/60 shadow-xl text-[0.65rem] text-muted-foreground leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        <div className="absolute bottom-full left-0 mb-1.5 z-50 w-64 p-2.5 rounded-lg bg-popover border border-border/60 shadow-xl text-micro text-muted-foreground leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           {reason}
         </div>
       )}
@@ -132,7 +132,7 @@ function InterpretationBadge({ interp, reason, drawdown }: {
 function ContractRow({ c }: { c: TopContract }) {
   const isCall = c.side === 'CALL'
   return (
-    <div className={`flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[0.62rem] py-0.5 ${isCall ? 'text-emerald-400/80' : 'text-red-400/80'}`}>
+    <div className={`flex flex-wrap items-center gap-x-3 gap-y-0.5 text-micro py-0.5 ${isCall ? 'text-emerald-400/80' : 'text-red-400/80'}`}>
       <span className="font-bold w-8">{c.side}</span>
       <span className="font-mono">${c.strike}</span>
       <span className="text-muted-foreground">{c.expiry} ({c.dte}d)</span>
@@ -218,9 +218,9 @@ export default function OptionsFlow() {
           { label: 'Premium Total', value: fmtPremium(totalPremium), sub: `${raw?.unusual_count ?? 0} con bloque >$100K`, idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
+            <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
       </div>
@@ -231,7 +231,7 @@ export default function OptionsFlow() {
           <button
             key={f}
             onClick={() => setSignalFilter(f)}
-            className={`text-[0.68rem] px-2.5 py-0.5 rounded border transition-colors ${
+            className={`text-micro px-2.5 py-0.5 rounded border transition-colors ${
               signalFilter === f
                 ? f === 'BULLISH' ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-400'
                   : f === 'BEARISH' ? 'border-red-500/60 bg-red-500/15 text-red-400'
@@ -244,7 +244,7 @@ export default function OptionsFlow() {
         ))}
         <button
           onClick={() => setOnlyLarge(v => !v)}
-          className={`text-[0.68rem] px-2.5 py-0.5 rounded border transition-colors ${
+          className={`text-micro px-2.5 py-0.5 rounded border transition-colors ${
             onlyLarge ? 'border-yellow-500/60 bg-yellow-500/10 text-yellow-400' : 'border-border/40 text-muted-foreground hover:border-border/70'
           }`}
         >
@@ -311,7 +311,7 @@ export default function OptionsFlow() {
                     <TableCell>
                       <div className="flex items-center gap-1.5">
                         <TickerLogo ticker={r.ticker} size="xs" />
-                        <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{r.ticker}</span>
+                        <span className="font-mono font-bold text-primary text-apoyo tracking-wide">{r.ticker}</span>
                         {r.has_large_premium && <Zap size={12} strokeWidth={2.5} className="text-amber-400 shrink-0" />}
                       </div>
                     </TableCell>
@@ -333,10 +333,10 @@ export default function OptionsFlow() {
                         <div className="h-1.5 w-16 rounded-full bg-muted/20 overflow-clip">
                           <div className="h-full bg-primary/60 rounded-full" style={{ width: `${r.unusual_score}%` }} />
                         </div>
-                        <span className="text-[0.65rem] tabular-nums text-muted-foreground">{r.unusual_score}</span>
+                        <span className="text-micro tabular-nums text-muted-foreground">{r.unusual_score}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-[0.65rem]">
+                    <TableCell className="text-muted-foreground text-micro">
                       {r.top_contracts.slice(0, 1).map((c, i) => (
                         <span key={i} className={c.side === 'CALL' ? 'text-emerald-400/70' : 'text-red-400/70'}>
                           {c.side} ${c.strike} {c.expiry} {fmtPremium(c.premium_usd)}
@@ -388,7 +388,7 @@ export default function OptionsFlow() {
             <div className="flex items-center justify-between mb-3">
               <div>
                 <h2 className="flex items-center gap-2 text-base font-bold"><Brain size={16} strokeWidth={1.75} className="shrink-0" />Calidad IA — TIER 1 &amp; 2</h2>
-                <p className="text-[0.72rem] text-muted-foreground mt-0.5">
+                <p className="text-mini text-muted-foreground mt-0.5">
                   Flujo filtrado por cerebro: contratos con volumen institucional confirmado y baja probabilidad de ruido.
                   T1 (ruido filtrado) = {qualityRaw.noise_filtered} descartados.
                 </p>
@@ -410,19 +410,19 @@ export default function OptionsFlow() {
                 <TableBody>
                   {tier12.map(s => (
                     <TableRow key={s.ticker} className="border-border/30 hover:bg-muted/5">
-                      <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
+                      <TableCell className="font-mono font-bold text-primary text-apoyo">
                         <Link to={`/search?q=${s.ticker}`} className="hover:underline">{s.ticker}</Link>
                       </TableCell>
                       <TableCell>
-                        <span className={`text-[0.55rem] font-bold px-1.5 py-0.5 rounded border ${TIER_STYLE[s.tier] ?? ''}`}>{s.tier}</span>
+                        <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${TIER_STYLE[s.tier] ?? ''}`}>{s.tier}</span>
                       </TableCell>
-                      <TableCell className="text-[0.75rem] text-muted-foreground">{s.signal_type}</TableCell>
-                      <TableCell className="text-right tabular-nums text-[0.8rem] font-semibold text-primary">{s.quality_score}</TableCell>
-                      <TableCell className="text-right tabular-nums text-[0.75rem]">
+                      <TableCell className="text-mini text-muted-foreground">{s.signal_type}</TableCell>
+                      <TableCell className="text-right tabular-nums text-apoyo font-semibold text-primary">{s.quality_score}</TableCell>
+                      <TableCell className="text-right tabular-nums text-mini">
                         ${(s.premium_usd / 1000).toFixed(0)}K
                       </TableCell>
-                      <TableCell className="text-right tabular-nums text-[0.75rem]">{s.vol_oi_ratio?.toFixed(1)}x</TableCell>
-                      <TableCell className="text-[0.65rem] text-muted-foreground max-w-[220px]">
+                      <TableCell className="text-right tabular-nums text-mini">{s.vol_oi_ratio?.toFixed(1)}x</TableCell>
+                      <TableCell className="text-micro text-muted-foreground max-w-[220px]">
                         {(s.flags ?? []).slice(0, 2).join(' · ')}
                       </TableCell>
                     </TableRow>

@@ -33,7 +33,7 @@ export default function OeAiBadge({ verdict, adjustment, compact }: Props) {
     : '0'
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
+      className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
       title={`Owner Earnings AI: ${verdict}`}
     >
       <Icon size={12} strokeWidth={2.5} className="shrink-0" />

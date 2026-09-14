@@ -169,7 +169,7 @@ function CatalystTag({ c }: { c: Catalyst }) {
   const cls = COLOR_MAP[c.color] ?? 'bg-muted/20 text-muted-foreground border-border/30'
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
+      className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${cls}`}
       title={c.description}
     >
       <c.icon size={12} strokeWidth={2} className="shrink-0" />
@@ -254,17 +254,17 @@ export default function CatalystScreener() {
               }`}
             >
               <div className="flex items-start justify-between gap-2 mb-1.5">
-                <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border tracking-wide ${s.badgeColor}`}>
+                <span className={`text-micro font-bold px-1.5 py-0.5 rounded border tracking-wide ${s.badgeColor}`}>
                   <s.badgeIcon size={12} strokeWidth={2} className="mr-1 inline shrink-0 align-[-2px]" />{s.badge}
                 </span>
                 <span className={`text-lg font-bold tabular-nums ${count === 0 ? 'text-muted-foreground/30' : active ? 'text-primary' : 'text-foreground'}`}>
                   {count}
                 </span>
               </div>
-              <p className={`text-[0.78rem] font-semibold leading-tight ${active ? 'text-foreground' : 'text-muted-foreground'}`}>
+              <p className={`text-apoyo font-semibold leading-tight ${active ? 'text-foreground' : 'text-muted-foreground'}`}>
                 {s.label}
               </p>
-              <p className="text-[0.65rem] text-muted-foreground/60 mt-0.5 leading-snug">{s.subtitle}</p>
+              <p className="text-micro text-muted-foreground/60 mt-0.5 leading-snug">{s.subtitle}</p>
             </button>
           )
         })}
@@ -272,11 +272,11 @@ export default function CatalystScreener() {
 
       {/* Active setup: catalyst legend */}
       <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-[0.72rem] text-muted-foreground font-medium uppercase tracking-wider">Filtros activos:</span>
+        <span className="text-mini text-muted-foreground font-medium uppercase tracking-wider">Filtros activos:</span>
         {activeCatalysts.map(c => (
           <div key={c.id} className="flex items-center gap-1.5">
             <CatalystTag c={c} />
-            <span className="text-[0.65rem] text-muted-foreground">
+            <span className="text-micro text-muted-foreground">
               ({catalystCounts[c.id] ?? 0} tickers)
             </span>
           </div>
@@ -339,13 +339,13 @@ export default function CatalystScreener() {
                 const matchedCats = CATALYSTS.filter(c => c.match(d))
                 return (
                   <TableRow key={d.ticker} className="border-border/30">
-                    <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
+                    <TableCell className="font-mono font-bold text-primary text-apoyo">
                       <div className="flex items-center gap-2">
                         <TickerLogo ticker={d.ticker} size="sm" />
                         {d.ticker}
                       </div>
                     </TableCell>
-                    <TableCell className="hidden sm:table-cell text-[0.76rem] text-muted-foreground max-w-[160px] truncate">
+                    <TableCell className="hidden sm:table-cell text-mini text-muted-foreground max-w-[160px] truncate">
                       {d.company_name}
                     </TableCell>
                     <TableCell><ScoreBar score={d.value_score} /></TableCell>
@@ -378,7 +378,7 @@ export default function CatalystScreener() {
                         </span>
                       ) : '—'}
                     </TableCell>
-                    <TableCell className="hidden lg:table-cell tabular-nums text-[0.76rem]">
+                    <TableCell className="hidden lg:table-cell tabular-nums text-mini">
                       {d.days_to_earnings != null ? (
                         <span className={
                           d.days_to_earnings <= 7 ? 'text-red-400' :

@@ -91,9 +91,9 @@ function StatCard({
   )
   return (
     <Card className="glass p-5">
-      <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
+      <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
       <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color}`}>{displayValue}</div>
-      {sub && <div className="text-[0.78rem] text-muted-foreground">{sub}</div>}
+      {sub && <div className="text-apoyo text-muted-foreground">{sub}</div>}
     </Card>
   )
 }
@@ -113,7 +113,7 @@ function RegimeCard({ label, data, loading }: { label: string; data: Record<stri
 
   return (
     <Card className={`glass p-5 border ${s.bg}`}>
-      <div className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
+      <div className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">{label}</div>
       <div className={`flex items-center gap-2 ${s.text} mb-2`}>
         {s.icon}
         <span className="text-xl font-extrabold tracking-tight">{s.label}</span>
@@ -131,7 +131,7 @@ function RegimeCard({ label, data, loading }: { label: string; data: Record<stri
           side="bottom"
         />
       </div>
-      <div className="text-[0.78rem] text-muted-foreground space-y-0.5">
+      <div className="text-apoyo text-muted-foreground space-y-0.5">
         {spy != null && <div>Precio: <span className="text-foreground">${Number(spy).toFixed(2)}</span></div>}
         {vs200 != null && (
           <div>vs 200MA: <span className={Number(vs200) >= 0 ? 'text-emerald-400' : 'text-red-400'}>{pct(Number(vs200))}</span></div>
@@ -151,7 +151,7 @@ function upsideColor(upside: number) {
 }
 
 function UpsideCell({ upside }: { upside: number }) {
-  return <div className={`text-[0.74rem] tabular-nums ${upsideColor(upside)}`}>{pct(upside)}</div>
+  return <div className={`text-mini tabular-nums ${upsideColor(upside)}`}>{pct(upside)}</div>
 }
 
 function TopPicksTable({
@@ -163,8 +163,8 @@ function TopPicksTable({
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">{title}</span>
-        <Link to={to} className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
+        <span className="text-apoyo font-bold uppercase tracking-[0.14em] text-muted-foreground">{title}</span>
+        <Link to={to} className="flex items-center gap-1 text-mini text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={12} />
         </Link>
       </div>
@@ -188,7 +188,7 @@ function TopPicksTable({
               <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
                 <TickerLogo ticker={r.ticker} size="md" className="flex-shrink-0" />
                 <div className="w-20 shrink-0">
-                  <div className="font-mono font-bold text-primary text-[0.92rem] tracking-wide truncate">{r.ticker}</div>
+                  <div className="font-mono font-bold text-primary text-cuerpo tracking-wide truncate">{r.ticker}</div>
                   <div className="flex flex-wrap items-center gap-1 mt-0.5">
                     {r.conviction_grade && (
                       <GradeBadge grade={r.conviction_grade} score={r.conviction_score} />
@@ -197,9 +197,9 @@ function TopPicksTable({
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-[0.82rem] text-muted-foreground truncate">{r.company_name || r.sector || ''}</div>
+                  <div className="text-apoyo text-muted-foreground truncate">{r.company_name || r.sector || ''}</div>
                   {r.sector && r.company_name && (
-                    <div className="text-[0.72rem] text-muted-foreground/50 truncate">{r.sector}</div>
+                    <div className="text-mini text-muted-foreground/50 truncate">{r.sector}</div>
                   )}
                 </div>
                 <div className="shrink-0 flex items-center gap-3">
@@ -229,8 +229,8 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">Top Insiders</span>
-        <Link to="/insiders" className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
+        <span className="text-apoyo font-bold uppercase tracking-[0.14em] text-muted-foreground">Top Insiders</span>
+        <Link to="/insiders" className="flex items-center gap-1 text-mini text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={12} />
         </Link>
       </div>
@@ -256,15 +256,15 @@ function InsidersMini({ data, loading }: { data: InsiderData[] | undefined; load
               return (
                 <div key={r.ticker} className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/3 transition-colors">
                   <div className="w-[3.5rem] shrink-0">
-                    <div className="font-mono font-bold text-primary text-[0.92rem]">{r.ticker}</div>
-                    <div className="text-[0.68rem] text-muted-foreground/50">{isEU ? 'EU' : 'US'}</div>
+                    <div className="font-mono font-bold text-primary text-cuerpo">{r.ticker}</div>
+                    <div className="text-micro text-muted-foreground/50">{isEU ? 'EU' : 'US'}</div>
                   </div>
-                  <div className="flex-1 min-w-0 text-[0.82rem] text-muted-foreground truncate">
+                  <div className="flex-1 min-w-0 text-apoyo text-muted-foreground truncate">
                     {String(name ?? r.ticker)}
                   </div>
                   <div className="shrink-0 text-right">
-                    <div className="text-[0.82rem] text-foreground">{r.purchase_count}×</div>
-                    <div className="text-[0.72rem] text-muted-foreground/60">{r.unique_insiders} dir.</div>
+                    <div className="text-apoyo text-foreground">{r.purchase_count}×</div>
+                    <div className="text-mini text-muted-foreground/60">{r.unique_insiders} dir.</div>
                   </div>
                 </div>
               )
@@ -285,8 +285,8 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
   return (
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
-        <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-muted-foreground">Options Flow</span>
-        <Link to="/options" className="flex items-center gap-1 text-[0.76rem] text-muted-foreground hover:text-foreground transition-colors">
+        <span className="text-apoyo font-bold uppercase tracking-[0.14em] text-muted-foreground">Options Flow</span>
+        <Link to="/options" className="flex items-center gap-1 text-mini text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={12} />
         </Link>
       </div>
@@ -334,17 +334,17 @@ function OptionsFlowMini({ data, loading }: { data: unknown; loading: boolean })
               {/* Legend */}
               <div className="flex-1 space-y-2">
                 <div className="flex justify-between items-center bg-emerald-500/10 border border-emerald-500/20 rounded px-2 py-1.5">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-emerald-400">Bullish</span>
+                  <span className="text-micro font-bold uppercase tracking-widest text-emerald-400">Bullish</span>
                   <span className="font-mono font-bold text-sm text-emerald-400">{bullish}</span>
                 </div>
                 <div className="flex justify-between items-center bg-red-500/10 border border-red-500/20 rounded px-2 py-1.5">
-                  <span className="text-[0.65rem] font-bold uppercase tracking-widest text-red-400">Bearish</span>
+                  <span className="text-micro font-bold uppercase tracking-widest text-red-400">Bearish</span>
                   <span className="font-mono font-bold text-sm text-red-400">{bearish}</span>
                 </div>
               </div>
             </div>
             {total > 0 && (
-              <div className="text-[0.7rem] font-medium text-muted-foreground/60 mt-3 text-center uppercase tracking-widest">
+              <div className="text-mini font-medium text-muted-foreground/60 mt-3 text-center uppercase tracking-widest">
                 Balance: <span className="text-foreground/80">{Math.round((bullish / total) * 100)}% Alcista</span>
               </div>
             )}
@@ -385,7 +385,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
         <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
           <RadarIcon size={12} /> Macro Radar
         </span>
-        <Link to="/macro-radar" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
+        <Link to="/macro-radar" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
           Ver detalle <ChevronRight size={12} />
         </Link>
       </div>
@@ -407,7 +407,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
                   {macro.regime?.name}
                 </span>
               </div>
-              <span className="text-[0.65rem] text-muted-foreground tabular-nums">
+              <span className="text-micro text-muted-foreground tabular-nums">
                 {macro.composite_score != null && macro.composite_score > 0 ? '+' : ''}{fmt(macro.composite_score)} pts
               </span>
             </div>
@@ -438,7 +438,7 @@ function MacroRadarMini({ data, loading }: { data: unknown; loading: boolean }) 
                 .slice(0, 2)
                 .map(({ k, s }) => (
                   <div key={k} className="flex-1 bg-white/[0.02] border border-border/20 rounded-md p-1.5">
-                    <div className="text-[0.55rem] text-muted-foreground uppercase tracking-wider mb-0.5 truncate">{s.label}</div>
+                    <div className="text-micro text-muted-foreground uppercase tracking-wider mb-0.5 truncate">{s.label}</div>
                     <div className={`text-xs font-bold tabular-nums ${s.score < -1 ? 'text-red-400' : s.score < 0 ? 'text-orange-400' : 'text-emerald-400'}`}>
                       {s.score > 0 ? '+' : ''}{s.score.toFixed(1)}
                     </div>
@@ -461,7 +461,7 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
     <div>
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Mean Reversion</span>
-        <Link to="/mean-reversion" className="flex items-center gap-1 text-[0.65rem] text-muted-foreground hover:text-foreground transition-colors">
+        <Link to="/mean-reversion" className="flex items-center gap-1 text-micro text-muted-foreground hover:text-foreground transition-colors">
           Ver todos <ChevronRight size={12} />
         </Link>
       </div>
@@ -474,14 +474,14 @@ function MeanReversionMini({ data, loading }: { data: unknown; loading: boolean 
         ) : (
           <div className="flex items-center gap-4">
             <div>
-              <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Setups</div>
+              <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Setups</div>
               <div className="text-2xl font-extrabold tabular-nums">{total || '—'}</div>
             </div>
             {high > 0 && (
               <>
                 <div className="h-10 w-px bg-border/50" />
                 <div>
-                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">Alta Calidad</div>
+                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">Alta Calidad</div>
                   <div className="text-2xl font-extrabold text-teal-400 tabular-nums">{high}</div>
                 </div>
               </>
@@ -535,7 +535,7 @@ function LiveFreshness({ lastUpdate }: { lastUpdate: Date | null }) {
 
   const freshness = secsAgo < 90 ? 'text-emerald-400' : secsAgo < 180 ? 'text-amber-400' : 'text-muted-foreground/40'
   return (
-    <div className={`ml-auto px-3 text-[0.68rem] tabular-nums shrink-0 ${freshness}`}>
+    <div className={`ml-auto px-3 text-micro tabular-nums shrink-0 ${freshness}`}>
       {secsAgo < 5 ? 'ahora' : `${secsAgo}s`}
     </div>
   )
@@ -565,10 +565,10 @@ function LivePriceItem({ id, price }: { id: string; price: { label: string; kind
 
   return (
     <div className="flex items-center gap-1.5 px-2.5 border-r border-primary/10 last:border-0">
-      <span className="text-[0.72rem] text-muted-foreground/60 hidden sm:inline">{price.label}</span>
-      <span className={`font-mono font-bold text-[0.86rem] tabular-nums ${chgColor}`}>{fmtVal()}</span>
+      <span className="text-mini text-muted-foreground/60 hidden sm:inline">{price.label}</span>
+      <span className={`font-mono font-bold text-cuerpo tabular-nums ${chgColor}`}>{fmtVal()}</span>
       {price.change_pct != null && (
-        <span className={`text-[0.72rem] tabular-nums ${chgColor}`}>
+        <span className={`text-mini tabular-nums ${chgColor}`}>
           {chg >= 0 ? '+' : ''}{chg.toFixed(2)}%
         </span>
       )}
@@ -601,15 +601,15 @@ function LivePricesBar() {
         {/* Status pill */}
         <div className="flex items-center gap-1.5 px-3 py-2 border-r border-primary/10 shrink-0">
           <span className={`w-1.5 h-1.5 rounded-full ${isOpen ? 'bg-emerald-400 animate-pulse' : 'bg-muted-foreground/30'}`} />
-          <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/60">
+          <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground/60">
             {isOpen ? 'Live' : 'Closed'}
           </span>
         </div>
 
         {/* Market Heat */}
         <div className="flex items-center gap-2 px-3 border-r border-primary/10 shrink-0">
-          <div className="text-[0.68rem] font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Heat</div>
-          <div className={cn("px-1.5 py-0.5 rounded text-[0.6rem] font-bold tracking-widest", heatColor, heatBg)}>
+          <div className="text-micro font-bold uppercase tracking-[0.1em] text-muted-foreground/60">Heat</div>
+          <div className={cn("px-1.5 py-0.5 rounded text-micro font-bold tracking-widest", heatColor, heatBg)}>
             {heatLevel}
           </div>
         </div>
@@ -651,29 +651,29 @@ function ActionRow({ action, idx }: { action: DailyPlanAction; idx: number }) {
   const badgeStyle = ACCION_STYLES[accionKey] ?? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
   return (
     <div className="flex items-start gap-3 py-2.5 border-b border-border/15 last:border-0">
-      <div className="shrink-0 w-5 h-5 rounded-full bg-muted/20 flex items-center justify-center text-[0.68rem] font-bold text-muted-foreground mt-0.5">
+      <div className="shrink-0 w-5 h-5 rounded-full bg-muted/20 flex items-center justify-center text-micro font-bold text-muted-foreground mt-0.5">
         {idx + 1}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1 flex-wrap">
-          <span className={`text-[0.7rem] font-bold px-1.5 py-0.5 rounded border ${badgeStyle}`}>
+          <span className={`text-mini font-bold px-1.5 py-0.5 rounded border ${badgeStyle}`}>
             {action.accion}
           </span>
-          <span className="font-mono font-bold text-primary text-[0.94rem] tracking-wide">{action.instrumento}</span>
+          <span className="font-mono font-bold text-primary text-cuerpo tracking-wide">{action.instrumento}</span>
           {action.size_hint && (
-            <span className="text-[0.68rem] px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30">
+            <span className="text-micro px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30">
               {action.size_hint}
             </span>
           )}
         </div>
-        <div className="text-[0.84rem] text-foreground/80 mb-0.5">{action.razon}</div>
+        <div className="text-cuerpo text-foreground/80 mb-0.5">{action.razon}</div>
         {action.catalizador && (
-          <div className="text-[0.76rem] text-muted-foreground/70">
+          <div className="text-mini text-muted-foreground/70">
             <span className="text-muted-foreground/50">Catalizador:</span> {action.catalizador}
           </div>
         )}
         {action.invalidacion && (
-          <div className="text-[0.72rem] text-muted-foreground/50 mt-0.5">
+          <div className="text-mini text-muted-foreground/50 mt-0.5">
             <span className="text-red-400/50">Invalida si:</span> {action.invalidacion}
           </div>
         )}
@@ -686,26 +686,26 @@ function MacroPlayRow({ play }: { play: MacroPlay }) {
   return (
     <div className="flex items-start gap-3 py-2 border-b border-border/10 last:border-0">
       <div className="shrink-0 mt-0.5">
-        <div className="font-mono font-bold text-[0.9rem] text-primary">{play.instrument}</div>
+        <div className="font-mono font-bold text-cuerpo text-primary">{play.instrument}</div>
         {play.direction && (
-          <div className="text-[0.72rem] text-muted-foreground/60">{play.direction}</div>
+          <div className="text-mini text-muted-foreground/60">{play.direction}</div>
         )}
       </div>
       <div className="flex-1 min-w-0">
-        <div className="text-[0.82rem] text-foreground/80">{play.thesis}</div>
-        <div className="text-[0.72rem] text-muted-foreground/50 mt-0.5">{play.timeframe} · {play.risk}</div>
+        <div className="text-apoyo text-foreground/80">{play.thesis}</div>
+        <div className="text-mini text-muted-foreground/50 mt-0.5">{play.timeframe} · {play.risk}</div>
         {play.eu_alternative && (
           <div className="mt-1 flex items-center gap-1">
-            <span className="text-[0.64rem] font-bold uppercase tracking-wide text-blue-400/70 border border-blue-400/30 px-1 py-px rounded">EU</span>
+            <span className="text-micro font-bold uppercase tracking-wide text-blue-400/70 border border-blue-400/30 px-1 py-px rounded">EU</span>
             {play.eu_alternative.ticker ? (
-              <span className="text-[0.72rem] font-mono text-blue-300/80">{play.eu_alternative.ticker}</span>
+              <span className="text-mini font-mono text-blue-300/80">{play.eu_alternative.ticker}</span>
             ) : null}
-            <span className="text-[0.68rem] text-muted-foreground/40 truncate">{play.eu_alternative.available}</span>
+            <span className="text-micro text-muted-foreground/40 truncate">{play.eu_alternative.available}</span>
           </div>
         )}
       </div>
       <div className="shrink-0 text-right">
-        <div className="text-[0.82rem] font-bold tabular-nums text-foreground">{play.score}</div>
+        <div className="text-apoyo font-bold tabular-nums text-foreground">{play.score}</div>
         <div className="w-10 h-1 rounded-full bg-muted/20 mt-1 overflow-hidden">
           <div
             className={`h-full rounded-full ${play.score >= 80 ? 'bg-emerald-500' : play.score >= 65 ? 'bg-amber-500' : 'bg-blue-500'}`}
@@ -749,21 +749,21 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       <div className="flex items-start justify-between gap-3 mb-4 flex-wrap">
         <div className="flex items-center gap-2.5">
           <Target size={16} className="text-primary/70" />
-          <span className="text-[0.8rem] font-bold uppercase tracking-[0.16em] text-primary/70">
+          <span className="text-apoyo font-bold uppercase tracking-[0.16em] text-primary/70">
             Plan del Día — Cerebro IA
           </span>
-          <span className="text-[0.72rem] text-muted-foreground/50">{data.generated_at}</span>
+          <span className="text-mini text-muted-foreground/50">{data.generated_at}</span>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {data.ai_powered && (
-            <span className="flex items-center gap-1 text-[0.66rem] font-bold px-1.5 py-0.5 rounded border bg-purple-500/15 text-purple-300 border-purple-500/30">
+            <span className="flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded border bg-purple-500/15 text-purple-300 border-purple-500/30">
               <Sparkles size={12} /> AI
             </span>
           )}
-          <span className="text-[0.7rem] px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30 tabular-nums">
+          <span className="text-mini px-1.5 py-0.5 rounded bg-muted/20 text-muted-foreground border border-border/30 tabular-nums">
             Confianza {data.confianza}%
           </span>
-          <span className={`text-[0.8rem] font-extrabold px-2.5 py-1 rounded border ${ss.badge}`}>
+          <span className={`text-apoyo font-extrabold px-2.5 py-1 rounded border ${ss.badge}`}>
             {data.sesgo}
           </span>
         </div>
@@ -776,7 +776,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
       {/* Narrativa */}
       {data.narrativa && (
-        <div className="text-[0.84rem] text-muted-foreground/80 mb-4 leading-relaxed">{data.narrativa}</div>
+        <div className="text-cuerpo text-muted-foreground/80 mb-4 leading-relaxed">{data.narrativa}</div>
       )}
 
       <div className="h-px bg-border/20 mb-4" />
@@ -784,7 +784,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Acciones Inmediatas */}
       {(data.acciones_inmediatas?.length ?? 0) > 0 && (
         <div className="mb-4">
-          <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+          <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
             Acciones Inmediatas
           </div>
           <div>
@@ -800,7 +800,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
         <div className="mb-4">
           <button
             onClick={() => setShowMacroPlays(prev => !prev)}
-            className="flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2 hover:text-foreground transition-colors w-full text-left"
+            className="flex items-center gap-2 text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2 hover:text-foreground transition-colors w-full text-left"
           >
             Macro Plays ({data.macro_plays.length})
             {showMacroPlays ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
@@ -824,11 +824,11 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       <div className="flex gap-4 mb-4 flex-wrap">
         {(data.value_en_entorno?.length ?? 0) > 0 && (
           <div className="flex-1 min-w-0">
-            <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+            <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
               VALUE en este entorno
             </div>
             {data.value_en_entorno_razon && (
-              <div className="text-[0.74rem] text-muted-foreground/60 mb-2">{data.value_en_entorno_razon}</div>
+              <div className="text-mini text-muted-foreground/60 mb-2">{data.value_en_entorno_razon}</div>
             )}
             <div className="flex flex-wrap gap-1.5">
               {data.value_en_entorno.map(v => (
@@ -837,13 +837,13 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
                   to={`/search?q=${v.ticker}`}
                   className="flex items-center gap-1.5 px-2 py-1 rounded border border-border/30 bg-muted/10 hover:bg-muted/20 transition-colors"
                 >
-                  <span className="font-mono font-bold text-primary text-[0.9rem]">{v.ticker}</span>
+                  <span className="font-mono font-bold text-primary text-cuerpo">{v.ticker}</span>
                   {v.grade && (
-                    <span className="text-[0.64rem] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+                    <span className="text-micro font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
                       {v.grade}
                     </span>
                   )}
-                  <span className="text-[0.72rem] text-muted-foreground/60">{v.score}pts</span>
+                  <span className="text-mini text-muted-foreground/60">{v.score}pts</span>
                 </Link>
               ))}
             </div>
@@ -852,7 +852,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
 
         {(data.evitar?.length ?? 0) > 0 && (
           <div className="shrink-0">
-            <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+            <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
               Evitar
             </div>
             <div className="flex flex-wrap gap-1.5">
@@ -860,7 +860,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
                 <span
                   key={e.ticker}
                   title={e.razon}
-                  className="font-mono font-bold text-[0.86rem] px-2 py-0.5 rounded border bg-red-500/10 text-red-400 border-red-500/25 cursor-help"
+                  className="font-mono font-bold text-cuerpo px-2 py-0.5 rounded border bg-red-500/10 text-red-400 border-red-500/25 cursor-help"
                 >
                   {e.ticker}
                 </span>
@@ -873,12 +873,12 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Agenda */}
       {(data.agenda_semana?.length ?? 0) > 0 && (
         <div className="mb-3">
-          <div className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
+          <div className="text-mini font-bold uppercase tracking-[0.16em] text-muted-foreground mb-2">
             Agenda
           </div>
           <div className="flex flex-wrap gap-2">
             {data.agenda_semana.slice(0, 4).map((ev, i) => (
-              <div key={i} className={`flex items-center gap-1.5 px-2 py-1 rounded border text-[0.76rem] ${
+              <div key={i} className={`flex items-center gap-1.5 px-2 py-1 rounded border text-mini ${
                 ev.impacto === 'ALTO'
                   ? 'border-red-500/25 bg-red-500/8 text-red-300'
                   : ev.impacto === 'MEDIO'
@@ -887,7 +887,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
               }`}>
                 <span className="font-mono text-muted-foreground/60">{ev.fecha}</span>
                 <span className="font-semibold">{ev.evento}</span>
-                <span className="text-[0.64rem] font-bold opacity-70">[{ev.impacto}]</span>
+                <span className="text-micro font-bold opacity-70">[{ev.impacto}]</span>
               </div>
             ))}
           </div>
@@ -897,7 +897,7 @@ function DailyPlanCard({ data, loading }: { data: DailyPlan | null | undefined; 
       {/* Frase del día */}
       {data.frase_del_dia && (
         <div className="pt-2 border-t border-border/15">
-          <p className="text-[0.8rem] italic text-muted-foreground/60">{data.frase_del_dia}</p>
+          <p className="text-apoyo italic text-muted-foreground/60">{data.frase_del_dia}</p>
         </div>
       )}
     </Card>
@@ -922,12 +922,12 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
             Noticias de Cartera
           </span>
           {tickers.length > 0 && (
-            <span className="text-[0.6rem] text-muted-foreground/40 ml-1">
+            <span className="text-micro text-muted-foreground/40 ml-1">
               {tickers.join(' · ')}
             </span>
           )}
           {scanDate && (
-            <span className="ml-auto text-[0.58rem] text-muted-foreground/30">
+            <span className="ml-auto text-micro text-muted-foreground/30">
               {scanDate} {scanTime}
             </span>
           )}
@@ -941,7 +941,7 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
           <div className="text-center py-4">
             <p className="text-xs text-muted-foreground/40">Sin noticias relevantes en las últimas 48h</p>
             {tickers.length === 0 && (
-              <p className="text-[0.65rem] text-muted-foreground/30 mt-1">
+              <p className="text-micro text-muted-foreground/30 mt-1">
                 Edita <code className="font-mono">docs/portfolio_watch.json</code> con tus tickers
               </p>
             )}
@@ -960,15 +960,15 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
                   }`}
                 >
                   <div className="flex items-start gap-2">
-                    <span className="text-[0.7rem] mt-px shrink-0">
+                    <span className="text-mini mt-px shrink-0">
                       {isHigh ? <Circle size={10} strokeWidth={3} className="text-red-400" /> : <Pin size={12} strokeWidth={2.25} className="text-muted-foreground" />}
                     </span>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className={`text-[0.6rem] font-black font-mono ${isHigh ? 'text-red-400' : 'text-primary'}`}>
+                        <span className={`text-micro font-black font-mono ${isHigh ? 'text-red-400' : 'text-primary'}`}>
                           {item.ticker}
                         </span>
-                        <span className="text-[0.58rem] text-muted-foreground/40">
+                        <span className="text-micro text-muted-foreground/40">
                           {item.source}{item.time_ago ? ` · ${item.time_ago}` : ''}
                         </span>
                       </div>
@@ -977,12 +977,12 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
                           href={item.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[0.68rem] text-foreground/85 leading-snug hover:text-primary transition-colors line-clamp-2"
+                          className="text-micro text-foreground/85 leading-snug hover:text-primary transition-colors line-clamp-2"
                         >
                           {item.title}
                         </a>
                       ) : (
-                        <p className="text-[0.68rem] text-foreground/85 leading-snug line-clamp-2">
+                        <p className="text-micro text-foreground/85 leading-snug line-clamp-2">
                           {item.title}
                         </p>
                       )}
@@ -995,10 +995,10 @@ function PortfolioNewsWidget({ data, loading }: { data: any; loading: boolean })
         )}
 
         <div className="mt-3 pt-2 border-t border-border/10 flex justify-between items-center">
-          <span className="text-[0.58rem] text-muted-foreground/30">
+          <span className="text-micro text-muted-foreground/30">
             {data?.alta_count ?? 0} alta · {data?.media_count ?? 0} media
           </span>
-          <Link to="/my-portfolio" className="text-[0.65rem] text-primary/60 hover:text-primary transition-colors">
+          <Link to="/my-portfolio" className="text-micro text-primary/60 hover:text-primary transition-colors">
             Ver cartera →
           </Link>
         </div>
@@ -1147,7 +1147,7 @@ export default function Dashboard() {
       <div className="mb-6 animate-fade-in-up flex items-start justify-between gap-4">
         <div>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-2 gradient-title">Centro de mando</h1>
-          <p className="text-[1rem] text-muted-foreground">
+          <p className="text-titulo text-muted-foreground">
             {activeTab === 'resumen'
               ? 'Resumen ejecutivo · Actualización diaria automática'
               : 'Cerebro · el agente IA te resume lo importante primero'}
@@ -1213,19 +1213,19 @@ export default function Dashboard() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-[0.82rem] font-bold uppercase tracking-[0.14em] text-foreground/80">Cerebro IA</span>
+                  <span className="text-apoyo font-bold uppercase tracking-[0.14em] text-foreground/80">Cerebro IA</span>
                   {!loadingEntry && !loadingConv && (entryCount > 0 || convCount > 0) && (
-                    <span className="text-[0.7rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">
+                    <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">
                       {entryCount > 0 ? `${entryCount} señales` : `${convCount} convergencias`}
                     </span>
                   )}
                   {!loadingAlerts && alertCount > 0 && (
-                    <span className="text-[0.7rem] px-1.5 py-0.5 rounded-full bg-red-500/15 text-red-400 font-bold">
+                    <span className="text-mini px-1.5 py-0.5 rounded-full bg-red-500/15 text-red-400 font-bold">
                       {alertCount} alertas
                     </span>
                   )}
                 </div>
-                <p className="text-[0.82rem] text-muted-foreground/60">
+                <p className="text-apoyo text-muted-foreground/60">
                   Agente IA que analiza convergencia de señales y genera alertas automáticas
                 </p>
               </div>
@@ -1241,10 +1241,10 @@ export default function Dashboard() {
           <div className="flex items-start gap-3 px-4 py-3 rounded-lg border border-amber-500/30 bg-amber-500/8">
             <AlertTriangle size={16} className="text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <span className="text-[0.82rem] font-bold text-amber-400 uppercase tracking-[0.14em]">Earnings próximos</span>
+              <span className="text-apoyo font-bold text-amber-400 uppercase tracking-[0.14em]">Earnings próximos</span>
               <div className="flex flex-wrap gap-1.5 mt-1.5">
                 {earningsWarnings.map(r => (
-                  <span key={r.ticker} className="text-[0.8rem] font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/15">
+                  <span key={r.ticker} className="text-apoyo font-mono font-bold text-amber-300 px-2 py-0.5 rounded bg-amber-500/15">
                     {r.ticker}
                     {r.days_to_earnings != null && r.days_to_earnings <= 7 && (
                       <span className="ml-1 font-normal text-amber-400/70">{r.days_to_earnings}d</span>
@@ -1264,8 +1264,8 @@ export default function Dashboard() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-primary/70">Acciones pendientes · Mi Cartera</span>
-                <span className="text-[0.7rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
+                <span className="text-mini font-bold uppercase tracking-[0.14em] text-primary/70">Acciones pendientes · Mi Cartera</span>
+                <span className="text-mini px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{actionItems.length}</span>
               </div>
               <div className="space-y-1.5">
                 {actionItems.slice(0, 8).map((item, i) => (
@@ -1275,7 +1275,7 @@ export default function Dashboard() {
                     className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/10 border border-border/20 hover:bg-muted/20 hover:border-border/40 transition-colors group"
                   >
                     <span className={item.color}>{item.icon}</span>
-                    <span className="text-[0.86rem] text-foreground/80 flex-1">{item.text}</span>
+                    <span className="text-cuerpo text-foreground/80 flex-1">{item.text}</span>
                     <ChevronRight size={12} className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors" />
                   </Link>
                 ))}
@@ -1290,12 +1290,12 @@ export default function Dashboard() {
         <div className="mb-4 animate-fade-in-up">
           <Link to="/portfolio" className="flex items-center gap-4 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <div className="flex items-center gap-2 min-w-0 flex-1">
-              <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Win Rate 90d</span>
+              <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Win Rate 90d</span>
               <span className={`text-xl font-extrabold tabular-nums ${winRateColor()}`}>
                 {winRateValue.win_rate.toFixed(1)}%
               </span>
-              <span className="text-[0.64rem] font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">horizonte value</span>
-              <span className="text-[0.78rem] text-muted-foreground/50 hidden sm:inline">
+              <span className="text-micro font-bold px-1.5 py-0.5 rounded border bg-primary/10 text-primary border-primary/25">horizonte value</span>
+              <span className="text-apoyo text-muted-foreground/50 hidden sm:inline">
                 {winRateValue.avg_return != null && <>· avg <span className={winRateValue.avg_return >= 0 ? 'text-emerald-400' : 'text-red-400'}>{winRateValue.avg_return >= 0 ? '+' : ''}{winRateValue.avg_return.toFixed(1)}%</span></>}
                 {' '}· {winRateValue.count} señales
               </span>
@@ -1310,7 +1310,7 @@ export default function Dashboard() {
         <div className="mb-4 animate-fade-in-up">
           <Link to="/my-portfolio" className="flex items-center gap-3 glass rounded-xl px-4 py-3 border border-border/30 hover:border-primary/30 transition-colors group">
             <Wallet size={16} strokeWidth={1.75} className="text-muted-foreground/50 shrink-0" />
-            <span className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Mi Cartera</span>
+            <span className="text-micro font-bold uppercase tracking-[0.16em] text-muted-foreground/50 shrink-0">Mi Cartera</span>
             {loadingLivePrices ? (
               <span className="text-xs text-muted-foreground/40">cargando…</span>
             ) : (() => {
@@ -1330,7 +1330,7 @@ export default function Dashboard() {
                   <span className={`text-xs font-semibold tabular-nums hidden sm:inline ${pos ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
                     {pos ? '+' : ''}${pl.toFixed(0)}
                   </span>
-                  <span className="text-[0.78rem] text-muted-foreground/40 hidden md:inline">
+                  <span className="text-apoyo text-muted-foreground/40 hidden md:inline">
                     {myPositions.length} posiciones · ${totalValue.toFixed(0)}
                   </span>
                 </div>
@@ -1344,7 +1344,7 @@ export default function Dashboard() {
       {/* Toggle: Ver datos de mercado */}
       <button
         onClick={() => setShowDetails(d => !d)}
-        className="w-full flex items-center justify-center gap-2 mb-5 py-3 rounded-lg border border-border bg-muted/25 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors text-[0.76rem] font-bold uppercase tracking-[0.16em]"
+        className="w-full flex items-center justify-center gap-2 mb-5 py-3 rounded-lg border border-border bg-muted/25 text-muted-foreground hover:text-foreground hover:bg-muted/40 transition-colors text-mini font-bold uppercase tracking-[0.16em]"
       >
         <ChevronDown size={12} className={`collapse-chevron ${showDetails ? 'open' : ''}`} />
         {showDetails ? 'Ocultar datos' : 'Ver datos de mercado'}
@@ -1410,8 +1410,8 @@ export default function Dashboard() {
               <div className="glass rounded-2xl overflow-clip animate-fade-in-up transition-all duration-200 group-hover:bg-emerald-500/6">
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-[0.68rem] font-bold tracking-[0.18em] text-emerald-400/60 uppercase">Setup del día</span>
-                    <span className="inline-flex items-center gap-1 text-[0.68rem] font-bold text-emerald-400/80 tracking-wide">
+                    <span className="text-micro font-bold tracking-[0.18em] text-emerald-400/60 uppercase">Setup del día</span>
+                    <span className="inline-flex items-center gap-1 text-micro font-bold text-emerald-400/80 tracking-wide">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       LISTO
                     </span>
@@ -1419,30 +1419,30 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0">
                       <div className="text-3xl font-black tracking-tight text-foreground group-hover:text-emerald-400 transition-colors">{bestPick.ticker}</div>
-                      <div className="text-[0.9rem] text-muted-foreground/70 mt-0.5 truncate">{bestPick.company_name}</div>
+                      <div className="text-cuerpo text-muted-foreground/70 mt-0.5 truncate">{bestPick.company_name}</div>
                       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
                         {bestPick.analyst_upside_pct != null && (
                           <div>
-                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">Upside</div>
+                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">Upside</div>
                             <div className="text-sm font-bold text-emerald-400">+{bestPick.analyst_upside_pct.toFixed(0)}%</div>
                           </div>
                         )}
                         {bestPick.fcf_yield_pct != null && (
                           <div>
-                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">FCF Yield</div>
+                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">FCF Yield</div>
                             <div className="text-sm font-semibold text-foreground/80">{bestPick.fcf_yield_pct.toFixed(1)}%</div>
                           </div>
                         )}
                         {bestPick.risk_reward_ratio != null && (
                           <div>
-                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">R:R</div>
+                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">R:R</div>
                             <div className="text-sm font-semibold text-foreground/80">{bestPick.risk_reward_ratio.toFixed(1)}x</div>
                           </div>
                         )}
                         {bestPick.sector && (
                           <div>
-                            <div className="text-[0.66rem] text-muted-foreground/40 uppercase tracking-[0.14em]">Sector</div>
-                            <div className="text-[0.8rem] text-muted-foreground/70 truncate max-w-[100px]">{bestPick.sector}</div>
+                            <div className="text-micro text-muted-foreground/40 uppercase tracking-[0.14em]">Sector</div>
+                            <div className="text-apoyo text-muted-foreground/70 truncate max-w-[100px]">{bestPick.sector}</div>
                           </div>
                         )}
                       </div>

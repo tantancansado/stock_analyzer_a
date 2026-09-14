@@ -17,7 +17,7 @@ export default function OwnedBadge({ ticker, showShares = false, className = '' 
 
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[0.58rem] font-bold px-1.5 py-0.5 rounded-full
+      className={`inline-flex items-center gap-1 text-micro font-bold px-1.5 py-0.5 rounded-full
         bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 uppercase tracking-wide
         whitespace-nowrap ${className}`}
       title={`En tu cartera: ${pos.shares} acc · coste ${pos.currency === 'EUR' ? '€' : '$'}${pos.avg_price.toFixed(2)}`}

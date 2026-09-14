@@ -48,7 +48,7 @@ export default function InfoTooltip({
       <span
         className={cn(
           'inline-flex h-3.5 w-3.5 cursor-help select-none items-center justify-center rounded-full',
-          'bg-muted-foreground/20 text-[0.55rem] font-bold text-muted-foreground',
+          'bg-muted-foreground/20 text-micro font-bold text-muted-foreground',
           'transition-colors group-hover:bg-primary/20 group-hover:text-primary',
           iconCls,
         )}
@@ -64,7 +64,7 @@ export default function InfoTooltip({
           panelHorizontal,
           width,
           'rounded-md border border-border bg-popover px-2.5 py-2',
-          'text-[0.7rem] leading-relaxed text-popover-foreground shadow-lg',
+          'text-mini leading-relaxed text-popover-foreground shadow-lg',
           'opacity-0 group-hover:opacity-100 transition-opacity duration-150',
           'whitespace-normal text-left',
         )}

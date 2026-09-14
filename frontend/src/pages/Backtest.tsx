@@ -161,9 +161,9 @@ function Stats({ signals, period }: { signals: Signal[]; period: Period }) {
         { label: 'Mejor / Peor', val: `${pct(Math.max(...rets))} / ${pct(Math.min(...rets))}`, sub: '', color: '' },
       ].map(c => (
         <div key={c.label} className="glass rounded-2xl p-4">
-          <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">{c.label}</div>
+          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{c.label}</div>
           <div className={`text-2xl font-extrabold ${c.color}`}>{c.val}</div>
-          {c.sub && <div className="text-[0.66rem] text-muted-foreground mt-0.5">{c.sub}</div>}
+          {c.sub && <div className="text-micro text-muted-foreground mt-0.5">{c.sub}</div>}
         </div>
       ))}
     </div>
@@ -309,7 +309,7 @@ export default function Backtest() {
               recortaba fuera de la tarjeta sin forma de llegar a ella. */}
           <div className="glass rounded-2xl table-x-wrap">
             <div className="min-w-[34rem]">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-micro font-bold uppercase tracking-widest text-muted-foreground">
               <button onClick={() => setSort('date')} className={`w-16 shrink-0 text-left hover:text-foreground transition-colors ${sort==='date'?'text-primary':''}`}>Fecha ↕</button>
               <span className="w-8 shrink-0" />
               <span className="flex-1 min-w-0">Ticker</span>
@@ -324,24 +324,24 @@ export default function Backtest() {
                 const ret = retOf(s, period)
                 return (
                   <div key={i} className={`flex items-center gap-2 px-4 py-2.5 hover:bg-muted/10 transition-colors ${ret == null ? 'opacity-40' : ''}`}>
-                    <span className="w-16 shrink-0 text-[0.7rem] text-muted-foreground/60 tabular-nums">{s.signal_date.slice(5)}</span>
+                    <span className="w-16 shrink-0 text-mini text-muted-foreground/60 tabular-nums">{s.signal_date.slice(5)}</span>
                     <div className="w-8 shrink-0"><TickerLogo ticker={s.ticker} size="xs" /></div>
                     <div className="flex-1 min-w-0">
-                      <span className="font-mono font-bold text-primary text-[0.85rem]">{s.ticker}</span>
-                      {s.company_name && <span className="ml-2 text-[0.72rem] text-muted-foreground truncate hidden sm:inline">{s.company_name}</span>}
+                      <span className="font-mono font-bold text-primary text-cuerpo">{s.ticker}</span>
+                      {s.company_name && <span className="ml-2 text-mini text-muted-foreground truncate hidden sm:inline">{s.company_name}</span>}
                     </div>
-                    <span className="w-24 shrink-0 hidden md:block text-[0.7rem] text-muted-foreground truncate">{s.sector}</span>
-                    <span className={`w-12 text-right shrink-0 text-[0.78rem] font-bold tabular-nums ${s.value_score != null && s.value_score >= 60 ? 'text-emerald-400' : 'text-muted-foreground'}`}>
+                    <span className="w-24 shrink-0 hidden md:block text-mini text-muted-foreground truncate">{s.sector}</span>
+                    <span className={`w-12 text-right shrink-0 text-apoyo font-bold tabular-nums ${s.value_score != null && s.value_score >= 60 ? 'text-emerald-400' : 'text-muted-foreground'}`}>
                       {s.value_score?.toFixed(0) ?? '—'}
                     </span>
-                    <span className="w-20 text-right shrink-0 text-[0.75rem] text-muted-foreground tabular-nums">${s.signal_price.toFixed(2)}</span>
-                    <span className={`w-16 text-right shrink-0 font-bold tabular-nums text-[0.85rem] ${ret == null ? 'text-muted-foreground/40' : ret >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    <span className="w-20 text-right shrink-0 text-mini text-muted-foreground tabular-nums">${s.signal_price.toFixed(2)}</span>
+                    <span className={`w-16 text-right shrink-0 font-bold tabular-nums text-cuerpo ${ret == null ? 'text-muted-foreground/40' : ret >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {ret == null ? '—' : pct(ret)}
                     </span>
                     <span className="w-14 text-center shrink-0 hidden sm:block">
                       {ret != null
-                        ? <span className={`text-[0.62rem] font-bold px-1.5 py-0.5 rounded ${ret > 0 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>{ret > 0 ? '↑ WIN' : '↓ LOSS'}</span>
-                        : <span className="text-[0.62rem] text-muted-foreground/30">pend.</span>
+                        ? <span className={`text-micro font-bold px-1.5 py-0.5 rounded ${ret > 0 ? 'bg-emerald-500/15 text-emerald-400' : 'bg-red-500/15 text-red-400'}`}>{ret > 0 ? '↑ WIN' : '↓ LOSS'}</span>
+                        : <span className="text-micro text-muted-foreground/30">pend.</span>
                       }
                     </span>
                   </div>
@@ -373,7 +373,7 @@ export default function Backtest() {
 
           <div className="glass rounded-2xl table-x-wrap">
             <div className="min-w-[33rem]">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-border/30 text-micro font-bold uppercase tracking-widest text-muted-foreground">
               <span className="w-8 shrink-0" />
               <span className="flex-1 min-w-0">Ticker</span>
               <span className="w-24 shrink-0 hidden md:block">Estrategia</span>
@@ -389,22 +389,22 @@ export default function Backtest() {
                 <div key={i} className="flex items-center gap-2 px-4 py-2.5 hover:bg-muted/10 transition-colors">
                   <div className="w-8 shrink-0"><TickerLogo ticker={m.ticker} size="xs" /></div>
                   <div className="flex-1 min-w-0">
-                    <span className="font-mono font-bold text-teal-400 text-[0.85rem]">{m.ticker}</span>
-                    {m.company_name && <span className="ml-2 text-[0.72rem] text-muted-foreground truncate hidden sm:inline">{m.company_name}</span>}
+                    <span className="font-mono font-bold text-teal-400 text-cuerpo">{m.ticker}</span>
+                    {m.company_name && <span className="ml-2 text-mini text-muted-foreground truncate hidden sm:inline">{m.company_name}</span>}
                   </div>
-                  <span className="w-24 shrink-0 hidden md:block text-[0.7rem] text-muted-foreground">{m.strategy}</span>
-                  <span className={`w-12 text-right shrink-0 text-[0.78rem] font-bold tabular-nums ${(m.rsi??50) < 30 ? 'text-red-400' : (m.rsi??50) < 40 ? 'text-amber-400' : 'text-muted-foreground'}`}>
+                  <span className="w-24 shrink-0 hidden md:block text-mini text-muted-foreground">{m.strategy}</span>
+                  <span className={`w-12 text-right shrink-0 text-apoyo font-bold tabular-nums ${(m.rsi??50) < 30 ? 'text-red-400' : (m.rsi??50) < 40 ? 'text-amber-400' : 'text-muted-foreground'}`}>
                     {m.rsi?.toFixed(0) ?? '—'}
                   </span>
-                  <span className="w-16 text-right shrink-0 text-[0.78rem] font-bold text-red-400 tabular-nums">
+                  <span className="w-16 text-right shrink-0 text-apoyo font-bold text-red-400 tabular-nums">
                     {m.drawdown_pct != null ? `${m.drawdown_pct.toFixed(0)}%` : '—'}
                   </span>
-                  <span className="w-20 text-right shrink-0 text-[0.78rem] tabular-nums text-muted-foreground">${m.current_price.toFixed(2)}</span>
-                  <span className="w-20 text-right shrink-0 text-[0.78rem] tabular-nums text-emerald-400">${m.target.toFixed(2)}</span>
-                  <span className={`w-16 text-right shrink-0 text-[0.78rem] font-bold tabular-nums ${m.risk_reward >= 2 ? 'text-emerald-400' : m.risk_reward >= 1 ? 'text-amber-400' : 'text-red-400'}`}>
+                  <span className="w-20 text-right shrink-0 text-apoyo tabular-nums text-muted-foreground">${m.current_price.toFixed(2)}</span>
+                  <span className="w-20 text-right shrink-0 text-apoyo tabular-nums text-emerald-400">${m.target.toFixed(2)}</span>
+                  <span className={`w-16 text-right shrink-0 text-apoyo font-bold tabular-nums ${m.risk_reward >= 2 ? 'text-emerald-400' : m.risk_reward >= 1 ? 'text-amber-400' : 'text-red-400'}`}>
                     {m.risk_reward.toFixed(1)}x
                   </span>
-                  <span className="w-16 text-right shrink-0 hidden sm:block text-[0.78rem] font-bold text-teal-400 tabular-nums">
+                  <span className="w-16 text-right shrink-0 hidden sm:block text-apoyo font-bold text-teal-400 tabular-nums">
                     {m.reversion_score.toFixed(0)}
                   </span>
                 </div>

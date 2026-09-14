@@ -26,9 +26,9 @@ function AlertRow({ alert }: { alert: ScoreAlert }) {
       <Icon size={16} className={cfg.text} />
       <span className={`font-mono font-bold text-sm w-16 shrink-0 ${cfg.text}`}>{alert.ticker}</span>
       <span className="text-xs text-foreground/60 flex-1 truncate">{alert.company_name}</span>
-      <span className="text-[0.65rem] text-muted-foreground/50 hidden sm:block">{alert.sector}</span>
+      <span className="text-micro text-muted-foreground/50 hidden sm:block">{alert.sector}</span>
       {alert.grade && (
-        <span className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded bg-muted/30 border border-border/30 text-muted-foreground/60">
+        <span className="text-micro font-bold px-1.5 py-0.5 rounded bg-muted/30 border border-border/30 text-muted-foreground/60">
           {alert.grade}
         </span>
       )}
@@ -40,7 +40,7 @@ function AlertRow({ alert }: { alert: ScoreAlert }) {
 function SummaryPill({ label, count, color }: { label: string; count: number; color: string }) {
   if (count === 0) return null
   return (
-    <span className={`text-[0.65rem] font-bold px-2 py-0.5 rounded-full border ${color}`}>
+    <span className={`text-micro font-bold px-2 py-0.5 rounded-full border ${color}`}>
       {count} {label}
     </span>
   )
@@ -83,7 +83,7 @@ export default function ScoreAlerts() {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50">
+        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50">
           Novedades vs {data.generated_at}
         </span>
         <SummaryPill label="↑" count={data.counts.score_up}   color="bg-emerald-500/10 text-emerald-400 border-emerald-500/25" />
@@ -98,7 +98,7 @@ export default function ScoreAlerts() {
         const cfg = TYPE_CONFIG[type]
         return (
           <div key={type}>
-            <h4 className={`text-[0.6rem] font-bold uppercase tracking-widest mb-1.5 ${cfg.text}`}>
+            <h4 className={`text-micro font-bold uppercase tracking-widest mb-1.5 ${cfg.text}`}>
               {cfg.label}
             </h4>
             <div className="space-y-1">

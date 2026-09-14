@@ -33,26 +33,26 @@ function SectorBar({ sectors }: Readonly<{ sectors: SectorSummary[] }>) {
     <div className="space-y-2">
       {sorted.map(s => (
         <div key={s.sector} className="grid grid-cols-[140px_1fr_60px_56px] gap-2 items-center">
-          <span className="text-[0.72rem] text-muted-foreground truncate text-right">{s.sector}</span>
+          <span className="text-mini text-muted-foreground truncate text-right">{s.sector}</span>
           <div className="h-5 rounded bg-muted/20 overflow-clip">
             <div
               className="h-full rounded bg-primary/40 transition-all"
               style={{ width: `${((s.avg_value_score ?? 0) / max) * 100}%` }}
             />
           </div>
-          <span className={`text-[0.72rem] font-bold tabular-nums text-right ${scoreColor(s.avg_value_score ?? 0)}`}>
+          <span className={`text-mini font-bold tabular-nums text-right ${scoreColor(s.avg_value_score ?? 0)}`}>
             {(s.avg_value_score ?? 0).toFixed(1)}
           </span>
-          <span className={`text-[0.72rem] tabular-nums text-right ${fcfColor(s.avg_fcf_yield ?? 0)}`}>
+          <span className={`text-mini tabular-nums text-right ${fcfColor(s.avg_fcf_yield ?? 0)}`}>
             {(s.avg_fcf_yield ?? 0).toFixed(1)}%
           </span>
         </div>
       ))}
       <div className="grid grid-cols-[140px_1fr_60px_56px] gap-2 items-center mt-1">
         <span />
-        <span className="text-[0.6rem] text-muted-foreground/40 uppercase tracking-wider">Score VALUE promedio</span>
-        <span className="text-[0.6rem] text-muted-foreground/40 text-right">Score</span>
-        <span className="text-[0.6rem] text-muted-foreground/40 text-right">FCF%</span>
+        <span className="text-micro text-muted-foreground/40 uppercase tracking-wider">Score VALUE promedio</span>
+        <span className="text-micro text-muted-foreground/40 text-right">Score</span>
+        <span className="text-micro text-muted-foreground/40 text-right">FCF%</span>
       </div>
     </div>
   )
@@ -67,22 +67,22 @@ function StandoutRow({ d }: Readonly<{ d: SectorStandout }>) {
     : 'bg-red-500/15 text-red-400 border-red-500/30'
   return (
     <TableRow className="border-border/30 align-middle">
-      <TableCell className="font-mono font-bold text-primary text-[0.8rem]">
+      <TableCell className="font-mono font-bold text-primary text-apoyo">
         <div className="flex items-center gap-2">
           <TickerLogo ticker={d.ticker} size="sm" />
           <div>
             <div>{d.ticker}</div>
-            <div className="text-[0.65rem] text-muted-foreground/60 font-normal hidden sm:block max-w-[100px] truncate">
+            <div className="text-micro text-muted-foreground/60 font-normal hidden sm:block max-w-[100px] truncate">
               {d.company_name}
             </div>
           </div>
         </div>
       </TableCell>
-      <TableCell className="hidden md:table-cell text-[0.72rem] text-muted-foreground">
+      <TableCell className="hidden md:table-cell text-mini text-muted-foreground">
         {d.sector}
       </TableCell>
       <TableCell>
-        <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border whitespace-nowrap ${labelCls}`}>
+        <span className={`text-micro font-bold px-1.5 py-0.5 rounded border whitespace-nowrap ${labelCls}`}>
           {isBest ? 'Mejor FCF' : 'Caro vs peers'}
         </span>
       </TableCell>
@@ -92,7 +92,7 @@ function StandoutRow({ d }: Readonly<{ d: SectorStandout }>) {
           (vs {(d.sector_avg_fcf ?? 0).toFixed(1)}% avg)
         </span>
       </TableCell>
-      <TableCell className="hidden sm:table-cell tabular-nums text-[0.72rem] text-muted-foreground">
+      <TableCell className="hidden sm:table-cell tabular-nums text-mini text-muted-foreground">
         #{d.fcf_rank} / {d.fcf_rank_of}
       </TableCell>
       <TableCell className="tabular-nums text-sm">
@@ -179,7 +179,7 @@ export default function SectorComparison() {
               <CardContent className="pt-5">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-sm font-semibold">Score VALUE promedio por sector</h3>
-                  <div className="flex items-center gap-3 text-[0.65rem] text-muted-foreground/60">
+                  <div className="flex items-center gap-3 text-micro text-muted-foreground/60">
                     <span>Score</span>
                     <span>FCF%</span>
                   </div>
@@ -196,18 +196,18 @@ export default function SectorComparison() {
                 cifras que se comparan entre ellas tienen que compartir línea base. */}
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
               <div className="text-2xl font-extrabold text-foreground leading-none">{sectorSummary.length}</div>
-              <div className="text-[0.6rem] font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Sectores</div>
-              <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">{data?.total ?? 0} tickers analizados</div>
+              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Sectores</div>
+              <div className="text-micro text-muted-foreground/60 mt-0.5">{data?.total ?? 0} tickers analizados</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
               <div className="text-2xl font-extrabold text-emerald-400 leading-none">{bestCount}</div>
-              <div className="text-[0.6rem] font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Mejores FCF</div>
-              <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">Nº 1 de su sector</div>
+              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Mejores FCF</div>
+              <div className="text-micro text-muted-foreground/60 mt-0.5">Nº 1 de su sector</div>
             </div>
             <div className="p-4 rounded-xl border border-border/40 bg-card/50">
               <div className="text-2xl font-extrabold text-red-400 leading-none">{priceyCount}</div>
-              <div className="text-[0.6rem] font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Caro vs peers</div>
-              <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">FCF bajo vs sector</div>
+              <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground mt-1.5">Caro vs peers</div>
+              <div className="text-micro text-muted-foreground/60 mt-0.5">FCF bajo vs sector</div>
             </div>
           </div>
         </div>

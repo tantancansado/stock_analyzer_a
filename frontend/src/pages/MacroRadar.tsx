@@ -188,7 +188,7 @@ function ScoreGauge({ score, max }: { score: number; max: number }) {
   const color = score >= 6 ? '#10b981' : score >= 0 ? '#84cc16' : score >= -6 ? '#f59e0b' : score >= -12 ? '#f97316' : '#ef4444'
   return (
     <div className="relative w-full">
-      <div className="flex justify-between text-[0.65rem] text-muted-foreground mb-1">
+      <div className="flex justify-between text-micro text-muted-foreground mb-1">
         <span>Crisis</span>
         <span>Neutro</span>
         <span>Calma</span>
@@ -199,7 +199,7 @@ function ScoreGauge({ score, max }: { score: number; max: number }) {
           style={{ width: `${pct}%`, backgroundColor: color }}
         />
       </div>
-      <div className="flex justify-between text-[0.65rem] text-muted-foreground mt-1">
+      <div className="flex justify-between text-micro text-muted-foreground mt-1">
         <span>{-max}</span>
         <span className="font-bold" style={{ color }}>{score.toFixed(1)}</span>
         <span>+{max}</span>
@@ -239,23 +239,23 @@ function SignalCard({ id, signal, stagger }: { id: string; signal: SignalData; s
           </div>
         </div>
 
-        <p className="text-[0.7rem] text-muted-foreground leading-snug mb-1.5">
+        <p className="text-mini text-muted-foreground leading-snug mb-1.5">
           {signal.interpretation || '—'}
         </p>
 
         <div className="flex items-center justify-between">
           {signal.percentile != null && (
-            <span className="text-[0.62rem] text-muted-foreground/70">
+            <span className="text-micro text-muted-foreground/70">
               p{signal.percentile.toFixed(0)} vs 1yr
             </span>
           )}
-          <span className={`text-[0.65rem] font-medium ${scoreToColor(score)}`}>
+          <span className={`text-micro font-medium ${scoreToColor(score)}`}>
             {scoreToLabel(score)}
           </span>
         </div>
 
         {signal.change_5d != null && (
-          <div className="mt-1 text-[0.62rem] text-muted-foreground/60">
+          <div className="mt-1 text-micro text-muted-foreground/60">
             5d: <span className={signal.change_5d >= 0 ? 'text-green-400' : 'text-red-400'}>
               {signal.change_5d >= 0 ? '+' : ''}{signal.change_5d.toFixed(1)}%
             </span>
@@ -354,18 +354,18 @@ const INDEX_FLAGS: Record<string, string> = {
 }
 
 function RsiGauge({ value, label }: { value: number | null | undefined; label: string }) {
-  if (value == null) return <span className="text-muted-foreground/30 text-[0.6rem]">—</span>
+  if (value == null) return <span className="text-muted-foreground/30 text-micro">—</span>
   const color = value >= 70 ? 'text-red-400' : value <= 30 ? 'text-emerald-400' : value >= 55 ? 'text-amber-400' : 'text-muted-foreground/70'
   return (
     <span className="inline-flex flex-col items-center gap-0.5">
-      <span className={`text-[0.7rem] font-bold tabular-nums ${color}`}>{value.toFixed(0)}</span>
-      <span className="text-[0.52rem] text-muted-foreground/40">{label}</span>
+      <span className={`text-mini font-bold tabular-nums ${color}`}>{value.toFixed(0)}</span>
+      <span className="text-micro text-muted-foreground/40">{label}</span>
     </span>
   )
 }
 
 function MacdBadge({ signal }: { signal: string | null | undefined }) {
-  if (!signal) return <span className="text-muted-foreground/30 text-[0.6rem]">—</span>
+  if (!signal) return <span className="text-muted-foreground/30 text-micro">—</span>
   const cfg: Record<string, string> = {
     BULLISH_CROSS: 'text-emerald-400 font-black',
     BEARISH_CROSS: 'text-red-400 font-black animate-pulse',
@@ -377,7 +377,7 @@ function MacdBadge({ signal }: { signal: string | null | undefined }) {
     BULLISH_CROSS: '↑CROSS', BEARISH_CROSS: '↓CROSS',
     BULLISH: '↑', BEARISH: '↓', NEUTRAL: '—',
   }
-  return <span className={`text-[0.68rem] ${cfg[signal] ?? 'text-muted-foreground/50'}`}>{labels[signal] ?? signal}</span>
+  return <span className={`text-micro ${cfg[signal] ?? 'text-muted-foreground/50'}`}>{labels[signal] ?? signal}</span>
 }
 
 function WeinsteinBadge({ stage }: { stage: number }) {
@@ -389,14 +389,14 @@ function WeinsteinBadge({ stage }: { stage: number }) {
   }
   const c = cfg[stage] ?? { label: 'S?', cls: 'bg-muted/20 text-muted-foreground border-border/20' }
   return (
-    <span className={`text-[0.6rem] font-bold px-1 py-0.5 rounded border ${c.cls}`}>{c.label}</span>
+    <span className={`text-micro font-bold px-1 py-0.5 rounded border ${c.cls}`}>{c.label}</span>
   )
 }
 
 function SpeedCell({ v }: { v: number | null | undefined }) {
   if (v == null) return <span className="text-muted-foreground/30">—</span>
   const color = v > 5 ? 'text-emerald-400' : v > 0 ? 'text-emerald-400/70' : v > -5 ? 'text-red-400/70' : 'text-red-400'
-  return <span className={`tabular-nums text-[0.68rem] font-medium ${color}`}>{v > 0 ? '+' : ''}{v.toFixed(1)}%</span>
+  return <span className={`tabular-nums text-micro font-medium ${color}`}>{v > 0 ? '+' : ''}{v.toFixed(1)}%</span>
 }
 
 function IndexBreakoutsPanel({
@@ -433,17 +433,17 @@ function IndexBreakoutsPanel({
             Análisis de Índices
           </p>
           {bearish.length > 0 && (
-            <span className="text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30 animate-pulse">
+            <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30 animate-pulse">
               {bearish.length} rotura bajista{bearish.length > 1 ? 's' : ''}
             </span>
           )}
           {bullish.length > 0 && (
-            <span className="text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+            <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
               {bullish.length} rotura alcista{bullish.length > 1 ? 's' : ''}
             </span>
           )}
           {specialEvents.length > 0 && (
-            <span className="text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
+            <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30">
               {specialEvents.length} evento{specialEvents.length > 1 ? 's' : ''} especial{specialEvents.length > 1 ? 'es' : ''}
             </span>
           )}
@@ -481,7 +481,7 @@ function IndexBreakoutsPanel({
                   <div className="flex items-center gap-2 flex-wrap mb-2">
                     <span>{INDEX_FLAGS[ticker] ?? ''}</span>
                     <span className="font-mono font-black text-sm text-foreground">{ticker}</span>
-                    <span className="text-[0.65rem] text-muted-foreground/60">{s.name}</span>
+                    <span className="text-micro text-muted-foreground/60">{s.name}</span>
                     <span className="font-bold tabular-nums text-sm">${s.price.toFixed(2)}</span>
                     {s.ytd_pct != null && (
                       <span className={`text-xs font-bold tabular-nums ${ytdColor}`}>
@@ -490,20 +490,20 @@ function IndexBreakoutsPanel({
                     )}
                     {isEquity && <WeinsteinBadge stage={s.weinstein_stage} />}
                     {isEquity && (
-                      <span className={`text-[0.65rem] font-bold ${gcColor}`} title={s.gc_dc_fresh ? 'Cruce reciente' : ''}>
+                      <span className={`text-micro font-bold ${gcColor}`} title={s.gc_dc_fresh ? 'Cruce reciente' : ''}>
                         {gcLabel}
                       </span>
                     )}
-                    <span className="ml-auto text-[0.65rem] text-muted-foreground/50">
+                    <span className="ml-auto text-micro text-muted-foreground/50">
                       Miner <span className={`font-bold ${s.minervini_score >= 6 ? 'text-emerald-400' : s.minervini_score >= 4 ? 'text-amber-400' : 'text-red-400/70'}`}>{s.minervini_score}/{s.minervini_max}</span>
                     </span>
                   </div>
 
                   {/* Row 2: RSI + MACD + Trend + Volume */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[0.65rem]">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-micro">
                     {/* RSI block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-[0.55rem] font-bold uppercase text-muted-foreground/40 tracking-wider">RSI</span>
+                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">RSI</span>
                       <div className="flex items-center justify-around">
                         <RsiGauge value={s.rsi_daily} label="D" />
                         <RsiGauge value={s.rsi_weekly} label="S" />
@@ -512,40 +512,40 @@ function IndexBreakoutsPanel({
                     </div>
                     {/* MACD block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-[0.55rem] font-bold uppercase text-muted-foreground/40 tracking-wider">MACD</span>
+                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">MACD</span>
                       <div className="flex items-center justify-around">
                         <span className="flex flex-col items-center gap-0.5">
                           <MacdBadge signal={s.macd_daily} />
-                          <span className="text-[0.52rem] text-muted-foreground/40">Diario</span>
+                          <span className="text-micro text-muted-foreground/40">Diario</span>
                         </span>
                         <span className="flex flex-col items-center gap-0.5">
                           <MacdBadge signal={s.macd_weekly} />
-                          <span className="text-[0.52rem] text-muted-foreground/40">Semanal</span>
+                          <span className="text-micro text-muted-foreground/40">Semanal</span>
                         </span>
                       </div>
                     </div>
                     {/* Speed block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-[0.55rem] font-bold uppercase text-muted-foreground/40 tracking-wider">Velocidad</span>
+                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">Velocidad</span>
                       <div className="flex items-center justify-around">
                         <span className="flex flex-col items-center gap-0.5">
                           <SpeedCell v={s.speed_5d} />
-                          <span className="text-[0.52rem] text-muted-foreground/40">5d</span>
+                          <span className="text-micro text-muted-foreground/40">5d</span>
                         </span>
                         <span className="flex flex-col items-center gap-0.5">
                           <SpeedCell v={s.speed_20d} />
-                          <span className="text-[0.52rem] text-muted-foreground/40">20d</span>
+                          <span className="text-micro text-muted-foreground/40">20d</span>
                         </span>
                         <span className="flex flex-col items-center gap-0.5">
                           <SpeedCell v={s.speed_63d} />
-                          <span className="text-[0.52rem] text-muted-foreground/40">63d</span>
+                          <span className="text-micro text-muted-foreground/40">63d</span>
                         </span>
                       </div>
                     </div>
                     {/* Structure block */}
                     <div className="rounded bg-muted/10 px-2 py-1.5 flex flex-col gap-1.5">
-                      <span className="text-[0.55rem] font-bold uppercase text-muted-foreground/40 tracking-wider">Estructura</span>
-                      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[0.6rem]">
+                      <span className="text-micro font-bold uppercase text-muted-foreground/40 tracking-wider">Estructura</span>
+                      <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-micro">
                         <span className="text-muted-foreground/50">Dist.Máx</span>
                         <span className={`tabular-nums font-medium ${s.pct_from_52w_high >= -5 ? 'text-emerald-400' : s.pct_from_52w_high >= -15 ? 'text-amber-400' : 'text-red-400'}`}>
                           {s.pct_from_52w_high.toFixed(1)}%
@@ -572,10 +572,10 @@ function IndexBreakoutsPanel({
                   {s.minervini_labels && s.minervini_labels.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-1">
                       {s.minervini_labels.map(l => (
-                        <span key={l} className="text-[0.55rem] px-1 py-0.5 rounded bg-emerald-500/10 text-emerald-400/80 border border-emerald-500/20">✓ {l}</span>
+                        <span key={l} className="text-micro px-1 py-0.5 rounded bg-emerald-500/10 text-emerald-400/80 border border-emerald-500/20">✓ {l}</span>
                       ))}
                       {s.minervini_failed.map(l => (
-                        <span key={l} className="text-[0.55rem] px-1 py-0.5 rounded bg-red-500/8 text-red-400/60 border border-red-500/15">✗ {l}</span>
+                        <span key={l} className="text-micro px-1 py-0.5 rounded bg-red-500/8 text-red-400/60 border border-red-500/15">✗ {l}</span>
                       ))}
                     </div>
                   )}
@@ -592,9 +592,9 @@ function IndexBreakoutsPanel({
             {fresh.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[0.6rem] font-black uppercase tracking-[0.15em] text-muted-foreground/50">Roturas recientes</span>
+                  <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground/50">Roturas recientes</span>
                   <div className="flex-1 h-px bg-border/20" />
-                  <span className="text-[0.6rem] text-muted-foreground/40">últimos días</span>
+                  <span className="text-micro text-muted-foreground/40">últimos días</span>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[...bearish, ...bullish].map((b, idx) => {
@@ -609,34 +609,34 @@ function IndexBreakoutsPanel({
                           <div className="flex items-center gap-2">
                             <span>{INDEX_FLAGS[b.index] ?? ''}</span>
                             <span className="font-mono font-black text-sm text-foreground">{b.index}</span>
-                            <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded border ${isBearish ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'}`}>
+                            <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${isBearish ? 'bg-red-500/15 text-red-400 border-red-500/20' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20'}`}>
                               {b.ma_label}
                             </span>
                           </div>
                           <span className={`text-lg ${isBearish ? 'text-red-400' : 'text-emerald-400'}`}>{isBearish ? '↓' : '↑'}</span>
                         </div>
-                        <div className="text-[0.68rem] text-foreground/80 font-semibold mb-1">
+                        <div className="text-micro text-foreground/80 font-semibold mb-1">
                           {b.index_name.split('(')[0].trim()}
                           {isBearish ? ' ha roto a la baja' : ' ha recuperado'} la <span className="font-black">{b.ma_label}</span>
                         </div>
                         <div className="grid grid-cols-3 gap-1.5 mt-2">
                           <div className="text-center rounded bg-muted/15 px-1.5 py-1">
-                            <div className="text-[0.55rem] text-muted-foreground/50 mb-0.5">Precio</div>
-                            <div className="text-[0.7rem] font-bold tabular-nums">${b.current_price.toFixed(2)}</div>
+                            <div className="text-micro text-muted-foreground/50 mb-0.5">Precio</div>
+                            <div className="text-mini font-bold tabular-nums">${b.current_price.toFixed(2)}</div>
                           </div>
                           <div className={`text-center rounded px-1.5 py-1 ${isBearish ? 'bg-red-500/8' : 'bg-emerald-500/8'}`}>
-                            <div className="text-[0.55rem] text-muted-foreground/50 mb-0.5">Media</div>
-                            <div className="text-[0.7rem] font-bold tabular-nums">${b.ma_value.toFixed(2)}</div>
+                            <div className="text-micro text-muted-foreground/50 mb-0.5">Media</div>
+                            <div className="text-mini font-bold tabular-nums">${b.ma_value.toFixed(2)}</div>
                           </div>
                           <div className="text-center rounded bg-muted/15 px-1.5 py-1">
-                            <div className="text-[0.55rem] text-muted-foreground/50 mb-0.5">Distancia</div>
-                            <div className={`text-[0.7rem] font-black tabular-nums ${isBearish ? 'text-red-400' : 'text-emerald-400'}`}>
+                            <div className="text-micro text-muted-foreground/50 mb-0.5">Distancia</div>
+                            <div className={`text-mini font-black tabular-nums ${isBearish ? 'text-red-400' : 'text-emerald-400'}`}>
                               {b.pct_from_ma >= 0 ? '+' : ''}{b.pct_from_ma.toFixed(1)}%
                             </div>
                           </div>
                         </div>
                         {b.days_since_cross < 999 && (
-                          <div className="mt-2 text-[0.6rem] text-muted-foreground/50 text-right">cruce hace {b.days_since_cross}d</div>
+                          <div className="mt-2 text-micro text-muted-foreground/50 text-right">cruce hace {b.days_since_cross}d</div>
                         )}
                       </div>
                     )
@@ -647,11 +647,11 @@ function IndexBreakoutsPanel({
             {/* Full MA status table */}
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[0.6rem] font-black uppercase tracking-[0.15em] text-muted-foreground/50">Estado de medias</span>
+                <span className="text-micro font-black uppercase tracking-[0.15em] text-muted-foreground/50">Estado de medias</span>
                 <div className="flex-1 h-px bg-border/20" />
               </div>
               <div className="table-x-wrap">
-                <table className="w-full min-w-[520px] text-[0.66rem]">
+                <table className="w-full min-w-[520px] text-micro">
                   <thead>
                     <tr className="border-b border-border/20">
                       <th className="text-left font-medium text-muted-foreground/50 pb-1.5 pr-2">Índice</th>
@@ -674,7 +674,7 @@ function IndexBreakoutsPanel({
                         <tr key={ticker} className="border-b border-border/10 last:border-0">
                           <td className="py-1.5 pr-2 font-mono font-bold text-foreground whitespace-nowrap">
                             {INDEX_FLAGS[ticker] ?? ''} {ticker}
-                            {price != null && <span className="ml-1 font-normal text-muted-foreground/40 text-[0.58rem]">${price.toFixed(1)}</span>}
+                            {price != null && <span className="ml-1 font-normal text-muted-foreground/40 text-micro">${price.toFixed(1)}</span>}
                           </td>
                           {['ma20d','ma50d','ma100d','ma150d','ma200d','ma10w','ma30w','ma40w','ma50w','ma10m','ma20m'].map(maKey => {
                             const b = byKey[maKey]
@@ -690,7 +690,7 @@ function IndexBreakoutsPanel({
                             return (
                               <td key={maKey} className="text-center px-0.5 py-1.5">
                                 <span className="inline-flex flex-col items-center gap-0.5">
-                                  <span className={`text-[0.62rem] font-black ${
+                                  <span className={`text-micro font-black ${
                                     isBearishBreak ? 'text-red-400 animate-pulse' :
                                     isBullishBreak ? 'text-emerald-400 animate-pulse' :
                                     isAbove ? 'text-emerald-400/60' : 'text-red-400/60'
@@ -698,7 +698,7 @@ function IndexBreakoutsPanel({
                                     {isBearishBreak ? '↓!' : isBullishBreak ? '↑!' : isAbove ? '▲' : '▼'}
                                   </span>
                                   {pct != null && (
-                                    <span className={`text-[0.52rem] tabular-nums ${pct >= 0 ? 'text-emerald-400/50' : 'text-red-400/50'}`}>
+                                    <span className={`text-micro tabular-nums ${pct >= 0 ? 'text-emerald-400/50' : 'text-red-400/50'}`}>
                                       {pct >= 0 ? '+' : ''}{pct.toFixed(0)}%
                                     </span>
                                   )}
@@ -738,11 +738,11 @@ function IndexBreakoutsPanel({
                       <div className="flex items-center gap-2 mb-1">
                         <IconoEvento size={16} strokeWidth={2} className={isBullish ? 'text-emerald-400 shrink-0' : 'text-red-400 shrink-0'} />
                         <span className="font-mono font-bold text-sm">{INDEX_FLAGS[ev.index] ?? ''} {ev.index}</span>
-                        <span className={`text-[0.62rem] font-bold px-1.5 py-0.5 rounded border ${isBullish ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
+                        <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${isBullish ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/25' : 'bg-red-500/15 text-red-400 border-red-500/25'}`}>
                           {ev.label}
                         </span>
                         {ev.days_since > 0 && (
-                          <span className="ml-auto text-[0.6rem] text-muted-foreground/50">hace {ev.days_since}d</span>
+                          <span className="ml-auto text-micro text-muted-foreground/50">hace {ev.days_since}d</span>
                         )}
                       </div>
                       <p className="text-xs text-foreground/75">{ev.detail}</p>
@@ -776,7 +776,7 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
             Riesgos Sistémicos Activos
           </p>
           {hasRealRisks && (
-            <span className="ml-auto text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">
+            <span className="ml-auto text-micro font-bold px-2 py-0.5 rounded-full bg-red-500/15 text-red-400 border border-red-500/30">
               {risks.filter(r => r.id !== 'none').length} detectados
             </span>
           )}
@@ -791,14 +791,14 @@ function SystemicRisksPanel({ risks }: { risks: SystemicRisk[] }) {
                     <cfg.icon size={16} strokeWidth={2} className={`shrink-0 ${cfg.text}`} />
                     <span className={`text-sm font-bold ${cfg.text}`}>{risk.name}</span>
                   </div>
-                  <span className={`text-[0.58rem] font-bold px-1.5 py-0.5 rounded border ${cfg.bg} ${cfg.text} shrink-0`}>
+                  <span className={`text-micro font-bold px-1.5 py-0.5 rounded border ${cfg.bg} ${cfg.text} shrink-0`}>
                     {cfg.label}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground leading-snug mb-2">{risk.description}</p>
                 <div className="flex items-start gap-1.5">
-                  <span className="text-[0.65rem] text-muted-foreground/50 shrink-0 mt-px">→</span>
-                  <p className="text-[0.7rem] text-foreground/70 leading-snug italic">{risk.implication}</p>
+                  <span className="text-micro text-muted-foreground/50 shrink-0 mt-px">→</span>
+                  <p className="text-mini text-foreground/70 leading-snug italic">{risk.implication}</p>
                 </div>
               </div>
             )
@@ -828,7 +828,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
             Analogías Históricas
           </p>
         </div>
-        <p className="text-[0.65rem] text-muted-foreground/60 mb-4">
+        <p className="text-micro text-muted-foreground/60 mb-4">
           Episodios cuyo patrón de señales macro más se parece al entorno actual
         </p>
         {/* Horizontal scroll on mobile */}
@@ -843,9 +843,9 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[0.6rem] text-muted-foreground/50 font-bold">#{idx + 1}</span>
+                      <span className="text-micro text-muted-foreground/50 font-bold">#{idx + 1}</span>
                       <span className="text-sm font-bold text-foreground">{analog.name}</span>
-                      <span className="text-[0.65rem] text-muted-foreground/60">{analog.date}</span>
+                      <span className="text-micro text-muted-foreground/60">{analog.date}</span>
                     </div>
                   </div>
                   {/* Similarity meter */}
@@ -856,7 +856,7 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                     >
                       {analog.similarity.toFixed(0)}%
                     </div>
-                    <div className="text-[0.55rem] text-muted-foreground/50">similitud</div>
+                    <div className="text-micro text-muted-foreground/50">similitud</div>
                   </div>
                 </div>
 
@@ -880,26 +880,26 @@ function HistoricalAnalogsPanel({ analogs }: { analogs: HistoricalAnalog[] }) {
                   ].map(o => (
                     <div key={o.label} className="text-center p-1.5 rounded bg-muted/10 border border-border/20">
                       <ReturnBadge value={o.value} />
-                      <div className="text-[0.55rem] text-muted-foreground/50 mt-0.5">{o.label}</div>
+                      <div className="text-micro text-muted-foreground/50 mt-0.5">{o.label}</div>
                     </div>
                   ))}
                 </div>
 
                 {/* Description */}
-                <p className="text-[0.68rem] text-muted-foreground/80 leading-snug mb-1.5">
+                <p className="text-micro text-muted-foreground/80 leading-snug mb-1.5">
                   {analog.outcome.description}
                 </p>
 
                 {/* Key difference */}
                 <div className="flex items-start gap-1.5">
-                  <span className="text-[0.65rem] text-blue-400/60 shrink-0 mt-px font-bold">≠</span>
-                  <p className="text-[0.65rem] text-muted-foreground/60 leading-snug italic">{analog.key_difference}</p>
+                  <span className="text-micro text-blue-400/60 shrink-0 mt-px font-bold">≠</span>
+                  <p className="text-micro text-muted-foreground/60 leading-snug italic">{analog.key_difference}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
-        <p className="text-[0.6rem] text-muted-foreground/40 mt-3">
+        <p className="text-micro text-muted-foreground/40 mt-3">
           * Similitud calculada sobre 9 señales clave. Los retornos son históricos, no predicciones.
         </p>
       </CardContent>
@@ -979,7 +979,7 @@ export default function MacroRadar() {
               ].map(s => (
                 <div key={s.label} className="text-center">
                   <div className={`text-lg font-bold ${s.color}`}>{s.count}</div>
-                  <div className="text-[0.62rem] text-muted-foreground">{s.label}</div>
+                  <div className="text-micro text-muted-foreground">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -1003,7 +1003,7 @@ export default function MacroRadar() {
         }
         return (
           <div>
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground/50 mb-3 px-1">Visión animada</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground/50 mb-3 px-1">Visión animada</div>
             <Suspense fallback={<div className="glass border border-border/40 rounded-xl h-20 flex items-center justify-center text-sm text-muted-foreground">Cargando…</div>}>
               <RegimeSweepPlayer data={sweepData} />
             </Suspense>

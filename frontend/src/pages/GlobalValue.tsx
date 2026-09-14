@@ -73,7 +73,7 @@ function ConvictionPanel({ row }: { row: GlobalOpportunity }) {
   return (
     <div className="border-t border-border/40 pt-4 mt-4">
       <div className="flex items-center gap-3 mb-3">
-        <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Conviction Filter</span>
+        <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Conviction Filter</span>
         {row.conviction_grade && row.conviction_score != null && (
           <span className={`text-xs font-bold px-2 py-0.5 rounded ${row.conviction_grade === 'A' ? 'bg-emerald-500/20 text-emerald-400' : row.conviction_grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-amber-500/20 text-amber-400'}`}>
             {row.conviction_grade} — {row.conviction_score.toFixed(0)}pts
@@ -83,7 +83,7 @@ function ConvictionPanel({ row }: { row: GlobalOpportunity }) {
       {reasons.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {reasons.map((r, i) => (
-            <span key={i} className="text-[0.65rem] px-2 py-0.5 rounded-full bg-white/5 border border-border/50 text-muted-foreground">{r}</span>
+            <span key={i} className="text-micro px-2 py-0.5 rounded-full bg-white/5 border border-border/50 text-muted-foreground">{r}</span>
           ))}
         </div>
       )}
@@ -213,7 +213,7 @@ export default function GlobalValue() {
 
   const Th = ({ k, label, tooltip }: { k: SortKey; label: string; tooltip?: string }) => (
     <TableHead
-      className="cursor-pointer select-none whitespace-nowrap text-[0.68rem] font-semibold uppercase tracking-wider"
+      className="cursor-pointer select-none whitespace-nowrap text-micro font-semibold uppercase tracking-wider"
       onClick={() => onSort(k)}
     >
       <span className="flex items-center gap-1">
@@ -259,7 +259,7 @@ export default function GlobalValue() {
             >
               <div className="text-2xl mb-1">{meta.flag}</div>
               <div className="text-sm font-bold">{meta.label}</div>
-              <div className="text-[0.65rem] text-muted-foreground mt-1">
+              <div className="text-micro text-muted-foreground mt-1">
                 CAPE <span className="font-mono font-bold" style={{ color: meta.color }}>{meta.cape}</span>
                 {count > 0 && <span className="ml-2">{count} picks · avg {avgScore.toFixed(0)}pts</span>}
                 {count === 0 && <span className="ml-2 opacity-50">sin datos aún</span>}
@@ -328,9 +328,9 @@ export default function GlobalValue() {
                           <span className="font-mono font-bold text-sm text-primary">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
                           <OwnedBadge ticker={row.ticker} />
                           {row.ai_verdict === 'RISKY' && <Ban size={12} strokeWidth={2.25} className="text-red-400 shrink-0" />}
-                          {listo && <span className="text-[0.6rem] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 inline-flex items-center gap-1"><CircleCheck size={12} strokeWidth={2.25} />LISTO</span>}
+                          {listo && <span className="text-micro font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 inline-flex items-center gap-1"><CircleCheck size={12} strokeWidth={2.25} />LISTO</span>}
                         </div>
-                        <span className="text-[0.65rem] text-muted-foreground block">{row.company_name}</span>
+                        <span className="text-micro text-muted-foreground block">{row.company_name}</span>
                       </div>
                     </div>
                     <div className="text-right flex flex-col items-end gap-1">
@@ -352,7 +352,7 @@ export default function GlobalValue() {
                     objetivoAnalista={row.target_price_analyst}
                     compacta
                   />
-                  <div className="flex gap-3 mt-2 text-[0.62rem] text-muted-foreground/60">
+                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
                     {row.fcf_yield_pct != null && <span>FCF: {row.fcf_yield_pct.toFixed(1)}%</span>}
                     {row.risk_reward_ratio != null && <span>R:R {row.risk_reward_ratio.toFixed(1)}x</span>}
                     {meta && <span>{meta.label} · {row.currency}</span>}
@@ -383,7 +383,7 @@ export default function GlobalValue() {
                     <Th k="company_name" label="Empresa" />
                     <Th k="current_price" label="Precio" />
                     <Th k="value_score" label="Score" tooltip="VALUE score (0-100). Incluye bonus por mercado undervalued." />
-                    <TableHead className="text-[0.68rem] font-semibold uppercase tracking-wider">Grade</TableHead>
+                    <TableHead className="text-micro font-semibold uppercase tracking-wider">Grade</TableHead>
                     <Th k="sector" label="Sector" />
                     <Th k="analyst_upside_pct" label="Potencial" tooltip="Upside implícito según precio objetivo consenso analistas" />
                     <Th k="fcf_yield_pct" label="FCF%" tooltip="Free Cash Flow Yield = FCF / Market Cap" />
@@ -391,7 +391,7 @@ export default function GlobalValue() {
                     {!compact && <Th k="pe_forward" label="P/E fwd" />}
                     {!compact && <Th k="roe_pct" label="ROE%" />}
                     <Th k="pct_from_52w_high" label="vs Max" tooltip="Distancia al máximo de 52 semanas. Negativo = caído del máximo → posible oportunidad de entrada." />
-                    <TableHead className="text-[0.68rem] font-semibold uppercase tracking-wider">Téc</TableHead>
+                    <TableHead className="text-micro font-semibold uppercase tracking-wider">Téc</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -410,15 +410,15 @@ export default function GlobalValue() {
                           <TableCell>
                             <div className="flex items-center gap-1.5">
                               {meta && <span title={meta.label}>{meta.flag}</span>}
-                              <span className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
+                              <span className="font-mono font-bold text-primary text-apoyo tracking-wide">{row.ticker.replace(/\.(SA|KS|T|HK)$/, '')}</span>
                               <OwnedBadge ticker={row.ticker} />
                               {row.ai_verdict === 'RISKY' && <Ban size={12} strokeWidth={2.25} className="text-red-400 shrink-0" aria-label={row.ai_notes} />}
-                              {listo && <span className="text-[0.6rem] font-bold px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"><CircleCheck size={12} strokeWidth={2.25} /></span>}
+                              {listo && <span className="text-micro font-bold px-1 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"><CircleCheck size={12} strokeWidth={2.25} /></span>}
                             </div>
                           </TableCell>
                           <TableCell className="max-w-[160px]">
                             <div className="truncate text-sm font-medium">{row.company_name}</div>
-                            {row.market && <div className="text-[0.6rem] text-muted-foreground">{meta?.label} · {row.currency}</div>}
+                            {row.market && <div className="text-micro text-muted-foreground">{meta?.label} · {row.currency}</div>}
                           </TableCell>
                           <TableCell className="font-mono text-sm tabular-nums">
                             {formatPrice(row)}
@@ -429,7 +429,7 @@ export default function GlobalValue() {
                           <TableCell>
                             <GradeBadge grade={row.conviction_grade ?? ''} />
                           </TableCell>
-                          <TableCell className="text-[0.75rem] text-muted-foreground max-w-[110px]">
+                          <TableCell className="text-mini text-muted-foreground max-w-[110px]">
                             <span className="truncate block">{row.sector ?? '—'}</span>
                           </TableCell>
                           <TableCell>
@@ -489,7 +489,7 @@ export default function GlobalValue() {
                                   { label: 'Analistas', val: expandedRow.analyst_count != null ? String(expandedRow.analyst_count) : '—', color: '' },
                                 ].map(({ label, val, color }) => (
                                   <div key={label} className="glass rounded-lg p-3">
-                                    <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
+                                    <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-1">{label}</div>
                                     <div className={`text-lg font-extrabold tabular-nums ${color}`}>{val}</div>
                                   </div>
                                 ))}
@@ -497,18 +497,18 @@ export default function GlobalValue() {
                               {/* US ADR alternative */}
                               {expandedRow.nasdaq_adr && (
                                 <div className="flex items-center gap-2 mt-3 mb-1">
-                                  <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">También en US</span>
+                                  <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">También en US</span>
                                   <span className="font-mono text-xs font-bold text-blue-400 bg-blue-500/10 border border-blue-500/30 px-2 py-0.5 rounded">
                                     {expandedRow.nasdaq_adr}
                                   </span>
-                                  <span className="text-[0.65rem] text-muted-foreground">NYSE/NASDAQ/OTC · cotiza en USD · horario europeo</span>
+                                  <span className="text-micro text-muted-foreground">NYSE/NASDAQ/OTC · cotiza en USD · horario europeo</span>
                                 </div>
                               )}
                               {/* Risk flags + AI verdict */}
                               {(expandedRow.risk_flags || expandedRow.ai_verdict) && (
                                 <div className="border-t border-border/40 pt-4 mt-4">
                                   <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                    <span className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground">Análisis IA</span>
+                                    <span className="text-micro font-bold uppercase tracking-widest text-muted-foreground">Análisis IA</span>
                                     {expandedRow.ai_verdict && (
                                       <span className={`text-xs font-bold px-2 py-0.5 rounded ${expandedRow.ai_verdict === 'CLEAN' ? 'bg-emerald-500/20 text-emerald-400' : expandedRow.ai_verdict === 'SUSPECT' ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
                                         {expandedRow.ai_verdict === 'CLEAN' ? 'CLEAN' : expandedRow.ai_verdict === 'SUSPECT' ? 'SUSPECT' : 'RISKY'}
@@ -521,7 +521,7 @@ export default function GlobalValue() {
                                   {expandedRow.risk_flags && (
                                     <div className="flex flex-wrap gap-1.5">
                                       {expandedRow.risk_flags.split(' | ').filter(Boolean).map((f, i) => (
-                                        <span key={i} className="text-[0.65rem] px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400">{f}</span>
+                                        <span key={i} className="text-micro px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400">{f}</span>
                                       ))}
                                     </div>
                                   )}
@@ -530,7 +530,7 @@ export default function GlobalValue() {
                               <ConvictionPanel row={expandedRow} />
                               {thesisText && thesisText !== 'Sin tesis disponible' && thesisText !== 'Error cargando tesis' && thesisText !== 'Cargando tesis...' ? (
                                 <div className="mt-4">
-                                  <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Tesis de Inversión</div>
+                                  <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Tesis de Inversión</div>
                                   <ThesisBody text={thesisText} />
                                 </div>
                               ) : thesisText ? (
@@ -545,7 +545,7 @@ export default function GlobalValue() {
                 </TableBody>
               </Table>
               {sorted.length > 0 && (
-                <div className="text-[0.6rem] text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+                <div className="text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
                   j / k navegar · Enter abrir · Esc cerrar
                 </div>
               )}

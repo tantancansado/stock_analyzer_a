@@ -40,9 +40,9 @@ function StatCard({ label, value, sub, color }: { label: string; value: string; 
   return (
     <Card className="bg-card/50">
       <CardContent className="p-4">
-        <p className="text-[0.7rem] text-muted-foreground/60 uppercase tracking-wider mb-1">{label}</p>
+        <p className="text-mini text-muted-foreground/60 uppercase tracking-wider mb-1">{label}</p>
         <p className={`text-xl font-bold tabular-nums ${color ?? 'text-foreground'}`}>{value}</p>
-        {sub && <p className="text-[0.68rem] text-muted-foreground/50 mt-0.5">{sub}</p>}
+        {sub && <p className="text-micro text-muted-foreground/50 mt-0.5">{sub}</p>}
       </CardContent>
     </Card>
   )
@@ -210,7 +210,7 @@ export default function BacktestResults() {
       {weekly.length > 1 && (
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-[0.72rem] font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
+            <p className="text-mini font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
               Curva de capital acumulada (retorno medio por semana, base 0)
             </p>
             <ResponsiveContainer width="100%" height={160}>
@@ -241,7 +241,7 @@ export default function BacktestResults() {
         {/* By regime */}
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-[0.72rem] font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
+            <p className="text-mini font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
               Retorno medio por régimen de mercado (14d)
             </p>
             <ResponsiveContainer width="100%" height={180}>
@@ -267,7 +267,7 @@ export default function BacktestResults() {
         {/* Score quartiles */}
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-[0.72rem] font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
+            <p className="text-mini font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
               Retorno por cuartil de value_score — ¿el score predice resultados?
             </p>
             <ResponsiveContainer width="100%" height={180}>
@@ -296,7 +296,7 @@ export default function BacktestResults() {
       {sectorStats.length > 0 && (
         <Card className="bg-card/50">
           <CardContent className="p-4">
-            <p className="text-[0.72rem] font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
+            <p className="text-mini font-semibold text-muted-foreground/70 uppercase tracking-wider mb-3">
               Retorno medio por sector (14d, mín. 5 señales)
             </p>
             <ResponsiveContainer width="100%" height={200}>
@@ -320,7 +320,7 @@ export default function BacktestResults() {
         </Card>
       )}
 
-      <p className="text-[0.68rem] text-muted-foreground/40 text-center">
+      <p className="text-micro text-muted-foreground/40 text-center">
         Datos reales de señales VALUE generadas por el sistema · Retornos sin costes de transacción ni slippage · No es una promesa de rentabilidad futura
       </p>
     </div>

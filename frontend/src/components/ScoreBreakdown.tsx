@@ -56,14 +56,14 @@ export default function ScoreBreakdown({ row }: ScoreBreakdownProps) {
 
   return (
     <div>
-      <h4 className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">
+      <h4 className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">
         Breakdown del Score
       </h4>
       <div className="flex flex-wrap gap-1.5">
         {items.map((item, i) => (
           <span
             key={i}
-            className={`inline-flex items-center gap-1 text-[0.65rem] font-medium px-2 py-0.5 rounded-full border ${
+            className={`inline-flex items-center gap-1 text-micro font-medium px-2 py-0.5 rounded-full border ${
               item.positive
                 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
                 : 'bg-red-500/10 text-red-400 border-red-500/25'
@@ -75,7 +75,7 @@ export default function ScoreBreakdown({ row }: ScoreBreakdownProps) {
         ))}
       </div>
       {(positives.length > 0 || negatives.length > 0) && (
-        <div className="mt-2 flex items-center gap-3 text-[0.6rem] text-muted-foreground">
+        <div className="mt-2 flex items-center gap-3 text-micro text-muted-foreground">
           <span className="text-emerald-400">
             Positivo: +{positives.reduce((s, i) => s + i.value, 0).toFixed(1)}pts
           </span>

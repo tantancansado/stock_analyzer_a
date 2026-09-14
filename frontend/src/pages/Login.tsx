@@ -96,7 +96,7 @@ export default function Login() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="login-email" className="text-[0.7rem] font-bold uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
+                <label htmlFor="login-email" className="text-mini font-bold uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
                   Email
                 </label>
                 <input
@@ -112,7 +112,7 @@ export default function Login() {
               </div>
 
               <div>
-                <label htmlFor="login-password" className="text-[0.7rem] font-bold uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
+                <label htmlFor="login-password" className="text-mini font-bold uppercase tracking-wider text-muted-foreground/70 block mb-1.5">
                   Contraseña
                 </label>
                 <input
@@ -129,13 +129,13 @@ export default function Login() {
               </div>
 
               {error && (
-                <p className="text-[0.75rem] text-red-400 bg-red-400/10 border border-red-400/20 rounded px-3 py-2">
+                <p className="text-mini text-red-400 bg-red-400/10 border border-red-400/20 rounded px-3 py-2">
                   {error}
                 </p>
               )}
 
               {info && (
-                <p className="text-[0.75rem] text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded px-3 py-2">
+                <p className="text-mini text-emerald-400 bg-emerald-400/10 border border-emerald-400/20 rounded px-3 py-2">
                   {info}
                 </p>
               )}
@@ -149,7 +149,7 @@ export default function Login() {
           </CardContent>
         </Card>
 
-        <p className="text-center text-[0.65rem] text-muted-foreground/40 mt-4">
+        <p className="text-center text-micro text-muted-foreground/40 mt-4">
           Acceso privado · Solo usuarios autorizados
         </p>
       </div>

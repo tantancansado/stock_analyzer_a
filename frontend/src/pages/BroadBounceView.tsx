@@ -15,30 +15,30 @@ function Card({ s }: Readonly<{ s: BounceBroadSetup }>) {
         <div className="flex items-center gap-2">
           <TickerLogo ticker={s.ticker} size="sm" />
           <div>
-            <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-[0.9rem] text-purple-300 hover:underline">
+            <Link to={`/search?q=${s.ticker}`} className="font-mono font-bold text-cuerpo text-purple-300 hover:underline">
               {s.ticker}
             </Link>
-            <div className="text-[0.65rem] text-muted-foreground/70">SP500 ampliado · {s.horizon_days}d</div>
+            <div className="text-micro text-muted-foreground/70">SP500 ampliado · {s.horizon_days}d</div>
           </div>
         </div>
         <div className="text-right">
-          <div className="text-[0.9rem] font-bold tabular-nums">${s.price.toFixed(2)}</div>
-          <div className="text-[0.62rem] text-muted-foreground/60">R/R <b className="text-purple-300">{s.rr.toFixed(1)}</b></div>
+          <div className="text-cuerpo font-bold tabular-nums">${s.price.toFixed(2)}</div>
+          <div className="text-micro text-muted-foreground/60">R/R <b className="text-purple-300">{s.rr.toFixed(1)}</b></div>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 text-[0.7rem] mb-3">
+      <div className="grid grid-cols-2 gap-2 text-mini mb-3">
         <div className="flex flex-col">
-          <span className="text-muted-foreground/60 text-[0.6rem] uppercase tracking-wider">Target</span>
-          <span className="font-semibold text-emerald-400 tabular-nums">${s.target.toFixed(2)} <span className="text-[0.6rem]">(+{s.target_pct}%)</span></span>
+          <span className="text-muted-foreground/60 text-micro uppercase tracking-wider">Target</span>
+          <span className="font-semibold text-emerald-400 tabular-nums">${s.target.toFixed(2)} <span className="text-micro">(+{s.target_pct}%)</span></span>
         </div>
         <div className="flex flex-col">
-          <span className="text-muted-foreground/60 text-[0.6rem] uppercase tracking-wider">Stop</span>
-          <span className="font-semibold text-red-400 tabular-nums">${s.stop.toFixed(2)} <span className="text-[0.6rem]">(-{potentialLoss}%)</span></span>
+          <span className="text-muted-foreground/60 text-micro uppercase tracking-wider">Stop</span>
+          <span className="font-semibold text-red-400 tabular-nums">${s.stop.toFixed(2)} <span className="text-micro">(-{potentialLoss}%)</span></span>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-1.5 text-[0.62rem]">
+      <div className="grid grid-cols-3 gap-1.5 text-micro">
         <div className="px-2 py-1 rounded bg-red-500/10 text-red-300 border border-red-500/20">RSI2 <b>{s.rsi2}</b></div>
         <div className="px-2 py-1 rounded bg-orange-500/10 text-orange-300 border border-orange-500/20">RSI14 <b>{s.rsi14}</b></div>
         <div className="px-2 py-1 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">Vol <b>{s.vol_ratio.toFixed(1)}×</b></div>
@@ -81,18 +81,18 @@ export default function BroadBounceView() {
           </>}
         />
         <div className="flex flex-wrap gap-2 mt-3">
-          <div className="text-[0.68rem] px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
+          <div className="text-micro px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
             Universo: <b>{universeSize}</b> tickers
           </div>
-          <div className="text-[0.68rem] px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
+          <div className="text-micro px-2.5 py-1 rounded-lg bg-purple-500/8 border border-purple-500/20 text-purple-300">
             Setups hoy: <b>{setups.length}</b>
           </div>
-          <div className="text-[0.68rem] px-2.5 py-1 rounded-lg bg-muted/10 border border-border/30 text-muted-foreground">
+          <div className="text-micro px-2.5 py-1 rounded-lg bg-muted/10 border border-border/30 text-muted-foreground">
             RSI(2) &le;10 · &gt;SMA200 · Vol &ge;1.3× · R/R &ge;1.5
           </div>
         </div>
         {catalystExcludedCount > 0 && (
-          <div className="text-[0.68rem] text-red-400/70 mt-2">
+          <div className="text-micro text-red-400/70 mt-2">
             {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
           </div>
         )}

@@ -181,7 +181,7 @@ export default function EarningsCalendar() {
             <div className="flex items-center gap-2 mb-3">
               <Wallet size={16} className="text-primary" />
               <span className="text-xs font-bold uppercase tracking-widest text-primary">Earnings de Mi Cartera</span>
-              <span className="text-[0.65rem] px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30 font-bold">{myEarnings.length}</span>
+              <span className="text-micro px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30 font-bold">{myEarnings.length}</span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {myEarnings.map(entry => (
@@ -193,28 +193,28 @@ export default function EarningsCalendar() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
                       <span className="font-mono font-bold text-sm text-primary">{entry.ticker}</span>
-                      <span className="text-[0.65rem] text-muted-foreground truncate">{entry.company}</span>
+                      <span className="text-micro text-muted-foreground truncate">{entry.company}</span>
                     </div>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-[0.65rem] text-muted-foreground">{formatDate(entry.earnings_date)}</span>
+                      <span className="text-micro text-muted-foreground">{formatDate(entry.earnings_date)}</span>
                       {entry.earnings_warning && (
-                        <span className="text-[0.58rem] font-semibold text-red-400 flex items-center gap-0.5">
+                        <span className="text-micro font-semibold text-red-400 flex items-center gap-0.5">
                           <AlertTriangle size={12} /> Alerta
                         </span>
                       )}
                       {entry.earnings_catalyst && (
-                        <span className="text-[0.58rem] font-semibold text-emerald-400 flex items-center gap-0.5">
+                        <span className="text-micro font-semibold text-emerald-400 flex items-center gap-0.5">
                           <Zap size={12} /> Catalizador
                         </span>
                       )}
                       {entry.portfolio_only_fetch && (
-                        <span className="text-[0.58rem] font-semibold text-cyan-400 flex items-center gap-0.5" title="Fecha obtenida en vivo (fuera del universo curado)">
+                        <span className="text-micro font-semibold text-cyan-400 flex items-center gap-0.5" title="Fecha obtenida en vivo (fuera del universo curado)">
                           <RefreshCw size={12} strokeWidth={2.25} />Live
                         </span>
                       )}
                     </div>
                     {(entry.beat_probability != null || entry.consensus_eps != null || entry.consensus_revenue_millions != null) && (
-                      <div className="flex flex-wrap items-center gap-1.5 mt-1 text-[0.58rem]">
+                      <div className="flex flex-wrap items-center gap-1.5 mt-1 text-micro">
                         {entry.beat_probability != null && (
                           <span
                             className={`inline-flex items-center px-1.5 py-0.5 rounded border font-semibold ${beatTone(entry.beat_probability)}`}
@@ -237,7 +237,7 @@ export default function EarningsCalendar() {
                   </div>
                   <button
                     onClick={() => setThesisTicker(entry.ticker)}
-                    className="shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md text-[0.6rem] font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
+                    className="shrink-0 inline-flex items-center gap-1 px-2 py-1 rounded-md text-micro font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
                     title="Ver tesis IA de earnings"
                   >
                     <Bot size={12} /> Tesis IA
@@ -319,57 +319,57 @@ export default function EarningsCalendar() {
                       <div className="flex items-center gap-1.5">
                         {entry.beat_probability != null && (
                           <span
-                            className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold border ${beatTone(entry.beat_probability)}`}
+                            className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-semibold border ${beatTone(entry.beat_probability)}`}
                             title={(entry.beat_drivers ?? []).join(' · ') || 'Probabilidad estimada de batir expectativas'}
                           >
                             Beat {entry.beat_probability}%
                           </span>
                         )}
                         {entry.earnings_warning && (
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-semibold bg-red-500/15 text-red-400 border border-red-500/20">
                             <AlertTriangle size={12} /> Alerta
                           </span>
                         )}
                         {entry.earnings_catalyst && (
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">
                             <Zap size={12} /> Catalizador
                           </span>
                         )}
                         {entry.portfolio_only_fetch && (
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.62rem] font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/20" title="Fecha obtenida en vivo (fuera del universo curado)">
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-semibold bg-cyan-500/15 text-cyan-400 border border-cyan-500/20" title="Fecha obtenida en vivo (fuera del universo curado)">
                             <RefreshCw size={12} strokeWidth={2.25} />Live
                           </span>
                         )}
                         {entry.fundamental_score != null && (
-                          <span className="text-[0.62rem] text-muted-foreground/60 ml-1">
+                          <span className="text-micro text-muted-foreground/60 ml-1">
                             Fund: <span className="text-foreground/70 font-medium">{entry.fundamental_score.toFixed(0)}</span>
                           </span>
                         )}
                         {entry.analyst_upside_pct != null && (
-                          <span className={`text-[0.62rem] font-medium ${entry.analyst_upside_pct >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          <span className={`text-micro font-medium ${entry.analyst_upside_pct >= 0 ? 'text-green-400' : 'text-red-400'}`}>
                             <TrendingUp size={12} className="inline mr-0.5" />
                             {entry.analyst_upside_pct >= 0 ? '+' : ''}{entry.analyst_upside_pct.toFixed(0)}%
                           </span>
                         )}
                         {entry.consensus_eps != null && (
-                          <span className="text-[0.62rem] text-muted-foreground/70">
+                          <span className="text-micro text-muted-foreground/70">
                             EPS <span className="text-foreground/70 font-medium">{entry.consensus_eps.toFixed(2)}</span>
                           </span>
                         )}
                         {entry.consensus_revenue_millions != null && (
-                          <span className="text-[0.62rem] text-muted-foreground/70">
+                          <span className="text-micro text-muted-foreground/70">
                             Rev <span className="text-foreground/70 font-medium">{formatRevenueShort(entry.consensus_revenue_millions)}</span>
                           </span>
                         )}
                         {entry.beat_confidence != null && (
-                          <span className="text-[0.62rem] text-muted-foreground/70">
+                          <span className="text-micro text-muted-foreground/70">
                             Conf <span className="text-foreground/70 font-medium">{confidenceLabel(entry.beat_confidence)}</span>
                           </span>
                         )}
                         {isPortfolioRow(entry) && (
                           <button
                             onClick={() => setThesisTicker(entry.ticker)}
-                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.6rem] font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-bold text-primary bg-primary/10 hover:bg-primary/20 border border-primary/30 transition-colors"
                             title="Ver tesis IA de earnings"
                           >
                             <Bot size={12} /> Tesis IA

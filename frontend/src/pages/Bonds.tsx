@@ -501,7 +501,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
         <div className="table-x-wrap">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-border/20 text-[0.65rem] text-muted-foreground/50 uppercase tracking-wider">
+              <tr className="border-b border-border/20 text-micro text-muted-foreground/50 uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">ETF</th>
                 <th className="pb-2 text-left pr-3">Tipo</th>
                 <th className="pb-2 text-right pr-3">Yield anual</th>
@@ -528,11 +528,11 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
                       <div className="flex items-center gap-1.5">
                         <div className={cn('w-1 h-1 rounded-full flex-shrink-0', ratingCfg.dot)} />
                         <span className="font-mono font-bold text-foreground">{b.ticker}</span>
-                        {isTop && <span className="text-[0.6rem] text-emerald-400 font-medium">TOP</span>}
+                        {isTop && <span className="text-micro text-emerald-400 font-medium">TOP</span>}
                       </div>
                     </td>
                     <td className="py-2 pr-3">
-                      <span className={cn('text-[0.65rem] font-medium', typeCls.split(' ')[0])}>
+                      <span className={cn('text-micro font-medium', typeCls.split(' ')[0])}>
                         {BOND_TYPE_LABELS[b.bond_type] ?? b.bond_type}
                       </span>
                     </td>
@@ -563,7 +563,7 @@ function YieldCalculator({ bonds }: { bonds: BondOpportunity[] }) {
           </table>
         </div>
 
-        <p className="text-[0.62rem] text-muted-foreground/40 mt-3">
+        <p className="text-micro text-muted-foreground/40 mt-3">
           Cálculo con reinversión mensual (interés compuesto). No incluye fiscalidad ni comisiones de broker. Los T-Bills y ETFs de ultracorto se pueden vender en cualquier momento — no hay penalización por liquidez anticipada.
         </p>
       </CardContent>
@@ -633,12 +633,12 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
             <div className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', ratingCfg.dot)} />
             <div>
               <span className="font-mono font-bold text-sm text-primary">{bond.ticker}</span>
-              <div className="text-[0.62rem] text-muted-foreground truncate max-w-[140px]">{bond.name}</div>
+              <div className="text-micro text-muted-foreground truncate max-w-[140px]">{bond.name}</div>
             </div>
           </div>
         </td>
         <td className="px-3 py-2.5">
-          <Badge variant="outline" className={cn('text-[0.65rem] font-medium', typeCls)}>
+          <Badge variant="outline" className={cn('text-micro font-medium', typeCls)}>
             {BOND_TYPE_LABELS[bond.bond_type] ?? bond.bond_type}
           </Badge>
         </td>
@@ -659,7 +659,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
           <PctFromHigh val={bond.pct_from_high} />
         </td>
         <td className="px-3 py-2.5">
-          <Badge variant="outline" className={cn('text-[0.65rem] font-semibold border', ratingCfg.bg, ratingCfg.text)}>
+          <Badge variant="outline" className={cn('text-micro font-semibold border', ratingCfg.bg, ratingCfg.text)}>
             {ratingCfg.label}
           </Badge>
         </td>
@@ -716,7 +716,7 @@ function BondRow({ bond }: { bond: BondOpportunity }) {
               {bond.recommendation}
             </div>
             {bond.liquidity_note && (
-              <div className="text-[0.68rem] text-muted-foreground/70 mt-1.5 px-3">
+              <div className="text-micro text-muted-foreground/70 mt-1.5 px-3">
                 <Droplet size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{bond.liquidity_note}
               </div>
             )}
@@ -816,7 +816,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
         <div className="table-x-wrap">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-border/20 text-[0.65rem] text-muted-foreground/50 uppercase tracking-wider">
+              <tr className="border-b border-border/20 text-micro text-muted-foreground/50 uppercase tracking-wider">
                 <th className="pb-2 text-left pr-3">Ticker</th>
                 <th className="pb-2 text-left pr-3">Emisor</th>
                 <th className="pb-2 text-right pr-3">Yield actual</th>
@@ -843,7 +843,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
                       <div className="flex items-center gap-1.5">
                         <div className={cn('w-1 h-1 rounded-full flex-shrink-0', ratingCfg.dot)} />
                         <span className="font-mono font-bold text-foreground">{p.ticker}</span>
-                        {isTop && <span className="text-[0.6rem] text-emerald-400 font-medium">TOP</span>}
+                        {isTop && <span className="text-micro text-emerald-400 font-medium">TOP</span>}
                       </div>
                     </td>
                     <td className="py-2 pr-3 text-muted-foreground/70 truncate max-w-[120px]">{p.issuer}</td>
@@ -877,7 +877,7 @@ function PreferredCalculator({ prefs }: { prefs: PreferredStock[] }) {
           </table>
         </div>
 
-        <p className="text-[0.62rem] text-muted-foreground/40 mt-3">
+        <p className="text-micro text-muted-foreground/40 mt-3">
           Cálculo con reinversión mensual (interés compuesto). El capital final asume que el precio de la preferred se mantiene estable — puede variar. No incluye fiscalidad ni comisiones.
         </p>
       </CardContent>
@@ -920,13 +920,13 @@ function PreferredRow({ p }: { p: PreferredStock }) {
             <div className={cn('w-1.5 h-1.5 rounded-full flex-shrink-0', ratingCfg.dot)} />
             <div>
               <span className="font-mono font-bold text-sm text-primary">{p.ticker}</span>
-              <div className="text-[0.62rem] text-muted-foreground">{p.issuer}</div>
+              <div className="text-micro text-muted-foreground">{p.issuer}</div>
             </div>
           </div>
         </td>
         {/* Sector */}
         <td className="px-3 py-2.5">
-          <Badge variant="outline" className={cn('text-[0.65rem] font-medium', sectorCls)}>
+          <Badge variant="outline" className={cn('text-micro font-medium', sectorCls)}>
             {p.sector}
           </Badge>
         </td>
@@ -940,7 +940,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
           </span>
           {p.call_risk === 'ALTO' && p.yield_to_call_1y_pct != null && (
             <div
-              className="text-[0.6rem] font-semibold text-orange-400"
+              className="text-micro font-semibold text-orange-400"
               title={`Cotiza sobre par: si la llaman a $${p.par_value} en ~1 año, tu retorno real sería ${p.yield_to_call_1y_pct.toFixed(1)}%, no el ${p.current_yield?.toFixed(1)}% del cupón`}
             >
               YTC {p.yield_to_call_1y_pct.toFixed(1)}%
@@ -966,11 +966,11 @@ function PreferredRow({ p }: { p: PreferredStock }) {
         </td>
         {/* Riesgo */}
         <td className="px-3 py-2.5 text-center">
-          <span className={cn('text-[0.65rem] font-semibold', riskColor)}>{p.risk_tier}</span>
+          <span className={cn('text-micro font-semibold', riskColor)}>{p.risk_tier}</span>
         </td>
         {/* Rating */}
         <td className="px-3 py-2.5">
-          <Badge variant="outline" className={cn('text-[0.65rem] font-semibold border', ratingCfg.bg, ratingCfg.text)}>
+          <Badge variant="outline" className={cn('text-micro font-semibold border', ratingCfg.bg, ratingCfg.text)}>
             {ratingCfg.label}
           </Badge>
         </td>
@@ -1032,7 +1032,7 @@ function PreferredRow({ p }: { p: PreferredStock }) {
               {p.recommendation}
             </div>
             {p.liquidity_note && (
-              <div className="text-[0.68rem] text-muted-foreground/70 mt-1.5 px-3">
+              <div className="text-micro text-muted-foreground/70 mt-1.5 px-3">
                 <Droplet size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{p.liquidity_note}
               </div>
             )}
@@ -1117,7 +1117,7 @@ function PreferredSection() {
           <div className="table-x-wrap">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border/30 text-[0.7rem] text-muted-foreground/60 uppercase tracking-wider">
+                <tr className="border-b border-border/30 text-mini text-muted-foreground/60 uppercase tracking-wider">
                   <th className="px-3 py-2.5 text-left">Ticker</th>
                   <th className="px-3 py-2.5 text-left">Sector</th>
                   <th className="px-3 py-2.5 text-right">Yield actual</th>
@@ -1285,7 +1285,7 @@ export default function Bonds() {
           <div className="table-x-wrap">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border/30 text-[0.7rem] text-muted-foreground/60 uppercase tracking-wider">
+                <tr className="border-b border-border/30 text-mini text-muted-foreground/60 uppercase tracking-wider">
                   <th className="px-3 py-2.5 text-left">ETF / Bono</th>
                   <th className="px-3 py-2.5 text-left">Tipo</th>
                   <th className="px-3 py-2.5 text-right">Yield</th>

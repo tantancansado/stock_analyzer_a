@@ -89,7 +89,7 @@ export default function LeapsPayoffLine({ strike, spot, breakeven, target, class
         />
       </div>
 
-      <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-0.5 text-[0.58rem] tabular-nums">
+      <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-0.5 text-micro tabular-nums">
         <span className="inline-flex items-center gap-1">
           <span className="h-2 w-[2px] rounded-full bg-muted-foreground/50" />
           <span className="text-muted-foreground/70">Strike</span>

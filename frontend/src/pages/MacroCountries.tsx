@@ -147,25 +147,25 @@ function CountryCard({ c }: { c: CountryData }) {
             <span className="text-2xl">{c.flag}</span>
             <div>
               <div className="font-semibold text-sm text-foreground leading-tight">{c.name}</div>
-              <div className="text-[0.65rem] text-muted-foreground/80">{c.region}</div>
+              <div className="text-micro text-muted-foreground/80">{c.region}</div>
             </div>
           </div>
           <div className="flex flex-col items-end gap-1">
-            <span className={`inline-flex items-center gap-0.5 text-[0.6rem] font-black px-1.5 py-0.5 rounded border tracking-wide ${sig.bg} ${sig.text} ${sig.border}`}>
+            <span className={`inline-flex items-center gap-0.5 text-micro font-black px-1.5 py-0.5 rounded border tracking-wide ${sig.bg} ${sig.text} ${sig.border}`}>
               <sig.icon size={12} strokeWidth={2.5} className="inline shrink-0 mr-0.5 align-[-2px]" />{sig.label}
             </span>
-            <span className="text-[0.6rem] text-muted-foreground/80">{c.combined_score.toFixed(0)}/100</span>
+            <span className="text-micro text-muted-foreground/80">{c.combined_score.toFixed(0)}/100</span>
           </div>
         </div>
 
         {/* Score bars */}
         <div className="space-y-1.5 mb-3">
-          <div className="flex items-center justify-between text-[0.6rem] text-muted-foreground">
+          <div className="flex items-center justify-between text-micro text-muted-foreground">
             <span>Macro salud</span>
             <span className="text-foreground font-mono">{c.macro_score.toFixed(0)}/100</span>
           </div>
           <ScoreBar value={c.macro_score} color="#22d3ee" />
-          <div className="flex items-center justify-between text-[0.6rem] text-muted-foreground">
+          <div className="flex items-center justify-between text-micro text-muted-foreground">
             <span>Oportunidad mercado</span>
             <span className="text-foreground font-mono">{c.market_score.toFixed(0)}/100</span>
           </div>
@@ -175,17 +175,17 @@ function CountryCard({ c }: { c: CountryData }) {
         {/* Key metrics row */}
         <div className="grid grid-cols-3 gap-1.5 text-center">
           <div className="bg-white/5 rounded px-1 py-1.5">
-            <div className="text-[0.55rem] text-muted-foreground/80 mb-0.5">PIB</div>
+            <div className="text-micro text-muted-foreground/80 mb-0.5">PIB</div>
             <div className={`text-xs font-bold ${pctColor(c.gdp_growth)}`}>{c.gdp_growth > 0 ? '+' : ''}{c.gdp_growth.toFixed(1)}%</div>
           </div>
           <div className="bg-white/5 rounded px-1 py-1.5">
-            <div className="text-[0.55rem] text-muted-foreground/80 mb-0.5">IPC</div>
+            <div className="text-micro text-muted-foreground/80 mb-0.5">IPC</div>
             <div className={`text-xs font-bold ${c.inflation >= 1.5 && c.inflation <= 3 ? 'text-emerald-400' : c.inflation > 5 ? 'text-red-400' : 'text-amber-400'}`}>
               {c.inflation.toFixed(1)}%
             </div>
           </div>
           <div className="bg-white/5 rounded px-1 py-1.5">
-            <div className="text-[0.55rem] text-muted-foreground/80 mb-0.5">vs 200MA</div>
+            <div className="text-micro text-muted-foreground/80 mb-0.5">vs 200MA</div>
             <div className={`text-xs font-bold ${mkt ? pctColor(mkt.pct_from_200) : 'text-muted-foreground'}`}>
               {mkt ? `${mkt.pct_from_200 > 0 ? '+' : ''}${mkt.pct_from_200.toFixed(1)}%` : 'N/A'}
             </div>
@@ -195,19 +195,19 @@ function CountryCard({ c }: { c: CountryData }) {
         {/* Tags */}
         <div className="flex flex-wrap gap-1 mt-2.5">
           {c.contrarian && (
-            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20"><Zap size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />CONTRARIAN</span>
+            <span className="text-micro px-1 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20"><Zap size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />CONTRARIAN</span>
           )}
           {c.wait_pullback && (
-            <span className="text-[0.55rem] px-1 py-0.5 rounded bg-muted/30 text-muted-foreground border border-border/40"><Hourglass size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />ESPERAR PULLBACK</span>
+            <span className="text-micro px-1 py-0.5 rounded bg-muted/30 text-muted-foreground border border-border/40"><Hourglass size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />ESPERAR PULLBACK</span>
           )}
           {mkt && mkt.ytd_return < -10 && (
-            <span className="inline-flex items-center gap-1 text-[0.55rem] px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20"><TrendingDown size={12} strokeWidth={2} className="shrink-0" />YTD {mkt.ytd_return.toFixed(0)}%</span>
+            <span className="inline-flex items-center gap-1 text-micro px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20"><TrendingDown size={12} strokeWidth={2} className="shrink-0" />YTD {mkt.ytd_return.toFixed(0)}%</span>
           )}
           {c.debt_to_gdp != null && !c.currency_sovereign && c.debt_to_gdp >= 100 && (
-            <span title="Deuda elevada sin soberanía monetaria — riesgo real de mercado" className="text-[0.55rem] px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20 inline-flex items-center gap-0.5"><TriangleAlert size={12} strokeWidth={2.25} />Deuda {c.debt_to_gdp.toFixed(0)}% GDP</span>
+            <span title="Deuda elevada sin soberanía monetaria — riesgo real de mercado" className="text-micro px-1 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20 inline-flex items-center gap-0.5"><TriangleAlert size={12} strokeWidth={2.25} />Deuda {c.debt_to_gdp.toFixed(0)}% GDP</span>
           )}
           {c.debt_to_gdp != null && c.currency_sovereign && c.debt_to_gdp >= 180 && (
-            <span title="Deuda muy alta — monetizable pero riesgo latente" className="text-[0.55rem] px-1 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 inline-flex items-center gap-0.5"><TriangleAlert size={12} strokeWidth={2.25} />Deuda {c.debt_to_gdp.toFixed(0)}% GDP</span>
+            <span title="Deuda muy alta — monetizable pero riesgo latente" className="text-micro px-1 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 inline-flex items-center gap-0.5"><TriangleAlert size={12} strokeWidth={2.25} />Deuda {c.debt_to_gdp.toFixed(0)}% GDP</span>
           )}
         </div>
       </div>
@@ -218,7 +218,7 @@ function CountryCard({ c }: { c: CountryData }) {
 
           {/* Macro fundamentals */}
           <div>
-            <div className="text-[0.6rem] font-semibold text-muted-foreground uppercase tracking-wider mb-2">Macro Fundamentales</div>
+            <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">Macro Fundamentales</div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">PIB real 2025e</span>
@@ -248,7 +248,7 @@ function CountryCard({ c }: { c: CountryData }) {
                 <div className="flex justify-between col-span-2">
                   <span className="text-muted-foreground">
                     Deuda pública / GDP
-                    <span className={`ml-1 text-[0.6rem] ${c.currency_sovereign ? 'text-muted-foreground/80' : 'text-amber-500'}`}>
+                    <span className={`ml-1 text-micro ${c.currency_sovereign ? 'text-muted-foreground/80' : 'text-amber-500'}`}>
                       {c.currency_sovereign ? '(moneda propia)' : '(sin soberanía monetaria)'}
                     </span>
                   </span>
@@ -265,23 +265,23 @@ function CountryCard({ c }: { c: CountryData }) {
           {/* AI Analysis */}
           {c.ai_narrative && (
             <div className="bg-purple-500/5 border border-purple-500/20 rounded-lg p-3 space-y-2">
-              <div className="text-[0.6rem] font-semibold text-purple-400 uppercase tracking-wider flex items-center gap-1">
+              <div className="text-micro font-semibold text-purple-400 uppercase tracking-wider flex items-center gap-1">
                 <Bot size={12} strokeWidth={2} className="mr-1 inline shrink-0 align-[-2px]" />Análisis IA — {c.ai_verdict ?? c.signal}
                 {c.ai_confidence != null && <span className="text-purple-500 font-normal">· confianza {c.ai_confidence}%</span>}
               </div>
-              <p className="text-[0.7rem] text-foreground leading-relaxed">{c.ai_narrative}</p>
+              <p className="text-mini text-foreground leading-relaxed">{c.ai_narrative}</p>
               {c.ai_insight && (
-                <p className="text-[0.68rem] text-cyan-400 italic"><Lightbulb size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{c.ai_insight}</p>
+                <p className="text-micro text-cyan-400 italic"><Lightbulb size={12} strokeWidth={2.25} className="inline -mt-px mr-1" />{c.ai_insight}</p>
               )}
               {(c.ai_risks?.length ?? 0) > 0 && (
                 <div className="grid grid-cols-2 gap-2 mt-1">
                   <div>
-                    <div className="text-[0.55rem] text-red-400 font-semibold mb-1">RIESGOS</div>
-                    {c.ai_risks!.map((r, i) => <div key={i} className="text-[0.62rem] text-muted-foreground">• {r}</div>)}
+                    <div className="text-micro text-red-400 font-semibold mb-1">RIESGOS</div>
+                    {c.ai_risks!.map((r, i) => <div key={i} className="text-micro text-muted-foreground">• {r}</div>)}
                   </div>
                   <div>
-                    <div className="text-[0.55rem] text-emerald-400 font-semibold mb-1">OPORTUNIDADES</div>
-                    {c.ai_opportunities!.map((o, i) => <div key={i} className="text-[0.62rem] text-muted-foreground">• {o}</div>)}
+                    <div className="text-micro text-emerald-400 font-semibold mb-1">OPORTUNIDADES</div>
+                    {c.ai_opportunities!.map((o, i) => <div key={i} className="text-micro text-muted-foreground">• {o}</div>)}
                   </div>
                 </div>
               )}
@@ -291,7 +291,7 @@ function CountryCard({ c }: { c: CountryData }) {
           {/* Market data */}
           {mkt && (
             <div>
-              <div className="text-[0.6rem] font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+              <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                 Mercado — {c.etf_data ? c.etf : c.index}
               </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
@@ -331,14 +331,14 @@ function CountryCard({ c }: { c: CountryData }) {
 
           {/* Scoring breakdown */}
           <div>
-            <div className="text-[0.6rem] font-semibold text-muted-foreground uppercase tracking-wider mb-2">Desglose Scoring</div>
+            <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">Desglose Scoring</div>
             <div className="space-y-0.5">
               {c.macro_breakdown.map((b, i) => (
-                <div key={i} className="text-[0.65rem] text-muted-foreground">{b}</div>
+                <div key={i} className="text-micro text-muted-foreground">{b}</div>
               ))}
               <div className="my-1 border-t border-white/5" />
               {c.market_breakdown.map((b, i) => (
-                <div key={i} className="text-[0.65rem] text-muted-foreground">{b}</div>
+                <div key={i} className="text-micro text-muted-foreground">{b}</div>
               ))}
             </div>
           </div>
@@ -412,7 +412,7 @@ export default function MacroCountries() {
         // que aquí basta con el periodo.
         subtitle={`${data.countries.length} países · ${periodoMacro(data.macro_source)} · mercado en tiempo real`}
       >
-        <div className="text-right text-[0.65rem] text-muted-foreground/80">
+        <div className="text-right text-micro text-muted-foreground/80">
           <div>Actualizado: {data.generated_at}</div>
           <div className="text-muted-foreground/60">Macro: {data.macro_source}</div>
         </div>
@@ -490,8 +490,8 @@ export default function MacroCountries() {
 
       {/* Legend */}
       <div className="glass rounded-lg border border-white/10 p-4">
-        <div className="text-[0.6rem] font-semibold text-muted-foreground uppercase tracking-wider mb-2">Metodología</div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[0.65rem] text-muted-foreground leading-relaxed">
+        <div className="text-micro font-semibold text-muted-foreground uppercase tracking-wider mb-2">Metodología</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-micro text-muted-foreground leading-relaxed">
           <div>
             <span className="text-cyan-400 font-semibold">Score Macro (45%):</span> PIB real, inflación (óptimo 1.5-3%), desempleo, dirección de tipos, balanza corriente.
           </div>

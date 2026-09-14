@@ -48,7 +48,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
             <TickerLogo ticker={entry.ticker} size="xs" />
             <div>
               <div className="font-mono font-bold text-sm text-primary flex items-center gap-1.5">{entry.ticker}<OwnedBadge ticker={entry.ticker} /></div>
-              <div className="text-[0.62rem] text-muted-foreground truncate max-w-[80px]">{entry.sector}</div>
+              <div className="text-micro text-muted-foreground truncate max-w-[80px]">{entry.sector}</div>
             </div>
           </div>
 
@@ -56,7 +56,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
           <div className="flex-1 min-w-0">
             <div className="text-xs text-foreground/80 truncate">{entry.company}</div>
             {entry.current_price != null && (
-              <div className="text-[0.62rem] text-muted-foreground">${entry.current_price.toFixed(2)}</div>
+              <div className="text-micro text-muted-foreground">${entry.current_price.toFixed(2)}</div>
             )}
           </div>
 
@@ -65,7 +65,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
             {entry.dividend_yield != null && (
               <div className="text-center">
                 <div className={`font-bold ${cfg.text}`}>{entry.dividend_yield.toFixed(1)}%</div>
-                <div className="text-muted-foreground/60 text-[0.6rem]">Yield</div>
+                <div className="text-muted-foreground/60 text-micro">Yield</div>
               </div>
             )}
             {entry.payout_ratio != null && (
@@ -73,7 +73,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
                 <div className={`font-bold ${entry.payout_ratio > 100 ? 'text-red-400' : entry.payout_ratio > 80 ? 'text-orange-400' : 'text-yellow-400'}`}>
                   {entry.payout_ratio.toFixed(0)}%
                 </div>
-                <div className="text-muted-foreground/60 text-[0.6rem]">Payout</div>
+                <div className="text-muted-foreground/60 text-micro">Payout</div>
               </div>
             )}
             {entry.fcf_yield != null && (
@@ -81,12 +81,12 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
                 <div className={`font-bold ${entry.fcf_yield < 0 ? 'text-red-400' : entry.dividend_yield != null && entry.fcf_yield < entry.dividend_yield ? 'text-orange-400' : 'text-green-400'}`}>
                   {entry.fcf_yield.toFixed(1)}%
                 </div>
-                <div className="text-muted-foreground/60 text-[0.6rem]">FCF</div>
+                <div className="text-muted-foreground/60 text-micro">FCF</div>
               </div>
             )}
             <div>
               <TrapScoreBar score={entry.trap_score} />
-              <div className="text-muted-foreground/60 text-[0.6rem] mt-0.5">Riesgo</div>
+              <div className="text-muted-foreground/60 text-micro mt-0.5">Riesgo</div>
             </div>
           </div>
 
@@ -100,7 +100,7 @@ function TrapCard({ entry }: { entry: DividendTrapEntry }) {
         {expanded && entry.reasons.length > 0 && (
           <div className="mt-3 pt-3 border-t border-border/30 space-y-1.5">
             {entry.reasons.map((r, i) => (
-              <div key={i} className="flex items-start gap-1.5 text-[0.7rem] text-muted-foreground">
+              <div key={i} className="flex items-start gap-1.5 text-mini text-muted-foreground">
                 <AlertTriangle size={12} className="text-red-400 flex-shrink-0 mt-0.5" />
                 {r}
               </div>
@@ -119,32 +119,32 @@ function SafeCard({ entry }: { entry: DividendTrapEntry }) {
         <div className="flex items-center gap-3 flex-wrap">
           <div className="min-w-[64px]">
             <div className="font-mono font-bold text-sm text-primary">{entry.ticker}</div>
-            <div className="text-[0.6rem] text-muted-foreground truncate max-w-[70px]">{entry.sector}</div>
+            <div className="text-micro text-muted-foreground truncate max-w-[70px]">{entry.sector}</div>
           </div>
           <div className="flex-1 text-xs text-foreground/70 truncate">{entry.company}</div>
           <div className="flex items-center gap-3 text-xs">
             {entry.dividend_yield != null && (
               <div className="text-center">
                 <div className="font-bold text-emerald-400">{entry.dividend_yield.toFixed(1)}%</div>
-                <div className="text-muted-foreground/60 text-[0.6rem]">Yield</div>
+                <div className="text-muted-foreground/60 text-micro">Yield</div>
               </div>
             )}
             {entry.payout_ratio != null && (
               <div className="text-center">
                 <div className="font-bold text-foreground/70">{entry.payout_ratio.toFixed(0)}%</div>
-                <div className="text-muted-foreground/60 text-[0.6rem]">Payout</div>
+                <div className="text-muted-foreground/60 text-micro">Payout</div>
               </div>
             )}
             {entry.fcf_yield != null && (
               <div className="text-center">
                 <div className="font-bold text-green-400">{entry.fcf_yield.toFixed(1)}%</div>
-                <div className="text-muted-foreground/60 text-[0.6rem]">FCF</div>
+                <div className="text-muted-foreground/60 text-micro">FCF</div>
               </div>
             )}
             {entry.fundamental_score != null && (
               <div className="text-center">
                 <div className="font-bold text-foreground/60">{entry.fundamental_score.toFixed(0)}</div>
-                <div className="text-muted-foreground/60 text-[0.6rem]">Fund</div>
+                <div className="text-muted-foreground/60 text-micro">Fund</div>
               </div>
             )}
           </div>
@@ -229,7 +229,7 @@ export default function DividendTraps() {
                       <span className="font-mono font-bold text-sm text-primary">{t.ticker}</span>
                       <span className="text-xs text-muted-foreground truncate flex-1">{t.company}</span>
                       <span className="text-xs font-bold text-red-400">Yield {t.dividend_yield?.toFixed(1)}%</span>
-                      <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded ${RISK_CONFIG[t.risk_level].bg} ${RISK_CONFIG[t.risk_level].text}`}>
+                      <span className={`text-micro font-bold px-1.5 py-0.5 rounded ${RISK_CONFIG[t.risk_level].bg} ${RISK_CONFIG[t.risk_level].text}`}>
                         {RISK_CONFIG[t.risk_level].label}
                       </span>
                     </div>
@@ -273,13 +273,13 @@ export default function DividendTraps() {
                   <span className="font-mono font-bold text-sm text-primary">{t.ticker}</span>
                   <span className="text-xs text-muted-foreground truncate flex-1">{t.company}</span>
                   <span className="text-xs text-amber-400">Yield {t.dividend_yield?.toFixed(1) ?? '—'}% · Payout {t.payout_ratio?.toFixed(0) ?? '—'}%</span>
-                  <span className={`text-[0.6rem] font-bold px-1.5 py-0.5 rounded ${RISK_CONFIG[t.risk_level].bg} ${RISK_CONFIG[t.risk_level].text}`}>
+                  <span className={`text-micro font-bold px-1.5 py-0.5 rounded ${RISK_CONFIG[t.risk_level].bg} ${RISK_CONFIG[t.risk_level].text}`}>
                     {RISK_CONFIG[t.risk_level].label}
                   </span>
                 </div>
               ))}
             </div>
-            <p className="text-[0.65rem] text-muted-foreground/60 mt-2">Estas acciones aparecen como oportunidades VALUE pero su dividendo puede estar en riesgo de recorte.</p>
+            <p className="text-micro text-muted-foreground/60 mt-2">Estas acciones aparecen como oportunidades VALUE pero su dividendo puede estar en riesgo de recorte.</p>
           </CardContent>
         </Card>
       )}
@@ -451,14 +451,14 @@ export default function DividendTraps() {
                           {event.ticker}
                           <OwnedBadge ticker={event.ticker} />
                         </div>
-                        <div className="text-[0.62rem] text-muted-foreground truncate max-w-[80px]">{event.sector}</div>
+                        <div className="text-micro text-muted-foreground truncate max-w-[80px]">{event.sector}</div>
                       </div>
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="text-xs text-foreground/80 truncate">{event.company}</div>
                       {event.current_price != null && (
-                        <div className="text-[0.62rem] text-muted-foreground">${event.current_price.toFixed(2)}</div>
+                        <div className="text-micro text-muted-foreground">${event.current_price.toFixed(2)}</div>
                       )}
                     </div>
 
@@ -467,32 +467,32 @@ export default function DividendTraps() {
                         <div className={`font-bold ${event.days_to_exdiv <= 7 ? 'text-amber-400' : 'text-blue-400'}`}>
                           {event.days_to_exdiv}d
                         </div>
-                        <div className="text-muted-foreground/60 text-[0.6rem]">Ex-Div</div>
+                        <div className="text-muted-foreground/60 text-micro">Ex-Div</div>
                       </div>
 
                       <div className="text-center">
                         <div className="font-bold text-foreground/80">{event.ex_dividend_date.slice(5)}</div>
-                        <div className="text-muted-foreground/60 text-[0.6rem]">Fecha</div>
+                        <div className="text-muted-foreground/60 text-micro">Fecha</div>
                       </div>
 
                       {event.dividend_per_share != null && (
                         <div className="text-center">
                           <div className="font-bold text-emerald-400">${event.dividend_per_share.toFixed(2)}</div>
-                          <div className="text-muted-foreground/60 text-[0.6rem]">$/Accion</div>
+                          <div className="text-muted-foreground/60 text-micro">$/Accion</div>
                         </div>
                       )}
 
                       {event.capture_yield_pct != null && (
                         <div className="text-center">
                           <div className="font-bold text-emerald-400">{event.capture_yield_pct.toFixed(2)}%</div>
-                          <div className="text-muted-foreground/60 text-[0.6rem]">Capture</div>
+                          <div className="text-muted-foreground/60 text-micro">Capture</div>
                         </div>
                       )}
 
                       {event.dividend_yield_annual != null && (
                         <div className="text-center">
                           <div className="font-bold text-foreground/70">{event.dividend_yield_annual.toFixed(1)}%</div>
-                          <div className="text-muted-foreground/60 text-[0.6rem]">Yield anual</div>
+                          <div className="text-muted-foreground/60 text-micro">Yield anual</div>
                         </div>
                       )}
 
@@ -501,14 +501,14 @@ export default function DividendTraps() {
                           <div className={`font-bold ${event.fundamental_score >= 65 ? 'text-emerald-400' : event.fundamental_score >= 50 ? 'text-foreground/60' : 'text-red-400'}`}>
                             {event.fundamental_score.toFixed(0)}
                           </div>
-                          <div className="text-muted-foreground/60 text-[0.6rem]">Fund</div>
+                          <div className="text-muted-foreground/60 text-micro">Fund</div>
                         </div>
                       )}
 
                       <div className="flex gap-1">
-                        <Badge variant="green" className="text-[0.55rem]">IA VERIFIED</Badge>
+                        <Badge variant="green" className="text-micro">IA VERIFIED</Badge>
                         {event.conviction_grade && (
-                          <Badge variant={event.conviction_grade === 'A' || event.conviction_grade === 'A+' ? 'blue' : 'gray'} className="text-[0.55rem]">
+                          <Badge variant={event.conviction_grade === 'A' || event.conviction_grade === 'A+' ? 'blue' : 'gray'} className="text-micro">
                             {event.conviction_grade}
                           </Badge>
                         )}

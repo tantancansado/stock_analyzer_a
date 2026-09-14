@@ -22,7 +22,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
   if (!verdict) {
     if (compact) return null
     return (
-      <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[0.58rem] font-bold border bg-muted/10 text-muted-foreground/60 border-border/20', className)}>
+      <span className={cn('inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-micro font-bold border bg-muted/10 text-muted-foreground/60 border-border/20', className)}>
         <HelpCircle size={12} /> ?
       </span>
     )
@@ -47,7 +47,7 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
         onBlur={() => setTimeout(() => setOpen(false), 150)}
         className={cn(
           'inline-flex items-center gap-1 px-1.5 py-0.5 rounded border font-bold transition-colors cursor-pointer',
-          compact ? 'text-[0.58rem]' : 'text-[0.65rem]',
+          compact ? 'text-micro' : 'text-micro',
           meta.bg
         )}
         title={tooltipText}
@@ -65,32 +65,32 @@ export default function EntryVerdictBadge({ verdict, compact = false, className 
             <Icon size={16} className={meta.bg.split(' ').find(c => c.startsWith('text-')) ?? 'text-foreground'} />
             <span className="font-bold">{meta.label}</span>
             {verdict.confidence != null && (
-              <span className="text-[0.58rem] text-muted-foreground/70 tabular-nums ml-auto">conf {verdict.confidence}</span>
+              <span className="text-micro text-muted-foreground/70 tabular-nums ml-auto">conf {verdict.confidence}</span>
             )}
             {verdict.source === 'ai' && (
-              <span className="text-[0.55rem] px-1.5 py-0.5 rounded border border-primary/30 bg-primary/10 text-primary font-bold">IA</span>
+              <span className="text-micro px-1.5 py-0.5 rounded border border-primary/30 bg-primary/10 text-primary font-bold">IA</span>
             )}
           </div>
           {reasons.length > 0 && (
             <div>
-              <div className="text-[0.55rem] uppercase tracking-widest text-emerald-400/70 font-bold mb-1">A favor</div>
+              <div className="text-micro uppercase tracking-widest text-emerald-400/70 font-bold mb-1">A favor</div>
               <ul className="space-y-0.5">
-                {reasons.map(r => <li key={r} className="text-foreground/85 text-[0.7rem]">· {r}</li>)}
+                {reasons.map(r => <li key={r} className="text-foreground/85 text-mini">· {r}</li>)}
               </ul>
             </div>
           )}
           {blockers.length > 0 && (
             <div>
-              <div className="text-[0.55rem] uppercase tracking-widest text-red-400/70 font-bold mb-1">En contra</div>
+              <div className="text-micro uppercase tracking-widest text-red-400/70 font-bold mb-1">En contra</div>
               <ul className="space-y-0.5">
-                {blockers.map(b => <li key={b} className="text-foreground/85 text-[0.7rem]">· {b}</li>)}
+                {blockers.map(b => <li key={b} className="text-foreground/85 text-mini">· {b}</li>)}
               </ul>
             </div>
           )}
           {verdict.trigger && (
             <div className="pt-1.5 border-t border-border/30">
-              <div className="text-[0.55rem] uppercase tracking-widest text-primary/80 font-bold mb-1">Trigger</div>
-              <p className="text-[0.7rem] text-foreground/85 leading-snug">{verdict.trigger}</p>
+              <div className="text-micro uppercase tracking-widest text-primary/80 font-bold mb-1">Trigger</div>
+              <p className="text-mini text-foreground/85 leading-snug">{verdict.trigger}</p>
             </div>
           )}
         </div>

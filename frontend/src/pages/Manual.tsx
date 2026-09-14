@@ -107,7 +107,7 @@ function OpenLink({ to, label }: { to: string; label?: string }) {
   return (
     <Link
       to={to}
-      className="inline-flex items-center gap-1 text-[0.78rem] font-semibold text-primary hover:text-primary/80 transition-colors"
+      className="inline-flex items-center gap-1 text-apoyo font-semibold text-primary hover:text-primary/80 transition-colors"
     >
       {label ?? 'Abrir sección'} →
     </Link>
@@ -123,7 +123,7 @@ function Pill({ tone, children }: { tone: 'green' | 'amber' | 'red' | 'blue' | '
     blue:  'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
     slate: 'bg-muted/30 text-muted-foreground border-border/40',
   }[tone]
-  return <span className={`inline-flex items-center text-[0.68rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${map}`}>{children}</span>
+  return <span className={`inline-flex items-center text-micro font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${map}`}>{children}</span>
 }
 
 // ── Main component ────────────────────────────────────────────────────────────
@@ -231,16 +231,16 @@ export default function Manual() {
                 value={query}
                 onChange={e => setQuery(e.target.value)}
                 placeholder="Buscar en manual…"
-                className="w-full pl-8 pr-3 py-1.5 text-[0.78rem] rounded-md bg-muted/20 border border-border/40 focus:border-primary/60 focus:outline-none transition-colors"
+                className="w-full pl-8 pr-3 py-1.5 text-apoyo rounded-md bg-muted/20 border border-border/40 focus:border-primary/60 focus:outline-none transition-colors"
               />
             </div>
-            <nav className="text-[0.82rem] space-y-4 max-h-[calc(100vh-9rem)] overflow-y-auto">
+            <nav className="text-apoyo space-y-4 max-h-[calc(100vh-9rem)] overflow-y-auto">
               {(['intro', 'pages', 'agents', 'concepts'] as const).map(g => {
                 const items = byGroup[g]
                 if (!items?.length) return null
                 return (
                   <div key={g}>
-                    <div className="text-[0.6rem] uppercase tracking-[0.18em] font-bold text-muted-foreground/50 mb-1.5 px-2">
+                    <div className="text-micro uppercase tracking-[0.18em] font-bold text-muted-foreground/50 mb-1.5 px-2">
                       {GROUP_LABELS[g]}
                     </div>
                     <ul className="space-y-0.5">
@@ -268,7 +268,7 @@ export default function Manual() {
         </aside>
 
         {/* Content */}
-        <article className="flex-1 min-w-0 max-w-3xl text-[0.92rem] leading-relaxed">
+        <article className="flex-1 min-w-0 max-w-3xl text-cuerpo leading-relaxed">
 
           {/* ──────────────── Intro ──────────────── */}
 
@@ -672,7 +672,7 @@ export default function Manual() {
             <p className="mb-3">
               Cada noche (y varias veces al día) GitHub Actions ejecuta el pipeline en este orden:
             </p>
-            <ol className="list-decimal pl-5 space-y-1.5 text-sm mb-3 font-mono text-[0.82rem]">
+            <ol className="list-decimal pl-5 space-y-1.5 text-sm mb-3 font-mono text-apoyo">
               <li>sector_rotation</li>
               <li>mean_reversion</li>
               <li>super_score_integrator</li>

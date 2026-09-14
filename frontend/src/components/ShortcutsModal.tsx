@@ -62,7 +62,7 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
                 {s.keys.map(k => (
                   <kbd
                     key={k}
-                    className="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-md bg-white/8 border border-border/50 text-[0.62rem] font-semibold text-foreground/80 font-mono"
+                    className="inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-md bg-white/8 border border-border/50 text-micro font-semibold text-foreground/80 font-mono"
                   >
                     {k}
                   </kbd>
@@ -72,8 +72,8 @@ export default function ShortcutsModal({ open, onClose }: Readonly<Props>) {
           ))}
         </ul>
 
-        <p className="mt-4 text-[0.65rem] text-muted-foreground/40 text-center">
-          Pulsa <kbd className="inline px-1 py-0.5 rounded bg-white/8 border border-border/40 text-[0.6rem]">?</kbd> en cualquier momento para abrir este panel
+        <p className="mt-4 text-micro text-muted-foreground/40 text-center">
+          Pulsa <kbd className="inline px-1 py-0.5 rounded bg-white/8 border border-border/40 text-micro">?</kbd> en cualquier momento para abrir este panel
         </p>
       </div>
     </div>

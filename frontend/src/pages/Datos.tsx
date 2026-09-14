@@ -70,7 +70,7 @@ function SnapshotRow({ snap, csvBase }: { snap: HistorySnapshot; csvBase: string
       >
         <div className="flex items-center gap-3">
           <span className="text-sm font-mono font-bold text-primary">{snap.date}</span>
-          <span className="text-[0.65rem] font-semibold text-muted-foreground/60 bg-muted/30 px-2 py-0.5 rounded">{snap.files.length} archivos</span>
+          <span className="text-micro font-semibold text-muted-foreground/60 bg-muted/30 px-2 py-0.5 rounded">{snap.files.length} archivos</span>
         </div>
         <span className="text-muted-foreground text-xs">{open ? '▲' : '▼'}</span>
       </div>
@@ -133,7 +133,7 @@ export default function Datos() {
                       <div className="text-xs text-muted-foreground truncate">{item.desc}</div>
                     </div>
                     <div className="flex items-center gap-2 ml-4 shrink-0">
-                      <span className="text-[0.65rem] text-muted-foreground/60 font-mono hidden sm:block">{item.file}</span>
+                      <span className="text-micro text-muted-foreground/60 font-mono hidden sm:block">{item.file}</span>
                       <a
                         href={getCsvUrl(item.key)}
                         download={item.file}
@@ -159,11 +159,11 @@ export default function Datos() {
             Historial
           </h3>
           {historyUpdated && (
-            <span className="text-[0.65rem] text-muted-foreground/60">
+            <span className="text-micro text-muted-foreground/60">
               último índice: {historyUpdated}
             </span>
           )}
-          <span className="text-[0.65rem] text-muted-foreground/60">
+          <span className="text-micro text-muted-foreground/60">
             · Archivado diariamente · Máx. 45 días
           </span>
         </div>

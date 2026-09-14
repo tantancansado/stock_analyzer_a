@@ -21,7 +21,7 @@ export function ValueDecisionBadge({ decision, className }: { decision: ValueDec
     PauseCircle
 
   return (
-    <span className={cn('inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-[0.68rem] font-bold', decision.badgeClass, className)}>
+    <span className={cn('inline-flex items-center gap-1.5 rounded-full border px-2 py-1 text-micro font-bold', decision.badgeClass, className)}>
       <Icon size={12} strokeWidth={1.8} />
       {decision.label}
     </span>
@@ -123,7 +123,7 @@ export function ValueClarityPanel({
             {CONTADORES.map(({ clave, etiqueta, tono }) => (
               <div key={clave} className="flex items-baseline gap-1.5">
                 <span className={`text-lg font-extrabold tabular-nums ${tono}`}>{grupos[clave].length}</span>
-                <span className="text-[0.68rem] font-medium text-muted-foreground">{etiqueta}</span>
+                <span className="text-micro font-medium text-muted-foreground">{etiqueta}</span>
               </div>
             ))}
           </div>

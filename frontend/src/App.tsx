@@ -64,7 +64,7 @@ function NavItem({ item, onClose }: { item: NavLinkItem; onClose: () => void }) 
       onTouchStart={() => prefetchRuta(item.path)}
       style={{ '--nav-color': item.color } as React.CSSProperties}
       className={({ isActive }) => cn(
-        'nav-link flex items-center gap-2.5 px-3 py-2 lg:py-[9px] rounded-lg text-[0.98rem] lg:text-[1.04rem] font-medium transition-all mb-0.5 relative',
+        'nav-link flex items-center gap-2.5 px-3 py-2 lg:py-[9px] rounded-lg text-titulo lg:text-titulo font-medium transition-all mb-0.5 relative',
         'text-muted-foreground',
         isActive
           ? 'nav-link-active bg-[color-mix(in_srgb,var(--nav-color)_12%,transparent)] text-foreground'
@@ -91,7 +91,7 @@ function SidebarContent({ onClose, onSignOut, userEmail, onCustomize }: Readonly
             <LogoOrbit size={36} title="Stock Analyzer" />
           </div>
           <div className="min-w-0">
-            <h1 className="text-[1rem] lg:text-[1.05rem] font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
+            <h1 className="text-titulo lg:text-titulo font-bold tracking-tight text-foreground leading-tight">Stock Analyzer</h1>
           </div>
         </div>
         <button
@@ -107,7 +107,7 @@ function SidebarContent({ onClose, onSignOut, userEmail, onCustomize }: Readonly
       <nav className="flex-1 px-3 py-4 overflow-y-auto min-h-0 custom-scrollbar space-y-6">
         {categories.map(category => (
           <div key={category.name}>
-            <div className="px-2 mb-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-muted-foreground/60">
+            <div className="px-2 mb-2 text-micro font-bold uppercase tracking-[0.14em] text-muted-foreground/60">
               {category.name}
             </div>
             <div className="space-y-0.5">
@@ -123,14 +123,14 @@ function SidebarContent({ onClose, onSignOut, userEmail, onCustomize }: Readonly
       <div className="px-2 py-2 border-t border-border/30 flex-shrink-0 space-y-0.5">
         <button
           onClick={onCustomize}
-          className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-lg text-[0.98rem] font-medium text-muted-foreground hover:bg-accent/10 hover:text-foreground transition-all"
+          className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-lg text-titulo font-medium text-muted-foreground hover:bg-accent/10 hover:text-foreground transition-all"
         >
           <SlidersHorizontal size={15} strokeWidth={1.65} />
           Personalizar menú
         </button>
         <button
           onClick={onSignOut}
-          className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-lg text-[0.98rem] font-medium text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all"
+          className="flex w-full items-center gap-2.5 px-3 py-2.5 rounded-lg text-titulo font-medium text-muted-foreground hover:bg-red-500/10 hover:text-red-400 transition-all"
         >
           <LogOut size={15} strokeWidth={1.65} />
           Cerrar sesión

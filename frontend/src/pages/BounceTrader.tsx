@@ -103,12 +103,12 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
           <TickerLogo ticker={s.ticker} size="sm" />
           <div className="min-w-0">
             <div className="font-mono font-extrabold text-foreground text-base leading-tight tracking-wide">{s.ticker}</div>
-            <div className="text-[0.65rem] text-muted-foreground/60 truncate">{s.company_name}</div>
+            <div className="text-micro text-muted-foreground/60 truncate">{s.company_name}</div>
           </div>
         </div>
         <div className="flex items-center gap-1.5 shrink-0">
           {verdict && <EntryVerdictBadge verdict={verdict} compact />}
-          <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-[0.65rem] font-bold ${tc.bg}`}>
+          <div className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-micro font-bold ${tc.bg}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${tc.dot}`} />
             <span className={tc.text}>RSI {s.rsi?.toFixed(1)} · {s.rsi_tier ?? 'MEDIO'}</span>
           </div>
@@ -117,7 +117,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
 
       {/* Conviction value score badge */}
       {isConviction && s.value_score != null && (
-        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-amber-400/8 border border-amber-400/25 text-[0.65rem]">
+        <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-amber-400/8 border border-amber-400/25 text-micro">
           <Star size={12} className="text-amber-400 shrink-0" />
           <span className="text-amber-300/80">VALUE score <strong className="text-amber-300">{s.value_score.toFixed(0)}pts</strong></span>
           {s.value_grade && <span className="ml-auto font-bold text-amber-400">{s.value_grade}</span>}
@@ -126,7 +126,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
 
       {/* Earnings warning */}
       {s.earnings_warning && (
-        <div className="flex items-center gap-1.5 text-[0.65rem] text-amber-400 bg-amber-500/8 border border-amber-500/20 rounded-lg px-2.5 py-1.5">
+        <div className="flex items-center gap-1.5 text-micro text-amber-400 bg-amber-500/8 border border-amber-500/20 rounded-lg px-2.5 py-1.5">
           <AlertTriangle size={12} />
           <span>Earnings en {s.days_to_earnings}d — riesgo elevado</span>
         </div>
@@ -134,7 +134,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
 
       {/* NL Summary */}
       <div className="px-0.5">
-        <p className="text-[0.72rem] leading-relaxed text-muted-foreground/80">
+        <p className="text-mini leading-relaxed text-muted-foreground/80">
           {nlBounceSetup({
             ticker:               s.ticker,
             drawdown_pct:         s.drawdown_pct,
@@ -151,7 +151,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
           })}
         </p>
         {s.bounce_confidence != null && (
-          <p className="text-[0.65rem] mt-1 text-muted-foreground/50 italic">
+          <p className="text-micro mt-1 text-muted-foreground/50 italic">
             {nlBounceConfidence(s.bounce_confidence)}
           </p>
         )}
@@ -160,27 +160,27 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {/* Main numbers */}
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-muted/10 rounded-xl p-2.5 text-center">
-          <div className="text-[0.58rem] font-bold uppercase tracking-wider text-muted-foreground/40 mb-1">Entrada</div>
+          <div className="text-micro font-bold uppercase tracking-wider text-muted-foreground/40 mb-1">Entrada</div>
           <div className="text-sm font-extrabold text-foreground tabular-nums">${s.current_price.toFixed(2)}</div>
         </div>
         <div className="bg-emerald-500/8 border border-emerald-500/20 rounded-xl p-2.5 text-center">
-          <div className="text-[0.58rem] font-bold uppercase tracking-wider text-emerald-400/50 mb-1">Rebote</div>
+          <div className="text-micro font-bold uppercase tracking-wider text-emerald-400/50 mb-1">Rebote</div>
           <div className="text-sm font-extrabold text-emerald-400 tabular-nums">
             {bounceUsd != null ? `+$${bounceUsd.toFixed(2)}` : '—'}
           </div>
           {bouncePct != null && (
-            <div className="text-[0.6rem] text-emerald-400/60">+{bouncePct.toFixed(1)}%</div>
+            <div className="text-micro text-emerald-400/60">+{bouncePct.toFixed(1)}%</div>
           )}
         </div>
         <div className="bg-red-500/8 border border-red-500/20 rounded-xl p-2.5 text-center">
-          <div className="text-[0.58rem] font-bold uppercase tracking-wider text-red-400/50 mb-1">Stop</div>
+          <div className="text-micro font-bold uppercase tracking-wider text-red-400/50 mb-1">Stop</div>
           <div className="text-sm font-extrabold text-red-400 tabular-nums">${s.stop_loss.toFixed(2)}</div>
-          <div className="text-[0.6rem] text-red-400/60">{stopPct.toFixed(1)}%</div>
+          <div className="text-micro text-red-400/60">{stopPct.toFixed(1)}%</div>
         </div>
       </div>
 
       {/* Stats row */}
-      <div className="flex items-center justify-between text-[0.65rem] text-muted-foreground/60">
+      <div className="flex items-center justify-between text-micro text-muted-foreground/60">
         <span>R:R <strong className={`${rr && rr >= 2 ? 'text-emerald-400' : rr && rr >= 1 ? 'text-amber-400' : 'text-muted-foreground'}`}>{rr ? `${rr.toFixed(1)}:1` : '—'}</strong></span>
         <span>Vol <strong className={s.volume_ratio >= 1.5 ? 'text-cyan-400' : 'text-muted-foreground'}>{s.volume_ratio.toFixed(1)}x</strong></span>
         <span>Caída <strong className="text-foreground">{s.drawdown_pct.toFixed(0)}%</strong></span>
@@ -195,8 +195,8 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {/* Bounce confidence bar */}
       <div>
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[0.58rem] font-bold uppercase tracking-wider text-muted-foreground/40">Confianza rebote</span>
-          <span className={`text-[0.6rem] font-bold ${conf.color.replace('bg-', 'text-')}`}>{conf.label} {conf.pct}%</span>
+          <span className="text-micro font-bold uppercase tracking-wider text-muted-foreground/40">Confianza rebote</span>
+          <span className={`text-micro font-bold ${conf.color.replace('bg-', 'text-')}`}>{conf.label} {conf.pct}%</span>
         </div>
         <div className="h-1 bg-muted/20 rounded-full overflow-clip">
           <div className={`h-full rounded-full transition-all ${conf.color}`} style={{ width: `${conf.pct}%` }} />
@@ -204,14 +204,14 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
         {(s.bounce_signals?.length ?? 0) > 0 && (
           <div className="flex flex-wrap gap-1 mt-1.5">
             {s.bounce_signals!.map(sig => (
-              <span key={sig} className="text-[0.58rem] px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary/70">{sig}</span>
+              <span key={sig} className="text-micro px-1.5 py-0.5 rounded bg-primary/10 border border-primary/20 text-primary/70">{sig}</span>
             ))}
           </div>
         )}
       </div>
 
       {/* Indicators row */}
-      <div className="grid grid-cols-4 gap-1.5 text-[0.58rem] text-center">
+      <div className="grid grid-cols-4 gap-1.5 text-micro text-center">
         {s.stoch_k != null && (
           <div className={`rounded-lg px-1.5 py-1 border ${s.stoch_k < 20 ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400' : 'bg-muted/10 border-border/20 text-muted-foreground/50'}`}>
             <div className="font-bold uppercase tracking-wider mb-0.5">Stoch</div>
@@ -242,13 +242,13 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {(s.market_regime || s.hammer_candle || s.engulfing_candle || s.obv_divergence) && (
         <div className="flex flex-wrap gap-1">
           {s.market_regime && (
-            <span className={`text-[0.58rem] px-1.5 py-0.5 rounded border font-medium ${s.market_ok ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80' : s.market_ok === false ? 'bg-red-500/8 border-red-500/20 text-red-400/80' : 'bg-muted/10 border-border/20 text-muted-foreground/50'}`}>
+            <span className={`text-micro px-1.5 py-0.5 rounded border font-medium ${s.market_ok ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400/80' : s.market_ok === false ? 'bg-red-500/8 border-red-500/20 text-red-400/80' : 'bg-muted/10 border-border/20 text-muted-foreground/50'}`}>
               {s.market_ok ? <Check size={12} strokeWidth={2.5} className="inline -mt-px" /> : <TriangleAlert size={12} strokeWidth={2.5} className="inline -mt-px" />} {s.market_regime}
             </span>
           )}
-          {s.hammer_candle && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-amber-500/8 border-amber-500/20 text-amber-400"><Hammer size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Hammer</span>}
-          {s.engulfing_candle && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-emerald-500/8 border-emerald-500/20 text-emerald-400"><TrendingUp size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Engulfing</span>}
-          {s.obv_divergence && <span className="text-[0.58rem] px-1.5 py-0.5 rounded border bg-blue-500/8 border-blue-500/20 text-blue-400">↗ OBV div.</span>}
+          {s.hammer_candle && <span className="text-micro px-1.5 py-0.5 rounded border bg-amber-500/8 border-amber-500/20 text-amber-400"><Hammer size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Hammer</span>}
+          {s.engulfing_candle && <span className="text-micro px-1.5 py-0.5 rounded border bg-emerald-500/8 border-emerald-500/20 text-emerald-400"><TrendingUp size={12} strokeWidth={2.25} className="inline -mt-px mr-0.5" />Engulfing</span>}
+          {s.obv_divergence && <span className="text-micro px-1.5 py-0.5 rounded border bg-blue-500/8 border-blue-500/20 text-blue-400">↗ OBV div.</span>}
         </div>
       )}
 
@@ -256,7 +256,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
       {(s.pcr != null || s.finra_short_vol_pct != null || s.short_days_to_cover != null) && (
         <div className="flex flex-wrap gap-1 pt-1 border-t border-border/10">
           {s.pcr != null && (
-            <span className={`text-[0.58rem] px-1.5 py-0.5 rounded border font-medium ${
+            <span className={`text-micro px-1.5 py-0.5 rounded border font-medium ${
               s.pcr_signal === 'CONTRARIAN_BULLISH'
                 ? 'bg-emerald-500/8 border-emerald-500/20 text-emerald-400'
                 : 'bg-muted/10 border-border/20 text-muted-foreground/50'
@@ -265,7 +265,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
             </span>
           )}
           {s.finra_short_vol_pct != null && (
-            <span className={`text-[0.58rem] px-1.5 py-0.5 rounded border font-medium ${
+            <span className={`text-micro px-1.5 py-0.5 rounded border font-medium ${
               s.dark_pool_signal === 'ACCUMULATION'
                 ? 'bg-cyan-500/8 border-cyan-500/20 text-cyan-400'
                 : s.dark_pool_signal === 'DISTRIBUTION'
@@ -276,7 +276,7 @@ function BounceCard({ s, isConviction }: { s: BounceSetup; isConviction: boolean
             </span>
           )}
           {s.short_days_to_cover != null && (
-            <span className={`text-[0.58rem] px-1.5 py-0.5 rounded border font-medium ${
+            <span className={`text-micro px-1.5 py-0.5 rounded border font-medium ${
               s.squeeze_potential
                 ? 'bg-purple-500/8 border-purple-500/20 text-purple-400'
                 : 'bg-muted/10 border-border/20 text-muted-foreground/50'
@@ -304,7 +304,7 @@ function SectionHeader({ icon, title, subtitle, count, accent }: {
       <div className="shrink-0">{icon}</div>
       <div className="min-w-0 flex-1">
         <div className="font-extrabold text-sm leading-tight">{title}</div>
-        <div className="text-[0.65rem] opacity-70 mt-0.5">{subtitle}</div>
+        <div className="text-micro opacity-70 mt-0.5">{subtitle}</div>
       </div>
       <div className="text-2xl font-black tabular-nums shrink-0">{count}</div>
     </div>
@@ -394,7 +394,7 @@ export default function BounceTrader() {
       <div className="flex gap-2 mb-5 animate-fade-in-up">
         <button
           onClick={() => setMode('curated')}
-          className={`text-[0.72rem] font-bold px-4 py-2 rounded-lg border transition-colors ${
+          className={`text-mini font-bold px-4 py-2 rounded-lg border transition-colors ${
             mode === 'curated'
               ? 'bg-primary/15 border-primary/50 text-primary'
               : 'bg-muted/10 border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
@@ -404,7 +404,7 @@ export default function BounceTrader() {
         </button>
         <button
           onClick={() => setMode('broad')}
-          className={`text-[0.72rem] font-bold px-4 py-2 rounded-lg border transition-colors ${
+          className={`text-mini font-bold px-4 py-2 rounded-lg border transition-colors ${
             mode === 'broad'
               ? 'bg-purple-500/15 border-purple-500/50 text-purple-300'
               : 'bg-muted/10 border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
@@ -424,16 +424,16 @@ export default function BounceTrader() {
 
         {/* Summary pills */}
         <div className="flex flex-wrap gap-2 mt-3">
-          <div className="flex items-center gap-1.5 text-[0.7rem] px-3 py-1.5 rounded-lg bg-red-500/8 border border-red-500/20 text-red-400">
+          <div className="flex items-center gap-1.5 text-mini px-3 py-1.5 rounded-lg bg-red-500/8 border border-red-500/20 text-red-400">
             <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
             <span className="font-bold">{extremos}</span> EXTREMO (RSI &lt;20)
           </div>
-          <div className="flex items-center gap-1.5 text-[0.7rem] px-3 py-1.5 rounded-lg bg-orange-500/8 border border-orange-500/20 text-orange-400">
+          <div className="flex items-center gap-1.5 text-mini px-3 py-1.5 rounded-lg bg-orange-500/8 border border-orange-500/20 text-orange-400">
             <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
             <span className="font-bold">{altos}</span> ALTO (RSI 20–25)
           </div>
           {withEarn > 0 && (
-            <div className="flex items-center gap-1.5 text-[0.7rem] px-3 py-1.5 rounded-lg bg-amber-500/8 border border-amber-500/20 text-amber-400">
+            <div className="flex items-center gap-1.5 text-mini px-3 py-1.5 rounded-lg bg-amber-500/8 border border-amber-500/20 text-amber-400">
               <AlertTriangle size={12} />
               <span className="font-bold">{withEarn}</span> con earnings próximos
             </div>
@@ -448,7 +448,7 @@ export default function BounceTrader() {
             <button
               key={t}
               onClick={() => setTierFilter(t)}
-              className={`text-[0.68rem] font-bold px-3 py-1.5 rounded-lg border transition-colors ${
+              className={`text-micro font-bold px-3 py-1.5 rounded-lg border transition-colors ${
                 tierFilter === t
                   ? 'bg-primary/20 border-primary/50 text-primary'
                   : 'bg-muted/10 border-border/30 text-muted-foreground hover:border-border/60 hover:text-foreground'
@@ -461,7 +461,7 @@ export default function BounceTrader() {
         <div className="ml-auto">
           <button
             onClick={() => setHideEarnings(v => !v)}
-            className={`text-[0.68rem] font-bold px-3 py-1.5 rounded-lg border transition-colors ${
+            className={`text-micro font-bold px-3 py-1.5 rounded-lg border transition-colors ${
               hideEarnings
                 ? 'bg-amber-500/15 border-amber-500/30 text-amber-400'
                 : 'bg-muted/10 border-border/30 text-muted-foreground hover:border-border/60'
@@ -474,13 +474,13 @@ export default function BounceTrader() {
 
       {/* Filtered out notice */}
       {filteredOutCount > 0 && (
-        <div className="flex items-center gap-2 text-[0.68rem] text-muted-foreground/50 mb-4 px-1">
+        <div className="flex items-center gap-2 text-micro text-muted-foreground/50 mb-4 px-1">
           <span className="w-1 h-1 rounded-full bg-muted-foreground/30" />
           {filteredOutCount} setup{filteredOutCount > 1 ? 's' : ''} descartado{filteredOutCount > 1 ? 's' : ''} por baja fiabilidad (confianza &lt;40%, DP distribución, R:R &lt;1 o penny stock)
         </div>
       )}
       {catalystExcludedCount > 0 && (
-        <div className="flex items-center gap-2 text-[0.68rem] text-red-400/70 mb-4 px-1">
+        <div className="flex items-center gap-2 text-micro text-red-400/70 mb-4 px-1">
           <AlertTriangle size={12} />
           {catalystExcludedCount} setup{catalystExcludedCount > 1 ? 's' : ''} oculto{catalystExcludedCount > 1 ? 's' : ''} por catalizador negativo grave reciente (mismo motivo por el que no avisó Telegram)
         </div>

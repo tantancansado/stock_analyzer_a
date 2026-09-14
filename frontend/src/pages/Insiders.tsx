@@ -103,9 +103,9 @@ export default function Insiders() {
           { label: 'Confianza Media', value: avgConf.toFixed(0), sub: 'normalizado 0-100', color: avgConf >= 60 ? 'text-emerald-400' : 'text-amber-400', idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
+            <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
       </div>
@@ -120,8 +120,8 @@ export default function Insiders() {
             <CardContent className="p-4">
               <div className="flex items-center gap-2 mb-3">
                 <Wallet size={16} className="text-primary" />
-                <span className="text-[0.62rem] font-bold uppercase tracking-widest text-primary/70">Insiders en Mi Cartera</span>
-                <span className="text-[0.6rem] px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myInsiders.length}</span>
+                <span className="text-micro font-bold uppercase tracking-widest text-primary/70">Insiders en Mi Cartera</span>
+                <span className="text-micro px-1.5 py-0.5 rounded-full bg-primary/15 text-primary font-bold">{myInsiders.length}</span>
               </div>
               <Table>
                 <TableHeader>
@@ -146,9 +146,9 @@ export default function Insiders() {
                           <div className="flex items-center gap-1.5">
                             <TickerLogo ticker={d.ticker} size="sm" />
                             <div>
-                              <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">{d.ticker}</div>
+                              <div className="font-mono font-bold text-primary text-apoyo tracking-wide">{d.ticker}</div>
                               {company !== d.ticker && (
-                                <div className="text-[0.65rem] text-muted-foreground truncate max-w-[180px]">{company}</div>
+                                <div className="text-micro text-muted-foreground truncate max-w-[180px]">{company}</div>
                               )}
                             </div>
                           </div>
@@ -161,7 +161,7 @@ export default function Insiders() {
                           </span>
                         </TableCell>
                         <TableCell className="hidden md:table-cell tabular-nums text-muted-foreground">{fmtQty(d.total_shares ?? d.total_qty)}</TableCell>
-                        <TableCell className="hidden sm:table-cell text-muted-foreground text-[0.75rem]">{d.last_purchase}</TableCell>
+                        <TableCell className="hidden sm:table-cell text-muted-foreground text-mini">{d.last_purchase}</TableCell>
                         <TableCell>
                           {isEu && d.confidence_label
                             ? <Badge variant={confVariant(d.confidence_score, maxScore)}>{d.confidence_label}</Badge>
@@ -222,7 +222,7 @@ export default function Insiders() {
                       <span className="font-mono font-bold text-sm">{d.ticker}</span>
                       <OwnedBadge ticker={d.ticker} />
                     </div>
-                    <span className="text-[0.65rem] text-muted-foreground block truncate max-w-[140px]">{company !== d.ticker ? company : ''}</span>
+                    <span className="text-micro text-muted-foreground block truncate max-w-[140px]">{company !== d.ticker ? company : ''}</span>
                   </div>
                 </div>
                 <div className="text-right">
@@ -237,7 +237,7 @@ export default function Insiders() {
                   )}
                 </div>
               </div>
-              <div className="flex gap-3 mt-2.5 text-[0.62rem] text-muted-foreground/60">
+              <div className="flex gap-3 mt-2.5 text-micro text-muted-foreground/60">
                 <span>{d.purchase_count} compras</span>
                 <span>{d.unique_insiders} direct.</span>
                 {d.last_purchase && <span>últ. {d.last_purchase}</span>}
@@ -283,9 +283,9 @@ export default function Insiders() {
                           <div className="flex items-center gap-1.5">
                             <TickerLogo ticker={d.ticker} size="sm" />
                             <div>
-                              <div className="font-mono font-bold text-primary text-[0.8rem] tracking-wide flex items-center gap-1.5">{d.ticker}<OwnedBadge ticker={d.ticker} /></div>
+                              <div className="font-mono font-bold text-primary text-apoyo tracking-wide flex items-center gap-1.5">{d.ticker}<OwnedBadge ticker={d.ticker} /></div>
                               {company !== d.ticker && (
-                                <div className="text-[0.65rem] text-muted-foreground truncate max-w-[180px]">{company}</div>
+                                <div className="text-micro text-muted-foreground truncate max-w-[180px]">{company}</div>
                               )}
                             </div>
                           </div>
@@ -298,8 +298,8 @@ export default function Insiders() {
                           </span>
                         </TableCell>
                         {!compact && <TableCell className="hidden md:table-cell tabular-nums text-muted-foreground">{fmtQty(d.total_qty)}</TableCell>}
-                        {!compact && <TableCell className="hidden md:table-cell text-muted-foreground text-[0.75rem]">{d.first_purchase || '—'}</TableCell>}
-                        <TableCell className="hidden sm:table-cell text-muted-foreground text-[0.75rem]">{d.last_purchase}</TableCell>
+                        {!compact && <TableCell className="hidden md:table-cell text-muted-foreground text-mini">{d.first_purchase || '—'}</TableCell>}
+                        <TableCell className="hidden sm:table-cell text-muted-foreground text-mini">{d.last_purchase}</TableCell>
                         <TableCell>
                           {isEu && d.confidence_label
                             ? <Badge variant={confVariant(d.confidence_score, maxScore)}>{d.confidence_label}</Badge>
@@ -307,7 +307,7 @@ export default function Insiders() {
                               <div className="flex items-center gap-2">
                                 <Badge variant={confVariant(d.confidence_score, maxScore)}>{normConf}</Badge>
                                 {d.confidence_score > 100 && (
-                                  <span className="text-[0.6rem] text-muted-foreground">raw: {d.confidence_score}</span>
+                                  <span className="text-micro text-muted-foreground">raw: {d.confidence_score}</span>
                                 )}
                               </div>
                             )}
@@ -316,7 +316,7 @@ export default function Insiders() {
                       {expanded === d.ticker && (
                         <tr className="thesis-row">
                           <td colSpan={8}>
-                            <div className="px-5 py-4 grid grid-cols-2 md:grid-cols-4 gap-2 text-[0.75rem]">
+                            <div className="px-5 py-4 grid grid-cols-2 md:grid-cols-4 gap-2 text-mini">
                               {[
                                 { label: 'Empresa', value: company, q: '' },
                                 { label: 'Mercado', value: d.market ?? 'US', q: '' },
@@ -332,10 +332,10 @@ export default function Insiders() {
                                   q === 'warn' ? 'bg-amber-500/8 border-amber-500/15' :
                                   'bg-muted/12 border-border/20'
                                 }`}>
-                                  <div className={`text-[0.82rem] font-bold tabular-nums leading-tight ${
+                                  <div className={`text-apoyo font-bold tabular-nums leading-tight ${
                                     q === 'good' ? 'text-emerald-400' : q === 'warn' ? 'text-amber-400' : 'text-foreground/70'
                                   }`}>{String(value)}</div>
-                                  <div className="text-[0.5rem] uppercase tracking-widest text-muted-foreground/45 mt-0.5 leading-tight">{label}</div>
+                                  <div className="text-micro uppercase tracking-widest text-muted-foreground/45 mt-0.5 leading-tight">{label}</div>
                                 </div>
                               ))}
                             </div>
@@ -353,7 +353,7 @@ export default function Insiders() {
             </CardContent>
           )}
           {sorted.length > 0 && (
-            <div className="text-[0.6rem] text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+            <div className="text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
               j / k navegar · Enter abrir · Esc cerrar
             </div>
           )}

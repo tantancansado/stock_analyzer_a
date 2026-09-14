@@ -5,10 +5,10 @@ import { getLogoUrl, getClearbitUrl } from '@/lib/logos'
 export type LogoSize = 'xs' | 'sm' | 'md' | 'lg'
 
 const SIZE: Record<LogoSize, { px: number; text: string; rounded: string; pad: string }> = {
-  xs: { px: 20, text: 'text-[0.48rem]', rounded: 'rounded',    pad: 'p-[1px]' },
-  sm: { px: 26, text: 'text-[0.55rem]', rounded: 'rounded-md', pad: 'p-[1.5px]' },
-  md: { px: 34, text: 'text-[0.62rem]', rounded: 'rounded-lg', pad: 'p-[2px]' },
-  lg: { px: 46, text: 'text-[0.75rem]', rounded: 'rounded-xl', pad: 'p-[3px]' },
+  xs: { px: 20, text: 'text-micro', rounded: 'rounded',    pad: 'p-[1px]' },
+  sm: { px: 26, text: 'text-micro', rounded: 'rounded-md', pad: 'p-[1.5px]' },
+  md: { px: 34, text: 'text-micro', rounded: 'rounded-lg', pad: 'p-[2px]' },
+  lg: { px: 46, text: 'text-mini', rounded: 'rounded-xl', pad: 'p-[3px]' },
 }
 
 const PALETTE = [

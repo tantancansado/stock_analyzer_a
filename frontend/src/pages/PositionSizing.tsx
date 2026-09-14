@@ -109,7 +109,7 @@ export default function PositionSizing() {
             Compacto
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground/60">Portfolio ($)</span>
+            <span className="text-micro font-bold uppercase tracking-wider text-muted-foreground/60">Portfolio ($)</span>
             <input
               type="number"
               value={portfolioSize}
@@ -122,30 +122,30 @@ export default function PositionSizing() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
         <Card className="glass p-5 stagger-1">
-          <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Posiciones</div>
+          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Posiciones</div>
           <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">{rows.length}</div>
-          <div className="text-[0.66rem] text-muted-foreground">tickers en cartera</div>
+          <div className="text-micro text-muted-foreground">tickers en cartera</div>
         </Card>
         <Card className="glass p-5 stagger-2">
-          <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Capital Asignado</div>
+          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Capital Asignado</div>
           <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">
             ${(totalValue / 1000).toFixed(0)}k
           </div>
-          <div className="text-[0.66rem] text-muted-foreground">de ${(portfolioSize / 1000).toFixed(0)}k</div>
+          <div className="text-micro text-muted-foreground">de ${(portfolioSize / 1000).toFixed(0)}k</div>
         </Card>
         <Card className="glass p-5 stagger-3">
-          <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Riesgo Total</div>
+          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Riesgo Total</div>
           <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${totalRiskColor(totalRisk)}`}>
             {totalRisk.toFixed(1)}%
           </div>
-          <div className="text-[0.66rem] text-muted-foreground">del portfolio</div>
+          <div className="text-micro text-muted-foreground">del portfolio</div>
         </Card>
         <Card className="glass p-5 stagger-4">
-          <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">Posición Media</div>
+          <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">Posición Media</div>
           <div className="text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2">
             {avgSize.toFixed(1)}%
           </div>
-          <div className="text-[0.66rem] text-muted-foreground">del portfolio</div>
+          <div className="text-micro text-muted-foreground">del portfolio</div>
         </Card>
       </div>
 
@@ -153,7 +153,7 @@ export default function PositionSizing() {
           una vez por posición —13 veces el mismo número— en vez de aquí. Y sin
           el plazo no dice nada: con este tracker, a 30 días sale 0. */}
       {kellyBase != null && (
-        <p className="text-[0.68rem] text-muted-foreground mb-5">
+        <p className="text-micro text-muted-foreground mb-5">
           Kelly base <span className="tabular-nums text-foreground/80">{kellyBase.toFixed(1)}%</span>
           {kellyHorizonte && <> · medido sobre señales a <span className="tabular-nums">{kellyHorizonte.replace('d', ' días')}</span></>}
           {kellyWinRate != null && <> · <span className="tabular-nums">{kellyWinRate.toFixed(1)}%</span> de aciertos</>}
@@ -190,16 +190,16 @@ export default function PositionSizing() {
                       <div>
                         <span className="font-mono font-bold text-base text-primary">{r.ticker}</span>
                         {r.current_price != null && (
-                          <div className="text-[0.65rem] text-muted-foreground">${r.current_price.toFixed(2)}</div>
+                          <div className="text-micro text-muted-foreground">${r.current_price.toFixed(2)}</div>
                         )}
                       </div>
                     </div>
                     <div className="text-right">
                       <div className="text-lg font-bold text-foreground">{posSize.toFixed(1)}%</div>
-                      <div className="text-[0.65rem] text-muted-foreground">${posVal.toLocaleString('en-US', { maximumFractionDigits: 0 })}</div>
+                      <div className="text-micro text-muted-foreground">${posVal.toLocaleString('en-US', { maximumFractionDigits: 0 })}</div>
                     </div>
                   </div>
-                  <div className="flex gap-3 mt-2 text-[0.62rem] text-muted-foreground/60">
+                  <div className="flex gap-3 mt-2 text-micro text-muted-foreground/60">
                     {r.stop_loss_pct != null && <span>Stop {r.stop_loss_pct.toFixed(1)}%</span>}
                     {r.risk_pct_portfolio != null && <span className={riskColor(r.risk_pct_portfolio)}>Riesgo {r.risk_pct_portfolio.toFixed(1)}%</span>}
                   </div>
@@ -285,13 +285,13 @@ export default function PositionSizing() {
                         onClick={() => setFocusedIdx(i)}
                         className={`cursor-pointer transition-colors ${i === focusedIdx ? 'bg-primary/5 ring-1 ring-inset ring-primary/20' : ''}`}
                       >
-                        <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                        <TableCell className="font-mono font-bold text-primary text-apoyo tracking-wide">
                           <div className="flex items-center gap-2">
                             <TickerLogo ticker={r.ticker} size="xs" className="shrink-0" />
                             {r.ticker}
                           </div>
                         </TableCell>
-                        <TableCell className="tabular-nums text-[0.8rem]">
+                        <TableCell className="tabular-nums text-apoyo">
                           {r.current_price != null ? `$${r.current_price.toFixed(2)}` : '—'}
                         </TableCell>
                         <TableCell>
@@ -302,33 +302,33 @@ export default function PositionSizing() {
                                 style={{ width: `${Math.min((r.position_size_pct ?? 0) * 5, 100)}%` }}
                               />
                             </div>
-                            <span className="tabular-nums text-[0.8rem]">{(r.position_size_pct ?? 0).toFixed(1)}%</span>
+                            <span className="tabular-nums text-apoyo">{(r.position_size_pct ?? 0).toFixed(1)}%</span>
                           </div>
                         </TableCell>
-                        <TableCell className="tabular-nums text-[0.8rem] text-foreground">
+                        <TableCell className="tabular-nums text-apoyo text-foreground">
                           ${scaledValue.toLocaleString('en', { maximumFractionDigits: 0 })}
                         </TableCell>
-                        <TableCell className="tabular-nums text-[0.8rem]">{scaledShares}</TableCell>
+                        <TableCell className="tabular-nums text-apoyo">{scaledShares}</TableCell>
                         {!compact && (
-                          <TableCell className="tabular-nums text-[0.8rem] text-red-400">
+                          <TableCell className="tabular-nums text-apoyo text-red-400">
                             {r.stop_loss_price != null ? `$${r.stop_loss_price.toFixed(2)}` : '—'}
                           </TableCell>
                         )}
-                        <TableCell className="tabular-nums text-[0.8rem] text-red-400">
+                        <TableCell className="tabular-nums text-apoyo text-red-400">
                           {r.stop_loss_pct != null ? `${r.stop_loss_pct.toFixed(0)}%` : '—'}
                         </TableCell>
                         <TableCell>
-                          <span className={`tabular-nums text-[0.8rem] font-semibold ${riskColor(r.risk_pct_portfolio ?? 0)}`}>
+                          <span className={`tabular-nums text-apoyo font-semibold ${riskColor(r.risk_pct_portfolio ?? 0)}`}>
                             {(r.risk_pct_portfolio ?? 0).toFixed(2)}%
                           </span>
                         </TableCell>
                         {!compact && (
-                          <TableCell className="tabular-nums text-[0.8rem]">
+                          <TableCell className="tabular-nums text-apoyo">
                             {r.kelly_pct != null ? `${r.kelly_pct.toFixed(1)}%` : '—'}
                           </TableCell>
                         )}
                         {!compact && (
-                          <TableCell className="tabular-nums text-[0.8rem] text-amber-400">
+                          <TableCell className="tabular-nums text-apoyo text-amber-400">
                             {r.volatility != null ? `${r.volatility.toFixed(0)}%` : '—'}
                           </TableCell>
                         )}
@@ -340,7 +340,7 @@ export default function PositionSizing() {
                                   <Badge
                                     key={k}
                                     variant={v >= 1.1 ? 'green' : v <= 0.8 ? 'red' : 'gray'}
-                                    className="text-[0.55rem] px-1 py-0"
+                                    className="text-micro px-1 py-0"
                                   >
                                     {k}: {v.toFixed(1)}×
                                   </Badge>

@@ -160,14 +160,14 @@ export default function ValuationBar({
 
       {!compacta && (
         <>
-          <div className="mt-1 flex items-baseline justify-between gap-2 text-[0.55rem] tabular-nums text-muted-foreground/60">
+          <div className="mt-1 flex items-baseline justify-between gap-2 text-micro tabular-nums text-muted-foreground/60">
             <span>{fmt(min)}</span>
             <span className="text-muted-foreground">{enRango}% del rango 52s</span>
             <span>{fmt(max)}</span>
           </div>
 
           {objetivos.length > 0 && (
-            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.58rem] tabular-nums">
+            <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-micro tabular-nums">
               {objetivos.map(o => (
                 <span key={o.etiqueta} className="inline-flex items-center gap-1">
                   <span className="h-2 w-[2px] rounded-full" style={{ background: o.color }} />

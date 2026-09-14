@@ -109,9 +109,9 @@ export default function Momentum() {
           { label: 'Cerca de Máximos', value: nearHigh, sub: `dentro del 10% | ${trendStrong} tendencia 7+/8`, color: 'text-emerald-400', idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx}`}>
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
+            <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
       </div>
@@ -133,7 +133,7 @@ export default function Momentum() {
                     <span className="font-mono font-bold text-sm">{d.ticker}</span>
                     <EntryVerdictBadge verdict={verdicts[d.ticker?.toUpperCase() ?? '']} compact />
                   </div>
-                  <span className="text-[0.65rem] text-muted-foreground block truncate max-w-[140px]">{d.company_name}</span>
+                  <span className="text-micro text-muted-foreground block truncate max-w-[140px]">{d.company_name}</span>
                 </div>
               </div>
               <div className="text-right flex flex-col items-end gap-1">
@@ -149,7 +149,7 @@ export default function Momentum() {
                 )}
               </div>
             </div>
-            <div className="flex gap-3 mt-2.5 text-[0.62rem] text-muted-foreground/60">
+            <div className="flex gap-3 mt-2.5 text-micro text-muted-foreground/60">
               {d.current_price != null && (
                 <span>${d.current_price.toFixed(2)}</span>
               )}
@@ -222,7 +222,7 @@ export default function Momentum() {
                   onClick={() => setFocusedIdx(i)}
                   className={`cursor-pointer transition-colors ${focusedIdx === i ? 'ring-1 ring-inset ring-primary/40 bg-primary/5' : ''}`}
                 >
-                  <TableCell className="font-mono font-bold text-primary text-[0.8rem] tracking-wide">
+                  <TableCell className="font-mono font-bold text-primary text-apoyo tracking-wide">
                     <div className="flex items-center gap-2 flex-wrap">
                       <TickerLogo ticker={d.ticker} size="sm" />
                       {d.ticker}
@@ -230,7 +230,7 @@ export default function Momentum() {
                     </div>
                   </TableCell>
                   {!compact && (
-                    <TableCell className="max-w-[150px] truncate text-muted-foreground text-[0.76rem]">{d.company_name}</TableCell>
+                    <TableCell className="max-w-[150px] truncate text-muted-foreground text-mini">{d.company_name}</TableCell>
                   )}
                   <TableCell className="tabular-nums">${d.current_price?.toFixed(2)}</TableCell>
                   <TableCell><ScoreBar score={d.momentum_score} /></TableCell>
@@ -271,7 +271,7 @@ export default function Momentum() {
             />
           )}
           {sorted.length > 0 && (
-            <div className="text-[0.6rem] text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
+            <div className="text-micro text-muted-foreground/25 text-right px-3 py-1.5 border-t border-border/10">
               j / k navegar · Esc cerrar
             </div>
           )}

@@ -36,7 +36,7 @@ const ALERT_BADGE_CLS: Record<AlertVariant, string> = {
 
 function AlertBadge({ type, variant }: { type: string; variant: AlertVariant }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[0.65rem] font-bold border ${ALERT_BADGE_CLS[variant]}`}>
+    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-micro font-bold border ${ALERT_BADGE_CLS[variant]}`}>
       {type}
     </span>
   )
@@ -50,7 +50,7 @@ function QuadrantItems({ items, colorCls }: { items: SRResult[]; colorCls: strin
       {items.map(r => (
         <div key={r.sector} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-current/20 bg-current/5 ${colorCls}`}>
           <span className="text-xs font-medium text-foreground/90">{r.sector}</span>
-          <span className={`text-[0.65rem] font-semibold ${colorCls}`}>
+          <span className={`text-micro font-semibold ${colorCls}`}>
             {r.relative_strength?.toFixed(1)}
             {r.velocity != null && <span className="ml-1 opacity-70">{r.velocity > 0 ? '+' : ''}{Number(r.velocity).toFixed(1)}</span>}
           </span>
@@ -134,9 +134,9 @@ export default function SectorRotation() {
           { label: 'Alertas', value: alerts.length, sub: `${rotationIn} rotacion IN, ${rotationOut} OUT`, idx: 4 },
         ].map(({ label, value, sub, color, idx }) => (
           <Card key={label} className={`glass p-5 stagger-${idx} animate-fade-in-up`}>
-            <div className="text-[0.6rem] font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
+            <div className="text-micro font-bold uppercase tracking-widest text-muted-foreground mb-2">{label}</div>
             <div className={`text-3xl font-extrabold tracking-tight tabular-nums leading-none mb-2 ${color ?? ''}`}>{value}</div>
-            <div className="text-[0.66rem] text-muted-foreground">{sub}</div>
+            <div className="text-micro text-muted-foreground">{sub}</div>
           </Card>
         ))}
       </div>
@@ -233,14 +233,14 @@ export default function SectorRotation() {
                 if (items.length === 0) return null
                 return (
                   <div key={status} className="bg-muted/10 rounded-lg p-3 border border-border/20">
-                    <div className={`text-[0.6rem] font-bold uppercase tracking-widest mb-2 ${statusColor[status]}`}>
+                    <div className={`text-micro font-bold uppercase tracking-widest mb-2 ${statusColor[status]}`}>
                       {statusLabel[status]} ({items.length})
                     </div>
                     {items.map(({ ticker, sector }) => (
                       <div key={ticker} className="flex items-center gap-1.5 py-1 border-b border-border/10 last:border-0">
                         <TickerLogo ticker={ticker} size="xs" />
                         <span className="font-mono font-bold text-foreground text-xs">{ticker}</span>
-                        <span className="text-[0.6rem] text-muted-foreground ml-auto truncate max-w-[80px]">{sector}</span>
+                        <span className="text-micro text-muted-foreground ml-auto truncate max-w-[80px]">{sector}</span>
                       </div>
                     ))}
                   </div>
@@ -249,7 +249,7 @@ export default function SectorRotation() {
             </div>
 
             {unmapped.length > 0 && (
-              <div className="mt-3 text-[0.65rem] text-muted-foreground/60">
+              <div className="mt-3 text-micro text-muted-foreground/60">
                 {unmapped.map(p => p.ticker).join(', ')} — sin datos de sector
               </div>
             )}
@@ -261,7 +261,7 @@ export default function SectorRotation() {
         <Card className="glass animate-fade-in-up">
           <div className="px-5 py-3 border-b border-border/50 flex items-center gap-2">
             <h3 className="text-sm font-semibold">Alertas de Rotación</h3>
-            <span className="text-[0.6rem] font-bold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30">{alerts.length}</span>
+            <span className="text-micro font-bold px-2 py-0.5 rounded-full bg-primary/15 text-primary border border-primary/30">{alerts.length}</span>
           </div>
           <div className="overflow-x-auto">
             <Table>
@@ -278,7 +278,7 @@ export default function SectorRotation() {
                     <TableCell>
                       <AlertBadge type={a.type} variant={alertVariant(a.type)} />
                     </TableCell>
-                    <TableCell className="font-mono font-bold text-primary text-[0.8rem]">{a.sector}</TableCell>
+                    <TableCell className="font-mono font-bold text-primary text-apoyo">{a.sector}</TableCell>
                     <TableCell className="whitespace-normal max-w-sm text-muted-foreground text-xs">{a.message}</TableCell>
                   </TableRow>
                 ))}

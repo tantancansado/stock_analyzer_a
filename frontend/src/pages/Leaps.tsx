@@ -41,7 +41,7 @@ const VERDICT_CONFIG: Record<string, { label: string; cls: string }> = {
 function Metric({ label, value, hint, className }: { label: string; value: React.ReactNode; hint?: string; className?: string }) {
   return (
     <div className="min-w-0">
-      <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/60 mb-0.5 flex items-center gap-1">
+      <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-0.5 flex items-center gap-1">
         {label}{hint && <span title={hint}><Info className="w-2.5 h-2.5 opacity-40" /></span>}
       </div>
       <div className={cn('text-sm font-bold tabular-nums leading-none', className)}>{value}</div>
@@ -53,7 +53,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
   const rows = [...contracts].sort((a, b) => a.strike - b.strike)
   return (
     <div className="mt-3 table-x-wrap rounded-md border border-border/30">
-      <table className="w-full text-[0.68rem] tabular-nums">
+      <table className="w-full text-micro tabular-nums">
         <thead>
           <tr className="text-muted-foreground/60 text-left">
             <th className="font-normal px-2 py-1.5">Strike</th>
@@ -72,7 +72,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
               <tr key={`${r.expiry}-${r.strike}`} className={cn('border-t border-border/20', isBest && 'bg-primary/10')}>
                 <td className="px-2 py-1.5 font-bold">
                   ${r.strike.toFixed(0)}
-                  {isBest && <span className="ml-1.5 inline-flex items-center gap-0.5 text-[0.55rem] text-primary font-extrabold"><Star size={12} strokeWidth={2.5} />MEJOR</span>}
+                  {isBest && <span className="ml-1.5 inline-flex items-center gap-0.5 text-micro text-primary font-extrabold"><Star size={12} strokeWidth={2.5} />MEJOR</span>}
                 </td>
                 <td className="px-2 py-1.5 text-cyan-300">{r.delta?.toFixed(2) ?? '—'}</td>
                 <td className="px-2 py-1.5">{r.leverage ? `${r.leverage.toFixed(1)}x` : '—'}</td>
@@ -85,7 +85,7 @@ function StrikeComparator({ contracts, bestStrike }: { contracts: LeapsContract[
           })}
         </tbody>
       </table>
-      <div className="px-2 py-1.5 text-[0.6rem] text-muted-foreground/50 border-t border-border/20">
+      <div className="px-2 py-1.5 text-micro text-muted-foreground/50 border-t border-border/20">
         Mismo vencimiento ({rows[0]?.expiry}). Más deep (strike bajo) = menos carry/riesgo, menos leverage. La marcada como MEJOR es la de mejor equilibrio.
       </div>
     </div>
@@ -131,12 +131,12 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             <div className="min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-extrabold tracking-tight">{o.ticker}</span>
-                {o.in_value_list && <Badge variant="green" className="text-[0.6rem]">VALUE</Badge>}
-                {o.conviction_grade && <Badge variant="blue" className="text-[0.6rem]">{o.conviction_grade}</Badge>}
+                {o.in_value_list && <Badge variant="green" className="text-micro">VALUE</Badge>}
+                {o.conviction_grade && <Badge variant="blue" className="text-micro">{o.conviction_grade}</Badge>}
                 {o.situation && SITUATION_CONFIG[o.situation] && (() => {
                   const sit = SITUATION_CONFIG[o.situation!]
                   return (
-                    <span className={cn('inline-flex items-center gap-1 text-[0.6rem] font-semibold px-1.5 py-0.5 rounded border', sit.cls)}>
+                    <span className={cn('inline-flex items-center gap-1 text-micro font-semibold px-1.5 py-0.5 rounded border', sit.cls)}>
                       <sit.icon size={12} strokeWidth={2} className="shrink-0" />
                       {sit.label}
                     </span>
@@ -145,7 +145,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
               </div>
               <div className="text-xs text-muted-foreground truncate">{o.company_name}</div>
               {(o.pct_from_52w_high != null || o.ytd_pct != null || o.forward_pe != null) && (
-                <div className="text-[0.65rem] text-muted-foreground/60 mt-0.5">
+                <div className="text-micro text-muted-foreground/60 mt-0.5">
                   {o.pct_from_52w_high != null && <span>{o.pct_from_52w_high.toFixed(0)}% desde máx. 52s</span>}
                   {o.pct_from_52w_high != null && o.ytd_pct != null && <span> · </span>}
                   {o.ytd_pct != null && <span>YTD {o.ytd_pct >= 0 ? '+' : ''}{o.ytd_pct.toFixed(0)}%</span>}
@@ -158,7 +158,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             <div className={cn('text-2xl font-extrabold tabular-nums leading-none', scoreColor(o.opportunity_score))}>
               {o.opportunity_score.toFixed(0)}
             </div>
-            <div className="text-[0.6rem] uppercase tracking-widest text-muted-foreground/50">score</div>
+            <div className="text-micro uppercase tracking-widest text-muted-foreground/50">score</div>
           </div>
         </div>
 
@@ -181,7 +181,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
         {/* Claude's honest verdict: ¿oportunidad value real o no? */}
         {o.situation_verdict && VERDICT_CONFIG[o.situation_verdict.verdict] && (
           <div className={cn('rounded-md border px-3 py-2 mb-3', VERDICT_CONFIG[o.situation_verdict.verdict].cls)}>
-            <div className="flex items-center gap-1.5 text-[0.7rem] font-extrabold tracking-wide mb-0.5">
+            <div className="flex items-center gap-1.5 text-mini font-extrabold tracking-wide mb-0.5">
               <Brain className="w-3 h-3" /> VEREDICTO: {VERDICT_CONFIG[o.situation_verdict.verdict].label}
             </div>
             {o.situation_verdict.reason && (
@@ -193,14 +193,14 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
         {/* The recommended order — the headline */}
         <div className="rounded-md bg-primary/5 border border-primary/20 px-3 py-2.5 mb-3">
           <div className="flex items-center justify-between gap-2 mb-1">
-            <div className="text-[0.62rem] uppercase tracking-widest text-primary/70 flex items-center gap-1">
+            <div className="text-micro uppercase tracking-widest text-primary/70 flex items-center gap-1">
               <Rocket className="w-3 h-3" /> Contrato recomendado
             </div>
             <button
               onClick={followLeaps}
               disabled={track === 'saving' || track === 'done'}
               className={cn(
-                'flex items-center gap-1 text-[0.62rem] font-semibold px-2 py-1 rounded border transition-colors',
+                'flex items-center gap-1 text-micro font-semibold px-2 py-1 rounded border transition-colors',
                 track === 'done'
                   ? 'border-emerald-500/40 text-emerald-400 bg-emerald-500/10'
                   : 'border-primary/30 text-primary hover:bg-primary/15'
@@ -222,9 +222,9 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
             {' '}<span className="text-foreground font-semibold">{fmtUsd(c.cost_per_contract, 0)}</span> por contrato (100 acc.) ·
             {' '}límite sugerido ≤ {fmtUsd(c.ask)}
           </div>
-          {track === 'login' && <div className="text-[0.65rem] text-amber-400 mt-1">Inicia sesión para guardar y recibir alertas de esta posición.</div>}
-          {track === 'error' && <div className="text-[0.65rem] text-red-400 mt-1">No se pudo guardar. Inténtalo de nuevo.</div>}
-          {track === 'done' && <div className="text-[0.65rem] text-emerald-400 mt-1">Guardado en tu cartera. Te avisaré por Telegram si toca rolar, tomar beneficios o la tesis se rompe.</div>}
+          {track === 'login' && <div className="text-micro text-amber-400 mt-1">Inicia sesión para guardar y recibir alertas de esta posición.</div>}
+          {track === 'error' && <div className="text-micro text-red-400 mt-1">No se pudo guardar. Inténtalo de nuevo.</div>}
+          {track === 'done' && <div className="text-micro text-emerald-400 mt-1">Guardado en tu cartera. Te avisaré por Telegram si toca rolar, tomar beneficios o la tesis se rompe.</div>}
         </div>
 
         {/* Strike, precio de hoy, empate y target en una recta: antes había
@@ -311,7 +311,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           <div className="mt-3 border-t border-border/30 pt-2.5">
             <button
               onClick={() => setShowPlan(v => !v)}
-              className="flex items-center gap-1.5 text-[0.7rem] font-semibold text-muted-foreground transition-colors hover:text-primary"
+              className="flex items-center gap-1.5 text-mini font-semibold text-muted-foreground transition-colors hover:text-primary"
             >
               <Brain className="w-3 h-3" />
               Análisis y plan de salida
@@ -334,7 +334,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
 
           {/* Exit plan (Claude): cuándo vender / rolar / qué rompe la tesis */}
           {ex && (ex.take_profit || ex.roll || ex.thesis_break) && (
-            <div className="mt-3 grid gap-2 sm:grid-cols-3 text-[0.7rem] leading-snug">
+            <div className="mt-3 grid gap-2 sm:grid-cols-3 text-mini leading-snug">
               {ex.take_profit && (
                 <div className="rounded-md bg-emerald-500/5 border border-emerald-500/20 px-2.5 py-2">
                   <div className="flex items-center gap-1 text-emerald-400 font-semibold mb-0.5"><Target className="w-3 h-3" /> Tomar beneficios</div>
@@ -363,7 +363,7 @@ function OpportunityCard({ o, rank }: { o: LeapsOpportunity; rank?: number }) {
           <div className="mt-3 border-t border-border/30 pt-2.5">
             <button
               onClick={() => setShowStrikes(v => !v)}
-              className="flex items-center gap-1.5 text-[0.7rem] font-semibold text-muted-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-1.5 text-mini font-semibold text-muted-foreground hover:text-primary transition-colors"
             >
               <Layers className="w-3 h-3" />
               Comparar strikes ({alts.length + 1})
@@ -463,7 +463,7 @@ export default function Leaps() {
       )}
       {onDemand && (
         <div className="mb-6">
-          <div className="text-[0.65rem] uppercase tracking-widest text-muted-foreground/60 mb-2">Análisis en vivo</div>
+          <div className="text-micro uppercase tracking-widest text-muted-foreground/60 mb-2">Análisis en vivo</div>
           <OpportunityCard o={onDemand} />
         </div>
       )}
@@ -481,7 +481,7 @@ export default function Leaps() {
             <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground/60">
               Mejores oportunidades ({data.opportunities.length})
             </h2>
-            <span className="text-[0.65rem] text-muted-foreground/50">
+            <span className="text-micro text-muted-foreground/50">
               tipo libre de riesgo {data.risk_free_rate_pct}% · {data.analyzed} analizadas de {data.universe_size}
             </span>
           </div>

@@ -9,6 +9,28 @@
    voz tipográfica tiene que repetir cada regla con `font-family: ... !important`
    — que es lo que hacía noir en siete selectores. Con `inline` la variable se
    resuelve en el punto de uso y basta con que el tema declare la suya. */
+/* ESCALA TIPOGRÁFICA — cinco escalones, no treinta y dos valores sueltos.
+   ───────────────────────────────────────────────────────────────────
+   El código usaba 1343 veces treinta y dos tamaños arbitrarios distintos entre
+   0.45rem y 1.05rem, con seis apelotonados entre 11,5 y 12,5px — diferencias
+   que nadie distingue pero que fragmentan el diseño. Y el CSS tenía que
+   perseguirlos: más de treinta selectores `[class*="text-[0.6rem]"]` dentro de
+   una media query solo para colapsarlos en móvil.
+
+   Aquí se convierten en LA escala, no en un parche. Los valores son los que ya
+   usaba esa normalización, o sea los que de verdad llegaban a la pantalla del
+   móvil; en escritorio el texto era más pequeño (0.6rem = 9,6px) y eso no lo
+   defendía nadie.
+
+   El suelo es 11px, el mínimo que recomienda Apple. */
+@theme {
+  --text-micro:  0.6875rem;   /* 11px — micro-etiquetas, categorías de badge */
+  --text-mini:   0.75rem;     /* 12px — metadatos, valores de tabla */
+  --text-apoyo:  0.8125rem;   /* 13px — texto de apoyo */
+  --text-cuerpo: 0.875rem;    /* 14px — cuerpo */
+  --text-titulo: 1rem;        /* 16px — títulos de tarjeta y cabeceras */
+}
+
 @theme inline {
   --font-sans:    var(--tipo-texto);
   --font-display: var(--tipo-titulo);
@@ -322,75 +344,14 @@
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════
-   ESCALA TIPOGRÁFICA EN MÓVIL
-════════════════════════════════════════════════════════════════════ */
-
-/* El código usa 32 tamaños arbitrarios distintos entre 0.45rem y 1.05rem,
-   con seis de ellos apelotonados entre 11,5 y 12,5px — diferencias que nadie
-   distingue pero que fragmentan el diseño. Aquí se colapsan a CINCO escalones
-   en móvil, que es lo que de verdad llega a la pantalla.
-
-   El suelo es 11px, el mínimo que recomienda Apple. Antes estaba en 10px y
-   ahí caían cosas que hay que poder leer: las etiquetas Precio / Potencial /
-   Score de cada acción y los extremos del rango de 52 semanas.
-
-   Cubre TODOS los valores en uso: antes 0.45, 0.48, 0.52, 0.73, 0.74, 0.76,
-   0.78, 0.9, 0.92, 0.95 y 0.98 no estaban listados y se colaban sin
-   normalizar. */
-@media (max-width: 639px) {
-  /* 11px — micro-etiquetas: categorías de badge, cabeceras de sección */
-  [class*="text-[0.45rem]"],
-  [class*="text-[0.48rem]"],
-  [class*="text-[0.5rem]"],
-  [class*="text-[0.52rem]"],
-  [class*="text-[0.55rem]"],
-  [class*="text-[0.58rem]"],
-  [class*="text-[0.6rem]"],
-  [class*="text-[0.62rem]"],
-  [class*="text-[0.64rem]"],
-  [class*="text-[0.65rem]"],
-  [class*="text-[0.66rem]"],
-  [class*="text-[0.68rem]"] {
-    font-size: 0.6875rem !important;   /* 11px */
-  }
-
-  /* 12px — metadatos y valores de tabla */
-  [class*="text-[0.7rem]"],
-  [class*="text-[0.72rem]"],
-  [class*="text-[0.73rem]"],
-  [class*="text-[0.74rem]"],
-  [class*="text-[0.75rem]"],
-  [class*="text-[0.76rem]"] {
-    font-size: 0.75rem !important;     /* 12px */
-  }
-
-  /* 13px — texto de apoyo */
-  [class*="text-[0.78rem]"],
-  [class*="text-[0.8rem]"],
-  [class*="text-[0.82rem]"] {
-    font-size: 0.8125rem !important;   /* 13px */
-  }
-
-  /* 14px — cuerpo */
-  [class*="text-[0.84rem]"],
-  [class*="text-[0.85rem]"],
-  [class*="text-[0.86rem]"],
-  [class*="text-[0.9rem]"],
-  [class*="text-[0.92rem]"],
-  [class*="text-[0.95rem]"] {
-    font-size: 0.875rem !important;    /* 14px */
-  }
-
-  /* 16px — títulos de tarjeta y cabeceras */
-  [class*="text-[0.98rem]"],
-  [class*="text-[1rem]"],
-  [class*="text-[1.04rem]"],
-  [class*="text-[1.05rem]"] {
-    font-size: 1rem !important;        /* 16px */
-  }
-}
-
+/* La escala tipográfica ya no se parchea en móvil.
+   Aquí vivían más de treinta selectores `[class*="text-[0.6rem]"]` dentro de
+   una media query, colapsando a mano treinta y dos tamaños arbitrarios en
+   cinco escalones — pero solo por debajo de 640px. En escritorio seguían
+   saliendo a 9,6px, que no lo defendía nadie.
+   Ahora la escala ES la escala (ver "ESCALA TIPOGRÁFICA" arriba) y los
+   componentes usan text-micro/mini/apoyo/cuerpo/titulo en los 1312 sitios
+   donde antes escribían un número suelto. */
 
 /* ═══════════════════════════════════════════════════════════════════
    MICRO-INTERACTIONS & POLISH

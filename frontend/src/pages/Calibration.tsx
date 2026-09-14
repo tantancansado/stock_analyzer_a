@@ -193,7 +193,7 @@ export default function Calibration() {
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestScore.win_rate}% win rate
               </Badge>
-              <div className="mt-1 text-[0.62rem] text-muted-foreground tabular-nums">
+              <div className="mt-1 text-micro text-muted-foreground tabular-nums">
                 IC 95%: {bestScore.ci_low}–{bestScore.ci_high}% · {bestScore.count} señales
               </div>
             </CardContent>
@@ -207,7 +207,7 @@ export default function Calibration() {
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestSector.win_rate}% win rate
               </Badge>
-              <div className="mt-1 text-[0.62rem] text-muted-foreground tabular-nums">
+              <div className="mt-1 text-micro text-muted-foreground tabular-nums">
                 IC 95%: {bestSector.ci_low}–{bestSector.ci_high}% · {bestSector.count} señales
               </div>
             </CardContent>
@@ -221,7 +221,7 @@ export default function Calibration() {
               <Badge variant="outline" className="mt-1 text-xs" style={{ color: '#10b981', borderColor: '#10b98144' }}>
                 {bestRegime.win_rate}% win rate
               </Badge>
-              <div className="mt-1 text-[0.62rem] text-muted-foreground tabular-nums">
+              <div className="mt-1 text-micro text-muted-foreground tabular-nums">
                 IC 95%: {bestRegime.ci_low}–{bestRegime.ci_high}% · {bestRegime.count} señales
               </div>
             </CardContent>
