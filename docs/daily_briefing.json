@@ -1,44 +1,159 @@
 {
-  "date": "2026-09-14",
-  "timestamp": "2026-09-14T06:01:15.801007",
-  "narrative": "",
-  "macro_regime": "CALM",
-  "picks_count": 8,
-  "top_picks": [
-    {
-      "ticker": "BR",
-      "sector": "Technology",
-      "value_score": 81.765,
-      "analyst_upside_pct": 27.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MCO",
-      "sector": "Financial Services",
-      "value_score": 79.95499999999998,
-      "analyst_upside_pct": 18.3,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "NDSN",
-      "sector": "Industrials",
-      "value_score": 63.025000000000006,
-      "analyst_upside_pct": 11.2,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "MA",
-      "sector": "Financial Services",
-      "value_score": 62.375,
-      "analyst_upside_pct": 17.1,
-      "conviction_grade": null
-    },
-    {
-      "ticker": "SPGI",
-      "sector": "Financial Services",
-      "value_score": 60.925,
-      "analyst_upside_pct": 26.7,
-      "conviction_grade": null
+  "fecha": "2026-09-14",
+  "texto": "<b>Hoy sí hay para entrar.</b> Cuatro nombres en zona de compra:\n\n• <b>Nordson (NDSN)</b>, 314,47$, solo un 7% bajo máximos y con fuerza relativa positiva. Analistas ven un 11% de subida.\n• <b>Restaurant Brands (QSR)</b>, 76,96$, un 6% bajo máximos, casi 5% de rentabilidad por caja y 11,6% de upside.\n• <b>Occidental (OXY)</b>, 61,46$, la que más caja genera del grupo (6,2%). Los analistas son conservadores (9,9% subida) pero el cálculo triangulado apunta mucho más alto, así que trátalo con cautela y no como cifra segura.\n• <b>Schneider Electric (SBGSY)</b>, 67,37$, el mayor potencial del lote (18%) y todavía con inercia positiva.\n\nNo hay tesis rotas hoy, tranquilo por ese lado.\n\nPara vigilar, no para comprar aún: <b>SPGI</b> (S&P Global) cayó un 21% desde máximos por un susto de sentimiento, el BPA quedó un pelín por debajo del consenso aunque los ingresos subieron un 9% — negocio intacto, mercado nervioso. Si se calma, entra en la lista de compra. TW, MKC, BR y CBOE siguen baratas y cayendo pero sin motivo claro identificado todavía: de momento solo mirar, no comprar.\n\nRecuerda el marco: el sistema acierta un 61,5% a 90 días (aún provisional, falta muestra a 180 días, solo 39 señales), con retorno medio del 3,15%. Ajusta el tamaño de posición en consecuencia.\n\n🟡 Claude: $9.20 de $10 (92%) · lo que más gasta: ai_quality_filter ($2.54)",
+  "hechos": {
+    "fecha": "2026-09-14",
+    "total_lista": 54,
+    "datos_incompletos": [],
+    "comprables": [
+      {
+        "ticker": "NDSN",
+        "empresa": "Nordson Corporation",
+        "score": 63.025000000000006,
+        "precio": 314.47,
+        "upside_analista": 11.2,
+        "upside_triangulado": 11.2,
+        "divergencia": "",
+        "fcf_yield": 3.5,
+        "del_maximo_pct": -7.3,
+        "rs_6m": 2.56,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "QSR",
+        "empresa": "Restaurant Brands Internationa",
+        "score": 56.285,
+        "precio": 76.96,
+        "upside_analista": 11.6,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.86,
+        "del_maximo_pct": -6.1,
+        "rs_6m": -8.17,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "OXY",
+        "empresa": "Occidental Petroleum Corporati",
+        "score": 45.92,
+        "precio": 61.46,
+        "upside_analista": 9.9,
+        "upside_triangulado": 65.5,
+        "divergencia": "",
+        "fcf_yield": 6.17,
+        "del_maximo_pct": -8.9,
+        "rs_6m": -8.85,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SBGSY",
+        "empresa": "Schneider Electric S.E.",
+        "score": 41.47,
+        "precio": 67.37,
+        "upside_analista": 18.0,
+        "upside_triangulado": 18.0,
+        "divergencia": "",
+        "fcf_yield": 3.28,
+        "del_maximo_pct": -6.4,
+        "rs_6m": 5.2,
+        "timing": "ENTRADA",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      }
+    ],
+    "vigilar": [
+      {
+        "ticker": "TW",
+        "empresa": "Tradeweb Markets Inc.",
+        "score": 50.1,
+        "precio": 101.44,
+        "upside_analista": 21.9,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 4.86,
+        "del_maximo_pct": -20.6,
+        "rs_6m": -34.26,
+        "timing": "ESPERAR",
+        "por_que_cae": "",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "MKC",
+        "empresa": "McCormick & Company, Incorpora",
+        "score": 50.73,
+        "precio": 51.32,
+        "upside_analista": 18.1,
+        "upside_triangulado": null,
+        "divergencia": "",
+        "fcf_yield": 5.18,
+        "del_maximo_pct": -29.1,
+        "rs_6m": -26.38,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "BR",
+        "empresa": "Broadridge Financial Solutions",
+        "score": 81.765,
+        "precio": 167.74,
+        "upside_analista": 27.2,
+        "upside_triangulado": 15.3,
+        "divergencia": "ALTA",
+        "fcf_yield": 6.25,
+        "del_maximo_pct": -33.8,
+        "rs_6m": -20.2,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "CBOE",
+        "empresa": "Cboe Global Markets, Inc.",
+        "score": 57.59,
+        "precio": 281.04,
+        "upside_analista": 12.3,
+        "upside_triangulado": 12.3,
+        "divergencia": "",
+        "fcf_yield": 2.31,
+        "del_maximo_pct": -24.3,
+        "rs_6m": -18.6,
+        "timing": "ESPERAR",
+        "por_que_cae": "SIN_DATOS",
+        "por_que_cae_detalle": ""
+      },
+      {
+        "ticker": "SPGI",
+        "empresa": "S&P Global Inc.",
+        "score": 60.925,
+        "precio": 410.71,
+        "upside_analista": 26.7,
+        "upside_triangulado": 20.6,
+        "divergencia": "MEDIA",
+        "fcf_yield": 4.5,
+        "del_maximo_pct": -21.4,
+        "rs_6m": -12.79,
+        "timing": "VIGILAR",
+        "por_que_cae": "SENTIMIENTO",
+        "por_que_cae_detalle": "En febrero de 2026 SPGI cayó ~10% tras publicar resultados del Q4 2025 con un BPA ajustado apenas por debajo del consenso, mientras los ingresos superaron expectativas (+9% interan"
+      }
+    ],
+    "tesis_rotas": [],
+    "rotas_son_tuyas": true,
+    "regimen_cambio": null,
+    "rendimiento_sistema": {
+      "horizonte": "90d",
+      "es_horizonte_definitivo": false,
+      "nota": "A 180 días aún no hay muestra (la señal más antigua es de feb-2026); este 90d es provisional, no el veredicto",
+      "acierto_pct": 61.5,
+      "retorno_medio": 3.15,
+      "n": 39
     }
-  ]
+  }
 }

@@ -1,151 +1,141 @@
 {
-  "generated_at": "2026-09-11",
+  "generated_at": "2026-09-14",
   "alerts": [
     {
       "type": "SCORE_UP",
-      "ticker": "NDSN",
-      "company_name": "Nordson Corporation",
-      "sector": "Industrials",
-      "score_today": 62.2,
-      "score_prev": 50.9,
-      "delta": 11.3,
-      "grade": "🟡 Good"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "TW",
-      "company_name": "Tradeweb Markets Inc.",
-      "sector": "Financial Services",
-      "score_today": 49.2,
-      "score_prev": 39.4,
-      "delta": 9.8,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
-      "ticker": "CB",
-      "company_name": "Chubb Limited",
-      "sector": "Financial Services",
-      "score_today": 40.2,
-      "score_prev": 31.6,
-      "delta": 8.6,
+      "ticker": "INTU",
+      "company_name": "Intuit Inc.",
+      "sector": "Technology",
+      "score_today": 40.1,
+      "score_prev": 32.6,
+      "delta": 7.5,
       "grade": "🔴 Weak"
     },
     {
       "type": "SCORE_UP",
-      "ticker": "BRO",
-      "company_name": "Brown & Brown, Inc.",
-      "sector": "Financial Services",
-      "score_today": 51.1,
-      "score_prev": 42.6,
-      "delta": 8.5,
+      "ticker": "RACE",
+      "company_name": "Ferrari N.V.",
+      "sector": "Consumer Cyclical",
+      "score_today": 49.9,
+      "score_prev": 43.7,
+      "delta": 6.1,
       "grade": "🟡 Average"
     },
     {
-      "type": "SCORE_UP",
+      "type": "SCORE_DOWN",
+      "ticker": "EQIX",
+      "company_name": "Equinix, Inc.",
+      "sector": "Real Estate",
+      "score_today": 33.2,
+      "score_prev": 38.2,
+      "delta": -5.1,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "QSR",
+      "company_name": "Restaurant Brands International Inc.",
+      "sector": "Consumer Cyclical",
+      "score_today": 56.3,
+      "score_prev": 62.4,
+      "delta": -6.1,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "BR",
+      "company_name": "Broadridge Financial Solutions, Inc.",
+      "sector": "Technology",
+      "score_today": 81.8,
+      "score_prev": 88.0,
+      "delta": -6.2,
+      "grade": "🔥 Legendary"
+    },
+    {
+      "type": "SCORE_DOWN",
       "ticker": "ICE",
       "company_name": "Intercontinental Exchange, Inc.",
       "sector": "Financial Services",
-      "score_today": 42.9,
-      "score_prev": 34.7,
-      "delta": 8.2,
+      "score_today": 36.2,
+      "score_prev": 42.9,
+      "delta": -6.7,
       "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_UP",
-      "ticker": "SBGSY",
-      "company_name": "Schneider Electric S.E.",
-      "sector": "Industrials",
-      "score_today": 45.6,
-      "score_prev": 37.6,
-      "delta": 8.0,
-      "grade": "🟡 Average"
+      "type": "SCORE_DOWN",
+      "ticker": "V",
+      "company_name": "Visa Inc.",
+      "sector": "Financial Services",
+      "score_today": 40.2,
+      "score_prev": 47.0,
+      "delta": -6.8,
+      "grade": "🔴 Weak"
     },
     {
-      "type": "SCORE_UP",
-      "ticker": "TYL",
-      "company_name": "Tyler Technologies, Inc.",
-      "sector": "Technology",
-      "score_today": 45.5,
-      "score_prev": 39.6,
-      "delta": 5.9,
-      "grade": "🟡 Average"
-    },
-    {
-      "type": "SCORE_UP",
+      "type": "SCORE_DOWN",
       "ticker": "SAP",
       "company_name": "SAP SE",
       "sector": "Technology",
-      "score_today": 54.5,
-      "score_prev": 49.1,
-      "delta": 5.4,
+      "score_today": 47.1,
+      "score_prev": 54.5,
+      "delta": -7.4,
+      "grade": "🟡 Good"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "TYL",
+      "company_name": "Tyler Technologies, Inc.",
+      "sector": "Technology",
+      "score_today": 38.1,
+      "score_prev": 45.5,
+      "delta": -7.4,
       "grade": "🟡 Average"
     },
     {
-      "type": "NEW_ENTRY",
-      "ticker": "AUTO.L",
-      "company_name": "Autotrader Group plc",
-      "sector": "Communication Services",
-      "score_today": 55.9,
-      "score_prev": null,
-      "delta": null,
-      "grade": "🟡 Good"
-    },
-    {
       "type": "SCORE_DOWN",
-      "ticker": "HEI",
-      "company_name": "HEICO Corporation",
-      "sector": "Industrials",
-      "score_today": 34.0,
-      "score_prev": 39.3,
-      "delta": -5.4,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "MSI",
-      "company_name": "Motorola Solutions, Inc.",
-      "sector": "Technology",
-      "score_today": 36.7,
-      "score_prev": 43.2,
-      "delta": -6.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "ECL",
-      "company_name": "Ecolab Inc.",
-      "sector": "Basic Materials",
-      "score_today": 33.3,
-      "score_prev": 40.8,
-      "delta": -7.5,
-      "grade": "🔴 Weak"
-    },
-    {
-      "type": "SCORE_DOWN",
-      "ticker": "SPGI",
-      "company_name": "S&P Global Inc.",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown, Inc.",
       "sector": "Financial Services",
-      "score_today": 60.0,
-      "score_prev": 67.9,
-      "delta": -7.9,
-      "grade": "🟡 Good"
+      "score_today": 42.7,
+      "score_prev": 51.1,
+      "delta": -8.4,
+      "grade": "🟡 Average"
     },
     {
       "type": "SCORE_DOWN",
-      "ticker": "PG",
-      "company_name": "The Procter & Gamble Company",
+      "ticker": "VLTO",
+      "company_name": "Veralto Corporation",
+      "sector": "Industrials",
+      "score_today": 34.2,
+      "score_prev": 42.8,
+      "delta": -8.6,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "KO",
+      "company_name": "The Coca-Cola Company",
       "sector": "Consumer Defensive",
-      "score_today": 30.9,
-      "score_prev": 45.5,
-      "delta": -14.6,
+      "score_today": 31.0,
+      "score_prev": 40.9,
+      "delta": -9.8,
+      "grade": "🔴 Weak"
+    },
+    {
+      "type": "SCORE_DOWN",
+      "ticker": "CVX",
+      "company_name": "Chevron Corporation",
+      "sector": "Energy",
+      "score_today": 30.6,
+      "score_prev": 43.0,
+      "delta": -12.4,
       "grade": "🔴 Weak"
     }
   ],
   "counts": {
-    "new_entries": 1,
+    "new_entries": 0,
     "exited": 0,
-    "score_up": 8,
-    "score_down": 5
+    "score_up": 2,
+    "score_down": 11
   }
 }
