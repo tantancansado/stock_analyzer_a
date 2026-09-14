@@ -281,12 +281,11 @@ jobs:
         continue-on-error: true
         run: python3 technical_filter.py
 
-      - name: Generate Investment Theses
-        continue-on-error: true
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python3 thesis_generator.py 50 --ai
+      # Generate Investment Theses se ha movido al job `scanners` (14-sep-2026).
+      # Eran 17.1 de los 90 minutos de core-scoring, que lleva reventando su
+      # timeout — 8 de las últimas 12 ejecuciones canceladas — mientras
+      # `scanners` usaba 18 de sus 90 y dejaba 71 minutos ociosos. Nada en
+      # core-scoring lee theses.json después de generarlo: solo lo sirve la API.
 
       - name: Generate AI Insights (briefing, insiders, industry)
         continue-on-error: true
@@ -411,6 +410,17 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      # Viene de core-scoring, que moría por timeout mientras este job tenía 71
+      # minutos libres. Necesita value_opportunities.csv, que ya está aquí: el
+      # checkout de arriba incluye las salidas de core-scoring. Y el commit de
+      # este job ya añadía docs/theses.json.
+      - name: Generate Investment Theses
+        continue-on-error: true
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 thesis_generator.py 50 --ai
 
       - name: Bond Scanner (ETF + corporate bond opportunities)
         continue-on-error: true
